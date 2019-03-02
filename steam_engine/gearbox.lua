@@ -47,8 +47,9 @@ minetest.register_node("techage:gearbox", {
 	techage = {
 		turn_on = turn_on,
 		power_consumption =	techage.distributor_power_consumption,
-		network = techage.Axle,
+		power_network = techage.Axle,
 		power_consume = POWER_CONSUME,
+		animated_power_network = true,
 	},
 	
 	after_place_node = techage.distributor_after_place_node,
@@ -81,8 +82,9 @@ minetest.register_node("techage:gearbox_on", {
 	techage = {
 		turn_on = turn_on,
 		power_consumption =	techage.distributor_power_consumption,
-		network = techage.Axle,
+		power_network = techage.Axle,
 		power_consume = POWER_CONSUME,
+		animated_power_network = true,
 	},
 	
 	after_place_node = techage.distributor_after_place_node,

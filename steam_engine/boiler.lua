@@ -93,7 +93,7 @@ local function start_boiler(pos)
 	mem.water_level = mem.water_level or 0
 	local inv = M(pos):get_inventory()
 	local water_stack = inv:get_stack("water", 1)
-	print("trigger_boiler", mem.fire_trigger, mem.water_level, water_stack:get_count())
+	--print("trigger_boiler", mem.fire_trigger, mem.water_level, water_stack:get_count())
 	if mem.fire_trigger and (mem.water_level > 0 or water_stack:get_count() > 0) then
 		if not minetest.get_node_timer(pos):is_started() then
 			minetest.get_node_timer(pos):start(CYCLE_TIME)
@@ -191,14 +191,45 @@ local function node_timer(pos)
 end
 
 
-minetest.register_node("techage:boiler", {
+minetest.register_node("techage:boiler1", {
 	description = I("TA2 Boiler"),
 	tiles = {"techage_boiler.png"},
 	drawtype = "mesh",
 	mesh = "techage_boiler.obj",
 	selection_box = {
 		type = "fixed",
-		fixed = {-10/32, -16/32, -10/32, 10/32, 46/32, 10/32},
+		fixed = {-8/32, -16/32, -8/32, 8/32, 16/32, 8/32},
+	},
+
+	on_construct = function(pos)
+		local param2 = minetest.get_node(pos).param2
+		local pos2 = {x=pos.x, y=pos.y+1, z=pos.z}
+		local node = minetest.get_node(pos2)
+		if node.name == "air" then
+			minetest.set_node(pos2,	{name="techage:boiler2", param2 = param2})
+			minetest.registered_nodes["techage:boiler2"].on_construct(pos2)
+			minetest.registered_nodes["techage:boiler2"].after_place_node(pos2)
+			on_rightclick(pos2)
+		end
+	end,
+	
+	paramtype2 = "facedir",
+	--diggable = false,
+	groups = {cracky=1},
+	on_rotate = screwdriver.disallow,
+	is_ground_content = false,
+	sounds = default.node_sound_metal_defaults(),
+})
+
+-- boiler2: Main part, needed as generator
+minetest.register_node("techage:boiler2", {
+	description = ("TA2 Boiler"),
+	tiles = {"techage_boiler2.png"},
+	drawtype = "mesh",
+	mesh = "techage_boiler.obj",
+	selection_box = {
+		type = "fixed",
+		fixed = {-10/32, -48/32, -10/32, 10/32, 16/32, 10/32},
 	},
 	
 	can_dig = can_dig,
@@ -209,85 +240,44 @@ minetest.register_node("techage:boiler", {
 	on_rightclick = on_rightclick,
 	
 	techage = {
-		network = techage.SteamPipe,
-		power_consumption = function(pos, dir)
-			techage.generator_power_consumption(pos, dir)
-		end,
+		power_network = techage.SteamPipe,
+		power_consumption = techage.generator_power_consumption,
+		power_consume = 0,
 		trigger_boiler = function(pos)
 			local mem = tubelib2.get_mem(pos)
 			mem.fire_trigger = true
 			start_boiler(pos)
 		end,
+		power_side = "U",
 	},
 	
-	on_destruct = function(pos)
-		techage.generator_on_destruct({x=pos.x, y=pos.y+1, z=pos.z})
-	end,
+	after_place_node = techage.generator_after_place_node,
+	after_tube_update = techage.generator_after_tube_update,	
+	on_destruct = techage.generator_on_destruct,
 	
 	on_construct = function(pos)
 		local inv = M(pos):get_inventory()
 		inv:set_size('water', 1)
 		inv:set_size('input', 1)
-		local node = minetest.get_node({x=pos.x, y=pos.y+1, z=pos.z})
-		if node.name ~= "air" then
-			return
-		end
-		minetest.add_node({x=pos.x, y=pos.y+1, z=pos.z}, {name = "techage:boiler2", param2 = minetest.get_node(pos).param2})
 	end,
 
-	after_place_node = function(pos, placer, pointed_thing)
-		techage.generator_after_place_node({x=pos.x, y=pos.y+1, z=pos.z}, placer)
-		local mem = tubelib2.get_mem(pos)
-		mem.running = false
-		mem.water_level = 0
-		mem.temperatur = 20
-		M(pos):set_string("formspec", formspec(mem))
+	after_dig_node = function(pos, oldnode)
+		techage.generator_after_dig_node(pos, oldnode)
+		local node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
+		if node.name == "techage:boiler1" then
+			minetest.remove_node({x=pos.x, y=pos.y-1, z=pos.z})
+		end
 	end,
 	
 	on_metadata_inventory_put = function(pos)
 		minetest.after(0.5, move_to_water, pos)
 	end,
 	
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		local node = minetest.get_node({x=pos.x, y=pos.y+1, z=pos.z})
-		if node.name == "techage:boiler2" then
-			minetest.remove_node({x=pos.x, y=pos.y+1, z=pos.z})
-			techage.generator_after_dig_node({x=pos.x, y=pos.y+1, z=pos.z}, oldnode, oldmetadata, digger)
-		end
-	end,
-
 	paramtype2 = "facedir",
-	groups = {cracky=1},
+	groups = {cracky=1, not_in_creative_inventory=1},
+	drop = "techage:boiler1",
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
-})
-
--- boiler2 
-minetest.register_node("techage:boiler2", {
-	description = ("TA2 Boiler"),
-	tiles = {"techage_boiler2.png"},
-	drawtype = "mesh",
-	mesh = "techage_boiler.obj",
-	selection_box = {
-		type = "fixed",
-		fixed = {-10/32, -16/32, -10/32, 10/32, 16/32, 10/32},
-	},
-	
-	techage = {
-		network = techage.SteamPipe,
-		power_consumption = function(pos, dir)
-			techage.generator_power_consumption({x=pos.x, y=pos.y-1, z=pos.z}, dir)
-		end,
-	},
-	
-	after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir) 
-		techage.generator_after_tube_update(node, 
-				{x=pos.x, y=pos.y-1, z=pos.z}, out_dir, peer_pos, peer_in_dir)
-	end,
-	
-	diggable = false,
-	--pointable = false,
-	groups = {not_in_creative_inventory = 1},
 })
 

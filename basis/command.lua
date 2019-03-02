@@ -125,14 +125,10 @@ local function side_to_dir(side, param2)
 	return dir
 end
 
-local function get_dest_node(pos, side)
-	-- TODO die Daten aus dem Cache holen und ueber die node callback wieder loeschen
-	local _,node = Tube:get_node(pos)
-	local dir = side_to_dir(side, node.param2)
-	local spos, sdir = Tube:get_connected_node_pos(pos, dir)
-	_,node = Tube:get_node(spos)
-	local in_side = dir_to_side(sdir, node.param2)
-	return spos, in_side, Name2Name[node.name] or node.name 
+local function get_dest_node(pos, out_dir)
+	local spos, in_dir = Tube:get_connected_node_pos(pos, out_dir)
+	local _,node = Tube:get_node(spos)
+	return spos, in_dir, Name2Name[node.name] or node.name 
 end
 	
 local function item_handling_node(name)
@@ -316,20 +312,20 @@ end
 -- Client side Push/Pull item functions
 -------------------------------------------------------------------
 
-function techage.pull_items(pos, side, num)
-	local npos, nside, name = get_dest_node(pos, side)
+function techage.pull_items(pos, out_dir, num)
+	local npos, in_dir, name = get_dest_node(pos, out_dir)
 	if npos == nil then return end
 	if NodeDef[name] and NodeDef[name].on_pull_item then
-		return NodeDef[name].on_pull_item(npos, nside, num)
+		return NodeDef[name].on_pull_item(npos, in_dir, num)
 	end
 	return nil
 end
 
-function techage.push_items(pos, side, stack)
-	local npos, nside, name = get_dest_node(pos, side)
+function techage.push_items(pos, out_dir, stack)
+	local npos, in_dir, name = get_dest_node(pos, out_dir)
 	if npos == nil then return end
 	if NodeDef[name] and NodeDef[name].on_push_item then
-		return NodeDef[name].on_push_item(npos, nside, stack)	
+		return NodeDef[name].on_push_item(npos, in_dir, stack)	
 	elseif name == "air" then
 		minetest.add_item(npos, stack)
 		return true 
@@ -337,11 +333,11 @@ function techage.push_items(pos, side, stack)
 	return false
 end
 
-function techage.unpull_items(pos, side, items)
-	local npos, nside, name = get_dest_node(pos, side)
+function techage.unpull_items(pos, out_dir, items)
+	local npos, in_dir, name = get_dest_node(pos, out_dir)
 	if npos == nil then return end
 	if NodeDef[name] and NodeDef[name].on_unpull_item then
-		return NodeDef[name].on_unpull_item(npos, nside, items)
+		return NodeDef[name].on_unpull_item(npos, in_dir, items)
 	end
 	return false
 end

@@ -56,6 +56,11 @@ local function side_to_dir(pos, side)
 	return dir
 end
 
+function techage.next_pos(pos, side)
+	local dir = side_to_dir(pos, side)
+	return tubelib2.get_pos(pos, dir)
+end	
+
 -- Calculate the power consumption on the given network
 local function power_consumption(pos, dir)
 	if pos_already_reached(pos) then return 0 end
@@ -66,6 +71,7 @@ local function power_consumption(pos, dir)
 		if fdir ~= tubelib2.Turn180Deg[dir or 0] then
 			local this = TP(fpos)
 			if this and this.power_consumption then
+				--print("power_consumption", S(fpos), dump(val), dump(this.power_consumption(fpos, fdir)))
 				val = val + this.power_consumption(fpos, fdir)
 			else
 				val = val + power_consumption(fpos, fdir)
@@ -76,12 +82,10 @@ local function power_consumption(pos, dir)
 end
 			
 local function turn_tube_on(pos, dir, network, on)
-	if network.switch_tube_line then
-		if on then
-			network:switch_tube_line(pos, dir, "on")
-		else
-			network:switch_tube_line(pos, dir, "off")
-		end
+	if on then
+		network:switch_tube_line(pos, dir, "on")
+	else
+		network:switch_tube_line(pos, dir, "off")
 	end
 end
 
@@ -89,14 +93,15 @@ local function turn_on(pos, dir, on)
 	if pos_already_reached(pos) then return end
 	local mem = tubelib2.get_mem(pos)
 	local conn = mem.connections or {}
+	--print("turn_on", dump(conn))
 	for fdir,fpos in pairs(conn) do
 		if fdir ~= tubelib2.Turn180Deg[dir or 0] then
 			local this = TP(fpos)
 			if this and this.turn_on then
 				this.turn_on(fpos, fdir, on)
 			end
-			if this and this.network then
-				turn_tube_on(pos, fdir, this.network, on)
+			if this and this.animated_power_network then
+				turn_tube_on(pos, fdir, this.power_network, on)
 			end
 			turn_on(fpos, fdir, on)
 		end
@@ -110,6 +115,7 @@ local function sink_power_consumption(pos, power)
 	Route = {}
 	local sum = power + power_consumption(pos)
 	Route = {}
+	print("sink_power_consumption", sum)
 	turn_on(pos, nil, sum > 0)
 	return sum
 end
@@ -128,13 +134,13 @@ techage.source_power_consumption = source_power_consumption
 --
 -- Generator with on power output side
 --
-function techage.generator_on(pos, power, network)
+function techage.generator_on(pos, power)
 	local mem = tubelib2.get_mem(pos)
 	mem.power_produce = power
 	return source_power_consumption(pos, mem)
 end
 
-function techage.generator_off(pos, network)
+function techage.generator_off(pos)
 	local mem = tubelib2.get_mem(pos)
 	mem.power_produce = 0
 	return source_power_consumption(pos, mem)
@@ -142,19 +148,19 @@ end
 
 function techage.generator_power_consumption(pos, dir)
 	local mem = tubelib2.get_mem(pos)
+	--print("generator_power_consumption", dir, mem.power_dir)
 	if dir == tubelib2.Turn180Deg[mem.power_dir or 0] then
-		return mem.power_produce
+		return mem.power_produce or 0
 	end
 	return 0
 end
 	
 function techage.generator_after_place_node(pos)
 	local mem = tubelib2.init_mem(pos)
-	mem.power_dir = side_to_dir(pos, TP(pos).side or 'R')
+	mem.power_dir = side_to_dir(pos, TP(pos).power_side or 'R')
 	mem.power_produce = 0 -- will be set via generator_on
 	mem.power_result = 0
-	local network = TP(pos).network
-	network:after_place_node(pos)
+	TP(pos).power_network:after_place_node(pos)
 end
 		
 function techage.generator_after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
@@ -171,13 +177,13 @@ function techage.generator_on_destruct(pos)
 	techage.generator_off(pos)
 end
 
-function techage.generator_after_dig_node(pos, oldnode, oldmetadata, digger)
-	TN(oldnode).network:after_dig_node(pos)
+function techage.generator_after_dig_node(pos, oldnode)
+	TN(oldnode).power_network:after_dig_node(pos)
 	tubelib2.del_mem(pos)
 end
 
 function techage.generator_formspec_level(mem)
-	print("generator_formspec_level", mem.power_result, mem.power_produce)
+	--print("generator_formspec_level", mem.power_result, mem.power_produce)
 	local percent = ((mem.power_result or 0) * 100) / (mem.power_produce or 1)
 	return "techage_form_level_bg.png^[lowpart:"..percent..":techage_form_level_fg.png]"
 end
@@ -192,11 +198,12 @@ end
 	
 function techage.distributor_after_place_node(pos, placer)
 	local this = TP(pos)
-	this.network:after_place_node(pos)
+	this.power_network:after_place_node(pos)
 	sink_power_consumption(pos, -this.power_consume)
 end
 		
 function techage.distributor_after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+	print("Distributor", node, S(pos), out_dir, S(peer_pos), peer_in_dir)
 	local mem = tubelib2.get_mem(pos)
 	mem.connections = mem.connections or {}
 	mem.connections[out_dir] = peer_pos
@@ -207,38 +214,42 @@ function techage.distributor_on_destruct(pos)
 	sink_power_consumption(pos, -TP(pos).power_consume)
 end
 
-function techage.distributor_after_dig_node(pos, oldnode, oldmetadata, digger)
-	TN(oldnode).network:after_dig_node(pos)
+function techage.distributor_after_dig_node(pos, oldnode)
+	TN(oldnode).power_network:after_dig_node(pos)
 	tubelib2.del_mem(pos)
 end
 
 --
--- Consumer with on power input side (default)
+-- Consumer with one power input side (default)
 --
-function techage.consumer_power_consumption(pos)
+function techage.consumer_power_consumption(pos, dir)
+	print("consumer_power_consumption")
 	return -TP(pos).power_consume
 end
 	
 function techage.consumer_after_place_node(pos, placer)
+	print("consumer_after_place_node")
 	local mem = tubelib2.init_mem(pos)
-	mem.power_dir = tubelib2.Turn180Deg[side_to_dir(pos, TP(pos).side or 'L')]
 	local this = TP(pos)
-	this.network:after_place_node(pos)
-	sink_power_consumption(pos, -this.power_consume)
+	mem.power_dir = tubelib2.Turn180Deg[side_to_dir(pos, this.power_side or 'L')]
+	this.power_network:after_place_node(pos)
+	--sink_power_consumption(pos, -this.power_consume)
 end
 		
 function techage.consumer_after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
 	local mem = tubelib2.get_mem(pos)
-	mem.connections = mem.connections or {}
-	mem.connections[out_dir] = peer_pos
-	sink_power_consumption(pos, -TP(pos).power_consume) 
+	mem.connections = {[out_dir] = peer_pos}
+	print("consumer_after_tube_update", out_dir, S(peer_pos))
+	local sum = sink_power_consumption(pos, -TP(pos).power_consume) 
+	-- Needed to be able to turn off the consumer itself
+	TP(pos).turn_on(pos, nil, sum > 0)
 end
 
 function techage.consumer_on_destruct(pos)
 	sink_power_consumption(pos, -TP(pos).power_consume)
 end
 
-function techage.consumer_after_dig_node(pos, oldnode, oldmetadata, digger)
-	TN(oldnode).network:after_dig_node(pos)
+function techage.consumer_after_dig_node(pos, oldnode)
+	TN(oldnode).power_network:after_dig_node(pos)
 	tubelib2.del_mem(pos)
 end

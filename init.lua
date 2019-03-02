@@ -22,7 +22,7 @@ dofile(MP.."/steam_engine/drive_axle.lua")
 dofile(MP.."/steam_engine/steam_pipe.lua")
 dofile(MP.."/steam_engine/firebox.lua")
 dofile(MP.."/steam_engine/boiler.lua")
---dofile(MP.."/steam_engine/cylinder.lua")
+dofile(MP.."/steam_engine/cylinder.lua")
 dofile(MP.."/steam_engine/flywheel.lua")
 dofile(MP.."/steam_engine/gearbox.lua")
 

@@ -18,14 +18,14 @@ local function swap_node(pos, name)
 end
 
 local function lamp_turn_on(pos, dir, on)
-	local mem = tubelib2.get_mem(pos)
-	if mem.power_dir == dir or  mem.power_dir == tubelib2.Turn180Deg[dir] then
+--	local mem = tubelib2.get_mem(pos)
+--	if mem.power_dir == dir or  mem.power_dir == tubelib2.Turn180Deg[dir] then
 		if on then
 			swap_node(pos, "techage:lamp_on")
 		else
 			swap_node(pos, "techage:lamp")
 		end
-	end
+--	end
 end	
 
 minetest.register_node("techage:lamp", {
@@ -36,15 +36,15 @@ minetest.register_node("techage:lamp", {
 		'techage_electric_button.png',
 		'techage_electric_button.png',
 		'techage_electric_button.png',
-		'techage_electric_button.png^techage_electric_plug.png',
-		'techage_electric_button.png^techage_electric_plug.png',
+		'techage_electric_button.png',
+		'techage_electric_button.png',
 	},
 	techage = {
 		turn_on = lamp_turn_on,
 		power_consumption =	techage.consumer_power_consumption,
-		network = techage.ElectricCable,
+		power_network = techage.ElectricCable,
 		power_consume = POWER_CONSUME,
-		side = 'B',
+		power_side = 'B',
 	},
 	
 	after_place_node = techage.consumer_after_place_node,
@@ -69,7 +69,7 @@ minetest.register_node("techage:lamp_on", {
 	techage = {
 		turn_on = lamp_turn_on,
 		power_consumption =	techage.consumer_power_consumption,
-		network = techage.ElectricCable,
+		power_network = techage.ElectricCable,
 		power_consume = POWER_CONSUME,
 	},
 	
@@ -106,7 +106,7 @@ minetest.register_node("techage:power", {
 	is_ground_content = false,
 
 	techage = {
-		network = Cable,
+		power_network = Cable,
 		power_consumption = techage.generator_power_consumption,
 	},
 	

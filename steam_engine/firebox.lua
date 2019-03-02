@@ -105,9 +105,9 @@ end
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	if mem.running then
-		local this = TP({x=pos.x, y=pos.y+1, z=pos.z})
+		local this = TP({x=pos.x, y=pos.y+2, z=pos.z})
 		if this and this.trigger_boiler then
-			this.trigger_boiler({x=pos.x, y=pos.y+1, z=pos.z})
+			this.trigger_boiler({x=pos.x, y=pos.y+2, z=pos.z})
 		end
 		mem.burn_cycles = (mem.burn_cycles or 0) - 1
 		if mem.burn_cycles <= 0 then

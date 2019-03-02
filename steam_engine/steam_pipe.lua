@@ -24,10 +24,10 @@ local I,_ = dofile(MP.."/intllib.lua")
 
 local Pipe = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
-	max_tube_length = 1000, 
+	max_tube_length = 6, 
 	show_infotext = false,
 	primary_node_names = {"techage:steam_pipeS", "techage:steam_pipeA"}, 
-	secondary_node_names = {"techage:cylinder", "techage:boiler2"},
+	secondary_node_names = {"techage:cylinder", "techage:cylinder_on", "techage:boiler2"},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
 		minetest.swap_node(pos, {name = "techage:steam_pipe"..tube_type, param2 = param2})
 	end,

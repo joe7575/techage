@@ -26,6 +26,7 @@ local Cable = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
 	max_tube_length = 1000, 
 	show_infotext = false,
+	force_to_use_tubes = true,
 	primary_node_names = {"techage:electric_cableS", "techage:electric_cableA"},
 	secondary_node_names = {"techage:lamp", "techage:lamp_on", "techage:power"},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
@@ -149,6 +150,11 @@ techage.register_junction("techage:electric_junction", 2/8, Boxes, Cable, {
 	tiles = {"techage_electric_junction.png"},
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
 	sounds = default.node_sound_defaults(),
+	techage = {
+		power_consumption =	techage.distributor_power_consumption,
+		power_network = Cable,
+		power_consume = 0,
+	},
 
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		tubelib2.init_mem(pos)

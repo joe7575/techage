@@ -79,7 +79,7 @@ minetest.register_node("techage:axle", {
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly = 3, cracky = 3, snappy = 3},
-	sounds = default.node_sound_metal_defaults(),
+	sounds = default.node_sound_wood_defaults(),
 })
 
 minetest.register_node("techage:axle_on", {
@@ -173,5 +173,5 @@ minetest.register_node("techage:axle_on", {
 	is_ground_content = false,
 	diggable = false,
 	groups = {not_in_creative_inventory = 1},
-	sounds = default.node_sound_metal_defaults(),
+	sounds = default.node_sound_wood_defaults(),
 })

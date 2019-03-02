@@ -33,6 +33,34 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
+local function turn_on(pos, dir, on)
+	print("jou")
+--	if on then
+--		swap_node(pos, "techage:flywheel_on")
+--		if not minetest.get_node_timer(pos):is_started() then
+--			minetest.get_node_timer(pos):start(CYCLE_TIME)
+--		end
+--	else
+--		swap_node(pos, "techage:flywheel")
+--		if minetest.get_node_timer(pos):is_started() then
+--			minetest.get_node_timer(pos):stop()
+--		end
+--	end
+end	
+
+local function try_to_start(pos, on)
+	print("try_to_start", S(pos))
+--	if on then
+--		if techage.generator_on(pos, POWER) then
+--			return true
+--		end
+--	else
+--		techage.generator_off(pos)
+--	end
+--	return false
+	return on
+end	
+
 local function formspec(mem)
 	return "size[8,7]"..
 		default.gui_bg..
@@ -69,21 +97,6 @@ local function node_timer(pos, elapsed)
 	return true
 end
 
-local function on_punch(pos, node, puncher, pointed_thing)
-	local mem = tubelib2.get_mem(pos)
-	if mem.power_produce and mem.power_produce > 0 then
-		swap_node(pos, "techage:flywheel")
-		techage.generator_off(pos, techage.Axle)
-		--techage.generator_off(pos)
-		minetest.get_node_timer(pos):stop()
-	else
-		swap_node(pos, "techage:flywheel_on")
-		techage.generator_on(pos, POWER, techage.Axle)
-		--techage.generator_on(pos, POWER)
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-	end
-end
-
 minetest.register_node("techage:flywheel", {
 	description = I("TA2 Flywheel"),
 	tiles = {
@@ -96,8 +109,12 @@ minetest.register_node("techage:flywheel", {
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_flywheel.png^[transformFX]",
 	},
 	techage = {
-		network = techage.Axle,
+		power_network = techage.Axle,
 		power_consumption = techage.generator_power_consumption,
+		power_consume = 0,
+		animated_power_network = true,
+		turn_on = turn_on,
+		try_to_start = try_to_start,
 	},
 	
 	after_place_node = techage.generator_after_place_node,
@@ -108,7 +125,6 @@ minetest.register_node("techage:flywheel", {
 	on_timer = node_timer,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
-	on_punch = on_punch,
 
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -156,8 +172,12 @@ minetest.register_node("techage:flywheel_on", {
 		},
 	},
 	techage = {
-		network = techage.Axle,
+		power_network = techage.Axle,
 		power_consumption = techage.generator_power_consumption,
+		power_consume = 0,
+		animated_power_network = true,
+		turn_on = turn_on,
+		try_to_start = try_to_start,
 	},
 
 	after_place_node = techage.generator_after_place_node,
@@ -168,7 +188,6 @@ minetest.register_node("techage:flywheel_on", {
 	on_timer = node_timer,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
-	on_punch = on_punch,
 
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2, not_in_creative_inventory=1},
