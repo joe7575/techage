@@ -1,0 +1,10 @@
+# Maximim number of Forceload Blocks per player (default 12)
+tubelib_max_num_forceload_blocks (max number of Forceload Blocks) int 12
+
+# Enable Basalt Stone (and disable ore generation via cobble generator)
+tubelib_basalt_stone_enabled (Basalt Stone enabled) bool true
+
+# This aging value is used to calculate the lifetime of machines before 
+# they go defect . The value 200 (default) results in a lifetime
+# for standard machines of about 2000 - 8000 item processing cycles.
+tubelib_machine_aging_value (machine aging value) int 200
