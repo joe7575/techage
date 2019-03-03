@@ -71,9 +71,11 @@ local function power_consumption(pos, dir)
 	for out_dir,item in pairs(conn) do
 		-- Not in the opposite direction
 		if out_dir ~= tubelib2.Turn180Deg[dir or 0] then
-			this = TP(item.pos)
-			if this and this.power_consumption then
-				val = val + this.power_consumption(item.pos, item.in_dir)
+			if item.pos then
+				this = TP(item.pos)
+				if this and this.power_consumption then
+					val = val + this.power_consumption(item.pos, item.in_dir)
+				end
 			end
 		end
 	end
@@ -99,14 +101,16 @@ local function turn_on(pos, dir, on)
 	for out_dir,item in pairs(conn) do
 		-- Not in the opposite direction
 		if out_dir ~= tubelib2.Turn180Deg[dir or 0] then
-			local this = TP(item.pos)
-			if this and this.turn_on then
-				this.turn_on(item.pos, item.in_dir, on)
+			if item.pos then
+				local this = TP(item.pos)
+				if this and this.turn_on then
+					this.turn_on(item.pos, item.in_dir, on)
+				end
+				if this and this.animated_power_network then
+					turn_tube_on(item.pos, item.in_dir, this.power_network, on)
+				end
+				turn_on(item.pos, item.in_dir, on)
 			end
-			if this and this.animated_power_network then
-				turn_tube_on(item.pos, item.in_dir, this.power_network, on)
-			end
-			turn_on(item.pos, item.in_dir, on)
 		end
 	end
 end
@@ -162,7 +166,7 @@ function techage.generator_after_tube_update(node, pos, out_dir, peer_pos, peer_
 	local mem = tubelib2.get_mem(pos)
 	if out_dir == mem.power_dir then
 		if not peer_in_dir then
-			mem.connections = {[out_dir] = nil} -- del connection
+			mem.connections = {} -- del connection
 		else
 			-- Generator accept one dir only
 			mem.connections = {[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}}
@@ -203,7 +207,7 @@ function techage.distributor_after_tube_update(node, pos, out_dir, peer_pos, pee
 	local mem = tubelib2.get_mem(pos)
 	mem.connections = mem.connections or {}
 	if not peer_in_dir then
-		mem.connections = {[out_dir] = nil} -- del connection
+		mem.connections[out_dir] = nil -- del connection
 	else
 		mem.connections[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}
 	end
@@ -236,7 +240,7 @@ function techage.consumer_after_tube_update(node, pos, out_dir, peer_pos, peer_i
 	-- Only one connection is allowed, which can be overwritten, if necessary.
 	if not peer_pos or not next(mem.connections) or mem.connections[out_dir] then
 		if not peer_in_dir then
-			mem.connections = {[out_dir] = nil} -- del connection
+			mem.connections = {} -- del connection
 		else
 			mem.connections = {[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}}
 		end
