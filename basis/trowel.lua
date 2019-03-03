@@ -106,7 +106,7 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
 	-- a hidden node, too.
 	if other_hidden_nodes(pos, "techage_hidden_nodename") then
 		-- test both hidden networks
-		techage.ElectricCable:after_dig_node("techage_hidden_nodename")
-		techage.BiogasPipe:after_dig_node("techage_hidden_nodename")
+		techage.ElectricCable:after_dig_node(pos, oldnode, digger)
+		techage.BiogasPipe:after_dig_node(pos, oldnode, digger)
 	end
 end)

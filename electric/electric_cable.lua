@@ -145,38 +145,28 @@ local Boxes = {
 	{{-size, -size, -size, size,  0.5,  size}}, -- y+
 }
 
-techage.register_junction("techage:electric_junction", 2/8, Boxes, Cable, {
+techage.register_junction("techage:electric_junction", 2/8, Boxes, techage.ElectricCable, {
 	description = "Electricity Junction Box",
 	tiles = {"techage_electric_junction.png"},
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
 	sounds = default.node_sound_defaults(),
 	techage = {
 		power_consumption =	techage.distributor_power_consumption,
-		power_network = Cable,
+		power_network = techage.ElectricCable,
 		power_consume = 0,
 	},
-
-	after_place_node = function(pos, placer, itemstack, pointed_thing)
-		tubelib2.init_mem(pos)
-		Cable:after_place_node(pos)
-		techage.sink_power_consumption(pos, 0)
-	end,
+	description = "Electricity Junction Box",
+	tiles = {"techage_electric_junction.png"},
+	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
+	sounds = default.node_sound_defaults(),
+	
+	after_place_node = techage.distributor_after_place_node,
+	after_dig_node = techage.distributor_after_dig_node,
 
 	after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
+		techage.distributor_after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
 		local mem = tubelib2.get_mem(pos)
-		mem.connections = mem.connections or {}
-		mem.connections[out_dir] = peer_pos
 		local name = "techage:electric_junction"..techage.junction_type(mem.connections)
 		minetest.swap_node(pos, {name = name, param2 = 0})
-		techage.sink_power_consumption(pos, 0)
-	end,
-	
-	on_destruct = function(pos)
-		techage.sink_power_consumption(pos, 0)
-	end,
-
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		Cable:after_dig_node(pos)
 	end,
 })
-

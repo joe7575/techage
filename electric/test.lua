@@ -43,13 +43,14 @@ minetest.register_node("techage:lamp", {
 		turn_on = lamp_turn_on,
 		power_consumption =	techage.consumer_power_consumption,
 		power_network = techage.ElectricCable,
-		power_consume = POWER_CONSUME,
-		power_side = 'B',
 	},
 	
-	after_place_node = techage.consumer_after_place_node,
+	after_place_node = function(pos, placer)
+		local mem = techage.consumer_after_place_node(pos, placer)
+		mem.power_consume = POWER_CONSUME
+	end,
+	
 	after_tube_update = techage.consumer_after_tube_update,
-	on_destruct = techage.consumer_on_destruct,
 	after_dig_node = techage.consumer_after_dig_node,
 
 	paramtype = "light",
@@ -75,7 +76,6 @@ minetest.register_node("techage:lamp_on", {
 	
 	after_place_node = techage.consumer_after_place_node,
 	after_tube_update = techage.consumer_after_tube_update,
-	on_destruct = techage.consumer_on_destruct,
 	after_dig_node = techage.consumer_after_dig_node,
 
 	paramtype = "light",
@@ -106,8 +106,9 @@ minetest.register_node("techage:power", {
 	is_ground_content = false,
 
 	techage = {
+		power_consumption =	techage.generator_power_consumption,
 		power_network = Cable,
-		power_consumption = techage.generator_power_consumption,
+		power_consume = 0,
 	},
 	
 	after_place_node = techage.generator_after_place_node,
@@ -117,11 +118,16 @@ minetest.register_node("techage:power", {
 
 	on_rightclick = function(pos, node, clicker)
 		local mem = tubelib2.get_mem(pos)
-		print("on_rightclick", mem.power)
-		if mem.power_produce and mem.power_produce > 0 then
-			techage.generator_off(pos)
+		mem.running = mem.running or false
+		print("on_rightclick", mem.running)
+		if mem.running then
+			mem.running = false
+			local sum = techage.generator_off(pos)
+			M(pos):set_string("infotext", sum.." / "..8)
 		else
-			techage.generator_on(pos, 8)
+			mem.running = true
+			local sum = techage.generator_on(pos, 8)
+			M(pos):set_string("infotext", sum.." / "..8)
 		end
 	end,
 })

@@ -56,14 +56,14 @@ function techage.register_junction(name, size, boxes, network, node)
 		node.groups.not_in_creative_inventory = idx
 		node.drawtype = "nodebox"
 		node.node_box = get_node_box(idx, size, boxes)
-		node.paramtype2 = "facedir"  -- important!
-		node.on_rotate = screwdriver.disallow  -- important!
+		node.paramtype2 = "facedir"
+		node.on_rotate = screwdriver.disallow
 		node.paramtype = "light" 
 		node.sunlight_propagates = true 
 		node.is_ground_content = false 
 		node.drop = name.."0" 
 		
-		minetest.register_node(name..idx, table.copy(node))
+		minetest.register_node(name..idx, node)
 		network:add_secondary_node_names({name..idx})
 	end
 end
@@ -77,3 +77,4 @@ function techage.junction_type(conn)
 	end
 	return val
 end	
+
