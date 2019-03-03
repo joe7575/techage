@@ -103,11 +103,14 @@ local function turn_on(pos, dir, on)
 		if out_dir ~= tubelib2.Turn180Deg[dir or 0] then
 			if item.pos then
 				local this = TP(item.pos)
-				if this and this.turn_on then
-					this.turn_on(item.pos, item.in_dir, on)
+				if this and this.turn_on and this.valid_power_dir then
+					local mem = tubelib2.get_mem(item.pos)
+					if this.valid_power_dir(item.pos, mem, item.in_dir) then
+						this.turn_on(item.pos, item.in_dir, on)
+					end
 				end
 				if this and this.animated_power_network then
-					turn_tube_on(item.pos, item.in_dir, this.power_network, on)
+					turn_tube_on(pos, out_dir, this.power_network, on)
 				end
 				turn_on(item.pos, item.in_dir, on)
 			end
@@ -220,16 +223,21 @@ function techage.distributor_after_dig_node(pos, oldnode)
 end
 
 --
--- Consumer with one power input side (default)
+-- Consumer Nodes
 --
 function techage.consumer_power_consumption(pos, dir)
 	local mem = tubelib2.get_mem(pos)
+	if not TP(pos).valid_power_dir(pos, mem, dir) then return 0 end
 	mem.power_consume = mem.power_consume or 0
 	return -mem.power_consume
 end
 	
 function techage.consumer_after_place_node(pos, placer)
 	local mem = tubelib2.init_mem(pos)
+	if TP(pos).power_side then
+		-- For the consumer, power_dir is in-dir
+		mem.power_dir = tubelib2.Turn180Deg[side_to_dir(pos, TP(pos).power_side)]
+	end
 	TP(pos).power_network:after_place_node(pos)
 	return mem
 end
@@ -237,6 +245,7 @@ end
 function techage.consumer_after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
 	local mem = tubelib2.get_mem(pos)
 	mem.connections = mem.connections or {}
+	if not TP(pos).valid_power_dir(pos, mem, tubelib2.Turn180Deg[out_dir]) then return end
 	-- Only one connection is allowed, which can be overwritten, if necessary.
 	if not peer_pos or not next(mem.connections) or mem.connections[out_dir] then
 		if not peer_in_dir then

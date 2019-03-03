@@ -35,30 +35,29 @@ end
 
 local function turn_on(pos, dir, on)
 	print("jou")
---	if on then
---		swap_node(pos, "techage:flywheel_on")
---		if not minetest.get_node_timer(pos):is_started() then
---			minetest.get_node_timer(pos):start(CYCLE_TIME)
---		end
---	else
---		swap_node(pos, "techage:flywheel")
---		if minetest.get_node_timer(pos):is_started() then
---			minetest.get_node_timer(pos):stop()
---		end
---	end
+	if on then
+		swap_node(pos, "techage:flywheel_on")
+		if not minetest.get_node_timer(pos):is_started() then
+			minetest.get_node_timer(pos):start(CYCLE_TIME)
+		end
+	else
+		swap_node(pos, "techage:flywheel")
+		if minetest.get_node_timer(pos):is_started() then
+			minetest.get_node_timer(pos):stop()
+		end
+	end
 end	
 
 local function try_to_start(pos, on)
 	print("try_to_start", S(pos))
---	if on then
---		if techage.generator_on(pos, POWER) then
---			return true
---		end
---	else
---		techage.generator_off(pos)
---	end
---	return false
-	return on
+	if on then
+		if techage.generator_on(pos, POWER) then
+			return true
+		end
+	else
+		techage.generator_off(pos)
+	end
+	return false
 end	
 
 local function formspec(mem)
@@ -85,7 +84,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 end
 
-local function on_rightclick(pos, node, clicker)
+local function on_rightclick(pos)
 	local mem = tubelib2.get_mem(pos)
 	M(pos):set_string("formspec", formspec(mem))
 end
@@ -117,6 +116,10 @@ minetest.register_node("techage:flywheel", {
 		try_to_start = try_to_start,
 	},
 	
+	on_construct = function(pos)
+		on_rightclick(pos)
+	end,
+
 	after_place_node = techage.generator_after_place_node,
 	after_tube_update = techage.generator_after_tube_update,	
 	on_destruct = techage.generator_on_destruct,

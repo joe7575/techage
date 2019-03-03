@@ -34,22 +34,22 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function turn_on(pos, dir, on)
-	--local mem = tubelib2.get_mem(pos)
-	--print("turn_on", mem.power_dir, dir, on)
-	--if mem.power_dir == dir then
-		local npos = techage.next_pos(pos, "R")
-		print("turn_on", S(pos), S(npos))
-		local this = TP(npos)
-		if this and this.try_to_start then
-			on = this.try_to_start(npos, on)
-		end
-		if on then
-			swap_node(pos, "techage:cylinder_on")
-		else
-			swap_node(pos, "techage:cylinder")
-		end
-	--end
+local function valid_power_dir(pos, mem, in_dir)
+	return mem.power_dir == in_dir
+end
+
+local function turn_on(pos, in_dir, on)
+	local npos = techage.next_pos(pos, "R")
+	print("turn_on", S(pos), S(npos), on)
+	local this = TP(npos)
+	if this and this.try_to_start then
+		on = this.try_to_start(npos, on)
+	end
+	if on then
+		swap_node(pos, "techage:cylinder_on")
+	else
+		swap_node(pos, "techage:cylinder")
+	end
 end	
 
 local function node_timer(pos, elapsed)
@@ -75,11 +75,11 @@ minetest.register_node("techage:cylinder", {
 		power_network = techage.SteamPipe,
 		power_consume = POWER_CONSUME,
 		power_side = 'L',
+		valid_power_dir = valid_power_dir,
 	},
 	
 	after_place_node = techage.consumer_after_place_node,
 	after_tube_update = techage.consumer_after_tube_update,
-	on_destruct = techage.consumer_on_destruct,
 	after_dig_node = techage.consumer_after_dig_node,
 
 	paramtype2 = "facedir",
@@ -124,11 +124,11 @@ minetest.register_node("techage:cylinder_on", {
 		power_network = techage.SteamPipe,
 		power_consume = POWER_CONSUME,
 		power_side = 'L',
+		valid_power_dir = valid_power_dir,
 	},
 	
 	after_place_node = techage.consumer_after_place_node,
 	after_tube_update = techage.consumer_after_tube_update,
-	on_destruct = techage.consumer_on_destruct,
 	after_dig_node = techage.consumer_after_dig_node,
 
 	paramtype2 = "facedir",

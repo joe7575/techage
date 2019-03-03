@@ -24,7 +24,7 @@ local I,_ = dofile(MP.."/intllib.lua")
 
 local CYCLE_TIME = 4
 local HEAT_STEP = 10
-local WATER_CONSUMPTION = 2
+local WATER_CONSUMPTION = 0.5
 local MAX_WATER = 10
 local POWER = 10
 

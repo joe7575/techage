@@ -17,9 +17,14 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function lamp_turn_on(pos, dir, on)
---	local mem = tubelib2.get_mem(pos)
---	if mem.power_dir == dir or  mem.power_dir == tubelib2.Turn180Deg[dir] then
+-- To be able to check if power connection is on the 
+-- correct node side (mem.power_dir == in_dir)
+local function valid_power_dir(pos, mem, in_dir)
+	print("valid_power_dir", mem.power_dir, in_dir)
+	return true
+end
+
+local function lamp_turn_on(pos, in_dir, on)
 		if on then
 			swap_node(pos, "techage:lamp_on")
 		else
@@ -43,6 +48,9 @@ minetest.register_node("techage:lamp", {
 		turn_on = lamp_turn_on,
 		power_consumption =	techage.consumer_power_consumption,
 		power_network = techage.ElectricCable,
+		power_side = "L",
+		valid_power_dir = valid_power_dir,
+		
 	},
 	
 	after_place_node = function(pos, placer)
@@ -72,6 +80,7 @@ minetest.register_node("techage:lamp_on", {
 		power_consumption =	techage.consumer_power_consumption,
 		power_network = techage.ElectricCable,
 		power_consume = POWER_CONSUME,
+		valid_power_dir = valid_power_dir,
 	},
 	
 	after_place_node = techage.consumer_after_place_node,
