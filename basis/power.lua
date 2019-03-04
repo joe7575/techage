@@ -121,30 +121,36 @@ end
 
 -- To be called delayed from any node, after any change.
 -- The result is stored in mem.power_result
-local function calc_power_consumption(pos, dir)
+local function check_power_consumption(pos, dir)
 	local mem = tubelib2.get_mem(pos)
 	Route = {}
 	local sum = power_consumption(pos, dir)
 	Route = {}
 	turn_on(pos, nil, sum > 0)
-	
+end
+
+--
+-- Generator with one power output side
+--
+function techage.calc_power_consumption(pos, mem, max_power)
+	mem.power_produce = max_power
+	Route = {}
+	local sum = power_consumption(pos, mem.power_dir)
 	mem.power_result = sum
 	return sum
 end
 
---
--- Generator with on power output side
---
-function techage.generator_on(pos, max_power)
-	local mem = tubelib2.get_mem(pos)
-	mem.power_produce = max_power
-	return calc_power_consumption(pos, mem.power_dir)
+function techage.generator_on(pos, mem)
+	if mem.power_result > 0 then
+		Route = {}
+		turn_on(pos, nil, true)
+	end
 end
 
-function techage.generator_off(pos)
-	local mem = tubelib2.get_mem(pos)
+function techage.generator_off(pos, mem)
 	mem.power_produce = 0
-	return calc_power_consumption(pos, mem.power_dir)
+	Route = {}
+	turn_on(pos, nil, false)
 end
 
 function techage.generator_power_consumption(pos, dir)
@@ -174,12 +180,12 @@ function techage.generator_after_tube_update(node, pos, out_dir, peer_pos, peer_
 			-- Generator accept one dir only
 			mem.connections = {[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}}
 		end
-		minetest.after(0.2, calc_power_consumption, pos)
+		minetest.after(0.2, check_power_consumption, pos)
 	end
 end
 
 function techage.generator_on_destruct(pos)
-	techage.generator_off(pos)
+	techage.generator_off(pos, tubelib2.get_mem(pos))
 end
 
 function techage.generator_after_dig_node(pos, oldnode)
@@ -188,6 +194,7 @@ function techage.generator_after_dig_node(pos, oldnode)
 end
 
 function techage.generator_formspec_level(mem)
+	print("generator_formspec_level", mem.power_result, mem.power_produce)
 	local percent = ((mem.power_result or 0) * 100) / (mem.power_produce or 1)
 	return "techage_form_level_bg.png^[lowpart:"..percent..":techage_form_level_fg.png]"
 end
@@ -214,7 +221,7 @@ function techage.distributor_after_tube_update(node, pos, out_dir, peer_pos, pee
 	else
 		mem.connections[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}
 	end
-	minetest.after(0.2, calc_power_consumption, pos)
+	minetest.after(0.2, check_power_consumption, pos)
 end
 
 function techage.distributor_after_dig_node(pos, oldnode)
@@ -254,7 +261,7 @@ function techage.consumer_after_tube_update(node, pos, out_dir, peer_pos, peer_i
 			mem.connections = {[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}}
 		end
 	end
-	minetest.after(0.2, calc_power_consumption, pos)
+	minetest.after(0.2, check_power_consumption, pos)
 end
 
 function techage.consumer_after_dig_node(pos, oldnode)

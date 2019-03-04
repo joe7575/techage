@@ -21,7 +21,7 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("tubelib2")
 local I,_ = dofile(MP.."/intllib.lua")
 
-local CYCLE_TIME = 10
+local CYCLE_TIME = 8
 local POWER = 8
 
 local function swap_node(pos, name)
@@ -33,29 +33,37 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function turn_on(pos, dir, on)
-	print("jou")
-	if on then
-		swap_node(pos, "techage:flywheel_on")
-		if not minetest.get_node_timer(pos):is_started() then
-			minetest.get_node_timer(pos):start(CYCLE_TIME)
-		end
-	else
-		swap_node(pos, "techage:flywheel")
-		if minetest.get_node_timer(pos):is_started() then
-			minetest.get_node_timer(pos):stop()
-		end
-	end
-end	
+--local function turn_on(pos, dir, on)
+--	print("jou")
+--	if on then
+--		swap_node(pos, "techage:flywheel_on")
+--		if not minetest.get_node_timer(pos):is_started() then
+--			minetest.get_node_timer(pos):start(CYCLE_TIME)
+--		end
+--	else
+--		swap_node(pos, "techage:flywheel")
+--		if minetest.get_node_timer(pos):is_started() then
+--			minetest.get_node_timer(pos):stop()
+--		end
+--	end
+--end	
 
 local function try_to_start(pos, on)
 	print("try_to_start", S(pos))
 	if on then
 		if techage.generator_on(pos, POWER) then
+			swap_node(pos, "techage:flywheel_on")
+			if not minetest.get_node_timer(pos):is_started() then
+				minetest.get_node_timer(pos):start(CYCLE_TIME)
+			end
 			return true
 		end
 	else
 		techage.generator_off(pos)
+	end
+	swap_node(pos, "techage:flywheel")
+	if minetest.get_node_timer(pos):is_started() then
+		minetest.get_node_timer(pos):stop()
 	end
 	return false
 end	
@@ -91,9 +99,7 @@ end
 	
 
 local function node_timer(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	techage.generator_on(pos, POWER, techage.Axle)
-	return true
+	return try_to_start(pos, true)
 end
 
 minetest.register_node("techage:flywheel", {
@@ -112,7 +118,7 @@ minetest.register_node("techage:flywheel", {
 		power_consumption = techage.generator_power_consumption,
 		power_consume = 0,
 		animated_power_network = true,
-		turn_on = turn_on,
+		--turn_on = turn_on,
 		try_to_start = try_to_start,
 	},
 	
@@ -179,7 +185,7 @@ minetest.register_node("techage:flywheel_on", {
 		power_consumption = techage.generator_power_consumption,
 		power_consume = 0,
 		animated_power_network = true,
-		turn_on = turn_on,
+		--turn_on = turn_on,
 		try_to_start = try_to_start,
 	},
 
