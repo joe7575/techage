@@ -125,8 +125,10 @@ local function check_power_consumption(pos, dir)
 	local mem = tubelib2.get_mem(pos)
 	Route = {}
 	local sum = power_consumption(pos, dir)
-	Route = {}
-	turn_on(pos, nil, sum > 0)
+	if sum < 1 then
+		Route = {}
+		turn_on(pos, nil, false)
+	end
 end
 
 --

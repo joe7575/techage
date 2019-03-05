@@ -20,7 +20,7 @@ end
 -- To be able to check if power connection is on the 
 -- correct node side (mem.power_dir == in_dir)
 local function valid_power_dir(pos, mem, in_dir)
-	print("valid_power_dir", mem.power_dir, in_dir)
+	--print("valid_power_dir", mem.power_dir, in_dir)
 	return true
 end
 

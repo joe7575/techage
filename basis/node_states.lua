@@ -259,7 +259,7 @@ function NodeStates:blocked(pos, mem)
 end	
 
 function NodeStates:fault(pos, mem)
-	if mem.techage_state == RUNNING then
+	if mem.techage_state == RUNNING or mem.techage_state == STOPPED then
 		mem.techage_state = FAULT
 		if self.node_name_passive then
 			local node = minetest.get_node(pos)
