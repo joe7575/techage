@@ -20,8 +20,6 @@ local function formspec(self, pos, mem)
 		"image_button[3,1.2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 		"button[5.5,1.2;1.8,1;update;"..I("Update").."]"..
 		"list[current_player;main;0,3;8,4;]"..
-		"listring[current_name;water]"..
-		"listring[current_player;main]"..
 		default.get_hotbar_bg(0, 3)
 end
 

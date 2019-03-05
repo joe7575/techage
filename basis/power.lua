@@ -267,6 +267,10 @@ function techage.consumer_after_tube_update(node, pos, out_dir, peer_pos, peer_i
 	minetest.after(0.2, check_power_consumption, pos)
 end
 
+function techage.consumer_check_power_consumption(pos)
+	minetest.after(0.2, check_power_consumption, pos)
+end
+
 function techage.consumer_after_dig_node(pos, oldnode)
 	TN(oldnode).power_network:after_dig_node(pos)
 	tubelib2.del_mem(pos)

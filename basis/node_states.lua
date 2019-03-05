@@ -110,6 +110,15 @@ local function can_start(pos, mem)
 	return true
 end
 
+local function swap_node(pos, name)
+	local node = minetest.get_node(pos)
+	if node.name == name then
+		return
+	end
+	node.name = name
+	minetest.swap_node(pos, node)
+end
+
 function NodeStates:new(attr)
 	local o = {
 		-- mandatory
@@ -160,9 +169,7 @@ function NodeStates:stop(pos, mem)
 		end
 		mem.techage_state = STOPPED
 		if self.node_name_passive then
-			local node = minetest.get_node(pos)
-			node.name = self.node_name_passive
-			minetest.swap_node(pos, node)
+			swap_node(pos, self.node_name_passive)
 		end
 		if self.infotext_name then
 			local number = mem.techage_number
@@ -196,9 +203,7 @@ function NodeStates:start(pos, mem, called_from_on_timer)
 			self.stop_timer = true
 		end
 		if self.node_name_active then
-			local node = minetest.get_node(pos)
-			node.name = self.node_name_active
-			minetest.swap_node(pos, node)
+			swap_node(pos, self.node_name_active)
 		end
 		if self.infotext_name then
 			local number = mem.techage_number
@@ -221,9 +226,7 @@ function NodeStates:standby(pos, mem)
 		-- timer has to be stopped once to be able to be restarted
 		self.stop_timer = true
 		if self.node_name_passive then
-			local node = minetest.get_node(pos)
-			node.name = self.node_name_passive
-			minetest.swap_node(pos, node)
+			swap_node(pos, self.node_name_passive)
 		end
 		if self.infotext_name then
 			local number = mem.techage_number
@@ -245,9 +248,7 @@ function NodeStates:blocked(pos, mem)
 		-- timer has to be stopped once to be able to be restarted
 		self.stop_timer = true
 		if self.node_name_passive then
-			local node = minetest.get_node(pos)
-			node.name = self.node_name_passive
-			minetest.swap_node(pos, node)
+			swap_node(pos, self.node_name_passive)
 		end
 		if self.infotext_name then
 			local number = mem.techage_number
@@ -266,9 +267,7 @@ function NodeStates:fault(pos, mem)
 	if mem.techage_state == RUNNING or mem.techage_state == STOPPED then
 		mem.techage_state = FAULT
 		if self.node_name_passive then
-			local node = minetest.get_node(pos)
-			node.name = self.node_name_passive
-			minetest.swap_node(pos, node)
+			swap_node(pos, self.node_name_passive)
 		end
 		if self.infotext_name then
 			local number = mem.techage_number
@@ -286,9 +285,7 @@ end
 function NodeStates:defect(pos, mem)
 	mem.techage_state = DEFECT
 	if self.node_name_defect then
-		local node = minetest.get_node(pos)
-		node.name = self.node_name_defect
-		minetest.swap_node(pos, node)
+		swap_node(pos, self.node_name_defect)
 	end
 	if self.infotext_name then
 		local number = mem.techage_number
@@ -453,9 +450,7 @@ function NodeStates:on_node_repair(pos)
 	if mem.techage_state == DEFECT then
 		mem.techage_state = STOPPED
 		if self.node_name_passive then
-			local node = minetest.get_node(pos)
-			node.name = self.node_name_passive
-			minetest.swap_node(pos, node)
+			swap_node(pos, self.node_name_passive)
 		end
 		if self.aging_level1 then
 			mem.techage_aging = 0
