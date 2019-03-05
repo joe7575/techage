@@ -9,7 +9,7 @@ local I,_ = dofile(MP.."/intllib.lua")
 
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
-local CYCLE_TIME = 2
+local CYCLE_TIME = 16
 
 local function formspec(self, pos, mem)
 	return "size[8,7]"..
@@ -43,7 +43,6 @@ local function stop_node(pos, mem, state)
 	M(pos):set_string("infotext", "Off")
 end
 
-
 local State = techage.NodeStates:new({
 	node_name_passive = "techage:power",
 	cycle_time = CYCLE_TIME,
@@ -73,6 +72,18 @@ local function node_timer(pos, elapsed)
 	distibuting(pos, mem)
 	return State:is_active(mem)
 end
+
+local function valid_power_dir(pos, mem, in_dir)
+	return mem.power_dir == in_dir
+end
+
+local function turn_power_on(pos, in_dir, on)
+	local mem = tubelib2.get_mem(pos)
+	if State:is_active(mem) and not on then
+		State:fault(pos, mem)
+	end
+end
+		
 
 local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
@@ -111,6 +122,8 @@ minetest.register_node("techage:power", {
 		power_consumption =	techage.generator_power_consumption,
 		power_network = techage.ElectricCable,
 		power_consume = 0,
+		valid_power_dir = valid_power_dir,
+		turn_on = turn_power_on,
 	},
 	
 	after_place_node = function(pos, placer)

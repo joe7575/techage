@@ -171,7 +171,9 @@ function NodeStates:stop(pos, mem)
 		if self.formspec_func then
 			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
 		end
-		minetest.get_node_timer(pos):stop()
+		if minetest.get_node_timer(pos):is_started() then
+			minetest.get_node_timer(pos):stop()
+		end
 		return true
 	end
 	return false
@@ -205,7 +207,9 @@ function NodeStates:start(pos, mem, called_from_on_timer)
 		if self.formspec_func then
 			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
 		end
-		minetest.get_node_timer(pos):start(self.cycle_time)
+		if not minetest.get_node_timer(pos):is_started() then
+			minetest.get_node_timer(pos):start(self.cycle_time)
+		end
 		return true
 	end
 	return false
@@ -331,7 +335,9 @@ function NodeStates:keep_running(pos, mem, val, num_items)
 	-- set to RUNNING if not already done
 	self:start(pos, mem, true)
 	mem.techage_countdown = val
-	mem.techage_item_meter = mem.techage_item_meter + (num_items or 1)
+	if self.has_item_meter then
+		mem.techage_item_meter = mem.techage_item_meter + (num_items or 1)
+	end
 	if self.aging_level1 then
 		local cnt = mem.techage_aging + num_items
 		mem.techage_aging = cnt
@@ -471,9 +477,13 @@ function NodeStates:after_dig_node(pos, oldnode, oldmetadata, digger)
 	local mem = tubelib2.get_mem(pos)
 	local inv = minetest.get_inventory({type="player", name=digger:get_player_name()})
 	local cnt = mem.techage_aging or 0
-	local is_defect = cnt > self.aging_level1 and math.random(self.aging_level2 / cnt) == 1
-	if self.node_name_defect and is_defect then
-		inv:add_item("main", ItemStack(self.node_name_defect))
+	if self.aging_level1 then
+		local is_defect = cnt > self.aging_level1 and math.random(self.aging_level2 / cnt) == 1
+		if self.node_name_defect and is_defect then
+			inv:add_item("main", ItemStack(self.node_name_defect))
+		else
+			inv:add_item("main", ItemStack(self.node_name_passive))
+		end
 	else
 		inv:add_item("main", ItemStack(self.node_name_passive))
 	end

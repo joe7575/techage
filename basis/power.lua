@@ -16,8 +16,8 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-local TP = function(pos) return minetest.registered_nodes[minetest.get_node(pos).name].techage end
-local TN = function(node) return minetest.registered_nodes[node.name].techage end
+local TP = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).techage end
+local TN = function(node) return (minetest.registered_nodes[node.name] or {}).techage end
 
 
 -- Table to register the different power distribution network instances for global use
@@ -63,6 +63,7 @@ end
 
 -- Calculate the power consumption on the given network
 local function power_consumption(pos, dir)
+	print("power_consumption")
 	if pos_already_reached(pos) then return 0 end
 	local mem = tubelib2.get_mem(pos)
 	local conn = mem.connections or {}

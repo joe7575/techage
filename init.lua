@@ -19,14 +19,14 @@ dofile(MP.."/basis/trowel.lua")  -- hidden networks
 dofile(MP.."/basis/junction.lua")  -- network junction box
 
 -- Steam Engine
---dofile(MP.."/steam_engine/drive_axle.lua")
---dofile(MP.."/steam_engine/steam_pipe.lua")
---dofile(MP.."/steam_engine/firebox.lua")
---dofile(MP.."/steam_engine/boiler.lua")
+dofile(MP.."/steam_engine/drive_axle.lua")
+dofile(MP.."/steam_engine/steam_pipe.lua")
+dofile(MP.."/steam_engine/firebox.lua")
+dofile(MP.."/steam_engine/boiler.lua")
 --dofile(MP.."/steam_engine/cylinder.lua")
 --dofile(MP.."/steam_engine/flywheel.lua")
---dofile(MP.."/steam_engine/gearbox.lua")
---dofile(MP.."/steam_engine/consumer.lua")
+dofile(MP.."/steam_engine/gearbox.lua")
+dofile(MP.."/steam_engine/consumer.lua")
 
 dofile(MP.."/electric/electric_cable.lua")
 dofile(MP.."/electric/test.lua")
