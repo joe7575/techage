@@ -116,10 +116,9 @@ local function water_temperature(pos, mem)
 end
 
 local function steaming(pos, mem, temp)
-	print("steaming")
 	mem.water_level = math.max((mem.water_level or 0) - WATER_CONSUMPTION, 0)
 	if temp >= 80 then
-		local sum = techage.calc_power_consumption(pos, mem, 8)
+		local sum = techage.calc_power_consumption(pos, mem, POWER)
 		if sum > 0 then
 			State:keep_running(pos, mem, COUNTDOWN_TICKS)
 		else
@@ -134,7 +133,6 @@ end
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	local temp = water_temperature(pos, mem)
-	print("node_timer", temp)
 	if State:is_active(mem) then
 		steaming(pos, mem, temp)
 	end
@@ -153,6 +151,17 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 end
 
+local function valid_power_dir(pos, mem, in_dir)
+	return mem.power_dir == in_dir
+end
+
+local function turn_power_on(pos, in_dir, on)
+	local mem = tubelib2.get_mem(pos)
+	if State:is_active(mem) and not on then
+		State:fault(pos, mem)
+	end
+end
+		
 local function on_rightclick(pos)
 	local mem = tubelib2.get_mem(pos)
 	M(pos):set_string("formspec", formspec(State, pos, mem))
@@ -258,6 +267,8 @@ minetest.register_node("techage:boiler2", {
 			end
 		end,
 		power_side = "U",
+		valid_power_dir = valid_power_dir,
+		turn_on = turn_power_on,
 	},
 	
 	on_construct = function(pos)
@@ -282,12 +293,6 @@ minetest.register_node("techage:boiler2", {
 	
 	after_tube_update = techage.generator_after_tube_update,	
 	on_destruct = techage.generator_on_destruct,
-	
-
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		State:after_dig_node(pos, oldnode, oldmetadata, digger)
-		techage.generator_after_dig_node(pos, oldnode)
-	end,
 	
 	on_metadata_inventory_put = function(pos)
 		minetest.after(0.5, move_to_water, pos)

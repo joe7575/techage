@@ -28,7 +28,7 @@ local Cable = tubelib2.Tube:new({
 	show_infotext = false,
 	force_to_use_tubes = true,
 	primary_node_names = {"techage:electric_cableS", "techage:electric_cableA"},
-	secondary_node_names = {"techage:lamp", "techage:lamp_on", "techage:power",
+	secondary_node_names = {"techage:lamp", "techage:lamp_on", "techage:power", "techage:generator",
 		"techage:ele_consumer", "techage:ele_consumer_on"},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
 		minetest.swap_node(pos, {name = "techage:electric_cable"..tube_type, param2 = param2 % 32})
@@ -135,6 +135,7 @@ minetest.register_node("techage:electric_cableA", {
 
 
 
+local distributor = techage.distributor
 
 local size = 3/32
 local Boxes = {
@@ -152,20 +153,21 @@ techage.register_junction("techage:electric_junction", 2/8, Boxes, techage.Elect
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
 	sounds = default.node_sound_defaults(),
 	techage = {
-		power_consumption =	techage.distributor_power_consumption,
+		read_power_consumption = distributor.read_power_consumption,
+		turn_on = distributor.turn_on,
 		power_network = techage.ElectricCable,
-		power_consume = 0,
+		power_consumption = 0,
 	},
 	description = "Electricity Junction Box",
 	tiles = {"techage_electric_junction.png"},
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
 	sounds = default.node_sound_defaults(),
 	
-	after_place_node = techage.distributor_after_place_node,
-	after_dig_node = techage.distributor_after_dig_node,
+	after_place_node = distributor.after_place_node,
+	after_dig_node = distributor.after_dig_node,
 
 	after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
-		techage.distributor_after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+		distributor.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
 		local mem = tubelib2.get_mem(pos)
 		local name = "techage:electric_junction"..techage.junction_type(mem.connections)
 		minetest.swap_node(pos, {name = name, param2 = 0})

@@ -56,167 +56,165 @@ local function side_to_dir(pos, side)
 	return dir
 end
 
-function techage.next_pos(pos, side)
+function techage.get_pos(pos, side)
 	local dir = side_to_dir(pos, side)
 	return tubelib2.get_pos(pos, dir)
 end	
 
--- Calculate the power consumption on the given network
-local function power_consumption(pos, dir)
-	print("power_consumption")
-	if pos_already_reached(pos) then return 0 end
-	local mem = tubelib2.get_mem(pos)
-	local conn = mem.connections or {}
-	local this = TP(pos)
-	local val = this.power_consumption(pos, tubelib2.Turn180Deg[dir])
-	for out_dir,item in pairs(conn) do
-		-- Not in the opposite direction
-		if out_dir ~= tubelib2.Turn180Deg[dir or 0] then
-			if item.pos then
-				this = TP(item.pos)
-				if this and this.power_consumption then
-					val = val + this.power_consumption(item.pos, item.in_dir)
-				end
-			end
+local function dbg(name, pos, val)
+	local node = minetest.get_node(pos)
+	print(name.." ("..node.name..") "..dump(val))
+end
+
+local power_consumption = nil
+
+local function call_read_power_consumption(pos, in_dir)
+	if not pos_already_reached(pos) then
+		local this = TP(pos)
+		if this and this.read_power_consumption then
+			dbg("power_consumption", pos, this.read_power_consumption(pos, in_dir))
+			return this.read_power_consumption(pos, in_dir)
+		else
+			return power_consumption(pos, in_dir)
 		end
-	end
-	return val
-end
-			
-local function turn_tube_on(pos, dir, network, on)
-	if on then
-		network:switch_tube_line(pos, dir, "on")
-	else
-		network:switch_tube_line(pos, dir, "off")
-	end
-end
-
-local function turn_on(pos, dir, on)
-	if pos_already_reached(pos) then return end
-	local mem = tubelib2.get_mem(pos)
-	local conn = mem.connections or {}
-	local this = TP(pos)
-	if this and this.turn_on then
-		this.turn_on(pos, dir, on)
-	end
-	for out_dir,item in pairs(conn) do
-		-- Not in the opposite direction
-		if out_dir ~= tubelib2.Turn180Deg[dir or 0] then
-			if item.pos then
-				local this = TP(item.pos)
-				if this and this.turn_on and this.valid_power_dir then
-					local mem = tubelib2.get_mem(item.pos)
-					if this.valid_power_dir(item.pos, mem, item.in_dir) then
-						this.turn_on(item.pos, item.in_dir, on)
-					end
-				end
-				if this and this.animated_power_network then
-					turn_tube_on(pos, out_dir, this.power_network, on)
-				end
-				turn_on(item.pos, item.in_dir, on)
-			end
-		end
-	end
-end
-
-
--- To be called delayed from any node, after any change.
--- The result is stored in mem.power_result
-local function check_power_consumption(pos, dir)
-	local mem = tubelib2.get_mem(pos)
-	Route = {}
-	local sum = power_consumption(pos, dir)
-	if sum < 1 then
-		Route = {}
-		turn_on(pos, nil, false)
-	end
-end
-
---
--- Generator with one power output side
---
-function techage.calc_power_consumption(pos, mem, max_power)
-	mem.power_produce = max_power
-	Route = {}
-	local sum = power_consumption(pos, mem.power_dir)
-	mem.power_result = sum
-	return sum
-end
-
-function techage.generator_on(pos, mem)
-	if mem.power_result > 0 then
-		Route = {}
-		turn_on(pos, nil, true)
-	end
-end
-
-function techage.generator_off(pos, mem)
-	mem.power_produce = 0
-	Route = {}
-	turn_on(pos, nil, false)
-end
-
-function techage.generator_power_consumption(pos, dir)
-	local mem = tubelib2.get_mem(pos)
-	if dir == tubelib2.Turn180Deg[mem.power_dir or 0] then
-		return mem.power_produce or 0
 	end
 	return 0
 end
-	
-function techage.generator_after_place_node(pos)
+
+-- Calculate the power consumption on the given network
+power_consumption = function(pos, in_dir)
+	local sum = call_read_power_consumption(pos, in_dir)
+	--local sum = 0
+	local mem = tubelib2.get_mem(pos)
+	local conn = mem.connections or {}
+	for out_dir,item in pairs(conn) do
+		if item.pos then
+			sum = sum + call_read_power_consumption(item.pos, item.in_dir)
+		end
+	end
+	return sum
+end
+			
+-- Switch active/passive tube nodes 
+local function turn_tube_on(pos, in_dir, network, on)
+	local out_dir = tubelib2.Turn180Deg[in_dir]
+	if on then
+		network:switch_tube_line(pos, out_dir, "on")
+	else
+		network:switch_tube_line(pos, out_dir, "off")
+	end
+end
+
+
+local turn_on = nil
+
+local function call_turn_on(pos, in_dir, sum)
+	if not pos_already_reached(pos) then
+		local this = TP(pos)
+		if this and this.turn_on then
+			this.turn_on(pos, in_dir, sum)
+		end
+		if this and this.animated_power_network then
+			turn_tube_on(pos, in_dir, this.power_network, sum > 0)
+		else
+			turn_on(pos, in_dir, sum)
+		end
+	end
+end
+
+-- turn nodes on if sum > 0
+turn_on = function(pos, in_dir, sum)
+	call_turn_on(pos, in_dir, sum)
+	local mem = tubelib2.get_mem(pos)
+	local conn = mem.connections or {}
+	for out_dir,item in pairs(conn) do
+		if item.pos then
+			call_turn_on(item.pos, item.in_dir, sum)
+		end
+	end
+end
+
+
+-- Starts the overall power consumption and depending on that turns all nodes on/off
+local function start_network_power_consumption(pos, in_dir)
+	print("start_network_power_consumption")
+	local mem = tubelib2.get_mem(pos)
+	Route = {}
+	local sum = power_consumption(pos, in_dir)
+	Route = {}
+	turn_on(pos, in_dir, sum)
+	print("consumption = "..sum)
+end
+
+--
+-- Generator functions for nodes with one power side (view from the outside)
+--
+techage.generator = {}
+
+function techage.generator.after_place_node(pos)
 	local mem = tubelib2.init_mem(pos)
-	mem.power_dir = side_to_dir(pos, TP(pos).power_side or 'R')
-	mem.power_produce = 0 -- will be set via generator_on
-	mem.power_result = 0
+	-- Power_dir is in-dir
+	mem.power_dir = tubelib2.Turn180Deg[side_to_dir(pos, TP(pos).power_side or 'R')]
+	mem.power_produce = 0
 	TP(pos).power_network:after_place_node(pos)
 	return mem
 end
 		
-function techage.generator_after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+function techage.generator.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
 	-- check if contact side is correct
 	local mem = tubelib2.get_mem(pos)
-	if out_dir == mem.power_dir then
+	if tubelib2.Turn180Deg[out_dir] == mem.power_dir then
 		if not peer_in_dir then
 			mem.connections = {} -- del connection
 		else
 			-- Generator accept one dir only
 			mem.connections = {[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}}
 		end
-		minetest.after(0.2, check_power_consumption, pos)
+		-- To be called delayed, so that all network connections have been established
+		minetest.after(0.2, start_network_power_consumption, pos, mem.power_dir)
 	end
 end
 
-function techage.generator_on_destruct(pos)
-	techage.generator_off(pos, tubelib2.get_mem(pos))
+function techage.generator.turn_power_on(pos, power_capacity)
+	local mem = tubelib2.get_mem(pos)
+	mem.power_capacity = power_capacity
+	-- Starts the overall power consumption and depending on that turns all nodes on/off
+	start_network_power_consumption(pos, mem.power_dir)
 end
 
-function techage.generator_after_dig_node(pos, oldnode)
+-- Power network callback function
+function techage.generator.read_power_consumption(pos, in_dir)
+	local mem = tubelib2.get_mem(pos)
+	print("generator.read_power_consumption", in_dir, mem.power_dir, mem.power_capacity)
+	if in_dir == mem.power_dir then
+		return mem.power_capacity or 0
+	end
+	return 0
+end
+
+function techage.generator.after_dig_node(pos, oldnode)
 	TN(oldnode).power_network:after_dig_node(pos)
 	tubelib2.del_mem(pos)
 end
 
-function techage.generator_formspec_level(mem)
-	print("generator_formspec_level", mem.power_result, mem.power_produce)
+function techage.generator.formspec_level(mem)
 	local percent = ((mem.power_result or 0) * 100) / (mem.power_produce or 1)
 	return "techage_form_level_bg.png^[lowpart:"..percent..":techage_form_level_fg.png]"
 end
 
 
 --
--- Distributor with 6 power input/output sides
+-- Distributor functions for nodes with 6 power sides (view from the outside)
 --
-function techage.distributor_power_consumption(pos, dir)
-	return power_consumption(pos, dir) - TP(pos).power_consume
-end
-	
-function techage.distributor_after_place_node(pos, placer)
+techage.distributor = {}
+
+function techage.distributor.after_place_node(pos, placer)
 	local mem = tubelib2.init_mem(pos)
 	TP(pos).power_network:after_place_node(pos)
 	return mem
 end
 		
-function techage.distributor_after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+function techage.distributor.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
 	local mem = tubelib2.get_mem(pos)
 	mem.connections = mem.connections or {}
 	if not peer_in_dir then
@@ -224,37 +222,41 @@ function techage.distributor_after_tube_update(node, pos, out_dir, peer_pos, pee
 	else
 		mem.connections[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}
 	end
-	minetest.after(0.2, check_power_consumption, pos)
+	-- To be called delayed, so that all network connections have been established
+	minetest.after(0.2, start_network_power_consumption, pos)
 end
 
-function techage.distributor_after_dig_node(pos, oldnode)
+--function techage.distributor.read_power_consumption(pos, in_dir)
+--	return power_consumption(pos, in_dir) - TP(pos).power_consumption
+--end
+	
+--function techage.distributor.turn_on(pos, in_dir, sum)
+--	return turn_on(pos, in_dir, sum)
+--end
+
+function techage.distributor.after_dig_node(pos, oldnode)
 	TN(oldnode).power_network:after_dig_node(pos)
 	tubelib2.del_mem(pos)
 end
 
 --
--- Consumer Nodes
+-- Consumer functions with variable number of power sides (view from the outside)
 --
-function techage.consumer_power_consumption(pos, dir)
-	local mem = tubelib2.get_mem(pos)
-	if not TP(pos).valid_power_dir(pos, mem, dir) then return 0 end
-	mem.power_consume = mem.power_consume or 0
-	return -mem.power_consume
-end
-	
-function techage.consumer_after_place_node(pos, placer)
+techage.consumer = {}
+
+function techage.consumer.after_place_node(pos, placer)
 	local mem = tubelib2.init_mem(pos)
-	if TP(pos).power_side then
-		-- For the consumer, power_dir is in-dir
-		mem.power_dir = tubelib2.Turn180Deg[side_to_dir(pos, TP(pos).power_side)]
-	end
+	-- Power_dir is in-dir
+	mem.power_dir = tubelib2.Turn180Deg[side_to_dir(pos, TP(pos).power_side or 'L')]
+	mem.power_consumption = 0
 	TP(pos).power_network:after_place_node(pos)
 	return mem
 end
 		
-function techage.consumer_after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+function techage.consumer.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
 	local mem = tubelib2.get_mem(pos)
 	mem.connections = mem.connections or {}
+	-- Check direction
 	if not TP(pos).valid_power_dir(pos, mem, tubelib2.Turn180Deg[out_dir]) then return end
 	-- Only one connection is allowed, which can be overwritten, if necessary.
 	if not peer_pos or not next(mem.connections) or mem.connections[out_dir] then
@@ -264,14 +266,26 @@ function techage.consumer_after_tube_update(node, pos, out_dir, peer_pos, peer_i
 			mem.connections = {[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}}
 		end
 	end
-	minetest.after(0.2, check_power_consumption, pos)
+	-- To be called delayed, so that all network connections have been established
+	minetest.after(0.2, start_network_power_consumption, pos, mem.power_dir)
 end
 
-function techage.consumer_check_power_consumption(pos)
-	minetest.after(0.2, check_power_consumption, pos)
+function techage.consumer.turn_power_on(pos, power_consumption)
+	local mem = tubelib2.get_mem(pos)
+	mem.power_consumption = power_consumption
+	-- Starts the overall power consumption and depending on that turns all nodes on/off
+	start_network_power_consumption(pos, mem.power_dir)
+end
+	
+-- Power network callback function
+function techage.consumer.read_power_consumption(pos, in_dir)
+	local mem = tubelib2.get_mem(pos)
+	-- Check direction
+	if not TP(pos).valid_power_dir(pos, mem, in_dir) then return 0 end
+	return -(mem.power_consumption or 0)
 end
 
-function techage.consumer_after_dig_node(pos, oldnode)
+function techage.consumer.after_dig_node(pos, oldnode)
 	TN(oldnode).power_network:after_dig_node(pos)
 	tubelib2.del_mem(pos)
 end

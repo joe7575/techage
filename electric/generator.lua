@@ -24,7 +24,9 @@ local function formspec(self, pos, mem)
 end
 
 local function can_start(pos, mem, state)
+	print("can_start")
 	local sum = techage.calc_power_consumption(pos, mem, 8)
+	print("sum", sum)
 	if sum > 0 then
 		M(pos):set_string("infotext", "On:"..sum.." / "..8)
 		return true
@@ -33,6 +35,7 @@ local function can_start(pos, mem, state)
 end
 
 local function start_node(pos, mem, state)
+	print("start_node")
 	techage.generator_on(pos, mem)
 end
 
@@ -42,7 +45,7 @@ local function stop_node(pos, mem, state)
 end
 
 local State = techage.NodeStates:new({
-	node_name_passive = "techage:power",
+	node_name_passive = "techage:generator",
 	cycle_time = CYCLE_TIME,
 	standby_ticks = STANDBY_TICKS,
 	has_item_meter = true,
@@ -65,7 +68,7 @@ local function distibuting(pos, mem)
 end
 
 local function node_timer(pos, elapsed)
-	print("node_timer")
+	--print("node_timer")
 	local mem = tubelib2.get_mem(pos)
 	distibuting(pos, mem)
 	return State:is_active(mem)
@@ -100,8 +103,8 @@ local function on_rightclick(pos)
 	M(pos):set_string("formspec", formspec(State, pos, mem))
 end
 
-minetest.register_node("techage:power", {
-	description = "TechAge Power",
+minetest.register_node("techage:generator", {
+	description = "TechAge Generator",
 	tiles = {
 		-- up, down, right, left, back, front
 		'techage_electric_button.png^techage_electric_power.png',
