@@ -153,10 +153,7 @@ techage.register_junction("techage:electric_junction", 2/8, Boxes, techage.Elect
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
 	sounds = default.node_sound_defaults(),
 	techage = {
-		read_power_consumption = distributor.read_power_consumption,
-		turn_on = distributor.turn_on,
 		power_network = techage.ElectricCable,
-		power_consumption = 0,
 	},
 	description = "Electricity Junction Box",
 	tiles = {"techage_electric_junction.png"},
