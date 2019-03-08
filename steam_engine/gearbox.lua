@@ -21,8 +21,10 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("tubelib2")
 local I,_ = dofile(MP.."/intllib.lua")
 
+local POWER_CONSUMPTION = 1
 
-local POWER_CONSUME = 1
+local Axle = techage.Axle
+local distributor = techage.distributor
 
 local function swap_node(pos, name)
 	local node = minetest.get_node(pos)
@@ -33,8 +35,8 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function turn_on(pos, dir, on)
-	if on then
+local function turn_on(pos, dir, sum)
+	if sum > 0 then
 		swap_node(pos, "techage:gearbox_on")
 	else
 		swap_node(pos, "techage:gearbox")
@@ -42,20 +44,19 @@ local function turn_on(pos, dir, on)
 end
 
 minetest.register_node("techage:gearbox", {
-	description = "TA2 Gearbox",
+	description = I("TA2 Gearbox"),
 	tiles = {"techage_filling_ta2.png^techage_axle_gearbox.png^techage_frame_ta2.png"},
 	techage = {
 		turn_on = turn_on,
-		power_consumption =	techage.distributor_power_consumption,
-		power_network = techage.Axle,
-		power_consume = POWER_CONSUME,
+		read_power_consumption = distributor.read_power_consumption,
+		power_network = Axle,
+		power_consumption = POWER_CONSUMPTION,
 		animated_power_network = true,
 	},
 	
-	after_place_node = techage.distributor_after_place_node,
-	after_tube_update = techage.distributor_after_tube_update,
-	on_destruct = techage.distributor_on_destruct,
-	after_dig_node = techage.distributor_after_dig_node,
+	after_place_node = distributor.after_place_node,
+	after_tube_update = distributor.after_tube_update,
+	after_dig_node = distributor.after_dig_node,
 	
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -81,16 +82,14 @@ minetest.register_node("techage:gearbox_on", {
 	},
 	techage = {
 		turn_on = turn_on,
-		power_consumption =	techage.distributor_power_consumption,
-		power_network = techage.Axle,
-		power_consume = POWER_CONSUME,
+		read_power_consumption = distributor.read_power_consumption,
+		power_network = Axle,
+		power_consumption = POWER_CONSUMPTION,
 		animated_power_network = true,
 	},
 	
-	after_place_node = techage.distributor_after_place_node,
-	after_tube_update = techage.distributor_after_tube_update,
-	on_destruct = techage.distributor_on_destruct,
-	after_dig_node = techage.distributor_after_dig_node,
+	after_tube_update = distributor.after_tube_update,
+	after_dig_node = distributor.after_dig_node,
 	
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},

@@ -61,18 +61,12 @@ function techage.get_pos(pos, side)
 	return tubelib2.get_pos(pos, dir)
 end	
 
-local function dbg(name, pos, val)
-	local node = minetest.get_node(pos)
-	print(name.." ("..node.name..") "..dump(val))
-end
-
 local power_consumption = nil
 
 local function call_read_power_consumption(pos, in_dir)
 	if not pos_already_reached(pos) then
 		local this = TP(pos)
 		if this and this.read_power_consumption then
-			dbg("power_consumption", pos, this.read_power_consumption(pos, in_dir))
 			return this.read_power_consumption(pos, in_dir)
 		else
 			return power_consumption(pos, in_dir)
@@ -116,9 +110,9 @@ local function call_turn_on(pos, in_dir, sum)
 		end
 		if this and this.animated_power_network then
 			turn_tube_on(pos, in_dir, this.power_network, sum > 0)
-		else
-			turn_on(pos, in_dir, sum)
 		end
+		-- Needed for junctions which could have a local "turn_on" in addition
+		turn_on(pos, in_dir, sum)
 	end
 end
 
@@ -186,7 +180,6 @@ end
 -- Power network callback function
 function techage.generator.read_power_consumption(pos, in_dir)
 	local mem = tubelib2.get_mem(pos)
-	print("generator.read_power_consumption", in_dir, mem.power_dir, mem.power_capacity)
 	if in_dir == mem.power_dir then
 		return mem.power_capacity or 0
 	end
@@ -227,6 +220,11 @@ function techage.distributor.after_tube_update(node, pos, out_dir, peer_pos, pee
 	minetest.after(0.2, start_network_power_consumption, pos)
 end
 
+-- Needed if the junction consumes power in addition
+function techage.distributor.read_power_consumption(pos, in_dir)
+	return power_consumption(pos, in_dir) - TP(pos).power_consumption or 0
+end
+	
 function techage.distributor.after_dig_node(pos, oldnode)
 	TN(oldnode).power_network:after_dig_node(pos)
 	tubelib2.del_mem(pos)
