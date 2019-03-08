@@ -23,7 +23,10 @@ local TN = function(node) return (minetest.registered_nodes[node.name] or {}).te
 local MP = minetest.get_modpath("tubelib2")
 local I,_ = dofile(MP.."/intllib.lua")
 
-local POWER_CONSUME = 8
+local POWER_CONSUMPTION = 8
+
+local Pipe = techage.SteamPipe
+local consumer = techage.consumer
 
 local function swap_node(pos, name)
 	local node = minetest.get_node(pos)
@@ -40,21 +43,21 @@ local function valid_power_dir(pos, mem, in_dir)
 end
 
 -- called from pipe network
-local function turn_power_on(pos, in_dir, on)
-	print("turn_power_on", in_dir, on)
+local function turn_power_on_clbk(pos, in_dir, sum)
 	local mem = tubelib2.get_mem(pos)
-	mem.power_supply = on
+	-- Simply store state to be prepared, when flywheel wants to start.
+	mem.running = sum > 0
 end	
 
 -- called from flywheel
 local function start_cylinder(pos, on)
 	local mem = tubelib2.get_mem(pos)
-	if on and mem.power_supply then
-		mem.power_consume = POWER_CONSUME
+	if on and mem.running then
+		consumer.turn_power_on(pos, POWER_CONSUMPTION)
 		swap_node(pos, "techage:cylinder_on")
 		return true
 	else
-		mem.power_consume = 0
+		consumer.turn_power_on(pos, 0)
 		swap_node(pos, "techage:cylinder")
 	end
 	return false
@@ -73,22 +76,22 @@ minetest.register_node("techage:cylinder", {
 		"techage_filling_ta2.png^techage_cylinder.png^techage_frame_ta2.png",
 	},
 	techage = {
-		turn_on = turn_power_on,
-		power_consumption =	techage.consumer_power_consumption,
-		power_network = techage.SteamPipe,
-		power_side = 'L',
+		turn_on = turn_power_on_clbk,
+		read_power_consumption = consumer.read_power_consumption,
+		power_network = Pipe,
+		power_side = "L",
 		valid_power_dir = valid_power_dir,
 		start_cylinder = start_cylinder,
 	},
 	
 	after_place_node = function(pos, placer)
-		local mem = techage.consumer_after_place_node(pos, placer)
+		local mem = consumer.after_place_node(pos, placer)
 		mem.power_consume = 0  -- needed power to run
 		mem.power_supply = false  -- power available?
 	end,
 	
-	after_tube_update = techage.consumer_after_tube_update,
-	after_dig_node = techage.consumer_after_dig_node,
+	after_tube_update = consumer.after_tube_update,
+	after_dig_node = consumer.after_dig_node,
 
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -127,16 +130,16 @@ minetest.register_node("techage:cylinder_on", {
 		},
 	},
 	techage = {
-		turn_on = turn_power_on,
-		power_consumption =	techage.consumer_power_consumption,
-		power_network = techage.SteamPipe,
-		power_side = 'L',
+		turn_on = turn_power_on_clbk,
+		read_power_consumption = consumer.read_power_consumption,
+		power_network = Pipe,
+		power_side = "L",
 		valid_power_dir = valid_power_dir,
 		start_cylinder = start_cylinder,
 	},
 	
-	after_tube_update = techage.consumer_after_tube_update,
-	after_dig_node = techage.consumer_after_dig_node,
+	after_tube_update = consumer.after_tube_update,
+	after_dig_node = consumer.after_dig_node,
 
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},

@@ -26,45 +26,43 @@ local I,_ = dofile(MP.."/intllib.lua")
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 8
-local POWER = 8
+local POWER_CAPACITY = 8
+
+local Axle = techage.Axle
+local generator = techage.generator
 
 local function formspec(self, pos, mem)
 	return "size[8,7]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
-		"image[6,0.5;1,2;"..techage.generator_formspec_level(mem)..
+		"image[6,0.5;1,2;"..generator.formspec_level(mem, mem.power_result)..
 		"image_button[5,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 		"button[2,1.5;2,1;update;"..I("Update").."]"..
 		"list[current_player;main;0,3;8,4;]"..
 		default.get_hotbar_bg(0, 3)
 end
 
-local function can_start(pos, mem, state)
+local function start_cylinder(pos, on)
 	local pos2 = techage.get_pos(pos, 'L')
-	if minetest.get_node(pos2).name == "techage:cylinder" and tubelib2.get_mem(pos2).power_supply then
-		local sum = techage.calc_power_consumption(pos, mem, POWER)
-		return sum > 0
+	local that = TP(pos2)
+	if that and that.start_cylinder then
+		return that.start_cylinder(pos2, on)
 	end
 	return false
 end
 
+local function can_start(pos, mem, state)
+	return start_cylinder(pos, true)
+end
+
 local function start_node(pos, mem, state)
-	local pos2 = techage.get_pos(pos, 'L')
-	local that = TP(pos2)
-	if that and that.start_cylinder then
-		that.start_cylinder(pos2, true)
-		techage.generator_on(pos, mem)
-	end
+	generator.turn_power_on(pos, POWER_CAPACITY)
 end
 
 local function stop_node(pos, mem, state)
-	techage.generator_off(pos, mem)
-	local pos2 = techage.get_pos(pos, 'L')
-	local that = TP(pos2)
-	if that and that.start_cylinder then
-		that.start_cylinder(pos2, false)
-	end
+	start_cylinder(pos, false)
+	generator.turn_power_on(pos, 0)
 end
 
 local State = techage.NodeStates:new({
@@ -79,11 +77,11 @@ local State = techage.NodeStates:new({
 })
 
 local function distibuting(pos, mem)
-	local sum = techage.calc_power_consumption(pos, mem, 8)
-	if sum > 0 then
+	if mem.power_result > 0 then
 		State:keep_running(pos, mem, COUNTDOWN_TICKS)
 	else
 		State:fault(pos, mem)	
+		start_cylinder(pos, false)
 	end
 end
 
@@ -91,10 +89,11 @@ local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	print("flywheel node_timer")
 	local pos2 = techage.get_pos(pos, 'L')
-	if minetest.get_node(pos2).name == "techage:cylinder_on" and tubelib2.get_mem(pos2).power_supply then
+	if minetest.get_node(pos2).name == "techage:cylinder_on" and tubelib2.get_mem(pos2).running then
 		distibuting(pos, mem)
 	else
 		State:fault(pos, mem)	
+		start_cylinder(pos, false)
 	end
 	return State:is_active(mem)
 end
@@ -103,11 +102,17 @@ local function valid_power_dir(pos, mem, in_dir)
 	return mem.power_dir == in_dir
 end
 
-local function turn_power_on(pos, in_dir, on)
+local function turn_power_on(pos, in_dir, sum)
 	local mem = tubelib2.get_mem(pos)
-	if State:is_active(mem) and not on then
+	-- store result for formspec
+	mem.power_result = sum
+	if State:is_active(mem) and sum <= 0 then
 		State:fault(pos, mem)
+		start_cylinder(pos, false)
+		-- No automatic turn on
+		mem.power_capacity = 0
 	end
+	M(pos):set_string("formspec", formspec(State, pos, mem))
 end
 		
 local function on_receive_fields(pos, formname, fields, player)
@@ -139,31 +144,27 @@ minetest.register_node("techage:flywheel", {
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_flywheel.png^[transformFX]",
 	},
 	techage = {
-		power_network = techage.Axle,
-		power_consumption = techage.generator_power_consumption,
-		power_consume = 0,
-		animated_power_network = true,
-		valid_power_dir = valid_power_dir,
 		turn_on = turn_power_on,
+		read_power_consumption = generator.read_power_consumption,
+		power_network = Axle,
+		animated_power_network = true,
 	},
 	
 	after_place_node = function(pos, placer)
-		local mem = techage.generator_after_place_node(pos)
+		local mem = generator.after_place_node(pos)
 		State:node_init(pos, mem, "")
 		on_rightclick(pos)
 	end,
 
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		State:after_dig_node(pos, oldnode, oldmetadata, digger)
-		techage.generator_after_dig_node(pos, oldnode)
+		generator.after_dig_node(pos, oldnode)
 	end,
 	
-	after_tube_update = techage.generator_after_tube_update,	
-	on_destruct = techage.generator_on_destruct,
-	
-	on_timer = node_timer,
+	after_tube_update = generator.after_tube_update,	
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
+	on_timer = node_timer,
 
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -211,19 +212,21 @@ minetest.register_node("techage:flywheel_on", {
 		},
 	},
 	techage = {
-		power_network = techage.Axle,
-		power_consumption = techage.generator_power_consumption,
-		power_consume = 0,
-		animated_power_network = true,
-		valid_power_dir = valid_power_dir,
 		turn_on = turn_power_on,
+		read_power_consumption = generator.read_power_consumption,
+		power_network = Axle,
+		animated_power_network = true,
 	},
 	
-	after_tube_update = techage.generator_after_tube_update,	
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		State:after_dig_node(pos, oldnode, oldmetadata, digger)
+		generator.after_dig_node(pos, oldnode)
+	end,
 	
-	on_timer = node_timer,
+	after_tube_update = generator.after_tube_update,	
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
+	on_timer = node_timer,
 
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},

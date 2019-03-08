@@ -57,6 +57,8 @@ local function turn_power_on(pos, in_dir, sum)
 	mem.power_result = sum
 	if State:is_active(mem) and sum <= 0 then
 		State:fault(pos, mem)
+		-- No automatic turn on
+		mem.power_capacity = 0
 	end
 	M(pos):set_string("formspec", formspec(State, pos, mem))
 end
@@ -103,6 +105,7 @@ minetest.register_node("techage:generator", {
 	after_place_node = function(pos, placer)
 		local mem = generator.after_place_node(pos)
 		State:node_init(pos, mem, "")
+		on_rightclick(pos)
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
@@ -113,5 +116,6 @@ minetest.register_node("techage:generator", {
 	after_tube_update = generator.after_tube_update,	
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
+	on_timer = node_timer,
 })
 
