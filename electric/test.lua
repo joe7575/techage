@@ -37,18 +37,14 @@ end
 local function lamp_on_rightclick(pos, node, clicker)
 	local mem = tubelib2.get_mem(pos)
 	if not mem.running then
-		-- Note the order!!!
 		swap_node(pos, "techage:lamp_on")
 		mem.running = true
 		M(pos):set_string("infotext", "On")
-		-- last command!!!
 		consumer.turn_power_on(pos, POWER_CONSUMPTION)
 	else
-		-- Note the order!!!
 		swap_node(pos, "techage:lamp")
 		mem.running = false
 		M(pos):set_string("infotext", "Off")
-		-- last command!!!
 		consumer.turn_power_on(pos, 0)
 	end
 end
@@ -129,13 +125,10 @@ end
 local function generator_on_rightclick(pos, node, clicker)
 	local mem = tubelib2.get_mem(pos)
 	if not mem.running then
-		-- Note the order!!!
 		mem.running = true
 		M(pos):set_string("infotext", "On")
-		-- last command!!!
 		generator.turn_power_on(pos, POWER_CAPACITY)
 	else
-		-- Note the order!!!
 		generator.turn_power_on(pos, 0)
 		mem.running = false
 		M(pos):set_string("infotext", "Off")

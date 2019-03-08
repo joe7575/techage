@@ -179,7 +179,8 @@ function techage.generator.turn_power_on(pos, power_capacity)
 	local mem = tubelib2.get_mem(pos)
 	mem.power_capacity = power_capacity
 	-- Starts the overall power consumption and depending on that turns all nodes on/off
-	start_network_power_consumption(pos, mem.power_dir)
+	-- To be called delayed, so that the generator state machine can be handled before
+	minetest.after(0.2, start_network_power_consumption, pos, mem.power_dir)
 end
 
 -- Power network callback function
@@ -197,8 +198,8 @@ function techage.generator.after_dig_node(pos, oldnode)
 	tubelib2.del_mem(pos)
 end
 
-function techage.generator.formspec_level(mem)
-	local percent = ((mem.power_result or 0) * 100) / (mem.power_produce or 1)
+function techage.generator.formspec_level(mem, sum)
+	local percent = ((sum or 0) * 100) / (mem.power_capacity or 1)
 	return "techage_form_level_bg.png^[lowpart:"..percent..":techage_form_level_fg.png]"
 end
 

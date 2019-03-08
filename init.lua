@@ -30,8 +30,8 @@ dofile(MP.."/basis/junction.lua")  -- network junction box
 
 dofile(MP.."/electric/electric_cable.lua")
 dofile(MP.."/electric/test.lua")
---dofile(MP.."/electric/generator.lua")
---dofile(MP.."/electric/consumer.lua")
+dofile(MP.."/electric/generator.lua")
+dofile(MP.."/electric/consumer.lua")
 
 
 --dofile(MP.."/fermenter/biogas_pipe.lua")
