@@ -104,9 +104,12 @@ local turn_on = nil
 
 local function call_turn_on(pos, in_dir, sum)
 	if not pos_already_reached(pos) then
+		local mem = tubelib2.get_mem(pos)
 		local this = TP(pos)
-		if this and this.turn_on then
-			this.turn_on(pos, in_dir, sum)
+		if this and (not this.valid_power_dir or this.valid_power_dir(pos, mem, in_dir)) then
+			if this.turn_on then
+				this.turn_on(pos, in_dir, sum)
+			end
 		end
 		if this and this.animated_power_network then
 			turn_tube_on(pos, in_dir, this.power_network, sum > 0)
