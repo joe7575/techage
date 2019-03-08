@@ -40,7 +40,6 @@ local State = techage.NodeStates:new({
 	cycle_time = CYCLE_TIME,
 	standby_ticks = STANDBY_TICKS,
 	formspec_func = formspec,
-	--can_start = can_start,
 	start_node = start_node,
 	stop_node = stop_node,
 })
@@ -59,6 +58,7 @@ local function turn_power_on(pos, in_dir, sum)
 	if State:is_active(mem) and sum <= 0 then
 		State:fault(pos, mem)
 	end
+	M(pos):set_string("formspec", formspec(State, pos, mem))
 end
 		
 local function on_receive_fields(pos, formname, fields, player)

@@ -267,7 +267,8 @@ function techage.consumer.turn_power_on(pos, power_consumption)
 	local mem = tubelib2.get_mem(pos)
 	mem.power_consumption = power_consumption
 	-- Starts the overall power consumption and depending on that turns all nodes on/off
-	start_network_power_consumption(pos, mem.power_dir)
+	-- To be called delayed, so that the consumer state machine can be handled before
+	minetest.after(0.2, start_network_power_consumption, pos, mem.power_dir)
 end
 	
 -- Power network callback function
