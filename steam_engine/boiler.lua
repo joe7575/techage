@@ -226,7 +226,7 @@ minetest.register_node("techage:boiler1", {
 		fixed = {-8/32, -16/32, -8/32, 8/32, 16/32, 8/32},
 	},
 
-	paramtype2 = "facedir",
+	--paramtype2 = "facedir",
 	groups = {cracky=1},
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
@@ -291,7 +291,7 @@ minetest.register_node("techage:boiler2", {
 		minetest.after(0.5, move_to_water, pos)
 	end,
 	
-	paramtype2 = "facedir",
+	--paramtype2 = "facedir",
 	groups = {cracky=1},
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,

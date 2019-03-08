@@ -82,6 +82,7 @@ local function distibuting(pos, mem)
 	else
 		State:fault(pos, mem)	
 		start_cylinder(pos, false)
+		generator.turn_power_on(pos, 0)
 	end
 end
 
@@ -94,6 +95,7 @@ local function node_timer(pos, elapsed)
 	else
 		State:fault(pos, mem)	
 		start_cylinder(pos, false)
+		generator.turn_power_on(pos, 0)
 	end
 	return State:is_active(mem)
 end
