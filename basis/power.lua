@@ -226,14 +226,6 @@ function techage.distributor.after_tube_update(node, pos, out_dir, peer_pos, pee
 	minetest.after(0.2, start_network_power_consumption, pos)
 end
 
---function techage.distributor.read_power_consumption(pos, in_dir)
---	return power_consumption(pos, in_dir) - TP(pos).power_consumption
---end
-	
---function techage.distributor.turn_on(pos, in_dir, sum)
---	return turn_on(pos, in_dir, sum)
---end
-
 function techage.distributor.after_dig_node(pos, oldnode)
 	TN(oldnode).power_network:after_dig_node(pos)
 	tubelib2.del_mem(pos)

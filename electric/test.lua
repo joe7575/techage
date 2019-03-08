@@ -37,12 +37,14 @@ end
 local function lamp_on_rightclick(pos, node, clicker)
 	local mem = tubelib2.get_mem(pos)
 	if not mem.running then
+		-- Note the order!!!
 		swap_node(pos, "techage:lamp_on")
 		mem.running = true
 		M(pos):set_string("infotext", "On")
 		-- last command!!!
 		consumer.turn_power_on(pos, POWER_CONSUMPTION)
 	else
+		-- Note the order!!!
 		swap_node(pos, "techage:lamp")
 		mem.running = false
 		M(pos):set_string("infotext", "Off")
@@ -113,21 +115,27 @@ minetest.register_node("techage:lamp_on", {
 -------------------------------------------------------------------------------
 -------------------------------------------------------------------------------
 local function generator_turn_on_clbk(pos, in_dir, sum)
+	print("generator_turn_on_clbk")
 	local mem = tubelib2.get_mem(pos)
 	if sum > 0 then
 		-- No automatic turn on
-	else
+	elseif mem.running == true then
 		M(pos):set_string("infotext", "Err: "..sum.." / "..8)
+		mem.running = false
+		mem.power_capacity = 0
 	end
 end	
 
 local function generator_on_rightclick(pos, node, clicker)
 	local mem = tubelib2.get_mem(pos)
 	if not mem.running then
-		generator.turn_power_on(pos, POWER_CAPACITY)
+		-- Note the order!!!
 		mem.running = true
 		M(pos):set_string("infotext", "On")
+		-- last command!!!
+		generator.turn_power_on(pos, POWER_CAPACITY)
 	else
+		-- Note the order!!!
 		generator.turn_power_on(pos, 0)
 		mem.running = false
 		M(pos):set_string("infotext", "Off")
@@ -151,6 +159,7 @@ minetest.register_node("techage:power", {
 	is_ground_content = false,
 
 	techage = {
+		turn_on = generator_turn_on_clbk,
 		read_power_consumption = generator.read_power_consumption,
 		power_network = Cable,
 	},
