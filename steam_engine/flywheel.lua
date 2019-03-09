@@ -193,23 +193,23 @@ minetest.register_node("techage:flywheel_on", {
 		},
 		"techage_filling_ta2.png^techage_appl_open.png^techage_frame_ta2.png",
 		{
-			image = "techage_filling4_ta2.png^techage_frame4_ta2.png^techage_flywheel4.png",
+			image = "techage_filling8_ta2.png^techage_frame8_ta2.png^techage_flywheel8.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
 				aspect_w = 32,
 				aspect_h = 32,
-				length = 0.6,
+				length = 1.2,
 			},
 		},
 		{
-			image = "techage_filling4_ta2.png^techage_frame4_ta2.png^techage_flywheel4.png^[transformFX]",
+			image = "techage_filling8_ta2.png^techage_frame8_ta2.png^techage_flywheel8.png^[transformFX]",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
 				aspect_w = 32,
 				aspect_h = 32,
-				length = 0.6,
+				length = 1.2,
 			},
 		},
 	},

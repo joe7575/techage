@@ -16,6 +16,8 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
+-- Techage Related Data
+local TRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).techage end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath("tubelib2")
@@ -103,9 +105,9 @@ end
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	if mem.running then
-		local this = TP({x=pos.x, y=pos.y+2, z=pos.z})
-		if this and this.trigger_boiler then
-			this.trigger_boiler({x=pos.x, y=pos.y+2, z=pos.z})
+		local trd = TRD({x=pos.x, y=pos.y+2, z=pos.z})
+		if trd and trd.trigger_boiler then
+			trd.trigger_boiler({x=pos.x, y=pos.y+2, z=pos.z})
 		end
 		mem.burn_cycles = (mem.burn_cycles or 0) - 1
 		if mem.burn_cycles <= 0 then
