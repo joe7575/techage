@@ -129,7 +129,7 @@ end
 
 -- Starts the overall power consumption and depending on that turns all nodes on/off
 local function start_network_power_consumption(pos, in_dir)
-	print("start_network_power_consumption")
+	print("start_network_power_consumption", S(pos), in_dir)
 	Route = {}
 	local sum = power_consumption(pos, in_dir)
 	Route = {}
@@ -244,7 +244,7 @@ function techage.consumer.after_tube_update(node, pos, out_dir, peer_pos, peer_i
 	local pwr_dir = get_power_dir(pos)
 	mem.connections = mem.connections or {}
 	-- Check direction
-	--if not TP(pos).valid_power_dir(pos, pwr_dir, tubelib2.Turn180Deg[out_dir]) then return end
+	if not TP(pos).valid_power_dir(pos, pwr_dir, tubelib2.Turn180Deg[out_dir]) then return end
 	-- Only one connection is allowed, which can be overwritten, if necessary.
 	if not peer_pos or not next(mem.connections) or mem.connections[out_dir] then
 		if not peer_in_dir then

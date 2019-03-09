@@ -100,6 +100,7 @@ minetest.register_node("techage:generator", {
 		turn_on = turn_power_on,
 		read_power_consumption = generator.read_power_consumption,
 		power_network = Cable,
+		power_side = "R",
 	},
 	
 	after_place_node = function(pos, placer)
