@@ -327,18 +327,17 @@ end
 
 -- To be called after successful node action to raise the timer
 -- and keep the node in state RUNNING
-function NodeStates:keep_running(pos, mem, val, num_items)
-	num_items = num_items or 1
+function NodeStates:keep_running(pos, mem, val)
 	-- set to RUNNING if not already done
 	self:start(pos, mem, true)
 	mem.techage_countdown = val
 	if self.has_item_meter then
-		mem.techage_item_meter = mem.techage_item_meter + (num_items or 1)
+		mem.techage_item_meter = mem.techage_item_meter + 1
 	end
 	if self.aging_level1 then
-		local cnt = mem.techage_aging + num_items
+		local cnt = mem.techage_aging + 1
 		mem.techage_aging = cnt
-		if (cnt > (self.aging_level1) and math.random(self.aging_level2/num_items) == 1)
+		if (cnt > (self.aging_level1) and math.random(self.aging_level2) == 1)
 		or cnt >= 999999 then
 			self:defect(pos, mem)
 		end

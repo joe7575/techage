@@ -100,8 +100,8 @@ local function node_timer(pos, elapsed)
 	return State:is_active(mem)
 end
 
-local function valid_power_dir(pos, mem, in_dir)
-	return mem.power_dir == in_dir
+local function valid_power_dir(pos, power_dir, in_dir)
+	return power_dir == in_dir
 end
 
 local function turn_power_on(pos, in_dir, sum)

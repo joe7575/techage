@@ -20,8 +20,8 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function valid_power_dir(pos, mem, in_dir)
-	--print("valid_power_dir", mem.power_dir, in_dir)
+local function valid_power_dir(pos, power_dir, in_dir)
+	--print("valid_power_dir", power_dir, in_dir)
 	return true
 end
 

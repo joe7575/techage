@@ -32,9 +32,9 @@ local function swap_node(pos, name)
 end
 
 -- To be able to check if power connection is on the 
--- correct node side (mem.power_dir == in_dir)
-local function valid_power_dir(pos, mem, in_dir)
-	return mem.power_dir == in_dir
+-- correct node side (power_dir == in_dir)
+local function valid_power_dir(pos, power_dir, in_dir)
+	return power_dir == in_dir
 end
 
 local function turn_on_clbk(pos, in_dir, sum)

@@ -24,8 +24,8 @@ local function formspec(self, pos, mem)
 		default.get_hotbar_bg(0, 3)
 end
 
-local function valid_power_dir(pos, mem, in_dir)
-	return mem.power_dir == in_dir
+local function valid_power_dir(pos, power_dir, in_dir)
+	return power_dir == in_dir
 end
 
 local function start_node(pos, mem, state)

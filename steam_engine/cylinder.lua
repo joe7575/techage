@@ -38,8 +38,8 @@ local function swap_node(pos, name)
 end
 
 -- called from pipe network
-local function valid_power_dir(pos, mem, in_dir)
-	return mem.power_dir == in_dir
+local function valid_power_dir(pos, power_dir, in_dir)
+	return power_dir == in_dir
 end
 
 -- called from pipe network

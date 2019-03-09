@@ -33,6 +33,8 @@ dofile(MP.."/electric/test.lua")
 dofile(MP.."/electric/generator.lua")
 dofile(MP.."/electric/consumer.lua")
 
+--dofile(MP.."/basic_machines/pusher.lua")
+
 
 --dofile(MP.."/fermenter/biogas_pipe.lua")
 --dofile(MP.."/fermenter/gasflare.lua")
