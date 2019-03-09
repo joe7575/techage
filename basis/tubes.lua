@@ -37,12 +37,12 @@ techage.Tube = Tube
 minetest.register_node("techage:tubeS", {
 	description = "TechAge Tube",
 	tiles = { -- Top, base, right, left, front, back
-		"techage_tube.png^[transformR90",
-		"techage_tube.png^[transformR90",
-		"techage_tube.png",
-		"techage_tube.png",
-		"techage_hole.png",
-		"techage_hole.png",
+		"techage_tube_tube.png^[transformR90",
+		"techage_tube_tube.png^[transformR90",
+		"techage_tube_tube.png",
+		"techage_tube_tube.png",
+		"techage_tube_hole.png",
+		"techage_tube_hole.png",
 	},
 	
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
@@ -84,12 +84,12 @@ minetest.register_node("techage:tubeS", {
 minetest.register_node("techage:tubeA", {
 	description = "TechAge Tube",
 	tiles = { -- Top, base, right, left, front, back
-		"techage_knee2.png",
-		"techage_hole2.png^[transformR180",
-		"techage_knee.png^[transformR270",
-		"techage_knee.png",
-		"techage_knee2.png",
-		"techage_hole2.png",
+		"techage_tube_knee2.png",
+		"techage_tube_hole2.png^[transformR180",
+		"techage_tube_knee.png^[transformR270",
+		"techage_tube_knee.png",
+		"techage_tube_knee2.png",
+		"techage_tube_hole2.png",
 	},
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)

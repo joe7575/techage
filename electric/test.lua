@@ -155,6 +155,7 @@ minetest.register_node("techage:power", {
 		turn_on = generator_turn_on_clbk,
 		read_power_consumption = generator.read_power_consumption,
 		power_network = Cable,
+		power_side = "R",
 	},
 	
 	after_place_node = generator.after_place_node,

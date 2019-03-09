@@ -16,8 +16,8 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-local TP = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).techage end
-local TN = function(name) return (minetest.registered_nodes[name] or {}).techage end
+-- Techage Related Data
+local TRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).techage end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath("tubelib2")
@@ -45,9 +45,9 @@ end
 
 local function start_cylinder(pos, on)
 	local pos2 = techage.get_pos(pos, 'L')
-	local that = TP(pos2)
-	if that and that.start_cylinder then
-		return that.start_cylinder(pos2, on)
+	local trd = TRD(pos2)
+	if trd and trd.start_cylinder then
+		return trd.start_cylinder(pos2, on)
 	end
 	return false
 end

@@ -41,8 +41,7 @@ Node states:
             |         |   | BLOCKED  |   |         |                                                 
             +---------+   +----------+   +---------+                                                 
 
-Node metadata:
-	"techage_number"     - string with tubelib number, like "123"
+Node mem data:
 	"techage_state"      - node state, like "RUNNING"
 	"techage_item_meter" - node item/runtime counter
 	"techage_countdown"  - countdown to stadby mode
@@ -146,7 +145,7 @@ end
 
 function NodeStates:node_init(pos, mem, number)
 	mem.techage_state = STOPPED
-	mem.techage_number = number
+	M(pos):set_string("node_number", number)
 	if self.infotext_name then
 		M(pos):set_string("infotext", self.infotext_name.." "..number..": stopped")
 	end
@@ -172,7 +171,7 @@ function NodeStates:stop(pos, mem)
 			swap_node(pos, self.node_name_passive)
 		end
 		if self.infotext_name then
-			local number = mem.techage_number
+			local number = M(pos):get_string("node_number")
 			M(pos):set_string("infotext", self.infotext_name.." "..number..": stopped")
 		end
 		if self.formspec_func then
@@ -206,7 +205,7 @@ function NodeStates:start(pos, mem, called_from_on_timer)
 			swap_node(pos, self.node_name_active)
 		end
 		if self.infotext_name then
-			local number = mem.techage_number
+			local number = M(pos):get_string("node_number")
 			M(pos):set_string("infotext", self.infotext_name.." "..number..": running")
 		end
 		if self.formspec_func then
@@ -229,7 +228,7 @@ function NodeStates:standby(pos, mem)
 			swap_node(pos, self.node_name_passive)
 		end
 		if self.infotext_name then
-			local number = mem.techage_number
+			local number = M(pos):get_string("node_number")
 			M(pos):set_string("infotext", self.infotext_name.." "..number..": standby")
 		end
 		if self.formspec_func then
@@ -251,7 +250,7 @@ function NodeStates:blocked(pos, mem)
 			swap_node(pos, self.node_name_passive)
 		end
 		if self.infotext_name then
-			local number = mem.techage_number
+			local number = M(pos):get_string("node_number")
 			M(pos):set_string("infotext", self.infotext_name.." "..number..": blocked")
 		end
 		if self.formspec_func then
@@ -270,7 +269,7 @@ function NodeStates:fault(pos, mem)
 			swap_node(pos, self.node_name_passive)
 		end
 		if self.infotext_name then
-			local number = mem.techage_number
+			local number = M(pos):get_string("node_number")
 			M(pos):set_string("infotext", self.infotext_name.." "..number..": fault")
 		end
 		if self.formspec_func then
@@ -288,7 +287,7 @@ function NodeStates:defect(pos, mem)
 		swap_node(pos, self.node_name_defect)
 	end
 	if self.infotext_name then
-		local number = mem.techage_number
+		local number = M(pos):get_string("node_number")
 		M(pos):set_string("infotext", self.infotext_name.." "..number..": defect")
 	end
 	if self.formspec_func then
@@ -389,37 +388,15 @@ function NodeStates:on_receive_message(pos, topic, payload)
 	end
 end
 	
--- repair corrupt node data and/or migrate node to state2
+-- repair corrupt node data
 function NodeStates:on_node_load(pos, not_start_timer)
 	local mem = tubelib2.get_mem(pos)
 	
-	-- legacy node number/state/counter?
-	local number = mem.number
-	if number ~= "" and number ~= nil then
-		mem.techage_number = number
-		mem.techage_state = techage.state(mem.running)
-		if self.has_item_meter then
-			mem.techage_item_meter = mem.counter
-		end
-		if self.aging_level1 then
-			mem.techage_aging = 0
-		end
-		mem.number = nil
-		mem.running = 0
-		mem.counter = 0
-	end
-
-	-- node number corrupt?
-	number = mem.techage_number
-	if number == "" then
-		number = techage.get_new_number(pos, self.node_name_passive)
-		mem.techage_number = number
-	else
-		local info = techage.get_node_info(number)
-		if not info or info.pos ~= pos then
-			number = techage.get_new_number(pos, self.node_name_passive)
-			mem.techage_number = number
-		end
+	-- Meta data corrupt?
+	local number = M(pos):get_string("node_number")
+	if number == "" then 
+		swap_node(pos, "techage:defect_dummy")
+		return
 	end
 	
 	-- state corrupt?
@@ -455,7 +432,7 @@ function NodeStates:on_node_repair(pos)
 			mem.techage_aging = 0
 		end
 		if self.infotext_name then
-			local number = mem.techage_number
+			local number = M(pos):get_string("node_number")
 			M(pos):set_string("infotext", self.infotext_name.." "..number..": stopped")
 		end
 		if self.formspec_func then
@@ -483,20 +460,17 @@ function NodeStates:after_dig_node(pos, oldnode, oldmetadata, digger)
 	end
 end
 
--- Return "full", "loaded", or "empty" depending
--- on the number of fuel stack items.
--- Function only works on fuel inventories with one stacks/99 items
-function techage.fuelstate(meta, listname, item)
-	if meta == nil or meta.get_inventory == nil then return nil end
-	local inv = meta:get_inventory()
-	if inv:is_empty(listname) then
-		return "empty"
-	end
-	local list = inv:get_list(listname)
-	if #list == 1 and list[1]:get_count() == 99 then
-		return "full"
-	else
-		return "loaded"
-	end
-end
-	
+minetest.register_node("techage:defect_dummy", {
+	description = "Corrupted Node (to be replaced)",
+	tiles = {
+		"techage_filling_ta2.png^techage_frame_ta2.png",
+		"techage_filling_ta2.png^techage_frame_ta2.png",
+		"techage_filling_ta2.png^techage_frame_ta2.png^techage_defect.png",
+		"techage_filling_ta2.png^techage_frame_ta2.png^techage_defect.png",
+		"techage_filling_ta2.png^techage_frame_ta2.png^techage_defect.png",
+		"techage_filling_ta2.png^techage_frame_ta2.png^techage_defect.png",
+	},
+	drop = "",
+	groups = {cracky=2, crumbly=2, choppy=2, not_in_creative_inventory=1},
+	is_ground_content = false,
+})

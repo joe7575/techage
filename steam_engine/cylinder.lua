@@ -16,8 +16,6 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-local TP = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).techage end
-local TN = function(node) return (minetest.registered_nodes[node.name] or {}).techage end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath("tubelib2")

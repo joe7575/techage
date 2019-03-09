@@ -17,6 +17,8 @@ dofile(MP.."/basis/power.lua")  -- power distribution
 dofile(MP.."/basis/node_states.lua")
 dofile(MP.."/basis/trowel.lua")  -- hidden networks
 dofile(MP.."/basis/junction.lua")  -- network junction box
+dofile(MP.."/basis/tubes.lua")  -- tubelib replacement
+dofile(MP.."/basis/command.lua")  -- tubelib replacement
 
 -- Steam Engine
 dofile(MP.."/steam_engine/drive_axle.lua")
@@ -33,12 +35,13 @@ dofile(MP.."/electric/test.lua")
 dofile(MP.."/electric/generator.lua")
 dofile(MP.."/electric/consumer.lua")
 
---dofile(MP.."/basic_machines/pusher.lua")
+dofile(MP.."/basic_machines/pusher.lua")
+dofile(MP.."/basic_machines/legacy_nodes.lua")
 
 
 --dofile(MP.."/fermenter/biogas_pipe.lua")
 --dofile(MP.."/fermenter/gasflare.lua")
 
 
---dofile(MP.."/nodes/test.lua")
+dofile(MP.."/nodes/test.lua")
 --dofile(MP.."/mechanic/perf_test.lua")

@@ -125,6 +125,8 @@ local function side_to_dir(side, param2)
 	return dir
 end
 
+techage.side_to_outdir = side_to_dir
+
 local function get_dest_node(pos, out_dir)
 	local spos, in_dir = Tube:get_connected_node_pos(pos, out_dir)
 	local _,node = Tube:get_node(spos)
@@ -237,9 +239,9 @@ end
 -- Param add_names: Alternativ node names if needded, e.g.: "techage:pusher_active"
 -- Param node_definition: A table according to:
 --    {
---        on_pull_item = func(pos, side, player_name, num),
---        on_push_item = func(pos, side, item, player_name),
---        on_unpull_item = func(pos, side, item, player_name),
+--        on_pull_item = func(pos, in_dir, num),
+--        on_push_item = func(pos, in_dir, item),
+--        on_unpull_item = func(pos, in_dir, item),
 --        on_recv_message = func(pos, topic, payload),
 --        on_node_load = func(pos),  -- LBM function
 --        on_node_repair = func(pos),  -- repair defect (feature!) nodes
@@ -333,11 +335,11 @@ function techage.push_items(pos, out_dir, stack)
 	return false
 end
 
-function techage.unpull_items(pos, out_dir, items)
+function techage.unpull_items(pos, out_dir, stack)
 	local npos, in_dir, name = get_dest_node(pos, out_dir)
 	if npos == nil then return end
 	if NodeDef[name] and NodeDef[name].on_unpull_item then
-		return NodeDef[name].on_unpull_item(npos, in_dir, items)
+		return NodeDef[name].on_unpull_item(npos, in_dir, stack)
 	end
 	return false
 end
