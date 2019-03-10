@@ -211,9 +211,10 @@ function NodeStates:start(pos, mem, called_from_on_timer)
 		if self.formspec_func then
 			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
 		end
-		if not minetest.get_node_timer(pos):is_started() then
-			minetest.get_node_timer(pos):start(self.cycle_time)
+		if minetest.get_node_timer(pos):is_started() then
+			minetest.get_node_timer(pos):stop()
 		end
+		minetest.get_node_timer(pos):start(self.cycle_time)
 		return true
 	end
 	return false
@@ -233,6 +234,9 @@ function NodeStates:standby(pos, mem)
 		end
 		if self.formspec_func then
 			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
+		end
+		if minetest.get_node_timer(pos):is_started() then
+			minetest.get_node_timer(pos):stop()
 		end
 		minetest.get_node_timer(pos):start(self.cycle_time * self.standby_ticks)
 		return true
@@ -255,6 +259,9 @@ function NodeStates:blocked(pos, mem)
 		end
 		if self.formspec_func then
 			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
+		end
+		if minetest.get_node_timer(pos):is_started() then
+			minetest.get_node_timer(pos):stop()
 		end
 		minetest.get_node_timer(pos):start(self.cycle_time * self.standby_ticks)
 		return true

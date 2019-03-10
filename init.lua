@@ -37,6 +37,7 @@ dofile(MP.."/electric/consumer.lua")
 
 dofile(MP.."/basic_machines/pusher.lua")
 dofile(MP.."/basic_machines/legacy_nodes.lua")
+dofile(MP.."/basic_machines/grinder.lua")
 
 
 --dofile(MP.."/fermenter/biogas_pipe.lua")

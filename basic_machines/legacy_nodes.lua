@@ -23,12 +23,12 @@ techage.register_node("default:chest", {"default:chest_open"}, {
 	on_push_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		return techage.put_item(inv, "main", stack)
+		return techage.put_items(inv, "main", stack)
 	end,
 	on_unpull_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		return techage.put_item(inv, "main", stack)
+		return techage.put_items(inv, "main", stack)
 	end,
 })	
 
@@ -43,14 +43,14 @@ techage.register_node("default:furnace", {"default:furnace_active"}, {
 		local inv = meta:get_inventory()
 		minetest.get_node_timer(pos):start(1.0)
 		if minetest.get_craft_result({method="fuel", width=1, items={stack}}).time ~= 0 then
-			return techage.put_item(inv, "fuel", stack)
+			return techage.put_items(inv, "fuel", stack)
 		else
-			return techage.put_item(meta, "src", stack)
+			return techage.put_items(meta, "src", stack)
 		end
 	end,
 	on_unpull_item = function(pos, side, stack)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		return techage.put_item(meta, "dst", stack)
+		return techage.put_items(meta, "dst", stack)
 	end,
 })	

@@ -127,6 +127,10 @@ end
 
 techage.side_to_outdir = side_to_dir
 
+function techage.side_to_indir(side, param2)
+	return tubelib2.Turn180Deg[side_to_dir(side, param2)]
+end
+
 local function get_dest_node(pos, out_dir)
 	local spos, in_dir = Tube:get_connected_node_pos(pos, out_dir)
 	local _,node = Tube:get_node(spos)
@@ -372,7 +376,7 @@ end
 
 -- Put the given stack into the given ItemList.
 -- Function returns false if ItemList is full.
-function techage.put_item(inv, listname, stack)
+function techage.put_items(inv, listname, stack)
 	if inv:room_for_item(listname, stack) then
 		inv:add_item(listname, stack)
 		return true

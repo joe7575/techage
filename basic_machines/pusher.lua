@@ -29,7 +29,6 @@ local M = minetest.get_meta
 -- Techage Related Data
 local TRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).techage end
 local TRDN = function(node) return (minetest.registered_nodes[node.name] or {}).techage end
-
 -- Load support for intllib.
 local MP = minetest.get_modpath("tubelib2")
 local I,_ = dofile(MP.."/intllib.lua")
@@ -41,7 +40,7 @@ local CYCLE_TIME = 2
 local function pushing(pos, trd, meta, mem)
 	local pull_dir = meta:get_int("pull_dir")
 	local push_dir = meta:get_int("push_dir")
-	local items = techage.pull_items(pos, pull_dir, TRD(pos).num_items)
+	local items = techage.pull_items(pos, pull_dir, trd.num_items)
 	if items ~= nil then
 		if techage.push_items(pos, push_dir, items) == false then
 			-- place item back
@@ -98,8 +97,8 @@ local function register_pusher(stage, num_items)
 			"techage_filling_ta"..stage..".png^techage_frame_ta"..stage..".png",
 			"techage_filling_ta"..stage..".png^techage_frame_ta"..stage..".png^techage_appl_outp.png",
 			"techage_filling_ta"..stage..".png^techage_frame_ta"..stage..".png^techage_appl_inp.png",
-			"techage_pusher.png^[transformR180]^techage_frame_ta"..stage..".png",
-			"techage_pusher.png^techage_frame_ta"..stage..".png",
+			"techage_appl_pusher.png^[transformR180]^techage_frame_ta"..stage..".png",
+			"techage_appl_pusher.png^techage_frame_ta"..stage..".png",
 		},
 
 		techage = {
@@ -141,7 +140,7 @@ local function register_pusher(stage, num_items)
 			"techage_filling_ta"..stage..".png^techage_frame_ta"..stage..".png^techage_appl_outp.png",
 			"techage_filling_ta"..stage..".png^techage_frame_ta"..stage..".png^techage_appl_inp.png",
 			{
-				image = "techage_pusher14.png^[transformR180]^techage_frame14_ta"..stage..".png",
+				image = "techage_appl_pusher14.png^[transformR180]^techage_frame14_ta"..stage..".png",
 				backface_culling = false,
 				animation = {
 					type = "vertical_frames",
@@ -151,7 +150,7 @@ local function register_pusher(stage, num_items)
 				},
 			},
 			{
-				image = "techage_pusher14.png^techage_frame14_ta"..stage..".png",
+				image = "techage_appl_pusher14.png^techage_frame14_ta"..stage..".png",
 				backface_culling = false,
 				animation = {
 					type = "vertical_frames",
@@ -184,12 +183,12 @@ local function register_pusher(stage, num_items)
 		description = "TA"..stage.." Pusher",
 		tiles = {
 			-- up, down, right, left, back, front
-			'tubelib_pusher1.png',
-			'tubelib_pusher1.png',
-			'tubelib_outp.png^tubelib_defect.png',
-			'tubelib_inp.png^tubelib_defect.png',
-			"tubelib_pusher1.png^[transformR180]^tubelib_defect.png",
-			"tubelib_pusher1.png^tubelib_defect.png",
+			"techage_filling_ta"..stage..".png^techage_frame_ta"..stage.."_top.png^techage_appl_arrow.png",
+			"techage_filling_ta"..stage..".png^techage_frame_ta"..stage..".png",
+			"techage_filling_ta"..stage..".png^techage_frame_ta"..stage..".png^techage_appl_outp.png^tubelib_defect.png",
+			"techage_filling_ta"..stage..".png^techage_frame_ta"..stage..".png^techage_appl_inp.png^tubelib_defect.png",
+			"techage_appl_pusher.png^[transformR180]^techage_frame_ta"..stage..".png^tubelib_defect.png",
+			"techage_appl_pusher.png^techage_frame_ta"..stage..".png^tubelib_defect.png",
 		},
 
 		techage = {
@@ -218,21 +217,14 @@ local function register_pusher(stage, num_items)
 		sounds = default.node_sound_wood_defaults(),
 	})
 
-
-	minetest.register_craft({
-		output = "tubelib:pusher 2",
-		recipe = {
-			{"group:wood", 		"wool:dark_green",   	"group:wood"},
-			{"tubelib:tubeS", 	"default:mese_crystal",	"tubelib:tubeS"},
-			{"group:wood", 		"wool:dark_green",   	"group:wood"},
-		},
-	})
-
 	if stage == 2 then
 		techage.register_node("techage:ta"..stage.."_pusher", 
 			{"techage:ta"..stage.."_pusher_active", "techage:ta"..stage.."_pusher_defect"}, {
 			is_pusher = true, -- is a pulling/pushing node
 			
+			on_recv_message = function(pos, topic, payload)
+				return "unsupported"
+			end,
 			on_node_load = function(pos)
 				TRD(pos).State:on_node_load(pos)
 			end,
@@ -267,3 +259,11 @@ register_pusher(2, 2)
 register_pusher(3, 6)
 register_pusher(4, 18)
 
+minetest.register_craft({
+	output = "techage:ta2_pusher 2",
+	recipe = {
+		{"group:wood", 		"wool:dark_green",   	"group:wood"},
+		{"tubelib:tubeS", 	"default:mese_crystal",	"tubelib:tubeS"},
+		{"group:wood", 		"wool:dark_green",   	"group:wood"},
+	},
+})
