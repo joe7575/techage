@@ -19,6 +19,7 @@ dofile(MP.."/basis/trowel.lua")  -- hidden networks
 dofile(MP.."/basis/junction.lua")  -- network junction box
 dofile(MP.."/basis/tubes.lua")  -- tubelib replacement
 dofile(MP.."/basis/command.lua")  -- tubelib replacement
+dofile(MP.."/basis/consumer.lua")  -- consumer base model
 
 -- Steam Engine
 dofile(MP.."/steam_engine/drive_axle.lua")
@@ -44,5 +45,5 @@ dofile(MP.."/basic_machines/grinder.lua")
 --dofile(MP.."/fermenter/gasflare.lua")
 
 
-dofile(MP.."/nodes/test.lua")
+--dofile(MP.."/nodes/test.lua")
 --dofile(MP.."/mechanic/perf_test.lua")

@@ -185,10 +185,10 @@ local function register_pusher(stage, num_items)
 			-- up, down, right, left, back, front
 			"techage_filling_ta"..stage..".png^techage_frame_ta"..stage.."_top.png^techage_appl_arrow.png",
 			"techage_filling_ta"..stage..".png^techage_frame_ta"..stage..".png",
-			"techage_filling_ta"..stage..".png^techage_frame_ta"..stage..".png^techage_appl_outp.png^tubelib_defect.png",
-			"techage_filling_ta"..stage..".png^techage_frame_ta"..stage..".png^techage_appl_inp.png^tubelib_defect.png",
-			"techage_appl_pusher.png^[transformR180]^techage_frame_ta"..stage..".png^tubelib_defect.png",
-			"techage_appl_pusher.png^techage_frame_ta"..stage..".png^tubelib_defect.png",
+			"techage_filling_ta"..stage..".png^techage_frame_ta"..stage..".png^techage_appl_outp.png^techage_appl_defect.png",
+			"techage_filling_ta"..stage..".png^techage_frame_ta"..stage..".png^techage_appl_inp.png^techage_appl_defect.png",
+			"techage_appl_pusher.png^[transformR180]^techage_frame_ta"..stage..".png^techage_appl_defect.png",
+			"techage_appl_pusher.png^techage_frame_ta"..stage..".png^techage_appl_defect.png",
 		},
 
 		techage = {

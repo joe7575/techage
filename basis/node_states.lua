@@ -406,6 +406,13 @@ function NodeStates:on_node_load(pos, not_start_timer)
 		return
 	end
 	
+	-- wrong number?
+	local info = techage.get_node_info(number)
+	if not info or not info.pos or not vector.equals(pos, info.pos) then
+		swap_node(pos, "techage:defect_dummy")
+		return
+	end
+	
 	-- state corrupt?
 	local state = mem.techage_state
 	if state == 0 then
@@ -472,10 +479,10 @@ minetest.register_node("techage:defect_dummy", {
 	tiles = {
 		"techage_filling_ta2.png^techage_frame_ta2.png",
 		"techage_filling_ta2.png^techage_frame_ta2.png",
-		"techage_filling_ta2.png^techage_frame_ta2.png^techage_defect.png",
-		"techage_filling_ta2.png^techage_frame_ta2.png^techage_defect.png",
-		"techage_filling_ta2.png^techage_frame_ta2.png^techage_defect.png",
-		"techage_filling_ta2.png^techage_frame_ta2.png^techage_defect.png",
+		"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_defect.png",
+		"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_defect.png",
+		"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_defect.png",
+		"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_defect.png",
 	},
 	drop = "",
 	groups = {cracky=2, crumbly=2, choppy=2, not_in_creative_inventory=1},
