@@ -8,7 +8,7 @@
 	LGPLv2.1+
 	See LICENSE.txt for more information
 
-	distributor.lua:
+	TA2/TA3/TA4 Distributor
 	
 ]]--
 
@@ -17,110 +17,109 @@ local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
 local N = minetest.get_node
+-- Techage Related Data
+local TRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).techage end
 
-local NUM_FILTER_ELEM = 6
-local NUM_FILTER_SLOTS = 4
+-- Load support for intllib.
+local MP = minetest.get_modpath("tubelib2")
+local I,_ = dofile(MP.."/intllib.lua")
 
-local COUNTDOWN_TICKS = 4
-local STANDBY_TICKS = 8
-local CYCLE_TIME = 2
+local SRC_INV_SIZE = 8
 
-local function formspec(self, pos, meta)
-	local filter = minetest.deserialize(meta:get_string("filter")) or {false,false,false,false}
+local COUNTDOWN_TICKS = 10
+local STANDBY_TICKS = 10
+local CYCLE_TIME = 4
+
+local function formspec(self, pos, mem)
+	local filter = minetest.deserialize(M(pos):get_string("filter")) or {false,false,false,false}
 	return "size[10.5,8.5]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
 	"list[context;src;0,0;2,4;]"..
-	"image[2,1.5;1,1;tubelib_gui_arrow.png]"..
-	"image_button[2,3;1,1;"..self:get_state_button_image(meta)..";state_button;]"..
+	"image[2,1.5;1,1;techage_form_arrow.png]"..
+	"image_button[2,3;1,1;"..self:get_state_button_image(mem)..";state_button;]"..
 	"checkbox[3,0;filter1;On;"..dump(filter[1]).."]"..
 	"checkbox[3,1;filter2;On;"..dump(filter[2]).."]"..
 	"checkbox[3,2;filter3;On;"..dump(filter[3]).."]"..
 	"checkbox[3,3;filter4;On;"..dump(filter[4]).."]"..
-	"image[4,0;0.3,1;tubelib_red.png]"..
-	"image[4,1;0.3,1;tubelib_green.png]"..
-	"image[4,2;0.3,1;tubelib_blue.png]"..
-	"image[4,3;0.3,1;tubelib_yellow.png]"..
+	"image[4,0;0.3,1;techage_inv_red.png]"..
+	"image[4,1;0.3,1;techage_inv_green.png]"..
+	"image[4,2;0.3,1;techage_inv_blue.png]"..
+	"image[4,3;0.3,1;techage_inv_yellow.png]"..
 	"list[context;red;4.5,0;6,1;]"..
 	"list[context;green;4.5,1;6,1;]"..
 	"list[context;blue;4.5,2;6,1;]"..
 	"list[context;yellow;4.5,3;6,1;]"..
 	"list[current_player;main;1.25,4.5;8,4;]"..
 	"listring[context;src]"..
-	"listring[current_player;main]"
+	"listring[current_player;main]"..
+	default.get_hotbar_bg(1.25,4.5)
 end
 
-local State = tubelib.NodeStates:new({
-	node_name_passive = "tubelib:distributor",
-	node_name_active = "tubelib:distributor_active",
-	node_name_defect = "tubelib:distributor_defect",
-	infotext_name = "Tubelib Distributor",
-	cycle_time = CYCLE_TIME,
-	standby_ticks = STANDBY_TICKS,
-	aging_factor = 10,
-	formspec_func = formspec,
-})
 
--- Return a key/value table with all items and the corresponding stack numbers
-local function invlist_content_as_kvlist(list)
-	local res = {}
-	for idx,items in ipairs(list) do
-		local name = items:get_name()
-		if name ~= "" then
-			res[name] = idx
+--local Side2Color = {B="red", L="green", F="blue", R="yellow"}
+local SlotColors = {"red", "green", "blue", "yellow"}
+local Num2Ascii = {"B", "L", "F", "R"} 
+local FilterCache = {} -- local cache for filter settings
+
+local function filter_settings(pos)
+	local meta = M(pos)
+	local param2 = minetest.get_node(pos).param2
+	local inv = meta:get_inventory()
+	local filter = minetest.deserialize(meta:get_string("filter")) or {false,false,false,false}
+	local ItemFilter = {}  -- {<item:name> = {dir,...}]
+	local OpenPorts = {}  -- {dir, ...}
+	
+	-- collect all filter settings
+	for idx,slot in ipairs(SlotColors) do
+		if filter[idx] == true then
+			local side = Num2Ascii[idx]
+			local out_dir = techage.side_to_outdir(side, param2)
+			if inv:is_empty(slot) then
+				table.insert(OpenPorts, out_dir)
+			else
+				for _,stack in ipairs(inv:get_list(slot)) do
+					local name = stack:get_name()
+					if name ~= "" then
+						if not ItemFilter[name] then
+							ItemFilter[name] = {}
+						end
+						table.insert(ItemFilter[name], out_dir)
+					end
+				end
+			end
 		end
 	end
-	return res
+	
+	FilterCache[minetest.hash_node_position(pos)] = {
+		ItemFilter = ItemFilter, 
+		OpenPorts = OpenPorts,
+	}
+	print("ItemFilter = "..dump(ItemFilter), "\nOpenPorts = "..dump(OpenPorts))
 end
 
--- Return the total number of list entries
-local function invlist_num_entries(list)
-	local res = 0
-	for _,items in ipairs(list) do
-		local name = items:get_name()
-		if name ~= "" then
-			res = res + items:get_count()
-		end
+-- Return filter table and list of open ports.
+-- (see test data)
+local function get_filter_settings(pos)
+--	local ItemFilter = {
+--		["default:dirt"] = {1,2},
+--		["default:cobble"] = {4},
+--	}
+--	local OpenPorts = {3}
+--	return ItemFilter, OpenPorts
+	
+	local hash = minetest.hash_node_position(pos)
+	if FilterCache[hash] == nil then
+		filter_settings(pos)
 	end
-	return res
+	return FilterCache[hash].ItemFilter, FilterCache[hash].OpenPorts
 end
 
--- Return a gapless table with all items
-local function invlist_entries_as_list(list)
-	local res = {}
-	for _,items in ipairs(list) do
-		if items:get_count() > 0 then
-			res[#res+1] = {items:get_name(), items:get_count()}
-		end
-	end
-	return res
-end
-
-
-local function AddToTbl(kvTbl, new_items)
-	for _, l in ipairs(new_items) do 
-		kvTbl[l[1]] = true 
-	end
-	return kvTbl
-end
-
--- return the number of items to be pushed to an unconfigured slot
-local function num_items(moved_items, name, filter_item_names, rejected_item_names)
-	if filter_item_names[name] == nil then  -- not configured in one filter?
-		if moved_items < MAX_NUM_PER_CYC then
-			return math.min(4, MAX_NUM_PER_CYC - moved_items)
-		end
-	end
-	if rejected_item_names[name] then  -- rejected item from another slot?
-		if moved_items < MAX_NUM_PER_CYC then
-			return math.min(rejected_item_names[name], MAX_NUM_PER_CYC - moved_items)
-		end
-	end
-end
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	local meta = M(pos)
+	local trd = TRD(pos)
 	local inv = meta:get_inventory()
 	local list = inv:get_list(listname)
 	
@@ -128,12 +127,14 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 		return 0
 	end
 	if listname == "src" then
-		if State:get_state(M(pos)) == tubelib.STANDBY then
-			State:start(pos, meta)
+		if trd.State:get_state(M(pos)) == techage.STANDBY then
+			trd.State:start(pos, meta)
 		end
 		return stack:get_count()
-	elseif invlist_num_entries(list) < MAX_NUM_PER_CYC then
-		return stack:get_count()
+	elseif stack:get_count() == 1 and 
+			(list[index]:get_count() == 0 or stack:get_name() ~= list[index]:get_name()) then
+		filter_settings(pos)
+		return 1
 	end
 	return 0
 end
@@ -152,120 +153,86 @@ local function allow_metadata_inventory_move(pos, from_list, from_index, to_list
 	return allow_metadata_inventory_put(pos, to_list, to_index, stack, player)
 end
 
-local SlotColors = {"red", "green", "blue", "yellow"}
-local Num2Ascii = {"B", "L", "F", "R"} -- color to side translation
-local FilterCache = {} -- local cache for filter settings
 
-local function filter_settings(pos)
-	local hash = minetest.hash_node_position(pos)
-	local meta = M(pos)
-	local inv = meta:get_inventory()
-	local filter = minetest.deserialize(meta:get_string("filter")) or {false,false,false,false}
-	local kvFilterItemNames = {} -- {<item:name> = true,...}
-	local kvSide2ItemNames = {} -- {"F" = {<item:name>,...},...}
-	
-	-- collect all filter settings
-	for idx,slot in ipairs(SlotColors) do
-		local side = Num2Ascii[idx]
-		if filter[idx] == true then
-			local list = inv:get_list(slot)
-			local filter = invlist_entries_as_list(list)
-			AddToTbl(kvFilterItemNames, filter)
-			kvSide2ItemNames[side] = filter
+local function push_item(pos, filter, item_name, num_items, mem)
+	local idx = 1
+	local num_pushed = 0
+	local num_ports = #filter
+	local amount = math.floor(math.max((num_items + 1) / num_ports, 1))
+	local successful = false
+	while num_pushed < num_items do
+		local push_dir = filter[idx]
+		local num_to_push = math.min(amount, num_items - num_pushed)
+		if techage.push_items(pos, push_dir, ItemStack(item_name.." "..num_to_push)) then
+			num_pushed = num_pushed + num_to_push
+			successful = true
+			mem.port_counter[push_dir] = (mem.port_counter[push_dir] or 0) + num_to_push
+		end
+		idx = idx + 1
+		if idx > num_ports then
+			idx = 1
+			if not successful then break end
 		end
 	end
-	
-	FilterCache[hash] = {
-		kvFilterItemNames = kvFilterItemNames, 
-		kvSide2ItemNames = kvSide2ItemNames,
-		kvRejectedItemNames = {},
-	}
+	return num_pushed
 end
 
--- move items from configured filters to the output
-local function distributing(pos, meta)
-	local player_name = meta:get_string("player_name")
-	local slot_idx = meta:get_int("slot_idx") or 1
-	meta:set_int("slot_idx", (slot_idx + 1) % NUM_FILTER_SLOTS)
-	local side = Num2Ascii[slot_idx+1]
-	local listname = SlotColors[slot_idx+1]
-	local inv = meta:get_inventory()
-	local list = inv:get_list("src")
-	local kvSrc = invlist_content_as_kvlist(list)
-	local counter = minetest.deserialize(meta:get_string("item_counter")) or 
-			{red=0, green=0, blue=0, yellow=0}
+-- move items to output slots
+local function distributing(pos, inv, trd, mem)
+	local item_filter, open_ports = get_filter_settings(pos)
+	local sum_num_pushed = 0
+	local num_pushed = 0
 	
-	-- calculate the filter settings only once
-	local hash = minetest.hash_node_position(pos)
-	if FilterCache[hash] == nil then
-		filter_settings(pos)
-	end
+	-- start searching after last position
+	local offs = mem.last_index or 1
 	
-	-- read data from Cache 
-	-- all filter items as key/value  {<item:name> = true,...}
-	local kvFilterItemNames = FilterCache[hash].kvFilterItemNames
-	-- filter items of one slot as list  {{<item:name>, <num-items>},...}
-	local items = FilterCache[hash].kvSide2ItemNames[side]
-	-- rejected items from other filter slots
-	local rejected = FilterCache[hash].kvRejectedItemNames
-	
-	if items == nil then return end
-	
-	local moved_items_total = 0
-	if next(items) then
-		for _,item in ipairs(items) do
-			local name, num = item[1], item[2]
-			if kvSrc[name] then
-				local item = tubelib.get_this_item(meta, "src", kvSrc[name], num) -- <<=== tubelib
-				if item then
-					if not tubelib.push_items(pos, side, item, player_name) then -- <<=== tubelib
-						tubelib.put_item(meta, "src", item)
-						rejected[name] = num
-					else
-						counter[listname] = counter[listname] + num
-						moved_items_total = moved_items_total + num
-					end
-				end
-			end
+	for i = 1, SRC_INV_SIZE do
+		local idx = ((i + offs - 1) % 8) + 1
+		local stack = inv:get_stack("src", idx)
+		local item_name = stack:get_name()
+		local num_items = stack:get_count()
+		local num_to_push = math.min(trd.num_items - sum_num_pushed, num_items)
+		num_pushed = 0
+		
+		if item_filter[item_name] then
+			-- Push items based on filter
+			num_pushed = push_item(pos, item_filter[item_name], item_name, num_to_push, mem)
+			print("num_pushed",num_pushed, "num_to_push", num_to_push)
+		end
+		if num_pushed == 0 and #open_ports > 0 then
+			-- Push items based on open ports
+			num_pushed = push_item(pos, open_ports, item_name, num_to_push, mem)
+		end
+			
+		sum_num_pushed = sum_num_pushed + num_pushed
+		stack:take_item(num_pushed)
+		inv:set_stack("src", idx, stack)
+		if sum_num_pushed >= trd.num_items then 
+			mem.last_index = idx
+			break 
 		end
 	end
 	
-	-- move additional items from unconfigured filters to the output
-	if next(items) == nil then
-		local moved_items = 0
-		for name,_ in pairs(kvSrc) do
-			local num = num_items(moved_items, name, kvFilterItemNames, rejected)
-			if num then
-				local item = tubelib.get_this_item(meta, "src", kvSrc[name], num) -- <<=== tubelib
-				if item then
-					if not tubelib.push_items(pos, side, item, player_name) then -- <<=== tubelib
-						tubelib.put_item(meta, "src", item)
-					else
-						counter[listname] = counter[listname] + num
-						moved_items = moved_items + num
-						moved_items_total = moved_items_total + num
-					end
-				end
-			end
-		end
-		-- delete list for next slot round
-		if moved_items > 0 then
-			FilterCache[hash].kvRejectedItemNames = {}
-		end
-	end
-	meta:set_string("item_counter", minetest.serialize(counter))
-	if moved_items_total > 0 then
-		State:keep_running(pos, meta, COUNTDOWN_TICKS, moved_items_total)
+	print("sum_num_pushed",sum_num_pushed)
+	if num_pushed == 0 then
+		trd.State:blocked(pos, mem)
 	else
-		State:idle(pos, meta)
+		trd.State:keep_running(pos, mem, COUNTDOWN_TICKS, 1)
 	end
 end
 
 -- move items to the output slots
 local function keep_running(pos, elapsed)
-	local meta = M(pos)
-	distributing(pos, meta)
-	return State:is_active(meta)
+	local mem = tubelib2.get_mem(pos)
+	mem.port_counter = mem.port_counter or {}
+	local trd = TRD(pos)
+	local inv = M(pos):get_inventory()
+	if not inv:is_empty("src") then
+		distributing(pos, inv, trd, mem)
+	else
+		trd.State:idle(pos, mem)
+	end
+	return trd.State:is_active(mem)
 end
 
 local function on_receive_fields(pos, formname, fields, player)
@@ -273,6 +240,7 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	local meta = M(pos)
+	local trd = TRD(pos)
 	local filter = minetest.deserialize(meta:get_string("filter"))
 	if fields.filter1 ~= nil then
 		filter[1] = fields.filter1 == "true"
@@ -287,14 +255,15 @@ local function on_receive_fields(pos, formname, fields, player)
 	
 	filter_settings(pos)
 	
+	local mem = tubelib2.get_mem(pos)
 	if fields.state_button ~= nil then
-		State:state_button_event(pos, fields)
+		trd.State:state_button_event(pos, mem, fields)
 	else
-		meta:set_string("formspec", formspec(State, pos, meta))
+		meta:set_string("formspec", formspec(trd.State, pos, mem))
 	end
 end
 
--- tubelib command to turn on/off filter channels
+-- techage command to turn on/off filter channels
 local function change_filter_settings(pos, slot, val)
 	local slots = {["red"] = 1, ["green"] = 2, ["blue"] = 3, ["yellow"] = 4}
 	local meta = M(pos)
@@ -307,189 +276,70 @@ local function change_filter_settings(pos, slot, val)
 	
 	filter_settings(pos)
 	
-	meta:set_string("formspec", formspec(State, pos, meta))
+	meta:set_string("formspec", formspec(TRD(pos).State, pos, meta))
 	return true
 end
 
-minetest.register_node("tubelib:distributor", {
-	description = "Tubelib Distributor",
-	tiles = {
-		-- up, down, right, left, back, front
-		'tubelib_distributor.png',
-		'tubelib_front.png',
-		'tubelib_distributor_yellow.png',
-		'tubelib_distributor_green.png',
-		"tubelib_distributor_red.png",
-		"tubelib_distributor_blue.png",
-	},
+local function can_dig(pos, player)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return false
+	end
+	local inv = M(pos):get_inventory()
+	return inv:is_empty("src")
+end
 
-	after_place_node = function(pos, placer)
-		local meta = M(pos)
-		local number = tubelib.add_node(pos, "tubelib:distributor") -- <<=== tubelib
-		local filter = {false,false,false,false}
-		meta:set_string("filter", minetest.serialize(filter))
-		State:node_init(pos, number)
-		meta:set_string("player_name", placer:get_player_name())
-
-		local inv = meta:get_inventory()
-		inv:set_size('src', 8)
-		inv:set_size('yellow', 6)
-		inv:set_size('green', 6)
-		inv:set_size('red', 6)
-		inv:set_size('blue', 6)
-		meta:set_string("item_counter", minetest.serialize({red=0, green=0, blue=0, yellow=0}))
-	end,
-
-	on_receive_fields = on_receive_fields,
-
-	can_dig = function(pos, player)
-		if minetest.is_protected(pos, player:get_player_name()) then
-			return false
-		end
-		local inv = M(pos):get_inventory()
-		return inv:is_empty("src")
-	end,
-
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		tubelib.remove_node(pos) -- <<=== tubelib
-		State:after_dig_node(pos, oldnode, oldmetadata, digger)
-	end,
-	
-	allow_metadata_inventory_put = allow_metadata_inventory_put,
-	allow_metadata_inventory_take = allow_metadata_inventory_take,
-	allow_metadata_inventory_move = allow_metadata_inventory_move,
-
-	on_timer = keep_running,
-	on_rotate = screwdriver.disallow,
-	
-	drop = "",
-	paramtype = "light",
-	sunlight_propagates = true,
-	paramtype2 = "facedir",
-	groups = {choppy=2, cracky=2, crumbly=2},
-	is_ground_content = false,
-	sounds = default.node_sound_wood_defaults(),
-})
-
-
-minetest.register_node("tubelib:distributor_active", {
-	description = "Tubelib Distributor",
-	tiles = {
-		-- up, down, right, left, back, front
-		{
-			image = "tubelib_distributor_active.png",
-			backface_culling = false,
-			animation = {
-				type = "vertical_frames",
-				aspect_w = 32,
-				aspect_h = 32,
-				length = 2.0,
-			},
+local tiles = {}
+-- '#' will be replaced by the stage number
+-- '{power}' will be replaced by the power PNG
+tiles.pas = {
+	-- up, down, right, left, back, front
+	"techage_filling_ta#.png^techage_appl_distri.png^techage_frame_ta#_top.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_yellow.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_green.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_red.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_blue.png",
+}
+tiles.act = {
+	-- up, down, right, left, back, front
+	{
+		image = "techage_filling4_ta#.png^techage_appl_distri4.png^techage_frame4_ta#_top.png",
+		backface_culling = false,
+		animation = {
+			type = "vertical_frames",
+			aspect_w = 32,
+			aspect_h = 32,
+			length = 1.0,
 		},
-		'tubelib_front.png',
-		'tubelib_distributor_yellow.png',
-		'tubelib_distributor_green.png',
-		"tubelib_distributor_red.png",
-		"tubelib_distributor_blue.png",
 	},
+	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_yellow.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_green.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_red.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_blue.png",
+}
+tiles.def = {
+	-- up, down, right, left, back, front
+	"techage_filling_ta#.png^techage_appl_distri.png^techage_frame_ta#_top.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_yellow.png^techage_appl_defect.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_green.png^techage_appl_defect.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_red.png^techage_appl_defect.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_blue.png^techage_appl_defect.png",
+}
 
-	on_receive_fields = on_receive_fields,
-	
-	allow_metadata_inventory_put = allow_metadata_inventory_put,
-	allow_metadata_inventory_take = allow_metadata_inventory_take,
-	allow_metadata_inventory_move = allow_metadata_inventory_move,
-
-	on_timer = keep_running,
-	on_rotate = screwdriver.disallow,
-
-	paramtype = "light",
-	sunlight_propagates = true,
-	paramtype2 = "facedir",
-	groups = {crumbly=0, not_in_creative_inventory=1},
-	is_ground_content = false,
-	sounds = default.node_sound_wood_defaults(),
-})
-
-minetest.register_node("tubelib:distributor_defect", {
-	description = "Tubelib Distributor",
-	tiles = {
-		-- up, down, right, left, back, front
-		'tubelib_distributor.png',
-		'tubelib_front.png',
-		'tubelib_distributor_yellow.png^tubelib_defect.png',
-		'tubelib_distributor_green.png^tubelib_defect.png',
-		"tubelib_distributor_red.png^tubelib_defect.png",
-		"tubelib_distributor_blue.png^tubelib_defect.png",
-	},
-
-	after_place_node = function(pos, placer)
-		local meta = M(pos)
-		local number = tubelib.add_node(pos, "tubelib:distributor") -- <<=== tubelib
-		State:node_init(pos, number)
-		meta:set_string("player_name", placer:get_player_name())
-
-		local filter = {false,false,false,false}
-		meta:set_string("filter", minetest.serialize(filter))
-		local inv = meta:get_inventory()
-		inv:set_size('src', 8)
-		inv:set_size('yellow', 6)
-		inv:set_size('green', 6)
-		inv:set_size('red', 6)
-		inv:set_size('blue', 6)
-		meta:set_string("item_counter", minetest.serialize({red=0, green=0, blue=0, yellow=0}))
-		State:defect(pos, meta)
-	end,
-
-	on_receive_fields = on_receive_fields,
-
-	can_dig = function(pos, player)
-		if minetest.is_protected(pos, player:get_player_name()) then
-			return false
-		end
+local tubing = {
+	on_pull_item = function(pos, in_dir, num)
 		local inv = M(pos):get_inventory()
-		return inv:is_empty("src")
+		return techage.get_items(inv, "src", num)
 	end,
-
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		tubelib.remove_node(pos) -- <<=== tubelib
+	on_push_item = function(pos, in_dir, stack)
+		local inv = M(pos):get_inventory()
+		return techage.put_items(inv, "src", stack)
 	end,
-	
-	allow_metadata_inventory_put = allow_metadata_inventory_put,
-	allow_metadata_inventory_take = allow_metadata_inventory_take,
-	allow_metadata_inventory_move = allow_metadata_inventory_move,
-
-	on_rotate = screwdriver.disallow,
-
-	paramtype = "light",
-	sunlight_propagates = true,
-	paramtype2 = "facedir",
-	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
-	is_ground_content = false,
-	sounds = default.node_sound_wood_defaults(),
-})
-
-
-minetest.register_craft({
-	output = "tubelib:distributor 2",
-	recipe = {
-		{"group:wood", 		"default:steel_ingot",  "group:wood"},
-		{"tubelib:tubeS", 	"default:mese_crystal",	"tubelib:tubeS"},
-		{"group:wood", 		"default:steel_ingot",  "group:wood"},
-	},
-})
-
-
---------------------------------------------------------------- tubelib
-tubelib.register_node("tubelib:distributor", 
-	{"tubelib:distributor_active", "tubelib:distributor_defect"}, {
-	on_pull_item = function(pos, side)
-		return tubelib.get_item(M(pos), "src")
-	end,
-	on_push_item = function(pos, side, item)
-		return tubelib.put_item(M(pos), "src", item)
-	end,
-	on_unpull_item = function(pos, side, item)
-		return tubelib.put_item(M(pos), "src", item)
+	on_unpull_item = function(pos, in_dir, stack)
+		local inv = M(pos):get_inventory()
+		return techage.put_items(inv, "src", stack)
 	end,
 	on_recv_message = function(pos, topic, payload)
 		if topic == "filter" then
@@ -502,7 +352,7 @@ tubelib.register_node("tubelib:distributor",
 			local meta = minetest.get_meta(pos)
 			meta:set_string("item_counter", minetest.serialize({red=0, green=0, blue=0, yellow=0}))
 		else		
-			local resp = State:on_receive_message(pos, topic, payload)
+			local resp = TRD(pos).State:on_receive_message(pos, topic, payload)
 			if resp then
 				return resp
 			else
@@ -512,10 +362,65 @@ tubelib.register_node("tubelib:distributor",
 	end,
 	
 	on_node_load = function(pos)
-		State:on_node_load(pos)
+		TRD(pos).State:on_node_load(pos)
 	end,
 	on_node_repair = function(pos)
-		return State:on_node_repair(pos)
+		return TRD(pos).State:on_node_repair(pos)
 	end,
-})	
---------------------------------------------------------------- tubelib
+}
+
+local node_name_ta2, node_name_ta3, node_name_ta4 = 
+	techage.register_consumer("distributor", I("Distributor"), tiles, {
+		cycle_time = CYCLE_TIME,
+		standby_ticks = STANDBY_TICKS,
+		has_item_meter = true,
+		aging_factor = 10,
+		formspec = formspec,
+		tubing = tubing,
+		after_place_node = function(pos, placer)
+			local meta = M(pos)
+			local filter = {false,false,false,false}
+			meta:set_string("filter", minetest.serialize(filter))
+			local inv = meta:get_inventory()
+			inv:set_size('src', 8)
+			inv:set_size('yellow', 6)
+			inv:set_size('green', 6)
+			inv:set_size('red', 6)
+			inv:set_size('blue', 6)
+		end,
+		can_dig = can_dig,
+		node_timer = keep_running,
+		on_receive_fields = on_receive_fields,
+		allow_metadata_inventory_put = allow_metadata_inventory_put,
+		allow_metadata_inventory_move = allow_metadata_inventory_move,
+		allow_metadata_inventory_take = allow_metadata_inventory_take,
+		
+		on_metadata_inventory_move = function(pos, from_list, from_index, to_list)
+			if from_list ~= "src" or to_list ~= "src" then
+				filter_settings(pos)
+			end
+		end,
+		on_metadata_inventory_put = function(pos, listname)
+			if listname ~= "src" then
+				filter_settings(pos)
+			end
+		end,
+		on_metadata_inventory_take = function(pos, listname)
+			if listname ~= "src" then
+				filter_settings(pos)
+			end
+		end,
+		
+		groups = {choppy=2, cracky=2, crumbly=2},
+		sounds = default.node_sound_wood_defaults(),
+		num_items = {0,4,12,36},
+	})
+
+minetest.register_craft({
+	output = node_name_ta2,
+	recipe = {
+		{"group:wood", 		"default:steel_ingot",  "group:wood"},
+		{"tubelib:tubeS", 	"default:mese_crystal",	"tubelib:tubeS"},
+		{"group:wood", 		"default:steel_ingot",  "group:wood"},
+	},
+})

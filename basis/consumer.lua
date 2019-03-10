@@ -83,6 +83,18 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 			end
 			power_png = 'techage_appl_hole_electric.png'
 		end
+		
+		-- No power needed?
+		if not tNode.power_consumption then
+			start_node = nil
+			stop_node = nil
+			turn_on_clbk = nil
+			valid_power_dir = nil
+			power_network = nil
+			tNode.power_consumption = {0,0,0,0} -- needed later
+		else
+			power_network:add_secondary_node_names({name_pas, name_act})
+		end
 	
 		local tState = techage.NodeStates:new({
 			node_name_passive = name_pas,
@@ -116,7 +128,12 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 			techage = tTechage,
 			
 			after_place_node = function(pos, placer, itemstack, pointed_thing)
-				local mem = consumer.after_place_node(pos, placer)
+				local mem
+				if power_network then
+					mem = consumer.after_place_node(pos, placer)
+				else
+					mem = tubelib2.init_mem(pos)
+				end
 				local meta = M(pos)
 				local node = minetest.get_node(pos)
 				meta:set_int("push_dir", techage.side_to_indir("L", node.param2))
@@ -137,7 +154,9 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 				end
 				techage.remove_node(pos)
 				TRDN(oldnode).State:after_dig_node(pos, oldnode, oldmetadata, digger)
-				consumer.after_dig_node(pos, oldnode)
+				if power_network then
+					consumer.after_dig_node(pos, oldnode)
+				end
 			end,
 			
 			after_tube_update = consumer.after_tube_update,
@@ -148,6 +167,9 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 			allow_metadata_inventory_put = tNode.allow_metadata_inventory_put,
 			allow_metadata_inventory_move = tNode.allow_metadata_inventory_move,
 			allow_metadata_inventory_take = tNode.allow_metadata_inventory_take,
+			on_metadata_inventory_move = tNode.on_metadata_inventory_move,
+			on_metadata_inventory_put = tNode.on_metadata_inventory_put,
+			on_metadata_inventory_take = tNode.on_metadata_inventory_take,
 
 			drop = "",
 			paramtype2 = "facedir",
@@ -170,6 +192,9 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 			allow_metadata_inventory_put = tNode.allow_metadata_inventory_put,
 			allow_metadata_inventory_move = tNode.allow_metadata_inventory_move,
 			allow_metadata_inventory_take = tNode.allow_metadata_inventory_take,
+			on_metadata_inventory_move = tNode.on_metadata_inventory_move,
+			on_metadata_inventory_put = tNode.on_metadata_inventory_put,
+			on_metadata_inventory_take = tNode.on_metadata_inventory_take,
 
 			paramtype2 = "facedir",
 			diggable = false,
@@ -205,6 +230,9 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 			allow_metadata_inventory_put = tNode.allow_metadata_inventory_put,
 			allow_metadata_inventory_move = tNode.allow_metadata_inventory_move,
 			allow_metadata_inventory_take = tNode.allow_metadata_inventory_take,
+			on_metadata_inventory_move = tNode.on_metadata_inventory_move,
+			on_metadata_inventory_put = tNode.on_metadata_inventory_put,
+			on_metadata_inventory_take = tNode.on_metadata_inventory_take,
 
 			after_dig_node = function(pos, oldnode, oldmetadata, digger)
 				if tNode.after_dig_node then
@@ -221,7 +249,6 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 		})
 
 		techage.register_node(name_pas, {name_act, name_def}, tNode.tubing)
-		power_network:add_secondary_node_names({name_pas, name_act})
 	end
 	return names[1], names[2], names[3]
 end

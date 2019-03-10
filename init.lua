@@ -30,6 +30,7 @@ dofile(MP.."/steam_engine/cylinder.lua")
 dofile(MP.."/steam_engine/flywheel.lua")
 dofile(MP.."/steam_engine/gearbox.lua")
 dofile(MP.."/steam_engine/consumer.lua")
+dofile(MP.."/steam_engine/battery.lua")
 
 dofile(MP.."/electric/electric_cable.lua")
 dofile(MP.."/electric/test.lua")
@@ -39,6 +40,7 @@ dofile(MP.."/electric/consumer.lua")
 dofile(MP.."/basic_machines/pusher.lua")
 dofile(MP.."/basic_machines/legacy_nodes.lua")
 dofile(MP.."/basic_machines/grinder.lua")
+dofile(MP.."/basic_machines/distributor.lua")
 
 
 --dofile(MP.."/fermenter/biogas_pipe.lua")

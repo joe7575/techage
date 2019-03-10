@@ -406,11 +406,13 @@ function NodeStates:on_node_load(pos, not_start_timer)
 		return
 	end
 	
-	-- wrong number?
-	local info = techage.get_node_info(number)
-	if not info or not info.pos or not vector.equals(pos, info.pos) then
-		swap_node(pos, "techage:defect_dummy")
-		return
+	-- wrong number and no dummy number?
+	if number ~= "-" then 
+		local info = techage.get_node_info(number)
+		if not info or not info.pos or not vector.equals(pos, info.pos) then
+			swap_node(pos, "techage:defect_dummy")
+			return
+		end
 	end
 	
 	-- state corrupt?

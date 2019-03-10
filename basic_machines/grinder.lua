@@ -8,7 +8,7 @@
 	LGPLv2.1+
 	See LICENSE.txt for more information
 	
-	TA2/TA3/TA4 Grinding Cobble/Basalt to Gravel
+	TA2/TA3/TA4 Grinder, grinding Cobble/Basalt to Gravel
 	
 ]]--
 
@@ -48,7 +48,8 @@ local function formspec(self, pos, mem)
 	"listring[context;dst]"..
 	"listring[current_player;main]"..
 	"listring[context;src]"..
-	"listring[current_player;main]"
+	"listring[current_player;main]"..
+	default.get_hotbar_bg(0, 4)
 end
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
@@ -77,10 +78,8 @@ end
 local function src_to_dst(src_stack, idx, num_items, inv, dst_name) 
 	local taken = src_stack:take_item(num_items)
 	local output = ItemStack(dst_name)
-	print("taken:get_count()", taken:get_count(), output:get_count() * taken:get_count())
 	output:set_count(output:get_count() * taken:get_count())
 	if inv:room_for_item("dst", output) then
-		print("output:get_count()", output:get_count())
 		inv:set_stack("src", idx, src_stack)
 		inv:add_item("dst", output)
 		return true
@@ -220,7 +219,6 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		formspec = formspec,
 		tubing = tubing,
 		after_place_node = function(pos, placer)
-			print("my after_place_node")
 			local inv = M(pos):get_inventory()
 			inv:set_size('src', 9)
 			inv:set_size('dst', 9)
