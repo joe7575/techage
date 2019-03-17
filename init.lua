@@ -6,6 +6,7 @@ techage = {
 techage.max_num_forceload_blocks = tonumber(minetest.setting_get("techage_max_num_forceload_blocks")) or 12
 techage.basalt_stone_enabled = minetest.setting_get("techage_basalt_stone_enabled") == "true"
 techage.machine_aging_value = tonumber(minetest.setting_get("techage_machine_aging_value")) or 100
+techage.ore_rarity = tonumber(minetest.setting_get("techage_ore_rarity")) or 1
 
 
 local MP = minetest.get_modpath("techage")
@@ -20,6 +21,11 @@ dofile(MP.."/basis/junction.lua")  -- network junction box
 dofile(MP.."/basis/tubes.lua")  -- tubelib replacement
 dofile(MP.."/basis/command.lua")  -- tubelib replacement
 dofile(MP.."/basis/consumer.lua")  -- consumer base model
+
+-- Iron Age
+dofile(MP.."/iron_age/gravelsieve.lua")
+dofile(MP.."/iron_age/hammer.lua")
+
 
 -- Steam Engine
 dofile(MP.."/steam_engine/drive_axle.lua")
@@ -37,10 +43,13 @@ dofile(MP.."/electric/test.lua")
 dofile(MP.."/electric/generator.lua")
 dofile(MP.."/electric/consumer.lua")
 
+-- Basic Machines
 dofile(MP.."/basic_machines/pusher.lua")
 dofile(MP.."/basic_machines/legacy_nodes.lua")
 dofile(MP.."/basic_machines/grinder.lua")
 dofile(MP.."/basic_machines/distributor.lua")
+dofile(MP.."/basic_machines/gravelsieve.lua")
+dofile(MP.."/basic_machines/chest.lua")
 
 
 --dofile(MP.."/fermenter/biogas_pipe.lua")

@@ -18,7 +18,7 @@ local P = minetest.string_to_pos
 local M = minetest.get_meta
 
 -- Load support for intllib.
-local MP = minetest.get_modpath("tubelib2")
+local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
 local CYCLE_TIME = 4

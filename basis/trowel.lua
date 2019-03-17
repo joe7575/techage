@@ -18,9 +18,11 @@ local P = minetest.string_to_pos
 local M = minetest.get_meta
 
 -- Load support for intllib.
-local MP = minetest.get_modpath("tubelib2")
+local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
+-- used by other tools: dug_node[player_name] = pos
+techage.dug_node = {}
 
 -- Overridden method of tubelib2!
 function techage.get_primary_node_param2(pos, dir)
@@ -102,11 +104,14 @@ minetest.register_node("techage:trowel", {
 })
 
 minetest.register_on_dignode(function(pos, oldnode, digger)
+	if not digger then return end
 	-- If hidden nodes are arround, the removed one was probably
 	-- a hidden node, too.
 	if other_hidden_nodes(pos, "techage_hidden_nodename") then
 		-- test both hidden networks
 		techage.ElectricCable:after_dig_node(pos, oldnode, digger)
 		techage.BiogasPipe:after_dig_node(pos, oldnode, digger)
+	else
+		techage.dug_node[digger:get_player_name()] = pos
 	end
 end)

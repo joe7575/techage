@@ -20,7 +20,7 @@ local M = minetest.get_meta
 local TRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).techage end
 
 -- Load support for intllib.
-local MP = minetest.get_modpath("tubelib2")
+local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
 local CYCLE_TIME = 2

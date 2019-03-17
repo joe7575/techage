@@ -29,7 +29,7 @@ local TRDN = function(node) return (minetest.registered_nodes[node.name] or {}).
 local consumer = techage.consumer
 
 local function valid_power_dir(pos, power_dir, in_dir)
-	return power_dir == in_dir or power_dir == tubelib2.Turn180Deg[in_dir]
+	return true
 end
 
 local function start_node(pos, mem, state)
@@ -72,27 +72,24 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 		local name_inv = "TA"..stage.." "..inv_name
 		names[#names+1] = name_pas
 		
-		local power_network = techage.Axle
 		local on_recv_message = tNode.tubing.on_recv_message
-		local power_png = 'techage_axle_clutch.png'
-		
 		if stage > 2 then
-			power_network = techage.ElectricCable
 			on_recv_message = function(pos, topic, payload)
 				return "unsupported"
 			end
-			power_png = 'techage_appl_hole_electric.png'
 		end
 		
-		-- No power needed?
-		if not tNode.power_consumption then
-			start_node = nil
-			stop_node = nil
-			turn_on_clbk = nil
-			valid_power_dir = nil
-			power_network = nil
-			tNode.power_consumption = {0,0,0,0} -- needed later
-		else
+		local power_network
+		local power_png = 'techage_axle_clutch.png'
+		local power_used = tNode.power_consumption ~= nil
+		-- power needed?
+		if power_used then
+			if stage > 2 then
+				power_network = techage.ElectricCable
+				power_png = 'techage_appl_hole_electric.png'
+			else
+				power_network = techage.Axle
+			end
 			power_network:add_secondary_node_names({name_pas, name_act})
 		end
 	
@@ -106,18 +103,18 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 			has_item_meter = tNode.has_item_meter,
 			aging_factor = tNode.aging_factor,
 			formspec_func = tNode.formspec,
-			start_node = start_node,
-			stop_node = stop_node,
+			start_node = power_used and start_node or nil,
+			stop_node = power_used and stop_node or nil,
 		})
 		local tTechage = {
 			State = tState,
 			num_items = tNode.num_items[stage],
-			turn_on = turn_on_clbk,
+			turn_on = power_used and turn_on_clbk or nil,
 			read_power_consumption = consumer.read_power_consumption,
-			power_network = power_network,
+			power_network = power_used and power_network or nil,
 			power_side = "F",
-			valid_power_dir = valid_power_dir,
-			power_consumption = tNode.power_consumption[stage],
+			valid_power_dir = power_used and valid_power_dir or nil,
+			power_consumption = power_used and tNode.power_consumption[stage] or {0,0,0,0},
 		}
 		
 		tNode.groups.not_in_creative_inventory = 0
@@ -126,6 +123,9 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 			description = name_inv,
 			tiles = prepare_tiles(tiles.pas, stage, power_png),
 			techage = tTechage,
+			drawtype = tNode.drawtype,
+			node_box = tNode.node_box,
+			selection_box = tNode.selection_box,
 			
 			after_place_node = function(pos, placer, itemstack, pointed_thing)
 				local mem
@@ -164,6 +164,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 			on_rotate = screwdriver.disallow,
 			on_timer = tNode.node_timer,
 			on_receive_fields = tNode.on_receive_fields,
+			on_rightclick = tNode.on_rightclick,
 			allow_metadata_inventory_put = tNode.allow_metadata_inventory_put,
 			allow_metadata_inventory_move = tNode.allow_metadata_inventory_move,
 			allow_metadata_inventory_take = tNode.allow_metadata_inventory_take,
@@ -184,11 +185,15 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 			description = name_inv,
 			tiles = prepare_tiles(tiles.act, stage, power_png),
 			techage = tTechage,
+			drawtype = tNode.drawtype,
+			node_box = tNode.node_box,
+			selection_box = tNode.selection_box,
 			
 			after_tube_update = consumer.after_tube_update,
 			on_rotate = screwdriver.disallow,
 			on_timer = tNode.node_timer,
 			on_receive_fields = tNode.on_receive_fields,
+			on_rightclick = tNode.on_rightclick,
 			allow_metadata_inventory_put = tNode.allow_metadata_inventory_put,
 			allow_metadata_inventory_move = tNode.allow_metadata_inventory_move,
 			allow_metadata_inventory_take = tNode.allow_metadata_inventory_take,
@@ -207,6 +212,9 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 			description = name_inv,
 			tiles = prepare_tiles(tiles.def, stage, power_png),
 			techage = tTechage,
+			drawtype = tNode.drawtype,
+			node_box = tNode.node_box,
+			selection_box = tNode.selection_box,
 			
 			after_place_node = function(pos, placer, itemstack, pointed_thing)
 				local mem = consumer.after_place_node(pos, placer)
@@ -227,6 +235,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 			after_tube_update = consumer.after_tube_update,
 			on_rotate = screwdriver.disallow,
 			on_receive_fields = tNode.on_receive_fields,
+			on_rightclick = tNode.on_rightclick,
 			allow_metadata_inventory_put = tNode.allow_metadata_inventory_put,
 			allow_metadata_inventory_move = tNode.allow_metadata_inventory_move,
 			allow_metadata_inventory_take = tNode.allow_metadata_inventory_take,

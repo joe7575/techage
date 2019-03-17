@@ -8,7 +8,7 @@
 	LGPLv2.1+
 	See LICENSE.txt for more information
 	
-	TA2/TA3/TA4 Grinder, grinding Cobble/Basalt to Gravel
+	TA2/TA3/TA4 Gravel Sieve, sieving gravel to find ores
 	
 ]]--
 
@@ -27,23 +27,17 @@ local STANDBY_TICKS = 10
 local COUNTDOWN_TICKS = 10
 local CYCLE_TIME = 4
 
-
--- Grinder recipes
-local Recipes = {}
-
 local function formspec(self, pos, mem)
 	return "size[8,8]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
 	"list[context;src;0,0;3,3;]"..
-	"item_image[0,0;1,1;default:cobble]"..
+	"item_image[0,0;1,1;default:gravel]"..
 	"image[0,0;1,1;techage_form_mask.png]"..
 	"image[3.5,1;1,1;techage_form_arrow.png]"..
 	"image_button[3.5,2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 	"list[context;dst;5,0;3,3;]"..
-	"item_image[5,0;1,1;default:gravel]"..
-	"image[5,0;1,1;techage_form_mask.png]"..
 	"list[current_player;main;0,4;8,4;]"..
 	"listring[context;dst]"..
 	"listring[current_player;main]"..
@@ -56,14 +50,18 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	if listname == "src" and TRD(pos).State:get_state(M(pos)) == techage.STANDBY then
-		TRD(pos).State:start(pos, M(pos))
+	local meta = minetest.get_meta(pos)
+	local inv = meta:get_inventory()
+	if listname == "src" then
+		return stack:get_count()
+	elseif listname == "dst" then
+		return 0
 	end
-	return stack:get_count()
 end
 
 local function allow_metadata_inventory_move(pos, from_list, from_index, to_list, to_index, count, player)
-	local inv = M(pos):get_inventory()
+	local meta = minetest.get_meta(pos)
+	local inv = meta:get_inventory()
 	local stack = inv:get_stack(from_list, from_index)
 	return allow_metadata_inventory_put(pos, to_list, to_index, stack, player)
 end
@@ -75,43 +73,51 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return stack:get_count()
 end
 
-local function src_to_dst(src_stack, idx, num_items, inv, dst_name) 
-	local taken = src_stack:take_item(num_items)
-	local output = ItemStack(dst_name)
-	output:set_count(output:get_count() * taken:get_count())
-	if inv:room_for_item("dst", output) then
-		inv:set_stack("src", idx, src_stack)
-		inv:add_item("dst", output)
-		return true
-	end
-	return false
-end
-			
-local function grinding(pos, trd, mem, inv)
-	local num_items = 0
-	for idx,stack in ipairs(inv:get_list("src")) do
-		if not stack:is_empty() then
-			local name = stack:get_name()
-			if Recipes[name] then
-				if src_to_dst(stack, idx, trd.num_items, inv, Recipes[name]) then
-					trd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
-				else
-					trd.State:blocked(pos, mem)
-				end
-			else
-				trd.State:fault(pos, mem)
-			end
-			return
+
+-- determine ore based on the calculated probability
+local function get_random_ore()
+	for ore, probability in pairs(techage.ore_probability) do
+		if math.random(probability) == 1 then
+			local item = ItemStack(ore)
+			return item
 		end
 	end
-	trd.State:idle(pos, mem)
+end
+
+local function sieving(pos, trd, mem, inv)
+	local gravel = ItemStack("default:gravel")
+
+	if not inv:contains_item("src", gravel) then
+		trd.State:idle(pos, mem)
+		return
+	end
+	
+	local dst = get_random_ore()
+	if not dst then
+	    -- move gravel or sieved gravel to dst
+		mem.gravel_cnt = (mem.gravel_cnt or 0) + 1
+		if (mem.gravel_cnt % 2) == 0 then
+			dst = gravel
+		else
+			dst = ItemStack("techage:sieved_gravel")
+		end
+	end
+	if not inv:room_for_item("dst", dst) then
+		--trd.State:blocked(pos, mem)
+		trd.State:idle(pos, mem)
+		return
+	end
+		
+	inv:add_item("dst", dst)
+	inv:remove_item("src", gravel)
+	trd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
 end
 
 local function keep_running(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	local trd = TRD(pos)
 	local inv = M(pos):get_inventory()
-	grinding(pos, trd, mem, inv)
+	sieving(pos, trd, mem, inv)
 	return trd.State:is_active(mem)
 end
 
@@ -137,39 +143,39 @@ local tiles = {}
 -- '{power}' will be replaced by the power PNG
 tiles.pas = {
 	-- up, down, right, left, back, front
-	"techage_appl_grinder.png^techage_frame_ta#_top.png",
+	"techage_appl_sieve_top.png^techage_frame_ta#_top.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
-	"techage_filling_ta#.png^techage_appl_grinder2.png^techage_frame_ta#.png",
-	"techage_filling_ta#.png^techage_appl_grinder2.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_appl_sieve.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_appl_sieve.png^techage_frame_ta#.png",
 }
 tiles.act = {
 	-- up, down, right, left, back, front
 	{
-		image = "techage_appl_grinder4.png^techage_frame4_ta#_top.png",
+		image = "techage_appl_sieve4_top.png^techage_frame4_ta#_top.png",
 		backface_culling = false,
 		animation = {
 			type = "vertical_frames",
 			aspect_w = 32,
 			aspect_h = 32,
-			length = 1.0,
+			length = 2.0,
 		},
 	},
 	"techage_filling_ta#.png^techage_frame_ta#.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_appl_sieve.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_appl_sieve.png^techage_frame_ta#.png",
 }
 tiles.def = {
 	-- up, down, right, left, back, front
-	"techage_appl_grinder.png^techage_frame_ta#_top.png",
+	"techage_appl_sieve_top.png^techage_frame_ta#_top.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png^techage_appl_defect.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_defect.png",
+	"techage_filling_ta#.png^techage_appl_sieve.png^techage_frame_ta#.png^techage_appl_defect.png",
+	"techage_filling_ta#.png^techage_appl_sieve.png^techage_frame_ta#.png^techage_appl_defect.png",
 }
 
 local tubing = {
@@ -182,7 +188,7 @@ local tubing = {
 	end,
 	on_push_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)
-		if meta:get_int("push_dir") == in_dir or in_dir == 5 then
+		if meta:get_int("push_dir") == in_dir  or in_dir == 5 then
 			local inv = M(pos):get_inventory()
 			return techage.put_items(inv, "src", stack)
 		end
@@ -211,7 +217,7 @@ local tubing = {
 }
 
 local node_name_ta2, node_name_ta3, node_name_ta4 = 
-	techage.register_consumer("grinder", I("Grinder"), tiles, {
+	techage.register_consumer("gravelsieve", I("Gravel Sieve"), tiles, {
 		drawtype = "nodebox",
 		node_box = {
 			type = "fixed",
@@ -220,7 +226,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 				{-8/16, -8/16,  6/16,  8/16, 8/16,  8/16},
 				{-8/16, -8/16, -8/16, -6/16, 8/16,  8/16},
 				{ 6/16, -8/16, -8/16,  8/16, 8/16,  8/16},
-				{-6/16, -8/16, -6/16,  6/16, 6/16,  6/16},
+				{-6/16, -8/16, -6/16,  6/16, 4/16,  6/16},
 			},
 		},
 		selection_box = {
@@ -254,54 +260,7 @@ minetest.register_craft({
 	output = node_name_ta2,
 	recipe = {
 		{"group:wood", "default:tin_ingot", "group:wood"},
-		{"tubelib:tubeS", "default:mese_crystal", "tubelib:tubeS"},
+		{"tubelib:tubeS", "default:steel_ingot", "tubelib:tubeS"},
 		{"group:wood", "default:tin_ingot", "group:wood"},
 	},
 })
-
-if minetest.global_exists("unified_inventory") then
-	unified_inventory.register_craft_type("grinding", {
-		description = I("Grinding"),
-		icon = 'techage_appl_grinder.png',
-		width = 1,
-		height = 1,
-	})
-end
-
-function techage.add_grinder_recipe(recipe)
-	Recipes[recipe.input] =  recipe.output
-	if minetest.global_exists("unified_inventory") then
-		recipe.items = {recipe.input}
-		recipe.type = "grinding"
-		unified_inventory.register_craft(recipe)
-	end
-end	
-
-
-techage.add_grinder_recipe({input="default:cobble", output="default:gravel"})
-techage.add_grinder_recipe({input="default:desert_cobble", output="default:gravel"})
-techage.add_grinder_recipe({input="default:mossycobble", output="default:gravel"})
-techage.add_grinder_recipe({input="default:gravel", output="default:sand"})
-techage.add_grinder_recipe({input="gravelsieve:sieved_gravel", output="default:sand"})
-techage.add_grinder_recipe({input="default:coral_skeleton", output="default:silver_sand"})
-techage.add_grinder_recipe({input="tubelib:basalt_stone", output="default:silver_sand"})
-
-if minetest.global_exists("skytest") then
-	techage.add_grinder_recipe({input="default:desert_sand", output="skytest:dust"})
-	techage.add_grinder_recipe({input="default:silver_sand", output="skytest:dust"})
-	techage.add_grinder_recipe({input="default:sand", output="skytest:dust"})
-else
-	techage.add_grinder_recipe({input="default:desert_sand", output="default:clay"})
-	techage.add_grinder_recipe({input="default:silver_sand", output="default:clay"})
-	techage.add_grinder_recipe({input="default:sand", output="default:clay"})
-end
-
-techage.add_grinder_recipe({input="default:sandstone", output="default:sand 4"})
-techage.add_grinder_recipe({input="default:desert_sandstone", output="default:desert_sand 4"})
-techage.add_grinder_recipe({input="default:silver_sandstone", output="default:silver_sand 4"})
-
-techage.add_grinder_recipe({input="default:tree", output="default:leaves 8"})
-techage.add_grinder_recipe({input="default:jungletree", output="default:jungleleaves 8"})
-techage.add_grinder_recipe({input="default:pine_tree", output="default:pine_needles 8"})
-techage.add_grinder_recipe({input="default:acacia_tree", output="default:acacia_leaves 8"})
-techage.add_grinder_recipe({input="default:aspen_tree", output="default:aspen_leaves 8"})
