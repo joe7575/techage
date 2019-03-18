@@ -8,7 +8,7 @@
 	LGPLv2.1+
 	See LICENSE.txt for more information
 	
-	TA2/TA3/TA4 Gravel Sieve, sieving gravel to find ores
+	Gravel Sieve, sieving gravel to find ores
 	
 ]]--
 

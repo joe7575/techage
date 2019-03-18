@@ -14,6 +14,7 @@ local MP = minetest.get_modpath("techage")
 -- Load support for intllib.
 dofile(MP.."/basis/intllib.lua")
 
+-- Basis features
 dofile(MP.."/basis/power.lua")  -- power distribution
 dofile(MP.."/basis/node_states.lua")
 dofile(MP.."/basis/trowel.lua")  -- hidden networks
@@ -21,15 +22,23 @@ dofile(MP.."/basis/junction.lua")  -- network junction box
 dofile(MP.."/basis/tubes.lua")  -- tubelib replacement
 dofile(MP.."/basis/command.lua")  -- tubelib replacement
 dofile(MP.."/basis/consumer.lua")  -- consumer base model
+dofile(MP.."/basis/steam_pipe.lua")
+dofile(MP.."/basis/firebox.lua")
 
 -- Iron Age
+dofile(MP.."/iron_age/main.lua")
 dofile(MP.."/iron_age/gravelsieve.lua")
 dofile(MP.."/iron_age/hammer.lua")
-
+dofile(MP.."/iron_age/lighter.lua")
+dofile(MP.."/iron_age/charcoalpile.lua")
+dofile(MP.."/iron_age/coalburner.lua")
+dofile(MP.."/iron_age/meltingpot.lua")
+if minetest.global_exists("wielded_light") then
+	dofile(MP.."/iron_age/meridium.lua")
+end
 
 -- Steam Engine
 dofile(MP.."/steam_engine/drive_axle.lua")
-dofile(MP.."/steam_engine/steam_pipe.lua")
 dofile(MP.."/steam_engine/firebox.lua")
 dofile(MP.."/steam_engine/boiler.lua")
 dofile(MP.."/steam_engine/cylinder.lua")
@@ -50,6 +59,9 @@ dofile(MP.."/basic_machines/grinder.lua")
 dofile(MP.."/basic_machines/distributor.lua")
 dofile(MP.."/basic_machines/gravelsieve.lua")
 dofile(MP.."/basic_machines/chest.lua")
+
+-- Coal power station
+dofile(MP.."/coal_power_station/firebox.lua")
 
 
 --dofile(MP.."/fermenter/biogas_pipe.lua")

@@ -263,8 +263,8 @@ if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("grinding", {
 		description = I("Grinding"),
 		icon = 'techage_appl_grinder.png',
-		width = 1,
-		height = 1,
+		width = 2,
+		height = 2,
 	})
 end
 

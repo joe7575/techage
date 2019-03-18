@@ -8,7 +8,7 @@
 	LGPLv2.1+
 	See LICENSE.txt for more information
 	
-	TA2 Steam Engine Firebox
+	TA3 Coal Power Station Firebox
 
 ]]--
 
@@ -27,6 +27,17 @@ local firebox = techage.firebox
 
 local CYCLE_TIME = 2
 
+local function firehole(pos, on)
+	local param2 = minetest.get_node(pos).param2
+	local pos2 = techage.get_pos(pos, 'F')
+	if on == true then
+		minetest.swap_node(pos2, {name="techage:coalfirehole_on", param2 = param2})
+	elseif on == false then
+		minetest.swap_node(pos2, {name="techage:coalfirehole", param2 = param2})
+	else
+		minetest.swap_node(pos2, {name="air"})
+	end
+end	
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
@@ -43,7 +54,7 @@ local function node_timer(pos, elapsed)
 				mem.burn_cycles_total = mem.burn_cycles
 			else
 				mem.running = false
-				firebox.swap_node(pos, "techage:firebox")
+				firehole(pos, false)
 				M(pos):set_string("formspec", firebox.formspec(mem))
 				return false
 			end
@@ -52,17 +63,17 @@ local function node_timer(pos, elapsed)
 	end
 end
 
-minetest.register_node("techage:firebox", {
-	description = I("TA2 Firebox"),
-	tiles = {
-		-- up, down, right, left, back, front
-		"techage_firebox.png^techage_frame_ta2.png",
-		"techage_firebox.png^techage_frame_ta2.png",
-		"techage_firebox.png^techage_frame_ta2.png",
-		"techage_firebox.png^techage_frame_ta2.png",
-		"techage_firebox.png^techage_frame_ta2.png",
-		"techage_firebox.png^techage_appl_firehole.png^techage_frame_ta2.png",
+minetest.register_node("techage:coalfirebox", {
+	description = I("TA3 Coal Power Station Firebox"),
+	inventory_image = "techage_coal_boiler_inv.png",
+	tiles = {"techage_coal_boiler_mesh.png"},
+	drawtype = "mesh",
+	mesh = "techage_boiler_large.obj",
+	selection_box = {
+		type = "fixed",
+		fixed = {-13/32, -16/32, -13/32, 13/32, 16/32, 13/32},
 	},
+
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},
@@ -84,6 +95,11 @@ minetest.register_node("techage:firebox", {
 		meta:set_string("formspec", firebox.formspec(mem))
 		local inv = meta:get_inventory()
 		inv:set_size('fuel', 1)
+		firehole(pos, false)
+	end,
+
+	on_destruct = function(pos)
+		firehole(pos, nil)
 	end,
 
 	on_metadata_inventory_put = function(pos, listname, index, stack, player)
@@ -94,22 +110,48 @@ minetest.register_node("techage:firebox", {
 		mem.burn_cycles_total = mem.burn_cycles
 		M(pos):set_string("formspec", firebox.formspec(mem))
 		mem.burn_cycles = 0
-		firebox.swap_node(pos, "techage:firebox_on")
+		firehole(pos, true)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
 })
 
-minetest.register_node("techage:firebox_on", {
-	description = I("TA2 Firebox"),
+minetest.register_node("techage:coalfirehole", {
+	description = I("TA3 Coal Power Station Firebox"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_firebox.png^techage_frame_ta2.png",
-		"techage_firebox.png^techage_frame_ta2.png",
-		"techage_firebox.png^techage_frame_ta2.png",
-		"techage_firebox.png^techage_frame_ta2.png",
-		"techage_firebox.png^techage_frame_ta2.png",
+		"techage_coal_boiler.png",
+		"techage_coal_boiler.png",
+		"techage_coal_boiler.png",
+		"techage_coal_boiler.png",
+		"techage_coal_boiler.png",
+		"techage_coal_boiler.png^techage_appl_firehole.png",
+	},
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-6/16, -6/16,  6/16,  6/16, 6/16,  12/16},
+		},
+	},
+
+	paramtype2 = "facedir",
+	pointable = false,
+	diggable = false,
+	is_ground_content = false,
+	groups = {not_in_creative_inventory=1},
+})
+
+minetest.register_node("techage:coalfirehole_on", {
+	description = I("TA3 Coal Power Station Firebox"),
+	tiles = {
+		-- up, down, right, left, back, front
+		"techage_coal_boiler.png^[colorize:black:80",
+		"techage_coal_boiler.png^[colorize:black:80",
+		"techage_coal_boiler.png^[colorize:black:80",
+		"techage_coal_boiler.png^[colorize:black:80",
+		"techage_coal_boiler.png^[colorize:black:80",
 		{
-			image = "techage_firebox4.png^techage_appl_firehole4.png^techage_frame4_ta2.png",
+			image = "techage_coal_boiler4.png^[colorize:black:80^techage_appl_firehole4.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -119,19 +161,18 @@ minetest.register_node("techage:firebox_on", {
 			},
 		},
 	},
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-6/16, -6/16,  6/16,  6/16, 6/16,  12/16},
+		},
+	},
 	paramtype2 = "facedir",
 	light_source = 8,
-	on_rotate = screwdriver.disallow,
-	groups = {cracky=2, not_in_creative_inventory=1},
+	pointable = false,
+	diggable = false,
 	is_ground_content = false,
-	sounds = default.node_sound_stone_defaults(),
-	drop = "techage:firebox",
-	
-	on_timer = node_timer,
-	can_dig = firebox.can_dig,
-	allow_metadata_inventory_put = firebox.allow_metadata_inventory,
-	allow_metadata_inventory_take = firebox.allow_metadata_inventory,
-	on_receive_fields = firebox.on_receive_fields,
-	on_rightclick = firebox.on_rightclick,
+	groups = {not_in_creative_inventory=1},
 })
 
