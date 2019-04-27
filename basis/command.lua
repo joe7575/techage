@@ -353,7 +353,7 @@ end
 -- Server side helper functions
 -------------------------------------------------------------------
 
--- Get the given number of items from the inve. The position within the list
+-- Get the given number of items from the inv. The position within the list
 -- is random so that different item stacks will be considered.
 -- Returns nil if ItemList is empty.
 function techage.get_items(inv, listname, num)

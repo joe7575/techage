@@ -39,8 +39,9 @@ local function formspec(self, pos, mem)
 	"list[context;src;0,0;3,3;]"..
 	"item_image[0,0;1,1;default:cobble]"..
 	"image[0,0;1,1;techage_form_mask.png]"..
+	"image[3.5,0;1,1;"..techage.get_power_image(pos, mem).."]"..
 	"image[3.5,1;1,1;techage_form_arrow.png]"..
-	"image_button[3.5,2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
+	"image_button[3.5,2;1,1;"..self:get_state_button_image(mem)..";state_button;]"..
 	"list[context;dst;5,0;3,3;]"..
 	"item_image[5,0;1,1;default:gravel]"..
 	"image[5,0;1,1;techage_form_mask.png]"..
@@ -159,8 +160,8 @@ tiles.act = {
 	"techage_filling_ta#.png^techage_frame_ta#.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_appl_grinder2.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_appl_grinder2.png^techage_frame_ta#.png",
 }
 tiles.def = {
 	-- up, down, right, left, back, front
@@ -168,8 +169,8 @@ tiles.def = {
 	"techage_filling_ta#.png^techage_frame_ta#.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png^techage_appl_defect.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_defect.png",
+	"techage_filling_ta#.png^techage_appl_grinder2.png^techage_frame_ta#.png^techage_appl_defect.png",
+	"techage_filling_ta#.png^techage_appl_grinder2.png^techage_frame_ta#.png^techage_appl_defect.png",
 }
 
 local tubing = {

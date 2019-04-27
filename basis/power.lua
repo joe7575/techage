@@ -87,8 +87,7 @@ power_consumption = function(pos, in_dir)
 end
 			
 -- Switch active/passive tube nodes 
-local function turn_tube_on(pos, in_dir, network, on)
-	local out_dir = tubelib2.Turn180Deg[in_dir]
+local function turn_tube_on(pos, out_dir, network, on)
 	if on then
 		network:switch_tube_line(pos, out_dir, "on")
 	else
@@ -107,9 +106,6 @@ local function call_turn_on(pos, in_dir, sum)
 				trd.turn_on(pos, in_dir, sum)
 			end
 		end
-		if trd and trd.animated_power_network then
-			turn_tube_on(pos, in_dir, trd.power_network, sum > 0)
-		end
 		-- Needed for junctions which could have a local "turn_on" in addition
 		turn_on(pos, in_dir, sum)
 	end
@@ -118,9 +114,13 @@ end
 -- turn nodes on if sum > 0
 turn_on = function(pos, in_dir, sum)
 	call_turn_on(pos, in_dir, sum)
+	local trd = TRD(pos)
 	local mem = tubelib2.get_mem(pos)
 	local conn = mem.connections or {}
-	for _,item in pairs(conn) do
+	for out_dir,item in pairs(conn) do
+		if trd and trd.animated_power_network then
+			turn_tube_on(pos, out_dir, trd.power_network, sum > 0)
+		end
 		if item.pos then
 			call_turn_on(item.pos, item.in_dir, sum)
 		end

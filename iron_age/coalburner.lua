@@ -144,10 +144,10 @@ function techage.start_burner(pos, playername)
 		meta:set_int("height", height)
 		start_burner(pos, height)
 		flame(pos, height, height, true)
-		local handle = minetest.sound_play("techage", {
+		local handle = minetest.sound_play("techage_gasflare", {
 				pos = {x=pos.x, y=pos.y+height, z=pos.z}, 
 				max_hear_distance = 20, 
-				gain = height/32.0, 
+				gain = height/12.0, 
 				loop = true})
 		meta:set_int("handle", handle)
 		minetest.get_node_timer(pos):start(5)
@@ -167,10 +167,10 @@ function techage.keep_running_burner(pos)
 		local new_height = num_coal(pos)
 		if new_height > 0 then
 			flame(pos, height, new_height, false)
-			handle = minetest.sound_play("techage", {
+			handle = minetest.sound_play("techage_gasflare", {
 					pos = {x=pos.x, y=pos.y+height, z=pos.z}, 
 					max_hear_distance = 32, 
-					gain = new_height/32.0, 
+					gain = new_height/12.0, 
 					loop = true})
 			meta:set_int("handle", handle)
 		else

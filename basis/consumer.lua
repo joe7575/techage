@@ -89,6 +89,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 				power_png = 'techage_appl_hole_electric.png'
 			else
 				power_network = techage.Axle
+				power_png = 'techage_axle_clutch.png'
 			end
 			power_network:add_secondary_node_names({name_pas, name_act})
 		end
@@ -115,6 +116,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 			power_side = "F",
 			valid_power_dir = power_used and valid_power_dir or nil,
 			power_consumption = power_used and tNode.power_consumption[stage] or {0,0,0,0},
+			-- animated_power_network = true,  TODO
 		}
 		
 		tNode.groups.not_in_creative_inventory = 0

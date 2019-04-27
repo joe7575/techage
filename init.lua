@@ -7,7 +7,7 @@ techage.max_num_forceload_blocks = tonumber(minetest.setting_get("techage_max_nu
 techage.basalt_stone_enabled = minetest.setting_get("techage_basalt_stone_enabled") == "true"
 techage.machine_aging_value = tonumber(minetest.setting_get("techage_machine_aging_value")) or 100
 techage.ore_rarity = tonumber(minetest.setting_get("techage_ore_rarity")) or 1
-
+techage.modified_recipes_enabled = minetest.setting_get("techage_modified_recipes_enabled") == "true"
 
 local MP = minetest.get_modpath("techage")
 
@@ -15,6 +15,8 @@ local MP = minetest.get_modpath("techage")
 dofile(MP.."/basis/intllib.lua")
 
 -- Basis features
+dofile(MP.."/basis/lib.lua")  -- helper functions
+dofile(MP.."/basis/guide.lua")  -- construction guide
 dofile(MP.."/basis/power.lua")  -- power distribution
 dofile(MP.."/basis/node_states.lua")
 dofile(MP.."/basis/trowel.lua")  -- hidden networks
@@ -33,6 +35,11 @@ dofile(MP.."/iron_age/lighter.lua")
 dofile(MP.."/iron_age/charcoalpile.lua")
 dofile(MP.."/iron_age/coalburner.lua")
 dofile(MP.."/iron_age/meltingpot.lua")
+if techage.modified_recipes_enabled then
+	dofile(MP.."/iron_age/tools.lua")
+end
+dofile(MP.."/iron_age/recipes.lua")
+dofile(MP.."/iron_age/help.lua")
 if minetest.global_exists("wielded_light") then
 	dofile(MP.."/iron_age/meridium.lua")
 end

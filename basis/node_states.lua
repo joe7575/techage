@@ -52,6 +52,9 @@ Node mem data:
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
+-- Techage Related Data
+local TRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).techage end
+local TRDN = function(node) return (minetest.registered_nodes[node.name] or {}).techage end
 
 
 --
@@ -81,6 +84,15 @@ function techage.state_button(state)
 		return techage.StatesImg[state]
 	end
 	return "techage_inv_button_off.png"
+end
+
+function techage.get_power_image(pos, mem)
+	local node = minetest.get_node(pos)
+	local s = "3" -- electrical power
+	if string.find(node.name, "techage:ta2") then
+		s = "2"  -- axles power
+	end
+	return "techage_inv_powerT"..s..".png"
 end
 
 -- State string based on button states

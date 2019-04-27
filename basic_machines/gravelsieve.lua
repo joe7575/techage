@@ -35,6 +35,7 @@ local function formspec(self, pos, mem)
 	"list[context;src;0,0;3,3;]"..
 	"item_image[0,0;1,1;default:gravel]"..
 	"image[0,0;1,1;techage_form_mask.png]"..
+	"image[3.5,0;1,1;"..techage.get_power_image(pos, mem).."]"..
 	"image[3.5,1;1,1;techage_form_arrow.png]"..
 	"image_button[3.5,2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 	"list[context;dst;5,0;3,3;]"..

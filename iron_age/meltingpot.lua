@@ -326,7 +326,7 @@ local function pot_node_timer(pos, elapsed)
 end
 
 minetest.register_node("techage:meltingpot_active", {
-	description = S("Melting Pot"),
+	description = S("TA1 Melting Pot"),
 	tiles = {
 		{
 			image = "techage_meltingpot_top_active.png",
@@ -400,7 +400,7 @@ minetest.register_node("techage:meltingpot_active", {
 })
 
 minetest.register_node("techage:meltingpot", {
-	description = S("Melting Pot"),
+	description = S("TA1 Melting Pot"),
 	tiles = {
 		"default_cobble.png",
 		"default_cobble.png^techage_meltingpot.png",
@@ -509,26 +509,3 @@ function techage.ironage_register_recipe(recipe)
 		unified_inventory.register_craft(recipe)
 	end
 end
-
-
-techage.ironage_register_recipe({
-	output = "default:obsidian", 
-	recipe = {"default:cobble"}, 
-	heat = 5,
-	time = 4,
-})
-
-techage.ironage_register_recipe({
-	output = "default:coral_skeleton", 
-	recipe = {"gravelsieve:compressed_gravel"}, 
-	heat = 4,
-	time = 4,
-})
-
-techage.ironage_register_recipe({
-	output = "default:bronze_ingot 4", 
-	recipe = {"default:copper_ingot", "default:copper_ingot", "default:copper_ingot", "default:tin_ingot"}, 
-	heat = 4,
-	time = 8,
-})
-

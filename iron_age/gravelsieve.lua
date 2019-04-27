@@ -206,7 +206,7 @@ for idx = 0,4 do
 	local tube_info
 	local not_in_creative_inventory
 	node_name = "techage:sieve"
-	description = "Gravel Sieve"
+	description = I("TA1 Gravel Sieve")
 	tiles_data = {
 		-- up, down, right, left, back, front
 		"techage_handsieve_gravel.png",
@@ -330,9 +330,9 @@ minetest.register_node("techage:compressed_gravel", {
 minetest.register_craft({
 	output = "techage:sieve",
 	recipe = {
-		{"group:wood", "",                      "group:wood"},
-		{"group:wood", "default:steel_ingot",   "group:wood"},
-		{"group:wood", "",                      "group:wood"},
+		{"group:wood", "",                   "group:wood"},
+		{"group:wood", "techage:iron_ingot", "group:wood"},
+		{"group:wood", "",                   "group:wood"},
 	},
 })
 

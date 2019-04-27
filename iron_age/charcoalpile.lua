@@ -181,7 +181,7 @@ minetest.register_node("techage:charcoal_burn", {
 })
 
 minetest.register_node("techage:charcoal", {
-	description = S("Charcoal"),
+	description = S("TA1 Charcoal"),
 	tiles = {"techage_charcoal.png"},
 	on_ignite = function(pos, igniter)
 		minetest.after(2, minetest.swap_node, pos, {name = "techage:charcoal_burn"})
