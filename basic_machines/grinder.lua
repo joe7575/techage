@@ -283,9 +283,8 @@ techage.add_grinder_recipe({input="default:cobble", output="default:gravel"})
 techage.add_grinder_recipe({input="default:desert_cobble", output="default:gravel"})
 techage.add_grinder_recipe({input="default:mossycobble", output="default:gravel"})
 techage.add_grinder_recipe({input="default:gravel", output="default:sand"})
-techage.add_grinder_recipe({input="gravelsieve:sieved_gravel", output="default:sand"})
+techage.add_grinder_recipe({input="techage:sieved_gravel", output="default:sand"})
 techage.add_grinder_recipe({input="default:coral_skeleton", output="default:silver_sand"})
-techage.add_grinder_recipe({input="tubelib:basalt_stone", output="default:silver_sand"})
 
 if minetest.global_exists("skytest") then
 	techage.add_grinder_recipe({input="default:desert_sand", output="skytest:dust"})

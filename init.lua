@@ -25,13 +25,16 @@ else
 	dofile(MP.."/basis/guide.lua")  -- construction guide
 	dofile(MP.."/basis/power.lua")  -- power distribution 
 	dofile(MP.."/basis/node_states.lua") -- state model
-	dofile(MP.."/basis/trowel.lua")  -- hidden networks
 	dofile(MP.."/basis/junction.lua")  -- network junction box
 	dofile(MP.."/basis/tubes.lua")  -- tubelib replacement
 	dofile(MP.."/basis/command.lua")  -- tubelib replacement
 	dofile(MP.."/basis/consumer.lua")  -- consumer base model
 	dofile(MP.."/basis/firebox.lua")  -- common firebox functions
-
+	
+	-- Tools
+	dofile(MP.."/tools/trowel.lua")
+	--dofile(MP.."/tools/repairkit.lua")
+	
 	-- Power networks
 	dofile(MP.."/power/drive_axle.lua")
 	dofile(MP.."/power/steam_pipe.lua")
@@ -62,15 +65,19 @@ else
 	dofile(MP.."/steam_engine/flywheel.lua")
 	dofile(MP.."/steam_engine/gearbox.lua")
 	dofile(MP.."/steam_engine/consumer.lua")
-	dofile(MP.."/steam_engine/battery.lua")
 
 	-- Basic Machines
 	dofile(MP.."/basic_machines/pusher.lua")
+	dofile(MP.."/basic_machines/blackhole.lua")
 	dofile(MP.."/basic_machines/legacy_nodes.lua")
 	dofile(MP.."/basic_machines/grinder.lua")
 	dofile(MP.."/basic_machines/distributor.lua")
 	dofile(MP.."/basic_machines/gravelsieve.lua")
 	dofile(MP.."/basic_machines/chest.lua")
+	dofile(MP.."/basic_machines/autocrafter.lua")
+	if techage.basalt_stone_enabled then
+		dofile(MP.."/basic_machines/basalt.lua")
+	end
 
 	-- Coal power station
 	dofile(MP.."/coal_power_station/firebox.lua")
@@ -82,8 +89,9 @@ else
 
 
 
+	dofile(MP.."/test/battery.lua")
 	--dofile(MP.."/test/test.lua")
-	--dofile(MP.."/test/generator.lua")
+	dofile(MP.."/test/generator.lua")
 	--dofile(MP.."/test/consumer.lua")
 
 

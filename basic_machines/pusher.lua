@@ -42,7 +42,7 @@ local function pushing(pos, trd, meta, mem)
 	local push_dir = meta:get_int("push_dir")
 	local items = techage.pull_items(pos, pull_dir, trd.num_items)
 	if items ~= nil then
-		if techage.push_items(pos, push_dir, items) == false then
+		if techage.push_items(pos, push_dir, items) ~= true then
 			-- place item back
 			techage.unpull_items(pos, pull_dir, items)
 			trd.State:blocked(pos, mem)

@@ -38,7 +38,7 @@ minetest.register_tool("techage:hammer_bronze", {
 		full_punch_interval = 1.0,
 		max_drop_level=1,
 		groupcaps={
-			cracky = {times={[1]=5.00, [2]=2.0, [3]=1.0}, uses=30, maxlevel=2},
+			cracky = {times={[1]=5.00, [2]=2.0, [3]=1.0}, uses=50, maxlevel=2},
 		},
 		damage_groups = {fleshy=4},
 	},
@@ -57,7 +57,7 @@ minetest.register_tool("techage:hammer_steel", {
 		full_punch_interval = 1.0,
 		max_drop_level=1,
 		groupcaps={
-			cracky = {times={[1]=4.00, [2]=1.60, [3]=0.80}, uses=30, maxlevel=2},
+			cracky = {times={[1]=4.00, [2]=1.60, [3]=0.80}, uses=60, maxlevel=2},
 		},
 		damage_groups = {fleshy=4},
 	},
@@ -76,7 +76,7 @@ minetest.register_tool("techage:hammer_mese", {
 		full_punch_interval = 0.9,
 		max_drop_level=3,
 		groupcaps={
-			cracky = {times={[1]=2.4, [2]=1.2, [3]=0.60}, uses=40, maxlevel=3},
+			cracky = {times={[1]=2.4, [2]=1.2, [3]=0.60}, uses=80, maxlevel=3},
 		},
 		damage_groups = {fleshy=5},
 	},
@@ -95,7 +95,7 @@ minetest.register_tool("techage:hammer_diamond", {
 		full_punch_interval = 0.9,
 		max_drop_level=3,
 		groupcaps={
-			cracky = {times={[1]=2.0, [2]=1.0, [3]=0.50}, uses=40, maxlevel=3},
+			cracky = {times={[1]=2.0, [2]=1.0, [3]=0.50}, uses=100, maxlevel=3},
 		},
 		damage_groups = {fleshy=5},
 	},
@@ -108,7 +108,7 @@ minetest.register_tool("techage:hammer_diamond", {
 })
 
 minetest.register_craft({
-	output = "techage:hammer_bronze",
+	output = "techage:hammer_bronze 2",
 	recipe = {
 		{"default:bronze_ingot", "group:stick", "default:bronze_ingot"},
 		{"default:bronze_ingot", "group:stick", "default:bronze_ingot"},
@@ -116,7 +116,7 @@ minetest.register_craft({
 	}
 })
 minetest.register_craft({
-	output = "techage:hammer_steel",
+	output = "techage:hammer_steel 2",
 	recipe = {
 		{"default:steel_ingot", "group:stick", "default:steel_ingot"},
 		{"default:steel_ingot", "group:stick", "default:steel_ingot"},
@@ -124,7 +124,7 @@ minetest.register_craft({
 	}
 })
 minetest.register_craft({
-	output = "techage:hammer_mese",
+	output = "techage:hammer_mese 2",
 	recipe = {
 		{"default:mese_crystal", "group:stick", "default:mese_crystal"},
 		{"default:mese_crystal", "group:stick", "default:mese_crystal"},
@@ -132,7 +132,7 @@ minetest.register_craft({
 	}
 })
 minetest.register_craft({
-	output = "techage:hammer_diamond",
+	output = "techage:hammer_diamond 2",
 	recipe = {
 		{"default:diamond", "group:stick", "default:diamond"},
 		{"default:diamond", "group:stick", "default:diamond"},

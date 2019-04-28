@@ -63,10 +63,12 @@ function techage.register_junction(name, size, boxes, network, node)
 		node.is_ground_content = false 
 		node.drop = name.."0" 
 		
-		minetest.register_node(name..idx, node)
+		minetest.register_node(name..idx, table.copy(node))
 		network:add_secondary_node_names({name..idx})
 	end
 end
+
+
 
 function techage.junction_type(conn)
 	local val = 0

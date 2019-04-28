@@ -56,13 +56,28 @@ local function can_start(pos, mem, state)
 	return start_cylinder(pos, true)
 end
 
+local function play_sound(pos)
+	local mem = tubelib2.get_mem(pos)
+	mem.handle = minetest.sound_play("techage_steamengine", {
+		pos = pos, 
+		gain = 0.5,
+		max_hear_distance = 10})
+	minetest.after(2, play_sound, pos)
+end
+
 local function start_node(pos, mem, state)
+	print("start_node")
 	generator.turn_power_on(pos, POWER_CAPACITY)
+	play_sound(pos)
 end
 
 local function stop_node(pos, mem, state)
 	start_cylinder(pos, false)
 	generator.turn_power_on(pos, 0)
+	if mem.handle then
+		minetest.sound_stop(mem.handle)
+		mem.handle = nil
+	end
 end
 
 local State = techage.NodeStates:new({
@@ -248,3 +263,14 @@ minetest.register_craft({
 		{"default:wood", "techage:iron_ingot", "basic_materials:steel_bar"},
 	},
 })
+
+minetest.register_lbm({
+	label = "[techage] Steam engine sound",
+	name = "techage:steam_engine",
+	nodenames = {"techage:flywheel_on"},
+	run_at_every_load = true,
+	action = function(pos, node)
+		play_sound(pos)
+	end
+})
+

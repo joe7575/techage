@@ -21,7 +21,6 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
-
 local Cable = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
 	max_tube_length = 1000, 
@@ -128,7 +127,8 @@ minetest.register_node("techage:electric_cableA", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
+	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, 
+			techage_trowel = 1, not_in_creative_inventory = 1},
 	sounds = default.node_sound_defaults(),
 	drop = "techage:electric_cableS",
 })
@@ -148,17 +148,13 @@ local Boxes = {
 }
 
 techage.register_junction("techage:electric_junction", 2/8, Boxes, techage.ElectricCable, {
-	description = "Electricity Junction Box",
+	description = I("TA4 Electricity Junction Box"),
 	tiles = {"techage_electric_junction.png"},
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
 	sounds = default.node_sound_defaults(),
 	techage = {
 		power_network = techage.ElectricCable,
 	},
-	description = "Electricity Junction Box",
-	tiles = {"techage_electric_junction.png"},
-	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
-	sounds = default.node_sound_defaults(),
 	
 	after_place_node = distributor.after_place_node,
 	after_dig_node = distributor.after_dig_node,

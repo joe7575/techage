@@ -76,41 +76,47 @@ end
 
 
 -- determine ore based on the calculated probability
-local function get_random_ore()
+local function get_random_gravel_ore()
 	for ore, probability in pairs(techage.ore_probability) do
 		if math.random(probability) == 1 then
-			local item = ItemStack(ore)
-			return item
+			return ItemStack(ore)
 		end
+	end
+	if math.random(2) == 1 then
+		return ItemStack("default:gravel")
+	else
+		return ItemStack("techage:sieved_gravel")
+	end
+end
+
+local function get_random_basalt_ore()
+	if math.random(40) == 1 then
+		return ItemStack("default:coal_lump")
+	elseif math.random(40) == 1 then
+		return ItemStack("default:iron_lump")
+	elseif math.random(2) == 1 then
+		return ItemStack("techage:basalt_gravel")
+	else
+		return ItemStack("techage:sieved_basalt_gravel")
 	end
 end
 
 local function sieving(pos, trd, mem, inv)
-	local gravel = ItemStack("default:gravel")
-
-	if not inv:contains_item("src", gravel) then
+	local src, dst
+	if inv:contains_item("src", ItemStack("techage:basalt_gravel")) then
+		dst, src = get_random_basalt_ore(), ItemStack("techage:basalt_gravel")
+	elseif inv:contains_item("src", ItemStack("default:gravel")) then
+		dst, src = get_random_gravel_ore(), ItemStack("default:gravel")
+	else
 		trd.State:idle(pos, mem)
 		return
-	end
-	
-	local dst = get_random_ore()
-	if not dst then
-	    -- move gravel or sieved gravel to dst
-		mem.gravel_cnt = (mem.gravel_cnt or 0) + 1
-		if (mem.gravel_cnt % 2) == 0 then
-			dst = gravel
-		else
-			dst = ItemStack("techage:sieved_gravel")
-		end
 	end
 	if not inv:room_for_item("dst", dst) then
-		--trd.State:blocked(pos, mem)
 		trd.State:idle(pos, mem)
 		return
 	end
-		
 	inv:add_item("dst", dst)
-	inv:remove_item("src", gravel)
+	inv:remove_item("src", src)
 	trd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
 end
 

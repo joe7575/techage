@@ -27,13 +27,6 @@ techage.ironage_register_recipe({
 })
 
 techage.ironage_register_recipe({
-	output = "default:clay", 
-	recipe = {"techage:sieved_gravel"}, 
-	heat = 3,
-	time = 3,
-})
-
-techage.ironage_register_recipe({
 	output = "techage:iron_ingot", 
 	recipe = {"default:iron_lump"}, 
 	heat = 5,

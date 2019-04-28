@@ -24,22 +24,6 @@ local I,_ = dofile(MP.."/intllib.lua")
 -- used by other tools: dug_node[player_name] = pos
 techage.dug_node = {}
 
--- Overridden method of tubelib2!
-function techage.get_primary_node_param2(pos, dir)
-	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
-	local param2 = M(npos):get_int("tl2_param2")
-	if param2 ~= 0 then
-		return param2, npos
-	end
-end
-
--- Overridden method of tubelib2!
-function techage.is_primary_node(pos, dir)
-	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
-	local param2 = M(npos):get_int("tl2_param2")
-	return param2 ~= 0
-end
-
 -- Determine if one node in the surrounding is a hidden tube/cable/pipe
 local function other_hidden_nodes(pos, node_name)
 	return M({x=pos.x+1, y=pos.y, z=pos.z}):get_string(node_name) ~= "" or
@@ -112,6 +96,7 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
 		techage.ElectricCable:after_dig_node(pos, oldnode, digger)
 		techage.BiogasPipe:after_dig_node(pos, oldnode, digger)
 	else
+		-- store pos for other tools without own 'register_on_dignode'
 		techage.dug_node[digger:get_player_name()] = pos
 	end
 end)
