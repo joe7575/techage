@@ -26,7 +26,7 @@ local I,_ = dofile(MP.."/intllib.lua")
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 8
-local POWER_CAPACITY = 8
+local POWER_CAPACITY = 12
 
 local Axle = techage.Axle
 local generator = techage.generator
@@ -149,6 +149,7 @@ minetest.register_node("techage:flywheel", {
 		turn_on = turn_power_on,
 		read_power_consumption = generator.read_power_consumption,
 		power_network = Axle,
+		power_side = "R",
 		animated_power_network = true,
 	},
 	
@@ -217,6 +218,7 @@ minetest.register_node("techage:flywheel_on", {
 		turn_on = turn_power_on,
 		read_power_consumption = generator.read_power_consumption,
 		power_network = Axle,
+		power_side = "R",
 		animated_power_network = true,
 	},
 	
@@ -236,4 +238,13 @@ minetest.register_node("techage:flywheel_on", {
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
+})
+
+minetest.register_craft({
+	output = "techage:flywheel",
+	recipe = {
+		{"basic_materials:steel_bar", "dye:red", "default:wood"},
+		{"", "basic_materials:gear_steel", "techage:axle"},
+		{"default:wood", "techage:iron_ingot", "basic_materials:steel_bar"},
+	},
 })

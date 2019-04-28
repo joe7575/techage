@@ -99,3 +99,11 @@ minetest.register_node("techage:gearbox_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
+minetest.register_craft({
+	output = "techage:gearbox 2",
+	recipe = {
+		{"default:junglewood", "techage:axle", "default:wood"},
+		{"techage:axle", "techage:iron_ingot", "techage:axle"},
+		{"default:wood", "techage:axle", "default:junglewood"},
+	},
+})

@@ -174,8 +174,8 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 minetest.register_craft({
 	output = node_name_ta2.." 2",
 	recipe = {
-		{"group:wood", 		"wool:dark_green",   	"group:wood"},
-		{"tubelib:tubeS", 	"default:mese_crystal",	"tubelib:tubeS"},
-		{"group:wood", 		"wool:dark_green",   	"group:wood"},
+		{"group:wood", "wool:dark_green", "group:wood"},
+		{"techage:tubeS", "default:mese_crystal", "techage:tubeS"},
+		{"group:wood", "techage:iron_ingot", "group:wood"},
 	},
 })

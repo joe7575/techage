@@ -135,3 +135,11 @@ minetest.register_node("techage:firebox_on", {
 	on_rightclick = firebox.on_rightclick,
 })
 
+minetest.register_craft({
+	output = "techage:firebox",
+	recipe = {
+		{'group:stone', 'group:stone', 'group:stone'},
+		{'techage:iron_ingot', '', 'techage:iron_ingot'},
+		{'group:stone', 'group:stone', 'group:stone'},
+	},
+})

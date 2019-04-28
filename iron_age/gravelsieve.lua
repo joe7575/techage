@@ -337,14 +337,6 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "techage:auto_sieve",
-	type = "shapeless",
-	recipe = {
-		"techage:sieve", "default:mese_crystal",  "default:mese_crystal",
-	},
-})
-
-minetest.register_craft({
 	output = "techage:compressed_gravel",
 	recipe = {
 		{"techage:sieved_gravel", "techage:sieved_gravel"},

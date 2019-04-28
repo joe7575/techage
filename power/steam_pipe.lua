@@ -113,3 +113,11 @@ minetest.register_node("techage:steam_pipeA", {
 	drop = "techage:steam_pipeS",
 })
 
+minetest.register_craft({
+	output = "techage:steam_pipeS 3",
+	recipe = {
+		{'', '', "default:bronze_ingot"},
+		{'', 'techage:iron_ingot', ''},
+		{"default:bronze_ingot", '', ''},
+	},
+})

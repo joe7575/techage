@@ -175,3 +175,12 @@ minetest.register_node("techage:axle_on", {
 	groups = {not_in_creative_inventory = 1},
 	sounds = default.node_sound_wood_defaults(),
 })
+
+minetest.register_craft({
+	output = "techage:axle 3",
+	recipe = {
+		{"default:junglewood", "", "default:wood"},
+		{"", "techage:iron_ingot", ""},
+		{"default:wood", "", "default:junglewood"},
+	},
+})

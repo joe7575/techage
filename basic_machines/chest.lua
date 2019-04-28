@@ -232,12 +232,6 @@ minetest.register_node("techage:chest_ta4", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-minetest.register_craft({
-	type = "shapeless",
-	output = "techage:chest_ta2",
-	recipe = {"default:chest", "techage:tubeS", "default:steel_ingot"}
-})
-
 techage.register_node("techage:chest_ta2", {"techage:chest_ta3", "techage:chest_ta4"}, {
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
@@ -276,3 +270,10 @@ techage.register_node("techage:chest_ta2", {"techage:chest_ta3", "techage:chest_
 		end
 	end,
 })	
+
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "techage:chest_ta2",
+	recipe = {"default:chest", "techage:tubeS", "techage:iron_ingot"}
+})

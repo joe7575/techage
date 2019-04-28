@@ -298,3 +298,20 @@ minetest.register_node("techage:boiler2", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
+minetest.register_craft({
+	output = "techage:boiler1",
+	recipe = {
+		{"techage:iron_ingot", "", "techage:iron_ingot"},
+		{"default:bronze_ingot", "", "default:bronze_ingot"},
+		{"techage:iron_ingot", "default:bronze_ingot", "techage:iron_ingot"},
+	},
+})
+
+minetest.register_craft({
+	output = "techage:boiler2",
+	recipe = {
+		{"techage:iron_ingot", "techage:steam_pipeS", "techage:iron_ingot"},
+		{"default:bronze_ingot", "", "default:bronze_ingot"},
+		{"techage:iron_ingot", "", "techage:iron_ingot"},
+	},
+})

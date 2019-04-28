@@ -8,7 +8,7 @@
 	LGPLv2.1+
 	See LICENSE.txt for more information
 	
-	Biogas pipes
+	TA4 Biogas pipes
 
 ]]--
 

@@ -8,7 +8,7 @@
 	LGPLv2.1+
 	See LICENSE.txt for more information
 	
-	Cable and junction box for electrical power distribution
+	TA3/TA4 Cable and junction box for electrical power distribution
 
 ]]--
 

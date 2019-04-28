@@ -53,10 +53,19 @@ local function start_cylinder(pos, on)
 	if on and mem.running then
 		consumer.turn_power_on(pos, POWER_CONSUMPTION)
 		swap_node(pos, "techage:cylinder_on")
+		mem.handle = minetest.sound_play("techage_steamengine", {
+			pos = pos, 
+			max_hear_distance = 4, 
+			gain = 0.7, 
+			loop = true})
 		return true
 	else
 		consumer.turn_power_on(pos, 0)
 		swap_node(pos, "techage:cylinder")
+		if mem.handle then
+			minetest.sound_stop(mem.handle)
+			mem.handle = nil
+		end
 	end
 	return false
 end	
@@ -147,3 +156,26 @@ minetest.register_node("techage:cylinder_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
+minetest.register_craft({
+	output = "techage:cylinder",
+	recipe = {
+		{"basic_materials:steel_bar", "techage:iron_ingot", "default:wood"},
+		{"techage:steam_pipeS", "basic_materials:gear_steel", ""},
+		{"default:wood", "techage:iron_ingot", "basic_materials:steel_bar"},
+	},
+})
+
+minetest.register_lbm({
+	label = "[techage] Steam engine sound",
+	name = "techage:steam_engine",
+	nodenames = {"techage:cylinder_on"},
+	run_at_every_load = true,
+	action = function(pos, node)
+		local mem = tubelib2.get_mem(pos)
+		mem.handle = minetest.sound_play("techage_steamengine", {
+			pos = pos, 
+			max_hear_distance = 4, 
+			gain = 0.7, 
+			loop = true})
+	end
+})

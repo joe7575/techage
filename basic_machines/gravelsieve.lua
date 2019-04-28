@@ -260,8 +260,8 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 minetest.register_craft({
 	output = node_name_ta2,
 	recipe = {
-		{"group:wood", "default:tin_ingot", "group:wood"},
-		{"tubelib:tubeS", "default:steel_ingot", "tubelib:tubeS"},
-		{"group:wood", "default:tin_ingot", "group:wood"},
+		{"group:wood", "default:mese_crystal", "group:wood"},
+		{"techage:tubeS", "techage:sieve", "techage:tubeS"},
+		{"group:wood", "techage:iron_ingot", "group:wood"},
 	},
 })
