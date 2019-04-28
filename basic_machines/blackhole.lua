@@ -8,9 +8,6 @@
 	LGPLv2.1+
 	See LICENSE.txt for more information
 
-	The autocrafter is derived from pipeworks: 
-	Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>  WTFPL
-	
 	All items disappear.
 	
 ]]--
@@ -19,12 +16,12 @@ minetest.register_node("techage:blackhole", {
 	description = "Techage Black Hole",
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta3.png^techage_frame_ta3.png",
-		"techage_filling_ta3.png^techage_frame_ta3.png",
-		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_blackhole.png",
-		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_blackhole.png^techage_appl_inp.png",
-		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_blackhole.png",
-		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_blackhole.png",
+		"techage_filling_ta2.png^techage_frame_ta2.png",
+		"techage_filling_ta2.png^techage_frame_ta2.png",
+		"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_blackhole.png",
+		"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_blackhole.png^techage_appl_inp.png",
+		"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_blackhole.png",
+		"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_blackhole.png",
 	},
 
 	after_place_node = function(pos, placer)
@@ -46,9 +43,9 @@ minetest.register_node("techage:blackhole", {
 minetest.register_craft({
 	output = "techage:blackhole",
 	recipe = {
-		{"group:wood",    "",                   "group:wood"},
-		{"tubelib:tubeS", "default:coal_lump",  ""},
-		{"group:wood",    "",                   "group:wood"},
+		{"group:wood", "", "group:wood"},
+		{"tubelib:tubeS", "default:coal_lump", ""},
+		{"group:wood", "techage:iron_ingot", "group:wood"},
 	},
 })
 

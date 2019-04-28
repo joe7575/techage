@@ -75,6 +75,8 @@ else
 	dofile(MP.."/basic_machines/gravelsieve.lua")
 	dofile(MP.."/basic_machines/chest.lua")
 	dofile(MP.."/basic_machines/autocrafter.lua")
+	dofile(MP.."/basic_machines/mark.lua")
+	dofile(MP.."/basic_machines/forceload.lua")
 	if techage.basalt_stone_enabled then
 		dofile(MP.."/basic_machines/basalt.lua")
 	end
