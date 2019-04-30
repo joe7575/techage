@@ -119,14 +119,14 @@ minetest.register_node("techage:funnel_ta1", {
 })
 
 
---minetest.register_craft({
---	output = "techage:funnel_ta1",
---	recipe = {
---		{"group:wood", "", "group:wood"},
---		{"default:steel_ingot", "default:mese_crystal",	"tubelib:tubeS"},
---		{"group:wood", "", "group:wood"},
---	},
---})
+minetest.register_craft({
+	output = "techage:funnel_ta1",
+	recipe = {
+		{"default:stone", "", "default:stone"},
+		{"default:stone", "default:gold_ingot",	"default:stone"},
+		{"", "default:stone", ""},
+	},
+})
 
 techage.register_node("techage:funnel_ta1", {}, {
 	on_pull_item = nil,  		-- not needed
@@ -138,3 +138,8 @@ techage.register_node("techage:funnel_ta1", {}, {
 		return techage.put_items(inv, "main", stack)
 	end,
 })	
+
+techage.register_help_page("TA1 Funnel", [[The Funnel collects dropped items 
+and pushes them to the right side. 
+Items are sucked up when they 
+are dropped on top of the funnel block.]], "techage:funnel_ta1")

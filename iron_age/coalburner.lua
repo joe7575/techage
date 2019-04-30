@@ -189,3 +189,28 @@ function techage.stop_burner(pos)
 	local handle = meta:get_int("handle")
 	minetest.sound_stop(handle)
 end
+
+
+local BurnerHelp = S([[Coal Burner to heat the melting pot:
+- build a 3x3xN cobble tower
+- more height means more flame heat   
+- keep a hole open on one side
+- put a lighter in
+- fill the tower from the top with charcoal
+- ignite the lighter
+- place the pot in the flame, (one block above the tower)
+(see plan)]])
+
+local BurnerImages = {
+	
+	{false, false, false, "default_cobble.png^techage_meltingpot", false},
+	{false, false, false, false, false},
+	{false, false, "default_cobble", "techage_charcoal", "default_cobble"},
+	{false, false, "default_cobble", "techage_charcoal", "default_cobble"},
+	{false, false, "default_cobble", "techage_charcoal", "default_cobble"},
+	{false, false, "default_cobble", "techage_charcoal", "default_cobble"},
+	{false, false, false,            "techage_lighter",  "default_cobble"},
+	{false, false, "default_cobble", "default_cobble",   "default_cobble"},
+}
+
+techage.register_help_page("Coal Burner", BurnerHelp, nil, BurnerImages)

@@ -212,3 +212,23 @@ minetest.register_lbm({
 	end
 })
 
+local PileHelp = S([[Coal Pile to produce charcoal:
+- build a 5x5 block dirt base
+- place a lighter in the centre
+- build a 3x3x3 wood cube around
+- cover all with dirt to a 5x5x5 cube
+- keep a hole to the lighter
+- ignite the lighter and immediately
+- close the pile with one wood and one dirt
+- open the pile after the smoke disappeared
+(see plan)]])
+
+local PileImages = {
+	{"default_dirt", "default_dirt", "default_dirt",    "default_dirt", "default_dirt"},
+	{"default_dirt", "default_wood", "default_wood",    "default_wood", "default_dirt"},
+	{"default_dirt", "default_wood", "default_wood",    "default_wood", "default_dirt"},
+	{"default_dirt", "default_wood", "techage_lighter", "default_wood", "default_dirt"},
+	{"default_dirt", "default_dirt", "default_dirt",    "default_dirt", "default_dirt"},
+}
+
+techage.register_help_page("Coal Pile", PileHelp, nil, PileImages)

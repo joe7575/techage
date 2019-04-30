@@ -55,7 +55,6 @@ else
 		dofile(MP.."/iron_age/tools.lua")
 	end
 	dofile(MP.."/iron_age/recipes.lua")
-	dofile(MP.."/iron_age/help.lua")
 	if minetest.global_exists("wielded_light") then
 		dofile(MP.."/iron_age/meridium.lua")
 	end

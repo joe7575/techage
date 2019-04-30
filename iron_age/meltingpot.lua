@@ -509,3 +509,6 @@ function techage.ironage_register_recipe(recipe)
 		unified_inventory.register_craft(recipe)
 	end
 end
+
+techage.register_help_page("TA1 Melting Pot", [[To melt ores and/or produce alloys.
+Place the pot on top of the Coal Burner.]], "techage:meltingpot")

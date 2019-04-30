@@ -32,7 +32,7 @@ local function handler(player_name, node, itemstack, digparams)
 end
 
 minetest.register_tool("techage:hammer_bronze", {
-	description = I("Bronze Hammer (converts stone into gravel)"),
+	description = I("TA1 Bronze Hammer (smash stone to gravel)"),
 	inventory_image = "techage_tool_hammer_bronze.png",
 	tool_capabilities = {
 		full_punch_interval = 1.0,
@@ -51,7 +51,7 @@ minetest.register_tool("techage:hammer_bronze", {
 })
 
 minetest.register_tool("techage:hammer_steel", {
-	description = I("Steel Hammer (converts stone into gravel)"),
+	description = I("TA1 Steel Hammer (smash stone to gravel)"),
 	inventory_image = "techage_tool_hammer_steel.png",
 	tool_capabilities = {
 		full_punch_interval = 1.0,
@@ -70,7 +70,7 @@ minetest.register_tool("techage:hammer_steel", {
 })
 
 minetest.register_tool("techage:hammer_mese", {
-	description = I("Mese Hammer (converts stone into gravel)"),
+	description = I("TA1 Mese Hammer (smash stone to gravel)"),
 	inventory_image = "techage_tool_hammer_mese.png",
 	tool_capabilities = {
 		full_punch_interval = 0.9,
@@ -89,7 +89,7 @@ minetest.register_tool("techage:hammer_mese", {
 })
 
 minetest.register_tool("techage:hammer_diamond", {
-	description = I("Diamond Hammer (converts stone into gravel)"),
+	description = I("TA1 Diamond Hammer (smash stone to gravel)"),
 	inventory_image = "techage_tool_hammer_diamond.png",
 	tool_capabilities = {
 		full_punch_interval = 0.9,
@@ -139,3 +139,6 @@ minetest.register_craft({
 		{"", "group:stick", ""},
 	}
 })
+
+techage.register_help_page("TA1 xxx Hammer", [[Hammer to smash stone to gravel.
+Available as Bronze, Steel, Mese, and Diamond Hammer.]], "techage:hammer_bronze")

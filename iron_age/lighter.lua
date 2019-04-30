@@ -63,7 +63,7 @@ minetest.register_node("techage:coal_lighter_burn", {
 })
 
 minetest.register_node("techage:lighter", {
-	description = S("Lighter"),
+	description = S("TA1 Lighter"),
 	tiles = {"techage_lighter.png"},
 	on_ignite = function(pos, igniter)
 		if minetest.find_node_near(pos, 1, "techage:charcoal") then
@@ -89,3 +89,7 @@ minetest.register_craft({
 		{''},
 	}
 })
+
+techage.register_help_page("TA1 Lighter", [[lighter to ignite the Coal Burner
+and the Coal Pile.]], "techage:lighter")
+
