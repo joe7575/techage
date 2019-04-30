@@ -27,6 +27,10 @@ local STANDBY_TICKS = 10
 local COUNTDOWN_TICKS = 10
 local CYCLE_TIME = 4
 
+local get_random_gravel_ore = techage.gravelsieve_get_random_gravel_ore
+local get_random_basalt_ore = techage.gravelsieve_get_random_basalt_ore
+
+
 local function formspec(self, pos, mem)
 	return "size[8,8]"..
 	default.gui_bg..
@@ -72,33 +76,6 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 		return 0
 	end
 	return stack:get_count()
-end
-
-
--- determine ore based on the calculated probability
-local function get_random_gravel_ore()
-	for ore, probability in pairs(techage.ore_probability) do
-		if math.random(probability) == 1 then
-			return ItemStack(ore)
-		end
-	end
-	if math.random(2) == 1 then
-		return ItemStack("default:gravel")
-	else
-		return ItemStack("techage:sieved_gravel")
-	end
-end
-
-local function get_random_basalt_ore()
-	if math.random(40) == 1 then
-		return ItemStack("default:coal_lump")
-	elseif math.random(40) == 1 then
-		return ItemStack("default:iron_lump")
-	elseif math.random(2) == 1 then
-		return ItemStack("techage:basalt_gravel")
-	else
-		return ItemStack("techage:sieved_basalt_gravel")
-	end
 end
 
 local function sieving(pos, trd, mem, inv)

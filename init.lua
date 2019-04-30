@@ -22,6 +22,7 @@ else
 
 	-- Basis features
 	dofile(MP.."/basis/lib.lua")  -- helper functions
+	dofile(MP.."/basis/gravel_lib.lua")  -- ore probability
 	dofile(MP.."/basis/guide.lua")  -- construction guide
 	dofile(MP.."/basis/power.lua")  -- power distribution 
 	dofile(MP.."/basis/node_states.lua") -- state model
@@ -44,6 +45,7 @@ else
 	-- Iron Age
 	dofile(MP.."/iron_age/main.lua")
 	dofile(MP.."/iron_age/gravelsieve.lua")
+	dofile(MP.."/iron_age/funnel.lua")
 	dofile(MP.."/iron_age/hammer.lua")
 	dofile(MP.."/iron_age/lighter.lua")
 	dofile(MP.."/iron_age/charcoalpile.lua")
