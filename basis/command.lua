@@ -351,7 +351,7 @@ function techage.unpull_items(pos, out_dir, stack)
 end
 	
 -------------------------------------------------------------------
--- Client side Push/Pull item functions for funnel like nodes 
+-- Client side Push/Pull item functions for hopper like nodes 
 -- (nodes with no tube support)
 -------------------------------------------------------------------
 
