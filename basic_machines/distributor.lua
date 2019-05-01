@@ -96,7 +96,6 @@ local function filter_settings(pos)
 		ItemFilter = ItemFilter, 
 		OpenPorts = OpenPorts,
 	}
-	print("ItemFilter = "..dump(ItemFilter), "\nOpenPorts = "..dump(OpenPorts))
 end
 
 -- Return filter table and list of open ports.
@@ -197,7 +196,6 @@ local function distributing(pos, inv, trd, mem)
 		if item_filter[item_name] then
 			-- Push items based on filter
 			num_pushed = push_item(pos, item_filter[item_name], item_name, num_to_push, mem)
-			print("num_pushed",num_pushed, "num_to_push", num_to_push)
 		end
 		if num_pushed == 0 and #open_ports > 0 then
 			-- Push items based on open ports
@@ -213,7 +211,6 @@ local function distributing(pos, inv, trd, mem)
 		end
 	end
 	
-	print("sum_num_pushed",sum_num_pushed)
 	if num_pushed == 0 then
 		trd.State:blocked(pos, mem)
 	else

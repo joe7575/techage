@@ -93,7 +93,6 @@ minetest.register_node("techage:construction_board", {
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return
 		end
-		print(dump(fields))
 		local meta = minetest.get_meta(pos)
 		local idx = meta:get_int("help_idx")
 		idx = techage.range(idx, 1, #Recipes)

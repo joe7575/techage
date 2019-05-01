@@ -367,7 +367,6 @@ end
 function NodeStates:state_button_event(pos, mem, fields)
 	if fields.state_button ~= nil then
 		local state = mem.techage_state
-		print("on_receive_fields", state)
 		if state == STOPPED or state == STANDBY or state == BLOCKED then
 			self:start(pos, mem)
 		elseif state == RUNNING or state == FAULT then

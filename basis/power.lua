@@ -130,12 +130,10 @@ end
 
 -- Starts the overall power consumption and depending on that turns all nodes on/off
 local function start_network_power_consumption(pos, in_dir)
-	print("start_network_power_consumption", S(pos), in_dir)
 	Route = {}
 	local sum = power_consumption(pos, in_dir)
 	Route = {}
 	turn_on(pos, in_dir, sum)
-	print("consumption = "..sum)
 end
 
 --

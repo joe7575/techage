@@ -53,7 +53,6 @@ local function push_item(pos, inv, meta)
 	if not inv:is_empty("main") then
 		local stack = inv:get_stack("main", 1)
 		local taken = stack:take_item(1)
-		print("neighbour_push_items")
 		if techage.neighbour_push_items(pos, meta:get_int("push_dir"), taken) then
 			inv:set_stack("main", 1, stack)
 		end
@@ -61,7 +60,6 @@ local function push_item(pos, inv, meta)
 end
 
 local function node_timer(pos, elapsed)
-	print("node_timer")
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	if inv then

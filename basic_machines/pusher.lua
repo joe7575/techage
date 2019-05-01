@@ -64,7 +64,6 @@ end
 local function on_rightclick(pos, node, clicker)
 	local mem = tubelib2.get_mem(pos)
 	if not minetest.is_protected(pos, clicker:get_player_name()) then
-		print("on_rightclick", TRD(pos).State:is_active(mem), mem.techage_state)
 		if TRD(pos).State:is_active(mem) then
 			TRD(pos).State:stop(pos, mem)
 		else
