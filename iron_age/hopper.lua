@@ -8,7 +8,7 @@
 	LGPLv2.1+
 	See LICENSE.txt for more information
 	
-	Simple TA1 Funnel
+	Simple TA1 Hopper
 	
 ]]--
 
@@ -36,36 +36,53 @@ local function scan_for_objects(pos, inv)
 	end
 end
 
+local function pull_push_item(pos, meta)
+	local items = techage.neighbour_pull_items(pos, 6, 1)
+	if items then
+		if techage.neighbour_push_items(pos, meta:get_int("push_dir"), items) then
+			return true
+		end
+		-- place item back
+		techage.neighbour_unpull_items(pos, 6, items)
+	end
+	return false
+end
+
+
 local function push_item(pos, inv, meta)
 	if not inv:is_empty("main") then
 		local stack = inv:get_stack("main", 1)
 		local taken = stack:take_item(1)
-		if techage.push_items(pos, meta:get_int("push_dir"), taken) then
+		print("neighbour_push_items")
+		if techage.neighbour_push_items(pos, meta:get_int("push_dir"), taken) then
 			inv:set_stack("main", 1, stack)
 		end
 	end
 end
 
 local function node_timer(pos, elapsed)
+	print("node_timer")
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	if inv then
-		scan_for_objects(pos, inv)
-		push_item(pos, inv, meta)
+		if not pull_push_item(pos, meta) then
+			scan_for_objects(pos, inv)
+			push_item(pos, inv, meta)
+		end
 	end
 	return true
 end
 
-minetest.register_node("techage:funnel_ta1", {
-	description = I("TA1 Funnel"),
+minetest.register_node("techage:hopper_ta1", {
+	description = I("TA1 Hopper"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"default_cobble.png^techage_appl_funnel_top.png",
-		"default_cobble.png^techage_appl_funnel.png",
-		"default_cobble.png^techage_appl_funnel_right.png",
-		"default_cobble.png^techage_appl_funnel.png",
-		"default_cobble.png^techage_appl_funnel.png",
-		"default_cobble.png^techage_appl_funnel.png",
+		"default_cobble.png^techage_appl_hopper_top.png",
+		"default_cobble.png^techage_appl_hopper.png",
+		"default_cobble.png^techage_appl_hopper_right.png",
+		"default_cobble.png^techage_appl_hopper.png",
+		"default_cobble.png^techage_appl_hopper.png",
+		"default_cobble.png^techage_appl_hopper.png",
 	},
 
 	drawtype = "nodebox",
@@ -97,7 +114,7 @@ minetest.register_node("techage:funnel_ta1", {
 	end,
 	
 	after_place_node = function(pos, placer)
-		techage.add_node(pos, "techage:funnel_ta1")
+		techage.add_node(pos, "techage:hopper_ta1")
 		local node = minetest.get_node(pos)
 		M(pos):set_int("push_dir", techage.side_to_indir("L", node.param2))
 		minetest.get_node_timer(pos):start(2)
@@ -120,7 +137,7 @@ minetest.register_node("techage:funnel_ta1", {
 
 
 minetest.register_craft({
-	output = "techage:funnel_ta1",
+	output = "techage:hopper_ta1",
 	recipe = {
 		{"default:stone", "", "default:stone"},
 		{"default:stone", "default:gold_ingot",	"default:stone"},
@@ -128,7 +145,7 @@ minetest.register_craft({
 	},
 })
 
-techage.register_node("techage:funnel_ta1", {}, {
+techage.register_node("techage:hopper_ta1", {}, {
 	on_pull_item = nil,  		-- not needed
 	on_unpull_item = nil,		-- not needed
 	
@@ -139,7 +156,9 @@ techage.register_node("techage:funnel_ta1", {}, {
 	end,
 })	
 
-techage.register_help_page("TA1 Funnel", [[The Funnel collects dropped items 
+techage.register_help_page("TA1 Hopper", [[The Hopper collects dropped items 
 and pushes them to the right side. 
 Items are sucked up when they 
-are dropped on top of the funnel block.]], "techage:funnel_ta1")
+are dropped on top of the Hopper block.
+But the Hopper can also pull items out of 
+chests or furnace blocks, if it is placed below.]], "techage:hopper_ta1")

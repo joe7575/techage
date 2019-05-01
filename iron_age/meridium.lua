@@ -120,7 +120,7 @@ minetest.register_craft({
 	}
 })
 
-techage.register_recipe({
+techage.ironage_register_recipe({
 	output = "techage:meridium_ingot", 
 	recipe = {"default:steel_ingot", "default:mese_crystal_fragment"}, 
 	heat = 4,

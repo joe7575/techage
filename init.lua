@@ -45,7 +45,7 @@ else
 	-- Iron Age
 	dofile(MP.."/iron_age/main.lua")
 	dofile(MP.."/iron_age/gravelsieve.lua")
-	dofile(MP.."/iron_age/funnel.lua")
+	dofile(MP.."/iron_age/hopper.lua")
 	dofile(MP.."/iron_age/hammer.lua")
 	dofile(MP.."/iron_age/lighter.lua")
 	dofile(MP.."/iron_age/charcoalpile.lua")

@@ -131,6 +131,12 @@ function techage.side_to_indir(side, param2)
 	return tubelib2.Turn180Deg[side_to_dir(side, param2)]
 end
 
+local function get_next_node(pos, out_dir)
+	local res, npos, node = Tube:compatible_node(pos, out_dir)
+	local in_dir = tubelib2.Turn180Deg[out_dir]
+	return res, npos, in_dir, Name2Name[node.name] or node.name 
+end
+
 local function get_dest_node(pos, out_dir)
 	local spos, in_dir = Tube:get_connected_node_pos(pos, out_dir)
 	local _,node = Tube:get_node(spos)
@@ -320,17 +326,14 @@ end
 
 function techage.pull_items(pos, out_dir, num)
 	local npos, in_dir, name = get_dest_node(pos, out_dir)
-	if npos == nil then return end
-	if NodeDef[name] and NodeDef[name].on_pull_item then
+	if npos and NodeDef[name] and NodeDef[name].on_pull_item then
 		return NodeDef[name].on_pull_item(npos, in_dir, num)
 	end
-	return nil
 end
 
 function techage.push_items(pos, out_dir, stack)
 	local npos, in_dir, name = get_dest_node(pos, out_dir)
-	if npos == nil then return end
-	if NodeDef[name] and NodeDef[name].on_push_item then
+	if npos and NodeDef[name] and NodeDef[name].on_push_item then
 		return NodeDef[name].on_push_item(npos, in_dir, stack)	
 	elseif name == "air" then
 		minetest.add_item(npos, stack)
@@ -341,13 +344,42 @@ end
 
 function techage.unpull_items(pos, out_dir, stack)
 	local npos, in_dir, name = get_dest_node(pos, out_dir)
-	if npos == nil then return end
-	if NodeDef[name] and NodeDef[name].on_unpull_item then
+	if npos and NodeDef[name] and NodeDef[name].on_unpull_item then
 		return NodeDef[name].on_unpull_item(npos, in_dir, stack)
 	end
 	return false
 end
 	
+-------------------------------------------------------------------
+-- Client side Push/Pull item functions for funnel like nodes 
+-- (nodes with no tube support)
+-------------------------------------------------------------------
+
+function techage.neighbour_pull_items(pos, out_dir, num)
+	local res, npos, in_dir, name = get_next_node(pos, out_dir)
+	if res and NodeDef[name] and NodeDef[name].on_pull_item then
+		return NodeDef[name].on_pull_item(npos, in_dir, num)
+	end
+end
+
+function techage.neighbour_push_items(pos, out_dir, stack)
+	local res, npos, in_dir, name = get_next_node(pos, out_dir)
+	if res and NodeDef[name] and NodeDef[name].on_push_item then
+		return NodeDef[name].on_push_item(npos, in_dir, stack)	
+	elseif name == "air" then
+		minetest.add_item(npos, stack)
+		return true 
+	end
+	return false
+end
+
+function techage.neighbour_unpull_items(pos, out_dir, stack)
+	local res, npos, in_dir, name = get_next_node(pos, out_dir)
+	if res and NodeDef[name] and NodeDef[name].on_unpull_item then
+		return NodeDef[name].on_unpull_item(npos, in_dir, stack)
+	end
+	return false
+end
 
 -------------------------------------------------------------------
 -- Server side helper functions
