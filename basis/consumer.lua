@@ -108,6 +108,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 			stop_node = power_used and stop_node or nil,
 		})
 		local tTechage = {
+			stage = stage,
 			State = tState,
 			num_items = tNode.num_items[stage],
 			turn_on = power_used and turn_on_clbk or nil,

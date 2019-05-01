@@ -134,7 +134,7 @@ for idx = 0,3 do
 		paramtype2 = "facedir",
 		sunlight_propagates = true,
 		is_ground_content = false,
-		groups = {choppy = 2, cracky = 1},
+		groups = {choppy = 2, cracky = 1, not_in_creative_inventory = (idx == 3) and 0 or 1},
 		drop = "techage:sieve3",
 	})
 end

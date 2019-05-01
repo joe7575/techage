@@ -60,13 +60,13 @@ else
 	end
 
 	-- Steam Engine
+	dofile(MP.."/steam_engine/help.lua")
 	dofile(MP.."/steam_engine/firebox.lua")
 	dofile(MP.."/steam_engine/boiler.lua")
 	dofile(MP.."/steam_engine/cylinder.lua")
 	dofile(MP.."/steam_engine/flywheel.lua")
 	dofile(MP.."/steam_engine/gearbox.lua")
-	dofile(MP.."/steam_engine/consumer.lua")
-
+	
 	-- Basic Machines
 	dofile(MP.."/basic_machines/pusher.lua")
 	dofile(MP.."/basic_machines/blackhole.lua")
@@ -78,6 +78,7 @@ else
 	dofile(MP.."/basic_machines/autocrafter.lua")
 	dofile(MP.."/basic_machines/mark.lua")
 	dofile(MP.."/basic_machines/forceload.lua")
+	dofile(MP.."/basic_machines/electronic_fab.lua")
 	if techage.basalt_stone_enabled then
 		dofile(MP.."/basic_machines/basalt.lua")
 	end
@@ -96,6 +97,7 @@ else
 	--dofile(MP.."/test/test.lua")
 	dofile(MP.."/test/generator.lua")
 	--dofile(MP.."/test/consumer.lua")
+	--dofile(MP.."/test/consumer2.lua")
 
 
 	--dofile(MP.."/fermenter/gasflare.lua")

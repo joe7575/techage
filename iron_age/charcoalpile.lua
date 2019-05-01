@@ -224,11 +224,11 @@ local PileHelp = S([[Coal Pile to produce charcoal:
 (see plan)]])
 
 local PileImages = {
-	{"default_dirt", "default_dirt", "default_dirt",    "default_dirt", "default_dirt"},
-	{"default_dirt", "default_wood", "default_wood",    "default_wood", "default_dirt"},
-	{"default_dirt", "default_wood", "default_wood",    "default_wood", "default_dirt"},
-	{"default_dirt", "default_wood", "techage_lighter", "default_wood", "default_dirt"},
-	{"default_dirt", "default_dirt", "default_dirt",    "default_dirt", "default_dirt"},
+	{"default_dirt.png", "default_dirt.png", "default_dirt.png",    "default_dirt.png", "default_dirt.png"},
+	{"default_dirt.png", "default_wood.png", "default_wood.png",    "default_wood.png", "default_dirt.png"},
+	{"default_dirt.png", "default_wood.png", "default_wood.png",    "default_wood.png", "default_dirt.png"},
+	{"default_dirt.png", "default_wood.png", "techage_lighter.png", "default_wood.png", "default_dirt.png"},
+	{"default_dirt.png", "default_dirt.png", "default_dirt.png",    "default_dirt.png", "default_dirt.png"},
 }
 
 techage.register_help_page("Coal Pile", PileHelp, nil, PileImages)

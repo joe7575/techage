@@ -208,7 +208,7 @@ function NodeStates:start(pos, mem, called_from_on_timer)
 			self.start_node(pos, mem, state)
 		end
 		mem.techage_state = RUNNING
-		mem.techage_countdown = 4
+		mem.techage_countdown = 1
 		if called_from_on_timer then
 			-- timer has to be stopped once to be able to be restarted
 			self.stop_timer = true
@@ -333,12 +333,19 @@ function NodeStates:is_active(mem)
 	return state == RUNNING or state == STANDBY or state == BLOCKED
 end
 
+function NodeStates:start_if_standby(pos)
+	local mem = tubelib2.get_mem(pos)
+	if mem.techage_state == STANDBY then
+		self:start(pos, mem)
+	end
+end
+
 -- To be called if node is idle.
 -- If countdown reaches zero, the node is set to STANDBY.
 function NodeStates:idle(pos, mem)
 	local countdown = mem.techage_countdown - 1
 	mem.techage_countdown = countdown
-	if countdown < 0 then
+	if countdown <= 0 then
 		self:standby(pos, mem)
 	end
 end

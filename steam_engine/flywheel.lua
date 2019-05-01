@@ -26,7 +26,7 @@ local I,_ = dofile(MP.."/intllib.lua")
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 8
-local POWER_CAPACITY = 12
+local POWER_CAPACITY = 20
 
 local Axle = techage.Axle
 local generator = techage.generator
@@ -274,3 +274,11 @@ minetest.register_lbm({
 	end
 })
 
+techage.register_help_page(I("TA2 Flywheel"), 
+I([[Part of the steam engine.
+Has to be placed side by side
+with the TA2 Cylinder.
+Used to turn on/off the steam engine.
+Connect the Flywheel with your TA2 machines
+by means of Axles and Gearboxes
+(see TA2 Steam Engine)]]), "techage:flywheel")

@@ -200,8 +200,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	local inv = minetest.get_meta(pos):get_inventory()
-	local trd = TRD(pos)
+	local inv = M(pos):get_inventory()
 	if listname == "recipe" then
 		stack:set_count(1)
 		inv:set_stack(listname, index, stack)
@@ -210,8 +209,8 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	elseif listname == "output" then
 		on_output_change(pos, inv, stack)
 		return 0
-	elseif listname == "src" and trd.State:get_state(M(pos)) == techage.STANDBY then
-		trd.State:start(pos, M(pos))
+	elseif listname == "src" then
+		TRD(pos).State:start_if_standby(pos)
 	end
 	return stack:get_count()
 end
@@ -402,7 +401,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		groups = {choppy=2, cracky=2, crumbly=2},
 		sounds = default.node_sound_wood_defaults(),
 		num_items = {0,1,2,4},
-		power_consumption = {0,2,3,4},
+		power_consumption = {0,4,6,9},
 	})
 
 minetest.register_craft({

@@ -7,8 +7,8 @@
 
 	LGPLv2.1+
 	See LICENSE.txt for more information
-	
-	TA2/TA3/TA4 Gravel Sieve, sieving gravel to find ores
+
+	TA2/TA3/TA4 Electronic Fab
 	
 ]]--
 
@@ -24,12 +24,34 @@ local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
 local STANDBY_TICKS = 10
-local COUNTDOWN_TICKS = 10
-local CYCLE_TIME = 4
+local COUNTDOWN_TICKS = 6
+local CYCLE_TIME = 6
 
-local get_random_gravel_ore = techage.gravelsieve_get_random_gravel_ore
-local get_random_basalt_ore = techage.gravelsieve_get_random_basalt_ore
 
+local ValidInput = {
+	{},  -- 1
+	{  -- 2
+		["default:glass"] = true,
+		["basic_materials:copper_wire"] = true,
+		["basic_materials:plastic_sheet"] = true,
+	},
+	{},  -- 3
+	{},  -- 4
+}
+
+local Input = {
+	{},  -- 1
+	{"default:glass", "basic_materials:copper_wire", "basic_materials:plastic_sheet"}, --2
+	{},  -- 3
+	{},  -- 4
+}
+
+local Output = {
+	"",  -- 1
+	"techage:vacuum_tube",  -- 2
+	"",  -- 3
+	"",  -- 4
+}
 
 local function formspec(self, pos, mem)
 	return "size[8,8]"..
@@ -37,12 +59,14 @@ local function formspec(self, pos, mem)
 	default.gui_bg_img..
 	default.gui_slots..
 	"list[context;src;0,0;3,3;]"..
-	"item_image[0,0;1,1;default:gravel]"..
-	"image[0,0;1,1;techage_form_mask.png]"..
+	"item_image[0,0;1,1;default:glass]"..
+	"item_image[0,1;1,1;basic_materials:copper_wire]"..
+	"item_image[0,2;1,1;basic_materials:plastic_sheet]"..
 	"image[3.5,0;1,1;"..techage.get_power_image(pos, mem).."]"..
 	"image[3.5,1;1,1;techage_form_arrow.png]"..
 	"image_button[3.5,2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 	"list[context;dst;5,0;3,3;]"..
+	"item_image[5,0;1,1;techage:vacuum_tube]"..
 	"list[current_player;main;0,4;8,4;]"..
 	"listring[context;dst]"..
 	"listring[current_player;main]"..
@@ -55,12 +79,14 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	if listname == "src" then
-		TRD(pos).State:start_if_standby(pos)
+	--local meta = minetest.get_meta(pos)
+	--local inv = meta:get_inventory()
+	local trd = TRD(pos)
+	if listname == "src" and ValidInput[trd.stage][stack:get_name()] then
+		trd.State:start_if_standby(pos)
 		return stack:get_count()
-	elseif listname == "dst" then
-		return 0
 	end
+	return 0
 end
 
 local function allow_metadata_inventory_move(pos, from_list, from_index, to_list, to_index, count, player)
@@ -77,30 +103,31 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return stack:get_count()
 end
 
-local function sieving(pos, trd, mem, inv)
-	local src, dst
-	if inv:contains_item("src", ItemStack("techage:basalt_gravel")) then
-		dst, src = get_random_basalt_ore(), ItemStack("techage:basalt_gravel")
-	elseif inv:contains_item("src", ItemStack("default:gravel")) then
-		dst, src = get_random_gravel_ore(), ItemStack("default:gravel")
-	else
-		trd.State:idle(pos, mem)
+local function making(pos, trd, mem, inv)
+	if inv:room_for_item("dst", ItemStack(Output[trd.stage])) then
+		for _,name in ipairs(Input[trd.stage]) do
+			if not inv:contains_item("src", ItemStack(name)) then
+				trd.State:idle(pos, mem)
+				return
+			end
+		end
+		for _,name in ipairs(Input[trd.stage]) do
+			inv:remove_item("src", ItemStack(name))
+		end
+		inv:add_item("dst", ItemStack(Output[trd.stage]))
+		trd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
 		return
 	end
-	if not inv:room_for_item("dst", dst) then
-		trd.State:idle(pos, mem)
-		return
-	end
-	inv:add_item("dst", dst)
-	inv:remove_item("src", src)
-	trd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+	trd.State:idle(pos, mem)
 end
 
 local function keep_running(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	local trd = TRD(pos)
 	local inv = M(pos):get_inventory()
-	sieving(pos, trd, mem, inv)
+	if inv then
+		making(pos, trd, mem, inv)
+	end
 	return trd.State:is_active(mem)
 end
 
@@ -120,45 +147,52 @@ local function can_dig(pos, player)
 	return inv:is_empty("dst") and inv:is_empty("src")
 end
 
-
 local tiles = {}
 -- '#' will be replaced by the stage number
--- '{power}' will be replaced by the power PNG
 tiles.pas = {
 	-- up, down, right, left, back, front
-	"techage_appl_sieve_top.png^techage_frame_ta#_top.png",
+	"techage_filling_ta#.png^techage_frame_ta#_top.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
-	"techage_filling_ta#.png^techage_appl_sieve.png^techage_frame_ta#.png",
-	"techage_filling_ta#.png^techage_appl_sieve.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_appl_electronic_fab.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_appl_electronic_fab.png^techage_frame_ta#.png",
 }
 tiles.act = {
 	-- up, down, right, left, back, front
+	"techage_filling_ta#.png^techage_frame_ta#_top.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
 	{
-		image = "techage_appl_sieve4_top.png^techage_frame4_ta#_top.png",
+		image = "techage_filling4_ta#.png^techage_appl_electronic_fab4.png^techage_frame4_ta#.png",
 		backface_culling = false,
 		animation = {
 			type = "vertical_frames",
 			aspect_w = 32,
 			aspect_h = 32,
-			length = 2.0,
+			length = 0.5,
 		},
 	},
-	"techage_filling_ta#.png^techage_frame_ta#.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
-	"techage_filling_ta#.png^techage_appl_sieve.png^techage_frame_ta#.png",
-	"techage_filling_ta#.png^techage_appl_sieve.png^techage_frame_ta#.png",
+	{
+		image = "techage_filling4_ta#.png^techage_appl_electronic_fab4.png^techage_frame4_ta#.png",
+		backface_culling = false,
+		animation = {
+			type = "vertical_frames",
+			aspect_w = 32,
+			aspect_h = 32,
+			length = 0.5,
+		},
+	},
 }
 tiles.def = {
 	-- up, down, right, left, back, front
-	"techage_appl_sieve_top.png^techage_frame_ta#_top.png",
+	"techage_filling_ta#.png^techage_frame_ta#_top.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png^techage_appl_defect.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_appl_sieve.png^techage_frame_ta#.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_appl_sieve.png^techage_frame_ta#.png^techage_appl_defect.png",
+	"techage_filling_ta#.png^techage_appl_electronic_fab.png^techage_frame_ta#.png^techage_appl_defect.png",
+	"techage_filling_ta#.png^techage_appl_electronic_fab.png^techage_frame_ta#.png^techage_appl_defect.png",
 }
 
 local tubing = {
@@ -200,22 +234,8 @@ local tubing = {
 }
 
 local node_name_ta2, node_name_ta3, node_name_ta4 = 
-	techage.register_consumer("gravelsieve", I("Gravel Sieve"), tiles, {
-		drawtype = "nodebox",
-		node_box = {
-			type = "fixed",
-			fixed = {
-				{-8/16, -8/16, -8/16,  8/16, 8/16, -6/16},
-				{-8/16, -8/16,  6/16,  8/16, 8/16,  8/16},
-				{-8/16, -8/16, -8/16, -6/16, 8/16,  8/16},
-				{ 6/16, -8/16, -8/16,  8/16, 8/16,  8/16},
-				{-6/16, -8/16, -6/16,  6/16, 4/16,  6/16},
-			},
-		},
-		selection_box = {
-			type = "fixed",
-			fixed = {-8/16, -8/16, -8/16,   8/16, 8/16, 8/16},
-		},
+	techage.register_consumer("electronic_fab", I("Electronic Fab"), tiles, {
+		drawtype = "normal",
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
 		has_item_meter = true,
@@ -224,8 +244,8 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		tubing = tubing,
 		after_place_node = function(pos, placer)
 			local inv = M(pos):get_inventory()
-			inv:set_size('src', 9)
-			inv:set_size('dst', 9)
+			inv:set_size("src", 3*3)
+			inv:set_size("dst", 3*3)
 		end,
 		can_dig = can_dig,
 		node_timer = keep_running,
@@ -235,15 +255,34 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		allow_metadata_inventory_take = allow_metadata_inventory_take,
 		groups = {choppy=2, cracky=2, crumbly=2},
 		sounds = default.node_sound_wood_defaults(),
-		num_items = {0,1,2,4},
-		power_consumption = {0,3,4,5},
+		num_items = {0,1,1,1},
+		power_consumption = {0,8,12,18},
 	})
 
 minetest.register_craft({
 	output = node_name_ta2,
 	recipe = {
-		{"group:wood", "default:mese_crystal", "group:wood"},
-		{"techage:tubeS", "techage:sieve", "techage:tubeS"},
-		{"group:wood", "techage:iron_ingot", "group:wood"},
+		{"group:wood", "default:diamond", "group:wood"},
+		{"techage:tubeS", "basic_materials:gear_steel", "techage:tubeS"},
+		{"group:wood", "techage:steel_ingot", "group:wood"},
 	},
 })
+
+minetest.register_craftitem("techage:vacuum_tube", {
+	description = I("TA3 Vacuum Tubes"),
+	inventory_image = "techage_vacuum_tube.png",
+})
+
+if minetest.global_exists("unified_inventory") then
+	unified_inventory.register_craft_type("electronic_fab", {
+		description = I("Electronic Fab"),
+		icon = 'techage_filling_ta2.png^techage_appl_electronic_fab.png^techage_frame_ta2.png',
+		width = 2,
+		height = 2,
+	})
+	unified_inventory.register_craft({
+		output = "techage:vacuum_tube", 
+		items = {"default:glass", "basic_materials:copper_wire", "basic_materials:plastic_sheet"},
+		type = "electronic_fab",
+	})
+end

@@ -203,14 +203,14 @@ local BurnerHelp = S([[Coal Burner to heat the melting pot:
 
 local BurnerImages = {
 	
-	{false, false, false, "default_cobble.png^techage_meltingpot", false},
+	{false, false, false, "default_cobble.png^techage_meltingpot.png", false},
 	{false, false, false, false, false},
-	{false, false, "default_cobble", "techage_charcoal", "default_cobble"},
-	{false, false, "default_cobble", "techage_charcoal", "default_cobble"},
-	{false, false, "default_cobble", "techage_charcoal", "default_cobble"},
-	{false, false, "default_cobble", "techage_charcoal", "default_cobble"},
-	{false, false, false,            "techage_lighter",  "default_cobble"},
-	{false, false, "default_cobble", "default_cobble",   "default_cobble"},
+	{false, false, "default_cobble.png", "techage_charcoal.png", "default_cobble.png"},
+	{false, false, "default_cobble.png", "techage_charcoal.png", "default_cobble.png"},
+	{false, false, "default_cobble.png", "techage_charcoal.png", "default_cobble.png"},
+	{false, false, "default_cobble.png", "techage_charcoal.png", "default_cobble.png"},
+	{false, false, false,                "techage_lighter.png",  "default_cobble.png"},
+	{false, false, "default_cobble.png", "default_cobble.png",   "default_cobble.png"},
 }
 
 techage.register_help_page("Coal Burner", BurnerHelp, nil, BurnerImages)

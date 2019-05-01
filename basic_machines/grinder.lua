@@ -57,8 +57,8 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	if listname == "src" and TRD(pos).State:get_state(M(pos)) == techage.STANDBY then
-		TRD(pos).State:start(pos, M(pos))
+	if listname == "src" then
+		TRD(pos).State:start_if_standby(pos)
 	end
 	return stack:get_count()
 end
@@ -248,7 +248,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		groups = {choppy=2, cracky=2, crumbly=2},
 		sounds = default.node_sound_wood_defaults(),
 		num_items = {0,1,2,4},
-		power_consumption = {0,2,3,4},
+		power_consumption = {0,4,6,9},
 	})
 
 minetest.register_craft({

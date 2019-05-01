@@ -117,18 +117,14 @@ end
 
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
-	local meta = M(pos)
-	local trd = TRD(pos)
-	local inv = meta:get_inventory()
+	local inv = M(pos):get_inventory()
 	local list = inv:get_list(listname)
 	
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
 	if listname == "src" then
-		if trd.State:get_state(M(pos)) == techage.STANDBY then
-			trd.State:start(pos, meta)
-		end
+		TRD(pos).State:start_if_standby(pos)
 		return stack:get_count()
 	elseif stack:get_count() == 1 and 
 			(list[index]:get_count() == 0 or stack:get_name() ~= list[index]:get_name()) then
@@ -273,7 +269,8 @@ local function change_filter_settings(pos, slot, val)
 	
 	filter_settings(pos)
 	
-	meta:set_string("formspec", formspec(TRD(pos).State, pos, meta))
+	local mem = tubelib2.get_mem(pos)
+	meta:set_string("formspec", formspec(TRD(pos).State, pos, mem))
 	return true
 end
 

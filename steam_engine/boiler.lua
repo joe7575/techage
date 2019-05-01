@@ -255,7 +255,7 @@ minetest.register_node("techage:boiler2", {
 		turn_on = turn_power_on,
 		read_power_consumption = generator.read_power_consumption,
 		power_network = Pipe,
-		trigger_boiler = function(pos)
+		signal_heat = function(pos)
 			local mem = tubelib2.get_mem(pos)
 			mem.fire_trigger = true
 			if not minetest.get_node_timer(pos):is_started() then
@@ -315,3 +315,14 @@ minetest.register_craft({
 		{"techage:iron_ingot", "", "techage:iron_ingot"},
 	},
 })
+
+techage.register_help_page(I("TA2 Boiler Base"), 
+I([[Part of the steam engine.
+Has to be placed on top of the Firebox
+and filled with water.
+(see TA2 Steam Engine)]]), "techage:boiler1")
+
+techage.register_help_page(I("TA2 Boiler Top"), 
+I([[Part of the steam engine.
+Has to be placed on top of TA2 Boiler Base.
+(see TA2 Steam Engine)]]), "techage:boiler2")

@@ -32,8 +32,8 @@ local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	if mem.running then
 		local trd = TRD({x=pos.x, y=pos.y+2, z=pos.z})
-		if trd and trd.trigger_boiler then
-			trd.trigger_boiler({x=pos.x, y=pos.y+2, z=pos.z})
+		if trd and trd.signal_heat then
+			trd.signal_heat({x=pos.x, y=pos.y+2, z=pos.z})
 		end
 		mem.burn_cycles = (mem.burn_cycles or 0) - 1
 		if mem.burn_cycles <= 0 then
@@ -143,3 +143,16 @@ minetest.register_craft({
 		{'group:stone', 'group:stone', 'group:stone'},
 	},
 })
+
+techage.register_node("techage:firebox", {"techage:firebox_on"}, {
+	on_push_item = function(pos, in_dir, stack)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		if inv:room_for_item("fuel", stack) then
+			inv:add_item("fuel", stack)
+			minetest.get_node_timer(pos):start(CYCLE_TIME)
+			return true
+		end
+		return false
+	end,
+})	

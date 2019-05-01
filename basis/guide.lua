@@ -33,7 +33,7 @@ local function plan(images)
 			local img = images[y][x] or false
 			if img ~= false then
 				local x_offs, y_offs = (x-1) * 1, (y-1) * 1 + 0.8
-				tbl[#tbl+1] = "image["..x_offs..","..y_offs..";1,1;"..img..".png]"
+				tbl[#tbl+1] = "image["..x_offs..","..y_offs..";1,1;"..img.."]"
 			end
 		end
 	end
@@ -130,16 +130,16 @@ minetest.register_craft({
 
 
 function techage.register_help_page(name, text, item_name, images)
-	RecipeList[#RecipeList+1] = name
+	RecipeList[#RecipeList+1] = "    "..name
 	ItemNames[#ItemNames+1] = item_name or "plan"
-	NamesAsStr = table.concat(RecipeList, ",    ") or ""
+	NamesAsStr = table.concat(RecipeList, ",") or ""
 	Recipes[#Recipes+1] = text
 	PlanImages[#PlanImages+1] = images or "none"
 end
 
-function techage.register_chap_page(name, text)
+function techage.register_chap_page(name, text, item_name)
 	RecipeList[#RecipeList+1] = name
-	ItemNames[#ItemNames+1] = "-"
+	ItemNames[#ItemNames+1] = item_name or "-"
 	NamesAsStr = table.concat(RecipeList, ",") or ""
 	Recipes[#Recipes+1] = text
 	PlanImages[#PlanImages+1] = "none"

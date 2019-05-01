@@ -155,3 +155,9 @@ minetest.register_craft({
 		{"default:wood", "techage:iron_ingot", "basic_materials:steel_bar"},
 	},
 })
+
+techage.register_help_page(I("TA2 Cylinder"), 
+I([[Part of the steam engine.
+Has to be placed side by side
+with the TA2 Flywheel.
+(see TA2 Steam Engine)]]), "techage:cylinder")
