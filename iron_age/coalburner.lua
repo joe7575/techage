@@ -17,6 +17,10 @@
 local MP = minetest.get_modpath("techage")
 local S, NS = dofile(MP.."/intllib.lua")
 
+local COAL_BURN_TIME = 700
+local CYCLE_TIME = 5
+
+
 local function num_coal(pos)
 	local pos1 = {x=pos.x, y=pos.y+1, z=pos.z}
 	local pos2 = {x=pos.x, y=pos.y+32, z=pos.z}
@@ -31,10 +35,19 @@ local function num_cobble(pos, height)
 	return #nodes
 end
 
+local function num_air(pos)
+	local pos1 = {x=pos.x-1, y=pos.y, z=pos.z-1}
+	local pos2 = {x=pos.x+1, y=pos.y, z=pos.z+1}
+	local nodes = minetest.find_nodes_in_area(pos1, pos2, {"air"})
+	return #nodes
+end
+
 local function start_burner(pos, height)
 	local pos1 = {x=pos.x-1, y=pos.y+1, z=pos.z-1}
 	local pos2 = {x=pos.x+1, y=pos.y+height, z=pos.z+1}
-	techage.ironage_swap_nodes(pos1, pos2, "techage:charcoal", "techage:charcoal_burn")
+	for _,p in ipairs(minetest.find_nodes_in_area(pos1, pos2, "techage:charcoal")) do
+		minetest.swap_node(p, "techage:charcoal_burn")
+	end
 end
 
 local function remove_flame(pos, height)
@@ -50,6 +63,17 @@ local function remove_flame(pos, height)
 		end
 	end
 end
+
+local function calc_num_coal(meta)
+	local t = minetest.get_gametime() - meta:get_int("ignite")
+	local num = meta:get_int("height")
+	t = t - COAL_BURN_TIME
+	if t > 0 then
+		local x = (COAL_BURN_TIME * 0.2) / num
+		num = math.max(num - math.floor(t/x), 0)
+	end
+	return num
+end	
 
 local function flame(pos, height, heat, first_time)
 	local idx
@@ -76,8 +100,9 @@ local function flame(pos, height, heat, first_time)
 end
 
 
-lRatio = {120, 110, 95, 75, 55, 28, 0}
-lColor = {"000080", "400040", "800000", "800000", "800000", "800000", "800000"}
+local lRatio = {120, 110, 95, 75, 55, 28, 0}
+local lColor = {"000080", "400040", "800000", "800000", "800000", "800000", "800000"}
+
 for idx,ratio in ipairs(lRatio) do
 	local color = "techage_flame_animated.png^[colorize:#"..lColor[idx].."B0:"..ratio
 	minetest.register_node("techage:flame"..idx, {
@@ -150,7 +175,7 @@ function techage.start_burner(pos, playername)
 				gain = height/12.0, 
 				loop = true})
 		meta:set_int("handle", handle)
-		minetest.get_node_timer(pos):start(5)
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end
 end
 
@@ -164,13 +189,18 @@ function techage.keep_running_burner(pos)
 		meta:set_int("handle", 0)
 	end
 	if num_cobble(pos, height) == height * 8 then
-		local new_height = num_coal(pos)
-		if new_height > 0 then
-			flame(pos, height, new_height, false)
+		local num = calc_num_coal(meta)
+		if num > 0 then
+			if num_air(pos) == 0 then
+				-- pause the burner
+				meta:set_int("ignite", meta:get_int("ignite") + CYCLE_TIME)
+				return true
+			end
+			flame(pos, height, num, false)
 			handle = minetest.sound_play("techage_gasflare", {
 					pos = {x=pos.x, y=pos.y+height, z=pos.z}, 
 					max_hear_distance = 32, 
-					gain = new_height/12.0, 
+					gain = num/12.0, 
 					loop = true})
 			meta:set_int("handle", handle)
 		else
@@ -199,6 +229,7 @@ local BurnerHelp = S([[Coal Burner to heat the melting pot:
 - fill the tower from the top with charcoal
 - ignite the lighter
 - place the pot in the flame, (one block above the tower)
+- to pause the burner, close the hole temporarily with e.g. dirt
 (see plan)]])
 
 local BurnerImages = {

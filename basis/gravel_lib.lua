@@ -19,6 +19,12 @@ local PROBABILITY_FACTOR = 2
 local ore_probability = {
 }
 
+local ProbabilityCorrections = {
+	["default:coal_lump"] = 0.5,  -- extensively used
+	["default:iron_lump"] = 0.5,  -- extensively used
+	["techage:baborium_lump"] = 99999,  -- mining required
+}
+
 -- collect all registered ores and calculate the probability
 local function add_ores()
 	for _,item in  pairs(minetest.registered_ores) do
@@ -42,6 +48,12 @@ local function add_ores()
 							(1.0 / probability))
 				end
 			end
+		end
+	end
+	-- some corrections
+	for key, correction in pairs(ProbabilityCorrections) do
+		if ore_probability[key] then
+			ore_probability[key] = ore_probability[key] * correction
 		end
 	end
 	local overall_probability = 0.0

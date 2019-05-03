@@ -36,6 +36,9 @@ else
 	dofile(MP.."/tools/trowel.lua")
 	--dofile(MP.."/tools/repairkit.lua")
 	
+	-- Nodes
+	dofile(MP.."/nodes/baborium.lua")
+	
 	-- Power networks
 	dofile(MP.."/power/drive_axle.lua")
 	dofile(MP.."/power/steam_pipe.lua")
@@ -89,8 +92,6 @@ else
 	--dofile(MP.."/coal_power_station/generator.lua")
 	--dofile(MP.."/coal_power_station/turbine.lua")
 	--dofile(MP.."/coal_power_station/cooler.lua")
-
-
 
 
 	dofile(MP.."/test/battery.lua")

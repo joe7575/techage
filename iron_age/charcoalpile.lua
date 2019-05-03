@@ -18,7 +18,7 @@ local MP = minetest.get_modpath("techage")
 local S, NS = dofile(MP.."/intllib.lua")
 
 local PILE_BURN_TIME = 1200
-local COAL_BURN_TIME = 700
+local COAL_BURN_TIME = 300
 
 -- determine the number of wood nodes
 local function num_wood(pos)
