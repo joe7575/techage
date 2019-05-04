@@ -43,41 +43,46 @@ local function formspec(self, pos, mem)
 		default.get_hotbar_bg(0, 3)
 end
 
-local function start_cylinder(pos, on)
+local function start_cylinder(pos, on, mem)
+	if not on then
+		if mem.handle then
+			minetest.sound_stop(mem.handle)
+			mem.handle = nil
+		end
+	end
 	local pos2 = techage.get_pos(pos, 'L')
 	local trd = TRD(pos2)
 	if trd and trd.start_cylinder then
-		return trd.start_cylinder(pos2, on)
+		return trd.start_cylinder(pos2, on, mem)
 	end
 	return false
 end
 
 local function can_start(pos, mem, state)
-	return start_cylinder(pos, true)
+	return start_cylinder(pos, true, mem)
 end
 
 local function play_sound(pos)
 	local mem = tubelib2.get_mem(pos)
-	mem.handle = minetest.sound_play("techage_steamengine", {
-		pos = pos, 
-		gain = 0.5,
-		max_hear_distance = 10})
-	minetest.after(2, play_sound, pos)
+	if mem.techage_state == techage.RUNNING then
+		mem.handle = minetest.sound_play("techage_steamengine", {
+			pos = pos, 
+			gain = 0.5,
+			max_hear_distance = 10})
+		minetest.after(2, play_sound, pos)
+	end
 end
 
 local function start_node(pos, mem, state)
-	print("start_node")
 	generator.turn_power_on(pos, POWER_CAPACITY)
+	mem.techage_state = techage.RUNNING
 	play_sound(pos)
 end
 
 local function stop_node(pos, mem, state)
-	start_cylinder(pos, false)
+	mem.techage_state = techage.STOPPED
+	start_cylinder(pos, false, mem)
 	generator.turn_power_on(pos, 0)
-	if mem.handle then
-		minetest.sound_stop(mem.handle)
-		mem.handle = nil
-	end
 end
 
 local State = techage.NodeStates:new({
@@ -96,20 +101,19 @@ local function distibuting(pos, mem)
 		State:keep_running(pos, mem, COUNTDOWN_TICKS)
 	else
 		State:fault(pos, mem)	
-		start_cylinder(pos, false)
+		start_cylinder(pos, false, mem)
 		generator.turn_power_on(pos, 0)
 	end
 end
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	print("flywheel node_timer")
 	local pos2 = techage.get_pos(pos, 'L')
 	if minetest.get_node(pos2).name == "techage:cylinder_on" and tubelib2.get_mem(pos2).running then
 		distibuting(pos, mem)
 	else
 		State:fault(pos, mem)	
-		start_cylinder(pos, false)
+		start_cylinder(pos, false, mem)
 		generator.turn_power_on(pos, 0)
 	end
 	return State:is_active(mem)
@@ -125,7 +129,7 @@ local function turn_power_on(pos, in_dir, sum)
 	mem.power_result = sum
 	if State:is_active(mem) and sum <= 0 then
 		State:fault(pos, mem)
-		start_cylinder(pos, false)
+		start_cylinder(pos, false, mem)
 		-- No automatic turn on
 		mem.power_capacity = 0
 	end

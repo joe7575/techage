@@ -134,7 +134,7 @@ for idx = 0,3 do
 		paramtype2 = "facedir",
 		sunlight_propagates = true,
 		is_ground_content = false,
-		groups = {choppy = 2, cracky = 1, not_in_creative_inventory = (idx == 3) and 0 or 1},
+		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, not_in_creative_inventory = (idx == 3) and 0 or 1},
 		drop = "techage:sieve3",
 	})
 end
@@ -162,7 +162,7 @@ minetest.register_node("techage:sieved_gravel", {
 minetest.register_node("techage:compressed_gravel", {
 	description = I("Compressed Gravel"),
 	tiles = {"techage_compressed_gravel.png"},
-	groups = {cracky=2, crumbly = 2, cracky = 2},
+	groups = {cracky=2, crumbly = 2},
 	sounds = default.node_sound_gravel_defaults(),
 })
 
