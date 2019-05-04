@@ -58,7 +58,7 @@ minetest.register_node("techage:coal_lighter_burn", {
 	drop = "",
 	light_source = 10,
 	is_ground_content = false,
-	groups = {crumbly = 2, not_in_creative_inventory=1},
+	groups = {not_in_creative_inventory=1},
 	sounds = default.node_sound_dirt_defaults(),
 })
 

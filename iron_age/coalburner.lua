@@ -50,6 +50,14 @@ local function start_burner(pos, height)
 	end
 end
 
+local function remove_coal(pos, height)
+	local pos1 = {x=pos.x-1, y=pos.y+1, z=pos.z-1}
+	local pos2 = {x=pos.x+1, y=pos.y+height, z=pos.z+1}
+	for _,p in ipairs(minetest.find_nodes_in_area(pos1, pos2, "techage:charcoal_burn")) do
+		minetest.remove_node(p)
+	end
+end
+
 local function remove_flame(pos, height)
 	local idx
 	pos = {x=pos.x, y=pos.y+height, z=pos.z}
@@ -194,9 +202,15 @@ function techage.keep_running_burner(pos)
 			if num_air(pos) == 0 then
 				-- pause the burner
 				meta:set_int("ignite", meta:get_int("ignite") + CYCLE_TIME)
+				meta:set_int("paused", 1)
 				return true
 			end
-			flame(pos, height, num, false)
+			if meta:get_int("paused") == 1 then
+				flame(pos, height, num, true)
+				meta:set_int("paused", 0)
+			else
+				flame(pos, height, num, false)
+			end
 			handle = minetest.sound_play("techage_gasflare", {
 					pos = {x=pos.x, y=pos.y+height, z=pos.z}, 
 					max_hear_distance = 32, 
@@ -205,6 +219,7 @@ function techage.keep_running_burner(pos)
 			meta:set_int("handle", handle)
 		else
 			minetest.swap_node(pos, {name="techage:ash"})
+			remove_coal(pos, height)
 			return false
 		end
 		return true
@@ -216,6 +231,7 @@ function techage.stop_burner(pos)
 	local meta = minetest.get_meta(pos)
 	local height = meta:get_int("height")
 	remove_flame(pos, height)
+	remove_coal(pos, height)
 	local handle = meta:get_int("handle")
 	minetest.sound_stop(handle)
 end

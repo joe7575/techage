@@ -264,7 +264,7 @@ minetest.register_craft({
 	recipe = {
 		{"group:wood", "default:diamond", "group:wood"},
 		{"techage:tubeS", "basic_materials:gear_steel", "techage:tubeS"},
-		{"group:wood", "techage:steel_ingot", "group:wood"},
+		{"group:wood", "default:steel_ingot", "group:wood"},
 	},
 })
 

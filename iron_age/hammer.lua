@@ -26,8 +26,23 @@ local function handler(player_name, node, itemstack, digparams)
 	end
 
 	if minetest.get_item_group(node.name, "stone") > 0 then
+		-- Remove item from players inventory or from the world
+		local ndef = minetest.registered_nodes[node.name]
+		if ndef and ndef.drop then
+			local item = ItemStack(ndef.drop)
+			local inv = minetest.get_inventory({type="player", name=player_name})
+			if inv:room_for_item("main", item) then
+				local taken = inv:remove_item("main", item)
+			else
+				for _,obj in ipairs(minetest.get_objects_inside_radius(pos, 1)) do
+					obj:remove()
+					break
+				end
+			end
+		end
 		node.name = "default:gravel"
 		minetest.swap_node(pos, node)
+		minetest.check_single_for_falling(pos)
 	end
 end
 
@@ -38,13 +53,13 @@ minetest.register_tool("techage:hammer_bronze", {
 		full_punch_interval = 1.0,
 		max_drop_level=1,
 		groupcaps={
-			cracky = {times={[1]=5.00, [2]=2.0, [3]=1.0}, uses=50, maxlevel=2},
+			cracky = {times={[1]=5.00, [2]=2.0, [3]=1.0}, uses=40, maxlevel=2},
 		},
 		damage_groups = {fleshy=4},
 	},
 	sound = {breaks = "default_tool_breaks"},
 	after_use = function(itemstack, user, node, digparams)
-		minetest.after(0.05, handler, user:get_player_name(), node)
+		minetest.after(0.01, handler, user:get_player_name(), node)
 		itemstack:add_wear(digparams.wear)
 		return itemstack
 	end,
@@ -57,13 +72,13 @@ minetest.register_tool("techage:hammer_steel", {
 		full_punch_interval = 1.0,
 		max_drop_level=1,
 		groupcaps={
-			cracky = {times={[1]=4.00, [2]=1.60, [3]=0.80}, uses=60, maxlevel=2},
+			cracky = {times={[1]=4.00, [2]=1.60, [3]=0.80}, uses=50, maxlevel=2},
 		},
 		damage_groups = {fleshy=4},
 	},
 	sound = {breaks = "default_tool_breaks"},
 	after_use = function(itemstack, user, node, digparams)
-		minetest.after(0.05, handler, user:get_player_name(), node)
+		minetest.after(0.01, handler, user:get_player_name(), node)
 		itemstack:add_wear(digparams.wear)
 		return itemstack
 	end,
@@ -76,13 +91,13 @@ minetest.register_tool("techage:hammer_mese", {
 		full_punch_interval = 0.9,
 		max_drop_level=3,
 		groupcaps={
-			cracky = {times={[1]=2.4, [2]=1.2, [3]=0.60}, uses=80, maxlevel=3},
+			cracky = {times={[1]=2.4, [2]=1.2, [3]=0.60}, uses=60, maxlevel=3},
 		},
 		damage_groups = {fleshy=5},
 	},
 	sound = {breaks = "default_tool_breaks"},
 	after_use = function(itemstack, user, node, digparams)
-		minetest.after(0.05, handler, user:get_player_name(), node)
+		minetest.after(0.01, handler, user:get_player_name(), node)
 		itemstack:add_wear(digparams.wear)
 		return itemstack
 	end,
@@ -95,13 +110,13 @@ minetest.register_tool("techage:hammer_diamond", {
 		full_punch_interval = 0.9,
 		max_drop_level=3,
 		groupcaps={
-			cracky = {times={[1]=2.0, [2]=1.0, [3]=0.50}, uses=100, maxlevel=3},
+			cracky = {times={[1]=2.0, [2]=1.0, [3]=0.50}, uses=70, maxlevel=3},
 		},
 		damage_groups = {fleshy=5},
 	},
 	sound = {breaks = "default_tool_breaks"},
 	after_use = function(itemstack, user, node, digparams)
-		minetest.after(0.05, handler, user:get_player_name(), node)
+		minetest.after(0.01, handler, user:get_player_name(), node)
 		itemstack:add_wear(digparams.wear)
 		return itemstack
 	end,
