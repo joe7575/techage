@@ -196,7 +196,7 @@ minetest.register_node("techage:charcoal", {
 minetest.register_craft({
 	type = "fuel",
 	recipe = "techage:charcoal",
-	burntime = 370,
+	burntime = 120,
 })
 
 minetest.register_lbm({

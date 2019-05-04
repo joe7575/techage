@@ -17,7 +17,7 @@
 local MP = minetest.get_modpath("techage")
 local S, NS = dofile(MP.."/intllib.lua")
 
-local COAL_BURN_TIME = 700
+local COAL_BURN_TIME = 1200
 local CYCLE_TIME = 5
 
 
@@ -46,7 +46,7 @@ local function start_burner(pos, height)
 	local pos1 = {x=pos.x-1, y=pos.y+1, z=pos.z-1}
 	local pos2 = {x=pos.x+1, y=pos.y+height, z=pos.z+1}
 	for _,p in ipairs(minetest.find_nodes_in_area(pos1, pos2, "techage:charcoal")) do
-		minetest.swap_node(p, "techage:charcoal_burn")
+		minetest.swap_node(p, {name = "techage:charcoal_burn"})
 	end
 end
 

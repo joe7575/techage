@@ -30,7 +30,7 @@ else
 	dofile(MP.."/basis/tubes.lua")  -- tubelib replacement
 	dofile(MP.."/basis/command.lua")  -- tubelib replacement
 	dofile(MP.."/basis/consumer.lua")  -- consumer base model
-	dofile(MP.."/basis/firebox.lua")  -- common firebox functions
+	dofile(MP.."/basis/firebox_lib.lua")  -- common firebox functions
 	
 	-- Tools
 	dofile(MP.."/tools/trowel.lua")
