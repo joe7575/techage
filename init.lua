@@ -87,16 +87,17 @@ else
 	end
 
 	-- Coal power station
-	dofile(MP.."/coal_power_station/firebox.lua")
-	--dofile(MP.."/coal_power_station/boiler.lua")
+	--dofile(MP.."/coal_power_station/firebox.lua")
+	--dofile(MP.."/coal_power_station/boiler_base.lua")
+	--dofile(MP.."/coal_power_station/boiler_top.lua")
 	--dofile(MP.."/coal_power_station/generator.lua")
 	--dofile(MP.."/coal_power_station/turbine.lua")
 	--dofile(MP.."/coal_power_station/cooler.lua")
 
 
-	dofile(MP.."/test/battery.lua")
+	--dofile(MP.."/test/battery.lua")
 	--dofile(MP.."/test/test.lua")
-	dofile(MP.."/test/generator.lua")
+	--dofile(MP.."/test/generator.lua")
 	--dofile(MP.."/test/consumer.lua")
 	--dofile(MP.."/test/consumer2.lua")
 

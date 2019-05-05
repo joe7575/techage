@@ -188,6 +188,7 @@ minetest.register_node("techage:flywheel", {
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
 
+	drop = "",
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -251,6 +252,7 @@ minetest.register_node("techage:flywheel_on", {
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
 
+	drop = "",
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
 	diggable = false,

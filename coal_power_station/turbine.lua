@@ -8,7 +8,7 @@
 	LGPLv2.1+
 	See LICENSE.txt for more information
 	
-	TA2 Steam Engine Cylinder
+	TA3 Power Station Turbine
 
 ]]--
 
@@ -52,26 +52,26 @@ local function start_cylinder(pos, on)
 	local mem = tubelib2.get_mem(pos)
 	if on and mem.running then
 		consumer.turn_power_on(pos, POWER_CONSUMPTION)
-		swap_node(pos, "techage:cylinder_on")
+		swap_node(pos, "techage:turbine_on")
 		return true
 	else
 		consumer.turn_power_on(pos, 0)
-		swap_node(pos, "techage:cylinder")
+		swap_node(pos, "techage:turbine")
 	end
 	return false
 end	
 
 
-minetest.register_node("techage:cylinder", {
-	description = I("TA2 Cylinder"),
+minetest.register_node("techage:turbine", {
+	description = I("TA3 Turbine"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta2.png^techage_frame_ta2.png",
-		"techage_filling_ta2.png^techage_frame_ta2.png",
-		"techage_filling_ta2.png^techage_appl_open.png^techage_frame_ta2.png",
-		"techage_filling_ta2.png^techage_frame_ta2.png^techage_steam_hole.png",
-		"techage_filling_ta2.png^techage_cylinder.png^techage_frame_ta2.png",
-		"techage_filling_ta2.png^techage_cylinder.png^techage_frame_ta2.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png^techage_steam_hole.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_appl_open.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png^techage_steam_hole.png",
+		"techage_filling_ta3.png^techage_appl_turbine.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_appl_turbine.png^techage_frame_ta3.png",
 	},
 	techage = {
 		turn_on = turn_power_on_clbk,
@@ -98,14 +98,14 @@ minetest.register_node("techage:cylinder", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-minetest.register_node("techage:cylinder_on", {
-	description = I("TA2 Cylinder"),
+minetest.register_node("techage:turbine_on", {
+	description = I("TA3 Turbine"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta2.png^techage_frame_ta2.png",
-		"techage_filling_ta2.png^techage_frame_ta2.png",
-		"techage_filling_ta2.png^techage_appl_open.png^techage_frame_ta2.png",
-		"techage_filling_ta2.png^techage_frame_ta2.png^techage_steam_hole.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png^techage_steam_hole.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_appl_open.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png^techage_steam_hole.png",
 		{
 			image = "techage_filling4_ta2.png^techage_cylinder4.png^techage_frame4_ta2.png",
 			backface_culling = false,
@@ -147,3 +147,17 @@ minetest.register_node("techage:cylinder_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
+minetest.register_craft({
+	output = "techage:turbine",
+	recipe = {
+		{"basic_materials:steel_bar", "techage:iron_ingot", "default:wood"},
+		{"techage:steam_pipeS", "basic_materials:gear_steel", ""},
+		{"default:wood", "techage:iron_ingot", "basic_materials:steel_bar"},
+	},
+})
+
+techage.register_help_page(I("TA3 Turbine"), 
+I([[Part of the Coal Power Station.
+Has to be placed side by side
+with the TA3 Generator.
+(see TA3 Coal Power Station)]]), "techage:turbine")

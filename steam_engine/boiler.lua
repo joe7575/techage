@@ -292,6 +292,7 @@ minetest.register_node("techage:boiler2", {
 	end,
 	
 	--paramtype2 = "facedir",
+	drop = "",
 	groups = {cracky=1},
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,

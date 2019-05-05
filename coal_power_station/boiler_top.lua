@@ -8,7 +8,7 @@
 	LGPLv2.1+
 	See LICENSE.txt for more information
 	
-	TA3 Coal Power Station Boiler
+	TA3 Coal Power Station Boiler Top
 
 ]]--
 
@@ -62,6 +62,10 @@ local function formspec(self, pos, mem)
 		default.get_hotbar_bg(0, 3)
 end
 
+local function valid_power_dir(pos, power_dir, in_dir)
+	return power_dir == in_dir
+end
+
 local function start_node(pos, mem, state)
 	generator.turn_power_on(pos, POWER_CAPACITY)
 end
@@ -71,7 +75,7 @@ local function stop_node(pos, mem, state)
 end
 
 local State = techage.NodeStates:new({
-	node_name_passive = "techage:coalboiler1",
+	node_name_passive = "techage:coalboiler_top",
 	cycle_time = CYCLE_TIME,
 	standby_ticks = STANDBY_TICKS,
 	has_item_meter = false,
@@ -216,72 +220,14 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return 0
 end
 
-minetest.register_node("techage:coalboiler2", {
-
-
-	paramtype2 = "facedir",
-	groups = {cracky=1},
-	on_rotate = screwdriver.disallow,
-	is_ground_content = false,
-	sounds = default.node_sound_metal_defaults(),
-})
-
-minetest.register_node("techage:coalboiler1", {
-	description = I("TA3 Coal Power Station Firebox"),
-	inventory_image = "techage_coal_boiler_inv.png",
-	tiles = {"techage_coal_boiler_mesh.png"},
-	drawtype = "mesh",
-	mesh = "techage_boiler_large.obj",
-	selection_box = {
-		type = "fixed",
-		fixed = {-14/32, -16/32, -14/32, 14/32, 16/32, 14/32},
-	},
-
-	paramtype2 = "facedir",
-	on_rotate = screwdriver.disallow,
-	groups = {cracky=2},
-	is_ground_content = false,
-	sounds = default.node_sound_stone_defaults(),
-
-	on_timer = node_timer,
-	can_dig = can_dig,
-	allow_metadata_inventory_put = allow_metadata_inventory,
-	allow_metadata_inventory_take = allow_metadata_inventory,
-	on_receive_fields = on_receive_fields,
-	on_rightclick = on_rightclick,
-	
-	on_construct = function(pos)
-		local mem = tubelib2.init_mem(pos)
-		mem.running = false
-		mem.burn_cycles = 0
-		local meta = M(pos)
-		meta:set_string("formspec", formspec(mem))
-		local inv = meta:get_inventory()
-		inv:set_size('fuel', 1)
-	end,
-
-	on_metadata_inventory_put = function(pos)
-		local mem = tubelib2.init_mem(pos)
-		mem.running = true
-		-- activate the formspec fire temporarily
-		mem.burn_cycles = BURN_CYCLES
-		M(pos):set_string("formspec", formspec(mem))
-		mem.burn_cycles = 0
-		swap_node(pos, "techage:firebox_on")
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-	end,
-})
-
-
--- boiler2: Main part, needed as generator
-minetest.register_node("techage:boiler2", {
+minetest.register_node("techage:coalboiler_top", {
 	description = I("TA3 Boiler Top"),
-	tiles = {"techage_coal_boiler.png"},
+	tiles = {"techage_coal_boiler_mesh_top.png"},
 	drawtype = "mesh",
 	mesh = "techage_boiler_large.obj",
 	selection_box = {
 		type = "fixed",
-		fixed = {-10/32, -48/32, -10/32, 10/32, 16/32, 10/32},
+		fixed = {-13/32, -48/32, -13/32, 13/32, 16/32, 13/32},
 	},
 	
 	can_dig = can_dig,
@@ -302,7 +248,8 @@ minetest.register_node("techage:boiler2", {
 				minetest.get_node_timer(pos):start(CYCLE_TIME)
 			end
 		end,
-		power_side = "U",
+		power_side = "F",
+		valid_power_dir = valid_power_dir,
 	},
 	
 	on_construct = function(pos)
@@ -315,7 +262,7 @@ minetest.register_node("techage:boiler2", {
 		local mem = generator.after_place_node(pos)
 		State:node_init(pos, mem, "")
 		local node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
-		if node.name == "techage:boiler1" then
+		if node.name == "techage:coalboiler_base" then
 			on_rightclick(pos)
 		end
 	end,
@@ -331,10 +278,26 @@ minetest.register_node("techage:boiler2", {
 		minetest.after(0.5, move_to_water, pos)
 	end,
 	
-	--paramtype2 = "facedir",
+	paramtype2 = "facedir",
 	groups = {cracky=1},
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
 })
 
+Pipe:add_secondary_node_names({"techage:coalboiler_top"})
+	
+
+minetest.register_craft({
+	output = "techage:coalboiler_top",
+	recipe = {
+		{"default:stone", "default:stone", "default:stone"},
+		{"techage:iron_ingot", "", "techage:iron_ingot"},
+		{"default:stone", "", "default:stone"},
+	},
+})
+
+techage.register_help_page(I("TA3 Boiler Top"), 
+I([[Part of the Coal Power Station.
+Has to be placed on top of TA3 Power Station Boiler Base.
+(see TA3 Coal Power Station)]]), "techage:coalboiler_top")

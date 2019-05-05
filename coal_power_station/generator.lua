@@ -8,7 +8,7 @@
 	LGPLv2.1+
 	See LICENSE.txt for more information
 	
-	TA2 Steam Engine Flywheel
+	TA3 Power Station Generator
 
 ]]--
 
@@ -26,9 +26,9 @@ local I,_ = dofile(MP.."/intllib.lua")
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 8
-local POWER_CAPACITY = 8
+local POWER_CAPACITY = 50
 
-local Axle = techage.Axle
+local Cable = techage.ElectricCable
 local generator = techage.generator
 
 local function formspec(self, pos, mem)
@@ -43,31 +43,51 @@ local function formspec(self, pos, mem)
 		default.get_hotbar_bg(0, 3)
 end
 
-local function start_cylinder(pos, on)
+local function start_turbine(pos, on, mem)
+	if not on then
+		if mem.handle then
+			minetest.sound_stop(mem.handle)
+			mem.handle = nil
+		end
+	end
 	local pos2 = techage.get_pos(pos, 'L')
 	local trd = TRD(pos2)
-	if trd and trd.start_cylinder then
-		return trd.start_cylinder(pos2, on)
+	if trd and trd.start_turbine then
+		return trd.start_turbine(pos2, on, mem)
 	end
 	return false
 end
 
 local function can_start(pos, mem, state)
-	return start_cylinder(pos, true)
+	return start_turbine(pos, true, mem)
+end
+
+local function play_sound(pos)
+	local mem = tubelib2.get_mem(pos)
+	if mem.techage_state == techage.RUNNING then
+		mem.handle = minetest.sound_play("techage_turbine", {
+			pos = pos, 
+			gain = 1,
+			max_hear_distance = 15})
+		minetest.after(2, play_sound, pos)
+	end
 end
 
 local function start_node(pos, mem, state)
 	generator.turn_power_on(pos, POWER_CAPACITY)
+	mem.techage_state = techage.RUNNING
+	play_sound(pos)
 end
 
 local function stop_node(pos, mem, state)
-	start_cylinder(pos, false)
+	mem.techage_state = techage.STOPPED
+	start_turbine(pos, false, mem)
 	generator.turn_power_on(pos, 0)
 end
 
 local State = techage.NodeStates:new({
-	node_name_passive = "techage:flywheel",
-	node_name_active = "techage:flywheel_on",
+	node_name_passive = "techage:generator",
+	node_name_active = "techage:generator_on",
 	cycle_time = CYCLE_TIME,
 	standby_ticks = STANDBY_TICKS,
 	formspec_func = formspec,
@@ -81,20 +101,19 @@ local function distibuting(pos, mem)
 		State:keep_running(pos, mem, COUNTDOWN_TICKS)
 	else
 		State:fault(pos, mem)	
-		start_cylinder(pos, false)
+		start_turbine(pos, false, mem)
 		generator.turn_power_on(pos, 0)
 	end
 end
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	print("flywheel node_timer")
 	local pos2 = techage.get_pos(pos, 'L')
-	if minetest.get_node(pos2).name == "techage:cylinder_on" and tubelib2.get_mem(pos2).running then
+	if minetest.get_node(pos2).name == "techage:turbine_on" and tubelib2.get_mem(pos2).running then
 		distibuting(pos, mem)
 	else
 		State:fault(pos, mem)	
-		start_cylinder(pos, false)
+		start_turbine(pos, false, mem)
 		generator.turn_power_on(pos, 0)
 	end
 	return State:is_active(mem)
@@ -110,7 +129,7 @@ local function turn_power_on(pos, in_dir, sum)
 	mem.power_result = sum
 	if State:is_active(mem) and sum <= 0 then
 		State:fault(pos, mem)
-		start_cylinder(pos, false)
+		start_turbine(pos, false, mem)
 		-- No automatic turn on
 		mem.power_capacity = 0
 	end
@@ -134,21 +153,22 @@ local function on_rightclick(pos)
 	M(pos):set_string("formspec", formspec(State, pos, mem))
 end
 
-minetest.register_node("techage:flywheel", {
-	description = I("TA2 Flywheel"),
+minetest.register_node("techage:generator", {
+	description = I("TA3 Generator"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta2.png^techage_frame_ta2.png",
-		"techage_filling_ta2.png^techage_frame_ta2.png",
-		"techage_filling_ta2.png^techage_axle_clutch.png^techage_frame_ta2.png",
-		"techage_filling_ta2.png^techage_appl_open.png^techage_frame_ta2.png",
-		"techage_filling_ta2.png^techage_frame_ta2.png^techage_flywheel.png",
-		"techage_filling_ta2.png^techage_frame_ta2.png^techage_flywheel.png^[transformFX]",
+		"techage_filling_ta3.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_appl_hole_electric.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_appl_open.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_generator.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_generator.png^[transformFX]",
 	},
 	techage = {
 		turn_on = turn_power_on,
 		read_power_consumption = generator.read_power_consumption,
-		power_network = Axle,
+		power_network = Cable,
+		power_side = "R",
 		animated_power_network = true,
 	},
 	
@@ -175,8 +195,8 @@ minetest.register_node("techage:flywheel", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-minetest.register_node("techage:flywheel_on", {
-	description = I("TA2 Flywheel"),
+minetest.register_node("techage:generator_on", {
+	description = I("TA3 Generator"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta2.png^techage_frame_ta2.png",
@@ -216,7 +236,8 @@ minetest.register_node("techage:flywheel_on", {
 	techage = {
 		turn_on = turn_power_on,
 		read_power_consumption = generator.read_power_consumption,
-		power_network = Axle,
+		power_network = Cable,
+		power_side = "R",
 		animated_power_network = true,
 	},
 	
@@ -237,3 +258,30 @@ minetest.register_node("techage:flywheel_on", {
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
 })
+
+minetest.register_craft({
+	output = "techage:generator",
+	recipe = {
+		{"basic_materials:steel_bar", "dye:red", "default:wood"},
+		{"", "basic_materials:gear_steel", "techage:axle"},
+		{"default:wood", "techage:iron_ingot", "basic_materials:steel_bar"},
+	},
+})
+
+minetest.register_lbm({
+	label = "[techage] Generator sound",
+	name = "techage:power_station",
+	nodenames = {"techage:generator_on"},
+	run_at_every_load = true,
+	action = function(pos, node)
+		play_sound(pos)
+	end
+})
+
+techage.register_help_page(I("TA3 Generator"), 
+I([[Part of the Coal Power Station.
+Has to be placed side by side
+with the TA3 Turbine.
+Connect the Generator with your TA3 machines
+by means of Electric Cables and Junction Boxes
+(see TA3 Coal Power Station)]]), "techage:generator")

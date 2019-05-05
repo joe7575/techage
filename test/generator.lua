@@ -12,7 +12,8 @@ local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 16
 local POWER_CAPACITY = 8
 
-local Cable = techage.ElectricCable
+--local Power = techage.ElectricCable
+local Power = techage.SteamPipe
 local generator = techage.generator
 
 local function formspec(self, pos, mem)
@@ -99,7 +100,7 @@ minetest.register_node("techage:generator", {
 	techage = {
 		turn_on = turn_power_on,
 		read_power_consumption = generator.read_power_consumption,
-		power_network = Cable,
+		power_network = Power,
 		power_side = "R",
 	},
 	
@@ -120,3 +121,4 @@ minetest.register_node("techage:generator", {
 	on_timer = node_timer,
 })
 
+Power:add_secondary_node_names({"techage:generator"})

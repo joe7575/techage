@@ -25,7 +25,7 @@ local HelpText = S([[1. Build a steam machine according
 to the plan with TA2 Firebox, TA2 Boiler, 
 Steam Pipes, TA2 Cyclinder and TA2 Flywheel.
 2. Heat the Firebox with coal/charcoal
-3. Fill the boiler with water (more than on bucket is needed)
+3. Fill the boiler with water (more than one bucket is needed)
 4. Wait until the water is heated
 5. Open the steam ventil
 6. Start the Flywheel
