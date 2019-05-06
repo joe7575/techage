@@ -188,6 +188,7 @@ minetest.register_node("techage:generator", {
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
 
+	drop = "",
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -199,37 +200,28 @@ minetest.register_node("techage:generator_on", {
 	description = I("TA3 Generator"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta2.png^techage_frame_ta2.png",
-		"techage_filling_ta2.png^techage_frame_ta2.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_appl_hole_electric.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_appl_open.png^techage_frame_ta3.png",
 		{
-			image = "techage_filling4_ta2.png^techage_axle_clutch4.png^techage_frame4_ta2.png",
+			image = "techage_filling4_ta3.png^techage_appl_generator4.png^techage_frame4_ta3.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
 				aspect_w = 32,
 				aspect_h = 32,
-				length = 0.6,
-			},
-		},
-		"techage_filling_ta2.png^techage_appl_open.png^techage_frame_ta2.png",
-		{
-			image = "techage_filling8_ta2.png^techage_frame8_ta2.png^techage_flywheel8.png",
-			backface_culling = false,
-			animation = {
-				type = "vertical_frames",
-				aspect_w = 32,
-				aspect_h = 32,
-				length = 1.2,
+				length = 0.3,
 			},
 		},
 		{
-			image = "techage_filling8_ta2.png^techage_frame8_ta2.png^techage_flywheel8.png^[transformFX]",
+			image = "techage_filling4_ta3.png^techage_appl_generator4.png^techage_frame4_ta3.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
 				aspect_w = 32,
 				aspect_h = 32,
-				length = 1.2,
+				length = 0.3,
 			},
 		},
 	},

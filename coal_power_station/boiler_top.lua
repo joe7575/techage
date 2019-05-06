@@ -66,6 +66,10 @@ local function valid_power_dir(pos, power_dir, in_dir)
 	return power_dir == in_dir
 end
 
+local function can_start(pos, mem, state)
+	return mem.temperature and mem.temperature > 80
+end
+
 local function start_node(pos, mem, state)
 	generator.turn_power_on(pos, POWER_CAPACITY)
 end
@@ -80,6 +84,7 @@ local State = techage.NodeStates:new({
 	standby_ticks = STANDBY_TICKS,
 	has_item_meter = false,
 	formspec_func = formspec,
+	can_start = can_start,
 	start_node = start_node,
 	stop_node = stop_node,
 })
@@ -244,6 +249,7 @@ minetest.register_node("techage:coalboiler_top", {
 		trigger_boiler = function(pos)
 			local mem = tubelib2.get_mem(pos)
 			mem.fire_trigger = true
+			print("trigger_boiler")
 			if not minetest.get_node_timer(pos):is_started() then
 				minetest.get_node_timer(pos):start(CYCLE_TIME)
 			end
@@ -278,6 +284,7 @@ minetest.register_node("techage:coalboiler_top", {
 		minetest.after(0.5, move_to_water, pos)
 	end,
 	
+	drop = "",
 	paramtype2 = "facedir",
 	groups = {cracky=1},
 	on_rotate = screwdriver.disallow,

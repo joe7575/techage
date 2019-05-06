@@ -62,6 +62,10 @@ local function formspec(self, pos, mem)
 		default.get_hotbar_bg(0, 3)
 end
 
+local function can_start(pos, mem, state)
+	return mem.temperature and mem.temperature > 80
+end
+
 local function start_node(pos, mem, state)
 	generator.turn_power_on(pos, POWER_CAPACITY)
 end
@@ -76,6 +80,7 @@ local State = techage.NodeStates:new({
 	standby_ticks = STANDBY_TICKS,
 	has_item_meter = false,
 	formspec_func = formspec,
+	can_start = can_start,
 	start_node = start_node,
 	stop_node = stop_node,
 })

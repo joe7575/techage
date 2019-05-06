@@ -97,6 +97,7 @@ minetest.register_node("techage:coalboiler_base", {
 	after_tube_update = consumer.after_tube_update,
 	--on_timer = node_timer,
 	
+	drop = "",
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},

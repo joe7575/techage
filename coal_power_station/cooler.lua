@@ -8,7 +8,7 @@
 	LGPLv2.1+
 	See LICENSE.txt for more information
 	
-	TA2 Gearbox
+	TA3 Cooler
 
 ]]--
 
@@ -23,7 +23,7 @@ local I,_ = dofile(MP.."/intllib.lua")
 
 local POWER_CONSUMPTION = 1
 
-local Axle = techage.Axle
+local Power = techage.SteamPipe
 local distributor = techage.distributor
 
 local function swap_node(pos, name)
@@ -37,21 +37,29 @@ end
 
 local function turn_on(pos, dir, sum)
 	if sum > 0 then
-		swap_node(pos, "techage:gearbox_on")
+		swap_node(pos, "techage:cooler_on")
 	else
-		swap_node(pos, "techage:gearbox")
+		swap_node(pos, "techage:cooler")
 	end
 end
 
-minetest.register_node("techage:gearbox", {
-	description = I("TA2 Gearbox"),
-	tiles = {"techage_filling_ta2.png^techage_axle_gearbox.png^techage_frame_ta2.png"},
+minetest.register_node("techage:cooler", {
+	description = I("TA3 Cooler"),
+	tiles = {
+		-- up, down, right, left, back, front
+		"techage_filling_ta3.png^techage_appl_cooler.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_appl_cooler.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png^techage_steam_hole.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png^techage_steam_hole.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png",
+	},
 	techage = {
 		turn_on = turn_on,
 		read_power_consumption = distributor.read_power_consumption,
-		power_network = Axle,
+		power_network = Power,
 		power_consumption = POWER_CONSUMPTION,
-		animated_power_network = true,
+		--animated_power_network = true,
 	},
 	
 	after_place_node = distributor.after_place_node,
@@ -66,26 +74,40 @@ minetest.register_node("techage:gearbox", {
 })
 
 
-minetest.register_node("techage:gearbox_on", {
+minetest.register_node("techage:cooler_on", {
 	tiles = {
 		-- up, down, right, left, back, front
 		{
-			image = "techage_filling4_ta2.png^techage_axle_gearbox4.png^techage_frame4_ta2.png",
+			image = "techage_filling4_ta3.png^techage_appl_cooler4.png^techage_frame4_ta3.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
 				aspect_w = 32,
 				aspect_h = 32,
-				length = 0.6,
+				length = 0.4,
 			},
 		},
+		{
+			image = "techage_filling4_ta3.png^techage_appl_cooler4.png^techage_frame4_ta3.png",
+			backface_culling = false,
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 32,
+				aspect_h = 32,
+				length = 0.4,
+			},
+		},
+		"techage_filling_ta3.png^techage_frame_ta3.png^techage_steam_hole.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png^techage_steam_hole.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png",
 	},
 	techage = {
 		turn_on = turn_on,
 		read_power_consumption = distributor.read_power_consumption,
-		power_network = Axle,
+		power_network = Power,
 		power_consumption = POWER_CONSUMPTION,
-		animated_power_network = true,
+		--animated_power_network = true,
 	},
 	
 	after_tube_update = distributor.after_tube_update,
@@ -99,3 +121,4 @@ minetest.register_node("techage:gearbox_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
+Power:add_secondary_node_names({"techage:cooler", "techage:cooler_on"})

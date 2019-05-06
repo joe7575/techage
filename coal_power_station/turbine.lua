@@ -47,8 +47,8 @@ local function turn_power_on_clbk(pos, in_dir, sum)
 	mem.running = sum > 0
 end	
 
--- called from flywheel
-local function start_cylinder(pos, on)
+-- called from generator
+local function start_turbine(pos, on)
 	local mem = tubelib2.get_mem(pos)
 	if on and mem.running then
 		consumer.turn_power_on(pos, POWER_CONSUMPTION)
@@ -79,7 +79,7 @@ minetest.register_node("techage:turbine", {
 		power_network = Pipe,
 		power_side = "L",
 		valid_power_dir = valid_power_dir,
-		start_cylinder = start_cylinder,
+		start_turbine = start_turbine,
 	},
 	
 	after_place_node = function(pos, placer)
@@ -107,7 +107,7 @@ minetest.register_node("techage:turbine_on", {
 		"techage_filling_ta3.png^techage_appl_open.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_steam_hole.png",
 		{
-			image = "techage_filling4_ta2.png^techage_cylinder4.png^techage_frame4_ta2.png",
+			image = "techage_filling4_ta3.png^techage_appl_turbine4.png^techage_frame4_ta3.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -117,7 +117,7 @@ minetest.register_node("techage:turbine_on", {
 			},
 		},
 		{
-			image = "techage_filling4_ta2.png^techage_cylinder4.png^techage_frame4_ta2.png",
+			image = "techage_filling4_ta3.png^techage_appl_turbine4.png^techage_frame4_ta3.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -133,7 +133,7 @@ minetest.register_node("techage:turbine_on", {
 		power_network = Pipe,
 		power_side = "L",
 		valid_power_dir = valid_power_dir,
-		start_cylinder = start_cylinder,
+		start_turbine = start_turbine,
 	},
 	
 	after_tube_update = consumer.after_tube_update,
@@ -161,3 +161,5 @@ I([[Part of the Coal Power Station.
 Has to be placed side by side
 with the TA3 Generator.
 (see TA3 Coal Power Station)]]), "techage:turbine")
+
+Pipe:add_secondary_node_names({"techage:turbine", "techage:turbine_on"})

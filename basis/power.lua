@@ -193,7 +193,8 @@ end
 
 
 --
--- Distributor functions for nodes with 6 power sides (view from the outside)
+-- Distributor functions for nodes with 6 power sides (per defautl) or
+-- optionally two or more sides via valid_power_dir (view from the outside)
 --
 techage.distributor = {}
 
@@ -205,6 +206,12 @@ end
 		
 function techage.distributor.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
 	local mem = tubelib2.get_mem(pos)
+	-- Check direction
+	local trd = TRD(pos)
+	if trd.valid_power_dir then
+		local pwr_dir = get_power_dir(pos)
+		if not trd.valid_power_dir(pos, pwr_dir, tubelib2.Turn180Deg[out_dir]) then return end
+	end
 	mem.connections = mem.connections or {}
 	if not peer_in_dir then
 		mem.connections[out_dir] = nil -- del connection
@@ -217,7 +224,12 @@ end
 
 -- Needed if the junction consumes power in addition
 function techage.distributor.read_power_consumption(pos, in_dir)
-	return power_consumption(pos, in_dir) - TRD(pos).power_consumption or 0
+	-- Check direction
+	local trd = TRD(pos)
+	if trd.valid_power_dir then
+		if not trd(pos).valid_power_dir(pos, get_power_dir(pos), in_dir) then return 0 end
+	end
+	return power_consumption(pos, in_dir) - trd.power_consumption or 0
 end
 	
 function techage.distributor.after_dig_node(pos, oldnode)

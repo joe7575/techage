@@ -66,7 +66,7 @@ end
 minetest.register_node("techage:coalfirebox", {
 	description = I("TA3 Coal Power Station Firebox"),
 	inventory_image = "techage_coal_boiler_inv.png",
-	tiles = {"techage_coal_boiler_mesh.png"},
+	tiles = {"techage_coal_boiler_mesh_top.png"},
 	drawtype = "mesh",
 	mesh = "techage_boiler_large.obj",
 	selection_box = {
