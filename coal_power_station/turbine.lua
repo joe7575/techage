@@ -21,9 +21,9 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
-local POWER_CONSUMPTION = 8
+local POWER_CONSUMPTION = 15
 
-local Pipe = techage.SteamPipe
+local Power = techage.SteamPipe
 local consumer = techage.consumer
 
 local function swap_node(pos, name)
@@ -37,28 +37,41 @@ end
 
 -- called from pipe network
 local function valid_power_dir(pos, power_dir, in_dir)
-	return power_dir == in_dir
+	return power_dir == in_dir or in_dir == 5
+end
+
+local function play_sound(pos)
+	local mem = tubelib2.get_mem(pos)
+	if mem.running then
+		mem.handle = minetest.sound_play("techage_turbine", {
+			pos = pos, 
+			gain = 1,
+			max_hear_distance = 15})
+		minetest.after(2, play_sound, pos)
+	end
+end
+
+local function stop_sound(pos)
+	local mem = tubelib2.get_mem(pos)
+	if mem.running and mem.handle then
+		minetest.sound_stop(mem.handle)
+		mem.handle = nil
+	end
 end
 
 -- called from pipe network
-local function turn_power_on_clbk(pos, in_dir, sum)
+local function turn_on(pos, dir, sum)
 	local mem = tubelib2.get_mem(pos)
-	-- Simply store state to be prepared, when flywheel wants to start.
-	mem.running = sum > 0
-end	
-
--- called from generator
-local function start_turbine(pos, on)
-	local mem = tubelib2.get_mem(pos)
-	if on and mem.running then
-		consumer.turn_power_on(pos, POWER_CONSUMPTION)
+	local res = techage.power.start_dedicated_node(pos, 6, "techage:cooler", sum)
+	if sum > 0 and res then
 		swap_node(pos, "techage:turbine_on")
-		return true
+		mem.running = true
+		play_sound(pos)
 	else
-		consumer.turn_power_on(pos, 0)
 		swap_node(pos, "techage:turbine")
+		mem.running = false
+		stop_sound(pos)
 	end
-	return false
 end	
 
 
@@ -74,18 +87,17 @@ minetest.register_node("techage:turbine", {
 		"techage_filling_ta3.png^techage_appl_turbine.png^techage_frame_ta3.png",
 	},
 	techage = {
-		turn_on = turn_power_on_clbk,
+		turn_on = turn_on,
 		read_power_consumption = consumer.read_power_consumption,
-		power_network = Pipe,
+		power_network = Power,
 		power_side = "L",
 		valid_power_dir = valid_power_dir,
-		start_turbine = start_turbine,
 	},
 	
 	after_place_node = function(pos, placer)
 		local mem = consumer.after_place_node(pos, placer)
-		mem.power_consume = 0  -- needed power to run
-		mem.power_supply = false  -- power available?
+		mem.power_consumption = POWER_CONSUMPTION
+		mem.running = false
 	end,
 	
 	after_tube_update = consumer.after_tube_update,
@@ -99,7 +111,6 @@ minetest.register_node("techage:turbine", {
 })
 
 minetest.register_node("techage:turbine_on", {
-	description = I("TA3 Turbine"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_steam_hole.png",
@@ -128,12 +139,11 @@ minetest.register_node("techage:turbine_on", {
 		},
 	},
 	techage = {
-		turn_on = turn_power_on_clbk,
+		turn_on = turn_on,
 		read_power_consumption = consumer.read_power_consumption,
-		power_network = Pipe,
+		power_network = Power,
 		power_side = "L",
 		valid_power_dir = valid_power_dir,
-		start_turbine = start_turbine,
 	},
 	
 	after_tube_update = consumer.after_tube_update,
@@ -162,4 +172,14 @@ Has to be placed side by side
 with the TA3 Generator.
 (see TA3 Coal Power Station)]]), "techage:turbine")
 
-Pipe:add_secondary_node_names({"techage:turbine", "techage:turbine_on"})
+Power:add_secondary_node_names({"techage:turbine", "techage:turbine_on"})
+
+minetest.register_lbm({
+	label = "[techage] Turbine sound",
+	name = "techage:power_station",
+	nodenames = {"techage:turbine_on"},
+	run_at_every_load = true,
+	action = function(pos, node)
+		play_sound(pos)
+	end
+})

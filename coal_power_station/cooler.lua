@@ -21,10 +21,12 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
-local POWER_CONSUMPTION = 1
+local POWER_CONSUMPTION = 2
+local STANDBY_TICKS = 4
+local CYCLE_TIME = 4
 
 local Power = techage.SteamPipe
-local distributor = techage.distributor
+local consumer = techage.consumer
 
 local function swap_node(pos, name)
 	local node = minetest.get_node(pos)
@@ -35,6 +37,12 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
+-- called from pipe network
+local function valid_power_dir(pos, power_dir, in_dir)
+	return power_dir == in_dir or power_dir == tubelib2.Turn180Deg[in_dir]
+end
+
+-- called from pipe network
 local function turn_on(pos, dir, sum)
 	if sum > 0 then
 		swap_node(pos, "techage:cooler_on")
@@ -56,16 +64,20 @@ minetest.register_node("techage:cooler", {
 	},
 	techage = {
 		turn_on = turn_on,
-		read_power_consumption = distributor.read_power_consumption,
+		read_power_consumption = consumer.read_power_consumption,
 		power_network = Power,
-		power_consumption = POWER_CONSUMPTION,
-		--animated_power_network = true,
+		power_side = "L",
+		valid_power_dir = valid_power_dir,
 	},
 	
-	after_place_node = distributor.after_place_node,
-	after_tube_update = distributor.after_tube_update,
-	after_dig_node = distributor.after_dig_node,
+	after_place_node = function(pos, placer)
+		local mem = consumer.after_place_node(pos, placer)
+		mem.power_consumption = POWER_CONSUMPTION
+	end,
 	
+	after_tube_update = consumer.after_tube_update,
+	after_dig_node = consumer.after_dig_node,
+
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -104,15 +116,15 @@ minetest.register_node("techage:cooler_on", {
 	},
 	techage = {
 		turn_on = turn_on,
-		read_power_consumption = distributor.read_power_consumption,
+		read_power_consumption = consumer.read_power_consumption,
 		power_network = Power,
-		power_consumption = POWER_CONSUMPTION,
-		--animated_power_network = true,
+		power_side = "L",
+		valid_power_dir = valid_power_dir,
 	},
 	
-	after_tube_update = distributor.after_tube_update,
-	after_dig_node = distributor.after_dig_node,
-	
+	after_tube_update = consumer.after_tube_update,
+	after_dig_node = consumer.after_dig_node,
+
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
 	diggable = false,

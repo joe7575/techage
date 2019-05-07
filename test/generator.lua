@@ -10,7 +10,7 @@ local I,_ = dofile(MP.."/intllib.lua")
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 16
-local POWER_CAPACITY = 8
+local POWER_CAPACITY = 30
 
 --local Power = techage.ElectricCable
 local Power = techage.SteamPipe
@@ -37,7 +37,7 @@ local function stop_node(pos, mem, state)
 end
 
 local State = techage.NodeStates:new({
-	node_name_passive = "techage:generator",
+	node_name_passive = "techage:test_generator",
 	cycle_time = CYCLE_TIME,
 	standby_ticks = STANDBY_TICKS,
 	formspec_func = formspec,
@@ -81,8 +81,8 @@ local function on_rightclick(pos)
 	M(pos):set_string("formspec", formspec(State, pos, mem))
 end
 
-minetest.register_node("techage:generator", {
-	description = "TechAge Generator",
+minetest.register_node("techage:test_generator", {
+	description = "TechAge Test Generator",
 	tiles = {
 		-- up, down, right, left, back, front
 		'techage_electric_button.png^techage_electric_power.png',
@@ -121,4 +121,4 @@ minetest.register_node("techage:generator", {
 	on_timer = node_timer,
 })
 
-Power:add_secondary_node_names({"techage:generator"})
+Power:add_secondary_node_names({"techage:test_generator"})

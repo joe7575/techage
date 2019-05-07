@@ -135,6 +135,30 @@ local function start_network_power_consumption(pos, in_dir)
 	Route = {}
 	turn_on(pos, in_dir, sum)
 end
+--
+-- Generic API functions
+--
+techage.power = {}
+
+-- Function uses the standard consumer "turn_on" callback
+-- Returns true, if node could be started/stopped
+function techage.power.start_dedicated_node(pos, out_dir, node_name, sum)
+	local mem = tubelib2.get_mem(pos)
+	local conn = mem.connections and mem.connections[out_dir]
+	if conn then
+		local node = minetest.get_node(conn.pos)
+		if node.name == node_name then
+			local trd = TRD(conn.pos)
+			if trd and (not trd.valid_power_dir or 
+					trd.valid_power_dir(conn.pos, get_power_dir(conn.pos), conn.in_dir)) then
+				if trd.turn_on then
+					return trd.turn_on(pos, conn.in_dir, sum)
+				end
+			end
+		end
+	end
+	return false
+end
 
 --
 -- Generator functions for nodes with one power side (view from the outside)
@@ -193,8 +217,7 @@ end
 
 
 --
--- Distributor functions for nodes with 6 power sides (per defautl) or
--- optionally two or more sides via valid_power_dir (view from the outside)
+-- Distributor functions for nodes with 6 power sides (view from the outside)
 --
 techage.distributor = {}
 
@@ -206,12 +229,6 @@ end
 		
 function techage.distributor.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
 	local mem = tubelib2.get_mem(pos)
-	-- Check direction
-	local trd = TRD(pos)
-	if trd.valid_power_dir then
-		local pwr_dir = get_power_dir(pos)
-		if not trd.valid_power_dir(pos, pwr_dir, tubelib2.Turn180Deg[out_dir]) then return end
-	end
 	mem.connections = mem.connections or {}
 	if not peer_in_dir then
 		mem.connections[out_dir] = nil -- del connection
@@ -224,12 +241,7 @@ end
 
 -- Needed if the junction consumes power in addition
 function techage.distributor.read_power_consumption(pos, in_dir)
-	-- Check direction
-	local trd = TRD(pos)
-	if trd.valid_power_dir then
-		if not trd(pos).valid_power_dir(pos, get_power_dir(pos), in_dir) then return 0 end
-	end
-	return power_consumption(pos, in_dir) - trd.power_consumption or 0
+	return power_consumption(pos, in_dir) - TRD(pos).power_consumption or 0
 end
 	
 function techage.distributor.after_dig_node(pos, oldnode)
@@ -254,15 +266,13 @@ function techage.consumer.after_tube_update(node, pos, out_dir, peer_pos, peer_i
 	local mem = tubelib2.get_mem(pos)
 	local pwr_dir = get_power_dir(pos)
 	mem.connections = mem.connections or {}
+	local trd = TRD(pos)
 	-- Check direction
-	if not TRD(pos).valid_power_dir(pos, pwr_dir, tubelib2.Turn180Deg[out_dir]) then return end
-	-- Only one connection is allowed, which can be overwritten, if necessary.
-	if not peer_pos or not next(mem.connections) or mem.connections[out_dir] then
-		if not peer_in_dir then
-			mem.connections = {} -- del connection
-		else
-			mem.connections = {[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}}
-		end
+	if not trd.valid_power_dir(pos, pwr_dir, tubelib2.Turn180Deg[out_dir]) then return end
+	if not peer_in_dir then
+		mem.connections[out_dir] = nil -- del connection
+	else
+		mem.connections[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}
 	end
 	-- To be called delayed, so that all network connections have been established
 	minetest.after(0.2, start_network_power_consumption, pos, pwr_dir)

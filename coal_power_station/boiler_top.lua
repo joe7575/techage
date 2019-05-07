@@ -27,7 +27,7 @@ local COUNTDOWN_TICKS = 2
 local HEAT_STEP = 10
 local WATER_CONSUMPTION = 0.5
 local MAX_WATER = 10
-local POWER_CAPACITY = 10
+local POWER_CAPACITY = 30
 
 local Pipe = techage.SteamPipe
 local generator = techage.generator

@@ -97,7 +97,7 @@ else
 
 	--dofile(MP.."/test/battery.lua")
 	--dofile(MP.."/test/test.lua")
-	--dofile(MP.."/test/generator.lua")
+	dofile(MP.."/test/generator.lua")
 	--dofile(MP.."/test/consumer.lua")
 	--dofile(MP.."/test/consumer2.lua")
 

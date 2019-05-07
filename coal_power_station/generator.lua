@@ -44,12 +44,6 @@ local function formspec(self, pos, mem)
 end
 
 local function start_turbine(pos, on, mem)
-	if not on then
-		if mem.handle then
-			minetest.sound_stop(mem.handle)
-			mem.handle = nil
-		end
-	end
 	local pos2 = techage.get_pos(pos, 'L')
 	local trd = TRD(pos2)
 	if trd and trd.start_turbine then
@@ -62,16 +56,6 @@ local function can_start(pos, mem, state)
 	return start_turbine(pos, true, mem)
 end
 
-local function play_sound(pos)
-	local mem = tubelib2.get_mem(pos)
-	if mem.techage_state == techage.RUNNING then
-		mem.handle = minetest.sound_play("techage_turbine", {
-			pos = pos, 
-			gain = 1,
-			max_hear_distance = 15})
-		minetest.after(2, play_sound, pos)
-	end
-end
 
 local function start_node(pos, mem, state)
 	generator.turn_power_on(pos, POWER_CAPACITY)
@@ -260,15 +244,6 @@ minetest.register_craft({
 	},
 })
 
-minetest.register_lbm({
-	label = "[techage] Generator sound",
-	name = "techage:power_station",
-	nodenames = {"techage:generator_on"},
-	run_at_every_load = true,
-	action = function(pos, node)
-		play_sound(pos)
-	end
-})
 
 techage.register_help_page(I("TA3 Generator"), 
 I([[Part of the Coal Power Station.
