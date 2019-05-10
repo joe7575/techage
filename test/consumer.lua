@@ -59,7 +59,6 @@ local function lamp_turn_on_clbk(pos, in_dir, sum)
 end
 
 local function node_timer(pos, elapsed)
-	print("node_timer")
 	local mem = tubelib2.get_mem(pos)
 	return State:is_active(mem)
 end

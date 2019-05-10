@@ -72,13 +72,11 @@ local function remove_flame(pos, height)
 	end
 end
 
-local function calc_num_coal(meta)
-	local t = minetest.get_gametime() - meta:get_int("ignite")
-	local num = meta:get_int("height")
-	t = t - COAL_BURN_TIME
-	if t > 0 then
-		local x = (COAL_BURN_TIME * 0.2) / num
-		num = math.max(num - math.floor(t/x), 0)
+local function calc_num_coal(height, burn_time)
+	local num = height
+	if burn_time < 0 then
+		local x = (COAL_BURN_TIME * 0.2) / height
+		num = math.max(height + math.floor(burn_time/x), 0)
 	end
 	return num
 end	
@@ -173,7 +171,8 @@ function techage.start_burner(pos, playername)
 	end
 	if num_cobble(pos, height) == height * 8 then
 		local meta = minetest.get_meta(pos)
-		meta:set_int("ignite", minetest.get_gametime())
+		--meta:set_int("ignite", minetest.get_gametime())
+		meta:set_int("burn_time", COAL_BURN_TIME)
 		meta:set_int("height", height)
 		start_burner(pos, height)
 		flame(pos, height, height, true)
@@ -196,33 +195,40 @@ function techage.keep_running_burner(pos)
 		minetest.sound_stop(handle)
 		meta:set_int("handle", 0)
 	end
-	if num_cobble(pos, height) == height * 8 then
-		local num = calc_num_coal(meta)
-		if num > 0 then
-			if num_air(pos) == 0 then
-				-- pause the burner
-				meta:set_int("ignite", meta:get_int("ignite") + CYCLE_TIME)
-				meta:set_int("paused", 1)
-				return true
-			end
-			if meta:get_int("paused") == 1 then
-				flame(pos, height, num, true)
-				meta:set_int("paused", 0)
+	local burn_time = meta:get_int("burn_time")
+	print("keep_running_burner", burn_time)
+	-- burner hole is open
+	if num_air(pos) == 1 then
+		meta:set_int("burn_time", burn_time - CYCLE_TIME)
+		-- tower intact
+		if num_cobble(pos, height) == height * 8 then
+			local num_coal = calc_num_coal(height, burn_time)
+			print("num_coal", num_coal)
+			if num_coal > 0 then
+				if meta:get_int("paused") == 1 then
+					flame(pos, height, num_coal, true)
+					meta:set_int("paused", 0)
+				else
+					flame(pos, height, num_coal, false)
+				end
+				handle = minetest.sound_play("techage_gasflare", {
+						pos = {x=pos.x, y=pos.y+height, z=pos.z}, 
+						max_hear_distance = 32, 
+						gain = num_coal/12.0, 
+						loop = true})
+				meta:set_int("handle", handle)
 			else
-				flame(pos, height, num, false)
+				minetest.swap_node(pos, {name="techage:ash"})
+				remove_coal(pos, height)
+				return false
 			end
-			handle = minetest.sound_play("techage_gasflare", {
-					pos = {x=pos.x, y=pos.y+height, z=pos.z}, 
-					max_hear_distance = 32, 
-					gain = num/12.0, 
-					loop = true})
-			meta:set_int("handle", handle)
 		else
 			minetest.swap_node(pos, {name="techage:ash"})
 			remove_coal(pos, height)
 			return false
 		end
-		return true
+	else
+		meta:set_int("paused", 1)
 	end
 	return true
 end
@@ -234,6 +240,7 @@ function techage.stop_burner(pos)
 	remove_coal(pos, height)
 	local handle = meta:get_int("handle")
 	minetest.sound_stop(handle)
+	meta:set_int("burn_time", 0)
 end
 
 

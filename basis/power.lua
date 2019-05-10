@@ -50,6 +50,14 @@ function techage.get_pos(pos, side)
 	return tubelib2.get_pos(pos, dir)
 end	
 
+-- Both nodes are from the same power network type?
+local function matching_nodes(pos, peer_pos)
+	local tube_type1 = pos and TRD(pos) and TRD(pos).power_network.tube_type
+	local tube_type2 = peer_pos and TRD(peer_pos) and TRD(peer_pos).power_network.tube_type
+	print(tube_type1, tube_type2)
+	return not tube_type1 or not tube_type2 or tube_type1 == tube_type2
+end
+
 local function get_power_dir(pos)
 	local key = minetest.hash_node_position(pos)
 	if not PowerInDir[key] then
@@ -152,7 +160,7 @@ function techage.power.start_dedicated_node(pos, out_dir, node_name, sum)
 			if trd and (not trd.valid_power_dir or 
 					trd.valid_power_dir(conn.pos, get_power_dir(conn.pos), conn.in_dir)) then
 				if trd.turn_on then
-					return trd.turn_on(pos, conn.in_dir, sum)
+					return trd.turn_on(conn.pos, conn.in_dir, sum)
 				end
 			end
 		end
@@ -177,7 +185,7 @@ function techage.generator.after_tube_update(node, pos, out_dir, peer_pos, peer_
 	local mem = tubelib2.get_mem(pos)
 	local pwr_dir = get_power_dir(pos)
 	if tubelib2.Turn180Deg[out_dir] == pwr_dir then
-		if not peer_in_dir then
+		if not peer_in_dir or not matching_nodes(pos, peer_pos) then
 			mem.connections = {} -- del connection
 		else
 			-- Generator accept one dir only
@@ -230,7 +238,7 @@ end
 function techage.distributor.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
 	local mem = tubelib2.get_mem(pos)
 	mem.connections = mem.connections or {}
-	if not peer_in_dir then
+	if not peer_in_dir or not matching_nodes(pos, peer_pos) then
 		mem.connections[out_dir] = nil -- del connection
 	else
 		mem.connections[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}
@@ -269,7 +277,7 @@ function techage.consumer.after_tube_update(node, pos, out_dir, peer_pos, peer_i
 	local trd = TRD(pos)
 	-- Check direction
 	if not trd.valid_power_dir(pos, pwr_dir, tubelib2.Turn180Deg[out_dir]) then return end
-	if not peer_in_dir then
+	if not peer_in_dir or not matching_nodes(pos, peer_pos) then
 		mem.connections[out_dir] = nil -- del connection
 	else
 		mem.connections[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}

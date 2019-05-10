@@ -43,29 +43,19 @@ local function formspec(self, pos, mem)
 		default.get_hotbar_bg(0, 3)
 end
 
-local function start_turbine(pos, on, mem)
-	local pos2 = techage.get_pos(pos, 'L')
-	local trd = TRD(pos2)
-	if trd and trd.start_turbine then
-		return trd.start_turbine(pos2, on, mem)
-	end
-	return false
+local function turbine_running(pos)
+	local pos1 = techage.get_pos(pos, 'L')
+	local node = minetest.get_node(pos1)
+	return node.name == "techage:turbine_on"
 end
-
-local function can_start(pos, mem, state)
-	return start_turbine(pos, true, mem)
-end
-
 
 local function start_node(pos, mem, state)
 	generator.turn_power_on(pos, POWER_CAPACITY)
 	mem.techage_state = techage.RUNNING
-	play_sound(pos)
 end
 
 local function stop_node(pos, mem, state)
 	mem.techage_state = techage.STOPPED
-	start_turbine(pos, false, mem)
 	generator.turn_power_on(pos, 0)
 end
 
@@ -75,7 +65,7 @@ local State = techage.NodeStates:new({
 	cycle_time = CYCLE_TIME,
 	standby_ticks = STANDBY_TICKS,
 	formspec_func = formspec,
-	can_start = can_start,
+	can_start = turbine_running,
 	start_node = start_node,
 	stop_node = stop_node,
 })
@@ -85,19 +75,16 @@ local function distibuting(pos, mem)
 		State:keep_running(pos, mem, COUNTDOWN_TICKS)
 	else
 		State:fault(pos, mem)	
-		start_turbine(pos, false, mem)
 		generator.turn_power_on(pos, 0)
 	end
 end
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	local pos2 = techage.get_pos(pos, 'L')
-	if minetest.get_node(pos2).name == "techage:turbine_on" and tubelib2.get_mem(pos2).running then
+	if turbine_running(pos) then
 		distibuting(pos, mem)
 	else
 		State:fault(pos, mem)	
-		start_turbine(pos, false, mem)
 		generator.turn_power_on(pos, 0)
 	end
 	return State:is_active(mem)
@@ -113,7 +100,6 @@ local function turn_power_on(pos, in_dir, sum)
 	mem.power_result = sum
 	if State:is_active(mem) and sum <= 0 then
 		State:fault(pos, mem)
-		start_turbine(pos, false, mem)
 		-- No automatic turn on
 		mem.power_capacity = 0
 	end
@@ -153,7 +139,6 @@ minetest.register_node("techage:generator", {
 		read_power_consumption = generator.read_power_consumption,
 		power_network = Cable,
 		power_side = "R",
-		animated_power_network = true,
 	},
 	
 	after_place_node = function(pos, placer)
@@ -214,7 +199,6 @@ minetest.register_node("techage:generator_on", {
 		read_power_consumption = generator.read_power_consumption,
 		power_network = Cable,
 		power_side = "R",
-		animated_power_network = true,
 	},
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
@@ -244,6 +228,7 @@ minetest.register_craft({
 	},
 })
 
+Cable:add_secondary_node_names({"techage:generator", "techage:generator_on"})
 
 techage.register_help_page(I("TA3 Generator"), 
 I([[Part of the Coal Power Station.

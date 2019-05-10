@@ -50,20 +50,26 @@ end
 -- 'boxes' is a table with 6 table elements for the 6 possible connection arms
 -- 'network' is the tubelib2 instance
 -- 'node' is the node definition with tiles, callback functions, and so on
+-- 'techage' is the power network definition
 function techage.register_junction(name, size, boxes, network, node)
 	for idx = 0,63 do
-		node.groups.techage_trowel = 1
-		node.groups.not_in_creative_inventory = idx
-		node.drawtype = "nodebox"
-		node.node_box = get_node_box(idx, size, boxes)
-		node.paramtype2 = "facedir"
-		node.on_rotate = screwdriver.disallow
-		node.paramtype = "light" 
-		node.sunlight_propagates = true 
-		node.is_ground_content = false 
-		node.drop = name.."0" 
-		
-		minetest.register_node(name..idx, table.copy(node))
+		local node1 = table.copy(node)
+		node1.groups.techage_trowel = 1
+		if idx == 0 then
+			node1.groups.not_in_creative_inventory = 0
+		else
+			node1.groups.not_in_creative_inventory = 1
+		end
+		node1.drawtype = "nodebox"
+		node1.node_box = get_node_box(idx, size, boxes)
+		node1.paramtype2 = "facedir"
+		node1.on_rotate = screwdriver.disallow
+		node1.paramtype = "light" 
+		node1.sunlight_propagates = true 
+		node1.is_ground_content = false 
+		node1.drop = name.."0" 
+		--node.techage = techage
+		minetest.register_node(name..idx, node1)
 		network:add_secondary_node_names({name..idx})
 	end
 end

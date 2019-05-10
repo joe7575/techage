@@ -26,9 +26,9 @@ local Cable = tubelib2.Tube:new({
 	max_tube_length = 1000, 
 	show_infotext = false,
 	force_to_use_tubes = true,
+	tube_type = "electric_cable",
 	primary_node_names = {"techage:electric_cableS", "techage:electric_cableA"},
-	secondary_node_names = {"techage:lamp", "techage:lamp_on", "techage:power", "techage:generator",
-		"techage:ele_consumer", "techage:ele_consumer_on"},
+	secondary_node_names = {},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
 		minetest.swap_node(pos, {name = "techage:electric_cable"..tube_type, param2 = param2 % 32})
 		M(pos):set_int("tl2_param2", param2)
@@ -53,7 +53,7 @@ end)
 
 
 minetest.register_node("techage:electric_cableS", {
-	description = I("TA4 Electric Cable"),
+	description = I("TA Electric Cable"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_electric_cable.png",
@@ -96,7 +96,7 @@ minetest.register_node("techage:electric_cableS", {
 })
 
 minetest.register_node("techage:electric_cableA", {
-	description = I("TA4 Electric Cable"),
+	description = I("TA Electric Cable"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_electric_cable.png",
@@ -147,15 +147,16 @@ local Boxes = {
 	{{-size, -size, -size, size,  0.5,  size}}, -- y+
 }
 
-techage.register_junction("techage:electric_junction", 2/8, Boxes, techage.ElectricCable, {
-	description = I("TA4 Electricity Junction Box"),
+techage.register_junction("techage:electric_junction", 2/8, Boxes, Cable, {
+	description = I("TA Electricity Junction Box"),
 	tiles = {"techage_electric_junction.png"},
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
 	sounds = default.node_sound_defaults(),
 	techage = {
+		read_power_consumption = distributor.read_power_consumption,
 		power_network = techage.ElectricCable,
+		power_consumption = 0,
 	},
-	
 	after_place_node = distributor.after_place_node,
 	after_dig_node = distributor.after_dig_node,
 
@@ -165,4 +166,22 @@ techage.register_junction("techage:electric_junction", 2/8, Boxes, techage.Elect
 		local name = "techage:electric_junction"..techage.junction_type(mem.connections)
 		minetest.swap_node(pos, {name = name, param2 = 0})
 	end,
+	})
+
+minetest.register_craft({
+	output = "techage:electric_cableS 6",
+	recipe = {
+		{"basic_materials:plastic_sheet", "", ""},
+		{"", "default:copper_ingot", ""},
+		{"", "", "basic_materials:plastic_sheet"},
+	},
+})
+
+minetest.register_craft({
+	output = "techage:electric_junction0 2",
+	recipe = {
+		{"", "basic_materials:plastic_sheet", ""},
+		{"basic_materials:plastic_sheet", "default:copper_ingot", "basic_materials:plastic_sheet"},
+		{"", "basic_materials:plastic_sheet", ""},
+	},
 })

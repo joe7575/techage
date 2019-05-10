@@ -247,3 +247,12 @@ minetest.register_craft({
 		{"group:wood", "techage:iron_ingot", "group:wood"},
 	},
 })
+
+minetest.register_craft({
+	output = node_name_ta3,
+	recipe = {
+		{"", "default:mese_crystal", ""},
+		{"", node_name_ta2, ""},
+		{"", "techage:vacuum_tube", ""},
+	},
+})

@@ -22,8 +22,6 @@ local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
 local POWER_CONSUMPTION = 2
-local STANDBY_TICKS = 4
-local CYCLE_TIME = 4
 
 local Power = techage.SteamPipe
 local consumer = techage.consumer
@@ -43,12 +41,18 @@ local function valid_power_dir(pos, power_dir, in_dir)
 end
 
 -- called from pipe network
-local function turn_on(pos, dir, sum)
-	if sum > 0 then
-		swap_node(pos, "techage:cooler_on")
+local function turn_on(pos, in_dir, sum)
+	if techage.power.start_dedicated_node(pos, in_dir, "techage:coalboiler_base", sum) then
+		if sum > 0 then
+			swap_node(pos, "techage:cooler_on")
+		else
+			swap_node(pos, "techage:cooler")
+		end
+		return true
 	else
 		swap_node(pos, "techage:cooler")
 	end
+	return false
 end
 
 minetest.register_node("techage:cooler", {
@@ -59,8 +63,8 @@ minetest.register_node("techage:cooler", {
 		"techage_filling_ta3.png^techage_appl_cooler.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_steam_hole.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_steam_hole.png",
-		"techage_filling_ta3.png^techage_frame_ta3.png",
-		"techage_filling_ta3.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png^techage_cooler.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png^techage_cooler.png",
 	},
 	techage = {
 		turn_on = turn_on,
@@ -111,8 +115,8 @@ minetest.register_node("techage:cooler_on", {
 		},
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_steam_hole.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_steam_hole.png",
-		"techage_filling_ta3.png^techage_frame_ta3.png",
-		"techage_filling_ta3.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png^techage_cooler.png",
+		"techage_filling_ta3.png^techage_frame_ta3.png^techage_cooler.png",
 	},
 	techage = {
 		turn_on = turn_on,
@@ -134,3 +138,15 @@ minetest.register_node("techage:cooler_on", {
 })
 
 Power:add_secondary_node_names({"techage:cooler", "techage:cooler_on"})
+
+
+techage.register_help_page(I("TA3 Cooler"), 
+I([[Part of the steam engine.
+Has to be placed on top of the Firebox
+and filled with water.
+(see TA2 Steam Engine)]]), "techage:boiler1")
+
+techage.register_help_page(I("TA2 Boiler Top"), 
+I([[Part of the steam engine.
+Has to be placed on top of TA2 Boiler Base.
+(see TA2 Steam Engine)]]), "techage:boiler2")

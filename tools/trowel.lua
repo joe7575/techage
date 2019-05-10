@@ -72,6 +72,10 @@ local function replace_node(itemstack, placer, pointed_thing)
 		elseif meta:get_string("techage_hidden_nodename") ~= "" then
 			open_node(pos, node, meta, placer)
 		end
+		minetest.sound_play("default_dig_snappy", {
+			pos = pos, 
+			gain = 1,
+			max_hear_distance = 5})
 	end
 end
 
@@ -100,3 +104,12 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
 		techage.dug_node[digger:get_player_name()] = pos
 	end
 end)
+
+minetest.register_craft({
+	output = "techage:trowel",
+	recipe = {
+		{"basic_materials:steel_bar", "basic_materials:steel_bar", ""},
+		{"basic_materials:steel_bar", "default:stick", ""},
+		{"", "", "default:stick"},
+	},
+})

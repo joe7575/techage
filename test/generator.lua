@@ -12,8 +12,8 @@ local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 16
 local POWER_CAPACITY = 30
 
---local Power = techage.ElectricCable
-local Power = techage.SteamPipe
+local Power = techage.ElectricCable
+--local Power = techage.SteamPipe
 local generator = techage.generator
 
 local function formspec(self, pos, mem)
@@ -47,7 +47,6 @@ local State = techage.NodeStates:new({
 
 
 local function node_timer(pos, elapsed)
-	print("node_timer")
 	local mem = tubelib2.get_mem(pos)
 	return State:is_active(mem)
 end

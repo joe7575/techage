@@ -185,7 +185,7 @@ minetest.register_craft({
 	},
 })
 
-techage.register_node("techage:firebox", {"techage:firebox_on"}, {
+techage.register_node("techage:coalfirebox", {}, {
 	on_push_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
@@ -197,3 +197,14 @@ techage.register_node("techage:firebox", {"techage:firebox_on"}, {
 		return false
 	end,
 })	
+
+minetest.register_lbm({
+	label = "[techage] Steam engine firebox",
+	name = "techage:steam_engine",
+	nodenames = {"techage:coalfirebox"},
+	run_at_every_load = true,
+	action = function(pos, node)
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
+	end
+})
+

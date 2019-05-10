@@ -277,3 +277,9 @@ minetest.register_craft({
 	output = "techage:chest_ta2",
 	recipe = {"default:chest", "techage:tubeS", "techage:iron_ingot"}
 })
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "techage:chest_ta3",
+	recipe = {"techage:chest_ta2", "techage:tubeS", "techage:vacuum_tube"}
+})

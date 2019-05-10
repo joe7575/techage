@@ -26,6 +26,7 @@ local Pipe = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
 	max_tube_length = 1000, 
 	show_infotext = false,
+	tube_type = "biogas_pipe",
 	primary_node_names = {"techage:biogas_pipeS", "techage:biogas_pipeA"}, 
 	secondary_node_names = {"techage:gasflare", "techage:compressor"},
 	after_place_tube = function(pos, param2, tube_type, num_tubes, tbl)

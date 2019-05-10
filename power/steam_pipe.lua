@@ -24,9 +24,10 @@ local I,_ = dofile(MP.."/intllib.lua")
 
 local Pipe = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
-	max_tube_length = 6, 
+	max_tube_length = 12, 
 	show_infotext = false,
 	force_to_use_tubes = true,
+	tube_type = "steam_pipe",
 	primary_node_names = {"techage:steam_pipeS", "techage:steam_pipeA"}, 
 	secondary_node_names = {"techage:cylinder", "techage:cylinder_on", "techage:boiler2"},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)

@@ -26,7 +26,7 @@ local I,_ = dofile(MP.."/intllib.lua")
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 8
-local POWER_CAPACITY = 20
+local POWER_CAPACITY = 25
 
 local Axle = techage.Axle
 local generator = techage.generator

@@ -22,8 +22,6 @@ local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
 local POWER_CONSUMPTION = 2
-local STANDBY_TICKS = 4
-local CYCLE_TIME = 4
 
 local Pipe = techage.SteamPipe
 local consumer = techage.consumer
@@ -32,39 +30,10 @@ local function valid_power_dir(pos, power_dir, in_dir)
 	return power_dir == in_dir
 end
 
-local function start_node(pos, mem, state)
-	consumer.turn_power_on(pos, POWER_CONSUMPTION)
-end
-
-local function stop_node(pos, mem, state)
-	consumer.turn_power_on(pos, 0)
-end
-
-local State = techage.NodeStates:new({
-	node_name_passive = "techage:coalboiler_base",
-	cycle_time = CYCLE_TIME,
-	standby_ticks = STANDBY_TICKS,
-	start_node = start_node,
-	stop_node = stop_node,
-})
-	
 local function turn_on_clbk(pos, in_dir, sum)
-	local mem = tubelib2.get_mem(pos)
-	local state = State:get_state(mem)
-	
-	if sum > 0 and state == techage.STOPPED then
-		State:start(pos, mem)
-	elseif sum <= 0 and state == techage.RUNNING then
-		State:stop(pos, mem)
-	end
+	return true
 end
 
-local function node_timer(pos, elapsed)
-	print("node_timer")
-	local mem = tubelib2.get_mem(pos)
-	return State:is_active(mem)
-end
-		
 minetest.register_node("techage:coalboiler_base", {
 	description = I("TA3 Boiler Base"),
 	tiles = {"techage_coal_boiler_mesh_base.png"},
@@ -85,17 +54,11 @@ minetest.register_node("techage:coalboiler_base", {
 	
 	after_place_node = function(pos, placer)
 		local mem = consumer.after_place_node(pos, placer)
-		State:node_init(pos, mem, "")
-		State:start(pos, mem)
-	end,
-	
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		State:after_dig_node(pos, oldnode, oldmetadata, digger)
-		consumer.after_dig_node(pos, oldnode)
+		mem.power_consumption = POWER_CONSUMPTION
 	end,
 	
 	after_tube_update = consumer.after_tube_update,
-	--on_timer = node_timer,
+	after_dig_node = consumer.after_dig_node,
 	
 	drop = "",
 	paramtype2 = "facedir",

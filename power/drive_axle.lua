@@ -24,8 +24,9 @@ local I,_ = dofile(MP.."/intllib.lua")
 
 local Axle = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
-	max_tube_length = 5, 
+	max_tube_length = 8, 
 	show_infotext = false,
+	tube_type = "axle",
 	primary_node_names = {"techage:axle", "techage:axle_on"}, 
 	secondary_node_names = {"techage:flywheel", "techage:flywheel_on", "techage:gearbox", "techage:gearbox_on"},
 	after_place_tube = function(pos, param2, tube_type, num_tubes, state)

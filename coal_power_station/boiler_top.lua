@@ -249,7 +249,6 @@ minetest.register_node("techage:coalboiler_top", {
 		trigger_boiler = function(pos)
 			local mem = tubelib2.get_mem(pos)
 			mem.fire_trigger = true
-			print("trigger_boiler")
 			if not minetest.get_node_timer(pos):is_started() then
 				minetest.get_node_timer(pos):start(CYCLE_TIME)
 			end

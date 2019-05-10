@@ -21,7 +21,7 @@ The goal of TA2 is build a steam engine and machines
 to produce ores and vacuum tubes for the first 
 electronic devices and machines in TA3.]]), "techage:vacuum_tube")
 
-local HelpText = S([[1. Build a steam machine according
+local HelpText = S([[1. Build a steam engine according
 to the plan with TA2 Firebox, TA2 Boiler, 
 Steam Pipes, TA2 Cyclinder and TA2 Flywheel.
 2. Heat the Firebox with coal/charcoal
@@ -44,6 +44,6 @@ local Images = {
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_flywheel.png^[transformFX]"},
 }
 
-techage.register_help_page("Steam Machine", HelpText, nil, Images)
+techage.register_help_page("Steam Engine", HelpText, nil, Images)
 
 
