@@ -45,7 +45,7 @@ else
 	-- Power networks
 	dofile(MP.."/power/drive_axle.lua")
 	dofile(MP.."/power/steam_pipe.lua")
-	--dofile(MP.."/power/biogas_pipe.lua")
+	dofile(MP.."/power/biogas_pipe.lua")
 	dofile(MP.."/power/electric_cable.lua")
 
 	-- Iron Age
@@ -74,6 +74,7 @@ else
 	dofile(MP.."/steam_engine/gearbox.lua")
 	
 	-- Basic Machines
+	dofile(MP.."/basic_machines/source.lua")
 	dofile(MP.."/basic_machines/pusher.lua")
 	dofile(MP.."/basic_machines/blackhole.lua")
 	dofile(MP.."/basic_machines/legacy_nodes.lua")
@@ -100,12 +101,11 @@ else
 	dofile(MP.."/coal_power_station/cooler.lua")
 
 
+	--dofile(MP.."/test/generator.lua")
 	dofile(MP.."/test/lamp.lua")
-	dofile(MP.."/test/generator.lua")
 --	dofile(MP.."/test/consumer.lua")
 	--dofile(MP.."/test/consumer2.lua")
 	--dofile(MP.."/test/test.lua")
-	--dofile(MP.."/test/battery.lua")
 
 
 	--dofile(MP.."/fermenter/gasflare.lua")

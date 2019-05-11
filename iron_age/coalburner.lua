@@ -196,14 +196,12 @@ function techage.keep_running_burner(pos)
 		meta:set_int("handle", 0)
 	end
 	local burn_time = meta:get_int("burn_time")
-	print("keep_running_burner", burn_time)
 	-- burner hole is open
 	if num_air(pos) == 1 then
 		meta:set_int("burn_time", burn_time - CYCLE_TIME)
 		-- tower intact
 		if num_cobble(pos, height) == height * 8 then
 			local num_coal = calc_num_coal(height, burn_time)
-			print("num_coal", num_coal)
 			if num_coal > 0 then
 				if meta:get_int("paused") == 1 then
 					flame(pos, height, num_coal, true)

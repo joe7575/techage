@@ -17,18 +17,18 @@ local MP = minetest.get_modpath("techage")
 local S, NS = dofile(MP.."/intllib.lua")
 
 techage.register_chap_page(S("Electrical Age (TA3)"), S([[The Electrical Age is the third level of the available technic stages.
-The goal of TA3 is build a Coal Power Station and machines
-to produce ores and chips for smart devices and machines in TA4.]]), "techage:wlanchip")
+The goal of TA3 is to build a Coal Power Station and machines
+to produce ores and chips for smart TA4 devices and machines.]]), "techage:wlanchip")
 
 local HelpText = S([[1. Build a Coal Power Station according
 to the plan with TA3 Firebox, TA3 Boiler, 
-Steam Pipes, TA3 Cooler, Turbine and Generator.
+Steam Pipes, Cooler, Turbine and Generator.
 2. Heat the Firebox with coal/charcoal
 3. Fill the boiler with water (more than one bucket is needed)
 4. Wait until the water is heated
 5. Open the steam ventil
-6. Start the Generator
-7. Connect the Generator with your machines by means of cables and junction boxes]])
+6. Connect the Generator with your machines by means of cables and junction boxes
+7. Start the Generator]])
 
 local Images = {
 	
@@ -52,3 +52,4 @@ techage.register_help_page("Coal Power Station", HelpText, nil, Images)
 techage.register_help_page(S("TA3 Electronic Fab"), 
 S([[Used to produce WLAN Chips, 
 needed for TA4 machines.]]), "techage:ta3_electronic_fab_pas")
+

@@ -54,7 +54,6 @@ end
 local function matching_nodes(pos, peer_pos)
 	local tube_type1 = pos and TRD(pos) and TRD(pos).power_network.tube_type
 	local tube_type2 = peer_pos and TRD(peer_pos) and TRD(peer_pos).power_network.tube_type
-	print(tube_type1, tube_type2)
 	return not tube_type1 or not tube_type2 or tube_type1 == tube_type2
 end
 

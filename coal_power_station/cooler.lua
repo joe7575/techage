@@ -137,16 +137,21 @@ minetest.register_node("techage:cooler_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
+minetest.register_craft({
+	output = "techage:cooler",
+	recipe = {
+		{"basic_materials:steel_bar", "default:wood", "basic_materials:steel_bar"},
+		{"techage:steam_pipeS", "basic_materials:gear_steel", "techage:steam_pipeS"},
+		{"basic_materials:steel_bar", "default:wood", "basic_materials:steel_bar"},
+	},
+})
+
 Power:add_secondary_node_names({"techage:cooler", "techage:cooler_on"})
 
 
 techage.register_help_page(I("TA3 Cooler"), 
-I([[Part of the steam engine.
-Has to be placed on top of the Firebox
-and filled with water.
-(see TA2 Steam Engine)]]), "techage:boiler1")
+I([[Part of the Coal Power Station.
+Has to be placed in the steam circulation
+after the Turbine.
+(see TA3 Coal Power Station)]]), "techage:cooler")
 
-techage.register_help_page(I("TA2 Boiler Top"), 
-I([[Part of the steam engine.
-Has to be placed on top of TA2 Boiler Base.
-(see TA2 Steam Engine)]]), "techage:boiler2")

@@ -156,3 +156,15 @@ techage.register_node("techage:firebox", {"techage:firebox_on"}, {
 		return false
 	end,
 })	
+
+minetest.register_lbm({
+	label = "[techage] Steam engine firebox",
+	name = "techage:steam_engine",
+	nodenames = {"techage:firebox_on"},
+	run_at_every_load = true,
+	action = function(pos, node)
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
+	end
+})
+
+

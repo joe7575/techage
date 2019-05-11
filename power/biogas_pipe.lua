@@ -173,34 +173,34 @@ local Boxes = {
 	}
 }
 
-techage.register_junction("techage:biogas_junction", 1/8, Boxes, Pipe, {
-	description = "TA3 Biogas Junction",
-	tiles = {"techage_gaspipe_junction.png"},
-	groups = {crumbly = 3, cracky = 3, snappy = 3, techage_trowel = 1},
-	sounds = default.node_sound_metal_defaults(),
+--techage.register_junction("techage:biogas_junction", 1/8, Boxes, Pipe, {
+--	description = "TA3 Biogas Junction",
+--	tiles = {"techage_gaspipe_junction.png"},
+--	groups = {crumbly = 3, cracky = 3, snappy = 3, techage_trowel = 1},
+--	sounds = default.node_sound_metal_defaults(),
 
-	after_place_node = function(pos, placer, itemstack, pointed_thing)
-		local meta = minetest.get_meta(pos)
-		meta:set_string("infotext", "Position "..S(pos))
-		Pipe:after_place_node(pos)
-		techage.sink_power_consumption(pos, 0)
-	end,
+--	after_place_node = function(pos, placer, itemstack, pointed_thing)
+--		local meta = minetest.get_meta(pos)
+--		meta:set_string("infotext", "Position "..S(pos))
+--		Pipe:after_place_node(pos)
+--		techage.sink_power_consumption(pos, 0)
+--	end,
 
-	after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
-		local conn = minetest.deserialize(M(pos):get_string("connections")) or {}
-		conn[out_dir] = peer_pos
-		M(pos):set_string("connections", minetest.serialize(conn))
-		local name = "techage:biogas_junction"..techage.junction_type(conn)
-		minetest.swap_node(pos, {name = name, param2 = 0})
-		techage.sink_power_consumption(pos, 0)
-	end,
+--	after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
+--		local conn = minetest.deserialize(M(pos):get_string("connections")) or {}
+--		conn[out_dir] = peer_pos
+--		M(pos):set_string("connections", minetest.serialize(conn))
+--		local name = "techage:biogas_junction"..techage.junction_type(conn)
+--		minetest.swap_node(pos, {name = name, param2 = 0})
+--		techage.sink_power_consumption(pos, 0)
+--	end,
 	
-	on_destruct = function(pos)
-		techage.sink_power_consumption(pos, 0)
-	end,
+--	on_destruct = function(pos)
+--		techage.sink_power_consumption(pos, 0)
+--	end,
 
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		Pipe:after_dig_node(pos)
-	end,
-})
+--	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+--		Pipe:after_dig_node(pos)
+--	end,
+--})
 

@@ -36,38 +36,49 @@ local ValidInput = {
 		["basic_materials:plastic_sheet"] = true,
 		["techage:usmium_nuggets"] = true,
 	},
-	{},  -- 3
+	{  -- 3
+		["default:mese_crystal"] = true, 
+		["default:copper_ingot"] = true, 
+		["default:gold_ingot"] = true, 
+		["basic_materials:silicon"] = true,
+	},  
 	{},  -- 4
 }
 
 local Input = {
 	{},  -- 1
 	{"default:glass", "basic_materials:copper_wire", "basic_materials:plastic_sheet", "techage:usmium_nuggets"}, --2
-	{},  -- 3
+	{"default:mese_crystal", "default:copper_ingot", "default:gold_ingot", "basic_materials:silicon"},  -- 3
 	{},  -- 4
 }
 
 local Output = {
 	"",  -- 1
-	"techage:vacuum_tube",  -- 2
-	"",  -- 3
+	"techage:vacuum_tube 2",  -- 2
+	"techage:wlanchip 8",  -- 3
 	"",  -- 4
 }
 
 local function formspec(self, pos, mem)
+	local icon
+	local trd = TRD(pos)
+	if trd.stage == 2 then
+		icon = "techage:vacuum_tube"
+	elseif trd.stage == 3 then
+		icon = "techage:wlanchip"
+	else
+		icon = ""
+	end
 	return "size[8,8]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
 	"list[context;src;0,0;3,3;]"..
-	"item_image[0,0;1,1;default:glass]"..
-	"item_image[0,1;1,1;basic_materials:copper_wire]"..
-	"item_image[0,2;1,1;basic_materials:plastic_sheet]"..
 	"image[3.5,0;1,1;"..techage.get_power_image(pos, mem).."]"..
 	"image[3.5,1;1,1;techage_form_arrow.png]"..
 	"image_button[3.5,2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 	"list[context;dst;5,0;3,3;]"..
-	"item_image[5,0;1,1;techage:vacuum_tube]"..
+	"item_image[5,0;1,1;"..icon.."]"..
 	"list[current_player;main;0,4;8,4;]"..
 	"listring[context;dst]"..
 	"listring[current_player;main]"..
@@ -269,6 +280,15 @@ minetest.register_craft({
 	},
 })
 
+minetest.register_craft({
+	output = node_name_ta3,
+	recipe = {
+		{"", "default:diamond", ""},
+		{"", node_name_ta2, ""},
+		{"", "techage:vacuum_tube", ""},
+	},
+})
+
 minetest.register_craftitem("techage:vacuum_tube", {
 	description = I("TA3 Vacuum Tubes"),
 	inventory_image = "techage_vacuum_tube.png",
@@ -288,8 +308,13 @@ if minetest.global_exists("unified_inventory") then
 		height = 2,
 	})
 	unified_inventory.register_craft({
-		output = "techage:vacuum_tube", 
+		output = "techage:vacuum_tube 2", 
 		items = {"default:glass", "basic_materials:copper_wire", "basic_materials:plastic_sheet", "techage:usmium_nuggets"},
+		type = "electronic_fab",
+	})
+	unified_inventory.register_craft({
+		output = "techage:wlanchip 8", 
+		items = {"default:mese_crystal", "default:copper_ingot", "default:gold_ingot", "basic_materials:silicon"},
 		type = "electronic_fab",
 	})
 end
@@ -297,3 +322,4 @@ end
 techage.register_help_page(I("TA2 Electronic Fab"), 
 I([[Used to produce Vacuum Pipes, 
 needed for TA3 machines.]]), "techage:ta2_electronic_fab_pas")
+

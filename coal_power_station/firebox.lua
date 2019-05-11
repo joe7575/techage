@@ -199,7 +199,7 @@ techage.register_node("techage:coalfirebox", {}, {
 })	
 
 minetest.register_lbm({
-	label = "[techage] Steam engine firebox",
+	label = "[techage] Power Station firebox",
 	name = "techage:steam_engine",
 	nodenames = {"techage:coalfirebox"},
 	run_at_every_load = true,

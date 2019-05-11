@@ -27,6 +27,8 @@ local STANDBY_TICKS = 10
 local COUNTDOWN_TICKS = 10
 local CYCLE_TIME = 4
 
+local Probability = {}
+
 local function formspec(self, pos, mem)
 	return "size[8,8]"..
 	default.gui_bg..
@@ -79,6 +81,7 @@ local function determine_water_dir(pos)
 	local pos2 = {x=pos.x-1, y=pos.y, z=pos.z}
 	local pos3 = {x=pos.x, y=pos.y, z=pos.z+1}
 	local pos4 = {x=pos.x, y=pos.y, z=pos.z-1}
+	local node  = minetest.get_node(pos)
 	local node1 = minetest.get_node(pos1)
 	local node2 = minetest.get_node(pos2)
 	local node3 = minetest.get_node(pos3)
@@ -88,18 +91,21 @@ local function determine_water_dir(pos)
 	local ndef3 = minetest.registered_nodes[node3.name]
 	local ndef4 = minetest.registered_nodes[node4.name]
 	
-	if ndef1 and ndef1.liquidtype == "flowing" and ndef2 and ndef2.liquidtype == "flowing" then
-		if node1.param2 > node2.param2 then
-			return 4
-		elseif node1.param2 < node2.param2 then
-			return 2
+	if minetest.get_item_group(node.name, "water") > 0 then
+		if ndef1 and ndef1.liquidtype == "flowing" and ndef2 and ndef2.liquidtype == "flowing" then
+			if node1.param2 > node2.param2 then
+				return 4
+			elseif node1.param2 < node2.param2 then
+				return 2
+			end
+		elseif ndef3 and ndef3.liquidtype == "flowing" and ndef4 and ndef4.liquidtype == "flowing" then
+			if node3.param2 > node4.param2 then
+				return 3
+			elseif node3.param2 < node4.param2 then
+				return 1
+			end
 		end
-	elseif ndef3 and ndef3.liquidtype == "flowing" and ndef4 and ndef4.liquidtype == "flowing" then
-		if node3.param2 > node4.param2 then
-			return 3
-		elseif node3.param2 < node4.param2 then
-			return 1
-		end
+		return 0
 	end
 end
 
@@ -110,7 +116,7 @@ local function remove_obj(obj)
 end
 
 local function set_velocity(obj, pos, vel)
-	if obj then
+	if obj and vel then
 		obj:set_velocity(vel)
 	end
 end
@@ -125,12 +131,21 @@ local function add_object(pos, name)
 	end
 end
 
+local function get_random_gravel_ore()
+	for ore, probability in pairs(Probability) do
+		if math.random(probability) == 1 then
+			return ore
+		end
+	end
+end
+
 local function washing(pos, trd, mem, inv)
 	local src = ItemStack("techage:sieved_gravel")
 	local dst = ItemStack("default:sand")
 	if inv:contains_item("src", src) then
-		if math.random(40) == 1 then
-			add_object({x=pos.x, y=pos.y+1, z=pos.z}, "techage:usmium_nuggets")
+		local ore = get_random_gravel_ore()
+		if ore then
+			add_object({x=pos.x, y=pos.y+1, z=pos.z}, ore)
 		end
 	else
 		trd.State:idle(pos, mem)
@@ -310,6 +325,7 @@ if minetest.global_exists("unified_inventory") then
 end
 
 function techage.add_rinser_recipe(recipe)
+	Probability[recipe.output] = recipe.probability
 	if minetest.global_exists("unified_inventory") then
 		recipe.items = {recipe.input}
 		recipe.type = "rinsing"
@@ -317,8 +333,28 @@ function techage.add_rinser_recipe(recipe)
 	end
 end	
 
+local function remove_objects(pos)
+	for _, object in pairs(minetest.get_objects_inside_radius(pos, 1)) do
+		local lua_entity = object:get_luaentity()
+		if not object:is_player() and lua_entity and lua_entity.name == "__builtin:item" then
+			object:remove()
+		end
+	end
+end
 
-techage.add_rinser_recipe({input="techage:sieved_gravel", output="techage:usmium_nuggets"})
+minetest.register_lbm({
+	label = "[techage] Rinser update",
+	name = "techage:update",
+	nodenames = {"techage:ta2_rinser_act"},
+	run_at_every_load = true,
+	action = function(pos, node)
+		remove_objects({x=pos.x, y=pos.y+1, z=pos.z})
+	end
+})
+
+
+techage.add_rinser_recipe({input="techage:sieved_gravel", output="techage:usmium_nuggets", probability=40})
+techage.add_rinser_recipe({input="techage:sieved_gravel", output="default:copper_lump", probability=20})
 
 techage.register_help_page(I("TA2 Gravel Rinser"), 
 I([[Used to wash Sieved Gravel to get Usmium Nuggets.
