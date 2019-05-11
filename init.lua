@@ -34,6 +34,9 @@ else
 	dofile(MP.."/basis/consumer.lua")  -- consumer base model
 	dofile(MP.."/basis/firebox_lib.lua")  -- common firebox functions
 	
+	-- Overrides
+	dofile(MP.."/overrides/signs_bot.lua")
+	
 	-- Tools
 	dofile(MP.."/tools/trowel.lua")
 	dofile(MP.."/tools/repairkit.lua")
