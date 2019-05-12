@@ -391,6 +391,7 @@ end
 
 -- command interface
 function NodeStates:on_receive_message(pos, topic, payload)
+	local mem = tubelib2.get_mem(pos)
 	if topic == "on" then
 		self:start(pos, tubelib2.get_mem(pos))
 		return true

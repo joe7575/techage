@@ -76,49 +76,40 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 end
 
 
-local function determine_water_dir(pos)
-	local pos1 = {x=pos.x+1, y=pos.y, z=pos.z}
-	local pos2 = {x=pos.x-1, y=pos.y, z=pos.z}
-	local pos3 = {x=pos.x, y=pos.y, z=pos.z+1}
-	local pos4 = {x=pos.x, y=pos.y, z=pos.z-1}
+local function get_water_level(pos)
 	local node  = minetest.get_node(pos)
-	local node1 = minetest.get_node(pos1)
-	local node2 = minetest.get_node(pos2)
-	local node3 = minetest.get_node(pos3)
-	local node4 = minetest.get_node(pos4)
-	local ndef1 = minetest.registered_nodes[node1.name]
-	local ndef2 = minetest.registered_nodes[node2.name]
-	local ndef3 = minetest.registered_nodes[node3.name]
-	local ndef4 = minetest.registered_nodes[node4.name]
-	
 	if minetest.get_item_group(node.name, "water") > 0 then
-		if ndef1 and ndef1.liquidtype == "flowing" and ndef2 and ndef2.liquidtype == "flowing" then
-			if node1.param2 > node2.param2 then
-				return 4
-			elseif node1.param2 < node2.param2 then
-				return 2
-			end
-		elseif ndef3 and ndef3.liquidtype == "flowing" and ndef4 and ndef4.liquidtype == "flowing" then
-			if node3.param2 > node4.param2 then
-				return 3
-			elseif node3.param2 < node4.param2 then
-				return 1
-			end
+		local ndef = minetest.registered_nodes[node.name]
+		if ndef and ndef.liquidtype == "flowing" then
+			return node.param2
 		end
-		return 0
 	end
+	return 99
 end
 
-local function remove_obj(obj)
-	if obj then
-		obj:remove()
+local function determine_water_dir(pos)
+	local lvl = get_water_level(pos)
+	print(lvl)
+	if lvl > get_water_level({x=pos.x+1, y=pos.y, z=pos.z}) then
+		return 2
 	end
+	if lvl > get_water_level({x=pos.x-1, y=pos.y, z=pos.z}) then
+		return 4
+	end
+	if lvl > get_water_level({x=pos.x, y=pos.y, z=pos.z+1}) then
+		return 1
+	end
+	if lvl > get_water_level({x=pos.x, y=pos.y, z=pos.z-1}) then
+		return 3
+	end
+	return 0
 end
 
 local function set_velocity(obj, pos, vel)
-	if obj and vel then
-		obj:set_velocity(vel)
-	end
+	obj:set_acceleration({x = 0, y = 0, z = 0})
+	local p = obj:get_pos()
+	obj:set_pos({x=p.x, y=p.y-0.3, z=p.z})
+	obj:set_velocity(vel)
 end
 
 local function add_object(pos, name)
@@ -126,8 +117,7 @@ local function add_object(pos, name)
 	if dir then
 		local obj = minetest.add_item(pos, ItemStack(name))
 		local vel = vector.multiply(tubelib2.Dir6dToVector[dir], 0.3)
-		minetest.after(0.8, set_velocity, obj, pos, vel)
-		minetest.after(20, remove_obj, obj)
+		minetest.after(0.3, set_velocity, obj, pos, vel)
 	end
 end
 
@@ -140,6 +130,14 @@ local function get_random_gravel_ore()
 end
 
 local function washing(pos, trd, mem, inv)
+	-- for testing purposes
+	if inv:contains_item("src", ItemStack("default:stick")) then
+		add_object({x=pos.x, y=pos.y+1, z=pos.z}, "default:stick")
+		inv:remove_item("src", ItemStack("default:stick"))
+		trd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+		return
+	end
+	
 	local src = ItemStack("techage:sieved_gravel")
 	local dst = ItemStack("default:sand")
 	if inv:contains_item("src", src) then

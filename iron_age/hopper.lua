@@ -64,7 +64,7 @@ local function node_timer(pos, elapsed)
 	local inv = meta:get_inventory()
 	if inv then
 		if not pull_push_item(pos, meta) then
-			scan_for_objects(pos, inv)
+			scan_for_objects({x=pos.x, y=pos.y+1, z=pos.z}, inv)
 			push_item(pos, inv, meta)
 		end
 	end

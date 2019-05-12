@@ -20,7 +20,8 @@ local function destroy_node(itemstack, placer, pointed_thing)
 	if pointed_thing.type == "node" then
 		local pos = pointed_thing.under
 		if not minetest.is_protected(pos, placer:get_player_name()) then
-			M(pos):set_int("techage_aging", 999999)
+			local mem = tubelib2.get_mem(pos)
+			mem.techage_aging = 999999
 		end
 	end
 end
@@ -28,7 +29,7 @@ end
 local function repair_node(itemstack, user, pointed_thing)
 	local pos = pointed_thing.under
 	if pos then
-		if tubelib.repair_node(pos) then
+		if techage.repair_node(pos) then
 			minetest.chat_send_player(user:get_player_name(), "[TechAge] Node repaired")
 			itemstack:take_item()
 			return itemstack
