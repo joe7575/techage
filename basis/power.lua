@@ -174,7 +174,7 @@ techage.generator = {}
 
 function techage.generator.after_place_node(pos)
 	local mem = tubelib2.init_mem(pos)
-	mem.power_produce = 0
+	mem.power_capacity = 0
 	TRD(pos).power_network:after_place_node(pos)
 	return mem
 end
@@ -218,8 +218,23 @@ function techage.generator.after_dig_node(pos, oldnode)
 end
 
 function techage.generator.formspec_level(mem, sum)
-	local percent = ((sum or 0) * 100) / (mem.power_capacity or 1)
+	local percent = math.min(((sum or 0) * 100) / (mem.power_capacity or 1), 100)
 	return "techage_form_level_bg.png^[lowpart:"..percent..":techage_form_level_fg.png]"
+end
+
+function techage.generator.formspec_battery_capa(max_capa, current_capa)
+	local percent = math.min(((current_capa or 0) * 100) / (max_capa or 1), 100)
+	return "techage_form_level_bg.png^[lowpart:"..percent..":techage_form_level_fg.png]"
+end
+function techage.generator.formspec_battery_load(mem)
+	if mem.power_capacity ~= 0 then
+		if mem.charging then
+			return "techage_form_level_charge.png]"
+		elseif mem.unloading then
+			return "techage_form_level_unload.png]"
+		end
+	end
+	return "techage_form_level_off.png]"
 end
 
 

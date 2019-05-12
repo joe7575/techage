@@ -108,7 +108,6 @@ local function on_receive_fields(pos, formname, fields, player)
 	state:state_button_event(pos, mem, fields)
 	
 	if fields.update then
-		local state = tStates[mem.state_num or 2]
 		M(pos):set_string("formspec", formspec(state, pos, mem))
 	end
 end

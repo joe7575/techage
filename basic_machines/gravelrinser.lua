@@ -89,7 +89,6 @@ end
 
 local function determine_water_dir(pos)
 	local lvl = get_water_level(pos)
-	print(lvl)
 	if lvl > get_water_level({x=pos.x+1, y=pos.y, z=pos.z}) then
 		return 2
 	end

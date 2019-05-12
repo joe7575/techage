@@ -7,7 +7,7 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
-local POWER_CONSUMPTION = 2
+local POWER_CONSUMPTION = 1
 
 local Power = techage.ElectricCable
 local consumer = techage.consumer
@@ -23,13 +23,13 @@ end
 
 -- called from pipe network
 local function valid_power_dir(pos, power_dir, in_dir)
-	print("valid_power_dir", power_dir, in_dir)
+	--print("valid_power_dir", power_dir, in_dir)
 	return true
 end
 
 local function lamp_turn_on_clbk(pos, in_dir, sum)
 	local mem = tubelib2.get_mem(pos)
-	print("lamp_turn_on_clbk", sum, dump(mem))
+	--print("lamp_turn_on_clbk", sum)
 	if sum > 0 and mem.running then
 		swap_node(pos, "techage:test_lamp_on")
 	else
@@ -39,7 +39,7 @@ end
 
 local function lamp_on_rightclick(pos, node, clicker)
 	local mem = tubelib2.get_mem(pos)
-	print("lamp_on_rightclick", dump(mem))
+	--print("lamp_on_rightclick", dump(mem))
 	if not mem.running then
 		swap_node(pos, "techage:test_lamp_on")
 		mem.running = true
@@ -74,7 +74,6 @@ minetest.register_node("techage:test_lamp", {
 	
 	after_place_node = function(pos, placer)
 		local mem = consumer.after_place_node(pos, placer)
-		mem.power_consumption = POWER_CONSUMPTION
 	end,
 	
 	after_tube_update = consumer.after_tube_update,

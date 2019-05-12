@@ -102,6 +102,7 @@ else
 	dofile(MP.."/coal_power_station/generator.lua")
 	dofile(MP.."/coal_power_station/turbine.lua")
 	dofile(MP.."/coal_power_station/cooler.lua")
+	dofile(MP.."/coal_power_station/battery.lua")
 
 
 	--dofile(MP.."/test/generator.lua")
