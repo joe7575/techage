@@ -50,6 +50,10 @@ function techage.get_pos(pos, side)
 	return tubelib2.get_pos(pos, dir)
 end	
 
+function techage.percent(max_val, curr_val)
+	return math.min(math.ceil(((curr_val or 0) * 100.0) / (max_val or 1.0)), 100)
+end
+
 -- Both nodes are from the same power network type?
 local function matching_nodes(pos, peer_pos)
 	local tube_type1 = pos and TRD(pos) and TRD(pos).power_network.tube_type
@@ -218,12 +222,12 @@ function techage.generator.after_dig_node(pos, oldnode)
 end
 
 function techage.generator.formspec_level(mem, sum)
-	local percent = math.min(((sum or 0) * 100) / (mem.power_capacity or 1), 100)
+	local percent = techage.percent(mem.power_capacity, sum)
 	return "techage_form_level_bg.png^[lowpart:"..percent..":techage_form_level_fg.png]"
 end
 
 function techage.generator.formspec_battery_capa(max_capa, current_capa)
-	local percent = math.min(((current_capa or 0) * 100) / (max_capa or 1), 100)
+	local percent = techage.percent(max_capa, current_capa)
 	return "techage_form_level_bg.png^[lowpart:"..percent..":techage_form_level_fg.png]"
 end
 function techage.generator.formspec_battery_load(mem)

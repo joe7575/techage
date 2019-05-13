@@ -8,7 +8,7 @@
 	LGPLv2.1+
 	See LICENSE.txt for more information
 	
-	TA3 Battery Box
+	TA3 Akku Box
 
 ]]--
 
@@ -25,7 +25,7 @@ local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 2
 local POWER_CONSUMPTION = 10
-local POWER_MAX_LOAD = 1000
+local POWER_MAX_LOAD = 300
 
 local Power = techage.ElectricCable
 local generator = techage.generator
@@ -80,7 +80,7 @@ local function stop_node(pos, mem, state)
 end
 
 local State = techage.NodeStates:new({
-	node_name_passive = "techage:ta3_battery",
+	node_name_passive = "techage:ta3_akku",
 	cycle_time = CYCLE_TIME,
 	standby_ticks = STANDBY_TICKS,
 	formspec_func = formspec,
@@ -100,13 +100,12 @@ local function node_timer(pos, elapsed)
 			end
 		elseif mem.unloading then
 			if mem.capa > 0 then
-				mem.capa = mem.capa - 1
+				mem.capa = mem.capa - 2
 			else
 				turn_off(pos, mem)
 			end
 		end
 	end
-	--print("node_timer", S(pos), mem.sum, mem.power_capacity)
 	return State:is_active(mem)
 end
 
@@ -115,7 +114,6 @@ local function turn_power_on(pos, in_dir, sum)
 	if State:is_active(mem) then
 		mem.capa = mem.capa or 0
 		mem.sum = sum
-		--print("turn_power_on", sum, dump(mem))
 		if mem.unloading then
 			if sum < 0 then
 				turn_off(pos, mem)
@@ -154,8 +152,29 @@ local function on_rightclick(pos)
 	M(pos):set_string("formspec", formspec(State, pos, mem))
 end
 
-minetest.register_node("techage:ta3_battery", {
-	description = "TA3 Battery",
+local function get_capa(itemstack)
+	local meta = itemstack:get_meta()
+	if meta then
+		return meta:get_int("capa")
+	end
+	return 0
+end
+
+local function set_capa(pos, oldnode, digger, capa)
+	local node = ItemStack(oldnode.name)
+	local meta = node:get_meta()
+	meta:set_int("capa", capa or 0)
+	local text = I("TA3 Akku Box").." ("..techage.percent(POWER_MAX_LOAD, capa).." %)"
+	meta:set_string("description", text)
+	local inv = minetest.get_inventory({type="player", name=digger:get_player_name()})
+	local left_over = inv:add_item("main", node)
+	if left_over:get_count() > 0 then
+		minetest.add_item(pos, node)
+	end
+end
+
+minetest.register_node("techage:ta3_akku", {
+	description = I("TA3 Akku Box"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta3.png^techage_frame_ta3_top.png",
@@ -169,6 +188,7 @@ minetest.register_node("techage:ta3_battery", {
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
+	sounds = default.node_sound_wood_defaults(),
 
 	techage = {
 		turn_on = turn_power_on,
@@ -177,17 +197,20 @@ minetest.register_node("techage:ta3_battery", {
 		power_side = "R",
 	},
 	
-	after_place_node = function(pos, placer)
+	after_place_node = function(pos, placer, itemstack)
 		local mem = generator.after_place_node(pos)
 		State:node_init(pos, mem, "")
 		mem.charging = false
 		mem.unloading = false
+		mem.capa = get_capa(itemstack)
 		on_rightclick(pos)
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		local mem = tubelib2.get_mem(pos)
 		State:after_dig_node(pos, oldnode, oldmetadata, digger)
 		generator.after_dig_node(pos, oldnode)
+		set_capa(pos, oldnode, digger, mem.capa)
 	end,
 	
 	after_tube_update = generator.after_tube_update,	
@@ -196,4 +219,19 @@ minetest.register_node("techage:ta3_battery", {
 	on_timer = node_timer,
 })
 
-Power:add_secondary_node_names({"techage:ta3_battery"})
+Power:add_secondary_node_names({"techage:ta3_akku"})
+
+techage.register_help_page(I("TA3 Akku Box"), 
+I([[Used to store electrical energy.
+Charged in about 10 min, 
+provides energy for 5 min.]]), "techage:ta3_akku")
+
+
+minetest.register_craft({
+	output = "techage:ta3_akku",
+	recipe = {
+		{"default:tin_ingot", "default:tin_ingot", "default:wood"},
+		{"default:copper_ingot", "default:copper_ingot", "techage:electric_cableS"},
+		{"techage:iron_ingot", "techage:iron_ingot", "default:wood"},
+	},
+})

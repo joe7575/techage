@@ -25,6 +25,11 @@ minetest.register_craftitem("techage:baborium_lump", {
 	inventory_image = "techage_baborium_lump.png",
 })
 
+minetest.register_craftitem("techage:baborium_ingot", {
+	description = "Baborium Ingot",
+	inventory_image = "techage_baborium_ingot.png",
+})
+
 
 
 minetest.register_ore({
