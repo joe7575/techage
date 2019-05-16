@@ -102,7 +102,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 			cycle_time = tNode.cycle_time,
 			standby_ticks = tNode.standby_ticks,
 			has_item_meter = tNode.has_item_meter,
-			aging_factor = tNode.aging_factor,
+			aging_factor = tNode.aging_factor * (stage-1) * 2,
 			formspec_func = tNode.formspec,
 			start_node = power_used and start_node or nil,
 			stop_node = power_used and stop_node or nil,
