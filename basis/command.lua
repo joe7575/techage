@@ -409,7 +409,7 @@ end
 -- Put the given stack into the given ItemList.
 -- Function returns false if ItemList is full.
 function techage.put_items(inv, listname, stack)
-	if inv:room_for_item(listname, stack) then
+	if inv and inv.room_for_item and inv:room_for_item(listname, stack) then
 		inv:add_item(listname, stack)
 		return true
 	end

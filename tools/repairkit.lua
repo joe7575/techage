@@ -31,7 +31,7 @@ local function repair_node(itemstack, user, pointed_thing)
 	if pos then
 		if techage.repair_node(pos) then
 			minetest.chat_send_player(user:get_player_name(), "[TechAge] Node repaired")
-			itemstack:take_item()
+			itemstack:add_wear(13108)
 			return itemstack
 		end
 	end
@@ -54,7 +54,7 @@ local function read_state(itemstack, user, pointed_thing)
 	end
 end
 
-minetest.register_craftitem("techage:repairkit", {
+minetest.register_tool("techage:repairkit", {
 	description = "TechAge Repair Kit",
 	inventory_image = "techage_repairkit.png",
 	wield_image = "techage_repairkit.png^[transformR270",
