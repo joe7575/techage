@@ -185,3 +185,19 @@ minetest.register_craft({
 		{"default:wood", "", "default:junglewood"},
 	},
 })
+
+
+-- Axles PNG animation
+function techage.switch_axles(pos, on)
+	local s = M(pos):get_string("power_dirs")
+	if s ~= "" then
+		for _,indir in ipairs(minetest.deserialize(s)) do
+			local out_dir = tubelib2.Turn180Deg[indir]
+			if on then
+				Axle:switch_tube_line(pos, out_dir, "on")
+			else
+				Axle:switch_tube_line(pos, out_dir, "off")
+			end
+		end
+	end
+end

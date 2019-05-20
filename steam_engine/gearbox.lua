@@ -24,7 +24,6 @@ local I,_ = dofile(MP.."/intllib.lua")
 local POWER_CONSUMPTION = 1
 
 local Axle = techage.Axle
-local distributor = techage.distributor
 
 local function swap_node(pos, name)
 	local node = minetest.get_node(pos)
@@ -35,28 +34,25 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function turn_on(pos, dir, sum)
+local function on_power_pass1(pos, mem)
+	return POWER_CONSUMPTION
+end
+
+local function on_power_pass2(pos, mem, sum)
 	if sum > 0 then
 		swap_node(pos, "techage:gearbox_on")
+		techage.switch_axles(pos, true)
 	else
 		swap_node(pos, "techage:gearbox")
+		techage.switch_axles(pos, false)
 	end
 end
 
 minetest.register_node("techage:gearbox", {
 	description = I("TA2 Gearbox"),
 	tiles = {"techage_filling_ta2.png^techage_axle_gearbox.png^techage_frame_ta2.png"},
-	techage = {
-		turn_on = turn_on,
-		read_power_consumption = distributor.read_power_consumption,
-		power_network = Axle,
-		power_consumption = POWER_CONSUMPTION,
-		animated_power_network = true,
-	},
 	
-	after_place_node = distributor.after_place_node,
-	after_tube_update = distributor.after_tube_update,
-	after_dig_node = distributor.after_dig_node,
+	on_construct = tubelib2.init_mem,
 	
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -80,16 +76,6 @@ minetest.register_node("techage:gearbox_on", {
 			},
 		},
 	},
-	techage = {
-		turn_on = turn_on,
-		read_power_consumption = distributor.read_power_consumption,
-		power_network = Axle,
-		power_consumption = POWER_CONSUMPTION,
-		animated_power_network = true,
-	},
-	
-	after_tube_update = distributor.after_tube_update,
-	after_dig_node = distributor.after_dig_node,
 	
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
@@ -99,6 +85,12 @@ minetest.register_node("techage:gearbox_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
+techage.power.register_node({"techage:gearbox", "techage:gearbox_on"}, {
+	on_power_pass1 = on_power_pass1,
+	on_power_pass2 = on_power_pass2,
+	power_network  = Axle,
+})
+	
 minetest.register_craft({
 	output = "techage:gearbox 2",
 	recipe = {

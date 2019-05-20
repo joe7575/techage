@@ -26,9 +26,7 @@ else
 	dofile(MP.."/basis/lib.lua")  -- helper functions
 	dofile(MP.."/basis/gravel_lib.lua")  -- ore probability
 	dofile(MP.."/basis/guide.lua")  -- construction guide
-	dofile(MP.."/basis/power.lua")  -- power distribution 
 	dofile(MP.."/basis/node_states.lua") -- state model
-	dofile(MP.."/basis/junction.lua")  -- network junction box
 	dofile(MP.."/basis/tubes.lua")  -- tubelib replacement
 	dofile(MP.."/basis/command.lua")  -- tubelib replacement
 	dofile(MP.."/basis/consumer.lua")  -- consumer base model
@@ -46,10 +44,13 @@ else
 	dofile(MP.."/nodes/usmium.lua")
 	
 	-- Power networks
+	dofile(MP.."/power/power.lua")
+	dofile(MP.."/power/junction.lua") 
 	dofile(MP.."/power/drive_axle.lua")
 	dofile(MP.."/power/steam_pipe.lua")
 	dofile(MP.."/power/biogas_pipe.lua")
 	dofile(MP.."/power/electric_cable.lua")
+	dofile(MP.."/power/junctionbox.lua")
 
 	-- Iron Age
 	dofile(MP.."/iron_age/main.lua")
@@ -77,36 +78,43 @@ else
 	dofile(MP.."/steam_engine/gearbox.lua")
 	
 	-- Basic Machines
-	dofile(MP.."/basic_machines/source.lua")
-	dofile(MP.."/basic_machines/pusher.lua")
-	dofile(MP.."/basic_machines/blackhole.lua")
-	dofile(MP.."/basic_machines/legacy_nodes.lua")
-	dofile(MP.."/basic_machines/grinder.lua")
-	dofile(MP.."/basic_machines/distributor.lua")
-	dofile(MP.."/basic_machines/gravelsieve.lua")
-	dofile(MP.."/basic_machines/gravelrinser.lua")
-	dofile(MP.."/basic_machines/chest.lua")
-	dofile(MP.."/basic_machines/autocrafter.lua")
-	dofile(MP.."/basic_machines/mark.lua")
-	dofile(MP.."/basic_machines/forceload.lua")
-	dofile(MP.."/basic_machines/electronic_fab.lua")
-	if techage.basalt_stone_enabled then
-		dofile(MP.."/basic_machines/basalt.lua")
-	end
+--	dofile(MP.."/basic_machines/source.lua")
+--	dofile(MP.."/basic_machines/pusher.lua")
+--	dofile(MP.."/basic_machines/blackhole.lua")
+--	dofile(MP.."/basic_machines/legacy_nodes.lua")
+--	dofile(MP.."/basic_machines/grinder.lua")
+--	dofile(MP.."/basic_machines/distributor.lua")
+--	dofile(MP.."/basic_machines/gravelsieve.lua")
+--	dofile(MP.."/basic_machines/gravelrinser.lua")
+--	dofile(MP.."/basic_machines/chest.lua")
+--	dofile(MP.."/basic_machines/autocrafter.lua")
+--	dofile(MP.."/basic_machines/mark.lua")
+--	dofile(MP.."/basic_machines/forceload.lua")
+--	dofile(MP.."/basic_machines/electronic_fab.lua")
+--	if techage.basalt_stone_enabled then
+--		dofile(MP.."/basic_machines/basalt.lua")
+--	end
 
 	-- Coal power station
-	dofile(MP.."/coal_power_station/help.lua")
-	dofile(MP.."/coal_power_station/firebox.lua")
-	dofile(MP.."/coal_power_station/boiler_base.lua")
-	dofile(MP.."/coal_power_station/boiler_top.lua")
-	dofile(MP.."/coal_power_station/generator.lua")
-	dofile(MP.."/coal_power_station/turbine.lua")
-	dofile(MP.."/coal_power_station/cooler.lua")
-	dofile(MP.."/coal_power_station/akkubox.lua")
+--	dofile(MP.."/coal_power_station/help.lua")
+--	dofile(MP.."/coal_power_station/firebox.lua")
+--	dofile(MP.."/coal_power_station/boiler_base.lua")
+--	dofile(MP.."/coal_power_station/boiler_top.lua")
+--	dofile(MP.."/coal_power_station/generator.lua")
+--	dofile(MP.."/coal_power_station/turbine.lua")
+--	dofile(MP.."/coal_power_station/cooler.lua")
+--	dofile(MP.."/coal_power_station/akkubox.lua")
 
+--	dofile(MP.."/power2/electric_cable.lua")
+--	dofile(MP.."/power2/power2.lua")
+--	dofile(MP.."/power2/junction.lua")  -- network junction box
+--	dofile(MP.."/power2/junctionbox.lua")  -- network junction box
+--	dofile(MP.."/power2/lamp.lua")
+--	dofile(MP.."/power2/generator.lua")
+--	dofile(MP.."/power2/akkubox.lua")
 
 	--dofile(MP.."/test/generator.lua")
-	dofile(MP.."/test/lamp.lua")
+	--dofile(MP.."/test/lamp.lua")
 --	dofile(MP.."/test/consumer.lua")
 	--dofile(MP.."/test/consumer2.lua")
 	--dofile(MP.."/test/test.lua")

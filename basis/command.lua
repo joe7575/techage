@@ -92,7 +92,7 @@ end
 
 local function register_lbm(name, nodenames)
 	minetest.register_lbm({
-		label = "[Tubelib] Node update",
+		label = "[TechAge] Node update",
 		name = name.."update",
 		nodenames = nodenames,
 		run_at_every_load = true,

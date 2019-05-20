@@ -8,7 +8,7 @@
 	LGPLv2.1+
 	See LICENSE.txt for more information
 	
-	TA3/TA4 Cable and junction box for electrical power distribution
+	TA3/TA4 Cable for electrical power distribution
 
 ]]--
 
@@ -25,7 +25,6 @@ local Cable = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
 	max_tube_length = 1000, 
 	show_infotext = false,
-	--force_to_use_tubes = true,
 	tube_type = "electric_cable",
 	primary_node_names = {"techage:electric_cableS", "techage:electric_cableA"},
 	secondary_node_names = {},
@@ -46,10 +45,6 @@ end
 function Cable:is_primary_node(pos, dir)
 	return techage.is_primary_node(pos, dir)
 end
-
-Cable:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir)
-	minetest.registered_nodes[node.name].after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
-end)
 
 
 minetest.register_node("techage:electric_cableS", {
@@ -133,40 +128,9 @@ minetest.register_node("techage:electric_cableA", {
 	drop = "techage:electric_cableS",
 })
 
-
-
-local distributor = techage.distributor
-
-local size = 3/32
-local Boxes = {
-	{{-size, -size,  size, size,  size, 0.5 }}, -- z+
-	{{-size, -size, -size, 0.5,   size, size}}, -- x+
-	{{-size, -size, -0.5,  size,  size, size}}, -- z-
-	{{-0.5,  -size, -size, size,  size, size}}, -- x-
-	{{-size, -0.5,  -size, size,  size, size}}, -- y-
-	{{-size, -size, -size, size,  0.5,  size}}, -- y+
-}
-
-techage.register_junction("techage:electric_junction", 2/8, Boxes, Cable, {
-	description = I("TA Electricity Junction Box"),
-	tiles = {"techage_electric_junction.png"},
-	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
-	sounds = default.node_sound_defaults(),
-	techage = {
-		read_power_consumption = distributor.read_power_consumption,
-		power_network = techage.ElectricCable,
-		power_consumption = 0,
-	},
-	after_place_node = distributor.after_place_node,
-	after_dig_node = distributor.after_dig_node,
-
-	after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
-		distributor.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
-		local mem = tubelib2.get_mem(pos)
-		local name = "techage:electric_junction"..techage.junction_type(mem.connections)
-		minetest.swap_node(pos, {name = name, param2 = 0})
-	end,
-	})
+Cable:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir)
+	minetest.registered_nodes[node.name].after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+end)
 
 minetest.register_craft({
 	output = "techage:electric_cableS 6",
@@ -177,11 +141,3 @@ minetest.register_craft({
 	},
 })
 
-minetest.register_craft({
-	output = "techage:electric_junction0 2",
-	recipe = {
-		{"", "basic_materials:plastic_sheet", ""},
-		{"basic_materials:plastic_sheet", "default:copper_ingot", "basic_materials:plastic_sheet"},
-		{"", "basic_materials:plastic_sheet", ""},
-	},
-})

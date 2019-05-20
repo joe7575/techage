@@ -30,7 +30,6 @@ local MAX_WATER = 10
 local POWER_CAPACITY = 10
 
 local Pipe = techage.SteamPipe
-local generator = techage.generator
 
 
 local Water = {
@@ -53,7 +52,7 @@ local function formspec(self, pos, mem)
 		"image[1,1.6;1,1;techage_form_mask.png]"..
 		"image[2,0.5;1,2;techage_form_temp_bg.png^[lowpart:"..
 		temp..":techage_form_temp_fg.png]"..
-		"image[7,0.5;1,2;"..generator.formspec_level(mem, mem.power_result)..
+		"image[7,0.5;1,2;"..techage.power.formspec_power_bar(POWER_CAPACITY, mem.power_result).."]"..
 		"image_button[6,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 		"button[3,1.5;2,1;update;"..I("Update").."]"..
 		"list[current_player;main;0,3;8,4;]"..
@@ -67,11 +66,11 @@ local function can_start(pos, mem, state)
 end
 
 local function start_node(pos, mem, state)
-	generator.turn_power_on(pos, POWER_CAPACITY)
+	techage.power.power_distribution(pos)
 end
 
 local function stop_node(pos, mem, state)
-	generator.turn_power_on(pos, 0)
+	techage.power.power_distribution(pos)
 end
 
 local State = techage.NodeStates:new({
@@ -84,6 +83,25 @@ local State = techage.NodeStates:new({
 	start_node = start_node,
 	stop_node = stop_node,
 })
+
+
+-- Pass1: Power balance calculation
+local function on_power_pass1(pos, mem)
+	if State:is_active(mem) then
+		return -POWER_CAPACITY
+	end
+	return 0
+end	
+		
+-- Pass2: Power balance adjustment
+local function on_power_pass2(pos, mem, sum)
+	return 0
+end
+
+-- Pass3: Power balance result
+local function on_power_pass3(pos, mem, sum)
+	mem.power_result = sum
+end
 
 local function get_water(pos)
 	local inv = M(pos):get_inventory()
@@ -138,18 +156,6 @@ local function node_timer(pos, elapsed)
 	return mem.temperature > 20
 end
 
-local function turn_power_on(pos, in_dir, sum)
-	local mem = tubelib2.get_mem(pos)
-	-- store result for formspec
-	mem.power_result = sum
-	if State:is_active(mem) and sum <= 0 then
-		State:fault(pos, mem)
-		-- No automatic turn on
-		mem.power_capacity = 0
-	end
-	M(pos):set_string("formspec", formspec(State, pos, mem))
-end
-		
 local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
@@ -158,11 +164,13 @@ local function on_receive_fields(pos, formname, fields, player)
 	State:state_button_event(pos, mem, fields)
 	
 	if fields.update then
+		if mem.temperature > 20 then
+			minetest.get_node_timer(pos):start(CYCLE_TIME)
+		end
 		M(pos):set_string("formspec", formspec(State, pos, mem))
 	end
 end
 
-		
 local function on_rightclick(pos)
 	local mem = tubelib2.get_mem(pos)
 	M(pos):set_string("formspec", formspec(State, pos, mem))
@@ -231,7 +239,6 @@ minetest.register_node("techage:boiler1", {
 		fixed = {-8/32, -16/32, -8/32, 8/32, 16/32, 8/32},
 	},
 
-	--paramtype2 = "facedir",
 	groups = {cracky=1},
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
@@ -256,28 +263,15 @@ minetest.register_node("techage:boiler2", {
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	
-	techage = {
-		turn_on = turn_power_on,
-		read_power_consumption = generator.read_power_consumption,
-		power_network = Pipe,
-		signal_heat = function(pos)
-			local mem = tubelib2.get_mem(pos)
-			mem.fire_trigger = true
-			if not minetest.get_node_timer(pos):is_started() then
-				minetest.get_node_timer(pos):start(CYCLE_TIME)
-			end
-		end,
-		power_side = "U",
-	},
-	
 	on_construct = function(pos)
+		tubelib2.init_mem(pos)
 		local inv = M(pos):get_inventory()
 		inv:set_size('water', 1)
 		inv:set_size('input', 1)
 	end,
 	
 	after_place_node = function(pos, placer)
-		local mem = generator.after_place_node(pos)
+		local mem = tubelib2.get_mem(pos)
 		State:node_init(pos, mem, "")
 		local node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
 		if node.name == "techage:boiler1" then
@@ -287,22 +281,35 @@ minetest.register_node("techage:boiler2", {
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		State:after_dig_node(pos, oldnode, oldmetadata, digger)
-		generator.after_dig_node(pos, oldnode)
 	end,
-	
-	after_tube_update = generator.after_tube_update,	
 	
 	on_metadata_inventory_put = function(pos)
 		minetest.after(0.5, move_to_water, pos)
 	end,
 	
-	--paramtype2 = "facedir",
+	power_signal_heat = function(pos)
+		local mem = tubelib2.get_mem(pos)
+		mem.fire_trigger = true
+		if not minetest.get_node_timer(pos):is_started() then
+			minetest.get_node_timer(pos):start(CYCLE_TIME)
+		end
+	end,
+	
 	drop = "",
 	groups = {cracky=1},
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
 })
+
+techage.power.register_node({"techage:boiler2"}, {
+	on_power_pass1 = on_power_pass1,
+	on_power_pass2 = on_power_pass2,
+	on_power_pass3 = on_power_pass3,
+	conn_sides = {"U"},
+	power_network  = Pipe,
+})
+
 
 minetest.register_craft({
 	output = "techage:boiler1",
