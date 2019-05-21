@@ -106,7 +106,7 @@ else
 	dofile(MP.."/coal_power_station/akkubox.lua")
 
 	--dofile(MP.."/test/generator.lua")
-	--dofile(MP.."/test/lamp.lua")
+	dofile(MP.."/test/lamp.lua")
 --	dofile(MP.."/test/consumer.lua")
 	--dofile(MP.."/test/consumer2.lua")
 	--dofile(MP.."/test/test.lua")

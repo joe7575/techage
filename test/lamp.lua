@@ -10,47 +10,44 @@ local I,_ = dofile(MP.."/intllib.lua")
 local POWER_CONSUMPTION = 1
 
 local Power = techage.ElectricCable
-local consumer = techage.consumer
 
-local function swap_node(pos, name)
+local function swap_node(pos, name, infotext)
 	local node = minetest.get_node(pos)
 	if node.name == name then
 		return
 	end
 	node.name = name
 	minetest.swap_node(pos, node)
+	M(pos):set_string("infotext", infotext)
 end
 
--- called from pipe network
-local function valid_power_dir(pos, power_dir, in_dir)
-	--print("valid_power_dir", power_dir, in_dir)
-	return true
-end
-
-local function lamp_turn_on_clbk(pos, in_dir, sum)
-	local mem = tubelib2.get_mem(pos)
-	--print("lamp_turn_on_clbk", sum)
-	if sum > 0 and mem.running then
-		swap_node(pos, "techage:test_lamp_on")
+local function on_power_pass1(pos, mem)
+	if mem.running then
+		mem.correction = POWER_CONSUMPTION
 	else
-		swap_node(pos, "techage:test_lamp")
+		mem.correction = 0
 	end
+	return mem.correction
 end	
+		
+local function on_power_pass2(pos, mem, sum)
+	if sum > 0 and mem.running then
+		swap_node(pos, "techage:test_lamp_on", "On")
+		return 0
+	else
+		swap_node(pos, "techage:test_lamp", "Off")
+		return -mem.correction
+	end
+end
 
 local function lamp_on_rightclick(pos, node, clicker)
 	local mem = tubelib2.get_mem(pos)
-	--print("lamp_on_rightclick", dump(mem))
 	if not mem.running then
-		swap_node(pos, "techage:test_lamp_on")
 		mem.running = true
-		M(pos):set_string("infotext", "On")
-		consumer.turn_power_on(pos, POWER_CONSUMPTION)
 	else
-		swap_node(pos, "techage:test_lamp")
 		mem.running = false
-		M(pos):set_string("infotext", "Off")
-		consumer.turn_power_on(pos, 0)
 	end
+	techage.power.power_distribution(pos)
 end
 
 minetest.register_node("techage:test_lamp", {
@@ -64,20 +61,8 @@ minetest.register_node("techage:test_lamp", {
 		'techage_electric_button.png',
 		'techage_electric_button.png',
 	},
-	techage = {
-		turn_on = lamp_turn_on_clbk,
-		read_power_consumption = consumer.read_power_consumption,
-		power_network = Power,
-		power_side = "L",
-		valid_power_dir = valid_power_dir,
-	},
 	
-	after_place_node = function(pos, placer)
-		local mem = consumer.after_place_node(pos, placer)
-	end,
-	
-	after_tube_update = consumer.after_tube_update,
-	after_dig_node = consumer.after_dig_node,
+	on_construct = tubelib2.init_mem,
 	on_rightclick = lamp_on_rightclick,
 
 	paramtype = "light",
@@ -94,20 +79,11 @@ minetest.register_node("techage:test_lamp_on", {
 	tiles = {
 		'techage_electric_button.png',
 	},
-	techage = {
-		turn_on = lamp_turn_on_clbk,
-		read_power_consumption = consumer.read_power_consumption,
-		power_network = Power,
-		power_side = "L",
-		valid_power_dir = valid_power_dir,
-	},
 	
-	after_tube_update = consumer.after_tube_update,
-	after_dig_node = consumer.after_dig_node,
 	on_rightclick = lamp_on_rightclick,
 
 	paramtype = "light",
-	light_source = LIGHT_MAX,	
+	light_source = minetest.LIGHT_MAX,	
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	drop = "techage:test_lamp",
@@ -116,4 +92,9 @@ minetest.register_node("techage:test_lamp_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-Power:add_secondary_node_names({"techage:test_lamp", "techage:test_lamp_on"})
+techage.power.register_node({"techage:test_lamp", "techage:test_lamp_on"}, {
+	on_power_pass1 = on_power_pass1,
+	on_power_pass2 = on_power_pass2,
+	power_network  = Power,
+})
+

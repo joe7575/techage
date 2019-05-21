@@ -32,11 +32,6 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
--- called from pipe network
-local function valid_power_dir(pos, power_dir, in_dir)
-	return power_dir == in_dir or in_dir == 5
-end
-
 local function play_sound(pos)
 	local mem = tubelib2.get_mem(pos)
 	if mem.running then

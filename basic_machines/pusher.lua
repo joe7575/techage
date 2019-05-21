@@ -64,10 +64,10 @@ end
 local function on_rightclick(pos, node, clicker)
 	local mem = tubelib2.get_mem(pos)
 	if not minetest.is_protected(pos, clicker:get_player_name()) then
-		if CRD(pos).State:is_active(mem) then
-			CRD(pos).State:stop(pos, mem)
-		else
+		if CRD(pos).State:get_state(mem) == techage.STOPPED then
 			CRD(pos).State:start(pos, mem)
+		else
+			CRD(pos).State:stop(pos, mem)
 		end
 	end
 end
