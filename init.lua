@@ -78,22 +78,22 @@ else
 	dofile(MP.."/steam_engine/gearbox.lua")
 	
 	-- Basic Machines
---	dofile(MP.."/basic_machines/source.lua")
---	dofile(MP.."/basic_machines/pusher.lua")
---	dofile(MP.."/basic_machines/blackhole.lua")
---	dofile(MP.."/basic_machines/legacy_nodes.lua")
---	dofile(MP.."/basic_machines/grinder.lua")
---	dofile(MP.."/basic_machines/distributor.lua")
---	dofile(MP.."/basic_machines/gravelsieve.lua")
---	dofile(MP.."/basic_machines/gravelrinser.lua")
---	dofile(MP.."/basic_machines/chest.lua")
---	dofile(MP.."/basic_machines/autocrafter.lua")
---	dofile(MP.."/basic_machines/mark.lua")
---	dofile(MP.."/basic_machines/forceload.lua")
---	dofile(MP.."/basic_machines/electronic_fab.lua")
---	if techage.basalt_stone_enabled then
---		dofile(MP.."/basic_machines/basalt.lua")
---	end
+	dofile(MP.."/basic_machines/source.lua")
+	dofile(MP.."/basic_machines/pusher.lua")
+	dofile(MP.."/basic_machines/blackhole.lua")
+	dofile(MP.."/basic_machines/legacy_nodes.lua")
+	dofile(MP.."/basic_machines/grinder.lua")
+	dofile(MP.."/basic_machines/distributor.lua")
+	dofile(MP.."/basic_machines/gravelsieve.lua")
+	dofile(MP.."/basic_machines/gravelrinser.lua")
+	dofile(MP.."/basic_machines/chest.lua")
+	dofile(MP.."/basic_machines/autocrafter.lua")
+	dofile(MP.."/basic_machines/mark.lua")
+	dofile(MP.."/basic_machines/forceload.lua")
+	dofile(MP.."/basic_machines/electronic_fab.lua")
+	if techage.basalt_stone_enabled then
+		dofile(MP.."/basic_machines/basalt.lua")
+	end
 
 	-- Coal power station
 --	dofile(MP.."/coal_power_station/help.lua")

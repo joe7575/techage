@@ -22,30 +22,43 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
--- Techage Related Data
-local TRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).techage end
-local TRDN = function(node) return (minetest.registered_nodes[node.name] or {}).techage end
+-- Consumer Related Data
+local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
+local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).consumer end
 
-local consumer = techage.consumer
-
-local function valid_power_dir(pos, power_dir, in_dir)
-	return true
-end
+local ValidPowerConsumingStates = {
+	[techage.RUNNING] = true,
+	[techage.BLOCKED] = true,
+	[techage.FAULT] = true,
+}
 
 local function start_node(pos, mem, state)
-	consumer.turn_power_on(pos, TRD(pos).power_consumption)
+	-- First finish the start process, than check power and
+	-- if needed, switch to "nopower"
+	minetest.after(0.5, techage.power.power_distribution, pos)
 end
 
 local function stop_node(pos, mem, state)
-	consumer.turn_power_on(pos, 0)
+	techage.power.power_distribution(pos)
 end
 
-local function turn_on_clbk(pos, in_dir, sum)
-	local mem = tubelib2.get_mem(pos)
-	local trd = TRD(pos)
-	local state = trd.State:get_state(mem)
-	if sum <= 0 and state == techage.RUNNING then
-		trd.State:fault(pos, mem)
+local function on_power_pass1(pos, mem)
+	local crd = CRD(pos)
+	if ValidPowerConsumingStates[crd.State:get_state(mem)] then
+		return crd.power_consumption
+	end
+	return 0
+end	
+		
+local function on_power_pass2(pos, mem, sum)
+	local crd = CRD(pos)
+	local state = crd.State:get_state(mem)
+	if sum > 0 and state == techage.NOPOWER then
+		crd.State:start(pos, mem)
+		return 0
+	elseif sum <= 0 and ValidPowerConsumingStates[state] then
+		crd.State:nopower(pos, mem)
+		return -crd.power_consumption
 	end
 end
 
@@ -107,17 +120,12 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 			start_node = power_used and start_node or nil,
 			stop_node = power_used and stop_node or nil,
 		})
-		local tTechage = {
+		
+		local tConsumer = {
 			stage = stage,
 			State = tState,
 			num_items = tNode.num_items[stage],
-			turn_on = power_used and turn_on_clbk or nil,
-			read_power_consumption = consumer.read_power_consumption,
-			power_network = power_used and power_network or nil,
-			power_side = "F",
-			valid_power_dir = power_used and valid_power_dir or nil,
 			power_consumption = power_used and tNode.power_consumption[stage] or {0,0,0,0},
-			-- animated_power_network = true,  TODO
 		}
 		
 		tNode.groups.not_in_creative_inventory = 0
@@ -125,19 +133,16 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 		minetest.register_node(name_pas, {
 			description = name_inv,
 			tiles = prepare_tiles(tiles.pas, stage, power_png),
-			techage = tTechage,
+			consumer = tConsumer,
 			drawtype = tNode.drawtype,
 			node_box = tNode.node_box,
 			selection_box = tNode.selection_box,
 			
+			on_construct = tubelib2.init_mem,
+			
 			after_place_node = function(pos, placer, itemstack, pointed_thing)
-				local mem
-				if power_network then
-					mem = consumer.after_place_node(pos, placer)
-				else
-					mem = tubelib2.init_mem(pos)
-				end
 				local meta = M(pos)
+				local mem = tubelib2.get_mem(pos)
 				local node = minetest.get_node(pos)
 				meta:set_int("push_dir", techage.side_to_indir("L", node.param2))
 				meta:set_int("pull_dir", techage.side_to_indir("R", node.param2))
@@ -148,7 +153,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 				if tNode.after_place_node then
 					tNode.after_place_node(pos, placer, itemstack, pointed_thing)
 				end
-				TRD(pos).State:node_init(pos, mem, number)
+				CRD(pos).State:node_init(pos, mem, number)
 			end,
 
 			after_dig_node = function(pos, oldnode, oldmetadata, digger)
@@ -156,13 +161,9 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 					tNode.after_dig_node(pos, oldnode, oldmetadata, digger)
 				end
 				techage.remove_node(pos)
-				TRDN(oldnode).State:after_dig_node(pos, oldnode, oldmetadata, digger)
-				if power_network then
-					consumer.after_dig_node(pos, oldnode)
-				end
+				CRDN(oldnode).State:after_dig_node(pos, oldnode, oldmetadata, digger)
 			end,
 			
-			after_tube_update = consumer.after_tube_update,
 			can_dig = tNode.can_dig,
 			on_rotate = screwdriver.disallow,
 			on_timer = tNode.node_timer,
@@ -187,12 +188,11 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 		minetest.register_node(name_act, {
 			description = name_inv,
 			tiles = prepare_tiles(tiles.act, stage, power_png),
-			techage = tTechage,
+			consumer = tConsumer,
 			drawtype = tNode.drawtype,
 			node_box = tNode.node_box,
 			selection_box = tNode.selection_box,
 			
-			after_tube_update = consumer.after_tube_update,
 			on_rotate = screwdriver.disallow,
 			on_timer = tNode.node_timer,
 			on_receive_fields = tNode.on_receive_fields,
@@ -214,14 +214,14 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 		minetest.register_node(name_def, {
 			description = name_inv,
 			tiles = prepare_tiles(tiles.def, stage, power_png),
-			techage = tTechage,
+			consumer = tConsumer,
 			drawtype = tNode.drawtype,
 			node_box = tNode.node_box,
 			selection_box = tNode.selection_box,
 			
 			after_place_node = function(pos, placer, itemstack, pointed_thing)
-				local mem = consumer.after_place_node(pos, placer)
 				local meta = M(pos)
+				local mem = tubelib2.get_mem(pos)
 				local node = minetest.get_node(pos)
 				meta:set_int("push_dir", techage.side_to_indir("L", node.param2))
 				meta:set_int("pull_dir", techage.side_to_indir("R", node.param2))
@@ -232,10 +232,9 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 				if tNode.after_place_node then
 					tNode.after_place_node(pos, placer, itemstack, pointed_thing)
 				end
-				TRD(pos).State:defect(pos, mem)
+				CRD(pos).State:defect(pos, mem)
 			end,
 			
-			after_tube_update = consumer.after_tube_update,
 			on_rotate = screwdriver.disallow,
 			on_receive_fields = tNode.on_receive_fields,
 			on_rightclick = tNode.on_rightclick,
@@ -251,7 +250,6 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 					tNode.after_dig_node(pos, oldnode, oldmetadata, digger)
 				end
 				techage.remove_node(pos)
-				consumer.after_dig_node(pos, oldnode)
 			end,
 			
 			paramtype2 = "facedir",
@@ -260,6 +258,14 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 			sounds = tNode.sounds,
 		})
 
+		if power_used then
+			techage.power.register_node({name_pas, name_act}, {
+				on_power_pass1 = on_power_pass1,
+				on_power_pass2 = on_power_pass2,
+				conn_sides = {"F", "B"},
+				power_network  = power_network,
+			})
+		end
 		techage.register_node(name_pas, {name_act, name_def}, tNode.tubing)
 	end
 	return names[1], names[2], names[3]

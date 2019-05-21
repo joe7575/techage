@@ -16,8 +16,6 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
--- Techage Related Data
-local TRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).techage end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath("techage")

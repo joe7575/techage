@@ -17,8 +17,8 @@ local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
 local N = minetest.get_node
--- Techage Related Data
-local TRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).techage end
+-- Consumer Related Data
+local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath("techage")
@@ -124,7 +124,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 		return 0
 	end
 	if listname == "src" then
-		TRD(pos).State:start_if_standby(pos)
+		CRD(pos).State:start_if_standby(pos)
 		return stack:get_count()
 	elseif stack:get_count() == 1 and 
 			(list[index]:get_count() == 0 or stack:get_name() ~= list[index]:get_name()) then
@@ -173,7 +173,7 @@ local function push_item(pos, filter, item_name, num_items, mem)
 end
 
 -- move items to output slots
-local function distributing(pos, inv, trd, mem)
+local function distributing(pos, inv, crd, mem)
 	local item_filter, open_ports = get_filter_settings(pos)
 	local sum_num_pushed = 0
 	local num_pushed = 0
@@ -186,7 +186,7 @@ local function distributing(pos, inv, trd, mem)
 		local stack = inv:get_stack("src", idx)
 		local item_name = stack:get_name()
 		local num_items = stack:get_count()
-		local num_to_push = math.min(trd.num_items - sum_num_pushed, num_items)
+		local num_to_push = math.min(crd.num_items - sum_num_pushed, num_items)
 		num_pushed = 0
 		
 		if item_filter[item_name] then
@@ -201,16 +201,16 @@ local function distributing(pos, inv, trd, mem)
 		sum_num_pushed = sum_num_pushed + num_pushed
 		stack:take_item(num_pushed)
 		inv:set_stack("src", idx, stack)
-		if sum_num_pushed >= trd.num_items then 
+		if sum_num_pushed >= crd.num_items then 
 			mem.last_index = idx
 			break 
 		end
 	end
 	
 	if num_pushed == 0 then
-		trd.State:blocked(pos, mem)
+		crd.State:blocked(pos, mem)
 	else
-		trd.State:keep_running(pos, mem, COUNTDOWN_TICKS, 1)
+		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS, 1)
 	end
 end
 
@@ -218,14 +218,14 @@ end
 local function keep_running(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	mem.port_counter = mem.port_counter or {}
-	local trd = TRD(pos)
+	local crd = CRD(pos)
 	local inv = M(pos):get_inventory()
 	if not inv:is_empty("src") then
-		distributing(pos, inv, trd, mem)
+		distributing(pos, inv, crd, mem)
 	else
-		trd.State:idle(pos, mem)
+		crd.State:idle(pos, mem)
 	end
-	return trd.State:is_active(mem)
+	return crd.State:is_active(mem)
 end
 
 local function on_receive_fields(pos, formname, fields, player)
@@ -233,7 +233,7 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	local meta = M(pos)
-	local trd = TRD(pos)
+	local crd = CRD(pos)
 	local filter = minetest.deserialize(meta:get_string("filter"))
 	if fields.filter1 ~= nil then
 		filter[1] = fields.filter1 == "true"
@@ -250,9 +250,9 @@ local function on_receive_fields(pos, formname, fields, player)
 	
 	local mem = tubelib2.get_mem(pos)
 	if fields.state_button ~= nil then
-		trd.State:state_button_event(pos, mem, fields)
+		crd.State:state_button_event(pos, mem, fields)
 	else
-		meta:set_string("formspec", formspec(trd.State, pos, mem))
+		meta:set_string("formspec", formspec(crd.State, pos, mem))
 	end
 end
 
@@ -270,7 +270,7 @@ local function change_filter_settings(pos, slot, val)
 	filter_settings(pos)
 	
 	local mem = tubelib2.get_mem(pos)
-	meta:set_string("formspec", formspec(TRD(pos).State, pos, mem))
+	meta:set_string("formspec", formspec(CRD(pos).State, pos, mem))
 	return true
 end
 
@@ -346,7 +346,7 @@ local tubing = {
 			local meta = minetest.get_meta(pos)
 			meta:set_string("item_counter", minetest.serialize({red=0, green=0, blue=0, yellow=0}))
 		else		
-			local resp = TRD(pos).State:on_receive_message(pos, topic, payload)
+			local resp = CRD(pos).State:on_receive_message(pos, topic, payload)
 			if resp then
 				return resp
 			else
@@ -356,10 +356,10 @@ local tubing = {
 	end,
 	
 	on_node_load = function(pos)
-		TRD(pos).State:on_node_load(pos)
+		CRD(pos).State:on_node_load(pos)
 	end,
 	on_node_repair = function(pos)
-		return TRD(pos).State:on_node_repair(pos)
+		return CRD(pos).State:on_node_repair(pos)
 	end,
 }
 

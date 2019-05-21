@@ -24,7 +24,6 @@ local I,_ = dofile(MP.."/intllib.lua")
 local TA2_Power = techage.Axle
 local TA3_Power = techage.SteamPipe
 local TA4_Power = techage.ElectricCable
-local generator = techage.generator
 
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
@@ -36,7 +35,7 @@ local function formspec(self, pos, mem)
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
-		"image[6,0.5;1,2;"..generator.formspec_level(mem, mem.power_result)..
+		"image[6,0.5;1,2;"..techage.power.formspec_power_bar(POWER_CAPACITY, mem.power_result).."]"..
 		"image_button[5,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 		"button[2.5,1;1.8,1;update;"..I("Update").."]"..
 		"list[current_player;main;0,3;8,4;]"..
@@ -44,11 +43,11 @@ local function formspec(self, pos, mem)
 end
 
 local function start_node(pos, mem, state)
-	generator.turn_power_on(pos, POWER_CAPACITY)
+	techage.power.power_distribution(pos)
 end
 
 local function stop_node(pos, mem, state)
-	generator.turn_power_on(pos, 0)
+	techage.power.power_distribution(pos)
 end
 
 local State2 = techage.NodeStates:new({
@@ -80,23 +79,29 @@ local State4 = techage.NodeStates:new({
 
 local tStates = {0, State2, State3, State4}
 
+-- Pass1: Power balance calculation
+local function on_power_pass1(pos, mem)
+	local state = tStates[mem.state_num or 2]
+	if state:is_active(mem) then
+		return -POWER_CAPACITY
+	end
+	return 0
+end	
+		
+-- Pass2: Power balance adjustment
+local function on_power_pass2(pos, mem, sum)
+	return 0
+end
+
+-- Pass3: Power balance result
+local function on_power_pass3(pos, mem, sum)
+	mem.power_result = sum
+end
+
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	local state = tStates[mem.state_num or 2]
 	return state:is_active(mem)
-end
-
-local function turn_power_on(pos, in_dir, sum)
-	local mem = tubelib2.get_mem(pos)
-	local state = tStates[mem.state_num or 2]
-	-- store result for formspec
-	mem.power_result = sum
-	if state:is_active(mem) and sum <= 0 then
-		state:fault(pos, mem)
-		-- No automatic turn on
-		mem.power_capacity = 0
-	end
-	M(pos):set_string("formspec", formspec(state, pos, mem))
 end
 
 local function on_receive_fields(pos, formname, fields, player)
@@ -124,7 +129,7 @@ minetest.register_node("techage:t2_source", {
 		-- up, down, right, left, back, front
 		"techage_filling_ta2.png^techage_frame_ta2_top.png",
 		"techage_filling_ta2.png^techage_frame_ta2.png",
-		"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_source.png^techage_axle_clutch.png",
+		"techage_filling_ta2.png^techage_axle_clutch.png^techage_frame_ta2.png",
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_source.png",
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_source.png",
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_source.png",
@@ -134,16 +139,9 @@ minetest.register_node("techage:t2_source", {
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 
-	techage = {
-		turn_on = turn_power_on,
-		read_power_consumption = generator.read_power_consumption,
-		power_network = TA2_Power,
-		power_side = "R",
-		animated_power_network = true,
-	},
-	
+	on_construct = tubelib2.init_mem,
 	after_place_node = function(pos, placer)
-		local mem = generator.after_place_node(pos)
+		local mem = tubelib2.get_mem(pos)
 		State2:node_init(pos, mem, "")
 		mem.state_num = 2
 		on_rightclick(pos)
@@ -151,10 +149,8 @@ minetest.register_node("techage:t2_source", {
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		State2:after_dig_node(pos, oldnode, oldmetadata, digger)
-		generator.after_dig_node(pos, oldnode)
 	end,
 	
-	after_tube_update = generator.after_tube_update,	
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
@@ -166,7 +162,7 @@ minetest.register_node("techage:t3_source", {
 		-- up, down, right, left, back, front
 		"techage_filling_ta3.png^techage_frame_ta3_top.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png",
-		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_source.png^techage_steam_hole.png",
+		"techage_filling_ta3.png^techage_steam_hole.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_source.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_source.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_source.png",
@@ -176,15 +172,9 @@ minetest.register_node("techage:t3_source", {
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 
-	techage = {
-		turn_on = turn_power_on,
-		read_power_consumption = generator.read_power_consumption,
-		power_network = TA3_Power,
-		power_side = "R",
-	},
-	
+	on_construct = tubelib2.init_mem,
 	after_place_node = function(pos, placer)
-		local mem = generator.after_place_node(pos)
+		local mem = tubelib2.get_mem(pos)
 		State3:node_init(pos, mem, "")
 		mem.state_num = 3
 		on_rightclick(pos)
@@ -192,10 +182,8 @@ minetest.register_node("techage:t3_source", {
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		State3:after_dig_node(pos, oldnode, oldmetadata, digger)
-		generator.after_dig_node(pos, oldnode)
 	end,
 	
-	after_tube_update = generator.after_tube_update,	
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
@@ -207,7 +195,7 @@ minetest.register_node("techage:t4_source", {
 		-- up, down, right, left, back, front
 		"techage_filling_ta4.png^techage_frame_ta4_top.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_source.png^techage_appl_hole_electric.png",
+		"techage_filling_ta4.png^techage_appl_hole_electric.png^techage_frame_ta4.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_source.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_source.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_source.png",
@@ -217,15 +205,9 @@ minetest.register_node("techage:t4_source", {
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 
-	techage = {
-		turn_on = turn_power_on,
-		read_power_consumption = generator.read_power_consumption,
-		power_network = TA4_Power,
-		power_side = "R",
-	},
-	
+	on_construct = tubelib2.init_mem,
 	after_place_node = function(pos, placer)
-		local mem = generator.after_place_node(pos)
+		local mem = tubelib2.get_mem(pos)
 		State4:node_init(pos, mem, "")
 		mem.state_num = 4
 		on_rightclick(pos)
@@ -233,15 +215,33 @@ minetest.register_node("techage:t4_source", {
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		State4:after_dig_node(pos, oldnode, oldmetadata, digger)
-		generator.after_dig_node(pos, oldnode)
 	end,
 	
-	after_tube_update = generator.after_tube_update,	
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
 })
 
-TA2_Power:add_secondary_node_names({"techage:t2_source"})
-TA3_Power:add_secondary_node_names({"techage:t3_source"})
-TA4_Power:add_secondary_node_names({"techage:t4_source"})
+techage.power.register_node({"techage:t2_source"}, {
+	on_power_pass1 = on_power_pass1,
+	on_power_pass2 = on_power_pass2,
+	on_power_pass3 = on_power_pass3,
+	conn_sides = {"R"},
+	power_network  = TA2_Power,
+})
+
+techage.power.register_node({"techage:t3_source"}, {
+	on_power_pass1 = on_power_pass1,
+	on_power_pass2 = on_power_pass2,
+	on_power_pass3 = on_power_pass3,
+	conn_sides = {"R"},
+	power_network  = TA3_Power,
+})
+
+techage.power.register_node({"techage:t4_source"}, {
+	on_power_pass1 = on_power_pass1,
+	on_power_pass2 = on_power_pass2,
+	on_power_pass3 = on_power_pass3,
+	conn_sides = {"R"},
+	power_network  = TA4_Power,
+})

@@ -36,7 +36,7 @@ Node states:
         |        |           |    |           |               |                                      
         |        V           |    V           V               |                                      
         |   +---------+   +----------+   +---------+          |                                      
-        |   |         |   |          |   |         |          |                                      
+        |   |         |   | NOPOWER/ |   |         |          |                                      
         +---| DEFECT  |   | STANDBY/ |   |  FAULT  |----------+                                      
             |         |   | BLOCKED  |   |         |                                                 
             +---------+   +----------+   +---------+                                                 
@@ -52,10 +52,6 @@ Node mem data:
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
--- Techage Related Data
-local TRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).techage end
-local TRDN = function(node) return (minetest.registered_nodes[node.name] or {}).techage end
-
 
 --
 -- TechAge machine states
@@ -65,14 +61,16 @@ techage.STOPPED = 1	-- not operational/turned off
 techage.RUNNING = 2	-- in normal operation/turned on
 techage.STANDBY = 3	-- nothing to do (e.g. no input items), or blocked anyhow (output jammed),
                     -- or node (world) not loaded
-techage.FAULT   = 4	-- any fault state (e.g. no power), which can be fixed by the player
-techage.BLOCKED = 5 -- a pushing node is blocked due to a full destination inventory
-techage.DEFECT  = 6	-- a defect (broken), which has to be repaired by the player
+techage.NOPOWER = 4	-- only for power consuming nodes
+techage.FAULT   = 5	-- any fault state (e.g. wrong source items), which can be fixed by the player
+techage.BLOCKED = 6 -- a pushing node is blocked due to a full destination inventory
+techage.DEFECT  = 7	-- a defect (broken), which has to be repaired by the player
 
 techage.StatesImg = {
 	"techage_inv_button_off.png", 
 	"techage_inv_button_on.png", 
 	"techage_inv_button_standby.png", 
+	"techage_inv_button_nopower.png", 
 	"techage_inv_button_error.png",
 	"techage_inv_button_warning.png",
 	"techage_inv_button_off.png",
@@ -96,7 +94,7 @@ function techage.get_power_image(pos, mem)
 end
 
 -- State string based on button states
-techage.StateStrings = {"stopped", "running", "standby", "fault", "blocked", "defect"}
+techage.StateStrings = {"stopped", "running", "standby", "nopower", "fault", "blocked", "defect"}
 
 --
 -- Local States
@@ -104,6 +102,7 @@ techage.StateStrings = {"stopped", "running", "standby", "fault", "blocked", "de
 local STOPPED = techage.STOPPED
 local RUNNING = techage.RUNNING
 local STANDBY = techage.STANDBY
+local NOPOWER = techage.NOPOWER
 local FAULT   = techage.FAULT
 local BLOCKED = techage.BLOCKED
 local DEFECT  = techage.DEFECT
@@ -126,6 +125,7 @@ local function swap_node(pos, name)
 	if node.name == name then
 		return
 	end
+	print("swap_node", name)
 	node.name = name
 	minetest.swap_node(pos, node)
 end
@@ -173,7 +173,7 @@ function NodeStates:node_init(pos, mem, number)
 end
 
 function NodeStates:stop(pos, mem)
-	local state = mem.techage_state
+	local state = mem.techage_state or STOPPED
 	if state ~= DEFECT then
 		mem.techage_state = STOPPED
 		if self.stop_node then
@@ -198,8 +198,8 @@ function NodeStates:stop(pos, mem)
 end
 
 function NodeStates:start(pos, mem, called_from_on_timer)
-	local state = mem.techage_state
-	if state == STOPPED or state == STANDBY or state == BLOCKED then
+	local state = mem.techage_state or STOPPED
+	if state == STOPPED or state == STANDBY or state == BLOCKED or state == NOPOWER then
 		if not self.can_start(pos, mem, state) then
 			self:fault(pos, mem)
 			return false
@@ -233,6 +233,7 @@ function NodeStates:start(pos, mem, called_from_on_timer)
 end
 
 function NodeStates:standby(pos, mem)
+	mem.techage_state = mem.techage_state or STOPPED
 	if mem.techage_state == RUNNING then
 		mem.techage_state = STANDBY
 		-- timer has to be stopped once to be able to be restarted
@@ -258,6 +259,7 @@ end
 
 -- special case of standby for pushing nodes
 function NodeStates:blocked(pos, mem)
+	mem.techage_state = mem.techage_state or STOPPED
 	if mem.techage_state == RUNNING then
 		mem.techage_state = BLOCKED
 		-- timer has to be stopped once to be able to be restarted
@@ -281,7 +283,28 @@ function NodeStates:blocked(pos, mem)
 	return false
 end	
 
+function NodeStates:nopower(pos, mem)
+	mem.techage_state = mem.techage_state or STOPPED
+	if mem.techage_state ~= STOPPED and mem.techage_state ~= DEFECT then
+		mem.techage_state = NOPOWER
+		if self.node_name_passive then
+			swap_node(pos, self.node_name_passive)
+		end
+		if self.infotext_name then
+			local number = M(pos):get_string("node_number")
+			M(pos):set_string("infotext", self.infotext_name.." "..number..": no power")
+		end
+		if self.formspec_func then
+			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
+		end
+		minetest.get_node_timer(pos):stop()
+		return true
+	end
+	return false
+end	
+
 function NodeStates:fault(pos, mem)
+	mem.techage_state = mem.techage_state or STOPPED
 	if mem.techage_state == RUNNING or mem.techage_state == STOPPED then
 		mem.techage_state = FAULT
 		if self.node_name_passive then
@@ -317,15 +340,15 @@ function NodeStates:defect(pos, mem)
 end	
 
 function NodeStates:get_state(mem)
-	return mem.techage_state
+	return mem.techage_state or techage.STOPPED
 end
 
 function NodeStates:get_state_string(mem)
-	return techage.StateStrings[mem.techage_state]
+	return techage.StateStrings[mem.techage_state or STOPPED]
 end
 
 function NodeStates:is_active(mem)
-	local state = mem.techage_state
+	local state = mem.techage_state or STOPPED
 	if self.stop_timer == true then
 		self.stop_timer = false
 		return false
@@ -343,7 +366,7 @@ end
 -- To be called if node is idle.
 -- If countdown reaches zero, the node is set to STANDBY.
 function NodeStates:idle(pos, mem)
-	local countdown = mem.techage_countdown - 1
+	local countdown = (mem.techage_countdown or 0) - 1
 	mem.techage_countdown = countdown
 	if countdown <= 0 then
 		self:standby(pos, mem)
@@ -357,7 +380,7 @@ function NodeStates:keep_running(pos, mem, val)
 	self:start(pos, mem, true)
 	mem.techage_countdown = val
 	if self.has_item_meter then
-		mem.techage_item_meter = mem.techage_item_meter + 1
+		mem.techage_item_meter = (mem.techage_item_meter or 999999) + 1
 	end
 	if self.aging_level1 then
 		local cnt = mem.techage_aging + 1
@@ -373,10 +396,10 @@ end
 -- if function returns false, no button was pressed
 function NodeStates:state_button_event(pos, mem, fields)
 	if fields.state_button ~= nil then
-		local state = mem.techage_state
+		local state = mem.techage_state or STOPPED
 		if state == STOPPED or state == STANDBY or state == BLOCKED then
 			self:start(pos, mem)
-		elseif state == RUNNING or state == FAULT then
+		elseif state == RUNNING or state == FAULT or state == NOPOWER then
 			self:stop(pos, mem)
 		end
 		return true
@@ -385,7 +408,7 @@ function NodeStates:state_button_event(pos, mem, fields)
 end
 
 function NodeStates:get_state_button_image(mem)
-	local state = mem.techage_state
+	local state = mem.techage_state or STOPPED
 	return techage.state_button(state)
 end
 
@@ -405,12 +428,12 @@ function NodeStates:on_receive_message(pos, topic, payload)
 		end
 		return self:get_state_string(tubelib2.get_mem(pos))
 	elseif self.has_item_meter and topic == "counter" then
-		return mem.techage_item_meter
+		return mem.techage_item_meter or 1
 	elseif self.has_item_meter and topic == "clear_counter" then
 		mem.techage_item_meter = 0
 		return true
 	elseif self.aging_level1 and topic == "aging" then
-		return mem.techage_aging
+		return mem.techage_aging or 1
 	end
 end
 	
@@ -435,7 +458,7 @@ function NodeStates:on_node_load(pos, not_start_timer)
 	end
 	
 	-- state corrupt?
-	local state = mem.techage_state
+	local state = mem.techage_state or 0
 	if state == 0 then
 		if minetest.get_node_timer(pos):is_started() then
 			mem.techage_state = RUNNING
@@ -482,7 +505,7 @@ end
 function NodeStates:after_dig_node(pos, oldnode, oldmetadata, digger)
 	local mem = tubelib2.get_mem(pos)
 	local inv = minetest.get_inventory({type="player", name=digger:get_player_name()})
-	local cnt = mem.techage_aging or 0
+	local cnt = math.max(mem.techage_aging or 1, 1)
 	if self.aging_level1 then
 		local is_defect = cnt > self.aging_level1 and math.random(self.aging_level2 / cnt) == 1
 		if self.node_name_defect and is_defect then

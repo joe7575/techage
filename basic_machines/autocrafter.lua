@@ -19,8 +19,8 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
--- Techage Related Data
-local TRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).techage end
+-- Consumer Related Data
+local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath("techage")
@@ -79,13 +79,13 @@ local function get_craft(pos, inventory, hash)
 	return craft
 end
 
-local function autocraft(pos, trd, mem, inventory, craft)
+local function autocraft(pos, crd, mem, inventory, craft)
 	if not craft then return false end
 	local output_item = craft.output.item
 
 	-- check if we have enough room in dst
 	if not inventory:room_for_item("dst", output_item) then	
-		trd.State:blocked(pos, mem)
+		crd.State:blocked(pos, mem)
 		return
 	end
 	local consumption = craft.consumption
@@ -93,7 +93,7 @@ local function autocraft(pos, trd, mem, inventory, craft)
 	-- check if we have enough material available
 	for itemname, number in pairs(consumption) do
 		if (not inv_index[itemname]) or inv_index[itemname] < number then 
-			trd.State:idle(pos, mem)
+			crd.State:idle(pos, mem)
 			return 
 		end
 	end
@@ -110,30 +110,30 @@ local function autocraft(pos, trd, mem, inventory, craft)
 		inventory:add_item("dst", craft.decremented_input.items[i])
 	end
 	
-	trd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+	crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
 end
 
 
 local function keep_running(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	local trd = TRD(pos)
+	local crd = CRD(pos)
 	local inv = M(pos):get_inventory()
 	local craft = get_craft(pos, inv)
 	local output_item = craft.output.item
-	autocraft(pos, trd, mem, inv, craft)
-	return trd.State:is_active(mem)
+	autocraft(pos, crd, mem, inv, craft)
+	return crd.State:is_active(mem)
 end
 
 -- note, that this function assumes allready being updated to virtual items
 -- and doesn't handle recipes with stacksizes > 1
 local function after_recipe_change(pos, inventory)
 	local mem = tubelib2.get_mem(pos)
-	local trd = TRD(pos)
+	local crd = CRD(pos)
 	-- if we emptied the grid, there's no point in keeping it running or cached
 	if inventory:is_empty("recipe") then
 		autocrafterCache[minetest.hash_node_position(pos)] = nil
 		inventory:set_stack("output", 1, "")
-		trd.State:stop(pos, mem)
+		crd.State:stop(pos, mem)
 		return
 	end
 	local recipe = inventory:get_list("recipe")
@@ -156,7 +156,7 @@ local function after_recipe_change(pos, inventory)
 	craft = craft or get_craft(pos, inventory, hash)
 	local output_item = craft.output.item
 	inventory:set_stack("output", 1, output_item)
-	trd.State:stop(pos, mem)
+	crd.State:stop(pos, mem)
 end
 
 -- clean out unknown items and groups, which would be handled like unknown items in the crafting grid
@@ -210,7 +210,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 		on_output_change(pos, inv, stack)
 		return 0
 	elseif listname == "src" then
-		TRD(pos).State:start_if_standby(pos)
+		CRD(pos).State:start_if_standby(pos)
 	end
 	return stack:get_count()
 end
@@ -269,7 +269,7 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	local mem = tubelib2.get_mem(pos)
-	TRD(pos).State:state_button_event(pos, mem, fields)
+	CRD(pos).State:state_button_event(pos, mem, fields)
 end
 
 local function can_dig(pos, player)
@@ -361,7 +361,7 @@ local tubing = {
 		end
 	end,
 	on_recv_message = function(pos, topic, payload)
-		local resp = TRD(pos).State:on_receive_message(pos, topic, payload)
+		local resp = CRD(pos).State:on_receive_message(pos, topic, payload)
 		if resp then
 			return resp
 		else
@@ -369,10 +369,10 @@ local tubing = {
 		end
 	end,
 	on_node_load = function(pos)
-		TRD(pos).State:on_node_load(pos)
+		CRD(pos).State:on_node_load(pos)
 	end,
 	on_node_repair = function(pos)
-		return TRD(pos).State:on_node_repair(pos)
+		return CRD(pos).State:on_node_repair(pos)
 	end,
 }
 

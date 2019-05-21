@@ -16,8 +16,8 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
--- Techage Related Data
-local TRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).techage end
+-- Consumer Related Data
+local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath("techage")
@@ -56,7 +56,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 		return 0
 	end
 	if listname == "src" then
-		TRD(pos).State:start_if_standby(pos)
+		CRD(pos).State:start_if_standby(pos)
 		return stack:get_count()
 	elseif listname == "dst" then
 		return 0
@@ -77,31 +77,31 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return stack:get_count()
 end
 
-local function sieving(pos, trd, mem, inv)
+local function sieving(pos, crd, mem, inv)
 	local src, dst
 	if inv:contains_item("src", ItemStack("techage:basalt_gravel")) then
 		dst, src = get_random_basalt_ore(), ItemStack("techage:basalt_gravel")
 	elseif inv:contains_item("src", ItemStack("default:gravel")) then
 		dst, src = get_random_gravel_ore(), ItemStack("default:gravel")
 	else
-		trd.State:idle(pos, mem)
+		crd.State:idle(pos, mem)
 		return
 	end
 	if not inv:room_for_item("dst", dst) then
-		trd.State:idle(pos, mem)
+		crd.State:idle(pos, mem)
 		return
 	end
 	inv:add_item("dst", dst)
 	inv:remove_item("src", src)
-	trd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+	crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
 end
 
 local function keep_running(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	local trd = TRD(pos)
+	local crd = CRD(pos)
 	local inv = M(pos):get_inventory()
-	sieving(pos, trd, mem, inv)
-	return trd.State:is_active(mem)
+	sieving(pos, crd, mem, inv)
+	return crd.State:is_active(mem)
 end
 
 local function on_receive_fields(pos, formname, fields, player)
@@ -109,7 +109,7 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	local mem = tubelib2.get_mem(pos)
-	TRD(pos).State:state_button_event(pos, mem, fields)
+	CRD(pos).State:state_button_event(pos, mem, fields)
 end
 
 local function can_dig(pos, player)
@@ -184,7 +184,7 @@ local tubing = {
 		end
 	end,
 	on_recv_message = function(pos, topic, payload)
-		local resp = TRD(pos).State:on_receive_message(pos, topic, payload)
+		local resp = CRD(pos).State:on_receive_message(pos, topic, payload)
 		if resp then
 			return resp
 		else
@@ -192,10 +192,10 @@ local tubing = {
 		end
 	end,
 	on_node_load = function(pos)
-		TRD(pos).State:on_node_load(pos)
+		CRD(pos).State:on_node_load(pos)
 	end,
 	on_node_repair = function(pos)
-		return TRD(pos).State:on_node_repair(pos)
+		return CRD(pos).State:on_node_repair(pos)
 	end,
 }
 

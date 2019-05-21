@@ -26,9 +26,9 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
--- Techage Related Data
-local TRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).techage end
-local TRDN = function(node) return (minetest.registered_nodes[node.name] or {}).techage end
+-- Consumer Related Data
+local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
+local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).consumer end
 -- Load support for intllib.
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
@@ -37,44 +37,44 @@ local STANDBY_TICKS = 10
 local COUNTDOWN_TICKS = 10
 local CYCLE_TIME = 2
 
-local function pushing(pos, trd, meta, mem)
+local function pushing(pos, crd, meta, mem)
 	local pull_dir = meta:get_int("pull_dir")
 	local push_dir = meta:get_int("push_dir")
-	local items = techage.pull_items(pos, pull_dir, trd.num_items)
+	local items = techage.pull_items(pos, pull_dir, crd.num_items)
 	if items ~= nil then
 		if techage.push_items(pos, push_dir, items) ~= true then
 			-- place item back
 			techage.unpull_items(pos, pull_dir, items)
-			trd.State:blocked(pos, mem)
+			crd.State:blocked(pos, mem)
 			return
 		end
-		trd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
 		return
 	end
-	trd.State:idle(pos, mem)
+	crd.State:idle(pos, mem)
 end
 
 local function keep_running(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	local trd = TRD(pos)
-	pushing(pos, trd, M(pos), mem)
-	return trd.State:is_active(mem)
+	local crd = CRD(pos)
+	pushing(pos, crd, M(pos), mem)
+	return crd.State:is_active(mem)
 end	
 
 local function on_rightclick(pos, node, clicker)
 	local mem = tubelib2.get_mem(pos)
 	if not minetest.is_protected(pos, clicker:get_player_name()) then
-		if TRD(pos).State:is_active(mem) then
-			TRD(pos).State:stop(pos, mem)
+		if CRD(pos).State:is_active(mem) then
+			CRD(pos).State:stop(pos, mem)
 		else
-			TRD(pos).State:start(pos, mem)
+			CRD(pos).State:start(pos, mem)
 		end
 	end
 end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	techage.remove_node(pos)
-	TRDN(oldnode).State:after_dig_node(pos, oldnode, oldmetadata, digger)
+	CRDN(oldnode).State:after_dig_node(pos, oldnode, oldmetadata, digger)
 end
 
 local tiles = {}
@@ -129,7 +129,7 @@ local tubing = {
 	is_pusher = true, -- is a pulling/pushing node
 	
 	on_recv_message = function(pos, topic, payload)
-		local resp = TRD(pos).State:on_receive_message(pos, topic, payload)
+		local resp = CRD(pos).State:on_receive_message(pos, topic, payload)
 		if resp then
 			return resp
 		else
@@ -137,10 +137,10 @@ local tubing = {
 		end
 	end,
 	on_node_load = function(pos)
-		TRD(pos).State:on_node_load(pos)
+		CRD(pos).State:on_node_load(pos)
 	end,
 	on_node_repair = function(pos)
-		return TRD(pos).State:on_node_repair(pos)
+		return CRD(pos).State:on_node_repair(pos)
 	end,
 }
 	

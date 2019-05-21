@@ -16,8 +16,8 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
--- Techage Related Data
-local TRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).techage end
+-- Consumer Related Data
+local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
 
 -- Load support for intllib.
 local MP = minetest.get_modpath("techage")
@@ -61,10 +61,10 @@ local Output = {
 
 local function formspec(self, pos, mem)
 	local icon
-	local trd = TRD(pos)
-	if trd.stage == 2 then
+	local crd = CRD(pos)
+	if crd.stage == 2 then
 		icon = "techage:vacuum_tube"
-	elseif trd.stage == 3 then
+	elseif crd.stage == 3 then
 		icon = "techage:wlanchip"
 	else
 		icon = ""
@@ -93,9 +93,9 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	end
 	--local meta = minetest.get_meta(pos)
 	--local inv = meta:get_inventory()
-	local trd = TRD(pos)
-	if listname == "src" and ValidInput[trd.stage][stack:get_name()] then
-		trd.State:start_if_standby(pos)
+	local crd = CRD(pos)
+	if listname == "src" and ValidInput[crd.stage][stack:get_name()] then
+		crd.State:start_if_standby(pos)
 		return stack:get_count()
 	end
 	return 0
@@ -115,32 +115,32 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return stack:get_count()
 end
 
-local function making(pos, trd, mem, inv)
-	if inv:room_for_item("dst", ItemStack(Output[trd.stage])) then
-		for _,name in ipairs(Input[trd.stage]) do
+local function making(pos, crd, mem, inv)
+	if inv:room_for_item("dst", ItemStack(Output[crd.stage])) then
+		for _,name in ipairs(Input[crd.stage]) do
 			if not inv:contains_item("src", ItemStack(name)) then
-				trd.State:idle(pos, mem)
+				crd.State:idle(pos, mem)
 				return
 			end
 		end
-		for _,name in ipairs(Input[trd.stage]) do
+		for _,name in ipairs(Input[crd.stage]) do
 			inv:remove_item("src", ItemStack(name))
 		end
-		inv:add_item("dst", ItemStack(Output[trd.stage]))
-		trd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+		inv:add_item("dst", ItemStack(Output[crd.stage]))
+		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
 		return
 	end
-	trd.State:idle(pos, mem)
+	crd.State:idle(pos, mem)
 end
 
 local function keep_running(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	local trd = TRD(pos)
+	local crd = CRD(pos)
 	local inv = M(pos):get_inventory()
 	if inv then
-		making(pos, trd, mem, inv)
+		making(pos, crd, mem, inv)
 	end
-	return trd.State:is_active(mem)
+	return crd.State:is_active(mem)
 end
 
 local function on_receive_fields(pos, formname, fields, player)
@@ -148,7 +148,7 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	local mem = tubelib2.get_mem(pos)
-	TRD(pos).State:state_button_event(pos, mem, fields)
+	CRD(pos).State:state_button_event(pos, mem, fields)
 end
 
 local function can_dig(pos, player)
@@ -230,7 +230,7 @@ local tubing = {
 		end
 	end,
 	on_recv_message = function(pos, topic, payload)
-		local resp = TRD(pos).State:on_receive_message(pos, topic, payload)
+		local resp = CRD(pos).State:on_receive_message(pos, topic, payload)
 		if resp then
 			return resp
 		else
@@ -238,10 +238,10 @@ local tubing = {
 		end
 	end,
 	on_node_load = function(pos)
-		TRD(pos).State:on_node_load(pos)
+		CRD(pos).State:on_node_load(pos)
 	end,
 	on_node_repair = function(pos)
-		return TRD(pos).State:on_node_repair(pos)
+		return CRD(pos).State:on_node_repair(pos)
 	end,
 }
 
