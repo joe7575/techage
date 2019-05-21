@@ -120,7 +120,7 @@ minetest.register_node("techage:powerswitch_on", {
 })
 
 minetest.register_craft({
-	output = "techage:powerswitch_on 2",
+	output = "techage:powerswitch 2",
 	recipe = {
 		{"", "", ""},
 		{"dye:yellow", "dye:red", "dye:yellow"},

@@ -161,7 +161,7 @@ function techage.power.power_cut(pos, dir, cable, cut)
 		if param2 ~= 0 then
 			meta:set_int("cable_cut", param2)
 			meta:set_int("tl2_param2", 0)
-			cable:after_dig_node(npos)
+			cable:after_dig_tube(npos, {param2 = param2})
 		end
 	else
 		local param2 = meta:get_int("cable_cut")
