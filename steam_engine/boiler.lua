@@ -27,10 +27,8 @@ local COUNTDOWN_TICKS = 2
 local HEAT_STEP = 10
 local WATER_CONSUMPTION = 0.5
 local MAX_WATER = 10
-local POWER_CAPACITY = 10
 
 local Pipe = techage.SteamPipe
-
 
 local Water = {
 	["bucket:bucket_river_water"] = true,
@@ -40,6 +38,7 @@ local Water = {
 
 local function formspec(self, pos, mem)
 	local temp = mem.temperature or 20
+	local bar = mem.running and 3 or 0
 	return "size[8,7]"..
 		default.gui_bg..
 		default.gui_bg_img..
@@ -52,7 +51,7 @@ local function formspec(self, pos, mem)
 		"image[1,1.6;1,1;techage_form_mask.png]"..
 		"image[2,0.5;1,2;techage_form_temp_bg.png^[lowpart:"..
 		temp..":techage_form_temp_fg.png]"..
-		"image[7,0.5;1,2;"..techage.power.formspec_power_bar(POWER_CAPACITY, mem.power_result).."]"..
+		"image[7,0.5;1,2;"..techage.power.formspec_power_bar(10, bar).."]"..
 		"image_button[6,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 		"button[3,1.5;2,1;update;"..I("Update").."]"..
 		"list[current_player;main;0,3;8,4;]"..
@@ -66,11 +65,14 @@ local function can_start(pos, mem, state)
 end
 
 local function start_node(pos, mem, state)
-	techage.power.power_distribution(pos)
+	local out_dir = techage.side_to_outdir("U")
+	mem.running = techage.power.start_line_node(pos, out_dir, "techage:cylinder", true)
 end
 
 local function stop_node(pos, mem, state)
-	techage.power.power_distribution(pos)
+	local out_dir = techage.side_to_outdir("U")
+	techage.power.start_line_node(pos, out_dir, "techage:cylinder_on", false)
+	mem.running = false
 end
 
 local State = techage.NodeStates:new({
@@ -83,25 +85,6 @@ local State = techage.NodeStates:new({
 	start_node = start_node,
 	stop_node = stop_node,
 })
-
-
--- Pass1: Power balance calculation
-local function on_power_pass1(pos, mem)
-	if State:is_active(mem) then
-		return -POWER_CAPACITY
-	end
-	return 0
-end	
-		
--- Pass2: Power balance adjustment
-local function on_power_pass2(pos, mem, sum)
-	return 0
-end
-
--- Pass3: Power balance result
-local function on_power_pass3(pos, mem, sum)
-	mem.power_result = sum
-end
 
 local function get_water(pos)
 	local inv = M(pos):get_inventory()
@@ -136,7 +119,7 @@ end
 local function steaming(pos, mem, temp)
 	mem.water_level = math.max((mem.water_level or 0) - WATER_CONSUMPTION, 0)
 	if temp >= 80 then
-		if mem.power_result > 0 then
+		if mem.running then
 			State:keep_running(pos, mem, COUNTDOWN_TICKS)
 		else
 			State:fault(pos, mem)	
@@ -171,6 +154,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 end
 
+		
 local function on_rightclick(pos)
 	local mem = tubelib2.get_mem(pos)
 	M(pos):set_string("formspec", formspec(State, pos, mem))
@@ -288,6 +272,7 @@ minetest.register_node("techage:boiler2", {
 	end,
 	
 	power_signal_heat = function(pos)
+		print("power_signal_heat")
 		local mem = tubelib2.get_mem(pos)
 		mem.fire_trigger = true
 		if not minetest.get_node_timer(pos):is_started() then
@@ -303,9 +288,6 @@ minetest.register_node("techage:boiler2", {
 })
 
 techage.power.register_node({"techage:boiler2"}, {
-	on_power_pass1 = on_power_pass1,
-	on_power_pass2 = on_power_pass2,
-	on_power_pass3 = on_power_pass3,
 	conn_sides = {"U"},
 	power_network  = Pipe,
 })

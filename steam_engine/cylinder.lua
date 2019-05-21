@@ -21,8 +21,6 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
-local POWER_CONSUMPTION = 8
-
 local Pipe = techage.SteamPipe
 
 local function swap_node(pos, name)
@@ -34,13 +32,9 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function on_power_pass1(pos, mem)
-	return POWER_CONSUMPTION
-end	
-		
-local function on_power_pass2(pos, mem, sum)
-	mem.running = sum > 0
-	return 0
+local function turn_on(pos, mem, in_dir, on)
+	mem.running = on
+	return on
 end
 
 -- called from flywheel
@@ -121,8 +115,7 @@ minetest.register_node("techage:cylinder_on", {
 })
 
 techage.power.register_node({"techage:cylinder", "techage:cylinder_on"}, {
-	on_power_pass1 = on_power_pass1,
-	on_power_pass2 = on_power_pass2,
+	turn_on = turn_on,
 	conn_sides = {"L"},
 	power_network  = Pipe,
 })

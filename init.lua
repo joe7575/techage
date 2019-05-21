@@ -96,22 +96,14 @@ else
 	end
 
 	-- Coal power station
---	dofile(MP.."/coal_power_station/help.lua")
---	dofile(MP.."/coal_power_station/firebox.lua")
---	dofile(MP.."/coal_power_station/boiler_base.lua")
---	dofile(MP.."/coal_power_station/boiler_top.lua")
---	dofile(MP.."/coal_power_station/generator.lua")
---	dofile(MP.."/coal_power_station/turbine.lua")
---	dofile(MP.."/coal_power_station/cooler.lua")
---	dofile(MP.."/coal_power_station/akkubox.lua")
-
---	dofile(MP.."/power2/electric_cable.lua")
---	dofile(MP.."/power2/power2.lua")
---	dofile(MP.."/power2/junction.lua")  -- network junction box
---	dofile(MP.."/power2/junctionbox.lua")  -- network junction box
---	dofile(MP.."/power2/lamp.lua")
---	dofile(MP.."/power2/generator.lua")
---	dofile(MP.."/power2/akkubox.lua")
+	dofile(MP.."/coal_power_station/help.lua")
+	dofile(MP.."/coal_power_station/firebox.lua")
+	dofile(MP.."/coal_power_station/boiler_base.lua")
+	dofile(MP.."/coal_power_station/boiler_top.lua")
+	dofile(MP.."/coal_power_station/generator.lua")
+	dofile(MP.."/coal_power_station/turbine.lua")
+	dofile(MP.."/coal_power_station/cooler.lua")
+	dofile(MP.."/coal_power_station/akkubox.lua")
 
 	--dofile(MP.."/test/generator.lua")
 	--dofile(MP.."/test/lamp.lua")

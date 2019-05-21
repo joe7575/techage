@@ -21,10 +21,7 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
-local POWER_CONSUMPTION = 2
-
 local Power = techage.SteamPipe
-local consumer = techage.consumer
 
 local function swap_node(pos, name)
 	local node = minetest.get_node(pos)
@@ -36,24 +33,15 @@ local function swap_node(pos, name)
 end
 
 -- called from pipe network
-local function valid_power_dir(pos, power_dir, in_dir)
-	return power_dir == in_dir or power_dir == tubelib2.Turn180Deg[in_dir]
-end
-
--- called from pipe network
-local function turn_on(pos, in_dir, sum)
-	if techage.power.start_dedicated_node(pos, in_dir, "techage:coalboiler_base", sum) then
-		if sum > 0 then
-			swap_node(pos, "techage:cooler_on")
-		else
-			swap_node(pos, "techage:cooler")
-		end
-		return true
+local function turn_on(pos, mem, dir, on)
+	on = techage.power.start_line_node(pos, dir, "techage:coalboiler_base", on)
+	if on then
+		swap_node(pos, "techage:cooler_on")
 	else
 		swap_node(pos, "techage:cooler")
 	end
-	return false
-end
+	return on
+end	
 
 minetest.register_node("techage:cooler", {
 	description = I("TA3 Cooler"),
@@ -66,22 +54,9 @@ minetest.register_node("techage:cooler", {
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_cooler.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_cooler.png",
 	},
-	techage = {
-		turn_on = turn_on,
-		read_power_consumption = consumer.read_power_consumption,
-		power_network = Power,
-		power_side = "L",
-		valid_power_dir = valid_power_dir,
-	},
 	
-	after_place_node = function(pos, placer)
-		local mem = consumer.after_place_node(pos, placer)
-		mem.power_consumption = POWER_CONSUMPTION
-	end,
+	on_construct = tubelib2.init_mem,
 	
-	after_tube_update = consumer.after_tube_update,
-	after_dig_node = consumer.after_dig_node,
-
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -118,23 +93,19 @@ minetest.register_node("techage:cooler_on", {
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_cooler.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_cooler.png",
 	},
-	techage = {
-		turn_on = turn_on,
-		read_power_consumption = consumer.read_power_consumption,
-		power_network = Power,
-		power_side = "L",
-		valid_power_dir = valid_power_dir,
-	},
 	
-	after_tube_update = consumer.after_tube_update,
-	after_dig_node = consumer.after_dig_node,
-
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
 	diggable = false,
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
+})
+
+techage.power.register_node({"techage:cooler", "techage:cooler_on"}, {
+	turn_on = turn_on,
+	conn_sides = {"L", "R"},
+	power_network = Power,
 })
 
 minetest.register_craft({
@@ -145,9 +116,6 @@ minetest.register_craft({
 		{"basic_materials:steel_bar", "default:wood", "basic_materials:steel_bar"},
 	},
 })
-
-Power:add_secondary_node_names({"techage:cooler", "techage:cooler_on"})
-
 
 techage.register_help_page(I("TA3 Cooler"), 
 I([[Part of the Coal Power Station.

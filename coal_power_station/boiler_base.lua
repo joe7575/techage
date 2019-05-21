@@ -21,17 +21,10 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
-local POWER_CONSUMPTION = 2
-
 local Pipe = techage.SteamPipe
-local consumer = techage.consumer
 
-local function valid_power_dir(pos, power_dir, in_dir)
-	return power_dir == in_dir
-end
-
-local function turn_on_clbk(pos, in_dir, sum)
-	return true
+local function turn_on(pos, mem, in_dir, on)
+	return on
 end
 
 minetest.register_node("techage:coalboiler_base", {
@@ -44,21 +37,7 @@ minetest.register_node("techage:coalboiler_base", {
 		fixed = {-13/32, -16/32, -13/32, 13/32, 16/32, 13/32},
 	},
 
-	techage = {
-		turn_on = turn_on_clbk,
-		read_power_consumption = consumer.read_power_consumption,
-		power_network = Pipe,
-		power_side = "F",
-		valid_power_dir = valid_power_dir,
-	},
-	
-	after_place_node = function(pos, placer)
-		local mem = consumer.after_place_node(pos, placer)
-		mem.power_consumption = POWER_CONSUMPTION
-	end,
-	
-	after_tube_update = consumer.after_tube_update,
-	after_dig_node = consumer.after_dig_node,
+	on_construct = tubelib2.init_mem,
 	
 	drop = "",
 	paramtype2 = "facedir",
@@ -68,8 +47,11 @@ minetest.register_node("techage:coalboiler_base", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-
-Pipe:add_secondary_node_names({"techage:coalboiler_base"})
+techage.power.register_node({"techage:coalboiler_base"}, {
+	turn_on = turn_on,
+	conn_sides = {"F"},
+	power_network = Pipe,
+})
 	
 
 minetest.register_craft({

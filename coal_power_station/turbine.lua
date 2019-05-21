@@ -21,10 +21,7 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
-local POWER_CONSUMPTION = 15
-
 local Power = techage.SteamPipe
-local consumer = techage.consumer
 
 local function swap_node(pos, name)
 	local node = minetest.get_node(pos)
@@ -60,10 +57,14 @@ local function stop_sound(pos)
 end
 
 -- called from pipe network
-local function turn_on(pos, dir, sum)
-	local mem = tubelib2.get_mem(pos)
-	local res = techage.power.start_dedicated_node(pos, 6, "techage:cooler", sum)
-	if sum > 0 and res then
+local function turn_on(pos, mem, dir, on)
+	if on then
+		on = techage.power.start_line_node(pos, 6, "techage:cooler", true)
+	else
+		techage.power.start_line_node(pos, 6, "techage:cooler_on", false)
+	end
+	
+	if on then
 		swap_node(pos, "techage:turbine_on")
 		mem.running = true
 		play_sound(pos)
@@ -72,8 +73,8 @@ local function turn_on(pos, dir, sum)
 		mem.running = false
 		stop_sound(pos)
 	end
+	return on
 end	
-
 
 minetest.register_node("techage:turbine", {
 	description = I("TA3 Turbine"),
@@ -86,22 +87,7 @@ minetest.register_node("techage:turbine", {
 		"techage_filling_ta3.png^techage_appl_turbine.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_appl_turbine.png^techage_frame_ta3.png",
 	},
-	techage = {
-		turn_on = turn_on,
-		read_power_consumption = consumer.read_power_consumption,
-		power_network = Power,
-		power_side = "L",
-		valid_power_dir = valid_power_dir,
-	},
-	
-	after_place_node = function(pos, placer)
-		local mem = consumer.after_place_node(pos, placer)
-		mem.power_consumption = POWER_CONSUMPTION
-		mem.running = false
-	end,
-	
-	after_tube_update = consumer.after_tube_update,
-	after_dig_node = consumer.after_dig_node,
+	on_construct = tubelib2.init_mem,
 
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -138,23 +124,19 @@ minetest.register_node("techage:turbine_on", {
 			},
 		},
 	},
-	techage = {
-		turn_on = turn_on,
-		read_power_consumption = consumer.read_power_consumption,
-		power_network = Power,
-		power_side = "L",
-		valid_power_dir = valid_power_dir,
-	},
 	
-	after_tube_update = consumer.after_tube_update,
-	after_dig_node = consumer.after_dig_node,
-
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
 	diggable = false,
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
+})
+
+techage.power.register_node({"techage:turbine", "techage:turbine_on"}, {
+	turn_on = turn_on,
+	conn_sides = {"L", "U"},
+	power_network  = Power,
 })
 
 minetest.register_craft({
@@ -171,8 +153,6 @@ I([[Part of the Coal Power Station.
 Has to be placed side by side
 with the TA3 Generator.
 (see TA3 Coal Power Station)]]), "techage:turbine")
-
-Power:add_secondary_node_names({"techage:turbine", "techage:turbine_on"})
 
 minetest.register_lbm({
 	label = "[techage] Turbine sound",
