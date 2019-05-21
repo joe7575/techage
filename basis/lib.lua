@@ -53,4 +53,3 @@ function techage.is_primary_node(pos, dir)
 	local param2 = M(npos):get_int("tl2_param2")
 	return param2 ~= 0
 end
-

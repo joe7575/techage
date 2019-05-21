@@ -151,6 +151,29 @@ techage.power = {}
 
 techage.power.power_distribution = power_distribution
 
+-- User to turn on/off the power by means of a power switch
+function techage.power.power_cut(pos, dir, cable, cut)
+	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
+	local meta = M(npos)
+	
+	if cut then
+		local param2 = meta:get_int("tl2_param2")
+		if param2 ~= 0 then
+			meta:set_int("cable_cut", param2)
+			meta:set_int("tl2_param2", 0)
+			cable:after_dig_node(npos)
+		end
+	else
+		local param2 = meta:get_int("cable_cut")
+		if param2 ~= 0 then
+			meta:set_int("tl2_param2", param2)
+			meta:set_int("cable_cut", 0)
+			cable:tool_repair_tube(npos)
+		end
+	end
+end
+
+
 function techage.power.register_node(names, pwr_def)
 	for _,name in ipairs(names) do
 		local ndef = minetest.registered_nodes[name]

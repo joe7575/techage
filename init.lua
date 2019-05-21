@@ -51,6 +51,7 @@ else
 	dofile(MP.."/power/biogas_pipe.lua")
 	dofile(MP.."/power/electric_cable.lua")
 	dofile(MP.."/power/junctionbox.lua")
+	dofile(MP.."/power/powerswitch.lua")
 
 	-- Iron Age
 	dofile(MP.."/iron_age/main.lua")
@@ -105,8 +106,14 @@ else
 	dofile(MP.."/coal_power_station/cooler.lua")
 	dofile(MP.."/coal_power_station/akkubox.lua")
 
+	-- Lamps
+	dofile(MP.."/lamps/lib.lua")
+	dofile(MP.."/lamps/simplelamp.lua")
+	dofile(MP.."/lamps/streetlamp.lua")
+	
+	
 	--dofile(MP.."/test/generator.lua")
-	dofile(MP.."/test/lamp.lua")
+	--dofile(MP.."/test/lamp.lua")
 --	dofile(MP.."/test/consumer.lua")
 	--dofile(MP.."/test/consumer2.lua")
 	--dofile(MP.."/test/test.lua")
