@@ -506,15 +506,19 @@ function NodeStates:after_dig_node(pos, oldnode, oldmetadata, digger)
 	local mem = tubelib2.get_mem(pos)
 	local inv = minetest.get_inventory({type="player", name=digger:get_player_name()})
 	local cnt = math.max(mem.techage_aging or 1, 1)
+	local left_over
 	if self.aging_level1 then
 		local is_defect = cnt > self.aging_level1 and math.random(self.aging_level2 / cnt) == 1
 		if self.node_name_defect and is_defect then
-			inv:add_item("main", ItemStack(self.node_name_defect))
+			left_over = inv:add_item("main", ItemStack(self.node_name_defect))
 		else
-			inv:add_item("main", ItemStack(self.node_name_passive))
+			left_over = inv:add_item("main", ItemStack(self.node_name_passive))
 		end
 	else
-		inv:add_item("main", ItemStack(self.node_name_passive))
+		left_over = inv:add_item("main", ItemStack(self.node_name_passive))
+	end
+	if left_over and left_over:get_count() > 0 then
+		minetest.add_item(pos, left_over)
 	end
 end
 

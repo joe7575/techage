@@ -192,7 +192,7 @@ minetest.register_node("techage:ta3_akku", {
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		local mem = tubelib2.get_mem(pos)
-		State:after_dig_node(pos, oldnode, oldmetadata, digger)
+		--State:after_dig_node(pos, oldnode, oldmetadata, digger)
 		set_capa(pos, oldnode, digger, mem.capa)
 	end,
 	
@@ -200,6 +200,7 @@ minetest.register_node("techage:ta3_akku", {
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
 
+	drop = "",
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,

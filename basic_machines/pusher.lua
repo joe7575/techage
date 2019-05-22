@@ -72,11 +72,6 @@ local function on_rightclick(pos, node, clicker)
 	end
 end
 
-local function after_dig_node(pos, oldnode, oldmetadata, digger)
-	techage.remove_node(pos)
-	CRDN(oldnode).State:after_dig_node(pos, oldnode, oldmetadata, digger)
-end
-
 local tiles = {}
 -- '#' will be replaced by the stage number
 -- '{power}' will be replaced by the power PNG
@@ -160,7 +155,6 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		end,
 
 		on_rightclick = on_rightclick,
-		after_dig_node = after_dig_node,
 		node_timer = keep_running,
 		on_rotate = screwdriver.disallow,
 		
