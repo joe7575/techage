@@ -110,6 +110,7 @@ minetest.register_node("techage:powerswitch_on", {
 		switch_off(pos, node, clicker)
 	end,
 
+	drop = "techage:powerswitch",
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
 	sunlight_propagates = true,

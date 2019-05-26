@@ -272,7 +272,6 @@ minetest.register_node("techage:boiler2", {
 	end,
 	
 	power_signal_heat = function(pos)
-		print("power_signal_heat")
 		local mem = tubelib2.get_mem(pos)
 		mem.fire_trigger = true
 		if not minetest.get_node_timer(pos):is_started() then

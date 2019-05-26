@@ -66,7 +66,6 @@ local State = techage.NodeStates:new({
 
 -- Pass1: Power balance calculation
 local function on_power_pass1(pos, mem)
-	print("on_power_pass1", mem.charging)
 	if State:is_active(mem) and mem.capa > POWER_HYSTERESIS then
 		mem.correction = POWER_CONSUMPTION  -- uncharging
 	else
@@ -77,7 +76,6 @@ end
 		
 -- Pass2: Power balance adjustment
 local function on_power_pass2(pos, mem, sum)
-	print("on_power_pass2", mem.charging, sum)
 	if State:is_active(mem) then
 		if sum > mem.correction + POWER_CONSUMPTION and 
 				mem.capa < POWER_MAX_LOAD - POWER_HYSTERESIS then
@@ -100,14 +98,12 @@ end
 
 -- Pass3: Power balance result
 local function on_power_pass3(pos, mem, sum)
-	print("on_power_pass3", mem.charging, sum)
 	mem.power_result = sum
 end
 
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	print("node_timer", mem.charging, mem.capa)
 	if State:is_active(mem) then
 		mem.capa = mem.capa or 0
 		if mem.charging == true then

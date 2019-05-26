@@ -110,6 +110,12 @@ else
 	dofile(MP.."/lamps/lib.lua")
 	dofile(MP.."/lamps/simplelamp.lua")
 	dofile(MP.."/lamps/streetlamp.lua")
+	dofile(MP.."/lamps/ceilinglamp.lua")
+	dofile(MP.."/lamps/industriallamp1.lua")
+	dofile(MP.."/lamps/industriallamp2.lua")
+	
+	-- Oil
+	dofile(MP.."/oil/explore.lua")
 	
 	
 	--dofile(MP.."/test/generator.lua")

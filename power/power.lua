@@ -55,8 +55,12 @@ end
 local function set_conn_dirs(pos, sides)
 	local tbl = {}
 	local node = minetest.get_node(pos)
-	for _,side in ipairs(sides) do
-		tbl[#tbl+1] = tubelib2.Turn180Deg[side_to_dir(node.param2, side)]
+	if type(sides) == "function" then
+		tbl = sides(pos, node)
+	else
+		for _,side in ipairs(sides) do
+			tbl[#tbl+1] = tubelib2.Turn180Deg[side_to_dir(node.param2, side)]
+		end
 	end
 	M(pos):set_string("power_dirs", minetest.serialize(tbl))
 end
@@ -125,7 +129,7 @@ local function power_distribution(pos)
 	Route = {}
 	pos_already_reached(pos) 
 	sum = connection_walk(pos, "on_power_pass3", sum)
-	print("power sum = "..sum)
+	--print("power sum = "..sum)
 end
 
 local function register_lbm(name)

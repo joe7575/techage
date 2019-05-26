@@ -158,7 +158,6 @@ local function washing(pos, crd, mem, inv)
 end
 
 local function keep_running(pos, elapsed)
-	print("keep_running")
 	local mem = tubelib2.get_mem(pos)
 	local crd = CRD(pos)
 	local inv = M(pos):get_inventory()

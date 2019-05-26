@@ -39,13 +39,6 @@ techage.register_lamp("techage:streetlamp", {
 		type = "fixed",
 		fixed = {-8/16, -8/16, -8/16,   8/16, 8/16, 8/16},
 	},
-	paramtype = "light",
-	light_source = 0,	
-	sunlight_propagates = true,
-	paramtype2 = "facedir",
-	groups = {choppy=2, cracky=2, crumbly=2},
-	is_ground_content = false,
-	sounds = default.node_sound_glass_defaults(),
 },{
 	description = "TA Street Lamp",
 	tiles = {
@@ -67,13 +60,6 @@ techage.register_lamp("techage:streetlamp", {
 		type = "fixed",
 		fixed = {-8/16, -8/16, -8/16,   8/16, 8/16, 8/16},
 	},
-	paramtype = "light",
-	light_source = minetest.LIGHT_MAX,	
-	sunlight_propagates = true,
-	paramtype2 = "facedir",
-	groups = {crumbly=0, not_in_creative_inventory=1},
-	is_ground_content = false,
-	sounds = default.node_sound_wood_defaults(),
 })
 
 minetest.register_craft({

@@ -125,7 +125,6 @@ local function swap_node(pos, name)
 	if node.name == name then
 		return
 	end
-	print("swap_node", name)
 	node.name = name
 	minetest.swap_node(pos, node)
 end
