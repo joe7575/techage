@@ -30,8 +30,6 @@ minetest.register_craftitem("techage:baborium_ingot", {
 	inventory_image = "techage_baborium_ingot.png",
 })
 
-
-
 minetest.register_ore({
 	ore_type       = "scatter",
 	ore            = "techage:stone_with_baborium",
@@ -43,3 +41,9 @@ minetest.register_ore({
 	y_max          = -260,
 })
 
+minetest.register_craft({
+	type = 'cooking',
+	output = 'techage:baborium_ingot',
+	recipe = 'techage:baborium_lump',
+	cooktime = 5,
+})

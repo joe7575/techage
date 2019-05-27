@@ -38,7 +38,8 @@ function techage.mark_region(name, pos1, pos2)
 		if marker ~= nil then
 			marker:set_properties({
 				visual_size={x=sizex * 2, y=sizey * 2},
-				collisionbox = {-sizex, -sizey, -thickness, sizex, sizey, thickness},
+				--collisionbox = {-sizex, -sizey, -thickness, sizex, sizey, thickness},
+				collisionbox = {0,0,0, 0,0,0},
 			})
 			marker:get_luaentity().player_name = name
 			table.insert(markers, marker)
@@ -51,7 +52,8 @@ function techage.mark_region(name, pos1, pos2)
 		if marker ~= nil then
 			marker:set_properties({
 				visual_size={x=sizez * 2, y=sizey * 2},
-				collisionbox = {-thickness, -sizey, -sizez, thickness, sizey, sizez},
+				--collisionbox = {-thickness, -sizey, -sizez, thickness, sizey, sizez},
+				collisionbox = {0,0,0, 0,0,0},
 			})
 			marker:setyaw(math.pi / 2)
 			marker:get_luaentity().player_name = name
@@ -73,10 +75,8 @@ end
 minetest.register_entity(":techage:region_cube", {
 	initial_properties = {
 		visual = "upright_sprite",
-		visual_size = {x=1.1, y=1.1},
 		textures = {"techage_cube_mark.png"},
 		use_texture_alpha = true,
-		visual_size = {x=10, y=10},
 		physical = false,
 	},
 	on_step = function(self, dtime)

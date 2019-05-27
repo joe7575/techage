@@ -22,12 +22,13 @@ local I,_ = dofile(MP.."/intllib.lua")
 
 techage.firebox = {}
 
-local BURN_TIME_FACTOR = 2
+local BURN_TIME_FACTOR = 1
 
 techage.firebox.Burntime = {
 	["techage:charcoal"] = true, -- will be replaced by burntime
 	["default:coal_lump"] = true,
 	["default:coalblock"] = true,
+	["techage:oil_source"] = true
 }
 
 local function determine_burntimes()
