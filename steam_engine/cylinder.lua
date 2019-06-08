@@ -32,11 +32,6 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function turn_on(pos, mem, in_dir, on)
-	mem.running = on
-	return on
-end
-
 -- called from flywheel
 local function start_cylinder(pos, on)
 	local mem = tubelib2.get_mem(pos)
@@ -51,6 +46,11 @@ local function start_cylinder(pos, on)
 	end
 end	
 
+-- called with any pipe change
+local function after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+	local mem = tubelib2.get_mem(pos)
+	mem.running = false
+end
 
 minetest.register_node("techage:cylinder", {
 	description = I("TA2 Cylinder"),
@@ -105,6 +105,7 @@ minetest.register_node("techage:cylinder_on", {
 	},
 	
 	start_cylinder = start_cylinder,
+	after_tube_update = after_tube_update,
 
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
@@ -115,9 +116,22 @@ minetest.register_node("techage:cylinder_on", {
 })
 
 techage.power.register_node({"techage:cylinder", "techage:cylinder_on"}, {
-	turn_on = turn_on,
 	conn_sides = {"L"},
 	power_network  = Pipe,
+})
+
+-- used by firebox
+techage.register_node({"techage:cylinder", "techage:cylinder_on"}, {
+	on_transfer = function(pos, in_dir, topic, payload)
+		local mem = tubelib2.get_mem(pos)
+		if  topic == "start" then
+			mem.running = true
+			return true
+		elseif topic == "stop" then
+			mem.running = false
+			return false
+		end
+	end
 })
 
 minetest.register_craft({

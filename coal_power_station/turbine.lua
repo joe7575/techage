@@ -21,7 +21,7 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
-local Power = techage.SteamPipe
+local Pipe = techage.SteamPipe
 
 local function swap_node(pos, name)
 	local node = minetest.get_node(pos)
@@ -51,25 +51,14 @@ local function stop_sound(pos)
 	end
 end
 
--- called from pipe network
-local function turn_on(pos, mem, dir, on)
-	if on then
-		on = techage.power.start_line_node(pos, 6, "techage:cooler", true)
-	else
-		techage.power.start_line_node(pos, 6, "techage:cooler_on", false)
-	end
-	
-	if on then
-		swap_node(pos, "techage:turbine_on")
-		mem.running = true
-		play_sound(pos)
-	else
-		swap_node(pos, "techage:turbine")
-		mem.running = false
-		stop_sound(pos)
-	end
-	return on
-end	
+-- called with any pipe change
+local function after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+	local mem = tubelib2.get_mem(pos)
+	techage.transfer(pos, 6, "stop", nil, Pipe, {"techage:cooler_on"})
+	swap_node(pos, "techage:turbine")
+	mem.running = false
+	stop_sound(pos)
+end
 
 minetest.register_node("techage:turbine", {
 	description = I("TA3 Turbine"),
@@ -119,6 +108,7 @@ minetest.register_node("techage:turbine_on", {
 			},
 		},
 	},
+	after_tube_update = after_tube_update,
 	
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
@@ -128,16 +118,44 @@ minetest.register_node("techage:turbine_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
+-- for mechanical pipe connections
 techage.power.register_node({"techage:turbine", "techage:turbine_on"}, {
-	turn_on = turn_on,
 	conn_sides = {"L", "U"},
-	power_network  = Power,
+	power_network  = Pipe,
+})
+
+-- for logical communication
+techage.register_node({"techage:turbine", "techage:turbine_on"}, {
+	on_transfer = function(pos, in_dir, topic, payload)
+		print("turbine", topic, payload)
+		local mem = tubelib2.get_mem(pos)
+		if topic == "power_level" then
+			local mem = tubelib2.get_mem(pos)
+			mem.power_level = payload
+			techage.transfer(pos, "R", topic, payload, nil, 
+				{"techage:generator", "techage:generator_on"})
+		elseif topic == "start" then
+			local on = techage.transfer(pos, 6, "start", nil, Pipe, {"techage:cooler"})
+			if on then
+				swap_node(pos, "techage:turbine_on")
+				mem.running = true
+				play_sound(pos)
+			end
+			return on
+		elseif topic == "stop" then
+			techage.transfer(pos, 6, "stop", nil, Pipe, {"techage:cooler_on"})
+			swap_node(pos, "techage:turbine")
+			mem.running = false
+			stop_sound(pos)
+			return false
+		end
+	end
 })
 
 minetest.register_craft({
 	output = "techage:turbine",
 	recipe = {
-		{"basic_materials:steel_bar", "techage:iron_ingot", "default:wood"},
+		{"basic_materials:steel_bar", "techage:steam_pipeS", "default:wood"},
 		{"techage:steam_pipeS", "basic_materials:gear_steel", ""},
 		{"default:wood", "techage:iron_ingot", "basic_materials:steel_bar"},
 	},

@@ -230,7 +230,7 @@ minetest.register_node("techage:chest_ta4", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-techage.register_node("techage:chest_ta2", {"techage:chest_ta3", "techage:chest_ta4"}, {
+techage.register_node({"techage:chest_ta2", "techage:chest_ta3", "techage:chest_ta4"}, {
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()

@@ -266,7 +266,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode)
 				power_network  = power_network,
 			})
 		end
-		techage.register_node(name_pas, {name_act, name_def}, tNode.tubing)
+		techage.register_node({name_pas, name_act, name_def}, tNode.tubing)
 	end
 	return names[1], names[2], names[3]
 end

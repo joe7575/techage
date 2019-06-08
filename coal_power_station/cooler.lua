@@ -21,7 +21,7 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
-local Power = techage.SteamPipe
+local Pipe = techage.SteamPipe
 
 local function swap_node(pos, name)
 	local node = minetest.get_node(pos)
@@ -31,17 +31,6 @@ local function swap_node(pos, name)
 	node.name = name
 	minetest.swap_node(pos, node)
 end
-
--- called from pipe network
-local function turn_on(pos, mem, dir, on)
-	on = techage.power.start_line_node(pos, dir, "techage:coalboiler_base", on)
-	if on then
-		swap_node(pos, "techage:cooler_on")
-	else
-		swap_node(pos, "techage:cooler")
-	end
-	return on
-end	
 
 minetest.register_node("techage:cooler", {
 	description = I("TA3 Cooler"),
@@ -102,10 +91,27 @@ minetest.register_node("techage:cooler_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
+-- for mechanical pipe connections
 techage.power.register_node({"techage:cooler", "techage:cooler_on"}, {
-	turn_on = turn_on,
 	conn_sides = {"L", "R"},
-	power_network = Power,
+	power_network = Pipe,
+})
+
+-- for logical communication
+techage.register_node({"techage:cooler", "techage:cooler_on"}, {
+	on_transfer = function(pos, in_dir, topic, payload)
+		if topic == "start" then
+			local on = techage.transfer(pos, in_dir, "start", nil, Pipe, {"techage:coalboiler_base"})
+			if on then
+				swap_node(pos, "techage:cooler_on")
+			end
+			return on
+		elseif topic == "stop" then
+			techage.transfer(pos, in_dir, "stop", nil, Pipe, {"techage:coalboiler_base"})
+			swap_node(pos, "techage:cooler")
+			return false
+		end
+	end
 })
 
 minetest.register_craft({

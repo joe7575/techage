@@ -49,7 +49,7 @@ minetest.register_craft({
 	},
 })
 
-techage.register_node("techage:blackhole", {}, {
+techage.register_node({"techage:blackhole"}, {
 	on_pull_item = nil,  		-- not needed
 	on_unpull_item = nil,		-- not needed
 	

@@ -8,9 +8,9 @@ local MP = minetest.get_modpath("techage")
 local I,IS = dofile(MP.."/intllib.lua")
 
 
-local PROBABILITY = 10
-local OIL_MIN = 500
-local OIL_MAX = 10000
+local PROBABILITY = 100
+local OIL_MIN = 1000
+local OIL_MAX = 20000
 local DEPTH_MIN = 8
 local DEPTH_MAX = (16 * 25) + 8
 local DEPTH_STEP = 96
@@ -42,8 +42,8 @@ end
 
 local function gen_oil_slice(pos1, posc, y, radius, data, id)
 	local y_offs = (y - pos1.y) * 16
-	for x = posc.x - radius, posc.x + radius do
-		for z = posc.z - radius, posc.z + radius do
+	for x = posc.x - radius + 2, posc.x + radius + 2 do
+		for z = posc.z - radius + 1, posc.z + radius + 1 do
 			local idx = x - pos1.x + y_offs + (z - pos1.z) * 16 * 16
 			data[idx] = id
 		end
@@ -58,7 +58,6 @@ local function gen_oil_bubble(pos1, posC, amount, data)
 	local sum = 0
 	for y = posC.y - radius, posC.y + radius do
 		sum = sum + gen_oil_slice(pos1, posC, y, radius + 1, data, id)
-		print(y, sum, amount)
 		if sum >= amount then break end
 	end
 end	
@@ -123,7 +122,6 @@ local function explore_area(pos, pos1, pos2, posC, depth, amount, player_name)
 		vm:set_data(data)
 		vm:write_to_map()
 		vm:update_map()
-		print("explore_area", S(pos1), S(pos2))
 		M(pos):set_int("oil_amount", amount)
 		M(pos):set_int("depth", depth)
 		set_oil_amount(posC, amount)
@@ -153,7 +151,6 @@ local function emerge_area(pos, node, player_name)
 		
 		if amount > 0 then
 			if get_oil_amount(posC) == 0 then -- not explored so far?
-				print("emerge_area", S(pos1), S(pos2), S(posC))
 				minetest.emerge_area(pos1, pos2)
 				minetest.after(2, explore_area, pos, pos1, pos2, posC, depth, amount, player_name)
 			else
@@ -341,3 +338,17 @@ To go deeper, you can click on the block several times.
 When oil is found, the position for the Oil Tower is highlighted.
 Hint: Mark and protect the position for later use.]]), 
 "techage:oilexplorer")
+
+techage.explore = {}
+
+function techage.explore.get_oil_info(pos)
+	local amount = 0
+	local depth = DEPTH_MIN
+	while amount == 0 and depth < DEPTH_MAX do
+		depth = depth + DEPTH_STEP
+		local posC = {x = center(pos.x), y = center(-depth), z = center(pos.z)}
+		amount = oil_amount(posC)
+	end
+	return {depth = center(depth) - 2 + pos.y, amount = amount}
+end
+

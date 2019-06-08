@@ -24,7 +24,7 @@ local I,_ = dofile(MP.."/intllib.lua")
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 8
-local POWER_CAPACITY = 75
+local POWER_CAPACITY = 80
 
 local Cable = techage.ElectricCable
 
@@ -43,7 +43,10 @@ end
 local function turbine_running(pos)
 	local pos1 = techage.get_pos(pos, 'L')
 	local node = minetest.get_node(pos1)
-	return node.name == "techage:turbine_on"
+	if node.name == "techage:turbine_on" then
+		return true
+	end
+	return false
 end
 
 local function start_node(pos, mem, state)
@@ -68,7 +71,7 @@ local State = techage.NodeStates:new({
 -- Pass1: Power balance calculation
 local function on_power_pass1(pos, mem)
 	if State:is_active(mem) then
-		return -POWER_CAPACITY
+		return -POWER_CAPACITY * (mem.power_level or 4) / 4
 	end
 	return 0
 end	
@@ -117,6 +120,7 @@ end
 
 local function on_rightclick(pos)
 	local mem = tubelib2.get_mem(pos)
+	techage.power.power_distribution(pos)
 	M(pos):set_string("formspec", formspec(State, pos, mem))
 end
 
@@ -214,6 +218,18 @@ techage.power.register_node({"techage:generator", "techage:generator_on"}, {
 	on_power_pass3 = on_power_pass3,
 	conn_sides = {"R"},
 	power_network = Cable,
+})
+
+-- for logical communication
+techage.register_node({"techage:generator", "techage:generator_on"}, {
+	on_transfer = function(pos, in_dir, topic, payload)
+		print("generator", topic, payload)
+		local mem = tubelib2.get_mem(pos)
+		if topic == "power_level" then
+			local mem = tubelib2.get_mem(pos)
+			mem.power_level = payload
+		end
+	end
 })
 
 techage.register_help_page(I("TA3 Generator"), 

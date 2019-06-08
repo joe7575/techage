@@ -31,7 +31,7 @@ local function is_owner(pos, meta)
 end
 		
 
-techage.register_node("default:chest", {"default:chest_open"}, {
+techage.register_node({"default:chest", "default:chest_open"}, {
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
@@ -49,7 +49,7 @@ techage.register_node("default:chest", {"default:chest_open"}, {
 	end,
 })	
 
-techage.register_node("default:chest_locked", {"default:chest_locked_open"}, {
+techage.register_node({"default:chest_locked", "default:chest_locked_open"}, {
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		if is_owner(pos, meta) then
@@ -69,7 +69,7 @@ techage.register_node("default:chest_locked", {"default:chest_locked_open"}, {
 	end,
 })	
 
-techage.register_node("default:furnace", {"default:furnace_active"}, {
+techage.register_node({"default:furnace", "default:furnace_active"}, {
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()

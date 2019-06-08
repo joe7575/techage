@@ -22,8 +22,6 @@ local I,_ = dofile(MP.."/intllib.lua")
 
 techage.firebox = {}
 
-local BURN_TIME_FACTOR = 1
-
 techage.firebox.Burntime = {
 	["techage:charcoal"] = true, -- will be replaced by burntime
 	["default:coal_lump"] = true,
@@ -34,7 +32,7 @@ techage.firebox.Burntime = {
 local function determine_burntimes()
 	for k,_ in pairs(techage.firebox.Burntime)do
 		local fuel,_ = minetest.get_craft_result({method = "fuel", width = 1, items = {k}})
-		techage.firebox.Burntime[k] = fuel.time * BURN_TIME_FACTOR
+		techage.firebox.Burntime[k] = fuel.time
 	end
 end	
 minetest.after(1, determine_burntimes)
@@ -44,18 +42,21 @@ function techage.firebox.formspec(mem)
 	if mem.running then
 		fuel_percent = ((mem.burn_cycles or 1) * 100) / (mem.burn_cycles_total or 1)
 	end
-	return "size[8,6]"..
+	local power_level = mem.power_level or 4
+	return "size[8,6.5]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
 		"list[current_name;fuel;1,0.5;1,1;]"..
-		"image[3,0.5;1,1;default_furnace_fire_bg.png^[lowpart:"..
+		"image[2,0.5;1,1;default_furnace_fire_bg.png^[lowpart:"..
 		fuel_percent..":default_furnace_fire_fg.png]"..
-		"button[5,0.5;1.8,1;update;"..I("Update").."]"..
-		"list[current_player;main;0,2;8,4;]"..
+		"label[4.5,0.1;"..I("Power")..":]"..
+		"dropdown[6,0;1.8;power_level;25%,50%,75%,100%;"..power_level.."]"..
+		"button[1,1.5;1.8,1;update;"..I("Update").."]"..
+		"list[current_player;main;0,2.8;8,4;]"..
 		"listring[current_name;fuel]"..
 		"listring[current_player;main]"..
-		default.get_hotbar_bg(0, 2)
+		default.get_hotbar_bg(0, 2.8)
 end
 
 function techage.firebox.can_dig(pos, player)
@@ -74,14 +75,33 @@ function techage.firebox.allow_metadata_inventory(pos, listname, index, stack, p
 	return 0
 end
 
+local PowerLevel = {
+	["25%"] = 1,
+	["50%"] = 2,
+	["75%"] = 3,
+	["100%"] = 4,
+}
+
 function techage.firebox.on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	
+	print(dump(fields))
 	if fields.update then
 		local mem = tubelib2.get_mem(pos)
 		M(pos):set_string("formspec", techage.firebox.formspec(mem))
+	end
+	if fields.power_level then
+		local mem = tubelib2.get_mem(pos)
+		mem.power_level = PowerLevel[fields.power_level]
+		techage.transfer(
+			{x=pos.x, y=pos.y+2, z=pos.z}, 
+			nil,  -- outdir
+			"power_level",  -- topic
+			mem.power_level,  -- payload
+			nil,  -- network
+			{"techage:coalboiler_top"}  -- nodenames
+		)
 	end
 end
 

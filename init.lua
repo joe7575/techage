@@ -32,6 +32,7 @@ else
 	dofile(MP.."/basis/consumer.lua")  -- consumer base model
 	dofile(MP.."/basis/firebox_lib.lua")  -- common firebox functions
 	dofile(MP.."/basis/mark.lua")
+	dofile(MP.."/basis/assemble.lua")
 	
 	-- Overrides
 	dofile(MP.."/overrides/signs_bot.lua")
@@ -116,6 +117,8 @@ else
 	
 	-- Oil
 	dofile(MP.."/oil/explore.lua")
+	dofile(MP.."/oil/tower.lua")
+	dofile(MP.."/oil/drillbox.lua")
 	
 	
 	--dofile(MP.."/test/generator.lua")

@@ -53,3 +53,14 @@ function techage.is_primary_node(pos, dir)
 	local param2 = M(npos):get_int("tl2_param2")
 	return param2 ~= 0
 end
+
+-- returns true if node can be dug
+function techage.can_node_dig(node)
+	-- don't remove nodes with some intelligence or undiggable nodes
+	local ndef = minetest.registered_nodes[node.name]
+	if not ndef or node.name == "air" then return false end
+	if ndef.drop == "" then return false end
+	if ndef.diggable == false then return false end
+	if ndef.after_dig_node then return false end
+	return true
+end	

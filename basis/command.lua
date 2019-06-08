@@ -31,7 +31,6 @@ local function update_mod_storage()
 	storage:set_string("NextNumber", minetest.serialize(NextNumber))
 	storage:set_string("Version", minetest.serialize(Version))
 	storage:set_string("Number2Pos", minetest.serialize(Number2Pos))
-	storage:set_string("Key2Number", nil) -- not used any more 
 	-- store data each hour
 	minetest.after(60*59, update_mod_storage)
 	minetest.log("action", "[TechAge] Data stored")
@@ -47,11 +46,16 @@ minetest.after(60*59, update_mod_storage)
 -- Key2Number will be generated at runtine
 local Key2Number = {} 
 
-local Name2Name = {}		-- translation table
-
 -------------------------------------------------------------------
 -- Local helper functions
 -------------------------------------------------------------------
+
+local function in_list(list, x)
+	for _, v in ipairs(list) do
+		if v == x then return true end
+	end
+	return false
+end
 
 -- Localize functions to avoid table lookups (better performance).
 local string_split = string.split
@@ -97,9 +101,8 @@ local function register_lbm(name, nodenames)
 		nodenames = nodenames,
 		run_at_every_load = true,
 		action = function(pos, node)
-			local name = Name2Name[node.name]
-			if NodeDef[name] and NodeDef[name].on_node_load then
-				NodeDef[name].on_node_load(pos)
+			if NodeDef[node.name] and NodeDef[node.name].on_node_load then
+				NodeDef[node.name].on_node_load(pos)
 			end
 		end
 	})
@@ -134,13 +137,13 @@ end
 local function get_next_node(pos, out_dir)
 	local res, npos, node = Tube:compatible_node(pos, out_dir)
 	local in_dir = tubelib2.Turn180Deg[out_dir]
-	return res, npos, in_dir, Name2Name[node.name] or node.name 
+	return res, npos, in_dir, node.name 
 end
 
 local function get_dest_node(pos, out_dir)
 	local spos, in_dir = Tube:get_connected_node_pos(pos, out_dir)
 	local _,node = Tube:get_node(spos)
-	return spos, in_dir, Name2Name[node.name] or node.name 
+	return spos, in_dir, node.name 
 end
 	
 local function item_handling_node(name)
@@ -245,8 +248,7 @@ end
 
 -- Register node for techage communication
 -- Call this function only at load time!
--- Param name: The node name like "techage:pusher"
--- Param add_names: Alternativ node names if needded, e.g.: "techage:pusher_active"
+-- Param names: List of node names like {"techage:pusher_off", "techage:pusher_on"}
 -- Param node_definition: A table according to:
 --    {
 --        on_pull_item = func(pos, in_dir, num),
@@ -255,31 +257,24 @@ end
 --        on_recv_message = func(pos, topic, payload),
 --        on_node_load = func(pos),  -- LBM function
 --        on_node_repair = func(pos),  -- repair defect (feature!) nodes
+--        on_transfer = func(pos, in_dir, topic, payload),
 --    }
-function techage.register_node(name, add_names, node_definition)
-	NodeDef[name] = node_definition
+function techage.register_node(names, node_definition)
 	-- store facedir table for all known node names
-	Name2Name[name] = name
-	for _,n in ipairs(add_names) do
-		Name2Name[n] = name
+	for _,n in ipairs(names) do
+		NodeDef[n] = node_definition
 	end
 	if node_definition.on_pull_item or node_definition.on_push_item or 
 			node_definition.is_pusher then
-		Tube:add_secondary_node_names({name})
-		Tube:add_secondary_node_names(add_names)
+		Tube:add_secondary_node_names(names)
 		
-		techage.KnownNodes[name] = true
-		for _,n in ipairs(add_names) do
+		for _,n in ipairs(names) do
 			techage.KnownNodes[n] = true
 		end
 	end
 	-- register LBM
 	if node_definition.on_node_load then
-		local nodenames = {name}
-		for _,n in ipairs(add_names) do
-			nodenames[#nodenames + 1] = n
-		end
-		register_lbm(name, nodenames)
+		register_lbm(names[1], names)
 	end
 end
 
@@ -287,7 +282,7 @@ end
 -- Send message functions
 -------------------------------------------------------------------
 
-function techage.send_message(numbers, placer_name, clicker_name, topic, payload)
+function techage.send_multi(numbers, placer_name, clicker_name, topic, payload)
 	for _,num in ipairs(string_split(numbers, " ")) do
 		if Number2Pos[num] and Number2Pos[num].name then
 			local data = Number2Pos[num]
@@ -300,7 +295,7 @@ function techage.send_message(numbers, placer_name, clicker_name, topic, payload
 	end
 end		
 
-function techage.send_request(number, topic, payload)
+function techage.send_single(number, topic, payload)
 	if Number2Pos[number] and Number2Pos[number].name then
 		local data = Number2Pos[number]
 		if NodeDef[data.name] and NodeDef[data.name].on_recv_message then
@@ -310,12 +305,45 @@ function techage.send_request(number, topic, payload)
 	return false
 end		
 
+-- The destination node location is either:
+-- A) a destination position, specified by pos
+-- B) a neighbor position, specified by caller pos/outdir, or pos/side
+-- C) a tubelib2 network connection, specified by caller pos/outdir, or pos/side
+-- outdir is one of: 1..6
+-- side is one of: "B", "R", "F", "L", "D", "U"
+-- network is a tuebelib2 network instance
+-- opt: nodenames is a table of valid the callee node names
+function techage.transfer(pos, outdir, topic, payload, network, nodenames)
+	-- determine out-dir
+	if outdir and type(outdir) == "string" then
+		local param2 = Tube:get_node_lvm(pos).param2
+		outdir = side_to_dir(outdir, param2)
+	end
+	-- determine destination pos
+	local dpos, indir
+	if network then
+		dpos, indir = network:get_connected_node_pos(pos, outdir)
+	else
+		dpos, indir = tubelib2.get_pos(pos, outdir)
+	end
+	-- check node name
+	local name = Tube:get_node_lvm(dpos).name
+	if nodenames and not in_list(nodenames, name) then
+		return false
+	end
+	-- call "on_transfer"
+	local ndef = NodeDef[name]
+	if ndef and ndef.on_transfer then
+		return ndef.on_transfer(dpos, indir, topic, payload)
+	end
+	return false
+end		
+
 -- for defect nodes
 function techage.repair_node(pos)
 	local node = minetest.get_node(pos)
-	local name = Name2Name[node.name]
-	if NodeDef[name] and NodeDef[name].on_node_repair then
-		return NodeDef[name].on_node_repair(pos)
+	if NodeDef[node.name] and NodeDef[node.name].on_node_repair then
+		return NodeDef[node.name].on_node_repair(pos)
 	end
 	return false
 end

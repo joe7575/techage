@@ -23,10 +23,6 @@ local I,_ = dofile(MP.."/intllib.lua")
 
 local Pipe = techage.SteamPipe
 
-local function turn_on(pos, mem, in_dir, on)
-	return on
-end
-
 minetest.register_node("techage:coalboiler_base", {
 	description = I("TA3 Boiler Base"),
 	tiles = {"techage_coal_boiler_mesh_base.png"},
@@ -48,11 +44,20 @@ minetest.register_node("techage:coalboiler_base", {
 })
 
 techage.power.register_node({"techage:coalboiler_base"}, {
-	turn_on = turn_on,
 	conn_sides = {"F"},
 	power_network = Pipe,
 })
 	
+-- for logical communication
+techage.register_node({"techage:coalboiler_base"}, {
+	on_transfer = function(pos, in_dir, topic, payload)
+		if topic == "start" then
+			return true
+		elseif topic == "stop" then
+			return true
+		end
+	end
+})
 
 minetest.register_craft({
 	output = "techage:coalboiler_base",

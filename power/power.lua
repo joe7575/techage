@@ -184,7 +184,6 @@ function techage.power.register_node(names, pwr_def)
 		if ndef then
 			minetest.override_item(name, {
 				power = {
-					turn_on = pwr_def.turn_on, -- line-like networks
 					on_power_pass1 = pwr_def.on_power_pass1,
 					on_power_pass2 = pwr_def.on_power_pass2,
 					on_power_pass3 = pwr_def.on_power_pass3,
@@ -262,24 +261,3 @@ function techage.power.side_to_outdir(pos, side)
 	local node = minetest.get_node(pos)
 	return side_to_dir(node.param2, side)
 end	
-
-
--- Simplified version of power distribution for line-like networks
--- like the for the steam engine pipe.
--- Function uses the node "turn_on" callback
--- Returns true, if node could be started/stopped.
-function techage.power.start_line_node(pos, out_dir, node_name, on)
-	local mem = tubelib2.get_mem(pos)
-	local conn = mem.connections and mem.connections[out_dir]
-	if conn and conn.in_dir and conn.pos then
-		local node = minetest.get_node(conn.pos)
-		if node.name == node_name then
-			local pwr = PWR(conn.pos)
-			if pwr and pwr.turn_on then
-				local mem = tubelib2.get_mem(conn.pos)
-				return pwr.turn_on(conn.pos, mem, conn.in_dir, on)
-			end
-		end
-	end
-	return false
-end

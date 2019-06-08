@@ -65,13 +65,14 @@ local function can_start(pos, mem, state)
 end
 
 local function start_node(pos, mem, state)
-	local out_dir = techage.power.side_to_outdir(pos, "F")
-	mem.running = techage.power.start_line_node(pos, out_dir, "techage:turbine", true)
+	print("start_node", S(pos))
+	mem.running = techage.transfer(pos, "F", "start", nil, Pipe, {"techage:turbine"})
+	techage.transfer(pos, "F", "power_level", mem.power_level, Pipe, {"techage:turbine"})
 end
 
 local function stop_node(pos, mem, state)
-	local out_dir =  techage.power.side_to_outdir(pos, "F")
-	techage.power.start_line_node(pos, out_dir, "techage:turbine_on", false)
+	print("stop_node", S(pos))
+	techage.transfer(pos, "F", "stop", nil, Pipe, {"techage:turbine_on"})
 	mem.running = false
 end
 
@@ -254,14 +255,6 @@ minetest.register_node("techage:coalboiler_top", {
 		minetest.after(0.5, move_to_water, pos)
 	end,
 	
-	trigger_boiler = function(pos)
-		local mem = tubelib2.get_mem(pos)
-		mem.fire_trigger = true
-		if not minetest.get_node_timer(pos):is_started() then
-			minetest.get_node_timer(pos):start(CYCLE_TIME)
-		end
-	end,
-	
 	drop = "",
 	paramtype2 = "facedir",
 	groups = {cracky=1},
@@ -274,7 +267,26 @@ techage.power.register_node({"techage:coalboiler_top"}, {
 	conn_sides = {"F"},
 	power_network  = Pipe,
 })
-	
+
+techage.register_node({"techage:coalboiler_top"}, {
+	on_transfer = function(pos, in_dir, topic, payload)
+		if topic == "trigger" then
+			local mem = tubelib2.get_mem(pos)
+			mem.fire_trigger = true
+			if not minetest.get_node_timer(pos):is_started() then
+				minetest.get_node_timer(pos):start(CYCLE_TIME)
+			end
+		elseif topic == "power_level" then
+			local mem = tubelib2.get_mem(pos)
+			mem.power_level = payload
+			print("coalboiler_top power_level", payload)
+			techage.transfer(pos, "F", topic, payload, Pipe, 
+				{"techage:turbine", "techage:turbine_on"})
+		end
+	end
+})
+
+
 minetest.register_craft({
 	output = "techage:coalboiler_top",
 	recipe = {

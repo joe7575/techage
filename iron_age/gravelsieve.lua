@@ -139,7 +139,7 @@ for idx = 0,3 do
 	})
 end
 
-techage.register_node("techage:sieve0", {"techage:sieve1", "techage:sieve2", "techage:sieve3"}, {
+techage.register_node({"techage:sieve0", "techage:sieve1", "techage:sieve2", "techage:sieve3"}, {
 	on_push_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()

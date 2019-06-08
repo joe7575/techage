@@ -40,16 +40,22 @@ end
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	if mem.running then
-		local ndef = minetest.registered_nodes[minetest.get_node({x=pos.x, y=pos.y+2, z=pos.z}).name]
-		if ndef and ndef.trigger_boiler then
-			ndef.trigger_boiler({x=pos.x, y=pos.y+2, z=pos.z})
-		end
+		techage.transfer(
+			{x=pos.x, y=pos.y+2, z=pos.z}, 
+			nil,  -- outdir
+			"trigger",  -- topic
+			nil,  -- payload
+			nil,  -- network
+			{"techage:coalboiler_top"}  -- nodenames
+		)
 		mem.burn_cycles = (mem.burn_cycles or 0) - 1
 		if mem.burn_cycles <= 0 then
 			local taken = firebox.get_fuel(pos) 
 			if taken then
 				mem.burn_cycles = firebox.Burntime[taken:get_name()] / CYCLE_TIME
+				mem.burn_cycles = mem.burn_cycles * 4 / (mem.power_level or 4)
 				mem.burn_cycles_total = mem.burn_cycles
+				print("firebox", mem.burn_cycles_total)
 			else
 				mem.running = false
 				firehole(pos, false)
@@ -174,6 +180,33 @@ minetest.register_node("techage:coalfirehole_on", {
 	groups = {not_in_creative_inventory=1},
 })
 
+techage.register_node({"techage:coalfirehole", "techage:coalfirehole_on"}, {
+	on_pull_item = function(pos, in_dir, num)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.get_items(inv, "fuel", num)
+	end,
+	on_push_item = function(pos, in_dir, stack)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.put_items(inv, "fuel", stack)
+	end,
+	on_unpull_item = function(pos, in_dir, stack)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.put_items(inv, "fuel", stack)
+	end,
+	on_recv_message = function(pos, topic, payload)
+		if topic == "state" then
+			local meta = minetest.get_meta(pos)
+			return techage.get_inv_state(meta, "fuel")
+		else
+			return "unsupported"
+		end
+	end,
+})
+
+
 minetest.register_craft({
 	output = "techage:coalfirebox",
 	recipe = {
@@ -183,7 +216,7 @@ minetest.register_craft({
 	},
 })
 
-techage.register_node("techage:coalfirebox", {}, {
+techage.register_node({"techage:coalfirebox"}, {
 	on_push_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
@@ -205,4 +238,5 @@ minetest.register_lbm({
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end
 })
+
 
