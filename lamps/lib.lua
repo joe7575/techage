@@ -29,7 +29,7 @@ local function rotate(param2)
 end
 
 local function swap_node(pos, postfix)
-	local node = Power:get_node_lvm(pos)
+	local node = techage.get_node_lvm(pos)
 	local parts = string.split(node.name, "_")
 	if postfix == parts[2] then
 		return

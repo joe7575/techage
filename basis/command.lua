@@ -316,7 +316,7 @@ end
 function techage.transfer(pos, outdir, topic, payload, network, nodenames)
 	-- determine out-dir
 	if outdir and type(outdir) == "string" then
-		local param2 = Tube:get_node_lvm(pos).param2
+		local param2 = techage.get_node_lvm(pos).param2
 		outdir = side_to_dir(outdir, param2)
 	end
 	-- determine destination pos
@@ -327,7 +327,7 @@ function techage.transfer(pos, outdir, topic, payload, network, nodenames)
 		dpos, indir = tubelib2.get_pos(pos, outdir)
 	end
 	-- check node name
-	local name = Tube:get_node_lvm(dpos).name
+	local name = techage.get_node_lvm(dpos).name
 	if nodenames and not in_list(nodenames, name) then
 		return false
 	end

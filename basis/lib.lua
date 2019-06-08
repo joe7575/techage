@@ -35,6 +35,26 @@ function techage.one_of(val, selection)
 	return selection[1]
 end
 
+function techage.get_node_lvm(pos)
+	local node = minetest.get_node_or_nil(pos)
+	if node then
+		return node
+	end
+	local vm = minetest.get_voxel_manip()
+	local MinEdge, MaxEdge = vm:read_from_map(pos, pos)
+	local data = vm:get_data()
+	local param2_data = vm:get_param2_data()
+	local area = VoxelArea:new({MinEdge = MinEdge, MaxEdge = MaxEdge})
+	local idx = area:index(pos.x, pos.y, pos.z)
+	node = {
+		name = minetest.get_name_from_content_id(data[idx]),
+		param2 = param2_data[idx]
+	}
+	return node
+end
+
+
+
 --
 -- Functions used to hide electric cable and biogas pipes
 --

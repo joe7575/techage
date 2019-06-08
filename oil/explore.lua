@@ -188,7 +188,9 @@ minetest.register_node("techage:oilexplorer", {
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		emerge_area(pos, node, clicker:get_player_name())
 	end,
-	
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		techage.unmark_region(digger:get_player_name())
+	end,
 	is_ground_content = false,
 	groups = {snappy=2,cracky=2,oddly_breakable_by_hand=2},
 	sounds = default.node_sound_wood_defaults(),
@@ -347,8 +349,8 @@ function techage.explore.get_oil_info(pos)
 	while amount == 0 and depth < DEPTH_MAX do
 		depth = depth + DEPTH_STEP
 		local posC = {x = center(pos.x), y = center(-depth), z = center(pos.z)}
-		amount = oil_amount(posC)
+		amount = get_oil_amount(posC)
 	end
-	return {depth = center(depth) - 2 + pos.y, amount = amount}
+	return {depth = center(depth) - 1 + pos.y, amount = amount}
 end
 

@@ -56,7 +56,7 @@ local function on_power_pass2(pos, mem, sum)
 	if sum > 0 and state == techage.NOPOWER then
 		crd.State:start(pos, mem)
 		return 0
-	elseif sum <= 0 and ValidPowerConsumingStates[state] then
+	elseif sum <= 0 and ValidPowerConsumingStates[state] or state == techage.STANDBY then
 		crd.State:nopower(pos, mem)
 		return -crd.power_consumption
 	end

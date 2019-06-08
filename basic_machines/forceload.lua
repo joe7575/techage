@@ -53,24 +53,6 @@ local function chat(player, text)
 	minetest.chat_send_player(player:get_player_name(), "[Techage] "..text)
 end
 
-local function get_node_lvm(pos)
-	local node = minetest.get_node_or_nil(pos)
-	if node then
-		return node
-	end
-	local vm = minetest.get_voxel_manip()
-	local MinEdge, MaxEdge = vm:read_from_map(pos, pos)
-	local data = vm:get_data()
-	local param2_data = vm:get_param2_data()
-	local area = VoxelArea:new({MinEdge = MinEdge, MaxEdge = MaxEdge})
-	local idx = area:index(pos.x, pos.y, pos.z)
-	node = {
-		name = minetest.get_name_from_content_id(data[idx]),
-		param2 = param2_data[idx]
-	}
-	return node
-end
-
 local function add_pos(pos, player)
 	local lPos = minetest.deserialize(player:get_attribute("techage_forceload_blocks")) or {}
 	if not in_list(lPos, pos) and #lPos < techage.max_num_forceload_blocks then
@@ -202,7 +184,7 @@ end
 minetest.register_on_joinplayer(function(player)
 	local lPos = {}
 	for _,pos in ipairs(get_pos_list(player)) do
-		local node = get_node_lvm(pos)
+		local node = techage.get_node_lvm(pos)
 		if node.name == "techage:forceload" then
 			minetest.forceload_block(pos, true)
 			lPos[#lPos+1] = pos

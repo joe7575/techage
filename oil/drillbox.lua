@@ -36,7 +36,7 @@ local formspec0 = "size[5,4]"..
 
 local function play_sound(pos)
 	local mem = tubelib2.get_mem(pos)
-	if mem.techage_state == techage.RUNNING then
+	if CRD(pos).State:is_active(mem) then
 		mem.handle = minetest.sound_play("techage_oildrill", {
 			pos = pos, 
 			gain = 1,
@@ -47,7 +47,7 @@ end
 
 local function stop_sound(pos)
 	local mem = tubelib2.get_mem(pos)
-	if mem.techage_state ~= techage.RUNNING and mem.handle then
+	if mem.handle then
 		minetest.sound_stop(mem.handle)
 		mem.handle = nil
 	end
@@ -117,41 +117,41 @@ end
 
 local function drilling(pos, crd, mem, inv)
 	M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
-	print("drilling")
-	if inv:contains_item("src", ItemStack("techage:oil_drillbit")) then
-		mem.drill_pos = mem.drill_pos or {x=pos.x, y=pos.y, z=pos.z}
+	mem.drill_pos = mem.drill_pos or {x=pos.x, y=pos.y-1, z=pos.z}
+	local owner = M(pos):get_string("owner")
+	local depth = M(pos):get_int("depth")
+	local curr_depth = pos.y - (mem.drill_pos or pos).y
+	local node = techage.get_node_lvm(mem.drill_pos)
+	local item = ItemStack(node.name)
+	
+	if not inv:contains_item("src", ItemStack("techage:oil_drillbit")) then
+		crd.State:idle(pos, mem)
+	elseif curr_depth >= depth then
+		M(pos):set_string("oil_found", "true")
+		stop_sound(pos)
+		crd.State:stop(pos, mem)
+	elseif minetest.is_protected(mem.drill_pos, owner) then
+		stop_sound(pos)
+		crd.State:fault(pos, mem)
+	elseif node.name == "techage:oil_drillbit2" then
 		mem.drill_pos.y = mem.drill_pos.y-1
-		local owner = M(pos):get_string("owner")
-		local depth = M(pos):get_int("depth")
-		if mem.drill_pos.y > -depth then
-			if not minetest.is_protected(mem.drill_pos, owner) then
-				local node = minetest.get_node(mem.drill_pos)
-				if node.name ~= "techage:oil_drillbit2" then
-					local item = ItemStack(node.name)
-					if techage.can_node_dig(node) then
-						if inv:room_for_item("dst", item) then
-							inv:add_item("dst", item)
-						else
-							stop_sound(pos)
-							crd.State:blocked(pos, mem)
-						end
-					end
-					minetest.swap_node(mem.drill_pos, {name = "techage:oil_drillbit2"})
-					inv:remove_item("src", ItemStack("techage:oil_drillbit"))
-				end
-			else
-				stop_sound(pos)
-				crd.State:fault(pos, mem)
-			end
+		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+	elseif techage.can_node_dig(node) then
+		if inv:room_for_item("dst", item) then
+			inv:add_item("dst", item)
+			minetest.swap_node(mem.drill_pos, {name = "techage:oil_drillbit2"})
+			inv:remove_item("src", ItemStack("techage:oil_drillbit"))
+			mem.drill_pos.y = mem.drill_pos.y-1
 			crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
-			return
 		else
-			M(pos):set_string("oil_found", "true")
-			stop_sound(pos)
-			crd.State:stop(pos, mem)
+			crd.State:blocked(pos, mem)
 		end
+	else
+		minetest.swap_node(mem.drill_pos, {name = "techage:oil_drillbit2"})
+		inv:remove_item("src", ItemStack("techage:oil_drillbit"))
+		mem.drill_pos.y = mem.drill_pos.y-1
+		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
 	end
-	crd.State:idle(pos, mem)
 end
 
 local function keep_running(pos, elapsed)
