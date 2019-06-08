@@ -271,6 +271,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 			M(pos):set_int("depth", info.depth) 
 			M(pos):set_int("amount", info.amount) 
 			M(pos):set_string("oil_found", "false")
+			M(pos):set_string("owner", placer:get_player_name())
 		end,
 		after_dig_node = function(pos, oldnode, oldmetadata, digger)
 			if oldmetadata.fields.oil_found == "true" then
