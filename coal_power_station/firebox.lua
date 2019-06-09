@@ -107,13 +107,15 @@ minetest.register_node("techage:coalfirebox", {
 	end,
 
 	on_metadata_inventory_put = function(pos, listname, index, stack, player)
-		local mem = tubelib2.init_mem(pos)
+		local mem = tubelib2.get_mem(pos)
 		mem.running = true
 		-- activate the formspec fire temporarily
-		mem.burn_cycles = firebox.Burntime[stack:get_name()] / CYCLE_TIME
-		mem.burn_cycles_total = mem.burn_cycles
-		M(pos):set_string("formspec", firebox.formspec(mem))
-		mem.burn_cycles = 0
+		if not mem.burn_cycles or mem.burn_cycles == 0 then
+			mem.burn_cycles = firebox.Burntime[stack:get_name()] / CYCLE_TIME
+			mem.burn_cycles = mem.burn_cycles * 4 / (mem.power_level or 4)
+			mem.burn_cycles_total = mem.burn_cycles
+			M(pos):set_string("formspec", firebox.formspec(mem))
+		end
 		firehole(pos, true)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,

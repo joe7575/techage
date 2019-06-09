@@ -44,6 +44,28 @@ local function dec_oil_item(pos, meta)
 	end
 end
 
+local function formspec(self, pos, mem)
+	local amount = 0
+	local storage_pos = M(pos):get_string("storage_pos")
+	if storage_pos ~= "" then
+		amount = techage.explore.get_oil_amount(P(storage_pos))
+	end
+	return "size[5,3]"..
+	default.gui_bg..
+	default.gui_bg_img..
+	default.gui_slots..
+	"image[0.5,0;1,1;techage_oil_inv.png]"..
+	"image[2,0;1,1;"..techage.get_power_image(pos, mem).."]"..
+	"label[0,1.3;"..I("Oil amount:")..": "..amount.."]"..
+	"button[3,1.1;2,1;update;"..I("Update").."]"..
+	"image_button[2,2.2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"
+end
+
+local function on_rightclick(pos, node, clicker)
+	local mem = tubelib2.get_mem(pos)
+	M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
+end
+
 local function pumping(pos, crd, meta, mem)
 	local items = has_oil_item(pos, meta)
 	if items ~= nil then
@@ -65,20 +87,17 @@ local function keep_running(pos, elapsed)
 	return crd.State:is_active(mem)
 end	
 
-local function on_rightclick(pos, node, clicker)
-	local mem = tubelib2.get_mem(pos)
-	if not minetest.is_protected(pos, clicker:get_player_name()) then
-		if CRD(pos).State:get_state(mem) == techage.STOPPED then
-			CRD(pos).State:start(pos, mem)
-		else
-			CRD(pos).State:stop(pos, mem)
-		end
+local function on_receive_fields(pos, formname, fields, player)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return
 	end
+	local mem = tubelib2.get_mem(pos)
+	CRD(pos).State:state_button_event(pos, mem, fields)
 end
 
 local tiles = {}
+
 -- '#' will be replaced by the stage number
--- '{power}' will be replaced by the power PNG
 tiles.pas = {
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
@@ -149,6 +168,7 @@ local _, node_name_ta3, _ =
 		standby_ticks = STANDBY_TICKS,
 		has_item_meter = true,
 		aging_factor = 10,
+		formspec = formspec,
 		tubing = tubing,
 		after_place_node = function(pos, placer)
 			local node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
@@ -160,6 +180,7 @@ local _, node_name_ta3, _ =
 			end
 		end,
 		on_rightclick = on_rightclick,
+		on_receive_fields = on_receive_fields,
 		node_timer = keep_running,
 		on_rotate = screwdriver.disallow,
 		

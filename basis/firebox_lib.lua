@@ -86,7 +86,7 @@ function techage.firebox.on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	print(dump(fields))
+	--print(dump(fields))
 	if fields.update then
 		local mem = tubelib2.get_mem(pos)
 		M(pos):set_string("formspec", techage.firebox.formspec(mem))

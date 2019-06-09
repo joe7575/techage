@@ -74,13 +74,17 @@ function techage.is_primary_node(pos, dir)
 	return param2 ~= 0
 end
 
--- returns true if node can be dug
-function techage.can_node_dig(node)
+-- returns true, if node can be dug, or false
+-- Table result can be used to read the node name of the dropped node when dug
+function techage.can_node_dig(node, result)
 	-- don't remove nodes with some intelligence or undiggable nodes
 	local ndef = minetest.registered_nodes[node.name]
 	if not ndef or node.name == "air" then return false end
 	if ndef.drop == "" then return false end
 	if ndef.diggable == false then return false end
 	if ndef.after_dig_node then return false end
+	if result and type(result) == "table" then 
+		result.name = ndef.drop or node.name
+	end
 	return true
 end	

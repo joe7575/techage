@@ -126,7 +126,7 @@ local function drilling(pos, crd, mem, inv)
 	local depth = M(pos):get_int("depth")
 	local curr_depth = pos.y - (mem.drill_pos or pos).y
 	local node = techage.get_node_lvm(mem.drill_pos)
-	local item = ItemStack(node.name)
+	local dropped_node = {}
 	
 	if not inv:contains_item("src", ItemStack("techage:oil_drillbit")) then
 		crd.State:idle(pos, mem)
@@ -138,7 +138,8 @@ local function drilling(pos, crd, mem, inv)
 	elseif node.name == "techage:oil_drillbit2" then
 		mem.drill_pos.y = mem.drill_pos.y-1
 		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
-	elseif techage.can_node_dig(node) then
+	elseif techage.can_node_dig(node, dropped_node) then
+		local item = ItemStack(dropped_node.name)
 		if inv:room_for_item("dst", item) then
 			inv:add_item("dst", item)
 			minetest.swap_node(mem.drill_pos, {name = "techage:oil_drillbit2"})

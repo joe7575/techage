@@ -178,6 +178,7 @@ minetest.register_node("techage:oilstorage", {
 	tiles = {"default_stone.png"},
 	groups = {not_in_creative_inventory=1},
 	diggable = false,
+	drop = "",
 	is_ground_content = false,
 })
 
@@ -225,6 +226,8 @@ minetest.register_node("techage:oilexplorer_on", {
 	
 	diggable = false,
 	is_ground_content = false,
+	paramtype = "light",
+	light_source = 8,
 	groups = {not_in_creative_inventory=1},
 	sounds = default.node_sound_wood_defaults(),
 })
