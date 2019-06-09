@@ -38,7 +38,7 @@ local function send_off_command(pos)
 	local dest_num = meta:get_string("dest_num")
 	local own_num = meta:get_string("number")
 	local owner = meta:get_string("owner")
-	techage.send_message(dest_num, owner, nil, "off", own_num)
+	techage.send_multi(dest_num, owner, nil, "off", own_num)
 end
 
 
@@ -48,7 +48,7 @@ local function send_command(pos)
 	if dest_num ~= "" then
 		local own_num = meta:get_string("number")
 		local owner = meta:get_string("owner")
-		techage.send_message(dest_num, owner, nil, "on", own_num)
+		techage.send_multi(dest_num, owner, nil, "on", own_num)
 		minetest.after(1, send_off_command, pos)
 	end
 end

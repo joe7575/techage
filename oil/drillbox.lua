@@ -35,6 +35,7 @@ local formspec0 = "size[5,4]"..
 	"button_exit[1,3.2;3,1;build;"..I("Build Tower").."]"
 
 local function play_sound(pos)
+	local mem = tubelib2.get_mem(pos)
 	mem.handle = minetest.sound_play("techage_oildrill", {
 		pos = pos, 
 		gain = 1,
@@ -207,9 +208,16 @@ tiles.pas = {
 	"techage_filling_ta#.png^techage_appl_oildrill.png^techage_frame_ta#.png",
 	"techage_filling_ta#.png^techage_appl_oildrill.png^techage_frame_ta#.png",
 }
-
 tiles.act = tiles.pas
-tiles.def = tiles.pas
+tiles.def = {
+	-- up, down, right, left, back, front
+	"techage_filling_ta#.png^techage_frame_ta#_top.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png^techage_appl_defect.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png^techage_appl_defect.png",
+	"techage_filling_ta#.png^techage_appl_oildrill.png^techage_frame_ta#.png^techage_appl_defect.png",
+	"techage_filling_ta#.png^techage_appl_oildrill.png^techage_frame_ta#.png^techage_appl_defect.png",
+}
 
 local tubing = {
 	on_pull_item = function(pos, in_dir, num)
@@ -249,7 +257,7 @@ local tubing = {
 	end,
 }
 
-local node_name_ta2, node_name_ta3, node_name_ta4 = 
+local _, node_name_ta3, _ = 
 	techage.register_consumer("drillbox", I("Oil Drill Box"), tiles, {
 		drawtype = "normal",
 		cycle_time = CYCLE_TIME,
@@ -258,6 +266,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		aging_factor = 10,
 		formspec = formspec,
 		tubing = tubing,
+		on_state_change = on_node_state_change,
 		after_place_node = function(pos, placer)
 			local inv = M(pos):get_inventory()
 			inv:set_size("src", 1)
@@ -292,7 +301,7 @@ minetest.register_craft({
 	recipe = {
 		{"default:steel_ingot", "default:diamond", "default:steel_ingot"},
 		{"techage:tubeS", "basic_materials:gear_steel", "techage:tubeS"},
-		{"default:steel_ingot", "default:steel_ingot", "default:steel_ingot"},
+		{"default:steel_ingot", "techage:vacuum_tube", "default:steel_ingot"},
 	},
 })
 

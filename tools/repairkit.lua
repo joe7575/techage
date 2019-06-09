@@ -43,9 +43,9 @@ local function read_state(itemstack, user, pointed_thing)
 	if pos then
 		local number = techage.get_node_number(pos)
 		if number then
-			local state = techage.send_request(number, "state", nil)
-			local counter = techage.send_request(number, "counter", nil)
-			local aging = techage.send_request(number, "aging", nil)
+			local state = techage.send_single(number, "state", nil)
+			local counter = techage.send_single(number, "counter", nil)
+			local aging = techage.send_single(number, "aging", nil)
 			if state and counter and aging then
 				if type(counter) ~= "number" then counter = "unknown" end
 				minetest.chat_send_player(user:get_player_name(), "[TechAge] state ="..state..", counter = "..counter..", aging = "..aging)

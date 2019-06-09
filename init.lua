@@ -119,6 +119,7 @@ else
 	dofile(MP.."/oil/explore.lua")
 	dofile(MP.."/oil/tower.lua")
 	dofile(MP.."/oil/drillbox.lua")
+	dofile(MP.."/oil/pumpjack.lua")
 	
 	
 	--dofile(MP.."/test/generator.lua")

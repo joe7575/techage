@@ -268,7 +268,6 @@ minetest.register_node("techage:oil_source", {
     liquid_alternative_source = "techage:oil_source",
     liquid_viscosity = 20,
     liquid_range = 10,
-	damage_per_second = 1,
 	post_effect_color = {a = 200, r = 1, g = 1, b = 1},
 	groups = {liquid = 5},
 })
@@ -315,7 +314,6 @@ minetest.register_node("techage:oil_flowing", {
 	liquid_alternative_source = "techage:oil_source",
 	liquid_viscosity = 20,
 	liquid_range = 10,
-	damage_per_second = 1,
 	post_effect_color = {a = 200, r = 1, g = 1, b = 1},
 	groups = {liquid = 5, not_in_creative_inventory = 1},
 })
@@ -350,11 +348,22 @@ techage.explore = {}
 function techage.explore.get_oil_info(pos)
 	local amount = 0
 	local depth = DEPTH_MIN
+	local posC
 	while amount == 0 and depth < DEPTH_MAX do
 		depth = depth + DEPTH_STEP
-		local posC = {x = center(pos.x), y = center(-depth), z = center(pos.z)}
+		posC = {x = center(pos.x), y = center(-depth), z = center(pos.z)}
 		amount = get_oil_amount(posC)
 	end
-	return {depth = center(depth) - 1 + pos.y, amount = amount}
+	return {depth = center(depth) - 1 + pos.y, amount = amount, storage_pos = posC}
 end
 
+function techage.explore.get_oil_amount(posC)
+	return M(posC):get_int("oil_amount")
+end
+
+function techage.explore.dec_oil_amount(posC)
+	local meta = M(posC)
+	local amount = meta:get_int("oil_amount")
+	meta:set_int("oil_amount", amount-1)
+	return amount-1
+end

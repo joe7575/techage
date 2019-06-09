@@ -55,7 +55,9 @@ end
 
 local function add_pos(pos, player)
 	local lPos = minetest.deserialize(player:get_attribute("techage_forceload_blocks")) or {}
-	if not in_list(lPos, pos) and #lPos < techage.max_num_forceload_blocks then
+	if not in_list(lPos, pos) and (#lPos < techage.max_num_forceload_blocks or
+				creative and creative.is_enabled_for and 
+				creative.is_enabled_for(player:get_player_name())) then
 		lPos[#lPos+1] = pos
 		player:set_attribute("techage_forceload_blocks", minetest.serialize(lPos))
 		return true

@@ -1,0 +1,181 @@
+--[[
+
+	TechAge
+	=======
+
+	Copyright (C) 2019 Joachim Stolberg
+
+	LGPLv2.1+
+	See LICENSE.txt for more information
+	
+	TA3 Pumpjack
+
+]]--
+
+-- for lazy programmers
+local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
+local P = minetest.string_to_pos
+local M = minetest.get_meta
+-- Consumer Related Data
+local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
+local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).consumer end
+-- Load support for intllib.
+local MP = minetest.get_modpath("techage")
+local I,_ = dofile(MP.."/intllib.lua")
+
+local STANDBY_TICKS = 10
+local COUNTDOWN_TICKS = 10
+local CYCLE_TIME = 8
+
+local function has_oil_item(pos, meta)
+	local storage_pos = meta:get_string("storage_pos")
+	if storage_pos ~= "" then
+		local amount = techage.explore.get_oil_amount(P(storage_pos))
+		if amount > 0 then
+			return ItemStack("techage:oil_source")
+		end
+	end
+end
+
+local function dec_oil_item(pos, meta)
+	local storage_pos = meta:get_string("storage_pos")
+	if storage_pos ~= "" then
+		techage.explore.dec_oil_amount(P(storage_pos))
+	end
+end
+
+local function pumping(pos, crd, meta, mem)
+	local items = has_oil_item(pos, meta)
+	if items ~= nil then
+		if techage.push_items(pos, 6, items) ~= true then
+			crd.State:blocked(pos, mem)
+			return
+		end
+		dec_oil_item(pos, meta)
+		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+		return
+	end
+	crd.State:fault(pos, mem)
+end
+
+local function keep_running(pos, elapsed)
+	local mem = tubelib2.get_mem(pos)
+	local crd = CRD(pos)
+	pumping(pos, crd, M(pos), mem)
+	return crd.State:is_active(mem)
+end	
+
+local function on_rightclick(pos, node, clicker)
+	local mem = tubelib2.get_mem(pos)
+	if not minetest.is_protected(pos, clicker:get_player_name()) then
+		if CRD(pos).State:get_state(mem) == techage.STOPPED then
+			CRD(pos).State:start(pos, mem)
+		else
+			CRD(pos).State:stop(pos, mem)
+		end
+	end
+end
+
+local tiles = {}
+-- '#' will be replaced by the stage number
+-- '{power}' will be replaced by the power PNG
+tiles.pas = {
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
+	"techage_appl_pumpjack.png^techage_frame_ta#.png",
+	"techage_appl_pumpjack.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#_top.png^techage_appl_arrow.png^[transformR90]",
+	"techage_filling_ta#.png^techage_frame_ta#_top.png^techage_appl_arrow.png^[transformR90]",
+}
+tiles.act = {
+	-- up, down, right, left, back, front
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
+	{
+		image = "techage_appl_pumpjack14.png^techage_frame14_ta#.png",
+		backface_culling = false,
+		animation = {
+			type = "vertical_frames",
+			aspect_w = 32,
+			aspect_h = 32,
+			length = 2.0,
+		},
+	},
+	{
+		image = "techage_appl_pumpjack14.png^techage_frame14_ta#.png",
+		backface_culling = false,
+		animation = {
+			type = "vertical_frames",
+			aspect_w = 32,
+			aspect_h = 32,
+			length = 2.0,
+		},
+	},
+	"techage_filling_ta#.png^techage_frame_ta#_top.png^techage_appl_arrow.png^[transformR90]",
+	"techage_filling_ta#.png^techage_frame_ta#_top.png^techage_appl_arrow.png^[transformR90]",
+}
+tiles.def = {
+	-- up, down, right, left, back, front
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
+	"techage_appl_pumpjack.png^techage_frame_ta#.png^techage_appl_defect.png",
+	"techage_appl_pumpjack.png^techage_frame_ta#.png^techage_appl_defect.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_defect.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_defect.png",
+}
+	
+local tubing = {
+	is_pusher = true, -- is a pulling/pushing node
+	
+	on_recv_message = function(pos, topic, payload)
+		local resp = CRD(pos).State:on_receive_message(pos, topic, payload)
+		if resp then
+			return resp
+		else
+			return "unsupported"
+		end
+	end,
+	on_node_load = function(pos)
+		CRD(pos).State:on_node_load(pos)
+	end,
+	on_node_repair = function(pos)
+		return CRD(pos).State:on_node_repair(pos)
+	end,
+}
+	
+local _, node_name_ta3, _ = 
+	techage.register_consumer("pumpjack", I("TA3 Oil Pumpjack"), tiles, {
+		cycle_time = CYCLE_TIME,
+		standby_ticks = STANDBY_TICKS,
+		has_item_meter = true,
+		aging_factor = 10,
+		tubing = tubing,
+		after_place_node = function(pos, placer)
+			local node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
+			if node.name == "techage:oil_drillbit2" then
+				local info = techage.explore.get_oil_info(pos)
+				if info then
+					M(pos):set_string("storage_pos", S(info.storage_pos)) 
+				end
+			end
+		end,
+		on_rightclick = on_rightclick,
+		node_timer = keep_running,
+		on_rotate = screwdriver.disallow,
+		
+		groups = {choppy=2, cracky=2, crumbly=2},
+		is_ground_content = false,
+		sounds = default.node_sound_wood_defaults(),
+		num_items = {0,1,1,1},
+		power_consumption = {0,20,20,20},
+	},
+	{false, false, true, false})  -- TA3 only
+
+minetest.register_craft({
+	output = "techage:ta3_pumpjack_pas",
+	recipe = {
+		{"", "techage:baborium_ingot", ""},
+		{"dye:red", "techage:ta3_pusher_pas", "dye:red"},
+		{"", "techage:oil_drillbit", ""},
+	},
+})
