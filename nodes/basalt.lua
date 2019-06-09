@@ -63,12 +63,32 @@ minetest.register_node("techage:sieved_basalt_gravel", {
 	sounds = default.node_sound_gravel_defaults(),
 })
 
+minetest.register_node("techage:basalt_glass", {
+	description = "Basalt Glass",
+	drawtype = "glasslike_framed_optional",
+	tiles = {"techage_basalt_glass.png"},
+	use_texture_alpha = true,
+	paramtype = "light",
+	paramtype2 = "glasslikeliquidlevel",
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	sounds = default.node_sound_glass_defaults(),
+})
+
 minetest.register_craft({
 	output = "techage:basalt_stone_brick 4",
 	recipe = {
 		{"techage:basalt_stone", "techage:basalt_stone"},
 		{"techage:basalt_stone", "techage:basalt_stone"},
 	}
+})
+
+minetest.register_craft({
+	type = "cooking",
+	output = "techage:basalt_glass",
+	recipe = "techage:sieved_basalt_gravel",
+	cooktime = 4,
 })
 
 minetest.register_craft({

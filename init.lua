@@ -41,7 +41,7 @@ else
 	dofile(MP.."/tools/trowel.lua")
 	dofile(MP.."/tools/repairkit.lua")
 	
-	-- Nodes
+	-- Nodes1
 	dofile(MP.."/nodes/baborium.lua")
 	dofile(MP.."/nodes/usmium.lua")
 	
@@ -93,9 +93,6 @@ else
 	dofile(MP.."/basic_machines/autocrafter.lua")
 	dofile(MP.."/basic_machines/forceload.lua")
 	dofile(MP.."/basic_machines/electronic_fab.lua")
-	if techage.basalt_stone_enabled then
-		dofile(MP.."/basic_machines/basalt.lua")
-	end
 
 	-- Coal power station
 	dofile(MP.."/coal_power_station/help.lua")
@@ -120,6 +117,11 @@ else
 	dofile(MP.."/oil/tower.lua")
 	dofile(MP.."/oil/drillbox.lua")
 	dofile(MP.."/oil/pumpjack.lua")
+	
+	-- Nodes2
+	if techage.basalt_stone_enabled then
+		dofile(MP.."/nodes/basalt.lua")
+	end
 	
 	
 	--dofile(MP.."/test/generator.lua")
