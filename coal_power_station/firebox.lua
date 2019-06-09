@@ -55,7 +55,6 @@ local function node_timer(pos, elapsed)
 				mem.burn_cycles = firebox.Burntime[taken:get_name()] / CYCLE_TIME
 				mem.burn_cycles = mem.burn_cycles * 4 / (mem.power_level or 4)
 				mem.burn_cycles_total = mem.burn_cycles
-				print("firebox", mem.burn_cycles_total)
 			else
 				mem.running = false
 				firehole(pos, false)
@@ -64,6 +63,15 @@ local function node_timer(pos, elapsed)
 			end
 		end
 		return true
+	end
+end
+
+local function start_firebox(pos, mem)
+	if not mem.running then
+		mem.running = true
+		node_timer(pos, 0)
+		firehole(pos, true)
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end
 end
 
@@ -108,16 +116,8 @@ minetest.register_node("techage:coalfirebox", {
 
 	on_metadata_inventory_put = function(pos, listname, index, stack, player)
 		local mem = tubelib2.get_mem(pos)
-		mem.running = true
-		-- activate the formspec fire temporarily
-		if not mem.burn_cycles or mem.burn_cycles == 0 then
-			mem.burn_cycles = firebox.Burntime[stack:get_name()] / CYCLE_TIME
-			mem.burn_cycles = mem.burn_cycles * 4 / (mem.power_level or 4)
-			mem.burn_cycles_total = mem.burn_cycles
-			M(pos):set_string("formspec", firebox.formspec(mem))
-		end
-		firehole(pos, true)
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
+		start_firebox(pos, mem)
+		M(pos):set_string("formspec", firebox.formspec(mem))
 	end,
 })
 
@@ -182,7 +182,7 @@ minetest.register_node("techage:coalfirehole_on", {
 	groups = {not_in_creative_inventory=1},
 })
 
-techage.register_node({"techage:coalfirehole", "techage:coalfirehole_on"}, {
+techage.register_node({"techage:coalfirebox"}, {
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
@@ -191,6 +191,8 @@ techage.register_node({"techage:coalfirehole", "techage:coalfirehole_on"}, {
 	on_push_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
+		local mem = tubelib2.get_mem(pos)
+		start_firebox(pos, mem)
 		return techage.put_items(inv, "fuel", stack)
 	end,
 	on_unpull_item = function(pos, in_dir, stack)
@@ -217,19 +219,6 @@ minetest.register_craft({
 		{'default:stone', 'default:stone', 'default:stone'},
 	},
 })
-
-techage.register_node({"techage:coalfirebox"}, {
-	on_push_item = function(pos, in_dir, stack)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		if inv:room_for_item("fuel", stack) then
-			inv:add_item("fuel", stack)
-			minetest.get_node_timer(pos):start(CYCLE_TIME)
-			return true
-		end
-		return false
-	end,
-})	
 
 minetest.register_lbm({
 	label = "[techage] Power Station firebox",

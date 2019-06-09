@@ -91,8 +91,13 @@ local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	local mem = tubelib2.get_mem(pos)
-	CRD(pos).State:state_button_event(pos, mem, fields)
+	if fields.update then
+		local mem = tubelib2.get_mem(pos)
+		M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
+	else
+		local mem = tubelib2.get_mem(pos)
+		CRD(pos).State:state_button_event(pos, mem, fields)
+	end
 end
 
 local tiles = {}
