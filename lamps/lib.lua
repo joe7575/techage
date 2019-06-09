@@ -3,7 +3,7 @@ local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
 
-local POWER_CONSUMPTION = 1
+local POWER_CONSUMPTION = 0.5
 
 local Power = techage.ElectricCable
 

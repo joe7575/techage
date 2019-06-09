@@ -36,11 +36,13 @@ local formspec0 = "size[5,4]"..
 
 local function play_sound(pos)
 	local mem = tubelib2.get_mem(pos)
-	mem.handle = minetest.sound_play("techage_oildrill", {
-		pos = pos, 
-		gain = 1,
-		max_hear_distance = 15})
-	minetest.after(4, play_sound, pos)
+	if mem.techage_state == techage.RUNNING then
+		mem.handle = minetest.sound_play("techage_oildrill", {
+			pos = pos, 
+			gain = 1,
+			max_hear_distance = 15})
+		minetest.after(4, play_sound, pos)
+	end
 end
 
 local function stop_sound(pos)
@@ -126,7 +128,7 @@ local function drilling(pos, crd, mem, inv)
 	local depth = M(pos):get_int("depth")
 	local curr_depth = pos.y - (mem.drill_pos or pos).y
 	local node = techage.get_node_lvm(mem.drill_pos)
-	local dropped_node = {}
+	local ndef = minetest.registered_nodes[node.name]
 	
 	if not inv:contains_item("src", ItemStack("techage:oil_drillbit")) then
 		crd.State:idle(pos, mem)
@@ -138,22 +140,22 @@ local function drilling(pos, crd, mem, inv)
 	elseif node.name == "techage:oil_drillbit2" then
 		mem.drill_pos.y = mem.drill_pos.y-1
 		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
-	elseif techage.can_node_dig(node, dropped_node) then
-		local item = ItemStack(dropped_node.name)
-		if inv:room_for_item("dst", item) then
+	elseif techage.can_node_dig(node, ndef) then
+		local drop_name = techage.dropped_node(node, ndef)
+		if drop_name then
+			local item = ItemStack(drop_name)
+			if not inv:room_for_item("dst", item) then
+				crd.State:blocked(pos, mem)
+				return
+			end
 			inv:add_item("dst", item)
-			minetest.swap_node(mem.drill_pos, {name = "techage:oil_drillbit2"})
-			inv:remove_item("src", ItemStack("techage:oil_drillbit"))
-			mem.drill_pos.y = mem.drill_pos.y-1
-			crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
-		else
-			crd.State:blocked(pos, mem)
 		end
-	else
 		minetest.swap_node(mem.drill_pos, {name = "techage:oil_drillbit2"})
 		inv:remove_item("src", ItemStack("techage:oil_drillbit"))
 		mem.drill_pos.y = mem.drill_pos.y-1
 		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+	else
+		crd.State:fault(pos, mem)
 	end
 end
 

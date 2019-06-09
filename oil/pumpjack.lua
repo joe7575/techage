@@ -188,7 +188,7 @@ local _, node_name_ta3, _ =
 		is_ground_content = false,
 		sounds = default.node_sound_wood_defaults(),
 		num_items = {0,1,1,1},
-		power_consumption = {0,20,20,20},
+		power_consumption = {0,16,16,16},
 	},
 	{false, false, true, false})  -- TA3 only
 
