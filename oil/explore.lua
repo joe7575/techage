@@ -140,6 +140,10 @@ local function emerge_area(pos, node, player_name)
 		local pos1 = {x = posC.x - radius, y = posC.y - radius, z = posC.z - radius}
 		local pos2 = {x = posC.x + radius, y = posC.y + radius, z = posC.z + radius}
 		local amount = oil_amount(posC)
+		if creative and creative.is_enabled_for	and 
+				creative.is_enabled_for(player_name) then
+			amount = 10000
+		end
 		
 		minetest.sound_play("techage_explore", {
 			pos = pos, 

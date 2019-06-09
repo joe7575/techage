@@ -35,14 +35,11 @@ local formspec0 = "size[5,4]"..
 	"button_exit[1,3.2;3,1;build;"..I("Build Tower").."]"
 
 local function play_sound(pos)
-	local mem = tubelib2.get_mem(pos)
-	if CRD(pos).State:is_active(mem) then
-		mem.handle = minetest.sound_play("techage_oildrill", {
-			pos = pos, 
-			gain = 1,
-			max_hear_distance = 15})
-		minetest.after(4, play_sound, pos)
-	end
+	mem.handle = minetest.sound_play("techage_oildrill", {
+		pos = pos, 
+		gain = 1,
+		max_hear_distance = 15})
+	minetest.after(4, play_sound, pos)
 end
 
 local function stop_sound(pos)
@@ -73,7 +70,7 @@ local function formspec(self, pos, mem)
 	"image_button[3.5,2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 	"label[6.2,0.5;OUT]"..
 	"list[context;dst;6,1;1,1;]"..
-	"button_exit[5,3;3,1;destroy;"..I("Destroy Tower").."]"..
+	"button_exit[5,3;3,1;remove;"..I("Remove Tower").."]"..
 	"list[current_player;main;0,4;8,4;]"..
 	"listring[context;dst]"..
 	"listring[current_player;main]"..
@@ -86,8 +83,6 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	--local meta = minetest.get_meta(pos)
-	--local inv = meta:get_inventory()
 	local crd = CRD(pos)
 	if listname == "src" then
 		crd.State:start_if_standby(pos)
@@ -115,6 +110,14 @@ local function on_rightclick(pos)
 	M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
 end
 
+local function on_node_state_change(pos, old_state, new_state)
+	if new_state == techage.RUNNING then
+		play_sound(pos)
+	else
+		stop_sound(pos)
+	end
+end
+
 local function drilling(pos, crd, mem, inv)
 	M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
 	mem.drill_pos = mem.drill_pos or {x=pos.x, y=pos.y-1, z=pos.z}
@@ -128,10 +131,8 @@ local function drilling(pos, crd, mem, inv)
 		crd.State:idle(pos, mem)
 	elseif curr_depth >= depth then
 		M(pos):set_string("oil_found", "true")
-		stop_sound(pos)
 		crd.State:stop(pos, mem)
 	elseif minetest.is_protected(mem.drill_pos, owner) then
-		stop_sound(pos)
 		crd.State:fault(pos, mem)
 	elseif node.name == "techage:oil_drillbit2" then
 		mem.drill_pos.y = mem.drill_pos.y-1
@@ -182,7 +183,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 	if fields.build then
 		techage.oiltower.build(pos, player:get_player_name())
-	elseif fields.destroy then
+	elseif fields.remove then
 		local inv = M(pos):get_inventory()
 		if inv:is_empty("dst") and inv:is_empty("src") then
 			techage.oiltower.remove(pos, player:get_player_name())
@@ -190,13 +191,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	else
 		local mem = tubelib2.get_mem(pos)
 		if not mem.assemble_locked and M(pos):get_string("oil_found") ~= "true" then
-			if CRD(pos).State:state_button_event(pos, mem, fields) then
-				if mem.techage_state == techage.RUNNING then
-					play_sound(pos)
-				else
-					stop_sound(pos)
-				end
-			end
+			CRD(pos).State:state_button_event(pos, mem, fields)
 		end
 	end
 end
@@ -289,7 +284,8 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		sounds = default.node_sound_wood_defaults(),
 		num_items = {0,1,1,1},
 		power_consumption = {0,10,16,24},
-	})
+	},
+	{false, false, true, false})  -- TA3 only
 
 minetest.register_craft({
 	output = node_name_ta3,
@@ -307,10 +303,11 @@ Oil is used as fuel.]]), node_name_ta3)
 minetest.register_lbm({
 	label = "[techage] Oil Tower sound",
 	name = "techage:oil_tower",
-	nodenames = {"techage:ta3_drillbox_act"},
+	nodenames = {"techage:ta3_drillbox_pas", "techage:ta3_drillbox_act"},
 	run_at_every_load = true,
 	action = function(pos, node)
 		local mem = tubelib2.get_mem(pos)
+		mem.assemble_locked = false
 		if mem.techage_state == techage.RUNNING then
 			play_sound(pos)
 		end

@@ -77,16 +77,16 @@ end
 local function check_space(pos, param2, AssemblyPlan, player_name)
 	for _,item in ipairs(AssemblyPlan) do
 		local y, path, node_name = item[1], item[2], item[4]
-		pos1 = dest_pos(pos, param2, path, y)
+		local pos1 = dest_pos(pos, param2, path, y)
 		if minetest.is_protected(pos1, player_name) then
-			minetest.chat_send_player(player_name, I("Area is protected!"))
+			minetest.chat_send_player(player_name, I("[TA] Area is protected!"))
 			return false
 		end
 		
-		local ndef = minetest.registered_nodes[minetest.get_node(pos1).name]
-		--print(dump(ndef))
-		if not ndef or ndef.walkable then
-			minetest.chat_send_player(player_name, I("Not enough space!"))
+		local node = minetest.get_node(pos1)
+		local ndef = minetest.registered_nodes[node.name]
+		if not ndef or ndef.walkable and node.name ~= node_name then
+			minetest.chat_send_player(player_name, I("[TA] Not enough space!"))
 			return false
 		end
 	end

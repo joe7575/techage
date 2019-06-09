@@ -144,6 +144,7 @@ function NodeStates:new(attr)
 		start_node = attr.start_node,
 		stop_node = attr.stop_node,
 		formspec_func = attr.formspec_func,
+		on_state_change = attr.on_state_change,
 	}
 	if attr.aging_factor then
 		o.aging_level1 = attr.aging_factor * techage.machine_aging_value
@@ -188,6 +189,9 @@ function NodeStates:stop(pos, mem)
 		if self.formspec_func then
 			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
 		end
+		if self.on_state_change then
+			self.on_state_change(pos, state, STOPPED)
+		end
 		if minetest.get_node_timer(pos):is_started() then
 			minetest.get_node_timer(pos):stop()
 		end
@@ -225,6 +229,9 @@ function NodeStates:start(pos, mem, called_from_on_timer)
 		if minetest.get_node_timer(pos):is_started() then
 			minetest.get_node_timer(pos):stop()
 		end
+		if self.on_state_change then
+			self.on_state_change(pos, state, RUNNING)
+		end
 		minetest.get_node_timer(pos):start(self.cycle_time)
 		return true
 	end
@@ -232,8 +239,8 @@ function NodeStates:start(pos, mem, called_from_on_timer)
 end
 
 function NodeStates:standby(pos, mem)
-	mem.techage_state = mem.techage_state or STOPPED
-	if mem.techage_state == RUNNING then
+	local state = mem.techage_state or STOPPED
+	if state == RUNNING then
 		mem.techage_state = STANDBY
 		-- timer has to be stopped once to be able to be restarted
 		self.stop_timer = true
@@ -250,6 +257,9 @@ function NodeStates:standby(pos, mem)
 		if minetest.get_node_timer(pos):is_started() then
 			minetest.get_node_timer(pos):stop()
 		end
+		if self.on_state_change then
+			self.on_state_change(pos, state, STANDBY)
+		end
 		minetest.get_node_timer(pos):start(self.cycle_time * self.standby_ticks)
 		return true
 	end
@@ -258,8 +268,8 @@ end
 
 -- special case of standby for pushing nodes
 function NodeStates:blocked(pos, mem)
-	mem.techage_state = mem.techage_state or STOPPED
-	if mem.techage_state == RUNNING then
+	local state = mem.techage_state or STOPPED
+	if state == RUNNING then
 		mem.techage_state = BLOCKED
 		-- timer has to be stopped once to be able to be restarted
 		self.stop_timer = true
@@ -276,6 +286,9 @@ function NodeStates:blocked(pos, mem)
 		if minetest.get_node_timer(pos):is_started() then
 			minetest.get_node_timer(pos):stop()
 		end
+		if self.on_state_change then
+			self.on_state_change(pos, state, BLOCKED)
+		end
 		minetest.get_node_timer(pos):start(self.cycle_time * self.standby_ticks)
 		return true
 	end
@@ -283,8 +296,8 @@ function NodeStates:blocked(pos, mem)
 end	
 
 function NodeStates:nopower(pos, mem)
-	mem.techage_state = mem.techage_state or STOPPED
-	if mem.techage_state ~= STOPPED and mem.techage_state ~= DEFECT then
+	local state = mem.techage_state or RUNNING
+	if state ~= STOPPED and state ~= DEFECT then
 		mem.techage_state = NOPOWER
 		if self.node_name_passive then
 			swap_node(pos, self.node_name_passive)
@@ -296,6 +309,9 @@ function NodeStates:nopower(pos, mem)
 		if self.formspec_func then
 			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
 		end
+		if self.on_state_change then
+			self.on_state_change(pos, state, NOPOWER)
+		end
 		minetest.get_node_timer(pos):stop()
 		return true
 	end
@@ -303,8 +319,8 @@ function NodeStates:nopower(pos, mem)
 end	
 
 function NodeStates:fault(pos, mem)
-	mem.techage_state = mem.techage_state or STOPPED
-	if mem.techage_state == RUNNING or mem.techage_state == STOPPED then
+	local state = mem.techage_state or STOPPED
+	if state == RUNNING or state == STOPPED then
 		mem.techage_state = FAULT
 		if self.node_name_passive then
 			swap_node(pos, self.node_name_passive)
@@ -316,6 +332,9 @@ function NodeStates:fault(pos, mem)
 		if self.formspec_func then
 			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
 		end
+		if self.on_state_change then
+			self.on_state_change(pos, state, FAULT)
+		end
 		minetest.get_node_timer(pos):stop()
 		return true
 	end
@@ -323,6 +342,7 @@ function NodeStates:fault(pos, mem)
 end	
 
 function NodeStates:defect(pos, mem)
+	local state = mem.techage_state or STOPPED
 	mem.techage_state = DEFECT
 	if self.node_name_defect then
 		swap_node(pos, self.node_name_defect)
@@ -333,6 +353,9 @@ function NodeStates:defect(pos, mem)
 	end
 	if self.formspec_func then
 		M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
+	end
+	if self.on_state_change then
+		self.on_state_change(pos, state, DEFECT)
 	end
 	minetest.get_node_timer(pos):stop()
 	return true

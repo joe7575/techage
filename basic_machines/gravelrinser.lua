@@ -8,7 +8,7 @@
 	LGPLv2.1+
 	See LICENSE.txt for more information
 	
-	TA2/TA3/TA4 Gravel Rinser, washing sieved gravel to find more ores
+	TA2 Gravel Rinser, washing sieved gravel to find more ores
 	
 ]]--
 
@@ -300,7 +300,8 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		sounds = default.node_sound_wood_defaults(),
 		num_items = {0,1,2,4},
 		power_consumption = {0,3,4,5},
-	})
+	},
+	{false, true, false, false})  -- TA2 only
 
 minetest.register_craft({
 	output = node_name_ta2,

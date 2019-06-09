@@ -274,10 +274,12 @@ techage.oiltower = {}
 -- 1) mem.assemble_locked is true while the tower is being assembled/disassembled
 -- 2) mem.assemble_build is true if the tower is assembled
 function techage.oiltower.build(pos, player_name)
+	minetest.chat_send_player(player_name, I("[TA] Tower is being built!"))
 	techage.assemble.build(pos, AssemblyPlan, player_name)
 end
 
 function techage.oiltower.remove(pos, player_name)
+	minetest.chat_send_player(player_name, I("[TA] Tower is being removed!"))
 	techage.assemble.remove(pos, AssemblyPlan, player_name)
 end
 
