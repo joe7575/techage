@@ -35,7 +35,6 @@ minetest.register_node("techage:coalboiler_base", {
 
 	on_construct = tubelib2.init_mem,
 	
-	drop = "",
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},
