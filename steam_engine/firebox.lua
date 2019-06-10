@@ -25,25 +25,6 @@ local firebox = techage.firebox
 
 local CYCLE_TIME = 2
 
-local function formspec(mem)
-	local fuel_percent = 0
-	if mem.running then
-		fuel_percent = ((mem.burn_cycles or 1) * 100) / (mem.burn_cycles_total or 1)
-	end
-	return "size[8,6]"..
-		default.gui_bg..
-		default.gui_bg_img..
-		default.gui_slots..
-		"list[current_name;fuel;1,0.5;1,1;]"..
-		"image[3,0.5;1,1;default_furnace_fire_bg.png^[lowpart:"..
-		fuel_percent..":default_furnace_fire_fg.png]"..
-		"button[5,0.5;1.8,1;update;"..I("Update").."]"..
-		"list[current_player;main;0,2;8,4;]"..
-		"listring[current_name;fuel]"..
-		"listring[current_player;main]"..
-		default.get_hotbar_bg(0, 2)
-end
-
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	if mem.running then
@@ -64,7 +45,7 @@ local function node_timer(pos, elapsed)
 			else
 				mem.running = false
 				firebox.swap_node(pos, "techage:firebox")
-				M(pos):set_string("formspec", formspec(mem))
+				M(pos):set_string("formspec", firebox.formspec(mem))
 				return false
 			end
 		end
@@ -72,27 +53,11 @@ local function node_timer(pos, elapsed)
 	end
 end
 
-local function on_receive_fields(pos, formname, fields, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
-		return
-	end
-	if fields.update then
-		local mem = tubelib2.get_mem(pos)
-		M(pos):set_string("formspec", formspec(mem))
-	end
-end
-
-local function on_rightclick(pos, node, clicker)
-	local mem = tubelib2.get_mem(pos)
-	M(pos):set_string("formspec", formspec(mem))
-end
-
-
 minetest.register_node("techage:firebox", {
 	description = I("TA2 Firebox"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_firebox.png^techage_frame_ta2.png",
+		"techage_firebox.png^techage_appl_open.png^techage_frame_ta2.png",
 		"techage_firebox.png^techage_frame_ta2.png",
 		"techage_firebox.png^techage_frame_ta2.png",
 		"techage_firebox.png^techage_frame_ta2.png",
@@ -109,15 +74,15 @@ minetest.register_node("techage:firebox", {
 	can_dig = firebox.can_dig,
 	allow_metadata_inventory_put = firebox.allow_metadata_inventory,
 	allow_metadata_inventory_take = firebox.allow_metadata_inventory,
-	on_receive_fields = on_receive_fields,
-	on_rightclick = on_rightclick,
+	on_receive_fields = firebox.on_receive_fields,
+	on_rightclick = firebox.on_rightclick,
 	
 	on_construct = function(pos)
 		local mem = tubelib2.init_mem(pos)
 		mem.running = false
 		mem.burn_cycles = 0
 		local meta = M(pos)
-		meta:set_string("formspec", formspec(mem))
+		meta:set_string("formspec", firebox.formspec(mem))
 		local inv = meta:get_inventory()
 		inv:set_size('fuel', 1)
 	end,
@@ -128,7 +93,7 @@ minetest.register_node("techage:firebox", {
 		-- activate the formspec fire temporarily
 		mem.burn_cycles = firebox.Burntime[stack:get_name()] / CYCLE_TIME
 		mem.burn_cycles_total = mem.burn_cycles
-		M(pos):set_string("formspec", formspec(mem))
+		M(pos):set_string("formspec", firebox.formspec(mem))
 		mem.burn_cycles = 0
 		firebox.swap_node(pos, "techage:firebox_on")
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
@@ -167,8 +132,8 @@ minetest.register_node("techage:firebox_on", {
 	can_dig = firebox.can_dig,
 	allow_metadata_inventory_put = firebox.allow_metadata_inventory,
 	allow_metadata_inventory_take = firebox.allow_metadata_inventory,
-	on_receive_fields = on_receive_fields,
-	on_rightclick = on_rightclick,
+	on_receive_fields = firebox.on_receive_fields,
+	on_rightclick = firebox.on_rightclick,
 })
 
 minetest.register_craft({
@@ -184,10 +149,12 @@ techage.register_node({"techage:firebox", "techage:firebox_on"}, {
 	on_push_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		if inv:room_for_item("fuel", stack) then
-			inv:add_item("fuel", stack)
-			minetest.get_node_timer(pos):start(CYCLE_TIME)
-			return true
+		if firebox.Burntime[stack:get_name()] then
+			if inv:room_for_item("fuel", stack) then
+				inv:add_item("fuel", stack)
+				minetest.get_node_timer(pos):start(CYCLE_TIME)
+				return true
+			end
 		end
 		return false
 	end,

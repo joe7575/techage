@@ -42,21 +42,35 @@ function techage.firebox.formspec(mem)
 	if mem.running then
 		fuel_percent = ((mem.burn_cycles or 1) * 100) / (mem.burn_cycles_total or 1)
 	end
-	local power_level = mem.power_level or 4
-	return "size[8,6.5]"..
-		default.gui_bg..
-		default.gui_bg_img..
-		default.gui_slots..
-		"list[current_name;fuel;1,0.5;1,1;]"..
-		"image[2,0.5;1,1;default_furnace_fire_bg.png^[lowpart:"..
-		fuel_percent..":default_furnace_fire_fg.png]"..
-		"label[4.5,0.1;"..I("Power")..":]"..
-		"dropdown[6,0;1.8;power_level;25%,50%,75%,100%;"..power_level.."]"..
-		"button[1,1.5;1.8,1;update;"..I("Update").."]"..
-		"list[current_player;main;0,2.8;8,4;]"..
-		"listring[current_name;fuel]"..
-		"listring[current_player;main]"..
-		default.get_hotbar_bg(0, 2.8)
+	if mem.power_level then
+		return "size[8,6.5]"..
+			default.gui_bg..
+			default.gui_bg_img..
+			default.gui_slots..
+			"list[current_name;fuel;1,0.5;1,1;]"..
+			"image[2,0.5;1,1;default_furnace_fire_bg.png^[lowpart:"..
+			fuel_percent..":default_furnace_fire_fg.png]"..
+			"label[4.5,0.1;"..I("Power")..":]"..
+			"dropdown[6,0;1.8;power_level;25%,50%,75%,100%;"..power_level.."]"..
+			"button[1,1.5;1.8,1;update;"..I("Update").."]"..
+			"list[current_player;main;0,2.8;8,4;]"..
+			"listring[current_name;fuel]"..
+			"listring[current_player;main]"..
+			default.get_hotbar_bg(0, 2.8)
+	else
+		return "size[8,6]"..
+			default.gui_bg..
+			default.gui_bg_img..
+			default.gui_slots..
+			"list[current_name;fuel;1,0.5;1,1;]"..
+			"image[3,0.5;1,1;default_furnace_fire_bg.png^[lowpart:"..
+			fuel_percent..":default_furnace_fire_fg.png]"..
+			"button[5,0.5;1.8,1;update;"..I("Update").."]"..
+			"list[current_player;main;0,2;8,4;]"..
+			"listring[current_name;fuel]"..
+			"listring[current_player;main]"..
+			default.get_hotbar_bg(0, 2)
+	end
 end
 
 function techage.firebox.can_dig(pos, player)
@@ -129,3 +143,8 @@ function techage.firebox.get_fuel(pos)
 	end
 end
 
+function techage.firebox.has_fuel(pos)
+	local inv = M(pos):get_inventory()
+	local items = inv:get_stack("fuel", 1)
+	return items:get_count() > 0
+end

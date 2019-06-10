@@ -103,6 +103,7 @@ minetest.register_node("techage:coalfirebox", {
 		local mem = tubelib2.init_mem(pos)
 		mem.running = false
 		mem.burn_cycles = 0
+		mem.power_level = 4
 		local meta = M(pos)
 		meta:set_string("formspec", firebox.formspec(mem))
 		local inv = meta:get_inventory()
@@ -189,11 +190,14 @@ techage.register_node({"techage:coalfirebox"}, {
 		return techage.get_items(inv, "fuel", num)
 	end,
 	on_push_item = function(pos, in_dir, stack)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		local mem = tubelib2.get_mem(pos)
-		start_firebox(pos, mem)
-		return techage.put_items(inv, "fuel", stack)
+		if firebox.Burntime[stack:get_name()] then
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			local mem = tubelib2.get_mem(pos)
+			start_firebox(pos, mem)
+			return techage.put_items(inv, "fuel", stack)
+		end
+		return false
 	end,
 	on_unpull_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)

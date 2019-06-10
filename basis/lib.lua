@@ -35,6 +35,13 @@ function techage.one_of(val, selection)
 	return selection[1]
 end
 
+function techage.index(list, x)
+	for idx, v in pairs(list) do
+		if v == x then return idx end
+	end
+	return nil
+end
+
 function techage.get_node_lvm(pos)
 	local node = minetest.get_node_or_nil(pos)
 	if node then

@@ -122,6 +122,6 @@ function techage.register_lamp(basename, ndef_off, ndef_on)
 		on_power_pass1 = on_power_pass1,
 		on_power_pass2 = on_power_pass2,
 		power_network  = Power,
-		conn_sides = determine_power_side,  -- will be handled by clbk function
+		conn_sides = ndef_off.conn_sides or determine_power_side,  -- will be handled by clbk function
 	})
 end

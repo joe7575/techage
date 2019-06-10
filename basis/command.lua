@@ -324,7 +324,7 @@ function techage.transfer(pos, outdir, topic, payload, network, nodenames)
 	if network then
 		dpos, indir = network:get_connected_node_pos(pos, outdir)
 	else
-		dpos, indir = tubelib2.get_pos(pos, outdir)
+		dpos, indir = tubelib2.get_pos(pos, outdir), outdir
 	end
 	-- check node name
 	local name = techage.get_node_lvm(dpos).name

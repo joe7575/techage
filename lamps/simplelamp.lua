@@ -21,7 +21,7 @@ techage.register_lamp("techage:simplelamp", {
 	tiles = {
 		'techage_electric_button.png',
 	},
-	
+	conn_sides = {"L", "R", "U", "D", "F", "B"},
 	paramtype = "light",
 	light_source = 0,	
 	sunlight_propagates = true,
@@ -34,6 +34,7 @@ techage.register_lamp("techage:simplelamp", {
 	tiles = {
 		'techage_electric_button.png',
 	},
+	conn_sides = {"L", "R", "U", "D", "F", "B"},
 	paramtype = "light",
 	light_source = minetest.LIGHT_MAX,	
 	sunlight_propagates = true,
