@@ -51,7 +51,7 @@ function techage.firebox.formspec(mem)
 			"image[2,0.5;1,1;default_furnace_fire_bg.png^[lowpart:"..
 			fuel_percent..":default_furnace_fire_fg.png]"..
 			"label[4.5,0.1;"..I("Power")..":]"..
-			"dropdown[6,0;1.8;power_level;25%,50%,75%,100%;"..power_level.."]"..
+			"dropdown[6,0;1.8;power_level;25%,50%,75%,100%;"..mem.power_level.."]"..
 			"button[1,1.5;1.8,1;update;"..I("Update").."]"..
 			"list[current_player;main;0,2.8;8,4;]"..
 			"listring[current_name;fuel]"..

@@ -205,3 +205,7 @@ minetest.register_craft({
 		{"", "techage:oil_drillbit", ""},
 	},
 })
+
+techage.register_help_page(I("TA3 Oil Pumpjack"), 
+I([[The Pumpjack works similar to a pusher but needs
+electricity for operation.]]), "techage:ta3_pumpjack_pas")

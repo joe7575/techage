@@ -210,3 +210,8 @@ minetest.register_lbm({
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end
 })
+
+techage.register_help_page(I("TA3 Furnace Firebox"), 
+I([[Part of the TA3 Industrial Furnace.
+Faster and more powerful 
+than the standard furnace.]]), "techage:furnace_firebox")

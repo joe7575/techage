@@ -193,7 +193,8 @@ minetest.register_craft({
 })
 
 techage.register_help_page(I("TA3 Booster"), 
-I([[Part of the TA3 Furnace and further machines.
+I([[Part of the TA3 Industrial Furnace 
+and further machines.
 Used to increase the air/gas pressure.]]), "techage:ta3_booster")
 
 

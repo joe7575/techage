@@ -32,7 +32,7 @@ local formspec0 = "size[5,4]"..
 	default.gui_bg_img..
 	default.gui_slots..
 	"image[1,0;3.4,3.4;techage_oil_tower_inv.png]"..
-	"button_exit[1,3.2;3,1;build;"..I("Build Tower").."]"
+	"button_exit[1,3.2;3,1;build;"..I("Build derrick").."]"
 
 local function play_sound(pos)
 	local mem = tubelib2.get_mem(pos)
@@ -73,7 +73,7 @@ local function formspec(self, pos, mem)
 	"image_button[3.5,2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 	"label[6.2,0.5;OUT]"..
 	"list[context;dst;6,1;1,1;]"..
-	"button_exit[5,3;3,1;remove;"..I("Remove Tower").."]"..
+	"button_exit[5,3;3,1;remove;"..I("Remove derrick").."]"..
 	"list[current_player;main;0,4;8,4;]"..
 	"listring[context;dst]"..
 	"listring[current_player;main]"..
@@ -261,7 +261,7 @@ local tubing = {
 }
 
 local _, node_name_ta3, _ = 
-	techage.register_consumer("drillbox", I("Oil Drill Box"), tiles, {
+	techage.register_consumer("drillbox", I("TA3 Oil Drill Box"), tiles, {
 		drawtype = "normal",
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
@@ -308,9 +308,19 @@ minetest.register_craft({
 	},
 })
 
-techage.register_help_page(I("Oil Drill Box"), 
-I([[Used to drill for oil, 
-Oil is used as fuel.]]), node_name_ta3)
+techage.register_help_page(I("TA3 Oil Drill Box"), 
+I([[The box automatically unfolds to a 
+derrick when you press the button.
+1: Place the box in the middle of the marked position
+    (the derrick requires a free area of 3x3m)
+2: Press the build button
+3: Supply the drill with electricity
+4: Supply the drill with Drill Bits
+5: Press the start button
+6: Remove the excavated material with Tubes/Pusher
+7: The drill stops when oil is found
+    (drill speed is 1m/8s)
+8: Replace the drill with the Pumpjack]]), node_name_ta3)
 
 minetest.register_lbm({
 	label = "[techage] Oil Tower sound",

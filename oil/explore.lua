@@ -174,7 +174,7 @@ end
 
 -- Used as storage for already explored blocks
 minetest.register_node("techage:oilstorage", {
-	description = I("TA Oil Storage"),
+	description = I("TA3 Oil Storage"),
 	tiles = {"default_stone.png"},
 	groups = {not_in_creative_inventory=1},
 	diggable = false,
@@ -183,7 +183,7 @@ minetest.register_node("techage:oilstorage", {
 })
 
 minetest.register_node("techage:oilexplorer", {
-	description = I("TA Oil Explorer"),
+	description = I("TA3 Oil Explorer"),
 	tiles = {
 		"techage_filling_ta3.png^techage_appl_oilexplorer_top.png^techage_frame_ta3_top.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png",
@@ -202,7 +202,7 @@ minetest.register_node("techage:oilexplorer", {
 })
 
 minetest.register_node("techage:oilexplorer_on", {
-	description = I("TA Oil Explorer"),
+	description = I("TA3 Oil Explorer"),
 	tiles = {
 	{
 		image = "techage_filling4_ta3.png^techage_appl_oilexplorer_top4.png^techage_frame4_ta3_top.png",
@@ -336,12 +336,12 @@ minetest.register_craft({
 	},
 })
 
-techage.register_help_page(I("TA Oil Explorer"), 
-I([[Used to find oil. 
-Oil can be used as fuel for the Coal Power Station.
+techage.register_help_page(I("TA3 Oil Explorer"), 
+I([[Used to find oil (petroleum). 
+Oil can be used as fuel for the Coal Power Stations and others.
 Place the block and right-click on the block to explore the underground.
 The block will explore a 16x16 field with a depth of up to 400 m.
-To go deeper, you can click on the block several times.
+To search deeper, click the block several times.
 When oil is found, the position for the Oil Tower is highlighted.
 Hint: Mark and protect the position for later use.]]), 
 "techage:oilexplorer")

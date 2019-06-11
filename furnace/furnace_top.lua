@@ -257,3 +257,8 @@ minetest.register_craft({
 		{"", "techage:vacuum_tube", ""},
 	},
 })
+
+techage.register_help_page(I("TA3 Furnace Top"), 
+I([[Part of the TA3 Industrial Furnace.
+Faster and more powerful 
+than the standard furnace.]]), "techage:ta3_furnace_pas")

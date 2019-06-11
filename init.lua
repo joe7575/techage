@@ -105,6 +105,7 @@ else
 	dofile(MP.."/coal_power_station/akkubox.lua")
 
 	-- Industrial Furnace
+	dofile(MP.."/furnace/help.lua")
 	dofile(MP.."/furnace/firebox.lua")
 	dofile(MP.."/furnace/cooking.lua")
 	dofile(MP.."/furnace/furnace_top.lua")
@@ -120,6 +121,7 @@ else
 	dofile(MP.."/lamps/industriallamp2.lua")
 	
 	-- Oil
+	dofile(MP.."/oil/help.lua")
 	dofile(MP.."/oil/explore.lua")
 	dofile(MP.."/oil/tower.lua")
 	dofile(MP.."/oil/drillbox.lua")
