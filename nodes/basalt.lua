@@ -76,6 +76,61 @@ minetest.register_node("techage:basalt_glass", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
+stairs.register_stair_and_slab(
+	"basalt_stone",
+	"techage:basalt_stone",
+	{cracky = 3, stone = 1},
+	{"default_stone.png^[brighten"},
+	"Basalt Stone Stair",
+	"Basalt Stone Slab",
+	default.node_sound_stone_defaults(),
+	false
+)
+
+stairs.register_stair_and_slab(
+	"basalt_stone_brick",
+	"techage:basalt_stone_brick",
+	{cracky = 2, stone = 1},
+	{"default_stone_brick.png^[brighten"},
+	"Basalt Brick Stair",
+	"Basalt Brick Slab",
+	default.node_sound_stone_defaults(),
+	false
+)
+
+stairs.register_stair_and_slab(
+	"basalt_stone_block",
+	"techage:basalt_stone_block",
+	{cracky = 2, stone = 1},
+	{"default_stone_block.png^[brighten"},
+	"Basalt Block Stair",
+	"Basalt Block Slab",
+	default.node_sound_stone_defaults(),
+	false
+)
+
+stairs.register_stair_and_slab(
+	"sieved_basalt_gravel",
+	"techage:sieved_basalt_gravel",
+	{crumbly = 2, falling_node = 1},
+	{"default_gravel.png^[brighten"},
+	"Basalt Gravel Stair",
+	"Basalt Gravel Slab",
+	default.node_sound_gravel_defaults(),
+	false
+)
+
+stairs.register_stair_and_slab(
+	"basalt_glass",
+	"techage:basalt_glass",
+	{cracky = 3, oddly_breakable_by_hand = 3},
+	{"techage_basalt_glass.png"},
+	"Basalt Glass Stair",
+	"Basalt Glass Slab",
+	default.node_sound_glass_defaults(),
+	false
+)
+
 minetest.register_craft({
 	output = "techage:basalt_stone_brick 4",
 	recipe = {
