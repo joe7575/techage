@@ -271,6 +271,7 @@ minetest.register_node("techage:oil_source", {
     liquid_alternative_source = "techage:oil_source",
     liquid_viscosity = 20,
     liquid_range = 10,
+	liquid_renewable = false,
 	post_effect_color = {a = 200, r = 1, g = 1, b = 1},
 	groups = {liquid = 5},
 })
@@ -335,6 +336,13 @@ minetest.register_craft({
 		{"group:wood", "techage:vacuum_tube", "group:wood"},
 	},
 })
+
+bucket.register_liquid(
+	"techage:oil_source", 
+	"techage:oil_flowing", 
+	"techage:bucket_oil", 
+	"techage_bucket_oil.png", 
+	"Oil Bucket")
 
 techage.register_help_page(I("TA3 Oil Explorer"), 
 I([[Used to find oil (petroleum). 
