@@ -28,9 +28,17 @@ minetest.register_node("techage:basalt_stone", {
 	description = "Basalt Stone",
 	tiles = {"default_stone.png^[brighten"},
 	groups = {cracky = 3, stone = 1},
-	drop = "default:silver_sand",
+	drop = 'techage:basalt_cobble',
 	sounds = default.node_sound_stone_defaults(),
 })
+
+minetest.register_node("techage:basalt_cobble", {
+	description = "Basalt Cobble",
+	tiles = {"default_cobble.png^[brighten"},
+	groups = {cracky = 3, stone = 2},
+	sounds = default.node_sound_stone_defaults(),
+})
+
 minetest.register_node("techage:basalt_stone_brick", {
 	description = "Basalt Stone Brick",
 	paramtype2 = "facedir",
@@ -130,6 +138,12 @@ stairs.register_stair_and_slab(
 	default.node_sound_glass_defaults(),
 	false
 )
+
+minetest.register_craft({
+	type = "cooking",
+	output = "techage:basalt_stone",
+	recipe = "techage:basalt_cobble",
+})
 
 minetest.register_craft({
 	output = "techage:basalt_stone_brick 4",

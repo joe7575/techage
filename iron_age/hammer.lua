@@ -40,7 +40,11 @@ local function handler(player_name, node, itemstack, digparams)
 				end
 			end
 		end
-		node.name = "default:gravel"
+		if node.name == "techage:basalt_stone" then
+			node.name = "techage:basalt_gravel"
+		else
+			node.name = "default:gravel"
+		end
 		minetest.swap_node(pos, node)
 		minetest.check_single_for_falling(pos)
 	end
