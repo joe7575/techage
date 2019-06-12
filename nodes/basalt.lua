@@ -170,5 +170,6 @@ minetest.register_craft({
 })
 
 techage.add_grinder_recipe({input="techage:basalt_stone", output="techage:basalt_gravel"})
+techage.add_grinder_recipe({input="techage:basalt_cobble", output="techage:basalt_gravel"})
 techage.add_grinder_recipe({input="techage:basalt_gravel", output="default:clay"})
 techage.add_grinder_recipe({input="techage:sieved_basalt_gravel", output="default:clay"})
