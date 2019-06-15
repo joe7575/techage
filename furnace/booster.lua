@@ -187,7 +187,7 @@ minetest.register_craft({
 	output = "techage:ta3_booster",
 	recipe = {
 		{"basic_materials:steel_bar", "default:wood", "basic_materials:steel_bar"},
-		{"techage:steam_pipeS", "basic_materials:gear_steel", "techage:steam_pipeS"},
+		{"", "basic_materials:gear_steel", ""},
 		{"basic_materials:steel_bar", "default:wood", "basic_materials:steel_bar"},
 	},
 })

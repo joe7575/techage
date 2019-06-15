@@ -74,6 +74,7 @@ minetest.register_node("techage:powerswitch", {
 		type = "fixed",
 		fixed = {
 			{ -1/4, -8/16, -1/4,  1/4, -7/16, 1/4},
+			{ -1/6, -12/16, -1/6,  1/6, -8/16, 1/6},
 		},
 	},
 	
@@ -103,6 +104,7 @@ minetest.register_node("techage:powerswitch_on", {
 		type = "fixed",
 		fixed = {
 			{ -1/4, -8/16, -1/4,  1/4, -7/16, 1/4},
+			{ -1/6, -12/16, -1/6,  1/6, -8/16, 1/6},
 		},
 	},
 	
@@ -119,6 +121,53 @@ minetest.register_node("techage:powerswitch_on", {
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
 })
+
+local function on_place(itemstack, placer, pointed_thing)
+	if pointed_thing.type ~= "node" then
+		return itemstack
+	end
+	return minetest.rotate_and_place(itemstack, placer, pointed_thing)
+end
+
+local function on_rotate(pos, node, user, mode, new_param2)
+	if minetest.is_protected(pos, user:get_player_name()) then
+		return false
+	end
+	node.param2 = techage.rotate_wallmounted(node.param2)
+	minetest.swap_node(pos, node)
+	return true
+end
+
+minetest.register_node("techage:powerswitch_box", {
+	description = I("TA Power Switch Box"),
+	tiles = {
+		-- up, down, right, left, back, front
+		'techage_electric_switch.png',
+		'techage_electric_switch.png',
+		'techage_electric_junction.png',
+		'techage_electric_junction.png',
+		'techage_electric_switch.png',
+		'techage_electric_switch.png',
+	},
+
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{ -2/4, -1/4, -1/4,  2/4, 1/4, 1/4},
+		},
+	},
+	
+	on_place = on_place,
+	on_rotate = on_rotate,
+	paramtype2 = "facedir",
+	groups = {choppy=2, cracky=2, crumbly=2, techage_trowel = 1},
+	is_ground_content = false,
+	sounds = default.node_sound_wood_defaults(),
+})
+
+techage.power.register_node({"techage:powerswitch_box"}, {
+		power_network = techage.ElectricCable})
 
 minetest.register_craft({
 	output = "techage:powerswitch 2",

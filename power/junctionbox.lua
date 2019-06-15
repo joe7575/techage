@@ -39,6 +39,7 @@ techage.register_junction("techage:electric_junction", 2/8, Boxes, techage.Elect
 	after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
 		local name = "techage:electric_junction"..techage.junction_type(pos, techage.ElectricCable)
 		minetest.swap_node(pos, {name = name, param2 = 0})
+		techage.power2.on_network_change(pos) ------------ TODO
 	end,
 	})
 

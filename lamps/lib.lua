@@ -7,27 +7,6 @@ local POWER_CONSUMPTION = 0.5
 
 local Power = techage.ElectricCable
 
--- Input data to generate the Param2ToDir table
-local Input = {
-	8,9,10,11,    -- 1
-	16,17,18,19,  -- 2
-	4,5,6,7,      -- 3
-	12,13,14,15,  -- 4
-	0,1,2,3,      -- 5
-	20,21,22,23,  -- 6
-}
-
-local Param2Dir = {}
-for idx,val in ipairs(Input) do
-	Param2Dir[val] = math.floor((idx - 1) / 4) + 1
-end
-
-local function rotate(param2)
-	local offs = math.floor(param2 / 4) * 4
-	local rot = ((param2 % 4) + 1) % 4
-	return offs + rot
-end
-
 local function swap_node(pos, postfix)
 	local node = techage.get_node_lvm(pos)
 	local parts = string.split(node.name, "_")
@@ -74,7 +53,7 @@ local function on_rotate(pos, node, user, mode, new_param2)
 	if minetest.is_protected(pos, user:get_player_name()) then
 		return false
 	end
-	node.param2 = rotate(node.param2)
+	node.param2 = techage.rotate_wallmounted(node.param2)
 	minetest.swap_node(pos, node)
 	return true
 end
@@ -87,7 +66,7 @@ local function on_place(itemstack, placer, pointed_thing)
 end
 
 local function determine_power_side(pos, node)
-	return {tubelib2.Turn180Deg[Param2Dir[node.param2] or 1]}
+	return {techage.determine_node_bottom_as_dir(node)}
 end
 
 function techage.register_lamp(basename, ndef_off, ndef_on)

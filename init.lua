@@ -47,6 +47,7 @@ else
 	
 	-- Power networks
 	dofile(MP.."/power/power.lua")
+	dofile(MP.."/power/power2.lua")
 	dofile(MP.."/power/junction.lua") 
 	dofile(MP.."/power/drive_axle.lua")
 	dofile(MP.."/power/steam_pipe.lua")
@@ -119,6 +120,7 @@ else
 	dofile(MP.."/lamps/ceilinglamp.lua")
 	dofile(MP.."/lamps/industriallamp1.lua")
 	dofile(MP.."/lamps/industriallamp2.lua")
+	dofile(MP.."/lamps/industriallamp3.lua")
 	
 	-- Oil
 	dofile(MP.."/oil/help.lua")
@@ -132,17 +134,10 @@ else
 		dofile(MP.."/nodes/basalt.lua")
 	end
 	
-	
-	--dofile(MP.."/test/generator.lua")
-	--dofile(MP.."/test/lamp.lua")
---	dofile(MP.."/test/consumer.lua")
-	--dofile(MP.."/test/consumer2.lua")
-	--dofile(MP.."/test/test.lua")
-
-
-	--dofile(MP.."/fermenter/gasflare.lua")
-
-
-	--dofile(MP.."/nodes/test.lua")
-	--dofile(MP.."/mechanic/perf_test.lua")
+	-- Test
+	dofile(MP.."/recipe_checker.lua")
+	dofile(MP.."/test/sink.lua")
+	dofile(MP.."/test/source.lua")
+	dofile(MP.."/test/akku.lua")
+	dofile(MP.."/test/switch.lua")
 end

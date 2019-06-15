@@ -21,6 +21,38 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
+-- Input data to generate the Param2ToDir table
+local Input = {
+	8,9,10,11,    -- 1
+	16,17,18,19,  -- 2
+	4,5,6,7,      -- 3
+	12,13,14,15,  -- 4
+	0,1,2,3,      -- 5
+	20,21,22,23,  -- 6
+}
+
+-- translation from param2 to dir (out of the node upwards)
+local Param2Dir = {}
+for idx,val in ipairs(Input) do
+	Param2Dir[val] = math.floor((idx - 1) / 4) + 1
+end
+
+-- used by lamps and power switches
+function techage.determine_node_bottom_as_dir(node)
+	return tubelib2.Turn180Deg[Param2Dir[node.param2] or 1]
+end
+
+function techage.determine_node_top_as_dir(node)
+	return Param2Dir[node.param2] or 1
+end
+
+-- rotation rules (screwdriver) for wallmounted "facedir" nodes
+function techage.rotate_wallmounted(param2)
+	local offs = math.floor(param2 / 4) * 4
+	local rot = ((param2 % 4) + 1) % 4
+	return offs + rot
+end
+
 function techage.range(val, min, max)
 	val = tonumber(val)
 	if val < min then return min end
