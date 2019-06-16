@@ -3,7 +3,7 @@
 The module power supports 3 kinds of devices:
 - Generators: Provide power, can be turned on/off
 - Consumers: Need power, like machines or lamps, can be turned on/off
-- Batteries: Can provide stored power, combination of generator and consumer
+- Akkus: Can provide stored power, combination of generator and consumer
 
 ### Possible connection sides
 ```
@@ -30,26 +30,12 @@ All 3 kinds of nodes use the same registration function to enrich the nodes func
 	-- definition is a table according to:
 
 	{
-		on_power_pass1 = func(pos, mem),       -- for power balance calculation
-		on_power_pass2 = func(pos, mem, sum),  -- for power balance adjustment
-		on_power_pass3 = func(pos, mem, sum),  -- for power balance result
 		conn_sides = <list>,                   -- allowed connection sides for power cables
 			                                   -- one or several of {"L", "R", "U", "D", "F", "B"}
 		power_network = <tubelib2-instance>,
     }
 
-**Pass1: Power balance calculation** `on_power_pass1`
-Return the currently needed amount of power.
-For batteries, switch to uncharging and return the uncharging value (negative value).
-
-**Pass2: Power balance adjustment** `on_power_pass2`
-Provides the current power balance. A positive sum means, more power available then needed.
-A battery can turn off or even switch to charging if the balance is positive. 
-In this case, return the correction value (a positive value) instead of 0.
-In case of a consumer: turn off if power balance is negative and return the correction value (a negative value).
-
-**Pass3: Power balance result** `on_power_pass3`
-Function provides the final power balance for output purposes.
+tbd..........
 
 
 	techage.power.power_distribution(pos) 
