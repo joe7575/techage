@@ -45,7 +45,6 @@ else
 	
 	-- Power networks
 	dofile(MP.."/power/power.lua")
-	dofile(MP.."/power/power2.lua")
 	dofile(MP.."/power/junction.lua") 
 	dofile(MP.."/power/drive_axle.lua")
 	dofile(MP.."/power/steam_pipe.lua")

@@ -112,7 +112,7 @@ end
 local function get_capa(itemstack)
 	local meta = itemstack:get_meta()
 	if meta then
-		return in_range(meta:get_int("capa") * (PWR_CAPA/100), 0, 100)
+		return in_range(meta:get_int("capa") * (PWR_CAPA/100), 0, 3000)
 	end
 	return 0
 end
@@ -149,8 +149,7 @@ minetest.register_node("techage:ta3_akku", {
 	after_place_node = function(pos, placer, itemstack)
 		local mem = tubelib2.get_mem(pos)
 		State:node_init(pos, mem, "")
-		--mem.capa = get_capa(itemstack)
-		mem.capa = 300
+		mem.capa = get_capa(itemstack)
 		on_rightclick(pos)
 	end,
 	
@@ -190,18 +189,3 @@ minetest.register_craft({
 		{"techage:iron_ingot", "techage:iron_ingot", "default:wood"},
 	},
 })
-
-minetest.register_lbm({
-	label = "[techage] Akku conversion",
-	name = "techage:akku_conversion",
-	nodenames = {"techage:ta3_akku"},
-	run_at_every_load = true,
-	action = function(pos, node)
-		local mem = tubelib2.get_mem(pos)
-		if mem.power_result then -- old node?
-			mem.power_result = nil
-			mem.capa = in_range((mem.capa or 0) * 10, 0, PWR_CAPA)
-		end
-	end
-})
-

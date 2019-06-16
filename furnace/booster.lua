@@ -136,7 +136,6 @@ techage.power.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 -- for intra machine communication
 techage.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
-		--print("ta3_booster", topic, payload, in_dir)
 		if M(pos):get_int("indir") == in_dir then
 			local mem = tubelib2.get_mem(pos)
 			if topic == "power" then

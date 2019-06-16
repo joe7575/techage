@@ -146,7 +146,7 @@ end
 
 -- called from any generator
 local function on_power_switch(pos)
-	print("on_power_change"..S(pos))
+	--print("on_power_change"..S(pos))
 	local mem = tubelib2.get_mem(pos)
 	mem.master_pos = nil
 	mem.is_master = nil
@@ -154,7 +154,7 @@ local function on_power_switch(pos)
 	local mpos = determine_master(pos)
 	store_master(pos, mpos)
 	if mpos then
-		print("master = "..S(mpos))
+		--print("master = "..S(mpos))
 		local mem = tubelib2.get_mem(mpos)
 		mem.is_master = true
 		return mem
@@ -179,9 +179,9 @@ local function accounting(mem)
 	mem.demand1 = min(mem.needed1, mem.available1 + mem.available2)
 	mem.supply2 = min(mem.demand1 - mem.supply1, mem.available2)
 	mem.demand2 = min(mem.supply1 - mem.demand1, mem.available1)
-	mem.reserve = (mem.available1 + mem.available1) > mem.needed1
-	print("needed = "..mem.needed1.."/"..mem.needed2..", available = "..mem.available1.."/"..mem.available2)
-	print("supply = "..mem.supply1.."/"..mem.supply2..", demand = "..mem.demand1.."/"..mem.demand2..", reserve = "..dump(mem.reserve))
+	mem.reserve = (mem.available1 + mem.available2) > mem.needed1
+	--print("needed = "..mem.needed1.."/"..mem.needed2..", available = "..mem.available1.."/"..mem.available2)
+	--print("supply = "..mem.supply1.."/"..mem.supply2..", demand = "..mem.demand1.."/"..mem.demand2..", reserve = "..dump(mem.reserve))
 	-- reset values for nect cycle
 	mem.needed1 = 0
 	mem.needed2 = 0

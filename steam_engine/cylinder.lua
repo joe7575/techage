@@ -110,7 +110,7 @@ techage.register_node({"techage:cylinder", "techage:cylinder_on"}, {
 		if topic == "trigger" then
 			local power = techage.transfer(pos, "R", "trigger", nil, nil, {
 						"techage:flywheel", "techage:flywheel_on"}) or 0
-			print("trigger", power, mem.running)
+			--print("trigger", power, mem.running)
 				
 			if not power then
 				return 0
