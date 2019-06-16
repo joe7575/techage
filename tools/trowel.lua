@@ -38,11 +38,12 @@ local function hide_node(pos, node, meta, placer)
 	local inv = placer:get_inventory()
 	local stack = inv:get_stack("main", 1)
 	local taken = stack:take_item(1)
+	local ndef = minetest.registered_nodes[taken:get_name()]
 	-- test if it is a simple node without logic
 	if taken:get_count() == 1 
-	and minetest.registered_nodes[taken:get_name()] 
-	and not minetest.registered_nodes[taken:get_name()].after_place_node 
-	and not minetest.registered_nodes[taken:get_name()].on_construct then
+	and not ndef.groups.soil 
+	and not ndef.after_place_node 
+	and not ndef.on_construct then
 		meta:set_string("techage_hidden_nodename", node.name)
 		meta:set_string("techage_hidden_param2", node.param2)
 		local param2 = minetest.dir_to_facedir(placer:get_look_dir(), true)

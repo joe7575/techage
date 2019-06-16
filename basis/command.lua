@@ -256,7 +256,6 @@ end
 --        on_unpull_item = func(pos, in_dir, item),
 --        on_recv_message = func(pos, topic, payload),
 --        on_node_load = func(pos),  -- LBM function
---        on_node_repair = func(pos),  -- repair defect (feature!) nodes
 --        on_transfer = func(pos, in_dir, topic, payload),
 --    }
 function techage.register_node(names, node_definition)
@@ -338,15 +337,6 @@ function techage.transfer(pos, outdir, topic, payload, network, nodenames)
 	end
 	return false
 end		
-
--- for defect nodes
-function techage.repair_node(pos)
-	local node = minetest.get_node(pos)
-	if NodeDef[node.name] and NodeDef[node.name].on_node_repair then
-		return NodeDef[node.name].on_node_repair(pos)
-	end
-	return false
-end
 
 -------------------------------------------------------------------
 -- Client side Push/Pull item functions

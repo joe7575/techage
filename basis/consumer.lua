@@ -13,7 +13,7 @@
 	- up to 3 stages of nodes (TA2/TA3/TA4)
 	- power consumption
 	- node state handling
-	- registration of passive, active and defect nodes
+	- registration of passive and active nodes
 	- Tube connections are on left and right side (from left to right)
 	- Power connection are on front and back side (front or back)
 ]]--
@@ -26,40 +26,52 @@ local M = minetest.get_meta
 local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
 local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).consumer end
 
+local CYCLE_TIME = 2 -- required from power
+
 local ValidPowerConsumingStates = {
 	[techage.RUNNING] = true,
 	[techage.BLOCKED] = true,
-	[techage.FAULT] = true,
+	[techage.NOPOWER] = true,
 }
 
+local consume_power = techage.power.consume_power
+local power_available = techage.power.power_available
+
+local function can_start(pos, mem, state)
+	return power_available(pos)
+end
+
 local function start_node(pos, mem, state)
-	-- First finish the start process, than check power and
-	-- if needed, switch to "nopower"
-	minetest.after(0.5, techage.power.power_distribution, pos)
+	mem.conn_next_call = 0
+	mem.conn_cycle_timer = 0
 end
 
 local function stop_node(pos, mem, state)
-	techage.power.power_distribution(pos)
 end
 
-local function on_power_pass1(pos, mem)
+local function node_timer(pos, elapsed)
+	--print("node_timer")
 	local crd = CRD(pos)
-	if ValidPowerConsumingStates[crd.State:get_state(mem)] then
-		return crd.power_consumption
-	end
-	return 0
-end	
-		
-local function on_power_pass2(pos, mem, sum)
-	local crd = CRD(pos)
+	local mem = tubelib2.get_mem(pos)
 	local state = crd.State:get_state(mem)
-	if sum > 0 and state == techage.NOPOWER then
-		crd.State:start(pos, mem)
-		return 0
-	elseif sum <= 0 and ValidPowerConsumingStates[state] or state == techage.STANDBY then
-		crd.State:nopower(pos, mem)
-		return -crd.power_consumption
+	if ValidPowerConsumingStates[state] then
+		local got = consume_power(pos, crd.power_consumption)
+		if state == techage.NOPOWER and got == crd.power_consumption then
+			crd.State:start(pos, mem)
+		elseif state ~= techage.NOPOWER and got < crd.power_consumption then
+			crd.State:nopower(pos, mem)
+		end
 	end
+	-- call the secondary timer routine with the requested frequency
+	local res
+	mem.conn_next_call = mem.conn_next_call or 0
+	mem.conn_cycle_timer = (mem.conn_cycle_timer or 0) + CYCLE_TIME
+	--print(mem.conn_next_call, mem.conn_cycle_timer)
+	if mem.conn_cycle_timer >= mem.conn_next_call then
+		crd.node_timer(pos, crd.cycle_time)
+		mem.conn_next_call = mem.conn_next_call + crd.cycle_time
+	end
+	return ValidPowerConsumingStates[state] or state == techage.STANDBY
 end
 
 local function prepare_tiles(tiles, stage, power_png)
@@ -75,7 +87,7 @@ local function prepare_tiles(tiles, stage, power_png)
 	end
 	return tbl
 end
-			
+
 -- 'validStates' is optional and can be used to e.g. enable 
 -- only one TA2 node {false, true, false, false}
 function techage.register_consumer(base_name, inv_name, tiles, tNode, validStates)
@@ -84,10 +96,9 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 	for stage = 2,4 do
 		local name_pas = "techage:ta"..stage.."_"..base_name.."_pas"
 		local name_act = "techage:ta"..stage.."_"..base_name.."_act"
-		local name_def = "techage:ta"..stage.."_"..base_name.."_def"
 		local name_inv = "TA"..stage.." "..inv_name
 		names[#names+1] = name_pas
-		
+
 		if validStates[stage] then
 			local on_recv_message = tNode.tubing.on_recv_message
 			if stage > 2 then
@@ -95,7 +106,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 					return "unsupported"
 				end
 			end
-			
+
 			local power_network
 			local power_png = 'techage_axle_clutch.png'
 			local power_used = tNode.power_consumption ~= nil
@@ -110,31 +121,31 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				end
 				power_network:add_secondary_node_names({name_pas, name_act})
 			end
-		
+
 			local tState = techage.NodeStates:new({
 				node_name_passive = name_pas,
 				node_name_active = name_act,
-				node_name_defect = name_def,
 				infotext_name = name_inv,
-				cycle_time = tNode.cycle_time,
+				cycle_time = CYCLE_TIME,
 				standby_ticks = tNode.standby_ticks,
-				has_item_meter = tNode.has_item_meter,
-				aging_factor = tNode.aging_factor * (stage-1) * 2,
 				formspec_func = tNode.formspec,
 				on_state_change = tNode.on_state_change,
+				can_start = power_used and can_start or nil,
 				start_node = power_used and start_node or nil,
 				stop_node = power_used and stop_node or nil,
 			})
-			
+
 			local tConsumer = {
 				stage = stage,
 				State = tState,
 				-- number of items to be processed per cycle
 				num_items = tNode.num_items[stage],  
 				power_consumption = power_used and 
-						tNode.power_consumption[stage] or {0,0,0,0},
+				tNode.power_consumption[stage] or 0,
+				node_timer = tNode.node_timer,
+				cycle_time = tNode.cycle_time,
 			}
-			
+
 			tNode.groups.not_in_creative_inventory = 0
 
 			minetest.register_node(name_pas, {
@@ -144,9 +155,9 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				drawtype = tNode.drawtype,
 				node_box = tNode.node_box,
 				selection_box = tNode.selection_box,
-				
+
 				on_construct = tubelib2.init_mem,
-				
+
 				after_place_node = function(pos, placer, itemstack, pointed_thing)
 					local meta = M(pos)
 					local mem = tubelib2.get_mem(pos)
@@ -168,13 +179,11 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 						tNode.after_dig_node(pos, oldnode, oldmetadata, digger)
 					end
 					techage.remove_node(pos)
-					CRDN(oldnode).State:after_dig_node(pos, oldnode, 
-							oldmetadata, digger)
 				end,
-				
+
 				can_dig = tNode.can_dig,
 				on_rotate = screwdriver.disallow,
-				on_timer = tNode.node_timer,
+				on_timer = node_timer,
 				on_receive_fields = tNode.on_receive_fields,
 				on_rightclick = tNode.on_rightclick,
 				allow_metadata_inventory_put = tNode.allow_metadata_inventory_put,
@@ -202,7 +211,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				selection_box = tNode.selection_box,
 				
 				on_rotate = screwdriver.disallow,
-				on_timer = tNode.node_timer,
+				on_timer = node_timer,
 				on_receive_fields = tNode.on_receive_fields,
 				on_rightclick = tNode.on_rightclick,
 				allow_metadata_inventory_put = tNode.allow_metadata_inventory_put,
@@ -219,62 +228,13 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				sounds = tNode.sounds,
 			})
 
-			minetest.register_node(name_def, {
-				description = name_inv,
-				tiles = prepare_tiles(tiles.def, stage, power_png),
-				consumer = tConsumer,
-				drawtype = tNode.drawtype,
-				node_box = tNode.node_box,
-				selection_box = tNode.selection_box,
-				
-				after_place_node = function(pos, placer, itemstack, pointed_thing)
-					local meta = M(pos)
-					local mem = tubelib2.get_mem(pos)
-					local node = minetest.get_node(pos)
-					meta:set_int("push_dir", techage.side_to_indir("L", node.param2))
-					meta:set_int("pull_dir", techage.side_to_indir("R", node.param2))
-					local number = "-"
-					if stage > 2 then
-						number = techage.add_node(pos, name_pas)
-					end
-					if tNode.after_place_node then
-						tNode.after_place_node(pos, placer, itemstack, pointed_thing)
-					end
-					CRD(pos).State:defect(pos, mem)
-				end,
-				
-				on_rotate = screwdriver.disallow,
-				on_receive_fields = tNode.on_receive_fields,
-				on_rightclick = tNode.on_rightclick,
-				allow_metadata_inventory_put = tNode.allow_metadata_inventory_put,
-				allow_metadata_inventory_move = tNode.allow_metadata_inventory_move,
-				allow_metadata_inventory_take = tNode.allow_metadata_inventory_take,
-				on_metadata_inventory_move = tNode.on_metadata_inventory_move,
-				on_metadata_inventory_put = tNode.on_metadata_inventory_put,
-				on_metadata_inventory_take = tNode.on_metadata_inventory_take,
-
-				after_dig_node = function(pos, oldnode, oldmetadata, digger)
-					if tNode.after_dig_node then
-						tNode.after_dig_node(pos, oldnode, oldmetadata, digger)
-					end
-					techage.remove_node(pos)
-				end,
-				
-				paramtype2 = "facedir",
-				groups = tNode.groups,
-				is_ground_content = false,
-				sounds = tNode.sounds,
-			})
-
 			if power_used then
 				techage.power.register_node({name_pas, name_act}, {
-					on_power_pass1 = on_power_pass1,
-					on_power_pass2 = on_power_pass2,
 					conn_sides = {"F", "B"},
 					power_network  = power_network,
 				})
 			end
-			techage.register_node({name_pas, name_act, name_def}, tNode.tubing)
+			techage.register_node({name_pas, name_act}, tNode.tubing)
 		end
 	end
 	return names[1], names[2], names[3]

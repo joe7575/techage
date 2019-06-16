@@ -21,108 +21,73 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
-local STANDBY_TICKS = 4
 local CYCLE_TIME = 2
-local POWER_CONSUMPTION = 10
-local POWER_MAX_LOAD = 300
-local POWER_HYSTERESIS = 10
+local PWR_PERF = 10
+local PWR_CAPA = 3000
+
 local Power = techage.ElectricCable
+local secondary_power = techage.power.secondary_power
+local power_switched = techage.power.power_switched
+
+local function in_range(val, min, max)
+	if val < min then return min end
+	if val > max then return max end
+	return val
+end
 
 local function formspec(self, pos, mem)
 	return "size[5,3]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
-		"image[0,0.5;1,2;"..techage.power.formspec_power_bar(POWER_MAX_LOAD, mem.capa).."]"..
+		"image[0,0.5;1,2;"..techage.power.formspec_power_bar(PWR_CAPA, mem.capa).."]"..
 		"label[0.2,2.5;Load]"..
 		"button[1.1,1;1.8,1;update;"..I("Update").."]"..
 		"image_button[3,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
-		"image[4,0.5;1,2;"..techage.power.formspec_load_bar(mem.charging).."]"..
+		"image[4,0.5;1,2;"..techage.power.formspec_load_bar(-(mem.delivered or 0), PWR_PERF).."]"..
 		"label[4.2,2.5;Flow]"
 end
 
 
 local function start_node(pos, mem, state)
-	techage.power.power_distribution(pos)
+	mem.generating = true
+	mem.delivered = 0
+	power_switched(pos)
 end
 
 local function stop_node(pos, mem, state)
-	mem.charging = nil
-	techage.power.power_distribution(pos)
+	mem.generating = false
+	mem.delivered = 0
+	power_switched(pos)
 end
 
 local State = techage.NodeStates:new({
 	node_name_passive = "techage:ta3_akku",
 	cycle_time = CYCLE_TIME,
-	standby_ticks = STANDBY_TICKS,
+	standby_ticks = 0,
 	formspec_func = formspec,
 	start_node = start_node,
 	stop_node = stop_node,
 })
 
---
--- Power network callbacks
---
-
--- Pass1: Power balance calculation
-local function on_power_pass1(pos, mem)
-	if State:is_active(mem) and mem.capa > POWER_HYSTERESIS then
-		mem.correction = POWER_CONSUMPTION  -- uncharging
-	else
-		mem.correction = 0
-	end
-	return -mem.correction  
-end	
-		
--- Pass2: Power balance adjustment
-local function on_power_pass2(pos, mem, sum)
-	if State:is_active(mem) then
-		if sum > mem.correction + POWER_CONSUMPTION and 
-				mem.capa < POWER_MAX_LOAD - POWER_HYSTERESIS then
-			mem.charging = true
-			return mem.correction + POWER_CONSUMPTION
-		elseif sum > mem.correction then
-			mem.charging = nil  -- turn off
-			return mem.correction
-		elseif sum > -POWER_CONSUMPTION and mem.capa > POWER_HYSTERESIS then
-			mem.charging = false  -- uncharging
-			return 0
-		else
-			mem.charging = nil  -- turn off
-			return mem.correction
-		end
-	else
-		return 0
-	end
-end
-
--- Pass3: Power balance result
-local function on_power_pass3(pos, mem, sum)
-	mem.power_result = sum
-end
-
-
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	if State:is_active(mem) then
-		mem.capa = mem.capa or 0
-		if mem.charging == true then
-			if mem.capa < POWER_MAX_LOAD then
-				mem.capa = mem.capa + 1
-			else
-				mem.charging = nil  -- turn off
-				techage.power.power_distribution(pos)
-			end
-		elseif mem.charging == false then  -- uncharging
-			if mem.capa > 0 then
-				mem.capa = mem.capa - 1
-			else
-				mem.charging = nil  -- turn off
-				techage.power.power_distribution(pos)
-			end
+	mem.capa = mem.capa or 0
+	if mem.generating then
+		local delivered
+		if mem.capa >= PWR_CAPA then
+			mem.delivered = secondary_power(pos, PWR_PERF, 0)
+		elseif mem.capa <= 0 then
+			mem.delivered = secondary_power(pos, 0, PWR_PERF)
+		else
+			mem.delivered = secondary_power(pos, PWR_PERF, PWR_PERF)
 		end
+		mem.capa = mem.capa - mem.delivered
+		mem.capa = in_range(mem.capa, 0, PWR_CAPA)
+		return true
 	end
-	return State:is_active(mem)
+	mem.delivered = 0
+	return false
 end
 
 
@@ -147,7 +112,7 @@ end
 local function get_capa(itemstack)
 	local meta = itemstack:get_meta()
 	if meta then
-		return meta:get_int("capa")
+		return in_range(meta:get_int("capa") * (PWR_CAPA/100), 0, 100)
 	end
 	return 0
 end
@@ -155,8 +120,10 @@ end
 local function set_capa(pos, oldnode, digger, capa)
 	local node = ItemStack(oldnode.name)
 	local meta = node:get_meta()
-	meta:set_int("capa", capa or 0)
-	local text = I("TA3 Akku Box").." ("..techage.power.percent(POWER_MAX_LOAD, capa).." %)"
+	capa = techage.power.percent(PWR_CAPA, capa)
+	capa = (math.floor((capa or 0) / 5)) * 5
+	meta:set_int("capa", capa)
+	local text = I("TA3 Akku Box").." ("..capa.." %)"
 	meta:set_string("description", text)
 	local inv = minetest.get_inventory({type="player", name=digger:get_player_name()})
 	local left_over = inv:add_item("main", node)
@@ -182,13 +149,13 @@ minetest.register_node("techage:ta3_akku", {
 	after_place_node = function(pos, placer, itemstack)
 		local mem = tubelib2.get_mem(pos)
 		State:node_init(pos, mem, "")
-		mem.capa = get_capa(itemstack)
+		--mem.capa = get_capa(itemstack)
+		mem.capa = 300
 		on_rightclick(pos)
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		local mem = tubelib2.get_mem(pos)
-		--State:after_dig_node(pos, oldnode, oldmetadata, digger)
 		set_capa(pos, oldnode, digger, mem.capa)
 	end,
 	
@@ -196,7 +163,7 @@ minetest.register_node("techage:ta3_akku", {
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
 
-	drop = "",
+	drop = "", -- don't remove, item will be added via 'set_capa'
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -205,9 +172,6 @@ minetest.register_node("techage:ta3_akku", {
 })
 
 techage.power.register_node({"techage:ta3_akku"}, {
-	on_power_pass1 = on_power_pass1,
-	on_power_pass2 = on_power_pass2,
-	on_power_pass3 = on_power_pass3,
 	conn_sides = {"R"},
 	power_network  = Power,
 })
@@ -226,3 +190,18 @@ minetest.register_craft({
 		{"techage:iron_ingot", "techage:iron_ingot", "default:wood"},
 	},
 })
+
+minetest.register_lbm({
+	label = "[techage] Akku conversion",
+	name = "techage:akku_conversion",
+	nodenames = {"techage:ta3_akku"},
+	run_at_every_load = true,
+	action = function(pos, node)
+		local mem = tubelib2.get_mem(pos)
+		if mem.power_result then -- old node?
+			mem.power_result = nil
+			mem.capa = in_range((mem.capa or 0) * 10, 0, PWR_CAPA)
+		end
+	end
+})
+

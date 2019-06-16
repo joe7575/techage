@@ -27,8 +27,9 @@ local CYCLE_TIME = 2
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
+	print("firebox burn_cycles = "..(mem.burn_cycles or 0))
 	if mem.running then
-		techage.transfer(
+		local power = techage.transfer(
 			{x=pos.x, y=pos.y+2, z=pos.z}, 
 			nil,  -- outdir
 			"trigger",  -- topic
@@ -36,7 +37,7 @@ local function node_timer(pos, elapsed)
 			nil,  -- network
 			{"techage:boiler2"}  -- nodenames
 		)
-		mem.burn_cycles = (mem.burn_cycles or 0) - 1
+		mem.burn_cycles = (mem.burn_cycles or 0) - math.max((power or 0.1), 0.1)
 		if mem.burn_cycles <= 0 then
 			local taken = firebox.get_fuel(pos) 
 			if taken then
@@ -167,6 +168,8 @@ minetest.register_lbm({
 	run_at_every_load = true,
 	action = function(pos, node)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
+		local mem = tubelib2.get_mem(pos)
+		mem.power_level = nil
 	end
 })
 

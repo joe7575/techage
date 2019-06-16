@@ -328,15 +328,6 @@ tiles.act = {
 		},
 	},
 }
-tiles.def = {
-	-- up, down, right, left, back, front
-	"techage_filling_ta#.png^techage_appl_autocrafter.png^techage_frame_ta#_top.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_appl_autocrafter.png^techage_frame_ta#.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_appl_autocrafter.png^techage_frame_ta#.png^techage_appl_defect.png",
-}
 
 local tubing = {
 	on_pull_item = function(pos, in_dir, num)
@@ -350,6 +341,7 @@ local tubing = {
 		local meta = minetest.get_meta(pos)
 		if meta:get_int("push_dir") == in_dir  or in_dir == 5 then
 			local inv = M(pos):get_inventory()
+			CRD(pos).State:start_if_standby(pos)
 			return techage.put_items(inv, "src", stack)
 		end
 	end,
@@ -371,9 +363,6 @@ local tubing = {
 	on_node_load = function(pos)
 		CRD(pos).State:on_node_load(pos)
 	end,
-	on_node_repair = function(pos)
-		return CRD(pos).State:on_node_repair(pos)
-	end,
 }
 
 local node_name_ta2, node_name_ta3, node_name_ta4 = 
@@ -381,8 +370,6 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		drawtype = "normal",
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
-		has_item_meter = true,
-		aging_factor = 10,
 		formspec = formspec,
 		tubing = tubing,
 		after_place_node = function(pos, placer)

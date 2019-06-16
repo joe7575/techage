@@ -23,6 +23,16 @@ local I,_ = dofile(MP.."/intllib.lua")
 
 local Pipe = techage.SteamPipe
 
+local function transfer_cooler(pos, topic, payload)
+	return techage.transfer(pos, 6, topic, payload, Pipe, 
+			{"techage:cooler", "techage:cooler_on"})
+end
+
+local function transfer_generator(pos, topic, payload)
+	return techage.transfer(pos, "R", topic, payload, nil, 
+			{"techage:generator", "techage:generator_on"})
+end
+
 local function swap_node(pos, name)
 	local node = minetest.get_node(pos)
 	if node.name == name then
@@ -54,7 +64,7 @@ end
 -- called with any pipe change
 local function after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
 	local mem = tubelib2.get_mem(pos)
-	techage.transfer(pos, 6, "stop", nil, Pipe, {"techage:cooler_on"})
+	transfer_cooler(pos, "stop", nil)
 	swap_node(pos, "techage:turbine")
 	mem.running = false
 	stop_sound(pos)
@@ -127,27 +137,32 @@ techage.power.register_node({"techage:turbine", "techage:turbine_on"}, {
 -- for logical communication
 techage.register_node({"techage:turbine", "techage:turbine_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
-		print("turbine", topic, payload)
+		--print("turbine", topic, payload)
 		local mem = tubelib2.get_mem(pos)
-		if topic == "power_level" then
-			local mem = tubelib2.get_mem(pos)
-			mem.power_level = payload
-			techage.transfer(pos, "R", topic, payload, nil, 
-				{"techage:generator", "techage:generator_on"})
+		if topic == "trigger" then
+			return transfer_generator(pos, topic, payload)
 		elseif topic == "start" then
-			local on = techage.transfer(pos, 6, "start", nil, Pipe, {"techage:cooler"})
-			if on then
+			if transfer_cooler(pos, topic, payload) then
 				swap_node(pos, "techage:turbine_on")
 				mem.running = true
 				play_sound(pos)
+				return true
 			end
-			return on
+			return false
+		elseif topic == "running" then
+			if not transfer_cooler(pos, topic, payload) then
+				swap_node(pos, "techage:turbine")
+				mem.running = false
+				stop_sound(pos)
+				return false
+			end
+			return true
 		elseif topic == "stop" then
-			techage.transfer(pos, 6, "stop", nil, Pipe, {"techage:cooler_on"})
+			transfer_cooler(pos, topic, payload)
 			swap_node(pos, "techage:turbine")
 			mem.running = false
 			stop_sound(pos)
-			return false
+			return true
 		end
 	end
 })

@@ -54,6 +54,8 @@ techage.register_node({"techage:coalboiler_base"}, {
 			return true
 		elseif topic == "stop" then
 			return true
+		elseif topic == "running" then
+			return true
 		end
 	end
 })

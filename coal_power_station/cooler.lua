@@ -23,6 +23,11 @@ local I,_ = dofile(MP.."/intllib.lua")
 
 local Pipe = techage.SteamPipe
 
+local function transfer(pos, in_dir, topic, payload)
+	return techage.transfer(pos, in_dir, topic, payload, Pipe, 
+			{"techage:coalboiler_base"})
+end
+
 local function swap_node(pos, name)
 	local node = minetest.get_node(pos)
 	if node.name == name then
@@ -30,6 +35,11 @@ local function swap_node(pos, name)
 	end
 	node.name = name
 	minetest.swap_node(pos, node)
+end
+
+-- called with any pipe change
+local function after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+	swap_node(pos, "techage:cooler")
 end
 
 minetest.register_node("techage:cooler", {
@@ -83,6 +93,7 @@ minetest.register_node("techage:cooler_on", {
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_cooler.png",
 	},
 	
+	after_tube_update = after_tube_update,
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
 	diggable = false,
@@ -101,16 +112,20 @@ techage.power.register_node({"techage:cooler", "techage:cooler_on"}, {
 techage.register_node({"techage:cooler", "techage:cooler_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		if topic == "start" then
-			local on = techage.transfer(pos, in_dir, "start", nil, Pipe, {"techage:coalboiler_base"})
-			if on then
+			if transfer(pos, in_dir, topic, nil) then
 				swap_node(pos, "techage:cooler_on")
+				return true
 			end
-			return on
 		elseif topic == "stop" then
-			techage.transfer(pos, in_dir, "stop", nil, Pipe, {"techage:coalboiler_base"})
 			swap_node(pos, "techage:cooler")
-			return false
+			return transfer(pos, in_dir, topic, nil)
+		elseif topic == "running" then
+			if transfer(pos, in_dir, topic, nil) then
+				return true
+			end
+			swap_node(pos, "techage:cooler")
 		end
+		return false
 	end
 })
 

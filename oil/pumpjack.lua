@@ -138,15 +138,6 @@ tiles.act = {
 	"techage_filling_ta#.png^techage_frame_ta#_top.png^techage_appl_arrow.png^[transformR90]",
 	"techage_filling_ta#.png^techage_frame_ta#_top.png^techage_appl_arrow.png^[transformR90]",
 }
-tiles.def = {
-	-- up, down, right, left, back, front
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
-	"techage_appl_pumpjack.png^techage_frame_ta#.png^techage_appl_defect.png",
-	"techage_appl_pumpjack.png^techage_frame_ta#.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_defect.png",
-}
 	
 local tubing = {
 	is_pusher = true, -- is a pulling/pushing node
@@ -162,17 +153,12 @@ local tubing = {
 	on_node_load = function(pos)
 		CRD(pos).State:on_node_load(pos)
 	end,
-	on_node_repair = function(pos)
-		return CRD(pos).State:on_node_repair(pos)
-	end,
 }
 	
 local _, node_name_ta3, _ = 
 	techage.register_consumer("pumpjack", I("TA3 Oil Pumpjack"), tiles, {
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
-		has_item_meter = true,
-		aging_factor = 10,
 		formspec = formspec,
 		tubing = tubing,
 		after_place_node = function(pos, placer)

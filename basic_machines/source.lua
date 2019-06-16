@@ -24,18 +24,20 @@ local I,_ = dofile(MP.."/intllib.lua")
 local TA2_Power = techage.Axle
 local TA3_Power = techage.SteamPipe
 local TA4_Power = techage.ElectricCable
+local provide_power = techage.power.provide_power
+local power_switched = techage.power.power_switched
 
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
-local CYCLE_TIME = 16
-local POWER_CAPACITY = 50
+local CYCLE_TIME = 2
+local PWR_CAPA = 20
 
 local function formspec(self, pos, mem)
 	return "size[8,7]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
-		"image[6,0.5;1,2;"..techage.power.formspec_power_bar(POWER_CAPACITY, mem.power_result).."]"..
+		"image[6,0.5;1,2;"..techage.power.formspec_power_bar(PWR_CAPA, mem.provided).."]"..
 		"image_button[5,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 		"button[2.5,1;1.8,1;update;"..I("Update").."]"..
 		"list[current_player;main;0,3;8,4;]"..
@@ -43,11 +45,16 @@ local function formspec(self, pos, mem)
 end
 
 local function start_node(pos, mem, state)
-	techage.power.power_distribution(pos)
+	mem.generating = true
+	power_switched(pos)
+	techage.switch_axles(pos, true)
 end
 
 local function stop_node(pos, mem, state)
-	techage.power.power_distribution(pos)
+	mem.generating = false
+	mem.provided = 0
+	power_switched(pos)
+	techage.switch_axles(pos, false)
 end
 
 local State2 = techage.NodeStates:new({
@@ -77,32 +84,18 @@ local State4 = techage.NodeStates:new({
 	stop_node = stop_node,
 })
 
-local tStates = {0, State2, State3, State4}
-
--- Pass1: Power balance calculation
-local function on_power_pass1(pos, mem)
-	local state = tStates[mem.state_num or 2]
-	if state:is_active(mem) then
-		return -POWER_CAPACITY
-	end
-	return 0
-end	
-		
--- Pass2: Power balance adjustment
-local function on_power_pass2(pos, mem, sum)
-	return 0
-end
-
--- Pass3: Power balance result
-local function on_power_pass3(pos, mem, sum)
-	mem.power_result = sum
-end
-
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	local state = tStates[mem.state_num or 2]
-	return state:is_active(mem)
+	if mem.generating then
+		mem.provided = provide_power(pos, PWR_CAPA)
+		return true
+	else
+		mem.provided = 0
+	end
+	return false
 end
+
+local tStates = {0, State2, State3, State4}
 
 local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
@@ -147,10 +140,6 @@ minetest.register_node("techage:t2_source", {
 		on_rightclick(pos)
 	end,
 	
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		State2:after_dig_node(pos, oldnode, oldmetadata, digger)
-	end,
-	
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
@@ -178,10 +167,6 @@ minetest.register_node("techage:t3_source", {
 		State3:node_init(pos, mem, "")
 		mem.state_num = 3
 		on_rightclick(pos)
-	end,
-	
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		State3:after_dig_node(pos, oldnode, oldmetadata, digger)
 	end,
 	
 	on_receive_fields = on_receive_fields,
@@ -213,35 +198,22 @@ minetest.register_node("techage:t4_source", {
 		on_rightclick(pos)
 	end,
 	
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		State4:after_dig_node(pos, oldnode, oldmetadata, digger)
-	end,
-	
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
 })
 
 techage.power.register_node({"techage:t2_source"}, {
-	on_power_pass1 = on_power_pass1,
-	on_power_pass2 = on_power_pass2,
-	on_power_pass3 = on_power_pass3,
 	conn_sides = {"R"},
 	power_network  = TA2_Power,
 })
 
 techage.power.register_node({"techage:t3_source"}, {
-	on_power_pass1 = on_power_pass1,
-	on_power_pass2 = on_power_pass2,
-	on_power_pass3 = on_power_pass3,
 	conn_sides = {"R"},
 	power_network  = TA3_Power,
 })
 
 techage.power.register_node({"techage:t4_source"}, {
-	on_power_pass1 = on_power_pass1,
-	on_power_pass2 = on_power_pass2,
-	on_power_pass3 = on_power_pass3,
 	conn_sides = {"R"},
 	power_network  = TA4_Power,
 })

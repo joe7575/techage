@@ -176,6 +176,7 @@ local function on_network_change(pos)
 	end
 end
 
+
 --
 -- Generic API functions
 --

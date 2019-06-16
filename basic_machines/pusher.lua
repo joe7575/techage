@@ -110,15 +110,6 @@ tiles.act = {
 		},
 	},
 }
-tiles.def = {
-	-- up, down, right, left, back, front
-	"techage_filling_ta#.png^techage_frame_ta#_top.png^techage_appl_arrow.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png^techage_appl_defect.png",
-	"techage_appl_pusher.png^[transformR180]^techage_frame_ta#.png^techage_appl_defect.png",
-	"techage_appl_pusher.png^techage_frame_ta#.png^techage_appl_defect.png",
-}
 	
 local tubing = {
 	is_pusher = true, -- is a pulling/pushing node
@@ -134,17 +125,12 @@ local tubing = {
 	on_node_load = function(pos)
 		CRD(pos).State:on_node_load(pos)
 	end,
-	on_node_repair = function(pos)
-		return CRD(pos).State:on_node_repair(pos)
-	end,
 }
 	
 local node_name_ta2, node_name_ta3, node_name_ta4 = 
 	techage.register_consumer("pusher", I("Pusher"), tiles, {
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
-		has_item_meter = true,
-		aging_factor = 10,
 		tubing = tubing,
 		after_place_node = function(pos, placer)
 			local mem = tubelib2.get_mem(pos)

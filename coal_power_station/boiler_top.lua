@@ -30,6 +30,11 @@ local MAX_WATER = 10
 
 local Pipe = techage.SteamPipe
 
+local function transfer(pos, topic, payload)
+	return techage.transfer(pos, "F", topic, payload, Pipe, 
+			{"techage:turbine", "techage:turbine_on"})
+end
+
 local Water = {
 	["bucket:bucket_river_water"] = true,
 	["bucket:bucket_water"] = true,
@@ -38,7 +43,7 @@ local Water = {
 
 local function formspec(self, pos, mem)
 	local temp = mem.temperature or 20
-	local bar = mem.running and 3 or 0
+	local ratio = mem.power_ratio or 0
 	return "size[8,7]"..
 		default.gui_bg..
 		default.gui_bg_img..
@@ -51,7 +56,7 @@ local function formspec(self, pos, mem)
 		"image[1,1.6;1,1;techage_form_mask.png]"..
 		"image[2,0.5;1,2;techage_form_temp_bg.png^[lowpart:"..
 		temp..":techage_form_temp_fg.png]"..
-		"image[7,0.5;1,2;"..techage.power.formspec_power_bar(10, bar).."]"..
+		"image[7,0.5;1,2;"..techage.power.formspec_power_bar(1, ratio).."]"..
 		"image_button[6,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 		"button[3,1.5;2,1;update;"..I("Update").."]"..
 		"list[current_player;main;0,3;8,4;]"..
@@ -65,14 +70,11 @@ local function can_start(pos, mem, state)
 end
 
 local function start_node(pos, mem, state)
-	print("start_node", S(pos))
-	mem.running = techage.transfer(pos, "F", "start", nil, Pipe, {"techage:turbine"})
-	techage.transfer(pos, "F", "power_level", mem.power_level, Pipe, {"techage:turbine"})
+	mem.running = transfer(pos, "start", nil)
 end
 
 local function stop_node(pos, mem, state)
-	print("stop_node", S(pos))
-	techage.transfer(pos, "F", "stop", nil, Pipe, {"techage:turbine_on"})
+	transfer(pos, "stop", nil)
 	mem.running = false
 end
 
@@ -118,7 +120,9 @@ local function water_temperature(pos, mem)
 end
 
 local function steaming(pos, mem, temp)
-	mem.water_level = math.max((mem.water_level or 0) - WATER_CONSUMPTION, 0)
+	local wc = WATER_CONSUMPTION * (mem.power_ratio or 1)
+	mem.water_level = math.max((mem.water_level or 0) - wc, 0)
+	mem.running = transfer(pos, "running", nil)
 	if temp >= 80 then
 		if mem.running then
 			State:keep_running(pos, mem, COUNTDOWN_TICKS)
@@ -145,6 +149,7 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	local mem = tubelib2.get_mem(pos)
+	mem.temperature = mem.temperature or 20
 	State:state_button_event(pos, mem, fields)
 	
 	if fields.update then
@@ -159,12 +164,15 @@ end
 local function on_rightclick(pos)
 	local mem = tubelib2.get_mem(pos)
 	M(pos):set_string("formspec", formspec(State, pos, mem))
+	if not minetest.get_node_timer(pos):is_started() then
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
+	end
 end
 
 local function can_dig(pos, player)
 	local inv = M(pos):get_inventory()
 	local mem = tubelib2.get_mem(pos)
-	return inv:is_empty("water") and inv:is_empty("input") and not mem.running
+	return inv:is_empty("input") and not mem.running
 end
 
 local function move_to_water(pos)
@@ -247,15 +255,10 @@ minetest.register_node("techage:coalboiler_top", {
 		end
 	end,
 	
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		State:after_dig_node(pos, oldnode, oldmetadata, digger)
-	end,
-	
 	on_metadata_inventory_put = function(pos)
 		minetest.after(0.5, move_to_water, pos)
 	end,
 	
-	drop = "",
 	paramtype2 = "facedir",
 	groups = {cracky=1},
 	on_rotate = screwdriver.disallow,
@@ -273,15 +276,8 @@ techage.register_node({"techage:coalboiler_top"}, {
 		if topic == "trigger" then
 			local mem = tubelib2.get_mem(pos)
 			mem.fire_trigger = true
-			if not minetest.get_node_timer(pos):is_started() then
-				minetest.get_node_timer(pos):start(CYCLE_TIME)
-			end
-		elseif topic == "power_level" then
-			local mem = tubelib2.get_mem(pos)
-			mem.power_level = payload
-			print("coalboiler_top power_level", payload)
-			techage.transfer(pos, "F", topic, payload, Pipe, 
-				{"techage:turbine", "techage:turbine_on"})
+			mem.power_ratio = transfer(pos, topic, payload)
+			return mem.power_ratio
 		end
 	end
 })

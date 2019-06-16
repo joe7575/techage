@@ -38,7 +38,7 @@ local Water = {
 
 local function formspec(self, pos, mem)
 	local temp = mem.temperature or 20
-	local bar = mem.running and 3 or 0
+	local ratio = mem.power_ratio or 0
 	return "size[8,7]"..
 		default.gui_bg..
 		default.gui_bg_img..
@@ -51,7 +51,7 @@ local function formspec(self, pos, mem)
 		"image[1,1.6;1,1;techage_form_mask.png]"..
 		"image[2,0.5;1,2;techage_form_temp_bg.png^[lowpart:"..
 		temp..":techage_form_temp_fg.png]"..
-		"image[7,0.5;1,2;"..techage.power.formspec_power_bar(10, bar).."]"..
+		"image[7,0.5;1,2;"..techage.power.formspec_power_bar(1, ratio).."]"..
 		"image_button[6,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 		"button[3,1.5;2,1;update;"..I("Update").."]"..
 		"list[current_player;main;0,3;8,4;]"..
@@ -65,11 +65,10 @@ local function can_start(pos, mem, state)
 end
 
 local function start_node(pos, mem, state)
-	mem.running = techage.transfer(pos, 6, "start", nil, Pipe, {"techage:cylinder"})
+	mem.running = true
 end
 
 local function stop_node(pos, mem, state)
-	techage.transfer(pos, 6, "stop", nil, Pipe, {"techage:cylinder_on"})
 	mem.running = false
 end
 
@@ -115,7 +114,8 @@ local function water_temperature(pos, mem)
 end
 
 local function steaming(pos, mem, temp)
-	mem.water_level = math.max((mem.water_level or 0) - WATER_CONSUMPTION, 0)
+	local wc = WATER_CONSUMPTION * (mem.power_ratio or 1)
+	mem.water_level = math.max((mem.water_level or 0) - wc, 0)
 	if temp >= 80 then
 		if mem.running then
 			State:keep_running(pos, mem, COUNTDOWN_TICKS)
@@ -142,6 +142,7 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	local mem = tubelib2.get_mem(pos)
+	mem.temperature = mem.temperature or 20
 	State:state_button_event(pos, mem, fields)
 	
 	if fields.update then
@@ -161,7 +162,7 @@ end
 local function can_dig(pos, player)
 	local inv = M(pos):get_inventory()
 	local mem = tubelib2.get_mem(pos)
-	return inv:is_empty("water") and inv:is_empty("input") and not mem.running
+	return inv:is_empty("input") and not mem.running
 end
 
 local function move_to_water(pos)
@@ -261,15 +262,10 @@ minetest.register_node("techage:boiler2", {
 		end
 	end,
 	
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		State:after_dig_node(pos, oldnode, oldmetadata, digger)
-	end,
-	
 	on_metadata_inventory_put = function(pos)
 		minetest.after(0.5, move_to_water, pos)
 	end,
 	
-	drop = "",
 	groups = {cracky=1},
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
@@ -288,6 +284,13 @@ techage.register_node({"techage:boiler2"}, {
 			mem.fire_trigger = true
 			if not minetest.get_node_timer(pos):is_started() then
 				minetest.get_node_timer(pos):start(CYCLE_TIME)
+			end
+			if mem.running then
+				mem.power_ratio = techage.transfer(pos, 6, "trigger", nil, Pipe, {
+						"techage:cylinder", "techage:cylinder_on"}) or 0
+				return mem.power_ratio
+			else
+				return 0
 			end
 		end
 	end

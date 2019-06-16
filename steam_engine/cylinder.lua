@@ -32,24 +32,11 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
--- called from flywheel
-local function start_cylinder(pos, on)
-	local mem = tubelib2.get_mem(pos)
-	if on and mem.running then
-		swap_node(pos, "techage:cylinder_on")
-		techage.power.power_distribution(pos)
-		return true
-	else
-		swap_node(pos, "techage:cylinder")
-		techage.power.power_distribution(pos)
-		return false
-	end
-end	
-
 -- called with any pipe change
 local function after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
 	local mem = tubelib2.get_mem(pos)
 	mem.running = false
+	swap_node(pos, "techage:cylinder")
 end
 
 minetest.register_node("techage:cylinder", {
@@ -65,8 +52,6 @@ minetest.register_node("techage:cylinder", {
 	},
 	
 	on_construct = tubelib2.init_mem,
-	start_cylinder = start_cylinder,
-	
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -104,9 +89,7 @@ minetest.register_node("techage:cylinder_on", {
 		},
 	},
 	
-	start_cylinder = start_cylinder,
 	after_tube_update = after_tube_update,
-
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
 	diggable = false,
@@ -124,12 +107,27 @@ techage.power.register_node({"techage:cylinder", "techage:cylinder_on"}, {
 techage.register_node({"techage:cylinder", "techage:cylinder_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		local mem = tubelib2.get_mem(pos)
-		if  topic == "start" then
-			mem.running = true
-			return true
+		if topic == "trigger" then
+			local power = techage.transfer(pos, "R", "trigger", nil, nil, {
+						"techage:flywheel", "techage:flywheel_on"}) or 0
+			print("trigger", power, mem.running)
+				
+			if not power then
+				return 0
+			elseif power > 0 and not mem.running then
+				swap_node(pos, "techage:cylinder_on")
+				mem.running = true
+				return power
+			elseif power <= 0 and mem.running then
+				swap_node(pos, "techage:cylinder")
+				mem.running = false
+				return 0
+			else
+				return power
+			end
 		elseif topic == "stop" then
+			swap_node(pos, "techage:cylinder")
 			mem.running = false
-			return false
 		end
 	end
 })

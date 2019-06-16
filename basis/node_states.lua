@@ -26,18 +26,18 @@ Node states:
         |                      |         |         |          |                                      
         |               button |         +---------+          |                                      
         |                      |              ^               |                                      
- repair |                      V              | button        |                                      
+ button |                      V              | button        |                                      
         |                 +---------+         |               | button                               
-        |                 |         |---------+               |                                      
-        |                 | RUNNING |                         |                                      
-        |        +--------|         |---------+               |                                      
-        |        |        +---------+         |               |                                      
-        |        |           ^    |           |               |                                      
-        |        |           |    |           |               |                                      
-        |        V           |    V           V               |                                      
+        |      +--------->|         |---------+               |                                      
+        |      | power    | RUNNING |                         |                                      
+        |      |   +------|         |---------+               |                                      
+        |      |   |      +---------+         |               |                                      
+        |      |   |         ^    |           |               |                                      
+        |      |   |         |    |           |               |                                      
+        |      |   V         |    V           V               |                                      
         |   +---------+   +----------+   +---------+          |                                      
         |   |         |   | NOPOWER/ |   |         |          |                                      
-        +---| DEFECT  |   | STANDBY/ |   |  FAULT  |----------+                                      
+        +---| NOPOWER |   | STANDBY/ |   |  FAULT  |----------+                                      
             |         |   | BLOCKED  |   |         |                                                 
             +---------+   +----------+   +---------+                                                 
 
@@ -45,7 +45,6 @@ Node mem data:
 	"techage_state"      - node state, like "RUNNING"
 	"techage_item_meter" - node item/runtime counter
 	"techage_countdown"  - countdown to stadby mode
-	"techage_aging"      - aging counter
 ]]--
 
 -- for lazy programmers
@@ -64,7 +63,6 @@ techage.STANDBY = 3	-- nothing to do (e.g. no input items), or blocked anyhow (o
 techage.NOPOWER = 4	-- only for power consuming nodes
 techage.FAULT   = 5	-- any fault state (e.g. wrong source items), which can be fixed by the player
 techage.BLOCKED = 6 -- a pushing node is blocked due to a full destination inventory
-techage.DEFECT  = 7	-- a defect (broken), which has to be repaired by the player
 
 techage.StatesImg = {
 	"techage_inv_button_off.png", 
@@ -73,7 +71,6 @@ techage.StatesImg = {
 	"techage_inv_button_nopower.png", 
 	"techage_inv_button_error.png",
 	"techage_inv_button_warning.png",
-	"techage_inv_button_off.png",
 }
 
 -- Return state button image for the node inventory
@@ -94,7 +91,7 @@ function techage.get_power_image(pos, mem)
 end
 
 -- State string based on button states
-techage.StateStrings = {"stopped", "running", "standby", "nopower", "fault", "blocked", "defect"}
+techage.StateStrings = {"stopped", "running", "standby", "nopower", "fault", "blocked"}
 
 --
 -- Local States
@@ -105,10 +102,7 @@ local STANDBY = techage.STANDBY
 local NOPOWER = techage.NOPOWER
 local FAULT   = techage.FAULT
 local BLOCKED = techage.BLOCKED
-local DEFECT  = techage.DEFECT
 
-
-local AGING_FACTOR = 4  -- defect random factor
 
 --
 -- NodeStates Class Functions
@@ -134,11 +128,9 @@ function NodeStates:new(attr)
 		-- mandatory
 		cycle_time = attr.cycle_time, -- for running state
 		standby_ticks = attr.standby_ticks, -- for standby state
-		has_item_meter = attr.has_item_meter, -- true/false
 		-- optional
 		node_name_passive = attr.node_name_passive,
 		node_name_active = attr.node_name_active, 
-		node_name_defect = attr.node_name_defect,
 		infotext_name = attr.infotext_name,
 		can_start = attr.can_start or can_start,
 		start_node = attr.start_node,
@@ -146,10 +138,6 @@ function NodeStates:new(attr)
 		formspec_func = attr.formspec_func,
 		on_state_change = attr.on_state_change,
 	}
-	if attr.aging_factor then
-		o.aging_level1 = attr.aging_factor * techage.machine_aging_value
-		o.aging_level2 = attr.aging_factor * techage.machine_aging_value * AGING_FACTOR
-	end
 	setmetatable(o, self)
 	self.__index = self
 	return o
@@ -161,12 +149,7 @@ function NodeStates:node_init(pos, mem, number)
 	if self.infotext_name then
 		M(pos):set_string("infotext", self.infotext_name.." "..number..": stopped")
 	end
-	if self.has_item_meter then
-		mem.techage_item_meter = 0
-	end
-	if self.aging_level1 then
-		mem.techage_aging = 0
-	end
+	mem.techage_item_meter = 0
 	if self.formspec_func then
 		M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
 	end
@@ -174,30 +157,27 @@ end
 
 function NodeStates:stop(pos, mem)
 	local state = mem.techage_state or STOPPED
-	if state ~= DEFECT then
-		mem.techage_state = STOPPED
-		if self.stop_node then
-			self.stop_node(pos, mem, state)
-		end
-		if self.node_name_passive then
-			swap_node(pos, self.node_name_passive)
-		end
-		if self.infotext_name then
-			local number = M(pos):get_string("node_number")
-			M(pos):set_string("infotext", self.infotext_name.." "..number..": stopped")
-		end
-		if self.formspec_func then
-			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
-		end
-		if self.on_state_change then
-			self.on_state_change(pos, state, STOPPED)
-		end
-		if minetest.get_node_timer(pos):is_started() then
-			minetest.get_node_timer(pos):stop()
-		end
-		return true
+	mem.techage_state = STOPPED
+	if self.stop_node then
+		self.stop_node(pos, mem, state)
 	end
-	return false
+	if self.node_name_passive then
+		swap_node(pos, self.node_name_passive)
+	end
+	if self.infotext_name then
+		local number = M(pos):get_string("node_number")
+		M(pos):set_string("infotext", self.infotext_name.." "..number..": stopped")
+	end
+	if self.formspec_func then
+		M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
+	end
+	if self.on_state_change then
+		self.on_state_change(pos, state, STOPPED)
+	end
+	if minetest.get_node_timer(pos):is_started() then
+		minetest.get_node_timer(pos):stop()
+	end
+	return true
 end
 
 function NodeStates:start(pos, mem, called_from_on_timer)
@@ -297,7 +277,7 @@ end
 
 function NodeStates:nopower(pos, mem)
 	local state = mem.techage_state or RUNNING
-	if state ~= STOPPED and state ~= DEFECT then
+	if state ~= STOPPED then
 		mem.techage_state = NOPOWER
 		if self.node_name_passive then
 			swap_node(pos, self.node_name_passive)
@@ -341,26 +321,6 @@ function NodeStates:fault(pos, mem)
 	return false
 end	
 
-function NodeStates:defect(pos, mem)
-	local state = mem.techage_state or STOPPED
-	mem.techage_state = DEFECT
-	if self.node_name_defect then
-		swap_node(pos, self.node_name_defect)
-	end
-	if self.infotext_name then
-		local number = M(pos):get_string("node_number")
-		M(pos):set_string("infotext", self.infotext_name.." "..number..": defect")
-	end
-	if self.formspec_func then
-		M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
-	end
-	if self.on_state_change then
-		self.on_state_change(pos, state, DEFECT)
-	end
-	minetest.get_node_timer(pos):stop()
-	return true
-end	
-
 function NodeStates:get_state(mem)
 	return mem.techage_state or techage.STOPPED
 end
@@ -397,21 +357,11 @@ end
 
 -- To be called after successful node action to raise the timer
 -- and keep the node in state RUNNING
-function NodeStates:keep_running(pos, mem, val)
+function NodeStates:keep_running(pos, mem, val, num_items)
 	-- set to RUNNING if not already done
 	self:start(pos, mem, true)
-	mem.techage_countdown = val
-	if self.has_item_meter then
-		mem.techage_item_meter = (mem.techage_item_meter or 999999) + 1
-	end
-	if self.aging_level1 then
-		local cnt = mem.techage_aging + 1
-		mem.techage_aging = cnt
-		if (cnt > (self.aging_level1) and math.random(self.aging_level2) == 1)
-		or cnt >= 999999 then
-			self:defect(pos, mem)
-		end
-	end
+	mem.techage_countdown = val or 4
+	mem.techage_item_meter = (mem.techage_item_meter or 0) + (num_items or 1)
 end
 
 -- Start/stop node based on button events.
@@ -449,13 +399,11 @@ function NodeStates:on_receive_message(pos, topic, payload)
 			return "blocked"
 		end
 		return self:get_state_string(tubelib2.get_mem(pos))
-	elseif self.has_item_meter and topic == "counter" then
+	elseif topic == "counter" then
 		return mem.techage_item_meter or 1
-	elseif self.has_item_meter and topic == "clear_counter" then
+	elseif topic == "clear_counter" then
 		mem.techage_item_meter = 0
 		return true
-	elseif self.aging_level1 and topic == "aging" then
-		return mem.techage_aging or 1
 	end
 end
 	
@@ -466,6 +414,7 @@ function NodeStates:on_node_load(pos, not_start_timer)
 	-- Meta data corrupt?
 	local number = M(pos):get_string("node_number")
 	if number == "" then 
+		minetest.log("warning", "[TA] Node at "..S(pos).." has no node_number")
 		swap_node(pos, "techage:defect_dummy")
 		return
 	end
@@ -474,6 +423,13 @@ function NodeStates:on_node_load(pos, not_start_timer)
 	if number ~= "-" then 
 		local info = techage.get_node_info(number)
 		if not info or not info.pos or not vector.equals(pos, info.pos) then
+			if not info then
+				minetest.log("warning", "[TA] Node at "..S(pos).." has no info")
+			elseif not info.pos then
+				minetest.log("warning", "[TA] Node at "..S(pos).." has no info.pos")
+			elseif not vector.equals(pos, info.pos) then
+				minetest.log("warning", "[TA] Node at "..S(pos).." is pos ~= info.pos")
+			end
 			swap_node(pos, "techage:defect_dummy")
 			return
 		end
@@ -497,50 +453,6 @@ function NodeStates:on_node_load(pos, not_start_timer)
 	
 	if self.formspec_func then
 		M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
-	end
-end
-
--- Repair of defect (feature!) nodes
-function NodeStates:on_node_repair(pos)
-	local mem = tubelib2.get_mem(pos)
-	if mem.techage_state == DEFECT then
-		mem.techage_state = STOPPED
-		if self.node_name_passive then
-			swap_node(pos, self.node_name_passive)
-		end
-		if self.aging_level1 then
-			mem.techage_aging = 0
-		end
-		if self.infotext_name then
-			local number = M(pos):get_string("node_number")
-			M(pos):set_string("infotext", self.infotext_name.." "..number..": stopped")
-		end
-		if self.formspec_func then
-			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
-		end
-		return true
-	end
-	return false
-end	
-
--- Return working or defect machine, depending on machine lifetime
-function NodeStates:after_dig_node(pos, oldnode, oldmetadata, digger)
-	local mem = tubelib2.get_mem(pos)
-	local inv = minetest.get_inventory({type="player", name=digger:get_player_name()})
-	local cnt = math.max(mem.techage_aging or 1, 1)
-	local left_over
-	if self.aging_level1 then
-		local is_defect = cnt > self.aging_level1 and math.random(self.aging_level2 / cnt) == 1
-		if self.node_name_defect and is_defect then
-			left_over = inv:add_item("main", ItemStack(self.node_name_defect))
-		else
-			left_over = inv:add_item("main", ItemStack(self.node_name_passive))
-		end
-	else
-		left_over = inv:add_item("main", ItemStack(self.node_name_passive))
-	end
-	if left_over and left_over:get_count() > 0 then
-		minetest.add_item(pos, left_over)
 	end
 end
 

@@ -23,8 +23,8 @@ local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(po
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
-local STANDBY_TICKS = 10
-local COUNTDOWN_TICKS = 10
+local STANDBY_TICKS = 6
+local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 4
 
 
@@ -163,15 +163,6 @@ tiles.act = {
 	"techage_filling_ta#.png^techage_appl_grinder2.png^techage_frame_ta#.png",
 	"techage_filling_ta#.png^techage_appl_grinder2.png^techage_frame_ta#.png",
 }
-tiles.def = {
-	-- up, down, right, left, back, front
-	"techage_appl_grinder.png^techage_frame_ta#_top.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_appl_grinder2.png^techage_frame_ta#.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_appl_grinder2.png^techage_frame_ta#.png^techage_appl_defect.png",
-}
 
 local tubing = {
 	on_pull_item = function(pos, in_dir, num)
@@ -185,6 +176,7 @@ local tubing = {
 		local meta = minetest.get_meta(pos)
 		if meta:get_int("push_dir") == in_dir or in_dir == 5 then
 			local inv = M(pos):get_inventory()
+			CRD(pos).State:start_if_standby(pos)
 			return techage.put_items(inv, "src", stack)
 		end
 	end,
@@ -205,9 +197,6 @@ local tubing = {
 	end,
 	on_node_load = function(pos)
 		CRD(pos).State:on_node_load(pos)
-	end,
-	on_node_repair = function(pos)
-		return CRD(pos).State:on_node_repair(pos)
 	end,
 }
 
@@ -230,8 +219,6 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		},
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
-		has_item_meter = true,
-		aging_factor = 10,
 		formspec = formspec,
 		tubing = tubing,
 		after_place_node = function(pos, placer)

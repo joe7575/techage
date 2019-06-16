@@ -13,7 +13,6 @@ elseif minetest.global_exists("tubelib2") and tubelib2.version < 1.4 then
 else
 	techage.max_num_forceload_blocks = tonumber(minetest.setting_get("techage_max_num_forceload_blocks")) or 12
 	techage.basalt_stone_enabled = minetest.setting_get("techage_basalt_stone_enabled") == "true"
-	techage.machine_aging_value = tonumber(minetest.setting_get("techage_machine_aging_value")) or 100
 	techage.ore_rarity = tonumber(minetest.setting_get("techage_ore_rarity")) or 1
 	techage.modified_recipes_enabled = minetest.setting_get("techage_modified_recipes_enabled") == "true"
 
@@ -29,7 +28,6 @@ else
 	dofile(MP.."/basis/node_states.lua") -- state model
 	dofile(MP.."/basis/tubes.lua")  -- tubelib replacement
 	dofile(MP.."/basis/command.lua")  -- tubelib replacement
-	dofile(MP.."/basis/consumer.lua")  -- consumer base model
 	dofile(MP.."/basis/firebox_lib.lua")  -- common firebox functions
 	dofile(MP.."/basis/mark.lua")
 	dofile(MP.."/basis/assemble.lua")
@@ -82,6 +80,7 @@ else
 	dofile(MP.."/steam_engine/gearbox.lua")
 	
 	-- Basic Machines
+	dofile(MP.."/basis/consumer.lua")  -- consumer base model
 	dofile(MP.."/basic_machines/source.lua")
 	dofile(MP.."/basic_machines/pusher.lua")
 	dofile(MP.."/basic_machines/blackhole.lua")
@@ -136,8 +135,8 @@ else
 	
 	-- Test
 	dofile(MP.."/recipe_checker.lua")
-	dofile(MP.."/test/sink.lua")
-	dofile(MP.."/test/source.lua")
-	dofile(MP.."/test/akku.lua")
-	dofile(MP.."/test/switch.lua")
+	--dofile(MP.."/.test/sink.lua")
+	--dofile(MP.."/.test/source.lua")
+	--dofile(MP.."/.test/akku.lua")
+	--dofile(MP.."/.test/switch.lua")
 end

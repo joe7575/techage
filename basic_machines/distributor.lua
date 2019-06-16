@@ -312,15 +312,6 @@ tiles.act = {
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_red.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_blue.png",
 }
-tiles.def = {
-	-- up, down, right, left, back, front
-	"techage_filling_ta#.png^techage_appl_distri.png^techage_frame_ta#_top.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_yellow.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_green.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_red.png^techage_appl_defect.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_blue.png^techage_appl_defect.png",
-}
 
 local tubing = {
 	on_pull_item = function(pos, in_dir, num)
@@ -329,6 +320,7 @@ local tubing = {
 	end,
 	on_push_item = function(pos, in_dir, stack)
 		local inv = M(pos):get_inventory()
+		CRD(pos).State:start_if_standby(pos)
 		return techage.put_items(inv, "src", stack)
 	end,
 	on_unpull_item = function(pos, in_dir, stack)
@@ -358,17 +350,12 @@ local tubing = {
 	on_node_load = function(pos)
 		CRD(pos).State:on_node_load(pos)
 	end,
-	on_node_repair = function(pos)
-		return CRD(pos).State:on_node_repair(pos)
-	end,
 }
 
 local node_name_ta2, node_name_ta3, node_name_ta4 = 
 	techage.register_consumer("distributor", I("Distributor"), tiles, {
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
-		has_item_meter = true,
-		aging_factor = 10,
 		formspec = formspec,
 		tubing = tubing,
 		after_place_node = function(pos, placer)

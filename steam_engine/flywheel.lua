@@ -23,65 +23,50 @@ local I,_ = dofile(MP.."/intllib.lua")
 
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
-local CYCLE_TIME = 8
-local POWER_CAPACITY = 25
+local CYCLE_TIME = 2
+local PWR_CAPA = 25
 
 local Axle = techage.Axle
+local provide_power = techage.power.provide_power
+local power_switched = techage.power.power_switched
 
 local function formspec(self, pos, mem)
 	return "size[8,7]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
-		"image[6,0.5;1,2;"..techage.power.formspec_power_bar(POWER_CAPACITY, mem.power_result).."]"..
+		"image[6,0.5;1,2;"..techage.power.formspec_power_bar(PWR_CAPA, mem.provided).."]"..
 		"image_button[5,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 		"button[2,1.5;2,1;update;"..I("Update").."]"..
 		"list[current_player;main;0,3;8,4;]"..
 		default.get_hotbar_bg(0, 3)
 end
 
-local function start_cylinder(pos, on, mem)
-	if not on then
-		if mem.handle then
-			minetest.sound_stop(mem.handle)
-			mem.handle = nil
-		end
-	end
-	local pos2 = techage.get_pos(pos, 'L')
-	local ndef = minetest.registered_nodes[minetest.get_node(pos2).name]
-	if ndef and ndef.start_cylinder then
-		return ndef.start_cylinder(pos2, on)
-	end
-	return false
-end
-
 local function can_start(pos, mem, state)
-	return start_cylinder(pos, true, mem)
-end
-
-local function play_sound(pos)
-	local mem = tubelib2.get_mem(pos)
-	if mem.techage_state == techage.RUNNING then
-		mem.handle = minetest.sound_play("techage_steamengine", {
-			pos = pos, 
-			gain = 0.5,
-			max_hear_distance = 10})
-		minetest.after(2, play_sound, pos)
-	end
+	return (mem.triggered or 0) > 0 -- by means of firebox
 end
 
 local function start_node(pos, mem, state)
-	techage.power.power_distribution(pos)
-	if mem.power_result > 0 then
-		techage.switch_axles(pos, true)
-		play_sound(pos)
-	end
+	mem.generating = true  -- needed for power distribution
+	techage.switch_axles(pos, true)
+	minetest.get_node_timer(pos):start(CYCLE_TIME)
+	mem.handle = minetest.sound_play("techage_steamengine", {
+		pos = pos, 
+		gain = 0.5,
+		max_hear_distance = 10})
+	power_switched(pos)
 end
 
 local function stop_node(pos, mem, state)
-	start_cylinder(pos, false, mem)
-	techage.power.power_distribution(pos)
+	mem.generating = false
 	techage.switch_axles(pos, false)
+	minetest.get_node_timer(pos):stop()
+	if mem.handle then
+		minetest.sound_stop(mem.handle)
+		mem.handle = nil
+	end
+	power_switched(pos)
+	mem.provided = 0
 end
 
 local State = techage.NodeStates:new({
@@ -95,43 +80,25 @@ local State = techage.NodeStates:new({
 	stop_node = stop_node,
 })
 
--- Pass1: Power balance calculation
-local function on_power_pass1(pos, mem)
-	if State:is_active(mem) then
-		return -POWER_CAPACITY
-	end
-	return 0
-end	
-		
--- Pass2: Power balance adjustment
-local function on_power_pass2(pos, mem, sum)
-	return 0
-end
-
--- Pass3: Power balance result
-local function on_power_pass3(pos, mem, sum)
-	mem.power_result = sum
-end
-
-local function distibuting(pos, mem)
-	if mem.power_result > 0 then
-		State:keep_running(pos, mem, COUNTDOWN_TICKS)
-	else
-		State:fault(pos, mem)	
-		start_cylinder(pos, false, mem)
-		techage.power.power_distribution(pos)
-	end
-end
-
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	local pos2 = techage.get_pos(pos, 'L')
-	if minetest.get_node(pos2).name == "techage:cylinder_on" and tubelib2.get_mem(pos2).running then
-		distibuting(pos, mem)
+	mem.triggered = mem.triggered or 0
+	if mem.triggered > 0 and mem.generating then
+		mem.provided = provide_power(pos, PWR_CAPA)
+		mem.triggered = mem.triggered - 1
+		State:keep_running(pos, mem, COUNTDOWN_TICKS)
+		mem.handle = minetest.sound_play("techage_steamengine", {
+			pos = pos, 
+			gain = 0.5,
+			max_hear_distance = 10})
+	elseif mem.generating then -- trigger missing
+		State:stop(pos, mem)
+		mem.generating = 0
+		mem.provided = 0
+		techage.transfer(pos, "L", "stop", nil, nil, {
+						"techage:cylinder_on"})	
 	else
-		State:fault(pos, mem)	
-		start_cylinder(pos, false, mem)
-		techage.power.power_distribution(pos)
+		mem.provided = 0
 	end
 	return State:is_active(mem)
 end
@@ -151,6 +118,9 @@ end
 local function on_rightclick(pos)
 	local mem = tubelib2.get_mem(pos)
 	M(pos):set_string("formspec", formspec(State, pos, mem))
+	if mem.generating then
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
+	end
 end
 
 minetest.register_node("techage:flywheel", {
@@ -173,15 +143,10 @@ minetest.register_node("techage:flywheel", {
 		on_rightclick(pos)
 	end,
 
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		State:after_dig_node(pos, oldnode, oldmetadata, digger)
-	end,
-	
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
 
-	drop = "",
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -242,11 +207,22 @@ minetest.register_node("techage:flywheel_on", {
 })
 
 techage.power.register_node({"techage:flywheel", "techage:flywheel_on"}, {
-	on_power_pass1 = on_power_pass1,
-	on_power_pass2 = on_power_pass2,
-	on_power_pass3 = on_power_pass3,
 	conn_sides = {"R"},
 	power_network = Axle,
+})
+
+techage.register_node({"techage:flywheel", "techage:flywheel_on"}, {
+	on_transfer = function(pos, in_dir, topic, payload)
+		local mem = tubelib2.get_mem(pos)
+		if topic == "trigger" then
+			mem.triggered = 2
+			if mem.generating then
+				return math.max((mem.provided or PWR_CAPA) / PWR_CAPA, 0.1)
+			else
+				return 0
+			end
+		end
+	end
 })
 
 minetest.register_craft({
@@ -256,17 +232,6 @@ minetest.register_craft({
 		{"", "basic_materials:gear_steel", "techage:axle"},
 		{"default:wood", "techage:iron_ingot", "basic_materials:steel_bar"},
 	},
-})
-
-minetest.register_lbm({
-	label = "[techage] Steam engine sound",
-	name = "techage:steam_engine",
-	nodenames = {"techage:flywheel_on"},
-	run_at_every_load = true,
-	action = function(pos, node)
-		play_sound(pos)
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-	end
 })
 
 techage.register_help_page(I("TA2 Flywheel"), 

@@ -108,14 +108,6 @@ function techage.firebox.on_receive_fields(pos, formname, fields, player)
 	if fields.power_level then
 		local mem = tubelib2.get_mem(pos)
 		mem.power_level = PowerLevel[fields.power_level]
-		techage.transfer(
-			{x=pos.x, y=pos.y+2, z=pos.z}, 
-			nil,  -- outdir
-			"power_level",  -- topic
-			mem.power_level,  -- payload
-			nil,  -- network
-			{"techage:coalboiler_top"}  -- nodenames
-		)
 	end
 end
 
