@@ -8,8 +8,8 @@ local MP = minetest.get_modpath("techage")
 local I,IS = dofile(MP.."/intllib.lua")
 
 
-local PROBABILITY = 100
-local OIL_MIN = 1000
+local PROBABILITY = 80
+local OIL_MIN = 2000
 local OIL_MAX = 20000
 local DEPTH_MIN = 8
 local DEPTH_MAX = (16 * 25) + 8

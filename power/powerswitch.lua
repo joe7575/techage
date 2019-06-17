@@ -178,3 +178,11 @@ minetest.register_craft({
 	},
 })
 
+minetest.register_craft({
+	output = "techage:powerswitch_box",
+	recipe = {
+		{"", "basic_materials:plastic_sheet", ""},
+		{"techage:electric_cableS", "basic_materials:copper_wire", "techage:electric_cableS"},
+		{"", "basic_materials:plastic_sheet", ""},
+	},
+})

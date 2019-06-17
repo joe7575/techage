@@ -239,7 +239,7 @@ local _, node_name_ta3, _ =
 minetest.register_craft({
 	output = node_name_ta3,
 	recipe = {
-		{"", "techage:baborium_ingot", ""},
+		{"", "techage:usmium_nuggets", ""},
 		{"", "default:furnace", ""},
 		{"", "techage:vacuum_tube", ""},
 	},

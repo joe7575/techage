@@ -177,7 +177,7 @@ if techage.max_num_forceload_blocks > 0 then
 		output = "techage:forceload",
 		recipe = {
 			{"group:wood", "", "group:wood"},
-			{"default:mese_crystal_fragment", "techage:baborium_lump", "default:mese_crystal_fragment"},
+			{"default:mese_crystal_fragment", "techage:usmium_nuggets", "default:mese_crystal_fragment"},
 			{"group:wood", "techage:iron_ingot", "group:wood"},
 		},
 	})

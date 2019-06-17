@@ -27,7 +27,7 @@ local CYCLE_TIME = 2
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	print("firebox burn_cycles = "..(mem.burn_cycles or 0))
+	--print("firebox burn_cycles = "..(mem.burn_cycles or 0))
 	if mem.running then
 		local power = techage.transfer(
 			{x=pos.x, y=pos.y+2, z=pos.z}, 

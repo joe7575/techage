@@ -276,8 +276,10 @@ techage.register_node({"techage:coalboiler_top"}, {
 		if topic == "trigger" then
 			local mem = tubelib2.get_mem(pos)
 			mem.fire_trigger = true
-			mem.power_ratio = transfer(pos, topic, payload)
-			return mem.power_ratio
+			if mem.running then
+				mem.power_ratio = transfer(pos, topic, payload)
+				return mem.power_ratio
+			end
 		end
 	end
 })

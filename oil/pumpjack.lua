@@ -186,7 +186,7 @@ local _, node_name_ta3, _ =
 minetest.register_craft({
 	output = "techage:ta3_pumpjack_pas",
 	recipe = {
-		{"", "techage:baborium_ingot", ""},
+		{"", "techage:usmium_nuggets", ""},
 		{"dye:red", "techage:ta3_pusher_pas", "dye:red"},
 		{"", "techage:oil_drillbit", ""},
 	},

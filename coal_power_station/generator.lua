@@ -158,7 +158,7 @@ minetest.register_node("techage:generator_on", {
 			},
 		},
 		{
-			image = "techage_filling4_ta3.png^techage_appl_generator4.png^techage_frame4_ta3.png",
+			image = "techage_filling4_ta3.png^techage_appl_generator4.png^[transformFX]^techage_frame4_ta3.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

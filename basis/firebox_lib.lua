@@ -76,7 +76,7 @@ end
 function techage.firebox.can_dig(pos, player)
 	local mem = tubelib2.get_mem(pos)
 	local inv = M(pos):get_inventory()
-	return inv:is_empty("fuel") and not mem.running
+	return inv:is_empty("fuel")
 end
 
 function techage.firebox.allow_metadata_inventory(pos, listname, index, stack, player)

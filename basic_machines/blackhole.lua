@@ -44,7 +44,7 @@ minetest.register_craft({
 	output = "techage:blackhole",
 	recipe = {
 		{"group:wood", "", "group:wood"},
-		{"tubelib:tubeS", "default:coal_lump", ""},
+		{"techage:tubeS", "default:coal_lump", ""},
 		{"group:wood", "techage:iron_ingot", "group:wood"},
 	},
 })
