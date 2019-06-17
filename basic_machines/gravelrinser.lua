@@ -113,7 +113,7 @@ end
 
 local function add_object(pos, name)
 	local dir = determine_water_dir(pos)
-	if dir then
+	if dir > 0 then
 		local obj = minetest.add_item(pos, ItemStack(name))
 		local vel = vector.multiply(tubelib2.Dir6dToVector[dir], 0.3)
 		minetest.after(0.3, set_velocity, obj, pos, vel)

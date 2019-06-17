@@ -48,6 +48,24 @@ local Images = {
 
 techage.register_help_page("Coal Power Station", HelpText, nil, Images)
 
+local PowerConsumption = S([[
+Power consumption and supply:
+- TA3 Generator: 80
+- TA3 Akku Box: 10 (in both dirs)
+- TA3 Oil Drill Box: 16
+- TA3 Oil Pumpjack: 16
+- TA3 Electronic Fab: 12
+- TA3 Autocrafter: 6
+- TA3 Grinder: 6
+- TA3 Gravel Sieve: 4
+- TA3 Booster: 3
+- Lamps: 0.5
+
+- Signs Bot: 8 (while loading)
+]])
+
+techage.register_help_page("Power Consumption", PowerConsumption, "techage:t3_source", nil)
+
 
 techage.register_help_page(S("TA3 Electronic Fab"), 
 S([[Used to produce WLAN Chips, 
