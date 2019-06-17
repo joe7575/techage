@@ -42,7 +42,6 @@ local function swap_node(pos, name)
 end
 
 local function node_timer(pos, elapsed)
-	--print("node_timer sink "..S(pos))
 	local mem = tubelib2.get_mem(pos)
 	if mem.running then
 		local got = consume_power(pos, PWR_NEEDED)
@@ -68,7 +67,7 @@ minetest.register_node("techage:ta3_booster", {
 		"techage_filling_ta3.png^techage_appl_arrow.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_appl_hole_biogas.png^techage_frame_ta3.png",
-		"techage_filling_ta3.png^techage_appl_hole_biogas.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_appl_hole_electric.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_appl_compressor.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_appl_compressor.png^[transformFX^techage_frame_ta3.png",
 	},
@@ -80,7 +79,7 @@ minetest.register_node("techage:ta3_booster", {
 		M(pos):set_int("indir", indir)
 		infotext(pos, "stopped")
 	end,
-	on_time = node_timer,
+	on_timer = node_timer,
 	
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -96,7 +95,7 @@ minetest.register_node("techage:ta3_booster_on", {
 		"techage_filling_ta3.png^techage_appl_arrow.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_appl_hole_biogas.png^techage_frame_ta3.png",
-		"techage_filling_ta3.png^techage_appl_hole_biogas.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_appl_hole_electric.png^techage_frame_ta3.png",
 		{
 			image = "techage_filling4_ta3.png^techage_appl_compressor4.png^techage_frame4_ta3.png",
 			backface_culling = false,
@@ -119,7 +118,7 @@ minetest.register_node("techage:ta3_booster_on", {
 		},
 	},
 	
-	on_time = node_timer,
+	on_timer = node_timer,
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory = 1},
 	diggable = false,
@@ -130,7 +129,7 @@ minetest.register_node("techage:ta3_booster_on", {
 
 techage.power.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 	power_network = Power,
-	conn_sides = {"F", "B", "U", "D"},
+	conn_sides = {"F", "B", "U", "D", "L"},
 })
 
 -- for intra machine communication
@@ -139,18 +138,20 @@ techage.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 		if M(pos):get_int("indir") == in_dir then
 			local mem = tubelib2.get_mem(pos)
 			if topic == "power" then
-				return power_available(pos)
+				return mem.running
 			elseif topic == "start" then
-				if power_available(pos) then
+				if power_available(pos, PWR_NEEDED) then
 					mem.running = true
-					swap_node(pos, "techage:ta3_booster_on")
+					node_timer(pos, 2)
 					infotext(pos, "running")
+					minetest.get_node_timer(pos):start(CYCLE_TIME)
 				else
 					infotext(pos, "no power")
 				end
 			elseif topic == "stop" then
 				mem.running = false
 				swap_node(pos, "techage:ta3_booster")
+				minetest.get_node_timer(pos):stop()
 				if mem.has_power then
 					infotext(pos, "stopped")
 				else

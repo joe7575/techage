@@ -38,7 +38,7 @@ local consume_power = techage.power.consume_power
 local power_available = techage.power.power_available
 
 local function can_start(pos, mem, state)
-	return power_available(pos)
+	return power_available(pos, CRD(pos).power_consumption)
 end
 
 local function start_node(pos, mem, state)

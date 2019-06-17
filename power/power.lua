@@ -350,17 +350,17 @@ function techage.power.secondary_power(pos, provide, needed)
 	return 0
 end
 
-function techage.power.power_available(pos)
+function techage.power.power_available(pos, needed)
 	local mem = tubelib2.get_mem(pos)
-	if mem.is_master then
-		return mem.reserve
-	elseif mem.master_pos then
+	if mem.master_pos then
 		mem = tubelib2.get_mem(mem.master_pos)
+		if needed then
+			-- for next cycle
+			mem.needed1 = (mem.needed1 or 0) + needed
+		end
 		return mem.reserve
-	else
-		return false
 	end
-	
+	return false
 end		
 		
 function techage.power.percent(max_val, curr_val)

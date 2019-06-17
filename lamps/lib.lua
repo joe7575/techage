@@ -8,6 +8,7 @@ local CYCLE_TIME = 2
 
 local Cable = techage.ElectricCable
 local consume_power = techage.power.consume_power
+local power_available = techage.power.power_available
 
 local function swap_node(pos, postfix)
 	local node = techage.get_node_lvm(pos)
@@ -40,9 +41,9 @@ local function lamp_on_rightclick(pos, node, clicker)
 		return
 	end
 	local mem = tubelib2.get_mem(pos)
-	if not mem.running then
+	if not mem.running and power_available(pos, PWR_NEEDED) then
 		mem.running = true
-		node_timer(pos, 2)
+		swap_node(pos, "on")
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	else
 		mem.running = false
