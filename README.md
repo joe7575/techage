@@ -10,8 +10,10 @@ Textures: CC BY-SA 3.0
 
 
 ### Dependencies  
-default,tubelib2,basic_materials,bucket,stairs  
-unified_inventory,wielded_light  
+Required: default, tubelib2, basic_materials, bucket, stairs  
+Optional: unified_inventory, wielded_light  
+Highly recommended: signs_bot, minecart  
 
 ### History  
 - 2019-06-16  V0.01  * First upload
+
