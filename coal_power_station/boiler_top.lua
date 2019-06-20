@@ -23,7 +23,7 @@ local I,_ = dofile(MP.."/intllib.lua")
 
 local CYCLE_TIME = 4
 local STANDBY_TICKS = 2
-local COUNTDOWN_TICKS = 2
+local COUNTDOWN_TICKS = 20
 local HEAT_STEP = 10
 local WATER_CONSUMPTION = 0.1
 local MAX_WATER = 10
@@ -66,16 +66,18 @@ local function formspec(self, pos, mem)
 end
 
 local function can_start(pos, mem, state)
-	return mem.temperature and mem.temperature > 80
+	return mem.temperature and mem.temperature >= 80
 end
 
 local function start_node(pos, mem, state)
 	mem.running = transfer(pos, "start", nil)
+	mem.power_ratio = 0
 end
 
 local function stop_node(pos, mem, state)
 	transfer(pos, "stop", nil)
 	mem.running = false
+	mem.power_ratio = 0
 end
 
 local State = techage.NodeStates:new({
@@ -123,15 +125,15 @@ local function steaming(pos, mem, temp)
 	local wc = WATER_CONSUMPTION * (mem.power_ratio or 1)
 	mem.water_level = math.max((mem.water_level or 0) - wc, 0)
 	mem.running = transfer(pos, "running", nil)
-	if temp >= 80 then
-		if mem.running then
-			State:keep_running(pos, mem, COUNTDOWN_TICKS)
+	if not mem.running then
+		State:fault(pos, mem)	
+	elseif temp > 20 then
+		if temp < 80 then
+			State:stop(pos, mem)
+			minetest.get_node_timer(pos):start(CYCLE_TIME)
 		else
-			State:fault(pos, mem)	
+			State:keep_running(pos, mem, COUNTDOWN_TICKS)
 		end
-	else
-		State:stop(pos, mem)
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end
 end
 

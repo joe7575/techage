@@ -89,6 +89,7 @@ else
 	dofile(MP.."/basic_machines/autocrafter.lua")
 	dofile(MP.."/basic_machines/forceload.lua")
 	dofile(MP.."/basic_machines/electronic_fab.lua")
+	dofile(MP.."/basic_machines/generator.lua")
 
 	-- Coal power station
 	dofile(MP.."/coal_power_station/help.lua")

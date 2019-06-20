@@ -50,7 +50,8 @@ techage.register_help_page("Coal Power Station", HelpText, nil, Images)
 
 local PowerConsumption = S([[
 Power consumption and supply:
-- TA3 Generator: 80
+- TA3 Power Station: 80
+- TA3 Tiny Generator: 12
 - TA3 Akku Box: 10 (in both dirs)
 - TA3 Oil Drill Box: 16
 - TA3 Oil Pumpjack: 16
@@ -65,6 +66,21 @@ Power consumption and supply:
 ]])
 
 techage.register_help_page("Power Consumption", PowerConsumption, "techage:t3_source", nil)
+
+
+local BurnCycles = S([[
+Burning times with one oil item for  
+Stream Engine  /  Power Station  /  Tiny Generator:
+
+Power max.     :     25 /  80  /  12
+Oil burn time/s :     32 /  20  /  100 
+
+burn time at power   2  :    400  /  800  /   600
+burn time at power 10  :      80  /  160  /   120
+burn time at power 20  :      40  /    80  /      --
+]])
+
+techage.register_help_page("Oil Burning Times", BurnCycles, "techage:t3_source", nil)
 
 
 techage.register_help_page(S("TA3 Electronic Fab"), 

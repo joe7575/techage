@@ -24,6 +24,7 @@ local I,_ = dofile(MP.."/intllib.lua")
 local firebox = techage.firebox
 
 local CYCLE_TIME = 2
+local BURN_CYCLE_FACTOR = 0.5
 
 local function firehole(pos, on)
 	local param2 = minetest.get_node(pos).param2
@@ -50,11 +51,12 @@ local function node_timer(pos, elapsed)
 			nil,  -- network
 			{"techage:coalboiler_top"}  -- nodenames
 		)
-		mem.burn_cycles = (mem.burn_cycles or 0) - math.max((ratio or 0.02), 0.02)
+		ratio = math.max((ratio or 0.02), 0.02)
+		mem.burn_cycles = (mem.burn_cycles or 0) - ratio
 		if mem.burn_cycles <= 0 then
 			local taken = firebox.get_fuel(pos) 
 			if taken then
-				mem.burn_cycles = firebox.Burntime[taken:get_name()] / CYCLE_TIME
+				mem.burn_cycles = firebox.Burntime[taken:get_name()] / CYCLE_TIME * BURN_CYCLE_FACTOR
 				mem.burn_cycles_total = mem.burn_cycles
 			else
 				mem.running = false

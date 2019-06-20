@@ -208,7 +208,7 @@ techage.register_node({"techage:generator", "techage:generator_on"}, {
 			mem.triggered = 2
 			mem.power_level = payload
 			if mem.generating then
-				return math.max((mem.provided or PWR_CAPA) / PWR_CAPA, 0.1)
+				return math.max((mem.provided or PWR_CAPA) / PWR_CAPA, 0.02)
 			else
 				return 0
 			end

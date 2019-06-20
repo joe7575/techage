@@ -390,6 +390,7 @@ end
 
 function techage.power.formspec_power_bar(max_power, current_power)
 	local percent = techage.power.percent(max_power, current_power)
+	percent = (percent + 5) / 1.22  -- texture correction
 	return "techage_form_level_bg.png^[lowpart:"..percent..":techage_form_level_fg.png"
 end
 
