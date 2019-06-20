@@ -124,10 +124,31 @@ function techage.can_node_dig(node, ndef)
 	return true
 end	
 
+local function handle_drop(drop)
+	-- To keep it simple, return only the item with the lowest rarity
+	if drop.items then
+		local rarity = 9999
+		local name
+		for idx,item in ipairs(drop.items) do
+			if item.rarity and item.rarity < rarity then
+				rarity = item.rarity
+				name = item.items[1] -- take always the first item
+			else
+				return item.items[1] -- take always the first item
+			end
+		end
+		return name
+	end
+	return false
+end
+
 -- returns the node name, if node can be dropped, otherwise nil
 function techage.dropped_node(node, ndef)
 	if node.name == "air" then return end
 	if ndef.buildable_to == true then return end
 	if ndef.drop == "" then return end
+	if type(ndef.drop) == "table" then
+		return handle_drop(ndef.drop)
+	end
 	return ndef.drop or node.name
 end	

@@ -21,6 +21,10 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
+local Cable = techage.ElectricCable
+local power_cut = techage.power.power_cut
+
+
 local Param2ToDir = {
 	[0] = 6,
 	[1] = 5,
@@ -42,7 +46,7 @@ local function switch_on(pos, node, clicker)
 			max_hear_distance = 5,
 		})
 	local dir = Param2ToDir[node.param2]
-	techage.power.power_cut(pos, dir, techage.ElectricCable, false)
+	power_cut(pos, dir, Cable, false)
 end
 
 local function switch_off(pos, node, clicker)
@@ -58,7 +62,7 @@ local function switch_off(pos, node, clicker)
 			max_hear_distance = 5,
 		})
 	local dir = Param2ToDir[node.param2]
-	techage.power.power_cut(pos, dir, techage.ElectricCable, true)
+	power_cut(pos, dir, Cable, true)
 end
 
 
@@ -167,7 +171,7 @@ minetest.register_node("techage:powerswitch_box", {
 })
 
 techage.power.register_node({"techage:powerswitch_box"}, {
-		power_network = techage.ElectricCable})
+		power_network = Cable})
 
 minetest.register_craft({
 	output = "techage:powerswitch 2",

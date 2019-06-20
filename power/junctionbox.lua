@@ -19,6 +19,9 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
+local Cable = techage.ElectricCable
+local power_switched = techage.power.power_switched
+
 local size = 3/32
 local Boxes = {
 	{{-size, -size,  size, size,  size, 0.5 }}, -- z+
@@ -29,7 +32,7 @@ local Boxes = {
 	{{-size, -size, -size, size,  0.5,  size}}, -- y+
 }
 
-techage.register_junction("techage:electric_junction", 2/8, Boxes, techage.ElectricCable, {
+techage.register_junction("techage:electric_junction", 2/8, Boxes, Cable, {
 	description = I("TA Electric Junction Box"),
 	tiles = {"techage_electric_junction.png"},
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
@@ -37,9 +40,9 @@ techage.register_junction("techage:electric_junction", 2/8, Boxes, techage.Elect
 
 	on_construct = tubelib2.init_mem,
 	after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
-		local name = "techage:electric_junction"..techage.junction_type(pos, techage.ElectricCable)
+		local name = "techage:electric_junction"..techage.junction_type(pos, Cable)
 		minetest.swap_node(pos, {name = name, param2 = 0})
-		techage.power.on_network_change(pos)
+		power_switched(pos)
 	end,
 	})
 

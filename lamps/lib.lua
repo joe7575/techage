@@ -4,7 +4,7 @@ local P = minetest.string_to_pos
 local M = minetest.get_meta
 
 local PWR_NEEDED = 0.5
-local CYCLE_TIME = 2
+local CYCLE_TIME = 4
 
 local Cable = techage.ElectricCable
 local consume_power = techage.power.consume_power
@@ -20,20 +20,29 @@ local function swap_node(pos, postfix)
 	minetest.swap_node(pos, node)
 end
 
-local function node_timer(pos, elapsed)
-	--print("node_timer lamp "..S(pos))
+local function on_power(pos)
 	local mem = tubelib2.get_mem(pos)
-	if mem.running then
+	if mem.turned_on then
 		local got = consume_power(pos, PWR_NEEDED)
-		if got < PWR_NEEDED then
+		if got < PWR_NEEDED and mem.node_on then
 			swap_node(pos, "off")
-		else
+			mem.node_on = false
+		elseif not mem.node_on then
 			swap_node(pos, "on")
+			mem.node_on = true
 		end
-		return true
+		mem.trigger = true
 	end
-	swap_node(pos, "off")
-	return false
+end
+
+local function node_timer(pos, elapsed)
+	local mem = tubelib2.get_mem(pos)
+	if mem.node_on and not mem.trigger then
+		mem.node_on = false
+		swap_node(pos, "off")
+	end
+	mem.trigger = false
+	return mem.turned_on
 end
 
 local function lamp_on_rightclick(pos, node, clicker)
@@ -41,14 +50,20 @@ local function lamp_on_rightclick(pos, node, clicker)
 		return
 	end
 	local mem = tubelib2.get_mem(pos)
-	if not mem.running and power_available(pos, PWR_NEEDED) then
-		mem.running = true
+	mem.turned_on = not mem.turned_on 
+	if mem.turned_on and power_available(pos, PWR_NEEDED) then
+		mem.node_on = true
 		swap_node(pos, "on")
+		mem.trigger = true
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
+	elseif mem.turned_on then
+		mem.node_on = false
+		swap_node(pos, "off")
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	else
-		mem.running = false
-		minetest.get_node_timer(pos):stop()
+		mem.node_on = false
 		swap_node(pos, "off")
+		minetest.get_node_timer(pos):stop()
 	end
 end
 
@@ -105,5 +120,6 @@ function techage.register_lamp(basename, ndef_off, ndef_on)
 	techage.power.register_node({basename.."_off", basename.."_on"}, {
 		power_network  = Cable,
 		conn_sides = ndef_off.conn_sides or determine_power_side,  -- will be handled by clbk function
+		on_power = on_power,
 	})
 end

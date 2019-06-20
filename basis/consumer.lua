@@ -193,7 +193,6 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				on_metadata_inventory_put = tNode.on_metadata_inventory_put,
 				on_metadata_inventory_take = tNode.on_metadata_inventory_take,
 
-				drop = "",
 				paramtype2 = "facedir",
 				groups = table.copy(tNode.groups),
 				is_ground_content = false,
@@ -222,6 +221,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				on_metadata_inventory_take = tNode.on_metadata_inventory_take,
 
 				paramtype2 = "facedir",
+				drop = "",
 				diggable = false,
 				groups = tNode.groups,
 				is_ground_content = false,

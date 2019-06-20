@@ -143,6 +143,16 @@ local function store_master(pos, master_pos)
 		end)
 end
 
+local function trigger_lamps(pos)
+	Route = {}
+	pos_already_reached(pos) 
+	connection_walk(pos, function(pos, mem)
+			local pwr = PWR(pos)
+			if pwr and pwr.on_power then
+				pwr.on_power(pos)
+			end
+		end)
+end
 
 -- called from any generator
 local function on_power_switch(pos)
@@ -154,7 +164,6 @@ local function on_power_switch(pos)
 	local mpos = determine_master(pos)
 	store_master(pos, mpos)
 	if mpos then
-		--print("master = "..S(mpos))
 		local mem = tubelib2.get_mem(mpos)
 		mem.is_master = true
 		return mem
@@ -189,21 +198,12 @@ local function accounting(mem)
 	mem.available2 = 0
 end
 
--- called from tubelib2.after_tube_update
-local function on_network_change(pos)
-	local mem = on_power_switch(pos)
-	if mem then
-		accounting(mem)
-	end
-end
-
 --
 -- Generic API functions
 --
 techage.power = {}
 
 techage.power.power_switched = on_power_switch
-techage.power.on_network_change = on_network_change
 
 -- Used to turn on/off the power by means of a power switch
 function techage.power.power_cut(pos, dir, cable, cut)
@@ -223,6 +223,7 @@ function techage.power.power_cut(pos, dir, cable, cut)
 		for dir,_ in pairs(mem.connections) do
 			mem.interrupted_dirs[dir] = false
 			on_power_switch(npos)
+			trigger_lamps(npos)
 			mem.interrupted_dirs[dir] = true
 		end
 	else
@@ -238,6 +239,7 @@ function techage.power.register_node(names, pwr_def)
 			minetest.override_item(name, {
 				power = {
 					conn_sides = pwr_def.conn_sides or {"L", "R", "U", "D", "F", "B"},
+					on_power = pwr_def.on_power,
 					power_network = pwr_def.power_network,
 					after_place_node = ndef.after_place_node,
 					after_dig_node = ndef.after_dig_node,
@@ -274,7 +276,7 @@ function techage.power.register_node(names, pwr_def)
 						mem.connections[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}
 					end
 					-- To be called delayed, so that all network connections have been established
-					minetest.after(0.2, on_network_change, pos)
+					minetest.after(0.2, on_power_switch, pos)
 					if pwr.after_tube_update then
 						return pwr.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
 					end
@@ -304,6 +306,7 @@ function techage.power.provide_power(pos, provide)
 	local mem = tubelib2.get_mem(pos)
 	if mem.is_master then
 		accounting(mem)
+		trigger_lamps(pos, mem)
 	elseif mem.master_pos then
 		mem = tubelib2.get_mem(mem.master_pos)
 	else
@@ -322,6 +325,7 @@ function techage.power.secondary_power(pos, provide, needed)
 	local mem = tubelib2.get_mem(pos)
 	if mem.is_master then
 		accounting(mem)
+		trigger_lamps(pos, mem)
 	elseif mem.master_pos then
 		mem = tubelib2.get_mem(mem.master_pos)
 	else

@@ -39,18 +39,18 @@ end
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	--print("firebox burn_cycles = "..(mem.burn_cycles or 0))
+	print("firebox burn_cycles = "..(mem.burn_cycles or 0))
 	if mem.running then
 		-- trigger generator and provide power ratio 0..1
 		local ratio = techage.transfer(
 			{x=pos.x, y=pos.y+2, z=pos.z}, 
 			nil,  -- outdir
 			"trigger",  -- topic
-			mem.power_level/4.0,  -- payload
+			(mem.power_level or 4)/4.0,  -- payload
 			nil,  -- network
 			{"techage:coalboiler_top"}  -- nodenames
 		)
-		mem.burn_cycles = (mem.burn_cycles or 0) - math.max((ratio or 0.1), 0.1)
+		mem.burn_cycles = (mem.burn_cycles or 0) - math.max((ratio or 0.02), 0.02)
 		if mem.burn_cycles <= 0 then
 			local taken = firebox.get_fuel(pos) 
 			if taken then
