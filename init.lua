@@ -32,9 +32,6 @@ else
 	dofile(MP.."/basis/mark.lua")
 	dofile(MP.."/basis/assemble.lua")
 	
-	-- Overrides
-	dofile(MP.."/overrides/signs_bot.lua")
-	
 	-- Tools
 	dofile(MP.."/tools/trowel.lua")
 	dofile(MP.."/tools/repairkit.lua")
