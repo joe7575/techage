@@ -60,8 +60,6 @@ techage.furnace.register_recipe({
 	recipe = {
 		"techage:basalt_gravel", 
 		"techage:basalt_gravel", 
-		"techage:basalt_gravel", 
-		"techage:basalt_gravel", 
 	},
 	time = 4,
 })
@@ -71,51 +69,37 @@ techage.furnace.register_recipe({
 	recipe = {
 		"techage:sieved_basalt_gravel", 
 		"techage:sieved_basalt_gravel", 
-		"techage:sieved_basalt_gravel", 
-		"techage:sieved_basalt_gravel", 
 	},
 	time = 4,
 })
 
 techage.furnace.register_recipe({
-	output = "techage:basalt_glass_thin2 4",
+	output = "techage:basalt_glass_thin2 2",
 	recipe = {
-		"techage:basalt_gravel", 
-		"techage:basalt_gravel", 
-		"techage:basalt_gravel", 
-		"techage:basalt_gravel", 
-	},
-	time = 4,
-})
-
-techage.furnace.register_recipe({
-	output = "techage:basalt_glass_thin 4",
-	recipe = {
-		"techage:sieved_basalt_gravel", 
-		"techage:sieved_basalt_gravel", 
-		"techage:sieved_basalt_gravel", 
-		"techage:sieved_basalt_gravel", 
-	},
-	time = 4,
-})
-
-techage.furnace.register_recipe({
-	output = "techage:basalt_glass_thin_xl2 2",
-	recipe = {
-		"techage:basalt_gravel", 
-		"techage:basalt_gravel", 
-		"techage:basalt_gravel", 
 		"techage:basalt_gravel", 
 	},
 	time = 4,
 })
 
 techage.furnace.register_recipe({
-	output = "techage:basalt_glass_thin_xl 2",
+	output = "techage:basalt_glass_thin 2",
 	recipe = {
 		"techage:sieved_basalt_gravel", 
-		"techage:sieved_basalt_gravel", 
-		"techage:sieved_basalt_gravel", 
+	},
+	time = 4,
+})
+
+techage.furnace.register_recipe({
+	output = "techage:basalt_glass_thin_xl2",
+	recipe = {
+		"techage:basalt_gravel", 
+	},
+	time = 4,
+})
+
+techage.furnace.register_recipe({
+	output = "techage:basalt_glass_thin_xl",
+	recipe = {
 		"techage:sieved_basalt_gravel", 
 	},
 	time = 4,
