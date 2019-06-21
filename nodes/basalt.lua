@@ -84,6 +84,95 @@ minetest.register_node("techage:basalt_glass", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
+minetest.register_node("techage:basalt_glass2", {
+	description = "Basalt Glass 2",
+	drawtype = "glasslike_framed_optional",
+	tiles = {"techage_basalt_glass2.png"},
+	use_texture_alpha = true,
+	paramtype = "light",
+	paramtype2 = "glasslikeliquidlevel",
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	sounds = default.node_sound_glass_defaults(),
+})
+
+minetest.register_node("techage:basalt_glass_thin", {
+	description = "Basalt Glass Thin",
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -1/16, 8/16,  8/16,  1/16},
+		},
+	},
+	tiles = {"techage_basalt_glass.png"},
+	use_texture_alpha = true,
+	paramtype = "light",
+	paramtype2 = "facedir",
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	sounds = default.node_sound_glass_defaults(),
+})
+
+minetest.register_node("techage:basalt_glass_thin2", {
+	description = "Basalt Glass Thin 2",
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -1/16, 8/16,  8/16,  1/16},
+		},
+	},
+	tiles = {"techage_basalt_glass2.png"},
+	use_texture_alpha = true,
+	paramtype = "light",
+	paramtype2 = "facedir",
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	sounds = default.node_sound_glass_defaults(),
+})
+
+minetest.register_node("techage:basalt_glass_thin_xl", {
+	description = "Basalt Glass Thin XL",
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -1/16, 16/16,  16/16,  1/16},
+		},
+	},
+	tiles = {"techage_basalt_glass.png"},
+	use_texture_alpha = true,
+	paramtype = "light",
+	paramtype2 = "facedir",
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	sounds = default.node_sound_glass_defaults(),
+})
+
+minetest.register_node("techage:basalt_glass_thin_xl2", {
+	description = "Basalt Glass Thin XL 2",
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-8/16, -8/16, -1/16, 16/16,  16/16,  1/16},
+		},
+	},
+	tiles = {"techage_basalt_glass2.png"},
+	use_texture_alpha = true,
+	paramtype = "light",
+	paramtype2 = "facedir",
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	sounds = default.node_sound_glass_defaults(),
+})
+
 stairs.register_stair_and_slab(
 	"basalt_stone",
 	"techage:basalt_stone",
@@ -128,36 +217,12 @@ stairs.register_stair_and_slab(
 	false
 )
 
-stairs.register_stair_and_slab(
-	"basalt_glass",
-	"techage:basalt_glass",
-	{cracky = 3, oddly_breakable_by_hand = 3},
-	{"techage_basalt_glass.png"},
-	"Basalt Glass Stair",
-	"Basalt Glass Slab",
-	default.node_sound_glass_defaults(),
-	false
-)
-
-minetest.register_craft({
-	type = "cooking",
-	output = "techage:basalt_stone",
-	recipe = "techage:basalt_cobble",
-})
-
 minetest.register_craft({
 	output = "techage:basalt_stone_brick 4",
 	recipe = {
 		{"techage:basalt_stone", "techage:basalt_stone"},
 		{"techage:basalt_stone", "techage:basalt_stone"},
 	}
-})
-
-minetest.register_craft({
-	type = "cooking",
-	output = "techage:basalt_glass",
-	recipe = "techage:sieved_basalt_gravel",
-	cooktime = 4,
 })
 
 minetest.register_craft({

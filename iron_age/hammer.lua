@@ -40,7 +40,7 @@ local function handler(player_name, node, itemstack, digparams)
 				end
 			end
 		end
-		if node.name == "techage:basalt_stone" then
+		if node.name == "techage:basalt_stone" or node.name == "techage:basalt_cobble" then
 			node.name = "techage:basalt_gravel"
 		else
 			node.name = "default:gravel"

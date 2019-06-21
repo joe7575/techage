@@ -74,6 +74,12 @@ function techage.index(list, x)
 	return nil
 end
 
+function techage.add_to_set(set, x)
+	if not techage.index(set, x) then
+		table.insert(set, x)
+	end
+end
+
 function techage.get_node_lvm(pos)
 	local node = minetest.get_node_or_nil(pos)
 	if node then

@@ -32,10 +32,15 @@ local smelting = techage.furnace.smelting
 local get_output = techage.furnace.get_output
 local num_recipes = techage.furnace.get_num_recipes
 local reset_cooking = techage.furnace.reset_cooking
+local get_ingredients = techage.furnace.get_ingredients
+local range = techage.range
 
 local function formspec(self, pos, mem)
-	local idx = mem.recipe_idx or 1
-	local num, output = num_recipes(), get_output(idx)
+	local ingr = get_ingredients(pos)
+	local num = num_recipes(ingr)
+	mem.recipe_idx = range(mem.recipe_idx or 1, 1, num)
+	local idx = mem.recipe_idx
+	local output = get_output(ingr, idx)
 	return "size[8,7.2]"..
 		default.gui_bg..
 		default.gui_bg_img..
@@ -56,7 +61,7 @@ local function formspec(self, pos, mem)
 		"listring[current_player;main]"..
 		"listring[context;dst]" ..
 		"listring[current_player;main]"..
-		default.get_hotbar_bg(0, 4)
+		default.get_hotbar_bg(0, 3.5)
 end
 
 local function on_rightclick(pos, node, clicker)
@@ -102,6 +107,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 		return 0
 	end
 	if listname == "src" then
+		local mem = tubelib2.get_mem(pos)
 		CRD(pos).State:start_if_standby(pos)
 		return stack:get_count()
 	elseif listname == "dst" then
@@ -123,6 +129,12 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return stack:get_count()
 end
 
+local function on_metadata_inventory(pos)
+	local mem = tubelib2.get_mem(pos)
+	local crd = CRD(pos)
+	M(pos):set_string("formspec", formspec(crd.State, pos, mem))
+end
+
 local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
@@ -130,11 +142,13 @@ local function on_receive_fields(pos, formname, fields, player)
 	local mem = tubelib2.get_mem(pos)
 	mem.recipe_idx = mem.recipe_idx or 1
 	if fields.next == ">>" then
-		mem.recipe_idx = math.min(mem.recipe_idx + 1, num_recipes())
+		local ingr = get_ingredients(pos)
+		mem.recipe_idx = math.min(mem.recipe_idx + 1, num_recipes(ingr))
 		M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
 		reset_cooking(mem)
 	elseif fields.priv == "<<" then
-		mem.recipe_idx = math.max(mem.recipe_idx - 1, 1)
+		local ingr = get_ingredients(pos)
+		mem.recipe_idx = range(mem.recipe_idx - 1, 1, num_recipes(ingr))
 		M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
 		reset_cooking(mem)
 	end
@@ -228,6 +242,9 @@ local _, node_name_ta3, _ =
 		allow_metadata_inventory_put = allow_metadata_inventory_put,
 		allow_metadata_inventory_move = allow_metadata_inventory_move,
 		allow_metadata_inventory_take = allow_metadata_inventory_take,
+		on_metadata_inventory_put = on_metadata_inventory,
+		on_metadata_inventory_take = on_metadata_inventory,
+		on_metadata_inventory_move = on_metadata_inventory,
 		groups = {choppy=2, cracky=2, crumbly=2},
 		sounds = default.node_sound_wood_defaults(),
 		num_items = {0,1,1,1},

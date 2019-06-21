@@ -21,11 +21,41 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
+local range = techage.range
+
 local Recipes = {}     -- registered recipes
+local Ingredients = {}
 local KeyList = {}     -- index to Recipes key translation
-local NumRecipes = 0
 
 techage.furnace = {}
+
+-- Return a list with all outputs of the given list of ingredients
+local function get_recipes(ingr)
+	if #ingr > 0 then
+		local tbl = {}
+		for _,item in ipairs(ingr) do
+			if Ingredients[item] then
+				for _,output in ipairs(Ingredients[item]) do
+					tbl[#tbl+1] = output
+				end
+			end
+		end
+		return tbl
+	else
+		return KeyList
+	end
+end
+	
+function techage.furnace.get_ingredients(pos)
+	local inv = M(pos):get_inventory()
+	local tbl = {}
+	for _,stack in ipairs(inv:get_list('src')) do
+		if stack:get_name() ~= "" then
+			tbl[#tbl+1] = stack:get_name()
+		end
+	end
+	return tbl
+end
 
 -- move recipe src items to output inventory
 local function process(inv, recipe)
@@ -75,13 +105,18 @@ function techage.furnace.smelting(pos, mem, elapsed)
 	return techage.STANDBY
 end
 
-function techage.furnace.get_output(idx)
-	local key = KeyList[idx] or KeyList[1]
-	return Recipes[key].output
+function techage.furnace.get_output(ingr, idx)
+	local tbl = get_recipes(ingr)
+	idx = range(idx, 1, #tbl)
+	local key = tbl[idx] or tbl[1]
+	if  Recipes[key] then
+		return Recipes[key].output
+	end
+	return Recipes[KeyList[1]].output
 end
 
-function techage.furnace.get_num_recipes()
-	return NumRecipes
+function techage.furnace.get_num_recipes(ingr)
+	return #get_recipes(ingr)
 end
 
 function techage.furnace.reset_cooking(mem)
@@ -108,7 +143,13 @@ function techage.furnace.register_recipe(recipe)
 		number = number,
 		time = math.max((recipe.time or 3) * number, 2),
 	}
-	NumRecipes = NumRecipes + 1
+	for _,item in ipairs(recipe.recipe) do
+		if Ingredients[item] then
+			techage.add_to_set(Ingredients[item], output)
+		else
+			Ingredients[item] = {output}
+		end
+	end
 
 	if minetest.global_exists("unified_inventory") then
 		recipe.items = recipe.recipe
