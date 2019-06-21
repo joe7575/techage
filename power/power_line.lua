@@ -108,3 +108,12 @@ minetest.register_craft({
 		{"", "", "default:copper_ingot"},
 	},
 })
+
+minetest.register_craft({
+	output = "techage:power_pole",
+	recipe = {
+		{"default:stick", "techage:power_line", "default:stick"},
+		{"techage:power_line", "default:copper_ingot", "techage:power_line"},
+		{"default:stick", "techage:power_line", "default:stick"},
+	},
+})
