@@ -58,7 +58,7 @@ function techage.furnace.get_ingredients(pos)
 end
 
 -- move recipe src items to output inventory
-local function process(inv, recipe)
+local function process(inv, recipe, output)
 	local res
 	-- check if all ingredients are available
 	for _,item in ipairs(recipe.input) do
@@ -71,7 +71,7 @@ local function process(inv, recipe)
 		inv:remove_item("src", item)
 	end
 	-- add to dst
-	local stack = ItemStack(recipe.output)
+	local stack = ItemStack(output)
 	stack:set_count(recipe.number)
 	inv:add_item("dst", stack)
 	return true
@@ -79,19 +79,24 @@ end
 
 function techage.furnace.smelting(pos, mem, elapsed)
 	local inv = M(pos):get_inventory()
-	local state = techage.STANDBY
+	local state = techage.RUNNING
 	if inv and not inv:is_empty("src") then
-		local key = KeyList[mem.recipe_idx or 1] or KeyList[1]
-		local recipe = Recipes[key]
+		if not mem.output then
+			return techage.FAULT
+		end
+		local recipe = Recipes[mem.output]
+		if not recipe then
+			return techage.FAULT
+		end
 		-- check dst inv
-		local item = ItemStack(recipe.output)
+		local item = ItemStack(mem.output)
 		if not inv:room_for_item("dst", item) then
 			return techage.BLOCKED
 		end
 			
 		elapsed = elapsed + (mem.leftover or 0)
 		while elapsed >= recipe.time do
-			if process(inv, recipe) == false then 
+			if process(inv, recipe, mem.output) == false then 
 				mem.leftover = 0
 				return techage.STANDBY
 			else
@@ -105,14 +110,11 @@ function techage.furnace.smelting(pos, mem, elapsed)
 	return techage.STANDBY
 end
 
-function techage.furnace.get_output(ingr, idx)
+function techage.furnace.get_output(mem, ingr, idx)
 	local tbl = get_recipes(ingr)
 	idx = range(idx, 1, #tbl)
-	local key = tbl[idx] or tbl[1]
-	if  Recipes[key] then
-		return Recipes[key].output
-	end
-	return Recipes[KeyList[1]].output
+	mem.output = tbl[idx] or tbl[1]
+	return mem.output
 end
 
 function techage.furnace.get_num_recipes(ingr)
@@ -134,12 +136,12 @@ if minetest.global_exists("unified_inventory") then
 end
 
 function techage.furnace.register_recipe(recipe)
-	local output = string.split(recipe.output, " ")
-	local number = tonumber(output[2] or 1)
+	local words = string.split(recipe.output, " ")
+	local output = words[1]
+	local number = tonumber(words[2] or 1)
 	table.insert(KeyList, output)
 	Recipes[output] = {
 		input = recipe.recipe,
-		output = output[1],
 		number = number,
 		time = math.max((recipe.time or 3) * number, 2),
 	}

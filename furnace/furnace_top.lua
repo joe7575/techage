@@ -40,7 +40,7 @@ local function formspec(self, pos, mem)
 	local num = num_recipes(ingr)
 	mem.recipe_idx = range(mem.recipe_idx or 1, 1, num)
 	local idx = mem.recipe_idx
-	local output = get_output(ingr, idx)
+	local output = get_output(mem, ingr, idx)
 	return "size[8,7.2]"..
 		default.gui_bg..
 		default.gui_bg_img..
@@ -87,6 +87,8 @@ local function cooking(pos, crd, mem, elapsed)
 			crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
 		elseif state == techage.BLOCKED then
 			crd.State:blocked(pos, mem)
+		elseif state == techage.FAULT then
+			crd.State:fault(pos, mem)
 		elseif state == techage.STANDBY then
 			crd.State:idle(pos, mem)
 		end
