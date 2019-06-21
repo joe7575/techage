@@ -47,6 +47,7 @@ else
 	dofile(MP.."/power/steam_pipe.lua")
 	dofile(MP.."/power/biogas_pipe.lua")
 	dofile(MP.."/power/electric_cable.lua")
+	dofile(MP.."/power/power_line.lua")
 	dofile(MP.."/power/junctionbox.lua")
 	dofile(MP.."/power/powerswitch.lua")
 

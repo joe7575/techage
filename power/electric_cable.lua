@@ -26,9 +26,14 @@ local Cable = tubelib2.Tube:new({
 	max_tube_length = 1000, 
 	show_infotext = false,
 	tube_type = "electric_cable",
-	primary_node_names = {"techage:electric_cableS", "techage:electric_cableA"},
+	primary_node_names = {"techage:electric_cableS", "techage:electric_cableA", "techage:power_line"},
 	secondary_node_names = {},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
+		-- Don't replace "power line" nodes
+		if minetest.get_node(pos).name == "techage:power_line" then
+			M(pos):set_int("tl2_param2", param2)
+			return
+		end
 		-- Don't replace "hidden" cable
 		if M(pos):get_string("techage_hidden_nodename") == "" then
 			minetest.swap_node(pos, {name = "techage:electric_cable"..tube_type, param2 = param2 % 32})
