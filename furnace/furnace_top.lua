@@ -224,7 +224,7 @@ local tubing = {
 }
 
 local _, node_name_ta3, _ = 
-	techage.register_consumer("furnace", I("TA3 Furnace Top"), tiles, {
+	techage.register_consumer("furnace", I("Furnace Top"), tiles, {
 		drawtype = "normal",
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
