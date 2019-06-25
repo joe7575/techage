@@ -25,7 +25,7 @@ local I,_ = dofile(MP.."/intllib.lua")
 
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 6
-local CYCLE_TIME = 8
+local CYCLE_TIME = 16
 
 local formspec0 = "size[5,4]"..
 	default.gui_bg..
@@ -306,7 +306,7 @@ derrick when you press the button.
 5: Press the start button
 6: Remove the excavated material with Tubes/Pusher
 7: The drill stops when oil is found
-    (drill speed is 1m/8s)
+    (drill speed is 1m/16s)
 8: Replace the drill with the Pumpjack]]), node_name_ta3)
 
 minetest.register_lbm({

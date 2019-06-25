@@ -39,6 +39,8 @@ techage.register_lamp("techage:streetlamp", {
 		type = "fixed",
 		fixed = {-8/16, -8/16, -8/16,   8/16, 8/16, 8/16},
 	},
+	on_rotate = screwdriver.disallow,
+	conn_sides = {"U", "D"},
 },{
 	description = "TA Street Lamp",
 	tiles = {
@@ -60,6 +62,7 @@ techage.register_lamp("techage:streetlamp", {
 		type = "fixed",
 		fixed = {-8/16, -8/16, -8/16,   8/16, 8/16, 8/16},
 	},
+	on_rotate = screwdriver.disallow,
 })
 
 minetest.register_craft({

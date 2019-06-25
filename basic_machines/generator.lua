@@ -61,7 +61,7 @@ local function start_node(pos, mem, state)
 	minetest.sound_play("techage_generator", {
 		pos = pos, 
 		gain = 1,
-		max_hear_distance = 7})
+		max_hear_distance = 10})
 end
 
 local function stop_node(pos, mem, state)
@@ -107,7 +107,7 @@ local function node_timer(pos, elapsed)
 		minetest.sound_play("techage_generator", {
 			pos = pos, 
 			gain = 1,
-			max_hear_distance = 7})
+			max_hear_distance = 10})
 		return true
 	else
 		mem.provided = 0

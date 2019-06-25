@@ -42,12 +42,13 @@ end
 
 local function formspec_help(idx)
 	local bttn
+	local box = "box[7.5,0.9;1,1.1;#BBBBBB]"
 	if ItemNames[idx] == "-" then
 		bttn = ""
 	elseif ItemNames[idx] == "plan" then
 		bttn = "button[7.6,1;1,1;plan;"..S("Plan").."]"
 	else
-		bttn = "item_image[7.6,1;1,1;"..ItemNames[idx].."]"
+		bttn = box.."item_image[7.6,1;1,1;"..ItemNames[idx].."]"
 	end
 	return "size[9,9]"..
 	default.gui_bg..
@@ -56,7 +57,8 @@ local function formspec_help(idx)
 	"item_image[7.6,0;1,1;techage:construction_board]"..
 	bttn..
 	"table[0.1,0;7,3;page;"..NamesAsStr..";"..idx.."]"..
-	"textarea[0.3,3.7;9,6.2;help;"..S("Help")..":;"..Recipes[idx].."]"
+	"textarea[0.3,3.7;9,6.2;help;"..S("Help")..":;"..Recipes[idx].."]"..
+	"box[0,3.7;8.775,5.25;#000000]"
 end
 
 local function formspec_plan(idx)

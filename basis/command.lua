@@ -285,7 +285,7 @@ function techage.send_multi(numbers, placer_name, clicker_name, topic, payload)
 	for _,num in ipairs(string_split(numbers, " ")) do
 		if Number2Pos[num] and Number2Pos[num].name then
 			local data = Number2Pos[num]
-			if not_protected(data.pos, placer_name, clicker_name) then
+			if data.pos and not_protected(data.pos, placer_name, clicker_name) then
 				if NodeDef[data.name] and NodeDef[data.name].on_recv_message then
 					NodeDef[data.name].on_recv_message(data.pos, topic, payload)
 				end
@@ -297,7 +297,7 @@ end
 function techage.send_single(number, topic, payload)
 	if Number2Pos[number] and Number2Pos[number].name then
 		local data = Number2Pos[number]
-		if NodeDef[data.name] and NodeDef[data.name].on_recv_message then
+		if data.pos and NodeDef[data.name] and NodeDef[data.name].on_recv_message then
 			return NodeDef[data.name].on_recv_message(data.pos, topic, payload)
 		end
 	end

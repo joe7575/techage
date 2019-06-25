@@ -90,9 +90,11 @@ end
 function techage.register_lamp(basename, ndef_off, ndef_on)
 	ndef_off.on_construct = tubelib2.init_mem
 	ndef_off.on_rightclick = lamp_on_rightclick
-	ndef_off.on_rotate = on_rotate
+	if not ndef_off.on_rotate then
+		ndef_off.on_place = on_place
+	end
+	ndef_off.on_rotate = ndef_off.on_rotate or on_rotate
 	ndef_off.on_timer = node_timer
-	ndef_off.on_place = on_place
 	ndef_off.paramtype = "light"
 	ndef_off.light_source = 0
 	ndef_off.sunlight_propagates = true
@@ -103,7 +105,7 @@ function techage.register_lamp(basename, ndef_off, ndef_on)
 	
 	ndef_on.on_construct = tubelib2.init_mem
 	ndef_on.on_rightclick = lamp_on_rightclick
-	ndef_on.on_rotate = on_rotate
+	ndef_on.on_rotate = ndef_on.on_rotate or on_rotate
 	ndef_on.on_timer = node_timer
 	ndef_on.paramtype = "light"
 	ndef_on.light_source = minetest.LIGHT_MAX

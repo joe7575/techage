@@ -107,8 +107,10 @@ end
 local function set_velocity(obj, pos, vel)
 	obj:set_acceleration({x = 0, y = 0, z = 0})
 	local p = obj:get_pos()
-	obj:set_pos({x=p.x, y=p.y-0.3, z=p.z})
-	obj:set_velocity(vel)
+	if p then
+		obj:set_pos({x=p.x, y=p.y-0.3, z=p.z})
+		obj:set_velocity(vel)
+	end
 end
 
 local function add_object(pos, name)
