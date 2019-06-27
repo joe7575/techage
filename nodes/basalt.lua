@@ -234,6 +234,12 @@ minetest.register_craft({
 	}
 })
 
+minetest.register_craft({
+	type = "cooking",
+	output = "techage:basalt_stone",
+	recipe = "techage:basalt_cobble",
+})
+
 techage.add_grinder_recipe({input="techage:basalt_stone", output="techage:basalt_gravel"})
 techage.add_grinder_recipe({input="techage:basalt_cobble", output="techage:basalt_gravel"})
 techage.add_grinder_recipe({input="techage:basalt_gravel", output="default:clay"})

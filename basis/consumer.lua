@@ -62,7 +62,7 @@ local function node_timer(pos, elapsed)
 			crd.State:nopower(pos, mem)
 		end
 	elseif state == techage.STANDBY then
-		if not power_available(pos, 0) then
+		if crd.power_consumption > 0 and not power_available(pos) then
 			crd.State:nopower(pos, mem)
 		end
 	end

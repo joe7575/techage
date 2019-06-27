@@ -51,7 +51,7 @@ local function formspec(self, pos, mem)
 		"list[context;dst;3,0;2,2;]"..
 		
 		"label[6,0;"..I("Outp")..": "..idx.."/"..num.."]"..
-		"item_image_button[6.5,0.5;1,1;"..output..";b1;]"..
+		"item_image_button[6.5,0.5;1,1;"..(output or "")..";b1;]"..
 		"button[6,1.5;1,1;priv;<<]"..
 		"button[7,1.5;1,1;next;>>]"..
 		
