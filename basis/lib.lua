@@ -74,6 +74,13 @@ function techage.index(list, x)
 	return nil
 end
 
+function techage.in_list(list, x)
+	for idx, v in pairs(list) do
+		if v == x then return true end
+	end
+	return false
+end
+
 function techage.add_to_set(set, x)
 	if not techage.index(set, x) then
 		table.insert(set, x)

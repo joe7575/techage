@@ -66,10 +66,12 @@ end
 
 local function start_node(pos, mem, state)
 	mem.running = true
+	mem.power_ratio = 0
 end
 
 local function stop_node(pos, mem, state)
 	mem.running = false
+	mem.power_ratio = 0
 end
 
 local State = techage.NodeStates:new({

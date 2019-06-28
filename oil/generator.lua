@@ -76,6 +76,7 @@ local State = techage.NodeStates:new({
 	cycle_time = CYCLE_TIME,
 	standby_ticks = 0,
 	formspec_func = formspec,
+	infotext_name = "TA3 Tiny Power Generator",
 	can_start = can_start,
 	start_node = start_node,
 	stop_node = stop_node,
@@ -108,6 +109,7 @@ local function node_timer(pos, elapsed)
 			pos = pos, 
 			gain = 1,
 			max_hear_distance = 10})
+		State:keep_running(pos, mem, CYCLE_TIME)
 		return true
 	else
 		mem.provided = 0
@@ -143,7 +145,7 @@ local function on_rightclick(pos)
 end
 
 minetest.register_node("techage:tiny_generator", {
-	description = "Tiny Power Generator",
+	description = "TA3 Tiny Power Generator",
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_appl_electric_gen_top.png^techage_frame_ta3_top.png",
@@ -160,8 +162,10 @@ minetest.register_node("techage:tiny_generator", {
 
 	on_construct = function(pos)
 		local mem = tubelib2.init_mem(pos)
+		local number = techage.add_node(pos, "techage:tiny_generator")
 		mem.generating = false
 		mem.burn_cycles = 0
+		State:node_init(pos, mem, number)
 		local meta = M(pos)
 		meta:set_string("formspec", formspec(State, pos, mem))
 		local inv = meta:get_inventory()
@@ -177,7 +181,7 @@ minetest.register_node("techage:tiny_generator", {
 })
 
 minetest.register_node("techage:tiny_generator_on", {
-	description = "Tiny Power Generator",
+	description = "TA3 Tiny Power Generator",
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_appl_electric_gen_top.png^techage_frame_ta3_top.png",
@@ -226,6 +230,20 @@ techage.power.register_node({"techage:tiny_generator", "techage:tiny_generator_o
 	power_network  = Power,
 })
 
+techage.register_node({"techage:tiny_generator", "techage:tiny_generator_on"}, {
+	on_recv_message = function(pos, topic, payload)
+		local mem = tubelib2.get_mem(pos)
+		if topic == "load" then
+			return techage.power.percent(PWR_CAPA, mem.provided)
+		else
+			return State:on_receive_message(pos, topic, payload)
+		end
+	end,
+	on_node_load = function(pos)
+		State:on_node_load(pos)
+	end,
+})	
+
 minetest.register_craft({
 	output = "techage:tiny_generator",
 	recipe = {
@@ -234,3 +252,9 @@ minetest.register_craft({
 		{'default:steel_ingot', 'techage:vacuum_tube', 'default:steel_ingot'},
 	},
 })
+
+techage.register_help_page(I("TA3 Tiny Power Generator"), 
+I([[Small electrical power generator. Need oil as fuel.
+Provides power: 12
+Oil burn time: 100s]]), "techage:tiny_generator")
+

@@ -176,9 +176,17 @@ techage.register_node({"techage:furnace_firebox", "techage:furnace_firebox_on"},
 		return techage.put_items(inv, "fuel", stack)
 	end,
 	on_recv_message = function(pos, topic, payload)
+		local mem = tubelib2.get_mem(pos)
 		if topic == "state" then
-			local meta = minetest.get_meta(pos)
-			return techage.get_inv_state(meta, "fuel")
+			if mem.running then
+				return "running"
+			else
+				return "stopped"
+			end
+		elseif topic == "fuel" then
+			local inv = M(pos):get_inventory()
+			local stack = inv:get_stack("fuel", 1)
+			return stack:get_count()
 		else
 			return "unsupported"
 		end

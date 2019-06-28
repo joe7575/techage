@@ -28,12 +28,6 @@ local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).
 
 local CYCLE_TIME = 2 -- required from power
 
-local ValidPowerConsumingStates = {
-	[techage.RUNNING] = true,
-	[techage.BLOCKED] = true,
-	[techage.NOPOWER] = true,
-}
-
 local consume_power = techage.power.consume_power
 local power_available = techage.power.power_available
 
@@ -50,32 +44,32 @@ local function stop_node(pos, mem, state)
 end
 
 local function node_timer(pos, elapsed)
-	--print("node_timer")
 	local crd = CRD(pos)
 	local mem = tubelib2.get_mem(pos)
-	local state = crd.State:get_state(mem)
-	if ValidPowerConsumingStates[state] then
+	local state = mem.techage_state
+	if techage.needs_power(mem) then
 		local got = consume_power(pos, crd.power_consumption)
-		if state == techage.NOPOWER and got == crd.power_consumption then
-			crd.State:start(pos, mem)
-		elseif state ~= techage.NOPOWER and got < crd.power_consumption then
+		if got < crd.power_consumption then
 			crd.State:nopower(pos, mem)
 		end
 	elseif state == techage.STANDBY then
 		if crd.power_consumption > 0 and not power_available(pos) then
 			crd.State:nopower(pos, mem)
 		end
+	elseif state == techage.NOPOWER and power_available(pos) then
+		crd.State:start(pos, mem)
 	end
 	-- call the secondary timer routine with the requested frequency
-	local res
-	mem.conn_next_call = mem.conn_next_call or 0
-	mem.conn_cycle_timer = (mem.conn_cycle_timer or 0) + CYCLE_TIME
-	--print(mem.conn_next_call, mem.conn_cycle_timer)
-	if mem.conn_cycle_timer >= mem.conn_next_call then
-		crd.node_timer(pos, crd.cycle_time)
-		mem.conn_next_call = mem.conn_next_call + crd.cycle_time
+	if techage.is_operational(mem) then
+		mem.conn_next_call = mem.conn_next_call or 0
+		mem.conn_cycle_timer = (mem.conn_cycle_timer or 0) + CYCLE_TIME
+		--print(mem.conn_next_call, mem.conn_cycle_timer)
+		if mem.conn_cycle_timer >= mem.conn_next_call then
+			crd.node_timer(pos, crd.cycle_time)
+			mem.conn_next_call = mem.conn_next_call + crd.cycle_time
+		end
 	end
-	return ValidPowerConsumingStates[state] or state == techage.STANDBY
+	return crd.State:is_active(mem)
 end
 
 local function prepare_tiles(tiles, stage, power_png)

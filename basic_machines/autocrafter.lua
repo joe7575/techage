@@ -26,8 +26,8 @@ local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(po
 local MP = minetest.get_modpath("techage")
 local I,_ = dofile(MP.."/intllib.lua")
 
-local STANDBY_TICKS = 10
-local COUNTDOWN_TICKS = 10
+local STANDBY_TICKS = 6
+local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 4
 
 local function formspec(self, pos, mem)
@@ -72,24 +72,32 @@ local function get_craft(pos, inventory, hash)
 		local recipe = inventory:get_list("recipe")
 		local output, decremented_input = minetest.get_craft_result(
 				{method = "normal", width = 3, items = recipe})
-		craft = {recipe = recipe, consumption=count_index(recipe), 
+		craft = {recipe = recipe, consumption = count_index(recipe), 
 				output = output, decremented_input = decremented_input}
 		autocrafterCache[hash] = craft
 	end
 	return craft
 end
 
-local function autocraft(pos, crd, mem, inventory, craft)
-	if not craft then return false end
+local function autocraft(pos, crd, mem, inv)
+	local craft = get_craft(pos, inv)
+	if not craft then 
+		crd.State:idle(pos, mem)
+		return
+	end
 	local output_item = craft.output.item
-
+	if output_item:get_name() == "" then
+		crd.State:idle(pos, mem)
+		return 
+	end
+		
 	-- check if we have enough room in dst
-	if not inventory:room_for_item("dst", output_item) then	
+	if not inv:room_for_item("dst", output_item) then	
 		crd.State:blocked(pos, mem)
 		return
 	end
 	local consumption = craft.consumption
-	local inv_index = count_index(inventory:get_list("src"))
+	local inv_index = count_index(inv:get_list("src"))
 	-- check if we have enough material available
 	for itemname, number in pairs(consumption) do
 		if (not inv_index[itemname]) or inv_index[itemname] < number then 
@@ -100,14 +108,14 @@ local function autocraft(pos, crd, mem, inventory, craft)
 	-- consume material
 	for itemname, number in pairs(consumption) do
 		for i = 1, number do -- We have to do that since remove_item does not work if count > stack_max
-			inventory:remove_item("src", ItemStack(itemname))
+			inv:remove_item("src", ItemStack(itemname))
 		end
 	end
 
 	-- craft the result into the dst inventory and add any "replacements" as well
-	inventory:add_item("dst", output_item)
+	inv:add_item("dst", output_item)
 	for i = 1, 9 do
-		inventory:add_item("dst", craft.decremented_input.items[i])
+		inv:add_item("dst", craft.decremented_input.items[i])
 	end
 	
 	crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
@@ -118,10 +126,7 @@ local function keep_running(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	local crd = CRD(pos)
 	local inv = M(pos):get_inventory()
-	local craft = get_craft(pos, inv)
-	local output_item = craft.output.item
-	autocraft(pos, crd, mem, inv, craft)
-	return crd.State:is_active(mem)
+	autocraft(pos, crd, mem, inv)
 end
 
 -- note, that this function assumes allready being updated to virtual items
@@ -353,12 +358,7 @@ local tubing = {
 		end
 	end,
 	on_recv_message = function(pos, topic, payload)
-		local resp = CRD(pos).State:on_receive_message(pos, topic, payload)
-		if resp then
-			return resp
-		else
-			return "unsupported"
-		end
+		return CRD(pos).State:on_receive_message(pos, topic, payload)
 	end,
 	on_node_load = function(pos)
 		CRD(pos).State:on_node_load(pos)
@@ -408,3 +408,4 @@ minetest.register_craft({
 		{"", "techage:vacuum_tube", ""},
 	},
 })
+

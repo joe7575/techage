@@ -29,6 +29,16 @@ local KeyList = {}     -- index to Recipes key translation
 
 techage.furnace = {}
 
+
+local function all_ingredients_available(output, ingr)
+	for _,item in ipairs(Recipes[output].input) do
+		if not techage.in_list(ingr, item) then
+			return false
+		end
+	end
+	return true
+end			
+
 -- Return a list with all outputs of the given list of ingredients
 local function get_recipes(ingr)
 	if #ingr > 0 then
@@ -36,7 +46,9 @@ local function get_recipes(ingr)
 		for _,item in ipairs(ingr) do
 			if Ingredients[item] then
 				for _,output in ipairs(Ingredients[item]) do
-					tbl[#tbl+1] = output
+					if all_ingredients_available(output, ingr) then
+						techage.add_to_set(tbl, output)
+					end
 				end
 			end
 		end

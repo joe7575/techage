@@ -38,7 +38,7 @@ local range = techage.range
 local function formspec(self, pos, mem)
 	local ingr = get_ingredients(pos)
 	local num = num_recipes(ingr)
-	mem.recipe_idx = range(mem.recipe_idx or 1, 1, num)
+	mem.recipe_idx = range(mem.recipe_idx or 1, 0, num)
 	local idx = mem.recipe_idx
 	local output = get_output(mem, ingr, idx)
 	return "size[8,7.2]"..

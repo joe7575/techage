@@ -36,10 +36,20 @@ Node states:
         |      |   |         |    |           |               |                                      
         |      |   V         |    V           V               |                                      
         |   +---------+   +----------+   +---------+          |                                      
-        |   |         |   | NOPOWER/ |   |         |          |                                      
+        |   |         |   |          |   |         |          |                                      
         +---| NOPOWER |   | STANDBY/ |   |  FAULT  |----------+                                      
             |         |   | BLOCKED  |   |         |                                                 
             +---------+   +----------+   +---------+                                                 
+
+
+	|           cycle time   operational   needs power
+	+---------+------------+-------------+-------------
+	| RUNNING    normal         yes           yes
+	| BLOCKED    long           yes           yes
+	| STANDBY    long           yes           no
+	| NOPOWER    long           no            no
+	| FAULT      none           no            no
+	| STOPPED    none           no            no
 
 Node mem data:
 	"techage_state"      - node state, like "RUNNING"
@@ -56,21 +66,20 @@ local M = minetest.get_meta
 -- TechAge machine states
 --
 
-techage.STOPPED = 1	-- not operational/turned off
-techage.RUNNING = 2	-- in normal operation/turned on
-techage.STANDBY = 3	-- nothing to do (e.g. no input items), or blocked anyhow (output jammed),
-                    -- or node (world) not loaded
-techage.NOPOWER = 4	-- only for power consuming nodes
+techage.RUNNING = 1	-- in normal operation/turned on
+techage.BLOCKED = 2 -- a pushing node is blocked due to a full destination inventory
+techage.STANDBY = 3	-- nothing to do (e.g. no input items), or node (world) not loaded
+techage.NOPOWER = 4	-- only for power consuming nodes, no operation
 techage.FAULT   = 5	-- any fault state (e.g. wrong source items), which can be fixed by the player
-techage.BLOCKED = 6 -- a pushing node is blocked due to a full destination inventory
+techage.STOPPED = 6	-- not operational/turned off
 
 techage.StatesImg = {
-	"techage_inv_button_off.png", 
 	"techage_inv_button_on.png", 
+	"techage_inv_button_warning.png",
 	"techage_inv_button_standby.png", 
 	"techage_inv_button_nopower.png", 
 	"techage_inv_button_error.png",
-	"techage_inv_button_warning.png",
+	"techage_inv_button_off.png", 
 }
 
 -- Return state button image for the node inventory
@@ -91,17 +100,17 @@ function techage.get_power_image(pos, mem)
 end
 
 -- State string based on button states
-techage.StateStrings = {"stopped", "running", "standby", "nopower", "fault", "blocked"}
+techage.StateStrings = {"running", "blocked", "standby", "nopower", "fault", "stopped"}
 
 --
 -- Local States
 --
-local STOPPED = techage.STOPPED
 local RUNNING = techage.RUNNING
+local BLOCKED = techage.BLOCKED
 local STANDBY = techage.STANDBY
 local NOPOWER = techage.NOPOWER
 local FAULT   = techage.FAULT
-local BLOCKED = techage.BLOCKED
+local STOPPED = techage.STOPPED
 
 
 --
@@ -121,6 +130,17 @@ local function swap_node(pos, name)
 	end
 	node.name = name
 	minetest.swap_node(pos, node)
+end
+
+-- true if node_timer should be executed
+function techage.is_operational(mem)
+	local state = mem.techage_state or STOPPED
+	return state < NOPOWER
+end
+
+function techage.needs_power(mem)
+	local state = mem.techage_state or STOPPED
+	return state < STANDBY
 end
 
 function NodeStates:new(attr)
@@ -182,7 +202,7 @@ end
 
 function NodeStates:start(pos, mem, called_from_on_timer)
 	local state = mem.techage_state or STOPPED
-	if state == STOPPED or state == STANDBY or state == BLOCKED or state == NOPOWER then
+	if state ~= RUNNING and state ~= FAULT then
 		if not self.can_start(pos, mem, state) then
 			self:fault(pos, mem)
 			return false
@@ -279,6 +299,8 @@ function NodeStates:nopower(pos, mem)
 	local state = mem.techage_state or RUNNING
 	if state ~= STOPPED then
 		mem.techage_state = NOPOWER
+		-- timer has to be stopped once to be able to be restarted
+		self.stop_timer = true
 		if self.node_name_passive then
 			swap_node(pos, self.node_name_passive)
 		end
@@ -292,7 +314,7 @@ function NodeStates:nopower(pos, mem)
 		if self.on_state_change then
 			self.on_state_change(pos, state, NOPOWER)
 		end
-		minetest.get_node_timer(pos):stop()
+		minetest.get_node_timer(pos):start(self.cycle_time * self.standby_ticks)
 		return true
 	end
 	return false
@@ -329,13 +351,14 @@ function NodeStates:get_state_string(mem)
 	return techage.StateStrings[mem.techage_state or STOPPED]
 end
 
+-- keep the timer running?
 function NodeStates:is_active(mem)
 	local state = mem.techage_state or STOPPED
 	if self.stop_timer == true then
 		self.stop_timer = false
 		return false
 	end
-	return state == RUNNING or state == STANDBY or state == BLOCKED
+	return state < FAULT
 end
 
 function NodeStates:start_if_standby(pos)
@@ -404,6 +427,15 @@ function NodeStates:on_receive_message(pos, topic, payload)
 	elseif topic == "clear_counter" then
 		mem.techage_item_meter = 0
 		return true
+	elseif topic == "fuel" then
+		local inv = M(pos):get_inventory()
+		if inv:get_size("fuel") == 1 then
+			local stack = inv:get_stack("fuel", 1)
+			return stack:get_count()
+		end
+		return
+	else
+		return "unsupported"
 	end
 end
 	
@@ -415,7 +447,9 @@ function NodeStates:on_node_load(pos, not_start_timer)
 	local number = M(pos):get_string("node_number")
 	if number == "" then 
 		minetest.log("warning", "[TA] Node at "..S(pos).." has no node_number")
-		swap_node(pos, "techage:defect_dummy")
+		local name = minetest.get_node(pos).name
+		local number = techage.add_node(pos, name)
+		self:node_init(pos, mem, number)
 		return
 	end
 	

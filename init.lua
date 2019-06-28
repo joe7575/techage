@@ -76,6 +76,8 @@ else
 	dofile(MP.."/steam_engine/flywheel.lua")
 	dofile(MP.."/steam_engine/gearbox.lua")
 	
+	dofile(MP.."/basic_machines/ta2_help.lua")
+	
 	-- Basic Machines
 	dofile(MP.."/basis/consumer.lua")  -- consumer base model
 	dofile(MP.."/basic_machines/source.lua")
@@ -90,7 +92,6 @@ else
 	dofile(MP.."/basic_machines/autocrafter.lua")
 	dofile(MP.."/basic_machines/forceload.lua")
 	dofile(MP.."/basic_machines/electronic_fab.lua")
-	dofile(MP.."/basic_machines/generator.lua")
 
 	-- Coal power station
 	dofile(MP.."/coal_power_station/help.lua")
@@ -101,6 +102,8 @@ else
 	dofile(MP.."/coal_power_station/turbine.lua")
 	dofile(MP.."/coal_power_station/cooler.lua")
 	dofile(MP.."/coal_power_station/akkubox.lua")
+	
+	dofile(MP.."/basic_machines/ta3_help.lua")
 
 	-- Industrial Furnace
 	dofile(MP.."/furnace/help.lua")
@@ -125,6 +128,7 @@ else
 	dofile(MP.."/oil/tower.lua")
 	dofile(MP.."/oil/drillbox.lua")
 	dofile(MP.."/oil/pumpjack.lua")
+	dofile(MP.."/oil/generator.lua")
 	
 	-- Nodes2
 	if techage.basalt_stone_enabled then

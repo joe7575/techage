@@ -40,14 +40,29 @@ local M = minetest.get_meta
 
 local function read_state(itemstack, user, pointed_thing)
 	local pos = pointed_thing.under
-	if pos then
+	if pos and user then
 		local number = techage.get_node_number(pos)
 		if number then
-			local state = techage.send_single(number, "state", nil)
-			local counter = techage.send_single(number, "counter", nil)
-			if state and counter then
-				if type(counter) ~= "number" then counter = "unknown" end
-				minetest.chat_send_player(user:get_player_name(), "[TechAge] state ="..state..", counter = "..counter)
+			local ndef = minetest.registered_nodes[minetest.get_node(pos).name]
+			if ndef and ndef.description then
+				local state = techage.send_single(number, "state", nil)
+				if state and state ~= "" and state ~= "unsupported" then
+					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": state = "..state.."    ")
+				end
+				local fuel = techage.send_single(number, "fuel", nil)
+				if fuel and fuel ~= "" and fuel ~= "unsupported" then
+					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": fuel = "..fuel.."    ")
+				end
+				local counter = techage.send_single(number, "counter", nil)
+				if counter and counter ~= "" and counter ~= "unsupported" then
+					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": counter = "..counter.."    ")
+				end
+				local load = techage.send_single(number, "load", nil)
+				if load and load ~= "" and load ~= "unsupported" then
+					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": load = "..load.." %    ")
+				end
+				itemstack:add_wear(65636/200)
+				return itemstack
 			end
 		end
 	end
@@ -60,17 +75,19 @@ minetest.register_tool("techage:repairkit", {
 	groups = {cracky=1, book=1},
 	on_use = read_state,
 	node_placement_prediction = "",
+	stack_max = 1,
 })
 
 
-minetest.register_node("techage:end_wrench", {
-	description = "TechAge End Wrench (use = read status, place = destroy)",
+minetest.register_tool("techage:end_wrench", {
+	description = "TechAge End Wrench (use = read status, place = cmd: on/off)",
 	inventory_image = "techage_end_wrench.png",
 	wield_image = "techage_end_wrench.png",
 	groups = {cracky=1, book=1},
 	on_use = read_state,
 	on_place = read_state,
 	node_placement_prediction = "",
+	stack_max = 1,
 })
 
 minetest.register_craft({
@@ -83,10 +100,10 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "techage:end_wrench 4",
+	output = "techage:end_wrench",
 	recipe = {
 		{"", "", "default:steel_ingot"},
-		{"", "default:tin_ingot", ""},
+		{"", "techage:iron_ingot", ""},
 		{"default:steel_ingot", "", ""},
 	},
 })

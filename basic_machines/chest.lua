@@ -250,7 +250,8 @@ techage.register_node({"techage:chest_ta2", "techage:chest_ta3", "techage:chest_
 	on_recv_message = function(pos, topic, payload)
 		if topic == "state" then
 			local meta = minetest.get_meta(pos)
-			return techage.get_inv_state(meta, "main")
+			local inv = meta:get_inventory()
+			return techage.get_inv_state(inv, "main")
 		elseif topic == "player_action" then
 			local meta = minetest.get_meta(pos)
 			local number = meta:get_string("number")

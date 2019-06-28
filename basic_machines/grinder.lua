@@ -113,7 +113,6 @@ local function keep_running(pos, elapsed)
 	local crd = CRD(pos)
 	local inv = M(pos):get_inventory()
 	grinding(pos, crd, mem, inv)
-	return crd.State:is_active(mem)
 end
 
 local function on_receive_fields(pos, formname, fields, player)
@@ -188,12 +187,7 @@ local tubing = {
 		end
 	end,
 	on_recv_message = function(pos, topic, payload)
-		local resp = CRD(pos).State:on_receive_message(pos, topic, payload)
-		if resp then
-			return resp
-		else
-			return "unsupported"
-		end
+		return CRD(pos).State:on_receive_message(pos, topic, payload)
 	end,
 	on_node_load = function(pos)
 		CRD(pos).State:on_node_load(pos)

@@ -65,6 +65,7 @@ local State = techage.NodeStates:new({
 	cycle_time = CYCLE_TIME,
 	standby_ticks = STANDBY_TICKS,
 	formspec_func = formspec,
+	infotext_name = "TA3 Generator",
 	can_start = can_start,
 	start_node = start_node,
 	stop_node = stop_node,
@@ -124,7 +125,8 @@ minetest.register_node("techage:generator", {
 	
 	after_place_node = function(pos, placer)
 		local mem = tubelib2.get_mem(pos)
-		State:node_init(pos, mem, "")
+		local number = techage.add_node(pos, "techage:generator")
+		State:node_init(pos, mem, number)
 		on_rightclick(pos)
 	end,
 
@@ -213,7 +215,18 @@ techage.register_node({"techage:generator", "techage:generator_on"}, {
 				return 0
 			end
 		end
-	end
+	end,
+	on_recv_message = function(pos, topic, payload)
+		local mem = tubelib2.get_mem(pos)
+		if topic == "load" then
+			return techage.power.percent(PWR_CAPA, mem.provided)
+		else
+			return State:on_receive_message(pos, topic, payload)
+		end
+	end,
+	on_node_load = function(pos)
+		State:on_node_load(pos)
+	end,
 })
 
 techage.register_help_page(I("TA3 Generator"), 
