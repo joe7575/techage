@@ -13,13 +13,8 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
@@ -37,7 +32,7 @@ local function formspec(self, pos, mem)
 		default.gui_slots..
 		"image[6,0.5;1,2;"..techage.power.formspec_power_bar(PWR_CAPA, mem.provided).."]"..
 		"image_button[5,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
-		"button[2,1.5;2,1;update;"..I("Update").."]"..
+		"button[2,1.5;2,1;update;"..S("Update").."]"..
 		"list[current_player;main;0,3;8,4;]"..
 		default.get_hotbar_bg(0, 3)
 end
@@ -65,7 +60,7 @@ local State = techage.NodeStates:new({
 	cycle_time = CYCLE_TIME,
 	standby_ticks = STANDBY_TICKS,
 	formspec_func = formspec,
-	infotext_name = "TA3 Generator",
+	infotext_name = S("TA3 Generator"),
 	can_start = can_start,
 	start_node = start_node,
 	stop_node = stop_node,
@@ -110,7 +105,7 @@ local function on_rightclick(pos)
 end
 
 minetest.register_node("techage:generator", {
-	description = I("TA3 Generator"),
+	description = S("TA3 Generator"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta3.png^techage_frame_ta3.png",
@@ -142,7 +137,7 @@ minetest.register_node("techage:generator", {
 })
 
 minetest.register_node("techage:generator_on", {
-	description = I("TA3 Generator"),
+	description = S("TA3 Generator"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta3.png^techage_frame_ta3.png",
@@ -229,10 +224,9 @@ techage.register_node({"techage:generator", "techage:generator_on"}, {
 	end,
 })
 
-techage.register_help_page(I("TA3 Generator"), 
-I([[Part of the Coal Power Station.
-Has to be placed side by side
-with the TA3 Turbine.
-Connect the Generator with your TA3 machines
-by means of Electric Cables and Junction Boxes
-(see TA3 Coal Power Station)]]), "techage:generator")
+techage.register_entry_page("ta3ps", "generator", 
+	S("TA3 Generator"), 
+	S("Part of the Coal Power Station. Has to be placed side by side with the TA3 Turbine. "..
+		"Connect the Generator with your TA3 machines by means of Electric Cables and Junction Boxes@n"..
+		"(see TA3 Coal Power Station)"), 
+	"techage:generator")

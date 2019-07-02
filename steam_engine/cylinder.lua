@@ -13,13 +13,9 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local Pipe = techage.SteamPipe
 
@@ -40,7 +36,7 @@ local function after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
 end
 
 minetest.register_node("techage:cylinder", {
-	description = I("TA2 Cylinder"),
+	description = S("TA2 Cylinder"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta2.png^techage_frame_ta2.png",
@@ -60,7 +56,7 @@ minetest.register_node("techage:cylinder", {
 })
 
 minetest.register_node("techage:cylinder_on", {
-	description = I("TA2 Cylinder"),
+	description = S("TA2 Cylinder"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta2.png^techage_frame_ta2.png",
@@ -110,8 +106,7 @@ techage.register_node({"techage:cylinder", "techage:cylinder_on"}, {
 		if topic == "trigger" then
 			local power = techage.transfer(pos, "R", "trigger", nil, nil, {
 						"techage:flywheel", "techage:flywheel_on"}) or 0
-			--print("trigger", power, mem.running)
-				
+
 			if not power then
 				return 0
 			elseif power > 0 and not mem.running then
@@ -141,8 +136,8 @@ minetest.register_craft({
 	},
 })
 
-techage.register_help_page(I("TA2 Cylinder"), 
-I([[Part of the steam engine.
-Has to be placed side by side
-with the TA2 Flywheel.
-(see TA2 Steam Engine)]]), "techage:cylinder")
+techage.register_entry_page("ta2", "cylinder",
+	S("TA2 Cylinder"), 
+	S("Part of the steam engine. Has to be placed side by side with the TA2 Flywheel.@n"..
+		"(see TA2 Steam Engine)"), 
+	"techage:cylinder")

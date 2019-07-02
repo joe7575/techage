@@ -12,10 +12,7 @@
 	
 ]]--
 
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local S, NS = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local COAL_BURN_TIME = 1200
 local CYCLE_TIME = 5
@@ -243,21 +240,21 @@ function techage.stop_burner(pos)
 end
 
 
-local BurnerHelp = S([[Coal Burner to heat the melting pot:
-- build a 3x3xN cobble tower
-- more height means more flame heat   
-- keep a hole open on one side
-- put a lighter in
-- fill the tower from the top with charcoal
-- ignite the lighter
-- place the pot in the flame, (one block above the tower)
-- to pause the burner, close the hole temporarily with e.g. dirt
-(see plan)]])
+local BurnerHelp = S("Coal Burner to heat the melting pot:@n"..
+"- build a 3x3xN cobble tower@n"..
+"- more height means more flame heat@n"..
+"- keep a hole open on one side@n"..
+"- put a lighter in@n"..
+"- fill the tower from the top with charcoal@n"..
+"- ignite the lighter@n"..
+"- place the pot in the flame, (one block above the tower)@n"..
+"- to pause the burner, close the hole temporarily with e.g. dirt@n"..
+"(see plan)")
 
 local BurnerImages = {
 	
 	{false, false, false, "default_cobble.png^techage_meltingpot.png", false},
-	{false, false, false, false, false},
+	{false, false, false, "techage_flame.png", false},
 	{false, false, "default_cobble.png", "techage_charcoal.png", "default_cobble.png"},
 	{false, false, "default_cobble.png", "techage_charcoal.png", "default_cobble.png"},
 	{false, false, "default_cobble.png", "techage_charcoal.png", "default_cobble.png"},
@@ -266,4 +263,4 @@ local BurnerImages = {
 	{false, false, "default_cobble.png", "default_cobble.png",   "default_cobble.png"},
 }
 
-techage.register_help_page("Coal Burner", BurnerHelp, nil, BurnerImages)
+techage.register_entry_page("ta1", "burner", S("Coal Burner"), BurnerHelp, nil, BurnerImages)

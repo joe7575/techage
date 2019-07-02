@@ -20,7 +20,7 @@ techage.furnace.register_recipe({
 })
 
 if techage.modified_recipes_enabled then
-	techage.ironage_register_recipe({
+	techage.furnace.register_recipe({
 		output = "default:bronze_ingot 4", 
 		recipe = {"default:copper_ingot", "default:copper_ingot", "default:copper_ingot", "default:tin_ingot"}, 
 		time = 2,
@@ -33,6 +33,14 @@ if techage.modified_recipes_enabled then
 	})
 end
 
+if minetest.global_exists("wielded_light") then
+	techage.furnace.register_recipe({
+		output = "techage:meridium_ingot", 
+		recipe = {"default:steel_ingot", "default:mese_crystal_fragment"}, 
+		heat = 4,
+		time = 3,
+	})
+end
 
 minetest.after(1, function()
 	for key,_ in pairs(minetest.registered_items) do

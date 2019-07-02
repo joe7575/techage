@@ -13,13 +13,8 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local PWR_NEEDED = 3
 local CYCLE_TIME = 2
@@ -29,7 +24,7 @@ local consume_power = techage.power.consume_power
 local power_available = techage.power.power_available
 
 local function infotext(pos, state)
-	M(pos):set_string("infotext", I("TA3 Booster")..": "..state)
+	M(pos):set_string("infotext", S("TA3 Booster")..": "..state)
 end
 
 local function swap_node(pos, name)
@@ -61,7 +56,7 @@ local function node_timer(pos, elapsed)
 end
 
 minetest.register_node("techage:ta3_booster", {
-	description = I("TA3 Booster"),
+	description = S("TA3 Booster"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta3.png^techage_appl_arrow.png^techage_frame_ta3.png",
@@ -171,7 +166,7 @@ minetest.register_craft({
 	},
 })
 
-techage.register_help_page(I("TA3 Booster"), 
-I([[Part of the TA3 Industrial Furnace 
-and further machines.
-Used to increase the air/gas pressure.]]), "techage:ta3_booster")
+techage.register_entry_page("ta3f", "booster",
+	S("TA3 Booster"), 
+	S("Part of the TA3 Industrial Furnace and further machines. Used to increase the air/gas pressure."), 
+	"techage:ta3_booster")

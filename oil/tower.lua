@@ -13,17 +13,12 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
-
+local S = techage.S
 
 minetest.register_node("techage:oiltower1", {
-	description = I("TA3 Oil Tower"),
+	description = S("TA3 Derrick"),
 	tiles = {
 		"techage_oil_tower1.png",
 	},
@@ -49,7 +44,7 @@ minetest.register_node("techage:oiltower1", {
 })
 
 minetest.register_node("techage:oiltower2", {
-	description = I("TA3 Oil Tower"),
+	description = S("TA3 Derrick"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_oil_tower_top.png^[transformR180",
@@ -81,7 +76,7 @@ minetest.register_node("techage:oiltower2", {
 })
 
 minetest.register_node("techage:oiltower3", {
-	description = I("TA3 Oil Tower"),
+	description = S("TA3 Derrick"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_oil_tower_top.png^[transformR180",
@@ -113,7 +108,7 @@ minetest.register_node("techage:oiltower3", {
 })
 
 minetest.register_node("techage:oiltower4", {
-	description = I("TA3 Oil Tower"),
+	description = S("TA3 Derrick"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_oil_tower_top.png^[transformR180",
@@ -145,7 +140,7 @@ minetest.register_node("techage:oiltower4", {
 })
 
 minetest.register_node("techage:oiltower5", {
-	description = I("TA4 Oil Tower"),
+	description = S("TA4 Derrick"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_oil_tower1.png",
@@ -167,7 +162,7 @@ minetest.register_node("techage:oiltower5", {
 })
 
 minetest.register_node("techage:oil_drillbit", {
-	description = I("TA3 Drill Bit"),
+	description = S("TA3 Drill Bit"),
 	drawtype = "plantlike",
 	tiles = {"techage_oil_drillbit.png"},
 	inventory_image = "techage_oil_drillbit_inv.png",
@@ -180,7 +175,7 @@ minetest.register_node("techage:oil_drillbit", {
 })
 
 minetest.register_node("techage:oil_drillbit2", {
-	description = I("TA3 Drill Bit"),
+	description = S("TA3 Drill Bit"),
 	drawtype = "plantlike",
 	tiles = {"techage_oil_drillbit.png"},
 	inventory_image = "techage_oil_drillbit_inv.png",
@@ -274,12 +269,12 @@ techage.oiltower = {}
 -- 1) mem.assemble_locked is true while the tower is being assembled/disassembled
 -- 2) mem.assemble_build is true if the tower is assembled
 function techage.oiltower.build(pos, player_name)
-	minetest.chat_send_player(player_name, I("[TA] Tower is being built!"))
+	minetest.chat_send_player(player_name, S("[TA] Derrick is being built!"))
 	techage.assemble.build(pos, AssemblyPlan, player_name)
 end
 
 function techage.oiltower.remove(pos, player_name)
-	minetest.chat_send_player(player_name, I("[TA] Tower is being removed!"))
+	minetest.chat_send_player(player_name, S("[TA] Derrick is being removed!"))
 	techage.assemble.remove(pos, AssemblyPlan, player_name)
 end
 

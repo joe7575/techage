@@ -13,13 +13,9 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local Cable = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
@@ -56,7 +52,7 @@ end
 
 
 minetest.register_node("techage:electric_cableS", {
-	description = I("TA Electric Cable"),
+	description = S("TA Electric Cable"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_electric_cable.png",
@@ -99,7 +95,7 @@ minetest.register_node("techage:electric_cableS", {
 })
 
 minetest.register_node("techage:electric_cableA", {
-	description = I("TA Electric Cable"),
+	description = S("TA Electric Cable"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_electric_cable.png",

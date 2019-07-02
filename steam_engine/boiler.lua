@@ -13,13 +13,9 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local CYCLE_TIME = 4
 local STANDBY_TICKS = 2
@@ -53,7 +49,7 @@ local function formspec(self, pos, mem)
 		temp..":techage_form_temp_fg.png]"..
 		"image[7,0.5;1,2;"..techage.power.formspec_power_bar(1, ratio).."]"..
 		"image_button[6,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
-		"button[3,1.5;2,1;update;"..I("Update").."]"..
+		"button[3,1.5;2,1;update;"..S("Update").."]"..
 		"list[current_player;main;0,3;8,4;]"..
 		"listring[current_name;water]"..
 		"listring[current_player;main]"..
@@ -215,7 +211,7 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 end
 
 minetest.register_node("techage:boiler1", {
-	description = I("TA2 Boiler Base"),
+	description = S("TA2 Boiler Base"),
 	tiles = {"techage_boiler.png"},
 	drawtype = "mesh",
 	mesh = "techage_boiler.obj",
@@ -232,7 +228,7 @@ minetest.register_node("techage:boiler1", {
 
 -- boiler2: Main part, needed as generator
 minetest.register_node("techage:boiler2", {
-	description = I("TA2 Boiler Top"),
+	description = S("TA2 Boiler Top"),
 	tiles = {"techage_boiler2.png"},
 	drawtype = "mesh",
 	mesh = "techage_boiler.obj",
@@ -316,13 +312,12 @@ minetest.register_craft({
 	},
 })
 
-techage.register_help_page(I("TA2 Boiler Base"), 
-I([[Part of the steam engine.
-Has to be placed on top of the Firebox
-and filled with water.
-(see TA2 Steam Engine)]]), "techage:boiler1")
+techage.register_entry_page("ta2", "boiler1",
+	S("TA2 Boiler Base"), 
+	S("Part of the steam engine. Has to be placed on top of the Firebox and filled with water.@n"..
+	"(see TA2 Steam Engine)"), "techage:boiler1")
 
-techage.register_help_page(I("TA2 Boiler Top"), 
-I([[Part of the steam engine.
-Has to be placed on top of TA2 Boiler Base.
-(see TA2 Steam Engine)]]), "techage:boiler2")
+techage.register_entry_page("ta2", "boiler2",
+	S("TA2 Boiler Top"), 
+	S("Part of the steam engine. Has to be placed on top of TA2 Boiler Base.@n(see TA2 Steam Engine)"), 
+	"techage:boiler2")

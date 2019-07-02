@@ -13,15 +13,11 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
+local S = techage.S
+
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
 
 local STANDBY_TICKS = 10
 local COUNTDOWN_TICKS = 10
@@ -189,7 +185,7 @@ local tubing = {
 }
 
 local node_name_ta2, node_name_ta3, node_name_ta4 = 
-	techage.register_consumer("gravelsieve", I("Gravel Sieve"), tiles, {
+	techage.register_consumer("gravelsieve", S("Gravel Sieve"), tiles, {
 		drawtype = "nodebox",
 		node_box = {
 			type = "fixed",
@@ -243,3 +239,18 @@ minetest.register_craft({
 		{"", "techage:vacuum_tube", ""},
 	},
 })
+
+techage.register_entry_page("ta2", "gravelsieve",
+	S("TA2 Gravel Sieve"), 
+	S("To sieve Gravel and Basalt Gravel to get ores. Use a Grinder to make Gravel from Cobblestone.@n"..
+		"It can sieve one item every four seconds.@n"..
+		"It needs 3 units axle power."), 
+	"techage:ta2_gravelsieve_pas")
+
+techage.register_entry_page("ta3m", "gravelsieve",
+	S("TA3 Gravel Sieve"), 
+	S("To sieve Gravel and Basalt Gravel to get ores. Use a Grinder to make Gravel from Cobblestone.@n"..
+		"It can sieve two items every four seconds.@n"..
+		"It needs 4 units electrical power."), 
+	"techage:ta3_gravelsieve_pas")
+

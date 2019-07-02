@@ -12,12 +12,10 @@
 
 ]]--
 
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 techage.register_lamp("techage:simplelamp", {
-	description = I("TA Lamp"),
+	description = S("TA Lamp"),
 	tiles = {
 		'techage_electric_button.png',
 	},
@@ -30,7 +28,7 @@ techage.register_lamp("techage:simplelamp", {
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
 },{
-	description = I("TA Lamp"),
+	description = S("TA Lamp"),
 	tiles = {
 		'techage_electric_button.png',
 	},

@@ -13,13 +13,8 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local CYCLE_TIME = 4
 local STANDBY_TICKS = 2
@@ -58,7 +53,7 @@ local function formspec(self, pos, mem)
 		temp..":techage_form_temp_fg.png]"..
 		"image[7,0.5;1,2;"..techage.power.formspec_power_bar(1, ratio).."]"..
 		"image_button[6,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
-		"button[3,1.5;2,1;update;"..I("Update").."]"..
+		"button[3,1.5;2,1;update;"..S("Update").."]"..
 		"list[current_player;main;0,3;8,4;]"..
 		"listring[current_name;water]"..
 		"listring[current_player;main]"..
@@ -225,7 +220,7 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 end
 
 minetest.register_node("techage:coalboiler_top", {
-	description = I("TA3 Boiler Top"),
+	description = S("TA3 Boiler Top"),
 	tiles = {"techage_coal_boiler_mesh_top.png"},
 	drawtype = "mesh",
 	mesh = "techage_boiler_large.obj",
@@ -296,7 +291,8 @@ minetest.register_craft({
 	},
 })
 
-techage.register_help_page(I("TA3 Boiler Top"), 
-I([[Part of the Coal Power Station.
-Has to be placed on top of TA3 Power Station Boiler Base.
-(see TA3 Coal Power Station)]]), "techage:coalboiler_top")
+techage.register_entry_page("ta3ps", "coalboiler_top",
+	S("TA3 Boiler Top"), 
+	S("Part of the Coal Power Station. Has to be placed on top of TA3 Power Station Boiler Base.@n"..
+		"(see TA3 Coal Power Station)"), 
+	"techage:coalboiler_top")

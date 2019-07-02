@@ -13,13 +13,8 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local CYCLE_TIME = 2
 local PWR_PERF = 10
@@ -42,7 +37,7 @@ local function formspec(self, pos, mem)
 		default.gui_slots..
 		"image[0,0.5;1,2;"..techage.power.formspec_power_bar(PWR_CAPA, mem.capa).."]"..
 		"label[0.2,2.5;Load]"..
-		"button[1.1,1;1.8,1;update;"..I("Update").."]"..
+		"button[1.1,1;1.8,1;update;"..S("Update").."]"..
 		"image_button[3,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 		"image[4,0.5;1,2;"..techage.power.formspec_load_bar(-(mem.delivered or 0), PWR_PERF).."]"..
 		"label[4.2,2.5;Flow]"
@@ -123,7 +118,7 @@ local function set_capa(pos, oldnode, digger, capa)
 	capa = techage.power.percent(PWR_CAPA, capa)
 	capa = (math.floor((capa or 0) / 5)) * 5
 	meta:set_int("capa", capa)
-	local text = I("TA3 Akku Box").." ("..capa.." %)"
+	local text = S("TA3 Akku Box").." ("..capa.." %)"
 	meta:set_string("description", text)
 	local inv = minetest.get_inventory({type="player", name=digger:get_player_name()})
 	local left_over = inv:add_item("main", node)
@@ -133,7 +128,7 @@ local function set_capa(pos, oldnode, digger, capa)
 end
 
 minetest.register_node("techage:ta3_akku", {
-	description = I("TA3 Akku Box"),
+	description = S("TA3 Akku Box"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta3.png^techage_frame_ta3_top.png",
@@ -175,10 +170,11 @@ techage.power.register_node({"techage:ta3_akku"}, {
 	power_network  = Power,
 })
 
-techage.register_help_page(I("TA3 Akku Box"), 
-I([[Used to store electrical energy.
-Charged in about 10 min, 
-provides energy for 10 min.]]), "techage:ta3_akku")
+techage.register_entry_page("ta3ps", "akku",
+	S("TA3 Akku Box"), 
+	S("Used to store electrical energy. Charged in about 10 min, provides energy for 10 min.@n"..
+		"It take and deliver up to 10 units electrical power."), 
+	"techage:ta3_akku")
 
 
 minetest.register_craft({

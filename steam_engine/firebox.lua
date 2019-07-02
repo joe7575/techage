@@ -13,13 +13,9 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local firebox = techage.firebox
 
@@ -56,7 +52,7 @@ local function node_timer(pos, elapsed)
 end
 
 minetest.register_node("techage:firebox", {
-	description = I("TA2 Firebox"),
+	description = S("TA2 Firebox"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_firebox.png^techage_appl_open.png^techage_frame_ta2.png",
@@ -103,7 +99,7 @@ minetest.register_node("techage:firebox", {
 })
 
 minetest.register_node("techage:firebox_on", {
-	description = I("TA2 Firebox"),
+	description = S("TA2 Firebox"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_firebox.png^techage_frame_ta2.png",

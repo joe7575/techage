@@ -13,13 +13,10 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
+local S = techage.S
 
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
 
 local Cable = techage.ElectricCable
 local power_cut = techage.power.power_cut
@@ -67,7 +64,7 @@ end
 
 
 minetest.register_node("techage:powerswitch", {
-	description = I("TA Power Switch"),
+	description = S("TA Power Switch"),
 	inventory_image = "techage_appl_switch_inv.png",
 	tiles = {
 		'techage_appl_switch_off.png',
@@ -97,7 +94,7 @@ minetest.register_node("techage:powerswitch", {
 
 
 minetest.register_node("techage:powerswitch_on", {
-	description = I("TA Power Switch"),
+	description = S("TA Power Switch"),
 	inventory_image = "techage_appl_switch_inv.png",
 	tiles = {
 		'techage_appl_switch_on.png',
@@ -143,7 +140,7 @@ local function on_rotate(pos, node, user, mode, new_param2)
 end
 
 minetest.register_node("techage:powerswitch_box", {
-	description = I("TA Power Switch Box"),
+	description = S("TA Power Switch Box"),
 	tiles = {
 		-- up, down, right, left, back, front
 		'techage_electric_switch.png',

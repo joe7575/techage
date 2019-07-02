@@ -13,15 +13,11 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
+local S = techage.S
+
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
 
 local STANDBY_TICKS = 10
 local COUNTDOWN_TICKS = 10
@@ -252,7 +248,7 @@ local tubing = {
 }
 
 local node_name_ta2, node_name_ta3, node_name_ta4 = 
-	techage.register_consumer("rinser", I("Gravel Rinser"), tiles, {
+	techage.register_consumer("rinser", S("Gravel Rinser"), tiles, {
 		drawtype = "nodebox",
 		node_box = {
 			type = "fixed",
@@ -304,7 +300,7 @@ minetest.register_craft({
 
 if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("rinsing", {
-		description = I("Rinsing"),
+		description = S("Rinsing"),
 		icon = "techage_appl_rinser_top.png^techage_frame_ta2_top.png",
 		width = 2,
 		height = 2,
@@ -343,8 +339,26 @@ minetest.register_lbm({
 techage.add_rinser_recipe({input="techage:sieved_gravel", output="techage:usmium_nuggets", probability=40})
 techage.add_rinser_recipe({input="techage:sieved_gravel", output="default:copper_lump", probability=20})
 
-techage.register_help_page(I("TA2 Gravel Rinser"), 
-I([[Used to wash Sieved Gravel to get Usmium Nuggets.
-The block has to be placed under flowing water.
-The washed-out nuggets must be 
-sucked in with a Hopper.]]), "techage:ta2_rinser_pas")
+local Tube = "techage_tube_knee.png"
+local Tube2 = "techage_tube_knee.png^[transformR270"
+local Rinser = "techage_filling_ta2.png^techage_appl_rinser.png^techage_frame_ta2.png"
+local Hopper = "techage_hopper.png"
+local Glass = "default_glass.png"
+local Water = "default_water.png"
+local Chest = "default_chest_lock.png"
+local Dirt = "default_dirt.png"
+
+local Images = {
+	{false, false, false, false, false, false, false, false},
+	{false, Glass, false, false, false, false, Water, Glass},
+	{false, Chest, Hopper, Tube, Rinser, Tube2, Glass, Glass},
+}
+
+techage.register_entry_page("ta2", "rinser",
+	S("TA2 Gravel Rinser"), 
+	S("Used to wash Sieved Gravel to get Usmium Nuggets. The block has to be placed under flowing water. "..
+		"The washed-out nuggets must be sucked in with a Hopper.@nFor the plant you need a chest, "..
+		"the Hopper, the Rinser with tube support and a frame around the flowing water (see plan).@n"..
+		"Hint: You can test the Rinser with some sticks that are washed out immediately.@n"..
+		"It needs 3 units axle power"), 
+	nil, Images)

@@ -13,15 +13,11 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
+local S = techage.S
+
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
 
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 6
@@ -32,7 +28,7 @@ local formspec0 = "size[5,4]"..
 	default.gui_bg_img..
 	default.gui_slots..
 	"image[1,0;3.4,3.4;techage_oil_tower_inv.png]"..
-	"button_exit[1,3.2;3,1;build;"..I("Build derrick").."]"
+	"button_exit[1,3.2;3,1;build;"..S("Build derrick").."]"
 
 local function play_sound(pos)
 	local mem = tubelib2.get_mem(pos)
@@ -66,14 +62,14 @@ local function formspec(self, pos, mem)
 	"list[context;src;1,1;1,1;]"..
 	"label[1.3,0.5;IN]"..
 	"item_image[1,1;1,1;techage:oil_drillbit]"..
-	"label[1,2;"..I("Drill Bit").."]"..
-	"label[0.5,3;"..I("Depth")..": "..curr_depth.."/"..depth.."]"..
+	"label[1,2;"..S("Drill Bit").."]"..
+	"label[0.5,3;"..S("Depth")..": "..curr_depth.."/"..depth.."]"..
 	"image[3.5,0;1,1;"..techage.get_power_image(pos, mem).."]"..
 	"image[3.5,1;1,1;techage_form_arrow.png]"..
 	"image_button[3.5,2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 	"label[6.2,0.5;OUT]"..
 	"list[context;dst;6,1;1,1;]"..
-	"button_exit[5,3;3,1;remove;"..I("Remove derrick").."]"..
+	"button_exit[5,3;3,1;remove;"..S("Remove derrick").."]"..
 	"list[current_player;main;0,4;8,4;]"..
 	"listring[context;dst]"..
 	"listring[current_player;main]"..
@@ -250,7 +246,7 @@ local tubing = {
 }
 
 local _, node_name_ta3, _ = 
-	techage.register_consumer("drillbox", I("TA3 Oil Drill Box"), tiles, {
+	techage.register_consumer("drillbox", S("TA3 Oil Drill Box"), tiles, {
 		drawtype = "normal",
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
@@ -295,19 +291,21 @@ minetest.register_craft({
 	},
 })
 
-techage.register_help_page(I("TA3 Oil Drill Box"), 
-I([[The box automatically unfolds to a 
-derrick when you press the button.
-1: Place the box in the middle of the marked position
-    (the derrick requires a free area of 3x3m)
-2: Press the build button
-3: Supply the drill with electricity
-4: Supply the drill with Drill Bits
-5: Press the start button
-6: Remove the excavated material with Tubes/Pusher
-7: The drill stops when oil is found
-    (drill speed is 1m/16s)
-8: Replace the drill with the Pumpjack]]), node_name_ta3)
+techage.register_entry_page("ta3op", "drillbox",
+	S("TA3 Oil Drill Box"), 
+	S("The box automatically unfolds to a derrick when you press the button.@n"..
+		"1: Place the box in the middle of the marked position@n"..
+		"    (the derrick requires a free area of 3x3m)@n"..
+		"2: Press the build button@n"..
+		"3: Supply the drill with electricity@n"..
+		"4: Supply the drill with Drill Bits@n"..
+		"5: Press the start button@n"..
+		"6: Remove the excavated material with Tubes/Pusher@n"..
+		"7: The drill stops when oil is found@n"..
+		"    (drill speed is 1m/16s)@n"..
+		"8: Replace the drill with the Pumpjack.@n"..
+		"It needs 16 units electrical power"), 
+	node_name_ta3)
 
 minetest.register_lbm({
 	label = "[techage] Oil Tower sound",

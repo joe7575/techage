@@ -12,14 +12,12 @@
 
 ]]--
 
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local size = {x = 6/32, y = 4/32, z = 6/32}
 
 techage.register_lamp("techage:industriallamp3", {
-	description = "TA Industrial Lamp 3",
+	description = S("TA Industrial Lamp 3"),
 	inventory_image = 'techage_industriallamp_inv3.png',
 	tiles = {
 		-- up, down, right, left, back, front

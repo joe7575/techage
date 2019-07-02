@@ -13,16 +13,11 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
 
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
-
+local S = techage.S
 local STANDBY_TICKS = 10
 local COUNTDOWN_TICKS = 6
 local CYCLE_TIME = 6
@@ -235,7 +230,7 @@ local tubing = {
 }
 
 local node_name_ta2, node_name_ta3, node_name_ta4 = 
-	techage.register_consumer("electronic_fab", I("Electronic Fab"), tiles, {
+	techage.register_consumer("electronic_fab", S("Electronic Fab"), tiles, {
 		drawtype = "normal",
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
@@ -277,19 +272,19 @@ minetest.register_craft({
 })
 
 minetest.register_craftitem("techage:vacuum_tube", {
-	description = I("TA3 Vacuum Tubes"),
+	description = S("TA3 Vacuum Tubes"),
 	inventory_image = "techage_vacuum_tube.png",
 })
 
-minetest.register_craftitem("techage:wlanchip", {
-	description = I("TA4 WLAN Chip"),
+minetest.register_craftitem("techage:ta4_wlanchip", {
+	description = S("TA4 WLAN Chip"),
 	inventory_image = "techage_wlanchip.png",
 })
 
 
 if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("electronic_fab", {
-		description = I("Electronic Fab"),
+		description = S("Electronic Fab"),
 		icon = 'techage_filling_ta2.png^techage_appl_electronic_fab.png^techage_frame_ta2.png',
 		width = 2,
 		height = 2,
@@ -306,7 +301,19 @@ if minetest.global_exists("unified_inventory") then
 	})
 end
 
-techage.register_help_page(I("TA2 Electronic Fab"), 
-I([[Used to produce Vacuum Pipes, 
-needed for TA3 machines.]]), "techage:ta2_electronic_fab_pas")
+techage.register_entry_page("ta2", "electronic_fab",
+	S("TA2 Electronic Fab"), 
+	S("Used to produce Vacuum Pipes, needed for TA3 machines.@n"..
+		"The fab produces 1 item every 6 seconds.@n"..
+		"It needs 8 units axle power"), 
+	"techage:ta2_electronic_fab_pas")
+
+
+
+techage.register_entry_page("ta3m", "electronic_fab",
+	S("TA3 Electronic Fab"), 
+	S("Used to produce WLAN Chips, needed for TA4 machines.@n".. 
+		"The fab produces 1 item every 6 seconds.@n"..
+		"It needs 12 units electrical power."),
+	"techage:ta3_electronic_fab_pas")
 

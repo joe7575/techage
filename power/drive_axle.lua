@@ -13,14 +13,9 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
-
+local S = techage.S
 
 local Axle = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
@@ -45,7 +40,7 @@ end)
 techage.Axle = Axle
 
 minetest.register_node("techage:axle", {
-	description = I("TA2 Drive Axle"),
+	description = S("TA2 Drive Axle"),
 	tiles = {
 		"techage_axleR.png",
 		"techage_axleR.png",
@@ -84,7 +79,7 @@ minetest.register_node("techage:axle", {
 })
 
 minetest.register_node("techage:axle_on", {
-	description = I("TA2 Drive Axle"),
+	description = S("TA2 Drive Axle"),
 	tiles = {
 		{
 			image = "techage_axle4R.png",

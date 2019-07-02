@@ -12,9 +12,7 @@
 	
 ]]--
 
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local function handler(player_name, node, itemstack, digparams)
 	local pos = techage.dug_node[player_name]
@@ -28,8 +26,10 @@ local function handler(player_name, node, itemstack, digparams)
 	if minetest.get_item_group(node.name, "stone") > 0 then
 		-- Remove item from players inventory or from the world
 		local ndef = minetest.registered_nodes[node.name]
-		if ndef and ndef.drop then
-			local item = ItemStack(ndef.drop)
+		print(1)
+		if ndef then
+			print(2)
+			local item = ItemStack(ndef.drop or node.name)
 			local inv = minetest.get_inventory({type="player", name=player_name})
 			if inv:room_for_item("main", item) then
 				local taken = inv:remove_item("main", item)
@@ -51,7 +51,7 @@ local function handler(player_name, node, itemstack, digparams)
 end
 
 minetest.register_tool("techage:hammer_bronze", {
-	description = I("TA1 Bronze Hammer (smash stone to gravel)"),
+	description = S("TA1 Bronze Hammer (smash stone to gravel)"),
 	inventory_image = "techage_tool_hammer_bronze.png",
 	tool_capabilities = {
 		full_punch_interval = 1.0,
@@ -70,7 +70,7 @@ minetest.register_tool("techage:hammer_bronze", {
 })
 
 minetest.register_tool("techage:hammer_steel", {
-	description = I("TA1 Steel Hammer (smash stone to gravel)"),
+	description = S("TA1 Steel Hammer (smash stone to gravel)"),
 	inventory_image = "techage_tool_hammer_steel.png",
 	tool_capabilities = {
 		full_punch_interval = 1.0,
@@ -89,7 +89,7 @@ minetest.register_tool("techage:hammer_steel", {
 })
 
 minetest.register_tool("techage:hammer_mese", {
-	description = I("TA1 Mese Hammer (smash stone to gravel)"),
+	description = S("TA1 Mese Hammer (smash stone to gravel)"),
 	inventory_image = "techage_tool_hammer_mese.png",
 	tool_capabilities = {
 		full_punch_interval = 0.9,
@@ -108,7 +108,7 @@ minetest.register_tool("techage:hammer_mese", {
 })
 
 minetest.register_tool("techage:hammer_diamond", {
-	description = I("TA1 Diamond Hammer (smash stone to gravel)"),
+	description = S("TA1 Diamond Hammer (smash stone to gravel)"),
 	inventory_image = "techage_tool_hammer_diamond.png",
 	tool_capabilities = {
 		full_punch_interval = 0.9,
@@ -125,6 +125,35 @@ minetest.register_tool("techage:hammer_diamond", {
 		return itemstack
 	end,
 })
+
+if minetest.global_exists("wielded_light") then
+	minetest.register_tool("techage:hammer_meridium", {
+		description = S("TA1 Meridium Hammer (smash stone to gravel)"),
+		inventory_image = "techage_tool_hammer_meridium.png",
+		tool_capabilities = {
+			full_punch_interval = 1.0,
+			max_drop_level=1,
+			groupcaps={
+				cracky = {times={[1]=4.00, [2]=1.60, [3]=0.80}, uses=60, maxlevel=2},
+			},
+			damage_groups = {fleshy=4},
+		},
+		sound = {breaks = "default_tool_breaks"},
+		after_use = function(itemstack, user, node, digparams)
+			minetest.after(0.01, handler, user:get_player_name(), node)
+			itemstack:add_wear(digparams.wear)
+			return itemstack
+		end,
+	})
+	minetest.register_craft({
+		output = "techage:hammer_meridium 2",
+		recipe = {
+			{"techage:meridium_ingot", "group:stick", "techage:meridium_ingot"},
+			{"techage:meridium_ingot", "group:stick", "techage:meridium_ingot"},
+			{"", "group:stick", ""},
+		}
+	})
+end
 
 minetest.register_craft({
 	output = "techage:hammer_bronze 2",
@@ -159,5 +188,6 @@ minetest.register_craft({
 	}
 })
 
-techage.register_help_page("TA1 xxx Hammer", [[Hammer to smash stone to gravel.
+techage.register_entry_page("ta1", "hammer",
+	"TA1 xxx Hammer", [[Hammer to smash stone to gravel.
 Available as Bronze, Steel, Mese, and Diamond Hammer.]], "techage:hammer_bronze")

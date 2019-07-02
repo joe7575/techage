@@ -12,9 +12,7 @@
 	
 ]]--
 
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local S, NS = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 minetest.register_node("techage:lighter_burn", {
 	tiles = {"techage_lighter_burn.png"},
@@ -90,6 +88,7 @@ minetest.register_craft({
 	}
 })
 
-techage.register_help_page("TA1 Lighter", [[lighter to ignite the Coal Burner
-and the Coal Pile.]], "techage:lighter")
+techage.register_entry_page("ta1", "lighter",
+	S("TA1 Lighter"), 
+	S("lighter to ignite the Coal Burner and the Coal Pile."), "techage:lighter")
 

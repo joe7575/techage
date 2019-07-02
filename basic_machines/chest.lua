@@ -13,13 +13,8 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local PlayerActions = {}
 local InventoryState = {}
@@ -95,7 +90,7 @@ local function formspec2()
 end
 
 minetest.register_node("techage:chest_ta2", {
-	description = I("TA2 Protected Chest"),
+	description = S("TA2 Protected Chest"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta2.png^techage_frame_ta2.png",
@@ -118,7 +113,7 @@ minetest.register_node("techage:chest_ta2", {
 		meta:set_string("number", number)
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("formspec", formspec2())
-		meta:set_string("infotext", I("TA2 Protected Chest").." "..number)
+		meta:set_string("infotext", S("TA2 Protected Chest").." "..number)
 	end,
 
 	can_dig = can_dig,
@@ -144,7 +139,7 @@ local function formspec3()
 end
 
 minetest.register_node("techage:chest_ta3", {
-	description = I("TA3 Protected Chest"),
+	description = S("TA3 Protected Chest"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta3.png^techage_frame_ta3.png",
@@ -167,7 +162,7 @@ minetest.register_node("techage:chest_ta3", {
 		meta:set_string("number", number)
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("formspec", formspec3())
-		meta:set_string("infotext", I("TA3 Protected Chest").." "..number)
+		meta:set_string("infotext", S("TA3 Protected Chest").." "..number)
 	end,
 
 	can_dig = can_dig,
@@ -193,7 +188,7 @@ local function formspec4()
 end
 
 minetest.register_node("techage:chest_ta4", {
-	description = I("TA4 Protected Chest"),
+	description = S("TA4 Protected Chest"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta4.png^techage_frame_ta4_top.png",
@@ -216,7 +211,7 @@ minetest.register_node("techage:chest_ta4", {
 		meta:set_string("number", number)
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("formspec", formspec4())
-		meta:set_string("infotext", I("TA4 Protected Chest").." "..number)
+		meta:set_string("infotext", S("TA4 Protected Chest").." "..number)
 	end,
 
 	can_dig = can_dig,
@@ -261,7 +256,7 @@ techage.register_node({"techage:chest_ta2", "techage:chest_ta3", "techage:chest_
 				local meta = minetest.get_meta(pos)
 				meta:set_string("dest_num", payload)
 				local number = meta:get_string("number")
-				meta:set_string("infotext", I("TA2 Protected Chest").." "..number.." connected with "..payload)
+				meta:set_string("infotext", S("TA Protected Chest").." "..number.." "..S("connected with").." "..payload)
 				return true
 			end
 		else
@@ -282,3 +277,19 @@ minetest.register_craft({
 	output = "techage:chest_ta3",
 	recipe = {"techage:chest_ta2", "techage:tubeS", "techage:vacuum_tube"}
 })
+
+local help = S("The Protected Chest is useful in protected areas (by means of any protection mod).@n"..
+	"Only players with interaction rights on that position can take/put item from/to the chest.@n"..
+	"The Chest supports commands to read the last player action (player-name, take/put, item-name) "..
+	"and the chest state ('empty', 'loaded', 'full').@n"..
+	"The chest returns 'loaded' when it is not empty and not full, "..
+	"'full' is returned, when no empty stack is available.@n")
+
+techage.register_entry_page("ta2", "chest",
+	S("TA2 Protected Chest"), 
+	S("The Protected Chest is useful in protected areas (by means of any protection mod).@n"..
+	"Only players with interaction rights on that position can take/put item from/to the chest."), 
+	"techage:chest_ta2")
+
+techage.register_entry_page("ta3m", "chest",
+	S("TA3 Protected Chest"), help, "techage:chest_ta3")

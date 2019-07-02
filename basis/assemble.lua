@@ -13,13 +13,9 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 techage.assemble = {}
 
@@ -79,14 +75,14 @@ local function check_space(pos, param2, AssemblyPlan, player_name)
 		local y, path, node_name = item[1], item[2], item[4]
 		local pos1 = dest_pos(pos, param2, path, y)
 		if minetest.is_protected(pos1, player_name) then
-			minetest.chat_send_player(player_name, I("[TA] Area is protected!"))
+			minetest.chat_send_player(player_name, S("[TA] Area is protected!"))
 			return false
 		end
 		
 		local node = minetest.get_node(pos1)
 		local ndef = minetest.registered_nodes[node.name]
 		if not ndef or ndef.walkable and node.name ~= node_name then
-			minetest.chat_send_player(player_name, I("[TA] Not enough space!"))
+			minetest.chat_send_player(player_name, S("[TA] Not enough space!"))
 			return false
 		end
 	end

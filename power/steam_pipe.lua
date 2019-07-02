@@ -13,14 +13,9 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
-
+local S = techage.S
 
 local Pipe = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
@@ -43,7 +38,7 @@ techage.SteamPipe = Pipe
 
 
 minetest.register_node("techage:steam_pipeS", {
-	description = I("TA2 Steam Pipe"),
+	description = S("TA2 Steam Pipe"),
 	tiles = {
 		"techage_steam_pipe.png^[transformR90",
 		"techage_steam_pipe.png^[transformR90",
@@ -82,7 +77,7 @@ minetest.register_node("techage:steam_pipeS", {
 })
 
 minetest.register_node("techage:steam_pipeA", {
-	description = I("TA2 Steam Pipe"),
+	description = S("TA2 Steam Pipe"),
 	tiles = {
 		"techage_steam_knee2.png",
 		"techage_steam_hole2.png^[transformR180",

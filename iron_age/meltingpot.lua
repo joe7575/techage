@@ -12,10 +12,7 @@
 	
 ]]--
 
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local S, NS = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local SMELTING_TIME = 2
 
@@ -482,13 +479,13 @@ minetest.register_craft({
 
 if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("melting", {
-		description = S("Melting"),
+		description = S("TA1 Melting"),
 		icon = "default_cobble.png^techage_meltingpot.png",
 		width = 2,
 		height = 2,
 	})
 	unified_inventory.register_craft_type("burning", {
-		description = S("Burning"),
+		description = S("TA1 Burning"),
 		icon = "techage_smoke.png",
 		width = 1,
 		height = 1,
@@ -521,5 +518,7 @@ function techage.ironage_register_recipe(recipe)
 	end
 end
 
-techage.register_help_page("TA1 Melting Pot", [[To melt ores and/or produce alloys.
-Place the pot on top of the Coal Burner.]], "techage:meltingpot")
+techage.register_entry_page("ta1", "meltingpot",
+	S("TA1 Melting Pot"), 
+	S("To melt ores and/or produce alloys. Place the pot on top of the Coal Burner."), 
+	"techage:meltingpot")

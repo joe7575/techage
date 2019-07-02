@@ -13,18 +13,13 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local Pipe = techage.SteamPipe
 
 minetest.register_node("techage:coalboiler_base", {
-	description = I("TA3 Boiler Base"),
+	description = S("TA3 Boiler Base"),
 	tiles = {"techage_coal_boiler_mesh_base.png"},
 	drawtype = "mesh",
 	mesh = "techage_boiler_large.obj",
@@ -69,9 +64,8 @@ minetest.register_craft({
 	},
 })
 
-techage.register_help_page(I("TA3 Boiler Base"), 
-I([[Part of the Coal Power Station.
-Has to be placed on top of the 
-TA3 Coal Power Station Firebox
-and filled with water.
-(see TA3 Coal Power Station)]]), "techage:coalboiler_base")
+techage.register_entry_page("ta3ps", "coalboiler_base",
+	S("TA3 Boiler Base"), 
+	S("Part of the Coal Power Station. Has to be placed on top of the TA3 Coal Power Station Firebox and filled with water.@n"..
+		"(see TA3 Coal Power Station)"), 
+	"techage:coalboiler_base")

@@ -12,18 +12,15 @@
 
 ]]--
 
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local S, NS = dofile(MP.."/intllib.lua")
+local S = techage.S
 
-local HelpText = S([[1. Build the Furnace with 
-TA3 Furnace Firebox, TA3 Furnace Top, 
-and TA3 Booster according to the plan.
-2. Heat the Firebox with coal/charcoal/oil
-3. Power the Booster with electrical power.
-4. Select one of the possible outputs
-5. Connect the TA3 Furnace Top with your machines by means of tubes.
-6. Start the Furnace]])
+local HelpText = S("Build the Furnace with TA3 Furnace Firebox, TA3 Furnace Top, "..
+	"and TA3 Booster according to the plan.@n"..
+	"- Heat the Firebox with coal/charcoal/oil@n"..
+	"- Power the Booster with electrical power.@n"..
+	"- Select one of the possible outputs@n"..
+	"- Connect the TA3 Furnace Top with your machines by means of tubes.@n"..
+	"- Start the Furnace")
 
 local Cable = "techage_electric_cable_inv.png"
 local Tube = "techage_tube_tube.png"
@@ -38,6 +35,11 @@ local Images = {
 	{false, Cable, Booster, Firebox, false, false, false},
 }
 
-techage.register_help_page(S("TA3 Industrial Furnace"), HelpText, nil, Images)
+techage.register_category_page("ta3f",
+	S("TA3 Industrial Furnace"), 
+	HelpText, 
+	nil, 
+	{"firebox", "furnace", "booster"},
+	Images)
 
 

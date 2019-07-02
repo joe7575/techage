@@ -13,13 +13,10 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
+local S = techage.S
 
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
 
 -- used by other tools: dug_node[player_name] = pos
 techage.dug_node = {}
@@ -81,7 +78,7 @@ local function replace_node(itemstack, placer, pointed_thing)
 end
 
 minetest.register_node("techage:trowel", {
-	description = I("TechAge Trowel (uses items from the first, left inventory stack)"),
+	description = S("TechAge Trowel"),
 	inventory_image = "techage_trowel.png",
 	wield_image = "techage_trowel.png",
 	use_texture_alpha = true,
@@ -114,3 +111,9 @@ minetest.register_craft({
 		{"", "", "default:stick"},
 	},
 })
+
+techage.register_entry_page("ta", "trowel",
+	S("TechAge Trowel"), 
+	S("Tool to hide and retrieve electrical wiring in walls and floors.@n"..
+		"The material for hiding the cables must be in the left stack of the first row in the player inventory."), 
+	"techage:trowel")

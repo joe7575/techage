@@ -12,10 +12,7 @@
 	
 ]]--
 
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local S, NS = dofile(MP.."/intllib.lua")
-
+local S = techage.S
 
 minetest.register_craftitem("techage:meridium_ingot", {
 	description = "Meridium Ingot",
@@ -126,3 +123,8 @@ techage.ironage_register_recipe({
 	heat = 4,
 	time = 3,
 })
+
+techage.register_entry_page("ta1", "meridium",
+	S("Meridium Ingot"), 
+	S("A brilliant alloy for tools, which are used in the dark. Can be made with Coal Burner and TA3 Industrial Furnace."), 
+	"techage:meridium_ingot")

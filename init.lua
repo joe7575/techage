@@ -1,6 +1,3 @@
-techage = {
-	NodeDef = {},		-- node registration info
-}
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -11,17 +8,19 @@ elseif minetest.global_exists("techpack") then
 elseif minetest.global_exists("tubelib2") and tubelib2.version < 1.4 then
 	minetest.log("error", "[techage] Techage requires tubelib2 version 1.4 or newer!")
 else
-	techage.max_num_forceload_blocks = tonumber(minetest.setting_get("techage_max_num_forceload_blocks")) or 12
+	techage = {
+		NodeDef = {},		-- node registration info
+	}
+	techage.max_num_forceload_blocks = tonumber(minetest.setting_get("techage_max_num_forceload_blocks")) or 16
 	techage.basalt_stone_enabled = minetest.setting_get("techage_basalt_stone_enabled") == "true"
 	techage.ore_rarity = tonumber(minetest.setting_get("techage_ore_rarity")) or 1
 	techage.modified_recipes_enabled = minetest.setting_get("techage_modified_recipes_enabled") == "true"
 
-	local MP = minetest.get_modpath("techage")
-
-	-- Load support for intllib.
-	dofile(MP.."/basis/intllib.lua")
+	-- Load support for I18n.
+	techage.S = minetest.get_translator("techage")
 
 	-- Basis features
+	local MP = minetest.get_modpath("techage")
 	dofile(MP.."/basis/lib.lua")  -- helper functions
 	dofile(MP.."/basis/gravel_lib.lua")  -- ore probability
 	dofile(MP.."/basis/guide.lua")  -- construction guide
@@ -31,10 +30,12 @@ else
 	dofile(MP.."/basis/firebox_lib.lua")  -- common firebox functions
 	dofile(MP.."/basis/mark.lua")
 	dofile(MP.."/basis/assemble.lua")
-	
-	-- Tools
-	dofile(MP.."/tools/trowel.lua")
-	dofile(MP.."/tools/repairkit.lua")
+
+	-- Main doc
+	dofile(MP.."/doc/doc.lua")
+	dofile(MP.."/doc/ta1_doc.lua")
+	dofile(MP.."/doc/ta2_doc.lua")
+	dofile(MP.."/doc/ta3_doc.lua")
 	
 	-- Nodes1
 	dofile(MP.."/nodes/baborium.lua")
@@ -76,13 +77,10 @@ else
 	dofile(MP.."/steam_engine/flywheel.lua")
 	dofile(MP.."/steam_engine/gearbox.lua")
 	
-	dofile(MP.."/basic_machines/ta2_help.lua")
-	
 	-- Basic Machines
 	dofile(MP.."/basis/consumer.lua")  -- consumer base model
 	dofile(MP.."/basic_machines/source.lua")
 	dofile(MP.."/basic_machines/pusher.lua")
-	dofile(MP.."/basic_machines/blackhole.lua")
 	dofile(MP.."/basic_machines/legacy_nodes.lua")
 	dofile(MP.."/basic_machines/grinder.lua")
 	dofile(MP.."/basic_machines/distributor.lua")
@@ -90,11 +88,9 @@ else
 	dofile(MP.."/basic_machines/gravelrinser.lua")
 	dofile(MP.."/basic_machines/chest.lua")
 	dofile(MP.."/basic_machines/autocrafter.lua")
-	dofile(MP.."/basic_machines/forceload.lua")
 	dofile(MP.."/basic_machines/electronic_fab.lua")
 
 	-- Coal power station
-	dofile(MP.."/coal_power_station/help.lua")
 	dofile(MP.."/coal_power_station/firebox.lua")
 	dofile(MP.."/coal_power_station/boiler_base.lua")
 	dofile(MP.."/coal_power_station/boiler_top.lua")
@@ -103,8 +99,6 @@ else
 	dofile(MP.."/coal_power_station/cooler.lua")
 	dofile(MP.."/coal_power_station/akkubox.lua")
 	
-	dofile(MP.."/basic_machines/ta3_help.lua")
-
 	-- Industrial Furnace
 	dofile(MP.."/furnace/help.lua")
 	dofile(MP.."/furnace/firebox.lua")
@@ -112,6 +106,13 @@ else
 	dofile(MP.."/furnace/furnace_top.lua")
 	dofile(MP.."/furnace/booster.lua")
 	dofile(MP.."/furnace/recipes.lua")
+	
+	-- Tools
+	dofile(MP.."/doc/ta_doc.lua")
+	dofile(MP.."/tools/trowel.lua")
+	dofile(MP.."/tools/repairkit.lua")
+	dofile(MP.."/basic_machines/blackhole.lua")
+	dofile(MP.."/basic_machines/forceload.lua")
 	
 	-- Lamps
 	dofile(MP.."/lamps/lib.lua")
@@ -123,7 +124,6 @@ else
 	dofile(MP.."/lamps/industriallamp3.lua")
 	
 	-- Oil
-	dofile(MP.."/oil/help.lua")
 	dofile(MP.."/oil/explore.lua")
 	dofile(MP.."/oil/tower.lua")
 	dofile(MP.."/oil/drillbox.lua")

@@ -14,13 +14,11 @@
 
 -- for lazy programmers
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local Cable = techage.ElectricCable
 local power_switched = techage.power.power_switched
+local power_available = techage.power.power_available
 
 local size = 3/32
 local Boxes = {
@@ -33,7 +31,7 @@ local Boxes = {
 }
 
 techage.register_junction("techage:electric_junction", 2/8, Boxes, Cable, {
-	description = I("TA Electric Junction Box"),
+	description = S("TA Electric Junction Box"),
 	tiles = {"techage_electric_junction.png"},
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
 	sounds = default.node_sound_defaults(),
@@ -44,7 +42,14 @@ techage.register_junction("techage:electric_junction", 2/8, Boxes, Cable, {
 		minetest.swap_node(pos, {name = name, param2 = 0})
 		power_switched(pos)
 	end,
-	})
+	is_power_available = function(pos)
+		if power_available(pos) then
+			return "on"
+		else
+			return "off"
+		end
+	end,
+})
 
 minetest.register_craft({
 	output = "techage:electric_junction0 2",

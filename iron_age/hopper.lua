@@ -13,13 +13,8 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local function scan_for_objects(pos, inv)
 	for _, object in pairs(minetest.get_objects_inside_radius(pos, 1)) do
@@ -72,7 +67,7 @@ local function node_timer(pos, elapsed)
 end
 
 minetest.register_node("techage:hopper_ta1", {
-	description = I("TA1 Hopper"),
+	description = S("TA1 Hopper"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"default_cobble.png^techage_appl_hopper_top.png",
@@ -154,9 +149,9 @@ techage.register_node({"techage:hopper_ta1"}, {
 	end,
 })	
 
-techage.register_help_page("TA1 Hopper", [[The Hopper collects dropped items 
-and pushes them to the right side. 
-Items are sucked up when they 
-are dropped on top of the Hopper block.
-But the Hopper can also pull items out of 
-chests or furnace blocks, if it is placed below.]], "techage:hopper_ta1")
+techage.register_entry_page("ta1", "hopper",
+	S("TA1 Hopper"), 
+	S("The Hopper collects dropped items and pushes them to the right side.@n".. 
+		"Items are sucked up when they are dropped on top of the Hopper block.@n"..
+		"But the Hopper can also pull items out of chests or furnace blocks, if it is placed below."), 
+	"techage:hopper_ta1")

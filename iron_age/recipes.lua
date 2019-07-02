@@ -12,9 +12,7 @@
 	
 ]]--
 
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local S, NS = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 --
 -- New burner recipes
@@ -96,3 +94,8 @@ if techage.modified_recipes_enabled then
 	}
 })
 end
+
+techage.register_entry_page("ta1", "iron",
+	S("TA1 Iron Ingot"), 
+	S("Steel replacement for TA1. Needed for many tools. Can be made with the Coal Burner from iron lumps."),
+	"techage:iron_ingot")

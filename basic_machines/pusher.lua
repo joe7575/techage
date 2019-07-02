@@ -23,15 +23,11 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
+local S = techage.S
+
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
-local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).consumer end
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
 
 local STANDBY_TICKS = 10
 local COUNTDOWN_TICKS = 10
@@ -128,7 +124,7 @@ local tubing = {
 }
 	
 local node_name_ta2, node_name_ta3, node_name_ta4 = 
-	techage.register_consumer("pusher", I("Pusher"), tiles, {
+	techage.register_consumer("pusher", S("Pusher"), tiles, {
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
 		tubing = tubing,
@@ -167,3 +163,25 @@ minetest.register_craft({
 		{"", "techage:vacuum_tube", ""},
 	},
 })
+
+techage.register_entry_page("ta2", "pusher",
+	S("TA2 Pusher"), 
+	S("The Pusher is a pulling/pushing block, moving items from one inventory block to another (e.g. chests). "..
+	"Start the Pusher with a right-click. It shows the state 'running' as infotext. "..
+	"The Pusher moves items from left to right (IN to OUT).@n"..
+	"If the source chest is empty, the Pusher goes into 'standby' state for some seconds. If the destination "..
+	"chest is full, the Pusher goes into 'blocked' state.@n"..
+	"The TA2 Pusher moves two items every 2 seconds."),
+	"techage:ta2_pusher_pas")
+
+techage.register_entry_page("ta3m", "pusher",
+	S("TA3 Pusher"), 
+	S("The Pusher is a pulling/pushing block, moving items from one inventory block to another (e.g. chests). "..
+	"Start the Pusher with a right-click. It shows the state 'running' as infotext. "..
+	"The Pusher moves items from left to right (IN to OUT).@n"..
+	"If the source chest is empty, the Pusher goes into 'standby' state for some seconds. If the destination "..
+	"chest is full, the Pusher goes into 'blocked' state.@n"..
+	"The TA3 Pusher moves 6 items every 2 seconds."),
+	"techage:ta3_pusher_pas")
+
+

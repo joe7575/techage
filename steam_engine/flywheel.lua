@@ -13,13 +13,9 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
@@ -37,7 +33,7 @@ local function formspec(self, pos, mem)
 		default.gui_slots..
 		"image[6,0.5;1,2;"..techage.power.formspec_power_bar(PWR_CAPA, mem.provided).."]"..
 		"image_button[5,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
-		"button[2,1.5;2,1;update;"..I("Update").."]"..
+		"button[2,1.5;2,1;update;"..S("Update").."]"..
 		"list[current_player;main;0,3;8,4;]"..
 		default.get_hotbar_bg(0, 3)
 end
@@ -124,7 +120,7 @@ local function on_rightclick(pos)
 end
 
 minetest.register_node("techage:flywheel", {
-	description = I("TA2 Flywheel"),
+	description = S("TA2 Flywheel"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta2.png^techage_frame_ta2.png",
@@ -155,7 +151,7 @@ minetest.register_node("techage:flywheel", {
 })
 
 minetest.register_node("techage:flywheel_on", {
-	description = I("TA2 Flywheel"),
+	description = S("TA2 Flywheel"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta2.png^techage_frame_ta2.png",
@@ -234,11 +230,9 @@ minetest.register_craft({
 	},
 })
 
-techage.register_help_page(I("TA2 Flywheel"), 
-I([[Part of the steam engine.
-Has to be placed side by side
-with the TA2 Cylinder.
-Used to turn on/off the steam engine.
-Connect the Flywheel with your TA2 machines
-by means of Axles and Gearboxes
-(see TA2 Steam Engine)]]), "techage:flywheel")
+techage.register_entry_page("ta2", "flywheel",
+	S("TA2 Flywheel"), 
+	S("Part of the steam engine. Has to be placed side by side with the TA2 Cylinder.@n"..
+		"Used to turn on/off the steam engine. Connect the Flywheel with your TA2 machines "..
+		"by means of Axles and Gearboxes.@n"..
+		"(see TA2 Steam Engine)"), "techage:flywheel")

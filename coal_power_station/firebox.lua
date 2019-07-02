@@ -13,13 +13,9 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local firebox = techage.firebox
 
@@ -79,7 +75,7 @@ local function start_firebox(pos, mem)
 end
 
 minetest.register_node("techage:coalfirebox", {
-	description = I("TA3 Coal Power Station Firebox"),
+	description = S("TA3 Coal Power Station Firebox"),
 	inventory_image = "techage_coal_boiler_inv.png",
 	tiles = {"techage_coal_boiler_mesh_top.png"},
 	drawtype = "mesh",
@@ -127,7 +123,7 @@ minetest.register_node("techage:coalfirebox", {
 })
 
 minetest.register_node("techage:coalfirehole", {
-	description = I("TA3 Coal Power Station Firebox"),
+	description = S("TA3 Coal Power Station Firebox"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_coal_boiler.png",
@@ -153,7 +149,7 @@ minetest.register_node("techage:coalfirehole", {
 })
 
 minetest.register_node("techage:coalfirehole_on", {
-	description = I("TA3 Coal Power Station Firebox"),
+	description = S("TA3 Coal Power Station Firebox"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_coal_boiler.png^[colorize:black:80",

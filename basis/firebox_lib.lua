@@ -13,12 +13,9 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 techage.firebox = {}
 
@@ -50,9 +47,9 @@ function techage.firebox.formspec(mem)
 			"list[current_name;fuel;1,0.5;1,1;]"..
 			"image[2,0.5;1,1;default_furnace_fire_bg.png^[lowpart:"..
 			fuel_percent..":default_furnace_fire_fg.png]"..
-			"label[4.5,0.1;"..I("Power")..":]"..
+			"label[4.5,0.1;"..S("Power")..":]"..
 			"dropdown[6,0;1.8;power_level;25%,50%,75%,100%;"..mem.power_level.."]"..
-			"button[1,1.5;1.8,1;update;"..I("Update").."]"..
+			"button[1,1.5;1.8,1;update;"..S("Update").."]"..
 			"list[current_player;main;0,2.8;8,4;]"..
 			"listring[current_name;fuel]"..
 			"listring[current_player;main]"..
@@ -65,7 +62,7 @@ function techage.firebox.formspec(mem)
 			"list[current_name;fuel;1,0.5;1,1;]"..
 			"image[3,0.5;1,1;default_furnace_fire_bg.png^[lowpart:"..
 			fuel_percent..":default_furnace_fire_fg.png]"..
-			"button[5,0.5;1.8,1;update;"..I("Update").."]"..
+			"button[5,0.5;1.8,1;update;"..S("Update").."]"..
 			"list[current_player;main;0,2;8,4;]"..
 			"listring[current_name;fuel]"..
 			"listring[current_player;main]"..
@@ -74,7 +71,6 @@ function techage.firebox.formspec(mem)
 end
 
 function techage.firebox.can_dig(pos, player)
-	local mem = tubelib2.get_mem(pos)
 	local inv = M(pos):get_inventory()
 	return inv:is_empty("fuel")
 end

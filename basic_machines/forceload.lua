@@ -13,9 +13,9 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
+local S = techage.S
 
 local function calc_area(pos)
 	local xpos = (math.floor(pos.x / 16) * 16)
@@ -99,9 +99,9 @@ local function formspec(player)
 		local pos1, pos2 = calc_area(pos)
 		local ypos = 0.2 + idx * 0.4
 		tRes[#tRes+1] = "label[0,"..ypos..";"..idx.."]"
-		tRes[#tRes+1] = "label[0.8,"..ypos..";"..S(pos1).."]"
+		tRes[#tRes+1] = "label[0.8,"..ypos..";"..P2S(pos1).."]"
 		tRes[#tRes+1] = "label[3.2,"..ypos..";to]"
-		tRes[#tRes+1] = "label[4,"..ypos..";"..S(pos2).."]"
+		tRes[#tRes+1] = "label[4,"..ypos..";"..P2S(pos2).."]"
 	end
 	return table.concat(tRes)
 end
@@ -129,9 +129,9 @@ minetest.register_node("techage:forceload", {
 		if add_pos(pos, placer) then
 			minetest.forceload_block(pos, true)
 			local pos1, pos2, num, max = get_data(pos, placer)
-			M(pos):set_string("infotext", "Area "..S(pos1).." to "..S(pos2).." loaded!\n"..
+			M(pos):set_string("infotext", "Area "..P2S(pos1).." to "..P2S(pos2).." loaded!\n"..
 				"Punch the block to make the area visible.")
-			chat(placer, "Area ("..num.."/"..max..") "..S(pos1).." to "..S(pos2).." loaded!")
+			chat(placer, "Area ("..num.."/"..max..") "..P2S(pos1).." to "..P2S(pos2).." loaded!")
 			techage.mark_region(placer:get_player_name(), pos1, pos2)
 			M(pos):set_string("owner", placer:get_player_name())
 		else
@@ -200,3 +200,15 @@ minetest.register_on_leaveplayer(function(player)
 		minetest.forceload_free_block(pos, true)
 	end
 end)
+
+techage.register_entry_page("ta", "forceload",
+	S("Techage Forceload Block"), 
+	S("The Forceload Block keeps the corresponding area loaded and the machines operational "..
+		"as far as the player is logged in. If the player leaves the game, all areas will be unloaded.@n"..
+		"The maximum number of Forceload Blocks per player is configurable (default 16).@n"..
+		"The loaded area per block is a cube with 16 m side length (according to a Minetest area block). "..
+		"Punching the block makes the area visible and invisible again."),
+	"techage:forceload")
+
+
+

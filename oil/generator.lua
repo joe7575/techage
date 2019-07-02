@@ -13,13 +13,8 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local Power = techage.ElectricCable
 local provide_power = techage.power.provide_power
@@ -42,7 +37,7 @@ local function formspec(self, pos, mem)
 		"list[current_name;fuel;0.5,1;1,1;]"..
 		"image[1.5,1;1,1;default_furnace_fire_bg.png^[lowpart:"..
 		fuel_percent..":default_furnace_fire_fg.png]"..
-		"button[3,1;1.8,1;update;"..I("Update").."]"..
+		"button[3,1;1.8,1;update;"..S("Update").."]"..
 		"image_button[5.5,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 		"image[6.5,0.5;1,2;"..techage.power.formspec_power_bar(PWR_CAPA, mem.provided).."]"..
 		"list[current_player;main;0,3;8,4;]"..
@@ -145,7 +140,7 @@ local function on_rightclick(pos)
 end
 
 minetest.register_node("techage:tiny_generator", {
-	description = "TA3 Tiny Power Generator",
+	description = S("TA3 Tiny Power Generator"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_appl_electric_gen_top.png^techage_frame_ta3_top.png",
@@ -181,7 +176,7 @@ minetest.register_node("techage:tiny_generator", {
 })
 
 minetest.register_node("techage:tiny_generator_on", {
-	description = "TA3 Tiny Power Generator",
+	description = S("TA3 Tiny Power Generator"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_appl_electric_gen_top.png^techage_frame_ta3_top.png",
@@ -253,8 +248,10 @@ minetest.register_craft({
 	},
 })
 
-techage.register_help_page(I("TA3 Tiny Power Generator"), 
-I([[Small electrical power generator. Need oil as fuel.
-Provides power: 12
-Oil burn time: 100s]]), "techage:tiny_generator")
+techage.register_entry_page("ta3ps", "tiny_generator",
+	S("TA3 Tiny Power Generator"), 
+	S("Small electrical power generator. Needs oil as fuel.@n"..
+		"It provides 12 units electrical power@n"..
+		"Oil burn time: 100s"), 
+	"techage:tiny_generator")
 

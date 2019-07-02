@@ -13,13 +13,9 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local TA2_Power = techage.Axle
 local TA3_Power = techage.SteamPipe
@@ -39,7 +35,7 @@ local function formspec(self, pos, mem)
 		default.gui_slots..
 		"image[6,0.5;1,2;"..techage.power.formspec_power_bar(PWR_CAPA, mem.provided).."]"..
 		"image_button[5,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
-		"button[2.5,1;1.8,1;update;"..I("Update").."]"..
+		"button[2.5,1;1.8,1;update;"..S("Update").."]"..
 		"list[current_player;main;0,3;8,4;]"..
 		default.get_hotbar_bg(0, 3)
 end
@@ -117,7 +113,7 @@ local function on_rightclick(pos)
 end
 
 minetest.register_node("techage:t2_source", {
-	description = "Axle Power Source",
+	description = S("Axle Power Source"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta2.png^techage_frame_ta2_top.png",
@@ -146,7 +142,7 @@ minetest.register_node("techage:t2_source", {
 })
 
 minetest.register_node("techage:t3_source", {
-	description = "Steam Power Source",
+	description = S("Steam Power Source"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta3.png^techage_frame_ta3_top.png",
@@ -175,7 +171,7 @@ minetest.register_node("techage:t3_source", {
 })
 
 minetest.register_node("techage:t4_source", {
-	description = "Ele Power Source",
+	description = S("Ele Power Source"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta4.png^techage_frame_ta4_top.png",

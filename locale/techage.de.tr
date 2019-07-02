@@ -1,0 +1,44 @@
+# textdomain: techage
+
+@nThe Distributor tries to push 12 items every 2 seconds.= Der Verteiler gibt bis zu 12 Gegenstände alle 2 s weiter.
+@nThe Distributor tries to push 4 items every 2 seconds.= Der Verteiler gibt bis zu 4 Gegenstände alle 2 s weiter.
+
+A brilliant alloy for tools, which are used in the dark. Can be made with Coal Burner and TA3 Industrial Furnace.=Ein leuchtende Legierung für Werkzeuge, welche im Dunkeln verwendet werden. Kann mit dem Kohlebrenner oder dem TA3 Industrieofen hergestellt werden.
+
+Ash=Asche
+Autocrafter=Autocrafter
+Axle Power Source=Achsenkraftquelle
+
+Build a Power Station according to the plan with TA3 Firebox, TA3 Boiler, Steam Pipes, Cooler, Turbine and Generator.@n- Heat the Firebox with coal/charcoal or oil@n- Fill the boiler with water (more than one bucket is needed)@n- Wait until the water is heated@n- Open the steam ventil@n- Connect the Generator with your machines by means of cables and junction boxes@n- Start the Generator=Baue ein Kraftwerk gemäß dem Plan mit TA3 Feuerbox, TA3 Kessel, Dampfröhren, Turbine und Generator.@n- Erhitze die Feuerbox mit Kohle/Holzkohle oder Öl@n- Fülle den Kessel mit Wasser (mehr als ein Eimer)@n- Warte bis das Wasser heiß ist@n- Öffne das Dampfventil@n- Verbinde den Generator mit deinen Maschinen mit Hilfe von Kabeln und Verbindungsdosen@n- Starte den Generator
+
+Build a steam engine according to the plan with TA2 Firebox, TA2 Boiler, Steam Pipes, TA2 Cylinder and TA2 Flywheel.@n- Heat the Firebox with coal/charcoal@n- Fill the boiler with water (more than one bucket is needed)@n- Wait until the water is heated@n- Open the steam ventil@n- Start the Flywheel@n- Connect the Flywheel with your machines by means of Axles and Gearboxes=Baue eine Dampfmaschine gemäß dem Plan mit TA2 Feuerbox, TA2 Kessel, Dampfröhren, TA2 Zylinder und TA2 Schwungrad.@n- Erhitze die Feuerbox mit Kohle/Holzkohle oder Öl@n- Fülle den Kessel mit Wasser (mehr als ein Eimer)@n- Warte bis das Wasser heiß ist@n- Öffne das Dampfventil@n- Start das Schwungrad@n- Verbinde das Schwungrad mit deinen Maschinen mit Hilfe der Achsen und Achsgetriebeboxen.
+
+Build derrick=Errichte Ölturm
+
+Build the Furnace with TA3 Furnace Firebox, TA3 Furnace Top, and TA3 Booster according to the plan.@n- Heat the Firebox with coal/charcoal/oil@n- Power the Booster with electrical power.@n- Select one of the possible outputs@n- Connect the TA3 Furnace Top with your machines by means of tubes.@n- Start the Furnace=Baue den Ofen mit Hilfe von Feuerbox, TA3 Ofenoberteil und TA3 Gebläse.@n- Fülle die Feuerbox mit Kohle/Holzkohle oder Öl@n- Versorge das Gebläse mit Strom@n- Wähle das Rezept im Ofen@n- Verbinde das Ofenoberteil mit deinen Maschinen mit Hilfe der Röhren.
+
+Burning times with one oil item for@nStream Engine  /  Power Station  /  Tiny Generator:@n@nPower max.     :     25 /  80  /  12@nOil burn time/s :     32 /  20  /  100 @n@nburn time at power   2  :    400  /  800  /   600@nburn time at power 10  :      80  /  160  /   120@nburn time at power 20  :      40  /    80  /      --=Brennzeiten mit einer Öl-Einheit für@nDampfmaschine  /  Kraftwerk     / Kleingenerator:@n@nKraft max.      :     25 /  80  /  12@nÖlbrennzeit/s :     32 /  20  /  100 @n@nBrennzeit bei Kraft   2  :    400  /  800  /   600@nBrennzeit bei Kraft 10  :      80  /  160  /   120@nBrennzeit bei Kraft 20  :      40  /    80  /      --
+
+Coal Burner=Kohlebrenner
+
+Coal Burner to heat the melting pot:@n- build a 3x3xN cobble tower@n- more height means more flame heat@n- keep a hole open on one side@n- put a lighter in@n- fill the tower from the top with charcoal@n- ignite the lighter@n- place the pot in the flame, (one block above the tower)@n- to pause the burner, close the hole temporarily with e.g. dirt@n(see plan)=Kohlebrenner um den Schmelztiegel zu erhitzen:@n- Baue einen 3x3xN Cobblestone-Turm@n- mehr Höhe bedeutet auch mehr Hitze@n- Lasse ein Loch an einer Seite offen@n- Lege einen Anzünder hinein@n- Fülle den Turm von oben mit Holzkohle@n- Zünde den Anzünder an@n- Platziere den Schmelztiegel in die Flamme (einen Block über dem Turm)@nUm den Brenner anzuhalten, schließe das Loch vorübergehend bspw. mit einem Erdblock.@n(siehe Plan)
+
+Coal Pile to produce charcoal:@n- build a 5x5 block dirt base@n- place a lighter in the centre@n- build a 3x3x3 wood cube around@n- cover all with dirt to a 5x5x5 cube@n- keep a hole to the lighter@n- ignite the lighter and immediately@n- close the pile with one wood and one dirt@n- open the pile after the smoke disappeared@n(see plan)=Köhler um Holzkohle herzustellen:@n- Baue eine 5x5 große Fläche aus Erde (dirt)@n- Platziere in die Mitte einen Anzünder@n- Baue aus Holz (wood) einen 3x3x3 größen Würfel darüber@n -Überdecke alles mit einer Schicht Erde zu einem 5x5x5 großen Würfel@n- Lasse ein Loch zum Anzünder@n- Zünde den Anzünder an und verschließe das Loch sofort mit jeweils einem Block Holz und Erde@n- Öffne den Köhler erst, wenn der Rauch verschwunden ist
+
+Collection of TA3 machines, some with eletrical power supply.=Sammlung von TA3 Maschinen, einige mit Stromversorgung.
+Compressed Gravel=Komprimiertes Kies
+Depth=Tiefe
+Dirt with Ash=Erde mit Asche
+Distributor=Verteiler
+Drill Bit=Bohrstange
+Ele Power Source=Ele Kraftquelle
+Electronic Fab=Elektronikfabrik
+Flint and Iron=Flint and Iron
+Flowing Oil=Fließendes Öl
+Furnace Top=Ofenoberteil
+Gravel Rinser=Kiesspüler
+Gravel Sieve=Kiessieb
+Grinder=Mühle
+Grinding=Mahlen
+Heat=Hitze
+Help=Hilfe

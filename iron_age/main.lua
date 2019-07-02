@@ -10,10 +10,6 @@
 	
 ]]--
 
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local S, NS = dofile(MP.."/intllib.lua")
-
 function techage.ironage_swap_node(pos, name)
 	minetest.swap_node(pos, {name = name})
 	local node = minetest.registered_nodes[name]
@@ -30,15 +26,4 @@ function techage.ironage_swap_nodes(pos1, pos2, name1, name2)
 		techage.ironage_swap_node(p, name2)
 	end
 end
-
-techage.register_chap_page("Iron Age (TA1)", S([[Iron Age is the first level of the available technic stages.
-The goal of TA1 is to collect and craft enough Iron Ingots
-to be able to build machines for stage 2 (TA2).
-1. You have to collect dirt and wood to build a Coal Pile.
-    (The Coal Pile is needed to produce charcoal)
-2. Build a Coal Burner to melt iron to iron ingots.
-3. Craft a Gravel Sieve and collect gravel.
-    (A Hammer can be used to smash cobble to gravel)
-4. Sieve the gravel to get the necessary ores or go mining.
-]]), "techage:iron_ingot")
 

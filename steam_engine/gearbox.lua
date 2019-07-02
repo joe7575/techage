@@ -13,13 +13,9 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local PWR_NEEDED = 1
 local CYCLE_TIME = 2
@@ -60,7 +56,7 @@ local function after_place_node(pos, placer, itemstack, pointed_thing)
 end
 
 minetest.register_node("techage:gearbox", {
-	description = I("TA2 Gearbox"),
+	description = S("TA2 Gearbox"),
 	tiles = {"techage_filling_ta2.png^techage_axle_gearbox.png^techage_frame_ta2.png"},
 	
 	on_construct = tubelib2.init_mem,

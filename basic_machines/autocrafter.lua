@@ -16,15 +16,13 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
+local S2P = minetest.string_to_pos
 local M = minetest.get_meta
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
 
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local STANDBY_TICKS = 6
 local COUNTDOWN_TICKS = 4
@@ -366,7 +364,7 @@ local tubing = {
 }
 
 local node_name_ta2, node_name_ta3, node_name_ta4 = 
-	techage.register_consumer("autocrafter", I("Autocrafter"), tiles, {
+	techage.register_consumer("autocrafter", S("Autocrafter"), tiles, {
 		drawtype = "normal",
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
@@ -409,3 +407,16 @@ minetest.register_craft({
 	},
 })
 
+techage.register_entry_page("ta2", "autocrafter",
+	S("TA2 Autocrafter"), 
+	S("The Autocrafter allows the automated crafting of items based on configured recipes.@n"..
+		"It can craft one item every two seconds.@n"..
+		"Needs axle power: 4"),
+	"techage:ta2_autocrafter_pas")
+
+techage.register_entry_page("ta3m", "autocrafter",
+	S("TA3 Autocrafter"), 
+	S("The Autocrafter allows the automated crafting of items based on configured recipes.@n"..
+		"It can craft two items every two seconds.@n"..
+		"Needs electrical power: 6"),
+	"techage:ta3_autocrafter_pas")

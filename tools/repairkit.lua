@@ -12,9 +12,8 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
+local S = techage.S
 
 --local function destroy_node(itemstack, placer, pointed_thing)
 --	if pointed_thing.type == "node" then
@@ -42,8 +41,8 @@ local function read_state(itemstack, user, pointed_thing)
 	local pos = pointed_thing.under
 	if pos and user then
 		local number = techage.get_node_number(pos)
+		local ndef = minetest.registered_nodes[minetest.get_node(pos).name]
 		if number then
-			local ndef = minetest.registered_nodes[minetest.get_node(pos).name]
 			if ndef and ndef.description then
 				local state = techage.send_single(number, "state", nil)
 				if state and state ~= "" and state ~= "unsupported" then
@@ -61,15 +60,26 @@ local function read_state(itemstack, user, pointed_thing)
 				if load and load ~= "" and load ~= "unsupported" then
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": load = "..load.." %    ")
 				end
+				local power = techage.send_single(number, "power", nil)
+				if power and power ~= "" and power ~= "unsupported" then
+					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": power = "..power.." %    ")
+				end
 				itemstack:add_wear(65636/200)
 				return itemstack
 			end
+		elseif ndef and ndef.description then
+			if ndef.is_power_available then
+				local power = ndef.is_power_available(pos)
+				minetest.chat_send_player(user:get_player_name(), ndef.description..": power = "..power.."    ")
+			end
+			itemstack:add_wear(65636/200)
+			return itemstack
 		end
 	end
 end
 
 minetest.register_tool("techage:repairkit", {
-	description = "TechAge Repair Kit",
+	description = S("TechAge Repair Kit"),
 	inventory_image = "techage_repairkit.png",
 	wield_image = "techage_repairkit.png^[transformR270",
 	groups = {cracky=1, book=1},
@@ -80,7 +90,7 @@ minetest.register_tool("techage:repairkit", {
 
 
 minetest.register_tool("techage:end_wrench", {
-	description = "TechAge End Wrench (use = read status, place = cmd: on/off)",
+	description = S("TechAge End Wrench (use = read status, place = cmd: on/off)"),
 	inventory_image = "techage_end_wrench.png",
 	wield_image = "techage_end_wrench.png",
 	groups = {cracky=1, book=1},
@@ -107,3 +117,11 @@ minetest.register_craft({
 		{"default:steel_ingot", "", ""},
 	},
 })
+
+techage.register_entry_page("ta", "end_wrench",
+	S("TechAge End Wrench"), 
+	S("The End Wrench is a tool to read any kind od status information from a node with command inderface.@n"..
+		"- use (left mouse button) = read status@n".. 
+		"- place (right mouse button) = send command: on/off"), 
+	"techage:end_wrench")
+

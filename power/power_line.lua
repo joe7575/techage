@@ -12,20 +12,15 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local Cable = techage.ElectricCable
 
-
 -- Primary techage.ElectricCable node
 minetest.register_node("techage:power_line", {
-	description = I("TA Power Line"),
+	description = S("TA Power Line"),
 	tiles = {"techage_power_line.png"},
 	inventory_image = 'techage_power_line_inv.png',
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
@@ -64,7 +59,7 @@ minetest.register_node("techage:power_line", {
 })
 
 minetest.register_node("techage:power_pole", {
-	description = I("TA Power Pole"),
+	description = S("TA Power Pole"),
 	--tiles = {"techage_power_pole.png"},
 	tiles = {
 		"default_wood.png^techage_power_pole_top.png",

@@ -13,13 +13,9 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local range = techage.range
 
@@ -140,7 +136,7 @@ end
 
 if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("ta3_melting", {
-		description = I("TA3 Melting"),
+		description = S("TA3 Melting"),
 		icon = "techage_concrete.png^techage_appl_furnace.png^techage_frame_ta3.png",
 		width = 2,
 		height = 2,

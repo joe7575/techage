@@ -13,15 +13,11 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
 
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local STANDBY_TICKS = 6
 local COUNTDOWN_TICKS = 4
@@ -195,7 +191,7 @@ local tubing = {
 }
 
 local node_name_ta2, node_name_ta3, node_name_ta4 = 
-	techage.register_consumer("grinder", I("Grinder"), tiles, {
+	techage.register_consumer("grinder", S("Grinder"), tiles, {
 		drawtype = "nodebox",
 		node_box = {
 			type = "fixed",
@@ -252,7 +248,7 @@ minetest.register_craft({
 
 if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("grinding", {
-		description = I("Grinding"),
+		description = S("Grinding"),
 		icon = 'techage_appl_grinder.png',
 		width = 2,
 		height = 2,
@@ -295,3 +291,19 @@ techage.add_grinder_recipe({input="default:jungletree", output="default:junglele
 techage.add_grinder_recipe({input="default:pine_tree", output="default:pine_needles 8"})
 techage.add_grinder_recipe({input="default:acacia_tree", output="default:acacia_leaves 8"})
 techage.add_grinder_recipe({input="default:aspen_tree", output="default:aspen_leaves 8"})
+
+techage.register_entry_page("ta2", "grinder",
+	S("TA2 Grinder"), 
+	S("The Grinder grinds all kinds of cobblestone to gravel, gravel to sand, sand to clay, wood to leaves, and more.@n"..
+		"It can grind one item every four seconds.@n"..
+		"It needs 4 units axle power."), 
+	"techage:ta2_grinder_pas")
+
+techage.register_entry_page("ta3m", "grinder",
+	S("TA3 Grinder"), 
+	S("The Grinder grinds all kinds of cobblestone to gravel, gravel to sand, sand to clay, wood to leaves, and more.@n"..
+		"It can grind two items every four seconds.@n"..
+		"It needs 6 units electrical power."), 
+	"techage:ta3_grinder_pas")
+
+

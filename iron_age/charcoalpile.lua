@@ -12,10 +12,7 @@
 	
 ]]--
 
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local S, NS = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local PILE_BURN_TIME = 1200
 local COAL_BURN_TIME = 300
@@ -212,16 +209,16 @@ minetest.register_lbm({
 	end
 })
 
-local PileHelp = S([[Coal Pile to produce charcoal:
-- build a 5x5 block dirt base
-- place a lighter in the centre
-- build a 3x3x3 wood cube around
-- cover all with dirt to a 5x5x5 cube
-- keep a hole to the lighter
-- ignite the lighter and immediately
-- close the pile with one wood and one dirt
-- open the pile after the smoke disappeared
-(see plan)]])
+local PileHelp = S("Coal Pile to produce charcoal:@n"..
+	"- build a 5x5 block dirt base@n"..
+	"- place a lighter in the centre@n"..
+	"- build a 3x3x3 wood cube around@n"..
+	"- cover all with dirt to a 5x5x5 cube@n"..
+	"- keep a hole to the lighter@n"..
+	"- ignite the lighter and immediately@n"..
+	"- close the pile with one wood and one dirt@n"..
+	"- open the pile after the smoke disappeared@n"..
+	"(see plan)")
 
 local PileImages = {
 	{"default_dirt.png", "default_dirt.png", "default_dirt.png",    "default_dirt.png", "default_dirt.png"},
@@ -231,4 +228,4 @@ local PileImages = {
 	{"default_dirt.png", "default_dirt.png", "default_dirt.png",    "default_dirt.png", "default_dirt.png"},
 }
 
-techage.register_help_page("Coal Pile", PileHelp, nil, PileImages)
+techage.register_entry_page("ta1", "coalpile", "Coal Pile", PileHelp, nil, PileImages)

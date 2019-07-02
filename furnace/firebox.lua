@@ -13,13 +13,8 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
-
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
+local S = techage.S
 
 local firebox = techage.firebox
 
@@ -75,7 +70,7 @@ local function booster_cmnd(pos, cmnd)
 end
 
 minetest.register_node("techage:furnace_firebox", {
-	description = I("TA3 Furnace Firebox"),
+	description = S("TA3 Furnace Firebox"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_concrete.png^techage_appl_open.png^techage_frame_ta3.png",
@@ -110,7 +105,7 @@ minetest.register_node("techage:furnace_firebox", {
 })
 
 minetest.register_node("techage:furnace_firebox_on", {
-	description = I("TA3 Furnace Firebox"),
+	description = S("TA3 Furnace Firebox"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_concrete.png^techage_frame_ta3.png",
@@ -219,7 +214,7 @@ minetest.register_lbm({
 	end
 })
 
-techage.register_help_page(I("TA3 Furnace Firebox"), 
-I([[Part of the TA3 Industrial Furnace.
-Faster and more powerful 
-than the standard furnace.]]), "techage:furnace_firebox")
+techage.register_entry_page("ta3f", "firebox",
+	S("TA3 Furnace Firebox"), 
+	S("Part of the TA3 Industrial Furnace. Faster and more powerful than the standard furnace."), 
+	"techage:furnace_firebox")

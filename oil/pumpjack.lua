@@ -13,15 +13,13 @@
 ]]--
 
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
 local M = minetest.get_meta
+local P = minetest.string_to_pos
+local S = techage.S
+
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
 local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).consumer end
--- Load support for intllib.
-local MP = minetest.get_modpath("techage")
-local I,_ = dofile(MP.."/intllib.lua")
 
 local STANDBY_TICKS = 10
 local COUNTDOWN_TICKS = 10
@@ -56,8 +54,8 @@ local function formspec(self, pos, mem)
 	default.gui_slots..
 	"image[0.5,0;1,1;techage_oil_inv.png]"..
 	"image[2,0;1,1;"..techage.get_power_image(pos, mem).."]"..
-	"label[0,1.3;"..I("Oil amount:")..": "..amount.."]"..
-	"button[3,1.1;2,1;update;"..I("Update").."]"..
+	"label[0,1.3;"..S("Oil amount:")..": "..amount.."]"..
+	"button[3,1.1;2,1;update;"..S("Update").."]"..
 	"image_button[2,2.2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"
 end
 
@@ -156,7 +154,7 @@ local tubing = {
 }
 	
 local _, node_name_ta3, _ = 
-	techage.register_consumer("pumpjack", I("TA3 Oil Pumpjack"), tiles, {
+	techage.register_consumer("pumpjack", S("TA3 Oil Pumpjack"), tiles, {
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
 		formspec = formspec,
@@ -192,6 +190,7 @@ minetest.register_craft({
 	},
 })
 
-techage.register_help_page(I("TA3 Oil Pumpjack"), 
-I([[The Pumpjack works similar to a pusher but needs
-electricity for operation.]]), "techage:ta3_pumpjack_pas")
+techage.register_entry_page("ta3op", "pumpjack",
+	S("TA3 Oil Pumpjack"), 
+	S("The Pumpjack works similar to a pusher. It pumps one oil item every 8 seconds. It needs 16 units of electrical power."), 
+	"techage:ta3_pumpjack_pas")
