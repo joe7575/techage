@@ -20,7 +20,7 @@ local S = techage.S
 
 local Cable = techage.ElectricCable
 local power_cut = techage.power.power_cut
-
+local after_rotate_node = techage.power.after_rotate_node
 
 local Param2ToDir = {
 	[0] = 6,
@@ -123,6 +123,18 @@ minetest.register_node("techage:powerswitch_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
+local function get_conn_dirs(pos, node)
+	local tbl = {[0]=
+		{2,4}, {1,3}, {2,4}, {1,3},
+		{2,4}, {5,6}, {2,4}, {5,6},
+		{2,4}, {5,6}, {2,4}, {5,6},
+		{5,6}, {1,3}, {5,6}, {1,3},
+		{5,6}, {1,3}, {5,6}, {1,3},
+		{2,4}, {1,3}, {2,4}, {1,3},
+	}
+	return tbl[node.param2]
+end
+
 local function on_place(itemstack, placer, pointed_thing)
 	if pointed_thing.type ~= "node" then
 		return itemstack
@@ -136,6 +148,7 @@ local function on_rotate(pos, node, user, mode, new_param2)
 	end
 	node.param2 = techage.rotate_wallmounted(node.param2)
 	minetest.swap_node(pos, node)
+	after_rotate_node(pos, Cable)
 	return true
 end
 
@@ -168,7 +181,9 @@ minetest.register_node("techage:powerswitch_box", {
 })
 
 techage.power.register_node({"techage:powerswitch_box"}, {
-		power_network = Cable})
+		power_network = Cable,
+		conn_sides = get_conn_dirs,
+})
 
 minetest.register_craft({
 	output = "techage:powerswitch 2",

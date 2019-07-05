@@ -232,6 +232,13 @@ function techage.power.power_cut(pos, dir, cable, cut)
 	end
 end
 
+-- only for nodes with own 'conn_sides' and rotate function
+function techage.power.after_rotate_node(pos, cable)
+	cable:after_dig_node(pos)
+	set_conn_dirs(pos, PWR(pos).conn_sides)
+	cable:after_place_node(pos)
+end
+
 function techage.power.register_node(names, pwr_def)
 	for _,name in ipairs(names) do
 		local ndef = minetest.registered_nodes[name]
@@ -297,7 +304,10 @@ function techage.power.consume_power(pos, needed)
 		mem.demand1 = mem.demand1 or 0
 		local val = math.min(needed, mem.demand1)
 		mem.demand1 = mem.demand1 - val
-		return val
+		--return val
+		if mem.reserve then  -- TODO ????
+			return needed
+		end
 	end
 	return 0
 end

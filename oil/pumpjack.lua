@@ -13,6 +13,7 @@
 ]]--
 
 -- for lazy programmers
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local M = minetest.get_meta
 local P = minetest.string_to_pos
 local S = techage.S
@@ -164,7 +165,7 @@ local _, node_name_ta3, _ =
 			if node.name == "techage:oil_drillbit2" then
 				local info = techage.explore.get_oil_info(pos)
 				if info then
-					M(pos):set_string("storage_pos", S(info.storage_pos)) 
+					M(pos):set_string("storage_pos", P2S(info.storage_pos)) 
 				end
 			end
 		end,

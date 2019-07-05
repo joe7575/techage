@@ -238,6 +238,11 @@ function NodeStates:start(pos, mem, called_from_on_timer)
 	return false
 end
 
+-- to be used from node timer functions
+function NodeStates:start_from_timer(pos, mem, called_from_on_timer)
+	minetest.after(0.1, self.start, self, pos, mem)
+end
+
 function NodeStates:standby(pos, mem)
 	local state = mem.techage_state or STOPPED
 	if state == RUNNING then

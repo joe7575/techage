@@ -57,7 +57,7 @@ local function node_timer(pos, elapsed)
 			crd.State:nopower(pos, mem)
 		end
 	elseif state == techage.NOPOWER and power_available(pos) then
-		crd.State:start(pos, mem)
+		crd.State.start_from_timer(crd.State, pos, mem)
 	end
 	-- call the secondary timer routine with the requested frequency
 	if techage.is_operational(mem) then

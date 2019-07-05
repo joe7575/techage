@@ -176,7 +176,7 @@ local Boxes = {
 
 --	after_place_node = function(pos, placer, itemstack, pointed_thing)
 --		local meta = minetest.get_meta(pos)
---		meta:set_string("infotext", "Position "..S(pos))
+--		meta:set_string("infotext", "Position "..P2S(pos))
 --		Pipe:after_place_node(pos)
 --		techage.sink_power_consumption(pos, 0)
 --	end,
