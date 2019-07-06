@@ -3,7 +3,7 @@
 @nThe Distributor tries to push 12 items every 2 seconds.= Der Verteiler gibt bis zu 12 Gegenstände alle 2 s weiter.
 @nThe Distributor tries to push 4 items every 2 seconds.= Der Verteiler gibt bis zu 4 Gegenstände alle 2 s weiter.
 
-A brilliant alloy for tools, which are used in the dark. Can be made with Coal Burner and TA3 Industrial Furnace.=Ein leuchtende Legierung für Werkzeuge, welche im Dunkeln verwendet werden. Kann mit dem Kohlebrenner oder dem TA3 Industrieofen hergestellt werden.
+A brilliant alloy for tools, which are used in the dark. Can be made with Coal Burner and TA3 Industrial Furnace.=Eine leuchtende Legierung für Werkzeuge, welche im Dunkeln verwendet werden. Kann mit dem Kohlebrenner oder dem TA3 Industrieofen hergestellt werden.
 
 Ash=Asche
 Autocrafter=Autocrafter
@@ -11,7 +11,7 @@ Axle Power Source=Achsenkraftquelle
 
 Build a Power Station according to the plan with TA3 Firebox, TA3 Boiler, Steam Pipes, Cooler, Turbine and Generator.@n- Heat the Firebox with coal/charcoal or oil@n- Fill the boiler with water (more than one bucket is needed)@n- Wait until the water is heated@n- Open the steam ventil@n- Connect the Generator with your machines by means of cables and junction boxes@n- Start the Generator=Baue ein Kraftwerk gemäß dem Plan mit TA3 Feuerbox, TA3 Kessel, Dampfröhren, Turbine und Generator.@n- Erhitze die Feuerbox mit Kohle/Holzkohle oder Öl@n- Fülle den Kessel mit Wasser (mehr als ein Eimer)@n- Warte bis das Wasser heiß ist@n- Öffne das Dampfventil@n- Verbinde den Generator mit deinen Maschinen mit Hilfe von Kabeln und Verbindungsdosen@n- Starte den Generator
 
-Build a steam engine according to the plan with TA2 Firebox, TA2 Boiler, Steam Pipes, TA2 Cylinder and TA2 Flywheel.@n- Heat the Firebox with coal/charcoal@n- Fill the boiler with water (more than one bucket is needed)@n- Wait until the water is heated@n- Open the steam ventil@n- Start the Flywheel@n- Connect the Flywheel with your machines by means of Axles and Gearboxes=Baue eine Dampfmaschine gemäß dem Plan mit TA2 Feuerbox, TA2 Kessel, Dampfröhren, TA2 Zylinder und TA2 Schwungrad.@n- Erhitze die Feuerbox mit Kohle/Holzkohle oder Öl@n- Fülle den Kessel mit Wasser (mehr als ein Eimer)@n- Warte bis das Wasser heiß ist@n- Öffne das Dampfventil@n- Start das Schwungrad@n- Verbinde das Schwungrad mit deinen Maschinen mit Hilfe der Achsen und Achsgetriebeboxen.
+Build a steam engine according to the plan with TA2 Firebox, TA2 Boiler, Steam Pipes, TA2 Cylinder and TA2 Flywheel.@n- Heat the Firebox with coal/charcoal@n- Fill the boiler with water (more than one bucket is needed)@n- Wait until the water is heated@n- Open the steam ventil@n- Start the Flywheel@n- Connect the Flywheel with your machines by means of Axles and Gearboxes=Baue eine Dampfmaschine gemäß dem Plan mit TA2 Feuerbox, TA2 Kessel, Dampfröhren, TA2 Zylinder und TA2 Schwungrad.@n- Erhitze die Feuerbox mit Kohle/Holzkohle oder Öl@n- Fülle den Kessel mit Wasser (mehr als ein Eimer)@n- Warte bis das Wasser heiß ist@n- Öffne das Dampfventil@n- Starte das Schwungrad@n- Verbinde das Schwungrad mit deinen Maschinen mit Hilfe der Achsen und Achsgetriebeboxen.
 
 Build derrick=Errichte Ölturm
 
@@ -21,9 +21,9 @@ Burning times with one oil item for@nStream Engine  /  Power Station  /  Tiny Ge
 
 Coal Burner=Kohlebrenner
 
-Coal Burner to heat the melting pot:@n- build a 3x3xN cobble tower@n- more height means more flame heat@n- keep a hole open on one side@n- put a lighter in@n- fill the tower from the top with charcoal@n- ignite the lighter@n- place the pot in the flame, (one block above the tower)@n- to pause the burner, close the hole temporarily with e.g. dirt@n(see plan)=Kohlebrenner um den Schmelztiegel zu erhitzen:@n- Baue einen 3x3xN Cobblestone-Turm@n- mehr Höhe bedeutet auch mehr Hitze@n- Lasse ein Loch an einer Seite offen@n- Lege einen Anzünder hinein@n- Fülle den Turm von oben mit Holzkohle@n- Zünde den Anzünder an@n- Platziere den Schmelztiegel in die Flamme (einen Block über dem Turm)@nUm den Brenner anzuhalten, schließe das Loch vorübergehend bspw. mit einem Erdblock.@n(siehe Plan)
+Coal Burner to heat the melting pot:@n- build cobble tower with a 3x3 footprint@n- more height means more flame heat@n- keep a hole open on one side@n- put a lighter in@n- fill the tower from the top with charcoal@n- ignite the lighter@n- place the pot in the flame, (one block above the tower)@n- to pause the burner, close the hole temporarily with e.g. dirt@n(see plan)=Kohlebrenner um den Schmelztiegel zu erhitzen:@n- Baue einen Cobblestone-Turm mit einer 3x3 Grundfläche@n- mehr Höhe bedeutet auch mehr Hitze@n- Lasse ein Loch an einer Seite offen@n- Lege einen Anzünder hinein@n- Fülle den Turm von oben mit Holzkohle@n- Zünde den Anzünder an@n- Platziere den Schmelztiegel in die Flamme (einen Block über den Turm)@nUm den Brenner anzuhalten, schließe das Loch vorübergehend bspw. mit einem Erdblock.@n(siehe Plan)
 
-Coal Pile to produce charcoal:@n- build a 5x5 block dirt base@n- place a lighter in the centre@n- build a 3x3x3 wood cube around@n- cover all with dirt to a 5x5x5 cube@n- keep a hole to the lighter@n- ignite the lighter and immediately@n- close the pile with one wood and one dirt@n- open the pile after the smoke disappeared@n(see plan)=Köhler um Holzkohle herzustellen:@n- Baue eine 5x5 große Fläche aus Erde (dirt)@n- Platziere in die Mitte einen Anzünder@n- Baue aus Holz (wood) einen 3x3x3 größen Würfel darüber@n -Überdecke alles mit einer Schicht Erde zu einem 5x5x5 großen Würfel@n- Lasse ein Loch zum Anzünder@n- Zünde den Anzünder an und verschließe das Loch sofort mit jeweils einem Block Holz und Erde@n- Öffne den Köhler erst, wenn der Rauch verschwunden ist
+Coal Pile to produce charcoal:@n- build a 5x5 block dirt base@n- place a lighter in the centre@n- build a 3x3x3 wood cube around@n- cover all with dirt to a 5x5x5 cube@n- keep a hole to the lighter@n- ignite the lighter and immediately@n- close the pile with one wood and one dirt@n- open the pile after the smoke disappeared@n(see plan)=Köhler um Holzkohle herzustellen:@n- Baue eine 5x5 große Fläche aus Erde (dirt)@n- Platziere in die Mitte einen Anzünder@n- Baue aus Holz (wood) einen 3x3x3 größen Würfel darüber@n -Überdecke alles mit einer Schicht Erde zu einem 5x5x5 großen Würfel@n- Lasse ein Loch zum Anzünder@n- Zünde den Anzünder an und verschließe das Loch sofort mit jeweils einem Block Holz und Erde@n- Öffne den Köhler erst, wenn der Rauch verschwunden ist@n(siehe Plan)
 
 Collection of TA3 machines, some with eletrical power supply.=Sammlung von TA3 Maschinen, einige mit Stromversorgung.
 Compressed Gravel=Komprimiertes Kies
@@ -42,3 +42,53 @@ Grinder=Mühle
 Grinding=Mahlen
 Heat=Hitze
 Help=Hilfe
+
+In the TA3 age, oil (petroleum) serves as an almost infinite fuel. But oil is difficult and expensive to recover:@n1: Search for oil with the TA3 Oil Explorer@n2: Drill for oil with the TA3 Oil Drill Box (oil derrick)@n3: Recover the oil with the TA3 Oil Pumpjack@n4: A power station nearby provides the necessary @n	 electrical power for the derrick and pumpjack.@n5: Tubes or rails are used for oil transportation.=Im TA3-Zeitalter dient Öl (Erdöl) als nahezu unbegrenzt zur Verfügung stehender Kraftstoff. Aber Öl zu fördern ist schwierig und aufwändig.@n1. Suche nach Öl mit dem Öl Sondierer.@n2. Bohre nach dem Öl mit dem Ölbohrer (Bohrturm).@n3. Fördere das Öl mit der Ölpumpe.@n4. Ein Kraftwerk in der Nähe sorgt für ausreichend elektrische Energie für Bohrer und Ölpumpe.@n5. Röhren oder Schienen dienen dem Öltransport.
+
+Iron Age is the first level of the available four technic stages.@nThe goal of TA1 is to collect and craft enough Iron Ingots@nto be able to build machines for stage 2 (TA2).@n1. You have to collect dirt and wood to build a Coal Pile.@n    (The Coal Pile is needed to produce charcoal)@n2. Build a Coal Burner to melt iron to iron ingots.@n3. Craft a Gravel Sieve and collect gravel.@n    (A Hammer can be used to smash cobble to gravel)@n4. Sieve the gravel to get the necessary ores or go mining.=Die Eisenzeit ist die erste Stufe (TA1) der verfügbaren 4 Entwicklungsstufen. Das Ziel von TA1 ist ausreichend Eisenbarren herzustellen, um Maschinen für die Stufe 2 (TA2) bauen zu können.@n1. Sammle Erde und Holz und baue einen Köhler zur Herstellung von Holzkohle.@n2. Baue einen Kohlebrenner um Eisenbarren aus Eisenerz herstellen zu können.@n3. Baue ein Kiessieb und sammle Kies@n   (mit dem Hammer kann Stein zu Kies geschlagen werden).@n4. Siebe das Kies um Erze zu gewinnen oder betreibe Bergbau.
+
+Melting Guide=Schmelzführer
+Melting Pot active (heat@==Schmelztiegel aktiv (Hitze@=
+Melting Pot inactive (heat@==Schmelztiegel inaktiv (Hitze@=
+Melting Pot inactive (heat@=0)=Schmelztiegel inaktiv (Hitze@=0)
+Menu=Menü
+Menu,Recipes=Menü,Rezepte
+Meridium Axe=Meridium Axt
+Meridium Ingot=Meridium Barren
+Meridium Pickaxe=Meridium Pickel
+Meridium Shovel=Meridium Schaufel
+Meridium Sword=Meridium Schwert
+No plan available=Kein Plan verfügar
+Oil Age (TA3)=Ölzeitalter (TA3)
+Oil Burning Times=Brennzeiten
+Oil Source=Erdöl
+Oil amount:=Ölmenge:
+Outp=Ergeb.
+
+Part of the Power Station. Has to be placed in the steam circulation after the Turbine.@n(see TA3 Power Station)=Teil des Kraftwerks. Muss nach der Turbine in die Dampfleitung platziert werden.@n(siehe TA3 Kraftwerk)
+Part of the Power Station. Has to be placed on top of TA3 Power Station Boiler Base.@n(see TA3 Power Station)=Teil des Kraftwerks. Muss auf die Kessel Basis platziert werden.@n(siehe TA3 Kraftwerk)
+Part of the Power Station. Has to be placed on top of the TA3 Power Station Firebox and filled with water.@n(see TA3 Power Station)=Teil des Kraftwerks. Muss auf die Feuerbox platziert werden.@n(siehe TA3 Kraftwerk)
+Part of the Power Station. Has to be placed side by side with the TA3 Generator.@n(see TA3 Power Station)=Teil des Kraftwerks. Muss neben den Generator platziert werden.@n(siehe TA3 Kraftwerk)
+Part of the Power Station. Has to be placed side by side with the TA3 Turbine. Connect the Generator with your TA3 machines by means of Electric Cables and Junction Boxes@n(see TA3 Power Station)=Teil des Kraftwerks. Muss neben die Turbine platziert werden. Verbinde den Generator mit deinen Maschinen mit Hilfe der Kabel und Verbindungsdosen.@n(siehe TA3 Kraftwerk)
+Part of the TA3 Industrial Furnace and further machines. Used to increase the air/gas pressure.=Teil des TA3 Industrieofens. Wird benötigt um den Luftdruck zu erhöhen.
+Part of the TA3 Industrial Furnace. Faster and more powerful than the standard furnace.=Teil des TA3 Industrieofens. Schneller und besser als der Standard Ofen.
+Part of the steam engine. Has to be placed on top of TA2 Boiler Base.@n(see Steam Engine)=Teil der Dampfmaschine. Muss auf die TA2 Kessel Basis gesetzt werden.@n(siehe Dampfmaschine)
+Part of the steam engine. Has to be placed on top of the Firebox and filled with water.@n(see Steam Engine)=Teil der Dampfmaschine. Muss auf die Feuerbox gesetzt und mit Wasser gefüllt werden.@n(siehe Dampfmaschine)
+Part of the steam engine. Has to be placed side by side with the TA2 Cylinder.@nUsed to turn on/off the steam engine. Connect the Flywheel with your TA2 machines by means of Axles and Gearboxes.@n(see Steam Engine)=Teil der Dampfmaschine. Muss neben den Zylinder platziert werden. Dient dazu, die Dampfmaschine ein- und auszuschalten. Verbinde das Schwungrad mit deinen TA2 Maschinen mit Hilfe der Achsen und Getriebeboxen.@n(siehe Dampfmaschine)
+Part of the steam engine. Has to be placed side by side with the TA2 Flywheel.@n(see Steam Engine)=Teil der Dampfmaschine. Muss neben das Schwungrad platziert werden.@n(siehe Dampfmaschine)
+
+Plan=Plan
+Power=Energie
+Power Consumption=Energieverbrauch
+Power consumption and supply:@n- TA3 Power Station: 80@n- TA3 Tiny Generator: 12@n- TA3 Akku Box: 10 (in both dirs)@n- TA3 Oil Drill Box: 16@n- TA3 Oil Pumpjack: 16@n- TA3 Electronic Fab: 12@n- TA3 Autocrafter: 6@n- TA3 Grinder: 6@n- TA3 Gravel Sieve: 4@n- TA3 Booster: 3@n- Lamps: 0.5@n@n- Signs Bot: 8 (while loading)=Energiebereitstellung und Verbrauch:@n- TA3 Kraftwerk: 80@n- TA3 Kleingenerator: 12@n- TA3 Akku Box: 10 (in both dirs)@n- TA3 Ölbohrer: 16@n- TA3 Ölpumpe: 16@n- TA3 Electronik Fabrik: 12@n- TA3 Autocrafter: 6@n- TA3 Mühle: 6@n- TA3 Kiessieb: 4@n- TA3 Gebläse: 3@n- Lampen: 0.5@n@n- Signs Bot: 8 (beim Laden)
+Pusher=Schieber
+Remove derrick=Entferne Ölturm
+Rinsing=Waschen
+Sieved Gravel=Gesiebtes Kies
+
+Small electrical power generator. Needs oil as fuel.@nIt provides 12 units electrical power@nOil burn time: 100s=Kleiner Stromgenerator. Benötigt Öl als Brennstoff@nLiefert 12 Einheiten Strom@nÖlbrenndauer: 100s
+Steam Age is the second level of the available four technic stages.@nThe goal of TA2 is to build a coal powered stream engine with drive axles and machines to produce ores and vacuum tubes for the first electronic devices and machines in TA3.=Das Dampfzeitalter ist die 2. Entwicklungsstufe der 4 verfügbaren Technikzeitsalter.@nZiel ist es, eine Dampfmaschine mit Antriebsachsen zu bauen, um Erze zu gewinnen und Vakuumröhren für erste Elektronische Geräte und Maschinen in TA3 herstellen zu können.
+Steam Engine=Dampfmaschine
+Steam Power Source=Dampfenergiequelle
+Steel replacement for TA1. Needed for many tools. Can be made with the Coal Burner from iron lumps.=Stahlersatz für TA1. Wird für viele Werkzeuge benötigt. Kann mit Hilfe des Kohlebrenners hergestellt werden.
+

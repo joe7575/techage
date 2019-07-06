@@ -235,4 +235,4 @@ techage.register_entry_page("ta2", "flywheel",
 	S("Part of the steam engine. Has to be placed side by side with the TA2 Cylinder.@n"..
 		"Used to turn on/off the steam engine. Connect the Flywheel with your TA2 machines "..
 		"by means of Axles and Gearboxes.@n"..
-		"(see TA2 Steam Engine)"), "techage:flywheel")
+		"(see Steam Engine)"), "techage:flywheel")

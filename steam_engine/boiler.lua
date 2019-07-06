@@ -315,9 +315,9 @@ minetest.register_craft({
 techage.register_entry_page("ta2", "boiler1",
 	S("TA2 Boiler Base"), 
 	S("Part of the steam engine. Has to be placed on top of the Firebox and filled with water.@n"..
-	"(see TA2 Steam Engine)"), "techage:boiler1")
+	"(see Steam Engine)"), "techage:boiler1")
 
 techage.register_entry_page("ta2", "boiler2",
 	S("TA2 Boiler Top"), 
-	S("Part of the steam engine. Has to be placed on top of TA2 Boiler Base.@n(see TA2 Steam Engine)"), 
+	S("Part of the steam engine. Has to be placed on top of TA2 Boiler Base.@n(see Steam Engine)"), 
 	"techage:boiler2")

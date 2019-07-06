@@ -241,7 +241,7 @@ end
 
 
 local BurnerHelp = S("Coal Burner to heat the melting pot:@n"..
-"- build a 3x3xN cobble tower@n"..
+"- build cobble tower with a 3x3 footprint@n"..
 "- more height means more flame heat@n"..
 "- keep a hole open on one side@n"..
 "- put a lighter in@n"..

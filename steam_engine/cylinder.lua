@@ -139,5 +139,5 @@ minetest.register_craft({
 techage.register_entry_page("ta2", "cylinder",
 	S("TA2 Cylinder"), 
 	S("Part of the steam engine. Has to be placed side by side with the TA2 Flywheel.@n"..
-		"(see TA2 Steam Engine)"), 
+		"(see Steam Engine)"), 
 	"techage:cylinder")

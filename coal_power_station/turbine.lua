@@ -173,8 +173,8 @@ minetest.register_craft({
 
 techage.register_entry_page("ta3ps", "turbine",
 	S("TA3 Turbine"), 
-	S("Part of the Coal Power Station. Has to be placed side by side with the TA3 Generator.@n"..
-		"(see TA3 Coal Power Station)"), 
+	S("Part of the Power Station. Has to be placed side by side with the TA3 Generator.@n"..
+		"(see TA3 Power Station)"), 
 	"techage:turbine")
 
 minetest.register_lbm({

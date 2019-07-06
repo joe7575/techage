@@ -66,6 +66,6 @@ minetest.register_craft({
 
 techage.register_entry_page("ta3ps", "coalboiler_base",
 	S("TA3 Boiler Base"), 
-	S("Part of the Coal Power Station. Has to be placed on top of the TA3 Coal Power Station Firebox and filled with water.@n"..
-		"(see TA3 Coal Power Station)"), 
+	S("Part of the Power Station. Has to be placed on top of the TA3 Power Station Firebox and filled with water.@n"..
+		"(see TA3 Power Station)"), 
 	"techage:coalboiler_base")

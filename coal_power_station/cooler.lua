@@ -135,7 +135,7 @@ minetest.register_craft({
 
 techage.register_entry_page("ta3ps", "cooler",
 	S("TA3 Cooler"), 
-	S("Part of the Coal Power Station. Has to be placed in the steam circulation after the Turbine.@n"..
-	"(see TA3 Coal Power Station)"), 
+	S("Part of the Power Station. Has to be placed in the steam circulation after the Turbine.@n"..
+	"(see TA3 Power Station)"), 
 	"techage:cooler")
 
