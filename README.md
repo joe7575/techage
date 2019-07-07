@@ -11,7 +11,7 @@ Textures: CC BY-SA 3.0
 
 ### Dependencies  
 Required: default, tubelib2, basic_materials, bucket, stairs  
-Optional: unified_inventory, wielded_light  
+Optional: unified_inventory, wielded_light, minecart  
 Highly recommended: signs_bot, minecart  
 
 ### History  

@@ -233,6 +233,7 @@ minetest.register_node("techage:coalboiler_top", {
 	on_timer = node_timer,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
+	allow_metadata_inventory_move = function(pos) return 0 end,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	

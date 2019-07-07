@@ -209,8 +209,17 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "techage:power_pole",
 	recipe = {
-		{"default:stick", "techage:power_line", "default:stick"},
-		{"techage:power_line", "default:copper_ingot", "techage:power_line"},
-		{"default:stick", "techage:power_line", "default:stick"},
+		{"default:stick", "techage:power_lineS", "default:stick"},
+		{"techage:power_lineS", "default:copper_ingot", "techage:power_lineS"},
+		{"default:stick", "techage:power_lineS", "default:stick"},
 	},
 })
+
+if minetest.global_exists("minecart") and minecart.register_protected_node then
+	minecart.register_protected_node("techage:power_line")
+	minecart.register_protected_node("techage:power_lineS")
+	minecart.register_protected_node("techage:power_lineA")
+	minecart.register_protected_node("techage:power_pole")
+	minecart.register_protected_node("default:fence_wood")
+	
+end

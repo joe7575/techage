@@ -315,12 +315,16 @@ end
 function techage.power.provide_power(pos, provide)
 	local mem = tubelib2.get_mem(pos)
 	if mem.is_master then
-		accounting(mem)
-		trigger_lamps(pos, mem)
+		--nothing todo
 	elseif mem.master_pos then
 		mem = tubelib2.get_mem(mem.master_pos)
 	else
 		return 0
+	end
+	if (mem.next_cycle or 0) < minetest.get_us_time() then
+		accounting(mem)
+		trigger_lamps(pos, mem)
+		mem.next_cycle = minetest.get_us_time() + 2000000  -- 2s
 	end
 	-- for next cycle
 	mem.available1 = (mem.available1 or 0) + provide
