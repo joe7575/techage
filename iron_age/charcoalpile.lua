@@ -70,7 +70,7 @@ local function start_smoke(pos)
 			maxpos = {x=pos.x+0.25, y=pos.y+5, z=pos.z+0.25},
 			minvel = {x=-0.2, y=0.3, z=-0.2}, maxvel = {x=0.2, y=1, z=0.2},
 			minacc = {x=0,y=0,z=0}, maxacc = {x=0,y=0.5,z=0},
-			minexptime = 1, maxexptime = 3,
+			minexptime = 2, maxexptime = 4,
 			minsize = 6, maxsize = 12,
 			texture = "techage_smoke.png",
 		})

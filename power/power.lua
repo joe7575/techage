@@ -294,6 +294,23 @@ function techage.power.register_node(names, pwr_def)
 	end
 end		
 
+function techage.power.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir, power)
+	local mem = tubelib2.get_mem(pos)
+	mem.connections = mem.connections or {}
+	if not peer_pos or not valid_indir(peer_pos, peer_in_dir)
+			or not valid_outdir(pos, out_dir)
+			or not matching_nodes(pos, peer_pos) then
+		mem.connections[out_dir] = nil -- del connection
+	else
+		mem.connections[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}
+	end
+	-- To be called delayed, so that all network connections have been established
+	minetest.after(0.2, on_power_switch, pos)
+	if power.after_tube_update then
+		return power.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+	end
+end
+
 function techage.power.consume_power(pos, needed)
 	local master_pos = tubelib2.get_mem(pos).master_pos
 	if master_pos then
@@ -325,6 +342,8 @@ function techage.power.provide_power(pos, provide)
 		accounting(mem)
 		trigger_lamps(pos, mem)
 		mem.next_cycle = minetest.get_us_time() + 2000000  -- 2s
+	elseif (mem.next_cycle or 0) > minetest.get_us_time() + 2000000 then
+		mem.next_cycle = minetest.get_us_time()
 	end
 	-- for next cycle
 	mem.available1 = (mem.available1 or 0) + provide
@@ -338,12 +357,18 @@ end
 function techage.power.secondary_power(pos, provide, needed)
 	local mem = tubelib2.get_mem(pos)
 	if mem.is_master then
-		accounting(mem)
-		trigger_lamps(pos, mem)
+		--nothing todo
 	elseif mem.master_pos then
 		mem = tubelib2.get_mem(mem.master_pos)
 	else
 		return 0
+	end
+	if (mem.next_cycle or 0) < minetest.get_us_time() then
+		accounting(mem)
+		trigger_lamps(pos, mem)
+		mem.next_cycle = minetest.get_us_time() + 2000000  -- 2s
+	elseif (mem.next_cycle or 0) > minetest.get_us_time() + 2000000 then
+		mem.next_cycle = minetest.get_us_time()
 	end
 	-- for next cycle
 	mem.available2 = (mem.available2 or 0) + provide

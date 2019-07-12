@@ -13,7 +13,8 @@
 ]]--
 
 -- for lazy programmers
-local P = minetest.string_to_pos
+local S2P = minetest.string_to_pos
+local P2S = minetest.pos_to_string
 local M = minetest.get_meta
 local S = techage.S
 
@@ -52,6 +53,21 @@ function Cable:is_primary_node(pos, dir)
 	return techage.is_primary_node(pos, dir)
 end
 
+function Cable:get_secondary_node(pos, dir)
+	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
+	local node = self:get_node_lvm(npos)
+	if self.secondary_node_names[node.name] or 
+			self.secondary_node_names[M(npos):get_string("techage_hidden_nodename")] then
+		return node, npos
+	end
+end
+
+function Cable:is_secondary_node(pos, dir)
+	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
+	local node = self:get_node_lvm(npos)
+	return self.secondary_node_names[node.name] or 
+			self.secondary_node_names[M(npos):get_string("techage_hidden_nodename")]
+end
 
 minetest.register_node("techage:electric_cableS", {
 	description = S("TA Electric Cable"),
@@ -135,7 +151,11 @@ minetest.register_node("techage:electric_cableA", {
 })
 
 Cable:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir)
-	minetest.registered_nodes[node.name].after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+	if minetest.registered_nodes[node.name].after_tube_update then
+		minetest.registered_nodes[node.name].after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+	else
+		techage.power.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir, Cable)
+	end
 end)
 
 minetest.register_craft({

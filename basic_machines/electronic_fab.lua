@@ -50,7 +50,7 @@ local Input = {
 local Output = {
 	"",  -- 1
 	"techage:vacuum_tube 2",  -- 2
-	"techage:wlanchip 8",  -- 3
+	"techage:ta4_wlanchip 8",  -- 3
 	"",  -- 4
 }
 
@@ -60,7 +60,7 @@ local function formspec(self, pos, mem)
 	if crd.stage == 2 then
 		icon = "techage:vacuum_tube"
 	elseif crd.stage == 3 then
-		icon = "techage:wlanchip"
+		icon = "techage:ta4_wlanchip"
 	else
 		icon = ""
 	end
@@ -281,6 +281,11 @@ minetest.register_craftitem("techage:ta4_wlanchip", {
 	inventory_image = "techage_wlanchip.png",
 })
 
+minetest.register_craftitem("techage:wlanchip", {
+	description = S("WLAN Chip"),
+	inventory_image = "techage_wlanchip.png",
+})
+
 
 if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("electronic_fab", {
@@ -295,7 +300,7 @@ if minetest.global_exists("unified_inventory") then
 		type = "electronic_fab",
 	})
 	unified_inventory.register_craft({
-		output = "techage:wlanchip 8", 
+		output = "techage:ta4_wlanchip 8", 
 		items = {"default:mese_crystal", "default:copper_ingot", "default:gold_ingot", "basic_materials:silicon"},
 		type = "electronic_fab",
 	})
