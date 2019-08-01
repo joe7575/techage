@@ -136,6 +136,11 @@ local function drilling(pos, crd, mem, inv)
 	elseif node.name == "techage:oil_drillbit2" then
 		mem.drill_pos.y = mem.drill_pos.y-1
 		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+	elseif minetest.get_item_group(node.name, "lava") >= 1 then
+		minetest.swap_node(mem.drill_pos, {name = "techage:oil_drillbit2"})
+		inv:remove_item("src", ItemStack("techage:oil_drillbit"))
+		mem.drill_pos.y = mem.drill_pos.y-1
+		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
 	elseif techage.can_node_dig(node, ndef) then
 		local drop_name = techage.dropped_node(node, ndef)
 		if drop_name then

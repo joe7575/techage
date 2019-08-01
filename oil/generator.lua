@@ -17,9 +17,10 @@ local M = minetest.get_meta
 local S = techage.S
 
 local Power = techage.ElectricCable
+local firebox = techage.firebox
 local provide_power = techage.power.provide_power
 local power_switched = techage.power.power_switched
-local firebox = techage.firebox
+local power_distribution = techage.power.power_distribution
 
 local CYCLE_TIME = 2
 local PWR_CAPA = 12
@@ -84,7 +85,8 @@ local function burning(pos, mem)
 	if mem.burn_cycles <= 0 then
 		local taken = firebox.get_fuel(pos) 
 		if taken then
-			mem.burn_cycles = firebox.Burntime[taken:get_name()] / CYCLE_TIME * BURN_CYCLE_FACTOR
+			mem.burn_cycles = (firebox.Burntime[taken:get_name()] or 1) / CYCLE_TIME * BURN_CYCLE_FACTOR
+
 			mem.burn_cycles_total = mem.burn_cycles
 			return true
 		else
@@ -96,15 +98,29 @@ local function burning(pos, mem)
 	end
 end
 
+local function on_power(pos)
+	local mem = tubelib2.get_mem(pos)
+	if mem.generating then
+		mem.provided = provide_power(pos, PWR_CAPA)
+	else
+		mem.provided = 0
+	end
+	mem.trigger = 2
+end
+
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	if mem.generating and burning(pos, mem) then
-		mem.provided = provide_power(pos, PWR_CAPA)
+		power_distribution(pos)
 		minetest.sound_play("techage_generator", {
 			pos = pos, 
 			gain = 1,
 			max_hear_distance = 10})
-		State:keep_running(pos, mem, CYCLE_TIME)
+		--State:keep_running(pos, mem, CYCLE_TIME)
+		mem.trigger = (mem.trigger or 1) - 1
+		if mem.trigger <= 0 then  
+			power_switched(pos)
+		end
 		return true
 	else
 		mem.provided = 0
@@ -223,6 +239,7 @@ minetest.register_node("techage:tiny_generator_on", {
 techage.power.register_node({"techage:tiny_generator", "techage:tiny_generator_on"}, {
 	conn_sides = {"R"},
 	power_network  = Power,
+	on_power = on_power,
 })
 
 techage.register_node({"techage:tiny_generator", "techage:tiny_generator_on"}, {

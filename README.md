@@ -5,7 +5,7 @@ Techage, go through 4 tech ages in search of wealth and power.
 
 ### License
 Copyright (C) 2019 Joachim Stolberg  
-Code: Licensed under the GNU LGPL version 2.1 or later. See LICENSE.txt  
+Code: Licensed under the GNU GPL version 3 or later. See LICENSE.txt  
 Textures: CC BY-SA 3.0
 
 

@@ -38,7 +38,7 @@ local function node_timer(pos, elapsed)
 		if mem.burn_cycles <= 0 then
 			local taken = firebox.get_fuel(pos) 
 			if taken then
-				mem.burn_cycles = firebox.Burntime[taken:get_name()] / CYCLE_TIME
+				mem.burn_cycles = (firebox.Burntime[taken:get_name()] or 1) / CYCLE_TIME
 				mem.burn_cycles_total = mem.burn_cycles
 			else
 				stop_firebox(pos, mem)

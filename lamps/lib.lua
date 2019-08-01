@@ -22,7 +22,8 @@ end
 
 local function on_power(pos)
 	local mem = tubelib2.get_mem(pos)
-	if mem.turned_on then
+	mem.node_loaded = (mem.node_loaded or 1) - 1
+	if mem.turned_on and mem.node_loaded >= 0 then
 		local got = consume_power(pos, PWR_NEEDED)
 		if got < PWR_NEEDED and mem.node_on then
 			swap_node(pos, "off")
@@ -31,17 +32,18 @@ local function on_power(pos)
 			swap_node(pos, "on")
 			mem.node_on = true
 		end
-		mem.trigger = true
+		mem.power_available = true
 	end
 end
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	if mem.node_on and not mem.trigger then
+	if mem.node_on and not mem.power_available then
 		mem.node_on = false
 		swap_node(pos, "off")
 	end
-	mem.trigger = false
+	mem.power_available = false
+	mem.node_loaded = CYCLE_TIME/2 + 1
 	return mem.turned_on
 end
 

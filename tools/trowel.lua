@@ -37,7 +37,8 @@ local function hide_node(pos, node, meta, placer)
 	local taken = stack:take_item(1)
 	local ndef = minetest.registered_nodes[taken:get_name()]
 	-- test if it is a simple node without logic
-	if taken:get_count() == 1 
+	if taken:get_count() == 1
+	and ndef
 	and not ndef.groups.soil 
 	and not ndef.after_place_node 
 	and not ndef.on_construct then
@@ -97,6 +98,8 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
 		-- test both hidden networks
 		techage.ElectricCable:after_dig_node(pos, oldnode, digger)
 		techage.BiogasPipe:after_dig_node(pos, oldnode, digger)
+		-- probably a hidden node with mem data
+		tubelib2.del_mem(pos)
 	else
 		-- store pos for other tools without own 'register_on_dignode'
 		techage.dug_node[digger:get_player_name()] = pos

@@ -36,23 +36,47 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function node_timer(pos, elapsed)
+local function on_power(pos)
 	local mem = tubelib2.get_mem(pos)
-	if mem.running then
+	mem.timer_running = (mem.timer_running or 1) - 1
+	if mem.timer_running >= 0 then
 		local got = consume_power(pos, PWR_NEEDED)
 		if got < PWR_NEEDED then
 			swap_node(pos, "techage:ta3_booster")
+			infotext(pos, "no power")
+			mem.running = false
 		else
 			swap_node(pos, "techage:ta3_booster_on")
+			infotext(pos, "running")
+			mem.power_available = 2
 			minetest.sound_play("techage_booster", {
 				pos = pos, 
 				gain = 1,
 				max_hear_distance = 7})
 		end
-		return true
+	else
+		swap_node(pos, "techage:ta3_booster")
+		infotext(pos, "stopped")
+		mem.running = false
 	end
-	swap_node(pos, "techage:ta3_booster")
-	return false
+end
+
+local function node_timer(pos, elapsed)
+	local mem = tubelib2.get_mem(pos)
+	mem.power_available = (mem.power_available or 1) - 1
+	if mem.running and mem.power_available < 0 then
+		swap_node(pos, "techage:ta3_booster")
+		mem.running = false
+		return false
+	end
+	mem.timer_running = CYCLE_TIME/2 + 1
+	return true
+end
+
+local function on_rightclick(pos, node, clicker)
+	if mem.running then
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
+	end
 end
 
 minetest.register_node("techage:ta3_booster", {
@@ -125,6 +149,7 @@ minetest.register_node("techage:ta3_booster_on", {
 techage.power.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 	power_network = Power,
 	conn_sides = {"F", "B", "U", "D", "L"},
+	on_power = on_power,
 })
 
 -- for intra machine communication
@@ -135,7 +160,7 @@ techage.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 			if topic == "power" then
 				return mem.running
 			elseif topic == "start" then
-				if power_available(pos, PWR_NEEDED) then
+				if power_available(pos, 0) then
 					mem.running = true
 					node_timer(pos, 2)
 					infotext(pos, "running")
@@ -147,7 +172,7 @@ techage.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 				mem.running = false
 				swap_node(pos, "techage:ta3_booster")
 				minetest.get_node_timer(pos):stop()
-				if mem.has_power then
+				if mem.power_available then
 					infotext(pos, "stopped")
 				else
 					infotext(pos, "no power")

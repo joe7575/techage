@@ -26,9 +26,7 @@ local function handler(player_name, node, itemstack, digparams)
 	if minetest.get_item_group(node.name, "stone") > 0 then
 		-- Remove item from players inventory or from the world
 		local ndef = minetest.registered_nodes[node.name]
-		print(1)
 		if ndef then
-			print(2)
 			local item = ItemStack(ndef.drop or node.name)
 			local inv = minetest.get_inventory({type="player", name=player_name})
 			if inv:room_for_item("main", item) then

@@ -23,6 +23,7 @@ local PWR_CAPA = 3000
 local Power = techage.ElectricCable
 local secondary_power = techage.power.secondary_power
 local power_switched = techage.power.power_switched
+local power_distribution = techage.power.power_distribution
 
 local function in_range(val, min, max)
 	if val < min then return min end
@@ -65,7 +66,7 @@ local State = techage.NodeStates:new({
 	stop_node = stop_node,
 })
 
-local function node_timer(pos, elapsed)
+local function on_power(pos)
 	local mem = tubelib2.get_mem(pos)
 	mem.capa = mem.capa or 0
 	if mem.generating then
@@ -79,12 +80,27 @@ local function node_timer(pos, elapsed)
 		end
 		mem.capa = mem.capa - mem.delivered
 		mem.capa = in_range(mem.capa, 0, PWR_CAPA)
+		mem.trigger = 2
 		return true
 	end
 	mem.delivered = 0
 	return false
 end
 
+local function node_timer(pos, elapsed)
+	local mem = tubelib2.get_mem(pos)
+	if mem.generating then
+		power_distribution(pos)
+		mem.trigger = (mem.trigger or 1) - 1
+		if mem.trigger <= 0 then  
+			power_switched(pos)
+		end
+		return true
+	else
+		mem.provided = 0
+	end
+	return false
+end
 
 local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
@@ -168,6 +184,7 @@ minetest.register_node("techage:ta3_akku", {
 techage.power.register_node({"techage:ta3_akku"}, {
 	conn_sides = {"R"},
 	power_network  = Power,
+	on_power = on_power,
 })
 
 techage.register_entry_page("ta3ps", "akku",

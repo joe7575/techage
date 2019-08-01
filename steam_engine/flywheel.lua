@@ -25,6 +25,7 @@ local PWR_CAPA = 25
 local Axle = techage.Axle
 local provide_power = techage.power.provide_power
 local power_switched = techage.power.power_switched
+local power_distribution = techage.power.power_distribution
 
 local function formspec(self, pos, mem)
 	return "size[8,7]"..
@@ -39,7 +40,7 @@ local function formspec(self, pos, mem)
 end
 
 local function can_start(pos, mem, state)
-	return (mem.triggered or 0) > 0 -- by means of firebox
+	return (mem.firebox_trigger or 0) > 0 -- by means of firebox
 end
 
 local function start_node(pos, mem, state)
@@ -76,25 +77,40 @@ local State = techage.NodeStates:new({
 	stop_node = stop_node,
 })
 
-local function node_timer(pos, elapsed)
+local function on_power(pos)
 	local mem = tubelib2.get_mem(pos)
-	mem.triggered = mem.triggered or 0
-	if mem.triggered > 0 and mem.generating then
+	if mem.generating then
 		mem.provided = provide_power(pos, PWR_CAPA)
-		mem.triggered = mem.triggered - 1
-		State:keep_running(pos, mem, COUNTDOWN_TICKS)
-		mem.handle = minetest.sound_play("techage_steamengine", {
-			pos = pos, 
-			gain = 0.5,
-			max_hear_distance = 10})
-	elseif mem.generating then -- trigger missing
-		State:stop(pos, mem)
-		mem.generating = 0
-		mem.provided = 0
-		techage.transfer(pos, "L", "stop", nil, nil, {
-						"techage:cylinder_on"})	
 	else
 		mem.provided = 0
+	end
+	mem.master_trigger = 2
+end
+
+local function node_timer(pos, elapsed)
+	local mem = tubelib2.get_mem(pos)
+	if mem.generating then
+		mem.firebox_trigger = (mem.firebox_trigger or 0) - 1
+		mem.master_trigger = (mem.master_trigger or 0) - 1
+		
+		if mem.firebox_trigger <= 0 then
+			power_switched(pos)
+			State:nopower(pos, mem)
+			mem.generating = 0
+			mem.provided = 0
+			techage.transfer(pos, "L", "stop", nil, nil, {"techage:cylinder_on"})	
+		else
+			power_distribution(pos)
+			State:keep_running(pos, mem, COUNTDOWN_TICKS)
+			mem.handle = minetest.sound_play("techage_steamengine", {
+				pos = pos, 
+				gain = 0.5,
+				max_hear_distance = 10})
+		
+			if mem.master_trigger <= 0 then
+				power_switched(pos)
+			end
+		end
 	end
 	return State:is_active(mem)
 end
@@ -205,13 +221,14 @@ minetest.register_node("techage:flywheel_on", {
 techage.power.register_node({"techage:flywheel", "techage:flywheel_on"}, {
 	conn_sides = {"R"},
 	power_network = Axle,
+	on_power = on_power,
 })
 
 techage.register_node({"techage:flywheel", "techage:flywheel_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		local mem = tubelib2.get_mem(pos)
 		if topic == "trigger" then
-			mem.triggered = 2
+			mem.firebox_trigger = 3
 			if mem.generating then
 				return math.max((mem.provided or PWR_CAPA) / PWR_CAPA, 0.1)
 			else

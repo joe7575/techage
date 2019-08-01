@@ -200,7 +200,7 @@ function NodeStates:stop(pos, mem)
 	return true
 end
 
-function NodeStates:start(pos, mem, called_from_on_timer)
+function NodeStates:start(pos, mem)
 	local state = mem.techage_state or STOPPED
 	if state ~= RUNNING and state ~= FAULT then
 		if not self.can_start(pos, mem, state) then
@@ -212,10 +212,6 @@ function NodeStates:start(pos, mem, called_from_on_timer)
 			self.start_node(pos, mem, state)
 		end
 		mem.techage_countdown = 1
-		if called_from_on_timer then
-			-- timer has to be stopped once to be able to be restarted
-			self.stop_timer = true
-		end
 		if self.node_name_active then
 			swap_node(pos, self.node_name_active)
 		end
@@ -239,16 +235,17 @@ function NodeStates:start(pos, mem, called_from_on_timer)
 end
 
 -- to be used from node timer functions
-function NodeStates:start_from_timer(pos, mem, called_from_on_timer)
-	minetest.after(0.1, self.start, self, pos, mem)
+function NodeStates:start_from_timer(pos, mem)
+	local state = mem.techage_state or STOPPED
+	if state ~= RUNNING and state ~= FAULT then
+		minetest.after(0.1, self.start, self, pos, mem)
+	end
 end
 
 function NodeStates:standby(pos, mem)
 	local state = mem.techage_state or STOPPED
 	if state == RUNNING then
 		mem.techage_state = STANDBY
-		-- timer has to be stopped once to be able to be restarted
-		self.stop_timer = true
 		if self.node_name_passive then
 			swap_node(pos, self.node_name_passive)
 		end
@@ -276,8 +273,6 @@ function NodeStates:blocked(pos, mem)
 	local state = mem.techage_state or STOPPED
 	if state == RUNNING then
 		mem.techage_state = BLOCKED
-		-- timer has to be stopped once to be able to be restarted
-		self.stop_timer = true
 		if self.node_name_passive then
 			swap_node(pos, self.node_name_passive)
 		end
@@ -304,8 +299,6 @@ function NodeStates:nopower(pos, mem)
 	local state = mem.techage_state or RUNNING
 	if state ~= STOPPED then
 		mem.techage_state = NOPOWER
-		-- timer has to be stopped once to be able to be restarted
-		self.stop_timer = true
 		if self.node_name_passive then
 			swap_node(pos, self.node_name_passive)
 		end
@@ -359,10 +352,6 @@ end
 -- keep the timer running?
 function NodeStates:is_active(mem)
 	local state = mem.techage_state or STOPPED
-	if self.stop_timer == true then
-		self.stop_timer = false
-		return false
-	end
 	return state < FAULT
 end
 
@@ -387,7 +376,7 @@ end
 -- and keep the node in state RUNNING
 function NodeStates:keep_running(pos, mem, val, num_items)
 	-- set to RUNNING if not already done
-	self:start(pos, mem, true)
+	self:start_from_timer(pos, mem)
 	mem.techage_countdown = val or 4
 	mem.techage_item_meter = (mem.techage_item_meter or 0) + (num_items or 1)
 end

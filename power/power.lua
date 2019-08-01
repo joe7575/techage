@@ -100,6 +100,34 @@ local function matching_nodes(pos, peer_pos)
 	return not tube_type1 or not tube_type2 or tube_type1 == tube_type2
 end
 
+local function min(val, max)
+	if val < 0 then return 0 end
+	if val > max then return max end
+	return val
+end
+
+-- called from master every cycle (2 seconds)
+local function accounting(mem)
+	-- defensive programming
+	mem.needed1 = mem.needed1 or 0
+	mem.needed2 = mem.needed2 or 0
+	mem.available1 = mem.available1 or 0
+	mem.available2 = mem.available2 or 0
+	-- calculate the primary and secondary supply and demand
+	mem.supply1 = min(mem.needed1 + mem.needed2, mem.available1)
+	mem.demand1 = min(mem.needed1, mem.available1 + mem.available2)
+	mem.supply2 = min(mem.demand1 - mem.supply1, mem.available2)
+	mem.demand2 = min(mem.supply1 - mem.demand1, mem.available1)
+	mem.reserve = (mem.available1 + mem.available2) > mem.needed1
+	--print("needed = "..mem.needed1.."/"..mem.needed2..", available = "..mem.available1.."/"..mem.available2)
+	--print("supply = "..mem.supply1.."/"..mem.supply2..", demand = "..mem.demand1.."/"..mem.demand2..", reserve = "..dump(mem.reserve))
+	-- reset values for nect cycle
+	mem.needed1 = 0
+	mem.needed2 = 0
+	mem.available1 = 0
+	mem.available2 = 0
+end
+
 local function connection_walk(pos, clbk)
 	local mem = tubelib2.get_mem(pos)
 	mem.interrupted_dirs = mem.interrupted_dirs or {}
@@ -122,7 +150,8 @@ local function determine_master(pos)
 	local hash = 0
 	local master = nil
 	connection_walk(pos, function(pos, mem)
-			if mem.generating then
+			if mem.generating and mem.could_be_master then
+				mem.could_be_master = false
 				local new = minetest.hash_node_position(pos)
 				if hash <= new then
 					hash = new
@@ -143,7 +172,7 @@ local function store_master(pos, master_pos)
 		end)
 end
 
-local function trigger_lamps(pos)
+local function trigger_nodes(pos)
 	Route = {}
 	pos_already_reached(pos) 
 	connection_walk(pos, function(pos, mem)
@@ -154,48 +183,28 @@ local function trigger_lamps(pos)
 		end)
 end
 
--- called from any generator
+-- Called from any generator on any power switching process 
+-- and to determine a new master in case of a timeout
 local function on_power_switch(pos)
 	--print("on_power_change"..S(pos))
+	--local t = minetest.get_us_time()
 	local mem = tubelib2.get_mem(pos)
 	mem.master_pos = nil
 	mem.is_master = nil
 	
 	local mpos = determine_master(pos)
 	store_master(pos, mpos)
+	--print("store_master", S(pos), S(mpos))
 	if mpos then
 		local mem = tubelib2.get_mem(mpos)
 		mem.is_master = true
+		-- trigger all nodes so that we get a stable state again
+		trigger_nodes(mpos)
+		accounting(tubelib2.get_mem(mpos))
+		--t = minetest.get_us_time() - t
+		--print("t = "..t)
 		return mem
 	end
-end
-
-local function min(val, max)
-	if val < 0 then return 0 end
-	if val > max then return max end
-	return val
-end
-
--- called from master every 2 seconds
-local function accounting(mem)
-	-- defensive programming
-	mem.needed1 = mem.needed1 or 0
-	mem.needed2 = mem.needed2 or 0
-	mem.available1 = mem.available1 or 0
-	mem.available2 = mem.available2 or 0
-	-- calculate the primary and secondary supply and demand
-	mem.supply1 = min(mem.needed1 + mem.needed2, mem.available1)
-	mem.demand1 = min(mem.needed1, mem.available1 + mem.available2)
-	mem.supply2 = min(mem.demand1 - mem.supply1, mem.available2)
-	mem.demand2 = min(mem.supply1 - mem.demand1, mem.available1)
-	mem.reserve = (mem.available1 + mem.available2) > mem.needed1
-	--print("needed = "..mem.needed1.."/"..mem.needed2..", available = "..mem.available1.."/"..mem.available2)
-	--print("supply = "..mem.supply1.."/"..mem.supply2..", demand = "..mem.demand1.."/"..mem.demand2..", reserve = "..dump(mem.reserve))
-	-- reset values for nect cycle
-	mem.needed1 = 0
-	mem.needed2 = 0
-	mem.available1 = 0
-	mem.available2 = 0
 end
 
 --
@@ -223,7 +232,7 @@ function techage.power.power_cut(pos, dir, cable, cut)
 		for dir,_ in pairs(mem.connections) do
 			mem.interrupted_dirs[dir] = false
 			on_power_switch(npos)
-			trigger_lamps(npos)
+			trigger_nodes(npos)
 			mem.interrupted_dirs[dir] = true
 		end
 	else
@@ -311,8 +320,21 @@ function techage.power.after_tube_update(node, pos, out_dir, peer_pos, peer_in_d
 	end
 end
 
+-- Called from every generator every 2 seconds
+function techage.power.power_distribution(pos)
+	local mem = tubelib2.get_mem(pos)
+	--print("power_distribution", S(pos), mem.is_master)
+	-- timer is running, which is needed to be master
+	mem.could_be_master = true
+	if mem.is_master then
+		trigger_nodes(pos, mem)
+		accounting(mem)
+	end
+end
+
 function techage.power.consume_power(pos, needed)
 	local master_pos = tubelib2.get_mem(pos).master_pos
+	--print("consume_power", S(master_pos))
 	if master_pos then
 		local mem = tubelib2.get_mem(master_pos)
 		-- for next cycle
@@ -332,18 +354,11 @@ end
 function techage.power.provide_power(pos, provide)
 	local mem = tubelib2.get_mem(pos)
 	if mem.is_master then
-		--nothing todo
+		-- nothing to do
 	elseif mem.master_pos then
 		mem = tubelib2.get_mem(mem.master_pos)
 	else
 		return 0
-	end
-	if (mem.next_cycle or 0) < minetest.get_us_time() then
-		accounting(mem)
-		trigger_lamps(pos, mem)
-		mem.next_cycle = minetest.get_us_time() + 2000000  -- 2s
-	elseif (mem.next_cycle or 0) > minetest.get_us_time() + 2000000 then
-		mem.next_cycle = minetest.get_us_time()
 	end
 	-- for next cycle
 	mem.available1 = (mem.available1 or 0) + provide
@@ -357,18 +372,11 @@ end
 function techage.power.secondary_power(pos, provide, needed)
 	local mem = tubelib2.get_mem(pos)
 	if mem.is_master then
-		--nothing todo
+		-- nothing to do
 	elseif mem.master_pos then
 		mem = tubelib2.get_mem(mem.master_pos)
 	else
 		return 0
-	end
-	if (mem.next_cycle or 0) < minetest.get_us_time() then
-		accounting(mem)
-		trigger_lamps(pos, mem)
-		mem.next_cycle = minetest.get_us_time() + 2000000  -- 2s
-	elseif (mem.next_cycle or 0) > minetest.get_us_time() + 2000000 then
-		mem.next_cycle = minetest.get_us_time()
 	end
 	-- for next cycle
 	mem.available2 = (mem.available2 or 0) + provide

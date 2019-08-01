@@ -18,7 +18,7 @@ local M = minetest.get_meta
 local S = techage.S
 
 local PWR_NEEDED = 1
-local CYCLE_TIME = 2
+local CYCLE_TIME = 4
 
 local Axle = techage.Axle
 local consume_power = techage.power.consume_power
@@ -32,18 +32,34 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
+local function on_power(pos)
+	local mem = tubelib2.get_mem(pos)
+	mem.node_loaded = (mem.node_loaded or 1) - 1
+	if mem.node_loaded >= 0 then
+		local got = consume_power(pos, PWR_NEEDED)
+		if got < PWR_NEEDED and mem.node_on then
+			swap_node(pos, "techage:gearbox")
+			techage.switch_axles(pos, false)
+			mem.node_on = false
+		elseif not mem.node_on then
+			swap_node(pos, "techage:gearbox_on")
+			techage.switch_axles(pos, true)
+			mem.node_on = true
+		end
+		mem.power_available = true
+	end
+end
+
+
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	local got = consume_power(pos, PWR_NEEDED)
-	if mem.running and got < PWR_NEEDED then
+	if mem.node_on and not mem.power_available then
 		swap_node(pos, "techage:gearbox")
 		techage.switch_axles(pos, false)
-		mem.running = false
-	elseif not mem.running and got == PWR_NEEDED then
-		swap_node(pos, "techage:gearbox_on")
-		techage.switch_axles(pos, true)
-		mem.running = true
+		mem.node_on = false
 	end
+	mem.power_available = false
+	mem.node_loaded = CYCLE_TIME/2 + 1
 	return true
 end
 
@@ -100,6 +116,7 @@ minetest.register_node("techage:gearbox_on", {
 
 techage.power.register_node({"techage:gearbox", "techage:gearbox_on"}, {
 	power_network  = Axle,
+	on_power = on_power,
 })
 	
 minetest.register_craft({

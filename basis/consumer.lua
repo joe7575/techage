@@ -26,7 +26,7 @@ local M = minetest.get_meta
 local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
 local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).consumer end
 
-local CYCLE_TIME = 2 -- required from power
+--local CYCLE_TIME = 2 -- required from power
 
 local consume_power = techage.power.consume_power
 local power_available = techage.power.power_available
@@ -43,31 +43,39 @@ end
 local function stop_node(pos, mem, state)
 end
 
+local function on_power(pos)
+	local crd = CRD(pos)
+	local mem = tubelib2.get_mem(pos)
+	local state = mem.techage_state
+	mem.node_loaded = (mem.node_loaded or 1) - 1
+	if mem.node_loaded >= 0 then
+		if techage.needs_power(mem)then
+			local got = consume_power(pos, crd.power_consumption)
+			if got < crd.power_consumption then
+				crd.State:nopower(pos, mem)
+			end
+		elseif state == techage.STANDBY and not power_available(pos) then
+			crd.State:nopower(pos, mem)
+		elseif state == techage.NOPOWER and power_available(pos) then
+			crd.State:start(pos, mem)
+		end
+		mem.power_available = true
+	end
+end
+
 local function node_timer(pos, elapsed)
 	local crd = CRD(pos)
 	local mem = tubelib2.get_mem(pos)
 	local state = mem.techage_state
-	if techage.needs_power(mem) then
-		local got = consume_power(pos, crd.power_consumption)
-		if got < crd.power_consumption then
-			crd.State:nopower(pos, mem)
-		end
-	elseif state == techage.STANDBY then
-		if crd.power_consumption > 0 and not power_available(pos) then
-			crd.State:nopower(pos, mem)
-		end
-	elseif state == techage.NOPOWER and power_available(pos) then
-		crd.State.start_from_timer(crd.State, pos, mem)
+	if crd.power_consumption > 0 and not mem.power_available then
+		crd.State:nopower(pos, mem)
 	end
-	-- call the secondary timer routine with the requested frequency
+	mem.power_available = false
+	-- node cycle time / power cycle time + security surcharge
+	mem.node_loaded = crd.cycle_time/2 + 1
+	-- call the node timer routine
 	if techage.is_operational(mem) then
-		mem.conn_next_call = mem.conn_next_call or 0
-		mem.conn_cycle_timer = (mem.conn_cycle_timer or 0) + CYCLE_TIME
-		--print(mem.conn_next_call, mem.conn_cycle_timer)
-		if mem.conn_cycle_timer >= mem.conn_next_call then
-			crd.node_timer(pos, crd.cycle_time)
-			mem.conn_next_call = mem.conn_next_call + crd.cycle_time
-		end
+		crd.node_timer(pos, crd.cycle_time)
 	end
 	return crd.State:is_active(mem)
 end
@@ -124,7 +132,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				node_name_passive = name_pas,
 				node_name_active = name_act,
 				infotext_name = name_inv,
-				cycle_time = CYCLE_TIME,
+				cycle_time = tNode.cycle_time,
 				standby_ticks = tNode.standby_ticks,
 				formspec_func = tNode.formspec,
 				on_state_change = tNode.on_state_change,
@@ -230,6 +238,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				techage.power.register_node({name_pas, name_act}, {
 					conn_sides = {"F", "B"},
 					power_network  = power_network,
+					on_power = on_power,
 				})
 			end
 			techage.register_node({name_pas, name_act}, tNode.tubing)
