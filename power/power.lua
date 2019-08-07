@@ -145,8 +145,8 @@ local function determine_master(pos)
 	local hash = 0
 	local master = nil
 	connection_walk(pos, function(pos, mem)
-			if mem.generating and mem.could_be_master then
-				mem.could_be_master = false
+			mem.generator_available = (mem.generator_available or 1) - 1
+			if mem.generating and mem.generator_available > 0 then
 				local new = minetest.hash_node_position(pos)
 				if hash <= new then
 					hash = new
@@ -186,6 +186,8 @@ local function on_power_switch(pos)
 	local mem = tubelib2.get_mem(pos)
 	mem.master_pos = nil
 	mem.is_master = nil
+	-- used to check if generator is active
+	mem.generator_available = 2
 	
 	local mpos = determine_master(pos)
 	store_master(pos, mpos)
@@ -323,9 +325,8 @@ end
 -- Called from every generator every 2 seconds
 function techage.power.power_distribution(pos)
 	local mem = tubelib2.get_mem(pos)
-	--print("power_distribution", S(pos), mem.is_master)
-	-- timer is running, which is needed to be master
-	mem.could_be_master = true
+	-- used to check if generator is active
+	mem.generator_available = 2
 	if mem.is_master then
 		-- reset values for nect cycle
 		mem.needed1 = 0

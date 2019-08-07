@@ -120,6 +120,8 @@ local function node_timer(pos, elapsed)
 		mem.trigger = (mem.trigger or 1) - 1
 		if mem.trigger <= 0 then  
 			power_switched(pos)
+			mem.generating = false
+			mem.provided = 0
 		end
 		return true
 	else

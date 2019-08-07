@@ -233,6 +233,9 @@ techage.register_node({"techage:generator", "techage:generator_on"}, {
 		end
 	end,
 	on_node_load = function(pos)
+		local mem = tubelib2.get_mem(pos)
+		-- bug workaround, TODO: remove
+		mem.generating = mem.techage_state == techage.RUNNING
 		State:on_node_load(pos)
 	end,
 })
