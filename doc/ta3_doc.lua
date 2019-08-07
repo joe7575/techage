@@ -103,3 +103,10 @@ techage.register_category_page("ta3m",
 	"techage:ta3_autocrafter_pas", 
 	{"pusher", "distributor", "chest", "grinder", "gravelsieve", "autocrafter", "electronic_fab"}
 )
+
+techage.register_category_page("ta3l", 
+	S("TA3: Logic"),
+	S("Collection of TA3 logic blocks to control your machines."),
+	"techage:terminal2", 
+	{"terminal"}
+)

@@ -43,11 +43,7 @@ techage.register_junction("techage:electric_junction", 2/8, Boxes, Cable, {
 		power_switched(pos)
 	end,
 	is_power_available = function(pos)
-		if power_available(pos) then
-			return "on"
-		else
-			return "off"
-		end
+		return techage.power.power_accounting(pos)
 	end,
 })
 

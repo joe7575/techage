@@ -32,7 +32,7 @@ local Param2ToDir = {
 }
 
 local function switch_on(pos, node, clicker)
-	if minetest.is_protected(pos, clicker:get_player_name()) then
+	if clicker and minetest.is_protected(pos, clicker:get_player_name()) then
 		return
 	end
 	node.name = "techage:powerswitch_on"
@@ -47,7 +47,7 @@ local function switch_on(pos, node, clicker)
 end
 
 local function switch_off(pos, node, clicker)
-	if minetest.is_protected(pos, clicker:get_player_name()) then
+	if clicker and minetest.is_protected(pos, clicker:get_player_name()) then
 		return
 	end
 	node.name = "techage:powerswitch"
@@ -79,6 +79,14 @@ minetest.register_node("techage:powerswitch", {
 		},
 	},
 	
+	after_place_node = function(pos, placer)
+		local meta = minetest.get_meta(pos)
+		local number = techage.add_node(pos, "techage:powerswitch")
+		meta:set_string("number", number)
+		meta:set_string("owner", placer:get_player_name())
+		meta:set_string("infotext", S("TA Power Switch").." "..number)
+	end,
+
 	on_rightclick = function(pos, node, clicker)
 		switch_on(pos, node, clicker)
 	end,
@@ -184,6 +192,27 @@ techage.power.register_node({"techage:powerswitch_box"}, {
 		power_network = Cable,
 		conn_sides = get_conn_dirs,
 })
+
+techage.register_node({"techage:powerswitch", "techage:powerswitch_on"}, {
+	on_recv_message = function(pos, topic, payload)
+		local mem = tubelib2.get_mem(pos)
+		local node = minetest.get_node(pos)
+		if topic == "on" and node.name == "techage:powerswitch" then
+			switch_on(pos, node)
+			return true
+		elseif topic == "off" and node.name == "techage:powerswitch_on" then
+			switch_off(pos, node)
+			return true
+		elseif topic == "state" then
+			if node.name == "techage:powerswitch_on" then
+				return "on"
+			end
+			return "off"
+		else
+			return "unsupported"
+		end
+	end,
+})	
 
 minetest.register_craft({
 	output = "techage:powerswitch 2",

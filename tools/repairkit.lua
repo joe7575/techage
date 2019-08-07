@@ -44,6 +44,10 @@ local function read_state(itemstack, user, pointed_thing)
 		local ndef = minetest.registered_nodes[minetest.get_node(pos).name]
 		if number then
 			if ndef and ndef.description then
+				local info = techage.send_single(number, "info", nil)
+				if info and info ~= "" and info ~= "unsupported" then
+					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": Supported Commands:\n"..info.."    ")
+				end
 				local state = techage.send_single(number, "state", nil)
 				if state and state ~= "" and state ~= "unsupported" then
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": state = "..state.."    ")

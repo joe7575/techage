@@ -204,6 +204,12 @@ function techage.get_new_number(pos, name)
 	return number
 end
 
+-- extract ident and value from strings like "ident=value"
+function techage.ident_value(s)
+    local ident, value = unpack(string.split(s, "=", true, 1))
+	return (ident or ""):trim(), (value or ""):trim()
+end
+
 -------------------------------------------------------------------
 -- Node construction/destruction functions
 -------------------------------------------------------------------
@@ -281,14 +287,22 @@ end
 -- Send message functions
 -------------------------------------------------------------------
 
-function techage.send_multi(numbers, placer_name, clicker_name, topic, payload)
+function techage.not_protected(number, placer_name, clicker_name)
+	if Number2Pos[number] and Number2Pos[number].name then
+		local data = Number2Pos[number]
+		if data.pos	then
+			return not_protected(data.pos, placer_name, clicker_name)
+		end
+	end
+	return false
+end
+
+function techage.send_multi(numbers, topic, payload)
 	for _,num in ipairs(string_split(numbers, " ")) do
 		if Number2Pos[num] and Number2Pos[num].name then
 			local data = Number2Pos[num]
-			if data.pos and not_protected(data.pos, placer_name, clicker_name) then
-				if NodeDef[data.name] and NodeDef[data.name].on_recv_message then
-					NodeDef[data.name].on_recv_message(data.pos, topic, payload)
-				end
+			if data.pos and NodeDef[data.name] and NodeDef[data.name].on_recv_message then
+				NodeDef[data.name].on_recv_message(data.pos, topic, payload)
 			end
 		end
 	end

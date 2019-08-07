@@ -121,11 +121,6 @@ local function accounting(mem)
 	mem.reserve = (mem.available1 + mem.available2) > mem.needed1
 	--print("needed = "..mem.needed1.."/"..mem.needed2..", available = "..mem.available1.."/"..mem.available2)
 	--print("supply = "..mem.supply1.."/"..mem.supply2..", demand = "..mem.demand1.."/"..mem.demand2..", reserve = "..dump(mem.reserve))
-	-- reset values for nect cycle
-	mem.needed1 = 0
-	mem.needed2 = 0
-	mem.available1 = 0
-	mem.available2 = 0
 end
 
 local function connection_walk(pos, clbk)
@@ -199,6 +194,11 @@ local function on_power_switch(pos)
 		local mem = tubelib2.get_mem(mpos)
 		mem.is_master = true
 		-- trigger all nodes so that we get a stable state again
+		-- reset values for nect cycle
+		mem.needed1 = 0
+		mem.needed2 = 0
+		mem.available1 = 0
+		mem.available2 = 0
 		trigger_nodes(mpos)
 		accounting(tubelib2.get_mem(mpos))
 		--t = minetest.get_us_time() - t
@@ -327,6 +327,11 @@ function techage.power.power_distribution(pos)
 	-- timer is running, which is needed to be master
 	mem.could_be_master = true
 	if mem.is_master then
+		-- reset values for nect cycle
+		mem.needed1 = 0
+		mem.needed2 = 0
+		mem.available1 = 0
+		mem.available2 = 0
 		trigger_nodes(pos, mem)
 		accounting(mem)
 	end
@@ -414,6 +419,15 @@ function techage.power.power_available(pos, needed)
 	return false
 end		
 		
+function techage.power.power_accounting(pos)
+	local mem = tubelib2.get_mem(pos)
+	if mem.master_pos then
+		mem = tubelib2.get_mem(mem.master_pos)
+		return "\nGenerators = "..mem.available1.."\nAkkus = "..mem.available2.."\nMachines = "..mem.needed1.."\n"
+	end
+	return "no power"
+end		
+
 function techage.power.percent(max_val, curr_val)
 	return math.min(math.ceil(((curr_val or 0) * 100.0) / (max_val or 1.0)), 100)
 end

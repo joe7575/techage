@@ -26,6 +26,9 @@ local COUNTDOWN_TICKS = 10
 local STANDBY_TICKS = 10
 local CYCLE_TIME = 4
 
+local INFO = [[- Turn port on/off: command = "port", payload = "red/green/blue/yellow=on/off"
+- Clear counter: command = "clear_counter"]]
+
 local function formspec(self, pos, mem)
 	local filter = minetest.deserialize(M(pos):get_string("filter")) or {false,false,false,false}
 	return "size[10.5,8.5]"..
@@ -206,7 +209,7 @@ local function distributing(pos, inv, crd, mem)
 	if num_pushed == 0 then
 		crd.State:blocked(pos, mem)
 	else
-		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS, 1)
+		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS, sum_num_pushed)
 	end
 end
 
@@ -324,15 +327,12 @@ local tubing = {
 		return techage.put_items(inv, "src", stack)
 	end,
 	on_recv_message = function(pos, topic, payload)
-		if topic == "filter" then
-			return change_filter_settings(pos, payload.slot, payload.val)
-		elseif topic == "counter" then
-			local meta = minetest.get_meta(pos)
-			return minetest.deserialize(meta:get_string("item_counter")) or 
-					{red=0, green=0, blue=0, yellow=0}
-		elseif topic == "clear_counter" then
-			local meta = minetest.get_meta(pos)
-			meta:set_string("item_counter", minetest.serialize({red=0, green=0, blue=0, yellow=0}))
+		if topic == "info" then
+			return INFO
+		elseif topic == "port" then
+			-- "red"/"green"/"blue"/"yellow" = "on"/"off"
+			local slot, val = techage.ident_value(payload)
+			return change_filter_settings(pos, slot, val)
 		else		
 			local resp = CRD(pos).State:on_receive_message(pos, topic, payload)
 			if resp then

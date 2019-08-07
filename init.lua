@@ -135,6 +135,9 @@ else
 		dofile(MP.."/nodes/basalt.lua")
 	end
 	
+	-- Logic
+	--dofile(MP.."/logic/terminal.lua")
+
 	-- Test
 	dofile(MP.."/recipe_checker.lua")
 	dofile(MP.."/.test/sink.lua")

@@ -96,7 +96,7 @@ local function node_timer(pos, elapsed)
 		if mem.firebox_trigger <= 0 then
 			power_switched(pos)
 			State:nopower(pos, mem)
-			mem.generating = 0
+			mem.generating = false
 			mem.provided = 0
 			techage.transfer(pos, "L", "stop", nil, nil, {"techage:cylinder_on"})	
 		else

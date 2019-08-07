@@ -87,7 +87,7 @@ local function node_timer(pos, elapsed)
 		if mem.power_available <= 0 or mem.triggered <= 0 then  
 			power_switched(pos)
 			State:stop(pos, mem)
-			mem.generating = 0
+			mem.generating = false
 			mem.provided = 0
 		end
 	else
