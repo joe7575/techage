@@ -7,13 +7,13 @@ local CYCLE_TIME = 2
 local PWR_CAPA = 15
 
 local Cable = techage.ElectricCable
-local provide_power = techage.power2.provide_power
+local provide_power = techage.power.provide_power
 
 local function node_timer(pos, elapsed)
 	--print("node_timer source "..S(pos))
 	local mem = tubelib2.get_mem(pos)
 	if mem.generating then
-		local delivered = provide_power(pos, PWR_CAPA)
+		local provided = provide_power(pos, PWR_CAPA)
 		return true
 	end
 	return false
@@ -29,7 +29,7 @@ local function on_rightclick(pos, node, clicker)
 		minetest.get_node_timer(pos):stop()
 		mem.generating = false
 	end
-	techage.power2.power_switched(pos)
+	techage.power.power_switched(pos)
 end
 
 
@@ -51,6 +51,6 @@ minetest.register_node("techage:source", {
 	on_timer = node_timer,
 })
 
-techage.power2.register_node({"techage:source"}, {
+techage.power.register_node({"techage:source"}, {
 	power_network  = Cable,
 })

@@ -4,20 +4,18 @@ local P = minetest.string_to_pos
 local M = minetest.get_meta
 
 local Cable = techage.ElectricCable
-local on_network_change = techage.power2.on_network_change
-local power_switched = techage.power2.power_switched
+local power_switched = techage.power.power_switched
 	
 local function on_rightclick(pos, node, clicker)
 	local mem = tubelib2.get_mem(pos)
 	
 	mem.interrupted_dirs = mem.interrupted_dirs or {}
 	mem.interrupted = not mem.interrupted
-	print("switch", mem.interrupted)
+	--print("switch", mem.interrupted)
 	if mem.interrupted then 
 		mem.interrupted_dirs = {true, true, true, true, true, true}
 		for dir,_ in pairs(mem.connections) do
 			mem.interrupted_dirs[dir] = false
-			--on_network_change(pos)
 			power_switched(pos)
 			mem.interrupted_dirs[dir] = true
 		end
@@ -31,7 +29,7 @@ end
 minetest.register_node("techage:switch", {
 	description = "Switch",
 	tiles = {'techage_appl_switch_inv.png'},
-	on_timer = node_timer,
+	--on_timer = node_timer,
 	on_rightclick = on_rightclick,
 
 	paramtype = "light",

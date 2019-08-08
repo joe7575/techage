@@ -8,7 +8,8 @@ local PWR_PERF = 10
 local PWR_CAPA = 300
 
 local Cable = techage.ElectricCable
-local secondary_power = techage.power2.secondary_power
+local secondary_power = techage.power.secondary_power
+local power_switched = techage.power.power_switched
 
 local function in_range(val, min, max)
 	if val < min then return min end
@@ -24,7 +25,7 @@ local function formspec(pos, mem)
 		"image[0,0.5;1,2;"..techage.power.formspec_power_bar(PWR_CAPA, mem.capa or 0).."]"..
 		"label[0.2,2.5;Load]"..
 		"button[1.1,1;1.8,1;update;Update]"..
-		"image[4,0.5;1,2;"..techage.power2.formspec_load_bar(-(mem.delivered or 0), PWR_PERF).."]"..
+		"image[4,0.5;1,2;"..techage.power.formspec_load_bar(-(mem.delivered or 0), PWR_PERF).."]"..
 		"label[4.2,2.5;Flow]"
 end
 
@@ -50,6 +51,7 @@ local function node_timer(pos, elapsed)
 		--print("delivered = "..mem.delivered)
 		return true
 	end
+	mem.delivered = 0
 	return false
 end
 
@@ -74,7 +76,7 @@ local function after_place_node(pos, placer)
 	mem.generating = true
 	mem.capa = 0
 	minetest.get_node_timer(pos):start(CYCLE_TIME)
-	techage.power2.power_switched(pos)
+	techage.power.power_switched(pos)
 	on_rightclick(pos)
 end
 
@@ -99,6 +101,6 @@ minetest.register_node("techage:akku", {
 	on_timer = node_timer,
 })
 
-techage.power2.register_node({"techage:akku"}, {
+techage.power.register_node({"techage:akku"}, {
 	power_network  = Cable,
 })
