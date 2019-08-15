@@ -7,31 +7,32 @@ local CYCLE_TIME = 2
 local PWR_CAPA = 15
 
 local Cable = techage.ElectricCable
-local provide_power = techage.power.provide_power
+local power = techage.power
 
 local function node_timer(pos, elapsed)
 	--print("node_timer source "..S(pos))
 	local mem = tubelib2.get_mem(pos)
 	if mem.generating then
-		local provided = provide_power(pos, PWR_CAPA)
-		return true
+		local provided = power.generator_alive(pos, mem)
+		--print("provided", provided)
 	end
-	return false
+	return mem.generating
 end
 
 local function on_rightclick(pos, node, clicker)
 	local mem = tubelib2.get_mem(pos)
 	if not mem.generating then
 		mem.generating = true
-		node_timer(pos, 2)
+		power.generator_start(pos, mem, PWR_CAPA)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
+		M(pos):set_string("infotext", "on")
 	else
-		minetest.get_node_timer(pos):stop()
 		mem.generating = false
+		power.generator_stop(pos, mem)
+		minetest.get_node_timer(pos):stop()
+		M(pos):set_string("infotext", "off")
 	end
-	techage.power.power_switched(pos)
 end
-
 
 minetest.register_node("techage:source", {
 	description = "Source",
@@ -44,6 +45,10 @@ minetest.register_node("techage:source", {
 		'techage_electric_button.png^techage_appl_electronic_fab.png',
 		'techage_electric_button.png^techage_appl_electronic_fab.png',
 	},
+	after_place_node = function(pos)
+		M(pos):set_string("infotext", "off")
+	end,
+	
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,

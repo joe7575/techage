@@ -84,7 +84,7 @@ local function node_timer(pos, elapsed)
 		State:keep_running(pos, mem, COUNTDOWN_TICKS)
 		mem.power_available = (mem.power_available or 1) - 1
 		mem.triggered = (mem.triggered or 1) - 1
-		if mem.power_available <= 0 or mem.triggered <= 0 then  
+		if mem.power_available < 0 or mem.triggered < 0 then  
 			power_switched(pos)
 			State:stop(pos, mem)
 			mem.generating = false

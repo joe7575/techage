@@ -19,16 +19,17 @@ local P = minetest.string_to_pos
 local M = minetest.get_meta
 -- Techage Related Data
 local PWR = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).power end
-local PWRN = function(node) return (minetest.registered_nodes[node.name] or {}).power end
 
 -- Used to determine the already passed nodes while power distribution
 local Route = {}
 
-local function in_range(val, min, max)
-	if val < min then return min end
-	if val > max then return max end
-	return val
-end
+techage.power = {}
+
+-- Consumer States
+local STOPPED = 1
+local NOPOWER = 2
+local RUNNING = 3
+
 
 local function pos_already_reached(pos)
 	local key = minetest.hash_node_position(pos)
@@ -39,88 +40,21 @@ local function pos_already_reached(pos)
 	return true
 end
 
-local SideToDir = {B=1, R=2, F=3, L=4, D=5, U=6}
-
-local function side_to_dir(param2, side)
-	local dir = SideToDir[side]
-	if dir < 5 then
-		dir = (((dir - 1) + (param2 % 4)) % 4) + 1
-	end
-	return dir
-end
-
-function techage.get_pos(pos, side)
-	local node = minetest.get_node(pos)
-	local dir = nil
-	if node.name ~= "air" and node.name ~= "ignore" then
-		dir = side_to_dir(node.param2, side)
-	end
-	return tubelib2.get_pos(pos, dir)
-end	
-
-local function set_conn_dirs(pos, sides)
-	local tbl = {}
-	local node = minetest.get_node(pos)
-	if type(sides) == "function" then
-		tbl = sides(pos, node)
-	else
-		for _,side in ipairs(sides) do
-			tbl[#tbl+1] = tubelib2.Turn180Deg[side_to_dir(node.param2, side)]
-		end
-	end
-	M(pos):set_string("power_dirs", minetest.serialize(tbl))
-end
-		
-local function valid_indir(pos, in_dir)
-	local s = M(pos):get_string("power_dirs")
-	if s == "" then
-		local pwr = PWR(pos)
-		if pwr then
-			set_conn_dirs(pos, pwr.conn_sides)
-		end
-	end
-	if s ~= "" then
-		for _,dir in ipairs(minetest.deserialize(s)) do
-			if dir == in_dir then
-				return true
-			end
-		end
-	end
-	return false
-end
-
-local function valid_outdir(pos, out_dir)
-	return valid_indir(pos, tubelib2.Turn180Deg[out_dir])
-end
-
--- Both nodes are from the same power network type?
-local function matching_nodes(pos, peer_pos)
-	local tube_type1 = pos and PWR(pos) and PWR(pos).power_network.tube_type
-	local tube_type2 = peer_pos and PWR(peer_pos) and PWR(peer_pos).power_network.tube_type
-	return not tube_type1 or not tube_type2 or tube_type1 == tube_type2
-end
-
 local function min(val, max)
 	if val < 0 then return 0 end
 	if val > max then return max end
 	return val
 end
 
--- called from master every cycle (2 seconds)
-local function accounting(mem)
-	-- defensive programming
-	mem.needed1 = mem.needed1 or 0
-	mem.needed2 = mem.needed2 or 0
-	mem.available1 = mem.available1 or 0
-	mem.available2 = mem.available2 or 0
+local function accounting(pos, mem)
 	-- calculate the primary and secondary supply and demand
-	mem.supply1 = min(mem.needed1 + mem.needed2, mem.available1)
-	mem.demand1 = min(mem.needed1, mem.available1 + mem.available2)
-	mem.supply2 = min(mem.demand1 - mem.supply1, mem.available2)
-	mem.demand2 = min(mem.supply1 - mem.demand1, mem.available1)
-	mem.reserve = (mem.available1 + mem.available2) > mem.needed1
-	--print("needed = "..mem.needed1.."/"..mem.needed2..", available = "..mem.available1.."/"..mem.available2)
-	--print("supply = "..mem.supply1.."/"..mem.supply2..", demand = "..mem.demand1.."/"..mem.demand2..", reserve = "..dump(mem.reserve))
+	mem.mst_supply1 = min(mem.mst_needed1 + mem.mst_needed2, mem.mst_available1)
+	mem.mst_demand1 = min(mem.mst_needed1, mem.mst_available1 + mem.mst_available2)
+	mem.mst_supply2 = min(mem.mst_demand1 - mem.mst_supply1, mem.mst_available2)
+	mem.mst_demand2 = min(mem.mst_supply1 - mem.mst_demand1, mem.mst_available1)
+	mem.mst_reserve = (mem.mst_available1 + mem.mst_available2) - mem.mst_needed1
+	--print("needed = "..mem.mst_needed1.."/"..mem.mst_needed2..", available = "..mem.mst_available1.."/"..mem.mst_available2)
+	--print("supply = "..mem.mst_supply1.."/"..mem.mst_supply2..", demand = "..mem.mst_demand1.."/"..mem.mst_demand2..", reserve = "..mem.mst_reserve)
 end
 
 local function connection_walk(pos, clbk)
@@ -137,6 +71,24 @@ local function connection_walk(pos, clbk)
 	end
 end
 
+local function consumer_turn_off(pos, mem)
+	local pwr = PWR(pos)
+	print("consumer_turn_off")
+	if pwr and pwr.on_nopower then
+		pwr.on_nopower(pos, mem)
+	end
+	mem.pwr_node_alive_cnt = 0
+	mem.pwr_state = NOPOWER
+end	
+
+local function consumer_turn_on(pos, mem)
+	local pwr = PWR(pos)
+	print("consumer_turn_on")
+	if pwr and pwr.on_power then
+		pwr.on_power(pos, mem)
+	end
+	mem.pwr_state = RUNNING
+end	
 
 -- determine one "generating" node as master (largest hash number)
 local function determine_master(pos)
@@ -145,15 +97,17 @@ local function determine_master(pos)
 	local hash = 0
 	local master = nil
 	connection_walk(pos, function(pos, mem)
-			mem.generator_available = (mem.generator_available or 1) - 1
-			if mem.generating and mem.generator_available > 0 then
-				local new = minetest.hash_node_position(pos)
-				if hash <= new then
-					hash = new
-					master = pos
-				end
+		if (mem.pwr_node_alive_cnt or 0) >= 0 and 
+				(mem.pwr_available or 0) > 0 or 
+				(mem.pwr_available2 or 0) > 0 then  -- active generator?
+					
+			local new = minetest.hash_node_position(pos)
+			if hash <= new then
+				hash = new
+				master = pos
 			end
-		end)
+		end
+	end)
 	return master
 end
 
@@ -162,302 +116,256 @@ local function store_master(pos, master_pos)
 	Route = {}
 	pos_already_reached(pos) 
 	connection_walk(pos, function(pos, mem)
-			mem.master_pos = master_pos
-			mem.is_master = false
+			mem.pwr_master_pos = master_pos
+			mem.pwr_is_master = false
 		end)
 end
 
-local function trigger_nodes(pos)
-	Route = {}
-	pos_already_reached(pos) 
-	connection_walk(pos, function(pos, mem)
-			local pwr = PWR(pos)
-			if pwr and pwr.on_power then
-				pwr.on_power(pos)
-			end
-		end)
-end
-
--- Called from any generator on any power switching process 
--- and to determine a new master in case of a timeout
-local function on_power_switch(pos)
-	--print("on_power_change"..S(pos))
-	--local t = minetest.get_us_time()
-	local mem = tubelib2.get_mem(pos)
-	mem.master_pos = nil
-	mem.is_master = nil
-	-- used to check if generator is active
-	mem.generator_available = 2
-	
-	local mpos = determine_master(pos)
-	store_master(pos, mpos)
-	--print("store_master", S(pos), S(mpos))
-	if mpos then
-		local mem = tubelib2.get_mem(mpos)
-		mem.is_master = true
-		-- trigger all nodes so that we get a stable state again
-		-- reset values for nect cycle
-		mem.needed1 = 0
-		mem.needed2 = 0
-		mem.available1 = 0
-		mem.available2 = 0
-		trigger_nodes(mpos)
-		accounting(tubelib2.get_mem(mpos))
-		--t = minetest.get_us_time() - t
-		--print("t = "..t)
-		return mem
-	end
-end
-
---
--- Generic API functions
---
-techage.power = {}
-
-techage.power.power_switched = on_power_switch
-
--- Used to turn on/off the power by means of a power switch
-function techage.power.power_cut(pos, dir, cable, cut)
-	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
-	
-	local node = minetest.get_node(npos)
-	if node.name ~= "techage:powerswitch_box" and
-			M(npos):get_string("techage_hidden_nodename") ~= "techage:powerswitch_box" then
-		return
-	end
-	
-	local mem = tubelib2.get_mem(npos)
-	mem.interrupted_dirs = mem.interrupted_dirs or {}
-	
-	if cut then
-		mem.interrupted_dirs = {true, true, true, true, true, true}
-		for dir,_ in pairs(mem.connections) do
-			mem.interrupted_dirs[dir] = false
-			on_power_switch(npos)
-			trigger_nodes(npos)
-			mem.interrupted_dirs[dir] = true
-		end
-	else
-		mem.interrupted_dirs = {}
-		on_power_switch(npos)
-	end
-end
-
--- only for nodes with own 'conn_sides' and rotate function
-function techage.power.after_rotate_node(pos, cable)
-	cable:after_dig_node(pos)
-	set_conn_dirs(pos, PWR(pos).conn_sides)
-	cable:after_place_node(pos)
-end
-
-function techage.power.register_node(names, pwr_def)
-	for _,name in ipairs(names) do
-		local ndef = minetest.registered_nodes[name]
-		if ndef then
-			minetest.override_item(name, {
-				power = {
-					conn_sides = pwr_def.conn_sides or {"L", "R", "U", "D", "F", "B"},
-					on_power = pwr_def.on_power,
-					power_network = pwr_def.power_network,
-					after_place_node = ndef.after_place_node,
-					after_dig_node = ndef.after_dig_node,
-					after_tube_update = ndef.after_tube_update,
-				},
-				-- after_place_node decorator
-				after_place_node = function(pos, placer, itemstack, pointed_thing)
-					local pwr = PWR(pos)
-					set_conn_dirs(pos, pwr.conn_sides)
-					pwr.power_network:after_place_node(pos)
-					if pwr.after_place_node then
-						return pwr.after_place_node(pos, placer, itemstack, pointed_thing)
-					end
-				end,
-				-- after_dig_node decorator
-				after_dig_node = function(pos, oldnode, oldmetadata, digger)
-					local pwr = PWRN(oldnode)
-					pwr.power_network:after_dig_node(pos)
-					minetest.after(0.1, tubelib2.del_mem, pos)  -- At latest...
-					if pwr.after_dig_node then
-						return pwr.after_dig_node(pos, oldnode, oldmetadata, digger)
-					end
-				end,
-				-- tubelib2 callback, called after any connection change
-				after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
-					local pwr = PWR(pos)
-					local mem = tubelib2.get_mem(pos)
-					mem.connections = mem.connections or {}
-					if not peer_pos or not valid_indir(peer_pos, peer_in_dir)
-							or not valid_outdir(pos, out_dir)
-							or not matching_nodes(pos, peer_pos) then
-						mem.connections[out_dir] = nil -- del connection
-					else
-						mem.connections[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}
-					end
-					-- To be called delayed, so that all network connections have been established
-					minetest.after(0.2, on_power_switch, pos)
-					if pwr.after_tube_update then
-						return pwr.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
-					end
-				end,
-			})
-			pwr_def.power_network:add_secondary_node_names({name})
-		end
-	end
-end		
-
-function techage.power.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir, power)
-	local mem = tubelib2.get_mem(pos)
-	mem.connections = mem.connections or {}
-	if not peer_pos or not valid_indir(peer_pos, peer_in_dir)
-			or not valid_outdir(pos, out_dir)
-			or not matching_nodes(pos, peer_pos) then
-		mem.connections[out_dir] = nil -- del connection
-	else
-		mem.connections[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}
-	end
-	-- To be called delayed, so that all network connections have been established
-	minetest.after(0.2, on_power_switch, pos)
-	if power.after_tube_update then
-		return power.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
-	end
-end
-
--- Called from every generator every 2 seconds
-function techage.power.power_distribution(pos)
-	local mem = tubelib2.get_mem(pos)
-	-- used to check if generator is active
-	mem.generator_available = 2
-	if mem.is_master then
-		-- reset values for nect cycle
-		mem.needed1 = 0
-		mem.needed2 = 0
-		mem.available1 = 0
-		mem.available2 = 0
-		trigger_nodes(pos, mem)
-		accounting(mem)
-	end
-end
-
-function techage.power.consume_power(pos, needed)
-	local master_pos = tubelib2.get_mem(pos).master_pos
-	--print("consume_power", S(master_pos))
-	if master_pos then
-		local mem = tubelib2.get_mem(master_pos)
-		-- for next cycle
-		mem.needed1 = (mem.needed1 or 0) + needed
-		-- current cycle
-		mem.demand1 = mem.demand1 or 0
-		local val = math.min(needed, mem.demand1)
-		mem.demand1 = mem.demand1 - val
-		--return val
-		if mem.reserve then  -- TODO ????
-			return needed
-		end
-	end
-	return 0
-end
-
-function techage.power.provide_power(pos, provide)
-	local mem = tubelib2.get_mem(pos)
-	if mem.is_master then
-		-- nothing to do
-	elseif mem.master_pos then
-		mem = tubelib2.get_mem(mem.master_pos)
-	else
-		return 0
-	end
+local function handle_generator(mst_mem, mem, pos, power_available)
 	-- for next cycle
-	mem.available1 = (mem.available1 or 0) + provide
+	mst_mem.mst_available1 = mst_mem.mst_available1 + power_available
 	-- current cycle
-	mem.supply1 = mem.supply1 or 0
-	local val = math.min(provide, mem.supply1)
-	mem.supply1 = mem.supply1 - val
-	return val
-end
-
-function techage.power.secondary_power(pos, provide, needed)
-	local mem = tubelib2.get_mem(pos)
-	if mem.is_master then
-		-- nothing to do
-	elseif mem.master_pos then
-		mem = tubelib2.get_mem(mem.master_pos)
+	mst_mem.mst_supply1 = mst_mem.mst_supply1 or 0
+	if mst_mem.mst_supply1 < power_available then
+		mem.pwr_provided = mst_mem.mst_supply1
+		mst_mem.mst_supply1 = 0
 	else
-		return 0
+		mst_mem.mst_supply1 = mst_mem.mst_supply1 - power_available
+		mem.pwr_provided = power_available
 	end
-	-- for next cycle
-	mem.available2 = (mem.available2 or 0) + provide
-	mem.needed2 = (mem.needed2 or 0) + needed
-
-	-- defensive programming
-	mem.supply2 = mem.supply2 or 0
-	mem.demand2 = mem.demand2 or 0
-		
-	-- check as generator
-	if mem.supply2 > 0 then
-		local val = math.min(provide, mem.supply2)
-		mem.supply2 = mem.supply2 - val
-		return val
-	end
-	-- check as consumer
-	if mem.demand2 > 0 then
-		local val = math.min(needed, mem.demand2)
-		mem.demand2 = mem.demand2 - val
-		return -val
-	end
-	return 0
 end
 
-function techage.power.power_available(pos, needed)
-	local mem = tubelib2.get_mem(pos)
-	if mem.master_pos then
-		mem = tubelib2.get_mem(mem.master_pos)
-		if needed then
-			-- for next cycle
-			mem.needed1 = (mem.needed1 or 0) + needed
+local function handle_consumer(mst_mem, mem, pos, power_needed)
+	print("handle_consumer", mem.pwr_state)
+	if mem.pwr_state == NOPOWER then
+		--print("power_needed", power_needed,"mst_mem.demand1", mst_mem.mst_demand1)
+		-- for next cycle
+		mst_mem.mst_needed1 = mst_mem.mst_needed1 + power_needed
+		-- current cycle
+		if (mst_mem.mst_demand1 or 0) - power_needed >= 0 then
+			mst_mem.mst_demand1 = (mst_mem.mst_demand1 or 0) - power_needed
+			consumer_turn_on(pos, mem)
 		end
-		return mem.reserve
+	elseif mem.pwr_state == RUNNING then
+		-- for next cycle
+		mst_mem.mst_needed1 = mst_mem.mst_needed1 + power_needed
+		-- current cycle
+		mst_mem.mst_demand1 = (mst_mem.mst_demand1 or 0) - power_needed
+		if mst_mem.mst_demand1 < 0 then
+			mst_mem.mst_demand1 = 0
+			consumer_turn_off(pos, mem)
+		end
+	end
+end
+
+local function handle_secondary(mst_mem, mem, pos, provides, needed)
+	-- for next cycle
+	mst_mem.mst_available2 = (mst_mem.mst_available2 or 0) + provides
+	mst_mem.mst_needed2 = (mst_mem.mst_needed2 or 0) + needed
+	-- check as generator
+	mst_mem.mst_supply2 = mst_mem.mst_supply2 or 0
+	mst_mem.mst_demand2 = mst_mem.mst_demand2 or 0
+	if mst_mem.mst_supply2 > 0 then
+		local val = math.min(provides, mst_mem.mst_supply2)
+		mst_mem.mst_supply2 = mst_mem.mst_supply2 - val
+		mem.pwr_provided = val
+	-- check as consumer
+	elseif mst_mem.mst_demand2 > 0 then
+		local val = math.min(needed, mst_mem.mst_demand2)
+		mst_mem.mst_demand2 = mst_mem.mst_demand2 - val
+		mem.pwr_provided = -val
+	else
+		mem.pwr_provided = 0
+	end
+	
+end
+
+local function trigger_nodes(mst_pos, mst_mem)
+	Route = {}
+	pos_already_reached(mst_pos) 
+	connection_walk(mst_pos, function(pos, mem)
+		mem.pwr_node_alive_cnt = (mem.pwr_node_alive_cnt or 1) - 1
+		mem.pwr_power_provided_cnt = 2
+		--print("trigger_nodes", mem.pwr_node_alive_cnt, mem.pwr_available2 or mem.pwr_available or mem.pwr_needed)
+		if mem.pwr_node_alive_cnt >= 0 then
+			if mem.pwr_available then
+				handle_generator(mst_mem, mem, pos, mem.pwr_available)
+			elseif mem.pwr_needed then
+				handle_consumer(mst_mem, mem, pos, mem.pwr_needed)
+			elseif mem.pwr_available2 then
+				handle_secondary(mst_mem, mem, pos, mem.pwr_available2, mem.pwr_needed2)
+			end
+		end
+	end)
+end
+
+local function determine_new_master(pos, mem)
+	local was_master = mem.pwr_is_master
+	mem.pwr_is_master = false
+	local mpos = determine_master(pos)
+	--print("determine_new_master", S(mpos))
+	store_master(pos, mpos)
+	if mpos then
+		tubelib2.get_mem(mpos).pwr_is_master = true
+	elseif was_master then -- no master any more
+		-- delete data
+		local mmem = tubelib2.get_mem(mpos)
+		mmem.mst_supply1 = 0
+		mmem.mst_supply2 = 0
+		mmem.mst_reserve = 0
+	end
+	return was_master or mem.pwr_is_master
+end
+
+-- called from master position
+local function power_distribution(pos, mem)
+	mem.mst_needed1 = 0
+	mem.mst_needed2 = 0
+	mem.mst_available1 = 0
+	mem.mst_available2 = 0
+	trigger_nodes(pos, mem)
+	accounting(pos, mem)
+end
+
+--
+-- Power API functions
+--
+
+-- To be called for each network change from any node
+function techage.power.network_changed(pos, mem)
+	print("network_changed")
+	mem.pwr_node_alive_cnt = (mem.pwr_cycle_time or 2)/2 + 1
+	if determine_new_master(pos, mem) then -- new master?
+		power_distribution(pos, mem)
+	elseif not next(mem.connections) then -- isolated?
+		if mem.pwr_needed then -- consumer?
+			consumer_turn_off(pos, mem)
+		end
+	end
+end
+
+--
+-- Generator related functions
+--
+function techage.power.generator_start(pos, mem, available)
+	mem.pwr_node_alive_cnt = 2
+	mem.pwr_cycle_time = 2
+	mem.pwr_available = available
+	if determine_new_master(pos, mem) then -- new master
+		power_distribution(pos, mem)
+	end
+end
+
+function techage.power.generator_stop(pos, mem)
+	mem.pwr_node_alive_cnt = 0
+	mem.pwr_available = 0
+	if determine_new_master(pos, mem) then -- last available master
+		power_distribution(pos, mem)
+	end
+end
+
+function techage.power.generator_alive(pos, mem)
+	mem.pwr_node_alive_cnt = 2
+	if mem.pwr_is_master then
+		power_distribution(pos, mem)
+	end
+	return mem.pwr_provided
+end
+
+--
+-- Consumer related functions
+--
+function techage.power.consumer_alive(pos, mem)
+	print("consumer_alive", mem.pwr_power_provided_cnt)
+	mem.pwr_power_provided_cnt = (mem.pwr_power_provided_cnt or 0) - (mem.pwr_cycle_time or 2)/2
+	if mem.pwr_power_provided_cnt >= 0 then
+		mem.pwr_node_alive_cnt = (mem.pwr_cycle_time or 2)/2 + 1
+	else
+		consumer_turn_off(pos, mem)
+	end
+end
+
+function techage.power.consumer_start(pos, mem, cycle_time, needed)
+	mem.pwr_cycle_time = cycle_time
+	mem.pwr_power_provided_cnt = 0
+	mem.pwr_node_alive_cnt = 2
+	mem.pwr_needed = needed
+	mem.pwr_state = NOPOWER
+end
+
+function techage.power.consumer_stop(pos, mem)
+	mem.pwr_power_provided_cnt = 0
+	mem.pwr_node_alive_cnt = 0
+	mem.pwr_needed = 0
+	mem.pwr_state = STOPPED
+end
+
+-- Lamp related function to speed up the turn on
+function techage.power.power_available(pos, mem, needed)
+	if mem.pwr_master_pos and (mem.pwr_power_provided_cnt or 0) > 0 then
+		mem = tubelib2.get_mem(mem.pwr_master_pos)
+		if (mem.mst_reserve or 0) - needed >= 0 then
+			mem.mst_reserve = mem.mst_reserve - needed
+			return true
+		end
 	end
 	return false
 end		
-		
-function techage.power.power_accounting(pos)
-	local mem = tubelib2.get_mem(pos)
-	if mem.master_pos then
-		mem = tubelib2.get_mem(mem.master_pos)
-		return "\nGenerators = "..mem.available1.."\nAkkus = "..mem.available2.."\nMachines = "..mem.needed1.."\n"
+
+-- Power terminal function
+function techage.power.power_accounting(pos, mem)
+	if mem.pwr_master_pos then
+		mem = tubelib2.get_mem(mem.pwr_master_pos)
+		return {
+			prim_available = mem.mst_available1,
+			sec_available = mem.mst_available2,
+			prim_needed = mem.mst_needed1,
+			sec_needed = mem.mst_needed2,
+		}
 	end
-	return "no power"
+	return {
+		prim_available = 0,
+		sec_available = 0,
+		prim_needed = 0,
+		sec_needed = 0,
+	}
 end		
 
-function techage.power.percent(max_val, curr_val)
-	return math.min(math.ceil(((curr_val or 0) * 100.0) / (max_val or 1.0)), 100)
+--
+-- Akku related functions
+--
+function techage.power.secondary_start(pos, mem, available, needed)
+	mem.pwr_node_alive_cnt = 2
+	mem.pwr_could_provide = available
+	mem.pwr_could_need = needed
+	if determine_new_master(pos, mem) then -- new master
+		power_distribution(pos, mem)
+	end
 end
 
-function techage.power.formspec_load_bar(charging, max_val)
-	local percent
-	charging = charging or 0
-	max_val = max_val or 1
-	if charging ~= 0 then
-		percent = 50 + math.ceil((charging * 50.0) / max_val)
+function techage.power.secondary_stop(pos, mem)
+	mem.pwr_node_alive_cnt = 0
+	mem.pwr_could_provide = 0
+	mem.pwr_could_need = 0
+	if determine_new_master(pos, mem) then -- last available master
+		power_distribution(pos, mem)
 	end
+end
 
-	if charging > 0 then
-		return "techage_form_level_off.png^[lowpart:"..percent..":techage_form_level_charge.png"
-	elseif charging < 0 then
-		return "techage_form_level_unload.png^[lowpart:"..percent..":techage_form_level_off.png"
+function techage.power.secondary_alive(pos, mem, capa_curr, capa_max)
+	--print("secondary_alive")
+	if capa_curr >= capa_max then
+		mem.pwr_available2, mem.pwr_needed2 = mem.pwr_could_provide, 0 -- can provide only
+	elseif capa_curr <= 0 then
+		mem.pwr_available2, mem.pwr_needed2 = 0, mem.pwr_could_need  -- can deliver only
 	else
-		return "techage_form_level_off.png"
+		mem.pwr_available2, mem.pwr_needed2 = mem.pwr_could_provide, mem.pwr_could_need
 	end
+		
+	mem.pwr_node_alive_cnt = 2
+	if mem.pwr_is_master then
+		--print("secondary_alive is master")
+		power_distribution(pos, mem)
+	end
+	return mem.pwr_provided
 end
-
-function techage.power.formspec_power_bar(max_power, current_power)
-	local percent = techage.power.percent(max_power, current_power)
-	percent = (percent + 5) / 1.22  -- texture correction
-	return "techage_form_level_bg.png^[lowpart:"..percent..":techage_form_level_fg.png"
-end
-
-
-function techage.power.side_to_outdir(pos, side)
-	local node = minetest.get_node(pos)
-	return side_to_dir(node.param2, side)
-end	

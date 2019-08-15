@@ -8,8 +8,7 @@ local PWR_PERF = 10
 local PWR_CAPA = 300
 
 local Cable = techage.ElectricCable
-local secondary_power = techage.power.secondary_power
-local power_switched = techage.power.power_switched
+local power = techage.power
 
 local function in_range(val, min, max)
 	if val < min then return min end
@@ -32,52 +31,36 @@ end
 local function node_timer(pos, elapsed)
 	--print("node_timer akku "..S(pos))
 	local mem = tubelib2.get_mem(pos)
-	mem.capa = mem.capa or 0
-	if mem.generating then
-		local delivered
-		if mem.capa >= PWR_CAPA then
-			delivered = secondary_power(pos, PWR_PERF, 0)
-		elseif mem.capa <= 0 then
-			delivered = secondary_power(pos, 0, PWR_PERF)
-		else
-			delivered = secondary_power(pos, PWR_PERF, PWR_PERF)
-		end
-		if delivered ~= mem.delivered then
-			mem.delivered = delivered
-			--techage.power2.power_switched(pos)
-		end
+	if mem.running then
+		mem.delivered = power.secondary_alive(pos, mem, mem.capa, PWR_CAPA)
+		--print("provided", mem.delivered)
 		mem.capa = mem.capa - mem.delivered
 		mem.capa = in_range(mem.capa, 0, PWR_CAPA)
-		--print("delivered = "..mem.delivered)
-		return true
 	end
-	mem.delivered = 0
-	return false
+	return mem.running
 end
+
 
 local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
 	
+	local mem = tubelib2.get_mem(pos)
+	techage.power.network_changed(pos, mem)
+	
 	if fields.update then
-		local mem = tubelib2.get_mem(pos)
 		M(pos):set_string("formspec", formspec(pos, mem))
 	end
 end
 
-local function on_rightclick(pos)
-	local mem = tubelib2.get_mem(pos)
-	M(pos):set_string("formspec", formspec(pos, mem))
-end
-
 local function after_place_node(pos, placer)
 	local mem = tubelib2.get_mem(pos)
-	mem.generating = true
+	mem.running = true
 	mem.capa = 0
 	minetest.get_node_timer(pos):start(CYCLE_TIME)
-	techage.power.power_switched(pos)
-	on_rightclick(pos)
+	power.secondary_start(pos, mem, PWR_PERF, PWR_PERF)
+	M(pos):set_string("formspec", formspec(pos, mem))
 end
 
 
@@ -97,7 +80,6 @@ minetest.register_node("techage:akku", {
 	is_ground_content = false,
 	after_place_node = after_place_node,
 	on_receive_fields = on_receive_fields,
-	on_rightclick = on_rightclick,
 	on_timer = node_timer,
 })
 

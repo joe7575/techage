@@ -171,6 +171,7 @@ minetest.register_node("techage:charcoal_burn", {
 		return false
 	end,
 	drop = "",
+	paramtype = "light",
 	light_source = 10,
 	is_ground_content = false,
 	groups = {crumbly = 2, falling_node = 1, not_in_creative_inventory=1},

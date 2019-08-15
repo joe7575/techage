@@ -7,7 +7,7 @@ local PWR_NEEDED = 5
 local CYCLE_TIME = 4
 
 local Cable = techage.ElectricCable
-local consume_power = techage.power.consume_power
+local power = techage.power
 
 local function swap_node(pos, name)
 	local node = minetest.get_node(pos)
@@ -18,45 +18,42 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-	
-local function on_power(pos)
-	local mem = tubelib2.get_mem(pos)
-	--print("sink on_power", mem.running)
-	mem.timer_running = (mem.timer_running or 1) - 1
-	if mem.running and mem.timer_running >= 0 then
-		local got = consume_power(pos, PWR_NEEDED)
-		if got < PWR_NEEDED then
-			swap_node(pos, "techage:sink")
-		else
-			swap_node(pos, "techage:sink_on")
-			mem.power_available = true
-		end
+local function on_power(pos, mem)
+	print("on_power")
+	if mem.running then
+		swap_node(pos, "techage:sink_on")
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
+		M(pos):set_string("infotext", "on")
 	end
+end
+
+local function on_nopower(pos, mem)
+	print("on_nopower")
+	swap_node(pos, "techage:sink")
+	M(pos):set_string("infotext", "nopower")
 end
 
 local function node_timer(pos, elapsed)
 	--print("node_timer sink "..S(pos))
 	local mem = tubelib2.get_mem(pos)
-	if mem.running and not mem.power_available then
-		--print("sink not triggered")
-		swap_node(pos, "techage:sink")
-	end
-	mem.power_available = false
-	mem.timer_running = CYCLE_TIME/2 + 1
-	return true
+	power.consumer_alive(pos, mem)
+	return mem.running
 end
-
 
 local function on_rightclick(pos, node, clicker)
 	local mem = tubelib2.get_mem(pos)
-	if not mem.running then
+	if not mem.running and power.power_available(pos, mem, PWR_NEEDED) then
 		mem.running = true
-		node_timer(pos, 2)
+		swap_node(pos, "techage:sink_on")
+		power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
+		M(pos):set_string("infotext", "on")
 	else
-		swap_node(pos, "techage:sink")
-		minetest.get_node_timer(pos):stop()
 		mem.running = false
+		swap_node(pos, "techage:sink")
+		power.consumer_stop(pos, mem)
+		minetest.get_node_timer(pos):stop()
+		M(pos):set_string("infotext", "off")
 	end
 end
 
@@ -64,6 +61,11 @@ end
 minetest.register_node("techage:sink", {
 	description = "Sink",
 	tiles = {'techage_electric_button.png'},
+	
+	after_place_node = function(pos)
+		M(pos):set_string("infotext", "off")
+	end,
+	
 	on_timer = node_timer,
 	on_rightclick = on_rightclick,
 
@@ -96,4 +98,5 @@ minetest.register_node("techage:sink_on", {
 techage.power.register_node({"techage:sink", "techage:sink_on"}, {
 	power_network  = Cable,
 	on_power = on_power,
+	on_nopower = on_nopower,
 })

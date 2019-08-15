@@ -17,8 +17,7 @@ local M = minetest.get_meta
 local S = techage.S
 
 local Cable = techage.ElectricCable
-local power_switched = techage.power.power_switched
-local power_available = techage.power.power_available
+local power = techage.power
 
 local size = 3/32
 local Boxes = {
@@ -40,10 +39,10 @@ techage.register_junction("techage:electric_junction", 2/8, Boxes, Cable, {
 	after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
 		local name = "techage:electric_junction"..techage.junction_type(pos, Cable)
 		minetest.swap_node(pos, {name = name, param2 = 0})
-		power_switched(pos)
+		power.network_changed(pos, tubelib2.get_mem(pos))
 	end,
 	is_power_available = function(pos)
-		return techage.power.power_accounting(pos)
+		return techage.power.power_accounting(pos, tubelib2.get_mem(pos))
 	end,
 })
 
