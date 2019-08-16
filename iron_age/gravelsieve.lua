@@ -44,6 +44,9 @@ local function keep_running(pos, elapsed)
 			dst, src = get_random_basalt_ore(), ItemStack("techage:basalt_gravel")
 		elseif inv:contains_item("src", ItemStack("default:gravel")) then
 			dst, src = get_random_gravel_ore(), ItemStack("default:gravel")
+		elseif not inv:is_empty("src") then
+			src = inv:get_stack("src", 1):take_item(1)
+			dst = src
 		else
 			return false
 		end

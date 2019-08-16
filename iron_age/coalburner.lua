@@ -85,7 +85,7 @@ local function flame(pos, height, heat, first_time)
 		pos = {x=pos.x, y=pos.y+1, z=pos.z}
 		idx = math.min(idx, 12)
 		local node = minetest.get_node(pos)
-		if node.name == "techage:meltingpot_active" then
+		if node.name == "techage:meltingpot_active" or node.name == "ignore" then
 			return
 		end
 		if node.name == "techage:meltingpot" then
@@ -129,6 +129,7 @@ for idx,ratio in ipairs(lRatio) do
 			end
 		end,
 		
+		drawtype = "glasslike",
 		use_texture_alpha = true,
 		inventory_image = "techage_flame.png",
 		paramtype = "light",

@@ -198,6 +198,7 @@ end
 
 -- Used to turn on/off the power by means of a power switch
 function techage.power.power_cut(pos, dir, cable, cut)
+	print("power_cut")
 	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
 	
 	local node = minetest.get_node(npos)
@@ -213,12 +214,12 @@ function techage.power.power_cut(pos, dir, cable, cut)
 		mem.interrupted_dirs = {true, true, true, true, true, true}
 		for dir,_ in pairs(mem.connections) do
 			mem.interrupted_dirs[dir] = false
-			techage.power.network_changed(pos, mem)
+			techage.power.network_changed(npos, mem)
 			mem.interrupted_dirs[dir] = true
 		end
 	else
 		mem.interrupted_dirs = {}
-		techage.power.network_changed(pos, mem)
+		techage.power.network_changed(npos, mem)
 	end
 end
 

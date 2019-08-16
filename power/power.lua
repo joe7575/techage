@@ -53,8 +53,8 @@ local function accounting(pos, mem)
 	mem.mst_supply2 = min(mem.mst_demand1 - mem.mst_supply1, mem.mst_available2)
 	mem.mst_demand2 = min(mem.mst_supply1 - mem.mst_demand1, mem.mst_available1)
 	mem.mst_reserve = (mem.mst_available1 + mem.mst_available2) - mem.mst_needed1
-	--print("needed = "..mem.mst_needed1.."/"..mem.mst_needed2..", available = "..mem.mst_available1.."/"..mem.mst_available2)
-	--print("supply = "..mem.mst_supply1.."/"..mem.mst_supply2..", demand = "..mem.mst_demand1.."/"..mem.mst_demand2..", reserve = "..mem.mst_reserve)
+	print("needed = "..mem.mst_needed1.."/"..mem.mst_needed2..", available = "..mem.mst_available1.."/"..mem.mst_available2)
+	print("supply = "..mem.mst_supply1.."/"..mem.mst_supply2..", demand = "..mem.mst_demand1.."/"..mem.mst_demand2..", reserve = "..mem.mst_reserve)
 end
 
 local function connection_walk(pos, clbk)
@@ -77,7 +77,6 @@ local function consumer_turn_off(pos, mem)
 	if pwr and pwr.on_nopower then
 		pwr.on_nopower(pos, mem)
 	end
-	mem.pwr_node_alive_cnt = 0
 	mem.pwr_state = NOPOWER
 end	
 
@@ -88,6 +87,8 @@ local function consumer_turn_on(pos, mem)
 		pwr.on_power(pos, mem)
 	end
 	mem.pwr_state = RUNNING
+	-- to avoid consumer starvation
+	mem.pwr_node_alive_cnt = (mem.pwr_cycle_time or 2)/2 + 1
 end	
 
 -- determine one "generating" node as master (largest hash number)
@@ -138,7 +139,7 @@ end
 local function handle_consumer(mst_mem, mem, pos, power_needed)
 	print("handle_consumer", mem.pwr_state)
 	if mem.pwr_state == NOPOWER then
-		--print("power_needed", power_needed,"mst_mem.demand1", mst_mem.mst_demand1)
+		print("power_needed", power_needed,"mst_mem.demand1", mst_mem.mst_demand1)
 		-- for next cycle
 		mst_mem.mst_needed1 = mst_mem.mst_needed1 + power_needed
 		-- current cycle
@@ -147,6 +148,7 @@ local function handle_consumer(mst_mem, mem, pos, power_needed)
 			consumer_turn_on(pos, mem)
 		end
 	elseif mem.pwr_state == RUNNING then
+		print("power_needed", power_needed,"mst_mem.demand1", mst_mem.mst_demand1)
 		-- for next cycle
 		mst_mem.mst_needed1 = mst_mem.mst_needed1 + power_needed
 		-- current cycle
@@ -180,13 +182,13 @@ local function handle_secondary(mst_mem, mem, pos, provides, needed)
 	
 end
 
-local function trigger_nodes(mst_pos, mst_mem)
+local function trigger_nodes(mst_pos, mst_mem, dec)
 	Route = {}
 	pos_already_reached(mst_pos) 
 	connection_walk(mst_pos, function(pos, mem)
-		mem.pwr_node_alive_cnt = (mem.pwr_node_alive_cnt or 1) - 1
+		mem.pwr_node_alive_cnt = (mem.pwr_node_alive_cnt or 1) - dec
 		mem.pwr_power_provided_cnt = 2
-		--print("trigger_nodes", mem.pwr_node_alive_cnt, mem.pwr_available2 or mem.pwr_available or mem.pwr_needed)
+		print("trigger_nodes", minetest.get_node(pos).name, mem.pwr_node_alive_cnt, mem.pwr_available2 or mem.pwr_available or mem.pwr_needed)
 		if mem.pwr_node_alive_cnt >= 0 then
 			if mem.pwr_available then
 				handle_generator(mst_mem, mem, pos, mem.pwr_available)
@@ -209,21 +211,21 @@ local function determine_new_master(pos, mem)
 		tubelib2.get_mem(mpos).pwr_is_master = true
 	elseif was_master then -- no master any more
 		-- delete data
-		local mmem = tubelib2.get_mem(mpos)
-		mmem.mst_supply1 = 0
-		mmem.mst_supply2 = 0
-		mmem.mst_reserve = 0
+		mem.mst_supply1 = 0
+		mem.mst_supply2 = 0
+		mem.mst_reserve = 0
 	end
-	return was_master or mem.pwr_is_master
+	return was_master or mem.pwr_is_master or not mpos
 end
 
 -- called from master position
-local function power_distribution(pos, mem)
+local function power_distribution(pos, mem, dec)
+	print("power_distribution")
 	mem.mst_needed1 = 0
 	mem.mst_needed2 = 0
 	mem.mst_available1 = 0
 	mem.mst_available2 = 0
-	trigger_nodes(pos, mem)
+	trigger_nodes(pos, mem, dec or 0)
 	accounting(pos, mem)
 end
 
@@ -267,7 +269,7 @@ end
 function techage.power.generator_alive(pos, mem)
 	mem.pwr_node_alive_cnt = 2
 	if mem.pwr_is_master then
-		power_distribution(pos, mem)
+		power_distribution(pos, mem, 1)
 	end
 	return mem.pwr_provided
 end
@@ -277,10 +279,9 @@ end
 --
 function techage.power.consumer_alive(pos, mem)
 	print("consumer_alive", mem.pwr_power_provided_cnt)
+	mem.pwr_node_alive_cnt = (mem.pwr_cycle_time or 2)/2 + 1
 	mem.pwr_power_provided_cnt = (mem.pwr_power_provided_cnt or 0) - (mem.pwr_cycle_time or 2)/2
-	if mem.pwr_power_provided_cnt >= 0 then
-		mem.pwr_node_alive_cnt = (mem.pwr_cycle_time or 2)/2 + 1
-	else
+	if mem.pwr_power_provided_cnt < 0 and mem.pwr_state == RUNNING then
 		consumer_turn_off(pos, mem)
 	end
 end
@@ -365,7 +366,7 @@ function techage.power.secondary_alive(pos, mem, capa_curr, capa_max)
 	mem.pwr_node_alive_cnt = 2
 	if mem.pwr_is_master then
 		--print("secondary_alive is master")
-		power_distribution(pos, mem)
+		power_distribution(pos, mem, 1)
 	end
-	return mem.pwr_provided
+	return mem.pwr_provided or 0
 end
