@@ -21,9 +21,7 @@ local PWR_PERF = 10
 local PWR_CAPA = 3000
 
 local Power = techage.ElectricCable
-local secondary_power = techage.power.secondary_power
-local power_switched = techage.power.power_switched
-local power_distribution = techage.power.power_distribution
+local power = techage.power
 
 local function in_range(val, min, max)
 	if val < min then return min end
@@ -46,15 +44,15 @@ end
 
 
 local function start_node(pos, mem, state)
-	mem.generating = true
+	mem.running = true
 	mem.delivered = 0
-	power_switched(pos)
+	power.secondary_start(pos, mem, PWR_PERF, PWR_PERF)
 end
 
 local function stop_node(pos, mem, state)
-	mem.generating = false
+	mem.running = false
 	mem.delivered = 0
-	power_switched(pos)
+	power.secondary_stop(pos, mem)
 end
 
 local State = techage.NodeStates:new({
@@ -66,40 +64,14 @@ local State = techage.NodeStates:new({
 	stop_node = stop_node,
 })
 
-local function on_power(pos)
-	local mem = tubelib2.get_mem(pos)
-	mem.capa = mem.capa or 0
-	if mem.generating then
-		local delivered
-		if mem.capa >= PWR_CAPA then
-			mem.delivered = secondary_power(pos, PWR_PERF, 0)
-		elseif mem.capa <= 0 then
-			mem.delivered = secondary_power(pos, 0, PWR_PERF)
-		else
-			mem.delivered = secondary_power(pos, PWR_PERF, PWR_PERF)
-		end
-		mem.capa = mem.capa - mem.delivered
-		mem.capa = in_range(mem.capa, 0, PWR_CAPA)
-		mem.trigger = 2
-		return true
-	end
-	mem.delivered = 0
-	return false
-end
-
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	if mem.generating then
-		power_distribution(pos)
-		mem.trigger = (mem.trigger or 1) - 1
-		if mem.trigger <= 0 then  
-			power_switched(pos)
-		end
-		return true
-	else
-		mem.provided = 0
+	if mem.running then
+		mem.delivered = power.secondary_alive(pos, mem, mem.capa, PWR_CAPA)
+		mem.capa = mem.capa - mem.delivered
+		mem.capa = in_range(mem.capa, 0, PWR_CAPA)
 	end
-	return false
+	return mem.running
 end
 
 local function on_receive_fields(pos, formname, fields, player)

@@ -30,6 +30,117 @@ local STOPPED = 1
 local NOPOWER = 2
 local RUNNING = 3
 
+-------------------------------------------------- Migrate
+local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
+local Consumer = {
+	["techage:streetlamp_off"] = 0,
+	["techage:streetlamp_on"] = 0.5,
+	["techage:industriallamp1_off"] = 0,
+	["techage:industriallamp1_on"] = 0.5,
+	["techage:industriallamp2_off"] = 0,
+	["techage:industriallamp2_on"] = 0.5,
+	["techage:industriallamp3_off"] = 0,
+	["techage:industriallamp3_on"] = 0.5,
+	["techage:simplelamp_off"] = 0,
+	["techage:simplelamp_on"] = 0.5,
+	["techage:ceilinglamp_off"] = 0,
+	["techage:ceilinglamp_on"] = 0.5,
+	["techage:ta2_autocrafter_pas"] = 0,
+	["techage:ta2_autocrafter_act"] = 4,
+	["techage:ta3_autocrafter_pas"] = 0,
+	["techage:ta3_autocrafter_act"] = 6,
+	["techage:ta2_electronic_fab_pas"] = 0,
+	["techage:ta2_electronic_fab_act"] = 8,
+	["techage:ta3_electronic_fab_pas"] = 0,
+	["techage:ta3_electronic_fab_act"] = 12,
+	["techage:ta2_gravelsieve_pas"] = 0,
+	["techage:ta2_gravelsieve_act"] = 3,
+	["techage:ta3_gravelsieve_pas"] = 0,
+	["techage:ta3_gravelsieve_act"] = 4,
+	["techage:ta2_grinder_pas"] = 0,
+	["techage:ta2_grinder_act"] = 4,
+	["techage:ta3_grinder_pas"] = 0,
+	["techage:ta3_grinder_act"] = 6,
+	["techage:ta2_rinser_pas"] = 0,
+	["techage:ta2_rinser_act"] = 3,
+	["techage:ta3_booster"] = 0,
+	["techage:ta3_booster_on"] = 3,
+	["techage:ta3_drillbox_pas"] = 0,
+	["techage:ta3_drillbox_act"] = 16,
+	["techage:ta3_pumpjack_pas"] = 0,
+	["techage:ta3_pumpjack_act"] = 16,
+	["techage:gearbox"] = 0,
+	["techage:gearbox_on"] = 1,
+}
+local Generator = {
+	["techage:t2_source"] = 20,
+	["techage:t3_source"] = 20,
+	["techage:t4_source"] = 20,
+	["techage:flywheel"] = 0,
+	["techage:flywheel_on"] = 25,
+	["techage:generator"] = 0,
+	["techage:generator_on"] = 80,
+	["techage:tiny_generator"] = 0,
+	["techage:tiny_generator_on"] = 12,
+}
+local Akku = {
+	["techage:ta3_akku"] = 10
+}
+
+local function migrate(pos, mem)
+	if mem.master_pos then
+		mem.pwr_master_pos = table.copy(mem.master_pos); mem.master_pos = nil
+		mem.pwr_is_master = mem.is_master; mem.is_master = nil
+		mem.available1 = nil
+		mem.available2 = nil
+		mem.supply1 = nil
+		mem.supply2 = nil
+		mem.needed1 = nil
+		mem.needed2 = nil
+		mem.demand1 = nil
+		mem.demand2 = nil
+		mem.reserve = nil
+		mem.could_be_master = nil
+		mem.node_loaded = nil
+		
+		mem.pwr_power_provided_cnt = 2
+		mem.pwr_node_alive_cnt = 4
+		
+		local name = minetest.get_node(pos).name
+		mem.pwr_needed = Consumer[name]
+		mem.pwr_available = Generator[name]
+		mem.pwr_could_provide = Akku[name]
+		mem.pwr_could_need = Akku[name]
+		
+		if Consumer[name] then
+			if mem.techage_state then
+				if mem.techage_state == techage.STOPPED then
+					mem.pwr_state = STOPPED
+				else
+					local crd = CRD(pos)
+					techage.power.consumer_start(pos, mem, crd.cycle_time, crd.power_consumption)
+				end
+			elseif mem.turned_on then
+				mem.pwr_state = RUNNING
+			elseif mem.pwr_needed then
+				mem.pwr_state = RUNNING
+			else
+				mem.pwr_state = STOPPED
+			end
+		elseif Generator[name] then
+			if mem.generating then
+				techage.power.generator_start(pos, mem, Generator[name])
+			else
+				techage.power.generator_stop(pos, mem)
+			end
+		end
+		
+		if not mem.pwr_needed and not mem.pwr_available and not mem.pwr_available2 then
+			print(name)
+		end
+	end
+end
+-------------------------------------------------- Migrate
 
 local function pos_already_reached(pos)
 	local key = minetest.hash_node_position(pos)
@@ -47,14 +158,16 @@ local function min(val, max)
 end
 
 local function accounting(pos, mem)
-	-- calculate the primary and secondary supply and demand
-	mem.mst_supply1 = min(mem.mst_needed1 + mem.mst_needed2, mem.mst_available1)
-	mem.mst_demand1 = min(mem.mst_needed1, mem.mst_available1 + mem.mst_available2)
-	mem.mst_supply2 = min(mem.mst_demand1 - mem.mst_supply1, mem.mst_available2)
-	mem.mst_demand2 = min(mem.mst_supply1 - mem.mst_demand1, mem.mst_available1)
-	mem.mst_reserve = (mem.mst_available1 + mem.mst_available2) - mem.mst_needed1
-	print("needed = "..mem.mst_needed1.."/"..mem.mst_needed2..", available = "..mem.mst_available1.."/"..mem.mst_available2)
-	print("supply = "..mem.mst_supply1.."/"..mem.mst_supply2..", demand = "..mem.mst_demand1.."/"..mem.mst_demand2..", reserve = "..mem.mst_reserve)
+	if mem.pwr_is_master then
+		-- calculate the primary and secondary supply and demand
+		mem.mst_supply1 = min(mem.mst_needed1 + mem.mst_needed2, mem.mst_available1)
+		mem.mst_demand1 = min(mem.mst_needed1, mem.mst_available1 + mem.mst_available2)
+		mem.mst_supply2 = min(mem.mst_demand1 - mem.mst_supply1, mem.mst_available2)
+		mem.mst_demand2 = min(mem.mst_supply1 - mem.mst_demand1, mem.mst_available1)
+		mem.mst_reserve = (mem.mst_available1 + mem.mst_available2) - mem.mst_needed1
+		print("needed = "..mem.mst_needed1.."/"..mem.mst_needed2..", available = "..mem.mst_available1.."/"..mem.mst_available2)
+		print("supply = "..mem.mst_supply1.."/"..mem.mst_supply2..", demand = "..mem.mst_demand1.."/"..mem.mst_demand2..", reserve = "..mem.mst_reserve)
+	end
 end
 
 local function connection_walk(pos, clbk)
@@ -99,8 +212,8 @@ local function determine_master(pos)
 	local master = nil
 	connection_walk(pos, function(pos, mem)
 		if (mem.pwr_node_alive_cnt or 0) >= 0 and 
-				(mem.pwr_available or 0) > 0 or 
-				(mem.pwr_available2 or 0) > 0 then  -- active generator?
+				((mem.pwr_available or 0) > 0 or 
+				(mem.pwr_available2 or 0) > 0) then  -- active generator?
 					
 			local new = minetest.hash_node_position(pos)
 			if hash <= new then
@@ -143,7 +256,7 @@ local function handle_consumer(mst_mem, mem, pos, power_needed)
 		-- for next cycle
 		mst_mem.mst_needed1 = mst_mem.mst_needed1 + power_needed
 		-- current cycle
-		if (mst_mem.mst_demand1 or 0) - power_needed >= 0 then
+		if (mst_mem.mst_demand1 or 0) >= power_needed then
 			mst_mem.mst_demand1 = (mst_mem.mst_demand1 or 0) - power_needed
 			consumer_turn_on(pos, mem)
 		end
@@ -152,8 +265,12 @@ local function handle_consumer(mst_mem, mem, pos, power_needed)
 		-- for next cycle
 		mst_mem.mst_needed1 = mst_mem.mst_needed1 + power_needed
 		-- current cycle
-		mst_mem.mst_demand1 = (mst_mem.mst_demand1 or 0) - power_needed
-		if mst_mem.mst_demand1 < 0 then
+		if (mst_mem.mst_demand1 or 0) >= power_needed then
+			mst_mem.mst_demand1 = (mst_mem.mst_demand1 or 0) - power_needed
+		-- small consumer like lamps are allowed to "use" the reserve
+		elseif power_needed <= 2 and (mst_mem.mst_reserve or 0) >= power_needed then
+			mst_mem.mst_reserve = (mst_mem.mst_reserve or 0) - power_needed
+		else -- no power available
 			mst_mem.mst_demand1 = 0
 			consumer_turn_off(pos, mem)
 		end
@@ -201,6 +318,19 @@ local function trigger_nodes(mst_pos, mst_mem, dec)
 	end)
 end
 
+local function turn_off_nodes(mst_pos)
+	Route = {}
+	pos_already_reached(mst_pos) 
+	connection_walk(mst_pos, function(pos, mem)
+		print("turn_off_nodes", minetest.get_node(pos).name)
+		if (mem.pwr_node_alive_cnt or -1) >= 0 then
+			if mem.pwr_needed then
+				consumer_turn_off(pos, mem)
+			end
+		end
+	end)
+end
+
 local function determine_new_master(pos, mem)
 	local was_master = mem.pwr_is_master
 	mem.pwr_is_master = false
@@ -215,16 +345,18 @@ local function determine_new_master(pos, mem)
 		mem.mst_supply2 = 0
 		mem.mst_reserve = 0
 	end
-	return was_master or mem.pwr_is_master or not mpos
+	return was_master or mem.pwr_is_master
 end
 
 -- called from master position
 local function power_distribution(pos, mem, dec)
 	print("power_distribution")
-	mem.mst_needed1 = 0
-	mem.mst_needed2 = 0
-	mem.mst_available1 = 0
-	mem.mst_available2 = 0
+	if mem.pwr_is_master then
+		mem.mst_needed1 = 0
+		mem.mst_needed2 = 0
+		mem.mst_available1 = 0
+		mem.mst_available2 = 0
+	end
 	trigger_nodes(pos, mem, dec or 0)
 	accounting(pos, mem)
 end
@@ -239,6 +371,8 @@ function techage.power.network_changed(pos, mem)
 	mem.pwr_node_alive_cnt = (mem.pwr_cycle_time or 2)/2 + 1
 	if determine_new_master(pos, mem) then -- new master?
 		power_distribution(pos, mem)
+	elseif not mem.pwr_master_pos then -- no master?
+		turn_off_nodes(pos)
 	elseif not next(mem.connections) then -- isolated?
 		if mem.pwr_needed then -- consumer?
 			consumer_turn_off(pos, mem)
@@ -267,6 +401,7 @@ function techage.power.generator_stop(pos, mem)
 end
 
 function techage.power.generator_alive(pos, mem)
+	migrate(pos, mem) -------------------------------- REMOVE
 	mem.pwr_node_alive_cnt = 2
 	if mem.pwr_is_master then
 		power_distribution(pos, mem, 1)
@@ -277,15 +412,6 @@ end
 --
 -- Consumer related functions
 --
-function techage.power.consumer_alive(pos, mem)
-	print("consumer_alive", mem.pwr_power_provided_cnt)
-	mem.pwr_node_alive_cnt = (mem.pwr_cycle_time or 2)/2 + 1
-	mem.pwr_power_provided_cnt = (mem.pwr_power_provided_cnt or 0) - (mem.pwr_cycle_time or 2)/2
-	if mem.pwr_power_provided_cnt < 0 and mem.pwr_state == RUNNING then
-		consumer_turn_off(pos, mem)
-	end
-end
-
 function techage.power.consumer_start(pos, mem, cycle_time, needed)
 	mem.pwr_cycle_time = cycle_time
 	mem.pwr_power_provided_cnt = 0
@@ -301,12 +427,25 @@ function techage.power.consumer_stop(pos, mem)
 	mem.pwr_state = STOPPED
 end
 
+function techage.power.consumer_alive(pos, mem)
+	migrate(pos, mem) -------------------------------- REMOVE
+	print("consumer_alive", mem.pwr_power_provided_cnt, mem.pwr_cycle_time)
+	mem.pwr_node_alive_cnt = (mem.pwr_cycle_time or 2)/2 + 1
+	mem.pwr_power_provided_cnt = (mem.pwr_power_provided_cnt or 0) - (mem.pwr_cycle_time or 2)/2
+	if mem.pwr_power_provided_cnt < 0 and mem.pwr_state == RUNNING then
+		consumer_turn_off(pos, mem)
+		return false
+	end
+	return mem.pwr_power_provided_cnt >= 0
+end
+
 -- Lamp related function to speed up the turn on
 function techage.power.power_available(pos, mem, needed)
+	migrate(pos, mem) -------------------------------- REMOVE
 	if mem.pwr_master_pos and (mem.pwr_power_provided_cnt or 0) > 0 then
 		mem = tubelib2.get_mem(mem.pwr_master_pos)
-		if (mem.mst_reserve or 0) - needed >= 0 then
-			mem.mst_reserve = mem.mst_reserve - needed
+		if (mem.mst_reserve or 0) >= needed then
+			mem.mst_reserve = (mem.mst_reserve or 0) - needed
 			return true
 		end
 	end
@@ -354,6 +493,7 @@ function techage.power.secondary_stop(pos, mem)
 end
 
 function techage.power.secondary_alive(pos, mem, capa_curr, capa_max)
+	migrate(pos, mem) -------------------------------- REMOVE
 	--print("secondary_alive")
 	if capa_curr >= capa_max then
 		mem.pwr_available2, mem.pwr_needed2 = mem.pwr_could_provide, 0 -- can provide only

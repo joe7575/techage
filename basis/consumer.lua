@@ -26,53 +26,39 @@ local M = minetest.get_meta
 local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
 local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).consumer end
 
---local CYCLE_TIME = 2 -- required from power
-
-local consume_power = techage.power.consume_power
-local power_available = techage.power.power_available
+local power = techage.power
 
 local function can_start(pos, mem, state)
-	return power_available(pos, CRD(pos).power_consumption)
+	return power.power_available(pos, mem, CRD(pos).power_consumption)
 end
 
 local function start_node(pos, mem, state)
-	mem.conn_next_call = 0
-	mem.conn_cycle_timer = 0
+	local crd = CRD(pos)
+	power.consumer_start(pos, mem, crd.cycle_time, crd.power_consumption)
 end
 
 local function stop_node(pos, mem, state)
+	power.consumer_stop(pos, mem)
 end
 
-local function on_power(pos)
+local function on_power(pos, mem)
 	local crd = CRD(pos)
-	local mem = tubelib2.get_mem(pos)
-	local state = mem.techage_state
-	mem.node_loaded = (mem.node_loaded or 1) - 1
-	if mem.node_loaded >= 0 then
-		if techage.needs_power(mem)then
-			local got = consume_power(pos, crd.power_consumption)
-			if got < crd.power_consumption then
-				crd.State:nopower(pos, mem)
-			end
-		elseif state == techage.STANDBY and not power_available(pos) then
-			crd.State:nopower(pos, mem)
-		elseif state == techage.NOPOWER and power_available(pos) then
-			crd.State:start(pos, mem)
-		end
-		mem.power_available = true
-	end
+	crd.State:start(pos, mem)
+end
+
+local function on_nopower(pos, mem)
+	local crd = CRD(pos)
+	crd.State:nopower(pos, mem)
 end
 
 local function node_timer(pos, elapsed)
 	local crd = CRD(pos)
 	local mem = tubelib2.get_mem(pos)
 	local state = mem.techage_state
-	if crd.power_consumption > 0 and not mem.power_available then
-		crd.State:nopower(pos, mem)
+	print("consumer node_timer", techage.needs_power(mem))
+	if techage.power_alive(mem) then
+		power.consumer_alive(pos, mem)
 	end
-	mem.power_available = false
-	-- node cycle time / power cycle time + security surcharge
-	mem.node_loaded = crd.cycle_time/2 + 1
 	-- call the node timer routine
 	if techage.is_operational(mem) then
 		crd.node_timer(pos, crd.cycle_time)
@@ -239,6 +225,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 					conn_sides = {"F", "B"},
 					power_network  = power_network,
 					on_power = on_power,
+					on_nopower = on_nopower,
 				})
 			end
 			techage.register_node({name_pas, name_act}, tNode.tubing)

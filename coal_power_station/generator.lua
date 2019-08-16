@@ -22,16 +22,14 @@ local CYCLE_TIME = 2
 local PWR_CAPA = 80
 
 local Cable = techage.ElectricCable
-local provide_power = techage.power.provide_power
-local power_switched = techage.power.power_switched
-local power_distribution = techage.power.power_distribution
+local power = techage.power
 
 local function formspec(self, pos, mem)
 	return "size[8,7]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
-		"image[6,0.5;1,2;"..techage.power.formspec_power_bar(PWR_CAPA, mem.provided).."]"..
+		"image[6,0.5;1,2;"..power.formspec_power_bar(PWR_CAPA, mem.provided).."]"..
 		"image_button[5,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 		"button[2,1.5;2,1;update;"..S("Update").."]"..
 		"list[current_player;main;0,3;8,4;]"..
@@ -39,19 +37,17 @@ local function formspec(self, pos, mem)
 end
 
 local function can_start(pos, mem, state)
-	return (mem.triggered or 0) > 0 -- by means of firebox
+	return (mem.firebox_trigger or 0) > 0 -- by means of firebox
 end
 
 local function start_node(pos, mem, state)
 	mem.generating = true  -- needed for power distribution
-	minetest.get_node_timer(pos):start(CYCLE_TIME)
-	power_switched(pos)
+	power.generator_start(pos, mem, PWR_CAPA)
 end
 
 local function stop_node(pos, mem, state)
 	mem.generating = false
-	minetest.get_node_timer(pos):stop()
-	power_switched(pos)
+	power.generator_stop(pos, mem)
 	mem.provided = 0
 end
 
@@ -67,33 +63,21 @@ local State = techage.NodeStates:new({
 	stop_node = stop_node,
 })
 
-local function on_power(pos)
-	local mem = tubelib2.get_mem(pos)
-	if mem.generating then
-		mem.provided = provide_power(pos, PWR_CAPA)
-	else
-		mem.provided = 0
-	end
-	mem.power_available = 2
-end
-
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	if mem.generating then
-		power_distribution(pos)
-		State:keep_running(pos, mem, COUNTDOWN_TICKS)
-		mem.power_available = (mem.power_available or 1) - 1
-		mem.triggered = (mem.triggered or 1) - 1
-		if mem.power_available < 0 or mem.triggered < 0 then  
-			power_switched(pos)
-			State:stop(pos, mem)
+		mem.firebox_trigger = (mem.firebox_trigger or 0) - 1
+		if mem.firebox_trigger <= 0 then
+			State:nopower(pos, mem)
 			mem.generating = false
+			power.generator_stop(pos, mem)
 			mem.provided = 0
+		else
+			mem.provided = power.generator_alive(pos, mem)
+			State:keep_running(pos, mem, COUNTDOWN_TICKS)
 		end
-	else
-		mem.provided = 0
 	end
-	return mem.generating
+	return State:is_active(mem)
 end
 
 local function on_receive_fields(pos, formname, fields, player)
@@ -203,7 +187,6 @@ minetest.register_craft({
 techage.power.register_node({"techage:generator", "techage:generator_on"}, {
 	conn_sides = {"R"},
 	power_network = Cable,
-	on_power = on_power,
 })
 
 -- for logical communication
@@ -215,7 +198,7 @@ techage.register_node({"techage:generator", "techage:generator_on"}, {
 			local mem = tubelib2.get_mem(pos)
 			mem.power_level = payload
 		elseif topic == "trigger" then
-			mem.triggered = 2
+			mem.firebox_trigger = 3
 			mem.power_level = payload
 			if mem.generating then
 				return math.max((mem.provided or PWR_CAPA) / PWR_CAPA, 0.02)
@@ -233,9 +216,6 @@ techage.register_node({"techage:generator", "techage:generator_on"}, {
 		end
 	end,
 	on_node_load = function(pos)
-		local mem = tubelib2.get_mem(pos)
-		-- bug workaround, TODO: remove
-		mem.generating = mem.techage_state == techage.RUNNING
 		State:on_node_load(pos)
 	end,
 })

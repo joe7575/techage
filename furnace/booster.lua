@@ -20,8 +20,7 @@ local PWR_NEEDED = 3
 local CYCLE_TIME = 2
 
 local Power = techage.ElectricCable
-local consume_power = techage.power.consume_power
-local power_available = techage.power.power_available
+local power = techage.power
 
 local function infotext(pos, state)
 	M(pos):set_string("infotext", S("TA3 Booster")..": "..state)
@@ -36,47 +35,29 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function on_power(pos)
-	local mem = tubelib2.get_mem(pos)
-	mem.timer_running = (mem.timer_running or 1) - 1
-	if mem.timer_running >= 0 then
-		local got = consume_power(pos, PWR_NEEDED)
-		if got < PWR_NEEDED then
-			swap_node(pos, "techage:ta3_booster")
-			infotext(pos, "no power")
-			mem.running = false
-		else
-			swap_node(pos, "techage:ta3_booster_on")
-			infotext(pos, "running")
-			mem.power_available = 2
-			minetest.sound_play("techage_booster", {
-				pos = pos, 
-				gain = 1,
-				max_hear_distance = 7})
-		end
-	else
-		swap_node(pos, "techage:ta3_booster")
-		infotext(pos, "stopped")
-		mem.running = false
+local function on_power(pos, mem)
+	if mem.running then
+		swap_node(pos, "techage:ta3_booster_on")
+		infotext(pos, "running")
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end
+end
+
+local function on_nopower(pos, mem)
+	swap_node(pos, "techage:ta3_booster")
+	infotext(pos, "no power")
 end
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	mem.power_available = (mem.power_available or 1) - 1
-	if mem.running and mem.power_available < 0 then
-		swap_node(pos, "techage:ta3_booster")
-		mem.running = false
-		return false
-	end
-	mem.timer_running = CYCLE_TIME/2 + 1
-	return true
-end
-
-local function on_rightclick(pos, node, clicker)
 	if mem.running then
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
+		minetest.sound_play("techage_booster", {
+			pos = pos, 
+			gain = 1,
+			max_hear_distance = 7})
 	end
+	mem.still_powered = power.consumer_alive(pos, mem)
+	return mem.running
 end
 
 minetest.register_node("techage:ta3_booster", {
@@ -150,6 +131,7 @@ techage.power.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 	power_network = Power,
 	conn_sides = {"F", "B", "U", "D", "L"},
 	on_power = on_power,
+	on_nopower = on_nopower,
 })
 
 -- for intra machine communication
@@ -158,12 +140,12 @@ techage.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 		if M(pos):get_int("indir") == in_dir then
 			local mem = tubelib2.get_mem(pos)
 			if topic == "power" then
-				return mem.running
-			elseif topic == "start" then
-				if power_available(pos, 0) then
+				return mem.still_powered
+			elseif topic == "start" and not mem.running then
+				if power.power_available(pos, mem, 0) then
 					mem.running = true
-					node_timer(pos, 2)
-					infotext(pos, "running")
+					mem.still_powered = treu
+					power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
 					minetest.get_node_timer(pos):start(CYCLE_TIME)
 				else
 					infotext(pos, "no power")
@@ -171,12 +153,9 @@ techage.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 			elseif topic == "stop" then
 				mem.running = false
 				swap_node(pos, "techage:ta3_booster")
+				power.consumer_stop(pos, mem)
 				minetest.get_node_timer(pos):stop()
-				if mem.power_available then
-					infotext(pos, "stopped")
-				else
-					infotext(pos, "no power")
-				end
+				infotext(pos, "stopped")
 			end
 		end
 	end

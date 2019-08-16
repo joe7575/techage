@@ -23,16 +23,14 @@ local CYCLE_TIME = 2
 local PWR_CAPA = 25
 
 local Axle = techage.Axle
-local provide_power = techage.power.provide_power
-local power_switched = techage.power.power_switched
-local power_distribution = techage.power.power_distribution
+local power = techage.power
 
 local function formspec(self, pos, mem)
 	return "size[8,7]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
-		"image[6,0.5;1,2;"..techage.power.formspec_power_bar(PWR_CAPA, mem.provided).."]"..
+		"image[6,0.5;1,2;"..power.formspec_power_bar(PWR_CAPA, mem.provided).."]"..
 		"image_button[5,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 		"button[2,1.5;2,1;update;"..S("Update").."]"..
 		"list[current_player;main;0,3;8,4;]"..
@@ -46,23 +44,21 @@ end
 local function start_node(pos, mem, state)
 	mem.generating = true  -- needed for power distribution
 	techage.switch_axles(pos, true)
-	minetest.get_node_timer(pos):start(CYCLE_TIME)
 	mem.handle = minetest.sound_play("techage_steamengine", {
 		pos = pos, 
 		gain = 0.5,
 		max_hear_distance = 10})
-	power_switched(pos)
+	power.generator_start(pos, mem, PWR_CAPA)
 end
 
 local function stop_node(pos, mem, state)
 	mem.generating = false
 	techage.switch_axles(pos, false)
-	minetest.get_node_timer(pos):stop()
 	if mem.handle then
 		minetest.sound_stop(mem.handle)
 		mem.handle = nil
 	end
-	power_switched(pos)
+	power.generator_stop(pos, mem)
 	mem.provided = 0
 end
 
@@ -77,39 +73,24 @@ local State = techage.NodeStates:new({
 	stop_node = stop_node,
 })
 
-local function on_power(pos)
-	local mem = tubelib2.get_mem(pos)
-	if mem.generating then
-		mem.provided = provide_power(pos, PWR_CAPA)
-	else
-		mem.provided = 0
-	end
-	mem.master_trigger = 2
-end
-
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	if mem.generating then
 		mem.firebox_trigger = (mem.firebox_trigger or 0) - 1
-		mem.master_trigger = (mem.master_trigger or 0) - 1
-		
 		if mem.firebox_trigger <= 0 then
-			power_switched(pos)
 			State:nopower(pos, mem)
 			mem.generating = false
+			techage.switch_axles(pos, false)
+			power.generator_stop(pos, mem)
 			mem.provided = 0
 			techage.transfer(pos, "L", "stop", nil, nil, {"techage:cylinder_on"})	
 		else
-			power_distribution(pos)
+			mem.provided = power.generator_alive(pos, mem)
 			State:keep_running(pos, mem, COUNTDOWN_TICKS)
 			mem.handle = minetest.sound_play("techage_steamengine", {
 				pos = pos, 
 				gain = 0.5,
 				max_hear_distance = 10})
-		
-			if mem.master_trigger <= 0 then
-				power_switched(pos)
-			end
 		end
 	end
 	return State:is_active(mem)
@@ -221,7 +202,6 @@ minetest.register_node("techage:flywheel_on", {
 techage.power.register_node({"techage:flywheel", "techage:flywheel_on"}, {
 	conn_sides = {"R"},
 	power_network = Axle,
-	on_power = on_power,
 })
 
 techage.register_node({"techage:flywheel", "techage:flywheel_on"}, {

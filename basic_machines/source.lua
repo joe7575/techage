@@ -20,9 +20,7 @@ local S = techage.S
 local TA2_Power = techage.Axle
 local TA3_Power = techage.SteamPipe
 local TA4_Power = techage.ElectricCable
-local provide_power = techage.power.provide_power
-local power_switched = techage.power.power_switched
-local power_distribution = techage.power.power_distribution
+local power = techage.power
 
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
@@ -43,14 +41,14 @@ end
 
 local function start_node(pos, mem, state)
 	mem.generating = true
-	power_switched(pos)
+	power.generator_start(pos, mem, PWR_CAPA)
 	techage.switch_axles(pos, true)
 end
 
 local function stop_node(pos, mem, state)
 	mem.generating = false
 	mem.provided = 0
-	power_switched(pos)
+	power.generator_stop(pos, mem)
 	techage.switch_axles(pos, false)
 end
 
@@ -81,26 +79,10 @@ local State4 = techage.NodeStates:new({
 	stop_node = stop_node,
 })
 
-local function on_power(pos)
-	local mem = tubelib2.get_mem(pos)
-	if mem.generating then
-		mem.provided = provide_power(pos, PWR_CAPA)
-	else
-		mem.provided = 0
-	end
-	mem.trigger = 2
-end
-
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	if mem.generating then
-		power_distribution(pos)
-		mem.trigger = (mem.trigger or 1) - 1
-		if mem.trigger <= 0 then  
-			-- power distribution timeout
-			--print("source not triggered")
-			power_switched(pos)
-		end
+		local provided = power.generator_alive(pos, mem)
 	end
 	return mem.generating
 end
@@ -216,17 +198,14 @@ minetest.register_node("techage:t4_source", {
 techage.power.register_node({"techage:t2_source"}, {
 	conn_sides = {"R"},
 	power_network  = TA2_Power,
-	on_power = on_power,
 })
 
 techage.power.register_node({"techage:t3_source"}, {
 	conn_sides = {"R"},
 	power_network  = TA3_Power,
-	on_power = on_power,
 })
 
 techage.power.register_node({"techage:t4_source"}, {
 	conn_sides = {"R"},
 	power_network  = TA4_Power,
-	on_power = on_power,
 })

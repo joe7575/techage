@@ -138,9 +138,16 @@ function techage.is_operational(mem)
 	return state < NOPOWER
 end
 
+-- consumes power
 function techage.needs_power(mem)
 	local state = mem.techage_state or STOPPED
 	return state < STANDBY
+end
+
+-- is node alive (power related)
+function techage.power_alive(mem)
+	local state = mem.techage_state or STOPPED
+	return state < FAULT
 end
 
 function NodeStates:new(attr)

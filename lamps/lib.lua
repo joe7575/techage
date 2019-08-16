@@ -7,8 +7,7 @@ local PWR_NEEDED = 0.5
 local CYCLE_TIME = 4
 
 local Cable = techage.ElectricCable
-local consume_power = techage.power.consume_power
-local power_available = techage.power.power_available
+local power = techage.power
 
 local function swap_node(pos, postfix)
 	local node = techage.get_node_lvm(pos)
@@ -20,30 +19,22 @@ local function swap_node(pos, postfix)
 	minetest.swap_node(pos, node)
 end
 
-local function on_power(pos)
-	local mem = tubelib2.get_mem(pos)
-	mem.node_loaded = (mem.node_loaded or 1) - 1
-	if mem.turned_on and mem.node_loaded >= 0 then
-		local got = consume_power(pos, PWR_NEEDED)
-		if got < PWR_NEEDED and mem.node_on then
-			swap_node(pos, "off")
-			mem.node_on = false
-		elseif not mem.node_on then
-			swap_node(pos, "on")
-			mem.node_on = true
-		end
-		mem.power_available = true
+local function on_power(pos, mem)
+	if mem.turned_on then
+		swap_node(pos, "on")
 	end
+end
+
+local function on_nopower(pos, mem)
+	print(dump(mem))
+	swap_node(pos, "off")
 end
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	if mem.node_on and not mem.power_available then
-		mem.node_on = false
-		swap_node(pos, "off")
+	if mem.turned_on then
+		power.consumer_alive(pos, mem)
 	end
-	mem.power_available = false
-	mem.node_loaded = CYCLE_TIME/2 + 1
 	return mem.turned_on
 end
 
@@ -51,20 +42,17 @@ local function lamp_on_rightclick(pos, node, clicker)
 	if minetest.is_protected(pos, clicker:get_player_name()) then
 		return
 	end
+	
 	local mem = tubelib2.get_mem(pos)
-	mem.turned_on = not mem.turned_on 
-	if mem.turned_on and power_available(pos, PWR_NEEDED) then
-		mem.node_on = true
+	if not mem.turned_on and power.power_available(pos, mem, PWR_NEEDED) then
+		mem.turned_on = true
 		swap_node(pos, "on")
-		mem.trigger = true
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-	elseif mem.turned_on then
-		mem.node_on = false
-		swap_node(pos, "off")
+		power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	else
-		mem.node_on = false
+		mem.turned_on = false
 		swap_node(pos, "off")
+		power.consumer_stop(pos, mem)
 		minetest.get_node_timer(pos):stop()
 	end
 end
@@ -125,5 +113,6 @@ function techage.register_lamp(basename, ndef_off, ndef_on)
 		power_network  = Cable,
 		conn_sides = ndef_off.conn_sides or determine_power_side,  -- will be handled by clbk function
 		on_power = on_power,
+		on_nopower = on_nopower,
 	})
 end

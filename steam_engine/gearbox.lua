@@ -21,7 +21,7 @@ local PWR_NEEDED = 1
 local CYCLE_TIME = 4
 
 local Axle = techage.Axle
-local consume_power = techage.power.consume_power
+local power = techage.power
 
 local function swap_node(pos, name)
 	local node = minetest.get_node(pos)
@@ -32,43 +32,37 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function on_power(pos)
-	local mem = tubelib2.get_mem(pos)
-	mem.node_loaded = (mem.node_loaded or 1) - 1
-	if mem.node_loaded >= 0 then
-		local got = consume_power(pos, PWR_NEEDED)
-		if got < PWR_NEEDED and mem.node_on then
-			swap_node(pos, "techage:gearbox")
-			techage.switch_axles(pos, false)
-			mem.node_on = false
-		elseif not mem.node_on then
-			swap_node(pos, "techage:gearbox_on")
-			techage.switch_axles(pos, true)
-			mem.node_on = true
-		end
-		mem.power_available = true
-	end
+local function on_power(pos, mem)
+	swap_node(pos, "techage:gearbox_on")
+	techage.switch_axles(pos, true)
 end
 
+local function on_nopower(pos, mem)
+	swap_node(pos, "techage:gearbox")
+	techage.switch_axles(pos, false)
+end
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	if mem.node_on and not mem.power_available then
-		swap_node(pos, "techage:gearbox")
-		techage.switch_axles(pos, false)
-		mem.node_on = false
-	end
-	mem.power_available = false
-	mem.node_loaded = CYCLE_TIME/2 + 1
+	power.consumer_alive(pos, mem)
 	return true
 end
 
+-- to be able to restart the node after server crashes
 local function on_rightclick(pos, node, clicker)
+	local mem = tubelib2.get_mem(pos)
 	minetest.get_node_timer(pos):start(CYCLE_TIME)
+	power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
 end
 
 local function after_place_node(pos, placer, itemstack, pointed_thing)
+	local mem = tubelib2.get_mem(pos)
 	minetest.get_node_timer(pos):start(CYCLE_TIME)
+	power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
+end
+
+local function after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+	techage.switch_axles(pos, node.name == "techage:gearbox_on")
 end
 
 minetest.register_node("techage:gearbox", {
@@ -78,6 +72,7 @@ minetest.register_node("techage:gearbox", {
 	on_construct = tubelib2.init_mem,
 	after_place_node = after_place_node,
 	on_rightclick = on_rightclick,
+	after_tube_update = after_tube_update,
 	on_timer = node_timer,
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -105,6 +100,7 @@ minetest.register_node("techage:gearbox_on", {
 	after_place_node = after_place_node,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
+	after_tube_update = after_tube_update,
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
 	diggable = false,
@@ -117,6 +113,7 @@ minetest.register_node("techage:gearbox_on", {
 techage.power.register_node({"techage:gearbox", "techage:gearbox_on"}, {
 	power_network  = Axle,
 	on_power = on_power,
+	on_nopower = on_nopower,
 })
 	
 minetest.register_craft({

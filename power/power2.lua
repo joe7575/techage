@@ -136,6 +136,7 @@ function techage.power.register_node(names, pwr_def)
 					-- To be called delayed, so that all network connections have been established
 					minetest.after(0.2, network_changed, pos, mem)
 					if pwr.after_tube_update then
+						print("after_tube_update", node.name)
 						return pwr.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
 					end
 				end,

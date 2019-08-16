@@ -18,9 +18,7 @@ local S = techage.S
 
 local Power = techage.ElectricCable
 local firebox = techage.firebox
-local provide_power = techage.power.provide_power
-local power_switched = techage.power.power_switched
-local power_distribution = techage.power.power_distribution
+local power = techage.power
 
 local CYCLE_TIME = 2
 local PWR_CAPA = 12
@@ -40,7 +38,7 @@ local function formspec(self, pos, mem)
 		fuel_percent..":default_furnace_fire_fg.png]"..
 		"button[3,1;1.8,1;update;"..S("Update").."]"..
 		"image_button[5.5,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
-		"image[6.5,0.5;1,2;"..techage.power.formspec_power_bar(PWR_CAPA, mem.provided).."]"..
+		"image[6.5,0.5;1,2;"..power.formspec_power_bar(PWR_CAPA, mem.provided).."]"..
 		"list[current_player;main;0,3;8,4;]"..
 		default.get_hotbar_bg(0, 3)
 end
@@ -53,7 +51,7 @@ end
 
 local function start_node(pos, mem, state)
 	mem.generating = true
-	power_switched(pos)
+	power.generator_start(pos, mem, PWR_CAPA)
 	minetest.sound_play("techage_generator", {
 		pos = pos, 
 		gain = 1,
@@ -63,7 +61,7 @@ end
 local function stop_node(pos, mem, state)
 	mem.generating = false
 	mem.provided = 0
-	power_switched(pos)
+	power.generator_stop(pos, mem)
 end
 
 local State = techage.NodeStates:new({
@@ -98,31 +96,14 @@ local function burning(pos, mem)
 	end
 end
 
-local function on_power(pos)
-	local mem = tubelib2.get_mem(pos)
-	if mem.generating then
-		mem.provided = provide_power(pos, PWR_CAPA)
-	else
-		mem.provided = 0
-	end
-	mem.trigger = 2
-end
-
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	if mem.generating and burning(pos, mem) then
-		power_distribution(pos)
+		mem.provided = power.generator_alive(pos, mem)
 		minetest.sound_play("techage_generator", {
 			pos = pos, 
 			gain = 1,
 			max_hear_distance = 10})
-		--State:keep_running(pos, mem, CYCLE_TIME)
-		mem.trigger = (mem.trigger or 1) - 1
-		if mem.trigger <= 0 then  
-			power_switched(pos)
-			mem.generating = false
-			mem.provided = 0
-		end
 		return true
 	else
 		mem.provided = 0
@@ -241,14 +222,13 @@ minetest.register_node("techage:tiny_generator_on", {
 techage.power.register_node({"techage:tiny_generator", "techage:tiny_generator_on"}, {
 	conn_sides = {"R"},
 	power_network  = Power,
-	on_power = on_power,
 })
 
 techage.register_node({"techage:tiny_generator", "techage:tiny_generator_on"}, {
 	on_recv_message = function(pos, topic, payload)
 		local mem = tubelib2.get_mem(pos)
 		if topic == "load" then
-			return techage.power.percent(PWR_CAPA, mem.provided)
+			return power.percent(PWR_CAPA, mem.provided)
 		else
 			return State:on_receive_message(pos, topic, payload)
 		end

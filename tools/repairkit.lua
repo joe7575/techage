@@ -74,8 +74,10 @@ local function read_state(itemstack, user, pointed_thing)
 		elseif ndef and ndef.description then
 			if ndef.is_power_available then
 				local power = ndef.is_power_available(pos)
-				local text = "\nGenerators = "..power.prim_available.."\nAkkus = "..power.sec_available.."\nMachines = "..power.prim_needed.."\n"
-				minetest.chat_send_player(user:get_player_name(), ndef.description..": power = "..text)
+				if power and power.prim_available then
+					local text = "\nGenerators = "..power.prim_available.."\nAkkus = "..power.sec_available.."\nMachines = "..power.prim_needed.."\n"
+					minetest.chat_send_player(user:get_player_name(), ndef.description..": power = "..text)
+				end
 			end
 			itemstack:add_wear(65636/200)
 			return itemstack
