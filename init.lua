@@ -25,7 +25,8 @@ else
 		--pwr = true,  -- power distribution
 		sts = true,  -- status plots
 		--dbg = true,
-		dbg2 = true,
+		--dbg2 = true,
+		tst = true,
 	}
 
 	-- Basis features
@@ -154,4 +155,9 @@ else
 	dofile(MP.."/.test/source.lua")
 	dofile(MP.."/.test/akku.lua")
 	--dofile(MP.."/.test/switch.lua")
+	
+	-- Solar
+	dofile(MP.."/nodes/silicon.lua")
+	dofile(MP.."/solar/minicell.lua")
+	
 end

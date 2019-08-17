@@ -449,7 +449,7 @@ function techage.power.generator_alive(pos, mem)
 	if mem.pwr_is_master then
 		power_distribution(pos, mem, 1)
 	end
-	return mem.pwr_provided
+	return mem.pwr_provided or 0
 end
 
 --
