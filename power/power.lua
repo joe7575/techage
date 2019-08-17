@@ -88,8 +88,11 @@ local Akku = {
 }
 
 local function migrate(pos, mem)
-	if mem.master_pos then
-		mem.pwr_master_pos = table.copy(mem.master_pos); mem.master_pos = nil
+	if mem.master_pos or mem.is_master ~= nil then
+		if mem.master_pos then
+			mem.pwr_master_pos = table.copy(mem.master_pos)
+			mem.master_pos = nil
+		end
 		mem.pwr_is_master = mem.is_master; mem.is_master = nil
 		mem.available1 = nil
 		mem.available2 = nil
@@ -116,7 +119,7 @@ local function migrate(pos, mem)
 			if mem.techage_state then
 				if mem.techage_state == techage.STOPPED then
 					mem.pwr_state = STOPPED
-				else
+				elseif mem.techage_state == techage.NOPOWER or mem.techage_state == techage.RUNNING then
 					local crd = CRD(pos)
 					techage.power.consumer_start(pos, mem, crd.cycle_time, crd.power_consumption)
 				end
@@ -126,6 +129,15 @@ local function migrate(pos, mem)
 				mem.pwr_state = RUNNING
 			else
 				mem.pwr_state = STOPPED
+			end
+			if techage.in_list({"techage:ta2_electronic_fab_pas", "techage:ta2_electronic_fab_act", "techage:ta3_electronic_fab_pas", "techage:ta3_electronic_fab_act"}, name) then
+				mem.pwr_cycle_time = 6
+			elseif techage.in_list({"techage:ta3_drillbox_pas", "techage:ta3_drillbox_act"}, name) then
+				mem.pwr_cycle_time = 16
+			elseif techage.in_list({"techage:ta3_pumpjack_pas", "techage:ta3_pumpjack_act"}, name) then
+				mem.pwr_cycle_time = 8
+			else
+				mem.pwr_cycle_time = 4
 			end
 		elseif Generator[name] then
 			if mem.generating then
@@ -140,6 +152,36 @@ local function migrate(pos, mem)
 		end
 	end
 end
+
+local Nodenames={}
+local n=0
+
+for k,v in pairs(Consumer) do
+  n=n+1
+  Nodenames[n]=k
+end
+for k,v in pairs(Generator) do
+  n=n+1
+  Nodenames[n]=k
+end
+for k,v in pairs(Akku) do
+  n=n+1
+  Nodenames[n]=k
+end
+
+
+minetest.register_lbm({
+	label = "[techage] Power Conversion",
+	name = "techage:power",
+	nodenames = Nodenames,
+	run_at_every_load = true,
+	action = function(pos, node)
+		local mem = tubelib2.get_mem(pos)
+		print("migrate", S(pos), node.name)
+		migrate(pos, mem)
+	end
+})
+
 -------------------------------------------------- Migrate
 
 local function pos_already_reached(pos)
@@ -239,7 +281,7 @@ end
 
 local function handle_generator(mst_mem, mem, pos, power_available)
 	-- for next cycle
-	mst_mem.mst_available1 = mst_mem.mst_available1 + power_available
+	mst_mem.mst_available1 = (mst_mem.mst_available1 or 0) + power_available
 	-- current cycle
 	mst_mem.mst_supply1 = mst_mem.mst_supply1 or 0
 	if mst_mem.mst_supply1 < power_available then
@@ -256,7 +298,7 @@ local function handle_consumer(mst_mem, mem, pos, power_needed)
 	if mem.pwr_state == NOPOWER then
 		mydbg("pwr", "power_needed", power_needed,"mst_mem.demand1", mst_mem.mst_demand1)
 		-- for next cycle
-		mst_mem.mst_needed1 = mst_mem.mst_needed1 + power_needed
+		mst_mem.mst_needed1 = (mst_mem.mst_needed1 or 0) + power_needed
 		-- current cycle
 		if (mst_mem.mst_demand1 or 0) >= power_needed then
 			mst_mem.mst_demand1 = (mst_mem.mst_demand1 or 0) - power_needed
@@ -403,7 +445,6 @@ function techage.power.generator_stop(pos, mem)
 end
 
 function techage.power.generator_alive(pos, mem)
-	migrate(pos, mem) -------------------------------- REMOVE
 	mem.pwr_node_alive_cnt = 2
 	if mem.pwr_is_master then
 		power_distribution(pos, mem, 1)
@@ -430,7 +471,6 @@ function techage.power.consumer_stop(pos, mem)
 end
 
 function techage.power.consumer_alive(pos, mem)
-	migrate(pos, mem) -------------------------------- REMOVE
 	mydbg("pwr", "consumer_alive", mem.pwr_power_provided_cnt, mem.pwr_cycle_time)
 	mem.pwr_node_alive_cnt = (mem.pwr_cycle_time or 2)/2 + 1
 	mem.pwr_power_provided_cnt = (mem.pwr_power_provided_cnt or 0) - (mem.pwr_cycle_time or 2)/2
@@ -441,7 +481,6 @@ end
 
 -- Lamp related function to speed up the turn on
 function techage.power.power_available(pos, mem, needed)
-	migrate(pos, mem) -------------------------------- REMOVE
 	if mem.pwr_master_pos and (mem.pwr_power_provided_cnt or 0) > 0 then
 		mem = tubelib2.get_mem(mem.pwr_master_pos)
 		if (mem.mst_reserve or 0) >= needed then
@@ -493,7 +532,6 @@ function techage.power.secondary_stop(pos, mem)
 end
 
 function techage.power.secondary_alive(pos, mem, capa_curr, capa_max)
-	migrate(pos, mem) -------------------------------- REMOVE
 	mydbg("pwr", "secondary_alive")
 	if capa_curr >= capa_max then
 		mem.pwr_available2, mem.pwr_needed2 = mem.pwr_could_provide, 0 -- can provide only
