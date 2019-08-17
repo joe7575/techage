@@ -188,18 +188,26 @@ techage.register_node({"techage:furnace_firebox", "techage:furnace_firebox_on"},
 	end,
 	-- called from furnace_top
 	on_transfer = function(pos, in_dir, topic, payload)
-		--print("on_transfer", topic, payload)
 		if topic == "fuel" then
 			local mem = tubelib2.get_mem(pos)
-			return has_fuel(pos, mem) and booster_cmnd(pos, "power")
+			if booster_cmnd(pos, "power") then
+				-- fire keeps on even if the booster is off for some seconds
+				mem.booster_cnt = 3 
+			end
+			mydbg("dbg2", "firebox fuel", mem.booster_cnt)
+			mem.booster_cnt = (mem.booster_cnt or 3) - 1
+			return has_fuel(pos, mem) and mem.booster_cnt > 0
 		elseif topic == "start" then
 			local mem = tubelib2.get_mem(pos)
 			start_firebox(pos, mem)
 			booster_cmnd(pos, "start")
+			mem.booster_cnt = 4
+			mydbg("dbg2", "firebox start", mem.booster_cnt)
 		elseif topic == "stop" then
 			local mem = tubelib2.get_mem(pos)
 			stop_firebox(pos, mem)
 			booster_cmnd(pos, "stop")
+			mydbg("dbg2", "firebox stop", mem.booster_cnt)
 		end
 	end
 })	

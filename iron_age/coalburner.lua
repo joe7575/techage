@@ -185,7 +185,6 @@ function techage.start_burner(pos, playername)
 end
 
 function techage.keep_running_burner(pos)
-	--print("keep_running_burner")
 	local meta = minetest.get_meta(pos)
 	local height = meta:get_int("height")
 	remove_flame(pos, height)

@@ -192,7 +192,6 @@ techage.power.register_node({"techage:generator", "techage:generator_on"}, {
 -- for logical communication
 techage.register_node({"techage:generator", "techage:generator_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
-		--print("generator", topic, payload)
 		local mem = tubelib2.get_mem(pos)
 		if topic == "power_level" then
 			local mem = tubelib2.get_mem(pos)

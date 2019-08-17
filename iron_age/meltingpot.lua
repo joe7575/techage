@@ -206,7 +206,6 @@ local function get_heat(pos)
 	pos.y = pos.y - 1
 	local node = minetest.get_node(pos)
 	local meta = minetest.get_meta(pos)
-	--print("get_heat1", minetest.get_item_group(node.name, "techage_flame"))
 	if minetest.get_item_group(node.name, "techage_flame") == 0 then
 		pos.y = pos.y + 1
 		return 0
@@ -215,7 +214,6 @@ local function get_heat(pos)
 	pos.y = pos.y - 1
 	node = minetest.get_node(pos)
 	pos.y = pos.y + 2
-	--print("get_heat2", node.name, minetest.get_item_group(node.name, "techage_flame"))
 	if minetest.get_item_group(node.name, "techage_flame") == 0 and 
 			node.name ~= "techage:charcoal_burn" then
 		return 0

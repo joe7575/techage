@@ -132,7 +132,6 @@ techage.power.register_node({"techage:turbine", "techage:turbine_on"}, {
 -- for logical communication
 techage.register_node({"techage:turbine", "techage:turbine_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
-		--print("turbine", topic, payload)
 		local mem = tubelib2.get_mem(pos)
 		if topic == "trigger" then
 			return transfer_generator(pos, topic, payload)

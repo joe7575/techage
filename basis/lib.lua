@@ -160,3 +160,13 @@ function techage.dropped_node(node, ndef)
 	end
 	return ndef.drop or node.name
 end	
+
+function mydbg(topic, text, ...)
+	if techage.DebugTopics[topic] then
+		local t = string.format("%.4f %4s:  ", minetest.get_us_time() / 1000000.0, topic)
+		if type(text) ~= "string" then
+			text = dump(text)
+		end
+		print(t..text, unpack({...}))
+	end
+end

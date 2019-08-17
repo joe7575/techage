@@ -41,22 +41,26 @@ local function on_power(pos, mem)
 		infotext(pos, "running")
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end
+	mydbg("dbg2", "booster on_power")
+	mem.is_powered = true
 end
 
 local function on_nopower(pos, mem)
 	swap_node(pos, "techage:ta3_booster")
 	infotext(pos, "no power")
+	mydbg("dbg2", "booster on_nopower")
+	mem.is_powered = false
 end
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	if mem.running then
+	if mem.is_powered then
 		minetest.sound_play("techage_booster", {
 			pos = pos, 
 			gain = 1,
 			max_hear_distance = 7})
 	end
-	mem.still_powered = power.consumer_alive(pos, mem)
+	power.consumer_alive(pos, mem)
 	return mem.running
 end
 
@@ -140,18 +144,23 @@ techage.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 		if M(pos):get_int("indir") == in_dir then
 			local mem = tubelib2.get_mem(pos)
 			if topic == "power" then
-				return mem.still_powered
+				mydbg("dbg2", "booster", mem.is_powered)
+				return mem.is_powered
 			elseif topic == "start" and not mem.running then
+				mydbg("dbg2", "booster try start", mem.pwr_master_pos, mem.pwr_power_provided_cnt)
 				if power.power_available(pos, mem, 0) then
 					mem.running = true
-					mem.still_powered = treu
+					mydbg("dbg2", "booster start")
 					power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
 					minetest.get_node_timer(pos):start(CYCLE_TIME)
 				else
+					mydbg("dbg2", "booster no power")
 					infotext(pos, "no power")
 				end
 			elseif topic == "stop" then
 				mem.running = false
+				mem.is_powered = false
+				mydbg("dbg2", "booster stop")
 				swap_node(pos, "techage:ta3_booster")
 				power.consumer_stop(pos, mem)
 				minetest.get_node_timer(pos):stop()

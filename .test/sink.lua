@@ -19,7 +19,7 @@ local function swap_node(pos, name)
 end
 
 local function on_power(pos, mem)
-	print("on_power")
+	mydbg("dbg", "on_power")
 	if mem.running then
 		swap_node(pos, "techage:sink_on")
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
@@ -28,7 +28,7 @@ local function on_power(pos, mem)
 end
 
 local function on_nopower(pos, mem)
-	print("on_nopower")
+	mydbg("dbg", "on_nopower")
 	swap_node(pos, "techage:sink")
 	M(pos):set_string("infotext", "nopower")
 end
@@ -44,14 +44,14 @@ local function on_rightclick(pos, node, clicker)
 	local mem = tubelib2.get_mem(pos)
 	if not mem.running and power.power_available(pos, mem, PWR_NEEDED) then
 		mem.running = true
-		print("turn on")
+		mydbg("dbg", "turn on")
 		--swap_node(pos, "techage:sink_on")
 		power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		M(pos):set_string("infotext", "on")
 	else
 		mem.running = false
-		print("turn off")
+		mydbg("dbg", "turn off")
 		swap_node(pos, "techage:sink")
 		power.consumer_stop(pos, mem)
 		minetest.get_node_timer(pos):stop()

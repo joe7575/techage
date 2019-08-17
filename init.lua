@@ -18,6 +18,15 @@ else
 
 	-- Load support for I18n.
 	techage.S = minetest.get_translator("techage")
+	
+	-- Debugging via "mydbg(topic, text)"
+	techage.DebugTopics = {
+		--con = true,  -- consumer modell
+		--pwr = true,  -- power distribution
+		sts = true,  -- status plots
+		--dbg = true,
+		dbg2 = true,
+	}
 
 	-- Basis features
 	local MP = minetest.get_modpath("techage")

@@ -26,7 +26,6 @@ local function on_power(pos, mem)
 end
 
 local function on_nopower(pos, mem)
-	print(dump(mem))
 	swap_node(pos, "off")
 end
 

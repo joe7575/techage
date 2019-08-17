@@ -35,7 +35,6 @@ local function switch_on(pos, node, clicker)
 	if clicker and minetest.is_protected(pos, clicker:get_player_name()) then
 		return
 	end
-	print("switch_on")
 	node.name = "techage:powerswitch_on"
 	minetest.swap_node(pos, node)
 	minetest.sound_play("techage_button", {
@@ -51,7 +50,6 @@ local function switch_off(pos, node, clicker)
 	if clicker and minetest.is_protected(pos, clicker:get_player_name()) then
 		return
 	end
-	print("switch_off")
 	node.name = "techage:powerswitch"
 	minetest.swap_node(pos, node)
 	minetest.get_node_timer(pos):stop()

@@ -77,7 +77,6 @@ end
 local function cooking(pos, crd, mem, elapsed)
 	if firebox_cmnd(pos, "fuel") then
 		local state = smelting(pos, mem, elapsed)
-		--print("cooking", techage.StateStrings[state])
 		if state == techage.RUNNING then
 			crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
 		elseif state == techage.BLOCKED then
@@ -161,6 +160,7 @@ local function can_dig(pos, player)
 end
 
 local function on_node_state_change(pos, old_state, new_state)
+	mydbg("dbg2", "on_node_state_change", new_state)
 	if new_state == techage.RUNNING then
 		firebox_cmnd(pos, "start")
 	else

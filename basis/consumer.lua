@@ -29,24 +29,29 @@ local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).
 local power = techage.power
 
 local function can_start(pos, mem, state)
+	mydbg("con", "consumer can_start", state)
 	return power.power_available(pos, mem, CRD(pos).power_consumption)
 end
 
 local function start_node(pos, mem, state)
 	local crd = CRD(pos)
+	mydbg("con", "consumer start_node", state)
 	power.consumer_start(pos, mem, crd.cycle_time, crd.power_consumption)
 end
 
 local function stop_node(pos, mem, state)
+	mydbg("con", "consumer stop_node", state)
 	power.consumer_stop(pos, mem)
 end
 
 local function on_power(pos, mem)
+	mydbg("con", "consumer on_power")
 	local crd = CRD(pos)
 	crd.State:start(pos, mem)
 end
 
 local function on_nopower(pos, mem)
+	mydbg("con", "consumer on_nopower")
 	local crd = CRD(pos)
 	crd.State:nopower(pos, mem)
 end
@@ -55,7 +60,7 @@ local function node_timer(pos, elapsed)
 	local crd = CRD(pos)
 	local mem = tubelib2.get_mem(pos)
 	local state = mem.techage_state
-	print("consumer node_timer", techage.needs_power(mem))
+	mydbg("con", "consumer node_timer", techage.needs_power(mem))
 	if techage.power_alive(mem) then
 		power.consumer_alive(pos, mem)
 	end

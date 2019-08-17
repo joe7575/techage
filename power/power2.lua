@@ -136,7 +136,7 @@ function techage.power.register_node(names, pwr_def)
 					-- To be called delayed, so that all network connections have been established
 					minetest.after(0.2, network_changed, pos, mem)
 					if pwr.after_tube_update then
-						print("after_tube_update", node.name)
+						mydbg("tlib", "after_tube_update", node.name)
 						return pwr.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
 					end
 				end,
@@ -199,7 +199,7 @@ end
 
 -- Used to turn on/off the power by means of a power switch
 function techage.power.power_cut(pos, dir, cable, cut)
-	print("power_cut")
+	mydbg("pwr", "power_cut")
 	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
 	
 	local node = minetest.get_node(npos)

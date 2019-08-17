@@ -24,7 +24,7 @@ local BURN_CYCLE_FACTOR = 0.8
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	--print("firebox burn_cycles = "..(mem.burn_cycles or 0))
+	mydbg("dbg", "firebox burn_cycles = "..(mem.burn_cycles or 0))
 	if mem.running then
 		local power = techage.transfer(
 			{x=pos.x, y=pos.y+2, z=pos.z}, 

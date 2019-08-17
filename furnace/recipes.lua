@@ -49,8 +49,6 @@ minetest.after(1, function()
 			if tbl then
 				for _,recipe in ipairs(tbl) do
 					if recipe and recipe.method == "cooking" then
-						--print(dump(idef), dump(recipe))
-						--print(key, recipe.width)
 						techage.furnace.register_recipe({
 							output = recipe.output, 
 							recipe = recipe.items, 
