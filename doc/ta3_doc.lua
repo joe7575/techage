@@ -26,19 +26,20 @@ techage.register_category_page("ta3",
 techage.register_entry_page("ta3", "power",
 	S("Power Consumption"), 
 	S("Power consumption and supply:@n"..
-	"- TA3 Power Station: 80@n"..
-	"- TA3 Tiny Generator: 12@n"..
-	"- TA3 Akku Box: 10 (in both dirs)@n"..
-	"- TA3 Oil Drill Box: 16@n"..
-	"- TA3 Oil Pumpjack: 16@n"..
-	"- TA3 Electronic Fab: 12@n"..
-	"- TA3 Autocrafter: 6@n"..
-	"- TA3 Grinder: 6@n"..
-	"- TA3 Gravel Sieve: 4@n"..
-	"- TA3 Booster: 3@n"..
-	"- Lamps: 0.5@n"..
+	"- TA3 Power Station: 80 ku@n"..
+	"- TA3 Tiny Generator: 12 ku@n"..
+	"- TA3 Akku Box: 10 ku (in both dirs)@n"..
+	"- TA3 Oil Drill Box: 16 ku@n"..
+	"- TA3 Oil Pumpjack: 16 ku@n"..
+	"- TA3 Electronic Fab: 12 ku@n"..
+	"- TA3 Autocrafter: 6 ku@n"..
+	"- TA3 Grinder: 6 ku@n"..
+	"- TA3 Gravel Sieve: 4 ku@n"..
+	"- TA3 Booster: 3 ku@n"..
+	"- Lamps: 0.5 ku@n"..
+	"- TA4 Streetlamp Solar Cell: 1 ku@n"..
 	"@n"..
-	"- Signs Bot: 8 (while loading)"),
+	"- Signs Bot: 8 ku (while loading)"),
 	"techage:t3_source", nil)
 
 techage.register_entry_page("ta3", "times",
@@ -46,7 +47,7 @@ techage.register_entry_page("ta3", "times",
 	S("Burning times with one oil item for@n"..
 	"Stream Engine  /  Power Station  /  Tiny Generator:@n"..
 	"@n"..
-	"Power max.     :     25 /  80  /  12@n"..
+	"Power max./ku  :     25 /  80  /  12@n"..
 	"Oil burn time/s :     32 /  20  /  100 @n"..
 	"@n"..
 	"burn time at power   2  :    400  /  800  /   600@n"..

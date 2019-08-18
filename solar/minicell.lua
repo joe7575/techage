@@ -127,7 +127,7 @@ techage.register_node({"techage:ta4_solar_minicell"}, {
 minetest.register_craft({
 	output = "techage:ta4_solar_minicell",
 	recipe = {
-		{"", "", ""},
+		{"", "techage:ta4_wlanchip", ""},
 		{"techage:ta4_silicon_wafer", "techage:ta4_silicon_wafer", "techage:ta4_silicon_wafer"},
 		{"default:tin_ingot", "techage:iron_ingot", "default:copper_ingot"},
 	},

@@ -20,9 +20,12 @@ minetest.register_craftitem("techage:ta4_silicon_wafer", {
 })
 
 techage.furnace.register_recipe({
-	output = "techage:ta4_silicon_wafer 8",
+	output = "techage:ta4_silicon_wafer 16",
 	recipe = {
 		"basic_materials:silicon", 
+		"basic_materials:silicon", 
+		"basic_materials:silicon", 
+		"techage:baborium_ingot"
 	},
 	time = 6,
 })

@@ -23,10 +23,11 @@ else
 	techage.DebugTopics = {
 		--con = true,  -- consumer modell
 		--pwr = true,  -- power distribution
-		sts = true,  -- status plots
+		--sts = true,  -- status plots
 		--dbg = true,
 		--dbg2 = true,
-		tst = true,
+		--tst = true,
+		--bot = true  -- Signs Bot
 	}
 
 	-- Basis features

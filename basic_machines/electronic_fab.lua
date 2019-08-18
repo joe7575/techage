@@ -35,7 +35,7 @@ local ValidInput = {
 		["default:mese_crystal"] = true, 
 		["default:copper_ingot"] = true, 
 		["default:gold_ingot"] = true, 
-		["basic_materials:silicon"] = true,
+		["techage:ta4_silicon_wafer"] = true,
 	},  
 	{},  -- 4
 }
@@ -43,7 +43,7 @@ local ValidInput = {
 local Input = {
 	{},  -- 1
 	{"default:glass", "basic_materials:copper_wire", "basic_materials:plastic_sheet", "techage:usmium_nuggets"}, --2
-	{"default:mese_crystal", "default:copper_ingot", "default:gold_ingot", "basic_materials:silicon"},  -- 3
+	{"default:mese_crystal", "default:copper_ingot", "default:gold_ingot", "techage:ta4_silicon_wafer"},  -- 3
 	{},  -- 4
 }
 
@@ -301,7 +301,7 @@ if minetest.global_exists("unified_inventory") then
 	})
 	unified_inventory.register_craft({
 		output = "techage:ta4_wlanchip 8", 
-		items = {"default:mese_crystal", "default:copper_ingot", "default:gold_ingot", "basic_materials:silicon"},
+		items = {"default:mese_crystal", "default:copper_ingot", "default:gold_ingot", "techage:ta4_silicon_wafer"},
 		type = "electronic_fab",
 	})
 end

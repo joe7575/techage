@@ -156,7 +156,6 @@ minetest.register_node("techage:ta3_akku", {
 techage.power.register_node({"techage:ta3_akku"}, {
 	conn_sides = {"R"},
 	power_network  = Power,
-	on_power = on_power,
 })
 
 techage.register_entry_page("ta3ps", "akku",
