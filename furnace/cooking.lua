@@ -27,12 +27,19 @@ techage.furnace = {}
 
 
 local function all_ingredients_available(output, ingr)
-	for _,item in ipairs(Recipes[output].input) do
-		if not techage.in_list(ingr, item) then
-			return false
+	if Recipes[output] then
+		for idx,recipe in ipairs(Recipes[output]) do
+			local not_in_list = false
+			for _,item in ipairs(recipe.input) do
+				if not techage.in_list(ingr, item) then
+					not_in_list = true
+				end
+			end
+			if not_in_list == false then
+				return idx -- list number of the recipe
+			end
 		end
 	end
-	return true
 end			
 
 -- Return a list with all outputs of the given list of ingredients
@@ -67,7 +74,6 @@ end
 
 -- move recipe src items to output inventory
 local function process(inv, recipe, output)
-	local res
 	-- check if all ingredients are available
 	for _,item in ipairs(recipe.input) do
 		if not inv:contains_item("src", item) then
@@ -89,10 +95,10 @@ function techage.furnace.smelting(pos, mem, elapsed)
 	local inv = M(pos):get_inventory()
 	local state = techage.RUNNING
 	if inv and not inv:is_empty("src") then
-		if not mem.output then
+		if not mem.output or not mem.num_recipe then
 			return techage.FAULT
 		end
-		local recipe = Recipes[mem.output]
+		local recipe = Recipes[mem.output][mem.num_recipe]
 		if not recipe then
 			return techage.FAULT
 		end
@@ -122,6 +128,7 @@ function techage.furnace.get_output(mem, ingr, idx)
 	local tbl = get_recipes(ingr)
 	idx = range(idx, 1, #tbl)
 	mem.output = tbl[idx] or tbl[1]
+	mem.num_recipe = all_ingredients_available(mem.output, ingr)
 	return mem.output
 end
 
@@ -148,11 +155,15 @@ function techage.furnace.register_recipe(recipe)
 	local output = words[1]
 	local number = tonumber(words[2] or 1)
 	table.insert(KeyList, output)
-	Recipes[output] = {
+	--print(recipe.output, dump(recipe.recipe))
+	if not Recipes[output] then
+		Recipes[output] = {}
+	end
+	table.insert(Recipes[output], {
 		input = recipe.recipe,
 		number = number,
 		time = math.max((recipe.time or 3) * number, 2),
-	}
+	})
 	for _,item in ipairs(recipe.recipe) do
 		if Ingredients[item] then
 			techage.add_to_set(Ingredients[item], output)
