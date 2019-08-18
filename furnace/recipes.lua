@@ -42,6 +42,16 @@ if minetest.global_exists("wielded_light") then
 	})
 end
 
+local function node_group(group)
+	local tbl = {}
+	for key,_ in pairs(minetest.registered_items) do
+		if minetest.get_item_group(key, group) > 0 then
+			tbl[#tbl + 1] = key
+		end
+	end
+	return tbl
+end
+
 minetest.after(1, function()
 	for key,_ in pairs(minetest.registered_items) do
 		if key ~= "" then
@@ -49,11 +59,21 @@ minetest.after(1, function()
 			if tbl then
 				for _,recipe in ipairs(tbl) do
 					if recipe and recipe.method == "cooking" then
-						techage.furnace.register_recipe({
-							output = recipe.output, 
-							recipe = recipe.items, 
-							time = math.floor((recipe.width + 1) / 2),
-						})
+						if recipe.items[1] and string.split(recipe.items[1], ":")[1] == "group" then
+							for _,item in ipairs(node_group(string.split(recipe.items[1], ":")[2])) do
+								techage.furnace.register_recipe({
+									output = recipe.output, 
+									recipe = {item}, 
+									time = math.floor((recipe.width + 1) / 2),
+								})
+							end
+						else
+							techage.furnace.register_recipe({
+								output = recipe.output, 
+								recipe = recipe.items, 
+								time = math.floor((recipe.width + 1) / 2),
+							})
+						end
 					end
 				end
 			end
