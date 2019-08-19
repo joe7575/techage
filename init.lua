@@ -110,6 +110,7 @@ else
 	dofile(MP.."/coal_power_station/turbine.lua")
 	dofile(MP.."/coal_power_station/cooler.lua")
 	dofile(MP.."/coal_power_station/akkubox.lua")
+	dofile(MP.."/coal_power_station/power_terminal.lua")
 	
 	-- Industrial Furnace
 	dofile(MP.."/furnace/help.lua")

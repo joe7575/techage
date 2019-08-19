@@ -81,7 +81,7 @@ techage.register_category_page("ta3ps",
 		"- Connect the Generator with your machines by means of cables and junction boxes@n"..
 		"- Start the Generator"), 
 	nil, 
-	{"coalboiler_base", "coalboiler_top", "turbine", "generator", "cooler", "akku", "tiny_generator"},
+	{"coalboiler_base", "coalboiler_top", "turbine", "generator", "cooler", "akku", "tiny_generator", "ta3_power_terminal"},
 	Images)
 
 techage.register_category_page("ta3op",
