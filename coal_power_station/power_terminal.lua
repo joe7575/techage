@@ -28,32 +28,33 @@ local Param2ToDir = {
 
 local function formspec(pos)
 	local jpos = minetest.deserialize(M(pos):get_string("junction_pos"))
-	local ndef = minetest.registered_nodes[minetest.get_node(jpos).name]
-	if ndef.is_power_available then
-		local power = ndef.is_power_available(jpos)
-		if power and power.prim_available then
-			return "size[5,4]"..
-			default.gui_bg..
-			default.gui_bg_img..
-			default.gui_slots..
-			"label[1.5,0.0;"..S("Network Data").."]"..
-			"label[0,0.8;"..S("Generators").."        : "..power.prim_available.." ku]"..
-			"label[0,1.4;"..S("Akkus").."                 : "..power.sec_available.." ku]"..
-			"label[0,2.0;"..S("Machines").."           : "..power.prim_needed.." ku]"..
-			"label[0,2.6;"..S("Number nodes").."  : "..power.num_nodes.."]"..
-			"button[1.5,3.3;2,1;update;"..S("Update").."]"
+	local power = techage.power.power_accounting(jpos, tubelib2.get_mem(jpos))
+	if power and power.prim_available then
+		local alarm = ""
+		if power.num_nodes > (techage.MAX_NUM_NODES - 50) then
+			alarm = "  (max. "..(techage.MAX_NUM_NODES).." !!!)"
 		end
+		return "size[5,4]"..
+		default.gui_bg..
+		default.gui_bg_img..
+		default.gui_slots..
+		"label[1.5,0.0;"..S("Network Data").."]"..
+		"label[0,0.8;"..S("Generators").."        : "..power.prim_available.." ku]"..
+		"label[0,1.4;"..S("Akkus").."                 : "..power.sec_available.." ku]"..
+		"label[0,2.0;"..S("Machines").."           : "..power.prim_needed.." ku]"..
+		"label[0,2.6;"..S("Number nodes").."  : "..power.num_nodes..alarm.."]"..
+		"button[1.5,3.3;2,1;update;"..S("Update").."]"
 	end
 	return "size[5,4]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-			"label[1.5,0.0;"..S("Network Data").."]"..
-			"label[0,0.8;"..S("Generators").."        : 0 ku]"..
-			"label[0,1.4;"..S("Akkus").."                 : 0 ku]"..
-			"label[0,2.0;"..S("Machines").."           : 0 ku]"..
-			"label[0,2.6;"..S("Number nodes").."  : 0]"..
-			"button[1.5,3.3;2,1;update;"..S("Update").."]"
+	"label[1.5,0.0;"..S("Network Data").."]"..
+	"label[0,0.8;"..S("Generators").."        : 0 ku]"..
+	"label[0,1.4;"..S("Akkus").."                 : 0 ku]"..
+	"label[0,2.0;"..S("Machines").."           : 0 ku]"..
+	"label[0,2.6;"..S("Number nodes").."  : 0]"..
+	"button[1.5,3.3;2,1;update;"..S("Update").."]"
 end
 
 

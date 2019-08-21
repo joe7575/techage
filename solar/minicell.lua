@@ -34,7 +34,7 @@ local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	mem.capa = mem.capa or 0
 	pos.y = pos.y + 1
-	local light = minetest.get_node_light(pos)
+	local light = minetest.get_node_light(pos) or 0
 	pos.y = pos.y - 1
 	
 	if light >= (minetest.LIGHT_MAX - 1) then
@@ -103,6 +103,7 @@ minetest.register_node("techage:ta4_solar_minicell", {
 
 techage.power.register_node({"techage:ta4_solar_minicell"}, {
 	power_network  = Cable,
+	conn_sides = {"D"},
 })
 
 techage.register_node({"techage:ta4_solar_minicell"}, {	
@@ -110,13 +111,11 @@ techage.register_node({"techage:ta4_solar_minicell"}, {
 		local mem = tubelib2.get_mem(pos)
 		if topic == "state" then
 			if mem.providing then
-				if (mem.provided or 0) > 0 then
-					return "discharging"
-				else
-					return "unused"
-				end
-			else
+				return "discharging"
+			elseif (mem.capa or 0) > 0 then
 				return "charging"
+			else
+				return "unused"
 			end
 		else
 			return "unsupported"

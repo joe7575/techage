@@ -40,6 +40,10 @@ local S = techage.S
 local function read_state(itemstack, user, pointed_thing)
 	local pos = pointed_thing.under
 	if pos and user then
+		local data = minetest.get_biome_data(pos)
+		if data then
+			minetest.chat_send_player(user:get_player_name(), "Temp: "..math.floor(data.heat).."    ")
+		end
 		local number = techage.get_node_number(pos)
 		local ndef = minetest.registered_nodes[minetest.get_node(pos).name]
 		if number then

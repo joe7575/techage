@@ -288,21 +288,27 @@ minetest.register_craftitem("techage:wlanchip", {
 
 
 if minetest.global_exists("unified_inventory") then
-	unified_inventory.register_craft_type("electronic_fab", {
-		description = S("Electronic Fab"),
+	unified_inventory.register_craft_type("ta2_electronic_fab", {
+		description = S("TA2 Ele Fab"),
 		icon = 'techage_filling_ta2.png^techage_appl_electronic_fab.png^techage_frame_ta2.png',
+		width = 2,
+		height = 2,
+	})
+	unified_inventory.register_craft_type("ta3_electronic_fab", {
+		description = S("TA3 Ele Fab"),
+		icon = 'techage_filling_ta3.png^techage_appl_electronic_fab.png^techage_frame_ta3.png',
 		width = 2,
 		height = 2,
 	})
 	unified_inventory.register_craft({
 		output = "techage:vacuum_tube 2", 
 		items = {"default:glass", "basic_materials:copper_wire", "basic_materials:plastic_sheet", "techage:usmium_nuggets"},
-		type = "electronic_fab",
+		type = "ta2_electronic_fab",
 	})
 	unified_inventory.register_craft({
 		output = "techage:ta4_wlanchip 8", 
 		items = {"default:mese_crystal", "default:copper_ingot", "default:gold_ingot", "techage:ta4_silicon_wafer"},
-		type = "electronic_fab",
+		type = "ta3_electronic_fab",
 	})
 end
 

@@ -119,6 +119,7 @@ function techage.furnace.smelting(pos, mem, elapsed)
 			elapsed = elapsed - recipe.time
 		end
 		mem.leftover = elapsed
+		mem.item_percent = math.min(math.floor((mem.leftover * 100.0) / recipe.time), 100)
 		return state
 	end
 	return techage.STANDBY

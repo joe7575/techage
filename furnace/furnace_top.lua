@@ -41,7 +41,8 @@ local function formspec(self, pos, mem)
 		default.gui_bg_img..
 		default.gui_slots..
 		"list[context;src;0,0;2,2;]"..
-		"image[2,0.5;1,1;techage_form_arrow.png]"..
+		"image[2,0.5;1,1;techage_form_arrow_bg.png^[lowpart:"..
+		(mem.item_percent or 0)..":techage_form_arrow_fg.png^[transformR270]"..
 		"image_button[2,2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 		"list[context;dst;3,0;2,2;]"..
 		
@@ -95,6 +96,10 @@ local function keep_running(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	local crd = CRD(pos)
 	cooking(pos, crd, mem, elapsed)
+	mem.toggle = not mem.toggle
+	if mem.toggle then 
+		M(pos):set_string("formspec", formspec(crd.State, pos, mem))
+	end
 	return crd.State:is_active(mem)
 end	
 

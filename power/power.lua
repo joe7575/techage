@@ -26,7 +26,8 @@ local NumNodes = 0
 
 techage.power = {}
 
-local MAX_NUM_NODES = 100
+local MAX_NUM_NODES = 1000
+techage.MAX_NUM_NODES = MAX_NUM_NODES
 
 -- Consumer States
 local STOPPED = 1
@@ -197,7 +198,7 @@ minetest.register_lbm({
 
 local function pos_already_reached(pos)
 	local key = minetest.hash_node_position(pos)
-	if not Route[key] then
+	if not Route[key] and NumNodes < MAX_NUM_NODES then
 		Route[key] = true
 		NumNodes = NumNodes + 1
 		return false
