@@ -5,7 +5,7 @@
 
 	Copyright (C) 2017-2019 Joachim Stolberg
 
-	LGPLv2.1+
+	GPL v3
 	See LICENSE.txt for more information
 
 	repairkit.lua:

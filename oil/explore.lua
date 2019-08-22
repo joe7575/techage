@@ -1,3 +1,17 @@
+--[[
+
+	TechAge
+	=======
+
+	Copyright (C) 2019 Joachim Stolberg
+
+	GPL v3
+	See LICENSE.txt for more information
+
+	TA3 Oil Explorer
+	
+]]--
+
 -- for lazy programmers
 local M = minetest.get_meta
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end

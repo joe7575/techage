@@ -6,7 +6,7 @@
 	Copyright (C) 2018 Joachim Stolberg
     Based on mods/default/tools.lua
 	
-	LGPLv2.1+
+	GPL v3
 	See LICENSE.txt for more information
 
 ]]--

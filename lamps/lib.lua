@@ -1,3 +1,17 @@
+--[[
+
+	TechAge
+	=======
+
+	Copyright (C) 2019 Joachim Stolberg
+
+	GPL v3
+	See LICENSE.txt for more information
+	
+	Lamp library
+
+]]--
+
 -- for lazy programmers
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
