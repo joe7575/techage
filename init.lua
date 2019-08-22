@@ -149,7 +149,7 @@ else
 	end
 	
 	-- Logic
-	--dofile(MP.."/logic/terminal.lua")
+	dofile(MP.."/logic/terminal.lua")
 
 	-- Test
 	dofile(MP.."/recipe_checker.lua")

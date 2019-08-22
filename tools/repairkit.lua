@@ -15,34 +15,12 @@
 local M = minetest.get_meta
 local S = techage.S
 
---local function destroy_node(itemstack, placer, pointed_thing)
---	if pointed_thing.type == "node" then
---		local pos = pointed_thing.under
---		if not minetest.is_protected(pos, placer:get_player_name()) then
---			local mem = tubelib2.get_mem(pos)
---			mem.techage_aging = 999999
---		end
---	end
---end
-
---local function repair_node(itemstack, user, pointed_thing)
---	local pos = pointed_thing.under
---	if pos then
---		if techage.repair_node(pos) then
---			minetest.chat_send_player(user:get_player_name(), "[TechAge] Node repaired")
---			itemstack:add_wear(13108)
---			return itemstack
---		end
---	end
---	return 
---end
-
 local function read_state(itemstack, user, pointed_thing)
 	local pos = pointed_thing.under
 	if pos and user then
 		local data = minetest.get_biome_data(pos)
 		if data then
-			minetest.chat_send_player(user:get_player_name(), "Temp: "..math.floor(data.heat).."    ")
+			minetest.chat_send_player(user:get_player_name(), S("Position temperature")..": "..math.floor(data.heat).."    ")
 		end
 		local number = techage.get_node_number(pos)
 		local ndef = minetest.registered_nodes[minetest.get_node(pos).name]
@@ -101,7 +79,7 @@ minetest.register_tool("techage:repairkit", {
 
 
 minetest.register_tool("techage:end_wrench", {
-	description = S("TechAge End Wrench (use = read status, place = cmd: on/off)"),
+	description = S("TechAge Info Tool (use = read status info)"),
 	inventory_image = "techage_end_wrench.png",
 	wield_image = "techage_end_wrench.png",
 	groups = {cracky=1, book=1},
@@ -111,14 +89,14 @@ minetest.register_tool("techage:end_wrench", {
 	stack_max = 1,
 })
 
-minetest.register_craft({
-	output = "techage:repairkit",
-	recipe = {
-		{"", "basic_materials:gear_steel", ""},
-		{"", "techage:end_wrench", ""},
-		{"", "basic_materials:oil_extract", ""},
-	},
-})
+--minetest.register_craft({
+--	output = "techage:repairkit",
+--	recipe = {
+--		{"", "basic_materials:gear_steel", ""},
+--		{"", "techage:end_wrench", ""},
+--		{"", "basic_materials:oil_extract", ""},
+--	},
+--})
 
 minetest.register_craft({
 	output = "techage:end_wrench",
@@ -130,9 +108,8 @@ minetest.register_craft({
 })
 
 techage.register_entry_page("ta", "end_wrench",
-	S("TechAge End Wrench"), 
-	S("The End Wrench is a tool to read any kind od status information from a node with command inderface.@n"..
-		"- use (left mouse button) = read status@n".. 
-		"- place (right mouse button) = send command: on/off"), 
+	S("TechAge Info Tool"), 
+	S("The TechAge Info Tool is a tool to read any kind of status information from nodes providing a command interface.@n"..
+		"Click on the node to read the status"), 
 	"techage:end_wrench")
 

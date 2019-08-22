@@ -20,21 +20,25 @@ local HELP_TA3 = S("#### TA3 Terminal ####@n"..
 "and output text messages from your@n"..
 "machines to the Terminal.@n"..
 "@n"..
-"Commands can have up to 80 characters.@n"..
+"Command syntax:@n"..
+"  cmd <num> <cmnd>@n"..
+"@n"..
+"example: cmd 181 on@n"..
+"<num> is the number of the node to which the command is sent@n"..
+"'on' is the command to turn machines/nodes on@n"..
+"Further commands can be retrieved by clicking on@n"..
+"machines/nodes with the Techage Info Tool.@n"..
+"@n"..
 "Local commands:@n"..
 "- clear    = clear screen@n"..
 "- help     = this message@n"..
 "- pub      = switch to public use@n"..
 "- priv      = switch to private use@n"..
-"To program a button with a command:@n"..
-"- set <button-num> <button-text> <command>@n"..
-"Global commands:@n"..
-"- cmd <num> <cmnd> [<payload>] = send a command@n"..
-"- turn <num> on/off  = send a simple turn on/off command@n")
+"To program a user button with a command:@n"..
+"  set <button-num> <button-text> <command>@n"..
+"e.g. 'set 1 ON cmd 123 on'@n")
 
-local CMNDS_TA3 = S("Command syntax:@n"..
-"- cmd <num> <cmnd> [<payload>] = send a command@n"..
-"- turn <num> on/off  = send a simple turn on/off command")
+local CMNDS_TA3 = S("Syntax error, try help")
 
 local function formspec1()
 	return "size[6,4]"..
