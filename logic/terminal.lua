@@ -12,6 +12,7 @@
 	
 ]]--
 
+local M = minetest.get_meta
 local S = techage.S
 
 local HELP_TA3 = S("#### TA3 Terminal ####@n"..
@@ -40,14 +41,14 @@ local HELP_TA3 = S("#### TA3 Terminal ####@n"..
 
 local CMNDS_TA3 = S("Syntax error, try help")
 
-local function formspec1()
-	return "size[6,4]"..
-	default.gui_bg..
-	default.gui_bg_img..
-	default.gui_slots..
-	"field[0.5,1;5,1;number;Techage Controller number:;]" ..
-	"button_exit[1.5,2.5;2,1;exit;Save]"
-end
+--local function formspec1()
+--	return "size[6,4]"..
+--	default.gui_bg..
+--	default.gui_bg_img..
+--	default.gui_slots..
+--	"field[0.5,1;5,1;number;Techage Controller number:;]" ..
+--	"button_exit[1.5,2.5;2,1;exit;Save]"
+--end
 
 local function get_string(meta, num, default)
 	local s = meta:get_string("bttn_text"..num)
@@ -127,7 +128,6 @@ local function command(pos, command, player)
 			output(pos, "$ "..command)
 			local num, cmnd, payload = command:match('^cmd%s+([0-9]+)%s+(%w+)%s*(.*)$')
 			if num and cmnd then
-				local own_number = meta:get_string("own_number")
 				if techage.not_protected(num, owner, owner) then
 					local resp = techage.send_single(num, cmnd, payload)
 					if type(resp) == "string" then
@@ -177,7 +177,7 @@ local function register_terminal(num, tiles, node_box, selection_box)
 		after_place_node = function(pos, placer)
 			local number = techage.add_node(pos, minetest.get_node(pos).name)
 			local meta = minetest.get_meta(pos)
-			meta:set_string("own_number", number)
+			meta:set_string("node_number", number)
 			meta:set_string("command", S("commands like: help"))
 			meta:set_string("formspec", formspec2(meta))
 			meta:set_string("owner", placer:get_player_name())
@@ -284,12 +284,15 @@ minetest.register_craft({
 
 techage.register_node({"techage:terminal1", "techage:terminal2"}, {
 	on_recv_message = function(pos, topic, payload)
-		if topic == "term" then
-			output(pos, payload)
-			return true
-		elseif topic == "msg" then
-			output(pos, payload.src..": "..payload.text)
-			return true
+		output(pos, "cmd="..dump(topic)..", data="..dump(payload))
+		return true
+	end,
+	on_node_load = function(pos)
+		local meta = M(pos)
+		local number = meta:get_string("number") or ""
+		if number ~= "" then
+			meta:set_string("node_number", number)
+			meta:set_string("number", nil)
 		end
 	end,
 })

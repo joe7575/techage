@@ -149,7 +149,12 @@ else
 	end
 	
 	-- Logic
+	dofile(MP.."/logic/lib.lua")
 	dofile(MP.."/logic/terminal.lua")
+	dofile(MP.."/logic/button.lua")
+	dofile(MP.."/logic/detector.lua")
+	dofile(MP.."/logic/repeater.lua")
+	dofile(MP.."/logic/programmer.lua")
 
 	-- Test
 	dofile(MP.."/recipe_checker.lua")

@@ -83,7 +83,7 @@ minetest.register_node("techage:ta4_solar_minicell", {
 	after_place_node = function(pos)
 		local meta = minetest.get_meta(pos)
 		local number = techage.add_node(pos, "techage:ta4_solar_minicell")
-		meta:set_string("number", number)
+		meta:set_string("node_number", number)
 		meta:set_string("infotext", S("TA4 Streetlamp Solar Cell").." "..number)
 		local mem = tubelib2.get_mem(pos)
 		mem.capa = 0
@@ -119,6 +119,14 @@ techage.register_node({"techage:ta4_solar_minicell"}, {
 			end
 		else
 			return "unsupported"
+		end
+	end,
+	on_node_load = function(pos)
+		local meta = M(pos)
+		local number = meta:get_string("number") or ""
+		if number ~= "" then
+			meta:set_string("node_number", number)
+			meta:set_string("number", nil)
 		end
 	end,
 })

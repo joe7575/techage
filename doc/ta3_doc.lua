@@ -109,5 +109,5 @@ techage.register_category_page("ta3l",
 	S("TA3: Logic"),
 	S("Collection of TA3 logic blocks to control your machines."),
 	"techage:terminal2", 
-	{"terminal"}
+	{"terminal", "button", "detector", "repeater", "programmer"}
 )

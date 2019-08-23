@@ -1,7 +1,7 @@
 --[[
 
-	TexchAge
-	========
+	TechAge
+	=======
 
 	Copyright (C) 2017-2019 Joachim Stolberg
 

@@ -83,10 +83,11 @@ end
 local function not_protected(pos, placer_name, clicker_name)
 	local meta = minetest.get_meta(pos)
 	if meta then
-		local cached_name = meta:get_string("techage_cached_name")
-		if placer_name and (placer_name == cached_name or not minetest.is_protected(pos, placer_name)) then
-			meta:set_string("techage_cached_name", placer_name)
-			if clicker_name == nil or not minetest.is_protected(pos, clicker_name) then
+		if placer_name and not minetest.is_protected(pos, placer_name) then
+			if clicker_name == nil or placer_name == clicker_name then
+				return true
+			end
+			if not minetest.is_protected(pos, clicker_name) then
 				return true
 			end
 		end
@@ -157,20 +158,6 @@ end
 -- API helper functions
 -------------------------------------------------------------------
 	
--- Check the given list of numbers.
--- Returns true if number(s) is/are valid and point to real nodes.
-function techage.check_numbers(numbers)
-	if numbers then
-		for _,num in ipairs(string_split(numbers, " ")) do
-			if Number2Pos[num] == nil then
-				return false
-			end
-		end
-		return true
-	end
-	return false
-end	
-
 -- Function returns { pos, name } for the node on the given position number.
 function techage.get_node_info(dest_num)
 	if Number2Pos[dest_num] then
@@ -296,6 +283,21 @@ function techage.not_protected(number, placer_name, clicker_name)
 	end
 	return false
 end
+
+-- Check the given list of numbers.
+-- Returns true if number(s) is/are valid, point to real nodes and
+-- and the nodes are not protected for the given player_name.
+function techage.check_numbers(numbers, placer_name)
+	if numbers then
+		for _,num in ipairs(string_split(numbers, " ")) do
+			if not techage.not_protected(num, placer_name, nil) then
+				return false
+			end
+		end
+		return true
+	end
+	return false
+end	
 
 function techage.send_multi(numbers, topic, payload)
 	for _,num in ipairs(string_split(numbers, " ")) do

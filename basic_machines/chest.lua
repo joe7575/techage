@@ -23,27 +23,27 @@ local InventoryState = {}
 local function store_action(pos, player, action, stack)
 	local meta = minetest.get_meta(pos)
 	local name = player and player:get_player_name() or ""
-	local number = meta:get_string("number")
+	local number = meta:get_string("node_number")
 	local item = stack:get_name().." "..stack:get_count()
 	PlayerActions[number] = {name, action, item}
 end	
 
 local function send_off_command(pos)
 	local meta = minetest.get_meta(pos)
-	local dest_num = meta:get_string("dest_num")
-	local own_num = meta:get_string("number")
-	local owner = meta:get_string("owner")
-	techage.send_multi(dest_num, owner, nil, "off", own_num)
+	local numbers = meta:get_string("numbers") or ""
+	if numbers ~= "" then
+		local own_num = meta:get_string("node_number")
+		techage.send_multi(numbers, "off", own_num)
+	end
 end
 
 
 local function send_command(pos)
 	local meta = minetest.get_meta(pos)
-	local dest_num = meta:get_string("dest_num")
-	if dest_num ~= "" then
-		local own_num = meta:get_string("number")
-		local owner = meta:get_string("owner")
-		techage.send_multi(dest_num, owner, nil, "on", own_num)
+	local numbers = meta:get_string("numbers") or ""
+	if numbers ~= "" then
+		local own_num = meta:get_string("node_number")
+		techage.send_multi(numbers, "on", own_num)
 		minetest.after(1, send_off_command, pos)
 	end
 end
@@ -110,12 +110,16 @@ minetest.register_node("techage:chest_ta2", {
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos)
 		local number = techage.add_node(pos, "techage:chest_ta2")
-		meta:set_string("number", number)
+		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("formspec", formspec2())
 		meta:set_string("infotext", S("TA2 Protected Chest").." "..number)
 	end,
 
+	techage_set_numbers = function(pos, numbers, player_name)
+		return techage.logic.set_numbers(pos, numbers, player_name, S("TA2 Protected Chest"))
+	end,
+	
 	can_dig = can_dig,
 	after_dig_node = after_dig_node,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
@@ -159,12 +163,16 @@ minetest.register_node("techage:chest_ta3", {
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos)
 		local number = techage.add_node(pos, "techage:chest_ta3")
-		meta:set_string("number", number)
+		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("formspec", formspec3())
 		meta:set_string("infotext", S("TA3 Protected Chest").." "..number)
 	end,
 
+	techage_set_numbers = function(pos, numbers, player_name)
+		return techage.logic.set_numbers(pos, numbers, player_name, S("TA3 Protected Chest"))
+	end,
+	
 	can_dig = can_dig,
 	after_dig_node = after_dig_node,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
@@ -208,12 +216,16 @@ minetest.register_node("techage:chest_ta4", {
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos)
 		local number = techage.add_node(pos, "techage:chest_ta4")
-		meta:set_string("number", number)
+		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("formspec", formspec4())
 		meta:set_string("infotext", S("TA4 Protected Chest").." "..number)
 	end,
 
+	techage_set_numbers = function(pos, numbers, player_name)
+		return techage.logic.set_numbers(pos, numbers, player_name, S("TA4 Protected Chest"))
+	end,
+	
 	can_dig = can_dig,
 	after_dig_node = after_dig_node,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
@@ -249,16 +261,8 @@ techage.register_node({"techage:chest_ta2", "techage:chest_ta3", "techage:chest_
 			return techage.get_inv_state(inv, "main")
 		elseif topic == "player_action" then
 			local meta = minetest.get_meta(pos)
-			local number = meta:get_string("number")
+			local number = meta:get_string("node_number")
 			return PlayerActions[number]
-		elseif topic == "set_numbers" then
-			if techage.check_numbers(payload) then
-				local meta = minetest.get_meta(pos)
-				meta:set_string("dest_num", payload)
-				local number = meta:get_string("number")
-				meta:set_string("infotext", S("TA Protected Chest").." "..number.." "..S("connected with").." "..payload)
-				return true
-			end
 		else
 			return "unsupported"
 		end

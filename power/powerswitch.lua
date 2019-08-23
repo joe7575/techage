@@ -80,9 +80,9 @@ minetest.register_node("techage:powerswitch", {
 	},
 	
 	after_place_node = function(pos, placer)
-		local meta = minetest.get_meta(pos)
+		local meta = M(pos)
 		local number = techage.add_node(pos, "techage:powerswitch")
-		meta:set_string("number", number)
+		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("infotext", S("TA Power Switch").." "..number)
 	end,
@@ -210,6 +210,14 @@ techage.register_node({"techage:powerswitch", "techage:powerswitch_on"}, {
 			return "off"
 		else
 			return "unsupported"
+		end
+	end,
+	on_node_load = function(pos)
+		local meta = M(pos)
+		local number = meta:get_string("number") or ""
+		if number ~= "" then
+			meta:set_string("node_number", number)
+			meta:set_string("number", nil)
 		end
 	end,
 })	
