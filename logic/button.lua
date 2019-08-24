@@ -20,7 +20,7 @@ local logic = techage.logic
 
 local function switch_on(pos)
 	local cycle_time = M(pos):get_int("cycle_time")
-	logic.swap_node(pos, "techage:button_on")
+	logic.swap_node(pos, "techage:ta3_button_on")
 	logic.send_on(pos, M(pos), cycle_time)
 	minetest.sound_play("techage_button", {
 			pos = pos,
@@ -30,7 +30,7 @@ local function switch_on(pos)
 end
 
 local function switch_off(pos)
-	logic.swap_node(pos, "techage:button_off")
+	logic.swap_node(pos, "techage:ta3_button_off")
 	logic.send_off(pos, M(pos))
 end
 
@@ -45,7 +45,7 @@ local function formspec(meta)
 		"button_exit[2,4;3,1;exit;"..S("Save").."]"
 end
 
-minetest.register_node("techage:button_off", {
+minetest.register_node("techage:ta3_button_off", {
 	description = S("TA3 Button/Switch"),
 	tiles = {
 		-- up, down, right, left, back, front
@@ -59,7 +59,7 @@ minetest.register_node("techage:button_off", {
 
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		logic.after_place_node(pos, placer, "techage:button_off", S("TA3 Button/Switch"))
+		logic.after_place_node(pos, placer, "techage:ta3_button_off", S("TA3 Button/Switch"))
 		logic.infotext(meta, S("TA3 Button/Switch"))
 		meta:set_string("formspec", formspec(meta))
 		meta:set_string("public", "false")
@@ -141,7 +141,7 @@ minetest.register_node("techage:button_off", {
 })
 
 
-minetest.register_node("techage:button_on", {
+minetest.register_node("techage:ta3_button_on", {
 	description = ("TA3 Button/Switch"),
 	tiles = {
 		-- up, down, right, left, back, front
@@ -182,11 +182,11 @@ minetest.register_node("techage:button_on", {
 	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
-	drop = "techage:button_off",
+	drop = "techage:ta3_button_off",
 })
 
 minetest.register_craft({
-	output = "techage:button_off",
+	output = "techage:ta3_button_off",
 	recipe = {
 		{"", "group:wood", ""},
 		{"default:glass", "techage:vacuum_tube", ""},
@@ -198,4 +198,4 @@ techage.register_entry_page("ta3l", "button",
 	S("TA3 Button/Switch"), 
 	S("The Button/Switch is used to send on/off commands to machines/nodes.@n"..
 		"It can be configured as switch or as button with configurable cycle time from 2 to 32s)"),
-	"techage:button_on")
+	"techage:ta3_button_on")

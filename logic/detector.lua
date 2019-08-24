@@ -23,14 +23,14 @@ local function switch_on(pos)
 	local mem = tubelib2.get_mem(pos)
 	local t = minetest.get_gametime()
 	if t > (mem.time or 0) then
-		logic.swap_node(pos, "techage:detector_on")
+		logic.swap_node(pos, "techage:ta3_detector_on")
 		logic.send_on(pos, M(pos), 1)
 		mem.time = t + BLOCKING_TIME
 	end
 end
 
 local function switch_off(pos)
-	logic.swap_node(pos, "techage:detector_off")
+	logic.swap_node(pos, "techage:ta3_detector_off")
 	logic.send_off(pos, M(pos))
 end
 
@@ -41,7 +41,7 @@ local function formspec(meta)
 		"button_exit[2,2;3,1;exit;"..S("Save").."]"
 end
 
-minetest.register_node("techage:detector_off", {
+minetest.register_node("techage:ta3_detector_off", {
 	description = S("TA3 Detector"),
 	tiles = {
 		-- up, down, right, left, back, front
@@ -55,7 +55,7 @@ minetest.register_node("techage:detector_off", {
 
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		logic.after_place_node(pos, placer, "techage:detector_off", S("TA3 Detector"))
+		logic.after_place_node(pos, placer, "techage:ta3_detector_off", S("TA3 Detector"))
 		logic.infotext(meta, S("TA3 Detector"))
 		meta:set_string("formspec", formspec(meta))
 	end,
@@ -90,7 +90,7 @@ minetest.register_node("techage:detector_off", {
 })
 
 
-minetest.register_node("techage:detector_on", {
+minetest.register_node("techage:ta3_detector_on", {
 	description = S("TA3 Detector"),
 	tiles = {
 		-- up, down, right, left, back, front
@@ -120,11 +120,11 @@ minetest.register_node("techage:detector_on", {
 	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
-	drop = "techage:detector_off",
+	drop = "techage:ta3_detector_off",
 })
 
 minetest.register_craft({
-	output = "techage:detector_off",
+	output = "techage:ta3_detector_off",
 	recipe = {
 		{"", "group:wood", ""},
 		{"techage:tubeS", "techage:vacuum_tube", "techage:tubeS"},
@@ -133,7 +133,7 @@ minetest.register_craft({
 })
 
 
-techage.register_node({"techage:detector_off", "techage:detector_on"}, {
+techage.register_node({"techage:ta3_detector_off", "techage:ta3_detector_on"}, {
 	on_push_item = function(pos, in_dir, stack)
 		if techage.push_items(pos, in_dir, stack) then
 			switch_on(pos)
@@ -151,4 +151,4 @@ techage.register_entry_page("ta3l", "detector",
 		"It sends an 'on' when an item goes through,@n"..
 		"followed by an 'off' event one second later.@n"..
 		"After that it blocks further events for 8 seconds."),
-	"techage:detector_on")
+	"techage:ta3_detector_on")

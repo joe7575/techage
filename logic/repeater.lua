@@ -27,7 +27,7 @@ local function formspec(meta)
 		"button_exit[2,2;3,1;exit;"..S("Save").."]"
 end
 
-minetest.register_node("techage:repeater", {
+minetest.register_node("techage:ta3_repeater", {
 	description = S("TA3 Repeater"),
 	tiles = {
 		-- up, down, right, left, back, front
@@ -39,7 +39,7 @@ minetest.register_node("techage:repeater", {
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		local mem = tubelib2.get_mem(pos)
-		logic.after_place_node(pos, placer, "techage:repeater", S("TA3 Repeater"))
+		logic.after_place_node(pos, placer, "techage:ta3_repeater", S("TA3 Repeater"))
 		logic.infotext(meta, S("TA3 Repeater"))
 		meta:set_string("formspec", formspec(meta))
 		mem.overload_cnt = 0
@@ -82,7 +82,7 @@ minetest.register_node("techage:repeater", {
 
 
 minetest.register_craft({
-	output = "techage:repeater",
+	output = "techage:ta3_repeater",
 	recipe = {
 		{"", "group:wood", ""},
 		{"techage:vacuum_tube", "", "techage:vacuum_tube"},
@@ -90,7 +90,7 @@ minetest.register_craft({
 	},
 })
 
-techage.register_node({"techage:repeater"}, {
+techage.register_node({"techage:ta3_repeater"}, {
 	on_recv_message = function(pos, topic, payload)
 		local mem = tubelib2.get_mem(pos)
 		mem.overload_cnt = (mem.overload_cnt or 0) + 1
@@ -114,5 +114,5 @@ techage.register_entry_page("ta3l", "repeater",
 		"to all connected blocks. The list of destination block numbers@n"..
 		"has to be configured, but can easily programmed@n"..
 		"by means of the Programmer."),
-	"techage:repeater")
+	"techage:ta3_repeater")
 

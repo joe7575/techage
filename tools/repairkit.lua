@@ -15,15 +15,32 @@
 local M = minetest.get_meta
 local S = techage.S
 
+local Nodes2Convert = {
+	["techage:detector_off"] = "techage:ta3_detector_off",
+	["techage:detector_on"] = "techage:ta3_detector_on",
+	["techage:repeater"] = "techage:ta3_repeater",
+	["techage:button_off"] = "techage:ta3_button_off",
+	["techage:button_on"] = "techage:ta3_button_on",
+}
+
 local function read_state(itemstack, user, pointed_thing)
 	local pos = pointed_thing.under
 	if pos and user then
 		local data = minetest.get_biome_data(pos)
 		if data then
-			minetest.chat_send_player(user:get_player_name(), S("Position temperature")..": "..math.floor(data.heat).."    ")
+			minetest.chat_send_player(user:get_player_name(), S("Biome")..": "..data.biome..", "..S("Position temperature")..": "..math.floor(data.heat).."    ")
 		end
 		local number = techage.get_node_number(pos)
-		local ndef = minetest.registered_nodes[minetest.get_node(pos).name]
+		local node = minetest.get_node(pos)
+		if Nodes2Convert[node.name] then
+			if minetest.is_protected(pos, user:get_player_name()) then
+				return
+			end
+			node.name = Nodes2Convert[node.name]
+			minetest.swap_node(pos, node)
+			return
+		end
+		local ndef = minetest.registered_nodes[node.name]
 		if number then
 			if ndef and ndef.description then
 				local info = techage.send_single(number, "info", nil)
