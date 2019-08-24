@@ -65,6 +65,7 @@ minetest.register_node("techage:sink", {
 	tiles = {'techage_electric_button.png'},
 	
 	after_place_node = function(pos)
+		local mem = tubelib2.init_mem(pos)
 		M(pos):set_string("infotext", "off")
 	end,
 	

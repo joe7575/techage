@@ -131,7 +131,7 @@ minetest.register_node("techage:flywheel", {
 	on_construct = tubelib2.init_mem,
 	
 	after_place_node = function(pos, placer)
-		local mem = tubelib2.get_mem(pos)
+		local mem = tubelib2.init_mem(pos)
 		State:node_init(pos, mem, "")
 		on_rightclick(pos)
 	end,

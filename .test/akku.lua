@@ -55,7 +55,7 @@ local function on_receive_fields(pos, formname, fields, player)
 end
 
 local function after_place_node(pos, placer)
-	local mem = tubelib2.get_mem(pos)
+	local mem = tubelib2.init_mem(pos)
 	mem.running = true
 	mem.capa = 0
 	minetest.get_node_timer(pos):start(CYCLE_TIME)

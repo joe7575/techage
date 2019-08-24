@@ -195,7 +195,6 @@ techage.power.register_node({"techage:powerswitch_box"}, {
 
 techage.register_node({"techage:powerswitch", "techage:powerswitch_on"}, {
 	on_recv_message = function(pos, topic, payload)
-		local mem = tubelib2.get_mem(pos)
 		local node = minetest.get_node(pos)
 		if topic == "on" and node.name == "techage:powerswitch" then
 			switch_on(pos, node)

@@ -129,7 +129,6 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		standby_ticks = STANDBY_TICKS,
 		tubing = tubing,
 		after_place_node = function(pos, placer)
-			local mem = tubelib2.get_mem(pos)
 			local meta = M(pos)
 			local node = minetest.get_node(pos)
 			meta:set_int("pull_dir", techage.side_to_outdir("L", node.param2))

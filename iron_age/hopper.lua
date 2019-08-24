@@ -117,6 +117,7 @@ minetest.register_node("techage:hopper_ta1", {
 		
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos)
+		tubelib2.del_mem(pos)
 	end,
 	
 	on_rotate = screwdriver.disallow,

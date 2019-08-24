@@ -253,7 +253,7 @@ minetest.register_node("techage:boiler2", {
 	end,
 	
 	after_place_node = function(pos, placer)
-		local mem = tubelib2.get_mem(pos)
+		local mem = tubelib2.init_mem(pos)
 		State:node_init(pos, mem, "")
 		local node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
 		if node.name == "techage:boiler1" then

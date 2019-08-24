@@ -38,7 +38,7 @@ minetest.register_node("techage:ta3_repeater", {
 
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		local mem = tubelib2.get_mem(pos)
+		local mem = tubelib2.init_mem(pos)
 		logic.after_place_node(pos, placer, "techage:ta3_repeater", S("TA3 Repeater"))
 		logic.infotext(meta, S("TA3 Repeater"))
 		meta:set_string("formspec", formspec(meta))
@@ -70,6 +70,7 @@ minetest.register_node("techage:ta3_repeater", {
 	
 	after_dig_node = function(pos)
 		techage.remove_node(pos)
+		tubelib2.del_mem(pos)
 	end,
 
 	paramtype = "light",

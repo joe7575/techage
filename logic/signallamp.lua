@@ -55,6 +55,7 @@ minetest.register_node("techage:signal_lamp_off", {
 
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos)
+		tubelib2.del_mem(pos)
 		if COLORED then
 			unifieddyes.after_dig_node(pos, oldnode, oldmetadata, digger)
 		end
@@ -65,7 +66,7 @@ minetest.register_node("techage:signal_lamp_off", {
 	
 	paramtype = "light",
 	paramtype2 = "color",
-	palette = "unifieddyes_palette_extended.png",
+	palette = COLORED and "unifieddyes_palette_extended.png" or 'techage_color16.png',
 	place_param2 = 241,
 	sunlight_propagates = true,
 	sounds = default.node_sound_stone_defaults(),
@@ -90,7 +91,7 @@ minetest.register_node("techage:signal_lamp_on", {
 
 	paramtype = "light",
 	paramtype2 = "color",
-	palette = "unifieddyes_palette_extended.png",
+	palette = COLORED and "unifieddyes_palette_extended.png" or 'techage_color16.png',
 	groups = {choppy=2, cracky=1, not_in_creative_inventory=1, ud_param2_colorable = 1},
 	
 	on_construct = COLORED and unifieddyes.on_construct,
@@ -98,6 +99,7 @@ minetest.register_node("techage:signal_lamp_on", {
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos)
+		tubelib2.del_mem(pos)
 		if COLORED then
 			unifieddyes.after_dig_node(pos, oldnode, oldmetadata, digger)
 		end

@@ -85,7 +85,7 @@ minetest.register_node("techage:ta4_solar_minicell", {
 		local number = techage.add_node(pos, "techage:ta4_solar_minicell")
 		meta:set_string("node_number", number)
 		meta:set_string("infotext", S("TA4 Streetlamp Solar Cell").." "..number)
-		local mem = tubelib2.get_mem(pos)
+		local mem = tubelib2.init_mem(pos)
 		mem.capa = 0
 		mem.providing = false
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
@@ -93,6 +93,7 @@ minetest.register_node("techage:ta4_solar_minicell", {
 	
 	after_dig_node = function(pos)
 		techage.remove_node(pos)
+		tubelib2.del_mem(pos)
 	end,
 	
 	paramtype2 = "facedir",

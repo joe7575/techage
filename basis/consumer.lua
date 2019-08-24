@@ -157,7 +157,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 
 				after_place_node = function(pos, placer, itemstack, pointed_thing)
 					local meta = M(pos)
-					local mem = tubelib2.get_mem(pos)
+					local mem = tubelib2.init_mem(pos)
 					local node = minetest.get_node(pos)
 					meta:set_int("push_dir", techage.side_to_indir("L", node.param2))
 					meta:set_int("pull_dir", techage.side_to_indir("R", node.param2))
@@ -176,6 +176,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 						tNode.after_dig_node(pos, oldnode, oldmetadata, digger)
 					end
 					techage.remove_node(pos)
+					tubelib2.del_mem(pos)
 				end,
 
 				can_dig = tNode.can_dig,

@@ -26,6 +26,11 @@ local Nodes2Convert = {
 local function read_state(itemstack, user, pointed_thing)
 	local pos = pointed_thing.under
 	if pos and user then
+		local time = math.floor(minetest.get_timeofday() * 24 * 6)
+		local hours = math.floor(time / 6)
+		local mins = (time % 6) * 10
+		if mins < 10 then mins = "00" end
+		minetest.chat_send_player(user:get_player_name(), S("Time")..": "..hours..":"..mins.."    ")
 		local data = minetest.get_biome_data(pos)
 		if data then
 			minetest.chat_send_player(user:get_player_name(), S("Biome")..": "..data.biome..", "..S("Position temperature")..": "..math.floor(data.heat).."    ")

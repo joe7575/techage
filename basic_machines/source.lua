@@ -126,7 +126,7 @@ minetest.register_node("techage:t2_source", {
 
 	on_construct = tubelib2.init_mem,
 	after_place_node = function(pos, placer)
-		local mem = tubelib2.get_mem(pos)
+		local mem = tubelib2.init_mem(pos)
 		State2:node_init(pos, mem, "")
 		mem.state_num = 2
 		on_rightclick(pos)

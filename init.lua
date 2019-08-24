@@ -156,6 +156,8 @@ else
 	dofile(MP.."/logic/repeater.lua")
 	dofile(MP.."/logic/programmer.lua")
 	dofile(MP.."/logic/signallamp.lua")
+	dofile(MP.."/logic/sequencer.lua")
+	dofile(MP.."/logic/timer.lua")
 
 	-- Test
 	dofile(MP.."/recipe_checker.lua")
