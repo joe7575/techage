@@ -94,8 +94,8 @@ minetest.register_craft({
 	output = "techage:programmer",
 	recipe = {
 		{"", "default:steel_ingot", ""},
-		{"", "techage:wlanchip",    ""},
-		{"", "dye:red",             ""},
+		{"", "techage:ta4_wlanchip", ""},
+		{"", "dye:red", ""},
 	},
 })
 
