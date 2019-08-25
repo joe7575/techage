@@ -8,7 +8,7 @@
 	GPL v3
 	See LICENSE.txt for more information
 	
-	TA3 Power Station Generator
+	TA3 Power Switch  (large and small)
 
 ]]--
 
@@ -31,11 +31,11 @@ local Param2ToDir = {
 	[5] = 3,
 }
 
-local function switch_on(pos, node, clicker)
+local function switch_on(pos, node, clicker, name)
 	if clicker and minetest.is_protected(pos, clicker:get_player_name()) then
 		return
 	end
-	node.name = "techage:powerswitch_on"
+	node.name = name
 	minetest.swap_node(pos, node)
 	minetest.sound_play("techage_button", {
 			pos = pos,
@@ -46,11 +46,11 @@ local function switch_on(pos, node, clicker)
 	power_cut(pos, dir, Cable, false)
 end
 
-local function switch_off(pos, node, clicker)
+local function switch_off(pos, node, clicker, name)
 	if clicker and minetest.is_protected(pos, clicker:get_player_name()) then
 		return
 	end
-	node.name = "techage:powerswitch"
+	node.name = name
 	minetest.swap_node(pos, node)
 	minetest.get_node_timer(pos):stop()
 	minetest.sound_play("techage_button", {
@@ -88,7 +88,7 @@ minetest.register_node("techage:powerswitch", {
 	end,
 
 	on_rightclick = function(pos, node, clicker)
-		switch_on(pos, node, clicker)
+		switch_on(pos, node, clicker, "techage:powerswitch_on")
 	end,
 
 	on_rotate = screwdriver.disallow,
@@ -118,7 +118,7 @@ minetest.register_node("techage:powerswitch_on", {
 	},
 	
 	on_rightclick = function(pos, node, clicker)
-		switch_off(pos, node, clicker)
+		switch_off(pos, node, clicker, "techage:powerswitch")
 	end,
 
 	drop = "techage:powerswitch",
@@ -130,6 +130,75 @@ minetest.register_node("techage:powerswitch_on", {
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
 })
+
+minetest.register_node("techage:powerswitchsmall", {
+	description = S("TA Power Switch Small"),
+	inventory_image = "techage_smart_button_inventory.png",
+	tiles = {
+		'techage_smart_button_off.png',
+	},
+
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{ -5/32, -16/32, -5/32, 5/32, -15/32, 5/32},
+			{ -2/16, -12/16, -2/16, 2/16,  -8/16, 2/16},
+		},
+	},
+	
+	after_place_node = function(pos, placer)
+		local meta = M(pos)
+		local number = techage.add_node(pos, "techage:powerswitchsmall")
+		meta:set_string("node_number", number)
+		meta:set_string("owner", placer:get_player_name())
+		meta:set_string("infotext", S("TA Power Switch Small").." "..number)
+	end,
+
+	on_rightclick = function(pos, node, clicker)
+		switch_on(pos, node, clicker, "techage:powerswitchsmall_on")
+	end,
+
+	on_rotate = screwdriver.disallow,
+	paramtype = "light",
+	sunlight_propagates = true,
+	paramtype2 = "wallmounted",
+	groups = {choppy=2, cracky=2, crumbly=2},
+	is_ground_content = false,
+	sounds = default.node_sound_wood_defaults(),
+})
+
+
+minetest.register_node("techage:powerswitchsmall_on", {
+	description = S("TA Power Switch Small"),
+	inventory_image = "techage_appl_switch_inv.png",
+	tiles = {
+		'techage_smart_button_on.png',
+	},
+
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{ -5/32, -16/32, -5/32, 5/32, -15/32, 5/32},
+			{ -2/16, -12/16, -2/16, 2/16,  -8/16, 2/16},
+		},
+	},
+	
+	on_rightclick = function(pos, node, clicker)
+		switch_off(pos, node, clicker, "techage:powerswitchsmall")
+	end,
+
+	drop = "techage:powerswitchsmall",
+	on_rotate = screwdriver.disallow,
+	paramtype = "light",
+	sunlight_propagates = true,
+	paramtype2 = "wallmounted",
+	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory = 1},
+	is_ground_content = false,
+	sounds = default.node_sound_wood_defaults(),
+})
+
 
 local function get_conn_dirs(pos, node)
 	local tbl = {[0]=
@@ -197,13 +266,19 @@ techage.register_node({"techage:powerswitch", "techage:powerswitch_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local node = minetest.get_node(pos)
 		if topic == "on" and node.name == "techage:powerswitch" then
-			switch_on(pos, node)
+			switch_on(pos, node, "techage:powerswitch_on")
+			return true
+		elseif topic == "on" and node.name == "techage:powerswitchsmall" then
+			switch_on(pos, node, "techage:powerswitchsmall_on")
 			return true
 		elseif topic == "off" and node.name == "techage:powerswitch_on" then
-			switch_off(pos, node)
+			switch_off(pos, node, "techage:powerswitch")
+			return true
+		elseif topic == "off" and node.name == "techage:powerswitchsmall_on" then
+			switch_off(pos, node, "techage:powerswitchsmall")
 			return true
 		elseif topic == "state" then
-			if node.name == "techage:powerswitch_on" then
+			if node.name == "techage:powerswitch_on" or node.name == "techage:powerswitchsmall_on"then
 				return "on"
 			end
 			return "off"
@@ -228,6 +303,12 @@ minetest.register_craft({
 		{"dye:yellow", "dye:red", "dye:yellow"},
 		{"basic_materials:plastic_sheet", "basic_materials:copper_wire", "basic_materials:plastic_sheet"},
 	},
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "techage:powerswitchsmall",
+	recipe = {"techage:powerswitch"},
 })
 
 minetest.register_craft({
