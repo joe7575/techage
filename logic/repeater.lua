@@ -92,7 +92,7 @@ minetest.register_craft({
 })
 
 techage.register_node({"techage:ta3_repeater"}, {
-	on_recv_message = function(pos, topic, payload)
+	on_recv_message = function(pos, src, topic, payload)
 		local mem = tubelib2.get_mem(pos)
 		mem.overload_cnt = (mem.overload_cnt or 0) + 1
 		if mem.overload_cnt > OVER_LOAD_MAX then
@@ -101,7 +101,7 @@ techage.register_node({"techage:ta3_repeater"}, {
 			return false
 		else
 			local numbers = M(pos):get_string("numbers") or ""
-			techage.send_multi(numbers, topic, payload)
+			techage.send_multi(src, numbers, topic, payload)
 		end
 	end,
 	on_node_load = function(pos)

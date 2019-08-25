@@ -326,7 +326,7 @@ local tubing = {
 		local inv = M(pos):get_inventory()
 		return techage.put_items(inv, "src", stack)
 	end,
-	on_recv_message = function(pos, topic, payload)
+	on_recv_message = function(pos, src, topic, payload)
 		if topic == "info" then
 			return INFO
 		elseif topic == "port" then

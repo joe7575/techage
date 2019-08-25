@@ -33,7 +33,11 @@ local function read_state(itemstack, user, pointed_thing)
 		minetest.chat_send_player(user:get_player_name(), S("Time")..": "..hours..":"..mins.."    ")
 		local data = minetest.get_biome_data(pos)
 		if data then
-			minetest.chat_send_player(user:get_player_name(), S("Biome")..": "..data.biome..", "..S("Position temperature")..": "..math.floor(data.heat).."    ")
+			local name = minetest.get_biome_name(data.biome)
+			minetest.chat_send_player(user:get_player_name(), S("Biome")..": "..name..", "..S("Position temperature")..": "..math.floor(data.heat).."    ")
+			if techage.OceanIdTbl[data.biome] then
+				minetest.chat_send_player(user:get_player_name(), "Suitable for windmills")
+			end
 		end
 		local number = techage.get_node_number(pos)
 		local node = minetest.get_node(pos)
@@ -48,27 +52,27 @@ local function read_state(itemstack, user, pointed_thing)
 		local ndef = minetest.registered_nodes[node.name]
 		if number then
 			if ndef and ndef.description then
-				local info = techage.send_single(number, "info", nil)
+				local info = techage.send_single("0", number, "info", nil)
 				if info and info ~= "" and info ~= "unsupported" then
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": Supported Commands:\n"..info.."    ")
 				end
-				local state = techage.send_single(number, "state", nil)
+				local state = techage.send_single("0", number, "state", nil)
 				if state and state ~= "" and state ~= "unsupported" then
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": state = "..state.."    ")
 				end
-				local fuel = techage.send_single(number, "fuel", nil)
+				local fuel = techage.send_single("0", number, "fuel", nil)
 				if fuel and fuel ~= "" and fuel ~= "unsupported" then
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": fuel = "..fuel.."    ")
 				end
-				local counter = techage.send_single(number, "counter", nil)
+				local counter = techage.send_single("0", number, "counter", nil)
 				if counter and counter ~= "" and counter ~= "unsupported" then
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": counter = "..counter.."    ")
 				end
-				local load = techage.send_single(number, "load", nil)
+				local load = techage.send_single("0", number, "load", nil)
 				if load and load ~= "" and load ~= "unsupported" then
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": load = "..load.." %    ")
 				end
-				local power = techage.send_single(number, "power", nil)
+				local power = techage.send_single("0", number, "power", nil)
 				if power and power ~= "" and power ~= "unsupported" then
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": power = "..power.." %    ")
 				end
@@ -134,4 +138,4 @@ techage.register_entry_page("ta", "end_wrench",
 	S("The TechAge Info Tool is a tool to read any kind of status information from nodes providing a command interface.@n"..
 		"Click on the node to read the status"), 
 	"techage:end_wrench")
-
+		

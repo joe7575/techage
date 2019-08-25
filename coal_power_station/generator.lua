@@ -206,7 +206,7 @@ techage.register_node({"techage:generator", "techage:generator_on"}, {
 			end
 		end
 	end,
-	on_recv_message = function(pos, topic, payload)
+	on_recv_message = function(pos, src, topic, payload)
 		local mem = tubelib2.get_mem(pos)
 		if topic == "load" then
 			return techage.power.percent(PWR_CAPA, mem.provided)

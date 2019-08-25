@@ -33,7 +33,7 @@ local function send_off_command(pos)
 	local numbers = meta:get_string("numbers") or ""
 	if numbers ~= "" then
 		local own_num = meta:get_string("node_number")
-		techage.send_multi(numbers, "off", own_num)
+		techage.send_multi(own_num, numbers, "off")
 	end
 end
 
@@ -43,7 +43,7 @@ local function send_command(pos)
 	local numbers = meta:get_string("numbers") or ""
 	if numbers ~= "" then
 		local own_num = meta:get_string("node_number")
-		techage.send_multi(numbers, "on", own_num)
+		techage.send_multi(own_num, numbers, "on")
 		minetest.after(1, send_off_command, pos)
 	end
 end
@@ -254,7 +254,7 @@ techage.register_node({"techage:chest_ta2", "techage:chest_ta3", "techage:chest_
 		return techage.put_items(inv, "main", stack)
 	end,
 	
-	on_recv_message = function(pos, topic, payload)
+	on_recv_message = function(pos, src, topic, payload)
 		if topic == "state" then
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()

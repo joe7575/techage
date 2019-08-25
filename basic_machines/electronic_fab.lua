@@ -216,7 +216,7 @@ local tubing = {
 			return techage.put_items(inv, "dst", stack)
 		end
 	end,
-	on_recv_message = function(pos, topic, payload)
+	on_recv_message = function(pos, src, topic, payload)
 		local resp = CRD(pos).State:on_receive_message(pos, topic, payload)
 		if resp then
 			return resp

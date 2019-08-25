@@ -112,8 +112,7 @@ minetest.register_node("techage:signal_lamp_on", {
 })
 
 techage.register_node({"techage:signal_lamp_off", "techage:signal_lamp_on"}, {
-	on_recv_message = function(pos, topic, payload)
-		print("on_recv_message", topic)
+	on_recv_message = function(pos, src, topic, payload)
 		if topic == "on" then
 			local node = minetest.get_node(pos)
 			switch_on(pos, node)

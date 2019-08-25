@@ -95,7 +95,7 @@ local function check_rules(pos,elapsed)
 				local hr = (events[idx] - 1) * 2
 				if ((hour - hr) % 24) <= 4 then  -- last 4 hours?
 					if mem.done[idx] == false then  -- not already executed?
-						techage.send_multi(numbers[idx], act, number)
+						techage.send_multi(number, numbers[idx], act)
 						mem.done[idx] = true
 					end
 				else

@@ -126,10 +126,11 @@ local function command(pos, command, player)
 			output(pos, S("Switched to private use!"))
 		elseif meta:get_int("public") == 1 or owner == player then
 			output(pos, "$ "..command)
+			local own_num = meta:get_string("node_number")
 			local num, cmnd, payload = command:match('^cmd%s+([0-9]+)%s+(%w+)%s*(.*)$')
 			if num and cmnd then
 				if techage.not_protected(num, owner, owner) then
-					local resp = techage.send_single(num, cmnd, payload)
+					local resp = techage.send_single(own_num, num, cmnd, payload)
 					if type(resp) == "string" then
 						output(pos, resp)
 					else
@@ -141,7 +142,7 @@ local function command(pos, command, player)
 			num, cmnd = command:match('^turn%s+([0-9]+)%s+([onf]+)$')
 			if num and (cmnd == "on" or cmnd == "off") then
 				if techage.not_protected(num, owner, owner) then
-					local resp = techage.send_single(num, cmnd)
+					local resp = techage.send_single(own_num, num, cmnd)
 					output(pos, dump(resp))
 				end
 				return
@@ -284,8 +285,8 @@ minetest.register_craft({
 })
 
 techage.register_node({"techage:terminal1", "techage:terminal2"}, {
-	on_recv_message = function(pos, topic, payload)
-		output(pos, "cmd="..dump(topic)..", data="..dump(payload))
+	on_recv_message = function(pos, src, topic, payload)
+		output(pos, "src="..src..", cmd="..dump(topic)..", data="..dump(payload))
 		return true
 	end,
 	on_node_load = function(pos)

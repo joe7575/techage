@@ -170,3 +170,17 @@ function mydbg(topic, text, ...)
 		print(t..text, unpack({...}))
 	end
 end
+
+-- needed for windmill plants
+local function determine_ocean_ids()
+	techage.OceanIdTbl = {}
+	for name, _ in pairs(minetest.registered_biomes) do
+		if string.find(name, "ocean") then
+			local id = minetest.get_biome_id(name)
+			print(id, name)
+			techage.OceanIdTbl[id] = true
+		end
+	end
+end
+
+determine_ocean_ids()

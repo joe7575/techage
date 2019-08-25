@@ -41,13 +41,13 @@ function techage.logic.send_on(pos, meta, time)
 	if time and time > 0 then
 		minetest.get_node_timer(pos):start(time)
 	end
-	techage.send_multi(numbers, "on", own_num)
+	techage.send_multi(own_num, numbers, "on")
 end
 
 function techage.logic.send_off(pos, meta)
 	local own_num = meta:get_string("node_number") or ""
 	local numbers = meta:get_string("numbers") or ""
-	techage.send_multi(numbers, "off", own_num)
+	techage.send_multi(own_num, numbers, "off")
 end
 
 function techage.logic.infotext(meta, descr, text)

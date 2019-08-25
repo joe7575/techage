@@ -247,7 +247,7 @@ end
 --        on_pull_item = func(pos, in_dir, num),
 --        on_push_item = func(pos, in_dir, item),
 --        on_unpull_item = func(pos, in_dir, item),
---        on_recv_message = func(pos, topic, payload),
+--        on_recv_message = func(pos, src, topic, payload),
 --        on_node_load = func(pos),  -- LBM function
 --        on_transfer = func(pos, in_dir, topic, payload),
 --    }
@@ -299,22 +299,22 @@ function techage.check_numbers(numbers, placer_name)
 	return false
 end	
 
-function techage.send_multi(numbers, topic, payload)
+function techage.send_multi(src, numbers, topic, payload)
 	for _,num in ipairs(string_split(numbers, " ")) do
 		if Number2Pos[num] and Number2Pos[num].name then
 			local data = Number2Pos[num]
 			if data.pos and NodeDef[data.name] and NodeDef[data.name].on_recv_message then
-				NodeDef[data.name].on_recv_message(data.pos, topic, payload)
+				NodeDef[data.name].on_recv_message(data.pos, src, topic, payload)
 			end
 		end
 	end
 end		
 
-function techage.send_single(number, topic, payload)
+function techage.send_single(src, number, topic, payload)
 	if Number2Pos[number] and Number2Pos[number].name then
 		local data = Number2Pos[number]
 		if data.pos and NodeDef[data.name] and NodeDef[data.name].on_recv_message then
-			return NodeDef[data.name].on_recv_message(data.pos, topic, payload)
+			return NodeDef[data.name].on_recv_message(data.pos, src, topic, payload)
 		end
 	end
 	return false

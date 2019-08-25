@@ -107,7 +107,7 @@ local function check_rules(pos, elapsed)
 	while true do -- process all rules as long as offs == 0
 		local rule = mem.rules[mem.index]
 		local offs = tonumber(mem.rules[mem.index].offs or 1)
-		techage.send_multi(rule.num, tAction[rule.act], own_num)
+		techage.send_multi(own_num, rule.num, tAction[rule.act])
 		mem.index = get_next_slot(mem.index, mem.rules, mem.endless)
 		if mem.index ~= nil and offs ~= nil and mem.running then
 			-- after the last rule a pause with 1 or more sec is required
@@ -251,7 +251,7 @@ minetest.register_craft({
 })
 
 techage.register_node({"techage:ta3_sequencer"}, {
-	on_recv_message = function(pos, topic, payload)
+	on_recv_message = function(pos, src, topic, payload)
 		if topic == "on" then
 			start_the_sequencer(pos)
 		elseif topic == "off" then

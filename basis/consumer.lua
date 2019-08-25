@@ -99,7 +99,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 		if validStates[stage] then
 			local on_recv_message = tNode.tubing.on_recv_message
 			if stage > 2 then
-				on_recv_message = function(pos, topic, payload)
+				on_recv_message = function(pos, src, topic, payload)
 					return "unsupported"
 				end
 			end

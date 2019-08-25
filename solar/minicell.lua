@@ -108,7 +108,7 @@ techage.power.register_node({"techage:ta4_solar_minicell"}, {
 })
 
 techage.register_node({"techage:ta4_solar_minicell"}, {	
-	on_recv_message = function(pos, topic, payload)
+	on_recv_message = function(pos, src, topic, payload)
 		local mem = tubelib2.get_mem(pos)
 		if topic == "state" then
 			if mem.providing then
