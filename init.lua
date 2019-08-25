@@ -147,6 +147,8 @@ else
 	if techage.basalt_stone_enabled then
 		dofile(MP.."/nodes/basalt.lua")
 	end
+	dofile(MP.."/nodes/gateblock.lua")
+	dofile(MP.."/nodes/doorblock.lua")
 	
 	-- Logic
 	dofile(MP.."/logic/lib.lua")

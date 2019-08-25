@@ -16,7 +16,7 @@ local S = techage.S
 
 techage.register_category_page("ta", "Further nodes and tools",
 	S("This is a collection of further nodes and tools which do not fit to the stages 1 to 4."),
-	"techage:end_wrench", {"end_wrench", "powerswitch", "trowel", "blackhole", "forceload"}
+	"techage:end_wrench", {"end_wrench", "powerswitch", "trowel", "blackhole", "forceload", "doorblock", "gateblock"}
 )
 
 techage.register_entry_page("ta", "powerswitch",

@@ -18,7 +18,7 @@ local S = techage.S
 
 local logic = techage.logic
 
-local COLORED = minetest.get_modpath("unifieddyes") and unifieddyes
+local COLORED = minetest.get_modpath("unifieddyes") and minetest.global_exists("unifieddyes")
 
 
 local function switch_on(pos, node)

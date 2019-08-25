@@ -32,6 +32,11 @@ end
 local function switch_off(pos)
 	logic.swap_node(pos, "techage:ta3_button_off")
 	logic.send_off(pos, M(pos))
+	minetest.sound_play("techage_button", {
+			pos = pos,
+			gain = 0.5,
+			max_hear_distance = 5,
+		})
 end
 
 local function formspec(meta)
@@ -70,12 +75,11 @@ minetest.register_node("techage:ta3_button_off", {
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return
 		end
-		print(dump(fields))
 		local meta = M(pos)
 		if not techage.check_numbers(fields.numbers, player:get_player_name()) then
 			return
 		end
-		
+		print(dump(fields))
 		meta:set_string("numbers", fields.numbers)
 		if fields.public then
 			meta:set_string("public", fields.public)
@@ -106,6 +110,7 @@ minetest.register_node("techage:ta3_button_off", {
 		logic.infotext(meta, S("TA3 Button/Switch"))
 		if fields.exit then
 			meta:set_string("formspec", nil)
+			meta:set_string("fixed" , "true")
 		else
 			meta:set_string("formspec", formspec(meta))
 		end
@@ -113,8 +118,8 @@ minetest.register_node("techage:ta3_button_off", {
 	
 	on_rightclick = function(pos, node, clicker)
 		local meta = M(pos)
-		local numbers = meta:get_string("numbers")
-		if numbers ~= "" and numbers ~= nil then
+		local fixed = meta:get_string("fixed")
+		if fixed == "true" then
 			if meta:get_string("public") == "true" or 
 					clicker:get_player_name() == meta:get_string("owner") then
 				switch_on(pos)
