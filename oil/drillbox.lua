@@ -251,7 +251,7 @@ local tubing = {
 }
 
 local _, node_name_ta3, _ = 
-	techage.register_consumer("drillbox", S("TA3 Oil Drill Box"), tiles, {
+	techage.register_consumer("drillbox", S("Oil Drill Box"), tiles, {
 		drawtype = "normal",
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,

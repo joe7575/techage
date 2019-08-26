@@ -149,6 +149,7 @@ else
 	end
 	dofile(MP.."/nodes/gateblock.lua")
 	dofile(MP.."/nodes/doorblock.lua")
+	dofile(MP.."/nodes/pillar.lua")
 	
 	-- Logic
 	dofile(MP.."/logic/lib.lua")

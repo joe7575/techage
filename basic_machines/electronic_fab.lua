@@ -272,7 +272,7 @@ minetest.register_craft({
 })
 
 minetest.register_craftitem("techage:vacuum_tube", {
-	description = S("TA3 Vacuum Tubes"),
+	description = S("TA3 Vacuum Tube"),
 	inventory_image = "techage_vacuum_tube.png",
 })
 

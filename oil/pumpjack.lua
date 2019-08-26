@@ -155,7 +155,7 @@ local tubing = {
 }
 	
 local _, node_name_ta3, _ = 
-	techage.register_consumer("pumpjack", S("TA3 Oil Pumpjack"), tiles, {
+	techage.register_consumer("pumpjack", S("Oil Pumpjack"), tiles, {
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
 		formspec = formspec,

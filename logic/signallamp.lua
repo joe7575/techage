@@ -61,8 +61,8 @@ minetest.register_node("techage:signal_lamp_off", {
 		end
 	end,
 
-	on_construct = COLORED and unifieddyes.on_construct,
-	on_dig = COLORED and unifieddyes.on_dig,
+	on_construct = COLORED and unifieddyes.on_construct or nil,
+	on_dig = COLORED and unifieddyes.on_dig or nil,
 	
 	paramtype = "light",
 	paramtype2 = "color",
@@ -94,8 +94,8 @@ minetest.register_node("techage:signal_lamp_on", {
 	palette = COLORED and "unifieddyes_palette_extended.png" or 'techage_color16.png',
 	groups = {choppy=2, cracky=1, not_in_creative_inventory=1, ud_param2_colorable = 1},
 	
-	on_construct = COLORED and unifieddyes.on_construct,
-	after_place_node = COLORED and unifieddyes.recolor_on_place,
+	on_construct = COLORED and unifieddyes.on_construct or nil,
+	after_place_node = COLORED and unifieddyes.recolor_on_place or nil,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos)
@@ -105,7 +105,7 @@ minetest.register_node("techage:signal_lamp_on", {
 		end
 	end,
    
-	on_dig = COLORED and unifieddyes.on_dig,
+	on_dig = COLORED and unifieddyes.on_dig or nil,
 	light_source = 10,	
 	is_ground_content = false,
 	drop = "techage:signal_lamp_off"
