@@ -47,6 +47,10 @@ minetest.register_node("techage:ta3_repeater", {
 	end,
 
 	on_receive_fields = function(pos, formname, fields, player)
+		if minetest.is_protected(pos, player:get_player_name()) then
+			return
+		end
+
 		local meta = M(pos)
 		if techage.check_numbers(fields.numbers, player:get_player_name()) then
 			meta:set_string("numbers", fields.numbers)
@@ -73,12 +77,10 @@ minetest.register_node("techage:ta3_repeater", {
 		tubelib2.del_mem(pos)
 	end,
 
-	paramtype = "light",
-	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
-	sounds = default.node_sound_stone_defaults(),
+	sounds = default.node_sound_wood_defaults(),
 })
 
 

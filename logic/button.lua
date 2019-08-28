@@ -29,14 +29,16 @@ local function switch_on(pos)
 		})
 end
 
-local function switch_off(pos)
+local function switch_off(pos, is_button)
 	logic.swap_node(pos, "techage:ta3_button_off")
 	logic.send_off(pos, M(pos))
-	minetest.sound_play("techage_button", {
-			pos = pos,
-			gain = 0.5,
-			max_hear_distance = 5,
-		})
+	if not is_button then
+		minetest.sound_play("techage_button", {
+				pos = pos,
+				gain = 0.5,
+				max_hear_distance = 5,
+			})
+	end
 end
 
 local function formspec(meta)
@@ -44,7 +46,7 @@ local function formspec(meta)
 	local idx = meta:get_int("cycle_idx") or 0
 	if idx == 0 then idx = 1 end
 	return "size[7.5,6]"..
-		"dropdown[0.2,0;3;type;switch,button 2s,button 4s,button 8s,button 16s,button 32s;"..idx.."]".. 
+		"dropdown[0.2,0;3;type;switch,button 1s,button 2s,button 4s,button 8s,button 16s,button 32s;"..idx.."]".. 
 		"field[0.5,2;7,1;numbers;"..S("Insert destination node number(s)")..";"..numbers.."]" ..
 		"checkbox[1,3;public;public;false]"..
 		"button_exit[2,4;3,1;exit;"..S("Save").."]"
@@ -88,20 +90,23 @@ minetest.register_node("techage:ta3_button_off", {
 		if fields.type == "switch" then
 			meta:set_int("cycle_idx", 1)
 			cycle_time = 0
-		elseif fields.type == "button 2s" then
+		elseif fields.type == "button 1s" then
 			meta:set_int("cycle_idx", 2)
+			cycle_time = 1
+		elseif fields.type == "button 2s" then
+			meta:set_int("cycle_idx", 3)
 			cycle_time = 2
 		elseif fields.type == "button 4s" then
-			meta:set_int("cycle_idx", 3)
+			meta:set_int("cycle_idx", 4)
 			cycle_time = 4
 		elseif fields.type == "button 8s" then
-			meta:set_int("cycle_idx", 4)
+			meta:set_int("cycle_idx", 5)
 			cycle_time = 8
 		elseif fields.type == "button 16s" then
-			meta:set_int("cycle_idx", 5)
+			meta:set_int("cycle_idx", 6)
 			cycle_time = 16
 		elseif fields.type == "button 32s" then
-			meta:set_int("cycle_idx", 6)
+			meta:set_int("cycle_idx", 7)
 			cycle_time = 32
 		end
 		if cycle_time ~= nil then

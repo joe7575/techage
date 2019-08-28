@@ -18,13 +18,35 @@ local S = techage.S
 
 techage.logic = {}
 
+local Face2Dir = {[0]=
+	{x=0,  y=0,  z=1},
+	{x=1,  y=0,  z=0},
+	{x=0,  y=0, z=-1},
+	{x=-1, y=0,  z=0},
+	{x=0,  y=-1, z=0},
+	{x=0,  y=1,  z=0}
+}
+
+-- Determine the destination position based on the position, 
+-- the node param2, and a route table like : {0,0,3}
+-- 0 = forward, 1 = right, 2 = backward, 3 = left
+function techage.logic.dest_pos(pos, param2, route)
+	local p2 = param2
+	for _,dir in ipairs(route) do
+		p2 = (param2 + dir) % 4
+		pos = vector.add(pos, Face2Dir[p2])
+	end
+	return pos, p2
+end
+
 function techage.logic.swap_node(pos, name)
 	local node = minetest.get_node(pos)
 	if node.name == name then
-		return
+		return false
 	end
 	node.name = name
 	minetest.swap_node(pos, node)
+	return true
 end
 
 function techage.logic.after_place_node(pos, placer, name, descr)

@@ -137,7 +137,7 @@ local function start_the_sequencer(pos)
 	return false
 end
 
-local function 	on_receive_fields(pos, formname, fields, player)
+local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
