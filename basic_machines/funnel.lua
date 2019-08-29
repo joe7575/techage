@@ -18,6 +18,22 @@ local S = techage.S
 
 local CYCLE_TIME = 2
 
+local function start_node(pos, mem)
+	mem.running = true
+	minetest.get_node_timer(pos):start(CYCLE_TIME)
+	local meta = M(pos)
+	local own_num = meta:get_string("node_number")
+	meta:set_string("infotext", "TA3 Funnel "..own_num.." : running")
+end
+
+local function stop_node(pos, mem)
+	mem.running = false
+	minetest.get_node_timer(pos):stop()
+	local meta = M(pos)
+	local own_num = meta:get_string("node_number")
+	meta:set_string("infotext", "TA3 Funnel "..own_num.." : stopped")
+end
+
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
@@ -32,18 +48,27 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return stack:get_count()
 end
 
-local function formspec()
+local function formspec(mem)
+	local state = techage.STOPPED
+	if mem.running then
+		state = techage.RUNNING
+	end
 	return "size[9,7]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
 	"list[context;main;0.5,0;8,2;]"..
+	"image_button[4,2.1;1,1;"..techage.state_button(state)..";state_button;]"..
 	"list[current_player;main;0.5,3.3;8,4;]"..
 	"listring[context;main]"..
 	"listring[current_player;main]"
 end
 
 local function scan_for_objects(pos, elapsed)
+	local mem = tubelib2.get_mem(pos)
+	if not mem.running then
+		return false
+	end
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	for _, object in pairs(minetest.get_objects_inside_radius(pos, 1)) do
@@ -99,19 +124,36 @@ minetest.register_node("techage:ta3_funnel", {
 	
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
+		local mem = tubelib2.init_mem(pos)
+		mem.running = false
 		local own_num = techage.add_node(pos, "techage:ta3_funnel")
 		local node = minetest.get_node(pos)
 		meta:set_string("node_number", own_num)
 		meta:set_string("owner", placer:get_player_name())
-		meta:set_string("infotext", "TA3 Funnel "..own_num)
-		meta:set_string("formspec", formspec())
+		meta:set_string("infotext", "TA3 Funnel "..own_num.." : stopped")
+		meta:set_string("formspec", formspec(mem))
 		meta:set_int("pull_dir", techage.side_to_indir("R", node.param2))
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
 
 	on_timer = scan_for_objects,
-	on_rotate = screwdriver.disallow,
+	
+	on_receive_fields = function(pos, formname, fields, player)
+		if minetest.is_protected(pos, player:get_player_name()) then
+			return
+		end
 		
+		local meta = M(pos)
+		local mem = tubelib2.get_mem(pos)
+		if fields.state_button ~= nil then
+			if mem.running then
+				stop_node(pos, mem)
+			else
+				start_node(pos, mem)
+			end
+		end
+		meta:set_string("formspec", formspec(mem))
+	end,
+	
 	can_dig = function(pos, player)
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return false
@@ -122,6 +164,7 @@ minetest.register_node("techage:ta3_funnel", {
 
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos)
+		tubelib2.del_mem(pos)
 	end,
 	
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
@@ -150,16 +193,30 @@ techage.register_node({"techage:ta3_funnel"}, {
 		end
 	end,
 	on_recv_message = function(pos, src, topic, payload)
+		local mem = tubelib2.get_mem(pos)
 		if topic == "state" then
-			local meta = minetest.get_meta(pos)
-			local inv = meta:get_inventory()
-			return techage.get_inv_state(inv, "main")
+			if mem.running then
+				return "running"
+			else
+				return "stopped"
+			end
+		elseif topic == "on" then
+			if not mem.running then
+				start_node(pos, mem)
+			end
+		elseif topic == "off" then
+			if mem.running then
+				stop_node(pos, mem)
+			end
 		else
 			return "unsupported"
 		end
 	end,
 	on_node_load = function(pos)
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
+		local mem = tubelib2.get_mem(pos)
+		if mem.running then
+			minetest.get_node_timer(pos):start(CYCLE_TIME)
+		end
 	end,
 })
 
