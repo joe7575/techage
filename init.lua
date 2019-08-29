@@ -101,6 +101,7 @@ else
 	dofile(MP.."/basic_machines/chest.lua")
 	dofile(MP.."/basic_machines/autocrafter.lua")
 	dofile(MP.."/basic_machines/electronic_fab.lua")
+	dofile(MP.."/basic_machines/funnel.lua")
 
 	-- Coal power station
 	dofile(MP.."/coal_power_station/firebox.lua")
@@ -164,6 +165,7 @@ else
 	dofile(MP.."/logic/lua_logic.lua")
 	dofile(MP.."/logic/node_detector.lua")
 	dofile(MP.."/logic/player_detector.lua")
+	dofile(MP.."/logic/cart_detector.lua")
 
 	-- Test
 	dofile(MP.."/recipe_checker.lua")

@@ -81,7 +81,6 @@ minetest.register_node("techage:ta3_button_off", {
 		if not techage.check_numbers(fields.numbers, player:get_player_name()) then
 			return
 		end
-		print(dump(fields))
 		meta:set_string("numbers", fields.numbers)
 		if fields.public then
 			meta:set_string("public", fields.public)

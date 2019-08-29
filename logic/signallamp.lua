@@ -119,6 +119,8 @@ techage.register_node({"techage:signal_lamp_off", "techage:signal_lamp_on"}, {
 		elseif topic == "off" then
 			local node = minetest.get_node(pos)
 			switch_off(pos, node)
+		else
+			return "unsupported"
 		end
 	end,
 })	

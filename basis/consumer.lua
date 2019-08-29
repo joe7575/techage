@@ -136,7 +136,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				stage = stage,
 				State = tState,
 				-- number of items to be processed per cycle
-				num_items = tNode.num_items[stage],  
+				num_items = tNode.num_items and tNode.num_items[stage],
 				power_consumption = power_used and 
 				tNode.power_consumption[stage] or 0,
 				node_timer = tNode.node_timer,

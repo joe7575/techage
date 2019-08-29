@@ -191,6 +191,8 @@ techage.register_node({"techage:ta3_playerdetector_off", "techage:ta3_playerdete
 		if topic == "name" then
 			local mem = tubelib2.get_mem(pos)
 			return mem.player_name or ""
+		else
+			return "unsupported"
 		end
 	end,
 	on_node_load = function(pos)
@@ -203,4 +205,4 @@ techage.register_entry_page("ta3l", "player_detector",
 	S("The Player Detector sends a 'on' signal when it detects a player@n"..
 		"within a radius of 4 m around the node.@n"..
 		"The detector can be configured with player names to scan for."),
-	"techage:ta3_playerdetector_on")
+	"techage:ta3_playerdetector_off")

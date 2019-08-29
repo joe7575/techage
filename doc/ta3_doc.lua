@@ -102,12 +102,12 @@ techage.register_category_page("ta3m",
 	S("TA3: Machines"),
 	S("Collection of TA3 machines, some with eletrical power supply."),
 	"techage:ta3_autocrafter_pas", 
-	{"pusher", "distributor", "chest", "grinder", "gravelsieve", "autocrafter", "electronic_fab"}
+	{"pusher", "distributor", "chest", "grinder", "gravelsieve", "autocrafter", "electronic_fab", "funnel"}
 )
 
 techage.register_category_page("ta3l", 
 	S("TA3: Logic"),
 	S("Collection of TA3 logic blocks to control your machines."),
 	"techage:terminal2", 
-	{"terminal", "button", "detector", "repeater", "logic", "node_detector", "player_detector", "programmer"}
+	{"terminal", "button", "detector", "repeater", "logic", "node_detector", "player_detector", "cart_detector", "programmer"}
 )

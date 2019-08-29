@@ -240,7 +240,7 @@ techage.register_node({"techage:ta3_logic"}, {
 			mem.inp_tbl.inp = false
 			mem.inp_tbl["n"..src] = false
 		else
-			return
+			return "unsupported"
 		end
 		minetest.get_node_timer(pos):start(0.1)
 	end,

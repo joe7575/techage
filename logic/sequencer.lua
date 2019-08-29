@@ -210,7 +210,7 @@ minetest.register_node("techage:ta3_sequencer", {
 		local meta = M(pos)
 		local mem = tubelib2.init_mem(pos)
 		logic.after_place_node(pos, placer, "techage:ta3_sequencer", S("TA3 Sequencer"))
-		logic.infotext(meta, S("TA3 Sequencer", "stopped"))
+		logic.infotext(meta, S("TA3 Sequencer"), S("stopped"))
 		mem.rules = new_rules()
 		mem.index = 1
 		mem.running = false
@@ -258,6 +258,8 @@ techage.register_node({"techage:ta3_sequencer"}, {
 			-- do not stop immediately
 			local mem = tubelib2.get_mem(pos)
 			mem.endless = false
+		else
+			return "unsupported"
 		end
 	end,
 	on_node_load = function(pos)

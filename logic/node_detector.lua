@@ -41,13 +41,13 @@ local function formspec(meta, mem)
 	local numbers = meta:get_string("numbers") or ""
 	local label = S("added")..","..S("removed")..","..S("added or removed")
 	return "size[7.5,4]"..
-	default.gui_bg..
-	default.gui_bg_img..
-	default.gui_slots..
-	"field[0.5,0.6;7,1;numbers;"..S("Insert destination node number(s)")..";"..numbers.."]" ..
-	"label[0.2,1.6;"..S("Send signal if nodes have been:").."]"..
-	"dropdown[0.2,2.1;7.3,1;mode;"..label..";"..(mem.mode or 3).."]"..
-	"button_exit[2,3.2;3,1;accept;"..S("accept").."]"
+		default.gui_bg..
+		default.gui_bg_img..
+		default.gui_slots..
+		"field[0.5,0.6;7,1;numbers;"..S("Insert destination node number(s)")..";"..numbers.."]" ..
+		"label[0.2,1.6;"..S("Send signal if nodes have been:").."]"..
+		"dropdown[0.2,2.1;7.3,1;mode;"..label..";"..(mem.mode or 3).."]"..
+		"button_exit[2,3.2;3,1;accept;"..S("accept").."]"
 end
 
 local function any_node_changed(pos)
