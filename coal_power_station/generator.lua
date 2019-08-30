@@ -115,7 +115,8 @@ minetest.register_node("techage:generator", {
 	on_construct = tubelib2.init_mem,
 	
 	after_place_node = function(pos, placer)
-		local mem = tubelib2.init_mem(pos)
+		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
+		local mem = tubelib2.get_mem(pos)
 		local number = techage.add_node(pos, "techage:generator")
 		State:node_init(pos, mem, number)
 		on_rightclick(pos)

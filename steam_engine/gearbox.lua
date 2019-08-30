@@ -56,7 +56,8 @@ local function on_rightclick(pos, node, clicker)
 end
 
 local function after_place_node(pos, placer, itemstack, pointed_thing)
-	local mem = tubelib2.init_mem(pos)
+	-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
+	local mem = tubelib2.get_mem(pos)
 	minetest.get_node_timer(pos):start(CYCLE_TIME)
 	power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
 end

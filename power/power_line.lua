@@ -163,7 +163,7 @@ minetest.register_node("techage:power_lineA", {
 })
 
 minetest.register_node("techage:power_pole", {
-	description = S("TA Power Pole"),
+	description = S("TA Power Pole Top 4"),
 	--tiles = {"techage_power_pole.png"},
 	tiles = {
 		"default_wood.png^techage_power_pole_top.png",
@@ -183,6 +183,109 @@ minetest.register_node("techage:power_pole", {
 			{ 12/32,  -4/32,  -2/32,  16/32,  4/32,   2/32},
 			{ -2/32,  -4/32, -16/32,   2/32,  4/32, -12/32},
 			{ -2/32,  -4/32,  12/32,   2/32,  4/32,  16/32},
+		},
+	},
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		if techage.is_protected(pos, placer:get_player_name()) then
+			minetest.remove_node(pos)
+			return true
+		end
+		M(pos):set_string("owner", placer:get_player_name())
+	end,
+	can_dig = function(pos, digger)
+		local meta = minetest.get_meta(pos)
+		if meta:get_string("owner") == digger:get_player_name() then
+			return true
+		end
+		if minetest.check_player_privs(digger:get_player_name(), "powerline") then
+			return true
+		end
+		return false
+	end,
+	
+	on_rotate = screwdriver.disallow, -- important!
+	paramtype = "light",
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky=2, crumbly=2, choppy=2},
+	sounds = default.node_sound_defaults(),
+})
+
+minetest.register_node("techage:power_pole2", {
+	description = S("TA Power Pole Top 2"),
+	--tiles = {"techage_power_pole.png"},
+	tiles = {
+		"default_wood.png^techage_power_pole_top.png",
+		"default_wood.png^techage_power_pole_top.png",
+		"default_wood.png^techage_power_pole.png"
+	},
+	
+	paramtype2 = "facedir", -- important!
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{ -4/32, -16/32,  -4/32,   4/32, 16/32,   4/32},
+			{ -1/32,  -6/32, -16/32,   1/32, -4/32,  16/32},
+			{ -2/32,  -4/32, -16/32,   2/32,  4/32, -12/32},
+			{ -2/32,  -4/32,  12/32,   2/32,  4/32,  16/32},
+		},
+	},
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
+	end,
+	
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		if techage.is_protected(pos, placer:get_player_name()) then
+			minetest.remove_node(pos)
+			return true
+		end
+		if not Cable:after_place_tube(pos, placer, pointed_thing) then
+			minetest.remove_node(pos)
+			return true
+		end
+		M(pos):set_string("owner", placer:get_player_name())
+		return false
+	end,
+	can_dig = function(pos, digger)
+		local meta = minetest.get_meta(pos)
+		if meta:get_string("owner") == digger:get_player_name() then
+			return true
+		end
+		if minetest.check_player_privs(digger:get_player_name(), "powerline") then
+			return true
+		end
+		return false
+	end,
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
+			oldnode.param2 = oldmetadata.fields.tl2_param2
+			Cable:after_dig_tube(pos, oldnode)
+		end
+	end,
+	
+	on_rotate = screwdriver.disallow, -- important!
+	paramtype = "light",
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky=2, crumbly=2, choppy=2},
+	sounds = default.node_sound_defaults(),
+})
+
+minetest.register_node("techage:power_pole3", {
+	description = S("TA Power Pole"),
+	--tiles = {"techage_power_pole.png"},
+	tiles = {
+		"default_wood.png",
+		"default_wood.png",
+		"default_wood.png"
+	},
+	
+	paramtype2 = "facedir", -- important!
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{ -4/32, -16/32,  -4/32,   4/32, 16/32,   4/32},
 		},
 	},
 	on_rotate = screwdriver.disallow, -- important!
@@ -207,19 +310,29 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "techage:power_pole",
+	output = "techage:power_pole2",
 	recipe = {
-		{"default:stick", "techage:power_lineS", "default:stick"},
+		{"", "default:stick", ""},
 		{"techage:power_lineS", "default:copper_ingot", "techage:power_lineS"},
-		{"default:stick", "techage:power_lineS", "default:stick"},
+		{"", "default:stick", ""},
 	},
 })
 
-if minetest.global_exists("minecart") and minecart.register_protected_node then
-	minecart.register_protected_node("techage:power_line")
-	minecart.register_protected_node("techage:power_lineS")
-	minecart.register_protected_node("techage:power_lineA")
-	minecart.register_protected_node("techage:power_pole")
-	minecart.register_protected_node("default:fence_wood")
-	
-end
+minetest.register_craft({
+	output = "techage:power_pole",
+	recipe = {
+		{"", "", ""},
+		{"", "techage:power_pole2", ""},
+		{"", "techage:power_pole2", ""},
+	},
+})
+
+minetest.register_craft({
+	output = "techage:power_pole3 4",
+	recipe = {
+		{"", "group:wood", ""},
+		{"", "techage:power_lineS", ""},
+		{"", "group:wood", ""},
+	},
+})
+

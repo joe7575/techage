@@ -15,7 +15,6 @@
 -- for lazy programmers
 local P = minetest.string_to_pos
 local M = minetest.get_meta
-
 local S = techage.S
 
 local CYCLE_TIME = 2
@@ -85,7 +84,8 @@ minetest.register_node("techage:ta4_solar_minicell", {
 		local number = techage.add_node(pos, "techage:ta4_solar_minicell")
 		meta:set_string("node_number", number)
 		meta:set_string("infotext", S("TA4 Streetlamp Solar Cell").." "..number)
-		local mem = tubelib2.init_mem(pos)
+		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
+		local mem = tubelib2.get_mem(pos)
 		mem.capa = 0
 		mem.providing = false
 		minetest.get_node_timer(pos):start(CYCLE_TIME)

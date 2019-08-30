@@ -78,7 +78,8 @@ minetest.register_node("techage:ta3_booster", {
 	
 	on_construct = tubelib2.init_mem,
 	after_place_node = function(pos, placer)
-		local mem = tubelib2.init_mem(pos)
+		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
+		local mem = tubelib2.get_mem(pos)
 		local node = minetest.get_node(pos)
 		local indir = techage.side_to_indir("R", node.param2)
 		M(pos):set_int("indir", indir)

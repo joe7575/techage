@@ -130,7 +130,8 @@ minetest.register_node("techage:ta3_akku", {
 	on_construct = tubelib2.init_mem,
 
 	after_place_node = function(pos, placer, itemstack)
-		local mem = tubelib2.init_mem(pos)
+		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
+		local mem = tubelib2.get_mem(pos)
 		State:node_init(pos, mem, "")
 		mem.capa = get_capa(itemstack)
 		on_rightclick(pos)

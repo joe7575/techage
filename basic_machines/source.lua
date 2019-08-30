@@ -126,7 +126,8 @@ minetest.register_node("techage:t2_source", {
 
 	on_construct = tubelib2.init_mem,
 	after_place_node = function(pos, placer)
-		local mem = tubelib2.init_mem(pos)
+		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
+		local mem = tubelib2.get_mem(pos)
 		State2:node_init(pos, mem, "")
 		mem.state_num = 2
 		on_rightclick(pos)
@@ -155,6 +156,7 @@ minetest.register_node("techage:t3_source", {
 
 	on_construct = tubelib2.init_mem,
 	after_place_node = function(pos, placer)
+		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
 		local mem = tubelib2.get_mem(pos)
 		State3:node_init(pos, mem, "")
 		mem.state_num = 3
@@ -184,6 +186,7 @@ minetest.register_node("techage:t4_source", {
 
 	on_construct = tubelib2.init_mem,
 	after_place_node = function(pos, placer)
+		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
 		local mem = tubelib2.get_mem(pos)
 		State4:node_init(pos, mem, "")
 		mem.state_num = 4

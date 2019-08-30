@@ -63,6 +63,7 @@ else
 	dofile(MP.."/power/power_line.lua")
 	dofile(MP.."/power/junctionbox.lua")
 	dofile(MP.."/power/powerswitch.lua")
+	dofile(MP.."/power/protection.lua")
 
 	-- Iron Age
 	dofile(MP.."/iron_age/main.lua")
@@ -150,7 +151,6 @@ else
 	end
 	dofile(MP.."/nodes/gateblock.lua")
 	dofile(MP.."/nodes/doorblock.lua")
-	dofile(MP.."/nodes/pillar.lua")
 	
 	-- Logic
 	dofile(MP.."/logic/lib.lua")
@@ -178,4 +178,7 @@ else
 	dofile(MP.."/nodes/silicon.lua")
 	dofile(MP.."/solar/minicell.lua")
 	
+	-- Wind
+	dofile(MP.."/wind_turbine/rotor.lua")
+	dofile(MP.."/nodes/pillar.lua")
 end

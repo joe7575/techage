@@ -46,7 +46,8 @@ minetest.register_node("techage:source", {
 		'techage_electric_button.png^techage_appl_electronic_fab.png',
 	},
 	after_place_node = function(pos)
-		local mem = tubelib2.init_mem(pos)
+		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
+		local mem = tubelib2.get_mem(pos)
 		M(pos):set_string("infotext", "off")
 	end,
 	

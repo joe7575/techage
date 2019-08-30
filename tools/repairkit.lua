@@ -36,7 +36,7 @@ local function read_state(itemstack, user, pointed_thing)
 			local name = minetest.get_biome_name(data.biome)
 			minetest.chat_send_player(user:get_player_name(), S("Biome")..": "..name..", "..S("Position temperature")..": "..math.floor(data.heat).."    ")
 			if techage.OceanIdTbl[data.biome] then
-				minetest.chat_send_player(user:get_player_name(), "Suitable for windmills")
+				minetest.chat_send_player(user:get_player_name(), "Suitable for wind turbines")
 			end
 		end
 		local number = techage.get_node_number(pos)
@@ -76,6 +76,11 @@ local function read_state(itemstack, user, pointed_thing)
 				if power and power ~= "" and power ~= "unsupported" then
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": power = "..power.." %    ")
 				end
+				local owner = M(pos):get_string("owner") or ""
+				if owner ~= "" then
+					minetest.chat_send_player(user:get_player_name(), S("Node owner")..": "..owner.."    ")
+				end
+				minetest.chat_send_player(user:get_player_name(), S("Position")..": "..minetest.pos_to_string(pos).."    ")
 				itemstack:add_wear(65636/200)
 				return itemstack
 			end
@@ -87,6 +92,11 @@ local function read_state(itemstack, user, pointed_thing)
 					minetest.chat_send_player(user:get_player_name(), ndef.description..":"..text)
 				end
 			end
+			local owner = M(pos):get_string("owner") or ""
+			if owner ~= "" then
+				minetest.chat_send_player(user:get_player_name(), S("Node owner")..": "..owner.."    ")
+			end
+			minetest.chat_send_player(user:get_player_name(), S("Position")..": "..minetest.pos_to_string(pos).."    ")
 			itemstack:add_wear(65636/200)
 			return itemstack
 		end

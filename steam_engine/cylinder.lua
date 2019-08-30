@@ -30,6 +30,7 @@ end
 
 -- called with any pipe change
 local function after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+	-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
 	local mem = tubelib2.get_mem(pos)
 	mem.running = false
 	swap_node(pos, "techage:cylinder")
