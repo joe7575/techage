@@ -149,8 +149,11 @@ minetest.register_node("techage:ta4_wind_turbine", {
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_rotor_top.png",
-		"techage_rotor_top.png",
+		"techage_rotor_top.png^techage_appl_hole_electric.png",
 		"techage_rotor.png",
+		"techage_rotor.png",
+		"techage_rotor.png",
+		"techage_rotor.png^techage_appl_open.png",
 	},
 	
 	on_construct = tubelib2.init_mem,
@@ -194,6 +197,9 @@ minetest.register_node("techage:ta4_wind_turbine_nacelle", {
 		-- up, down, right, left, back, front
 		"techage_rotor_top.png",
 		"techage_rotor_top.png",
+		"techage_rotor.png",
+		"techage_rotor.png",
+		"techage_rotor.png^techage_appl_open.png",
 		"techage_rotor.png",
 	},
 	paramtype2 = "facedir",
