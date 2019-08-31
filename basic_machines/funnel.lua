@@ -101,6 +101,7 @@ minetest.register_node("techage:ta3_funnel", {
 	},
 
 	drawtype = "nodebox",
+	paramtype = "light",
 	node_box = {
 		type = "fixed",
 		fixed = {

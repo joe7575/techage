@@ -193,6 +193,7 @@ local tubing = {
 local node_name_ta2, node_name_ta3, node_name_ta4 = 
 	techage.register_consumer("grinder", S("Grinder"), tiles, {
 		drawtype = "nodebox",
+		paramtype = "light",
 		node_box = {
 			type = "fixed",
 			fixed = {

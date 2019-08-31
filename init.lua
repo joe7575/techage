@@ -47,6 +47,7 @@ else
 	dofile(MP.."/doc/ta1_doc.lua")
 	dofile(MP.."/doc/ta2_doc.lua")
 	dofile(MP.."/doc/ta3_doc.lua")
+	dofile(MP.."/doc/ta4_doc.lua")
 	
 	-- Nodes1
 	dofile(MP.."/nodes/baborium.lua")
@@ -181,4 +182,5 @@ else
 	-- Wind
 	dofile(MP.."/wind_turbine/rotor.lua")
 	dofile(MP.."/nodes/pillar.lua")
+	dofile(MP.."/wind_turbine/signallamp.lua")
 end

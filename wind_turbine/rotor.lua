@@ -46,30 +46,40 @@ local function pos_and_yaw(pos, param2)
 	return pos, {x=0, y=yaw, z=0}
 end
 
-local function add_rotor(pos, player_name)
-	local pos1 = {x=pos.x-14, y=pos.y-10, z=pos.z-14}
+local function add_rotor(pos, mem, player_name)
+	mem.error = false
+	local pos1 = {x=pos.x-14, y=pos.y-9, z=pos.z-14}
 	local pos2 = {x=pos.x+14, y=pos.y+10, z=pos.z+14}
-	local num_node = 29*29*21 - 12
+	local num_node = 29*29*20 - 12
 	local num = #minetest.find_nodes_in_area(pos1, pos2, {"air", "ignore"})
 	if num < num_node then
 		if player_name then
-			minetest.chat_send_player(player_name, "[TA4 Wind Turbine] Not enough space!")
+			minetest.chat_send_player(player_name, S("[TA4 Wind Turbine]")..
+				" "..S("Not enough space!"))
 		end
+		M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..S("Error"))
+		mem.error = true
 		return
 	end
 	
 	local data = minetest.get_biome_data({x=pos.x, y=0, z=pos.z})
 	if not techage.OceanIdTbl[data.biome] then
 		if player_name then
-			minetest.chat_send_player(player_name, "[TA4 Wind Turbine]  Wrong place for wind turbines!")
+			minetest.chat_send_player(player_name, S("[TA4 Wind Turbine]")..
+				" "..S("Wrong place for wind turbines!"))
 		end
+		M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..S("Error"))
+		mem.error = true
 		return
 	end
 	
 	if pos.y < 12 or pos.y > 20 then
 		if player_name then
-			minetest.chat_send_player(player_name, "[TA4 Wind Turbine] No wind at this altitude!")
+			minetest.chat_send_player(player_name, S("[TA4 Wind Turbine]")..
+				" "..S("No wind at this altitude!"))
 		end
+		M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..S("Error"))
+		mem.error = true
 		return
 	end
 	
@@ -85,6 +95,14 @@ local function add_rotor(pos, player_name)
 end	
 
 local function start_rotor(pos, mem)
+	local npos = techage.get_pos(pos, "F")
+	local node = minetest.get_node(npos)
+	if node.name ~= "techage:ta4_wind_turbine_nacelle" then
+		M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..S("Error"))
+		mem.error = true
+		return
+	end
+	
 	mem.providing = true
 	power.generator_start(pos, mem, PWR_PERF)
 	local hash = minetest.hash_node_position(pos)
@@ -105,7 +123,6 @@ end
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	
-	print("node_timer", mem.running, mem.providing)
 	if not mem.running then
 		return false
 	end
@@ -148,7 +165,7 @@ minetest.register_node("techage:ta4_wind_turbine", {
 		meta:set_string("infotext", S("TA4 Wind Turbine").." "..own_num)
 		mem.providing = false
 		mem.running = true
-		add_rotor(pos, placer:get_player_name())
+		add_rotor(pos, mem, placer:get_player_name())
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
 	
@@ -206,7 +223,9 @@ techage.register_node({"techage:ta4_wind_turbine"}, {
 		local mem = tubelib2.get_mem(pos)
 		print("on_recv_message", topic)
 		if topic == "state" then
-			if mem.running and mem.providing then
+			if mem.error then
+				return "error"
+			elseif mem.running and mem.providing then
 				return "running"
 			else
 				return "stopped"
@@ -220,19 +239,67 @@ techage.register_node({"techage:ta4_wind_turbine"}, {
 		end
 	end,
 	on_node_load = function(pos)
-		add_rotor(pos)
 		local mem = tubelib2.get_mem(pos)
+		add_rotor(pos, mem)
 		mem.providing = false  -- to force the rotor start
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
 })
 
+minetest.register_craftitem("techage:ta4_epoxy", {
+	description = S("TA4 Epoxide Resin"),
+	inventory_image = "techage_epoxy.png",
+})
 
---minetest.register_craft({
---	output = "techage:ta4_wind_turbine",
---	recipe = {
---		{"", "techage:ta4_wlanchip", ""},
---		{"techage:ta4_silicon_wafer", "techage:ta4_silicon_wafer", "techage:ta4_silicon_wafer"},
---		{"default:tin_ingot", "techage:iron_ingot", "default:copper_ingot"},
---	},
---})
+minetest.register_craftitem("techage:ta4_carbon_fiber", {
+	description = S("TA4 Carbon Fiber"),
+	inventory_image = "techage_carbon_fiber.png",
+})
+
+minetest.register_craftitem("techage:ta4_rotor_blade", {
+	description = S("TA4 Rotor Blade"),
+	inventory_image = "techage_rotor_blade.png",
+})
+
+
+minetest.register_craft({
+	output = "techage:ta4_wind_turbine",
+	recipe = {
+		{"dye:white", "techage:ta4_rotor_blade", "dye:red"},
+		{"basic_materials:gear_steel", "techage:generator", "basic_materials:gear_steel"},
+		{"techage:ta4_rotor_blade", "techage:electric_cableS", "techage:ta4_rotor_blade"},
+	},
+})
+
+minetest.register_craft({
+	output = "techage:ta4_wind_turbine_nacelle",
+	recipe = {
+		{"default:steel_ingot", "", "default:steel_ingot"},
+		{"dye:white", "techage:ta4_wlanchip", "dye:red"},
+		{"", "default:copper_ingot", ""},
+	},
+})
+
+minetest.register_craft({
+	output = "techage:ta4_rotor_blade",
+	recipe = {
+		{"techage:ta4_carbon_fiber", "dye:white", "techage:ta4_carbon_fiber"},
+		{"techage:ta4_epoxy", "techage:ta4_carbon_fiber", "techage:ta4_epoxy"},
+		{"techage:ta4_carbon_fiber", "dye:red", "techage:ta4_carbon_fiber"},
+	},
+})
+
+techage.furnace.register_recipe({
+	output = "techage:ta4_carbon_fiber", 
+	recipe = {"default:papyrus", "default:stick", "default:papyrus", "default:stick"}, 
+	heat = 4,
+	time = 3,
+})
+
+techage.furnace.register_recipe({
+	output = "techage:ta4_epoxy", 
+	recipe = {"basic_materials:oil_extract", "techage:oil_source", 
+		"basic_materials:oil_extract", "techage:oil_source"}, 
+	heat = 4,
+	time = 3,
+})
