@@ -41,7 +41,7 @@ local Face2Dir = {[0]=
 local function pos_and_yaw(pos, param2)
 	local dir = Face2Dir[param2]
 	local yaw = minetest.dir_to_yaw(dir)
-	dir = vector.multiply(dir, 1.3)
+	dir = vector.multiply(dir, 1.1)
 	pos = vector.add(pos, dir)
 	return pos, {x=0, y=yaw, z=0}
 end
@@ -50,19 +50,18 @@ local function add_rotor(pos, mem, player_name)
 	mem.error = false
 	local pos1 = {x=pos.x-14, y=pos.y-9, z=pos.z-14}
 	local pos2 = {x=pos.x+14, y=pos.y+10, z=pos.z+14}
-	local num_node = 29*29*20 - 12
-	local num = #minetest.find_nodes_in_area(pos1, pos2, {"air", "ignore"})
-	if num < num_node then
+	local num = #minetest.find_nodes_in_area(pos1, pos2, {"techage:ta4_wind_turbine"})
+	if num > 1 then
 		if player_name then
 			minetest.chat_send_player(player_name, S("[TA4 Wind Turbine]")..
-				" "..S("Not enough space!"))
+				" "..S("The wind turbines are too close together!"))
 		end
 		M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..S("Error"))
 		mem.error = true
 		return
 	end
 	
-	local data = minetest.get_biome_data({x=pos.x, y=0, z=pos.z})
+	local data = minetest.get_biome_data({x=pos.x, y=-1, z=pos.z})
 	if not techage.OceanIdTbl[data.biome] then
 		if player_name then
 			minetest.chat_send_player(player_name, S("[TA4 Wind Turbine]")..
@@ -206,7 +205,6 @@ minetest.register_node("techage:ta4_wind_turbine_nacelle", {
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
-	drop = "",
 })
 
 minetest.register_entity("techage:rotor_ent", {initial_properties = {
