@@ -27,7 +27,7 @@ techage.register_category_page("ta4",
 
 local ROTOR = "techage_wind_turbine_inv.png"
 local CANELLE = "techage_rotor.png"
-local PILLAR = "techage_pillar_inv.png"
+local PILLAR = "techage:pillar"
 
 local Images = {
 	{false, false, false, ROTOR, CANELLE, false, false},

@@ -44,7 +44,10 @@ local function hide_node(pos, node, meta, placer)
 	and not ndef.on_construct then
 		meta:set_string("techage_hidden_nodename", node.name)
 		meta:set_string("techage_hidden_param2", node.param2)
-		local param2 = minetest.dir_to_facedir(placer:get_look_dir(), true)
+		local param2 = 0
+		if ndef.paramtype2 and ndef.paramtype2 == "facedir" then
+			param2 = minetest.dir_to_facedir(placer:get_look_dir(), true)
+		end
 		minetest.swap_node(pos, {name = taken:get_name(), param2 = param2})
 		inv:set_stack("main", 1, stack)
 	end

@@ -194,8 +194,10 @@ techage.register_node({"techage:ta3_nodedetector_off", "techage:ta3_nodedetector
 
 techage.register_entry_page("ta3l", "node_detector",
 	S("TA3 Node Detector"), 
-	S("The Node Detector can send a 'on' signal when it detects that nodes appear@n"..
+	S("The Node Detector sends an 'on' signal when it detects that nodes appear@n"..
 		"or disappear, but has to be configured accordingly.@n"..
+        "After the node switches back to the default state (grey block)@n"..
+		"an 'off' signal will be sent.@n"..
 		"Valid nodes are all kind of blocks and plants.@n"..
 		"The sensor range is 3 nodes/meters in the arrow direction."),
 	"techage:ta3_nodedetector_on")

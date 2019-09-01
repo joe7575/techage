@@ -62,6 +62,7 @@ function techage.mark_region(name, pos1, pos2)
 	end
 
 	marker_region[name] = markers
+	minetest.after(20, techage.unmark_region, name)
 end
 
 function techage.switch_region(name, pos1, pos2)
