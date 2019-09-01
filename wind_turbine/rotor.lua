@@ -29,6 +29,8 @@ local power = techage.power
 
 local Rotors = {}
 
+local MAX_NUM_FOREIGN_NODES = 50
+
 local Face2Dir = {[0]=
 	{x=0,  y=0,  z=1},
 	{x=1,  y=0,  z=0},
@@ -48,6 +50,8 @@ end
 
 local function add_rotor(pos, mem, player_name)
 	mem.error = false
+	
+	-- Check for next wind turbine
 	local pos1 = {x=pos.x-14, y=pos.y-9, z=pos.z-14}
 	local pos2 = {x=pos.x+14, y=pos.y+10, z=pos.z+14}
 	local num = #minetest.find_nodes_in_area(pos1, pos2, {"techage:ta4_wind_turbine"})
@@ -61,8 +65,11 @@ local function add_rotor(pos, mem, player_name)
 		return
 	end
 	
-	local data = minetest.get_biome_data({x=pos.x, y=-1, z=pos.z})
-	if not techage.OceanIdTbl[data.biome] then
+	-- Check for water surface (occean)
+	pos1 = {x=pos.x-20, y=0, z=pos.z-20}
+	pos2 = {x=pos.x+20, y=1, z=pos.z+20}
+	local num = #minetest.find_nodes_in_area(pos1, pos2, {"default:water_source", "default:water_flowing", "ignore"})
+	if num < (41*41*2-MAX_NUM_FOREIGN_NODES) then
 		if player_name then
 			minetest.chat_send_player(player_name, S("[TA4 Wind Turbine]")..
 				" "..S("Wrong place for wind turbines!"))
@@ -91,6 +98,9 @@ local function add_rotor(pos, mem, player_name)
 		obj:set_rotation(yaw)
 		Rotors[hash] = obj
 	end
+	
+	local own_num = M(pos):get_string("node_number") or ""
+	M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..own_num)
 end	
 
 local function start_rotor(pos, mem)

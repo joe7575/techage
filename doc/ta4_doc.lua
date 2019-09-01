@@ -47,8 +47,8 @@ techage.register_category_page("ta4wt",
 		"a pillar by means of TA4 Pillar nodes (power cables have to be inside).@n"..
 		"Please note the following limitations:@n"..
 		"- pillar height between 10 and 19 m@n"..
-		"- can only be built offshore (the info tool indicates where a wind turbine can be built)@n"..
-		"- 14 m free space in all 4 directions (e.g. to the next wind turbine)@n"..
+		"- can only be built offshore (20 m in all 4 directions is water)@n"..
+		"- more than 14 m to the next wind turbine@n"..
 		"- the wind blows only between 5 and 9 o'clock and between 17 and 21 o'clock"), 
 	nil, 
 	{},
