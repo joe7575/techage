@@ -59,12 +59,13 @@ else
 	dofile(MP.."/power/junction.lua") 
 	dofile(MP.."/power/drive_axle.lua")
 	dofile(MP.."/power/steam_pipe.lua")
-	dofile(MP.."/power/biogas_pipe.lua")
 	dofile(MP.."/power/electric_cable.lua")
 	dofile(MP.."/power/power_line.lua")
 	dofile(MP.."/power/junctionbox.lua")
 	dofile(MP.."/power/powerswitch.lua")
 	dofile(MP.."/power/protection.lua")
+	dofile(MP.."/power/ta4_pipe.lua")
+	dofile(MP.."/power/ta4_junction.lua")
 
 	-- Iron Age
 	dofile(MP.."/iron_age/main.lua")
@@ -183,4 +184,11 @@ else
 	dofile(MP.."/wind_turbine/rotor.lua")
 	dofile(MP.."/nodes/pillar.lua")
 	dofile(MP.."/wind_turbine/signallamp.lua")
+	
+	-- TA4 Energy Storage
+	--dofile(MP.."/energy_storage/heatexchanger.lua")
+	--dofile(MP.."/energy_storage/generator.lua")
+	--dofile(MP.."/energy_storage/turbine.lua")
+	--dofile(MP.."/energy_storage/help.lua")
+	
 end

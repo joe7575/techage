@@ -104,35 +104,35 @@ local function formspec_help(player_name)
 	local cat, key = get_ref(player_name)
 	local hdef = HelpPages[cat][key] or DUMMY
 	local index = formspec_context[player_name].index or 1
-	local box = "box[8.5,0.9;1,1.1;#BBBBBB]"
+	local box = "box[9.5,0.9;1,1.1;#BBBBBB]"
 
 	if hdef.item_name == "-" then
 		bttn = ""
 	elseif hdef.item_name == "plan" then
-		bttn = "button[8.6,1;1,1;plan;"..S("Plan").."]"
+		bttn = "button[9.6,1;1,1;plan;"..S("Plan").."]"
 	else
-		bttn = box.."item_image[8.6,1;1,1;"..hdef.item_name.."]"
+		bttn = box.."item_image[9.6,1;1,1;"..hdef.item_name.."]"
 	end
-	return "size[10,9]"..
+	return "size[11,9]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	"item_image[8.6,0;1,1;techage:construction_board]"..
+	"item_image[9.6,0;1,1;techage:construction_board]"..
 	bttn..
-	"table[0.1,0;8,4;page;"..entries_as_string(player_name)..";"..index.."]"..
-	"textarea[0.3,4.7;10,5.3;help;"..S("Help")..":;"..hdef.text.."]"..
-	"box[0,4.75;9.775,4.45;#000000]"
+	"table[0.1,0;9,4;page;"..entries_as_string(player_name)..";"..index.."]"..
+	"textarea[0.3,4.7;11,5.3;help;"..S("Help")..":;"..hdef.text.."]"..
+	"box[0,4.75;10.775,4.45;#000000]"
 end
 
 local function formspec_plan(player_name)
 	local cat, key = get_ref(player_name)
 	local hdef = HelpPages[cat][key] or DUMMY
-	return "size[10,9]"..
+	return "size[11,9]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
 	"label[0,0;"..hdef.name..":]"..
-	"button[9,0;1,0.8;back;<<]"..
+	"button[10,0;1,0.8;back;<<]"..
 	plan(hdef.images)
 end
 

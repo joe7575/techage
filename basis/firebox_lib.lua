@@ -75,7 +75,7 @@ function techage.firebox.can_dig(pos, player)
 	return inv:is_empty("fuel")
 end
 
-function techage.firebox.allow_metadata_inventory(pos, listname, index, stack, player)
+function techage.firebox.allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
@@ -83,6 +83,13 @@ function techage.firebox.allow_metadata_inventory(pos, listname, index, stack, p
 		return stack:get_count()
 	end
 	return 0
+end
+
+function techage.firebox.allow_metadata_inventory_take(pos, listname, index, stack, player)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return 0
+	end
+	return stack:get_count()
 end
 
 local PowerLevel = {

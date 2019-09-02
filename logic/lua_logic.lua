@@ -86,10 +86,10 @@ local function eval(pos, mem)
 		local res, sts = pcall(mem.code)
 		if res then
 			mem.error = "ok"
-			if sts == true then
+			if sts == true and mem.inp_tbl.outp ~= true then
 				mem.inp_tbl.outp = sts
 				return "on"
-			elseif sts == false then 
+			elseif sts == false and mem.inp_tbl.outp ~= false then 
 				mem.inp_tbl.outp = sts
 				return "off"
 			end

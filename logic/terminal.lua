@@ -124,7 +124,8 @@ local function command(pos, command, player)
 			meta:set_int("public", 0)
 			output(pos, player..":$ "..command)
 			output(pos, S("Switched to private use!"))
-		elseif meta:get_int("public") == 1 or owner == player then
+		elseif meta:get_int("public") == 1 or owner == player or 
+				minetest.check_player_privs(player, "server") then
 			output(pos, "$ "..command)
 			local own_num = meta:get_string("node_number")
 			local num, cmnd, payload = command:match('^cmd%s+([0-9]+)%s+(%w+)%s*(.*)$')

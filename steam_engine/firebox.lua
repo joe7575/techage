@@ -70,8 +70,8 @@ minetest.register_node("techage:firebox", {
 
 	on_timer = node_timer,
 	can_dig = firebox.can_dig,
-	allow_metadata_inventory_put = firebox.allow_metadata_inventory,
-	allow_metadata_inventory_take = firebox.allow_metadata_inventory,
+	allow_metadata_inventory_put = firebox.allow_metadata_inventory_put,
+	allow_metadata_inventory_take = firebox.allow_metadata_inventory_take,
 	on_receive_fields = firebox.on_receive_fields,
 	on_rightclick = firebox.on_rightclick,
 	
@@ -128,8 +128,8 @@ minetest.register_node("techage:firebox_on", {
 	
 	on_timer = node_timer,
 	can_dig = firebox.can_dig,
-	allow_metadata_inventory_put = firebox.allow_metadata_inventory,
-	allow_metadata_inventory_take = firebox.allow_metadata_inventory,
+	allow_metadata_inventory_put = firebox.allow_metadata_inventory_put,
+	allow_metadata_inventory_take = firebox.allow_metadata_inventory_take,
 	on_receive_fields = firebox.on_receive_fields,
 	on_rightclick = firebox.on_rightclick,
 })
