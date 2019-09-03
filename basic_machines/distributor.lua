@@ -153,19 +153,19 @@ local function push_item(pos, filter, item_name, num_items, mem)
 	local num_pushed = 0
 	local num_ports = #filter
 	local amount = math.floor(math.max((num_items + 1) / num_ports, 1))
-	local successful = false
-	while num_pushed < num_items do
+	local num_of_trials = 0
+	while num_pushed < num_items and num_of_trials <= 8 do
+		num_of_trials = num_of_trials + 1
 		local push_dir = filter[idx]
 		local num_to_push = math.min(amount, num_items - num_pushed)
 		if techage.push_items(pos, push_dir, ItemStack(item_name.." "..num_to_push)) then
 			num_pushed = num_pushed + num_to_push
-			successful = true
 			mem.port_counter[push_dir] = (mem.port_counter[push_dir] or 0) + num_to_push
 		end
+		-- filter start offset
 		idx = idx + 1
 		if idx > num_ports then
 			idx = 1
-			if not successful then break end
 		end
 	end
 	return num_pushed
