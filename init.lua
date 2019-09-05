@@ -105,6 +105,7 @@ else
 	dofile(MP.."/basic_machines/autocrafter.lua")
 	dofile(MP.."/basic_machines/electronic_fab.lua")
 	dofile(MP.."/basic_machines/funnel.lua")
+	dofile(MP.."/basic_machines/liquidsampler.lua")
 
 	-- Coal power station
 	dofile(MP.."/coal_power_station/firebox.lua")

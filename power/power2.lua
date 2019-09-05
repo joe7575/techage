@@ -43,7 +43,9 @@ local function set_conn_dirs(pos, sides)
 	end
 	M(pos):set_string("power_dirs", minetest.serialize(tbl))
 end
-		
+
+techage.power.set_conn_dirs = set_conn_dirs
+
 local function valid_indir(pos, in_dir)
 	local s = M(pos):get_string("power_dirs")
 	if s == "" then

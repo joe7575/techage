@@ -20,6 +20,7 @@ techage.register_category_page("ta2", "Steam Age (TA2)",
 		"and machines to produce ores and vacuum tubes for the first electronic devices and machines in TA3."),
 	"techage:charcoal", {
 		"steam_engine", "boiler1", "boiler2", "cylinder", "flywheel", 
-		"pusher", "distributor", "chest", "grinder", "gravelsieve", "autocrafter", "rinser", "electronic_fab"}
+		"pusher", "distributor", "chest", "grinder", "gravelsieve", "autocrafter", "rinser", 
+		"electronic_fab", "liquidsampler"}
 )
 

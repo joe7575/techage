@@ -102,7 +102,8 @@ techage.register_category_page("ta3m",
 	S("TA3: Machines"),
 	S("Collection of TA3 machines, some with eletrical power supply."),
 	"techage:ta3_autocrafter_pas", 
-	{"pusher", "distributor", "chest", "grinder", "gravelsieve", "autocrafter", "electronic_fab", "funnel"}
+	{"pusher", "distributor", "chest", "grinder", "gravelsieve", "autocrafter", "electronic_fab", 
+		"funnel", "liquidsampler"}
 )
 
 techage.register_category_page("ta3l", 
