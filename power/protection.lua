@@ -20,7 +20,7 @@ local IsNodeUnderObservation = {}
 
 -- Register all nodes, which should be protected by the "techage:power_pole"
 function techage.register_powerline_node(name)
-		IsNodeUnderObservation[name] = true
+	IsNodeUnderObservation[name] = true
 end
 
 local function powerpole_found(pos, name, range)

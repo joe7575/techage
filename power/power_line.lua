@@ -186,11 +186,11 @@ minetest.register_node("techage:power_pole", {
 		},
 	},
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		M(pos):set_string("owner", placer:get_player_name())
 		if techage.is_protected(pos, placer:get_player_name()) then
 			minetest.remove_node(pos)
 			return true
 		end
-		M(pos):set_string("owner", placer:get_player_name())
 	end,
 	can_dig = function(pos, digger)
 		local meta = minetest.get_meta(pos)
@@ -235,6 +235,7 @@ minetest.register_node("techage:power_pole2", {
 	end,
 	
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		M(pos):set_string("owner", placer:get_player_name())
 		if techage.is_protected(pos, placer:get_player_name()) then
 			minetest.remove_node(pos)
 			return true
@@ -243,7 +244,6 @@ minetest.register_node("techage:power_pole2", {
 			minetest.remove_node(pos)
 			return true
 		end
-		M(pos):set_string("owner", placer:get_player_name())
 		return false
 	end,
 	can_dig = function(pos, digger)
