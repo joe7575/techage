@@ -36,7 +36,6 @@ end
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	mydbg("dbg", "firebox burn_cycles = "..(mem.burn_cycles or 0))
 	if mem.running then
 		-- trigger generator and provide power ratio 0..1
 		local ratio = techage.transfer(

@@ -24,7 +24,7 @@ local HEAT_STEP = 10
 local WATER_CONSUMPTION = 0.5
 local MAX_WATER = 10
 
-local Pipe = techage.SteamPipe
+local Pipe = techage.BiogasPipe
 
 local Water = {
 	["bucket:bucket_river_water"] = true,
@@ -75,18 +75,6 @@ local function no_space(pos)
 	local node1 = minetest.get_node({x=pos.x, y=pos.y+1, z=pos.z})
 	local node2 = minetest.get_node({x=pos.x, y=pos.y+2, z=pos.z})
 	return node1.name ~= "air" or node2.name ~= "air"
-end
-
-local function place_nodes(pos)
-	local node = minetest.get_node(pos)
-	print("node.param2", node.param2)
-	minetest.set_node({x=pos.x, y=pos.y+1, z=pos.z}, {name = "techage:heatexchanger2", param2 = node.param2})
-	minetest.set_node({x=pos.x, y=pos.y+2, z=pos.z}, {name = "techage:heatexchanger1", param2 = node.param2})
-end
-
-local function remove_nodes(pos)
-	minetest.remove_node({x=pos.x, y=pos.y+1, z=pos.z})
-	minetest.remove_node({x=pos.x, y=pos.y+2, z=pos.z})
 end
 
 local State = techage.NodeStates:new({
@@ -229,24 +217,36 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return 0
 end
 
+local function orientate_node(pos, name)
+	local node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
+	if node.name == name then
+		local param2 = node.param2
+		node = minetest.get_node(pos)
+		node.param2 = param2
+		minetest.swap_node(pos, node)
+	else
+		minetest.remove_node(pos)
+		return true
+	end
+end
+
 -- Top
-minetest.register_node("techage:heatexchanger1", {
-	description = S("TA4 Heat Exchanger"),
+minetest.register_node("techage:heatexchanger3", {
+	description = S("TA4 Heat Exchanger 3"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta4.png^techage_frame_ta4_top.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png",
+		"techage_hole_ta4.png",
 		"techage_filling_ta4.png^techage_frameT_ta4.png^techage_appl_hole_biogas.png",
 		"techage_filling_ta4.png^techage_frameT_ta4.png^techage_appl_hole_biogas.png",
 		"techage_filling_ta4.png^techage_frameT_ta4.png^techage_appl_ribsT.png",
 		"techage_filling_ta4.png^techage_frameT_ta4.png^techage_appl_ribsT.png",
 	},
-	selection_box = {
-		type = "fixed",
-		fixed = {0,0,0,0,0,0},
-	},
+	after_place_node = function(pos, placer)
+		return orientate_node(pos, "techage:heatexchanger2")
+	end,
 	paramtype2 = "facedir",
-	groups = {crumbly = 2, cracky = 2, snappy = 2, not_in_creative_inventory=1},
+	groups = {crumbly = 2, cracky = 2, snappy = 2},
 	--on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
@@ -254,42 +254,36 @@ minetest.register_node("techage:heatexchanger1", {
 
 -- Middle
 minetest.register_node("techage:heatexchanger2", {
-	description = S("TA4 Heat Exchanger"),
+	description = S("TA4 Heat Exchanger 2"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta4.png^techage_frame_ta4.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png",
+		"techage_hole_ta4.png",
+		"techage_hole_ta4.png",
 		"techage_filling_ta4.png^techage_frameM_ta4.png^techage_appl_tes_turb.png",
 		"techage_filling_ta4.png^techage_frameM_ta4.png^techage_appl_tes_core.png",
 		"techage_filling_ta4.png^techage_frameM_ta4.png^techage_appl_ribsM.png",
 		"techage_filling_ta4.png^techage_frameM_ta4.png^techage_appl_ribsM.png",
 	},
-	selection_box = {
-		type = "fixed",
-		fixed = {0,0,0,0,0,0},
-	},
+	after_place_node = function(pos, placer)
+		return orientate_node(pos, "techage:heatexchanger1")
+	end,
 	paramtype2 = "facedir",
-	groups = {crumbly = 2, cracky = 2, snappy = 2, not_in_creative_inventory=1},
+	groups = {crumbly = 2, cracky = 2, snappy = 2},
 	--on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
 })
 
-minetest.register_node("techage:heatexchanger3", {
-	description = S("TA4 Heat Exchanger"),
-	inventory_image = "techage_heat_exchanger_inv.png",
+minetest.register_node("techage:heatexchanger1", {
+	description = S("TA4 Heat Exchanger 1"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta4.png^techage_frame_ta4.png",
+		"techage_hole_ta4.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png",
 		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_biogas.png",
 		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_biogas.png",
 		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_ribsB.png",
 		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_ribsB.png",
-	},
-	selection_box = {
-		type = "fixed",
-		fixed = {-8/16, -8/16, -8/16, 8/16, 40/16, 8/16},
 	},
 
 	on_construct = function(pos)
@@ -304,7 +298,6 @@ minetest.register_node("techage:heatexchanger3", {
 			minetest.remove_node(pos)
 			return true
 		end
-		place_nodes(pos)
 		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
 		local mem = tubelib2.get_mem(pos)
 		State:node_init(pos, mem, "")
@@ -315,7 +308,6 @@ minetest.register_node("techage:heatexchanger3", {
 	end,
 	
 	after_dig_node = function(pos)
-		remove_nodes(pos)
 	end,
 	
 	paramtype2 = "facedir",
@@ -323,6 +315,11 @@ minetest.register_node("techage:heatexchanger3", {
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
+})
+
+techage.power.register_node({"techage:heatexchanger1", "techage:heatexchanger3"}, {
+	conn_sides = {"R", "L"},
+	power_network  = Pipe,
 })
 
 
@@ -424,35 +421,3 @@ minetest.register_node("techage:heatexchanger3", {
 --	S("Part of the steam engine. Has to be placed on top of TA2 Boiler Base.@n(see Steam Engine)"), 
 --	"techage:boiler2")
 
-minetest.register_node("techage:ta4_tes_coreelem", {
-	description = S("TA4 TES Core Element"),
-	tiles = {
-		-- up, down, right, left, back, front
-		"techage_tes_core_elem_top.png",
-		"techage_tes_core_elem_top.png",
-		"techage_tes_core_elem.png",
-	},
-	groups = {crumbly = 2, cracky = 2, snappy = 2},
-	is_ground_content = false,
-	sounds = default.node_sound_metal_defaults(),
-})
-
-minetest.register_node("techage:ta4_tes_inlet", {
-	description = S("TA4 TES Core Element"),
-	tiles = {
-		-- up, down, right, left, back, front
-		"techage_tes_inlet.png",
-	},
-	drawtype = "nodebox",
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-8/16, -8/16, -8/16, 8/16, -12/32, 8/16},
-		},
-	},	
-	paramtype = "light",
-	sunlight_propagates = true,
-	groups = {crumbly = 2, cracky = 2, snappy = 2},
-	is_ground_content = false,
-	sounds = default.node_sound_metal_defaults(),
-})

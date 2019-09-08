@@ -125,8 +125,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if listname == "src" then
 		CRD(pos).State:start_if_standby(pos)
 		return stack:get_count()
-	elseif stack:get_count() == 1 and 
-			(list[index]:get_count() == 0 or stack:get_name() ~= list[index]:get_name()) then
+	elseif (list[index]:get_count() == 0 or stack:get_name() ~= list[index]:get_name()) then
 		filter_settings(pos)
 		return 1
 	end

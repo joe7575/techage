@@ -19,12 +19,18 @@ else
 	-- Load support for I18n.
 	techage.S = minetest.get_translator("techage")
 	
-	-- Debugging via "mydbg(topic, text)"
-	techage.DebugTopics = {
+	-- Debugging via "techage.Debug.dbg(text)"
+	techage.Debug = {
+		dbg = function(text, ...)
+			local t = string.format("%.4f %4s:  ", minetest.get_us_time() / 1000000.0, topic)
+			if type(text) ~= "string" then
+				text = dump(text)
+			end
+			print(t..text, unpack({...}))
+		end,
 		--con = true,  -- consumer modell
 		--pwr = true,  -- power distribution
 		--sts = true,  -- status plots
-		--dbg = true,
 		--dbg2 = true,
 		--tst = true,
 		--bot = true  -- Signs Bot
@@ -187,9 +193,11 @@ else
 	dofile(MP.."/wind_turbine/signallamp.lua")
 	
 	-- TA4 Energy Storage
-	--dofile(MP.."/energy_storage/heatexchanger.lua")
-	--dofile(MP.."/energy_storage/generator.lua")
-	--dofile(MP.."/energy_storage/turbine.lua")
-	--dofile(MP.."/energy_storage/help.lua")
+--	dofile(MP.."/energy_storage/heatexchanger.lua")
+--	dofile(MP.."/energy_storage/generator.lua")
+--	dofile(MP.."/energy_storage/turbine.lua")
+--	dofile(MP.."/energy_storage/inlet.lua")
+--	dofile(MP.."/energy_storage/nodes.lua")
+--	dofile(MP.."/energy_storage/help.lua")
 	
 end

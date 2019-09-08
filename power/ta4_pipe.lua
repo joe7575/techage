@@ -20,47 +20,22 @@ local S = techage.S
 
 local Pipe = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
-	max_tube_length = 1000, 
+	max_tube_length = 100, 
 	show_infotext = false,
+	force_to_use_tubes = true,
 	tube_type = "ta4_pipe",
 	primary_node_names = {"techage:ta4_pipeS", "techage:ta4_pipeA"}, 
 	secondary_node_names = {},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
-		-- Don't replace "hidden" cable
-		if M(pos):get_string("techage_hidden_nodename") == "" then
-			minetest.swap_node(pos, {name = "techage:ta4_pipe"..tube_type, param2 = param2 % 32})
-		end
-		M(pos):set_int("tl2_param2", param2)
+		minetest.swap_node(pos, {name = "techage:ta4_pipe"..tube_type, param2 = param2})
 	end,
 })
 
+Pipe:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir)
+	minetest.registered_nodes[node.name].after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+end)
+
 techage.BiogasPipe = Pipe
-
-
--- Overridden method of tubelib2!
-function Pipe:get_primary_node_param2(pos, dir) 
-	return techage.get_primary_node_param2(pos, dir)
-end
-
-function Pipe:is_primary_node(pos, dir)
-	return techage.is_primary_node(pos, dir)
-end
-
-function Pipe:get_secondary_node(pos, dir)
-	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
-	local node = self:get_node_lvm(npos)
-	if self.secondary_node_names[node.name] or 
-			self.secondary_node_names[M(npos):get_string("techage_hidden_nodename")] then
-		return node, npos
-	end
-end
-
-function Pipe:is_secondary_node(pos, dir)
-	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
-	local node = self:get_node_lvm(npos)
-	return self.secondary_node_names[node.name] or 
-			self.secondary_node_names[M(npos):get_string("techage_hidden_nodename")]
-end
 
 minetest.register_node("techage:ta4_pipeS", {
 	description = S("TA4 Pipe"),
@@ -82,10 +57,7 @@ minetest.register_node("techage:ta4_pipeS", {
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
-			oldnode.param2 = oldmetadata.fields.tl2_param2
-			Pipe:after_dig_tube(pos, oldnode)
-		end
+		Pipe:after_dig_tube(pos, oldnode)
 	end,
 	
 	paramtype2 = "facedir", -- important!
@@ -100,7 +72,7 @@ minetest.register_node("techage:ta4_pipeS", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {crumbly = 2, cracky = 2, snappy = 2, techage_trowel = 1},
+	groups = {crumbly = 2, cracky = 2, snappy = 2},
 	sounds = default.node_sound_metal_defaults(),
 })
 
@@ -116,10 +88,7 @@ minetest.register_node("techage:ta4_pipeA", {
 	},
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
-			oldnode.param2 = oldmetadata.fields.tl2_param2
-			Pipe:after_dig_tube(pos, oldnode)
-		end
+		Pipe:after_dig_tube(pos, oldnode)
 	end,
 	
 	paramtype2 = "facedir", -- important!
@@ -137,18 +106,11 @@ minetest.register_node("techage:ta4_pipeA", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {crumbly = 2, cracky = 2, snappy = 2, techage_trowel = 1, not_in_creative_inventory=1},
+	groups = {crumbly = 2, cracky = 2, snappy = 2, not_in_creative_inventory=1},
 	sounds = default.node_sound_metal_defaults(),
 	drop = "techage:ta4_pipeS",
 })
 
-Pipe:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir)
-	if minetest.registered_nodes[node.name].after_tube_update then
-		minetest.registered_nodes[node.name].after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
-	else
-		techage.power.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir, Cable)
-	end
-end)
 
 minetest.register_craft({
 	output = "techage:ta4_pipeS 3",

@@ -15,6 +15,7 @@
 -- for lazy programmers
 local M = minetest.get_meta
 local S = techage.S
+local D = techage.Debug
 
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
@@ -88,7 +89,7 @@ local function cooking(pos, crd, mem, elapsed)
 			crd.State:idle(pos, mem)
 		end
 	else
-		crd.State:fault(pos, mem)
+		crd.State:idle(pos, mem)
 	end
 end
 
@@ -164,12 +165,21 @@ local function can_dig(pos, player)
 	return inv:is_empty("dst") and inv:is_empty("src")
 end
 
+local function can_start(pos, mem, state)
+	if D.dbg2 then D.dbg("can_start", state, firebox_cmnd(pos, "fuel")) end
+	return firebox_cmnd(pos, "fuel")
+end
+
 local function on_node_state_change(pos, old_state, new_state)
-	mydbg("dbg2", "on_node_state_change", new_state)
-	if new_state == techage.RUNNING then
-		firebox_cmnd(pos, "start")
-	else
-		firebox_cmnd(pos, "stop")
+	if D.dbg2 then D.dbg("on_node_state_change", new_state) end
+	local pwr1 = techage.needs_power2(old_state)
+	local pwr2 = techage.needs_power2(new_state)
+	if pwr1 ~= pwr2 then
+		if pwr2 then
+			firebox_cmnd(pos, "start")
+		else
+			firebox_cmnd(pos, "stop")
+		end
 	end
 	local mem = tubelib2.get_mem(pos)
 	reset_cooking(mem)
@@ -232,6 +242,7 @@ local _, node_name_ta3, _ =
 		standby_ticks = STANDBY_TICKS,
 		formspec = formspec,
 		tubing = tubing,
+		can_start = can_start,
 		on_state_change = on_node_state_change,
 		after_place_node = function(pos, placer)
 			local inv = M(pos):get_inventory()

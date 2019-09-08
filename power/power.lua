@@ -17,6 +17,8 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
+local D = techage.Debug
+
 -- Techage Related Data
 local PWR = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).power end
 
@@ -159,10 +161,6 @@ local function migrate(pos, mem, node)
 				techage.power.secondary_start(pos, mem, mem.pwr_could_provide, mem.pwr_could_need)
 			end
 		end
-		
-		if not mem.pwr_needed and not mem.pwr_available and not mem.pwr_available2 then
-			mydbg("dbg", name)
-		end
 	end
 end
 
@@ -220,8 +218,8 @@ local function accounting(pos, mem)
 		mem.mst_supply2 = min(mem.mst_demand1 - mem.mst_supply1, mem.mst_available2)
 		mem.mst_demand2 = min(mem.mst_supply1 - mem.mst_demand1, mem.mst_available1)
 		mem.mst_reserve = (mem.mst_available1 + mem.mst_available2) - mem.mst_needed1
-		mydbg("sts", "needed = "..mem.mst_needed1.."/"..mem.mst_needed2..", available = "..mem.mst_available1.."/"..mem.mst_available2)
-		mydbg("sts", "supply = "..mem.mst_supply1.."/"..mem.mst_supply2..", demand = "..mem.mst_demand1.."/"..mem.mst_demand2..", reserve = "..mem.mst_reserve)
+		if D.sts then D.dbg("needed = "..mem.mst_needed1.."/"..mem.mst_needed2..", available = "..mem.mst_available1.."/"..mem.mst_available2) end
+		if D.sts then D.dbg("supply = "..mem.mst_supply1.."/"..mem.mst_supply2..", demand = "..mem.mst_demand1.."/"..mem.mst_demand2..", reserve = "..mem.mst_reserve) end
 	end
 end
 
@@ -242,7 +240,7 @@ end
 -- if no power available
 local function consumer_turn_off(pos, mem)
 	local pwr = PWR(pos)
-	mydbg("pwr", "consumer_turn_off")
+	if D.pwr then D.dbg("consumer_turn_off") end
 	if pwr and pwr.on_nopower then
 		pwr.on_nopower(pos, mem)
 	end
@@ -252,7 +250,7 @@ end
 
 local function consumer_turn_on(pos, mem)
 	local pwr = PWR(pos)
-	mydbg("pwr", "consumer_turn_on")
+	if D.pwr then D.dbg("consumer_turn_on") end
 	if pwr and pwr.on_power then
 		pwr.on_power(pos, mem)
 	end
@@ -315,6 +313,7 @@ local function handle_consumer(mst_mem, mem, pos, power_needed)
 		-- current cycle
 		if (mst_mem.mst_demand1 or 0) >= power_needed then
 			mst_mem.mst_demand1 = (mst_mem.mst_demand1 or 0) - power_needed
+			if D.sts then D.dbg("consumer_turn_on: mst_demand = "..mst_mem.mst_demand1..", node = "..minetest.get_node(pos).name) end
 			consumer_turn_on(pos, mem)
 		end
 	elseif mem.pwr_state == RUNNING then
@@ -328,6 +327,7 @@ local function handle_consumer(mst_mem, mem, pos, power_needed)
 			mst_mem.mst_reserve = (mst_mem.mst_reserve or 0) - power_needed
 		else -- no power available
 			mst_mem.mst_demand1 = 0
+			if D.sts then D.dbg("consumer_turn_off: mst_demand = "..mst_mem.mst_demand1..", node = "..minetest.get_node(pos).name) end
 			consumer_turn_off(pos, mem)
 		end
 	end
@@ -362,7 +362,7 @@ local function trigger_nodes(mst_pos, mst_mem, dec)
 	connection_walk(mst_pos, function(pos, mem)
 		mem.pwr_node_alive_cnt = (mem.pwr_node_alive_cnt or 1) - dec
 		mem.pwr_power_provided_cnt = 2
-		--mydbg("pwr", "trigger_nodes", minetest.get_node(pos).name, mem.pwr_node_alive_cnt, mem.pwr_available2 or mem.pwr_available or mem.pwr_needed)
+		if D.pwr then D.dbg("trigger_nodes", minetest.get_node(pos).name, mem.pwr_node_alive_cnt, mem.pwr_available2 or mem.pwr_available or mem.pwr_needed) end
 		if mem.pwr_node_alive_cnt >= 0 then
 			if mem.pwr_available then
 				handle_generator(mst_mem, mem, pos, mem.pwr_available)
@@ -379,7 +379,7 @@ local function turn_off_nodes(mst_pos)
 	Route = {}
 	NumNodes = 0
 	pos_already_reached(mst_pos) 
-	mydbg("pwr", "turn_off_nodes")
+	if D.pwr then D.dbg("turn_off_nodes") end
 	connection_walk(mst_pos, function(pos, mem)
 		if (mem.pwr_node_alive_cnt or -1) >= 0 then
 			if mem.pwr_needed then
@@ -409,7 +409,7 @@ end
 
 -- called from master position
 local function power_distribution(pos, mem, dec)
-	mydbg("pwr", "power_distribution")
+	if D.pwr then D.dbg("power_distribution") end
 	if mem.pwr_is_master then
 		mem.mst_needed1 = 0
 		mem.mst_needed2 = 0
@@ -426,7 +426,7 @@ end
 
 -- To be called for each network change from any node
 function techage.power.network_changed(pos, mem)
-	mydbg("pwr", "network_changed")
+	if D.pwr then D.dbg("network_changed") end
 	mem.pwr_node_alive_cnt = (mem.pwr_cycle_time or 2)/2 + 1
 	if determine_new_master(pos, mem) then -- new master?
 		power_distribution(pos, mem)
@@ -486,7 +486,7 @@ function techage.power.consumer_stop(pos, mem)
 end
 
 function techage.power.consumer_alive(pos, mem)
-	--mydbg("pwr", "consumer_alive", mem.pwr_power_provided_cnt, mem.pwr_cycle_time)
+	if D.pwr then D.dbg("consumer_alive", mem.pwr_power_provided_cnt, mem.pwr_cycle_time) end
 	mem.pwr_node_alive_cnt = (mem.pwr_cycle_time or 2)/2 + 1
 	mem.pwr_power_provided_cnt = (mem.pwr_power_provided_cnt or 0) - 1
 	if mem.pwr_power_provided_cnt < 0 and mem.pwr_state == RUNNING then
@@ -549,7 +549,7 @@ function techage.power.secondary_stop(pos, mem)
 end
 
 function techage.power.secondary_alive(pos, mem, capa_curr, capa_max)
-	--mydbg("pwr", "secondary_alive")
+	if D.pwr then D.dbg("secondary_alive") end
 	if capa_curr >= capa_max then
 		mem.pwr_available2, mem.pwr_needed2 = mem.pwr_could_provide, 0 -- can provide only
 	elseif capa_curr <= 0 then
@@ -560,7 +560,7 @@ function techage.power.secondary_alive(pos, mem, capa_curr, capa_max)
 		
 	mem.pwr_node_alive_cnt = 2
 	if mem.pwr_is_master then
-		--mydbg("pwr", "secondary_alive is master")
+		if D.pwr then D.dbg("secondary_alive is master") end
 		power_distribution(pos, mem, 1)
 	end
 	return mem.pwr_provided or 0

@@ -128,4 +128,16 @@ function techage.register_lamp(basename, ndef_off, ndef_on)
 		on_power = on_power,
 		on_nopower = on_nopower,
 	})
+	minetest.register_lbm({
+		label = "[techage] Start lamp",
+		name = "techage:start_lamp",
+		nodenames = {basename.."_on"},
+		run_at_every_load = true,
+		action = function(pos, node)
+			local mem = tubelib2.get_mem(pos)
+			minetest.get_node_timer(pos):start(CYCLE_TIME)
+			power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
+		end
+	})
 end
+

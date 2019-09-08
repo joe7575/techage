@@ -120,6 +120,12 @@ techage.NodeStates = {}
 local NodeStates = techage.NodeStates
 
 local function can_start(pos, mem)
+	--if false, node goes in FAULT
+	return true
+end
+
+local function has_power(pos, mem)
+	--if false, node goes in NOPOWER
 	return true
 end
 
@@ -144,10 +150,12 @@ function techage.needs_power(mem)
 	return state < STANDBY
 end
 
--- is node alive (power related)
-function techage.power_alive(mem)
-	local state = mem.techage_state or STOPPED
-	return state < FAULT
+function techage.needs_power2(state)
+	return state < STANDBY
+end
+
+function techage.get_state_string(mem)
+	return techage.StateStrings[mem.techage_state or STOPPED]
 end
 
 function NodeStates:new(attr)
@@ -159,6 +167,7 @@ function NodeStates:new(attr)
 		node_name_passive = attr.node_name_passive,
 		node_name_active = attr.node_name_active, 
 		infotext_name = attr.infotext_name,
+		has_power =  attr.has_power or has_power,
 		can_start = attr.can_start or can_start,
 		start_node = attr.start_node,
 		stop_node = attr.stop_node,
@@ -212,6 +221,10 @@ function NodeStates:start(pos, mem)
 	if state ~= RUNNING and state ~= FAULT then
 		if not self.can_start(pos, mem, state) then
 			self:fault(pos, mem)
+			return false
+		end
+		if not self.has_power(pos, mem, state) then
+			self:nopower(pos, mem)
 			return false
 		end
 		mem.techage_state = RUNNING
@@ -304,7 +317,7 @@ end
 
 function NodeStates:nopower(pos, mem)
 	local state = mem.techage_state or RUNNING
-	if state ~= STOPPED then
+	if state ~= NOPOWER then
 		mem.techage_state = NOPOWER
 		if self.node_name_passive then
 			swap_node(pos, self.node_name_passive)
@@ -352,10 +365,6 @@ function NodeStates:get_state(mem)
 	return mem.techage_state or techage.STOPPED
 end
 
-function NodeStates:get_state_string(mem)
-	return techage.StateStrings[mem.techage_state or STOPPED]
-end
-
 -- keep the timer running?
 function NodeStates:is_active(mem)
 	local state = mem.techage_state or STOPPED
@@ -394,7 +403,9 @@ function NodeStates:state_button_event(pos, mem, fields)
 	if fields.state_button ~= nil then
 		local state = mem.techage_state or STOPPED
 		if state == STOPPED or state == STANDBY or state == BLOCKED then
-			self:start(pos, mem)
+			if not self:start(pos, mem) and state == STANDBY then
+				self:stop(pos, mem)
+			end	
 		elseif state == RUNNING or state == FAULT or state == NOPOWER then
 			self:stop(pos, mem)
 		end

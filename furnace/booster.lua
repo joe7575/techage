@@ -15,6 +15,7 @@
 -- for lazy programmers
 local M = minetest.get_meta
 local S = techage.S
+local D = techage.Debug
 
 local PWR_NEEDED = 3
 local CYCLE_TIME = 2
@@ -39,28 +40,29 @@ local function on_power(pos, mem)
 	if mem.running then
 		swap_node(pos, "techage:ta3_booster_on")
 		infotext(pos, "running")
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end
-	mydbg("dbg2", "booster on_power")
+	if D.dbg2 then D.dbg("booster on_power") end
 	mem.is_powered = true
 end
 
 local function on_nopower(pos, mem)
 	swap_node(pos, "techage:ta3_booster")
 	infotext(pos, "no power")
-	mydbg("dbg2", "booster on_nopower")
+	if D.dbg2 then D.dbg("booster on_nopower") end
 	mem.is_powered = false
 end
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
-	if mem.is_powered then
+	if mem.running and mem.is_powered then
 		minetest.sound_play("techage_booster", {
 			pos = pos, 
 			gain = 1,
 			max_hear_distance = 7})
 	end
-	power.consumer_alive(pos, mem)
+	if mem.running then
+		power.consumer_alive(pos, mem)
+	end
 	return mem.running
 end
 
@@ -146,23 +148,22 @@ techage.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 		if M(pos):get_int("indir") == in_dir then
 			local mem = tubelib2.get_mem(pos)
 			if topic == "power" then
-				mydbg("dbg2", "booster", mem.is_powered)
-				return mem.is_powered
+				if D.dbg2 then D.dbg("booster power") end
+				return power.power_available(pos, mem, 0)
 			elseif topic == "start" and not mem.running then
-				mydbg("dbg2", "booster try start", mem.pwr_master_pos, mem.pwr_power_provided_cnt)
+				if D.dbg2 then D.dbg("booster try start", mem.pwr_master_pos, mem.pwr_power_provided_cnt) end
 				if power.power_available(pos, mem, 0) then
 					mem.running = true
-					mydbg("dbg2", "booster start")
+					if D.dbg2 then D.dbg("booster start") end
 					power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
 					minetest.get_node_timer(pos):start(CYCLE_TIME)
 				else
-					mydbg("dbg2", "booster no power")
+					if D.dbg2 then D.dbg("booster no power") end
 					infotext(pos, "no power")
 				end
 			elseif topic == "stop" then
 				mem.running = false
-				mem.is_powered = false
-				mydbg("dbg2", "booster stop")
+				if D.dbg2 then D.dbg("booster stop") end
 				swap_node(pos, "techage:ta3_booster")
 				power.consumer_stop(pos, mem)
 				minetest.get_node_timer(pos):stop()

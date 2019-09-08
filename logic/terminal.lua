@@ -155,6 +155,20 @@ local function command(pos, command, player)
 				meta:set_string("formspec", formspec2(meta))
 				return
 			end
+			
+			local cmnd, payload = command:match('^pipe%s+(%w+)%s*(.*)$')
+			if cmnd then
+				local resp = techage.transfer(
+					pos, 
+					"B",  -- outdir
+					cmnd,  -- topic
+					payload,  -- payload
+					techage.BiogasPipe,  -- network
+					nil)  -- valid nodes
+				output(pos, dump(resp))
+				return
+			end
+			
 			if command ~= "" then
 				output(pos, CMNDS_TA3)
 			end

@@ -58,7 +58,6 @@ local function node_timer(pos, elapsed)
 			mem.capa = 0
 		end
 	end
-	mydbg("tst", "PWR_CAPA = "..PWR_CAPA..", mem.capa = "..mem.capa..", light = "..light)
 	return true
 end
 

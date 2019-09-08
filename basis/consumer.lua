@@ -22,36 +22,44 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
+local D = techage.Debug
+
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
 local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).consumer end
 
 local power = techage.power
 
-local function can_start(pos, mem, state)
-	mydbg("con", "consumer can_start", state)
-	return power.power_available(pos, mem, CRD(pos).power_consumption)
+local function has_power(pos, mem, state)
+	if D.con then D.dbg("consumer has_power", state) end
+	if not power.power_available(pos, mem, 0) then
+		-- force to set to NOPOWER
+		local crd = CRD(pos)
+		techage.power.consumer_start(pos, mem, crd.cycle_time, crd.power_consumption)
+		return false
+	end
+	return true
 end
 
 local function start_node(pos, mem, state)
 	local crd = CRD(pos)
-	mydbg("con", "consumer start_node", state)
+	if D.con then D.dbg("consumer start_node", state) end
 	power.consumer_start(pos, mem, crd.cycle_time, crd.power_consumption)
 end
 
 local function stop_node(pos, mem, state)
-	mydbg("con", "consumer stop_node", state)
+	if D.con then D.dbg("consumer stop_node", state) end
 	power.consumer_stop(pos, mem)
 end
 
 local function on_power(pos, mem)
-	mydbg("con", "consumer on_power")
+	if D.con then D.dbg("consumer on_power") end
 	local crd = CRD(pos)
 	crd.State:start(pos, mem)
 end
 
 local function on_nopower(pos, mem)
-	mydbg("con", "consumer on_nopower")
+	if D.con then D.dbg("consumer on_nopower") end
 	local crd = CRD(pos)
 	crd.State:nopower(pos, mem)
 end
@@ -60,8 +68,7 @@ local function node_timer(pos, elapsed)
 	local crd = CRD(pos)
 	local mem = tubelib2.get_mem(pos)
 	local state = mem.techage_state
-	mydbg("con", "consumer node_timer", techage.needs_power(mem))
-	if techage.power_alive(mem) then
+	if techage.needs_power(mem) then
 		power.consumer_alive(pos, mem)
 	end
 	-- call the node timer routine
@@ -127,7 +134,8 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				standby_ticks = tNode.standby_ticks,
 				formspec_func = tNode.formspec,
 				on_state_change = tNode.on_state_change,
-				can_start = power_used and can_start or nil,
+				can_start = tNode.can_start,
+				has_power = tNode.has_power or power_used and has_power or nil,
 				start_node = power_used and start_node or nil,
 				stop_node = power_used and stop_node or nil,
 			})
