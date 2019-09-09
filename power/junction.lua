@@ -50,10 +50,11 @@ end
 -- 'boxes' is a table with 6 table elements for the 6 possible connection arms
 -- 'network' is the tubelib2 instance
 -- 'node' is the node definition with tiles, callback functions, and so on
-function techage.register_junction(name, size, boxes, network, node)
+-- 'index' number for the inventory node (default 0)
+function techage.register_junction(name, size, boxes, network, node, index)
 	for idx = 0,63 do
 		local ndef = table.copy(node)
-		if idx == 0 then
+		if idx == (index or 0) then
 			ndef.groups.not_in_creative_inventory = 0
 		else
 			ndef.groups.not_in_creative_inventory = 1

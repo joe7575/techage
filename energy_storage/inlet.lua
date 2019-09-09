@@ -46,40 +46,73 @@ techage.power.register_node({"techage:ta4_pipe_inlet"}, {
 	power_network  = Pipe,
 })
 
-local function volume(pos, in_dir)
-	local mem = tubelib2.get_mem(pos)
-	if not mem.pos1 or not mem.pos2 or not mem.volume then
+local Numbers = {
+	shell = {
+		[2] = 96,  -- 5x5x2 + 3x5x2 + 3x3x2 - 2
+		[3] = 216, -- 7x7x2 + 5x7x2 + 5x5x2 - 2
+		[4] = 384, -- 9x9x2 + 7x9x2 + 7x7x2 - 2
+	},
+	filling = {
+		[2] = 27,  -- 3x3x3
+		[3] = 125, -- 5x5x5
+		[4] = 343, -- 7x7x7
+	}
+}
+
+local function chat(owner, text)
+	if owner ~= nil then
+		minetest.chat_send_player(owner, string.char(0x1b).."(c@#ff0000)".."[Techage] Error: "..text.."!")
+	end
+end
+
+local function get_radius(pos, in_dir)
+	local dir = tubelib2.Dir6dToVector[in_dir]
+	local pos2 = vector.add(pos, vector.multiply(dir, 8))
+	local poses = minetest.find_nodes_in_area(pos, pos2, {"techage:ta4_pipe_inlet"})
+	if #poses == 2 then
+		local radius = vector.distance(poses[1], poses[2]) / 2
+		if radius == 2 or radius == 3 or radius == 4 then
+			return radius
+		end
+	end
+end
+
+local function check_volume(pos, in_dir, owner)
+	local radius = get_radius(pos, in_dir)
+	if radius then
 		local dir = tubelib2.Dir6dToVector[in_dir]
-		local pos2 = vector.add(pos, vector.multiply(dir, 8))
-		local poses = minetest.find_nodes_in_area(pos, pos2, {"techage:ta4_pipe_inlet"})
-		if #poses == 2 then
-			mem.pos1 = poses[1]
-			mem.pos2 = poses[2]
-			local _, node_tbl = minetest.find_nodes_in_area(mem.pos1, mem.pos2, 
+		local cpos = vector.add(pos, vector.multiply(dir, radius))
+		-- calculate size
+		local pos1 = {x = cpos.x - radius, y = cpos.y - radius, z = cpos.z - radius}
+		local pos2 = {x = cpos.x + radius, y = cpos.y + radius, z = cpos.z + radius}
+		local _, node_tbl = minetest.find_nodes_in_area(pos1, pos2, 
 				{"default:gravel", "techage:ta4_pipe_inlet", 
 				"basic_materials:concrete_block", "default:obsidian_glass",
 				"techage:glow_gravel"})
-			print(dump(node_tbl))
-			return true
+		if node_tbl["default:obsidian_glass"] > 1 then 
+			chat(owner, "one window maximum")
+			return false
+		elseif node_tbl["default:obsidian_glass"] + node_tbl["basic_materials:concrete_block"] ~= Numbers.shell[radius] then
+			chat(owner, "wrong numbers of shell nodes")
+			return false
+		elseif node_tbl["default:gravel"] + node_tbl["techage:glow_gravel"] ~= Numbers.filling[radius] then
+			chat(owner, "wrong numbers of gravel nodes")
+			return false
 		end
+	else
+		chat(owner, "wrong diameter (should be 5, 7, or 9)")
+		return false
 	end
-	return false
+	return true
 end
 
 -- for logical communication
 techage.register_node({"techage:ta4_pipe_inlet"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
-		print(P2S(pos), in_dir, topic, payload)
-		if topic == "increment" then
-			if transfer(pos, in_dir, topic, nil) then
-				swap_node(pos, "techage:cooler_on")
-				return true
-			end
-		elseif topic == "decrement" then
-			swap_node(pos, "techage:cooler")
-			return transfer(pos, in_dir, topic, nil)
+		if topic == "radius" then
+			return get_radius(pos, in_dir)
 		elseif topic == "volume" then
-			return volume(pos, in_dir)
+			return check_volume(pos, in_dir, payload)
 		end
 		return false
 	end

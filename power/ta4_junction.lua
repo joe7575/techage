@@ -65,10 +65,10 @@ techage.register_junction("techage:ta4_junctionpipe", 1/8, Boxes, Pipe, {
 	is_power_available = function(pos)
 		return techage.power.power_accounting(pos, tubelib2.get_mem(pos))
 	end,
-})
+}, 25)
 
 minetest.register_craft({
-	output = "techage:ta4_junctionpipe0 2",
+	output = "techage:ta4_junctionpipe25 2",
 	recipe = {
 		{"", "techage:ta4_pipeS", ""},
 		{"techage:ta4_pipeS", "", "techage:ta4_pipeS"},

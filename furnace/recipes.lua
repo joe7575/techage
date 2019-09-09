@@ -130,3 +130,14 @@ techage.furnace.register_recipe({
 	},
 	time = 4,
 })
+
+techage.furnace.register_recipe({
+	output = "basic_materials:concrete_block 4",
+	recipe = {
+		"basic_materials:wet_cement", 
+		"group:sand",
+		"default:gravel",
+		"techage:steelmat",
+	},
+	time = 4,
+})

@@ -158,6 +158,10 @@ local function command(pos, command, player)
 			
 			local cmnd, payload = command:match('^pipe%s+(%w+)%s*(.*)$')
 			if cmnd then
+				if not minetest.check_player_privs(player, "server") then
+					output(pos, "server privs missing")
+					return
+				end
 				local resp = techage.transfer(
 					pos, 
 					"B",  -- outdir

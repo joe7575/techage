@@ -147,11 +147,11 @@ end
 -- consumes power
 function techage.needs_power(mem)
 	local state = mem.techage_state or STOPPED
-	return state < STANDBY
+	return state < BLOCKED
 end
 
 function techage.needs_power2(state)
-	return state < STANDBY
+	return state < BLOCKED
 end
 
 function techage.get_state_string(mem)
@@ -403,7 +403,7 @@ function NodeStates:state_button_event(pos, mem, fields)
 	if fields.state_button ~= nil then
 		local state = mem.techage_state or STOPPED
 		if state == STOPPED or state == STANDBY or state == BLOCKED then
-			if not self:start(pos, mem) and state == STANDBY then
+			if not self:start(pos, mem) and (state == STANDBY or state == BLOCKED) then
 				self:stop(pos, mem)
 			end	
 		elseif state == RUNNING or state == FAULT or state == NOPOWER then

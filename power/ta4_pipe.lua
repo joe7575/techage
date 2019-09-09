@@ -113,7 +113,7 @@ minetest.register_node("techage:ta4_pipeA", {
 
 
 minetest.register_craft({
-	output = "techage:ta4_pipeS 3",
+	output = "techage:ta4_pipeS 6",
 	recipe = {
 		{'', '', "default:steel_ingot"},
 		{'dye:yellow', 'techage:meridium_ingot', ''},
