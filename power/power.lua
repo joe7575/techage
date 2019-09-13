@@ -508,7 +508,8 @@ end
 
 -- Power terminal function
 function techage.power.power_accounting(pos, mem)
-	if mem.pwr_master_pos then
+	if mem.pwr_master_pos and (mem.pwr_power_provided_cnt or 0) > 0 then
+		mem.pwr_power_provided_cnt = (mem.pwr_power_provided_cnt or 0) - 1
 		mem = tubelib2.get_mem(mem.pwr_master_pos)
 		return {
 			prim_available = mem.mst_available1 or 0,

@@ -431,9 +431,9 @@ function NodeStates:on_receive_message(pos, topic, payload)
 	elseif topic == "state" then
 		local node = minetest.get_node(pos)
 		if node.name == "ignore" then  -- unloaded node?
-			return "blocked"
+			return "unloaded"
 		end
-		return self:get_state_string(tubelib2.get_mem(pos))
+		return techage.get_state_string(tubelib2.get_mem(pos))
 	elseif topic == "counter" then
 		return mem.techage_item_meter or 1
 	elseif topic == "clear_counter" then

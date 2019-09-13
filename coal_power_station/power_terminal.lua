@@ -17,6 +17,8 @@ local P = minetest.string_to_pos
 local M = minetest.get_meta
 local S = techage.S
 
+local BLOCKING_TIME = 2
+
 local Param2ToDir = {
 	[0] = 6,
 	[1] = 5,
@@ -57,6 +59,9 @@ local function formspec(pos)
 	"button[1.5,3.3;2,1;update;"..S("Update").."]"
 end
 
+local function update_formspec(pos)
+	M(pos):set_string("formspec", formspec(pos))
+end
 
 minetest.register_node("techage:ta3_power_terminal", {
 	description = S("TA3 Power Terminal"),
@@ -81,16 +86,23 @@ minetest.register_node("techage:ta3_power_terminal", {
 		local node = minetest.get_node(pos)
 		local outdir = techage.side_to_outdir("B", node.param2)
 		local jpos = tubelib2.get_pos(pos, outdir)
+		local mem = tubelib2.init_mem(pos)
+		mem.blocked_until = 0
 		local meta = M(pos)
 		meta:set_string("junction_pos", minetest.serialize(jpos))
 		meta:set_string("formspec", formspec(pos))
 	end,
 	
 	on_receive_fields = function(pos, formname, fields, player)
-		if fields.update then
+		local mem = tubelib2.get_mem(pos)
+		mem.blocked_until = mem.blocked_until or minetest.get_gametime()
+		if fields.update and mem.blocked_until < minetest.get_gametime() then
 			M(pos):set_string("formspec", formspec(pos))
+			mem.blocked_until = minetest.get_gametime() + BLOCKING_TIME
+			minetest.after(BLOCKING_TIME + 1, update_formspec, pos)
 		end
 	end,
+	
 	on_rightclick = function(pos, node, clicker)
 		M(pos):set_string("formspec", formspec(pos))
 	end,

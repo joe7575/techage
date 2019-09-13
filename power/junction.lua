@@ -67,7 +67,7 @@ function techage.register_junction(name, size, boxes, network, node, index)
 		ndef.paramtype = "light" 
 		ndef.sunlight_propagates = true 
 		ndef.is_ground_content = false 
-		ndef.drop = name.."0" 
+		ndef.drop = name..(index or "0")
 		minetest.register_node(name..idx, ndef)
 		-- Register in addition for power distribution
 		techage.power.register_node({name..idx}, {power_network = network})

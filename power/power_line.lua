@@ -163,8 +163,7 @@ minetest.register_node("techage:power_lineA", {
 })
 
 minetest.register_node("techage:power_pole", {
-	description = S("TA Power Pole Top 4"),
-	--tiles = {"techage_power_pole.png"},
+	description = S("TA Power Pole Top (for up to 6 connections)"),
 	tiles = {
 		"default_wood.png^techage_power_pole_top.png",
 		"default_wood.png^techage_power_pole_top.png",
@@ -191,7 +190,43 @@ minetest.register_node("techage:power_pole", {
 			minetest.remove_node(pos)
 			return true
 		end
+		local node = minetest.get_node(pos)
+		node.name = "techage:power_pole_conn"
+		minetest.swap_node(pos, node)
 	end,
+	
+	on_rotate = screwdriver.disallow, -- important!
+	paramtype = "light",
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {cracky=2, crumbly=2, choppy=2},
+})
+
+minetest.register_node("techage:power_pole_conn", {
+	description = S("TA Power Pole Top 4 conn"),
+	tiles = {
+		"default_wood.png^techage_power_pole_top.png",
+		"default_wood.png^techage_power_pole_top.png",
+		"default_wood.png^techage_power_pole.png"
+	},
+	
+	paramtype2 = "facedir", -- important!
+	drawtype = "nodebox",
+	node_box = {
+		type = "connected",
+		fixed = {{ -4/32, -16/32,  -4/32,   4/32, 16/32,   4/32}},
+		
+		connect_left = {{-16/32, -6/32, -1/32,  1/32,  -4/32, 1/32},	
+			{-16/32, -4/32, -2/32, -12/32, 4/32, 2/32}},
+		connect_right = {{ -1/32, -6/32, -1/32,  16/32, -4/32, 1/32},	
+			{12/32, -4/32, -2/32,  16/32, 4/32, 2/32}},
+		connect_back = {{-1/32, -6/32,  -1/32,  1/32, -4/32, 16/32},
+			{-2/32, -4/32, 12/32, 2/32, 4/32, 16/32}},
+		connect_front = {{-1/32, -6/32, -16/32,  1/32, -4/32, 1/32},
+			{-2/32, -4/32, -16/32,  2/32, 4/32, -12/32}},
+	},
+	connects_to = {"techage:power_line", "techage:power_lineS", "techage:power_lineA"},
+
 	can_dig = function(pos, digger)
 		local meta = minetest.get_meta(pos)
 		if meta:get_string("owner") == digger:get_player_name() then
@@ -203,17 +238,17 @@ minetest.register_node("techage:power_pole", {
 		return false
 	end,
 	
+	drop = "techage:power_pole",
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {cracky=2, crumbly=2, choppy=2},
+	groups = {cracky=2, crumbly=2, choppy=2, not_in_creative_inventory = 1},
 	sounds = default.node_sound_defaults(),
 })
 
 minetest.register_node("techage:power_pole2", {
-	description = S("TA Power Pole Top 2"),
-	--tiles = {"techage_power_pole.png"},
+	description = S("TA Power Pole Top 2 (for landlines)"),
 	tiles = {
 		"default_wood.png^techage_power_pole_top.png",
 		"default_wood.png^techage_power_pole_top.png",
@@ -296,7 +331,7 @@ minetest.register_node("techage:power_pole3", {
 	sounds = default.node_sound_defaults(),
 })
 
-techage.power.register_node({"techage:power_pole"}, {
+techage.power.register_node({"techage:power_pole", "techage:power_pole_conn"}, {
 	power_network  = Cable,
 })
 

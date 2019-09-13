@@ -18,7 +18,7 @@ local S = techage.S
 
 local CYCLE_TIME = 2
 local PWR_PERF = 10
-local PWR_CAPA = 3000
+local PWR_CAPA = 2000
 
 local Power = techage.ElectricCable
 local power = techage.power
@@ -130,9 +130,13 @@ minetest.register_node("techage:ta3_akku", {
 	on_construct = tubelib2.init_mem,
 
 	after_place_node = function(pos, placer, itemstack)
+		local meta = M(pos)
 		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
 		local mem = tubelib2.get_mem(pos)
-		State:node_init(pos, mem, "")
+		local own_num = techage.add_node(pos, "techage:ta3_akku")
+		meta:set_string("owner", placer:get_player_name())
+		meta:set_string("infotext", S("TA3 Akku Box").." "..own_num)
+		State:node_init(pos, mem, own_num)
 		mem.capa = get_capa(itemstack)
 		on_rightclick(pos)
 	end,
@@ -157,6 +161,26 @@ minetest.register_node("techage:ta3_akku", {
 techage.power.register_node({"techage:ta3_akku"}, {
 	conn_sides = {"R"},
 	power_network  = Power,
+})
+
+-- for logical communication
+techage.register_node({"techage:ta3_akku"}, {
+	on_recv_message = function(pos, src, topic, payload)
+		local mem = tubelib2.get_mem(pos)
+		if topic == "capa" then
+			return techage.power.percent(PWR_CAPA, mem.capa)
+		else
+			return State:on_receive_message(pos, topic, payload)
+		end
+	end,
+	on_node_load = function(pos)
+		local meta = M(pos)
+		if meta:get_string("node_number") == "" then
+			local own_num = techage.add_node(pos, "techage:ta3_akku")
+			meta:set_string("node_number", own_num)
+			meta:set_string("infotext", S("TA3 Akku Box").." "..own_num)
+		end
+	end,
 })
 
 techage.register_entry_page("ta3ps", "akku",

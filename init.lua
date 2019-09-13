@@ -194,11 +194,11 @@ else
 	dofile(MP.."/wind_turbine/signallamp.lua")
 	
 	-- TA4 Energy Storage
---	dofile(MP.."/energy_storage/heatexchanger.lua")
---	dofile(MP.."/energy_storage/generator.lua")
---	dofile(MP.."/energy_storage/turbine.lua")
---	dofile(MP.."/energy_storage/inlet.lua")
---	dofile(MP.."/energy_storage/nodes.lua")
---	dofile(MP.."/energy_storage/help.lua")
+	dofile(MP.."/energy_storage/heatexchanger.lua")
+	dofile(MP.."/energy_storage/generator.lua")
+	dofile(MP.."/energy_storage/turbine.lua")
+	dofile(MP.."/energy_storage/inlet.lua")
+	dofile(MP.."/energy_storage/nodes.lua")
+	dofile(MP.."/energy_storage/help.lua")
 	
 end

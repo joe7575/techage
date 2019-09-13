@@ -13,208 +13,189 @@
 ]]--
 
 -- for lazy programmers
-local P = minetest.string_to_pos
+local S2P = minetest.string_to_pos
+local P2S = minetest.pos_to_string
 local M = minetest.get_meta
 local S = techage.S
 
-local CYCLE_TIME = 4
-local STANDBY_TICKS = 2
-local COUNTDOWN_TICKS = 2
-local HEAT_STEP = 10
-local WATER_CONSUMPTION = 0.5
-local MAX_WATER = 10
-
-local Pipe = techage.BiogasPipe
-
-local Water = {
-	["bucket:bucket_river_water"] = true,
-	["bucket:bucket_water"] = true,
-	["bucket:bucket_empty"] = true,
+local CYCLE_TIME = 2
+local PWR_PERF = 60
+local GRVL_CAPA = 1333
+local PWR_CAPA = {
+	[3] = GRVL_CAPA * 3 * 3 * 3,  -- ~0.5 days
+	[4] = GRVL_CAPA * 5 * 5 * 5,  -- ~2.5 days
+	[5] = GRVL_CAPA * 7 * 7 * 7,  --   ~6 days
 }
 
+local Cable = techage.ElectricCable
+local Pipe = techage.BiogasPipe
+local power = techage.power
+
+local function in_range(val, min, max)
+	if val < min then return min end
+	if val > max then return max end
+	return val
+end
+
+-- commands for 'techage:heatexchanger1'
+local function turbine_cmnd(pos, cmnd)
+	return techage.transfer(
+		pos, 
+		"R",  -- outdir
+		cmnd,  -- topic
+		nil,  -- payload
+		Pipe,  -- Pipe
+		{"techage:ta4_turbine", "techage:ta4_turbine_on"})
+end
+
+local function heatexchanger3_cmnd(pos, cmnd)
+	return techage.transfer(
+		{x = pos.x, y = pos.y + 1, z = pos.z}, 
+		"U",  -- outdir
+		cmnd,  -- topic
+		nil,  -- payload
+		nil,  -- Pipe
+		{"techage:heatexchanger3"})
+end
+
+local function inlet_cmnd(pos, cmnd, payload)
+	return techage.transfer(
+		pos, 
+		"L",  -- outdir
+		cmnd,  -- topic
+		payload,  -- payload
+		Pipe,  -- Pipe
+		{"techage:ta4_pipe_inlet"})
+end
+
+local function play_sound(pos)
+	local mem = tubelib2.get_mem(pos)
+	if mem.running then
+		mem.handle = minetest.sound_play("techage_booster", {
+			pos = pos, 
+			gain = 0.5,
+			max_hear_distance = 10})
+	end
+end
+
+local function stop_sound(pos)
+	local mem = tubelib2.get_mem(pos)
+	if mem.running and mem.handle then
+		minetest.sound_stop(mem.handle)
+		mem.handle = nil
+	end
+end
+
+local function swap_node(pos, name)
+	local node = minetest.get_node(pos)
+	if node.name == name then
+		return
+	end
+	node.name = name
+	minetest.swap_node(pos, node)
+end
+
+local function charging(pos, mem, is_charging)
+	if mem.capa >= mem.capa_max then
+		return
+	end
+	if is_charging ~= mem.was_charging then
+		mem.was_charging = is_charging
+		if is_charging then
+			turbine_cmnd(pos, "stop")
+			play_sound(pos)
+		else
+			turbine_cmnd(pos, "start")
+			stop_sound(pos)
+		end
+	elseif is_charging then
+		play_sound(pos)
+	end
+end
+
+local function glowing(pos, mem, should_glow)
+	print("glowing", P2S(mem.win_pos), should_glow)
+	if mem.win_pos then
+		if should_glow then
+			swap_node(mem.win_pos, "techage:glow_gravel")
+		else
+			swap_node(mem.win_pos, "default:gravel")
+		end
+	end
+end
+
 local function formspec(self, pos, mem)
-	local temp = mem.temperature or 20
-	local ratio = mem.power_ratio or 0
-	return "size[8,7]"..
+	return "size[5,3]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
-		"image_button[0,0.2;1,1;techage_form_inventory.png;storage;;true;false;]"..
-		"list[context;water;1,0.2;1,1;]"..
-		"image_button[0,1.6;1,1;techage_form_input.png;input;;true;false;]"..
-		"list[context;input;1,1.6;1,1;]"..		
-		"image[1,1.6;1,1;bucket_water.png]"..
-		"image[1,1.6;1,1;techage_form_mask.png]"..
-		"image[2,0.5;1,2;techage_form_temp_bg.png^[lowpart:"..
-		temp..":techage_form_temp_fg.png]"..
-		"image[7,0.5;1,2;"..techage.power.formspec_power_bar(1, ratio).."]"..
-		"image_button[6,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
-		"button[3,1.5;2,1;update;"..S("Update").."]"..
-		"list[current_player;main;0,3;8,4;]"..
-		"listring[current_name;water]"..
-		"listring[current_player;main]"..
-		default.get_hotbar_bg(0, 3)
+		"image[0,0.5;1,2;"..techage.power.formspec_power_bar(mem.capa_max, mem.capa).."]"..
+		"label[0.2,2.5;Load]"..
+		"button[1.1,1;1.8,1;update;"..S("Update").."]"..
+		"image_button[3,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
+		"image[4,0.5;1,2;"..techage.power.formspec_load_bar(-(mem.delivered or 0), PWR_PERF).."]"..
+		"label[4.2,2.5;Flow]"
 end
 
 local function can_start(pos, mem, state)
-	return mem.temperature and mem.temperature > 80
+	print("can_start")
+	if turbine_cmnd(pos, "power") then
+		local radius = inlet_cmnd(pos, "radius")
+		print("radius = "..radius)
+		if radius then
+			mem.capa_max = PWR_CAPA[tonumber(radius)] or 0
+			local owner = M(pos):get_string("owner") or ""
+			return inlet_cmnd(pos, "volume", owner)
+		end
+	end
+	return false
 end
 
 local function start_node(pos, mem, state)
+	print("start_node", P2S(pos))
 	mem.running = true
-	mem.power_ratio = 0
+	mem.delivered = 0
+	mem.was_charging = true
+	play_sound(pos)
+	mem.win_pos = inlet_cmnd(pos, "window")
+	power.secondary_start(pos, mem, PWR_PERF, PWR_PERF)
 end
 
 local function stop_node(pos, mem, state)
 	mem.running = false
-	mem.power_ratio = 0
-end
-
--- check the positions above
-local function no_space(pos)
-	local node1 = minetest.get_node({x=pos.x, y=pos.y+1, z=pos.z})
-	local node2 = minetest.get_node({x=pos.x, y=pos.y+2, z=pos.z})
-	return node1.name ~= "air" or node2.name ~= "air"
+	mem.delivered = 0
+	turbine_cmnd(pos, "stop")
+	power.secondary_stop(pos, mem)
 end
 
 local State = techage.NodeStates:new({
-	node_name_passive = "techage:boiler2",
+	node_name_passive = "techage:heatexchanger1",
 	cycle_time = CYCLE_TIME,
-	standby_ticks = STANDBY_TICKS,
-	has_item_meter = false,
-	formspec_func = formspec,
+	standby_ticks = 0,
 	can_start = can_start,
 	start_node = start_node,
 	stop_node = stop_node,
 })
 
-local function get_water(pos)
-	local inv = M(pos):get_inventory()
-	local items = inv:get_stack("water", 1)
-	if items:get_count() > 0 then
-		local taken = items:take_item(1)
-		inv:set_stack("water", 1, items)
-		return true
-	end
-	return false
-end
-
-local function water_temperature(pos, mem)
-	mem.temperature = mem.temperature or 20
-	if mem.fire_trigger then
-		mem.temperature = math.min(mem.temperature + HEAT_STEP, 100)
-	else
-		mem.temperature = math.max(mem.temperature - HEAT_STEP, 20)
-	end
-	mem.fire_trigger = false
-	
-	if mem.water_level == 0 then
-		if get_water(pos) then
-			mem.water_level = 100
-		else
-			mem.temperature = 20
-		end
-	end
-	return mem.temperature
-end
-
-local function steaming(pos, mem, temp)
-	local wc = WATER_CONSUMPTION * (mem.power_ratio or 1)
-	mem.water_level = math.max((mem.water_level or 0) - wc, 0)
-	if temp >= 80 then
-		if mem.running then
-			State:keep_running(pos, mem, COUNTDOWN_TICKS)
-		else
-			State:fault(pos, mem)	
-		end
-	else
-		State:stop(pos, mem)
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-	end
-end
-
 local function node_timer(pos, elapsed)
+	print("node_timer1")
 	local mem = tubelib2.get_mem(pos)
-	local temp = water_temperature(pos, mem)
-	if State:is_active(mem) then
-		steaming(pos, mem, temp)
+	if mem.running and turbine_cmnd(pos, "power") then
+		mem.capa = mem.capa or 0
+		mem.capa_max = mem.capa_max or 0
+		mem.delivered = mem.delivered or 0
+		mem.delivered = power.secondary_alive(pos, mem, mem.capa, mem.capa_max)
+		mem.capa = mem.capa - mem.delivered
+		mem.capa = in_range(mem.capa, 0, mem.capa_max)
+		glowing(pos, mem, mem.capa > mem.capa_max * 0.8)
+		charging(pos, mem, mem.delivered < 0)
 	end
-	return mem.temperature > 20
-end
-
-local function on_receive_fields(pos, formname, fields, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
-		return
-	end
-	local mem = tubelib2.get_mem(pos)
-	mem.temperature = mem.temperature or 20
-	State:state_button_event(pos, mem, fields)
-	
-	if fields.update then
-		if mem.temperature > 20 then
-			minetest.get_node_timer(pos):start(CYCLE_TIME)
-		end
-		M(pos):set_string("formspec", formspec(State, pos, mem))
-	end
-end
-
-		
-local function on_rightclick(pos)
-	local mem = tubelib2.get_mem(pos)
-	M(pos):set_string("formspec", formspec(State, pos, mem))
+	return mem.running
 end
 
 local function can_dig(pos, player)
-	local inv = M(pos):get_inventory()
 	local mem = tubelib2.get_mem(pos)
-	return inv:is_empty("input") and not mem.running
-end
-
-local function move_to_water(pos)
-	local inv = M(pos):get_inventory()
-	local water_stack = inv:get_stack("water", 1)
-	local input_stack = inv:get_stack("input", 1)
-	
-	if input_stack:get_name() == "bucket:bucket_empty" then
-		if input_stack:get_count() == 1 then
-			if water_stack:get_count() > 0 then
-				water_stack:set_count(water_stack:get_count() - 1)
-				input_stack = ItemStack("bucket:bucket_water")
-				inv:set_stack("water", 1, water_stack)
-				inv:set_stack("input", 1, input_stack)
-			end
-		end
-	elseif water_stack:get_count() < MAX_WATER then
-		if water_stack:get_count() == 0 then
-			water_stack = ItemStack("default:water_source")
-		else
-			water_stack:set_count(water_stack:get_count() + 1)
-		end
-		input_stack = ItemStack("bucket:bucket_empty")
-		inv:set_stack("water", 1, water_stack)
-		inv:set_stack("input", 1, input_stack)
-	end
-end
-
-
-local function allow_metadata_inventory_put(pos, listname, index, stack, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
-		return 0
-	end
-	if listname == "input" and Water[stack:get_name()] then
-		return stack:get_count()
-	end
-	return 0
-end
-
-local function allow_metadata_inventory_take(pos, listname, index, stack, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
-		return 0
-	end
-	if listname == "input" then
-		return stack:get_count()
-	end
-	return 0
+	return not mem.running
 end
 
 local function orientate_node(pos, name)
@@ -242,72 +223,9 @@ minetest.register_node("techage:heatexchanger3", {
 		"techage_filling_ta4.png^techage_frameT_ta4.png^techage_appl_ribsT.png",
 		"techage_filling_ta4.png^techage_frameT_ta4.png^techage_appl_ribsT.png",
 	},
+	
 	after_place_node = function(pos, placer)
 		return orientate_node(pos, "techage:heatexchanger2")
-	end,
-	paramtype2 = "facedir",
-	groups = {crumbly = 2, cracky = 2, snappy = 2},
-	--on_rotate = screwdriver.disallow,
-	is_ground_content = false,
-	sounds = default.node_sound_metal_defaults(),
-})
-
--- Middle
-minetest.register_node("techage:heatexchanger2", {
-	description = S("TA4 Heat Exchanger 2"),
-	tiles = {
-		-- up, down, right, left, back, front
-		"techage_hole_ta4.png",
-		"techage_hole_ta4.png",
-		"techage_filling_ta4.png^techage_frameM_ta4.png^techage_appl_tes_turb.png",
-		"techage_filling_ta4.png^techage_frameM_ta4.png^techage_appl_tes_core.png",
-		"techage_filling_ta4.png^techage_frameM_ta4.png^techage_appl_ribsM.png",
-		"techage_filling_ta4.png^techage_frameM_ta4.png^techage_appl_ribsM.png",
-	},
-	after_place_node = function(pos, placer)
-		return orientate_node(pos, "techage:heatexchanger1")
-	end,
-	paramtype2 = "facedir",
-	groups = {crumbly = 2, cracky = 2, snappy = 2},
-	--on_rotate = screwdriver.disallow,
-	is_ground_content = false,
-	sounds = default.node_sound_metal_defaults(),
-})
-
-minetest.register_node("techage:heatexchanger1", {
-	description = S("TA4 Heat Exchanger 1"),
-	tiles = {
-		-- up, down, right, left, back, front
-		"techage_hole_ta4.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png",
-		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_biogas.png",
-		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_biogas.png",
-		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_ribsB.png",
-		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_ribsB.png",
-	},
-
-	on_construct = function(pos)
-		tubelib2.init_mem(pos)
-		local inv = M(pos):get_inventory()
-		inv:set_size('water', 1)
-		inv:set_size('input', 1)
-	end,
-	
-	after_place_node = function(pos, placer)
-		if no_space(pos) then
-			minetest.remove_node(pos)
-			return true
-		end
-		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
-		local mem = tubelib2.get_mem(pos)
-		State:node_init(pos, mem, "")
-		local node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
-		if node.name == "techage:boiler1" then
-			on_rightclick(pos)
-		end
-	end,
-	
-	after_dig_node = function(pos)
 	end,
 	
 	paramtype2 = "facedir",
@@ -317,99 +235,137 @@ minetest.register_node("techage:heatexchanger1", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
-techage.power.register_node({"techage:heatexchanger1", "techage:heatexchanger3"}, {
-	conn_sides = {"R", "L"},
-	power_network  = Pipe,
+-- Middle node with the formspec from the bottom node
+minetest.register_node("techage:heatexchanger2", {
+	description = S("TA4 Heat Exchanger 2"),
+	tiles = {
+		-- up, down, right, left, back, front
+		"techage_hole_ta4.png",
+		"techage_hole_ta4.png",
+		"techage_filling_ta4.png^techage_frameM_ta4.png^techage_appl_tes_turb.png",
+		"techage_filling_ta4.png^techage_frameM_ta4.png^techage_appl_tes_core.png",
+		"techage_filling_ta4.png^techage_frameM_ta4.png^techage_appl_ribsB.png",
+		"techage_filling_ta4.png^techage_frameM_ta4.png^techage_appl_ribsB.png",
+	},
+	
+	selection_box = {
+		type = "fixed",
+		fixed = {-1/2, -1.5/2, -1/2, 1/2, 1/2, 1/2},
+	},
+	
+	after_place_node = function(pos, placer)
+		if orientate_node(pos, "techage:heatexchanger1") then
+			return true
+		end
+		local pos1 = {x = pos.x, y = pos.y - 1, z = pos.z}
+		local mem = tubelib2.get_mem(pos1)
+		local own_num = M(pos1):get_string("node_number")
+		M(pos):set_string("formspec", formspec(State, pos1, mem))
+		M(pos):set_string("infotext", S("TA4 Heat Exchanger").." "..own_num)
+	end,
+	
+	on_rightclick = function(pos)
+		local pos1 = {x = pos.x, y = pos.y - 1, z = pos.z}
+		local mem = tubelib2.get_mem(pos1)
+		M(pos):set_string("formspec", formspec(State, pos1, mem))
+	end,
+	
+	on_receive_fields = function(pos, formname, fields, player)
+		if minetest.is_protected(pos, player:get_player_name()) then
+			return
+		end
+		local pos1 = {x = pos.x, y = pos.y - 1, z = pos.z}
+		local mem = tubelib2.get_mem(pos1)
+		State:state_button_event(pos1, mem, fields)
+		M(pos):set_string("formspec", formspec(State, pos1, mem))
+	end,
+
+	paramtype2 = "facedir",
+	groups = {crumbly = 2, cracky = 2, snappy = 2},
+	on_rotate = screwdriver.disallow,
+	is_ground_content = false,
+	sounds = default.node_sound_metal_defaults(),
+})
+
+-- Base
+minetest.register_node("techage:heatexchanger1", {
+	description = S("TA4 Heat Exchanger 1"),
+	tiles = {
+		-- up, down, right, left, back, front
+		"techage_hole_ta4.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png",
+		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_biogas.png",
+		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_biogas.png",
+		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_electric.png",
+		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_electric.png",
+	},
+	
+	on_construct = tubelib2.init_mem,
+	
+	after_place_node = function(pos, placer)
+		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
+		local mem = tubelib2.get_mem(pos)
+		local meta = M(pos)
+		local own_num = techage.add_node(pos, "techage:heatexchanger1")
+		meta:set_string("owner", placer:get_player_name())
+		State:node_init(pos, mem, own_num)
+		mem.capa = 0
+	end,
+	
+	on_timer = node_timer,
+	paramtype2 = "facedir",
+	groups = {crumbly = 2, cracky = 2, snappy = 2},
+	on_rotate = screwdriver.disallow,
+	is_ground_content = false,
+	sounds = default.node_sound_metal_defaults(),
+})
+
+techage.power.register_node({"techage:heatexchanger1"}, {
+	conn_sides = {"F", "B"},
+	power_network  = Cable,
+})
+
+Cable:add_secondary_node_names({"techage:heatexchanger1", "techage:heatexchanger3"})
+
+-- for logical communication
+techage.register_node({"techage:heatexchanger1"}, {
+	on_recv_message = function(pos, src, topic, payload)
+		local mem = tubelib2.get_mem(pos)
+		if topic == "capa" then
+			return mem.capa or 0
+		else
+			return State:on_receive_message(pos, topic, payload)
+		end
+	end,
 })
 
 
--- boiler2: Main part, needed as generator
---minetest.register_node("techage:heatexchanger3", {
---	description = S("TA4 Heat Exchanger"),
---	tiles = {"techage_boiler2.png"},
---	drawtype = "mesh",
---	mesh = "techage_boiler.obj",
---	selection_box = {
---		type = "fixed",
---		fixed = {-10/32, -48/32, -10/32, 10/32, 16/32, 10/32},
---	},
-	
---	can_dig = can_dig,
---	on_timer = node_timer,
---	allow_metadata_inventory_put = allow_metadata_inventory_put,
---	allow_metadata_inventory_take = allow_metadata_inventory_take,
---	allow_metadata_inventory_move = function(pos) return 0 end,
---	on_receive_fields = on_receive_fields,
---	on_rightclick = on_rightclick,
-	
---	on_construct = function(pos)
---		tubelib2.init_mem(pos)
---		local inv = M(pos):get_inventory()
---		inv:set_size('water', 1)
---		inv:set_size('input', 1)
---	end,
-	
---	after_place_node = function(pos, placer)
---		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
---		local mem = tubelib2.get_mem(pos)
---		State:node_init(pos, mem, "")
---		local node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
---		if node.name == "techage:boiler1" then
---			on_rightclick(pos)
---		end
---	end,
-	
---	on_metadata_inventory_put = function(pos)
---		minetest.after(0.5, move_to_water, pos)
---	end,
-	
---	groups = {cracky=1},
---	on_rotate = screwdriver.disallow,
---	is_ground_content = false,
---	sounds = default.node_sound_metal_defaults(),
---})
+minetest.register_craft({
+	output = "techage:heatexchanger1",
+	recipe = {
+		{"default:tin_ingot", "techage:electric_cableS", "default:steel_ingot"},
+		{"techage:ta4_pipeS", "basic_materials:gear_steel", "techage:ta4_pipeS"},
+		{"", "techage:baborium_ingot", ""},
+	},
+})
 
---techage.power.register_node({"techage:boiler2"}, {
---	conn_sides = {"U"},
---	power_network  = Pipe,
---})
+minetest.register_craft({
+	output = "techage:heatexchanger2",
+	recipe = {
+		{"default:tin_ingot", "", "default:steel_ingot"},
+		{"", "techage:ta4_wlanchip", ""},
+		{"", "techage:baborium_ingot", ""},
+	},
+})
 
---techage.register_node({"techage:boiler2"}, {
---	on_transfer = function(pos, in_dir, topic, payload)
---		if topic == "trigger" then
---			local mem = tubelib2.get_mem(pos)
---			mem.fire_trigger = true
---			if not minetest.get_node_timer(pos):is_started() then
---				minetest.get_node_timer(pos):start(CYCLE_TIME)
---			end
---			if mem.running then
---				mem.power_ratio = techage.transfer(pos, 6, "trigger", nil, Pipe, {
---						"techage:cylinder", "techage:cylinder_on"}) or 0
---				return mem.power_ratio
---			else
---				return 0
---			end
---		end
---	end
---})
-
---minetest.register_craft({
---	output = "techage:boiler1",
---	recipe = {
---		{"techage:iron_ingot", "", "techage:iron_ingot"},
---		{"default:bronze_ingot", "", "default:bronze_ingot"},
---		{"techage:iron_ingot", "default:bronze_ingot", "techage:iron_ingot"},
---	},
---})
-
---minetest.register_craft({
---	output = "techage:boiler2",
---	recipe = {
---		{"techage:iron_ingot", "techage:steam_pipeS", "techage:iron_ingot"},
---		{"default:bronze_ingot", "", "default:bronze_ingot"},
---		{"techage:iron_ingot", "", "techage:iron_ingot"},
---	},
---})
+minetest.register_craft({
+	output = "techage:heatexchanger3",
+	recipe = {
+		{"default:tin_ingot", "dye:blue", "default:steel_ingot"},
+		{"techage:ta4_pipeS", "basic_materials:gear_steel", "techage:ta4_pipeS"},
+		{"", "techage:baborium_ingot", ""},
+	},
+})
 
 --techage.register_entry_page("ta2", "boiler1",
 --	S("TA2 Boiler Base"), 

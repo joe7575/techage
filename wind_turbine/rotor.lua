@@ -235,8 +235,11 @@ techage.power.register_node({"techage:ta4_wind_turbine"}, {
 techage.register_node({"techage:ta4_wind_turbine"}, {	
 	on_recv_message = function(pos, src, topic, payload)
 		local mem = tubelib2.get_mem(pos)
-		print("on_recv_message", topic)
 		if topic == "state" then
+			local node = minetest.get_node(pos)
+			if node.name == "ignore" then  -- unloaded node?
+				return "unloaded"
+			end
 			if mem.error then
 				return "error"
 			elseif mem.running and mem.providing then

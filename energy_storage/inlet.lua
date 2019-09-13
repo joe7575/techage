@@ -106,6 +106,25 @@ local function check_volume(pos, in_dir, owner)
 	return true
 end
 
+-- provide position behind the obsidian_glass
+local function check_window(pos, in_dir)
+	local radius = get_radius(pos, in_dir)
+	if radius then
+		local dir = tubelib2.Dir6dToVector[in_dir]
+		local cpos = vector.add(pos, vector.multiply(dir, radius))
+		-- calculate size
+		local pos1 = {x = cpos.x - radius, y = cpos.y - radius, z = cpos.z - radius}
+		local pos2 = {x = cpos.x + radius, y = cpos.y + radius, z = cpos.z + radius}
+		local poses,_ = minetest.find_nodes_in_area(pos1, pos2, {"default:obsidian_glass"})
+		if #poses == 1 then
+			local ndir = vector.direction(poses[1], cpos)
+			ndir = vector.normalize(ndir)
+			local npos = vector.add(poses[1], ndir)
+			return npos
+		end
+	end
+end
+
 -- for logical communication
 techage.register_node({"techage:ta4_pipe_inlet"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
@@ -113,6 +132,8 @@ techage.register_node({"techage:ta4_pipe_inlet"}, {
 			return get_radius(pos, in_dir)
 		elseif topic == "volume" then
 			return check_volume(pos, in_dir, payload)
+		elseif topic == "window" then
+			return check_window(pos, in_dir)
 		end
 		return false
 	end
