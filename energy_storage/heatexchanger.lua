@@ -114,7 +114,6 @@ local function charging(pos, mem, is_charging)
 end
 
 local function glowing(pos, mem, should_glow)
-	print("glowing", P2S(mem.win_pos), should_glow)
 	if mem.win_pos then
 		if should_glow then
 			swap_node(mem.win_pos, "techage:glow_gravel")
@@ -138,10 +137,8 @@ local function formspec(self, pos, mem)
 end
 
 local function can_start(pos, mem, state)
-	print("can_start")
 	if turbine_cmnd(pos, "power") then
 		local radius = inlet_cmnd(pos, "radius")
-		print("radius = "..radius)
 		if radius then
 			mem.capa_max = PWR_CAPA[tonumber(radius)] or 0
 			local owner = M(pos):get_string("owner") or ""
@@ -152,7 +149,6 @@ local function can_start(pos, mem, state)
 end
 
 local function start_node(pos, mem, state)
-	print("start_node", P2S(pos))
 	mem.running = true
 	mem.delivered = 0
 	mem.was_charging = true
@@ -178,7 +174,6 @@ local State = techage.NodeStates:new({
 })
 
 local function node_timer(pos, elapsed)
-	print("node_timer1")
 	local mem = tubelib2.get_mem(pos)
 	if mem.running and turbine_cmnd(pos, "power") then
 		mem.capa = mem.capa or 0
@@ -292,7 +287,7 @@ minetest.register_node("techage:heatexchanger1", {
 	description = S("TA4 Heat Exchanger 1"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_hole_ta4.png",
+		"techage_hole_ta4.png^techage_appl_arrow_white.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png",
 		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_biogas.png",
 		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_biogas.png",
@@ -325,7 +320,7 @@ techage.power.register_node({"techage:heatexchanger1"}, {
 	power_network  = Cable,
 })
 
-Cable:add_secondary_node_names({"techage:heatexchanger1", "techage:heatexchanger3"})
+Pipe:add_secondary_node_names({"techage:heatexchanger1", "techage:heatexchanger3"})
 
 -- for logical communication
 techage.register_node({"techage:heatexchanger1"}, {

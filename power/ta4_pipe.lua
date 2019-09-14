@@ -32,7 +32,10 @@ local Pipe = tubelib2.Tube:new({
 })
 
 Pipe:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir)
-	minetest.registered_nodes[node.name].after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+	local ndef = minetest.registered_nodes[node.name]
+	if ndef and ndef.after_tube_update then
+		minetest.registered_nodes[node.name].after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+	end
 end)
 
 techage.BiogasPipe = Pipe
