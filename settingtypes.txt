@@ -1,5 +1,5 @@
-# Maximim number of Forceload Blocks per player (default 12)
-techage_max_num_forceload_blocks (Max. number of Forceload Blocks) int 12
+# Maximim number of Forceload Blocks per player (default 20)
+techage_max_num_forceload_blocks (Max. number of Forceload Blocks) int 20
 
 # Enable Basalt Stone (and disable ore generation via cobble generator)
 techage_basalt_stone_enabled (Basalt Stone enabled) bool false

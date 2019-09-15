@@ -20,9 +20,9 @@ local S = techage.S
 
 local CYCLE_TIME = 2
 local PWR_PERF = 60
-local GRVL_CAPA = 1333
+local GRVL_CAPA = 700
 local PWR_CAPA = {
-	[3] = GRVL_CAPA * 3 * 3 * 3,  -- ~0.5 days
+	[3] = GRVL_CAPA * 3 * 3 * 3,  -- 18900 Cyc = 630 min = 31.5 Tage bei einem ku, oder 31,5 * 24 kuh = 756 kuh = 12,6 h bei 60 ku
 	[4] = GRVL_CAPA * 5 * 5 * 5,  -- ~2.5 days
 	[5] = GRVL_CAPA * 7 * 7 * 7,  --   ~6 days
 }

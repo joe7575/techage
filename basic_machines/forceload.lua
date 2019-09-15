@@ -205,7 +205,7 @@ techage.register_entry_page("ta", "forceload",
 	S("Techage Forceload Block"), 
 	S("The Forceload Block keeps the corresponding area loaded and the machines operational "..
 		"as far as the player is logged in. If the player leaves the game, all areas will be unloaded.@n"..
-		"The maximum number of Forceload Blocks per player is configurable (default 16).@n"..
+		"The maximum number of Forceload Blocks per player is configurable (default 20).@n"..
 		"The loaded area per block is a cube with 16 m side length (according to a Minetest area block). "..
 		"Punching the block makes the area visible and invisible again."),
 	"techage:forceload")

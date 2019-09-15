@@ -93,10 +93,10 @@ local function check_volume(pos, in_dir, owner)
 			chat(owner, "one window maximum")
 			return false
 		elseif node_tbl["default:obsidian_glass"] + node_tbl["basic_materials:concrete_block"] ~= Numbers.shell[radius] then
-			chat(owner, "wrong numbers of shell nodes")
+			chat(owner, "wrong number of shell nodes")
 			return false
 		elseif node_tbl["default:gravel"] + node_tbl["techage:glow_gravel"] ~= Numbers.filling[radius] then
-			chat(owner, "wrong numbers of gravel nodes")
+			chat(owner, "wrong number of gravel nodes")
 			return false
 		end
 	else

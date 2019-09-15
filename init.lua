@@ -11,7 +11,7 @@ else
 	techage = {
 		NodeDef = {},		-- node registration info
 	}
-	techage.max_num_forceload_blocks = tonumber(minetest.setting_get("techage_max_num_forceload_blocks")) or 16
+	techage.max_num_forceload_blocks = tonumber(minetest.setting_get("techage_max_num_forceload_blocks")) or 24
 	techage.basalt_stone_enabled = minetest.setting_get("techage_basalt_stone_enabled") == "true"
 	techage.ore_rarity = tonumber(minetest.setting_get("techage_ore_rarity")) or 1
 	techage.modified_recipes_enabled = minetest.setting_get("techage_modified_recipes_enabled") == "true"
