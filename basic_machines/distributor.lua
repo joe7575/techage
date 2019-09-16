@@ -29,13 +29,30 @@ local CYCLE_TIME = 4
 local INFO = [[- Turn port on/off: command = "port", payload = "red/green/blue/yellow=on/off"
 - Clear counter: command = "clear_counter"]]
 
+local function order_checkbox(pos, filter)
+	local cnt = 0
+	for _,val in ipairs(filter) do
+		if val then cnt = cnt + 1 end
+	end
+	if cnt == 1 then
+		local order = M(pos):get_int("order") == 1 and "true" or "false"	
+		return "checkbox[2,0;order;1:1;"..order.."]"..
+			"tooltip[2,0;1,1;"..S("Force order of filter items")..";#FFFFFF;#000000]"
+	else
+		M(pos):set_int("order", 0) -- disable sequencing
+	end
+	return ""
+end
+
 local function formspec(self, pos, mem)
 	local filter = minetest.deserialize(M(pos):get_string("filter")) or {false,false,false,false}
+	local order = order_checkbox(pos, filter)
 	return "size[10.5,8.5]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
 	"list[context;src;0,0;2,4;]"..
+	order..
 	"image[2,1.5;1,1;techage_form_arrow.png]"..
 	"image_button[2,3;1,1;"..self:get_state_button_image(mem)..";state_button;]"..
 	"checkbox[3,0;filter1;On;"..dump(filter[1]).."]"..
@@ -69,7 +86,7 @@ local function filter_settings(pos)
 	local filter = minetest.deserialize(meta:get_string("filter")) or {false,false,false,false}
 	local ItemFilter = {}  -- {<item:name> = {dir,...}]
 	local OpenPorts = {}  -- {dir, ...}
-	
+	local FilterItems = {} -- {<item:name>, <item:name>, ...}  for sequencing only
 	-- collect all filter settings
 	for idx,slot in ipairs(SlotColors) do
 		if filter[idx] == true then
@@ -85,6 +102,7 @@ local function filter_settings(pos)
 							ItemFilter[name] = {}
 						end
 						table.insert(ItemFilter[name], out_dir)
+						table.insert(FilterItems, name)
 					end
 				end
 			end
@@ -94,6 +112,7 @@ local function filter_settings(pos)
 	FilterCache[minetest.hash_node_position(pos)] = {
 		ItemFilter = ItemFilter, 
 		OpenPorts = OpenPorts,
+		FilterItems = FilterItems,
 	}
 end
 
@@ -105,13 +124,14 @@ local function get_filter_settings(pos)
 --		["default:cobble"] = {4},
 --	}
 --	local OpenPorts = {3}
---	return ItemFilter, OpenPorts
+--  local FilterItems = {"default:dirt",...}
+--	return ItemFilter, OpenPorts, FilterItems
 	
 	local hash = minetest.hash_node_position(pos)
 	if FilterCache[hash] == nil then
 		filter_settings(pos)
 	end
-	return FilterCache[hash].ItemFilter, FilterCache[hash].OpenPorts
+	return FilterCache[hash].ItemFilter, FilterCache[hash].OpenPorts, FilterCache[hash].FilterItems
 end
 
 
@@ -212,6 +232,42 @@ local function distributing(pos, inv, crd, mem)
 	end
 end
 
+local function sequencing(pos, inv, crd, mem)
+	local _,open_ports, filter_items = get_filter_settings(pos)
+	local offs = mem.last_index or 1
+	local num_filters = 0 -- already processed
+	local num_pushed = 0
+	local push_dir = open_ports[1] or 1
+	local blocked = false
+	
+	while num_pushed < crd.num_items and num_filters < 7 do
+		local stack = filter_items[offs] and ItemStack(filter_items[offs])
+		if stack then
+			if not inv:contains_item("src", stack) then
+				break
+			end
+			--print((filter_items[offs] or "nil")..", num_pushed="..num_pushed..", offs="..offs..", num_filters="..num_filters)
+			if not techage.push_items(pos, push_dir, stack) then
+				blocked = true
+				break
+			end
+			num_pushed = num_pushed + 1
+			inv:remove_item("src", stack)
+		end
+		offs = (offs % 6) + 1
+		num_filters = num_filters + 1
+	end
+	
+	mem.last_index = offs
+	if blocked then
+		crd.State:blocked(pos, mem)
+	elseif num_pushed == 0 then
+		crd.State:standby(pos, mem)
+	else
+		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS, num_pushed)
+	end
+end
+
 -- move items to the output slots
 local function keep_running(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
@@ -219,7 +275,11 @@ local function keep_running(pos, elapsed)
 	local crd = CRD(pos)
 	local inv = M(pos):get_inventory()
 	if not inv:is_empty("src") then
-		distributing(pos, inv, crd, mem)
+		if M(pos):get_int("order") == 1 then
+			sequencing(pos, inv, crd, mem)
+		else
+			distributing(pos, inv, crd, mem)
+		end
 	else
 		crd.State:idle(pos, mem)
 	end
@@ -241,6 +301,10 @@ local function on_receive_fields(pos, formname, fields, player)
 		filter[3] = fields.filter3 == "true"
 	elseif fields.filter4 ~= nil then
 		filter[4] = fields.filter4 == "true"
+	elseif fields.order ~= nil then
+		meta:set_int("order", fields.order == "true" and 1 or 0)
+		local mem = tubelib2.get_mem(pos)
+		mem.last_index = 1 -- start from the beginning
 	end
 	meta:set_string("filter", minetest.serialize(filter))
 	
