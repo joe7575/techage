@@ -52,8 +52,8 @@ local function add_rotor(pos, mem, player_name)
 	mem.error = false
 	
 	-- Check for next wind turbine
-	local pos1 = {x=pos.x-14, y=pos.y-9, z=pos.z-14}
-	local pos2 = {x=pos.x+14, y=pos.y+10, z=pos.z+14}
+	local pos1 = {x=pos.x-13, y=pos.y-9, z=pos.z-13}
+	local pos2 = {x=pos.x+13, y=pos.y+10, z=pos.z+13}
 	local num = #minetest.find_nodes_in_area(pos1, pos2, {"techage:ta4_wind_turbine"})
 	if num > 1 then
 		if player_name then

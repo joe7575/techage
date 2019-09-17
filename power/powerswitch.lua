@@ -266,16 +266,16 @@ techage.register_node({"techage:powerswitch", "techage:powerswitch_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local node = minetest.get_node(pos)
 		if topic == "on" and node.name == "techage:powerswitch" then
-			switch_on(pos, node, "techage:powerswitch_on")
+			switch_on(pos, node, nil, "techage:powerswitch_on")
 			return true
 		elseif topic == "on" and node.name == "techage:powerswitchsmall" then
-			switch_on(pos, node, "techage:powerswitchsmall_on")
+			switch_on(pos, node, nil, "techage:powerswitchsmall_on")
 			return true
 		elseif topic == "off" and node.name == "techage:powerswitch_on" then
-			switch_off(pos, node, "techage:powerswitch")
+			switch_off(pos, node, nil, "techage:powerswitch")
 			return true
 		elseif topic == "off" and node.name == "techage:powerswitchsmall_on" then
-			switch_off(pos, node, "techage:powerswitchsmall")
+			switch_off(pos, node, nil, "techage:powerswitchsmall")
 			return true
 		elseif topic == "state" then
 			if node.name == "techage:powerswitch_on" or node.name == "techage:powerswitchsmall_on"then

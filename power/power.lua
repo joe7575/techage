@@ -363,7 +363,7 @@ local function trigger_nodes(mst_pos, mst_mem, dec)
 		mem.pwr_node_alive_cnt = (mem.pwr_node_alive_cnt or 1) - dec
 		mem.pwr_power_provided_cnt = 2
 		if D.pwr then D.dbg("trigger_nodes", minetest.get_node(pos).name, mem.pwr_node_alive_cnt, mem.pwr_available2 or mem.pwr_available or mem.pwr_needed) end
-		if mem.pwr_node_alive_cnt >= 0 then
+		if mem.pwr_node_alive_cnt >= 0 or mem.pwr_state == NOPOWER then
 			if mem.pwr_available then
 				handle_generator(mst_mem, mem, pos, mem.pwr_available)
 			elseif mem.pwr_needed then
