@@ -14,21 +14,21 @@
 
 local S = techage.S
 
-local CONCR = "basic_materials_concrete_block.png"
-local PIPEH = "techage_gaspipe.png"
-local PIPEV = "techage_gaspipe.png^[transformR90"
-local PN000 = "techage_gaspipe_knee.png"
-local PN090 = "techage_gaspipe_knee.png^[transformR90"
-local PN180 = "techage_gaspipe_knee.png^[transformR180"
-local PN270 = "techage_gaspipe_knee.png^[transformR270"
-local HEXR1 = "techage_filling_ta4.png^techage_frameT_ta4.png^techage_appl_ribsT.png"
-local HEXR2 = "techage_filling_ta4.png^techage_frameM_ta4.png^techage_appl_ribsB.png"
-local HEXR3 = "techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_electric.png"
-local TURBN = "techage_filling_ta4.png^techage_appl_turbine.png^techage_frame_ta4.png"
-local GENER = "techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_generator.png^[transformFX]"
-local GRAVL = "default_gravel.png"
-local INLET = "basic_materials_concrete_block.png^techage_gaspipe.png^[transformR90"
-local GLASS = "default_obsidian_glass.png"
+local CONCR = {"basic_materials_concrete_block.png", "basic_materials:concrete_block"}
+local PIPEH = {"techage_gaspipe.png", "techage:ta4_pipeS"}
+local PIPEV = {"techage_gaspipe.png^[transformR90", "techage:ta4_pipeS"}
+local PN000 = {"techage_gaspipe_knee.png", "techage:ta4_pipeS"}
+local PN090 = {"techage_gaspipe_knee.png^[transformR90", "techage:ta4_pipeS"}
+local PN180 = {"techage_gaspipe_knee.png^[transformR180", "techage:ta4_pipeS"}
+local PN270 = {"techage_gaspipe_knee.png^[transformR270", "techage:ta4_pipeS"}
+local HEXR1 = {"techage_filling_ta4.png^techage_frameT_ta4.png^techage_appl_ribsT.png", "techage:heatexchanger3"}
+local HEXR2 = {"techage_filling_ta4.png^techage_frameM_ta4.png^techage_appl_ribsB.png", "techage:heatexchanger2"}
+local HEXR3 = {"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_electric.png", "techage:heatexchanger1"}
+local TURBN = {"techage_filling_ta4.png^techage_appl_turbine.png^techage_frame_ta4.png", "techage:ta4_turbine"}
+local GENER = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_generator.png^[transformFX]", "techage:ta4_generator"}
+local GRAVL = {"default_gravel.png", "default:gravel"}
+local INLET = {"basic_materials_concrete_block.png^techage_gaspipe.png^[transformR90", "techage:ta4_pipe_inlet"}
+local GLASS = {"default_obsidian_glass.png", "default:obsidian_glass"}
 
 local Images = {
 	{false, false, false, false, false, false, false, false, false, false, false},

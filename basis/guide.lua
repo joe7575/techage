@@ -79,19 +79,36 @@ local function get_ref(player_name)
 	return Categories[1], Categories[1]
 end
 
+local function tooltip(item)
+	if type(item) == "table" then
+		local img, name = item[1], item[2]
+		local ndef = minetest.registered_nodes[name]
+		if ndef and ndef.description then
+			return img, minetest.formspec_escape(ndef.description)
+		end
+		return img
+	end
+	return item
+end
+
+
 -- formspec images
 local function plan(images)
 	local tbl = {}
 	if images == "none" then return "label[1,3;"..S("No plan available") end
 	for y=1,#images do
 		for x=1,#images[1] do
-			local img = images[y][x] or false
-			if img ~= false then
+			local item = images[y][x] or false
+			if item ~= false then
+				local img, tooltip = tooltip(item)
 				local x_offs, y_offs = (x-1) * 0.9, (y-1) * 0.9 + 0.8
 				if string.find(img, ":") then
 					tbl[#tbl+1] = "item_image["..x_offs..","..y_offs..";1,1;"..img.."]"
 				else
 					tbl[#tbl+1] = "image["..x_offs..","..y_offs..";1,1;"..img.."]"
+				end
+				if tooltip then
+					tbl[#tbl+1] = "tooltip["..x_offs..","..y_offs..";1,1;"..tooltip..";#0C3D32;#FFFFFF]"
 				end
 			end
 		end

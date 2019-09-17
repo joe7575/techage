@@ -37,7 +37,7 @@ local function order_checkbox(pos, filter)
 	if cnt == 1 then
 		local order = M(pos):get_int("order") == 1 and "true" or "false"	
 		return "checkbox[2,0;order;1:1;"..order.."]"..
-			"tooltip[2,0;1,1;"..S("Force order of filter items")..";#FFFFFF;#000000]"
+			"tooltip[2,0;1,1;"..S("Force order of filter items")..";#0C3D32;#FFFFFF]"
 	else
 		M(pos):set_int("order", 0) -- disable sequencing
 	end
