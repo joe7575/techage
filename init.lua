@@ -6,7 +6,7 @@ elseif minetest.global_exists("ironage") then
 elseif minetest.global_exists("techpack") then
 	minetest.log("error", "[techage] Techage can't be used together with the modpack techpack!")
 elseif minetest.global_exists("tubelib2") and tubelib2.version < 1.5 then
-	minetest.log("error", "[techage] Techage requires tubelib2 version 1.5 or newer!")
+	minetest.log("error", "[techage] Techage requires tubelib2 version 1.5 or newer! Current Version is: "..tubelib2.version)
 else
 	techage = {
 		NodeDef = {},		-- node registration info
