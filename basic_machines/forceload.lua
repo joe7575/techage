@@ -89,21 +89,21 @@ end
 local function formspec(player)
 	local lPos = get_pos_list(player)
 	local tRes = {}
-	tRes[1] = "size[7,9]"..
-	default.gui_bg..
-	default.gui_bg_img..
-	default.gui_slots..
-	"label[0,0;List of your Forceload Blocks:]"
-	
 	for idx,pos in ipairs(lPos) do
 		local pos1, pos2 = calc_area(pos)
 		local ypos = 0.2 + idx * 0.4
-		tRes[#tRes+1] = "label[0,"..ypos..";"..idx.."]"
-		tRes[#tRes+1] = "label[0.8,"..ypos..";"..P2S(pos1).."]"
-		tRes[#tRes+1] = "label[3.2,"..ypos..";to]"
-		tRes[#tRes+1] = "label[4,"..ypos..";"..P2S(pos2).."]"
+		tRes[#tRes+1] = idx
+		tRes[#tRes+1] = minetest.formspec_escape(P2S(pos1))
+		tRes[#tRes+1] = "to"
+		tRes[#tRes+1] = minetest.formspec_escape(P2S(pos2))
 	end
-	return table.concat(tRes)
+	return "size[7,9]"..
+		default.gui_bg..
+		default.gui_bg_img..
+		default.gui_slots..
+		"label[0,0;List of your Forceload Blocks:]"..
+		"tablecolumns[text,width=1.2;text,width=12;text,width=1.6;text,width=12]"..
+		"table[0,0.6;6.8,8.4;output;"..table.concat(tRes, ",")..";1]"
 end
 
 

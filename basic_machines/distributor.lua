@@ -29,50 +29,6 @@ local CYCLE_TIME = 4
 local INFO = [[- Turn port on/off: command = "port", payload = "red/green/blue/yellow=on/off"
 - Clear counter: command = "clear_counter"]]
 
-local function order_checkbox(pos, filter)
-	local cnt = 0
-	for _,val in ipairs(filter) do
-		if val then cnt = cnt + 1 end
-	end
-	if cnt == 1 then
-		local order = M(pos):get_int("order") == 1 and "true" or "false"	
-		return "checkbox[2,0;order;1:1;"..order.."]"..
-			"tooltip[2,0;1,1;"..S("Force order of filter items")..";#0C3D32;#FFFFFF]"
-	else
-		M(pos):set_int("order", 0) -- disable sequencing
-	end
-	return ""
-end
-
-local function formspec(self, pos, mem)
-	local filter = minetest.deserialize(M(pos):get_string("filter")) or {false,false,false,false}
-	local order = order_checkbox(pos, filter)
-	return "size[10.5,8.5]"..
-	default.gui_bg..
-	default.gui_bg_img..
-	default.gui_slots..
-	"list[context;src;0,0;2,4;]"..
-	order..
-	"image[2,1.5;1,1;techage_form_arrow.png]"..
-	"image_button[2,3;1,1;"..self:get_state_button_image(mem)..";state_button;]"..
-	"checkbox[3,0;filter1;On;"..dump(filter[1]).."]"..
-	"checkbox[3,1;filter2;On;"..dump(filter[2]).."]"..
-	"checkbox[3,2;filter3;On;"..dump(filter[3]).."]"..
-	"checkbox[3,3;filter4;On;"..dump(filter[4]).."]"..
-	"image[4,0;0.3,1;techage_inv_red.png]"..
-	"image[4,1;0.3,1;techage_inv_green.png]"..
-	"image[4,2;0.3,1;techage_inv_blue.png]"..
-	"image[4,3;0.3,1;techage_inv_yellow.png]"..
-	"list[context;red;4.5,0;6,1;]"..
-	"list[context;green;4.5,1;6,1;]"..
-	"list[context;blue;4.5,2;6,1;]"..
-	"list[context;yellow;4.5,3;6,1;]"..
-	"list[current_player;main;1.25,4.5;8,4;]"..
-	"listring[context;src]"..
-	"listring[current_player;main]"..
-	default.get_hotbar_bg(1.25,4.5)
-end
-
 
 --local Side2Color = {B="red", L="green", F="blue", R="yellow"}
 local SlotColors = {"red", "green", "blue", "yellow"}
@@ -134,6 +90,68 @@ local function get_filter_settings(pos)
 	return FilterCache[hash].ItemFilter, FilterCache[hash].OpenPorts, FilterCache[hash].FilterItems
 end
 
+local function order_checkbox(pos, filter)
+	local cnt = 0
+	for _,val in ipairs(filter) do
+		if val then cnt = cnt + 1 end
+	end
+	if cnt == 1 then
+		local order = M(pos):get_int("order") == 1 and "true" or "false"	
+		return "checkbox[2,0;order;1:1;"..order.."]"..
+			"tooltip[2,0;1,1;"..S("Force order of filter items")..";#0C3D32;#FFFFFF]"
+	else
+		M(pos):set_int("order", 0) -- disable sequencing
+	end
+	return ""
+end
+
+local function blocking_checkbox(pos, filter)
+	local cnt = 0
+	local _, open_ports = get_filter_settings(pos)
+	
+	for _,val in ipairs(filter) do
+		if val then cnt = cnt + 1 end
+	end
+	if cnt > 1 and #open_ports > 0 then
+		local blocking = M(pos):get_int("blocking") == 1 and "true" or "false"
+		return "checkbox[2,0;blocking;>>|;"..blocking.."]"..
+			"tooltip[2,0;1,1;"..S("Block configured items for open ports")..";#0C3D32;#FFFFFF]"
+	else
+		M(pos):set_int("blocking", 0) -- disable blocking
+	end
+	return ""
+end		
+		
+local function formspec(self, pos, mem)
+	local filter = minetest.deserialize(M(pos):get_string("filter")) or {false,false,false,false}
+	local order = order_checkbox(pos, filter)
+	local blocking = blocking_checkbox(pos, filter)
+	return "size[10.5,8.5]"..
+	default.gui_bg..
+	default.gui_bg_img..
+	default.gui_slots..
+	"list[context;src;0,0;2,4;]"..
+	order..
+	blocking..
+	"image[2,1.5;1,1;techage_form_arrow.png]"..
+	"image_button[2,3;1,1;"..self:get_state_button_image(mem)..";state_button;]"..
+	"checkbox[3,0;filter1;On;"..dump(filter[1]).."]"..
+	"checkbox[3,1;filter2;On;"..dump(filter[2]).."]"..
+	"checkbox[3,2;filter3;On;"..dump(filter[3]).."]"..
+	"checkbox[3,3;filter4;On;"..dump(filter[4]).."]"..
+	"image[4,0;0.3,1;techage_inv_red.png]"..
+	"image[4,1;0.3,1;techage_inv_green.png]"..
+	"image[4,2;0.3,1;techage_inv_blue.png]"..
+	"image[4,3;0.3,1;techage_inv_yellow.png]"..
+	"list[context;red;4.5,0;6,1;]"..
+	"list[context;green;4.5,1;6,1;]"..
+	"list[context;blue;4.5,2;6,1;]"..
+	"list[context;yellow;4.5,3;6,1;]"..
+	"list[current_player;main;1.25,4.5;8,4;]"..
+	"listring[context;src]"..
+	"listring[current_player;main]"..
+	default.get_hotbar_bg(1.25,4.5)
+end
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	local inv = M(pos):get_inventory()
@@ -146,7 +164,6 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 		CRD(pos).State:start_if_standby(pos)
 		return stack:get_count()
 	elseif (list[index]:get_count() == 0 or stack:get_name() ~= list[index]:get_name()) then
-		filter_settings(pos)
 		return 1
 	end
 	return 0
@@ -195,6 +212,7 @@ local function distributing(pos, inv, crd, mem)
 	local item_filter, open_ports = get_filter_settings(pos)
 	local sum_num_pushed = 0
 	local num_pushed = 0
+	local blocking_mode = M(pos):get_int("blocking") == 1
 	
 	-- start searching after last position
 	local offs = mem.last_index or 1
@@ -210,8 +228,11 @@ local function distributing(pos, inv, crd, mem)
 		if item_filter[item_name] then
 			-- Push items based on filter
 			num_pushed = push_item(pos, item_filter[item_name], item_name, num_to_push, mem)
+		elseif blocking_mode and #open_ports > 0 then
+			-- Push items based on open ports
+			num_pushed = push_item(pos, open_ports, item_name, num_to_push, mem)
 		end
-		if num_pushed == 0 and #open_ports > 0 then
+		if not blocking_mode and num_pushed == 0 and #open_ports > 0 then
 			-- Push items based on open ports
 			num_pushed = push_item(pos, open_ports, item_name, num_to_push, mem)
 		end
@@ -246,7 +267,6 @@ local function sequencing(pos, inv, crd, mem)
 			if not inv:contains_item("src", stack) then
 				break
 			end
-			--print((filter_items[offs] or "nil")..", num_pushed="..num_pushed..", offs="..offs..", num_filters="..num_filters)
 			if not techage.push_items(pos, push_dir, stack) then
 				blocked = true
 				break
@@ -305,6 +325,8 @@ local function on_receive_fields(pos, formname, fields, player)
 		meta:set_int("order", fields.order == "true" and 1 or 0)
 		local mem = tubelib2.get_mem(pos)
 		mem.last_index = 1 -- start from the beginning
+	elseif fields.blocking ~= nil then
+		meta:set_int("blocking", fields.blocking == "true" and 1 or 0)
 	end
 	meta:set_string("filter", minetest.serialize(filter))
 	
@@ -438,16 +460,22 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		on_metadata_inventory_move = function(pos, from_list, from_index, to_list)
 			if from_list ~= "src" or to_list ~= "src" then
 				filter_settings(pos)
+				local mem = tubelib2.get_mem(pos)
+				M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
 			end
 		end,
 		on_metadata_inventory_put = function(pos, listname)
 			if listname ~= "src" then
 				filter_settings(pos)
+				local mem = tubelib2.get_mem(pos)
+				M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
 			end
 		end,
 		on_metadata_inventory_take = function(pos, listname)
 			if listname ~= "src" then
 				filter_settings(pos)
+				local mem = tubelib2.get_mem(pos)
+				M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
 			end
 		end,
 		
