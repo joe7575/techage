@@ -18,11 +18,12 @@ Regenerative Energiequellen wie Wind, Sonne und Biokraft helfen dir, das Ölzeit
 
 ## Hinweise
 
-Diese Dokumentation ist sowohl "ingame" als auch im Netz als HTML-Seiten verfügbar.
+Diese Dokumentation ist sowohl "ingame" (Block Konstruktionsplan) als auch im Netz als HTML-Seiten verfügbar.
 
-TODO links.
+Original Link: https://github.com/joe7575/techage/blob/master/manuals/manual_DE.md
+Short Link: https://tinyurl.com/y2lwl35h
 
-Die Konstruktionspläne für den Aufbau der Maschinen sind nur ingame verfügbar.
+Die Konstruktionspläne (Diagramme) für den Aufbau der Maschinen sind nur ingame verfügbar.
 
 Du musst von vorne beginnen. Nur mit den Items aus TA1 kannst du TA2 Blöcke herstellen, für TA3 benötigst du die Ergebnisse aus TA2, usw.
 

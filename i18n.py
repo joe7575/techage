@@ -1,8 +1,12 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-# Generate a template file for translation purposes
-
+# Script to generate the template file and update the translation files.
+#
+# Copyright (C) 2019 Joachim Stolberg
+# LGPLv2.1+
+# 
+# Copy the script into the mod root folder and adapt the last code lines to you needs.
 
 import os, fnmatch, re, shutil
 
@@ -14,11 +18,11 @@ def gen_template(templ_file, lkeyStrings):
     lkeyStrings.sort()
     for s in lkeyStrings:
         lOut.append("%s=" % s)
-    file(templ_file, "wt").write("\n".join(lOut))
+    open(templ_file, "wt").write("\n".join(lOut))
 
 def read_lua_file_strings(lua_file):
     lOut = []
-    text = file(lua_file).read()
+    text = open(lua_file).read()
     for s in pattern_lua.findall(text):
         s = re.sub(r'"\.\.\s+"', "", s)
         s = re.sub("@[^@=n]", "@@", s)
@@ -30,7 +34,7 @@ def read_lua_file_strings(lua_file):
 
 def inport_tr_file(tr_file):
     dOut = {}
-    for line in file(tr_file, "r").readlines():
+    for line in open(tr_file, "r").readlines():
         s = line.strip()
         if s == "" or s[0] == "#":
              continue
@@ -46,7 +50,7 @@ def generate_template(templ_file):
             if fnmatch.fnmatch(name, "*.lua"):
                 fname = os.path.join(root, name)
                 found = read_lua_file_strings(fname)
-                print fname, len(found)
+                print(fname, len(found))
                 lOut.extend(found)
     lOut = list(set(lOut))
     lOut.sort()
@@ -64,8 +68,11 @@ def update_tr_file(lNew, mod_name, tr_file):
     for key in dOld:
         if key not in lNew:
             lOut.append("%s=%s" % (key, dOld[key]))
-    file(tr_file, "w").write("\n".join(lOut))
+    open(tr_file, "w").write("\n".join(lOut))
     
 data = generate_template("./locale/template.txt")
 update_tr_file(data, "techage", "./locale/techage.de.tr")
-print "Done.\n"
+update_tr_file(data, "techage", "./locale/techage.fr.tr")
+#update_tr_file(data, "mymod", "./locale/mymod.de.tr")
+#update_tr_file(data, "mymod", "./locale/mymod.fr.tr")
+print("Done.\n")

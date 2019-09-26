@@ -31,7 +31,8 @@ techage.manual_DE.aTitel = {
   "2,Items produzieren",
   "3,TA2 Autocrafter",
   "3,TA2 Elektronikfabrik",
-  "3, ",
+  "2,Sonstige Blöcke",
+  "3,TA2 Flüssigkeitensammler",
 }
 
 techage.manual_DE.aText = {
@@ -51,11 +52,12 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Diese Dokumentation ist sowohl \"ingame\" als auch im Netz als HTML-Seiten verfügbar.\n"..
+  "Diese Dokumentation ist sowohl \"ingame\" (Block Konstruktionsplan) als auch im Netz als HTML-Seiten verfügbar.\n"..
   "\n"..
-  "TODO links.\n"..
+  "Original Link: https://github.com/joe7575/techage/blob/master/manuals/manual_DE.md\n"..
+  "Short Link: https://tinyurl.com/y2lwl35h\n"..
   "\n"..
-  "Die Konstruktionspläne für den Aufbau der Maschinen sind nur ingame verfügbar.\n"..
+  "Die Konstruktionspläne (Diagramme) für den Aufbau der Maschinen sind nur ingame verfügbar.\n"..
   "\n"..
   "Du musst von vorne beginnen. Nur mit den Items aus TA1 kannst du TA2 Blöcke herstellen\\, für TA3 benötigst du die Ergebnisse aus TA2\\, usw.\n"..
   "\n"..
@@ -142,7 +144,7 @@ techage.manual_DE.aText = {
   "\n",
   "Die Dampfmaschine besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden. Dazu werden die Blöcke TA2 Feuerbox\\, TA2 Boiler oben\\, TA2 Boiler unten\\, TA2 Zylinder\\, TA2 Schwungrad und Dampfleitungen benötigt.\n"..
   "\n"..
-  "Zusätzlich werden Antriebsachsen sowie Getriebeboxen für Richtungswechsel benötigt. Das Schwungrad muss über die Antriebsachsen mit allen Maschinen verbunden werden\\, die angetrieben werden müssen.\n"..
+  "Zusätzlich werden Antriebsachsen sowie Getriebeblöcke für Richtungswechsel benötigt. Das Schwungrad muss über die Antriebsachsen mit allen Maschinen verbunden werden\\, die angetrieben werden müssen.\n"..
   "\n"..
   "Bei allen Blöcken beim Setzen immer auch die Ausrichtung achten:\n"..
   "\n"..
@@ -261,11 +263,26 @@ techage.manual_DE.aText = {
   "\n",
   "Mit TA2 Maschinen können nicht nur Erze gewonnen\\, sondern auch Gegenstände hergestellt werden.\n"..
   "\n",
+  "Der Autocrafter dient  zur automatischen Herstellung von Waren. Alles was der Spieler über das \"Crafting Grid\" herstellen kann\\, kann auch durch den Autocrafter erledigt werden. Dazu müssen im Menü des Autocrafters das Rezept eingegeben und die notwendigen Zutaten hinzugefügt werden.\n"..
+  "\n"..
+  "Zutaten und hergestellte Waren können über Rühren und Schieber in und aus dem Block transportiert werden.\n"..
+  "\n"..
+  "Die Verarbeitungsleistung ist ein Item alle 4 s. Der Autocrafter benötigt 4 ku Energie.\n"..
+  "\n"..
   "\n"..
   "\n",
+  "Die Elektronikfabrik ist eine Spezialmaschine und nur für die Herstellung der Vakuumröhren nutzbar. Vakuumröhren werden für TA3 Maschinen und Blöcke benötigt.\n"..
+  "\n"..
+  "Die Verarbeitungsleistung ist eine Vakuumröhre alle 6 s. Die Elektronikfabrik benötigt 8 ku Energie.\n"..
+  "\n"..
   "\n"..
   "\n",
-  " zur VerBaue eine Dampfmaschine mit Antriebsachsen und betreibe damit deine .\n"..
+  "",
+  "Für manche Rezepte wird Wasser benötigt. Damit auch diese Rezepte automatisiert mit dem Autocrafter bearbeitet werden können\\, muss Wasser in Eimern bereitgestellt werden. Hierzu dient der Flüssigkeitensammler. Er benötigt leere Eimer und muss ins Wasser gestellt werden.\n"..
+  "\n"..
+  "Die Verarbeitungsleistung ist ein Wassereimer alle 8 s. Der Flüssigkeitensammler benötigt 3 ku Energie.\n"..
+  "\n"..
+  "\n"..
   "\n",
 }
 
@@ -301,6 +318,7 @@ techage.manual_DE.aItemName = {
   "ta2_autocrafter",
   "ta2_electronicfab",
   "",
+  "ta2_liquidsampler",
 }
 
 techage.manual_DE.aPlanTable = {
@@ -327,6 +345,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "gravelrinser",
+  "",
   "",
   "",
   "",

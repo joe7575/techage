@@ -167,13 +167,28 @@ Mit TA2 Maschinen können nicht nur Erze gewonnen, sondern auch Gegenstände her
 
 ### TA2 Autocrafter
 
+Der Autocrafter dient  zur automatischen Herstellung von Waren. Alles was der Spieler über das "Crafting Grid" herstellen kann, kann auch durch den Autocrafter erledigt werden. Dazu müssen im Menü des Autocrafters das Rezept eingegeben und die notwendigen Zutaten hinzugefügt werden.
+
+Zutaten und hergestellte Waren können über Rühren und Schieber in und aus dem Block transportiert werden.
+
+Die Verarbeitungsleistung ist ein Item alle 4 s. Der Autocrafter benötigt 4 ku Energie.
+
 [ta2_autocrafter](/image/)
 
 ### TA2 Elektronikfabrik
 
+Die Elektronikfabrik ist eine Spezialmaschine und nur für die Herstellung der Vakuumröhren nutzbar. Vakuumröhren werden für TA3 Maschinen und Blöcke benötigt.
+
+Die Verarbeitungsleistung ist eine Vakuumröhre alle 6 s. Die Elektronikfabrik benötigt 8 ku Energie.
+
 [ta2_electronicfab](/image/)
 
-### 
+## Sonstige Blöcke 
 
- zur VerBaue eine Dampfmaschine mit Antriebsachsen und betreibe damit deine .
+### TA2 Flüssigkeitensammler
 
+Für manche Rezepte wird Wasser benötigt. Damit auch diese Rezepte automatisiert mit dem Autocrafter bearbeitet werden können, muss Wasser in Eimern bereitgestellt werden. Hierzu dient der Flüssigkeitensammler. Er benötigt leere Eimer und muss ins Wasser gestellt werden.
+
+Die Verarbeitungsleistung ist ein Wassereimer alle 8 s. Der Flüssigkeitensammler benötigt 3 ku Energie.
+
+[ta2_liquidsampler](/image/)

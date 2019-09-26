@@ -124,6 +124,9 @@ class MyRenderer(mistune.Renderer):
         elif link == "/plan/":
             self.PlanTable = content
         return ""
+
+    def autolink(self, link, is_email=False):
+        return link
         
     # ~ 
     # ~ double_emphasis(text)
