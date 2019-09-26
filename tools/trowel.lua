@@ -118,8 +118,3 @@ minetest.register_craft({
 	},
 })
 
-techage.register_entry_page("ta", "trowel",
-	S("TechAge Trowel"), 
-	S("Tool to hide and retrieve electrical wiring in walls and floors.@n"..
-		"The material for hiding the cables must be in the left stack of the first row in the player inventory."), 
-	"techage:trowel")

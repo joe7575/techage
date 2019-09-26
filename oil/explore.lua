@@ -353,16 +353,6 @@ bucket.register_liquid(
 	"techage_bucket_oil.png", 
 	"Oil Bucket")
 
-techage.register_entry_page("ta3op", "oilexplorer",
-	S("TA3 Oil Explorer"), 
-	S("Used to find oil (petroleum). Oil can be used as fuel for the Power Station and others. "..
-		"Place the block and right-click on the block to explore the underground. "..
-		"The block will explore a 16x16 field with a depth of up to 400 m. "..
-		"To search deeper, click the block several times. "..
-		"When oil is found, the position for the derrick (Drill Box) is highlighted.@n"..
-		"Hint: Mark and protect the position for later use."), 
-	"techage:oilexplorer")
-
 techage.explore = {}
 
 function techage.explore.get_oil_info(pos)

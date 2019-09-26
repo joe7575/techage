@@ -12,6 +12,7 @@
 	
 ]]--
 
+local S = techage.S
 
 -- Replace default:stone with techage:basalt which is less valuable for ore generation.
 default.cool_lava = function(pos, node)
@@ -25,7 +26,7 @@ default.cool_lava = function(pos, node)
 end
 
 minetest.register_node("techage:basalt_stone", {
-	description = "Basalt Stone",
+	description = S("Basalt Stone"),
 	tiles = {"default_stone.png^[brighten"},
 	groups = {cracky = 3, stone = 1},
 	drop = 'techage:basalt_cobble',
@@ -33,14 +34,14 @@ minetest.register_node("techage:basalt_stone", {
 })
 
 minetest.register_node("techage:basalt_cobble", {
-	description = "Basalt Cobble",
+	description = S("Basalt Cobble"),
 	tiles = {"default_cobble.png^[brighten"},
 	groups = {cracky = 3, stone = 2},
 	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node("techage:basalt_stone_brick", {
-	description = "Basalt Stone Brick",
+	description = S("Basalt Stone Brick"),
 	paramtype2 = "facedir",
 	place_param2 = 0,
 	tiles = {"default_stone_brick.png^[brighten"},
@@ -50,7 +51,7 @@ minetest.register_node("techage:basalt_stone_brick", {
 })
 
 minetest.register_node("techage:basalt_stone_block", {
-	description = "Basalt Stone Block",
+	description = S("Basalt Stone Block"),
 	tiles = {"default_stone_block.png^[brighten"},
 	is_ground_content = false,
 	groups = {cracky = 2, stone = 1},
@@ -58,21 +59,21 @@ minetest.register_node("techage:basalt_stone_block", {
 })
 
 minetest.register_node("techage:basalt_gravel", {
-	description = "Basalt Gravel",
+	description = S("Basalt Gravel"),
 	tiles = {"default_gravel.png^[brighten"},
 	groups = {crumbly = 2, falling_node = 1},
 	sounds = default.node_sound_gravel_defaults(),
 })
 
 minetest.register_node("techage:sieved_basalt_gravel", {
-	description = "Sieved Basalt Gravel",
+	description = S("Sieved Basalt Gravel"),
 	tiles = {"default_gravel.png^[brighten"},
 	groups = {crumbly = 2, falling_node = 1, not_in_creative_inventory=1},
 	sounds = default.node_sound_gravel_defaults(),
 })
 
 minetest.register_node("techage:basalt_glass", {
-	description = "Basalt Glass",
+	description = S("Basalt Glass"),
 	drawtype = "glasslike_framed_optional",
 	tiles = {"techage_basalt_glass.png"},
 	use_texture_alpha = true,
@@ -85,7 +86,7 @@ minetest.register_node("techage:basalt_glass", {
 })
 
 minetest.register_node("techage:basalt_glass2", {
-	description = "Basalt Glass 2",
+	description = S("Basalt Glass 2"),
 	drawtype = "glasslike_framed_optional",
 	tiles = {"techage_basalt_glass2.png"},
 	use_texture_alpha = true,
@@ -98,7 +99,7 @@ minetest.register_node("techage:basalt_glass2", {
 })
 
 minetest.register_node("techage:basalt_glass_thin", {
-	description = "Basalt Glass Thin",
+	description = S("Basalt Glass Thin"),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -117,7 +118,7 @@ minetest.register_node("techage:basalt_glass_thin", {
 })
 
 minetest.register_node("techage:basalt_glass_thin2", {
-	description = "Basalt Glass Thin 2",
+	description = S("Basalt Glass Thin 2"),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -136,7 +137,7 @@ minetest.register_node("techage:basalt_glass_thin2", {
 })
 
 minetest.register_node("techage:basalt_glass_thin_xl", {
-	description = "Basalt Glass Thin XL",
+	description = S("Basalt Glass Thin XL"),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -155,7 +156,7 @@ minetest.register_node("techage:basalt_glass_thin_xl", {
 })
 
 minetest.register_node("techage:basalt_glass_thin_xl2", {
-	description = "Basalt Glass Thin XL 2",
+	description = S("Basalt Glass Thin XL 2"),
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",

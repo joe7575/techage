@@ -270,11 +270,3 @@ techage.register_node({"techage:ta3_sequencer"}, {
 	end,
 })		
 
-techage.register_entry_page("ta3l", "sequencer",
-	S("TA3 Sequencer"), 
-	S("The Sequencer block allows to define sequences of on/off commands@n"..
-		"with time delays in between. A sequence of up to 8 steps@n"..
-		"can be programmed, each with destination block numbers, on/off command,@n"..
-		"and time gap to the next step in seconds. The Sequencer can run endless@n"..
-		"or only once and can be switches on/off by other blocks."),
-	"techage:ta3_sequencer")

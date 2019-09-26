@@ -90,6 +90,7 @@ local function on_receive_fields(pos, formname, fields, player)
 			meta:set_string("numbers", fields.numbers)
 			logic.infotext(M(pos), S("TA3 Player Detector"))
 		end
+		meta:set_string("names", fields.names)
 		meta:set_string("formspec", formspec(meta))
 	elseif fields.help ~= nil then
 		meta:set_string("formspec", formspec_help())
@@ -200,9 +201,3 @@ techage.register_node({"techage:ta3_playerdetector_off", "techage:ta3_playerdete
 	end,
 })		
 
-techage.register_entry_page("ta3l", "player_detector",
-	S("TA3 Player Detector"), 
-	S("The Player Detector sends a 'on' signal when it detects a player@n"..
-		"within a radius of 4 m around the node.@n"..
-		"The detector can be configured with player names to scan for."),
-	"techage:ta3_playerdetector_off")

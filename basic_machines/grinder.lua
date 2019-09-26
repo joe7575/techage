@@ -293,18 +293,4 @@ techage.add_grinder_recipe({input="default:pine_tree", output="default:pine_need
 techage.add_grinder_recipe({input="default:acacia_tree", output="default:acacia_leaves 8"})
 techage.add_grinder_recipe({input="default:aspen_tree", output="default:aspen_leaves 8"})
 
-techage.register_entry_page("ta2", "grinder",
-	S("TA2 Grinder"), 
-	S("The Grinder grinds all kinds of cobblestone to gravel, gravel to sand, sand to clay, wood to leaves, and more.@n"..
-		"It can grind one item every four seconds.@n"..
-		"It needs 4 units axle power."), 
-	"techage:ta2_grinder_pas")
-
-techage.register_entry_page("ta3m", "grinder",
-	S("TA3 Grinder"), 
-	S("The Grinder grinds all kinds of cobblestone to gravel, gravel to sand, sand to clay, wood to leaves, and more.@n"..
-		"It can grind two items every four seconds.@n"..
-		"It needs 6 units electrical power."), 
-	"techage:ta3_grinder_pas")
-
 

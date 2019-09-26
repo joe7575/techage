@@ -208,8 +208,3 @@ techage.register_node({"techage:ta3_timer"}, {
 	end,
 })
 
-techage.register_entry_page("ta3l", "timer",
-	S("TA3 Timer"), 
-	S("The Timer block allows to turn machines/nodes on and off@n"..
-		"based on the day time."),
-	"techage:ta3_timer")

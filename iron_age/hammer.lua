@@ -186,6 +186,3 @@ minetest.register_craft({
 	}
 })
 
-techage.register_entry_page("ta1", "hammer",
-	"TA1 xxx Hammer", [[Hammer to smash stone to gravel.
-Available as Bronze, Steel, Mese, and Diamond Hammer.]], "techage:hammer_bronze")

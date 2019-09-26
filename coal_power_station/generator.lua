@@ -220,9 +220,3 @@ techage.register_node({"techage:generator", "techage:generator_on"}, {
 	end,
 })
 
-techage.register_entry_page("ta3ps", "generator", 
-	S("TA3 Generator"), 
-	S("Part of the Power Station. Has to be placed side by side with the TA3 Turbine. "..
-		"Connect the Generator with your TA3 machines by means of Electric Cables and Junction Boxes@n"..
-		"(see TA3 Power Station)"), 
-	"techage:generator")

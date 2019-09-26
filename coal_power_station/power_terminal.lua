@@ -125,7 +125,3 @@ minetest.register_craft({
 	},
 })
 
-techage.register_entry_page("ta3ps", "ta3_power_terminal",
-	S("TA3 Power Terminal"), 
-	S("Terminal for power network information. Has to be placed in front of an Electric Junction Box."), 
-	"techage:ta3_power_terminal")

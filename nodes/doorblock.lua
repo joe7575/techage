@@ -39,7 +39,7 @@ local tPgns = {"default_wood.png", "default_aspen_wood.png", "default_junglewood
 
 for idx,pgn in ipairs(tPgns) do
 	minetest.register_node("techage:doorblock"..idx, {
-		description = S("Techage Door Block"),
+		description = S("TechAge Door Block"),
 		tiles = {
 			pgn.."^[transformR90",
 			pgn,
@@ -63,7 +63,7 @@ for idx,pgn in ipairs(tPgns) do
 			local number = techage.add_node(pos, "techage:doorblock"..idx)
 			mem.facedir = node.param2
 			meta:set_string("node_number", number)
-			meta:set_string("infotext", S("Techage Door Block").." "..number)
+			meta:set_string("infotext", S("TechAge Door Block").." "..number)
 			meta:set_string("formspec", "size[3,2]"..
 			"label[0,0;Select texture]"..
 			"dropdown[0,0.5;3;type;"..sTextures..";"..NUM_TEXTURES.."]".. 
@@ -106,7 +106,7 @@ for idx,pgn in ipairs(tPgns) do
 			elseif topic == "off" then
 				local mem = tubelib2.get_mem(pos)
 				mem.facedir = mem.facedir or 0
-				mem.name = mem.texture or "techage:doorblock"..NUM_TEXTURES
+				mem.name = mem.name or "techage:doorblock"..NUM_TEXTURES
 				minetest.add_node(pos, {name = mem.name, paramtype2 = "facedir", param2 = mem.facedir})
 			end
 		end,
@@ -121,14 +121,4 @@ minetest.register_craft({
 		{"group:wood",       "", ""},
 	},
 })
-
-techage.register_entry_page("ta", "doorblock",
-	S("Techage Door Block"), 
-	S("The Door Block can disappear by means of commands from a button or switch.@n"..
-	"It is commonly used to build larger gates. All Door Blocks@n"..
-	"obtain a unique number which is shown as block infotext.@n"..
-	"This number is used as destination address for commands.@n"..
-	"The texture of the Door Block can be configured after@n"..
-	"placement with the right mouse button."),
-	"techage:doorblock"..NUM_TEXTURES)
 

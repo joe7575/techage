@@ -147,11 +147,3 @@ techage.register_node({"techage:ta3_detector_off", "techage:ta3_detector_on"}, {
 	is_pusher = true,  -- is a pulling/pushing node
 })	
 
-techage.register_entry_page("ta3l", "detector",
-	S("TA3 Detector"), 
-	S("The Detector is a special kind of tube block that@n"..
-		"outputs an event when items pass through.@n"..
-		"It sends an 'on' when an item goes through,@n"..
-		"followed by an 'off' event one second later.@n"..
-		"After that it blocks further events for 8 seconds."),
-	"techage:ta3_detector_on")

@@ -152,8 +152,3 @@ techage.register_node({"techage:ta4_generator", "techage:ta4_generator_on"}, {
 	end,
 })
 
-techage.register_entry_page("ta4es", "ta4_generator", 
-	S("TA4 Generator"), 
-	S("Part of TA4 Energy Systems. Has to be placed side by side with the TA4 Turbine. "..
-		"Connect the Generator with your power network@n"), 
-	"techage:ta4_generator")

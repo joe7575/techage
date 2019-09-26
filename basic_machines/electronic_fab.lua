@@ -312,19 +312,4 @@ if minetest.global_exists("unified_inventory") then
 	})
 end
 
-techage.register_entry_page("ta2", "electronic_fab",
-	S("TA2 Electronic Fab"), 
-	S("Used to produce Vacuum Pipes, needed for TA3 machines.@n"..
-		"The fab produces 1 item every 6 seconds.@n"..
-		"It needs 8 units axle power"), 
-	"techage:ta2_electronic_fab_pas")
-
-
-
-techage.register_entry_page("ta3m", "electronic_fab",
-	S("TA3 Electronic Fab"), 
-	S("Used to produce WLAN Chips, needed for TA4 machines.@n".. 
-		"The fab produces 1 item every 6 seconds.@n"..
-		"It needs 12 units electrical power."),
-	"techage:ta3_electronic_fab_pas")
 

@@ -40,7 +40,6 @@ else
 	local MP = minetest.get_modpath("techage")
 	dofile(MP.."/basis/lib.lua")  -- helper functions
 	dofile(MP.."/basis/gravel_lib.lua")  -- ore probability
-	dofile(MP.."/basis/guide.lua")  -- construction guide
 	dofile(MP.."/basis/node_states.lua") -- state model
 	dofile(MP.."/basis/tubes.lua")  -- tubelib replacement
 	dofile(MP.."/basis/command.lua")  -- tubelib replacement
@@ -49,11 +48,11 @@ else
 	dofile(MP.."/basis/assemble.lua")
 
 	-- Main doc
-	dofile(MP.."/doc/doc.lua")
-	dofile(MP.."/doc/ta1_doc.lua")
-	dofile(MP.."/doc/ta2_doc.lua")
-	dofile(MP.."/doc/ta3_doc.lua")
-	dofile(MP.."/doc/ta4_doc.lua")
+	dofile(MP.."/doc/manual_DE.lua")
+	--dofile(MP.."/doc/manual_EN.lua")
+	dofile(MP.."/doc/plans.lua")
+	dofile(MP.."/doc/items.lua")
+	dofile(MP.."/doc/guide.lua")  -- construction guides
 	
 	-- Nodes1
 	dofile(MP.."/nodes/baborium.lua")
@@ -91,7 +90,6 @@ else
 	end
 
 	-- Steam Engine
-	dofile(MP.."/steam_engine/help.lua")
 	dofile(MP.."/steam_engine/firebox.lua")
 	dofile(MP.."/steam_engine/boiler.lua")
 	dofile(MP.."/steam_engine/cylinder.lua")
@@ -124,7 +122,6 @@ else
 	dofile(MP.."/coal_power_station/power_terminal.lua")
 	
 	-- Industrial Furnace
-	dofile(MP.."/furnace/help.lua")
 	dofile(MP.."/furnace/firebox.lua")
 	dofile(MP.."/furnace/cooking.lua")
 	dofile(MP.."/furnace/furnace_top.lua")
@@ -132,7 +129,6 @@ else
 	dofile(MP.."/furnace/recipes.lua")
 	
 	-- Tools
-	dofile(MP.."/doc/ta_doc.lua")
 	dofile(MP.."/tools/trowel.lua")
 	dofile(MP.."/tools/repairkit.lua")
 	dofile(MP.."/basic_machines/blackhole.lua")
@@ -199,6 +195,5 @@ else
 	dofile(MP.."/energy_storage/turbine.lua")
 	dofile(MP.."/energy_storage/inlet.lua")
 	dofile(MP.."/energy_storage/nodes.lua")
-	dofile(MP.."/energy_storage/help.lua")
 	
 end

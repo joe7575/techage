@@ -39,14 +39,14 @@ local tPgns = {"default_wood.png", "default_aspen_wood.png", "default_junglewood
 
 for idx,pgn in ipairs(tPgns) do
 	minetest.register_node("techage:gateblock"..idx, {
-		description = "Techage Gate Block",
+		description = S("TechAge Gate Block"),
 		tiles = {pgn},
 		after_place_node = function(pos, placer)
 			local meta = minetest.get_meta(pos)
 			local node = minetest.get_node(pos)
 			local number = techage.add_node(pos, "techage:gateblock"..idx)
 			meta:set_string("node_number", number)
-			meta:set_string("infotext", "Tubelib Gate Block "..number)
+			meta:set_string("infotext", S("TechAge Gate Block").." "..number)
 			meta:set_string("formspec", "size[3,2]"..
 			"label[0,0;Select texture]"..
 			"dropdown[0,0.5;3;type;"..sTextures..";"..NUM_TEXTURES.."]".. 
@@ -103,14 +103,4 @@ minetest.register_craft({
 		{"default:mese_crystal_fragment", "",""},
 	},
 })
-
-techage.register_entry_page("ta", "gateblock",
-	S("Techage Gate Block"), 
-	S("The Gate Block can disappear by means of commands from a button or switch.@n"..
-	"It is commonly used to build larger gates. All Gate Blocks@n"..
-	"obtain a unique number which is shown as block infotext.@n"..
-	"This number is used as destination address for commands.@n"..
-	"The texture of the Gate Block can be configured after@n"..
-	"placement with the right mouse button."),
-	"techage:gateblock"..NUM_TEXTURES)
 

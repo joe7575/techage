@@ -257,27 +257,3 @@ function techage.stop_burner(pos)
 end
 
 
-local BurnerHelp = S("Coal Burner to heat the melting pot:@n"..
-"- build cobble tower with a 3x3 footprint@n"..
-"- more height means more flame heat@n"..
-"- keep a hole open on one side@n"..
-"- put a lighter in@n"..
-"- fill the tower from the top with charcoal@n"..
-"- ignite the lighter@n"..
-"- place the pot in the flame, (one block above the tower)@n"..
-"- to pause the burner, close the hole temporarily with e.g. dirt@n"..
-"(see plan)")
-
-local BurnerImages = {
-	
-	{false, false, false, "default_cobble.png^techage_meltingpot.png", false},
-	{false, false, false, "techage_flame.png", false},
-	{false, false, "default_cobble.png", "techage_charcoal.png", "default_cobble.png"},
-	{false, false, "default_cobble.png", "techage_charcoal.png", "default_cobble.png"},
-	{false, false, "default_cobble.png", "techage_charcoal.png", "default_cobble.png"},
-	{false, false, "default_cobble.png", "techage_charcoal.png", "default_cobble.png"},
-	{false, false, false,                "techage_lighter.png",  "default_cobble.png"},
-	{false, false, "default_cobble.png", "default_cobble.png",   "default_cobble.png"},
-}
-
-techage.register_entry_page("ta1", "burner", S("Coal Burner"), BurnerHelp, nil, BurnerImages)

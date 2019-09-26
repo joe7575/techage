@@ -150,9 +150,3 @@ techage.register_node({"techage:hopper_ta1"}, {
 	end,
 })	
 
-techage.register_entry_page("ta1", "hopper",
-	S("TA1 Hopper"), 
-	S("The Hopper collects dropped items and pushes them to the right side.@n".. 
-		"Items are sucked up when they are dropped on top of the Hopper block.@n"..
-		"But the Hopper can also pull items out of chests or furnace blocks, if it is placed below."), 
-	"techage:hopper_ta1")

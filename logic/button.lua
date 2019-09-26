@@ -205,8 +205,3 @@ minetest.register_craft({
 	},
 })
 
-techage.register_entry_page("ta3l", "button",
-	S("TA3 Button/Switch"), 
-	S("The Button/Switch is used to send on/off commands to machines/nodes.@n"..
-		"It can be configured as switch or as button with configurable cycle time from 2 to 32s)"),
-	"techage:ta3_button_on")

@@ -170,12 +170,6 @@ minetest.register_craft({
 	},
 })
 
-techage.register_entry_page("ta3ps", "turbine",
-	S("TA3 Turbine"), 
-	S("Part of the Power Station. Has to be placed side by side with the TA3 Generator.@n"..
-		"(see TA3 Power Station)"), 
-	"techage:turbine")
-
 minetest.register_lbm({
 	label = "[techage] Turbine sound",
 	name = "techage:power_station",

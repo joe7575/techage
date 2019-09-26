@@ -15,7 +15,7 @@
 local S = techage.S
 
 minetest.register_node("techage:blackhole", {
-	description = S("Techage Black Hole"),
+	description = S("TechAge Black Hole"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta2.png^techage_frame_ta2.png",
@@ -30,7 +30,7 @@ minetest.register_node("techage:blackhole", {
 		local meta = minetest.get_meta(pos)
 		local node = minetest.get_node(pos)
 		meta:set_int("push_dir", techage.side_to_indir("L", node.param2))
-		meta:set_string("infotext", S("Techage Black Hole (let items disappear)"))
+		meta:set_string("infotext", S("TechAge Black Hole (let items disappear)"))
 	end,
 	
 	on_rotate = screwdriver.disallow,
@@ -60,9 +60,4 @@ techage.register_node({"techage:blackhole"}, {
 		end
 	end,
 })	
-
-techage.register_entry_page("ta", "blackhole",
-	S("Techage Black Hole"), 
-	S("The Techage Black Hole Block let items disappear. If your machine produces to much or unneeded items, push them into the Black Hole."), 
-	"techage:blackhole")
 

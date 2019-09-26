@@ -191,7 +191,3 @@ minetest.register_craft({
 	},
 })
 
-techage.register_entry_page("ta3op", "pumpjack",
-	S("TA3 Oil Pumpjack"), 
-	S("The Pumpjack works similar to a pusher. It pumps one oil item every 8 seconds. It needs 16 units of electrical power."), 
-	"techage:ta3_pumpjack_pas")

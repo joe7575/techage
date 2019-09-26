@@ -296,22 +296,6 @@ minetest.register_craft({
 	},
 })
 
-techage.register_entry_page("ta3op", "drillbox",
-	S("TA3 Oil Drill Box"), 
-	S("The box automatically unfolds to a derrick when you press the button.@n"..
-		"1: Place the box in the middle of the marked position@n"..
-		"    (the derrick requires a free area of 3x3m)@n"..
-		"2: Press the build button@n"..
-		"3: Supply the drill with electricity@n"..
-		"4: Supply the drill with Drill Bits@n"..
-		"5: Press the start button@n"..
-		"6: Remove the excavated material with Tubes/Pusher@n"..
-		"7: The drill stops when oil is found@n"..
-		"    (drill speed is 1m/16s)@n"..
-		"8: Replace the drill with the Pumpjack.@n"..
-		"It needs 16 units electrical power"), 
-	node_name_ta3)
-
 minetest.register_lbm({
 	label = "[techage] Oil Tower sound",
 	name = "techage:oil_tower",

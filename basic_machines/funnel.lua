@@ -231,10 +231,3 @@ minetest.register_craft({
 	},
 })
 
-techage.register_entry_page("ta3m", "funnel",
-	S("TA3 Funnel"), 
-	S("The Funnel collects dropped items and stores them in its inventory.@n"..
-		"Items are sucked up when they are dropped on top of the funnel block.@n"..
-		"The scan radius is 1 m."), 
-	"techage:ta3_funnel")
-

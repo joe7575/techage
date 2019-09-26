@@ -32,7 +32,7 @@ local function switch_off(pos, node)
 end	
 
 minetest.register_node("techage:signal_lamp_off", {
-	description = S("Techage Signal Lamp (can be colored)"),
+	description = S("TechAge Signal Lamp (can be colored)"),
 	tiles = {"techage_signal_lamp.png^[colorize:#000000:100"},
 	drawtype = "nodebox",
     node_box = {
@@ -44,8 +44,8 @@ minetest.register_node("techage:signal_lamp_off", {
 	},
 
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
-		logic.after_place_node(pos, placer, "techage:signal_lamp_off", S("Techage Signal Lamp"))
-		logic.infotext(M(pos), S("Techage Signal Lamp"))
+		logic.after_place_node(pos, placer, "techage:signal_lamp_off", S("TechAge Signal Lamp"))
+		logic.infotext(M(pos), S("TechAge Signal Lamp"))
 		if COLORED then
 			unifieddyes.recolor_on_place(pos, placer, itemstack, pointed_thing)
 		end
@@ -77,7 +77,7 @@ minetest.register_node("techage:signal_lamp_off", {
 
 
 minetest.register_node("techage:signal_lamp_on", {
-	description = S("Techage Signal Lamp"),
+	description = S("TechAge Signal Lamp"),
 	tiles = {"techage_signal_lamp.png"},
 	drawtype = "nodebox",
     node_box = {

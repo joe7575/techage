@@ -111,11 +111,3 @@ techage.register_node({"techage:ta3_repeater"}, {
 	end,
 })		
 
-techage.register_entry_page("ta3l", "repeater",
-	S("TA3 Repeater"), 
-	S("The Repeater is a multiplier block, sending received commands@n"..
-		"to all connected blocks. The list of destination block numbers@n"..
-		"has to be configured, but can easily programmed@n"..
-		"by means of the Programmer."),
-	"techage:ta3_repeater")
-

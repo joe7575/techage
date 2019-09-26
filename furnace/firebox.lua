@@ -211,7 +211,3 @@ minetest.register_lbm({
 	end
 })
 
-techage.register_entry_page("ta3f", "firebox",
-	S("TA3 Furnace Firebox"), 
-	S("Part of the TA3 Industrial Furnace. Faster and more powerful than the standard furnace."), 
-	"techage:furnace_firebox")
