@@ -20,6 +20,7 @@ lTitel = []
 lText = []
 lItemName = []
 lPlanTable = []
+lTocLinks = []
 
 def lua_table(name, lData):
     lOut = []
@@ -80,6 +81,7 @@ class MyRenderer(mistune.Renderer):
             self.add_last_paragraph()
         self.is_first_header = False
         lTitel.append("%u,%s" % (level, formspec_escape(text)))
+        lTocLinks.append({"level": level, "header": formspec_escape(text), "link": self.src_name})
         return ""
         
     def hrule(self):
@@ -143,6 +145,7 @@ def parse_md_file(src_name, mod, manual):
     print("Read Lua file '%s'" % src_name)
     renderer = MyRenderer()
     md = mistune.Markdown(renderer=renderer)
+    md.renderer.src_name = src_name
     md.render(file(src_name).read())
     md.renderer.add_last_paragraph()
 
@@ -155,10 +158,20 @@ def gen_lua_file(dest_name):
     lOut.append(lua_table("%s.%s.aPlanTable" % (mod, manual), lPlanTable))
     file(dest_name, "w").write("".join(lOut))
     
-
+def gen_toc_md_file(dest_name, titel):
+    print("Write MD file '%s'" % dest_name)
+    lOut = ["# "+ titel]
+    lOut.append("")
+    for item in lTocLinks:
+        list_item = "    " * (item["level"] - 1) + "-"
+        link = "%s#%s" % (item["link"], item["header"].lower().replace(" ", "-"))
+        lOut.append("%s [%s](%s)" % (list_item, item["header"], link))
+    file(dest_name, "w").write("\n".join(lOut))
+    
 mod = "techage"
 manual = "manual_DE"
 parse_md_file("./manual_DE.md", mod, manual)    
 parse_md_file("./manual_ta1_DE.md", mod, manual)    
 parse_md_file("./manual_ta2_DE.md", mod, manual)    
 gen_lua_file("../doc/manual_DE.lua")    
+gen_toc_md_file("./toc_DE.md", "Inhaltsverzeichnis")    
