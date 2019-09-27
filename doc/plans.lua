@@ -130,6 +130,26 @@ techage.ConstructionPlans["gravelrinser"] = {
 
 
 --
+-- Coal Power Station
+--
+local BOIL3 = {"techage:coalboiler_top", "techage:coalboiler_top"}
+local BOIL4 = {"techage:coalboiler_base", "techage:coalboiler_base"}
+local FBOX3 = {"techage:coalfirebox", "techage:coalfirebox"}
+local TURB3 = {"techage_filling_ta3.png^techage_appl_turbine.png^techage_frame_ta3.png", "techage:turbine"}
+local GENE3 = {"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_generator.png", "techage:generator"}
+local COOL3 = {"techage_filling_ta3.png^techage_frame_ta3.png^techage_cooler.png", "techage:cooler"}
+local PK180 = {"techage_steam_knee.png^[transformR180", "techage:steam_pipeS"}
+
+techage.ConstructionPlans["coalpowerstation"] = {
+	{false, false, false, false, false, false, false, false},
+	{false, PK000, PI000, PI000, PI000, PI000, PI000, PK270},
+	{false, PI090, BOIL3, PI000, PK270, PK000, COOL3, PK180},
+	{false, PK090, BOIL4, false, PI090, PI090},
+	{false, false, FBOX3, false, PK090, TURB3, GENE3},
+}
+
+
+--
 -- TA3 Industrial Furnace
 --
 local Cable = {"techage_electric_cable_inv.png", "techage:electric_cableS"}

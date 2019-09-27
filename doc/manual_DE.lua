@@ -33,6 +33,54 @@ techage.manual_DE.aTitel = {
   "3,TA2 Elektronikfabrik",
   "2,Sonstige Blöcke",
   "3,TA2 Flüssigkeitensammler",
+  "1,TA3: Ölzeitalter",
+  "2,Kohlekraftwerk",
+  "3,TA3 Kohlekraftwerks-Feuerbox",
+  "3,TA3 Boiler unten/oben",
+  "3,TA3 Turbine",
+  "3,TA3 Generator",
+  "3,TA3 Kühler",
+  "2,Eletrischer Strom",
+  "3,TA Stromkabel",
+  "3,TA Verteilerbox",
+  "3,TA Stromleitung",
+  "3,TA Strommast",
+  "3,TA Strommastkopf",
+  "3,TA Strommastkopf 2",
+  "3,TA Stromschalter/Stromschalter klein",
+  "3,TA Stromschalterbox",
+  "3,TA3 Kleiner Stromgenerator",
+  "3,TA3 Akku Block",
+  "3,TA3 Strom Terminal",
+  "2,Industrieofen",
+  "3,TA3 Ofen-Feuerkiste",
+  "3,TA3 Ofenoberteil",
+  "3,TA3 Gebläse",
+  "2,Öl-Anlagen",
+  "3,TA3 Ölexplorer",
+  "3,TA3 Ölbohrkiste",
+  "3,TA3 Ölpumpe",
+  "3,TA3 Bohrgestänge",
+  "2,Logik-/Schalt-Blöcke",
+  "3,TA3 Taster/Schalter",
+  "3,TA3 Logikblock",
+  "3,TA3 Wiederholer",
+  "3,TA3 Sequenzer",
+  "3,TA3 Timer",
+  "3,TA3 Terminal",
+  "2,Detektoren",
+  "3,TA3 Detektor",
+  "3,TA3 Wagen Detektor",
+  "3,TA3 Block Detektor",
+  "3,TA3 Spieler Detektor",
+  "2,TA3 Maschinen",
+  "3,TA3 Autocrafter",
+  "3,TA3 Verteiler",
+  "3,TA3 Elektronikfabrik",
+  "3,TA3 Trichter",
+  "3,TA3 Kiessieb",
+  "3,TA3 Mühle",
+  "3,TA3 Flüssigkeitensammler",
 }
 
 techage.manual_DE.aText = {
@@ -52,14 +100,14 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Diese Dokumentation ist sowohl \"ingame\" (Block Konstruktionsplan) als auch im Netz als HTML-Seiten verfügbar.\n"..
+  "Diese Dokumentation ist sowohl \"ingame\" (Block Konstruktionsplan) als auch auf GitHub als MD-Files verfügbar.\n"..
   "\n"..
-  "Original Link: https://github.com/joe7575/techage/blob/master/manuals/manual_DE.md\n"..
-  "Short Link: https://tinyurl.com/y2lwl35h\n"..
+  "  - Link: https://github.com/joe7575/techage/blob/master/manuals/toc_DE.md\n"..
+  "  - Short Link: https://tinyurl.com/y2lwl35h\n"..
   "\n"..
-  "Die Konstruktionspläne (Diagramme) für den Aufbau der Maschinen sind nur ingame verfügbar.\n"..
+  "Die Konstruktionspläne (Diagramme) für den Aufbau der Maschinen sowie die Bilder sind aber nur ingame verfügbar.\n"..
   "\n"..
-  "Du musst von vorne beginnen. Nur mit den Items aus TA1 kannst du TA2 Blöcke herstellen\\, für TA3 benötigst du die Ergebnisse aus TA2\\, usw.\n"..
+  "Bei Tech Age musst du von vorne beginnen. Nur mit den Items aus TA1 kannst du TA2 Blöcke herstellen\\, für TA3 benötigst du die Ergebnisse aus TA2\\, usw.\n"..
   "\n"..
   "In TA2 laufen die Maschinen nur mit Antriebsachsen.\n"..
   "\n"..
@@ -153,7 +201,7 @@ techage.manual_DE.aText = {
   "  - Antriebsachse beim Schwungrad nur rechts\n"..
   "  - bei allen Maschinen kann die Antriebsachse an allen Seiten angeschlossen werden\\, welche nicht durch andere Funktionen belegt wird\\, wie bspw. die IN und OUT Löcher bei Mühle und Sieb.\n"..
   "\n"..
-  "Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 4 Eimer Wasser in den Boiler füllen.\n"..
+  "Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.\n"..
   "\n"..
   "Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.\n"..
   "\n"..
@@ -284,6 +332,141 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Bei TA3 gilt es\\, die Dampf-betriebenen Maschinen durch leistungsfähigere und mit elektrischem Strom betriebene Maschinen abzulösen.\n"..
+  "\n"..
+  "Dazu musst du Kohlekraftwerke und Generatoren bauen. Bald wirst du sehen\\, dass dein Strombedarf nur mit Öl-betriebenen Kraftwerken zu decken ist. Also machst du dich auf die Suche nach Erdöl. Bohrtürme und Ölpumpen helfen die\\, an das Öl zu kommen. Schienenwege dienen dir zum Öltransport bis in die Kraftwerke.\n"..
+  "\n"..
+  "Das Industrielle Zeitalter ist auf seinem Höhepunkt.\n"..
+  "\n",
+  "Das Kohlekraftwerk besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden. Dazu werden die Blöcke TA3 Kohlekraftwerks-Feuerbox\\, TA3 Boiler oben\\, TA3 Boiler unten\\, TA3 Turbine\\, TA3 Generator und TA3 Kühler benötigt.\n"..
+  "\n"..
+  "Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.\n"..
+  "Die Feuerbox muss mit Kohle\\, Holzkohle oder Erdöl gefüllt werden.\n"..
+  "Wenn das Wasser heiß ist\\, kann das Ventil am Boiler geöffnet und anschließend die Generator gestartet werden.\n"..
+  "\n"..
+  "Das Kraftwerk liefert eine Leistung von 80 ku und kann mit Kohle\\, Holzkohle oder Erdöl betrieben werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Teil des Kraftwerk. \n"..
+  "Die Feuerbox muss mit Kohle\\, Holzkohle oder Erdöl gefüllt werden. Die Brenndauer ist abhängig von der Leistung\\, die vom Kraftwerk angefordert wird. Unter Volllast brennt Kohle 20 s\\, Holzkohle 60 s und Erdöl 20 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich der Boiler ab.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Teil des Kraftwerk. Muss neben den Generator gesetzt und über Dampfleitungen mit dem Boiler und dem Kühler\\, wie im Plan abgebildet\\, verbunden werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Dient zur Stromgewinnung. Muss über Stromkabel und Verteilerboxen mit den Maschinen verbunden werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Dient zur Abkühlung des heißen Dampfs aus der Turbine.  Muss über Dampfleitungen mit dem Boiler und der Turbine\\, wie im Plan abgebildet\\, verbunden werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen und Generatoren mit Stromkabel verbunden werden.\n"..
+  "Tech Age besitzt 2 Arten von Stromkabel:\n"..
+  "\n"..
+  "  - Isolierte Kabel (TA Stromkabel) für die lokale Verkabelung im Boden oder in Gebäuden. Diese Kabel lassen sich in der Wand oder im Boden verstecken (können mit der Kelle \"verputzt\" werden).\n"..
+  "  - Überlandleitungen (TA Stromleitung) für Freiluftverkabelung über große Strecken. Diese Kabel sind geschützt\\, können also von anderen Spielern nicht entfernt werden.\n"..
+  "\n"..
+  "Verbraucher aber auch Generatoren können in einem Stromnetzwerk parallel betrieben werden. Mit Hilfe der Verteilerboxen können so große Netzwerke aufgebaut werden.\n"..
+  "Wird zu wenig Strom bereitgestellt\\, gehen Teile der Verbraucher aus\\, bzw. Lampen können flackern.\n"..
+  "In diesem Zusammenhang ist auch wichtig\\, dass die Funktionsweise von Forceload Blöcken verstanden wurde\\, denn Generatoren liefern bspw. nur Strom\\, wenn der entsprechende Map-Block geladen ist. Dies kann mit einen Forceload Block erzwungen werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Für die lokale Verkabelung im Boden oder in Gebäuden. Abzweigungen können mit Hilfe von Verteilerboxen realisiert werden. Die maximale Kabellänge zwischen Maschinen oder Verteilerboxen beträgt 1000 m. Es können maximale 1000 Knoten in einem Strom-Netzwerk verbunden werden. Als Knoten zählen alle Generatoren\\, Akkus\\, Verteiler und Maschinen.\n"..
+  "\n"..
+  "Da die Stromkabel nicht automatisch geschützt sind\\, wird für längere Strecken die Überlandleitungen (TA Stromleitung) empfohlen.\n"..
+  "\n"..
+  "Stromkabel können mit der Kelle verputzt also in der Wand oder im Boden versteckt werden. Als Material zum Verputzen können alle Stein\\, Clay und sonstige Blöcke ohne Intelligenz genutzt werden. Erde (dirt) geht nicht\\, da Erde zu Gras oder ähnlichem konvertiert werden kann\\, was die Leitung zerstören würde.\n"..
+  "\n"..
+  "Zum Verputzen muss mit der Kelle auf das Kabel geklickt werden. Das Material\\, mit dem das Kabel verputzt werden soll\\, muss sich im Spieler-Inventar ganz links befinden.\n"..
+  "\n"..
+  "Die Kabel können wieder sichtbar gemacht werden\\, indem man mit der Kelle wieder auf den Block klickt.\n"..
+  "\n"..
+  "Außer Kabel können auch die TA Verteilerbox und die TA Stromschalterbox verputzt werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Mit der Verteilerbox kann Strom in bis zu 6 Richtungen verteilt werden. Verteilerboxen können auch mit der Kelle verputzt (versteckt) und wieder sichtbar gemacht werden.\n"..
+  "Wird mit dem TechAge Info Werkzeug (Schraubenschlüssel) auf die Verteilerbox geklickt\\, wird angezeigt\\, wieviel Leistung die Generatoren liefern bzw. die Verbraucher im Netzwerk beziehen. \n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Mit der TA Stromleitung und den Strommasten können halbwegs realistische Überlandleitungen realisiert werden. Die Strommasten-Köpfe dienen gleichzeitig zum Schutz der Stromleitung (Protection).  Dazu muss mindestens alle 16 m ein Masten gesetzt werden. Der Schutz gilt aber nur die die Stromleitung und die Masten\\, alle anderen Blöcke in diesem Bereich sind dadurch nicht geschützt.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Dient zum Bauen von Strommasten. Ist durch den Strommast-Kopf vor Zerstörung geschützt und kann nur vom Besitzer wieder abgebaut werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Hat bis zu vier Arme und erlaubt damit\\, Strom in bis zu 6 Richtungen weiter zu verteilen.\n"..
+  "Der Strommastkopf schützt Stromleitungen und Masten in einem Radius von 8 m.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Dieser Strommastkopf hat nur 2 Arme und wird für die Überlandleitungen genutzt. \n"..
+  "Der Strommastkopf schützt Stromleitungen und Masten in einem Radius von 8 m.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Mit dem Schalter kann der Strom ein- und ausgeschaltet werden. Der Schalter muss dazu auf eine Stromschalterbox gesetzt werden. Die Stromschalterbox muss dazu auf beiden Seiten mit dem Stromkabel verbunden sein.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "siehe TA Stromschalter.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der kleine Stromgenerator wird mit Erdöl betrieben und kann für kleine Verbraucher mit bis zu 12 ku genutzt werden. Unter Volllast brennt Erdöl 100 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Akku Block dient zur Speicherung von überschüssiger Energie und gibt bei Stromausfall automatisch Strom ab (soweit vorhanden).\n"..
+  "Der Akku Block ist eine sekundäre Stromquelle. Das bedeutet\\, bei Strombedarf werden zuerst die Generatoren genutzt. Nur wenn der Strom im Netz nicht ausreicht\\, springt der Aku Block ein. Das Gleiche gilt auch für die Stromaufnahme. Daher kann auch kein Akku mit einem anderen Akku geladen werden.\n"..
+  "Der Akku liefert 10 ku bzw. nimmt 10 ku auf.\n"..
+  "Bei Volllast kann ein Akku 400 s lang Strom aufnehmen und wenn er voll ist\\, auch wieder abgeben. Dies entspricht 8 h bei einem normalen Spieltag von 20 min.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
 }
 
 techage.manual_DE.aItemName = {
@@ -319,6 +502,54 @@ techage.manual_DE.aItemName = {
   "ta2_electronicfab",
   "",
   "ta2_liquidsampler",
+  "",
+  "",
+  "ta3_firebox",
+  "ta3_boiler",
+  "ta3_turbine",
+  "ta3_generator",
+  "ta3_cooler",
+  "ta3_powerswitch",
+  "ta3_powercable",
+  "ta3_powerjunction",
+  "ta3_powerline",
+  "ta3_powerpole",
+  "ta3_powerpole4",
+  "ta3_powerpole2",
+  "ta3_powerswitch",
+  "ta3_powerswitchbox",
+  "ta3_tinygenerator",
+  "ta3_akkublock",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
 }
 
 techage.manual_DE.aPlanTable = {
@@ -345,6 +576,54 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "gravelrinser",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "coalpowerstation",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
   "",
   "",
   "",

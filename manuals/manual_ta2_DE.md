@@ -17,7 +17,7 @@ Bei allen Blöcken beim Setzen immer auch die Ausrichtung achten:
 - Antriebsachse beim Schwungrad nur rechts
 - bei allen Maschinen kann die Antriebsachse an allen Seiten angeschlossen werden, welche nicht durch andere Funktionen belegt wird, wie bspw. die IN und OUT Löcher bei Mühle und Sieb.
 
-Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 4 Eimer Wasser in den Boiler füllen.
+Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.
 
 Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.
 
