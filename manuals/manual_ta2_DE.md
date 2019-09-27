@@ -1,3 +1,6 @@
+# Contents header
+{:.no_toc}
+
 # TA2: Dampfzeitalter
 
 In TA2 geht es darum, erste Maschinen  zur Verarbeitung von Erzen zu bauen und zu betreiben. Einige Maschinen müssen dazu über Antriebsachsen angetrieben werden. Dazu musst du eine Dampfmaschine bauen und diese mit Kohle oder Holzkohle anheizen.
