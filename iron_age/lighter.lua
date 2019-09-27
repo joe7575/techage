@@ -88,7 +88,3 @@ minetest.register_craft({
 	}
 })
 
-techage.register_entry_page("ta1", "lighter",
-	S("TA1 Lighter"), 
-	S("lighter to ignite the Coal Burner and the Coal Pile."), "techage:lighter")
-

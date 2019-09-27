@@ -23,7 +23,7 @@ local function start_node(pos, mem)
 	minetest.get_node_timer(pos):start(CYCLE_TIME)
 	local meta = M(pos)
 	local own_num = meta:get_string("node_number")
-	meta:set_string("infotext", "TA3 Funnel "..own_num.." : running")
+	meta:set_string("infotext", S("TA3 Funnel").." "..own_num.." : running")
 end
 
 local function stop_node(pos, mem)
@@ -31,7 +31,7 @@ local function stop_node(pos, mem)
 	minetest.get_node_timer(pos):stop()
 	local meta = M(pos)
 	local own_num = meta:get_string("node_number")
-	meta:set_string("infotext", "TA3 Funnel "..own_num.." : stopped")
+	meta:set_string("infotext", S("TA3 Funnel").." "..own_num.." : stopped")
 end
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
@@ -89,7 +89,7 @@ local function scan_for_objects(pos, elapsed)
 end
 
 minetest.register_node("techage:ta3_funnel", {
-	description = "TA3 Funnel",
+	description = S("TA3 Funnel"),
 	tiles = {
 		-- up, down, right, left, back, front
 	"techage_filling_ta3.png^techage_appl_funnel_top.png^techage_frame_ta3_top.png",
@@ -131,7 +131,7 @@ minetest.register_node("techage:ta3_funnel", {
 		local node = minetest.get_node(pos)
 		meta:set_string("node_number", own_num)
 		meta:set_string("owner", placer:get_player_name())
-		meta:set_string("infotext", "TA3 Funnel "..own_num.." : stopped")
+		meta:set_string("infotext", S("TA3 Funnel").." "..own_num.." : stopped")
 		meta:set_string("formspec", formspec(mem))
 		meta:set_int("pull_dir", techage.side_to_indir("R", node.param2))
 	end,
@@ -230,11 +230,4 @@ minetest.register_craft({
 		{"group:wood", "techage:iron_ingot", "group:wood"},
 	},
 })
-
-techage.register_entry_page("ta3m", "funnel",
-	S("TA3 Funnel"), 
-	S("The Funnel collects dropped items and stores them in its inventory.@n"..
-		"Items are sucked up when they are dropped on top of the funnel block.@n"..
-		"The scan radius is 1 m."), 
-	"techage:ta3_funnel")
 

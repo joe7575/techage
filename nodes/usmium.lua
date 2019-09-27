@@ -12,8 +12,10 @@
 	
 ]]--
 
+local S = techage.S
+
 minetest.register_craftitem("techage:usmium_nuggets", {
-	description = "Usmium Nuggets",
+	description = S("Usmium Nuggets"),
 	inventory_image = "techage_usmium_nuggets.png",
 })
 

@@ -163,24 +163,4 @@ minetest.register_craft({
 	},
 })
 
-techage.register_entry_page("ta2", "pusher",
-	S("TA2 Pusher"), 
-	S("The Pusher is a pulling/pushing block, moving items from one inventory block to another (e.g. chests). "..
-	"Start the Pusher with a right-click. It shows the state 'running' as infotext. "..
-	"The Pusher moves items from left to right (IN to OUT).@n"..
-	"If the source chest is empty, the Pusher goes into 'standby' state for some seconds. If the destination "..
-	"chest is full, the Pusher goes into 'blocked' state.@n"..
-	"The TA2 Pusher moves two items every 2 seconds."),
-	"techage:ta2_pusher_pas")
-
-techage.register_entry_page("ta3m", "pusher",
-	S("TA3 Pusher"), 
-	S("The Pusher is a pulling/pushing block, moving items from one inventory block to another (e.g. chests). "..
-	"Start the Pusher with a right-click. It shows the state 'running' as infotext. "..
-	"The Pusher moves items from left to right (IN to OUT).@n"..
-	"If the source chest is empty, the Pusher goes into 'standby' state for some seconds. If the destination "..
-	"chest is full, the Pusher goes into 'blocked' state.@n"..
-	"The TA3 Pusher moves 6 items every 2 seconds."),
-	"techage:ta3_pusher_pas")
-
 

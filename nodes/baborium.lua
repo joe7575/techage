@@ -12,8 +12,10 @@
 	
 ]]--
 
+local S = techage.S
+
 minetest.register_node("techage:stone_with_baborium", {
-	description = "Baborium Ore",
+	description = S("Baborium Ore"),
 	tiles = {"default_stone.png^techage_baborium.png"},
 	groups = {cracky = 2},
 	drop = 'techage:baborium_lump',
@@ -21,12 +23,12 @@ minetest.register_node("techage:stone_with_baborium", {
 })
 
 minetest.register_craftitem("techage:baborium_lump", {
-	description = "Baborium Lump",
+	description = S("Baborium Lump"),
 	inventory_image = "techage_baborium_lump.png",
 })
 
 minetest.register_craftitem("techage:baborium_ingot", {
-	description = "Baborium Ingot",
+	description = S("Baborium Ingot"),
 	inventory_image = "techage_baborium_ingot.png",
 })
 

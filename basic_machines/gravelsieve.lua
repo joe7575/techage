@@ -241,20 +241,6 @@ minetest.register_craft({
 	},
 })
 
-techage.register_entry_page("ta2", "gravelsieve",
-	S("TA2 Gravel Sieve"), 
-	S("To sieve Gravel and Basalt Gravel to get ores. Use a Grinder to make Gravel from Cobblestone.@n"..
-		"It can sieve one item every four seconds.@n"..
-		"It needs 3 units axle power."), 
-	"techage:ta2_gravelsieve_pas")
-
-techage.register_entry_page("ta3m", "gravelsieve",
-	S("TA3 Gravel Sieve"), 
-	S("To sieve Gravel and Basalt Gravel to get ores. Use a Grinder to make Gravel from Cobblestone.@n"..
-		"It can sieve two items every four seconds.@n"..
-		"It needs 4 units electrical power."), 
-	"techage:ta3_gravelsieve_pas")
-
 if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("ta2_gravelsieve", {
 		description = S("TA2 Gravel Sieve"),

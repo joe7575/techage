@@ -15,7 +15,7 @@
 local S = techage.S
 
 minetest.register_craftitem("techage:steelmat", {
-	description = S("Techage Steel Mat"),
+	description = S("TechAge Steel Mat"),
 	inventory_image = "techage_steelmat.png",
 })
 

@@ -143,9 +143,3 @@ minetest.register_craft({
 	},
 })
 
-techage.register_entry_page("ta", "end_wrench",
-	S("TechAge Info Tool"), 
-	S("The TechAge Info Tool is a tool to read any kind of status information from nodes providing a command interface.@n"..
-		"Click on the node to read the status"), 
-	"techage:end_wrench")
-		

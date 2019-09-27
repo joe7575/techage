@@ -18,7 +18,7 @@ local M = minetest.get_meta
 local S = techage.S
 
 minetest.register_node("techage:glow_gravel", {
-	description = S("Techage Gravel"),
+	description = S("TechAge Gravel"),
 	tiles = {{
 		name = "techage_gravel4.png",
 		animation = {

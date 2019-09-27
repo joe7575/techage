@@ -247,10 +247,3 @@ minetest.register_craft({
 	},
 })
 
-techage.register_entry_page("ta3ps", "tiny_generator",
-	S("TA3 Tiny Power Generator"), 
-	S("Small electrical power generator. Needs oil as fuel.@n"..
-		"It provides 12 units electrical power@n"..
-		"Oil burn time: 100s"), 
-	"techage:tiny_generator")
-

@@ -26,7 +26,7 @@ end
 
 local function reset_programmer(itemstack, user, pointed_thing)
 	user:set_attribute("techage_prog_numbers", nil)
-	minetest.chat_send_player(user:get_player_name(), S("[Techage Programmer] programmer reset"))
+	minetest.chat_send_player(user:get_player_name(), S("[TechAge Programmer] programmer reset"))
 	return itemstack
 end	
 
@@ -38,9 +38,9 @@ local function read_number(itemstack, user, pointed_thing)
 			local numbers = minetest.deserialize(user:get_attribute("techage_prog_numbers")) or {}
 			numbers[number] = true
 			user:set_attribute("techage_prog_numbers", minetest.serialize(numbers))
-			minetest.chat_send_player(user:get_player_name(), S("[Techage Programmer] number").." "..number.." read")
+			minetest.chat_send_player(user:get_player_name(), S("[TechAge Programmer] number").." "..number.." read")
 		else
-			minetest.chat_send_player(user:get_player_name(), S("[Techage Programmer] Unknown node on").." "..minetest.pos_to_string(pos))
+			minetest.chat_send_player(user:get_player_name(), S("[TechAge Programmer] Unknown node on").." "..minetest.pos_to_string(pos))
 		end
 	else
 		return reset_programmer(itemstack, user, pointed_thing)
@@ -56,7 +56,7 @@ local function program_numbers(itemstack, placer, pointed_thing)
 		placer:set_attribute("techage_prog_numbers", nil)
 		local player_name = placer:get_player_name()
 		if meta and meta:get_string("owner") ~= player_name then
-			minetest.chat_send_player(player_name, S("[Techage Programmer] foreign or unknown node!"))
+			minetest.chat_send_player(player_name, S("[TechAge Programmer] foreign or unknown node!"))
 			return itemstack
 		end
 		local text = join_to_string(numbers)
@@ -64,12 +64,12 @@ local function program_numbers(itemstack, placer, pointed_thing)
 		if ndef and ndef.techage_set_numbers then
 			local res = ndef.techage_set_numbers(pos, text, player_name)
 			if res == true then
-				minetest.chat_send_player(player_name, S("[Techage Programmer] node programmed!"))
+				minetest.chat_send_player(player_name, S("[TechAge Programmer] node programmed!"))
 			else
-				minetest.chat_send_player(player_name, S("[Techage Programmer] Error: invalid numbers!"))
+				minetest.chat_send_player(player_name, S("[TechAge Programmer] Error: invalid numbers!"))
 			end
 		else
-			minetest.chat_send_player(player_name, S("[Techage Programmer] Error: programmer not supported!"))
+			minetest.chat_send_player(player_name, S("[TechAge Programmer] Error: programmer not supported!"))
 		end
 		return itemstack
 	else
@@ -78,7 +78,7 @@ local function program_numbers(itemstack, placer, pointed_thing)
 end
 
 minetest.register_craftitem("techage:programmer", {
-	description = S("Techage Programmer (right = read number, left = write numbers)"),
+	description = S("TechAge Programmer (right = read number, left = write numbers)"),
 	inventory_image = "techage_programmer.png",
 	stack_max = 1,
 	wield_image = "techage_programmer_wield.png",
@@ -99,10 +99,3 @@ minetest.register_craft({
 	},
 })
 
-techage.register_entry_page("ta3l", "programmer",
-	S("Techage Programmer"), 
-	S("The Programmer is a tool to collect block numbers (right mouse button)@n"..
-		"from machines/nodes to program (left mouse button) the Repeater@n"..
-		"or other nodes. This is especially useful if you want to switch on/off@n"..
-		"many block at the same time."),
-	"techage:programmer")

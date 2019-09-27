@@ -407,16 +407,3 @@ minetest.register_craft({
 	},
 })
 
-techage.register_entry_page("ta2", "autocrafter",
-	S("TA2 Autocrafter"), 
-	S("The Autocrafter allows the automated crafting of items based on configured recipes.@n"..
-		"It can craft one item every two seconds.@n"..
-		"Needs axle power: 4"),
-	"techage:ta2_autocrafter_pas")
-
-techage.register_entry_page("ta3m", "autocrafter",
-	S("TA3 Autocrafter"), 
-	S("The Autocrafter allows the automated crafting of items based on configured recipes.@n"..
-		"It can craft two items every two seconds.@n"..
-		"Needs electrical power: 6"),
-	"techage:ta3_autocrafter_pas")

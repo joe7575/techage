@@ -203,7 +203,7 @@ minetest.register_node("techage:power_pole", {
 })
 
 minetest.register_node("techage:power_pole_conn", {
-	description = S("TA Power Pole Top 4 conn"),
+	description = "TA Power Pole Top 4 conn",
 	tiles = {
 		"default_wood.png^techage_power_pole_top.png",
 		"default_wood.png^techage_power_pole_top.png",

@@ -182,7 +182,3 @@ minetest.register_craft({
 	},
 })
 
-techage.register_entry_page("ta4es", "turbine",
-	S("TA4 Turbine"), 
-	S("Part of TA4 Energy Systems. Has to be placed side by side with the TA4 Generator.@n"), 
-	"techage:ta4_turbine")

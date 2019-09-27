@@ -340,26 +340,3 @@ minetest.register_lbm({
 techage.add_rinser_recipe({input="techage:sieved_gravel", output="techage:usmium_nuggets", probability=40})
 techage.add_rinser_recipe({input="techage:sieved_gravel", output="default:copper_lump", probability=20})
 
-local Tube = "techage_tube_knee.png"
-local Tube2 = "techage_tube_knee.png^[transformR270"
-local Rinser = "techage_filling_ta2.png^techage_appl_rinser.png^techage_frame_ta2.png"
-local Hopper = "techage_hopper.png"
-local Glass = "default_glass.png"
-local Water = "default_water.png"
-local Chest = "default_chest_lock.png"
-local Dirt = "default_dirt.png"
-
-local Images = {
-	{false, false, false, false, false, false, false, false},
-	{false, Glass, false, false, false, false, Water, Glass},
-	{false, Chest, Hopper, Tube, Rinser, Tube2, Glass, Glass},
-}
-
-techage.register_entry_page("ta2", "rinser",
-	S("TA2 Gravel Rinser"), 
-	S("Used to wash Sieved Gravel to get Usmium Nuggets. The block has to be placed under flowing water. "..
-		"The washed-out nuggets must be sucked in with a Hopper.@nFor the plant you need a chest, "..
-		"the Hopper, the Rinser with tube support and a frame around the flowing water (see plan).@n"..
-		"Hint: You can test the Rinser with some sticks that are washed out immediately.@n"..
-		"It needs 3 units axle power"), 
-	nil, Images)

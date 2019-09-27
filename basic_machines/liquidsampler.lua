@@ -221,19 +221,3 @@ minetest.register_craft({
 	},
 })
 
-techage.register_entry_page("ta2", "liquidsampler",
-	S("TA2 Liquid Sampler"), 
-	S("The Liquid Sampler is used to collect water or other bucket registered liquids.@n"..
-		"The Liquid Sampler has to be placed into water/liquids and need empty buckets@n"..
-		"to operate. The Liquid Sampler takes 1 bucket water every 8 seconds.@n"..
-		"It needs 3 units axle power, supplied from the top."), 
-	"techage:ta2_liquidsampler_pas")
-
-techage.register_entry_page("ta3m", "liquidsampler",
-	S("TA3 Liquid Sampler"), 
-	S("The Liquid Sampler is used to collect water or other bucket registered liquids.@n"..
-		"The Liquid Sampler has to be placed into water/liquids and need empty buckets@n"..
-		"to operate. The Liquid Sampler takes 2 buckets water every 8 seconds.@n"..
-		"It needs 5 units electrical power, supplied from the top."), 
-	"techage:ta3_liquidsampler_pas")
-

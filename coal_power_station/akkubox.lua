@@ -183,13 +183,6 @@ techage.register_node({"techage:ta3_akku"}, {
 	end,
 })
 
-techage.register_entry_page("ta3ps", "akku",
-	S("TA3 Akku Box"), 
-	S("Used to store electrical energy. Charged in about 10 min, provides energy for 10 min.@n"..
-		"It take and deliver up to 10 units electrical power."), 
-	"techage:ta3_akku")
-
-
 minetest.register_craft({
 	output = "techage:ta3_akku",
 	recipe = {

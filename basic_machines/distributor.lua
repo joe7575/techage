@@ -502,19 +502,3 @@ minetest.register_craft({
 	},
 })
 
-local help = S("The Distributor works as filter and pusher. It allows to divide and distribute incoming items into the 4 output ports. "..
-	"The channels can be switched on/off and individually configured with up to 6 item types. "..
-	"The filter passes the configured items and restrains all others. "..
-	"Unconfigured but activated filters are used for items, which do not fit to all other filters. "..
-	"If the Distributor can’t push an item into a block with an inventory (such as a chest) because that inventory is full, "..
-	"but there is one open and unconfigured output, it will use this output port.")
-
-techage.register_entry_page("ta2", "distributor",
-	S("TA2 Distributor"), 
-	help..S("@nThe Distributor tries to push 4 items every 2 seconds."),
-	"techage:ta2_distributor_pas")
-
-techage.register_entry_page("ta3m", "distributor",
-	S("TA3 Distributor"), 
-	help..S("@nThe Distributor tries to push 12 items every 2 seconds."),
-	"techage:ta3_distributor_pas")

@@ -124,7 +124,3 @@ techage.ironage_register_recipe({
 	time = 3,
 })
 
-techage.register_entry_page("ta1", "meridium",
-	S("Meridium Ingot"), 
-	S("A brilliant alloy for tools, which are used in the dark. Can be made with Coal Burner and TA3 Industrial Furnace."), 
-	"techage:meridium_ingot")

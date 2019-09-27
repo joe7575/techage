@@ -124,7 +124,7 @@ local function formspec(pos, meta)
 	local data = data(mem)
 	return "size[9,8]"..
 		"background[0,0;9,1.3;techage_formspec_bg.png]"..
-		"field[0.5,0.2;8.5,2;numbers;"..S("  Insert destination node number(s)")..";"..numbers.."]" ..
+		"field[0.5,0.2;8.5,2;numbers;"..S("Insert destination node number(s)")..";"..numbers.."]" ..
 		"label[0,1.4;Variables:           "..data.."]"..
 		"label[0,2;Valid symbols:   not  and  or  true  false  nil  ==  ~=  (  )]"..
 		"background[0,2.6;9,4;techage_formspec_bg.png]"..
@@ -249,12 +249,4 @@ techage.register_node({"techage:ta3_logic"}, {
 	end,
 })		
 
-techage.register_entry_page("ta3l", "logic",
-	S("TA3 Logic Block"), 
-	S("The Logic Block is used to combine one or several input signals@n"..
-		"by means of a boolean expression into one output signal,@n"..
-		"like 'n123 and n345', 'not n123', or simply 'inp'.@n"..
-		"The then-part and the else-part are used to set the output.@n"..
-		"true means 'on', false means 'off', nothing means send nothing."),
-	"techage:ta3_logic")
 

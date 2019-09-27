@@ -165,9 +165,3 @@ techage.register_node({"techage:ta3_cartdetector_off", "techage:ta3_cartdetector
 	end,
 })		
 
-techage.register_entry_page("ta3l", "cart_detector",
-	S("TA3 Cart Detector"), 
-	S("The Cart Detector sends a 'on' signal if a cart (Minecart) is nearby@n"..
-		"In addition the node starts the cart again, if a 'on' signal is received.@n"),
-	"techage:ta3_cartdetector_off")
-

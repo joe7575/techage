@@ -516,7 +516,3 @@ function techage.ironage_register_recipe(recipe)
 	end
 end
 
-techage.register_entry_page("ta1", "meltingpot",
-	S("TA1 Melting Pot"), 
-	S("To melt ores and/or produce alloys. Place the pot on top of the Coal Burner."), 
-	"techage:meltingpot")

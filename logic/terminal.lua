@@ -361,10 +361,3 @@ techage.register_node({"techage:terminal1", "techage:terminal2"}, {
 --		' example: $send_msg("0123", "test")'
 --})
 
-techage.register_entry_page("ta3l", "terminal",
-	S("TA3 Terminal"), 
-	S("The Terminal is used to send commands to machines and output their responses.@n"..
-		"In order to not always have to enter commands, commands can be assigned to buttons@n"..
-		"and with a double-click on a text line, the command is copied into the input field, again.@n"..
-		"The terminal has a help command with further information to the supported commands."),
-	"techage:terminal2")

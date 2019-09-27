@@ -282,18 +282,3 @@ minetest.register_craft({
 	recipe = {"techage:chest_ta2", "techage:tubeS", "techage:vacuum_tube"}
 })
 
-local help = S("The Protected Chest is useful in protected areas (by means of any protection mod).@n"..
-	"Only players with interaction rights on that position can take/put item from/to the chest.@n"..
-	"The Chest supports commands to read the last player action (player-name, take/put, item-name) "..
-	"and the chest state ('empty', 'loaded', 'full').@n"..
-	"The chest returns 'loaded' when it is not empty and not full, "..
-	"'full' is returned, when no empty stack is available.@n")
-
-techage.register_entry_page("ta2", "chest",
-	S("TA2 Protected Chest"), 
-	S("The Protected Chest is useful in protected areas (by means of any protection mod).@n"..
-	"Only players with interaction rights on that position can take/put item from/to the chest."), 
-	"techage:chest_ta2")
-
-techage.register_entry_page("ta3m", "chest",
-	S("TA3 Protected Chest"), help, "techage:chest_ta3")
