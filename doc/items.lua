@@ -59,6 +59,7 @@ techage.Items = {
 	ta3_powercable = "techage:electric_cableS",
 	ta3_powerline = "techage:power_lineS",
 	ta3_powerswitch = "techage:powerswitch",
+	ta3_powerswitchsmall = "techage:powerswitchsmall",
 	ta3_powerjunction = "techage:electric_junction0",
 	ta3_powerpole = "techage:power_pole3",
 	ta3_powerpole2 = "techage:power_pole2",
