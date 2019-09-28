@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 #
 
+import re
 import sys
 import pprint
 import mistune
@@ -16,6 +17,12 @@ def formspec_escape(text):
     text = text.replace('\n', '\\n')
     #print ">>>>"+text+"<<<<"
     return text
+
+def header_escsape(header):
+    header = header.lower()
+    header = header.replace(" ", "-")
+    header = header.replace("/", "")
+    return header
 
 lTitel = []
 lText = []
@@ -44,6 +51,27 @@ def lua_text_table(name, lData):
             lOut.append('  "",')
     lOut.append("}\n\n")
     return "\n".join(lOut)
+
+class WikiLinkInlineLexer(mistune.InlineLexer):
+    def enable_wiki_link(self):
+        # add wiki_link rules
+        self.rules.wiki_link = re.compile(
+            r'\['                     # [
+            r'([\s\S]+?\|[\s\S]+?)'   # name| img-type
+            r'\](?!\])'               # ]
+        )
+
+        # Add wiki_link parser to default rules
+        # you can insert it some place you like
+        # but place matters, maybe 3 is not good
+        self.default_rules.insert(3, 'wiki_link')
+
+    def output_wiki_link(self, m):
+        text = m.group(1)
+        name, itype = text.split('|')
+        # you can create an custom render
+        # you can also return the html if you like
+        return self.renderer.wiki_link(name, itype)
 
 class MyRenderer(mistune.Renderer):
     def __init__(self, *args, **kwargs):
@@ -130,6 +158,18 @@ class MyRenderer(mistune.Renderer):
             self.PlanTable = content
         return ""
 
+    def wiki_link(self, name, itype):
+        """
+        Used for plans and images:
+        [myimage|image]
+        [myplan|plan]
+        """
+        if itype == "image":
+            self.ItemName = name
+        elif itype == "plan":
+            self.PlanTable = name
+        return ""
+
     def autolink(self, link, is_email=False):
         return link
         
@@ -152,7 +192,10 @@ class MyRenderer(mistune.Renderer):
 def parse_md_file(src_name, mod, manual):
     print("Read Lua file '%s'" % src_name)
     renderer = MyRenderer()
-    md = mistune.Markdown(renderer=renderer)
+    inline = WikiLinkInlineLexer(renderer)
+    # enable the feature
+    inline.enable_wiki_link()
+    md = mistune.Markdown(renderer=renderer, inline=inline)
     md.renderer.src_name = src_name
     md.render(file(src_name).read())
     md.renderer.add_last_paragraph()
@@ -172,7 +215,7 @@ def gen_toc_md_file(dest_name, titel):
     lOut.append("")
     for item in lTocLinks:
         list_item = "    " * (item["level"] - 1) + "-"
-        link = "%s#%s" % (item["link"], item["header"].lower().replace(" ", "-"))
+        link = "%s#%s" % (item["link"], header_escsape(item["header"]))
         lOut.append("%s [%s](%s)" % (list_item, item["header"], link))
     file(dest_name, "w").write("\n".join(lOut))
     

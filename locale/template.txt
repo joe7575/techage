@@ -141,6 +141,7 @@ TA3 Node Detector=
 TA3 Oil Explorer=
 TA3 Oil Storage=
 TA3 Player Detector=
+TA3 Power Station Firebox=
 TA3 Power Terminal=
 TA3 Protected Chest=
 TA3 Repeater=

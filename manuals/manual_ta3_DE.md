@@ -6,12 +6,12 @@ Dazu musst du Kohlekraftwerke und Generatoren bauen. Bald wirst du sehen, dass d
 
 Das Industrielle Zeitalter ist auf seinem Höhepunkt.
 
-[techage_ta3](/image/)
+[techage_ta3|image]
 
 
 ## Kohlekraftwerk
 
-Das Kohlekraftwerk besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet, zusammen gebaut werden. Dazu werden die Blöcke TA3 Kohlekraftwerks-Feuerbox, TA3 Boiler oben, TA3 Boiler unten, TA3 Turbine, TA3 Generator und TA3 Kühler benötigt.
+Das Kohlekraftwerk besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet, zusammen gebaut werden. Dazu werden die Blöcke TA3 Kraftwerks-Feuerbox, TA3 Boiler oben, TA3 Boiler unten, TA3 Turbine, TA3 Generator und TA3 Kühler benötigt.
 
 Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.
 Die Feuerbox muss mit Kohle, Holzkohle oder Erdöl gefüllt werden.
@@ -19,43 +19,43 @@ Wenn das Wasser heiß ist, kann das Ventil am Boiler geöffnet und anschließend
 
 Das Kraftwerk liefert eine Leistung von 80 ku und kann mit Kohle, Holzkohle oder Erdöl betrieben werden.
 
-[coalpowerstation](/plan/)
+[coalpowerstation|plan]
 
 
-### TA3 Kohlekraftwerks-Feuerbox
+### TA3 Kraftwerks-Feuerbox / Power Station Firebox
 
-Teil des Kraftwerk. 
+Teil des Kraftwerks. 
 Die Feuerbox muss mit Kohle, Holzkohle oder Erdöl gefüllt werden. Die Brenndauer ist abhängig von der Leistung, die vom Kraftwerk angefordert wird. Unter Volllast brennt Kohle 20 s, Holzkohle 60 s und Erdöl 20 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).
 
-[ta3_firebox](/image/)
+[ta3_firebox|image]
 
 
 ### TA3 Boiler unten/oben
 
 Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt, schaltet sich der Boiler ab.
 
-[ta3_boiler](/image/)
+[ta3_boiler|image]
 
 
 ### TA3 Turbine
 
 Teil des Kraftwerk. Muss neben den Generator gesetzt und über Dampfleitungen mit dem Boiler und dem Kühler, wie im Plan abgebildet, verbunden werden.
 
-[ta3_turbine](/image/)
+[ta3_turbine|image]
 
 
 ### TA3 Generator
 
 Dient zur Stromgewinnung. Muss über Stromkabel und Verteilerboxen mit den Maschinen verbunden werden.
 
-[ta3_generator](/image/)
+[ta3_generator|image]
 
 
-### TA3 Kühler
+### TA3 Kühler / Cooler
 
 Dient zur Abkühlung des heißen Dampfs aus der Turbine.  Muss über Dampfleitungen mit dem Boiler und der Turbine, wie im Plan abgebildet, verbunden werden.
 
-[ta3_cooler](/image/)
+[ta3_cooler|image]
 
 
 ## Eletrischer Strom
@@ -70,10 +70,10 @@ Mehrere Verbraucher und Generatoren können in einem Stromnetzwerk zusammen betr
 Wird zu wenig Strom bereitgestellt, gehen Teile der Verbraucher aus, bzw. Lampen beginnen zu flackern.
 In diesem Zusammenhang ist auch wichtig, dass die Funktionsweise von Forceload Blöcken verstanden wurde, denn bspw. Generatoren liefern nur Strom, wenn der entsprechende Map-Block geladen ist. Dies kann mit einen Forceload Block erzwungen werden.
 
-[ta3_powerswitch](/image/)
+[ta3_powerswitch|image]
 
 
-### TA Stromkabel
+### TA Stromkabel / Electric Cable
 
 Für die lokale Verkabelung im Boden oder in Gebäuden.  
 Abzweigungen können mit Hilfe von Verteilerboxen realisiert werden. Die maximale Kabellänge zwischen Maschinen oder Verteilerboxen beträgt 1000 m. Es können maximale 1000 Knoten in einem Strom-Netzwerk verbunden werden. Als Knoten zählen alle Generatoren, Akkus, Verteilerboxen und Maschinen.
@@ -87,77 +87,84 @@ Die Kabel können wieder sichtbar gemacht werden, indem man mit der Kelle wieder
 
 Außer Kabel können auch die TA Verteilerbox und die TA Stromschalterbox verputzt werden.
 
-[ta3_powercable](/image/)
+[ta3_powercable|image]
 
 
-### TA Verteilerbox
+### TA Verteilerbox / Electric Junction Box
 
 Mit der Verteilerbox kann Strom in bis zu 6 Richtungen verteilt werden. Verteilerboxen können auch mit der Kelle verputzt (versteckt) und wieder sichtbar gemacht werden.
 Wird mit dem TechAge Info Werkzeug (Schraubenschlüssel) auf die Verteilerbox geklickt, wird angezeigt, wie viel Leistung die Generatoren liefern bzw. die Verbraucher im Netzwerk beziehen.
 
-[ta3_powerjunction](/image/)
+[ta3_powerjunction|image]
 
 
-### TA Stromleitung
+### TA Stromleitung / Power Line
 
 Mit der TA Stromleitung und den Strommasten können halbwegs realistische Überlandleitungen realisiert werden. Die Strommasten-Köpfe dienen gleichzeitig zum Schutz der Stromleitung (Protection). Dazu muss alle 16 m oder weniger ein Masten gesetzt werden. Der Schutz gilt aber nur die die Stromleitung und die Masten, alle anderen Blöcke in diesem Bereich sind dadurch nicht geschützt.
 
-[ta3_powerline](/image/)
+[ta3_powerline|image]
 
 
-### TA Strommast
+### TA Strommast / Power Pole
 Dient zum Bauen von Strommasten. Ist durch den Strommast-Kopf vor Zerstörung geschützt und kann nur vom Besitzer wieder abgebaut werden.
 
-[ta3_powerpole](/image/)
+[ta3_powerpole|image]
 
 
-### TA Strommastkopf 
+### TA Strommastkopf / Power Pole Top
 Hat bis zu vier Arme und erlaubt damit, Strom in bis zu 6 Richtungen weiter zu verteilen.
 Der Strommastkopf schützt Stromleitungen und Masten in einem Radius von 8 m.
 
-[ta3_powerpole4](/image/)
+[ta3_powerpole4|image]
 
 
-### TA Strommastkopf 2 
+### TA Strommastkopf 2 / Power Pole Top 2
 
 Dieser Strommastkopf hat nur 2 Arme und wird für die Überlandleitungen genutzt. 
 Der Strommastkopf schützt Stromleitungen und Masten in einem Radius von 8 m.
 
-[ta3_powerpole2](/image/)
+[ta3_powerpole2|image]
 
 
-### TA Stromschalter/Stromschalter klein
+### TA Stromschalter / Power Switch
 
 Mit dem Schalter kann der Strom ein- und ausgeschaltet werden. Der Schalter muss dazu auf eine Stromschalterbox gesetzt werden. Die Stromschalterbox muss dazu auf beiden Seiten mit dem Stromkabel verbunden sein.
 
-[ta3_powerswitch](/image/)
+[ta3_powerswitch|image]
 
 
-### TA Stromschalterbox
+### TA Stromschalter klein / Power Switch Small 
+
+Mit dem Schalter kann der Strom ein- und ausgeschaltet werden. Der Schalter muss dazu auf eine Stromschalterbox gesetzt werden. Die Stromschalterbox muss dazu auf beiden Seiten mit dem Stromkabel verbunden sein.
+
+[ta3_powerswitchsmall|image]
+
+
+### TA Stromschalterbox / Power Switch Box
 
 siehe TA Stromschalter.
 
-[ta3_powerswitchbox](/image/)
+[ta3_powerswitchbox|image]
 
 
-### TA3 Kleiner Stromgenerator
+### TA3 Kleiner Stromgenerator / Tiny Power Generator
 
 Der kleine Stromgenerator wird mit Erdöl betrieben und kann für kleine Verbraucher mit bis zu 12 ku genutzt werden. Unter Volllast brennt Erdöl 100 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).
 
-[ta3_tinygenerator](/image/)
+[ta3_tinygenerator|image]
 
 
-### TA3 Akku Block
+### TA3 Akku Block /  Akku Box
 
 Der Akku Block dient zur Speicherung von überschüssiger Energie und gibt bei Stromausfall automatisch Strom ab (soweit vorhanden).
 Der Akku Block ist eine sekundäre Stromquelle. Das bedeutet, bei Strombedarf werden zuerst die Generatoren genutzt. Nur wenn der Strom im Netz nicht ausreicht, springt der Akku Block ein. Das Gleiche gilt auch für die Stromaufnahme. Daher kann auch kein Akku mit einem anderen Akku geladen werden.
 Der Akku liefert 10 ku bzw. nimmt 10 ku auf.
 Bei Volllast kann ein Akku 400 s lang Strom aufnehmen und wenn er voll ist, auch wieder abgeben. Dies entspricht 8 h Spielzeit bei einem normalen Spieltag von 20 min.
 
-[ta3_akkublock](/image/)
+[ta3_akkublock|image]
 
 
-### TA3 Strom Terminal
+### TA3 Strom Terminal / Power Terminal
 
 Das Strom-Terminal muss von eine Verteilerbox platziert werden. Es zeigt Daten aus dem Stromnetz an wie:
 - Leistung alle Generatoren
@@ -166,7 +173,7 @@ Das Strom-Terminal muss von eine Verteilerbox platziert werden. Es zeigt Daten a
 - Anzahl der Netzwerk-Blöcke (max. 1000)
 Die Daten des Terminals werden beim Öffnen des Menüs und dann nur durch Anklicken des "Update" Buttons aktualisiert.
 
-[ta3_powerterminal](/image/)
+[ta3_powerterminal|image]
 
 
 ## TA3 Industrieofen
@@ -178,28 +185,28 @@ Der Industrieofen benötigt Strom (für das Gebläse) sowie Kohle, Holzkohle ode
 
 Die Brennzeit für Kohle und Erdöl beträgt 80 s und für Holzkohle 240 s.
 
-[ta3_furnace](/plan/)
+[ta3_furnace|plan]
 
 
-### TA3 Ofen-Feuerkiste
+### TA3 Ofen-Feuerkiste / Furnace Firebox
 
 Ist Teil des TA3 Industrieofen. Muss mit Kohle, Holzkohle oder Erdöl befeuert werden.
 
-[ta3_furnacefirebox](/image/)
+[ta3_furnacefirebox|image]
 
 
-### TA3 Ofenoberteil
-
-Ist Teil des TA3 Industrieofen. Siehe TA3 Industrieofen.
-
-[ta3_furnace](/image/)
-
-
-### TA3 Gebläse
+### TA3 Ofenoberteil / Furnace Top
 
 Ist Teil des TA3 Industrieofen. Siehe TA3 Industrieofen.
 
-[ta3_booster](/image/)
+[ta3_furnace|image]
+
+
+### TA3 Gebläse / Booster
+
+Ist Teil des TA3 Industrieofen. Siehe TA3 Industrieofen.
+
+[ta3_booster|image]
 
 
 ## Öl-Anlagen
@@ -207,10 +214,10 @@ Ist Teil des TA3 Industrieofen. Siehe TA3 Industrieofen.
 Um deine Generatoren und Öfen mit Öl betrieben zu können, muss du zuerst nach Öl suchen und einen Bohrturm errichten und danach das Öl fördern.
 Dazu dienen dir TA3 Ölexplorer, TA3 Ölbohrkiste und TA3 Ölpumpe.
 
-[techage_ta3](/image/)
+[techage_ta3|image]
 
 
-### TA3 Ölexplorer
+### TA3 Ölexplorer / Oil Explorer
 
 Mit dem Ölexplorer kannst du nach Öl suchen. Dazu den Block auf den Boden setzen und mit Rechtsklick die Suche starten.
 Über die Chat-Ausgabe wird dir angezeigt, in welcher Tiefe nach Öl gesucht wurde und wie viel Öl (oil) gefunden wurde.
@@ -226,10 +233,10 @@ Es macht auch keinen Sinn, einen Bereich den ein anderer Spieler bereits abgesuc
 
 Der Ölexplorer kann immer wieder zur Suche nach Öl eingesetzt werden.
 
-[ta3_oilexplorer](/image/)
+[ta3_oilexplorer|image]
 
 
-### TA3 Ölbohrkiste
+### TA3 Ölbohrkiste / Oil Drill Box
 
 Die Ölbohrkiste muss genau an die Stelle gesetzt werden, die vom Ölexplorer angezeigt wurde.  
 Wird auf den Button der Ölbohrkiste geklickt, wird über der Kiste ein Bohrturm errichtet. Dies dauert einige Sekunden.  
@@ -238,22 +245,22 @@ Die Ölbohrkiste hat 4 Seiten, bei IN muss das Bohrgestänge über Schieber ange
 Die Ölbohrkiste bohrt bis zum Ölfeld (1 Meter in 16 s) und benötigt dazu 10 ku Strom.
 Wurde das Ölfeld erreicht, kann der Bohrturm abgebaut und die Kiste entfernt werden.
 
-[ta3_drillbox](/image/)
+[ta3_drillbox|image]
 
 
-### TA3 Ölpumpe
+### TA3 Ölpumpe / Oil Pumpjack
 
 An die Stelle der Ölbohrkiste muss nun die Ölpumpe platziert werden. Auch die Ölpumpe benötigt Strom (16 ku) und liefert alle 8 s ein Erdöl-Item, das in einer Kiste gesammelt werden muss. Dazu muss die Ölpumpe über eine Röhre mit der Kiste verbunden werden.
 Ist alles Öl abgepumpt, kann auch die Ölpumpe wieder entfernt werden.
 
-[ta3_pumpjack](/image/)
+[ta3_pumpjack|image]
 
 
-### TA3 Bohrgestänge
+### TA3 Bohrgestänge / Drill Bit
 
 Das Bohrgestänge wird für die Bohrung benötigt. Es werden so viele Bohrgestänge Items benötigt wie als Tiefe für das Ölfeld angegeben wurde. Das Bohrgestänge ist nach der Bohrung nutzlos, kann aber auch nicht abgebaut werden und verbleibt im Boden.
 
-[ta3_drillbit](/image/)
+[ta3_drillbit|image]
 
 
 ## Logik-/Schalt-Blöcke
@@ -291,10 +298,10 @@ Mögliche Antworten des Schiebers sind:
 
 Dieser Status wird bei vielen Blöcken gleichzeitig auch über den Info-Text angezeigt.
 
-[ta3_logic](/image/)
+[ta3_logic|image]
 
 
-### TA3 Taster/Schalter
+### TA3 Taster/Schalter / Button/Switch
 
 Der Taster/Schalter sendet `on`/`off` Kommandos zu den Blöcken, die über die Nummern konfiguriert wurden.
 Der Taster/Schalter kann als Taster (button) oder Schalter (switch) konfiguriert werden. Wird er als Taster konfiguriert, so kann die Zeit zwischen den `on` und `off` Kommandos eingestellt werden.
@@ -303,10 +310,10 @@ Der Taster/Schalter kann als Taster (button) oder Schalter (switch) konfiguriert
 
 Hinweis: Mit dem Programmer können Blocknummern sehr einfach eingesammelt und konfiguriert werden.
 
-[ta3_button](/image/)
+[ta3_button|image]
 
 
-### TA3 Logikblock
+### TA3 Logikblock / Logic Block
 
 Den TA3 Logikblock kann man so programmieren, dass ein oder mehrere Eingangssignale zu einem Ausgangssignal verknüpft und gesendet werden. Dieser Block kann daher diverse Logik-Elemente wie AND, OR, NOT, XOR usw. ersetzen.
 Eingangssignale für den Logikblock sind `on`/`off` Kommandos. Ein `on` ist ein logisches `true`, ein `off` entspricht dem `false`.
@@ -334,32 +341,32 @@ Bei `then` und `else` kann entweder `true`, `false`, oder nichts eingegeben werd
 
 Den oder die Ziel-Blöcke für das Ausgangssignal muss man im Zielnummern-Feld eingeben.
 
-[ta3_logic](/image/)
+[ta3_logic|image]
 
 
-### TA3 Wiederholer
+### TA3 Wiederholer / Repeater
 
 Der Wiederholer (repeater) sendet das empfangene Signal an alle konfigurierten Nummern weiter.
 Dies kann bspw. Sinn machen, wenn man viele Blöcke gleichzeitig angesteuert werden sollen. Den Wiederholer kann man dazu mit dem Programmer konfigurieren, was nicht bei allen Blöcken möglich ist.
 
-[ta3_repeater](/image/)
+[ta3_repeater|image]
 
 
-### TA3 Sequenzer
+### TA3 Sequenzer / Sequencer
 
 Der Sequenzer kann eine Reihe von `on`/`off` Kommandos senden, wobei der Abstand zwischen den Kommandos in Sekunden angegeben werden muss. Damit kann man bspw. eine Lampe blinken lassen.
 Es können bis zu 8 Kommandos konfiguriert werden, jedes mit Zielblocknummer und Anstand zum nächsten Kommando.
 Der Sequenzer wiederholt die Kommandos endlos, wenn "Run endless" gesetzt wird.
 Wird also Kommando nichts ausgewählt, wird nur die angegeben Zeit in Sekunden gewartet.
 
-[ta3_sequencer](/image/)
+[ta3_sequencer|image]
 
 
 ### TA3 Timer
 
 Der Timer kann Kommandos Spielzeit-gesteuert senden. Für jede Kommandozeile kann die Uhrzeit, die Zielnummer(n) und das Kommando selbst angegeben werden. Damit lassen sich bspw. Lampen abends ein- und morgens wieder ausschalten.
 
-[ta3_timer](/image/)
+[ta3_timer|image]
 
 
 ### TA3 Terminal
@@ -379,24 +386,24 @@ Das Terminal besitzt folgende, lokalen Kommandos:
 
 Im privaten Modul kann nur der Besitzer selbst Kommandos eingeben oder Tasten nutzen.
 
-[ta3_terminal](/image/)
+[ta3_terminal|image]
 
 
-### TechAge Signallampe
+### TechAge Signallampe / Signal Lamp
 
 Die Signallampe kann mit `on`/`off` Kommando ein- bzw. ausgeschaltet werden. Diese Lampe braucht keinen Strom und
 kann mit der Spritzpistole farbig gemacht werden.
 
-[ta3_signallamp](/image/)
+[ta3_signallamp|image]
 
 
-### Tür/Tor Blöcke
+### Tür/Tor Blöcke / Door/Gate Blocks
 
 Diese Blöcke kann man mit einem `off` Kommando verschwinden lassen und mit dem `on` Kommando wieder hervor zaubern.
 Das Aussehen der Blöcke kann über das Block-Menü eingestellt werden.
 Damit lassen sich Geheimtüren realisieren, die sich nur bei bestimmten Spielern öffnen (mit Hilfe des Spieler-Detektors).
 
-[ta3_doorblock](/image/)
+[ta3_doorblock|image]
 
 
 
@@ -404,38 +411,38 @@ Damit lassen sich Geheimtüren realisieren, die sich nur bei bestimmten Spielern
 
 Detektoren scannen ihre Umgebung ab und senden ein `on`-Kommando, wenn das Gesuchte erkannt wurde.
 
-[ta3_nodedetector](/image/)
+[ta3_nodedetector|image]
 
 
-### TA3 Detektor
+### TA3 Detektor / Detector
 
 Der Detektor ist eine spezieller Röhrenblock, der erkennt, wenn Items über die Röhre weitergegeben werden. Es muss dazu auf beiden Seiten mit der Röhre verbunden sein.
 Er sendet ein `on`, wenn ein Item erkannt wird, gefolgt von einem `off` eine Sekunde später.
 Danach werden weitere Kommando für 8 Sekunden blockiert.
 
-[ta3_detector](/image/)
+[ta3_detector|image]
 
 
-### TA3 Wagen Detektor
+### TA3 Wagen Detektor / Cart Detector
 
 Der Wagen Detektor sendet ein `on`-Kommando, wenn er einen Wagen/Cart (Minecart) direkt vor sich erkannt hat. Zusätzlich kann der Detektor auch den Wagen wieder starten, wenn ein `on`-Kommando empfangen wird.
 
-[ta3_cartdetector](/image/)
+[ta3_cartdetector|image]
 
 
-### TA3 Block Detektor
+### TA3 Block Detektor / Node Detector
 
 Der Block Detektor sendet ein `on`-Kommando, wenn er erkennt, dass Blöcke vor ihm erscheinen oder verschwinden, muss jedoch entsprechend konfiguriert werden. Nach dem Zurückschalten des Detektors in den Standardzustand (grauer Block) wird ein `off`-Kommando gesendet. Gültige Blöcke sind alle Arten von Blöcken und Pflanzen, aber keine Tiere oder Spieler. Die Sensorreichweite beträgt 3 Blöcke/Meter in Pfeilrichtung.
 
-[ta3_nodedetector](/image/)
+[ta3_nodedetector|image]
 
 
-### TA3 Spieler Detektor
+### TA3 Spieler Detektor / Player Detector
 
 Der Spieler Detektor sendet ein `on`-Kommando, wenn er einen Spieler in einem Umkreis von 4 m um den Block herum erkennt. Verlässt der Spieler wieder den Bereich, wird ein `off`-Kommando gesendet.
 Soll die Suche auf bestimmte Spieler eingegrenzt werden, so können diese Spielernamen auch eingegeben werden.
 
-[ta3_playerdetector](/image/)
+[ta3_playerdetector|image]
 
 
 ## TA3 Maschinen
@@ -443,23 +450,23 @@ Soll die Suche auf bestimmte Spieler eingegrenzt werden, so können diese Spiele
 Bei TA3 existieren die gleichen Maschinen wie bei TA2, nur sind diese hier leistungsfähiger und benötigen Strom statt Achsenantrieb.
 Im folgenden sind daher nur die unterschiedlichen, technischen Daten angegeben.
 
-[ta3_grinder](/image/)
+[ta3_grinder|image]
 
 
-### TA3 Schieber
+### TA3 Schieber / Pusher
 
 Die Funktion entspricht der von TA2.
 Die Verarbeitungsleistung beträgt 6 Items alle 2 s.
 
-[ta3_pusher](/image/)
+[ta3_pusher|image]
 
 
-### TA3 Verteiler
+### TA3 Verteiler / Distributor
 
 Die Funktion entspricht der von TA2.
 Die Verarbeitungsleistung beträgt 12 Items alle 4 s.
 
-[ta3_distributor](/image/)
+[ta3_distributor|image]
 
 
 ### TA3 Autocrafter
@@ -467,47 +474,47 @@ Die Verarbeitungsleistung beträgt 12 Items alle 4 s.
 Die Funktion entspricht der von TA2.
 Die Verarbeitungsleistung beträgt 2 Items alle 4 s. Der Autocrafter benötigt hierfür 6 ku Strom.
 
-[ta3_autocrafter](/image/)
+[ta3_autocrafter|image]
 
 
-### TA3 Elektronikfabrik
+### TA3 Elektronikfabrik / Electronic Fab
 
 Die Funktion entspricht der von TA2, nur werden hier TA4 WLAN Chips produziert.
 Die Verarbeitungsleistung beträgt ein Chip alle 6 s. Der Block benötigt hierfür 12 ku Strom.
 
-[ta3_electronicfab](/image/)
+[ta3_electronicfab|image]
 
 
-### TA3 Trichter
+### TA3 Trichter / Funnel
 
 Der TA3 Trichter sammelt abgelegte Gegenstände und speichert sie in seinem Inventar. Gegenstände werden angesaugt, wenn sie auf den Trichterblock fallen.
 Der Scanradius beträgt 1 m.
 
-[ta3_funnel](/image/)
+[ta3_funnel|image]
 
 
-### TA3 Kiessieb
+### TA3 Kiessieb / Gravel Sieve
 
 Die Funktion entspricht der von TA2.
 Die Verarbeitungsleistung beträgt 2 Items alle 4 s. Der Block benötigt 4 ku Strom.
 
-[ta3_gravelsieve](/image/)
+[ta3_gravelsieve|image]
 
 
-### TA3 Mühle
+### TA3 Mühle / Grinder
 
 Die Funktion entspricht der von TA2.
 Die Verarbeitungsleistung beträgt 2 Items alle 4 s. Der Block benötigt 6 ku Strom.
 
-[ta3_grinder](/image/)
+[ta3_grinder|image]
 
 
-### TA3 Flüssigkeitensammler
+### TA3 Flüssigkeitensammler / Liquid Sampler
 
 Die Funktion entspricht der von TA2.
 Die Verarbeitungsleistung ist 2 Items alle 8 s. Der Block benötigt 5 ku Strom.
 
-[ta3_liquidsampler](/image/)
+[ta3_liquidsampler|image]
 
 
 
@@ -518,7 +525,7 @@ Die Verarbeitungsleistung ist 2 Items alle 8 s. Der Block benötigt 5 ku Strom.
 Das Techage Info Tool (Schraubenschlüssel) hat verschiedene Funktionen. Er zeigt die Uhrzeit, die Position, die Temperatur und das Biome an, wenn auf einen unbekannten Block geklickt wird.
 Wird auf einen TechAge Block mit Kommandoschnittstelle geklickt, werden alle verfügbaren Daten abgerufen (siehe auch "Logik-/Schalt-Blöcke").
 
-[ta3_end_wrench](/image/)
+[ta3_end_wrench|image]
 
 
 ### TechAge Programmer
@@ -526,13 +533,13 @@ Wird auf einen TechAge Block mit Kommandoschnittstelle geklickt, werden alle ver
 Mit dem Programmer können Blocknummern mit einem Rechtsklick von mehreren Blöcken eingesammelt und mit einem Linksklick in einen Block wie Taster/Schalter geschrieben werden.
 Wird in die Luft geklickt, wird der interne Speicher gelöscht.
 
-[ta3_programmer](/image/)
+[ta3_programmer|image]
 
 
 
-### TechAge Kelle
+### TechAge Kelle / Trowel
 
 Die Kelle dient zum Verputzen von Stromkabel. Siehe dazu "TA Stromkabel".
 
-[ta3_trowel](/image/)
+[ta3_trowel|image]
 
