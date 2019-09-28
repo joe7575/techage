@@ -54,26 +54,32 @@ local function read_state(itemstack, user, pointed_thing)
 			if ndef and ndef.description then
 				local info = techage.send_single("0", number, "info", nil)
 				if info and info ~= "" and info ~= "unsupported" then
+					info = dump(info)
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": Supported Commands:\n"..info.."    ")
 				end
 				local state = techage.send_single("0", number, "state", nil)
 				if state and state ~= "" and state ~= "unsupported" then
+					state = dump(state)
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": state = "..state.."    ")
 				end
 				local fuel = techage.send_single("0", number, "fuel", nil)
 				if fuel and fuel ~= "" and fuel ~= "unsupported" then
+					fuel = dump(fuel)
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": fuel = "..fuel.."    ")
 				end
 				local counter = techage.send_single("0", number, "counter", nil)
 				if counter and counter ~= "" and counter ~= "unsupported" then
+					counter = dump(counter)
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": counter = "..counter.."    ")
 				end
 				local load = techage.send_single("0", number, "load", nil)
 				if load and load ~= "" and load ~= "unsupported" then
+					load = dump(load)
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": load = "..load.." %    ")
 				end
 				local capa = techage.send_single("0", number, "capa", nil)
 				if capa and capa ~= "" and capa ~= "unsupported" then
+					capa = dump(capa)
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": capa = "..capa.." %    ")
 				end
 				local owner = M(pos):get_string("owner") or ""

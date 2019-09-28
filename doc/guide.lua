@@ -16,6 +16,9 @@ local tPlans = techage.ConstructionPlans  -- k/v table with plan definitions
 local function tooltip(item)
 	if type(item) == "table" then
 		local img, name = item[1], item[2]
+		if img == "" then  -- larger image for the plan?
+			return "", name
+		end
 		local ndef = minetest.registered_nodes[name]
 		if ndef and ndef.description then
 			return img, minetest.formspec_escape(ndef.description)
@@ -36,7 +39,10 @@ local function plan(images)
 			if item ~= false then
 				local img, tooltip = tooltip(item)
 				local x_offs, y_offs = (x-1) * 0.9, (y-1) * 0.9 + 0.8
-				if string.find(img, ":") then
+				if img == "" then
+					img = tooltip -- use tooltip for bigger image
+					tbl[#tbl+1] = "image["..x_offs..","..y_offs..";2.2,2.2;"..img.."]"
+				elseif string.find(img, ":") then
 					tbl[#tbl+1] = "item_image["..x_offs..","..y_offs..";1,1;"..img.."]"
 				else
 					tbl[#tbl+1] = "image["..x_offs..","..y_offs..";1,1;"..img.."]"
@@ -59,7 +65,11 @@ local function formspec_help(meta)
 		bttn = "button[9.6,1;1,1;plan;"..S("Plan").."]"
 	elseif aItemName[idx] ~= "" then
 		local item = tItems[aItemName[idx]] or ""
-		bttn = box.."item_image[9.6,1;1,1;"..item.."]"
+		if string.find(item, ":") then
+			bttn = box.."item_image[9.6,1;1,1;"..item.."]"
+		else
+			bttn = "image[9.3,1;2,2;"..item.."]"
+		end
 	else
 		bttn = ""
 	end

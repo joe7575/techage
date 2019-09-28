@@ -14,6 +14,7 @@ def formspec_escape(text):
     text = text.replace(",", "\\\\,")
     text = text.replace('"', '\\"')
     text = text.replace('\n', '\\n')
+    #print ">>>>"+text+"<<<<"
     return text
 
 lTitel = []
@@ -30,11 +31,12 @@ def lua_table(name, lData):
     lOut.append("}\n\n")
     return "\n".join(lOut)
 
-def lua_test_table(name, lData):
+def lua_text_table(name, lData):
     lOut = []
     lOut.append("%s = {" % name)
     for lines in lData:
         for line in lines[:-1]:
+            line = line.replace('<br>', '\\n')
             lOut.append('  "%s\\n"..' % line)
         if len(lines) > 0:
             lOut.append('  "%s\\n",' % lines[-1])
@@ -67,8 +69,9 @@ class MyRenderer(mistune.Renderer):
     def block_code(self, code, lang):
         text = formspec_escape(code.strip())
         lines = text.split("\n")
-        text2 = "\n    " + "\n    ".join(lines) + "\n"
-        self.TextChunck.append(text2)
+        lines = ["    " + item for item in lines]
+        self.TextChunck.extend(lines)
+        self.TextChunck.append("")
         return ""
 
     # ~ def block_quote(self, text):
@@ -130,14 +133,19 @@ class MyRenderer(mistune.Renderer):
     def autolink(self, link, is_email=False):
         return link
         
+    def linebreak(self):
+        return "\\n"
+        
+    def newline(self):
+        return "\\n"
+
+    def inline_html(self, text):
+        print text
     # ~ 
     # ~ double_emphasis(text)
     # ~ image(src, title, alt_text)
-    # ~ linebreak()
-    # ~ newline()
     # ~ link(link, title, content)
     # ~ strikethrough(text)
-    # ~ text(text)
     # ~ inline_html(text)
 
 
@@ -153,7 +161,7 @@ def gen_lua_file(dest_name):
     print("Write Lua file '%s'" % dest_name)
     lOut = ["%s.%s = {}\n\n" % (mod, manual)]
     lOut.append(lua_table("%s.%s.aTitel" % (mod, manual), lTitel))
-    lOut.append(lua_test_table("%s.%s.aText" % (mod, manual), lText))
+    lOut.append(lua_text_table("%s.%s.aText" % (mod, manual), lText))
     lOut.append(lua_table("%s.%s.aItemName" % (mod, manual), lItemName))
     lOut.append(lua_table("%s.%s.aPlanTable" % (mod, manual), lPlanTable))
     file(dest_name, "w").write("".join(lOut))

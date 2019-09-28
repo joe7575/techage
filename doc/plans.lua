@@ -14,6 +14,14 @@
 
 techage.ConstructionPlans = {}
 
+
+local IMG_1 = {"", "techage_ta1.png"}
+local IMG_2 = {"", "techage_ta2.png"}
+local IMG_3 = {"", "techage_ta3.png"}
+local IMG_4 = {"", "techage_ta4.png"}
+local IMG41 = {"", "techage_ta4_tes.png"}
+
+
 --
 -- TA1: Coal Pile
 --
@@ -38,14 +46,14 @@ local MEPOT = {"default_cobble.png^techage_meltingpot.png", "techage:meltingpot"
 local FLAME = {"techage_flame.png", nil}
 
 techage.ConstructionPlans["coalburner"] = {
-	{false, false, false, MEPOT, false},
-	{false, false, false, FLAME, false},
-	{false, false, COBBL, CCOAL, COBBL},
-	{false, false, COBBL, CCOAL, COBBL},
-	{false, false, COBBL, CCOAL, COBBL},
-	{false, false, COBBL, CCOAL, COBBL},
-	{false, false, false, LIGTR, COBBL},
-	{false, false, COBBL, COBBL, COBBL},
+	{false, false, MEPOT, false, false, IMG_1, false},
+	{false, false, FLAME, false},
+	{false, COBBL, CCOAL, COBBL},
+	{false, COBBL, CCOAL, COBBL},
+	{false, COBBL, CCOAL, COBBL},
+	{false, COBBL, CCOAL, COBBL},
+	{false, false, LIGTR, COBBL},
+	{false, COBBL, COBBL, COBBL},
 }
 
 --
@@ -78,12 +86,12 @@ local CYLIN = {"techage_filling_ta2.png^techage_cylinder.png^techage_frame_ta2.p
 local FLYWH = {"techage_filling_ta2.png^techage_frame_ta2.png^techage_flywheel.png^[transformFX]", "techage:flywheel"}
 
 techage.ConstructionPlans["steamengine"] = {
+	{false, false, false, false, false, IMG_2, false},
 	{false, false, false, false, false, false, false},
-	{false, false, false, false, false, false, false},
-	{false, false, PK000, PI000, PK270, false, false},
-	{false, false, BOIL2, false, PI090, false, false},
-	{false, false, BOIL1, false, PI090, false, false},
-	{false, false, FIBOX, false, PK090, CYLIN, FLYWH},
+	{false, PK000, PI000, PK270, false, false, false},
+	{false, BOIL2, false, PI090, false, false, false},
+	{false, BOIL1, false, PI090, false, false, false},
+	{false, FIBOX, false, PK090, CYLIN, FLYWH, false},
 } 
 		
 --
@@ -116,18 +124,6 @@ techage.ConstructionPlans["gravelrinser"] = {
 	{false, GLASS, WATER, GLASS, GLASS, GLASS, GLASS, GLASS},
 	{false, DDIRT, DDIRT, TK000, RINSR, TK270, HOPPR, CHEST},
 }
---local Tube = "techage_tube_knee.png"
---local Tube2 = "techage_tube_knee.png^[transformR270"
---local Rinser = "techage_filling_ta2.png^techage_appl_rinser.png^techage_frame_ta2.png"
---local Hopper = "techage_hopper.png"
---local Glass = "default_glass.png"
---local Water = "default_water.png"
---local Chest = "default_chest_lock.png"
---local Dirt = "default_dirt.png"
-
---local Images = {
---}
-
 
 --
 -- Coal Power Station
@@ -157,12 +153,13 @@ local Tubes = {"techage_tube_tube.png", "techage:tubeS"}
 local Pushr = {"techage_appl_pusher.png^techage_frame_ta3.png", "techage:ta3_pusher_pas"}
 local Boost = {"techage_filling_ta3.png^techage_appl_compressor.png^[transformFX^techage_frame_ta3.png", "techage:ta3_booster"}
 local Fibox = {"techage_concrete.png^techage_appl_firehole.png^techage_frame_ta3.png", "techage:furnace_firebox"}
-local Furnc = {"techage_concrete.png^techage_appl_furnace.png^techage_frame_ta3.png", "ta3_furnace_pas"}
+local Furnc = {"techage_concrete.png^techage_appl_furnace.png^techage_frame_ta3.png", "techage:ta3_furnace_pas"}
 
 techage.ConstructionPlans["ta3_furnace"] = {
-	{false, false, false, false, false, false, false},
-	{Tubes, Pushr, Tubes, Furnc, Tubes, Pushr, Tube},
-	{false, Cable, Boost, Fibox, false, false, false},
+	{false, false, false, false, false, false, false, false},
+	{false, false, false, false, false, false, false, false},
+	{false, Tubes, Pushr, Tubes, Furnc, Tubes, Pushr, Tubes},
+	{false, false, Cable, Boost, Fibox, false, false, false},
 }
 
 
@@ -186,7 +183,7 @@ local INLET = {"basic_materials_concrete_block.png^techage_gaspipe.png^[transfor
 local OGLAS = {"default_obsidian_glass.png", "default:obsidian_glass"}
 
 techage.ConstructionPlans["storagesystem"] = {
-	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, false, false, false, false, false, false, false, false, IMG41, false},
 	{false, false, false, PN000, PIPEH, PIPEH, PN270, false, false, false, false},
 	{false, CONCR, CONCR, INLET, CONCR, CONCR, PIPEV, false, false, false, false},
 	{false, CONCR, GRAVL, GRAVL, GRAVL, CONCR, PN090, HEXR1, PIPEH, PN270, false},

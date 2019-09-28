@@ -523,9 +523,7 @@ techage.register_entry_page("ta3l", "node_detector",
 
 techage.register_entry_page("ta3l", "player_detector",
 	S("TA3 Player Detector"), 
-	S("The Player Detector sends a 'on' signal when it detects a player@n"..
-		"within a radius of 4 m around the node.@n"..
-		"The detector can be configured with player names to scan for."),
+	S(funnel."),
 	"techage:ta3_playerdetector_off")
 
 techage.register_entry_page("ta3l", "programmer",
