@@ -131,6 +131,7 @@ TA3 Derrick=
 TA3 Detector=
 TA3 Drill Bit=
 TA3 Ele Fab=
+TA3 Funnel=
 TA3 Furnace Firebox=
 TA3 Generator=
 TA3 Gravel Sieve=
