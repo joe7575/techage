@@ -7,7 +7,7 @@ Natürlich muss es für ein Eisenzeitalter auch Eisen geben und nicht nur Stahl 
 [techage_ta1](/image/)
 
 
-## Köhler
+## Köhler / Coal Pile
 
 Den Köhler brauchst du, um Holzkohle herzustellen. Holzkohle wird für den Brenner, aber auch bspw. in TA2 für die Dampfmaschine benötigt.
 
@@ -15,7 +15,7 @@ Bauanleitung (siehe auch Plan):
 
 - Baue eine 5x5 große Fläche aus Erde (dirt)
 - Platziere in die Mitte einen Anzünder (lighter)
-- Baue aus Holz (wood) einen 3x3x3 größen Würfel darüber
+- Baue aus Holz (wood) einen 3x3x3 großen Würfel darüber
 - Überdecke alles mit einer Schicht Erde zu einem 5x5x5 großen Würfel
 - Lasse ein Loch zum Anzünder
 - Zünde den Anzünder an und verschließe das Loch sofort mit jeweils einem Block Holz und Erde
