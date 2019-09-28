@@ -208,3 +208,15 @@ Die gesicherte Kiste kann nur von den Spielern genutzt werden, die an diesem Ort
 
 [ta2_chest|image]
 
+
+### Techage Forceload Block
+
+Minetest teilt die Karte in sogenannte Map-Blocks ein. Das sind Würfel mit 16x16x16 Blöcke Kantenlänge. So ein Map-Block wird vom Server immer komplett geladen, aber es werden nur die Blöcke um einen Spieler herum geladen (ca. 2-3 Blöcke in alle Richtungen). In Sichtrichtung des Spielers sind es auch mehr Map-Blöcke. Nur dieser Teil der Welt ist aktiv und nur hier wachsen Pflanzen und Bäume bzw. laufen die Maschinen.
+
+Mit einem Forceload-Block kannst du erzwingen, dass der Map-Block, in dem der Forceload Block steht, immer geladen bleibt, solange du auf dem Server bist. Wenn alle deine Farmen und Maschinen mit Forceload Blöcken abgedeckt sind, ist immer alles am Laufen.
+
+Die Map-Blöcke mit ihren Koordinaten sind vordefiniert, also bspw. (0,0,0) bis (15,15,15), oder (16,16,16) bis (31,31,31).
+Man kann einen Forceload-Block innerhalb eines Map-Blockes verschieben wie man will, die Position des Map-Blocks bleibt dabei unverändert. 
+
+[ta2_forceload|image]
+

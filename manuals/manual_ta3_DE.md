@@ -39,14 +39,14 @@ Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorha
 
 ### TA3 Turbine
 
-Teil des Kraftwerk. Muss neben den Generator gesetzt und über Dampfleitungen mit dem Boiler und dem Kühler, wie im Plan abgebildet, verbunden werden.
+Die Turbine ist Teil des Kraftwerk. Sie muss neben den Generator gesetzt und über Dampfleitungen mit dem Boiler und dem Kühler, wie im Plan abgebildet, verbunden werden.
 
 [ta3_turbine|image]
 
 
 ### TA3 Generator
 
-Dient zur Stromgewinnung. Muss über Stromkabel und Verteilerboxen mit den Maschinen verbunden werden.
+Der Generator dient zur Stromerzeugung. Er muss über Stromkabel und Verteilerboxen mit den Maschinen verbunden werden.
 
 [ta3_generator|image]
 
@@ -152,6 +152,9 @@ siehe TA Stromschalter.
 Der kleine Stromgenerator wird mit Erdöl betrieben und kann für kleine Verbraucher mit bis zu 12 ku genutzt werden. Unter Volllast brennt Erdöl 100 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).
 
 [ta3_tinygenerator|image]
+
+
+### 
 
 
 ### TA3 Akku Block /  Akku Box

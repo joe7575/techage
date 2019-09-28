@@ -34,6 +34,7 @@ techage.manual_DE.aTitel = {
   "2,Sonstige Blöcke",
   "3,TA2 Flüssigkeitensammler / Liquid Sampler",
   "3,TA2 Gesicherte Kiste / Protected Chest",
+  "3,Techage Forceload Block",
   "1,TA3: Ölzeitalter",
   "2,Kohlekraftwerk",
   "3,TA3 Kraftwerks-Feuerbox / Power Station Firebox",
@@ -52,6 +53,7 @@ techage.manual_DE.aTitel = {
   "3,TA Stromschalter klein / Power Switch Small",
   "3,TA Stromschalterbox / Power Switch Box",
   "3,TA3 Kleiner Stromgenerator / Tiny Power Generator",
+  "3, ",
   "3,TA3 Akku Block /  Akku Box",
   "3,TA3 Strom Terminal / Power Terminal",
   "2,TA3 Industrieofen",
@@ -90,6 +92,20 @@ techage.manual_DE.aTitel = {
   "3,Techage Info Tool",
   "3,TechAge Programmer",
   "3,TechAge Kelle / Trowel",
+  "1,TA4: Zukunft",
+  "2,Windkraftanlage",
+  "3,TA4 Windkraftanlage / Wind Turbine",
+  "3,TA4 Windkraftanlagengondel / Wind Turbine Nacelle",
+  "3,TA4 Wind Turbine Signal Lamp",
+  "3,TA4 Säule / Pillar",
+  "2,Solaranlage",
+  "3,TA4 Straßenlampen-Solarzelle / Streetlamp Solar Cell",
+  "2,Biogasanlage",
+  "2,Energiespeicher",
+  "3,TA4 Wärmetauscher / Heat Exchanger",
+  "3,TA4 Turbine",
+  "3,TA4 Generator",
+  "3,TA4 Röhre / Pipe",
 }
 
 techage.manual_DE.aText = {
@@ -343,6 +359,15 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Minetest teilt die Karte in sogenannte Map-Blocks ein. Das sind Würfel mit 16x16x16 Blöcke Kantenlänge. So ein Map-Block wird vom Server immer komplett geladen\\, aber es werden nur die Blöcke um einen Spieler herum geladen (ca. 2-3 Blöcke in alle Richtungen). In Sichtrichtung des Spielers sind es auch mehr Map-Blöcke. Nur dieser Teil der Welt ist aktiv und nur hier wachsen Pflanzen und Bäume bzw. laufen die Maschinen.\n"..
+  "\n"..
+  "Mit einem Forceload-Block kannst du erzwingen\\, dass der Map-Block\\, in dem der Forceload Block steht\\, immer geladen bleibt\\, solange du auf dem Server bist. Wenn alle deine Farmen und Maschinen mit Forceload Blöcken abgedeckt sind\\, ist immer alles am Laufen.\n"..
+  "\n"..
+  "Die Map-Blöcke mit ihren Koordinaten sind vordefiniert\\, also bspw. (0\\,0\\,0) bis (15\\,15\\,15)\\, oder (16\\,16\\,16) bis (31\\,31\\,31).\n"..
+  "Man kann einen Forceload-Block innerhalb eines Map-Blockes verschieben wie man will\\, die Position des Map-Blocks bleibt dabei unverändert. \n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Bei TA3 gilt es\\, die Dampf-betriebenen Maschinen durch leistungsfähigere und mit elektrischem Strom betriebene Maschinen abzulösen.\n"..
   "\n"..
   "Dazu musst du Kohlekraftwerke und Generatoren bauen. Bald wirst du sehen\\, dass dein Strombedarf nur mit Öl-betriebenen Kraftwerken zu decken ist. Also machst du dich auf die Suche nach Erdöl. Bohrtürme und Ölpumpen helfen die\\, an das Öl zu kommen. Schienenwege dienen dir zum Öltransport bis in die Kraftwerke.\n"..
@@ -370,11 +395,11 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Teil des Kraftwerk. Muss neben den Generator gesetzt und über Dampfleitungen mit dem Boiler und dem Kühler\\, wie im Plan abgebildet\\, verbunden werden.\n"..
+  "Die Turbine ist Teil des Kraftwerk. Sie muss neben den Generator gesetzt und über Dampfleitungen mit dem Boiler und dem Kühler\\, wie im Plan abgebildet\\, verbunden werden.\n"..
   "\n"..
   "\n"..
   "\n",
-  "Dient zur Stromgewinnung. Muss über Stromkabel und Verteilerboxen mit den Maschinen verbunden werden.\n"..
+  "Der Generator dient zur Stromerzeugung. Er muss über Stromkabel und Verteilerboxen mit den Maschinen verbunden werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -447,6 +472,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "",
   "Der Akku Block dient zur Speicherung von überschüssiger Energie und gibt bei Stromausfall automatisch Strom ab (soweit vorhanden).\n"..
   "Der Akku Block ist eine sekundäre Stromquelle. Das bedeutet\\, bei Strombedarf werden zuerst die Generatoren genutzt. Nur wenn der Strom im Netz nicht ausreicht\\, springt der Akku Block ein. Das Gleiche gilt auch für die Stromaufnahme. Daher kann auch kein Akku mit einem anderen Akku geladen werden.\n"..
   "Der Akku liefert 10 ku bzw. nimmt 10 ku auf.\n"..
@@ -725,6 +751,83 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Regenerative Energiequellen wie Wind\\, Sonne und Biokraft helfen dir\\, das Ölzeitalter zu verlassen. Mit modernen Technologien und intelligenten Maschinen machst du dich auf in die Zukunft.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Eine Windkraftanlagen liefern immer dann Strom\\, wenn Wind vorhanden ist. Im Spiel gibt es keinen Wind\\, aber die Mod simuliert dies dadurch\\, dass sich nur morgens (5:00 - 9:00) und abends (17:00 - 21:00) die Windräder drehen und damit Strom liefern\\, sofern diese an geeigneten Stellen errichtet werden.\n"..
+  "\n"..
+  "Die TA Windkraftanlagen sind reine Offshore Anlagen\\, das heißt\\, die müssen im Meer (Wasser) errichtet werden. Dies bedeutet\\, dass um den Mast herum mit einem Abstand von 20 Blöcken nur Wasser sein darf und das mindestens 2 Blöcke tief.\n"..
+  "Der Rotor muss in einer Höhe (Y-Koordinate) von 12 bis maximal 20 m platziert werden. Der Abstand zu weiteren Windkraftanlagen muss mindestens 14 m betragen.\n"..
+  "\n"..
+  "Der Strom muss vom Rotor-Block durch den Mast nach unten geführt werden. Dazu zuerst die Stromleitung nach oben ziehen und das Stromkabel dann mit TA4 Säulenblöcke \"verputzen\". Unten kann eine Arbeitsplattform errichtet werden. Der Plan rechts zeigt den Aufbau im oberen Teil.\n"..
+  "\n"..
+  "Die Windkraftanlage liefert eine Leistung von 80 ku\\, aber dies nur 8 Stunden am Tag (siehe oben).\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Windkraftanlagenblock (Rotor) ist das Herzstück der Windkraftanlage. Dieser Block muss oben auf den Mast gesetzt werden. Idealerweise auf Y = 15\\, dann bleibst du noch gerade innerhalb eines Map-/Forceload-Blocks.\n"..
+  "Sofern alle Bedingungen erfüllt sind\\, erscheinen beim Setzen dieses Blocks auch automatisch die Rotorblätter (Flügel). Anderenfalls wird dir eine Fehlermeldung angezeigt.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Dieser Block muss an das schwarze Ende des Wind Turbinen Block gesetzt werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Dieses Blinklicht ist nur für dekorative Zwecke und kann oben auf den Wind Turbinen Block gesetzt werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Damit wird der Mast für die Windkraftanlage gebaut. Allerdings werden diese Blöcke nicht von Hand gesetzt sondern müssen mit Hilfe der Kelle gesetzt werden\\, so dass die Stromleitung zur Mastspitze mit diesen Blöcken ersetzt wird (siehe unter TA Stromkabel).\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Diese glänzt noch durch Abwesenheit.\n"..
+  "Aber es gibt schon die...\n"..
+  "\n",
+  "Die Straßenlampen-Solarzelle dient\\, wie der Name schon sagt\\, zur Stromversorgung einer Straßenlampe. Dabei kann eine Solarzelle zwei Lampen versorgen. Die Solarzelle speichert die Sonnenenergie tagsüber und gibt den Strom Nachts an die Lampe ab. Das bedeutet\\, die Lampe leuchtet nur im Dunkeln.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "noch nicht vorhanden...\n"..
+  "\n",
+  "Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit Gravel. Es gibt 3 Größen vom Speicher:\n"..
+  "\n"..
+  "  - Hülle mit 5x5x5 Concrete Blocks\\, gefüllt mit 27 Gravel\\, Speicherkapazität: 1/2 Tag bei 60 ku\n"..
+  "  - Hülle mit 7x7x7 Concrete Blocks\\, gefüllt mit 125 Gravel\\, Speicherkapazität: 2\\,5 Tage bei 60 ku\n"..
+  "  - Hülle mit 9x9x9 Concrete Blocks\\, gefüllt mit 343 Gravel\\, Speicherkapazität: 6\\,5 Tage bei 60 ku\n"..
+  "\n"..
+  "In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man\\, ob der Speicher zu mehr aus 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken\\, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung achten (der Pfeil bei Block 1 muss zur Turbine zeigen).\n"..
+  "\n"..
+  "Entgegen dem Plan rechts müssen die Anschlüsse am Speicherblock auf gleicher Ebene sein (horizontal angeordnet\\, also nicht unten und oben). Die Rohrzuläufe (TA4 Pipe Inlet) müssen genau in der Mitte der Wand sein und stehen sich damit gegenüber. Als Röhren kommen die TA4 Röhren zum Einsatz. Die TA4 Verbindungsrohre dürfen hier nicht verwendet werden.\n"..
+  "Sowohl der Generator als auch der Wärmetauscher haben einen Stromanschluss und müssen mit dem Stromnetz verbunden werden.\n"..
+  "\n"..
+  "Im Prinzip arbeitet das das Wärmespeichersystem genau gleich wie die Akkus\\, nur mit viel mehr Speicherkapazität. \n"..
+  "Der Wärmespeicher kann 60 ku aufnehmen und abgeben.\n"..
+  "\n"..
+  "Damit das Wärmespeichersystem funktioniert\\, müssen alle Blöcke (außer Betonhülle und Gravel) mit Hilfe eines Forceloadblockes geladen sein.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Wärmetauscher besteht aus 3 Teilen\\, die aufeinander gesetzt werden müssen\\, wobei der Pfeil des ersten Blockes Richtung Turbine zeigen muss. Die Dampfleitungen müssen mit den TA4 Röhren aufgebaut werden.\n"..
+  "Der Wärmetauscher muss am Stromnetz angeschlossen werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Turbine ist Teil des Energiespeichers. Sie muss neben den Generator gesetzt und über TA4 Röhren\\, wie im Plan abgebildet\\, mit dem Wärmetauscher verbunden werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Generator dient zur Stromerzeugung. Daher muss auch der Generator am Stromnetz angeschlossen werden. Dabei muss beachtet werden\\, dass es ein funktionierendes Stromnetz ist\\, denn der Generator des Energiespeichers kann nicht als einzelne Stromquelle funktionieren.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Röhren dienen bei TA4 zur Weiterleitung von Gas und Dampf. \n"..
+  "Die maximale Leitungslänge beträgt 100 m.\n"..
+  "\n"..
+  "\n"..
+  "\n",
 }
 
 techage.manual_DE.aItemName = {
@@ -761,6 +864,7 @@ techage.manual_DE.aItemName = {
   "",
   "ta2_liquidsampler",
   "ta2_chest",
+  "ta2_forceload",
   "techage_ta3",
   "",
   "ta3_firebox",
@@ -779,6 +883,7 @@ techage.manual_DE.aItemName = {
   "ta3_powerswitchsmall",
   "ta3_powerswitchbox",
   "ta3_tinygenerator",
+  "",
   "ta3_akkublock",
   "ta3_powerterminal",
   "",
@@ -817,6 +922,20 @@ techage.manual_DE.aItemName = {
   "ta3_end_wrench",
   "ta3_programmer",
   "ta3_trowel",
+  "techage_ta4",
+  "",
+  "ta4_windturbine",
+  "ta4_nacelle",
+  "ta4_blinklamp",
+  "ta4_pillar",
+  "",
+  "ta4_minicell",
+  "",
+  "",
+  "ta4_heatexchanger",
+  "ta4_turbine",
+  "ta4_generator",
+  "ta4_pipe",
 }
 
 techage.manual_DE.aPlanTable = {
@@ -854,7 +973,9 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
   "coalpowerstation",
+  "",
   "",
   "",
   "",
@@ -905,6 +1026,20 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "ta4_windturbine",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "ta4_storagesystem",
   "",
   "",
   "",

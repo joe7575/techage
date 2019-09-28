@@ -40,6 +40,7 @@ techage.Items = {
 	ta2_liquidsampler = "techage:ta2_liquidsampler_pas",
 	ta2_rinser = "techage:ta2_rinser_pas",
 	ta2_chest = "techage:chest_ta2",
+	ta2_forceload = "techage:forceload",
 	---------------------
 	techage_ta3 = "techage_ta3.png",
 	ta3_firebox = "techage:coalfirebox",
@@ -93,4 +94,16 @@ techage.Items = {
 	ta3_programmer = "techage:programmer",
 	----------------------------
 	techage_ta4 = "techage_ta4.png",
+	ta4_windturbine = "techage:ta4_wind_turbine",
+	ta4_pillar = "techage:pillar",
+	ta4_blinklamp = "techage:rotor_signal_lamp_off",
+	ta4_nacelle = "techage:ta4_wind_turbine_nacelle",
+	ta4_minicell = "techage:ta4_solar_minicell",
+	ta4_pipe = "techage:ta4_pipeS", 
+	ta4_junctionpipe = "techage:ta4_junctionpipe25", 
+	ta4_pipeinlet = "techage:ta4_pipe_inlet", 
+	ta4_turbine = "techage:ta4_turbine",
+	ta4_generator = "techage:ta4_generator",
+	ta4_heatexchanger = "techage:heatexchanger3", 
+	--ta4_ "", 
 }

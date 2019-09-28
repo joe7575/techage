@@ -164,6 +164,26 @@ techage.ConstructionPlans["ta3_furnace"] = {
 
 
 --
+-- Wind Turbine
+--
+local ROTOR = {"techage_wind_turbine_inv.png", "techage:ta4_wind_turbine"}
+local NCLLE = {"techage_rotor.png", "techage:ta4_wind_turbine_nacelle"}
+local PILLR = {"techage:pillar", "techage:pillar"}
+local SLAMP = {"techage:rotor_signal_lamp_off", "techage:rotor_signal_lamp_off"}
+
+techage.ConstructionPlans["ta4_windturbine"] = {
+	{false, false, false, SLAMP, false,  false, IMG_4, false},
+	{false, false, false, ROTOR, NCLLE, false, false},
+	{false, false, false, PILLR, false,  false, false},
+	{false, false, false, PILLR, false,  false, false},
+	{false, false, false, PILLR, false,  false, false},
+	{false, false, false, PILLR, false,  false, false},
+	{false, false, false, PILLR, false,  false, false},
+	{false, false, false, PILLR, false,  false, false},
+	{false, false, false, PILLR, false,  false, false},
+}
+
+--
 -- Thermal Storage System
 --
 local CONCR = {"basic_materials_concrete_block.png", "basic_materials:concrete_block"}
@@ -182,7 +202,7 @@ local GRAVL = {"default_gravel.png", "default:gravel"}
 local INLET = {"basic_materials_concrete_block.png^techage_gaspipe.png^[transformR90", "techage:ta4_pipe_inlet"}
 local OGLAS = {"default_obsidian_glass.png", "default:obsidian_glass"}
 
-techage.ConstructionPlans["storagesystem"] = {
+techage.ConstructionPlans["ta4_storagesystem"] = {
 	{false, false, false, false, false, false, false, false, false, IMG41, false},
 	{false, false, false, PN000, PIPEH, PIPEH, PN270, false, false, false, false},
 	{false, CONCR, CONCR, INLET, CONCR, CONCR, PIPEV, false, false, false, false},

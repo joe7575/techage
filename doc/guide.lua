@@ -86,7 +86,7 @@ local function formspec_help(meta)
 
 	"box[0,4.75;10.775,4.45;#000000]"..
 	"tablecolumns[tree,width=1;text,width=10,align=inline]"..
-	"tableoptions[opendepth=2]"..
+	"tableoptions[opendepth=1]"..
 	"table[0.1,0;9,4;page;"..table.concat(aTitel, ",")..";"..idx.."]"
 end
 
@@ -129,7 +129,6 @@ minetest.register_node("techage:construction_board", {
 		if minetest.is_protected(pos, player_name) then
 			return
 		end
-		print(dump(fields))
 		local meta = minetest.get_meta(pos)
 		if fields.plan then
 			meta:set_string("formspec", formspec_plan(meta))
@@ -143,7 +142,6 @@ minetest.register_node("techage:construction_board", {
 				meta:set_string("formspec", formspec_help(meta))
 			end
 		end
-		print(dump(formspec_help(meta)))
 	end,
 	
 	paramtype2 = "wallmounted",
