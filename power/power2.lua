@@ -44,6 +44,7 @@ local function set_conn_dirs(pos, sides)
 	M(pos):set_string("power_dirs", minetest.serialize(tbl))
 end
 
+techage.power.side_to_dir = side_to_dir
 techage.power.set_conn_dirs = set_conn_dirs
 
 local function valid_indir(pos, in_dir)
@@ -100,6 +101,7 @@ function techage.power.register_node(names, pwr_def)
 					conn_sides = pwr_def.conn_sides or {"L", "R", "U", "D", "F", "B"},
 					on_power = pwr_def.on_power,
 					on_nopower = pwr_def.on_nopower,
+					on_getpower = pwr_def.on_getpower,
 					power_network = pwr_def.power_network,
 					after_place_node = ndef.after_place_node,
 					after_dig_node = ndef.after_dig_node,
@@ -187,6 +189,9 @@ function techage.power.formspec_load_bar(charging, max_val)
 end
 
 function techage.power.formspec_power_bar(max_power, current_power)
+	if (current_power or 0) == 0 then
+		return "techage_form_level_bg.png"
+	end
 	local percent = techage.power.percent(max_power, current_power)
 	percent = (percent + 5) / 1.22  -- texture correction
 	return "techage_form_level_bg.png^[lowpart:"..percent..":techage_form_level_fg.png"

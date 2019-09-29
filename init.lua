@@ -22,7 +22,7 @@ else
 	-- Debugging via "techage.Debug.dbg(text)"
 	techage.Debug = {
 		dbg = function(text, ...)
-			local t = string.format("%.4f %4s:  ", minetest.get_us_time() / 1000000.0, topic)
+			local t = string.format("%.4f:  ", minetest.get_us_time() / 1000000.0)
 			if type(text) ~= "string" then
 				text = dump(text)
 			end
@@ -34,6 +34,7 @@ else
 		--dbg2 = true,
 		--tst = true,
 		--bot = true  -- Signs Bot
+		--slr = true,
 	}
 
 	-- Basis features
@@ -71,6 +72,7 @@ else
 	dofile(MP.."/power/protection.lua")
 	dofile(MP.."/power/ta4_pipe.lua")
 	dofile(MP.."/power/ta4_junction.lua")
+	dofile(MP.."/power/ta4_cable.lua")
 
 	-- Iron Age
 	dofile(MP.."/iron_age/main.lua")
@@ -183,6 +185,8 @@ else
 	-- Solar
 	dofile(MP.."/nodes/silicon.lua")
 	dofile(MP.."/solar/minicell.lua")
+	dofile(MP.."/solar/solarcell.lua")
+	dofile(MP.."/solar/inverter.lua")
 	
 	-- Wind
 	dofile(MP.."/wind_turbine/rotor.lua")

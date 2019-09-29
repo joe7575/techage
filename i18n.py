@@ -8,6 +8,7 @@
 # 
 # Copy the script into the mod root folder and adapt the last code lines to you needs.
 
+from __future__ import print_function
 import os, fnmatch, re, shutil
 
 pattern_lua = re.compile(r'[ \.=^\t]S\("(.+?)"\)', re.DOTALL)

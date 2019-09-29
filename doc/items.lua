@@ -105,5 +105,11 @@ techage.Items = {
 	ta4_turbine = "techage:ta4_turbine",
 	ta4_generator = "techage:ta4_generator",
 	ta4_heatexchanger = "techage:heatexchanger3", 
+	ta4_powercable = "techage:ta4_power_cableS",
+	ta4_powerbox = "techage:ta4_power_box",
+	ta4_solarmodule = "techage:ta4_solar_module",
+	ta4_solarcarrier = "techage:ta4_solar_carrier",
+	ta4_solar_inverter = "techage:ta4_solar_inverter",
+	techage_ta4_solar = "techage_ta4_solar.png",
 	--ta4_ "", 
 }

@@ -50,12 +50,74 @@ Damit wird der Mast für die Windkraftanlage gebaut. Allerdings werden diese Bl�
 
 ## Solaranlage
 
-Diese glänzt noch durch Abwesenheit.
-Aber es gibt schon die...
+Die Solaranlage produziert nur Strom, wenn die Sonne scheint. Im Spiel ist das jeder Spieltag von morgens 6:00 bis abends 18:00.
+In dieser Zeit steht immer die gleiche Leistung zur Verfügung. Nach 18:00 schalten die Solarmodule komplett ab.
+
+Für die Leistung der Solarmodule ist die Biome Temperatur entscheidend. Je heißer die Temperatur, um so höher der Ertrag.
+Die Biome Temperatur kann mit dem Techage Info Tool (Schraubenschlüssel) bestimmt werden. Sie schwankt typischerweise zwischen 0 und 100:
+- bei 100 steht die volle Leistung zur Verfügung
+- bei 50 steht die halbe Leistung zur Verfügung
+- bei 0 steht keine Leistung zur Verfügung
+
+Es empfiehlt sich daher, nach heißen Steppen und Wüsten für die Solaranlage Ausschau zu halten.  
+Für den Stromtransport stehen die Überlandleitungen zur Verfügung.  
+Es kann aber auch Wasserstoff produziert werden, welcher sich transportieren und am Ziel wieder zu Strom umwandeln lässt (geplant).
+
+Die kleinste Einheit bei einer Solaranlage sind zwei Solarmodule und ein Trägermodul. Das Trägermodul muss zuerst gesetzt werden, die zwei Solarmodule dann links und rechts daneben.
+
+Solarmodule liefern Gleichspannung, welcher nicht direkt in das Stromnetz eingespeist werden kann. Daher müssen zuerst die Solareinheiten über das rote Kabel mit dem Wechselrichter verbunden werden. Dieser hat zwei Anschlussseiten, eine für das rote Kabel zu den Solarmodulen und eine für das graue Stromkabel ins Stromnetz.
+
+Der Kartenbereich, wo die Solaranlage steht, muss komplett geladen sein. Es empfiehlt sich daher, zuerst einen Forceload Block zu setzen, und dann innerhalb dieses Bereiches die Module zu platzieren.
+
+[techage_ta4_solar|image]
+
+
+### TA4 Solarmodul / Solar Module
+
+Das Solarmodul muss an das Trägermodul gesetzt werden. Es sind immer zwei Solarmodule notwendig.
+Im Paar leisten die Solarmodule bis 4 ku, je nach Temperatur.
+Bei den Solarmodul muss darauf geachtet werden, dass diese das volle Tageslicht haben und nicht durch Blöcke oder Bäume beschattet sind.
+
+[ta4_solarmodule|image]
+
+
+### TA4 Solar Trägermodul / Carrier Module
+
+Das Trägermodul gibt es in zwei Bauhöhen (1m und 2m). Funktionell sind beide identisch.
+Die Trägermodule können direkt aneinander gesetzt und so zu einer Modulreihe verbunden werden. Die Verbindung zum Wechselrichter oder zu anderen Modulreihen muss mit den roten Niederspannungskabeln bzw. den Niederspannungsverteilerboxen hergestellt werden.
+
+[ta4_solarcarrier|image]
+
+
+### TA4 Solar Wechselrichter / Solar Inverter
+
+Der Wechselrichter wandelt den Solarstrom (DC) in Wechselstrom (AC) um, so dass dieser in das Stromnetz eingespeist werden kann.
+Ein Wechselrichter kann maximal 120 ku an Strom einspeisen, was 30 Solarmodulen oder auch mehr entspricht.
+
+[ta4_solar_inverter|image]
+
+
+### TA4 Niederspannungskabel / Low Power Cable
+
+Das Niederspannungskabel dient zur Verbindung von Solar-Modulreihen mit dem Wechselrichter. Das Kabel darf nicht für andere Zwecke benutzt werden.
+
+Die maximale Leitungslänge beträgt 200 m.
+
+[ta4_powercable|image]
+
+
+### TA4 Niederspannungsverteilerbox / Low Power Box
+
+Die Verteilerbox muss auf den Boden gesetzt werden. Sie besitzt nur 4 Anschlüsse (in die 4 Himmelsrichtungen).
+
+[ta4_powerbox|image]
+
 
 ### TA4 Straßenlampen-Solarzelle / Streetlamp Solar Cell
 
 Die Straßenlampen-Solarzelle dient, wie der Name schon sagt, zur Stromversorgung einer Straßenlampe. Dabei kann eine Solarzelle zwei Lampen versorgen. Die Solarzelle speichert die Sonnenenergie tagsüber und gibt den Strom Nachts an die Lampe ab. Das bedeutet, die Lampe leuchtet nur im Dunkeln.
+
+Diese Solarzelle kann nicht mit den anderen Solarmodulen kombiniert werden.
 
 [ta4_minicell|image]
 

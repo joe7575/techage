@@ -566,3 +566,21 @@ function techage.power.secondary_alive(pos, mem, capa_curr, capa_max)
 	end
 	return mem.pwr_provided or 0
 end
+
+--
+-- Read the current power value from all connected devices (used for solar cells)
+--
+function techage.power.get_power(start_pos)
+	Route = {}
+	NumNodes = 0
+	pos_already_reached(start_pos) 
+	local sum = 0
+	connection_walk(start_pos, function(pos, mem)
+		local pwr = PWR(pos)
+		if pwr and pwr.on_getpower then
+			sum = sum + pwr.on_getpower(pos, mem)
+		end
+	end)
+	return sum
+end	
+
