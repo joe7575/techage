@@ -4,9 +4,10 @@ In TA1 geht es darum, mit einfachen Werkzeugen und Gerätschaften ausreichend Er
 
 Natürlich muss es für ein Eisenzeitalter auch Eisen geben und nicht nur Stahl (steel), wie in "Minetest Game". Daher wurden einige Rezepte geändert, so dass zuerst Eisen hergestellt werden muss und erst später dann Stahl.
 
-[iron](/image/)
+[techage_ta1|image]
 
-## Köhler
+
+## Köhler / Coal Pile
 
 Den Köhler brauchst du, um Holzkohle herzustellen. Holzkohle wird für den Brenner, aber auch bspw. in TA2 für die Dampfmaschine benötigt.
 
@@ -14,7 +15,7 @@ Bauanleitung (siehe auch Plan):
 
 - Baue eine 5x5 große Fläche aus Erde (dirt)
 - Platziere in die Mitte einen Anzünder (lighter)
-- Baue aus Holz (wood) einen 3x3x3 größen Würfel darüber
+- Baue aus Holz (wood) einen 3x3x3 großen Würfel darüber
 - Überdecke alles mit einer Schicht Erde zu einem 5x5x5 großen Würfel
 - Lasse ein Loch zum Anzünder
 - Zünde den Anzünder an und verschließe das Loch sofort mit jeweils einem Block Holz und Erde
@@ -23,9 +24,10 @@ Bauanleitung (siehe auch Plan):
 
 Dann kannst du die 9 Holzkohleblöcke entnehmen und den Köhler erneut füllen.
 
-[coalpile](/plan/)
+[coalpile|plan]
 
-## Kohlebrenner
+
+## Kohlebrenner / Coal Burner
 
 Den Kohlebrenner benötigst du bspw. um Eisen und andere Erze im Schmelztiegel zu schmelzen. Es gibt verschiedene Rezepte, welche verschiedene Temperaturen benötigen. Je höher der Turm, um so heißer ist die Flamme. Eine Höhe von 11 Blöcken über der Bodenplatte ist für alle Rezepte, ein Brenner mit dieser Höhe benötigt aber auch mehr Holzkohle.
 
@@ -42,29 +44,33 @@ Bauanleitung (siehe auch Plan):
 
 Der Schmelztiegel hat ein eigenes Menü mit Rezepten und ein Inventar, wo du die Erze hinein tun musst.
 
-[coalburner](/plan/)
+[coalburner|plan]
+
 
 ## Erze und Werkzeuge
 
 TA1 hat seine eigenen Werkzeuge wie Hammer und Kiessieb, aber auch bereits eine Maschine zur Automatisierung, den TA1 Trichter (hopper).
 
-[ta1_gravelsieve](/image/)
+[ta1_gravelsieve|image]
+
 
 ### Hammer
 
 Mit dem TA1 Hammer kann Stein (stone) in einer Mine, aber auch Steine (cobble) zu Kies (gravel) geklopft werden. Der Hammer ist in verschiedenen Ausführungen und damit verschiedenen Eigenschaften verfügbar: Bronze, Stahl, Mese und Diamant.
 
-[hammer](/image/)
+[hammer|image]
 
-### Kiessieb
+
+### Kiessieb / Gravel Sieve
 
 Mit dem Kiessieb können Erze aus dem Kies gesiebt werden. Dazu mit dem Kies (gravel) auf das Sieb klicken. Das gesiebte Kies und die Erze fallen unten heraus.
 
 Um hier nicht stundenlang am Sieb zu stehen, kann das Sieben mit dem Trichter (hopper) automatisiert werden.
 
-[ta1_gravelsieve](/image/)
+[ta1_gravelsieve|image]
 
-### Trichter
+
+### Trichter / Hopper
 
 Der Trichter saugt Gegenstände (items) von oben ein und gibt diese nach rechts weiter. Beim Platzieren des Trichters muss daher auf die Ausgaberichtung geachtet werden.
 
@@ -72,7 +78,8 @@ Der Trichter kann auch Items aus Kisten (chest) ziehen, sofern die Kiste auf dem
 
 Der Trichter kann auch Items in Kisten legen, sofern die Kiste neben dem Trichter steht.
 
-[ta1_hopper](/image/)
+[ta1_hopper|image]
+
 
 ### Kies sieben mit dem Trichter
 
@@ -80,10 +87,11 @@ Mit Hilfe von zwei Kisten, zwei Trichtern und einem Kiessieb kann der Siebevorga
 
 Bei den Kisten darauf achten, dass es die "chest_locked" ist, sonst klaut dir jemand die wertvollen Erze aus der Kiste unten.
 
-[hoppersieve](/plan/)
+[hoppersieve|plan]
+
 
 ### Meridium
 
 TA1 hat seine eigene Metalllegierung Meridium. Meridium Ingots können mit dem Kohlebrenner aus Stahl und Mesesplitter hergestellt werden. Meridium leuchtet im Dunkeln. Auch Werkzeuge aus Meridium leuchten und sind daher im Untertagebau sehr hilfreich.
 
-[meridium](/image/)
+[meridium|image]

@@ -8,6 +8,7 @@
 # 
 # Copy the script into the mod root folder and adapt the last code lines to you needs.
 
+from __future__ import print_function
 import os, fnmatch, re, shutil
 
 pattern_lua = re.compile(r'[ \.=^\t]S\("(.+?)"\)', re.DOTALL)
@@ -34,13 +35,14 @@ def read_lua_file_strings(lua_file):
 
 def inport_tr_file(tr_file):
     dOut = {}
-    for line in open(tr_file, "r").readlines():
-        s = line.strip()
-        if s == "" or s[0] == "#":
-             continue
-        match = pattern_tr.match(s)
-        if match:
-            dOut[match.group(1)] = match.group(2)
+    if os.path.exists(tr_file):
+        for line in open(tr_file, "r").readlines():
+            s = line.strip()
+            if s == "" or s[0] == "#":
+                 continue
+            match = pattern_tr.match(s)
+            if match:
+                dOut[match.group(1)] = match.group(2)
     return dOut
 
 def generate_template(templ_file):
@@ -59,7 +61,8 @@ def generate_template(templ_file):
 
 def update_tr_file(lNew, mod_name, tr_file):
     lOut = ["# textdomain: %s\n" % mod_name]
-    shutil.copyfile(tr_file, tr_file+".old")
+    if os.path.exists(tr_file):
+        shutil.copyfile(tr_file, tr_file+".old")
     dOld = inport_tr_file(tr_file)
     for key in lNew:
         val = dOld.get(key, "")
@@ -71,8 +74,8 @@ def update_tr_file(lNew, mod_name, tr_file):
     open(tr_file, "w").write("\n".join(lOut))
     
 data = generate_template("./locale/template.txt")
-update_tr_file(data, "techage", "./locale/techage.de.tr")
-update_tr_file(data, "techage", "./locale/techage.fr.tr")
 #update_tr_file(data, "mymod", "./locale/mymod.de.tr")
 #update_tr_file(data, "mymod", "./locale/mymod.fr.tr")
+update_tr_file(data, "techage", "./locale/techage.de.tr")
+update_tr_file(data, "techage", "./locale/techage.fr.tr")
 print("Done.\n")

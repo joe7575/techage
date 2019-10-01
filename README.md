@@ -1,6 +1,9 @@
-# Techage V0.01
+# Tech Age [techage]
 
-Techage, go through 4 tech ages in search of wealth and power.
+Tech Age, a mod to go through 4 tech ages in search of wealth and power.
+
+
+[German Manual/Deutsches Handbuch](https://github.com/joe7575/techage/blob/master/manuals/toc_DE.md)
 
 
 ### License
@@ -14,6 +17,8 @@ Required: default, tubelib2, basic_materials, bucket, stairs
 Optional: unified_inventory, wielded_light, minecart  
 Highly recommended: signs_bot, minecart  
 
+
 ### History  
 - 2019-06-16  V0.01  * First upload
+- 2019-09-28  V0.02  * TA3 finished
 

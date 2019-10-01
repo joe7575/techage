@@ -74,7 +74,7 @@ local function start_firebox(pos, mem)
 end
 
 minetest.register_node("techage:coalfirebox", {
-	description = S("TA3 Coal Power Station Firebox"),
+	description = S("TA3 Power Station Firebox"),
 	inventory_image = "techage_coal_boiler_inv.png",
 	tiles = {"techage_coal_boiler_mesh_top.png"},
 	drawtype = "mesh",

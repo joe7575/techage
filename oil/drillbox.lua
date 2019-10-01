@@ -27,7 +27,7 @@ local formspec0 = "size[5,4]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	"image[1,0;3.4,3.4;techage_oil_tower_inv.png]"..
+	"image[1,0;3.4,3.4;techage_ta3.png]"..
 	"button_exit[1,3.2;3,1;build;"..S("Build derrick").."]"
 
 local function play_sound(pos)

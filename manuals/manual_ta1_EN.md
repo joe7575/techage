@@ -342,20 +342,6 @@ techage.register_entry_page("ta3", "times",
 	"burn time at power 20  :      40  /    80  /      --"), 
 "techage:t3_source", nil)
 
-local Images = {
-	{false, false, false, false, false, false, false},
-	{"techage_steam_knee.png", 'techage_steam_pipe.png', 'techage_steam_pipe.png', 
-		'techage_steam_pipe.png', 'techage_steam_pipe.png', 'techage_steam_pipe.png', "techage_steam_knee.png^[transformR270"},
-	{'techage_steam_pipe.png^[transformR90', "techage:coalboiler_top", 'techage_steam_pipe.png', 
-		'techage_steam_knee.png^[transformR270', 'techage_steam_knee.png', 
-		"techage_filling_ta3.png^techage_frame_ta3.png^techage_cooler.png",
-		"techage_steam_knee.png^[transformR180"},
-	{"techage_steam_knee.png^[transformR90", "techage:coalboiler_base", false, 'techage_steam_pipe.png^[transformR90',
-		'techage_steam_pipe.png^[transformR90'},
-	{false, "techage:coalfirebox", false, "techage_steam_knee.png^[transformR90", 
-		"techage_filling_ta3.png^techage_appl_turbine.png^techage_frame_ta3.png",
-		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_generator.png"},
-}
 
 --techage.register_entry_page("ta3", "power_station",
 techage.register_category_page("ta3ps",
@@ -537,9 +523,7 @@ techage.register_entry_page("ta3l", "node_detector",
 
 techage.register_entry_page("ta3l", "player_detector",
 	S("TA3 Player Detector"), 
-	S("The Player Detector sends a 'on' signal when it detects a player@n"..
-		"within a radius of 4 m around the node.@n"..
-		"The detector can be configured with player names to scan for."),
+	S(funnel."),
 	"techage:ta3_playerdetector_off")
 
 techage.register_entry_page("ta3l", "programmer",
