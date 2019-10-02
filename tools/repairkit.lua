@@ -92,6 +92,7 @@ local function read_state(itemstack, user, pointed_thing)
 			end
 		elseif ndef and ndef.description then
 			if ndef.is_power_available then
+				techage.power.mark_nodes(user:get_player_name(), pos)
 				local power = ndef.is_power_available(pos)
 				if power and power.prim_available then
 					local text = "\nGenerators: "..power.prim_available.." ku\nAkkus: "..power.sec_available.." ku\nMachines: "..power.prim_needed.." ku\nNum Nodes: "..power.num_nodes.."\n"

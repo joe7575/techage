@@ -219,8 +219,9 @@ end
 function NodeStates:start(pos, mem)
 	local state = mem.techage_state or STOPPED
 	if state ~= RUNNING and state ~= FAULT then
-		if not self.can_start(pos, mem, state) then
-			self:fault(pos, mem)
+		local res = self.can_start(pos, mem, state)
+		if res ~= true then
+			self:fault(pos, mem, res)
 			return false
 		end
 		if not self.has_power(pos, mem, state) then
@@ -338,8 +339,9 @@ function NodeStates:nopower(pos, mem)
 	return false
 end	
 
-function NodeStates:fault(pos, mem)
+function NodeStates:fault(pos, mem, err_string)
 	local state = mem.techage_state or STOPPED
+	err_string = err_string or "fault"
 	if state == RUNNING or state == STOPPED then
 		mem.techage_state = FAULT
 		if self.node_name_passive then
@@ -347,7 +349,7 @@ function NodeStates:fault(pos, mem)
 		end
 		if self.infotext_name then
 			local number = M(pos):get_string("node_number")
-			M(pos):set_string("infotext", self.infotext_name.." "..number..": fault")
+			M(pos):set_string("infotext", self.infotext_name.." "..number..": "..err_string)
 		end
 		if self.formspec_func then
 			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))

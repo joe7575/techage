@@ -46,6 +46,7 @@ else
 	dofile(MP.."/basis/command.lua")  -- tubelib replacement
 	dofile(MP.."/basis/firebox_lib.lua")  -- common firebox functions
 	dofile(MP.."/basis/mark.lua")
+	dofile(MP.."/basis/mark2.lua")
 	dofile(MP.."/basis/assemble.lua")
 
 	-- Main doc

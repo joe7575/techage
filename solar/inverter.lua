@@ -25,7 +25,38 @@ local power = techage.power
 local CYCLE_TIME = 2
 local PWR_PERF = 120
 
+local function determine_power(pos, mem)
+	local time = minetest.get_timeofday() or 0
+	if time < 6.00/24.00 or time > 18.00/24.00 then
+		mem.ticks = 0
+		mem.max_power = 0
+		return
+	end
+	mem.ticks = mem.ticks or 0
+	if (mem.ticks % 20) == 0 then -- calculate max_power not to often
+		local dir = M(pos):get_int("left_dir")
+		-- We have to use get_connected_node_pos, because the inverter has already
+		-- a AC power connection. An additional DC power connection is not possibe,
+		-- so we have to start the connection_walk on the next node.
+		local pos1 = Solar:get_connected_node_pos(pos, dir)
+		mem.max_power = math.min(PWR_PERF, power.get_power(pos1))
+	else
+		mem.max_power = mem.max_power or 0
+	end
+	mem.ticks = mem.ticks + 1
+end
+
+local function determine_power_now(pos, mem)
+	local dir = M(pos):get_int("left_dir")
+	-- We have to use get_connected_node_pos, because the inverter has already
+	-- a AC power connection. An additional DC power connection is not possibe,
+	-- so we have to start the connection_walk on the next node.
+	local pos1 = Solar:get_connected_node_pos(pos, dir)
+	mem.max_power = math.min(PWR_PERF, power.get_power(pos1))
+end
+
 local function formspec(self, pos, mem)
+	determine_power_now(pos, mem)
 	local max_power = mem.max_power or 0
 	local delivered = mem.delivered or 0
 	local bar_in = techage.power.formspec_power_bar(max_power, max_power)
@@ -44,29 +75,9 @@ local function formspec(self, pos, mem)
 		"label[4,2.5;"..delivered.." ku]"
 end
 
-local function determine_power(pos, mem)
-	local time = minetest.get_timeofday() or 0
-	if time < 6.00/24.00 or time > 18.00/24.00 then
-		mem.ticks = 0
-		mem.max_power = 0
-		return
-	end
-	if (mem.ticks % 20) == 0 then -- calculate max_power not to often
-		local dir = M(pos):get_int("left_dir")
-		-- We have to use get_connected_node_pos, because the inverter has already
-		-- a AC power connection. An additional DC power connection is not possibe,
-		-- so we have to start the connection_walk on the next node.
-		local pos1 = Solar:get_connected_node_pos(pos, dir)
-		mem.max_power = math.min(PWR_PERF, power.get_power(pos1))
-	else
-		mem.max_power = mem.max_power or 0
-	end
-	mem.ticks = mem.ticks + 1
-end
-
 local function can_start(pos, mem, state)
 	determine_power(pos, mem)
-	return mem.max_power > 0
+	return mem.max_power > 0 or "no solar power"
 end
 
 local function start_node(pos, mem, state)
@@ -127,7 +138,7 @@ minetest.register_node("techage:ta4_solar_inverter", {
 	description = S("TA4 Solar Inverter"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta4.png^techage_frame_ta4_top.png",
+		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_arrow.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_hole_electric.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_ta4_cable.png",
