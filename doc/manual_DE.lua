@@ -744,6 +744,7 @@ techage.manual_DE.aText = {
   "",
   "Das Techage Info Tool (Schraubenschlüssel) hat verschiedene Funktionen. Er zeigt die Uhrzeit\\, die Position\\, die Temperatur und das Biome an\\, wenn auf einen unbekannten Block geklickt wird.\n"..
   "Wird auf einen TechAge Block mit Kommandoschnittstelle geklickt\\, werden alle verfügbaren Daten abgerufen (siehe auch \"Logik-/Schalt-Blöcke\").\n"..
+  "Bei Strom-Verteilerdosen werden die Daten aus dem Stromnetz angezeigt. Außerdem werden die benachbarten Netzwerkteilnehmer (über der Verteiler hinweg) mit einem blauen Käfig und einem Name Tag angezeigt. Dies dient zur Suche von Kabelunterbrechungen.\n"..
   "\n"..
   "\n"..
   "\n",
