@@ -298,7 +298,10 @@ after_dig_node = function(pos, oldnode, oldmetadata, digger)
     minetest.after(0.1, tubelib2.del_mem, pos)  -- At latest...
     return <node>.after_dig_node(pos, oldnode, oldmetadata, digger)
 end,
--- tubelib2 callback, called after any connection change
+-- called after any connection change via 
+--   --> tubelib2 
+--     --> register_on_tube_update callback (cable)
+--       --> after_tube_update (power)
 after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
     mem.connections = ...  -- aktualisieren/löschen
     -- To be called delayed, so that all network connections have been established
@@ -350,6 +353,7 @@ techage.power.power_accounting(pos, mem) --> {network data...} (used by terminal
 techage.power.get_power(start_pos) --> sum (used by solar cells)
 techage.power.power_network_available(start_pos)  --> bool (used by TES generator)
 techage.power.mark_nodes(name, start_pos) -- used by debugging tool
+techage.power.add_connection(pos, out_dir, network, add) -- (Inverter feature)
 ```
 
 ## Klasse `NodeStates`
@@ -369,18 +373,18 @@ Dazu muss eine Instanz von `NodeStates` angelegt werden:
 
 ```lua
 State = techage.NodeStates:new({
-				node_name_passive = "mymod:name_pas",
-				node_name_active = "mymod:name_act",
-				infotext_name = "MyBlock",
-				cycle_time = 2,
-				standby_ticks = 6,
-				formspec_func = func(self, pos, mem),  --> string
-				on_state_change = func(pos, old_state, new_state),
-				can_start = func(pos, mem, state)  --> true or false/<error string>
-				has_power = func(pos, mem, state), --> true/false (for consumer)
-				start_node = func(pos, mem, state),
-				stop_node = func(pos, mem, state),
-			})
+        node_name_passive = "mymod:name_pas",
+        node_name_active = "mymod:name_act",
+        infotext_name = "MyBlock",
+        cycle_time = 2,
+        standby_ticks = 6,
+        formspec_func = func(self, pos, mem),  --> string
+        on_state_change = func(pos, old_state, new_state),
+        can_start = func(pos, mem, state)  --> true or false/<error string>
+        has_power = func(pos, mem, state), --> true/false (for consumer)
+        start_node = func(pos, mem, state),
+        stop_node = func(pos, mem, state),
+    })
 ```
 
 **Wird `NodeStates` verwendet, muss der Knoten die definierten Zustände unterstützen und sollte die formspec mit dem Button und die callbacks `can_start`, `start_node` und `stop_node` implementieren.**
@@ -467,24 +471,26 @@ Ein einfaches Beispiele dafür wäre: `pusher.lua`
 
 #### Problem: Verbindungen zu zwei Netzwerken
 
-Es ist nicht möglich, einen Knoten in zwei unterschiedlichen Netzwerken (bspw. Strom, Dampf) über `techage.power.register_node()` anzumelden. `power` würde zweimal übereinander die gleichen Knoten-internen Variablen wie `mem.connections` im Knoten anlegen und nutzen. Das geht und muss schief gehen. Aktuell ist es zusätzlich so, dass sich Lua in einer Endlosschleife aufhängt. Also insgesammt keine gute Idee.
+Es ist nicht möglich, einen Knoten in zwei unterschiedlichen Netzwerken (bspw. Strom, Dampf) über `techage.power.register_node()` anzumelden. `power` würde zweimal übereinander die gleichen Knoten-internen Variablen wie `mem.connections` im Knoten anlegen und nutzen. Das geht und muss schief gehen. Aktuell ist es zusätzlich so, dass sich Lua in einer Endlosschleife aufhängt. Also insgesamt keine gute Idee.
 
 Ein Lösungsansatz wäre, den Datensatz in mem, node und meta eine Indirektion tiefer unter dem Netzwerknamen abzuspeichern. Dies hat aber Auswirkungen auf die Performance.
 
 Der **Inverter** hat mit Power und Solar zwei Netzwerkanschlüsse. Da dies aber aktuell (03.10.2019) nicht geht, ist nur Power normal registiert, Solar wird nur "krückenhaft" angesteuert. Damit taucht der Inverter aber nicht im Solar-Netzwerk auf. Dies ermöglicht es, mehrere Inverter in ein Solar-Netzwerk zu hängen und jeder liefert die volle Leistung.
 
+Weiteres Problem: Die Funktion `matching_nodes()` (power2.lua) prüft, ob beide Knoten beim `after_tube_update` den gleichen Netzwerktyp haben. Der Inverter liefert hier "power", müsste aber "solar" liefern. Dadurch wird der Verbindungsaufbau von der Junctionbox abgelehnt.
+
 #### Lösung
 
+Leider eine Speziallösung für den Inverter:
 
+- power2 hat eine Funktion `techage.power.add_connection()` um vom Inverter aus beim nächsten angeschlossenen Knoten den Inverter in der connection Liste einzutragen.
+- Der Inverter gibt jetzt bei `techage.power.get_power()` seinen eigenen Namen an. `techage.power.get_power()` liefert die Anzahl der gefundenen Inverter zurück. Sind es mehr als einer, gibt es eine Fehlermeldung.
+- Der Inverter hat auch noch eine `after_tube_update` bekommen, um auch von hier die `techage.power.add_connection()`aufrufen zu können.
+
+So scheint es aber zu gehen.
 
 ### ToDo
 
 - tubelib2.mem beschreiben
-- 
-
-### Neue Ideen
-
-Aktuell triggert jeder Generator irgendwann selbst das Netzwerk. Besser wäre es, es gäbe eine globale Timer Funktion, bei der sich alle Generatoren registrieren, die dann alle nacheinander aufruft.
-
-Damit könnte die Berechnung über die 2 Phasen entfallen, den jeder Generator verteilt seinen Teil an alle Verbraucher, die wo noch nichts haben.
+- Aufteilung in node/meta/mem/cache beschreiben
 
