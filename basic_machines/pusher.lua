@@ -54,7 +54,7 @@ local function keep_running(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	local crd = CRD(pos)
 	pushing(pos, crd, M(pos), mem)
-	return crd.State:is_active(mem)
+	crd.State:is_active(mem)
 end	
 
 local function on_rightclick(pos, node, clicker)

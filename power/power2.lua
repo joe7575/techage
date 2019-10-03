@@ -125,7 +125,7 @@ function techage.power.register_node(names, pwr_def)
 						return pwr.after_dig_node(pos, oldnode, oldmetadata, digger)
 					end
 				end,
-				-- tubelib2 callback, called after any connection change
+				-- tubelib2->Cable:register_on_tube_update callback, called after any connection change
 				after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
 					local pwr = PWR(pos)
 					local mem = tubelib2.get_mem(pos)
@@ -149,6 +149,8 @@ function techage.power.register_node(names, pwr_def)
 	end
 end		
 
+-- Called from tubelib2 via Cable:register_on_tube_update()
+-- For all kind of nodes, used as cable filler/grout
 function techage.power.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir, power)
 	local mem = tubelib2.get_mem(pos)
 	mem.connections = mem.connections or {}
@@ -163,6 +165,22 @@ function techage.power.after_tube_update(node, pos, out_dir, peer_pos, peer_in_d
 	minetest.after(0.2, network_changed, pos, mem)
 	if power.after_tube_update then
 		return power.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
+	end
+end
+
+-- Used for "Ad hoc" networking (nodes with support for two different network types)
+function techage.power.add_connection(pos, out_dir, network, add)
+	local peer_pos, peer_in_dir = network:get_connected_node_pos(pos, out_dir)
+	if peer_pos then
+		local in_dir = tubelib2.Turn180Deg[out_dir]
+		local peer_out_dir = tubelib2.Turn180Deg[peer_in_dir]
+		local mem = tubelib2.get_mem(peer_pos)
+		mem.connections = mem.connections or {}
+		if add then
+			mem.connections[peer_out_dir] = {pos = pos, in_dir = in_dir}
+		else
+			mem.connections[peer_out_dir] = nil -- del connection
+		end
 	end
 end
 

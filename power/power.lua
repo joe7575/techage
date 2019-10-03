@@ -194,6 +194,14 @@ minetest.register_lbm({
 
 -------------------------------------------------- Migrate
 
+local function conection_color(t)
+  local count = 0
+  for _ in pairs(t) do count = count + 1 end
+  if count == 0 then return count, "#FF0000" end
+  if count == 1 then return count, "#FFFF00" end
+  return count, "#00FF00"  
+end
+
 local function pos_already_reached(pos)
 	local key = minetest.hash_node_position(pos)
 	if not Route[key] and NumNodes < MAX_NUM_NODES then
@@ -470,6 +478,10 @@ function techage.power.generator_start(pos, mem, available)
 	end
 end
 
+function techage.power.generator_update(pos, mem, available)
+	mem.pwr_available = available
+end
+
 function techage.power.generator_stop(pos, mem)
 	mem.pwr_node_alive_cnt = 0
 	mem.pwr_available = 0
@@ -588,19 +600,28 @@ end
 
 --
 -- Read the current power value from all connected devices (used for solar cells)
---
-function techage.power.get_power(start_pos)
+-- Only used by the solar inverter to collect the power of all solar cells.
+-- Only one inverter per network is allowed. Therefore, we have to check,
+-- if additional inverters are in the network.
+-- Function returns in addition the number of found inverters.
+function techage.power.get_power(start_pos, inverter)
 	Route = {}
 	NumNodes = 0
 	pos_already_reached(start_pos) 
 	local sum = 0
+	local num_inverter = 0
 	connection_walk(start_pos, function(pos, mem)
 		local pwr = PWR(pos)
 		if pwr and pwr.on_getpower then
 			sum = sum + pwr.on_getpower(pos, mem)
+		else
+			local node = minetest.get_node(pos)
+			if node.name == inverter then
+				num_inverter = num_inverter + 1
+			end
 		end
 	end)
-	return sum
+	return sum, num_inverter
 end	
 
 function techage.power.power_network_available(start_pos)
@@ -620,6 +641,7 @@ function techage.power.mark_nodes(name, start_pos)
 	pos_already_reached(start_pos) 
 	techage.unmark_position(name)
 	connection_walk2(start_pos, 3, 100, function(pos, mem, max_hops)
-		techage.mark_position(name, pos, S(pos).." : "..(4 - max_hops), "#60FF60")
+		local num, color = conection_color(mem.connections or {})
+		techage.mark_position(name, pos, S(pos).." : "..num, color)
 	end)
 end	

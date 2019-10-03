@@ -28,7 +28,7 @@ local function powerpole_found(pos, name, range)
 	local pos2 = {x=pos.x+range, y=pos.y+range, z=pos.z+range}
 	for _,npos in ipairs(minetest.find_nodes_in_area(pos1, pos2, {
 				"techage:power_pole", "techage:power_pole_conn", 
-				"techage:power_pole2", "techage:power_pole3"})) do
+				"techage:power_pole2"})) do
 		if minetest.get_meta(npos):get_string("owner") ~= name then
 			return true
 		end
