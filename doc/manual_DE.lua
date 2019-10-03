@@ -44,7 +44,7 @@ techage.manual_DE.aTitel = {
   "3,TA3 Kühler / Cooler",
   "2,Eletrischer Strom",
   "3,TA Stromkabel / Electric Cable",
-  "3,TA Verteilerbox / Electric Junction Box",
+  "3,TA Verteilerdose / Electric Junction Box",
   "3,TA Stromleitung / Power Line",
   "3,TA Strommast / Power Pole",
   "3,TA Strommastkopf / Power Pole Top",
@@ -53,7 +53,6 @@ techage.manual_DE.aTitel = {
   "3,TA Stromschalter klein / Power Switch Small",
   "3,TA Stromschalterbox / Power Switch Box",
   "3,TA3 Kleiner Stromgenerator / Tiny Power Generator",
-  "3, ",
   "3,TA3 Akku Block /  Akku Box",
   "3,TA3 Strom Terminal / Power Terminal",
   "2,TA3 Industrieofen",
@@ -404,7 +403,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der Generator dient zur Stromerzeugung. Er muss über Stromkabel und Verteilerboxen mit den Maschinen verbunden werden.\n"..
+  "Der Generator dient zur Stromerzeugung. Er muss über Stromkabel und Verteilerdosen mit den Maschinen verbunden werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -418,14 +417,14 @@ techage.manual_DE.aText = {
   "  - Isolierte Kabel (TA Stromkabel) für die lokale Verkabelung im Boden oder in Gebäuden. Diese Kabel lassen sich in der Wand oder im Boden verstecken (können mit der Kelle \"verputzt\" werden).\n"..
   "  - Überlandleitungen (TA Stromleitung) für Freiluftverkabelung über große Strecken. Diese Kabel sind geschützt\\, können also von anderen Spielern nicht entfernt werden.\n"..
   "\n"..
-  "Mehrere Verbraucher und Generatoren können in einem Stromnetzwerk zusammen betrieben werden. Mit Hilfe der Verteilerboxen können so große Netzwerke aufgebaut werden.\n"..
+  "Mehrere Verbraucher und Generatoren können in einem Stromnetzwerk zusammen betrieben werden. Mit Hilfe der Verteilerdosen können so große Netzwerke aufgebaut werden.\n"..
   "Wird zu wenig Strom bereitgestellt\\, gehen Teile der Verbraucher aus\\, bzw. Lampen beginnen zu flackern.\n"..
   "In diesem Zusammenhang ist auch wichtig\\, dass die Funktionsweise von Forceload Blöcken verstanden wurde\\, denn bspw. Generatoren liefern nur Strom\\, wenn der entsprechende Map-Block geladen ist. Dies kann mit einen Forceload Block erzwungen werden.\n"..
   "\n"..
   "\n"..
   "\n",
   "Für die lokale Verkabelung im Boden oder in Gebäuden.\n"..
-  "Abzweigungen können mit Hilfe von Verteilerboxen realisiert werden. Die maximale Kabellänge zwischen Maschinen oder Verteilerboxen beträgt 1000 m. Es können maximale 1000 Knoten in einem Strom-Netzwerk verbunden werden. Als Knoten zählen alle Generatoren\\, Akkus\\, Verteilerboxen und Maschinen.\n"..
+  "Abzweigungen können mit Hilfe von Verteilerdosen realisiert werden. Die maximale Kabellänge zwischen Maschinen oder Verteilerdosen beträgt 1000 m. Es können maximale 1000 Knoten in einem Strom-Netzwerk verbunden werden. Als Knoten zählen alle Generatoren\\, Akkus\\, Verteilerdosen und Maschinen.\n"..
   "\n"..
   "Da die Stromkabel nicht automatisch geschützt sind\\, wird für längere Strecken die Überlandleitungen (TA Stromleitung) empfohlen.\n"..
   "\n"..
@@ -434,12 +433,12 @@ techage.manual_DE.aText = {
   "Zum Verputzen muss mit der Kelle auf das Kabel geklickt werden. Das Material\\, mit dem das Kabel verputzt werden soll\\, muss sich im Spieler-Inventar ganz links befinden.\n"..
   "Die Kabel können wieder sichtbar gemacht werden\\, indem man mit der Kelle wieder auf den Block klickt.\n"..
   "\n"..
-  "Außer Kabel können auch die TA Verteilerbox und die TA Stromschalterbox verputzt werden.\n"..
+  "Außer Kabel können auch die TA Verteilerdose und die TA Stromschalterbox verputzt werden.\n"..
   "\n"..
   "\n"..
   "\n",
-  "Mit der Verteilerbox kann Strom in bis zu 6 Richtungen verteilt werden. Verteilerboxen können auch mit der Kelle verputzt (versteckt) und wieder sichtbar gemacht werden.\n"..
-  "Wird mit dem TechAge Info Werkzeug (Schraubenschlüssel) auf die Verteilerbox geklickt\\, wird angezeigt\\, wie viel Leistung die Generatoren liefern bzw. die Verbraucher im Netzwerk beziehen.\n"..
+  "Mit der Verteilerdose kann Strom in bis zu 6 Richtungen verteilt werden. Verteilerdosen können auch mit der Kelle verputzt (versteckt) und wieder sichtbar gemacht werden.\n"..
+  "Wird mit dem TechAge Info Werkzeug (Schraubenschlüssel) auf die Verteilerdose geklickt\\, wird angezeigt\\, wie viel Leistung die Generatoren liefern bzw. die Verbraucher im Netzwerk beziehen.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -477,7 +476,6 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "",
   "Der Akku Block dient zur Speicherung von überschüssiger Energie und gibt bei Stromausfall automatisch Strom ab (soweit vorhanden).\n"..
   "Der Akku Block ist eine sekundäre Stromquelle. Das bedeutet\\, bei Strombedarf werden zuerst die Generatoren genutzt. Nur wenn der Strom im Netz nicht ausreicht\\, springt der Akku Block ein. Das Gleiche gilt auch für die Stromaufnahme. Daher kann auch kein Akku mit einem anderen Akku geladen werden.\n"..
   "Der Akku liefert 10 ku bzw. nimmt 10 ku auf.\n"..
@@ -485,7 +483,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Das Strom-Terminal muss von eine Verteilerbox platziert werden. Es zeigt Daten aus dem Stromnetz an wie:\n"..
+  "Das Strom-Terminal muss von eine Verteilerdose platziert werden. Es zeigt Daten aus dem Stromnetz an wie:\n"..
   "\n"..
   "  - Leistung alle Generatoren\n"..
   "  - Leistung alles Akkus (Sekundärquellen)\n"..
@@ -744,7 +742,7 @@ techage.manual_DE.aText = {
   "",
   "Das Techage Info Tool (Schraubenschlüssel) hat verschiedene Funktionen. Er zeigt die Uhrzeit\\, die Position\\, die Temperatur und das Biome an\\, wenn auf einen unbekannten Block geklickt wird.\n"..
   "Wird auf einen TechAge Block mit Kommandoschnittstelle geklickt\\, werden alle verfügbaren Daten abgerufen (siehe auch \"Logik-/Schalt-Blöcke\").\n"..
-  "Bei Strom-Verteilerdosen werden die Daten aus dem Stromnetz angezeigt. Außerdem werden die benachbarten Netzwerkteilnehmer (über der Verteiler hinweg) mit einem blauen Käfig und einem Name Tag angezeigt. Dies dient zur Suche von Kabelunterbrechungen.\n"..
+  "Bei Strom-Verteilerdosen werden die Daten aus dem Stromnetz angezeigt. Außerdem werden die benachbarten Netzwerkteilnehmer (über bis zu 4 Verteiler hinweg) mit einem blauen Käfig und einem Text angezeigt. Der Text zeigt die Position und die Anzahl der Verbindungen zu anderen Blöcken (0..6). Dies soll bei der Suche nach Kabelunterbrechungen helfen.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -936,7 +934,6 @@ techage.manual_DE.aItemName = {
   "ta3_powerswitchsmall",
   "ta3_powerswitchbox",
   "ta3_tinygenerator",
-  "",
   "ta3_akkublock",
   "ta3_powerterminal",
   "",
@@ -1033,7 +1030,6 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "coalpowerstation",
-  "",
   "",
   "",
   "",

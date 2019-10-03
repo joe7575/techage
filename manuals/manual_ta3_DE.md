@@ -154,9 +154,6 @@ Der kleine Stromgenerator wird mit Erdöl betrieben und kann für kleine Verbrau
 [ta3_tinygenerator|image]
 
 
-### 
-
-
 ### TA3 Akku Block /  Akku Box
 
 Der Akku Block dient zur Speicherung von überschüssiger Energie und gibt bei Stromausfall automatisch Strom ab (soweit vorhanden).
@@ -527,7 +524,7 @@ Die Verarbeitungsleistung ist 2 Items alle 8 s. Der Block benötigt 5 ku Strom.
 
 Das Techage Info Tool (Schraubenschlüssel) hat verschiedene Funktionen. Er zeigt die Uhrzeit, die Position, die Temperatur und das Biome an, wenn auf einen unbekannten Block geklickt wird.
 Wird auf einen TechAge Block mit Kommandoschnittstelle geklickt, werden alle verfügbaren Daten abgerufen (siehe auch "Logik-/Schalt-Blöcke").
-Bei Strom-Verteilerdosen werden die Daten aus dem Stromnetz angezeigt. Außerdem werden die benachbarten Netzwerkteilnehmer (über der Verteiler hinweg) mit einem blauen Käfig und einem Name Tag angezeigt. Dies dient zur Suche von Kabelunterbrechungen.
+Bei Strom-Verteilerdosen werden die Daten aus dem Stromnetz angezeigt. Außerdem werden die benachbarten Netzwerkteilnehmer (über bis zu 4 Verteiler hinweg) mit einem blauen Käfig und einem Text angezeigt. Der Text zeigt die Position und die Anzahl der Verbindungen zu anderen Blöcken (0..6). Dies soll bei der Suche nach Kabelunterbrechungen helfen.
 
 [ta3_end_wrench|image]
 
