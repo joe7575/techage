@@ -132,7 +132,7 @@ techage.register_node({"techage:ta4_generator", "techage:ta4_generator_on"}, {
 		local mem = tubelib2.get_mem(pos)
 		if topic == "power" then
 			mem.remote_trigger = 2
-			return techage.power.power_available(pos, mem, 0)
+			return techage.power.power_network_available(pos)
 		elseif topic == "start" then
 			mem.remote_trigger = 2
 			swap_node(pos, "techage:ta4_generator_on")

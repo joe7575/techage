@@ -237,6 +237,25 @@ local function connection_walk(pos, clbk)
 	end
 end
 
+-- walk limited by number of nodes and hops
+local function connection_walk2(pos, max_hops, max_nodes, clbk)
+	local mem = tubelib2.get_mem(pos)
+	mem.interrupted_dirs = mem.interrupted_dirs or {}
+	if clbk then
+		clbk(pos, mem, max_hops)
+	end
+	max_hops = max_hops - 1
+	if max_hops < 0 then return end
+	for out_dir,item in pairs(mem.connections or {}) do
+		if item.pos and not pos_already_reached(item.pos) and
+				not mem.interrupted_dirs[out_dir] then
+			max_nodes = max_nodes - 1
+			if max_nodes < 0 then return end
+			connection_walk2(item.pos, max_hops, max_nodes, clbk)
+		end
+	end
+end
+
 -- if no power available
 local function consumer_turn_off(pos, mem)
 	local pwr = PWR(pos)
@@ -584,3 +603,23 @@ function techage.power.get_power(start_pos)
 	return sum
 end	
 
+function techage.power.power_network_available(start_pos)
+	Route = {}
+	NumNodes = 0
+	pos_already_reached(start_pos) 
+	local sum = 0
+	connection_walk2(start_pos, 2, 3, function(pos, mem)
+		sum = sum + 1
+	end)
+	return sum > 1
+end	
+
+function techage.power.mark_nodes(name, start_pos)
+	Route = {}
+	NumNodes = 0
+	pos_already_reached(start_pos) 
+	techage.unmark_position(name)
+	connection_walk2(start_pos, 3, 100, function(pos, mem, max_hops)
+		techage.mark_position(name, pos, S(pos).." : "..(4 - max_hops), "#60FF60")
+	end)
+end	
