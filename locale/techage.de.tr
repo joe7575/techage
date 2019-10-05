@@ -1,7 +1,7 @@
 # textdomain: techage
 
 #### TA3 Terminal ####@n@nSend commands to your machines@nand output text messages from your@nmachines to the Terminal.@n@nCommand syntax:@n  cmd <num> <cmnd>@n@nexample: cmd 181 on@n<num> is the number of the node to which the command is sent@n'on' is the command to turn machines/nodes on@nFurther commands can be retrieved by clicking on@nmachines/nodes with the Techage Info Tool.@n@nLocal commands:@n- clear    @= clear screen@n- help     @= this message@n- pub      @= switch to public use@n- priv      @= switch to private use@nTo program a user button with a command:@n  set <button-num> <button-text> <command>@ne.g. 'set 1 ON cmd 123 on'@n=
-Akkus=Akkus
+(number / current / max.)=(Anzahl / aktuell / max.)
 Allow to dig/place Techage power lines nearby power poles=Erlaubt TODO
 Ash=Asche
 Autocrafter=Autocrafter
@@ -36,7 +36,6 @@ Flint and Iron=Flint and Iron
 Flowing Oil=Fließendes Öl
 Force order of filter items=Erzwinge Reihenfolge
 Furnace Top=Ofenoberteil
-Generators=Generatoren
 Gravel Rinser=Kiesspüler
 Gravel Sieve=Kiessieb
 Grinder=Mühle
@@ -44,7 +43,6 @@ Grinding=Mahlen
 Heat=Hitze
 Insert destination node number(s)=Gebe Zielnummer(n) ein
 Liquid Sampler=Flüssigkeitensammler
-Machines=Maschinen
 Melting Guide=Schmelzführer
 Melting Pot active (heat@==Schmelztiegel aktiv (Hitze@=
 Melting Pot inactive (heat@==Schmelztiegel inaktiv (Hitze@=
@@ -69,6 +67,11 @@ Plan=Plan
 Position=Position
 Position temperature=Positionstemperatur
 Power=Energie
+Power Akkus=Strom Akkus
+Power Fuel=Strom Kohle/Öl
+Power Solar=Strom Solar
+Power Storage=Strom Speicher
+Power Wind=Strom Wind
 Pusher=Schieber
 Remove derrick=Entferne Ölturm
 Rinsing=Waschen
@@ -174,6 +177,8 @@ TA4 Solar Carrier Module=TA4 Solar Trägermodul
 TA4 Solar Carrier Module B=TA4 Solar Trägermodul U
 TA4 Solar Carrier Module T=TA4 Solar Trägermodul O
 TA4 Solar Inverter=TA4 Solar Wechselrichter
+TA4 Solar Inverter AC=TA4 Solar Wechselrichter AC
+TA4 Solar Inverter DC=TA4 Solar Wechselrichter DC
 TA4 Solar Module=TA4 Solarmodul
 TA4 Streetlamp Solar Cell=TA4 Straßenlampen-Solarzelle
 TA4 Turbine=TA4 Turbine

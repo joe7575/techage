@@ -113,6 +113,7 @@ local function start_rotor(pos, mem)
 	end
 	
 	mem.providing = true
+	mem.delivered = 0
 	power.generator_start(pos, mem, PWR_PERF)
 	local hash = minetest.hash_node_position(pos)
 	if Rotors[hash] then
@@ -122,6 +123,7 @@ end
 
 local function stop_rotor(pos, mem)
 	mem.providing = false
+	mem.delivered = 0
 	power.generator_stop(pos, mem)
 	local hash = minetest.hash_node_position(pos)
 	if Rotors[hash] then
@@ -147,7 +149,7 @@ local function node_timer(pos, elapsed)
 		end
 	end
 	if mem.providing then
-		power.generator_alive(pos, mem)
+		mem.delivered = power.generator_alive(pos, mem)
 	end
 	return true
 end
@@ -165,34 +167,7 @@ minetest.register_node("techage:ta4_wind_turbine", {
 		"techage_rotor.png^techage_appl_open.png",
 	},
 	
-	on_construct = tubelib2.init_mem,
-	
-	after_place_node = function(pos, placer)
-		local meta = M(pos)
-		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
-		local mem = tubelib2.get_mem(pos)
-		local own_num = techage.add_node(pos, "techage:ta4_wind_turbine")
-		meta:set_string("node_number", own_num)
-		meta:set_string("owner", placer:get_player_name())
-		meta:set_string("infotext", S("TA4 Wind Turbine").." "..own_num)
-		mem.providing = false
-		mem.running = true
-		add_rotor(pos, mem, placer:get_player_name())
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-	end,
-	
 	on_timer = node_timer,
-	
-	after_dig_node = function(pos)
-		local hash = minetest.hash_node_position(pos)
-		if Rotors[hash] and Rotors[hash]:get_luaentity() then
-			Rotors[hash]:remove()
-		end
-		Rotors[hash] = nil
-		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
-	end,
-	
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
@@ -230,6 +205,28 @@ minetest.register_entity("techage:rotor_ent", {initial_properties = {
 techage.power.register_node({"techage:ta4_wind_turbine"}, {
 	power_network  = Cable,
 	conn_sides = {"D"},
+	after_place_node = function(pos, placer)
+		local meta = M(pos)
+		local mem = tubelib2.init_mem(pos)
+		local own_num = techage.add_node(pos, "techage:ta4_wind_turbine")
+		meta:set_string("node_number", own_num)
+		meta:set_string("owner", placer:get_player_name())
+		meta:set_string("infotext", S("TA4 Wind Turbine").." "..own_num)
+		mem.providing = false
+		mem.running = true
+		add_rotor(pos, mem, placer:get_player_name())
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
+	end,
+	
+	after_dig_node = function(pos)
+		local hash = minetest.hash_node_position(pos)
+		if Rotors[hash] and Rotors[hash]:get_luaentity() then
+			Rotors[hash]:remove()
+		end
+		Rotors[hash] = nil
+		techage.remove_node(pos)
+		tubelib2.del_mem(pos)
+	end,
 })
 
 techage.register_node({"techage:ta4_wind_turbine"}, {	

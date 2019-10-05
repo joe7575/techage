@@ -77,18 +77,7 @@ minetest.register_node("techage:ta3_booster", {
 		"techage_filling_ta3.png^techage_appl_compressor.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_appl_compressor.png^[transformFX^techage_frame_ta3.png",
 	},
-	
-	on_construct = tubelib2.init_mem,
-	after_place_node = function(pos, placer)
-		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
-		local mem = tubelib2.get_mem(pos)
-		local node = minetest.get_node(pos)
-		local indir = techage.side_to_indir("R", node.param2)
-		M(pos):set_int("indir", indir)
-		infotext(pos, "stopped")
-	end,
 	on_timer = node_timer,
-	
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -140,6 +129,13 @@ techage.power.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 	conn_sides = {"F", "B", "U", "D", "L"},
 	on_power = on_power,
 	on_nopower = on_nopower,
+	after_place_node = function(pos, placer)
+		local mem = tubelib2.init_mem(pos)
+		local node = minetest.get_node(pos)
+		local indir = techage.side_to_indir("R", node.param2)
+		M(pos):set_int("indir", indir)
+		infotext(pos, "stopped")
+	end,
 })
 
 -- for intra machine communication

@@ -1,5 +1,5 @@
 #### TA3 Terminal ####@n@nSend commands to your machines@nand output text messages from your@nmachines to the Terminal.@n@nCommand syntax:@n  cmd <num> <cmnd>@n@nexample: cmd 181 on@n<num> is the number of the node to which the command is sent@n'on' is the command to turn machines/nodes on@nFurther commands can be retrieved by clicking on@nmachines/nodes with the Techage Info Tool.@n@nLocal commands:@n- clear    @= clear screen@n- help     @= this message@n- pub      @= switch to public use@n- priv      @= switch to private use@nTo program a user button with a command:@n  set <button-num> <button-text> <command>@ne.g. 'set 1 ON cmd 123 on'@n=
-Akkus=
+(number / current / max.)=
 Allow to dig/place Techage power lines nearby power poles=
 Ash=
 Autocrafter=
@@ -34,7 +34,6 @@ Flint and Iron=
 Flowing Oil=
 Force order of filter items=
 Furnace Top=
-Generators=
 Gravel Rinser=
 Gravel Sieve=
 Grinder=
@@ -42,7 +41,6 @@ Grinding=
 Heat=
 Insert destination node number(s)=
 Liquid Sampler=
-Machines=
 Melting Guide=
 Melting Pot active (heat@==
 Melting Pot inactive (heat@==
@@ -67,6 +65,11 @@ Plan=
 Position=
 Position temperature=
 Power=
+Power Akkus=
+Power Fuel=
+Power Solar=
+Power Storage=
+Power Wind=
 Pusher=
 Remove derrick=
 Rinsing=
@@ -172,6 +175,8 @@ TA4 Solar Carrier Module=
 TA4 Solar Carrier Module B=
 TA4 Solar Carrier Module T=
 TA4 Solar Inverter=
+TA4 Solar Inverter AC=
+TA4 Solar Inverter DC=
 TA4 Solar Module=
 TA4 Streetlamp Solar Cell=
 TA4 Turbine=

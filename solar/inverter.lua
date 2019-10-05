@@ -23,15 +23,13 @@ local Solar = techage.TA4_Cable
 local power = techage.power
 
 local CYCLE_TIME = 2
-local PWR_PERF = 120
+local PWR_PERF = 100
 
 local function determine_power(pos, mem)
-	-- We have to use get_connected_node_pos, because the inverter has already
-	-- a AC power connection. An additional DC power connection is not possibe,
-	-- so we have to start the connection_walk on the next node.
+	-- determine DC node position
 	local dir = M(pos):get_int("left_dir")
-	local pos1 = Solar:get_connected_node_pos(pos, dir)
-	local max_power, num_inverter = power.get_power(pos1, "techage:ta4_solar_inverter")
+	local pos1 = tubelib2.get_pos(pos, dir)
+	local max_power, num_inverter = power.get_power(pos1, "techage:ta4_solar_inverterDC")
 	if num_inverter == 1 then
 		mem.max_power = math.min(PWR_PERF, max_power)
 	else
@@ -140,13 +138,13 @@ local function on_rightclick(pos)
 end
 
 minetest.register_node("techage:ta4_solar_inverter", {
-	description = S("TA4 Solar Inverter"),
+	description = S("TA4 Solar Inverter AC"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_arrow.png",
+		"techage_filling_ta4.png^techage_frame_ta4_top.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_hole_electric.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_ta4_cable.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_open.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_inverter.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_inverter.png",
 	},
@@ -155,42 +153,46 @@ minetest.register_node("techage:ta4_solar_inverter", {
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 
-	after_place_node = function(pos, placer)
-		local mem = tubelib2.init_mem(pos)
-		mem.running = false
-		mem.delivered = 0
-		local number = techage.add_node(pos, "techage:ta4_solar_inverter")
-		State:node_init(pos, mem, number)
-		local meta = M(pos)
-		meta:set_string("formspec", formspec(State, pos, mem))
-		-- Solar/low power cable direction
-		local outdir = techage.power.side_to_outdir(pos, "L")
-		meta:set_int("left_dir", outdir)
-		techage.power.add_connection(pos, outdir, Solar, true)
-		Solar:after_place_node(pos)
-	end,
-
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		local outdir = M(pos):get_int("left_dir")
-		techage.power.add_connection(pos, outdir, Solar, false)
-		Solar:after_dig_node(pos)
-	end,
-	
-	after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir, power)
-		techage.power.add_connection(pos, out_dir, Solar, true)
-	end,
-	
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
 })
 
+minetest.register_node("techage:ta4_solar_inverterDC", {
+	description = S("TA4 Solar Inverter DC"),
+	tiles = {
+		-- up, down, right, left, back, front
+		"techage_filling_ta4.png^techage_frame_ta4_top.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_open.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_ta4_cable.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_inverterDC.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_inverterDC.png",
+	},
+	paramtype2 = "facedir",
+	groups = {cracky=2, crumbly=2, choppy=2},
+	on_rotate = screwdriver.disallow,
+	is_ground_content = false,
+})
+
 techage.power.register_node({"techage:ta4_solar_inverter"}, {
 	conn_sides = {"R"},
 	power_network  = Power,
+	after_place_node = function(pos, placer)
+		-- DC block direction
+		M(pos):set_int("left_dir", techage.power.side_to_outdir(pos, "L"))	
+		local number = techage.add_node(pos, "techage:ta4_solar_inverter")
+		local mem = tubelib2.init_mem(pos)
+		State:node_init(pos, mem, number)
+		M(pos):set_string("formspec", formspec(State, pos, mem))
+		
+	end,
 })
 
-Solar:add_secondary_node_names({"techage:ta4_solar_inverter"})
+techage.power.register_node({"techage:ta4_solar_inverterDC"}, {
+	conn_sides = {"L"},
+	power_network  = Solar,
+})
 
 techage.register_node({"techage:ta4_solar_inverter"}, {
 	on_recv_message = function(pos, src, topic, payload)
@@ -205,8 +207,16 @@ minetest.register_craft({
 	output = "techage:ta4_solar_inverter",
 	recipe = {
 		{'default:steel_ingot', 'dye:green', 'default:steel_ingot'},
-		{'techage:ta4_power_cableS', 'techage:ta4_wlanchip', 'techage:electric_cableS'},
+		{'', 'techage:ta4_wlanchip', 'techage:electric_cableS'},
 		{'default:steel_ingot', "techage:baborium_ingot", 'default:steel_ingot'},
 	},
 })
 
+minetest.register_craft({
+	output = "techage:ta4_solar_inverterDC",
+	recipe = {
+		{'default:steel_ingot', 'dye:green', 'default:steel_ingot'},
+		{'techage:ta4_power_cableS', '', ''},
+		{'default:steel_ingot', "techage:baborium_ingot", 'default:steel_ingot'},
+	},
+})

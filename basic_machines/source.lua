@@ -123,16 +123,6 @@ minetest.register_node("techage:t2_source", {
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
-
-	on_construct = tubelib2.init_mem,
-	after_place_node = function(pos, placer)
-		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
-		local mem = tubelib2.get_mem(pos)
-		State2:node_init(pos, mem, "")
-		mem.state_num = 2
-		on_rightclick(pos)
-	end,
-	
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
@@ -153,16 +143,6 @@ minetest.register_node("techage:t3_source", {
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
-
-	on_construct = tubelib2.init_mem,
-	after_place_node = function(pos, placer)
-		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
-		local mem = tubelib2.get_mem(pos)
-		State3:node_init(pos, mem, "")
-		mem.state_num = 3
-		on_rightclick(pos)
-	end,
-	
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
@@ -183,16 +163,6 @@ minetest.register_node("techage:t4_source", {
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
-
-	on_construct = tubelib2.init_mem,
-	after_place_node = function(pos, placer)
-		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
-		local mem = tubelib2.get_mem(pos)
-		State4:node_init(pos, mem, "")
-		mem.state_num = 4
-		on_rightclick(pos)
-	end,
-	
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
@@ -201,14 +171,32 @@ minetest.register_node("techage:t4_source", {
 techage.power.register_node({"techage:t2_source"}, {
 	conn_sides = {"R"},
 	power_network  = TA2_Power,
+	after_place_node = function(pos, placer)
+		local mem = tubelib2.init_mem(pos)
+		State2:node_init(pos, mem, "")
+		mem.state_num = 2
+		on_rightclick(pos)
+	end,
 })
 
 techage.power.register_node({"techage:t3_source"}, {
 	conn_sides = {"R"},
 	power_network  = TA3_Power,
+	after_place_node = function(pos, placer)
+		local mem = tubelib2.init_mem(pos)
+		State3:node_init(pos, mem, "")
+		mem.state_num = 3
+		on_rightclick(pos)
+	end,
 })
 
 techage.power.register_node({"techage:t4_source"}, {
 	conn_sides = {"R"},
 	power_network  = TA4_Power,
+	after_place_node = function(pos, placer)
+		local mem = tubelib2.init_mem(pos)
+		State4:node_init(pos, mem, "")
+		mem.state_num = 4
+		on_rightclick(pos)
+	end,
 })

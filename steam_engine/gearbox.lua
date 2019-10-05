@@ -49,31 +49,17 @@ local function node_timer(pos, elapsed)
 end
 
 -- to be able to restart the node after server crashes
-local function on_rightclick(pos, node, clicker)
+local function on_rightclick(pos)
 	local mem = tubelib2.get_mem(pos)
 	minetest.get_node_timer(pos):start(CYCLE_TIME)
 	power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
-end
-
-local function after_place_node(pos, placer, itemstack, pointed_thing)
-	-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
-	local mem = tubelib2.get_mem(pos)
-	minetest.get_node_timer(pos):start(CYCLE_TIME)
-	power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
-end
-
-local function after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
-	techage.switch_axles(pos, node.name == "techage:gearbox_on")
 end
 
 minetest.register_node("techage:gearbox", {
 	description = S("TA2 Gearbox"),
 	tiles = {"techage_filling_ta2.png^techage_axle_gearbox.png^techage_frame_ta2.png"},
 	
-	on_construct = tubelib2.init_mem,
-	after_place_node = after_place_node,
 	on_rightclick = on_rightclick,
-	after_tube_update = after_tube_update,
 	on_timer = node_timer,
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -98,10 +84,8 @@ minetest.register_node("techage:gearbox_on", {
 		},
 	},
 	
-	after_place_node = after_place_node,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
-	after_tube_update = after_tube_update,
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
 	diggable = false,
@@ -115,6 +99,12 @@ techage.power.register_node({"techage:gearbox", "techage:gearbox_on"}, {
 	power_network  = Axle,
 	on_power = on_power,
 	on_nopower = on_nopower,
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		on_rightclick(pos)
+	end,
+	after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
+		techage.switch_axles(pos, node.name == "techage:gearbox_on")
+	end,
 })
 	
 minetest.register_craft({

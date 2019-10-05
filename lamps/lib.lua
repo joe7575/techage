@@ -57,16 +57,16 @@ local function lamp_on_rightclick(pos, node, clicker)
 	end
 	
 	local mem = tubelib2.get_mem(pos)
+	minetest.get_node_timer(pos):start(CYCLE_TIME)
+	
 	if not mem.turned_on and power.power_available(pos, mem, PWR_NEEDED) then
 		mem.turned_on = true
-		swap_node(pos, "on")
 		power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
+		swap_node(pos, "on")
 	else
 		mem.turned_on = false
-		swap_node(pos, "off")
 		power.consumer_stop(pos, mem)
-		minetest.get_node_timer(pos):stop()
+		swap_node(pos, "off")
 	end
 end
 

@@ -60,12 +60,6 @@ minetest.register_node("techage:sink", {
 	description = "Sink",
 	tiles = {'techage_electric_button.png'},
 	
-	after_place_node = function(pos)
-		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
-		local mem = tubelib2.get_mem(pos)
-		M(pos):set_string("infotext", "off")
-	end,
-	
 	on_timer = node_timer,
 	on_rightclick = on_rightclick,
 
@@ -99,4 +93,9 @@ techage.power.register_node({"techage:sink", "techage:sink_on"}, {
 	power_network  = Cable,
 	on_power = on_power,
 	on_nopower = on_nopower,
+	after_place_node = function(pos)
+		local mem = tubelib2.init_mem(pos)
+		M(pos):set_string("infotext", "off")
+	end,
+	
 })

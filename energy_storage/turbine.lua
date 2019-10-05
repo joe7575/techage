@@ -82,12 +82,6 @@ minetest.register_node("techage:ta4_turbine", {
 		"techage_filling_ta4.png^techage_appl_turbine.png^techage_frame_ta4.png",
 		"techage_filling_ta4.png^techage_appl_turbine.png^techage_frame_ta4.png",
 	},
-	after_place_node = function(pos, placer)
-		local mem = tubelib2.init_mem(pos)
-		mem.running = false
-		mem.remote_trigger = 0
-	end,
-
 	on_timer = node_timer,
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -143,6 +137,11 @@ minetest.register_node("techage:ta4_turbine_on", {
 techage.power.register_node({"techage:ta4_turbine", "techage:ta4_turbine_on"}, {
 	conn_sides = {"L", "U"},
 	power_network  = Pipe,
+	after_place_node = function(pos, placer)
+		local mem = tubelib2.init_mem(pos)
+		mem.running = false
+		mem.remote_trigger = 0
+	end,
 })
 
 -- for logical communication

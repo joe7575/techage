@@ -17,6 +17,7 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
+local N = function(pos) return minetest.get_node(pos).name end
 local D = techage.Debug
 
 -- Techage Related Data
@@ -194,7 +195,7 @@ minetest.register_lbm({
 
 -------------------------------------------------- Migrate
 
-local function conection_color(t)
+local function connection_color(t)
   local count = 0
   for _ in pairs(t) do count = count + 1 end
   if count == 0 then return count, "#FF0000" end
@@ -245,23 +246,25 @@ local function connection_walk(pos, clbk)
 	end
 end
 
--- walk limited by number of nodes and hops
-local function connection_walk2(pos, max_hops, max_nodes, clbk)
+-- Comfort walk with abort condition and additional info
+-- num_hops is for internal use only
+-- clbk(pos, node, mem, num_hops, num_nodes)
+local function limited_connection_walk(pos, clbk, num_hops)
+	num_hops = num_hops or 1
 	local mem = tubelib2.get_mem(pos)
 	mem.interrupted_dirs = mem.interrupted_dirs or {}
 	if clbk then
-		clbk(pos, mem, max_hops)
+		local node = techage.get_node_lvm(pos)
+		if clbk(pos, node, mem, num_hops, NumNodes) then return true end
 	end
-	max_hops = max_hops - 1
-	if max_hops < 0 then return end
+	num_hops = num_hops + 1
 	for out_dir,item in pairs(mem.connections or {}) do
 		if item.pos and not pos_already_reached(item.pos) and
 				not mem.interrupted_dirs[out_dir] then
-			max_nodes = max_nodes - 1
-			if max_nodes < 0 then return end
-			connection_walk2(item.pos, max_hops, max_nodes, clbk)
+			limited_connection_walk(item.pos, clbk, num_hops)
 		end
 	end
+	return false
 end
 
 -- if no power available
@@ -537,7 +540,7 @@ function techage.power.power_available(pos, mem, needed)
 	return false
 end		
 
--- Power terminal function
+-- Debug info, used by junction boxes
 function techage.power.power_accounting(pos, mem)
 	if mem.pwr_master_pos and (mem.pwr_power_provided_cnt or 0) > 0 then
 		mem.pwr_power_provided_cnt = (mem.pwr_power_provided_cnt or 0) - 1
@@ -628,11 +631,10 @@ function techage.power.power_network_available(start_pos)
 	Route = {}
 	NumNodes = 0
 	pos_already_reached(start_pos) 
-	local sum = 0
-	connection_walk2(start_pos, 2, 3, function(pos, mem)
-		sum = sum + 1
+	limited_connection_walk(start_pos, function(pos, node, mem, _, num_nodes)
+		return num_nodes > 2
 	end)
-	return sum > 1
+	return NumNodes > 2
 end	
 
 function techage.power.mark_nodes(name, start_pos)
@@ -640,8 +642,36 @@ function techage.power.mark_nodes(name, start_pos)
 	NumNodes = 0
 	pos_already_reached(start_pos) 
 	techage.unmark_position(name)
-	connection_walk2(start_pos, 3, 100, function(pos, mem, max_hops)
-		local num, color = conection_color(mem.connections or {})
+	limited_connection_walk(start_pos, function(pos, node, mem, num_hops, num_nodes)
+		local num, color = connection_color(mem.connections or {})
 		techage.mark_position(name, pos, S(pos).." : "..num, color)
+		return num_hops >= 3 or num_nodes >= 100
 	end)
 end	
+
+-- Network walk with callback for each node:
+--
+-- 		limited_connection_walk(pos, clbk)  --> num_hops, num_nodes
+--
+-- called function: clbk(pos, node, mem, num_hops, num_nodes)
+-- walk will be arborted if function returns true
+function techage.power.limited_connection_walk(pos, clbk)
+	Route = {}
+	NumNodes = 0
+	pos_already_reached(pos) 
+	limited_connection_walk(pos, clbk)
+	return NumNodes
+end
+
+--local function test()
+--	print("test")
+--	local cnt = 0
+--	tubelib2.walk_over_all(function(pos, mem)
+--		local node = techage.get_node_lvm(pos)
+--		print(S(pos), node.name)
+--		cnt = cnt + 1
+--	end)
+--    print("cnt = "..cnt)
+--end
+
+--minetest.after(1, test)

@@ -63,19 +63,21 @@ Es empfiehlt sich daher, nach heißen Steppen und Wüsten für die Solaranlage A
 Für den Stromtransport stehen die Überlandleitungen zur Verfügung.  
 Es kann aber auch Wasserstoff produziert werden, welcher sich transportieren und am Ziel wieder zu Strom umwandeln lässt (geplant).
 
-Die kleinste Einheit bei einer Solaranlage sind zwei Solarmodule und ein Trägermodul. Das Trägermodul muss zuerst gesetzt werden, die zwei Solarmodule dann links und rechts daneben.
+Die kleinste Einheit bei einer Solaranlage sind zwei Solarmodule und ein Trägermodul. Das Trägermodul muss zuerst gesetzt werden, die zwei Solarmodule dann links und rechts daneben (nicht darüber!).
 
-Solarmodule liefern Gleichspannung, welcher nicht direkt in das Stromnetz eingespeist werden kann. Daher müssen zuerst die Solareinheiten über das rote Kabel mit dem Wechselrichter verbunden werden. Dieser hat zwei Anschlussseiten, eine für das rote Kabel zu den Solarmodulen und eine für das graue Stromkabel ins Stromnetz.
+Der Plan rechts zeigt 3 Einheiten mit je zwei Solarmodulen und einem Trägermodul, über rote Kabel mit dem Wechselrichter verbunden.
+
+Solarmodule liefern Gleichspannung, welcher nicht direkt in das Stromnetz eingespeist werden kann. Daher müssen zuerst die Solareinheiten über das rote Kabel mit dem Wechselrichter verbunden werden. Dieser besteht aus zwei Blöcken, einen für das rote Kabel zu den Solarmodulen (DC) und einen für das graue Stromkabel ins Stromnetz (AC).
 
 Der Kartenbereich, wo die Solaranlage steht, muss komplett geladen sein. Es empfiehlt sich daher, zuerst einen Forceload Block zu setzen, und dann innerhalb dieses Bereiches die Module zu platzieren.
 
-[techage_ta4_solar|image]
+[ta4_solarplant|plan]
 
 
 ### TA4 Solarmodul / Solar Module
 
 Das Solarmodul muss an das Trägermodul gesetzt werden. Es sind immer zwei Solarmodule notwendig.
-Im Paar leisten die Solarmodule bis 4 ku, je nach Temperatur.
+Im Paar leisten die Solarmodule bis 3 ku, je nach Temperatur.
 Bei den Solarmodul muss darauf geachtet werden, dass diese das volle Tageslicht haben und nicht durch Blöcke oder Bäume beschattet sind.
 
 [ta4_solarmodule|image]
@@ -92,7 +94,8 @@ Die Trägermodule können direkt aneinander gesetzt und so zu einer Modulreihe v
 ### TA4 Solar Wechselrichter / Solar Inverter
 
 Der Wechselrichter wandelt den Solarstrom (DC) in Wechselstrom (AC) um, so dass dieser in das Stromnetz eingespeist werden kann.
-Ein Wechselrichter kann maximal 120 ku an Strom einspeisen, was 30 Solarmodulen oder auch mehr entspricht.
+Ein Wechselrichter, bestehend aus zwei Blöcken kann maximal 100 ku an Strom einspeisen, was 33 Solarmodulen oder auch mehr entspricht.
+Der DC Block muss links neben den AC-Block gesetzt werden.
 
 [ta4_solar_inverter|image]
 

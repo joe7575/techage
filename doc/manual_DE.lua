@@ -485,9 +485,7 @@ techage.manual_DE.aText = {
   "\n",
   "Das Strom-Terminal muss von eine Verteilerdose platziert werden. Es zeigt Daten aus dem Stromnetz an wie:\n"..
   "\n"..
-  "  - Leistung alle Generatoren\n"..
-  "  - Leistung alles Akkus (Sekundärquellen)\n"..
-  "  - Leistungsaufnahme aller Maschinen\n"..
+  "  - Anzahl und Leistung der verschiedenen Generatoren und Akkus (aktuell/maximal)\n"..
   "  - Anzahl der Netzwerk-Blöcke (max. 1000)\nDie Daten des Terminals werden beim Öffnen des Menüs und dann nur durch Anklicken des \"Update\" Buttons aktualisiert.\n"..
   "\n"..
   "\n"..
@@ -801,16 +799,16 @@ techage.manual_DE.aText = {
   "Für den Stromtransport stehen die Überlandleitungen zur Verfügung.\n"..
   "Es kann aber auch Wasserstoff produziert werden\\, welcher sich transportieren und am Ziel wieder zu Strom umwandeln lässt (geplant).\n"..
   "\n"..
-  "Die kleinste Einheit bei einer Solaranlage sind zwei Solarmodule und ein Trägermodul. Das Trägermodul muss zuerst gesetzt werden\\, die zwei Solarmodule dann links und rechts daneben.\n"..
+  "Die kleinste Einheit bei einer Solaranlage sind zwei Solarmodule und ein Trägermodul. Das Trägermodul muss zuerst gesetzt werden\\, die zwei Solarmodule dann links und rechts daneben (nicht darüber!).\n"..
   "\n"..
-  "Solarmodule liefern Gleichspannung\\, welcher nicht direkt in das Stromnetz eingespeist werden kann. Daher müssen zuerst die Solareinheiten über das rote Kabel mit dem Wechselrichter verbunden werden. Dieser hat zwei Anschlussseiten\\, eine für das rote Kabel zu den Solarmodulen und eine für das graue Stromkabel ins Stromnetz.\n"..
+  "Solarmodule liefern Gleichspannung\\, welcher nicht direkt in das Stromnetz eingespeist werden kann. Daher müssen zuerst die Solareinheiten über das rote Kabel mit dem Wechselrichter verbunden werden. Dieser besteht aus zwei Blöcken\\, einen für das rote Kabel zu den Solarmodulen (DC) und einen für das graue Stromkabel ins Stromnetz (AC).\n"..
   "\n"..
   "Der Kartenbereich\\, wo die Solaranlage steht\\, muss komplett geladen sein. Es empfiehlt sich daher\\, zuerst einen Forceload Block zu setzen\\, und dann innerhalb dieses Bereiches die Module zu platzieren.\n"..
   "\n"..
   "\n"..
   "\n",
   "Das Solarmodul muss an das Trägermodul gesetzt werden. Es sind immer zwei Solarmodule notwendig.\n"..
-  "Im Paar leisten die Solarmodule bis 4 ku\\, je nach Temperatur.\n"..
+  "Im Paar leisten die Solarmodule bis 3 ku\\, je nach Temperatur.\n"..
   "Bei den Solarmodul muss darauf geachtet werden\\, dass diese das volle Tageslicht haben und nicht durch Blöcke oder Bäume beschattet sind.\n"..
   "\n"..
   "\n"..
@@ -821,7 +819,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Der Wechselrichter wandelt den Solarstrom (DC) in Wechselstrom (AC) um\\, so dass dieser in das Stromnetz eingespeist werden kann.\n"..
-  "Ein Wechselrichter kann maximal 120 ku an Strom einspeisen\\, was 30 Solarmodulen oder auch mehr entspricht.\n"..
+  "Ein Wechselrichter\\, bestehend aus zwei Blöcken kann maximal 100 ku an Strom einspeisen\\, was 33 Solarmodulen oder auch mehr entspricht.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -978,7 +976,7 @@ techage.manual_DE.aItemName = {
   "ta4_nacelle",
   "ta4_blinklamp",
   "ta4_pillar",
-  "techage_ta4_solar",
+  "",
   "ta4_solarmodule",
   "ta4_solarcarrier",
   "ta4_solar_inverter",
@@ -1090,7 +1088,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
-  "",
+  "ta4_solarplant",
   "",
   "",
   "",

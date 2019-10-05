@@ -77,24 +77,6 @@ minetest.register_node("techage:ta4_solar_minicell", {
 			{-7/32, -16/32, -7/32,  7/32, -8/32, 7/32},
 		},
 	},
-	
-	after_place_node = function(pos)
-		local meta = minetest.get_meta(pos)
-		local number = techage.add_node(pos, "techage:ta4_solar_minicell")
-		meta:set_string("node_number", number)
-		meta:set_string("infotext", S("TA4 Streetlamp Solar Cell").." "..number)
-		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
-		local mem = tubelib2.get_mem(pos)
-		mem.capa = 0
-		mem.providing = false
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-	end,
-	
-	after_dig_node = function(pos)
-		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
-	end,
-	
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
@@ -104,6 +86,21 @@ minetest.register_node("techage:ta4_solar_minicell", {
 techage.power.register_node({"techage:ta4_solar_minicell"}, {
 	power_network  = Cable,
 	conn_sides = {"D"},
+	after_place_node = function(pos)
+		local meta = minetest.get_meta(pos)
+		local number = techage.add_node(pos, "techage:ta4_solar_minicell")
+		meta:set_string("node_number", number)
+		meta:set_string("infotext", S("TA4 Streetlamp Solar Cell").." "..number)
+		local mem = tubelib2.init_mem(pos)
+		mem.capa = 0
+		mem.providing = false
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
+	end,
+	
+	after_dig_node = function(pos)
+		techage.remove_node(pos)
+		tubelib2.del_mem(pos)
+	end,
 })
 
 techage.register_node({"techage:ta4_solar_minicell"}, {	

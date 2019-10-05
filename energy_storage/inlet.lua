@@ -128,8 +128,8 @@ end
 -- for logical communication
 techage.register_node({"techage:ta4_pipe_inlet"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
-		if topic == "radius" then
-			return get_radius(pos, in_dir)
+		if topic == "diameter" then
+			return get_radius(pos, in_dir) * 2 - 1
 		elseif topic == "volume" then
 			return check_volume(pos, in_dir, payload)
 		elseif topic == "window" then

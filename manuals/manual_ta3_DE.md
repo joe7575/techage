@@ -167,9 +167,7 @@ Bei Volllast kann ein Akku 400 s lang Strom aufnehmen und wenn er voll ist, auch
 ### TA3 Strom Terminal / Power Terminal
 
 Das Strom-Terminal muss von eine Verteilerdose platziert werden. Es zeigt Daten aus dem Stromnetz an wie:
-- Leistung alle Generatoren
-- Leistung alles Akkus (Sekundärquellen)
-- Leistungsaufnahme aller Maschinen
+- Anzahl und Leistung der verschiedenen Generatoren und Akkus (aktuell/maximal)
 - Anzahl der Netzwerk-Blöcke (max. 1000)
 Die Daten des Terminals werden beim Öffnen des Menüs und dann nur durch Anklicken des "Update" Buttons aktualisiert.
 

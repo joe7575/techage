@@ -70,7 +70,10 @@ function techage.register_junction(name, size, boxes, network, node, index)
 		ndef.drop = name..(index or "0")
 		minetest.register_node(name..idx, ndef)
 		-- Register in addition for power distribution
-		techage.power.register_node({name..idx}, {power_network = network})
+		techage.power.register_node({name..idx}, {
+			power_network = network,
+			after_tube_update = ndef.after_tube_update,
+		})
 	end
 end
 

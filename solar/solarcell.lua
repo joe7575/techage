@@ -17,7 +17,7 @@ local P = minetest.string_to_pos
 local M = minetest.get_meta
 local S = techage.S
 
-local PWR_PERF = 4
+local PWR_PERF = 3
 
 local Cable = techage.TA4_Cable
 local power = techage.power
@@ -81,6 +81,7 @@ end
 
 minetest.register_node("techage:ta4_solar_module", {
 	description = S("TA4 Solar Module"),
+	inventory_image = "techage_solar_module_top.png",
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_solar_module_top.png",
@@ -120,13 +121,6 @@ minetest.register_node("techage:ta4_solar_carrier", {
 			{-3/8,  5/16, -1/2,  3/8,  7/16, 1/2},
 		},
 	},
-	
-	after_place_node = function(pos)
-		M(pos):set_int("temperature", temperature(pos))
-		M(pos):set_int("left_param2", get_param2(pos, "L"))
-		M(pos):set_int("right_param2", get_param2(pos, "R"))
-	end,
-	
 	paramtype = "light",
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -152,13 +146,6 @@ minetest.register_node("techage:ta4_solar_carrierB", {
 			{-1/8, -6/16, -1/2,  1/8,  8/16, 1/2},
 		},
 	},
-	
-	after_place_node = function(pos)
-		M(pos):set_int("temperature", temperature(pos))
-		M(pos):set_int("left_param2", get_param2(pos, "L"))
-		M(pos):set_int("right_param2", get_param2(pos, "R"))
-	end,
-	
 	paramtype = "light",
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -195,12 +182,22 @@ techage.power.register_node({"techage:ta4_solar_carrier"}, {
 	power_network  = Cable,
 	on_getpower = on_getpower1,
 	conn_sides ={"F", "B"},
+	after_place_node = function(pos)
+		M(pos):set_int("temperature", temperature(pos))
+		M(pos):set_int("left_param2", get_param2(pos, "L"))
+		M(pos):set_int("right_param2", get_param2(pos, "R"))
+	end,
 })
 
 techage.power.register_node({"techage:ta4_solar_carrierB"}, {
 	power_network  = Cable,
 	on_getpower = on_getpower2,
 	conn_sides ={"F", "B"},
+	after_place_node = function(pos)
+		M(pos):set_int("temperature", temperature(pos))
+		M(pos):set_int("left_param2", get_param2(pos, "L"))
+		M(pos):set_int("right_param2", get_param2(pos, "R"))
+	end,
 })
 
 minetest.register_craft({

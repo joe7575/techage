@@ -45,11 +45,6 @@ minetest.register_node("techage:source", {
 		'techage_electric_button.png^techage_appl_electronic_fab.png',
 		'techage_electric_button.png^techage_appl_electronic_fab.png',
 	},
-	after_place_node = function(pos)
-		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
-		local mem = tubelib2.get_mem(pos)
-		M(pos):set_string("infotext", "off")
-	end,
 	
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -60,4 +55,8 @@ minetest.register_node("techage:source", {
 
 techage.power.register_node({"techage:source"}, {
 	power_network  = Cable,
+	after_place_node = function(pos)
+		local mem = tubelib2.init_mem(pos)
+		M(pos):set_string("infotext", "off")
+	end,
 })

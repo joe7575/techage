@@ -184,16 +184,6 @@ minetest.register_node("techage:power_pole", {
 			{ -2/32,  -4/32,  12/32,   2/32,  4/32,  16/32},
 		},
 	},
-	after_place_node = function(pos, placer, itemstack, pointed_thing)
-		M(pos):set_string("owner", placer:get_player_name())
-		if techage.is_protected(pos, placer:get_player_name()) then
-			minetest.remove_node(pos)
-			return true
-		end
-		local node = minetest.get_node(pos)
-		node.name = "techage:power_pole_conn"
-		minetest.swap_node(pos, node)
-	end,
 	
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
@@ -331,7 +321,21 @@ minetest.register_node("techage:power_pole3", {
 	sounds = default.node_sound_defaults(),
 })
 
-techage.power.register_node({"techage:power_pole", "techage:power_pole_conn"}, {
+techage.power.register_node({"techage:power_pole"}, {
+	power_network  = Cable,
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		M(pos):set_string("owner", placer:get_player_name())
+		if techage.is_protected(pos, placer:get_player_name()) then
+			minetest.remove_node(pos)
+			return true
+		end
+		local node = minetest.get_node(pos)
+		node.name = "techage:power_pole_conn"
+		minetest.swap_node(pos, node)
+	end,
+})
+
+techage.power.register_node({"techage:power_pole_conn"}, {
 	power_network  = Cable,
 })
 

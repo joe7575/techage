@@ -28,35 +28,80 @@ local Param2ToDir = {
 	[5] = 3,
 }
 
+local function collect_network_data(pos, mem)
+	local data = {
+		fuel = {},
+		wind = {},
+		solar = {},
+		akku = {},
+		stor = {},
+	}
+	local add = function(kind, attr, val) 
+		data[kind][attr] = (data[kind][attr] or 0) + (val or 0) 
+	end
+	local max = function(kind, attr, val) 
+		data[kind][attr] = math.max((data[kind][attr] or 0), (val or 0))
+	end
+	
+	local nnodes = techage.power.limited_connection_walk(pos, 
+		function(pos, node, mem, num_hops, num_nodes) 
+			if node.name == "techage:generator" or node.name == "techage:generator_on" then
+				add("fuel", "num", 1)
+				add("fuel", "nomi", mem.pwr_available)
+				add("fuel", "curr", mem.provided)
+			elseif node.name == "techage:ta3_akku" then
+				add("akku", "num", 1)
+				add("akku", "nomi", mem.pwr_available2)
+				add("akku", "curr", mem.delivered)
+			elseif node.name == "techage:heatexchanger1" then
+				add("stor", "num", 1)
+				add("stor", "nomi", mem.pwr_available2)
+				add("stor", "curr", mem.delivered)
+			elseif node.name == "techage:tiny_generator" or node.name == "techage:tiny_generator_on" then
+				add("fuel", "num", 1)
+				add("fuel", "nomi", mem.pwr_available)
+				add("fuel", "curr", mem.provided)
+			elseif node.name == "techage:ta4_solar_inverter" then
+				add("solar", "num", 1)
+				add("solar", "nomi", mem.pwr_available)
+				add("solar", "curr", mem.delivered)
+			elseif node.name == "techage:ta4_wind_turbine" then
+				add("wind", "num", 1)
+				add("wind", "nomi", mem.pwr_available)
+				add("wind", "curr", mem.delivered)
+			end
+		end
+	)
+	return data, nnodes
+end
+
 local function formspec(pos)
 	local jpos = minetest.deserialize(M(pos):get_string("junction_pos"))
-	local power = techage.power.power_accounting(jpos, tubelib2.get_mem(jpos))
-	if power and power.prim_available then
-		local alarm = ""
-		if power.num_nodes > (techage.MAX_NUM_NODES - 50) then
-			alarm = "  (max. "..(techage.MAX_NUM_NODES).." !!!)"
-		end
-		return "size[5,4]"..
-		default.gui_bg..
-		default.gui_bg_img..
-		default.gui_slots..
-		"label[1.5,0.0;"..S("Network Data").."]"..
-		"label[0,0.8;"..S("Generators").."        : "..power.prim_available.." ku]"..
-		"label[0,1.4;"..S("Akkus").."                 : "..power.sec_available.." ku]"..
-		"label[0,2.0;"..S("Machines").."           : "..power.prim_needed.." ku]"..
-		"label[0,2.6;"..S("Number nodes").."  : "..power.num_nodes..alarm.."]"..
-		"button[1.5,3.3;2,1;update;"..S("Update").."]"
+	local data, nnodes = collect_network_data(jpos, tubelib2.get_mem(jpos))
+	local get = function(kind) 
+		return (data[kind].num or 0).." / "..(data[kind].curr or 0).." ku / "..(data[kind].nomi or 0).. " ku"
 	end
-	return "size[5,4]"..
+	local get = function(kind) 
+		return (data[kind].num or 0).." / "..(data[kind].curr or 0).." ku / "..(data[kind].nomi or 0).. " ku"
+	end
+		
+	local alarm = ""
+	if nnodes > (techage.MAX_NUM_NODES - 50) then
+		alarm = "  (max. "..(techage.MAX_NUM_NODES).." !!!)"
+	end
+	return "size[10,6.5]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	"label[1.5,0.0;"..S("Network Data").."]"..
-	"label[0,0.8;"..S("Generators").."        : 0 ku]"..
-	"label[0,1.4;"..S("Akkus").."                 : 0 ku]"..
-	"label[0,2.0;"..S("Machines").."           : 0 ku]"..
-	"label[0,2.6;"..S("Number nodes").."  : 0]"..
-	"button[1.5,3.3;2,1;update;"..S("Update").."]"
+	"label[2,0.0;"..S("Network Data").."]"..
+	"label[3,0.7;"..S("(number / current / max.)").."]"..
+	"label[0,1.4;"..S("Power Fuel")..":]"..   "label[4,1.4;"..get("fuel").."]"..
+	"label[0,2.1;"..S("Power Solar")..":]"..  "label[4,2.1;"..get("solar").."]"..
+	"label[0,2.8;"..S("Power Wind")..":]"..	  "label[4,2.8;"..get("wind").."]"..
+	"label[0,3.5;"..S("Power Storage")..":]".."label[4,3.5;"..get("stor").."]"..
+	"label[0,4.2;"..S("Power Akkus")..":]"..  "label[4,4.2;"..get("akku").."]"..
+	"label[0,4.9;"..S("Number nodes").." : "..nnodes..alarm.."]"..
+	"button[2.5,5.8;2,1;update;"..S("Update").."]"
 end
 
 local function update_formspec(pos)

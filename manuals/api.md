@@ -144,41 +144,49 @@ end)
 
 Wird 1) aufgerufen, wird 2) **nicht** mehr gerufen!
 
+### API Funktionen
+
+```lua
+tubelib2.get_pos(pos, dir)
+```
+
+
+
+## Techage `command`
+
 ### Dir vs. Side
 
 `tubelib2` arbeitet nur mit dirs (siehe oben). Oft ist aber die Arbeitsweise mit `sides` einfacher.
 
-Techage defiiert `sides` , die wie folgt definiert sind `{B=1, R=2, F=3, L=4, D=5, U=6}`:
+Techage definiert `sides` , die wie folgt definiert sind `{B=1, R=2, F=3, L=4, D=5, U=6}`:
 
-    sides:                                  dirs: 
-                U                    
-                |    B               
-                |   /                                 6
-             +--|-----+                               |  1
-            /   o    /|                               | /
-           +--------+ |                               |/
-    L <----|        |o----> R               4 <-------+-------> 2
-           |    o   | |                              /|
-           |   /    | +                             / |
-           |  /     |/                             3  |
-           +-/------+                                 5
-            /   |
-           F    |
-                D 
+```
+sides:                                  dirs: 
+            U                    
+            |    B               
+            |   /                                 6
+         +--|-----+                               |  1
+        /   o    /|                               | /
+       +--------+ |                               |/
+L <----|        |o----> R               4 <-------+-------> 2
+       |    o   | |                              /|
+       |   /    | +                             / |
+       |  /     |/                             3  |
+       +-/------+                                 5
+        /   |
+       F    |
+            D 
+```
 
 `techage/command.lua` definiert hier:
-
 
 ```lua
 techage.side_to_outdir(side, param2)  -- "B/R/F/L/D/U", node.param2
 ```
-Weitere API Funktionen von `command.lua`
-
-## Techage `command`
 
 In Ergänzung zu `tubelib2` sind in `command` Funktionen für den Austausch von Items von Inventar zu Inventar (Tubing) und Kommandos für Datenaustausch definiert. 
 
-Zusätzlich etabliert `command` das Knoten-Nummern-System für die Addressierung bei Kommandos.
+Zusätzlich etabliert `command` das Knoten-Nummern-System für die Adressierung bei Kommandos.
 
 Dazu muss jeder Knoten bei `command` an- und abgemeldet werden:
 
@@ -200,7 +208,7 @@ techage.register_node(names, {
 })
 ```
 
-#### Client API
+### Client API
 
 Bspw. der Pusher als Client nutzt:
 
@@ -210,7 +218,7 @@ techage.push_items(pos, out_dir, stack)
 techage.unpull_items(pos, out_dir, stack)
 ```
 
-#### Server  API
+### Server  API
 
 Für den Server (chest mit Inventar) existieren dazu folgende Funktionen:
 
@@ -220,7 +228,7 @@ techage.put_items(inv, listname, stack)
 techage.get_inv_state(inv, listname)
 ```
 
-#### Hopper  API
+### Hopper  API
 
 Es gibt bspw. mit dem Hopper aber auch einen Block, der nicht über Tubes sondern nur mit direkten Nachbarn Items austauschen soll. Dazu dient dieser Satz an Funktionen:
 
@@ -230,7 +238,7 @@ techage.neighbour_push_items(pos, out_dir, stack)
 techage.neighbour_unpull_items(pos, out_dir, stack)
 ```
 
-#### Nummern bezogene Kommando API
+### Nummern bezogene Kommando API
 
 Kommunikation ohne Tubes, Addressierung nur über Knoten-Nummern
 
@@ -241,7 +249,7 @@ techage.send_multi(src, numbers, topic, payload) --> to many nodes
 techage.send_single(src, number, topic, payload) --> to one node with response
 ```
 
-#### Positions bezogene Kommando API
+### Positions bezogene Kommando API
 
 Kommunikation mit Tubes oder mit direkten Nachbar-Knoten über pos/dir.  Im Falle von Tubes muss bei `network` die Tube Instanz angegeben werden.
 
@@ -257,7 +265,7 @@ techage.transfer(pos, outdir, topic, payload, network, nodenames)
 -- opt: nodenames is a table of valid callee node names
 ```
 
-#### Sonstige API
+### Sonstige API
 
 ```lua
 techage.side_to_indir(side, param2) --> indir
@@ -281,16 +289,20 @@ techage.power.register_node(names, {
 	on_nopower = func(pos, mem),  -- für Verbraucher (ausschalten)
 	on_getpower = func(pos, mem),  -- für Solarzellen (Strom einsammeln)
 	power_network = Tube,  -- tubelib2 Instanz
+    after_place_node = func(pos, placer, itemstack, pointed_thing),
+    after_dig_node = func(pos, oldnode, oldmetadata, digger)
+    after_tube_update = func(node, pos, out_dir, peer_pos, peer_in_dir)
 })
 ```
 
-Durch die Registrierung des Nodes werden auch die folgenden Funktionen überschrieben bzw. erhalten einen Wrapper (Code nur symbolhaft):
+Durch die Registrierung des Nodes die obigen "after"-Funktionen einen Wrapper (Code nur symbolhaft):
 
 ```lua
 -- after_place_node decorator
 after_place_node = function(pos, placer, itemstack, pointed_thing)
+    local res = <node>.after_place_node(pos, placer, itemstack, pointed_thing)
     <Tube>:after_place_node(pos)
-    return <node>.after_place_node(pos, placer, itemstack, pointed_thing)
+    return res
 end,
 -- after_dig_node decorator
 after_dig_node = function(pos, oldnode, oldmetadata, digger)
@@ -304,8 +316,6 @@ end,
 --       --> after_tube_update (power)
 after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
     mem.connections = ...  -- aktualisieren/löschen
-    -- To be called delayed, so that all network connections have been established
-    minetest.after(0.2, network_changed, pos, mem)
     return <node>.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
 end,
 
@@ -353,7 +363,6 @@ techage.power.power_accounting(pos, mem) --> {network data...} (used by terminal
 techage.power.get_power(start_pos) --> sum (used by solar cells)
 techage.power.power_network_available(start_pos)  --> bool (used by TES generator)
 techage.power.mark_nodes(name, start_pos) -- used by debugging tool
-techage.power.add_connection(pos, out_dir, network, add) -- (Inverter feature)
 ```
 
 ## Klasse `NodeStates`
@@ -471,23 +480,7 @@ Ein einfaches Beispiele dafür wäre: `pusher.lua`
 
 #### Problem: Verbindungen zu zwei Netzwerken
 
-Es ist nicht möglich, einen Knoten in zwei unterschiedlichen Netzwerken (bspw. Strom, Dampf) über `techage.power.register_node()` anzumelden. `power` würde zweimal übereinander die gleichen Knoten-internen Variablen wie `mem.connections` im Knoten anlegen und nutzen. Das geht und muss schief gehen. Aktuell ist es zusätzlich so, dass sich Lua in einer Endlosschleife aufhängt. Also insgesamt keine gute Idee.
-
-Ein Lösungsansatz wäre, den Datensatz in mem, node und meta eine Indirektion tiefer unter dem Netzwerknamen abzuspeichern. Dies hat aber Auswirkungen auf die Performance.
-
-Der **Inverter** hat mit Power und Solar zwei Netzwerkanschlüsse. Da dies aber aktuell (03.10.2019) nicht geht, ist nur Power normal registiert, Solar wird nur "krückenhaft" angesteuert. Damit taucht der Inverter aber nicht im Solar-Netzwerk auf. Dies ermöglicht es, mehrere Inverter in ein Solar-Netzwerk zu hängen und jeder liefert die volle Leistung.
-
-Weiteres Problem: Die Funktion `matching_nodes()` (power2.lua) prüft, ob beide Knoten beim `after_tube_update` den gleichen Netzwerktyp haben. Der Inverter liefert hier "power", müsste aber "solar" liefern. Dadurch wird der Verbindungsaufbau von der Junctionbox abgelehnt.
-
-#### Lösung
-
-Leider eine Speziallösung für den Inverter:
-
-- power2 hat eine Funktion `techage.power.add_connection()` um vom Inverter aus beim nächsten angeschlossenen Knoten den Inverter in der connection Liste einzutragen.
-- Der Inverter gibt jetzt bei `techage.power.get_power()` seinen eigenen Namen an. `techage.power.get_power()` liefert die Anzahl der gefundenen Inverter zurück. Sind es mehr als einer, gibt es eine Fehlermeldung.
-- Der Inverter hat auch noch eine `after_tube_update` bekommen, um auch von hier die `techage.power.add_connection()`aufrufen zu können.
-
-So scheint es aber zu gehen.
+Es ist nicht möglich, einen Knoten in zwei unterschiedlichen Netzwerken (bspw. Strom, Dampf) über `techage.power.register_node()` anzumelden. `power` würde zweimal übereinander die gleichen Knoten-internen Variablen wie `mem.connections` im Knoten anlegen und nutzen. Das geht und muss schief gehen. Aktuell gibt es dafür keine Lösung.
 
 ### ToDo
 
