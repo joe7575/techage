@@ -295,7 +295,7 @@ techage.power.register_node(names, {
 })
 ```
 
-Durch die Registrierung des Nodes die obigen "after"-Funktionen einen Wrapper (Code nur symbolhaft):
+Durch die Registrierung des Nodes werden die Knoten-eigenen `after_...` Funktionen überschrieben. Optional können deshalb eigene Funktionen bei `register_node`  übergeben werden.
 
 ```lua
 -- after_place_node decorator
@@ -331,6 +331,17 @@ Und es erfolgt eine Registrierung bei Tube:
 
 **Soll aber der Knoten außer Power auch Kommandos empfangen oder senden können, oder am Tubing teilnehmen, so müssen die `command` bezogenen Funktionen zusätzlich beachtet werden.**
 
+### Alternative API
+
+Sollen die Knoten-eigenen `after_...` Funktionen nicht überschrieben, so bietet sich folgende, alternative API an:
+
+```lua
+techage.power.enrich_node(names, pwr_def)
+techage.power.after_place_node(pos)
+techage.power.after_dig_node(pos, oldnode)
+techage.power.after_tube_update2(node, pos, out_dir, peer_pos, peer_in_dir)
+```
+
 ### `power`/`power2` API
 
 ```lua
@@ -359,10 +370,11 @@ techage.power.secondary_start(pos, mem, available, needed)
 techage.power.secondary_stop(pos, mem)
 techage.power.secondary_alive(pos, mem, capa_curr, capa_max)
 
-techage.power.power_accounting(pos, mem) --> {network data...} (used by terminal)
+techage.power.power_accounting(pos, mem) --> {network data...} (used by info tool)
 techage.power.get_power(start_pos) --> sum (used by solar cells)
 techage.power.power_network_available(start_pos)  --> bool (used by TES generator)
 techage.power.mark_nodes(name, start_pos) -- used by debugging tool
+techage.power.limited_connection_walk(pos, clbk)  --> num_nodes (used by terminal)
 ```
 
 ## Klasse `NodeStates`

@@ -154,6 +154,46 @@ function techage.power.register_node(names, pwr_def)
 	end
 end		
 
+
+--
+-- API function set for nodes, which don't (what to) call techage.power.register_node()
+--
+function techage.power.enrich_node(names, pwr_def)
+	for _,name in ipairs(names) do
+		minetest.override_item(name, {
+			power = {
+				conn_sides = pwr_def.conn_sides or {"L", "R", "U", "D", "F", "B"},
+				on_power = pwr_def.on_power,
+				on_nopower = pwr_def.on_nopower,
+				on_getpower = pwr_def.on_getpower,
+				power_network = pwr_def.power_network,
+			}
+		})
+		pwr_def.power_network:add_secondary_node_names({name})
+	end
+end
+			
+function techage.power.after_place_node(pos)
+	local pwr = PWR(pos)
+	set_conn_dirs(pos, pwr.conn_sides)
+	pwr.power_network:after_place_node(pos)
+end
+
+function techage.power.after_dig_node(pos, oldnode)
+	local pwr = PWRN(oldnode)
+	pwr.power_network:after_dig_node(pos)
+end
+
+function techage.power.after_tube_update2(node, pos, out_dir, peer_pos, peer_in_dir)
+	local pwr = PWR(pos)
+	local mem = tubelib2.get_mem(pos)
+	add_connection(mem, pos, out_dir, peer_pos, peer_in_dir, pwr)
+end
+
+--
+-- Further helper functions
+-- 
+
 -- Called from tubelib2 via Cable:register_on_tube_update()
 -- For all kind of nodes, used as cable filler/grout
 function techage.power.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir, power)

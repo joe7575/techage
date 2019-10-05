@@ -55,6 +55,23 @@ local function on_rightclick(pos, node, clicker)
 	end
 end
 
+--
+-- Modul shows the usage of the power2 alternative function set
+--
+local function after_place_node(pos)
+	local mem = tubelib2.init_mem(pos)
+	M(pos):set_string("infotext", "off")
+	techage.power.after_place_node(pos)
+end
+
+local function after_dig_node(pos, oldnode)
+	techage.power.after_dig_node(pos, oldnode)
+	tubelib2.del_mem(pos)
+end
+
+local function after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir) 
+	techage.power.after_tube_update2(node, pos, out_dir, peer_pos, peer_in_dir)
+end
 
 minetest.register_node("techage:sink", {
 	description = "Sink",
@@ -62,6 +79,9 @@ minetest.register_node("techage:sink", {
 	
 	on_timer = node_timer,
 	on_rightclick = on_rightclick,
+	after_place_node = after_place_node,
+	after_dig_node = after_dig_node,
+	after_tube_update = after_tube_update,
 
 	paramtype = "light",
 	light_source = 0,	
@@ -75,8 +95,12 @@ minetest.register_node("techage:sink", {
 minetest.register_node("techage:sink_on", {
 	description = "Sink",
 	tiles = {'techage_electric_button.png'},
+
 	on_timer = node_timer,
 	on_rightclick = on_rightclick,
+	after_place_node = after_place_node,
+	after_dig_node = after_dig_node,
+	after_tube_update = after_tube_update,
 
 	paramtype = "light",
 	light_source = minetest.LIGHT_MAX,	
@@ -89,13 +113,9 @@ minetest.register_node("techage:sink_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-techage.power.register_node({"techage:sink", "techage:sink_on"}, {
-	power_network  = Cable,
+-- Alternative registration function
+techage.power.enrich_node({"techage:sink", "techage:sink_on"}, {
+	power_network = Cable,
 	on_power = on_power,
 	on_nopower = on_nopower,
-	after_place_node = function(pos)
-		local mem = tubelib2.init_mem(pos)
-		M(pos):set_string("infotext", "off")
-	end,
-	
 })
