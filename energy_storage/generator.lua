@@ -22,7 +22,7 @@ local Cable = techage.ElectricCable
 local power = techage.power
 
 local function swap_node(pos, name)
-	local node = minetest.get_node(pos)
+	local node = techage.get_node_lvm(pos)
 	if node.name == name then
 		return
 	end

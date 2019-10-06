@@ -66,6 +66,7 @@ local State = techage.NodeStates:new({
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
+	print("akku", mem.running, mem.delivered, mem.capa)
 	if mem.running then
 		mem.delivered = power.secondary_alive(pos, mem, mem.capa, PWR_CAPA)
 		mem.capa = mem.capa - mem.delivered

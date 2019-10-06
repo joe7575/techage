@@ -111,5 +111,8 @@ techage.Items = {
 	ta4_solarcarrier = "techage:ta4_solar_carrier",
 	ta4_solar_inverter = "techage:ta4_solar_inverter",
 	techage_ta4_solar = "techage_ta4_solar.png",
+	ta4_hydrogen = "techage_hydrogen_inv.png",
+	ta4_electrolyzer = "techage:ta4_electrolyzer",
+	ta4_fuelcell = "techage:ta4_fuelcell",
 	--ta4_ "", 
 }

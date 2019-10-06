@@ -179,3 +179,41 @@ Die Röhren dienen bei TA4 zur Weiterleitung von Gas und Dampf.
 Die maximale Leitungslänge beträgt 100 m.
 
 [ta4_pipe|image]
+
+
+## Wasserstoff
+
+Strom kann mittels Elektrolyse in Wasserstoff und Sauerstoff aufgespalten werden. Auf der anderen Seite kann über eine Brennstoffzelle Wasserstoff mit Sauerstoff aus der Luft wieder in Strom umgewandelt werden.
+Damit können Stromspitzen oder ein Überangebot an Strom in Wasserstoff umgewandelt und so gespeichert werden.
+
+Im Spiel kann Strom mit Hilfe des Elektrolyseurs in Wasserstoff-Items und Wasserstoff-Items über die Brennstoffzelle wieder in Strom umgewandelt werden.
+Damit kann Strom (in Form von Wasserstoff-Items) nicht nur in Kisten gelagert, sonder auch über Wagen (carts) oder Röhren transportiert werden.
+
+Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Von 100 Einheiten Strom kommen nach der Umwandlung in Wasserstoff und zurück nur 75 Einheiten Strom wieder raus.
+
+[ta4_hydrogen|image]
+
+
+### Elektrolyseur
+
+Der Elektrolyseur wandelt Strom in Wasserstoff um.  
+Es muss von links mit Strom versorgt werden. Rechts können die Wasserstoff-Items per Schieber entnommen werden.
+
+Der Elektrolyseur kann bis zu 40 ku an Strom aufnehmen und generiert alle 8 s ein Wasserstoff Item.
+
+[ta4_electrolyzer|image]
+
+
+### Brennstoffzelle
+
+Die Brennstoffzelle wandelt Wasserstoff in Strom um.  
+Sie muss von links per Schieber mit Wasserstoff-Items versorgt werden. Rechts ist der Stromanschluss.
+
+Die Brennstoffzelle kann bis zu 40 ku an Strom abgeben und benötigt dazu alle 6 s ein Wasserstoff Item.
+
+[ta4_fuelcell|image]
+
+
+
+
+

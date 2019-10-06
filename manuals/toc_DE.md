@@ -2,6 +2,7 @@
 
 - [Tech Age Mod](./manual_DE.md#tech-age-mod)
     - [Hinweise](./manual_DE.md#hinweise)
+    - [History](./manual_DE.md#history)
 - [TA1: Eisenzeitalter](./manual_ta1_DE.md#ta1:-eisenzeitalter)
     - [Köhler / Coal Pile](./manual_ta1_DE.md#köhler--coal-pile)
     - [Kohlebrenner / Coal Burner](./manual_ta1_DE.md#kohlebrenner--coal-burner)
@@ -109,3 +110,6 @@
         - [TA4 Turbine](./manual_ta4_DE.md#ta4-turbine)
         - [TA4 Generator](./manual_ta4_DE.md#ta4-generator)
         - [TA4 Röhre / Pipe](./manual_ta4_DE.md#ta4-röhre--pipe)
+    - [Wasserstoff](./manual_ta4_DE.md#wasserstoff)
+        - [Elektrolyseur](./manual_ta4_DE.md#elektrolyseur)
+        - [Brennstoffzelle](./manual_ta4_DE.md#brennstoffzelle)

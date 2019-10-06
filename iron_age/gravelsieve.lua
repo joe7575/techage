@@ -22,7 +22,7 @@ local get_random_basalt_ore = techage.gravelsieve_get_random_basalt_ore
 
 -- handle the sieve animation
 local function swap_node(pos)
-	local node = minetest.get_node(pos)
+	local node = techage.get_node_lvm(pos)
 	local idx = string.byte(node.name, -1) - 48
 	idx = (idx + 1) % 4
 	minetest.swap_node(pos, {name = "techage:sieve"..idx, param2 = node.param2})
@@ -31,7 +31,7 @@ end
 
 local function push_items(pos, items)
 	local pos1 = {x=pos.x, y=pos.y-1, z=pos.z}
-	local node = minetest.get_node(pos1)
+	local node = techage.get_node_lvm(pos1)
 	minetest.add_item({x=pos.x, y=pos.y-0.4, z=pos.z}, items)
 end
 

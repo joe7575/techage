@@ -15,7 +15,7 @@
 -- for lazy programmers
 local M = minetest.get_meta
 -- Consumer Related Data
-local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
+local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 
 local S = techage.S
 
@@ -76,7 +76,7 @@ end
 local function sample_liquid(pos, crd, mem, inv)
 	local meta = M(pos)
 	local water_pos = minetest.string_to_pos(meta:get_string("water_pos"))
-	local giving_back = test_liquid(minetest.get_node(water_pos))
+	local giving_back = test_liquid(techage.get_node_lvm(water_pos))
 	if giving_back then
 		if inv:room_for_item("dst", ItemStack(giving_back)) and
 				inv:contains_item("src", ItemStack("bucket:bucket_empty")) then

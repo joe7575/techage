@@ -17,7 +17,7 @@ local P = minetest.string_to_pos
 local M = minetest.get_meta
 local N = function(pos) return minetest.get_node(pos).name end
 -- Techage Related Data
-local PWR = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).power end
+local PWR = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).power end
 local PWRN = function(node) return (minetest.registered_nodes[node.name] or {}).power end
 		
 local network_changed = techage.power.network_changed		
@@ -78,7 +78,7 @@ local function matching_nodes(pos, peer_pos)
 end
 
 function techage.get_pos(pos, side)
-	local node = minetest.get_node(pos)
+	local node = techage.get_node_lvm(pos)
 	local dir = nil
 	if node.name ~= "air" and node.name ~= "ignore" then
 		dir = side_to_dir(node.param2, side)
@@ -236,7 +236,7 @@ end
 
 
 function techage.power.side_to_outdir(pos, side)
-	local node = minetest.get_node(pos)
+	local node = techage.get_node_lvm(pos)
 	return side_to_dir(node.param2, side)
 end	
 
@@ -244,7 +244,7 @@ end
 function techage.power.power_cut(pos, dir, cable, cut)
 	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
 	
-	local node = minetest.get_node(npos)
+	local node = techage.get_node_lvm(npos)
 	if node.name ~= "techage:powerswitch_box" and
 			M(npos):get_string("techage_hidden_nodename") ~= "techage:powerswitch_box" then
 		return

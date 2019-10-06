@@ -201,4 +201,8 @@ else
 	dofile(MP.."/energy_storage/inlet.lua")
 	dofile(MP.."/energy_storage/nodes.lua")
 	
+	-- Hydrogen
+	dofile(MP.."/hydrogen/hydrogen.lua")
+	dofile(MP.."/hydrogen/electrolyzer.lua")
+	dofile(MP.."/hydrogen/fuelcell.lua")
 end

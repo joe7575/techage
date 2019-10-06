@@ -32,7 +32,7 @@ end
 
 -- return the required param2 for solar modules
 local function get_param2(pos, side)
-	local node = minetest.get_node(pos)
+	local node = techage.get_node_lvm(pos)
 	local dir = power.side_to_dir(node.param2, side)
 	return (dir + 1) % 4
 end
@@ -49,7 +49,7 @@ end
 local function is_solar_module(base_pos, pos, side)
 	local pos1 = techage.get_pos(pos, side)
 	if pos1 then
-		local node = minetest.get_node(pos1)
+		local node = techage.get_node_lvm(pos1)
 		if node and node.name == "techage:ta4_solar_module" and light(pos1) then
 			if side == "L" and node.param2 == M(base_pos):get_int("left_param2") then
 				return true

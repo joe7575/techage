@@ -3,6 +3,7 @@ techage.manual_DE = {}
 techage.manual_DE.aTitel = {
   "1,Tech Age Mod",
   "2,Hinweise",
+  "2,History",
   "1,TA1: Eisenzeitalter",
   "2,Köhler / Coal Pile",
   "2,Kohlebrenner / Coal Burner",
@@ -110,6 +111,9 @@ techage.manual_DE.aTitel = {
   "3,TA4 Turbine",
   "3,TA4 Generator",
   "3,TA4 Röhre / Pipe",
+  "2,Wasserstoff",
+  "3,Elektrolyseur",
+  "3,Brennstoffzelle",
 }
 
 techage.manual_DE.aText = {
@@ -143,6 +147,9 @@ techage.manual_DE.aText = {
   "Ab TA3 laufen die Maschinen mit Strom und besitzen eine Kommunikationsschnittstelle zur Fernsteuerung.\n"..
   "\n"..
   "Mit TA4 kommen weitere Stromquellen dazu\\, aber auch höhere logistische Herausforderungen (Stromtrassen\\, Item Transport).\n"..
+  "\n",
+  "  - 28.09.2019: Um Solaranlage erweitert\n"..
+  "  - 05.10.2019: Daten zur Solaranlage und Beschreibung zum Wechselrichter und zum Power-Terminal geändert\n"..
   "\n",
   "In TA1 geht es darum\\, mit einfachen Werkzeugen und Gerätschaften ausreichend Erze zu schürfen und Holzkohle herzustellen\\, so dass damit TA2 Maschinen hergestellt und betrieben werden können.\n"..
   "\n"..
@@ -801,6 +808,8 @@ techage.manual_DE.aText = {
   "\n"..
   "Die kleinste Einheit bei einer Solaranlage sind zwei Solarmodule und ein Trägermodul. Das Trägermodul muss zuerst gesetzt werden\\, die zwei Solarmodule dann links und rechts daneben (nicht darüber!).\n"..
   "\n"..
+  "Der Plan rechts zeigt 3 Einheiten mit je zwei Solarmodulen und einem Trägermodul\\, über rote Kabel mit dem Wechselrichter verbunden.\n"..
+  "\n"..
   "Solarmodule liefern Gleichspannung\\, welcher nicht direkt in das Stromnetz eingespeist werden kann. Daher müssen zuerst die Solareinheiten über das rote Kabel mit dem Wechselrichter verbunden werden. Dieser besteht aus zwei Blöcken\\, einen für das rote Kabel zu den Solarmodulen (DC) und einen für das graue Stromkabel ins Stromnetz (AC).\n"..
   "\n"..
   "Der Kartenbereich\\, wo die Solaranlage steht\\, muss komplett geladen sein. Es empfiehlt sich daher\\, zuerst einen Forceload Block zu setzen\\, und dann innerhalb dieses Bereiches die Module zu platzieren.\n"..
@@ -820,6 +829,7 @@ techage.manual_DE.aText = {
   "\n",
   "Der Wechselrichter wandelt den Solarstrom (DC) in Wechselstrom (AC) um\\, so dass dieser in das Stromnetz eingespeist werden kann.\n"..
   "Ein Wechselrichter\\, bestehend aus zwei Blöcken kann maximal 100 ku an Strom einspeisen\\, was 33 Solarmodulen oder auch mehr entspricht.\n"..
+  "Der DC Block muss links neben den AC-Block gesetzt werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -877,10 +887,35 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Strom kann mittels Elektrolyse in Wasserstoff und Sauerstoff aufgespalten werden. Auf der anderen Seite kann über eine Brennstoffzelle Wasserstoff mit Sauerstoff aus der Luft wieder in Strom umgewandelt werden.\n"..
+  "Damit können Stromspitzen oder ein Überangebot an Strom in Wasserstoff umgewandelt und so gespeichert werden.\n"..
+  "\n"..
+  "Im Spiel kann Strom mit Hilfe des Elektrolyseurs in Wasserstoff-Items und Wasserstoff-Items über die Brennstoffzelle wieder in Strom umgewandelt werden.\n"..
+  "Damit kann Strom (in Form von Wasserstoff-Items) nicht nur in Kisten gelagert\\, sonder auch über Wagen (carts) oder Röhren transportiert werden.\n"..
+  "\n"..
+  "Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Von 100 Einheiten Strom kommen nach der Umwandlung in Wasserstoff und zurück nur 75 Einheiten Strom wieder raus.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Elektrolyseur wandelt Strom in Wasserstoff um.\n"..
+  "Es muss von links mit Strom versorgt werden. Rechts können die Wasserstoff-Items per Schieber entnommen werden.\n"..
+  "\n"..
+  "Der Elektrolyseur kann bis zu 40 ku an Strom aufnehmen und generiert alle 8 s ein Wasserstoff Item.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Brennstoffzelle wandelt Wasserstoff in Strom um.\n"..
+  "Sie muss von links per Schieber mit Wasserstoff-Items versorgt werden. Rechts ist der Stromanschluss.\n"..
+  "\n"..
+  "Die Brennstoffzelle kann bis zu 40 ku an Strom abgeben und benötigt dazu alle 6 s ein Wasserstoff Item.\n"..
+  "\n"..
+  "\n"..
+  "\n",
 }
 
 techage.manual_DE.aItemName = {
   "wlanchip",
+  "",
   "",
   "techage_ta1",
   "",
@@ -989,9 +1024,13 @@ techage.manual_DE.aItemName = {
   "ta4_turbine",
   "ta4_generator",
   "ta4_pipe",
+  "ta4_hydrogen",
+  "ta4_electrolyzer",
+  "ta4_fuelcell",
 }
 
 techage.manual_DE.aPlanTable = {
+  "",
   "",
   "",
   "",
@@ -1097,6 +1136,9 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_storagesystem",
+  "",
+  "",
+  "",
   "",
   "",
   "",

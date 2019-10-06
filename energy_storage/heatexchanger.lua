@@ -87,7 +87,7 @@ local function stop_sound(pos)
 end
 
 local function swap_node(pos, name)
-	local node = minetest.get_node(pos)
+	local node = techage.get_node_lvm(pos)
 	if node.name == name then
 		return
 	end
@@ -110,6 +110,21 @@ local function charging(pos, mem, is_charging)
 		end
 	elseif is_charging then
 		play_sound(pos)
+	end
+end
+
+local function delivering(pos, mem, delivered)
+	print("delivering", delivered, mem.had_delivered)
+	if mem.capa <= 0 then
+		return
+	end
+	if delivered ~= mem.had_delivered then
+		mem.had_delivered = delivered
+		if delivered > 0 then
+			turbine_cmnd(pos, "start")
+		elseif delivered == 0 then
+			turbine_cmnd(pos, "stop")
+		end
 	end
 end
 
@@ -171,9 +186,9 @@ local function start_node(pos, mem, state)
 	mem.running = true
 	mem.delivered = 0
 	mem.was_charging = true
+	mem.had_delivered = nil
 	play_sound(pos)
 	mem.win_pos = inlet_cmnd(pos, "window")
-	turbine_cmnd(pos, "start")
 	power.secondary_start(pos, mem, PWR_PERF, PWR_PERF)
 end
 
@@ -204,6 +219,7 @@ local function node_timer(pos, elapsed)
 		mem.capa = in_range(mem.capa, 0, mem.capa_max)
 		glowing(pos, mem, mem.capa > mem.capa_max * 0.8)
 		charging(pos, mem, mem.delivered < 0)
+		delivering(pos, mem, mem.delivered) 
 	end
 	return mem.running
 end

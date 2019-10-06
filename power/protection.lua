@@ -52,7 +52,7 @@ end
 local old_is_protected = minetest.is_protected
 
 function minetest.is_protected(pos, name)
-	local node = minetest.get_node(pos)
+	local node = techage.get_node_lvm(pos)
 	if IsNodeUnderObservation[node.name] and is_protected(pos, name, RANGE) then
         return true
     end

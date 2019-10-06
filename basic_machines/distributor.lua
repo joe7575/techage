@@ -16,7 +16,7 @@
 local M = minetest.get_meta
 local N = minetest.get_node
 -- Consumer Related Data
-local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
+local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 
 local S = techage.S
 
@@ -37,7 +37,7 @@ local FilterCache = {} -- local cache for filter settings
 
 local function filter_settings(pos)
 	local meta = M(pos)
-	local param2 = minetest.get_node(pos).param2
+	local param2 = techage.get_node_lvm(pos).param2
 	local inv = meta:get_inventory()
 	local filter = minetest.deserialize(meta:get_string("filter")) or {false,false,false,false}
 	local ItemFilter = {}  -- {<item:name> = {dir,...}]

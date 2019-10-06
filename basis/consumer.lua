@@ -25,7 +25,7 @@ local M = minetest.get_meta
 local D = techage.Debug
 
 -- Consumer Related Data
-local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
+local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).consumer end
 
 local power = techage.power
@@ -242,7 +242,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 					after_place_node = function(pos, placer, itemstack, pointed_thing)
 						local meta = M(pos)
 						local mem = tubelib2.init_mem(pos)
-						local node = minetest.get_node(pos)
+						local node = techage.get_node_lvm(pos)
 						meta:set_int("push_dir", techage.side_to_indir("L", node.param2))
 						meta:set_int("pull_dir", techage.side_to_indir("R", node.param2))
 						local number = "-"

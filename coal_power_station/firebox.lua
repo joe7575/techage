@@ -23,7 +23,7 @@ local CYCLE_TIME = 2
 local BURN_CYCLE_FACTOR = 0.5
 
 local function firehole(pos, on)
-	local param2 = minetest.get_node(pos).param2
+	local param2 = techage.get_node_lvm(pos).param2
 	local pos2 = techage.get_pos(pos, 'F')
 	if on == true then
 		minetest.swap_node(pos2, {name="techage:coalfirehole_on", param2 = param2})

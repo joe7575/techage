@@ -17,7 +17,7 @@ local M = minetest.get_meta
 local S = techage.S
 
 -- Consumer Related Data
-local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
+local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 
 local STANDBY_TICKS = 10
 local COUNTDOWN_TICKS = 10
@@ -73,7 +73,7 @@ end
 
 
 local function get_water_level(pos)
-	local node  = minetest.get_node(pos)
+	local node  = techage.get_node_lvm(pos)
 	if minetest.get_item_group(node.name, "water") > 0 then
 		local ndef = minetest.registered_nodes[node.name]
 		if ndef and ndef.liquidtype == "flowing" then

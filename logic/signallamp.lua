@@ -114,10 +114,10 @@ minetest.register_node("techage:signal_lamp_on", {
 techage.register_node({"techage:signal_lamp_off", "techage:signal_lamp_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "on" then
-			local node = minetest.get_node(pos)
+			local node = techage.get_node_lvm(pos)
 			switch_on(pos, node)
 		elseif topic == "off" then
-			local node = minetest.get_node(pos)
+			local node = techage.get_node_lvm(pos)
 			switch_off(pos, node)
 		else
 			return "unsupported"

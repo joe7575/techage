@@ -21,7 +21,7 @@ local N = function(pos) return minetest.get_node(pos).name end
 local D = techage.Debug
 
 -- Techage Related Data
-local PWR = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).power end
+local PWR = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).power end
 
 -- Used to determine the already passed nodes while power distribution
 local Route = {}
@@ -38,7 +38,7 @@ local NOPOWER = 2
 local RUNNING = 3
 
 -------------------------------------------------- Migrate
-local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
+local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 local Consumer = {
 	["techage:streetlamp_off"] = 0,
 	["techage:streetlamp_on"] = 0.5,
@@ -117,7 +117,7 @@ local function migrate(pos, mem, node)
 		mem.pwr_power_provided_cnt = 2
 		mem.pwr_node_alive_cnt = 4
 		
-		local name = minetest.get_node(pos).name
+		local name = techage.get_node_lvm(pos).name
 		mem.pwr_needed = Consumer[name]
 		mem.pwr_available = Generator[name]
 		mem.pwr_could_provide = Akku[name]
@@ -578,6 +578,7 @@ function techage.power.secondary_stop(pos, mem)
 	mem.pwr_node_alive_cnt = 0
 	mem.pwr_could_provide = 0
 	mem.pwr_could_need = 0
+	mem.pwr_needed2 = 0
 	if determine_new_master(pos, mem) then -- last available master
 		power_distribution(pos, mem)
 	end
@@ -598,7 +599,10 @@ function techage.power.secondary_alive(pos, mem, capa_curr, capa_max)
 		if D.pwr then D.dbg("secondary_alive is master") end
 		power_distribution(pos, mem, 1)
 	end
-	return mem.pwr_provided or 0
+	if mem.pwr_master_pos then
+		return mem.pwr_provided or 0
+	end
+	return 0
 end
 
 --
@@ -618,7 +622,7 @@ function techage.power.get_power(start_pos, inverter)
 		if pwr and pwr.on_getpower then
 			sum = sum + pwr.on_getpower(pos, mem)
 		else
-			local node = minetest.get_node(pos)
+			local node = techage.get_node_lvm(pos)
 			if node.name == inverter then
 				num_inverter = num_inverter + 1
 			end

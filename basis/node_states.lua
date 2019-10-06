@@ -45,7 +45,7 @@ Node states:
 	|           cycle time   operational   needs power
 	+---------+------------+-------------+-------------
 	| RUNNING    normal         yes           yes
-	| BLOCKED    long           yes           yes
+	| BLOCKED    long           yes           no
 	| STANDBY    long           yes           no
 	| NOPOWER    long           no            no
 	| FAULT      none           no            no
@@ -91,7 +91,7 @@ function techage.state_button(state)
 end
 
 function techage.get_power_image(pos, mem)
-	local node = minetest.get_node(pos)
+	local node = techage.get_node_lvm(pos)
 	local s = "3" -- electrical power
 	if string.find(node.name, "techage:ta2") then
 		s = "2"  -- axles power
@@ -130,7 +130,7 @@ local function has_power(pos, mem)
 end
 
 local function swap_node(pos, name)
-	local node = minetest.get_node(pos)
+	local node = techage.get_node_lvm(pos)
 	if node.name == name then
 		return
 	end
@@ -188,6 +188,15 @@ function NodeStates:node_init(pos, mem, number)
 	mem.techage_item_meter = 0
 	if self.formspec_func then
 		M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
+	end
+end
+
+-- to be used to re-start the timer outside of node_timer()
+local function start_timer_delayed(pos, cycle_time)
+	local t = minetest.get_node_timer(pos)
+	t:stop()
+	if cycle_time > 0.9 then
+		minetest.after(0.1, t.start, t, cycle_time)
 	end
 end
 
@@ -249,18 +258,10 @@ function NodeStates:start(pos, mem)
 		if self.on_state_change then
 			self.on_state_change(pos, state, RUNNING)
 		end
-		minetest.get_node_timer(pos):start(self.cycle_time)
+		start_timer_delayed(pos, self.cycle_time)
 		return true
 	end
 	return false
-end
-
--- to be used from node timer functions
-function NodeStates:start_from_timer(pos, mem)
-	local state = mem.techage_state or STOPPED
-	if state ~= RUNNING and state ~= FAULT then
-		minetest.after(0.1, self.start, self, pos, mem)
-	end
 end
 
 function NodeStates:standby(pos, mem)
@@ -277,13 +278,10 @@ function NodeStates:standby(pos, mem)
 		if self.formspec_func then
 			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
 		end
-		if minetest.get_node_timer(pos):is_started() then
-			minetest.get_node_timer(pos):stop()
-		end
 		if self.on_state_change then
 			self.on_state_change(pos, state, STANDBY)
 		end
-		minetest.get_node_timer(pos):start(self.cycle_time * self.standby_ticks)
+		start_timer_delayed(pos, self.cycle_time * self.standby_ticks)
 		return true
 	end
 	return false
@@ -304,13 +302,10 @@ function NodeStates:blocked(pos, mem)
 		if self.formspec_func then
 			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
 		end
-		if minetest.get_node_timer(pos):is_started() then
-			minetest.get_node_timer(pos):stop()
-		end
 		if self.on_state_change then
 			self.on_state_change(pos, state, BLOCKED)
 		end
-		minetest.get_node_timer(pos):start(self.cycle_time * self.standby_ticks)
+		start_timer_delayed(pos, self.cycle_time * self.standby_ticks)
 		return true
 	end
 	return false
@@ -333,7 +328,7 @@ function NodeStates:nopower(pos, mem)
 		if self.on_state_change then
 			self.on_state_change(pos, state, NOPOWER)
 		end
-		minetest.get_node_timer(pos):start(self.cycle_time * self.standby_ticks)
+		start_timer_delayed(pos, self.cycle_time * self.standby_ticks)
 		return true
 	end
 	return false
@@ -394,7 +389,9 @@ end
 -- and keep the node in state RUNNING
 function NodeStates:keep_running(pos, mem, val, num_items)
 	-- set to RUNNING if not already done
-	self:start_from_timer(pos, mem)
+	if mem.techage_state ~= RUNNING then
+		self:start(pos, mem)
+	end
 	mem.techage_countdown = val or 4
 	mem.techage_item_meter = (mem.techage_item_meter or 0) + (num_items or 1)
 end
@@ -431,7 +428,7 @@ function NodeStates:on_receive_message(pos, topic, payload)
 		self:stop(pos, tubelib2.get_mem(pos))
 		return true
 	elseif topic == "state" then
-		local node = minetest.get_node(pos)
+		local node = techage.get_node_lvm(pos)
 		if node.name == "ignore" then  -- unloaded node?
 			return "unloaded"
 		end
@@ -461,7 +458,7 @@ function NodeStates:on_node_load(pos, not_start_timer)
 	local number = M(pos):get_string("node_number")
 	if number == "" then 
 		minetest.log("warning", "[TA] Node at "..S(pos).." has no node_number")
-		local name = minetest.get_node(pos).name
+		local name = techage.get_node_lvm(pos).name
 		local number = techage.add_node(pos, name)
 		self:node_init(pos, mem, number)
 		return

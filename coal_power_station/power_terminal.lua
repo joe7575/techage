@@ -35,6 +35,8 @@ local function collect_network_data(pos, mem)
 		solar = {},
 		akku = {},
 		stor = {},
+		elec = {},
+		fcel = {},
 	}
 	local add = function(kind, attr, val) 
 		data[kind][attr] = (data[kind][attr] or 0) + (val or 0) 
@@ -51,11 +53,11 @@ local function collect_network_data(pos, mem)
 				add("fuel", "curr", mem.provided)
 			elseif node.name == "techage:ta3_akku" then
 				add("akku", "num", 1)
-				add("akku", "nomi", mem.pwr_available2)
+				add("akku", "nomi", mem.pwr_could_provide)
 				add("akku", "curr", mem.delivered)
 			elseif node.name == "techage:heatexchanger1" then
 				add("stor", "num", 1)
-				add("stor", "nomi", mem.pwr_available2)
+				add("stor", "nomi", mem.pwr_could_provide)
 				add("stor", "curr", mem.delivered)
 			elseif node.name == "techage:tiny_generator" or node.name == "techage:tiny_generator_on" then
 				add("fuel", "num", 1)
@@ -69,6 +71,14 @@ local function collect_network_data(pos, mem)
 				add("wind", "num", 1)
 				add("wind", "nomi", mem.pwr_available)
 				add("wind", "curr", mem.delivered)
+			elseif node.name == "techage:ta4_fuelcell" or node.name == "techage:ta4_fuelcell_on" then
+				add("fcel", "num", 1)
+				add("fcel", "nomi", mem.pwr_available)
+				add("fcel", "curr", mem.provided)
+			elseif node.name == "techage:ta4_electrolyzer" or node.name == "techage:ta4_electrolyzer_on" then
+				add("elec", "num", 1)
+				add("elec", "nomi", -mem.pwr_could_need)
+				add("elec", "curr", -mem.consumed)
 			end
 		end
 	)
@@ -89,19 +99,21 @@ local function formspec(pos)
 	if nnodes > (techage.MAX_NUM_NODES - 50) then
 		alarm = "  (max. "..(techage.MAX_NUM_NODES).." !!!)"
 	end
-	return "size[10,6.5]"..
+	return "size[10,7.5]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
 	"label[2,0.0;"..S("Network Data").."]"..
 	"label[3,0.7;"..S("(number / current / max.)").."]"..
-	"label[0,1.4;"..S("Power Fuel")..":]"..   "label[4,1.4;"..get("fuel").."]"..
-	"label[0,2.1;"..S("Power Solar")..":]"..  "label[4,2.1;"..get("solar").."]"..
-	"label[0,2.8;"..S("Power Wind")..":]"..	  "label[4,2.8;"..get("wind").."]"..
-	"label[0,3.5;"..S("Power Storage")..":]".."label[4,3.5;"..get("stor").."]"..
-	"label[0,4.2;"..S("Power Akkus")..":]"..  "label[4,4.2;"..get("akku").."]"..
-	"label[0,4.9;"..S("Number nodes").." : "..nnodes..alarm.."]"..
-	"button[2.5,5.8;2,1;update;"..S("Update").."]"
+	"label[0,1.4;"..S("TA3 Coal/oil")..":]"..       "label[5,1.4;"..get("fuel").."]"..
+	"label[0,2.1;"..S("TA3 Akku")..":]"..           "label[5,2.1;"..get("akku").."]"..
+	"label[0,2.8;"..S("TA4 Solar Inverter")..":]".. "label[5,2.8;"..get("solar").."]"..
+	"label[0,3.5;"..S("TA4 Wind Turbine")..":]"..	"label[5,3.5;"..get("wind").."]"..
+	"label[0,4.2;"..S("TA4 Energy Storage")..":]".. "label[5,4.2;"..get("stor").."]"..
+	"label[0,4.9;"..S("TA4 Electrolyzer")..":]"..   "label[5,4.9;"..get("elec").."]"..
+	"label[0,5.6;"..S("TA4 Fuel Cell")..":]"..      "label[5,5.6;"..get("fcel").."]"..
+	"label[0,6.3;"..S("Number of nodes").." : "..nnodes..alarm.."]"..
+	"button[2.5,6.8;2,1;update;"..S("Update").."]"
 end
 
 local function update_formspec(pos)

@@ -24,7 +24,7 @@ local function transfer(pos, in_dir, topic, payload)
 end
 
 local function swap_node(pos, name)
-	local node = minetest.get_node(pos)
+	local node = techage.get_node_lvm(pos)
 	if node.name == name then
 		return
 	end
