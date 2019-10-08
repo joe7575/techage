@@ -104,7 +104,6 @@
         - [TA4 Niederspannungskabel / Low Power Cable](./manual_ta4_DE.md#ta4-niederspannungskabel--low-power-cable)
         - [TA4 Niederspannungsverteilerbox / Low Power Box](./manual_ta4_DE.md#ta4-niederspannungsverteilerbox--low-power-box)
         - [TA4 Straßenlampen-Solarzelle / Streetlamp Solar Cell](./manual_ta4_DE.md#ta4-straßenlampen-solarzelle--streetlamp-solar-cell)
-    - [Biogasanlage](./manual_ta4_DE.md#biogasanlage)
     - [Energiespeicher](./manual_ta4_DE.md#energiespeicher)
         - [TA4 Wärmetauscher / Heat Exchanger](./manual_ta4_DE.md#ta4-wärmetauscher--heat-exchanger)
         - [TA4 Turbine](./manual_ta4_DE.md#ta4-turbine)

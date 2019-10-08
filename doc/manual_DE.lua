@@ -105,7 +105,6 @@ techage.manual_DE.aTitel = {
   "3,TA4 Niederspannungskabel / Low Power Cable",
   "3,TA4 Niederspannungsverteilerbox / Low Power Box",
   "3,TA4 Straßenlampen-Solarzelle / Streetlamp Solar Cell",
-  "2,Biogasanlage",
   "2,Energiespeicher",
   "3,TA4 Wärmetauscher / Heat Exchanger",
   "3,TA4 Turbine",
@@ -818,7 +817,7 @@ techage.manual_DE.aText = {
   "\n",
   "Das Solarmodul muss an das Trägermodul gesetzt werden. Es sind immer zwei Solarmodule notwendig.\n"..
   "Im Paar leisten die Solarmodule bis 3 ku\\, je nach Temperatur.\n"..
-  "Bei den Solarmodul muss darauf geachtet werden\\, dass diese das volle Tageslicht haben und nicht durch Blöcke oder Bäume beschattet sind.\n"..
+  "Bei den Solarmodul muss darauf geachtet werden\\, dass diese das volle Tageslicht haben und nicht durch Blöcke oder Bäume beschattet sind. Getestet kann dies mit dem Info Tool (Schraubenschlüssel).\n"..
   "\n"..
   "\n"..
   "\n",
@@ -849,8 +848,6 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "noch nicht vorhanden...\n"..
-  "\n",
   "Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit Gravel. Es gibt 3 Größen vom Speicher:\n"..
   "\n"..
   "  - Hülle mit 5x5x5 Concrete Blocks\\, gefüllt mit 27 Gravel\\, Speicherkapazität: 1/2 Tag bei 60 ku\n"..
@@ -870,7 +867,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Der Wärmetauscher besteht aus 3 Teilen\\, die aufeinander gesetzt werden müssen\\, wobei der Pfeil des ersten Blockes Richtung Turbine zeigen muss. Die Dampfleitungen müssen mit den TA4 Röhren aufgebaut werden.\n"..
-  "Der Wärmetauscher muss am Stromnetz angeschlossen werden.\n"..
+  "Der Wärmetauscher muss am Stromnetz angeschlossen werden. Der Wärmetauscher kann 60 ku aufnehmen.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -878,7 +875,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der Generator dient zur Stromerzeugung. Daher muss auch der Generator am Stromnetz angeschlossen werden. Dabei muss beachtet werden\\, dass es ein funktionierendes Stromnetz ist\\, denn der Generator des Energiespeichers kann nicht als einzelne Stromquelle funktionieren.\n"..
+  "Der Generator dient zur Stromerzeugung. Daher muss auch der Generator am Stromnetz angeschlossen werden. Dabei muss beachtet werden\\, dass es ein funktionierendes Stromnetz ist\\, denn der Generator des Energiespeichers kann nicht als einzelne Stromquelle funktionieren. Der Generator kann 60 ku abgeben.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1019,7 +1016,6 @@ techage.manual_DE.aItemName = {
   "ta4_powerbox",
   "ta4_minicell",
   "",
-  "",
   "ta4_heatexchanger",
   "ta4_turbine",
   "ta4_generator",
@@ -1128,7 +1124,6 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_solarplant",
-  "",
   "",
   "",
   "",

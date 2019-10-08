@@ -78,7 +78,7 @@ Der Kartenbereich, wo die Solaranlage steht, muss komplett geladen sein. Es empf
 
 Das Solarmodul muss an das Trägermodul gesetzt werden. Es sind immer zwei Solarmodule notwendig.
 Im Paar leisten die Solarmodule bis 3 ku, je nach Temperatur.
-Bei den Solarmodul muss darauf geachtet werden, dass diese das volle Tageslicht haben und nicht durch Blöcke oder Bäume beschattet sind.
+Bei den Solarmodul muss darauf geachtet werden, dass diese das volle Tageslicht haben und nicht durch Blöcke oder Bäume beschattet sind. Getestet kann dies mit dem Info Tool (Schraubenschlüssel).
 
 [ta4_solarmodule|image]
 
@@ -125,10 +125,6 @@ Diese Solarzelle kann nicht mit den anderen Solarmodulen kombiniert werden.
 [ta4_minicell|image]
 
 
-## Biogasanlage
-
-noch nicht vorhanden...
-
 
 ## Energiespeicher
 
@@ -154,7 +150,7 @@ Damit das Wärmespeichersystem funktioniert, müssen alle Blöcke (außer Betonh
 ### TA4 Wärmetauscher / Heat Exchanger
 
 Der Wärmetauscher besteht aus 3 Teilen, die aufeinander gesetzt werden müssen, wobei der Pfeil des ersten Blockes Richtung Turbine zeigen muss. Die Dampfleitungen müssen mit den TA4 Röhren aufgebaut werden.
-Der Wärmetauscher muss am Stromnetz angeschlossen werden.
+Der Wärmetauscher muss am Stromnetz angeschlossen werden. Der Wärmetauscher kann 60 ku aufnehmen.
 
 [ta4_heatexchanger|image]
 
@@ -168,7 +164,7 @@ Die Turbine ist Teil des Energiespeichers. Sie muss neben den Generator gesetzt 
 
 ### TA4 Generator
 
-Der Generator dient zur Stromerzeugung. Daher muss auch der Generator am Stromnetz angeschlossen werden. Dabei muss beachtet werden, dass es ein funktionierendes Stromnetz ist, denn der Generator des Energiespeichers kann nicht als einzelne Stromquelle funktionieren.
+Der Generator dient zur Stromerzeugung. Daher muss auch der Generator am Stromnetz angeschlossen werden. Dabei muss beachtet werden, dass es ein funktionierendes Stromnetz ist, denn der Generator des Energiespeichers kann nicht als einzelne Stromquelle funktionieren. Der Generator kann 60 ku abgeben.
 
 [ta4_generator|image]
 
