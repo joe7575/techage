@@ -108,6 +108,9 @@ local function read_state(itemstack, user, pointed_thing)
 				if power then
 					minetest.chat_send_player(user:get_player_name(), ndef.description..":\n"..power_data(power))
 				end
+			elseif ndef.techage_info then
+				local info = ndef.techage_info(pos) or ""
+				minetest.chat_send_player(user:get_player_name(), ndef.description..":\n"..info)
 			end
 			local owner = M(pos):get_string("owner") or ""
 			if owner ~= "" then

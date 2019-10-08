@@ -39,10 +39,9 @@ end
 
 -- do we have enough light?
 local function light(pos)
-	pos.y = pos.y + 1
+	if minetest.get_node(pos).name ~= "air" then return false end
 	local light = minetest.get_node_light(pos) or 0
-	pos.y = pos.y - 1
-	return light >= (minetest.LIGHT_MAX - 1)
+	return light >= (15 - 1)
 end	
 	
 -- check if solar module is available and has the correct orientation
@@ -50,7 +49,8 @@ local function is_solar_module(base_pos, pos, side)
 	local pos1 = techage.get_pos(pos, side)
 	if pos1 then
 		local node = techage.get_node_lvm(pos1)
-		if node and node.name == "techage:ta4_solar_module" and light(pos1) then
+		if node and node.name == "techage:ta4_solar_module" and 
+						light({x = pos1.x, y = pos1.y + 1, z = pos1.z}) then
 			if side == "L" and node.param2 == M(base_pos):get_int("left_param2") then
 				return true
 			elseif side == "R" and node.param2 == M(base_pos):get_int("right_param2") then
@@ -94,7 +94,15 @@ minetest.register_node("techage:ta4_solar_module", {
 			{-1/2, 7/16, -1/2,  1/2, 8/16, 16/16},
 		},
 	},
-	
+	techage_info = function(pos)
+		local power = 0
+		local pos1 = {x = pos.x, y = pos.y + 1, z = pos.z}
+		if light(pos1) then
+			power = PWR_PERF * temperature(pos) / 200.0
+		end
+		local light = minetest.get_node_light(pos1).." / " ..15
+		return S("power").." = "..power..", "..S("light").." = "..light
+	end,
 	paramtype = "light",
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},

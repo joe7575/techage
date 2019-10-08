@@ -77,8 +77,8 @@ local function collect_network_data(pos, mem)
 				add("fcel", "curr", mem.provided)
 			elseif node.name == "techage:ta4_electrolyzer" or node.name == "techage:ta4_electrolyzer_on" then
 				add("elec", "num", 1)
-				add("elec", "nomi", -mem.pwr_could_need)
-				add("elec", "curr", -mem.consumed)
+				add("elec", "nomi", -(mem.pwr_could_need or 0))
+				add("elec", "curr", -(mem.consumed or 0))
 			end
 		end
 	)
