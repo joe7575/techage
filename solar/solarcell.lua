@@ -105,6 +105,7 @@ minetest.register_node("techage:ta4_solar_module", {
 	end,
 	paramtype = "light",
 	paramtype2 = "facedir",
+	on_rotate = screwdriver.disallow,
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
 })
@@ -131,6 +132,7 @@ minetest.register_node("techage:ta4_solar_carrier", {
 	},
 	paramtype = "light",
 	paramtype2 = "facedir",
+	on_rotate = screwdriver.disallow,
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
 })
@@ -156,6 +158,7 @@ minetest.register_node("techage:ta4_solar_carrierB", {
 	},
 	paramtype = "light",
 	paramtype2 = "facedir",
+	on_rotate = screwdriver.disallow,
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
 })

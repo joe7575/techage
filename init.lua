@@ -201,6 +201,9 @@ else
 	dofile(MP.."/energy_storage/inlet.lua")
 	dofile(MP.."/energy_storage/nodes.lua")
 	
+	-- Chemistry
+	--dofile(MP.."/chemistry/reaktor.lua")
+	
 	-- Hydrogen
 	dofile(MP.."/hydrogen/hydrogen.lua")
 	dofile(MP.."/hydrogen/electrolyzer.lua")

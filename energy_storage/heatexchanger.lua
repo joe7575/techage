@@ -23,8 +23,8 @@ local PWR_PERF = 60
 local GRVL_CAPA = 700
 local PWR_CAPA = {
 	[3] = GRVL_CAPA * 3 * 3 * 3,  -- 18900 Cyc = 630 min = 31.5 Tage bei einem ku, oder 31,5 * 24 kuh = 756 kuh = 12,6 h bei 60 ku
-	[4] = GRVL_CAPA * 5 * 5 * 5,  -- ~2.5 days
-	[5] = GRVL_CAPA * 7 * 7 * 7,  --   ~6 days
+	[5] = GRVL_CAPA * 5 * 5 * 5,  -- ~2.5 days
+	[7] = GRVL_CAPA * 7 * 7 * 7,  --   ~6 days
 }
 
 local Cable = techage.ElectricCable
@@ -114,7 +114,6 @@ local function charging(pos, mem, is_charging)
 end
 
 local function delivering(pos, mem, delivered)
-	print("delivering", delivered, mem.had_delivered)
 	if mem.capa <= 0 then
 		return
 	end
@@ -162,13 +161,17 @@ local function can_start(pos, mem, state)
 		local diameter = inlet_cmnd(pos, "diameter")
 		if diameter then
 			mem.capa_max = PWR_CAPA[tonumber(diameter)] or 0
-			print(diameter, mem.capa_max)
-			local owner = M(pos):get_string("owner") or ""
-			if inlet_cmnd(pos, "volume", owner) then
-				error_info(pos, "")
-				return true
+			if mem.capa_max ~= 0 then
+				local owner = M(pos):get_string("owner") or ""
+				if inlet_cmnd(pos, "volume", owner) then
+					error_info(pos, "")
+					return true
+				else
+					error_info(pos, "storage volume error")
+					return false
+				end
 			else
-				error_info(pos, "storage volume error")
+				error_info(pos, "wrong storage diameter: "..diameter)
 				return false
 			end
 		else

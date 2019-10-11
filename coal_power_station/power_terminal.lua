@@ -37,6 +37,7 @@ local function collect_network_data(pos, mem)
 		stor = {},
 		elec = {},
 		fcel = {},
+		other = {},
 	}
 	local add = function(kind, attr, val) 
 		data[kind][attr] = (data[kind][attr] or 0) + (val or 0) 
@@ -79,6 +80,10 @@ local function collect_network_data(pos, mem)
 				add("elec", "num", 1)
 				add("elec", "nomi", -(mem.pwr_could_need or 0))
 				add("elec", "curr", -(mem.consumed or 0))
+			elseif mem.pwr_needed and mem.pwr_needed > 0 and (mem.pwr_node_alive_cnt or 0) > 0 then
+				add("other", "num", 1)
+				add("other", "nomi", -mem.pwr_needed)
+				add("other", "curr", mem.pwr_state == 3 and -mem.pwr_needed)
 			end
 		end
 	)
@@ -91,15 +96,12 @@ local function formspec(pos)
 	local get = function(kind) 
 		return (data[kind].num or 0).." / "..(data[kind].curr or 0).." ku / "..(data[kind].nomi or 0).. " ku"
 	end
-	local get = function(kind) 
-		return (data[kind].num or 0).." / "..(data[kind].curr or 0).." ku / "..(data[kind].nomi or 0).. " ku"
-	end
 		
 	local alarm = ""
 	if nnodes > (techage.MAX_NUM_NODES - 50) then
 		alarm = "  (max. "..(techage.MAX_NUM_NODES).." !!!)"
 	end
-	return "size[10,7.5]"..
+	return "size[9.5,8.2]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
@@ -112,8 +114,9 @@ local function formspec(pos)
 	"label[0,4.2;"..S("TA4 Energy Storage")..":]".. "label[5,4.2;"..get("stor").."]"..
 	"label[0,4.9;"..S("TA4 Electrolyzer")..":]"..   "label[5,4.9;"..get("elec").."]"..
 	"label[0,5.6;"..S("TA4 Fuel Cell")..":]"..      "label[5,5.6;"..get("fcel").."]"..
-	"label[0,6.3;"..S("Number of nodes").." : "..nnodes..alarm.."]"..
-	"button[2.5,6.8;2,1;update;"..S("Update").."]"
+	"label[0,6.3;"..S("Other consumers")..":]"..    "label[5,6.3;"..get("other").."]"..
+	"label[0,7;"..S("Number of nodes").." : "..nnodes..alarm.."]"..
+	"button[2.5,7.5;2,1;update;"..S("Update").."]"
 end
 
 local function update_formspec(pos)
