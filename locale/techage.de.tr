@@ -1,7 +1,7 @@
 # textdomain: techage
 
 #### TA3 Terminal ####@n@nSend commands to your machines@nand output text messages from your@nmachines to the Terminal.@n@nCommand syntax:@n  cmd <num> <cmnd>@n@nexample: cmd 181 on@n<num> is the number of the node to which the command is sent@n'on' is the command to turn machines/nodes on@nFurther commands can be retrieved by clicking on@nmachines/nodes with the Techage Info Tool.@n@nLocal commands:@n- clear    @= clear screen@n- help     @= this message@n- pub      @= switch to public use@n- priv      @= switch to private use@nTo program a user button with a command:@n  set <button-num> <button-text> <command>@ne.g. 'set 1 ON cmd 123 on'@n=
-(number / current / max.)=(Anzahl / aktuell / max.)
+(Num. nodes loaded / max. : Power current / max.)=(Anz. Blöcke geladen / max. : Strom aktuell / max.)
 Allow to dig/place Techage power lines nearby power poles=Erlaubt TODO
 Ash=Asche
 Autocrafter=Autocrafter
@@ -20,6 +20,9 @@ Basalt Gravel=Basaltkies
 Basalt Stone=Basaltgestein
 Basalt Stone Block=Basaltsteinblock
 Basalt Stone Brick=Basaltsteinziegel
+Bauxite Cobblestone=Bauxit Kopfsteinpflaster
+Bauxite Gravel=Bauxit Kies
+Bauxite Stone=Bauxit
 Biome=Biom
 Block configured items for open ports=Blockiere konfigurierte Gegenstände für offene Ausgänge
 Build derrick=Errichte Ölturm
@@ -62,6 +65,7 @@ Oil Drill Box=Ölbohrkiste
 Oil Pumpjack=Ölpumpe
 Oil Source=Erdöl
 Oil amount:=Ölmenge:
+Other consumers=Weitere Verbraucher
 Outp=Ergeb.
 Plan=Plan
 Position=Position
@@ -163,6 +167,7 @@ TA4 Electrolyzer=TA4 Elektrolyseur
 TA4 Energy Storage=TA4 Energiespeicher
 TA4 Epoxide Resin=TA4 Epoxidharz
 TA4 Fuel Cell=TA4 Brennstoffzelle
+TA4 Fuel Cell Stack=Brennstoffzellenstapel
 TA4 Generator=TA4 Generator
 TA4 Heat Exchanger=TA4 Wärmetauscher
 TA4 Heat Exchanger 1=TA4 Wärmetauscher 1
@@ -176,6 +181,7 @@ TA4 Pillar=TA4 Säule
 TA4 Pipe=TA4 Röhre
 TA4 Pipe Inlet=TA4 Rohrzulauf
 TA4 Protected Chest=TA4 Gesicherte Kiste
+TA4 Reactor=Reaktor
 TA4 Rotor Blade=TA4 Rotorblatt
 TA4 Silicon Wafer=TA4 Silizium-Wafer
 TA4 Solar Carrier Module=TA4 Solar Trägermodul
@@ -227,6 +233,8 @@ added=hinzugefügt wird
 added or removed=hinzugefügt oder entfernt wird
 commands like: help=Kommandos wie: help
 connected with=verbunden mit
+light=Licht
+power=Strom
 removed=entfernt
 stopped=gestoppt
 ##### not used anymore #####

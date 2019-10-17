@@ -220,16 +220,14 @@ local function min(val, max)
 end
 
 local function accounting(pos, mem)
-	if mem.pwr_is_master then
-		-- calculate the primary and secondary supply and demand
-		mem.mst_supply1 = min(mem.mst_needed1 + mem.mst_needed2, mem.mst_available1)
-		mem.mst_demand1 = min(mem.mst_needed1, mem.mst_available1 + mem.mst_available2)
-		mem.mst_supply2 = min(mem.mst_demand1 - mem.mst_supply1, mem.mst_available2)
-		mem.mst_demand2 = min(mem.mst_supply1 - mem.mst_demand1, mem.mst_available1)
-		mem.mst_reserve = (mem.mst_available1 + mem.mst_available2) - mem.mst_needed1
-		if D.sts then D.dbg("needed = "..mem.mst_needed1.."/"..mem.mst_needed2..", available = "..mem.mst_available1.."/"..mem.mst_available2) end
-		if D.sts then D.dbg("supply = "..mem.mst_supply1.."/"..mem.mst_supply2..", demand = "..mem.mst_demand1.."/"..mem.mst_demand2..", reserve = "..mem.mst_reserve) end
-	end
+	-- calculate the primary and secondary supply and demand
+	mem.mst_supply1 = min(mem.mst_needed1 + mem.mst_needed2, mem.mst_available1)
+	mem.mst_demand1 = min(mem.mst_needed1, mem.mst_available1 + mem.mst_available2)
+	mem.mst_supply2 = min(mem.mst_demand1 - mem.mst_supply1, mem.mst_available2)
+	mem.mst_demand2 = min(mem.mst_supply1 - mem.mst_demand1, mem.mst_available1)
+	mem.mst_reserve = (mem.mst_available1 + mem.mst_available2) - mem.mst_needed1
+	if D.sts then D.dbg("needed = "..mem.mst_needed1.."/"..mem.mst_needed2..", available = "..mem.mst_available1.."/"..mem.mst_available2) end
+	if D.sts then D.dbg("supply = "..mem.mst_supply1.."/"..mem.mst_supply2..", demand = "..mem.mst_demand1.."/"..mem.mst_demand2..", reserve = "..mem.mst_reserve) end
 end
 
 local function connection_walk(pos, clbk)
@@ -318,9 +316,15 @@ local function store_master(pos, master_pos)
 	pos_already_reached(pos) 
 	connection_walk(pos, function(pos, mem)
 			mem.pwr_master_pos = master_pos
-			mem.pwr_is_master = false
 		end)
 end
+
+local function master_mem(mem)
+	if mem.pwr_master_pos then
+		local netkey = minetest.hash_node_position(mem.pwr_master_pos)
+		return techage.schedule.get_network(netkey)
+	end
+end	
 
 local function handle_generator(mst_mem, mem, pos, power_available)
 	-- for next cycle
@@ -420,33 +424,32 @@ local function turn_off_nodes(mst_pos)
 end
 
 local function determine_new_master(pos, mem)
-	local was_master = mem.pwr_is_master
-	mem.pwr_is_master = false
 	local mpos = determine_master(pos)
 	store_master(pos, mpos)
-	if mpos then
-		local mmem = tubelib2.get_mem(mpos)
-		mmem.pwr_is_master = true
-		mmem.mst_num_nodes = NumNodes
-	elseif was_master then -- no master any more
-		-- delete data
-		mem.mst_supply1 = 0
-		mem.mst_supply2 = 0
-		mem.mst_reserve = 0
-	end
-	return was_master or mem.pwr_is_master
+	mem.pwr_master_pos = mpos
+	return true
 end
 
--- called from master position
-local function power_distribution(pos, mem, dec)
-	if D.pwr then D.dbg("power_distribution") end
-	if mem.pwr_is_master then
-		mem.mst_needed1 = 0
-		mem.mst_needed2 = 0
-		mem.mst_available1 = 0
-		mem.mst_available2 = 0
+-- called from all nodes
+local function trigger_network(pos, mem)
+	if mem.pwr_master_pos then
+		local netkey = minetest.hash_node_position(mem.pwr_master_pos)
+		local network = techage.schedule.get_network(netkey) or 
+				techage.schedule.add_network(netkey, {mst_pos = mem.pwr_master_pos})
+		network.alive = 10
+	else
+		print("node without master_pos "..N(pos).." at "..S(pos))
 	end
-	trigger_nodes(pos, mem, dec or 0)
+end
+
+-- called from global timer
+function techage.power.power_distribution(time, pos, mem)
+	if D.pwr then D.dbg("power_distribution"..math.floor(time).." "..N(pos)) end
+	mem.mst_needed1 = 0
+	mem.mst_needed2 = 0
+	mem.mst_available1 = 0
+	mem.mst_available2 = 0
+	trigger_nodes(pos, mem, 1)
 	accounting(pos, mem)
 end
 
@@ -458,14 +461,8 @@ end
 function techage.power.network_changed(pos, mem)
 	if D.pwr then D.dbg("network_changed") end
 	mem.pwr_node_alive_cnt = (mem.pwr_cycle_time or 2)/2 + 1
-	if determine_new_master(pos, mem) then -- new master?
-		power_distribution(pos, mem)
-	elseif not mem.pwr_master_pos then -- no master?
-		turn_off_nodes(pos)
-	elseif not next(mem.connections) then -- isolated?
-		if mem.pwr_needed then -- consumer?
-			consumer_turn_off(pos, mem)
-		end
+	if determine_new_master(pos, mem) then -- new master
+		trigger_network(pos, mem)
 	end
 end
 
@@ -477,7 +474,7 @@ function techage.power.generator_start(pos, mem, available)
 	mem.pwr_cycle_time = 2
 	mem.pwr_available = available
 	if determine_new_master(pos, mem) then -- new master
-		power_distribution(pos, mem)
+		trigger_network(pos, mem)
 	end
 end
 
@@ -489,15 +486,13 @@ function techage.power.generator_stop(pos, mem)
 	mem.pwr_node_alive_cnt = 0
 	mem.pwr_available = 0
 	if determine_new_master(pos, mem) then -- last available master
-		power_distribution(pos, mem)
+		trigger_network(pos, mem)
 	end
 end
 
 function techage.power.generator_alive(pos, mem)
 	mem.pwr_node_alive_cnt = 2
-	if mem.pwr_is_master then
-		power_distribution(pos, mem, 1)
-	end
+	trigger_network(pos, mem)
 	return mem.pwr_provided or 0
 end
 
@@ -531,8 +526,8 @@ end
 -- Lamp related function to speed up the turn on
 function techage.power.power_available(pos, mem, needed)
 	if mem.pwr_master_pos and (mem.pwr_power_provided_cnt or 0) > 0 then
-		mem = tubelib2.get_mem(mem.pwr_master_pos)
-		if (mem.mst_reserve or 0) >= needed then
+		mem = master_mem(mem)
+		if mem and (mem.mst_reserve or 0) >= needed then
 			mem.mst_reserve = (mem.mst_reserve or 0) - needed
 			return true
 		end
@@ -544,14 +539,16 @@ end
 function techage.power.power_accounting(pos, mem)
 	if mem.pwr_master_pos and (mem.pwr_power_provided_cnt or 0) > 0 then
 		mem.pwr_power_provided_cnt = (mem.pwr_power_provided_cnt or 0) - 1
-		mem = tubelib2.get_mem(mem.pwr_master_pos)
-		return {
-			prim_available = mem.mst_available1 or 0,
-			sec_available = mem.mst_available2 or 0,
-			prim_needed = mem.mst_needed1 or 0,
-			sec_needed = mem.mst_needed2 or 0,
-			num_nodes = mem.mst_num_nodes or 0,
-		}
+		mem = master_mem(mem)
+		if mem then
+			return {
+				prim_available = mem.mst_available1 or 0,
+				sec_available = mem.mst_available2 or 0,
+				prim_needed = mem.mst_needed1 or 0,
+				sec_needed = mem.mst_needed2 or 0,
+				num_nodes = mem.mst_num_nodes or 0,
+			}
+		end
 	end
 	return {
 		prim_available = 0,
@@ -570,7 +567,7 @@ function techage.power.secondary_start(pos, mem, available, needed)
 	mem.pwr_could_provide = available
 	mem.pwr_could_need = needed
 	if determine_new_master(pos, mem) then -- new master
-		power_distribution(pos, mem)
+		trigger_network(pos, mem)
 	end
 end
 
@@ -580,7 +577,7 @@ function techage.power.secondary_stop(pos, mem)
 	mem.pwr_could_need = 0
 	mem.pwr_needed2 = 0
 	if determine_new_master(pos, mem) then -- last available master
-		power_distribution(pos, mem)
+		trigger_network(pos, mem)
 	end
 end
 
@@ -597,7 +594,7 @@ function techage.power.secondary_alive(pos, mem, capa_curr, capa_max)
 	mem.pwr_node_alive_cnt = 2
 	if mem.pwr_is_master then
 		if D.pwr then D.dbg("secondary_alive is master") end
-		power_distribution(pos, mem, 1)
+		trigger_network(pos, mem)
 	end
 	if mem.pwr_master_pos then
 		return mem.pwr_provided or 0

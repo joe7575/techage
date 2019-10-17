@@ -20,7 +20,7 @@ minetest.register_craftitem("techage:hydrogen", {
 })
 
 minetest.register_craftitem("techage:ta4_fuelcellstack", {
-	description = S("TA4 Fuell Cell Stack"),
+	description = S("TA4 Fuel Cell Stack"),
 	inventory_image = "techage_fc_stack_inv.png",
 })
 

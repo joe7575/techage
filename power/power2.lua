@@ -102,6 +102,8 @@ local function add_connection(mem, pos, out_dir, peer_pos, peer_in_dir, power)
 	else
 		mem.connections[out_dir] = {pos = peer_pos, in_dir = peer_in_dir}
 	end
+	-- update network for power scheduling
+	techage.power.network_changed(pos, mem)	
 end
 
 function techage.power.register_node(names, pwr_def)

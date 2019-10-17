@@ -59,8 +59,12 @@ else
 	-- Nodes1
 	dofile(MP.."/nodes/baborium.lua")
 	dofile(MP.."/nodes/usmium.lua")
+	--dofile(MP.."/nodes/bauxit.lua")
 	
 	-- Power networks
+	dofile(MP.."/power/schedule.lua")
+	--dofile(MP.."/power/distribute.lua")
+	--dofile(MP.."/power/test.lua")
 	dofile(MP.."/power/power.lua")
 	dofile(MP.."/power/power2.lua")
 	dofile(MP.."/power/junction.lua") 
@@ -202,7 +206,7 @@ else
 	dofile(MP.."/energy_storage/nodes.lua")
 	
 	-- Chemistry
-	--dofile(MP.."/chemistry/reaktor.lua")
+	--dofile(MP.."/chemistry/reactor.lua")
 	
 	-- Hydrogen
 	dofile(MP.."/hydrogen/hydrogen.lua")
