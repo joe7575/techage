@@ -371,7 +371,7 @@ local tiles = {}
 -- '{power}' will be replaced by the power PNG
 tiles.pas = {
 	-- up, down, right, left, back, front
-	"techage_filling_ta#.png^techage_appl_distri.png^techage_frame_ta#_top.png",
+	"techage_filling_ta#.png^techage_appl_distri.png^techage_frame_ta#_top.png^techage_appl_color_top.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_yellow.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_green.png",
@@ -390,7 +390,7 @@ tiles.act = {
 			length = 1.0,
 		},
 	},
-	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_color_top.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_yellow.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_green.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_red.png",

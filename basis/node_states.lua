@@ -214,6 +214,7 @@ function NodeStates:stop(pos, mem)
 		M(pos):set_string("infotext", self.infotext_name.." "..number..": stopped")
 	end
 	if self.formspec_func then
+		mem.ta_state_tooltip = "stopped"
 		M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
 	end
 	if self.on_state_change then
@@ -250,6 +251,7 @@ function NodeStates:start(pos, mem)
 			M(pos):set_string("infotext", self.infotext_name.." "..number..": running")
 		end
 		if self.formspec_func then
+			mem.ta_state_tooltip = "running"
 			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
 		end
 		if minetest.get_node_timer(pos):is_started() then
@@ -276,6 +278,7 @@ function NodeStates:standby(pos, mem)
 			M(pos):set_string("infotext", self.infotext_name.." "..number..": standby")
 		end
 		if self.formspec_func then
+			mem.ta_state_tooltip = "standby"
 			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
 		end
 		if self.on_state_change then
@@ -300,6 +303,7 @@ function NodeStates:blocked(pos, mem)
 			M(pos):set_string("infotext", self.infotext_name.." "..number..": blocked")
 		end
 		if self.formspec_func then
+			mem.ta_state_tooltip = "blocked"
 			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
 		end
 		if self.on_state_change then
@@ -311,7 +315,7 @@ function NodeStates:blocked(pos, mem)
 	return false
 end	
 
-function NodeStates:nopower(pos, mem)
+function NodeStates:nopower(pos, mem, err_string)
 	local state = mem.techage_state or RUNNING
 	if state ~= NOPOWER then
 		mem.techage_state = NOPOWER
@@ -323,6 +327,7 @@ function NodeStates:nopower(pos, mem)
 			M(pos):set_string("infotext", self.infotext_name.." "..number..": no power")
 		end
 		if self.formspec_func then
+			mem.ta_state_tooltip = err_string or "no power"
 			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
 		end
 		if self.on_state_change then
@@ -347,6 +352,7 @@ function NodeStates:fault(pos, mem, err_string)
 			M(pos):set_string("infotext", self.infotext_name.." "..number..": "..err_string)
 		end
 		if self.formspec_func then
+			mem.ta_state_tooltip = err_string or "fault"
 			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
 		end
 		if self.on_state_change then
@@ -416,6 +422,11 @@ end
 function NodeStates:get_state_button_image(mem)
 	local state = mem.techage_state or STOPPED
 	return techage.state_button(state)
+end
+
+function NodeStates:get_state_tooltip(mem)
+	local tp = mem.ta_state_tooltip or ""
+	return tp..";#0C3D32;#FFFFFF"
 end
 
 -- command interface

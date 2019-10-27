@@ -5,26 +5,27 @@
 ## History
 
 - v1.0 - 03.10.2019 - Erster Entwurf
+- v1.1 - 26.10.2019 - `networks.lua` hinzugefügt
 
 ## Hierarchiediagramm
 
 ```
-        +-------------------------------------------------------------+
-        |                          consumer                           |
-        |  (tubing/commands/states/formspec/power/connections/node)   |
-        +-------------------------------------------------------------+
-                |                    |                     |
-                V                    V                     V
-        +-----------------+  +-----------------+  +-------------------+
-        |     command     |  |   node_states   |  |      power        |
-        |(tubing/commands)|  |(states/formspec)|  |(power,connections)|
-        +-----------------+  +-----------------+  +-------------------+
-                |                    |                     |
-                V                    V                     V
-        +-------------------------------------------------------------+
-        |                      Tube/tubelib2                          |
-        |                  (tubes, mem, get_node_pos)                 |
-        +-------------------------------------------------------------+
+ +-------------------------------------------------------------+ +-------------------+
+ |                          consumer                           | |      Nodes        |
+ |  (tubing/commands/states/formspec/power/connections/node)   | | (Pipe/Tube/Cable) |
+ +-------------------------------------------------------------+ +-------------------+
+         |                    |                     |                     |
+         V                    V                     V                     V
+ +-----------------+  +-----------------+  +-------------------+ +-------------------+
+ |     command     |  |   node_states   |  |      power        | |     networks      |
+ |(tubing/commands)|  |(states/formspec)|  |(power,connections)| |   (connections)   |
+ +-----------------+  +-----------------+  +-------------------+ +-------------------+
+         |                    |                     |                     |
+         V                    V                     V                     V
+ +-----------------------------------------------------------------------------------+
+ |                               Tube/tubelib2                                       |
+ |                        (tubes, mem, get_node_pos)                                 |
+ +-----------------------------------------------------------------------------------+
 ```
 
 ## Klasse `Tube` (Mod tubelib2)
@@ -72,7 +73,7 @@ Um mit `tubelib2` arbeiten zu können, muss zuvor eine Tube Instanz angelegt wer
 local Tube = tubelib2.Tube:new(...) 
 ```
 
-wird eine Instanz von tubes/pipes/cables angelegt. Hier die Parameter:
+Hier die Parameter:
 
 ```lua
 dirs_to_check = attr.dirs_to_check or {1,2,3,4,5,6},
@@ -128,13 +129,22 @@ Damit der Block über Änderungen an Tubes oder Peer-Blöcken informiert wird, g
 
 ##### 1. Knoten-spezifische callback Funktion `tubelib2_on_update`
 
-```
+```lua
 tubelib2_on_update(node, pos, out_dir, peer_pos, peer_in_dir)
 ```
 
 Die Funktion muss Teil von `minetest.register_node()` sein.
 
-##### 2. Zentrale callback Funktion `register_on_tube_update`
+##### 2. Knoten-spezifische callback Funktion `tubelib2_on_update2`
+
+```lua
+tubelib2_on_update2(node, pos, self)
+```
+
+Dies ist eine neue Funktion von tubelib2 v1.6
+Durch den Paramater `self` können nun unterschiedliche Instanzen den tubelib2 unterschieden werden, was für die verschiedenen Kabel/Röhren von techage notwendig wurde.
+
+##### 3. Zentrale callback Funktion `register_on_tube_update`
 
 ```lua
 Tube:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir)
@@ -142,7 +152,7 @@ Tube:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir)
 end)
 ```
 
-Wird 1) aufgerufen, wird 2) **nicht** mehr gerufen!
+Wird 1) oder 2) aufgerufen, wird 3) **nicht** mehr gerufen!
 
 ### API Funktionen
 
@@ -163,16 +173,16 @@ Techage definiert `sides` , die wie folgt definiert sind `{B=1, R=2, F=3, L=4, D
 ```
 sides:                                  dirs: 
             U                    
-            |    B               
-            |   /                                 6
+            |    B                               
+            |   /                                 6  (N)
          +--|-----+                               |  1
         /   o    /|                               | /
        +--------+ |                               |/
-L <----|        |o----> R               4 <-------+-------> 2
+L <----|        |o----> R           (W) 4 <-------+-------> 2 (O)
        |    o   | |                              /|
        |   /    | +                             / |
        |  /     |/                             3  |
-       +-/------+                                 5
+       +-/------+                            (S)  5
         /   |
        F    |
             D 
@@ -274,7 +284,7 @@ techage.get_node_number(pos) --> number
 techage.get_new_number(pos, name) --> should ne be needed (repair function)
 ```
 
-## Wrapper `power`
+## Wrapper `power` (veraltet)
 
 Im Gegensatz zu `tubelib2` und `command` verwaltet `power` ganze Netzwerke und nicht nur Einzelverbindungen zwischen zwei Knoten. Dazu muss `power` in jedem Knoten eine Connection-Liste anlegen, die alle angeschlossenen Tubes beinhaltet.
 
@@ -333,7 +343,7 @@ Und es erfolgt eine Registrierung bei Tube:
 
 ### Alternative API
 
-Sollen die Knoten-eigenen `after_...` Funktionen nicht überschrieben, so bietet sich folgende, alternative API an:
+Sollen die Knoten-eigenen `after_...` Funktionen nicht überschrieben werden, so bietet sich folgende, alternative API an:
 
 ```lua
 techage.power.enrich_node(names, pwr_def)
@@ -410,6 +420,8 @@ State = techage.NodeStates:new({
 
 **Wird `NodeStates` verwendet, muss der Knoten die definierten Zustände unterstützen und sollte die formspec mit dem Button und die callbacks `can_start`, `start_node` und `stop_node` implementieren.**
 
+Ein Beispiel dafür ist der Boiler aus `./steam_engine/boiler.lua`
+
 ### Methods
 
 ```lua
@@ -485,6 +497,97 @@ Dabei werden auch bereits definiert:
 Ein einfaches Beispiele dafür wäre: `pusher.lua`
 
 **Es darf in `after_place_node`  kein `tubelib2.init_mem(pos)` aufgerufen werden, sonst werden die Definitionen wieder zerstört!!!**
+
+## Modul `networks`
+
+Tubelib2 verwaltet nur 1:1 Beziehungen, keine Netzwerke. Dazu wurde `power` entwickelt. Allerdings lässt `power` nicht mehrere unterschiedliche Netzwerke pro Knoten zu, da die Daten nicht unterschiedenen werden können.
+
+Deshalb wurde das Modul `networks.lua` entwickelt. Dies wird primär für Liquids benötigt, soll aber später `power` ablösen.
+
+`liquid_pipe.lua` ist die erste Implementierung von `networks`. 
+
+### Anwendung
+
+Um `networks` nutzen zu können muss tubelib2_on_update2 implementiert werden:
+
+```lua
+	tubelib2_on_update2 = function(pos, node, tlib2)
+		networks.update_network(pos, tlib2)
+	end,
+```
+
+Zusätzlich muss eine Table pro Netzwerk angelegt werden:
+
+```lua
+networks = {
+    pipe = {             -- network name/type
+        sides = {R = 1}, -- connection sides for pipes
+        ntype = "junc",  -- node type
+    },
+},
+```
+
+Durch die Abstufung in bspw. `pipe` sind parallel auch andere Netze möglich wie:
+
+- `power`  für Strom
+- `solar` für die roten Solarkabel
+- `steam` usw.
+
+Im Speicher wird lediglich die Netzwerk ID gespeichert:
+
+```lua
+mem.pipe.netID = val
+mem.solar.netID = val
+mem.power.netID = val
+```
+
+Damit wird der Speicherbedarf pro Knoten drastisch reduziert. Allein schon deshalb macht die Umstellung von `power` auf `networks` Sinn.
+
+### Implementierung
+
+Die netID ist wie bei `power` die größte hash-Nummer aller Knoten-Positionen. Diese Nummer muss in jedem Knoten gespeichert werden.
+
+Im Gegensatz zu `power` werden die `connections` zu anderen Knoten nicht mehr unter `mem`, sondern nur als eine Zahl in Node `meta` gespeichert. Dabei wird pro Richtungen (dir) nur ein Bit abgespeichert. Die Verbindung zum nächsten Knoten muss über `tlib2:get_connected_node_pos(pos, outdir)` bestimmt werden. Da tubelib2 diese Verbindungen auch schon im Cache speichert, sollte dies völlig ausreichend sein. Besonders dann, wenn für den Betrieb die `networks` Tabellen genutzt werden. 
+
+Bei jeder Änderung an Netzwerk wird folgendes aufgerufen:
+
+```lua
+function techage.networks.update_network(pos, tlib2)
+	node_connections(pos, tlib2)
+	local netID = determine_netID(pos, tlib2)
+	Networks[netID] = store_netID(pos, netID, tlib2)
+end
+```
+
+Dabei werden:
+
+- die Verbindingsinformationen im Knoten aktualisiert
+- die netID bestimmt und in allen Knoten gespeichert
+- die Netzwerk Tabellen generiert (pro Knotentyp `ntype` eine Tabelle)
+
+Um bspw. alle Consumer durchzuklappern, kann dann einfach die Tabelle über
+
+```
+networks.get_network(pos, Pipe).con
+```
+
+abgerufen werden.
+
+### API
+
+`networks` setzt auch auf `sides`, wie `command` oder `power` und nutzt dafür aber seine eigenen Funktionen. Bei `power` fliegt das dann irgendwann raus, bei `command` evtl. auch??
+
+```lua
+techage.networks.side_to_outdir(pos, side) -- beim after_place_node
+techage.networks.valid_indir(pos, indir, param2, net_name) -- bei bspw. on_push_item
+techage.networks.update_network(pos, tlib2) -- from tubelib2_on_update2
+techage.networks.get_network(pos, tlib2)
+techage.networks.get_network_table(pos, tlib2, ntype)  -- comfort function
+techage.networks.connection_walk(pos, tlib2, clbk)  -- classic way
+```
+
+
+
 
 ## Anhang
 

@@ -47,7 +47,7 @@ minetest.register_node("techage:source", {
 	},
 	
 	paramtype2 = "facedir",
-	groups = {cracky=2, crumbly=2, choppy=2},
+	groups = {cracky=2, crumbly=2, choppy=2, not_in_creative_inventory=1},
 	is_ground_content = false,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,

@@ -174,3 +174,20 @@ local function determine_ocean_ids()
 end
 
 determine_ocean_ids()
+
+
+local function tooltip(name)
+	name = string.split(name, " ")[1]
+	local ndef = minetest.registered_nodes[name] or minetest.registered_items[name] or minetest.registered_craftitems[name]
+	if ndef and ndef.description then
+		return minetest.formspec_escape(ndef.description)
+	end
+	return ""
+end
+
+function techage.item_image(x, y, itemname)
+	return "box["..x..","..y..";0.87,0.9;#808080]"..
+		"item_image["..x..","..y..";1,1;"..itemname.."]"..
+		"tooltip["..x..","..y..";1,1;"..tooltip(itemname)..";#0C3D32;#FFFFFF]"
+end
+

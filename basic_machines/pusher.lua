@@ -108,6 +108,10 @@ tiles.act = {
 }
 	
 local tubing = {
+	-- push item through the pusher in opposit direction
+	on_push_item = function(pos, in_dir, stack)
+		return in_dir == M(pos):get_int("pull_dir") and techage.push_items(pos, in_dir, stack)
+	end,
 	is_pusher = true, -- is a pulling/pushing node
 	
 	on_recv_message = function(pos, src, topic, payload)

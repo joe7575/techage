@@ -48,6 +48,7 @@ else
 	dofile(MP.."/basis/mark.lua")
 	dofile(MP.."/basis/mark2.lua")
 	dofile(MP.."/basis/assemble.lua")
+	dofile(MP.."/basis/networks.lua")
 
 	-- Main doc
 	dofile(MP.."/doc/manual_DE.lua")
@@ -59,7 +60,7 @@ else
 	-- Nodes1
 	dofile(MP.."/nodes/baborium.lua")
 	dofile(MP.."/nodes/usmium.lua")
-	--dofile(MP.."/nodes/bauxit.lua")
+	dofile(MP.."/nodes/bauxit.lua")
 	
 	-- Power networks
 	dofile(MP.."/power/schedule.lua")
@@ -75,8 +76,6 @@ else
 	dofile(MP.."/power/junctionbox.lua")
 	dofile(MP.."/power/powerswitch.lua")
 	dofile(MP.."/power/protection.lua")
-	dofile(MP.."/power/ta4_pipe.lua")
-	dofile(MP.."/power/ta4_junction.lua")
 	dofile(MP.."/power/ta4_cable.lua")
 
 	-- Iron Age
@@ -118,6 +117,13 @@ else
 	dofile(MP.."/basic_machines/funnel.lua")
 	dofile(MP.."/basic_machines/liquidsampler.lua")
 
+	-- Liquids
+	dofile(MP.."/liquids/liquid.lua")
+	dofile(MP.."/liquids/barrel.lua")
+	dofile(MP.."/liquids/oil.lua")
+	dofile(MP.."/liquids/liquid_pipe.lua")
+	dofile(MP.."/liquids/tank.lua")
+	
 	-- Coal power station
 	dofile(MP.."/coal_power_station/firebox.lua")
 	dofile(MP.."/coal_power_station/boiler_base.lua")
@@ -182,9 +188,9 @@ else
 
 	-- Test
 	dofile(MP.."/recipe_checker.lua")
-	dofile(MP.."/.test/sink.lua")
+	--dofile(MP.."/.test/sink.lua")
 	dofile(MP.."/.test/source.lua")
-	dofile(MP.."/.test/akku.lua")
+	--dofile(MP.."/.test/akku.lua")
 	--dofile(MP.."/.test/switch.lua")
 	
 	-- Solar
@@ -206,7 +212,9 @@ else
 	dofile(MP.."/energy_storage/nodes.lua")
 	
 	-- Chemistry
-	--dofile(MP.."/chemistry/reactor.lua")
+	dofile(MP.."/chemistry/ta4_reactor.lua")
+	dofile(MP.."/chemistry/ta4_pump.lua")
+	dofile(MP.."/chemistry/ta4_doser.lua")
 	
 	-- Hydrogen
 	dofile(MP.."/hydrogen/hydrogen.lua")

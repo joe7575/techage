@@ -86,6 +86,7 @@ Die Transportkapazität einer Röhre ist unbegrenzt und nur durch die Schieber b
 ### TA2 Schieber / Pusher
 
 Ein Schieber ist in der Lage, Items aus Kisten oder Maschinen zu ziehen und in andere Kisten oder Maschinen zu schieben. Oder anders gesagt: Zwischen zwei Blöcken mit Inventar muss ein und genau ein Schieber sein. Mehrere Schieber in Reihe sind nicht möglich.
+In die Gegenrichtung ist ein Schieber für Items aber durchlässig, so dass eine Kiste über eine Röhre gefüllt und ebenso gelehrt werden kann. 
 
 Ein Schieber geht in den Zustand "standby", wenn der keine Items zum Schieben hat. Ist der Ausgang blockiert oder das Inventory des Empfängers voll, so geht der Schieber in den Zustand "blocked". Aus beiden Zuständen kommt der Schieber nach einigen Sekunden selbsttätig wieder raus, sofern sich die Situation geändert hat.
 
