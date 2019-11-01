@@ -20,20 +20,12 @@ local S = techage.S
 local Pipe = techage.SteamPipe
 
 local function swap_node(pos, name)
-	local node = minetest.get_node(pos)
+	local node = techage.get_node_lvm(pos)
 	if node.name == name then
 		return
 	end
 	node.name = name
 	minetest.swap_node(pos, node)
-end
-
--- called with any pipe change
-local function after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
-	-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
-	local mem = tubelib2.get_mem(pos)
-	mem.running = false
-	swap_node(pos, "techage:cylinder")
 end
 
 minetest.register_node("techage:cylinder", {
@@ -48,7 +40,6 @@ minetest.register_node("techage:cylinder", {
 		"techage_filling_ta2.png^techage_cylinder.png^techage_frame_ta2.png",
 	},
 	
-	on_construct = tubelib2.init_mem,
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -86,7 +77,6 @@ minetest.register_node("techage:cylinder_on", {
 		},
 	},
 	
-	after_tube_update = after_tube_update,
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
 	diggable = false,
@@ -98,6 +88,11 @@ minetest.register_node("techage:cylinder_on", {
 techage.power.register_node({"techage:cylinder", "techage:cylinder_on"}, {
 	conn_sides = {"L"},
 	power_network  = Pipe,
+	after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
+		local mem = tubelib2.get_mem(pos)
+		mem.running = false
+		swap_node(pos, "techage:cylinder")
+	end,
 })
 
 -- used by firebox

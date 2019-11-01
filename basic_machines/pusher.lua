@@ -27,7 +27,7 @@ local M = minetest.get_meta
 local S = techage.S
 
 -- Consumer Related Data
-local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
+local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 
 local STANDBY_TICKS = 10
 local COUNTDOWN_TICKS = 10
@@ -54,7 +54,7 @@ local function keep_running(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	local crd = CRD(pos)
 	pushing(pos, crd, M(pos), mem)
-	return crd.State:is_active(mem)
+	crd.State:is_active(mem)
 end	
 
 local function on_rightclick(pos, node, clicker)
@@ -108,6 +108,10 @@ tiles.act = {
 }
 	
 local tubing = {
+	-- push item through the pusher in opposit direction
+	on_push_item = function(pos, in_dir, stack)
+		return in_dir == M(pos):get_int("pull_dir") and techage.push_items(pos, in_dir, stack)
+	end,
 	is_pusher = true, -- is a pulling/pushing node
 	
 	on_recv_message = function(pos, src, topic, payload)

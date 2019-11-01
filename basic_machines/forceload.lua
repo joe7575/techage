@@ -79,6 +79,16 @@ local function set_pos_list(player, lPos)
 	player:set_attribute("techage_forceload_blocks", minetest.serialize(lPos))
 end
 
+local function shoe_flbs(pos, name, range)
+	local pos1 = {x=pos.x-range, y=pos.y-range, z=pos.z-range}
+	local pos2 = {x=pos.x+range, y=pos.y+range, z=pos.z+range}
+	for _,npos in ipairs(minetest.find_nodes_in_area(pos1, pos2, {"techage:forceload"})) do
+		local _pos1, _pos2 = calc_area(npos)
+		local owner = M(npos):get_string("owner")
+		techage.mark_region(name, _pos1, _pos2, owner)
+	end
+end
+
 local function get_data(pos, player)
 	local pos1, pos2 = calc_area(pos)
 	local num = #minetest.deserialize(player:get_attribute("techage_forceload_blocks")) or 0
@@ -86,24 +96,27 @@ local function get_data(pos, player)
 	return pos1, pos2, num, max
 end
 
-local function formspec(player)
-	local lPos = get_pos_list(player)
-	local tRes = {}
-	for idx,pos in ipairs(lPos) do
-		local pos1, pos2 = calc_area(pos)
-		local ypos = 0.2 + idx * 0.4
-		tRes[#tRes+1] = idx
-		tRes[#tRes+1] = minetest.formspec_escape(P2S(pos1))
-		tRes[#tRes+1] = "to"
-		tRes[#tRes+1] = minetest.formspec_escape(P2S(pos2))
+local function formspec(name)
+	local player = minetest.get_player_by_name(name)
+	if player then
+		local lPos = get_pos_list(player)
+		local tRes = {}
+		for idx,pos in ipairs(lPos) do
+			local pos1, pos2 = calc_area(pos)
+			local ypos = 0.2 + idx * 0.4
+			tRes[#tRes+1] = idx
+			tRes[#tRes+1] = minetest.formspec_escape(P2S(pos1))
+			tRes[#tRes+1] = "to"
+			tRes[#tRes+1] = minetest.formspec_escape(P2S(pos2))
+		end
+		return "size[7,9]"..
+			default.gui_bg..
+			default.gui_bg_img..
+			default.gui_slots..
+			"label[0,0;List of your Forceload Blocks:]"..
+			"tablecolumns[text,width=1.2;text,width=12;text,width=1.6;text,width=12]"..
+			"table[0,0.6;6.8,8.4;output;"..table.concat(tRes, ",")..";1]"
 	end
-	return "size[7,9]"..
-		default.gui_bg..
-		default.gui_bg_img..
-		default.gui_slots..
-		"label[0,0;List of your Forceload Blocks:]"..
-		"tablecolumns[text,width=1.2;text,width=12;text,width=1.6;text,width=12]"..
-		"table[0,0.6;6.8,8.4;output;"..table.concat(tRes, ",")..";1]"
 end
 
 
@@ -151,10 +164,13 @@ minetest.register_node("techage:forceload", {
 	end,
 	
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-		if M(pos):get_string("owner") == clicker:get_player_name() or
-				minetest.check_player_privs(clicker:get_player_name(), "server") then
-			local s = formspec(clicker)
-			minetest.show_formspec(clicker:get_player_name(), "techage:forceload", s)
+		local owner = M(pos):get_string("owner")
+		local name = clicker:get_player_name()
+		if name == owner or	minetest.check_player_privs(name, "server") then
+			local s = formspec(owner)
+			if s then
+				minetest.show_formspec(owner, "techage:forceload", s)
+			end
 		end
 	end,
 	
@@ -201,3 +217,20 @@ minetest.register_on_leaveplayer(function(player)
 	end
 end)
 
+
+minetest.register_chatcommand("forceload", {
+	params = "",
+	description = "Forceloadblöcke der Umgebung 64x64x64 anzeigen",
+	func = function(name, param)
+		if minetest.check_player_privs(name, "superminer") then
+			local player = minetest.get_player_by_name(name)
+			if player then
+				local pos = player:get_pos()
+				pos = vector.round(pos)
+				shoe_flbs(pos, name, 64)
+			end
+		else
+			return false, "Priv missing"
+		end
+	end,
+})

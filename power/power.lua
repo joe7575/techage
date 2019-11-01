@@ -17,10 +17,11 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
+local N = function(pos) return minetest.get_node(pos).name end
 local D = techage.Debug
 
 -- Techage Related Data
-local PWR = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).power end
+local PWR = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).power end
 
 -- Used to determine the already passed nodes while power distribution
 local Route = {}
@@ -37,7 +38,7 @@ local NOPOWER = 2
 local RUNNING = 3
 
 -------------------------------------------------- Migrate
-local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
+local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 local Consumer = {
 	["techage:streetlamp_off"] = 0,
 	["techage:streetlamp_on"] = 0.5,
@@ -116,7 +117,7 @@ local function migrate(pos, mem, node)
 		mem.pwr_power_provided_cnt = 2
 		mem.pwr_node_alive_cnt = 4
 		
-		local name = minetest.get_node(pos).name
+		local name = techage.get_node_lvm(pos).name
 		mem.pwr_needed = Consumer[name]
 		mem.pwr_available = Generator[name]
 		mem.pwr_could_provide = Akku[name]
@@ -194,6 +195,14 @@ minetest.register_lbm({
 
 -------------------------------------------------- Migrate
 
+local function connection_color(t)
+  local count = 0
+  for _ in pairs(t) do count = count + 1 end
+  if count == 0 then return count, "#FF0000" end
+  if count == 1 then return count, "#FFFF00" end
+  return count, "#00FF00"  
+end
+
 local function pos_already_reached(pos)
 	local key = minetest.hash_node_position(pos)
 	if not Route[key] and NumNodes < MAX_NUM_NODES then
@@ -211,16 +220,14 @@ local function min(val, max)
 end
 
 local function accounting(pos, mem)
-	if mem.pwr_is_master then
-		-- calculate the primary and secondary supply and demand
-		mem.mst_supply1 = min(mem.mst_needed1 + mem.mst_needed2, mem.mst_available1)
-		mem.mst_demand1 = min(mem.mst_needed1, mem.mst_available1 + mem.mst_available2)
-		mem.mst_supply2 = min(mem.mst_demand1 - mem.mst_supply1, mem.mst_available2)
-		mem.mst_demand2 = min(mem.mst_supply1 - mem.mst_demand1, mem.mst_available1)
-		mem.mst_reserve = (mem.mst_available1 + mem.mst_available2) - mem.mst_needed1
-		if D.sts then D.dbg("needed = "..mem.mst_needed1.."/"..mem.mst_needed2..", available = "..mem.mst_available1.."/"..mem.mst_available2) end
-		if D.sts then D.dbg("supply = "..mem.mst_supply1.."/"..mem.mst_supply2..", demand = "..mem.mst_demand1.."/"..mem.mst_demand2..", reserve = "..mem.mst_reserve) end
-	end
+	-- calculate the primary and secondary supply and demand
+	mem.mst_supply1 = min(mem.mst_needed1 + mem.mst_needed2, mem.mst_available1)
+	mem.mst_demand1 = min(mem.mst_needed1, mem.mst_available1 + mem.mst_available2)
+	mem.mst_supply2 = min(mem.mst_demand1 - mem.mst_supply1, mem.mst_available2)
+	mem.mst_demand2 = min(mem.mst_supply1 - mem.mst_demand1, mem.mst_available1)
+	mem.mst_reserve = (mem.mst_available1 + mem.mst_available2) - mem.mst_needed1
+	if D.sts then D.dbg("needed = "..mem.mst_needed1.."/"..mem.mst_needed2..", available = "..mem.mst_available1.."/"..mem.mst_available2) end
+	if D.sts then D.dbg("supply = "..mem.mst_supply1.."/"..mem.mst_supply2..", demand = "..mem.mst_demand1.."/"..mem.mst_demand2..", reserve = "..mem.mst_reserve) end
 end
 
 local function connection_walk(pos, clbk)
@@ -237,23 +244,25 @@ local function connection_walk(pos, clbk)
 	end
 end
 
--- walk limited by number of nodes and hops
-local function connection_walk2(pos, max_hops, max_nodes, clbk)
+-- Comfort walk with abort condition and additional info
+-- num_hops is for internal use only
+-- clbk(pos, node, mem, num_hops, num_nodes)
+local function limited_connection_walk(pos, clbk, num_hops)
+	num_hops = num_hops or 1
 	local mem = tubelib2.get_mem(pos)
 	mem.interrupted_dirs = mem.interrupted_dirs or {}
 	if clbk then
-		clbk(pos, mem, max_hops)
+		local node = techage.get_node_lvm(pos)
+		if clbk(pos, node, mem, num_hops, NumNodes) then return true end
 	end
-	max_hops = max_hops - 1
-	if max_hops < 0 then return end
+	num_hops = num_hops + 1
 	for out_dir,item in pairs(mem.connections or {}) do
 		if item.pos and not pos_already_reached(item.pos) and
 				not mem.interrupted_dirs[out_dir] then
-			max_nodes = max_nodes - 1
-			if max_nodes < 0 then return end
-			connection_walk2(item.pos, max_hops, max_nodes, clbk)
+			limited_connection_walk(item.pos, clbk, num_hops)
 		end
 	end
+	return false
 end
 
 -- if no power available
@@ -307,9 +316,15 @@ local function store_master(pos, master_pos)
 	pos_already_reached(pos) 
 	connection_walk(pos, function(pos, mem)
 			mem.pwr_master_pos = master_pos
-			mem.pwr_is_master = false
 		end)
 end
+
+local function master_mem(mem)
+	if mem.pwr_master_pos then
+		local netkey = minetest.hash_node_position(mem.pwr_master_pos)
+		return techage.schedule.get_network(netkey)
+	end
+end	
 
 local function handle_generator(mst_mem, mem, pos, power_available)
 	-- for next cycle
@@ -409,33 +424,32 @@ local function turn_off_nodes(mst_pos)
 end
 
 local function determine_new_master(pos, mem)
-	local was_master = mem.pwr_is_master
-	mem.pwr_is_master = false
 	local mpos = determine_master(pos)
 	store_master(pos, mpos)
-	if mpos then
-		local mmem = tubelib2.get_mem(mpos)
-		mmem.pwr_is_master = true
-		mmem.mst_num_nodes = NumNodes
-	elseif was_master then -- no master any more
-		-- delete data
-		mem.mst_supply1 = 0
-		mem.mst_supply2 = 0
-		mem.mst_reserve = 0
-	end
-	return was_master or mem.pwr_is_master
+	mem.pwr_master_pos = mpos
+	return true
 end
 
--- called from master position
-local function power_distribution(pos, mem, dec)
-	if D.pwr then D.dbg("power_distribution") end
-	if mem.pwr_is_master then
-		mem.mst_needed1 = 0
-		mem.mst_needed2 = 0
-		mem.mst_available1 = 0
-		mem.mst_available2 = 0
+-- called from all nodes
+local function trigger_network(pos, mem)
+	if mem.pwr_master_pos then
+		local netkey = minetest.hash_node_position(mem.pwr_master_pos)
+		local network = techage.schedule.get_network(netkey) or 
+				techage.schedule.add_network(netkey, {mst_pos = mem.pwr_master_pos})
+		network.alive = 10
+	else
+		print("node without master_pos "..N(pos).." at "..S(pos))
 	end
-	trigger_nodes(pos, mem, dec or 0)
+end
+
+-- called from global timer
+function techage.power.power_distribution(time, pos, mem)
+	if D.pwr then D.dbg("power_distribution"..math.floor(time).." "..N(pos)) end
+	mem.mst_needed1 = 0
+	mem.mst_needed2 = 0
+	mem.mst_available1 = 0
+	mem.mst_available2 = 0
+	trigger_nodes(pos, mem, 1)
 	accounting(pos, mem)
 end
 
@@ -447,14 +461,8 @@ end
 function techage.power.network_changed(pos, mem)
 	if D.pwr then D.dbg("network_changed") end
 	mem.pwr_node_alive_cnt = (mem.pwr_cycle_time or 2)/2 + 1
-	if determine_new_master(pos, mem) then -- new master?
-		power_distribution(pos, mem)
-	elseif not mem.pwr_master_pos then -- no master?
-		turn_off_nodes(pos)
-	elseif not next(mem.connections) then -- isolated?
-		if mem.pwr_needed then -- consumer?
-			consumer_turn_off(pos, mem)
-		end
+	if determine_new_master(pos, mem) then -- new master
+		trigger_network(pos, mem)
 	end
 end
 
@@ -466,23 +474,25 @@ function techage.power.generator_start(pos, mem, available)
 	mem.pwr_cycle_time = 2
 	mem.pwr_available = available
 	if determine_new_master(pos, mem) then -- new master
-		power_distribution(pos, mem)
+		trigger_network(pos, mem)
 	end
+end
+
+function techage.power.generator_update(pos, mem, available)
+	mem.pwr_available = available
 end
 
 function techage.power.generator_stop(pos, mem)
 	mem.pwr_node_alive_cnt = 0
 	mem.pwr_available = 0
 	if determine_new_master(pos, mem) then -- last available master
-		power_distribution(pos, mem)
+		trigger_network(pos, mem)
 	end
 end
 
 function techage.power.generator_alive(pos, mem)
 	mem.pwr_node_alive_cnt = 2
-	if mem.pwr_is_master then
-		power_distribution(pos, mem, 1)
-	end
+	trigger_network(pos, mem)
 	return mem.pwr_provided or 0
 end
 
@@ -516,8 +526,8 @@ end
 -- Lamp related function to speed up the turn on
 function techage.power.power_available(pos, mem, needed)
 	if mem.pwr_master_pos and (mem.pwr_power_provided_cnt or 0) > 0 then
-		mem = tubelib2.get_mem(mem.pwr_master_pos)
-		if (mem.mst_reserve or 0) >= needed then
+		mem = master_mem(mem)
+		if mem and (mem.mst_reserve or 0) >= needed then
 			mem.mst_reserve = (mem.mst_reserve or 0) - needed
 			return true
 		end
@@ -525,18 +535,20 @@ function techage.power.power_available(pos, mem, needed)
 	return false
 end		
 
--- Power terminal function
+-- Debug info, used by junction boxes
 function techage.power.power_accounting(pos, mem)
 	if mem.pwr_master_pos and (mem.pwr_power_provided_cnt or 0) > 0 then
 		mem.pwr_power_provided_cnt = (mem.pwr_power_provided_cnt or 0) - 1
-		mem = tubelib2.get_mem(mem.pwr_master_pos)
-		return {
-			prim_available = mem.mst_available1 or 0,
-			sec_available = mem.mst_available2 or 0,
-			prim_needed = mem.mst_needed1 or 0,
-			sec_needed = mem.mst_needed2 or 0,
-			num_nodes = mem.mst_num_nodes or 0,
-		}
+		mem = master_mem(mem)
+		if mem then
+			return {
+				prim_available = mem.mst_available1 or 0,
+				sec_available = mem.mst_available2 or 0,
+				prim_needed = mem.mst_needed1 or 0,
+				sec_needed = mem.mst_needed2 or 0,
+				num_nodes = mem.mst_num_nodes or 0,
+			}
+		end
 	end
 	return {
 		prim_available = 0,
@@ -555,7 +567,7 @@ function techage.power.secondary_start(pos, mem, available, needed)
 	mem.pwr_could_provide = available
 	mem.pwr_could_need = needed
 	if determine_new_master(pos, mem) then -- new master
-		power_distribution(pos, mem)
+		trigger_network(pos, mem)
 	end
 end
 
@@ -563,8 +575,9 @@ function techage.power.secondary_stop(pos, mem)
 	mem.pwr_node_alive_cnt = 0
 	mem.pwr_could_provide = 0
 	mem.pwr_could_need = 0
+	mem.pwr_needed2 = 0
 	if determine_new_master(pos, mem) then -- last available master
-		power_distribution(pos, mem)
+		trigger_network(pos, mem)
 	end
 end
 
@@ -581,37 +594,48 @@ function techage.power.secondary_alive(pos, mem, capa_curr, capa_max)
 	mem.pwr_node_alive_cnt = 2
 	if mem.pwr_is_master then
 		if D.pwr then D.dbg("secondary_alive is master") end
-		power_distribution(pos, mem, 1)
+		trigger_network(pos, mem)
 	end
-	return mem.pwr_provided or 0
+	if mem.pwr_master_pos then
+		return mem.pwr_provided or 0
+	end
+	return 0
 end
 
 --
 -- Read the current power value from all connected devices (used for solar cells)
---
-function techage.power.get_power(start_pos)
+-- Only used by the solar inverter to collect the power of all solar cells.
+-- Only one inverter per network is allowed. Therefore, we have to check,
+-- if additional inverters are in the network.
+-- Function returns in addition the number of found inverters.
+function techage.power.get_power(start_pos, inverter)
 	Route = {}
 	NumNodes = 0
 	pos_already_reached(start_pos) 
 	local sum = 0
+	local num_inverter = 0
 	connection_walk(start_pos, function(pos, mem)
 		local pwr = PWR(pos)
 		if pwr and pwr.on_getpower then
 			sum = sum + pwr.on_getpower(pos, mem)
+		else
+			local node = techage.get_node_lvm(pos)
+			if node.name == inverter then
+				num_inverter = num_inverter + 1
+			end
 		end
 	end)
-	return sum
+	return sum, num_inverter
 end	
 
 function techage.power.power_network_available(start_pos)
 	Route = {}
 	NumNodes = 0
 	pos_already_reached(start_pos) 
-	local sum = 0
-	connection_walk2(start_pos, 2, 3, function(pos, mem)
-		sum = sum + 1
+	limited_connection_walk(start_pos, function(pos, node, mem, _, num_nodes)
+		return num_nodes > 2
 	end)
-	return sum > 1
+	return NumNodes > 2
 end	
 
 function techage.power.mark_nodes(name, start_pos)
@@ -619,7 +643,36 @@ function techage.power.mark_nodes(name, start_pos)
 	NumNodes = 0
 	pos_already_reached(start_pos) 
 	techage.unmark_position(name)
-	connection_walk2(start_pos, 3, 100, function(pos, mem, max_hops)
-		techage.mark_position(name, pos, S(pos).." : "..(4 - max_hops), "#60FF60")
+	limited_connection_walk(start_pos, function(pos, node, mem, num_hops, num_nodes)
+		local num, color = connection_color(mem.connections or {})
+		techage.mark_position(name, pos, S(pos).." : "..num, color)
+		return num_hops >= 3 or num_nodes >= 100
 	end)
 end	
+
+-- Network walk with callback for each node:
+--
+-- 		limited_connection_walk(pos, clbk)  --> num_hops, num_nodes
+--
+-- called function: clbk(pos, node, mem, num_hops, num_nodes)
+-- walk will be arborted if function returns true
+function techage.power.limited_connection_walk(pos, clbk)
+	Route = {}
+	NumNodes = 0
+	pos_already_reached(pos) 
+	limited_connection_walk(pos, clbk)
+	return NumNodes
+end
+
+--local function test()
+--	print("test")
+--	local cnt = 0
+--	tubelib2.walk_over_all(function(pos, mem)
+--		local node = techage.get_node_lvm(pos)
+--		print(S(pos), node.name)
+--		cnt = cnt + 1
+--	end)
+--    print("cnt = "..cnt)
+--end
+
+--minetest.after(1, test)

@@ -79,7 +79,7 @@ local function check_space(pos, param2, AssemblyPlan, player_name)
 			return false
 		end
 		
-		local node = minetest.get_node(pos1)
+		local node = techage.get_node_lvm(pos1)
 		local ndef = minetest.registered_nodes[node.name]
 		if not ndef or ndef.walkable and node.name ~= node_name then
 			minetest.chat_send_player(player_name, S("[TA] Not enough space!"))

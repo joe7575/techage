@@ -155,9 +155,9 @@ minetest.register_node("techage:electric_cableA", {
 })
 
 Cable:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir)
-	if minetest.registered_nodes[node.name].after_tube_update then
+	if minetest.registered_nodes[node.name].after_tube_update then -- primay/secondary nodes
 		minetest.registered_nodes[node.name].after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
-	else
+	else -- all kind of nodes, used as cable filler/grout
 		techage.power.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir, Cable)
 	end
 end)

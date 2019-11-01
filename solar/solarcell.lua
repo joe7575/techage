@@ -17,7 +17,7 @@ local P = minetest.string_to_pos
 local M = minetest.get_meta
 local S = techage.S
 
-local PWR_PERF = 4
+local PWR_PERF = 3
 
 local Cable = techage.TA4_Cable
 local power = techage.power
@@ -32,25 +32,25 @@ end
 
 -- return the required param2 for solar modules
 local function get_param2(pos, side)
-	local node = minetest.get_node(pos)
+	local node = techage.get_node_lvm(pos)
 	local dir = power.side_to_dir(node.param2, side)
 	return (dir + 1) % 4
 end
 
 -- do we have enough light?
 local function light(pos)
-	pos.y = pos.y + 1
+	if minetest.get_node(pos).name ~= "air" then return false end
 	local light = minetest.get_node_light(pos) or 0
-	pos.y = pos.y - 1
-	return light >= (minetest.LIGHT_MAX - 1)
+	return light >= (15 - 1)
 end	
 	
 -- check if solar module is available and has the correct orientation
 local function is_solar_module(base_pos, pos, side)
 	local pos1 = techage.get_pos(pos, side)
 	if pos1 then
-		local node = minetest.get_node(pos1)
-		if node and node.name == "techage:ta4_solar_module" and light(pos1) then
+		local node = techage.get_node_lvm(pos1)
+		if node and node.name == "techage:ta4_solar_module" and 
+						light({x = pos1.x, y = pos1.y + 1, z = pos1.z}) then
 			if side == "L" and node.param2 == M(base_pos):get_int("left_param2") then
 				return true
 			elseif side == "R" and node.param2 == M(base_pos):get_int("right_param2") then
@@ -81,6 +81,7 @@ end
 
 minetest.register_node("techage:ta4_solar_module", {
 	description = S("TA4 Solar Module"),
+	inventory_image = "techage_solar_module_top.png",
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_solar_module_top.png",
@@ -93,9 +94,18 @@ minetest.register_node("techage:ta4_solar_module", {
 			{-1/2, 7/16, -1/2,  1/2, 8/16, 16/16},
 		},
 	},
-	
+	techage_info = function(pos)
+		local power = 0
+		local pos1 = {x = pos.x, y = pos.y + 1, z = pos.z}
+		if light(pos1) then
+			power = PWR_PERF * temperature(pos) / 200.0
+		end
+		local light = minetest.get_node_light(pos1).." / " ..15
+		return S("power").." = "..power..", "..S("light").." = "..light
+	end,
 	paramtype = "light",
 	paramtype2 = "facedir",
+	on_rotate = screwdriver.disallow,
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
 })
@@ -120,15 +130,9 @@ minetest.register_node("techage:ta4_solar_carrier", {
 			{-3/8,  5/16, -1/2,  3/8,  7/16, 1/2},
 		},
 	},
-	
-	after_place_node = function(pos)
-		M(pos):set_int("temperature", temperature(pos))
-		M(pos):set_int("left_param2", get_param2(pos, "L"))
-		M(pos):set_int("right_param2", get_param2(pos, "R"))
-	end,
-	
 	paramtype = "light",
 	paramtype2 = "facedir",
+	on_rotate = screwdriver.disallow,
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
 })
@@ -152,15 +156,9 @@ minetest.register_node("techage:ta4_solar_carrierB", {
 			{-1/8, -6/16, -1/2,  1/8,  8/16, 1/2},
 		},
 	},
-	
-	after_place_node = function(pos)
-		M(pos):set_int("temperature", temperature(pos))
-		M(pos):set_int("left_param2", get_param2(pos, "L"))
-		M(pos):set_int("right_param2", get_param2(pos, "R"))
-	end,
-	
 	paramtype = "light",
 	paramtype2 = "facedir",
+	on_rotate = screwdriver.disallow,
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
 })
@@ -195,12 +193,22 @@ techage.power.register_node({"techage:ta4_solar_carrier"}, {
 	power_network  = Cable,
 	on_getpower = on_getpower1,
 	conn_sides ={"F", "B"},
+	after_place_node = function(pos)
+		M(pos):set_int("temperature", temperature(pos))
+		M(pos):set_int("left_param2", get_param2(pos, "L"))
+		M(pos):set_int("right_param2", get_param2(pos, "R"))
+	end,
 })
 
 techage.power.register_node({"techage:ta4_solar_carrierB"}, {
 	power_network  = Cable,
 	on_getpower = on_getpower2,
 	conn_sides ={"F", "B"},
+	after_place_node = function(pos)
+		M(pos):set_int("temperature", temperature(pos))
+		M(pos):set_int("left_param2", get_param2(pos, "L"))
+		M(pos):set_int("right_param2", get_param2(pos, "R"))
+	end,
 })
 
 minetest.register_craft({

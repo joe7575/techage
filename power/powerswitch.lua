@@ -264,7 +264,7 @@ techage.power.register_node({"techage:powerswitch_box"}, {
 
 techage.register_node({"techage:powerswitch", "techage:powerswitch_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		local node = minetest.get_node(pos)
+		local node = techage.get_node_lvm(pos)
 		if topic == "on" and node.name == "techage:powerswitch" then
 			switch_on(pos, node, nil, "techage:powerswitch_on")
 			return true

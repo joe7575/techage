@@ -46,7 +46,7 @@ Die Turbine ist Teil des Kraftwerk. Sie muss neben den Generator gesetzt und üb
 
 ### TA3 Generator
 
-Der Generator dient zur Stromerzeugung. Er muss über Stromkabel und Verteilerboxen mit den Maschinen verbunden werden.
+Der Generator dient zur Stromerzeugung. Er muss über Stromkabel und Verteilerdosen mit den Maschinen verbunden werden.
 
 [ta3_generator|image]
 
@@ -66,7 +66,7 @@ Tech Age besitzt 2 Arten von Stromkabel:
 - Isolierte Kabel (TA Stromkabel) für die lokale Verkabelung im Boden oder in Gebäuden. Diese Kabel lassen sich in der Wand oder im Boden verstecken (können mit der Kelle "verputzt" werden).
 - Überlandleitungen (TA Stromleitung) für Freiluftverkabelung über große Strecken. Diese Kabel sind geschützt, können also von anderen Spielern nicht entfernt werden.
 
-Mehrere Verbraucher und Generatoren können in einem Stromnetzwerk zusammen betrieben werden. Mit Hilfe der Verteilerboxen können so große Netzwerke aufgebaut werden.
+Mehrere Verbraucher und Generatoren können in einem Stromnetzwerk zusammen betrieben werden. Mit Hilfe der Verteilerdosen können so große Netzwerke aufgebaut werden.
 Wird zu wenig Strom bereitgestellt, gehen Teile der Verbraucher aus, bzw. Lampen beginnen zu flackern.
 In diesem Zusammenhang ist auch wichtig, dass die Funktionsweise von Forceload Blöcken verstanden wurde, denn bspw. Generatoren liefern nur Strom, wenn der entsprechende Map-Block geladen ist. Dies kann mit einen Forceload Block erzwungen werden.
 
@@ -76,7 +76,7 @@ In diesem Zusammenhang ist auch wichtig, dass die Funktionsweise von Forceload B
 ### TA Stromkabel / Electric Cable
 
 Für die lokale Verkabelung im Boden oder in Gebäuden.  
-Abzweigungen können mit Hilfe von Verteilerboxen realisiert werden. Die maximale Kabellänge zwischen Maschinen oder Verteilerboxen beträgt 1000 m. Es können maximale 1000 Knoten in einem Strom-Netzwerk verbunden werden. Als Knoten zählen alle Generatoren, Akkus, Verteilerboxen und Maschinen.
+Abzweigungen können mit Hilfe von Verteilerdosen realisiert werden. Die maximale Kabellänge zwischen Maschinen oder Verteilerdosen beträgt 1000 m. Es können maximale 1000 Knoten in einem Strom-Netzwerk verbunden werden. Als Knoten zählen alle Generatoren, Akkus, Verteilerdosen und Maschinen.
 
 Da die Stromkabel nicht automatisch geschützt sind, wird für längere Strecken die Überlandleitungen (TA Stromleitung) empfohlen.
 
@@ -85,15 +85,15 @@ Stromkabel können mit der Kelle verputzt also in der Wand oder im Boden verstec
 Zum Verputzen muss mit der Kelle auf das Kabel geklickt werden. Das Material, mit dem das Kabel verputzt werden soll, muss sich im Spieler-Inventar ganz links befinden.  
 Die Kabel können wieder sichtbar gemacht werden, indem man mit der Kelle wieder auf den Block klickt.
 
-Außer Kabel können auch die TA Verteilerbox und die TA Stromschalterbox verputzt werden.
+Außer Kabel können auch die TA Verteilerdose und die TA Stromschalterbox verputzt werden.
 
 [ta3_powercable|image]
 
 
-### TA Verteilerbox / Electric Junction Box
+### TA Verteilerdose / Electric Junction Box
 
-Mit der Verteilerbox kann Strom in bis zu 6 Richtungen verteilt werden. Verteilerboxen können auch mit der Kelle verputzt (versteckt) und wieder sichtbar gemacht werden.
-Wird mit dem TechAge Info Werkzeug (Schraubenschlüssel) auf die Verteilerbox geklickt, wird angezeigt, wie viel Leistung die Generatoren liefern bzw. die Verbraucher im Netzwerk beziehen.
+Mit der Verteilerdose kann Strom in bis zu 6 Richtungen verteilt werden. Verteilerdosen können auch mit der Kelle verputzt (versteckt) und wieder sichtbar gemacht werden.
+Wird mit dem TechAge Info Werkzeug (Schraubenschlüssel) auf die Verteilerdose geklickt, wird angezeigt, wie viel Leistung die Generatoren liefern bzw. die Verbraucher im Netzwerk beziehen.
 
 [ta3_powerjunction|image]
 
@@ -154,9 +154,6 @@ Der kleine Stromgenerator wird mit Erdöl betrieben und kann für kleine Verbrau
 [ta3_tinygenerator|image]
 
 
-### 
-
-
 ### TA3 Akku Block /  Akku Box
 
 Der Akku Block dient zur Speicherung von überschüssiger Energie und gibt bei Stromausfall automatisch Strom ab (soweit vorhanden).
@@ -169,10 +166,8 @@ Bei Volllast kann ein Akku 400 s lang Strom aufnehmen und wenn er voll ist, auch
 
 ### TA3 Strom Terminal / Power Terminal
 
-Das Strom-Terminal muss von eine Verteilerbox platziert werden. Es zeigt Daten aus dem Stromnetz an wie:
-- Leistung alle Generatoren
-- Leistung alles Akkus (Sekundärquellen)
-- Leistungsaufnahme aller Maschinen
+Das Strom-Terminal muss von eine Verteilerdose platziert werden. Es zeigt Daten aus dem Stromnetz an wie:
+- Anzahl und Leistung der verschiedenen Generatoren und Akkus (aktuell/maximal)
 - Anzahl der Netzwerk-Blöcke (max. 1000)
 Die Daten des Terminals werden beim Öffnen des Menüs und dann nur durch Anklicken des "Update" Buttons aktualisiert.
 
@@ -527,7 +522,7 @@ Die Verarbeitungsleistung ist 2 Items alle 8 s. Der Block benötigt 5 ku Strom.
 
 Das Techage Info Tool (Schraubenschlüssel) hat verschiedene Funktionen. Er zeigt die Uhrzeit, die Position, die Temperatur und das Biome an, wenn auf einen unbekannten Block geklickt wird.
 Wird auf einen TechAge Block mit Kommandoschnittstelle geklickt, werden alle verfügbaren Daten abgerufen (siehe auch "Logik-/Schalt-Blöcke").
-Bei Strom-Verteilerdosen werden die Daten aus dem Stromnetz angezeigt. Außerdem werden die benachbarten Netzwerkteilnehmer (über der Verteiler hinweg) mit einem blauen Käfig und einem Name Tag angezeigt. Dies dient zur Suche von Kabelunterbrechungen.
+Bei Strom-Verteilerdosen werden die Daten aus dem Stromnetz angezeigt. Außerdem werden die benachbarten Netzwerkteilnehmer (über bis zu 4 Verteiler hinweg) mit einem blauen Käfig und einem Text angezeigt. Der Text zeigt die Position und die Anzahl der Verbindungen zu anderen Blöcken (0..6). Dies soll bei der Suche nach Kabelunterbrechungen helfen.
 
 [ta3_end_wrench|image]
 

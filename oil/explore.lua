@@ -241,101 +241,6 @@ minetest.register_node("techage:oilexplorer_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-minetest.register_node("techage:oil_source", {
-    description = S("Oil Source"),
-	drawtype = "liquid",
-    paramtype = "light",
-
-    inventory_image = "techage_oil_inv.png",
-    tiles = {
-        {
-            name = "techage_oil_animated.png",
-			backface_culling = false,
-            animation = {
-                type = "vertical_frames",
-                aspect_w = 16,
-                aspect_h = 16,
-                length   = 10
-            }
-        },
-        {
-            name = "techage_oil_animated.png",
-			backface_culling = false,
-            animation = {
-				type = "vertical_frames",
-				aspect_w = 16,
-                aspect_h = 16, 
-				length = 2.0
-			}   
-        }
-    },
-
-    walkable     = false,
-    pointable    = false,
-    diggable     = false,
-    buildable_to = true,
-    drowning = 1,
-    liquidtype = "source",
-    liquid_alternative_flowing = "techage:oil_flowing",
-    liquid_alternative_source = "techage:oil_source",
-    liquid_viscosity = 20,
-    liquid_range = 10,
-	liquid_renewable = false,
-	post_effect_color = {a = 200, r = 1, g = 1, b = 1},
-	groups = {liquid = 5},
-})
-
-
-
-minetest.register_node("techage:oil_flowing", {
-	description = S("Flowing Oil"),
-	drawtype = "flowingliquid",
-	tiles = {"techage_oil.png"},
-	special_tiles = {
-		{
-			name = "techage_oil_animated.png",
-			backface_culling = false,
-			animation = {
-				type = "vertical_frames",
-				aspect_w = 16,
-				aspect_h = 16,
-				length = 10,
-			},
-		},
-		{
-			name = "techage_oil_animated.png",
-			backface_culling = true,
-			animation = {
-				type = "vertical_frames",
-				aspect_w = 16,
-				aspect_h = 16,
-				length = 10,
-			},
-		},
-	},
-	paramtype = "light",
-	paramtype2 = "flowingliquid",
-	walkable = false,
-	pointable = false,
-	diggable = false,
-	buildable_to = true,
-	is_ground_content = false,
-	drop = "",
-	drowning = 1,
-	liquidtype = "flowing",
-	liquid_alternative_flowing = "techage:oil_flowing",
-	liquid_alternative_source = "techage:oil_source",
-	liquid_viscosity = 20,
-	liquid_range = 10,
-	post_effect_color = {a = 200, r = 1, g = 1, b = 1},
-	groups = {liquid = 5, not_in_creative_inventory = 1},
-})
-
-minetest.register_craft({
-	type = "fuel",
-	recipe = "techage:oil_source",
-	burntime = 40,
-})
 
 minetest.register_craft({
 	output = "techage:oilexplorer",
@@ -346,12 +251,6 @@ minetest.register_craft({
 	},
 })
 
-bucket.register_liquid(
-	"techage:oil_source", 
-	"techage:oil_flowing", 
-	"techage:bucket_oil", 
-	"techage_bucket_oil.png", 
-	"Oil Bucket")
 
 techage.explore = {}
 

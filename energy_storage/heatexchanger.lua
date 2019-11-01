@@ -23,8 +23,8 @@ local PWR_PERF = 60
 local GRVL_CAPA = 700
 local PWR_CAPA = {
 	[3] = GRVL_CAPA * 3 * 3 * 3,  -- 18900 Cyc = 630 min = 31.5 Tage bei einem ku, oder 31,5 * 24 kuh = 756 kuh = 12,6 h bei 60 ku
-	[4] = GRVL_CAPA * 5 * 5 * 5,  -- ~2.5 days
-	[5] = GRVL_CAPA * 7 * 7 * 7,  --   ~6 days
+	[5] = GRVL_CAPA * 5 * 5 * 5,  -- ~2.5 days
+	[7] = GRVL_CAPA * 7 * 7 * 7,  --   ~6 days
 }
 
 local Cable = techage.ElectricCable
@@ -87,7 +87,7 @@ local function stop_sound(pos)
 end
 
 local function swap_node(pos, name)
-	local node = minetest.get_node(pos)
+	local node = techage.get_node_lvm(pos)
 	if node.name == name then
 		return
 	end
@@ -110,6 +110,20 @@ local function charging(pos, mem, is_charging)
 		end
 	elseif is_charging then
 		play_sound(pos)
+	end
+end
+
+local function delivering(pos, mem, delivered)
+	if mem.capa <= 0 then
+		return
+	end
+	if delivered ~= mem.had_delivered then
+		mem.had_delivered = delivered
+		if delivered > 0 then
+			turbine_cmnd(pos, "start")
+		elseif delivered == 0 then
+			turbine_cmnd(pos, "stop")
+		end
 	end
 end
 
@@ -136,14 +150,37 @@ local function formspec(self, pos, mem)
 		"label[4.2,2.5;Flow]"
 end
 
+local function error_info(pos, err)
+	local own_num = M(pos):get_string("node_number")
+	local pos1 = {x = pos.x, y = pos.y + 1, z = pos.z}
+	M(pos1):set_string("infotext", S("TA4 Heat Exchanger").." "..own_num.." : "..err)
+end
+
 local function can_start(pos, mem, state)
 	if turbine_cmnd(pos, "power") then
-		local radius = inlet_cmnd(pos, "radius")
-		if radius then
-			mem.capa_max = PWR_CAPA[tonumber(radius)] or 0
-			local owner = M(pos):get_string("owner") or ""
-			return inlet_cmnd(pos, "volume", owner)
+		local diameter = inlet_cmnd(pos, "diameter")
+		if diameter then
+			mem.capa_max = PWR_CAPA[tonumber(diameter)] or 0
+			if mem.capa_max ~= 0 then
+				local owner = M(pos):get_string("owner") or ""
+				if inlet_cmnd(pos, "volume", owner) then
+					error_info(pos, "")
+					return true
+				else
+					error_info(pos, "storage volume error")
+					return false
+				end
+			else
+				error_info(pos, "wrong storage diameter: "..diameter)
+				return false
+			end
+		else
+			error_info(pos, "inlet/pipe error")
+			return false
 		end
+	else
+		error_info(pos, "power network error")
+		return false
 	end
 	return false
 end
@@ -152,6 +189,7 @@ local function start_node(pos, mem, state)
 	mem.running = true
 	mem.delivered = 0
 	mem.was_charging = true
+	mem.had_delivered = nil
 	play_sound(pos)
 	mem.win_pos = inlet_cmnd(pos, "window")
 	power.secondary_start(pos, mem, PWR_PERF, PWR_PERF)
@@ -184,6 +222,7 @@ local function node_timer(pos, elapsed)
 		mem.capa = in_range(mem.capa, 0, mem.capa_max)
 		glowing(pos, mem, mem.capa > mem.capa_max * 0.8)
 		charging(pos, mem, mem.delivered < 0)
+		delivering(pos, mem, mem.delivered) 
 	end
 	return mem.running
 end
@@ -294,19 +333,6 @@ minetest.register_node("techage:heatexchanger1", {
 		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_electric.png",
 		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_electric.png",
 	},
-	
-	on_construct = tubelib2.init_mem,
-	
-	after_place_node = function(pos, placer)
-		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
-		local mem = tubelib2.get_mem(pos)
-		local meta = M(pos)
-		local own_num = techage.add_node(pos, "techage:heatexchanger1")
-		meta:set_string("owner", placer:get_player_name())
-		State:node_init(pos, mem, own_num)
-		mem.capa = 0
-	end,
-	
 	on_timer = node_timer,
 	paramtype2 = "facedir",
 	groups = {crumbly = 2, cracky = 2, snappy = 2},
@@ -318,6 +344,14 @@ minetest.register_node("techage:heatexchanger1", {
 techage.power.register_node({"techage:heatexchanger1"}, {
 	conn_sides = {"F", "B"},
 	power_network  = Cable,
+	after_place_node = function(pos, placer)
+		local mem = tubelib2.init_mem(pos)
+		local meta = M(pos)
+		local own_num = techage.add_node(pos, "techage:heatexchanger1")
+		meta:set_string("owner", placer:get_player_name())
+		State:node_init(pos, mem, own_num)
+		mem.capa = 0
+	end,
 })
 
 Pipe:add_secondary_node_names({"techage:heatexchanger1", "techage:heatexchanger3"})

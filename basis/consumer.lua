@@ -25,7 +25,7 @@ local M = minetest.get_meta
 local D = techage.Debug
 
 -- Consumer Related Data
-local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
+local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).consumer end
 
 local power = techage.power
@@ -161,8 +161,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				node_box = tNode.node_box,
 				selection_box = tNode.selection_box,
 
-				on_construct = tubelib2.init_mem,
-
+				-- will be overwritten in case, power is used
 				after_place_node = function(pos, placer, itemstack, pointed_thing)
 					local meta = M(pos)
 					local mem = tubelib2.init_mem(pos)
@@ -178,7 +177,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 					end
 					CRD(pos).State:node_init(pos, mem, number)
 				end,
-
+				-- will be overwritten in case, power is used
 				after_dig_node = function(pos, oldnode, oldmetadata, digger)
 					if tNode.after_dig_node then
 						tNode.after_dig_node(pos, oldnode, oldmetadata, digger)
@@ -240,6 +239,28 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 					power_network  = power_network,
 					on_power = on_power,
 					on_nopower = on_nopower,
+					after_place_node = function(pos, placer, itemstack, pointed_thing)
+						local meta = M(pos)
+						local mem = tubelib2.init_mem(pos)
+						local node = techage.get_node_lvm(pos)
+						meta:set_int("push_dir", techage.side_to_indir("L", node.param2))
+						meta:set_int("pull_dir", techage.side_to_indir("R", node.param2))
+						local number = "-"
+						if stage > 2 then
+							number = techage.add_node(pos, name_pas)
+						end
+						if tNode.after_place_node then
+							tNode.after_place_node(pos, placer, itemstack, pointed_thing)
+						end
+						CRD(pos).State:node_init(pos, mem, number)
+					end,
+					after_dig_node = function(pos, oldnode, oldmetadata, digger)
+						if tNode.after_dig_node then
+							tNode.after_dig_node(pos, oldnode, oldmetadata, digger)
+						end
+						techage.remove_node(pos)
+						tubelib2.del_mem(pos)
+					end,
 				})
 			end
 			techage.register_node({name_pas, name_act}, tNode.tubing)

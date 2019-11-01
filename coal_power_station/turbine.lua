@@ -29,7 +29,7 @@ local function transfer_generator(pos, topic, payload)
 end
 
 local function swap_node(pos, name)
-	local node = minetest.get_node(pos)
+	local node = techage.get_node_lvm(pos)
 	if node.name == name then
 		return
 	end
@@ -56,15 +56,6 @@ local function stop_sound(pos)
 	end
 end
 
--- called with any pipe change
-local function after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
-	local mem = tubelib2.get_mem(pos)
-	transfer_cooler(pos, "stop", nil)
-	swap_node(pos, "techage:turbine")
-	mem.running = false
-	stop_sound(pos)
-end
-
 minetest.register_node("techage:turbine", {
 	description = S("TA3 Turbine"),
 	tiles = {
@@ -76,8 +67,6 @@ minetest.register_node("techage:turbine", {
 		"techage_filling_ta3.png^techage_appl_turbine.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_appl_turbine.png^techage_frame_ta3.png",
 	},
-	on_construct = tubelib2.init_mem,
-
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -113,8 +102,6 @@ minetest.register_node("techage:turbine_on", {
 			},
 		},
 	},
-	after_tube_update = after_tube_update,
-	
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
 	diggable = false,
@@ -127,6 +114,13 @@ minetest.register_node("techage:turbine_on", {
 techage.power.register_node({"techage:turbine", "techage:turbine_on"}, {
 	conn_sides = {"L", "U"},
 	power_network  = Pipe,
+	after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
+		local mem = tubelib2.get_mem(pos)
+		transfer_cooler(pos, "stop", nil)
+		swap_node(pos, "techage:turbine")
+		mem.running = false
+		stop_sound(pos)
+	end
 })
 
 -- for logical communication

@@ -16,7 +16,7 @@
 local M = minetest.get_meta
 local N = minetest.get_node
 -- Consumer Related Data
-local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
+local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 
 local S = techage.S
 
@@ -37,7 +37,7 @@ local FilterCache = {} -- local cache for filter settings
 
 local function filter_settings(pos)
 	local meta = M(pos)
-	local param2 = minetest.get_node(pos).param2
+	local param2 = techage.get_node_lvm(pos).param2
 	local inv = meta:get_inventory()
 	local filter = minetest.deserialize(meta:get_string("filter")) or {false,false,false,false}
 	local ItemFilter = {}  -- {<item:name> = {dir,...}]
@@ -371,7 +371,7 @@ local tiles = {}
 -- '{power}' will be replaced by the power PNG
 tiles.pas = {
 	-- up, down, right, left, back, front
-	"techage_filling_ta#.png^techage_appl_distri.png^techage_frame_ta#_top.png",
+	"techage_filling_ta#.png^techage_appl_distri.png^techage_frame_ta#_top.png^techage_appl_color_top.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_yellow.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_green.png",
@@ -390,7 +390,7 @@ tiles.act = {
 			length = 1.0,
 		},
 	},
-	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_color_top.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_yellow.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_green.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_red.png",

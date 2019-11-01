@@ -24,7 +24,7 @@ function techage.unmark_position(name)
 	end
 end
 
-function techage.mark_position(name, pos, nametag, color)
+function techage.mark_position(name, pos, nametag, color, time)
 	local marker = minetest.add_entity(pos, "techage:position_cube")
 	if marker ~= nil then
 		marker:set_nametag_attributes({color = color, text = nametag})
@@ -34,7 +34,7 @@ function techage.mark_position(name, pos, nametag, color)
 		end
 		marker_region[name][#marker_region[name] + 1] = marker
 	end
-	minetest.after(30, techage.unmark_position, name)
+	minetest.after(time or 30, techage.unmark_position, name)
 end
 
 minetest.register_entity(":techage:position_cube", {
@@ -50,8 +50,8 @@ minetest.register_entity(":techage:position_cube", {
 		},
 		--use_texture_alpha = true,
 		physical = false,
-		visual_size = {x = 2, y = 2},
-		collisionbox = {-1,-1,-1, 1,1,1},
+		visual_size = {x = 1.2, y = 1.2},
+		collisionbox = {-0.6,-0.6,-0.6, 0.6,0.6,0.6},
 		glow = 8,
 	},
 	on_step = function(self, dtime)

@@ -24,7 +24,7 @@ function techage.unmark_region(name)
 	end
 end
 
-function techage.mark_region(name, pos1, pos2)
+function techage.mark_region(name, pos1, pos2, owner)
 
 	techage.unmark_region(name)
 	
@@ -41,6 +41,9 @@ function techage.mark_region(name, pos1, pos2)
 				--collisionbox = {-sizex, -sizey, -thickness, sizex, sizey, thickness},
 				collisionbox = {0,0,0, 0,0,0},
 			})
+			if owner then
+				marker:set_nametag_attributes({text = owner})
+			end
 			marker:get_luaentity().player_name = name
 			table.insert(markers, marker)
 		end

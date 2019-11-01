@@ -20,7 +20,7 @@ local IMG_2 = {"", "techage_ta2.png"}
 local IMG_3 = {"", "techage_ta3.png"}
 local IMG_4 = {"", "techage_ta4.png"}
 local IMG41 = {"", "techage_ta4_tes.png"}
-
+local IMG42 = {"", "techage_ta4_solar.png"}
 
 --
 -- TA1: Coal Pile
@@ -212,4 +212,25 @@ techage.ConstructionPlans["ta4_storagesystem"] = {
 	{false, CONCR, CONCR, INLET, CONCR, CONCR, PIPEV, false, false, false, false},
 	{false, false, false, PN090, PIPEH, PIPEH, PN180, false, false, false, false},
 }
+
+--
+-- Solar Plant
+--
+
+local SOLAR = {"techage_solar_module_top.png", "techage:ta4_solar_module"}
+local RCBLE = {"techage_ta4_cable_inv.png", "techage:ta4_power_cableS"}
+local CARRI = {"techage:ta4_solar_carrier", "techage:ta4_solar_carrier"}
+local INVDC = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_inverterDC.png", "techage:ta4_solar_inverterDC"}
+local INVAC = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_inverter.png", "techage:ta4_solar_inverter"}
+
+techage.ConstructionPlans["ta4_solarplant"] = {
+	{false, false, false, false, false, false, false, false, false, IMG42, false},
+	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, false, false, false, false, false, false, false, false, false, false},
+    {false, SOLAR, SOLAR, SOLAR},
+    {false, CARRI, CARRI, CARRI, RCBLE, RCBLE, INVDC, INVAC, Cable},
+    {false, SOLAR, SOLAR, SOLAR},
+}
+
+
 

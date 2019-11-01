@@ -111,21 +111,9 @@ minetest.register_node("techage:generator", {
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_generator.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_generator.png^[transformFX]",
 	},
-	
-	on_construct = tubelib2.init_mem,
-	
-	after_place_node = function(pos, placer)
-		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
-		local mem = tubelib2.get_mem(pos)
-		local number = techage.add_node(pos, "techage:generator")
-		State:node_init(pos, mem, number)
-		on_rightclick(pos)
-	end,
-
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
-
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -166,7 +154,6 @@ minetest.register_node("techage:generator_on", {
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
-
 	drop = "",
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
@@ -188,6 +175,12 @@ minetest.register_craft({
 techage.power.register_node({"techage:generator", "techage:generator_on"}, {
 	conn_sides = {"R"},
 	power_network = Cable,
+	after_place_node = function(pos, placer)
+		local mem = tubelib2.init_mem(pos)
+		local number = techage.add_node(pos, "techage:generator")
+		State:node_init(pos, mem, number)
+		on_rightclick(pos)
+	end,
 })
 
 -- for logical communication

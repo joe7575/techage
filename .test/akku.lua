@@ -54,17 +54,6 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 end
 
-local function after_place_node(pos, placer)
-	-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
-	local mem = tubelib2.get_mem(pos)
-	mem.running = true
-	mem.capa = 0
-	minetest.get_node_timer(pos):start(CYCLE_TIME)
-	power.secondary_start(pos, mem, PWR_PERF, PWR_PERF)
-	M(pos):set_string("formspec", formspec(pos, mem))
-end
-
-
 minetest.register_node("techage:akku", {
 	description = "Akku",
 	tiles = {
@@ -79,11 +68,18 @@ minetest.register_node("techage:akku", {
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
-	after_place_node = after_place_node,
 	on_receive_fields = on_receive_fields,
 	on_timer = node_timer,
 })
 
 techage.power.register_node({"techage:akku"}, {
 	power_network  = Cable,
+	after_place_node = function(pos, placer)
+		local mem = tubelib2.init_mem(pos)
+		mem.running = true
+		mem.capa = 0
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
+		power.secondary_start(pos, mem, PWR_PERF, PWR_PERF)
+		M(pos):set_string("formspec", formspec(pos, mem))
+	end,
 })

@@ -23,6 +23,17 @@ local Nodes2Convert = {
 	["techage:button_on"] = "techage:ta3_button_on",
 }
 
+local function power_data(power)
+	local tbl = {}
+	tbl[1] = S("Primary available")   ..": "..(power.prim_available or 0)
+	tbl[2] = S("Secondary available") ..": "..(power.sec_available or 0)
+	tbl[3] = S("Primary needed")      ..": "..(power.prim_needed or 0)
+	tbl[4] = S("Secondary needed")    ..": "..(power.sec_needed or 0)
+	tbl[5] = S("Number of nodes")     ..": "..(power.num_nodes or 0)
+	tbl[6] = ""
+	return table.concat(tbl, "\n")
+end
+
 local function read_state(itemstack, user, pointed_thing)
 	local pos = pointed_thing.under
 	if pos and user then
@@ -94,10 +105,12 @@ local function read_state(itemstack, user, pointed_thing)
 			if ndef.is_power_available then
 				techage.power.mark_nodes(user:get_player_name(), pos)
 				local power = ndef.is_power_available(pos)
-				if power and power.prim_available then
-					local text = "\nGenerators: "..power.prim_available.." ku\nAkkus: "..power.sec_available.." ku\nMachines: "..power.prim_needed.." ku\nNum Nodes: "..power.num_nodes.."\n"
-					minetest.chat_send_player(user:get_player_name(), ndef.description..":"..text)
+				if power then
+					minetest.chat_send_player(user:get_player_name(), ndef.description..":\n"..power_data(power))
 				end
+			elseif ndef.techage_info then
+				local info = ndef.techage_info(pos) or ""
+				minetest.chat_send_player(user:get_player_name(), ndef.description..":\n"..info)
 			end
 			local owner = M(pos):get_string("owner") or ""
 			if owner ~= "" then

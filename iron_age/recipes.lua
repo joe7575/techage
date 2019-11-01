@@ -87,7 +87,7 @@ if techage.modified_recipes_enabled then
 	})
 	
 	minetest.register_craft({
-	output = 'bucket:bucket_empty 1',
+	output = 'bucket:bucket_empty 2',
 	recipe = {
 		{'techage:iron_ingot', '', 'techage:iron_ingot'},
 		{'', 'techage:iron_ingot', ''},

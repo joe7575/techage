@@ -126,30 +126,9 @@ minetest.register_node("techage:ta3_akku", {
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_source.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_source.png",
 	},
-
-	on_construct = tubelib2.init_mem,
-
-	after_place_node = function(pos, placer, itemstack)
-		local meta = M(pos)
-		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
-		local mem = tubelib2.get_mem(pos)
-		local own_num = techage.add_node(pos, "techage:ta3_akku")
-		meta:set_string("owner", placer:get_player_name())
-		meta:set_string("infotext", S("TA3 Akku Box").." "..own_num)
-		State:node_init(pos, mem, own_num)
-		mem.capa = get_capa(itemstack)
-		on_rightclick(pos)
-	end,
-	
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		local mem = tubelib2.get_mem(pos)
-		set_capa(pos, oldnode, digger, mem.capa)
-	end,
-	
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
-
 	drop = "", -- don't remove, item will be added via 'set_capa'
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -161,6 +140,20 @@ minetest.register_node("techage:ta3_akku", {
 techage.power.register_node({"techage:ta3_akku"}, {
 	conn_sides = {"R"},
 	power_network  = Power,
+	after_place_node = function(pos, placer, itemstack)
+		local meta = M(pos)
+		local mem = tubelib2.init_mem(pos)
+		local own_num = techage.add_node(pos, "techage:ta3_akku")
+		meta:set_string("owner", placer:get_player_name())
+		meta:set_string("infotext", S("TA3 Akku Box").." "..own_num)
+		State:node_init(pos, mem, own_num)
+		mem.capa = get_capa(itemstack)
+		on_rightclick(pos)
+	end,
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		local mem = tubelib2.get_mem(pos)
+		set_capa(pos, oldnode, digger, mem.capa)
+	end,
 })
 
 -- for logical communication

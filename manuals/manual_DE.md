@@ -34,6 +34,9 @@ Ab TA3 laufen die Maschinen mit Strom und besitzen eine Kommunikationsschnittste
 Mit TA4 kommen weitere Stromquellen dazu, aber auch höhere logistische Herausforderungen (Stromtrassen, Item Transport).
 
 
+## History
 
+- 28.09.2019: Um Solaranlage erweitert
+- 05.10.2019: Daten zur Solaranlage und Beschreibung zum Wechselrichter und zum Power-Terminal geändert
 
 

@@ -15,7 +15,7 @@
 -- for lazy programmers
 local M = minetest.get_meta
 -- Consumer Related Data
-local CRD = function(pos) return (minetest.registered_nodes[minetest.get_node(pos).name] or {}).consumer end
+local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 
 local S = techage.S
 
@@ -293,4 +293,5 @@ techage.add_grinder_recipe({input="default:pine_tree", output="default:pine_need
 techage.add_grinder_recipe({input="default:acacia_tree", output="default:acacia_leaves 8"})
 techage.add_grinder_recipe({input="default:aspen_tree", output="default:aspen_leaves 8"})
 
+techage.add_grinder_recipe({input="techage:bauxite_cobble", output="techage:bauxite_gravel"})
 

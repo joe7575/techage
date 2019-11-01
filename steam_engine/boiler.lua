@@ -246,20 +246,9 @@ minetest.register_node("techage:boiler2", {
 	on_rightclick = on_rightclick,
 	
 	on_construct = function(pos)
-		tubelib2.init_mem(pos)
 		local inv = M(pos):get_inventory()
 		inv:set_size('water', 1)
 		inv:set_size('input', 1)
-	end,
-	
-	after_place_node = function(pos, placer)
-		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
-		local mem = tubelib2.get_mem(pos)
-		State:node_init(pos, mem, "")
-		local node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
-		if node.name == "techage:boiler1" then
-			on_rightclick(pos)
-		end
 	end,
 	
 	on_metadata_inventory_put = function(pos)
@@ -275,6 +264,14 @@ minetest.register_node("techage:boiler2", {
 techage.power.register_node({"techage:boiler2"}, {
 	conn_sides = {"U"},
 	power_network  = Pipe,
+	after_place_node = function(pos, placer)
+		local mem = tubelib2.init_mem(pos)
+		State:node_init(pos, mem, "")
+		local node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
+		if node.name == "techage:boiler1" then
+			on_rightclick(pos)
+		end
+	end,
 })
 
 techage.register_node({"techage:boiler2"}, {

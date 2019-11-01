@@ -3,6 +3,7 @@ techage.manual_DE = {}
 techage.manual_DE.aTitel = {
   "1,Tech Age Mod",
   "2,Hinweise",
+  "2,History",
   "1,TA1: Eisenzeitalter",
   "2,Köhler / Coal Pile",
   "2,Kohlebrenner / Coal Burner",
@@ -44,7 +45,7 @@ techage.manual_DE.aTitel = {
   "3,TA3 Kühler / Cooler",
   "2,Eletrischer Strom",
   "3,TA Stromkabel / Electric Cable",
-  "3,TA Verteilerbox / Electric Junction Box",
+  "3,TA Verteilerdose / Electric Junction Box",
   "3,TA Stromleitung / Power Line",
   "3,TA Strommast / Power Pole",
   "3,TA Strommastkopf / Power Pole Top",
@@ -53,7 +54,6 @@ techage.manual_DE.aTitel = {
   "3,TA Stromschalter klein / Power Switch Small",
   "3,TA Stromschalterbox / Power Switch Box",
   "3,TA3 Kleiner Stromgenerator / Tiny Power Generator",
-  "3, ",
   "3,TA3 Akku Block /  Akku Box",
   "3,TA3 Strom Terminal / Power Terminal",
   "2,TA3 Industrieofen",
@@ -105,12 +105,14 @@ techage.manual_DE.aTitel = {
   "3,TA4 Niederspannungskabel / Low Power Cable",
   "3,TA4 Niederspannungsverteilerbox / Low Power Box",
   "3,TA4 Straßenlampen-Solarzelle / Streetlamp Solar Cell",
-  "2,Biogasanlage",
   "2,Energiespeicher",
   "3,TA4 Wärmetauscher / Heat Exchanger",
   "3,TA4 Turbine",
   "3,TA4 Generator",
   "3,TA4 Röhre / Pipe",
+  "2,Wasserstoff",
+  "3,Elektrolyseur",
+  "3,Brennstoffzelle",
 }
 
 techage.manual_DE.aText = {
@@ -144,6 +146,9 @@ techage.manual_DE.aText = {
   "Ab TA3 laufen die Maschinen mit Strom und besitzen eine Kommunikationsschnittstelle zur Fernsteuerung.\n"..
   "\n"..
   "Mit TA4 kommen weitere Stromquellen dazu\\, aber auch höhere logistische Herausforderungen (Stromtrassen\\, Item Transport).\n"..
+  "\n",
+  "  - 28.09.2019: Um Solaranlage erweitert\n"..
+  "  - 05.10.2019: Daten zur Solaranlage und Beschreibung zum Wechselrichter und zum Power-Terminal geändert\n"..
   "\n",
   "In TA1 geht es darum\\, mit einfachen Werkzeugen und Gerätschaften ausreichend Erze zu schürfen und Holzkohle herzustellen\\, so dass damit TA2 Maschinen hergestellt und betrieben werden können.\n"..
   "\n"..
@@ -404,7 +409,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der Generator dient zur Stromerzeugung. Er muss über Stromkabel und Verteilerboxen mit den Maschinen verbunden werden.\n"..
+  "Der Generator dient zur Stromerzeugung. Er muss über Stromkabel und Verteilerdosen mit den Maschinen verbunden werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -418,14 +423,14 @@ techage.manual_DE.aText = {
   "  - Isolierte Kabel (TA Stromkabel) für die lokale Verkabelung im Boden oder in Gebäuden. Diese Kabel lassen sich in der Wand oder im Boden verstecken (können mit der Kelle \"verputzt\" werden).\n"..
   "  - Überlandleitungen (TA Stromleitung) für Freiluftverkabelung über große Strecken. Diese Kabel sind geschützt\\, können also von anderen Spielern nicht entfernt werden.\n"..
   "\n"..
-  "Mehrere Verbraucher und Generatoren können in einem Stromnetzwerk zusammen betrieben werden. Mit Hilfe der Verteilerboxen können so große Netzwerke aufgebaut werden.\n"..
+  "Mehrere Verbraucher und Generatoren können in einem Stromnetzwerk zusammen betrieben werden. Mit Hilfe der Verteilerdosen können so große Netzwerke aufgebaut werden.\n"..
   "Wird zu wenig Strom bereitgestellt\\, gehen Teile der Verbraucher aus\\, bzw. Lampen beginnen zu flackern.\n"..
   "In diesem Zusammenhang ist auch wichtig\\, dass die Funktionsweise von Forceload Blöcken verstanden wurde\\, denn bspw. Generatoren liefern nur Strom\\, wenn der entsprechende Map-Block geladen ist. Dies kann mit einen Forceload Block erzwungen werden.\n"..
   "\n"..
   "\n"..
   "\n",
   "Für die lokale Verkabelung im Boden oder in Gebäuden.\n"..
-  "Abzweigungen können mit Hilfe von Verteilerboxen realisiert werden. Die maximale Kabellänge zwischen Maschinen oder Verteilerboxen beträgt 1000 m. Es können maximale 1000 Knoten in einem Strom-Netzwerk verbunden werden. Als Knoten zählen alle Generatoren\\, Akkus\\, Verteilerboxen und Maschinen.\n"..
+  "Abzweigungen können mit Hilfe von Verteilerdosen realisiert werden. Die maximale Kabellänge zwischen Maschinen oder Verteilerdosen beträgt 1000 m. Es können maximale 1000 Knoten in einem Strom-Netzwerk verbunden werden. Als Knoten zählen alle Generatoren\\, Akkus\\, Verteilerdosen und Maschinen.\n"..
   "\n"..
   "Da die Stromkabel nicht automatisch geschützt sind\\, wird für längere Strecken die Überlandleitungen (TA Stromleitung) empfohlen.\n"..
   "\n"..
@@ -434,12 +439,12 @@ techage.manual_DE.aText = {
   "Zum Verputzen muss mit der Kelle auf das Kabel geklickt werden. Das Material\\, mit dem das Kabel verputzt werden soll\\, muss sich im Spieler-Inventar ganz links befinden.\n"..
   "Die Kabel können wieder sichtbar gemacht werden\\, indem man mit der Kelle wieder auf den Block klickt.\n"..
   "\n"..
-  "Außer Kabel können auch die TA Verteilerbox und die TA Stromschalterbox verputzt werden.\n"..
+  "Außer Kabel können auch die TA Verteilerdose und die TA Stromschalterbox verputzt werden.\n"..
   "\n"..
   "\n"..
   "\n",
-  "Mit der Verteilerbox kann Strom in bis zu 6 Richtungen verteilt werden. Verteilerboxen können auch mit der Kelle verputzt (versteckt) und wieder sichtbar gemacht werden.\n"..
-  "Wird mit dem TechAge Info Werkzeug (Schraubenschlüssel) auf die Verteilerbox geklickt\\, wird angezeigt\\, wie viel Leistung die Generatoren liefern bzw. die Verbraucher im Netzwerk beziehen.\n"..
+  "Mit der Verteilerdose kann Strom in bis zu 6 Richtungen verteilt werden. Verteilerdosen können auch mit der Kelle verputzt (versteckt) und wieder sichtbar gemacht werden.\n"..
+  "Wird mit dem TechAge Info Werkzeug (Schraubenschlüssel) auf die Verteilerdose geklickt\\, wird angezeigt\\, wie viel Leistung die Generatoren liefern bzw. die Verbraucher im Netzwerk beziehen.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -477,7 +482,6 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "",
   "Der Akku Block dient zur Speicherung von überschüssiger Energie und gibt bei Stromausfall automatisch Strom ab (soweit vorhanden).\n"..
   "Der Akku Block ist eine sekundäre Stromquelle. Das bedeutet\\, bei Strombedarf werden zuerst die Generatoren genutzt. Nur wenn der Strom im Netz nicht ausreicht\\, springt der Akku Block ein. Das Gleiche gilt auch für die Stromaufnahme. Daher kann auch kein Akku mit einem anderen Akku geladen werden.\n"..
   "Der Akku liefert 10 ku bzw. nimmt 10 ku auf.\n"..
@@ -485,11 +489,9 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Das Strom-Terminal muss von eine Verteilerbox platziert werden. Es zeigt Daten aus dem Stromnetz an wie:\n"..
+  "Das Strom-Terminal muss von eine Verteilerdose platziert werden. Es zeigt Daten aus dem Stromnetz an wie:\n"..
   "\n"..
-  "  - Leistung alle Generatoren\n"..
-  "  - Leistung alles Akkus (Sekundärquellen)\n"..
-  "  - Leistungsaufnahme aller Maschinen\n"..
+  "  - Anzahl und Leistung der verschiedenen Generatoren und Akkus (aktuell/maximal)\n"..
   "  - Anzahl der Netzwerk-Blöcke (max. 1000)\nDie Daten des Terminals werden beim Öffnen des Menüs und dann nur durch Anklicken des \"Update\" Buttons aktualisiert.\n"..
   "\n"..
   "\n"..
@@ -744,7 +746,7 @@ techage.manual_DE.aText = {
   "",
   "Das Techage Info Tool (Schraubenschlüssel) hat verschiedene Funktionen. Er zeigt die Uhrzeit\\, die Position\\, die Temperatur und das Biome an\\, wenn auf einen unbekannten Block geklickt wird.\n"..
   "Wird auf einen TechAge Block mit Kommandoschnittstelle geklickt\\, werden alle verfügbaren Daten abgerufen (siehe auch \"Logik-/Schalt-Blöcke\").\n"..
-  "Bei Strom-Verteilerdosen werden die Daten aus dem Stromnetz angezeigt. Außerdem werden die benachbarten Netzwerkteilnehmer (über der Verteiler hinweg) mit einem blauen Käfig und einem Name Tag angezeigt. Dies dient zur Suche von Kabelunterbrechungen.\n"..
+  "Bei Strom-Verteilerdosen werden die Daten aus dem Stromnetz angezeigt. Außerdem werden die benachbarten Netzwerkteilnehmer (über bis zu 4 Verteiler hinweg) mit einem blauen Käfig und einem Text angezeigt. Der Text zeigt die Position und die Anzahl der Verbindungen zu anderen Blöcken (0..6). Dies soll bei der Suche nach Kabelunterbrechungen helfen.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -803,17 +805,19 @@ techage.manual_DE.aText = {
   "Für den Stromtransport stehen die Überlandleitungen zur Verfügung.\n"..
   "Es kann aber auch Wasserstoff produziert werden\\, welcher sich transportieren und am Ziel wieder zu Strom umwandeln lässt (geplant).\n"..
   "\n"..
-  "Die kleinste Einheit bei einer Solaranlage sind zwei Solarmodule und ein Trägermodul. Das Trägermodul muss zuerst gesetzt werden\\, die zwei Solarmodule dann links und rechts daneben.\n"..
+  "Die kleinste Einheit bei einer Solaranlage sind zwei Solarmodule und ein Trägermodul. Das Trägermodul muss zuerst gesetzt werden\\, die zwei Solarmodule dann links und rechts daneben (nicht darüber!).\n"..
   "\n"..
-  "Solarmodule liefern Gleichspannung\\, welcher nicht direkt in das Stromnetz eingespeist werden kann. Daher müssen zuerst die Solareinheiten über das rote Kabel mit dem Wechselrichter verbunden werden. Dieser hat zwei Anschlussseiten\\, eine für das rote Kabel zu den Solarmodulen und eine für das graue Stromkabel ins Stromnetz.\n"..
+  "Der Plan rechts zeigt 3 Einheiten mit je zwei Solarmodulen und einem Trägermodul\\, über rote Kabel mit dem Wechselrichter verbunden.\n"..
+  "\n"..
+  "Solarmodule liefern Gleichspannung\\, welcher nicht direkt in das Stromnetz eingespeist werden kann. Daher müssen zuerst die Solareinheiten über das rote Kabel mit dem Wechselrichter verbunden werden. Dieser besteht aus zwei Blöcken\\, einen für das rote Kabel zu den Solarmodulen (DC) und einen für das graue Stromkabel ins Stromnetz (AC).\n"..
   "\n"..
   "Der Kartenbereich\\, wo die Solaranlage steht\\, muss komplett geladen sein. Es empfiehlt sich daher\\, zuerst einen Forceload Block zu setzen\\, und dann innerhalb dieses Bereiches die Module zu platzieren.\n"..
   "\n"..
   "\n"..
   "\n",
   "Das Solarmodul muss an das Trägermodul gesetzt werden. Es sind immer zwei Solarmodule notwendig.\n"..
-  "Im Paar leisten die Solarmodule bis 4 ku\\, je nach Temperatur.\n"..
-  "Bei den Solarmodul muss darauf geachtet werden\\, dass diese das volle Tageslicht haben und nicht durch Blöcke oder Bäume beschattet sind.\n"..
+  "Im Paar leisten die Solarmodule bis 3 ku\\, je nach Temperatur.\n"..
+  "Bei den Solarmodul muss darauf geachtet werden\\, dass diese das volle Tageslicht haben und nicht durch Blöcke oder Bäume beschattet sind. Getestet kann dies mit dem Info Tool (Schraubenschlüssel).\n"..
   "\n"..
   "\n"..
   "\n",
@@ -823,7 +827,8 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Der Wechselrichter wandelt den Solarstrom (DC) in Wechselstrom (AC) um\\, so dass dieser in das Stromnetz eingespeist werden kann.\n"..
-  "Ein Wechselrichter kann maximal 120 ku an Strom einspeisen\\, was 30 Solarmodulen oder auch mehr entspricht.\n"..
+  "Ein Wechselrichter\\, bestehend aus zwei Blöcken kann maximal 100 ku an Strom einspeisen\\, was 33 Solarmodulen oder auch mehr entspricht.\n"..
+  "Der DC Block muss links neben den AC-Block gesetzt werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -842,8 +847,6 @@ techage.manual_DE.aText = {
   "Diese Solarzelle kann nicht mit den anderen Solarmodulen kombiniert werden.\n"..
   "\n"..
   "\n"..
-  "\n",
-  "noch nicht vorhanden...\n"..
   "\n",
   "Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit Gravel. Es gibt 3 Größen vom Speicher:\n"..
   "\n"..
@@ -864,7 +867,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Der Wärmetauscher besteht aus 3 Teilen\\, die aufeinander gesetzt werden müssen\\, wobei der Pfeil des ersten Blockes Richtung Turbine zeigen muss. Die Dampfleitungen müssen mit den TA4 Röhren aufgebaut werden.\n"..
-  "Der Wärmetauscher muss am Stromnetz angeschlossen werden.\n"..
+  "Der Wärmetauscher muss am Stromnetz angeschlossen werden. Der Wärmetauscher kann 60 ku aufnehmen.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -872,7 +875,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der Generator dient zur Stromerzeugung. Daher muss auch der Generator am Stromnetz angeschlossen werden. Dabei muss beachtet werden\\, dass es ein funktionierendes Stromnetz ist\\, denn der Generator des Energiespeichers kann nicht als einzelne Stromquelle funktionieren.\n"..
+  "Der Generator dient zur Stromerzeugung. Daher muss auch der Generator am Stromnetz angeschlossen werden. Dabei muss beachtet werden\\, dass es ein funktionierendes Stromnetz ist\\, denn der Generator des Energiespeichers kann nicht als einzelne Stromquelle funktionieren. Der Generator kann 60 ku abgeben.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -881,10 +884,35 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Strom kann mittels Elektrolyse in Wasserstoff und Sauerstoff aufgespalten werden. Auf der anderen Seite kann über eine Brennstoffzelle Wasserstoff mit Sauerstoff aus der Luft wieder in Strom umgewandelt werden.\n"..
+  "Damit können Stromspitzen oder ein Überangebot an Strom in Wasserstoff umgewandelt und so gespeichert werden.\n"..
+  "\n"..
+  "Im Spiel kann Strom mit Hilfe des Elektrolyseurs in Wasserstoff-Items und Wasserstoff-Items über die Brennstoffzelle wieder in Strom umgewandelt werden.\n"..
+  "Damit kann Strom (in Form von Wasserstoff-Items) nicht nur in Kisten gelagert\\, sonder auch über Wagen (carts) oder Röhren transportiert werden.\n"..
+  "\n"..
+  "Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Von 100 Einheiten Strom kommen nach der Umwandlung in Wasserstoff und zurück nur 75 Einheiten Strom wieder raus.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Elektrolyseur wandelt Strom in Wasserstoff um.\n"..
+  "Es muss von links mit Strom versorgt werden. Rechts können die Wasserstoff-Items per Schieber entnommen werden.\n"..
+  "\n"..
+  "Der Elektrolyseur kann bis zu 40 ku an Strom aufnehmen und generiert alle 8 s ein Wasserstoff Item.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Brennstoffzelle wandelt Wasserstoff in Strom um.\n"..
+  "Sie muss von links per Schieber mit Wasserstoff-Items versorgt werden. Rechts ist der Stromanschluss.\n"..
+  "\n"..
+  "Die Brennstoffzelle kann bis zu 40 ku an Strom abgeben und benötigt dazu alle 6 s ein Wasserstoff Item.\n"..
+  "\n"..
+  "\n"..
+  "\n",
 }
 
 techage.manual_DE.aItemName = {
   "wlanchip",
+  "",
   "",
   "techage_ta1",
   "",
@@ -936,7 +964,6 @@ techage.manual_DE.aItemName = {
   "ta3_powerswitchsmall",
   "ta3_powerswitchbox",
   "ta3_tinygenerator",
-  "",
   "ta3_akkublock",
   "ta3_powerterminal",
   "",
@@ -981,7 +1008,7 @@ techage.manual_DE.aItemName = {
   "ta4_nacelle",
   "ta4_blinklamp",
   "ta4_pillar",
-  "techage_ta4_solar",
+  "",
   "ta4_solarmodule",
   "ta4_solarcarrier",
   "ta4_solar_inverter",
@@ -989,14 +1016,17 @@ techage.manual_DE.aItemName = {
   "ta4_powerbox",
   "ta4_minicell",
   "",
-  "",
   "ta4_heatexchanger",
   "ta4_turbine",
   "ta4_generator",
   "ta4_pipe",
+  "ta4_hydrogen",
+  "ta4_electrolyzer",
+  "ta4_fuelcell",
 }
 
 techage.manual_DE.aPlanTable = {
+  "",
   "",
   "",
   "",
@@ -1051,7 +1081,6 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
-  "",
   "ta3_furnace",
   "",
   "",
@@ -1094,8 +1123,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
-  "",
-  "",
+  "ta4_solarplant",
   "",
   "",
   "",
@@ -1103,6 +1131,9 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_storagesystem",
+  "",
+  "",
+  "",
   "",
   "",
   "",

@@ -24,17 +24,12 @@ local function transfer(pos, in_dir, topic, payload)
 end
 
 local function swap_node(pos, name)
-	local node = minetest.get_node(pos)
+	local node = techage.get_node_lvm(pos)
 	if node.name == name then
 		return
 	end
 	node.name = name
 	minetest.swap_node(pos, node)
-end
-
--- called with any pipe change
-local function after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
-	swap_node(pos, "techage:cooler")
 end
 
 minetest.register_node("techage:cooler", {
@@ -88,7 +83,6 @@ minetest.register_node("techage:cooler_on", {
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_cooler.png",
 	},
 	
-	after_tube_update = after_tube_update,
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
 	diggable = false,
@@ -101,6 +95,9 @@ minetest.register_node("techage:cooler_on", {
 techage.power.register_node({"techage:cooler", "techage:cooler_on"}, {
 	conn_sides = {"L", "R"},
 	power_network = Pipe,
+	after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
+		swap_node(pos, "techage:cooler")
+	end,
 })
 
 -- for logical communication

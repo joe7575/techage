@@ -128,15 +128,6 @@ minetest.register_node("techage:flywheel", {
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_flywheel.png^[transformFX]",
 	},
 	
-	on_construct = tubelib2.init_mem,
-	
-	after_place_node = function(pos, placer)
-		-- secondary 'after_place_node', called by power. Don't use tubelib2.init_mem(pos)!!!
-		local mem = tubelib2.get_mem(pos)
-		State:node_init(pos, mem, "")
-		on_rightclick(pos)
-	end,
-
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
@@ -203,6 +194,12 @@ minetest.register_node("techage:flywheel_on", {
 techage.power.register_node({"techage:flywheel", "techage:flywheel_on"}, {
 	conn_sides = {"R"},
 	power_network = Axle,
+	after_place_node = function(pos, placer)
+		local mem = tubelib2.init_mem(pos)
+		State:node_init(pos, mem, "")
+		on_rightclick(pos)
+	end,
+
 })
 
 techage.register_node({"techage:flywheel", "techage:flywheel_on"}, {
