@@ -72,7 +72,7 @@ minetest.register_node("techage:ta3_booster", {
 		-- up, down, right, left, back, front
 		"techage_filling_ta3.png^techage_appl_arrow.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png",
-		"techage_filling_ta3.png^techage_appl_hole_biogas.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_appl_hole_electric.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_appl_compressor.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_appl_compressor.png^[transformFX^techage_frame_ta3.png",
@@ -91,7 +91,7 @@ minetest.register_node("techage:ta3_booster_on", {
 		-- up, down, right, left, back, front
 		"techage_filling_ta3.png^techage_appl_arrow.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png",
-		"techage_filling_ta3.png^techage_appl_hole_biogas.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_appl_hole_electric.png^techage_frame_ta3.png",
 		{
 			image = "techage_filling4_ta3.png^techage_appl_compressor4.png^techage_frame4_ta3.png",

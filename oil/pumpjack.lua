@@ -17,6 +17,8 @@ local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local M = minetest.get_meta
 local P = minetest.string_to_pos
 local S = techage.S
+local Pipe = techage.LiquidPipe
+local liquid = techage.liquid
 
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
@@ -26,12 +28,12 @@ local STANDBY_TICKS = 10
 local COUNTDOWN_TICKS = 10
 local CYCLE_TIME = 8
 
-local function has_oil_item(pos, meta)
+local function has_oil(pos, meta)
 	local storage_pos = meta:get_string("storage_pos")
 	if storage_pos ~= "" then
 		local amount = techage.explore.get_oil_amount(P(storage_pos))
 		if amount > 0 then
-			return ItemStack("techage:oil_source")
+			return true
 		end
 	end
 end
@@ -66,9 +68,9 @@ local function on_rightclick(pos, node, clicker)
 end
 
 local function pumping(pos, crd, meta, mem)
-	local items = has_oil_item(pos, meta)
-	if items ~= nil then
-		if techage.push_items(pos, 6, items) ~= true then
+	if has_oil(pos, meta) then
+		--if techage.push_items(pos, 6, items) ~= true then
+		if liquid.put(pos, 6, "techage:oil_source", 1) > 0 then
 			crd.State:blocked(pos, mem)
 			return
 		end
@@ -103,8 +105,8 @@ local tiles = {}
 
 -- '#' will be replaced by the stage number
 tiles.pas = {
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_hole_pipe.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_hole_pipe.png",
 	"techage_appl_pumpjack.png^techage_frame_ta#.png",
 	"techage_appl_pumpjack.png^techage_frame_ta#.png",
 	"techage_filling_ta#.png^techage_frame_ta#_top.png^techage_appl_arrow.png^[transformR90]",
@@ -112,8 +114,8 @@ tiles.pas = {
 }
 tiles.act = {
 	-- up, down, right, left, back, front
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_hole_pipe.png",
+	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_hole_pipe.png",
 	{
 		image = "techage_appl_pumpjack14.png^techage_frame14_ta#.png",
 		backface_culling = false,
@@ -169,6 +171,15 @@ local _, node_name_ta3, _ =
 				end
 			end
 		end,
+		networks = {
+			pipe = {
+				sides = {U = 1}, -- Pipe connection side
+				ntype = "pump",
+			},
+		},
+		tubelib2_on_update2 = function(pos, outdir, tlib2, node)
+			liquid.update_network(pos, outdir)
+		end,
 		on_rightclick = on_rightclick,
 		on_receive_fields = on_receive_fields,
 		node_timer = keep_running,
@@ -190,4 +201,6 @@ minetest.register_craft({
 		{"", "techage:oil_drillbit", ""},
 	},
 })
+
+Pipe:add_secondary_node_names({"techage:ta3_pumpjack_pas", "techage:ta3_pumpjack_act"})
 

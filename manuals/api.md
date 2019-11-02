@@ -11,8 +11,8 @@
 
 ```
  +-------------------------------------------------------------+ +-------------------+
- |                          consumer                           | |      Nodes        |
- |  (tubing/commands/states/formspec/power/connections/node)   | | (Pipe/Tube/Cable) |
+ |                          consumer                           | |      liquid       |
+ |  (tubing/commands/states/formspec/power/connections/node)   | | (Pipe/put/take)   |
  +-------------------------------------------------------------+ +-------------------+
          |                    |                     |                     |
          V                    V                     V                     V

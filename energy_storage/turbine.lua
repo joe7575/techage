@@ -75,10 +75,10 @@ minetest.register_node("techage:ta4_turbine", {
 	description = S("TA4 Turbine"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_hole_biogas.png",
+		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_hole_pipe.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png",
 		"techage_filling_ta4.png^techage_appl_open.png^techage_frame_ta4.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_hole_biogas.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_hole_pipe.png",
 		"techage_filling_ta4.png^techage_appl_turbine.png^techage_frame_ta4.png",
 		"techage_filling_ta4.png^techage_appl_turbine.png^techage_frame_ta4.png",
 	},
@@ -93,10 +93,10 @@ minetest.register_node("techage:ta4_turbine", {
 minetest.register_node("techage:ta4_turbine_on", {
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_hole_biogas.png",
+		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_hole_pipe.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png",
 		"techage_filling_ta4.png^techage_appl_open.png^techage_frame_ta4.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_hole_biogas.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_hole_pipe.png",
 		{
 			image = "techage_filling4_ta4.png^techage_appl_turbine4.png^techage_frame4_ta4.png",
 			backface_culling = false,

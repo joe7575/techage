@@ -186,7 +186,7 @@ local function tooltip(name)
 end
 
 function techage.item_image(x, y, itemname)
-	return "box["..x..","..y..";0.87,0.9;#808080]"..
+	return "box["..x..","..y..";0.85,0.9;#808080]"..
 		"item_image["..x..","..y..";1,1;"..itemname.."]"..
 		"tooltip["..x..","..y..";1,1;"..tooltip(itemname)..";#0C3D32;#FFFFFF]"
 end

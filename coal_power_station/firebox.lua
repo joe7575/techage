@@ -18,6 +18,9 @@ local M = minetest.get_meta
 local S = techage.S
 
 local firebox = techage.firebox
+local oilburner = techage.oilburner
+local Pipe = techage.LiquidPipe
+local liquid = techage.liquid
 
 local CYCLE_TIME = 2
 local BURN_CYCLE_FACTOR = 0.5
@@ -182,6 +185,118 @@ minetest.register_node("techage:coalfirehole_on", {
 	groups = {not_in_creative_inventory=1},
 })
 
+local function on_timer2(pos, elapsed)
+	local mem = tubelib2.get_mem(pos)
+	if mem.running then
+		oilburner.formspec_update(pos, mem)
+		-- trigger generator and provide power ratio 0..1
+		local ratio = techage.transfer(
+			{x=pos.x, y=pos.y+2, z=pos.z}, 
+			nil,  -- outdir
+			"trigger",  -- topic
+			(mem.power_level or 4)/4.0,  -- payload
+			nil,  -- network
+			{"techage:coalboiler_top"}  -- nodenames
+		)
+		ratio = math.max((ratio or 0.02), 0.02)
+		mem.burn_cycles = (mem.burn_cycles or 0) - ratio
+		mem.liquid = mem.liquid or {}
+		mem.liquid.amount = mem.liquid.amount or 0
+		if mem.burn_cycles <= 0 then
+			local taken = firebox.get_fuel(pos) 
+			if mem.liquid.amount > 0 then
+				mem.liquid.amount = mem.liquid.amount - 1
+				mem.burn_cycles = oilburner.Oilburntime / CYCLE_TIME * BURN_CYCLE_FACTOR
+				mem.burn_cycles_total = mem.burn_cycles
+			else
+				mem.running = false
+				firehole(pos, false)
+				M(pos):set_string("formspec", oilburner.formspec(mem))
+				return false
+			end
+		end
+		return true
+	end
+end
+
+local function start_firebox2(pos, mem)
+	print("start_firebox2", mem.running, mem.liquid and mem.liquid.amount)
+	if not mem.running and mem.liquid.amount > 0 then
+		mem.running = true
+		on_timer2(pos, 0)
+		firehole(pos, true)
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
+	end
+end
+
+minetest.register_node("techage:oilfirebox", {
+	description = S("TA3 Power Station Oil Firebox"),
+	inventory_image = "techage_coal_boiler_inv.png",
+	tiles = {"techage_coal_boiler_mesh_top.png"},
+	drawtype = "mesh",
+	mesh = "techage_boiler_large.obj",
+	selection_box = {
+		type = "fixed",
+		fixed = {-13/32, -16/32, -13/32, 13/32, 16/32, 13/32},
+	},
+
+	paramtype2 = "facedir",
+	on_rotate = screwdriver.disallow,
+	groups = {cracky=2},
+	is_ground_content = false,
+	sounds = default.node_sound_stone_defaults(),
+
+	on_timer = on_timer2,
+	can_dig = oilburner.can_dig,
+	allow_metadata_inventory_put = oilburner.allow_metadata_inventory_put,
+	allow_metadata_inventory_take = oilburner.allow_metadata_inventory_take,
+	on_receive_fields = oilburner.on_receive_fields,
+	on_rightclick = oilburner.on_rightclick,
+	
+	on_construct = function(pos)
+		local mem = tubelib2.init_mem(pos)
+		techage.add_node(pos, "techage:oilfirebox")
+		mem.running = false
+		mem.burn_cycles = 0
+		mem.liquid = {}
+		mem.liquid.amount =  0
+		local meta = M(pos)
+		meta:set_string("formspec", oilburner.formspec(mem))
+		local inv = meta:get_inventory()
+		inv:set_size('fuel', 1)
+		firehole(pos, false)
+	end,
+
+	on_destruct = function(pos)
+		firehole(pos, nil)
+	end,
+
+	on_metadata_inventory_put = function(pos, listname, index, stack, player)
+		local mem = tubelib2.get_mem(pos)
+		mem.liquid = mem.liquid or {}
+		mem.liquid.amount = mem.liquid.amount or 0
+		start_firebox2(pos, mem)
+		oilburner.on_metadata_inventory_put(pos, listname, index, stack, player)
+	end,
+
+	liquid = {
+		capa = oilburner.CAPACITY,
+		peek = liquid.srv_peek,
+		put = function(pos, indir, name, amount)
+			liquid.srv_put(pos, indir, name, amount)
+			local mem = tubelib2.get_mem(pos)
+			mem.liquid = mem.liquid or {}
+			mem.liquid.amount = mem.liquid.amount or 0
+			start_firebox2(pos, mem)
+		end,
+		take = liquid.srv_take,
+	},
+	networks = oilburner.networks,
+})
+
+Pipe:add_secondary_node_names({"techage:oilfirebox"})
+
+
 techage.register_node({"techage:coalfirebox"}, {
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
@@ -231,10 +346,19 @@ minetest.register_craft({
 	},
 })
 
+minetest.register_craft({
+	output = "techage:oilfirebox",
+	recipe = {
+		{'', 'techage:coalfirebox', ''},
+		{'', 'techage:ta3_barrel_empty', ''},
+		{'', '', ''},
+	},
+})
+
 minetest.register_lbm({
 	label = "[techage] Power Station firebox",
 	name = "techage:steam_engine",
-	nodenames = {"techage:coalfirebox"},
+	nodenames = {"techage:coalfirebox", "techage:oilfirebox"},
 	run_at_every_load = true,
 	action = function(pos, node)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)

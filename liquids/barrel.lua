@@ -15,7 +15,7 @@
 local S = techage.S
 
 minetest.register_craftitem("techage:ta3_barrel_empty", {
-	description = S("TA Barrel"),
+	description = S("TA Empty Barrel"),
 	inventory_image = "techage_barrel_inv.png",
 })
 
@@ -29,7 +29,7 @@ minetest.register_craft({
 })
 
 minetest.register_craftitem("techage:liquid", {
-	description = S("TA Liquid"),
+	description = S("empty"),
 	inventory_image = "techage_liquid_inv.png",
 	groups = {not_in_creative_inventory=1},
 	

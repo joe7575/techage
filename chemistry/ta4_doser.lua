@@ -204,9 +204,9 @@ minetest.register_node("techage:ta4_doser", {
 	description = S("TA4 Doser"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_hole_biogas.png",
+		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_hole_pipe.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_pump.png^techage_appl_hole_biogas.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_pump.png^techage_appl_hole_pipe.png",
 	},
 
 	on_receive_fields = on_receive_fields,
@@ -224,7 +224,7 @@ minetest.register_node("techage:ta4_doser_on", {
 	description = S("TA4 Doser"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_hole_biogas.png",
+		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_hole_pipe.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png",
 		{
 			image = "techage_filling8_ta4.png^techage_frame8_ta4.png^techage_appl_pump8.png",

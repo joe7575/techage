@@ -76,7 +76,7 @@ minetest.register_node("techage:furnace_firebox", {
 		"techage_concrete.png^techage_appl_open.png^techage_frame_ta3.png",
 		"techage_concrete.png^techage_frame_ta3.png",
 		"techage_concrete.png^techage_frame_ta3.png",
-		"techage_concrete.png^techage_appl_hole_biogas.png^techage_frame_ta3.png",
+		"techage_concrete.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 		"techage_concrete.png^techage_frame_ta3.png",
 		"techage_concrete.png^techage_appl_firehole.png^techage_frame_ta3.png",
 	},

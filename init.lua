@@ -5,8 +5,8 @@ elseif minetest.global_exists("ironage") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod ironage!")
 elseif minetest.global_exists("techpack") then
 	minetest.log("error", "[techage] Techage can't be used together with the modpack techpack!")
-elseif minetest.global_exists("tubelib2") and tubelib2.version < 1.5 then
-	minetest.log("error", "[techage] Techage requires tubelib2 version 1.5 or newer!")
+elseif minetest.global_exists("tubelib2") and tubelib2.version < 1.6 then
+	minetest.log("error", "[techage] Techage requires tubelib2 version 1.6 or newer!")
 else
 	techage = {
 		NodeDef = {},		-- node registration info
@@ -118,11 +118,12 @@ else
 	dofile(MP.."/basic_machines/liquidsampler.lua")
 
 	-- Liquids
+	dofile(MP.."/liquids/liquid_pipe.lua")
 	dofile(MP.."/liquids/liquid.lua")
 	dofile(MP.."/liquids/barrel.lua")
-	dofile(MP.."/liquids/oil.lua")
-	dofile(MP.."/liquids/liquid_pipe.lua")
 	dofile(MP.."/liquids/tank.lua")
+	dofile(MP.."/liquids/pump.lua")
+	dofile(MP.."/liquids/oil_lib.lua")
 	
 	-- Coal power station
 	dofile(MP.."/coal_power_station/firebox.lua")
@@ -157,6 +158,7 @@ else
 	dofile(MP.."/lamps/industriallamp3.lua")
 	
 	-- Oil
+	dofile(MP.."/oil/oil.lua")
 	dofile(MP.."/oil/explore.lua")
 	dofile(MP.."/oil/tower.lua")
 	dofile(MP.."/oil/drillbox.lua")
@@ -188,7 +190,7 @@ else
 
 	-- Test
 	dofile(MP.."/recipe_checker.lua")
-	--dofile(MP.."/.test/sink.lua")
+	dofile(MP.."/.test/sink.lua")
 	dofile(MP.."/.test/source.lua")
 	--dofile(MP.."/.test/akku.lua")
 	--dofile(MP.."/.test/switch.lua")
@@ -213,7 +215,6 @@ else
 	
 	-- Chemistry
 	dofile(MP.."/chemistry/ta4_reactor.lua")
-	dofile(MP.."/chemistry/ta4_pump.lua")
 	dofile(MP.."/chemistry/ta4_doser.lua")
 	
 	-- Hydrogen

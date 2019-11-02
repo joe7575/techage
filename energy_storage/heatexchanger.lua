@@ -252,8 +252,8 @@ minetest.register_node("techage:heatexchanger3", {
 		-- up, down, right, left, back, front
 		"techage_filling_ta4.png^techage_frame_ta4_top.png",
 		"techage_hole_ta4.png",
-		"techage_filling_ta4.png^techage_frameT_ta4.png^techage_appl_hole_biogas.png",
-		"techage_filling_ta4.png^techage_frameT_ta4.png^techage_appl_hole_biogas.png",
+		"techage_filling_ta4.png^techage_frameT_ta4.png^techage_appl_hole_pipe.png",
+		"techage_filling_ta4.png^techage_frameT_ta4.png^techage_appl_hole_pipe.png",
 		"techage_filling_ta4.png^techage_frameT_ta4.png^techage_appl_ribsT.png",
 		"techage_filling_ta4.png^techage_frameT_ta4.png^techage_appl_ribsT.png",
 	},
@@ -328,8 +328,8 @@ minetest.register_node("techage:heatexchanger1", {
 		-- up, down, right, left, back, front
 		"techage_hole_ta4.png^techage_appl_arrow_white.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png",
-		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_biogas.png",
-		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_biogas.png",
+		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_pipe.png",
+		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_pipe.png",
 		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_electric.png",
 		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_electric.png",
 	},

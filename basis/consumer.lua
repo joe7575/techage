@@ -197,6 +197,8 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				on_metadata_inventory_move = tNode.on_metadata_inventory_move,
 				on_metadata_inventory_put = tNode.on_metadata_inventory_put,
 				on_metadata_inventory_take = tNode.on_metadata_inventory_take,
+				networks = tNode.networks,
+				tubelib2_on_update2 =  tNode.tubelib2_on_update2,
 
 				paramtype2 = "facedir",
 				groups = table.copy(tNode.groups),

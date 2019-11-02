@@ -25,7 +25,6 @@ local Pipe = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
 	max_tube_length = MAX_PIPE_LENGHT, 
 	show_infotext = false,
-	force_to_use_tubes = true,
 	tube_type = "pipe",
 	primary_node_names = {"techage:ta3_pipeS", "techage:ta3_pipeA"}, 
 	secondary_node_names = {},
@@ -145,13 +144,14 @@ techage.register_junction("techage:ta3_junctionpipe", 1/8, Boxes, nil, {
 	sounds = default.node_sound_metal_defaults(),
 
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
-		Pipe:after_place_node(pos)
-	end,
-	tubelib2_on_update2 = function(pos, node, tlib2)
-		print("tubelib2_on_update2 pipe")
 		local name = "techage:ta3_junctionpipe"..techage.junction_type(pos, Pipe)
 		minetest.swap_node(pos, {name = name, param2 = 0})
-		networks.update_network(pos, Pipe)
+		Pipe:after_place_node(pos)
+	end,
+	tubelib2_on_update2 = function(pos, dir1, tlib2, node)
+		local name = "techage:ta3_junctionpipe"..techage.junction_type(pos, Pipe)
+		minetest.swap_node(pos, {name = name, param2 = 0})
+		techage.liquid.update_network(pos)
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)

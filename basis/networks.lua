@@ -32,7 +32,7 @@ local SideToDir = {B=1, R=2, F=3, L=4, D=5, U=6}
 local Flip = {[0]=0,3,4,1,2,6,5} -- 180 degree turn
 
 local function error(pos, msg)
-	minetest.log("error", msg.." at "..P2S(pos).." "..N(pos).name)
+	minetest.log("error", "[techage] "..msg.." at "..P2S(pos).." "..N(pos).name)
 end
 
 local function count_nodes(ntype, nodes)
@@ -59,6 +59,11 @@ local function net_def(pos, net_name)
 	return ndef and ndef.networks and ndef.networks[net_name] or {} 
 end
 
+local function net_def2(node_name, net_name) 
+	local ndef = minetest.registered_nodes[node_name]
+	return ndef and ndef.networks and ndef.networks[net_name] or {} 
+end
+
 -- Calculate the node outdir based on node.param2 and nominal dir (according to side)
 local function dir_to_outdir(dir, param2)
 	if dir < 5 then
@@ -72,6 +77,13 @@ local function indir_to_dir(indir, param2)
 		return ((indir - param2 + 5) % 4) + 1
 	end
 	return Flip[indir]
+end
+
+local function outdir_to_dir(outdir, param2)
+	if outdir < 5 then
+		return ((outdir - param2 + 3) % 4) + 1
+	end
+	return outdir
 end
 
 local function side_to_outdir(pos, side)
@@ -92,6 +104,28 @@ local function get_node_connections(pos, net_name)
     return tbl
 end
 
+-- determine all node sides with tube connections
+local function node_connections(pos, tlib2)
+	local node = techage.get_node_lvm(pos)
+	local val = 0
+	local sides = net_def(pos, tlib2.tube_type).sides
+	
+	if sides then
+		for dir = 1,6 do
+			val = val * 2
+			local side = DirToSide[outdir_to_dir(dir, node.param2)]
+			if sides[side] then
+				if tlib2:connected(pos, dir) then
+					val = val + 1
+				end
+			end
+		end
+		M(pos):set_int(tlib2.tube_type.."_conn", val)
+	else
+		error(pos, "sides missing")
+	end
+end
+
 local function pos_already_reached(pos)
 	local key = minetest.hash_node_position(pos)
 	if not Route[key] and NumNodes < MAX_NUM_NODES then
@@ -102,7 +136,7 @@ local function pos_already_reached(pos)
 	return true
 end
 
--- check if the given pipe dir into the node is valid
+-- check if the given pipe dir out of the node is valid
 local function valid_indir(pos, indir, param2, net_name)
 	local sides = net_def(pos, net_name).sides
 	if not sides then return false end
@@ -112,93 +146,37 @@ local function valid_indir(pos, indir, param2, net_name)
 end
 
 -- do the walk through the tubelib2 network
-local function connection_walk(pos, node, tlib2, clbk)
-	if clbk then clbk(pos, node) end
+-- indir is the direction which should not be covered by the walk
+-- (coming from there or is a different network)
+local function connection_walk(pos, indir, node, tlib2, clbk)
+	if clbk then clbk(pos, indir, node) end
 	for _,outdir in pairs(get_node_connections(pos, tlib2.tube_type)) do
-		local pos2, indir2 = tlib2:get_connected_node_pos(pos, outdir)
-		local node = techage.get_node_lvm(pos2)
-		if pos2 and not pos_already_reached(pos2) and 
-					valid_indir(pos2, indir2, node.param2, tlib2.tube_type) then
-			connection_walk(pos2, node, tlib2, clbk)
+		if outdir ~= Flip[indir] then
+			local pos2, indir2 = tlib2:get_connected_node_pos(pos, outdir)
+			local node = techage.get_node_lvm(pos2)
+			if pos2 and not pos_already_reached(pos2) and 
+						valid_indir(pos2, indir2, node.param2, tlib2.tube_type) then
+				connection_walk(pos2, indir2, node, tlib2, clbk)
+			end
 		end
 	end
 end
 
--- determine all node sides with tube connections
-local function node_connections(pos, tlib2)
-	local node = techage.get_node_lvm(pos)
-	local val = 0
-	local sides = net_def(pos, tlib2.tube_type).sides
-	
-	if sides then
-		for dir = 1,6 do
-			val = val * 2
-			local outdir = dir_to_outdir(dir, node.param2)
-			--if sides[DirToSide[outdir]] then -------------------------------------- TODO
-				local pos2 = tubelib2.get_pos(pos, dir)
-				local node2 = techage.get_node_lvm(pos2)
-				if tlib2.primary_node_names[node2.name] then
-					val = val + 1
-				end
-			--end
-		end
-		M(pos):set_int(tlib2.tube_type.."_conn", val)
-	else
-		error(pos, "sides missing")
-	end
-end
 
--- determine network ID (largest hash number)
-local function determine_netID(pos, tlib2)
-	Route = {}
-	NumNodes = 0
-	pos_already_reached(pos) 
-	local netID = minetest.hash_node_position(pos)
-	local tNetwork = {}
-	local node = techage.get_node_lvm(pos)
-	connection_walk(pos, node, tlib2, function(pos, node)
-		local new = minetest.hash_node_position(pos)
-		if netID <= new then
-			netID = new
-		end
-	end)
-	return netID
-end
-
--- store network ID on each node and build network tables
-local function store_netID(pos, netID, tlib2)
+local function collect_network_nodes(pos, outdir, tlib2)
 	Route = {}
 	NumNodes = 0
 	pos_already_reached(pos) 
 	local netw = {}
 	local node = techage.get_node_lvm(pos)
 	local net_name = tlib2.tube_type
-	connection_walk(pos, node, tlib2, function(pos, node)
+	-- outdir corresponds to the indir coming from
+	connection_walk(pos, outdir, node, tlib2, function(pos, indir, node)
 		local ntype = net_def(pos, net_name).ntype
+		print("collect_network_nodes", P2S(pos), ntype)
 		if ntype then
 			if not netw[ntype] then netw[ntype] = {} end
-			netw[ntype][#netw[ntype] + 1] = pos
-			local mem = tubelib2.get_mem(pos)
-			mem[net_name] = mem[net_name] or {}
-			mem[net_name].netID = netID
-		end
-	end)
-	netw.best_before = minetest.get_gametime() + BEST_BEFORE
-	return netw
-end
-
-local function collect_network_nodes(pos, netID, tlib2)
-	Route = {}
-	NumNodes = 0
-	pos_already_reached(pos) 
-	local netw = {}
-	local node = techage.get_node_lvm(pos)
-	local net_name = tlib2.tube_type
-	connection_walk(pos, node, tlib2, function(pos, node)
-		local ntype = net_def(pos, net_name).ntype
-		if ntype then
-			if not netw[ntype] then netw[ntype] = {} end
-			netw[ntype][#netw[ntype] + 1] = pos
+			netw[ntype][#netw[ntype] + 1] = {pos = pos, indir = indir}
 		end
 	end)
 	netw.best_before = minetest.get_gametime() + BEST_BEFORE
@@ -230,6 +208,13 @@ minetest.after(60, remove_outdated_networks)
 --
 -- API Functions
 --
+
+-- Table fo a 180 degree turn
+techage.networks.Flip = Flip
+
+-- techage.networks.net_def(pos, net_name)
+techage.networks.net_def = net_def
+
 techage.networks.AllSides = Sides -- table for all 6 node sides
 
 -- techage.networks.side_to_outdir(pos, side)
@@ -239,45 +224,49 @@ techage.networks.side_to_outdir = side_to_outdir
 -- valid_indir(pos, indir, param2, net_name)
 techage.networks.valid_indir = valid_indir
 
--- Store tubelib2 connection dirs as node meta and
--- update network tables.
--- Function to be called from tubelib2_on_update2
--- tlib2 is the tubelib2 instance
-function techage.networks.update_network(pos, tlib2)
-	node_connections(pos, tlib2)
-	local netID = determine_netID(pos, tlib2)
-	if not Networks[tlib2.tube_type] then
-		Networks[tlib2.tube_type] = {}
-	end
-	Networks[tlib2.tube_type][netID] = store_netID(pos, netID, tlib2)
+-- techage.networks.node_connections(pos, tlib2)
+techage.networks.node_connections = node_connections
+
+-- techage.networks.collect_network_nodes(pos, outdir, tlib2)
+techage.networks.collect_network_nodes = collect_network_nodes
+
+function techage.networks.connection_walk(pos, outdir, tlib2, clbk)
+	Route = {}
+	NumNodes = 0
+	pos_already_reached(pos) -- don't consider the start pos
+	local node = techage.get_node_lvm(pos)
+	connection_walk(pos, outdir, node, tlib2, clbk)
+	return NumNodes
 end
 
-function techage.networks.get_network(pos, tlib2)
-	local mem = tubelib2.get_mem(pos)
-	local netID = mem[tlib2.tube_type] and mem[tlib2.tube_type].netID
-	if netID then
-		if not Networks[tlib2.tube_type] then
-			Networks[tlib2.tube_type] = {}
-		end
-		if not Networks[tlib2.tube_type][netID] then
-			Networks[tlib2.tube_type][netID] = collect_network_nodes(pos, netID, tlib2) or {}
-		end
+function techage.networks.get_network(netID, tlib2)
+	if Networks[tlib2.tube_type] and Networks[tlib2.tube_type][netID] then
 		Networks[tlib2.tube_type][netID].best_before = minetest.get_gametime() + BEST_BEFORE
 		return Networks[tlib2.tube_type][netID]
 	end
 end
 
-function techage.networks.get_network_table(pos, tlib2, ntype)
-	return techage.networks.get_network(pos, tlib2)[ntype] or {}
+function techage.networks.set_network(netID, tlib2, network)
+	if netID then
+		if not Networks[tlib2.tube_type] then
+			Networks[tlib2.tube_type] = {}
+		end
+		Networks[tlib2.tube_type][netID] = network
+		Networks[tlib2.tube_type][netID].best_before = minetest.get_gametime() + BEST_BEFORE
+	end
 end
 
-function techage.networks.connection_walk(pos, tlib2, clbk)
-	Route = {}
-	NumNodes = 0
-	pos_already_reached(pos) -- don't consider the start pos
-	local node = techage.get_node_lvm(pos)
-	connection_walk(pos, node, tlib2, clbk)
-	return NumNodes
+function techage.networks.trigger_network(netID, tlib2)
+	if not Networks[tlib2.tube_type] then
+		Networks[tlib2.tube_type] = {}
+	end
+	Networks[tlib2.tube_type][netID].best_before = minetest.get_gametime() + BEST_BEFORE
+end
+
+function techage.networks.delete_network(netID, tlib2)
+	if Networks[tlib2.tube_type] and Networks[tlib2.tube_type][netID] then
+		Networks[tlib2.tube_type][netID] = nil
+	end
 end
 
 function techage.networks.connections(pos, tlib2)

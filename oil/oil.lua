@@ -125,12 +125,13 @@ minetest.register_craftitem("techage:ta3_barrel_oil", {
 	stack_max = 1,
 })
 
-minetest.register_craftitem("techage:oil", {
-	description = S("TA Oil"),
-	inventory_image = "techage_oil_inv.png",
-	groups = {not_in_creative_inventory=1},
+--minetest.register_craftitem("techage:oil", {
+--	description = S("TA Oil"),
+--	inventory_image = "techage_oil_inv.png",
+--	groups = {not_in_creative_inventory=1},
 	
-})
+--})
 
-techage.register_liquid("techage:ta3_barrel_oil", "techage:ta3_barrel_empty", 10, "techage:oil")
-
+techage.register_liquid("techage:ta3_barrel_oil", "techage:ta3_barrel_empty", 10, "techage:oil_source")
+techage.register_liquid("techage:bucket_oil", "bucket:bucket_empty", 1, "techage:oil_source")
+techage.register_liquid("techage:oil_source", "", 1, "techage:oil_source")
