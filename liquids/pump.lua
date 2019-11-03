@@ -77,13 +77,13 @@ end
 local function node_timer3(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	pumping(pos, mem, State3, CAPA)
-	return true
+	return State3:is_active(mem)
 end	
 
 local function node_timer4(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
 	pumping(pos, mem, State4, CAPA * 2)
-	return true
+	return State4:is_active(mem)
 end	
 
 local function on_rightclick(pos, node, clicker)
@@ -196,7 +196,7 @@ minetest.register_node("techage:t3_pump", {
 	after_place_node = after_place_node3,
 	on_rightclick = on_rightclick,
 	tubelib2_on_update2 = tubelib2_on_update2,
-	--on_timer = node_timer3,
+	on_timer = node_timer3,
 	after_dig_node = after_dig_node,
 	on_rotate = screwdriver.disallow,
 	networks = nworks,
@@ -231,7 +231,7 @@ minetest.register_node("techage:t4_pump", {
 	after_place_node = after_place_node4,
 	on_rightclick = on_rightclick,
 	tubelib2_on_update2 = tubelib2_on_update2,
-	--on_timer = node_timer4,
+	on_timer = node_timer4,
 	after_dig_node = after_dig_node,
 	on_rotate = screwdriver.disallow,
 	networks = nworks,

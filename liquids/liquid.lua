@@ -16,6 +16,7 @@ local M = minetest.get_meta
 local N = function(pos) return minetest.get_node(pos).name end
 local LQD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).liquid end
 local Pipe = techage.LiquidPipe
+local S = techage.S
 
 local net_def = techage.networks.net_def
 local networks = techage.networks
@@ -74,6 +75,8 @@ end
 
 
 local function get_network_table(pos, outdir, ntype)
+	-- jump to the next node because pumps have to network
+    -- interfaces and therefore can't have a netID
 	local pos2 = Pipe:get_connected_node_pos(pos, outdir)
 	local mem = tubelib2.get_mem(pos2)
 	if not mem.pipe or not mem.pipe.netID then
@@ -115,7 +118,7 @@ function techage.liquid.put(pos, outdir, name, amount)
 			-- wrong items?
 			local peek = liquid.peek(item.pos, item.indir)
 			if peek and peek ~= name then return amount end
-			techage.mark_position("singleplayer", item.pos, "put", "", 1) ------------------- debug
+			--techage.mark_position("singleplayer", item.pos, "put", "", 1) ------------------- debug
 			amount = liquid.put(item.pos, item.indir, name, amount)
 			if amount == 0 then break end
 		end
@@ -131,7 +134,7 @@ function techage.liquid.take(pos, outdir, name, amount)
 	for _,item in ipairs(get_network_table(pos, outdir, "tank")) do
 		local liquid = LQD(item.pos)
 		if liquid and liquid.take then
-			techage.mark_position("singleplayer", item.pos, "take", "", 1) ------------------- debug
+			--techage.mark_position("singleplayer", item.pos, "take", "", 1) ------------------- debug
 			local val, name = liquid.take(item.pos, item.indir, name, amount - taken)
 			if val and name then
 				taken = taken + val
@@ -226,8 +229,21 @@ function techage.liquid.update_network(pos, outdir)
 	delete_netID(pos, outdir)
 end
 
+minetest.register_craftitem("techage:water", {
+	description = S("Water"),
+	inventory_image = "techage_water_inv.png",
+	groups = {not_in_creative_inventory=1},
+	
+})
 
-techage.register_liquid("bucket:bucket_water", "bucket:bucket_empty", 1, "default:water_source")
-techage.register_liquid("bucket:bucket_river_water", "bucket:bucket_empty", 1, "default:river_water_source")
+minetest.register_craftitem("techage:river_water", {
+	description = S("Water"),
+	inventory_image = "techage_water_inv.png",
+	groups = {not_in_creative_inventory=1},
+	
+})
+
+techage.register_liquid("bucket:bucket_water", "bucket:bucket_empty", 1, "techage:water")
+techage.register_liquid("bucket:bucket_river_water", "bucket:bucket_empty", 1, "techage:river_water")
 techage.register_liquid("bucket:bucket_lava", "bucket:bucket_empty", 1, "default:lava_source")
 

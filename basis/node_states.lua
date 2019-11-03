@@ -61,6 +61,7 @@ Node mem data:
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
+local N = techage.get_node_lvm
 
 --
 -- TechAge machine states
@@ -81,6 +82,10 @@ techage.StatesImg = {
 	"techage_inv_button_error.png",
 	"techage_inv_button_off.png", 
 }
+
+local function error(pos, msg)
+	minetest.log("error", "[TA states] "..msg.." at "..S(pos).." "..N(pos).name)
+end
 
 -- Return state button image for the node inventory
 function techage.state_button(state)
@@ -197,6 +202,8 @@ local function start_timer_delayed(pos, cycle_time)
 	t:stop()
 	if cycle_time > 0.9 then
 		minetest.after(0.1, t.start, t, cycle_time)
+	else
+		error(pos, "invalid cycle_time")
 	end
 end
 

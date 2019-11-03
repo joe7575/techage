@@ -54,25 +54,32 @@ local function formspec_oil(x, y, mem)
 	if mem.running then
 		fuel_percent = ((mem.burn_cycles or 1) * 100) / (mem.burn_cycles_total or 1)
 	end
+--	return "container["..x..","..y.."]"..
+--		"background[0,0;2,2.05;techage_form_grey.png]"..
+--		"image[0,0;1,1;techage_form_input_arrow.png]"..
+--		"image[1,0;1,1;default_furnace_fire_bg.png^[lowpart:"..
+--		fuel_percent..":default_furnace_fire_fg.png]"..
+--		techage.item_image(1, 1, itemname)..
+--		"list[context;fuel;0,1;1,1;]"..
+--		"container_end[]"
 	return "container["..x..","..y.."]"..
-		"background[0,0;2,2.05;techage_form_grey.png]"..
-		"image[0,0;1,1;techage_form_input_arrow.png]"..
-		"image[1,0;1,1;default_furnace_fire_bg.png^[lowpart:"..
+		"background[0,0;3,1.05;techage_form_grey.png]"..
+		"list[context;fuel;0,0;1,1;]"..
+		techage.item_image(1, 0, itemname)..
+		"image[2,0;1,1;default_furnace_fire_bg.png^[lowpart:"..
 		fuel_percent..":default_furnace_fire_fg.png]"..
-		techage.item_image(1, 1, itemname)..
-		"list[context;fuel;0,1;1,1;]"..
 		"container_end[]"
 end	
 
 function techage.oilburner.formspec(mem)
 	local update = ((mem.countdown or 0) > 0 and mem.countdown) or S("Update")
-	return "size[8,6]"..
+	return "size[8,5]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	formspec_oil(2, 0, mem)..
-	"button[5.5,0.5;2,1;update;"..update.."]"..
-	"list[current_player;main;0,2.3;8,4;]"
+	formspec_oil(1, 0, mem)..
+	"button[5,0;2,1;update;"..update.."]"..
+	"list[current_player;main;0,1.3;8,4;]"
 end
 
 local function fill_container(pos, inv, mem)
