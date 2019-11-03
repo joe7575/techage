@@ -148,22 +148,22 @@ local function dosing(pos, mem, elapsed)
 			print("dosing", item.name, dump(liquids))
 			local outdir = liquids[item.name]
 			if not outdir then
-				State:fault(pos, mem, S("input liquid missing"))
+				State:fault(pos, mem, S("input missing"))
 				return
 			end
 			if liquid.take(pos, outdir, item.name, item.num) < item.num then
-				State:fault(pos, mem, S("input liquid gone out"))
+				State:fault(pos, mem, S("input missing"))
 				return
 			end
 		end
 	end
 	-- output
 	if not reactor_cmnd(pos, "output", recipe.output.name) then
-		State:fault(pos, mem, S("output liquid blocked"))
+		State:fault(pos, mem, S("output blocked"))
 		return
 	end
 	if not reactor_cmnd(pos, "waste", recipe.waste.name) then
-		State:fault(pos, mem, S("output liquid blocked"))
+		State:fault(pos, mem, S("output blocked"))
 		return
 	end
 	State:keep_running(pos, mem, COUNTDOWN_TICKS)

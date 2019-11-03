@@ -116,7 +116,9 @@ techage.ConstructionPlans["itemtransport"] = {
 local RINSR = {"techage_filling_ta2.png^techage_appl_rinser.png^techage_frame_ta2.png", "techage:ta2_rinser_pas"}
 local GLASS = {"default_glass.png", "default:glass"}
 local WATER = {"default_water.png^default_glass.png", "default:water_source"}
-local TK000 = {"techage_tube_knee.png", "techage:tubeS"}
+local TK000 = {"techage_tube_knee.png", "techage:tubeS"} -- like 'r'
+local TK090 = {"techage_tube_knee.png^[transformR90", "techage:tubeS"} -- '7'
+local TK180 = {"techage_tube_knee.png^[transformR180", "techage:tubeS"}
 local TK270 = {"techage_tube_knee.png^[transformR270", "techage:tubeS"}
 
 techage.ConstructionPlans["gravelrinser"] = {	
@@ -150,7 +152,8 @@ techage.ConstructionPlans["coalpowerstation"] = {
 --
 local Cable = {"techage_electric_cable_inv.png", "techage:electric_cableS"}
 local Tubes = {"techage_tube_tube.png", "techage:tubeS"}
-local Pushr = {"techage_appl_pusher.png^techage_frame_ta3.png", "techage:ta3_pusher_pas"}
+local PushR = {"techage_appl_pusher.png^techage_frame_ta3.png", "techage:ta3_pusher_pas"}
+local PushL = {"techage_appl_pusher.png^techage_frame_ta3.png^[transformFX", "techage:ta3_pusher_pas"}
 local Boost = {"techage_filling_ta3.png^techage_appl_compressor.png^[transformFX^techage_frame_ta3.png", "techage:ta3_booster"}
 local Fibox = {"techage_concrete.png^techage_appl_firehole.png^techage_frame_ta3.png", "techage:furnace_firebox"}
 local Furnc = {"techage_concrete.png^techage_appl_furnace.png^techage_frame_ta3.png", "techage:ta3_furnace_pas"}
@@ -158,8 +161,28 @@ local Furnc = {"techage_concrete.png^techage_appl_furnace.png^techage_frame_ta3.
 techage.ConstructionPlans["ta3_furnace"] = {
 	{false, false, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false},
-	{false, Tubes, Pushr, Tubes, Furnc, Tubes, Pushr, Tubes},
+	{false, Tubes, PushR, Tubes, Furnc, Tubes, PushR, Tubes},
 	{false, false, Cable, Boost, Fibox, false, false, false},
+}
+
+
+--
+-- TA3 Tank Pump Pusher
+--
+local Pump = {"techage_filling_ta3.png^techage_appl_pump.png^techage_frame_ta3.png", "techage:t3_pump"}
+local Tank = {"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_tank.png", "techage:ta3_tank"}
+local PIPEH = {"techage_gaspipe.png", "techage:ta4_pipeS"}
+local PIPEV = {"techage_gaspipe.png^[transformR90", "techage:ta4_pipeS"}
+local PN000 = {"techage_gaspipe_knee.png", "techage:ta4_pipeS"}
+local PN090 = {"techage_gaspipe_knee.png^[transformR90", "techage:ta4_pipeS"}
+local PN180 = {"techage_gaspipe_knee.png^[transformR180", "techage:ta4_pipeS"}
+local PN270 = {"techage_gaspipe_knee.png^[transformR270", "techage:ta4_pipeS"}
+
+techage.ConstructionPlans["ta3_tank"] = {
+	{false, false, false, false, false, false, false, false, false},
+	{false, false, false, false, false, false, false, false, false},
+	{false, Tubes, PushR, Tubes, Tank,  PIPEH, Pump,  PIPEH, Tank},
+	{false, PushL, Tubes, Tubes, TK180, false, false, false, false},
 }
 
 
@@ -187,12 +210,6 @@ techage.ConstructionPlans["ta4_windturbine"] = {
 -- Thermal Storage System
 --
 local CONCR = {"basic_materials_concrete_block.png", "basic_materials:concrete_block"}
-local PIPEH = {"techage_gaspipe.png", "techage:ta4_pipeS"}
-local PIPEV = {"techage_gaspipe.png^[transformR90", "techage:ta4_pipeS"}
-local PN000 = {"techage_gaspipe_knee.png", "techage:ta4_pipeS"}
-local PN090 = {"techage_gaspipe_knee.png^[transformR90", "techage:ta4_pipeS"}
-local PN180 = {"techage_gaspipe_knee.png^[transformR180", "techage:ta4_pipeS"}
-local PN270 = {"techage_gaspipe_knee.png^[transformR270", "techage:ta4_pipeS"}
 local HEXR1 = {"techage_filling_ta4.png^techage_frameT_ta4.png^techage_appl_ribsT.png", "techage:heatexchanger3"}
 local HEXR2 = {"techage_filling_ta4.png^techage_frameM_ta4.png^techage_appl_ribsB.png", "techage:heatexchanger2"}
 local HEXR3 = {"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_electric.png", "techage:heatexchanger1"}

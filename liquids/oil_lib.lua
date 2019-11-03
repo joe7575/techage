@@ -54,14 +54,6 @@ local function formspec_oil(x, y, mem)
 	if mem.running then
 		fuel_percent = ((mem.burn_cycles or 1) * 100) / (mem.burn_cycles_total or 1)
 	end
---	return "container["..x..","..y.."]"..
---		"background[0,0;2,2.05;techage_form_grey.png]"..
---		"image[0,0;1,1;techage_form_input_arrow.png]"..
---		"image[1,0;1,1;default_furnace_fire_bg.png^[lowpart:"..
---		fuel_percent..":default_furnace_fire_fg.png]"..
---		techage.item_image(1, 1, itemname)..
---		"list[context;fuel;0,1;1,1;]"..
---		"container_end[]"
 	return "container["..x..","..y.."]"..
 		"background[0,0;3,1.05;techage_form_grey.png]"..
 		"list[context;fuel;0,0;1,1;]"..
@@ -70,6 +62,9 @@ local function formspec_oil(x, y, mem)
 		fuel_percent..":default_furnace_fire_fg.png]"..
 		"container_end[]"
 end	
+
+techage.oilburner.formspec_oil = formspec_oil
+
 
 function techage.oilburner.formspec(mem)
 	local update = ((mem.countdown or 0) > 0 and mem.countdown) or S("Update")
@@ -121,6 +116,17 @@ local function move_item(pos, stack)
 		empty_container(pos, inv, mem)
 	end
 	M(pos):set_string("formspec", techage.oilburner.formspec(mem))
+end
+
+function techage.oilburner.move_item(pos, stack, formspec)
+	local mem = tubelib2.get_mem(pos)
+	local inv = M(pos):get_inventory()
+	if liquid.is_container_empty(stack:get_name()) then
+		fill_container(pos, inv, mem)
+	else
+		empty_container(pos, inv, mem)
+	end
+	M(pos):set_string("formspec", formspec(pos, mem))
 end
 
 function techage.oilburner.allow_metadata_inventory_put(pos, listname, index, stack, player)

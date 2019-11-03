@@ -20,7 +20,7 @@ local LQD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm
 local Pipe = techage.LiquidPipe
 local liquid = techage.liquid
 
-local CAPACITY = 1000
+local CAPACITY = 500
 
 
 local function formspec_tank(x, y, mem)
@@ -224,78 +224,80 @@ minetest.register_node("techage:ta3_tank", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
-Pipe:add_secondary_node_names({"techage:ta3_tank"})
+minetest.register_node("techage:ta4_tank", {
+	description = S("TA4 Tank"),
+	tiles = {
+		-- up, down, right, left, back, front
+		"techage_filling_ta4.png^techage_frame_ta4_top.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_tank.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_tank.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_tank.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_tank.png",
+	},
 
---minetest.register_node("techage:ta4_tank", {
---	description = S("TA4 Tank"),
---	tiles = {
---		-- up, down, right, left, back, front
---		"techage_filling_ta4.png^techage_frame_ta4_top.png",
---		"techage_filling_ta4.png^techage_frame_ta4.png",
---		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_hole_pipe.png",
---		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_hole_tube.png",
---		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_tank.png",
---		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_tank.png",
---	},
-
---	on_construct = function(pos)
---		local meta = minetest.get_meta(pos)
---		local inv = meta:get_inventory()
---		inv:set_size('src', 1)
---		inv:set_size('dst', 1)
---	end,
-	
---	liquid = {
---		peek = function(pos, indir)
---			if indir == M(pos):get_int("indir") then
---				return liquid.srv_peek(pos, "main")
---			end
---		end,
---		put = function(pos, indir, name, amount)
---			if indir == M(pos):get_int("indir") then
---				return liquid.srv_put(pos, "main", name, amount)
---			end
---		end,
---		take = function(pos, indir, name, amount)
---			if indir == M(pos):get_int("indir") then
---				return liquid.srv_take(pos, "main", name, amount)
---			end
---		end,
-	
---	},
---	on_rightclick = on_rightclick,
---	can_dig = can_dig,
---	allow_metadata_inventory_put = allow_metadata_inventory_put,
---	allow_metadata_inventory_take = allow_metadata_inventory_take,
---	paramtype2 = "facedir",
---	on_rotate = screwdriver.disallow,
---	groups = {cracky=2},
---	is_ground_content = false,
---	sounds = default.node_sound_metal_defaults(),
---})
-
----- for mechanical pipe connections
---techage.power.register_node({"techage:ta4_tank"}, {
---	conn_sides = {"R"},
---	power_network  = Pipe,
---	after_place_node = function(pos, placer)
---		local meta = M(pos)
---		local mem = tubelib2.init_mem(pos)
---		mem.liquid = mem.liquid or {}
---		local number = techage.add_node(pos, "techage:ta4_tank")
---		meta:set_string("node_number", number)
---		meta:set_string("owner", placer:get_player_name())
---		local node = minetest.get_node(pos)
---		local indir = techage.side_to_indir("R", node.param2)
---		meta:set_int("indir", indir) -- from liquid point of view
---		meta:set_string("formspec", formspec(mem))
---		meta:set_string("infotext", S("TA4 Tank").." "..number)
---	end,
---	after_dig_node = function(pos, oldnode, oldmetadata, digger)
---		techage.remove_node(pos)
---	end,
---})
-
+	on_construct = function(pos)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		inv:set_size('src', 1)
+		inv:set_size('dst', 1)
+	end,
+	after_place_node = function(pos, placer)
+		local meta = M(pos)
+		local mem = tubelib2.init_mem(pos)
+		mem.liquid = {}
+		local number = techage.add_node(pos, "techage:ta4_tank")
+		meta:set_string("node_number", number)
+		meta:set_string("owner", placer:get_player_name())
+		meta:set_string("formspec", formspec(mem))
+		meta:set_string("infotext", S("TA4 Tank").." "..number)
+		Pipe:after_place_node(pos)
+	end,
+	tubelib2_on_update2 = function(pos, dir, tlib2, node)
+		liquid.update_network(pos)
+	end,
+	on_timer = function(pos, elapsed)
+		local mem = tubelib2.get_mem(pos)
+		mem.countdown = mem.countdown - 1
+		M(pos):set_string("formspec", formspec(mem))
+		return mem.countdown > 0
+	end,
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		Pipe:after_dig_node(pos)
+		techage.remove_node(pos)
+	end,
+	liquid = {
+		capa = CAPACITY * 2,
+		peek = liquid.srv_peek,
+		put = function(pos, indir, name, amount)
+			local leftover = liquid.srv_put(pos, indir, name, amount)
+			local inv = M(pos):get_inventory()
+			if not inv:is_empty("src") and inv:is_empty("dst") then
+				fill_container(pos, inv)
+			end
+			return leftover
+		end,
+		take = liquid.srv_take,
+	},
+	networks = {
+		pipe = {
+			sides = techage.networks.AllSides, -- Pipe connection sides
+			ntype = "tank",
+		},
+	},
+	on_rightclick = on_rightclick,
+	on_receive_fields = on_receive_fields,
+	can_dig = can_dig,
+	allow_metadata_inventory_put = allow_metadata_inventory_put,
+	allow_metadata_inventory_take = allow_metadata_inventory_take,
+	allow_metadata_inventory_move = allow_metadata_inventory_move,
+	on_metadata_inventory_put = on_metadata_inventory_put,
+	paramtype2 = "facedir",
+	on_rotate = screwdriver.disallow,
+	groups = {cracky=2},
+	is_ground_content = false,
+	sounds = default.node_sound_metal_defaults(),
+})
 
 techage.register_node({"techage:ta3_tank", "techage:ta4_tank"}, {
 	on_pull_item = function(pos, in_dir, num)
@@ -336,3 +338,23 @@ techage.register_node({"techage:ta3_tank", "techage:ta4_tank"}, {
 		end
 	end,
 })	
+
+Pipe:add_secondary_node_names({"techage:ta3_tank", "techage:ta4_tank"})
+
+minetest.register_craft({
+	output = "techage:ta3_tank 2",
+	recipe = {
+		{"techage:iron_ingot", "techage:ta3_barrel_empty", "group:wood"},
+		{"techage:tubeS", "techage:ta3_barrel_empty", "techage:ta3_pipeS"},
+		{"group:wood", "techage:ta3_barrel_empty", "techage:iron_ingot"},
+	},
+})
+
+minetest.register_craft({
+	output = "techage:ta4_tank",
+	recipe = {
+		{"default:tin_ingot", "dye:blue", "default:steel_ingot"},
+		{"", "techage:ta3_tank", ""},
+		{"", "", ""},
+	},
+})

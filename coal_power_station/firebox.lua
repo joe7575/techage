@@ -203,7 +203,6 @@ local function on_timer2(pos, elapsed)
 		mem.liquid = mem.liquid or {}
 		mem.liquid.amount = mem.liquid.amount or 0
 		if mem.burn_cycles <= 0 then
-			local taken = firebox.get_fuel(pos) 
 			if mem.liquid.amount > 0 then
 				mem.liquid.amount = mem.liquid.amount - 1
 				mem.burn_cycles = oilburner.Oilburntime / CYCLE_TIME * BURN_CYCLE_FACTOR
@@ -220,7 +219,6 @@ local function on_timer2(pos, elapsed)
 end
 
 local function start_firebox2(pos, mem)
-	print("start_firebox2", mem.running, mem.liquid and mem.liquid.amount)
 	if not mem.running and mem.liquid.amount > 0 then
 		mem.running = true
 		on_timer2(pos, 0)
@@ -230,8 +228,8 @@ local function start_firebox2(pos, mem)
 end
 
 minetest.register_node("techage:oilfirebox", {
-	description = S("TA3 Power Station Oil Firebox"),
-	inventory_image = "techage_coal_boiler_inv.png",
+	description = S("TA3 Power Station Oil Burner"),
+	inventory_image = "techage_oil_boiler_inv.png",
 	tiles = {"techage_coal_boiler_mesh_top.png"},
 	drawtype = "mesh",
 	mesh = "techage_boiler_large.obj",
@@ -336,6 +334,22 @@ techage.register_node({"techage:coalfirebox"}, {
 	end,
 })
 
+techage.register_node({"techage:oilfirebox"}, {
+	on_recv_message = function(pos, src, topic, payload)
+		local mem = tubelib2.get_mem(pos)
+		if topic == "state" then
+			if mem.running then
+				return "running"
+			else
+				return "stopped"
+			end
+		elseif topic == "fuel" then
+			return mem.liquid and mem.liquid.amount and mem.liquid.amount
+		else
+			return "unsupported"
+		end
+	end,
+})
 
 minetest.register_craft({
 	output = "techage:coalfirebox",

@@ -45,6 +45,8 @@ local function formspec(self, pos, mem)
 		"image[2,0.5;1,1;techage_form_arrow_bg.png^[lowpart:"..
 		(mem.item_percent or 0)..":techage_form_arrow_fg.png^[transformR270]"..
 		"image_button[2,2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
+		"tooltip[2,2;1,1;"..self:get_state_tooltip(mem).."]"..
+
 		"list[context;dst;3,0;2,2;]"..
 		
 		"label[6,0;"..S("Outp")..": "..idx.."/"..num.."]"..
@@ -78,13 +80,13 @@ end
 
 local function cooking(pos, crd, mem, elapsed)
 	if firebox_cmnd(pos, "fuel") then
-		local state = smelting(pos, mem, elapsed)
+		local state, err = smelting(pos, mem, elapsed)
 		if state == techage.RUNNING then
 			crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
 		elseif state == techage.BLOCKED then
 			crd.State:blocked(pos, mem)
 		elseif state == techage.FAULT then
-			crd.State:fault(pos, mem)
+			crd.State:fault(pos, mem, err)
 		elseif state == techage.STANDBY then
 			crd.State:idle(pos, mem)
 		end
@@ -167,7 +169,10 @@ end
 
 local function can_start(pos, mem, state)
 	if D.dbg2 then D.dbg("can_start", state, firebox_cmnd(pos, "fuel")) end
-	return firebox_cmnd(pos, "fuel")
+	if not firebox_cmnd(pos, "fuel") then
+		return S("no fuel or no power")
+	end
+	return true
 end
 
 local function on_node_state_change(pos, old_state, new_state)

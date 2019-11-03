@@ -44,6 +44,7 @@ techage.Items = {
 	---------------------
 	techage_ta3 = "techage_ta3.png",
 	ta3_firebox = "techage:coalfirebox",
+	ta3_oilbox = "techage:oilfirebox",
 	ta3_boiler = "techage:coalboiler_top",
 	ta3_turbine = "techage:turbine",
 	ta3_generator = "techage:generator",
@@ -78,6 +79,8 @@ techage.Items = {
 	ta3_pumpjack = "techage:ta3_pumpjack_pas",
 	ta3_drillbit = "techage:oil_drillbit",
 	ta3_end_wrench = "techage:end_wrench",
+	ta3_tank = "techage:ta3_tank",
+	ta3_pump = "techage:t3_pump",
 	----------------------------
 	ta3_button = "techage:ta3_button_off",
 	ta3_cartdetector = "techage:ta3_cartdetector_off",
@@ -114,5 +117,7 @@ techage.Items = {
 	ta4_hydrogen = "techage_hydrogen_inv.png",
 	ta4_electrolyzer = "techage:ta4_electrolyzer",
 	ta4_fuelcell = "techage:ta4_fuelcell",
+	ta4_tank = "techage:ta4_tank",
+	ta4_pump = "techage:t4_pump",
 	--ta4_ "", 
 }

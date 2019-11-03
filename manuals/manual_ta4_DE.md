@@ -210,6 +210,26 @@ Die Brennstoffzelle kann bis zu 40 ku an Strom abgeben und benötigt dazu alle 6
 [ta4_fuelcell|image]
 
 
+## Weitere TA4 Blöcke
+
+
+### TA4 Tank / TA4 Tank
+
+Siehe TA3 Tank.
+
+In einen TA4 Tank passen 1000 Einheiten oder 100 Fässer einer Flüssigkeit.
+
+[ta4_tank|image]
+
+
+### TA4 Pumpe / TA4 Pump
+
+Siehe TA3 Pumpe.
+
+Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden.
+
+[ta4_pump|image]
+
 
 
 

@@ -17,28 +17,34 @@ local M = minetest.get_meta
 local S = techage.S
 
 local firebox = techage.firebox
+local oilburner = techage.oilburner
+local Pipe = techage.LiquidPipe
+local liquid = techage.liquid
 
 local CYCLE_TIME = 2
 
 local function has_fuel(pos, mem)
-	return mem.burn_cycles > 0 or firebox.has_fuel(pos) 
+	return mem.burn_cycles > 0 or (mem.liquid and mem.liquid.amount and mem.liquid.amount > 0)
 end
 
 local function stop_firebox(pos, mem)
 	mem.running = false
 	firebox.swap_node(pos, "techage:furnace_firebox")
 	minetest.get_node_timer(pos):stop()
-	M(pos):set_string("formspec", firebox.formspec(mem))
+	M(pos):set_string("formspec", oilburner.formspec(mem))
 end
 
 local function node_timer(pos, elapsed)
 	local mem = tubelib2.get_mem(pos)
+	mem.liquid = mem.liquid or {}
+	mem.liquid.amount = mem.liquid.amount or 0
 	if mem.running then
+		oilburner.formspec_update(pos, mem)
 		mem.burn_cycles = (mem.burn_cycles or 0) - 1
 		if mem.burn_cycles <= 0 then
-			local taken = firebox.get_fuel(pos) 
-			if taken then
-				mem.burn_cycles = (firebox.Burntime[taken:get_name()] or 1) / CYCLE_TIME
+			if mem.liquid.amount > 0 then
+				mem.liquid.amount = mem.liquid.amount - 1
+				mem.burn_cycles = (oilburner.Oilburntime or 1) / CYCLE_TIME
 				mem.burn_cycles_total = mem.burn_cycles
 			else
 				stop_firebox(pos, mem)
@@ -55,7 +61,7 @@ local function start_firebox(pos, mem)
 		node_timer(pos, 0)
 		firebox.swap_node(pos, "techage:furnace_firebox_on")
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
-		M(pos):set_string("formspec", firebox.formspec(mem))
+		M(pos):set_string("formspec", oilburner.formspec(mem))
 	end
 end
 
@@ -70,7 +76,7 @@ local function booster_cmnd(pos, cmnd)
 end
 
 minetest.register_node("techage:furnace_firebox", {
-	description = S("TA3 Furnace Firebox"),
+	description = S("TA3 Furnace Oil Burner"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_concrete.png^techage_appl_open.png^techage_frame_ta3.png",
@@ -87,25 +93,43 @@ minetest.register_node("techage:furnace_firebox", {
 	sounds = default.node_sound_stone_defaults(),
 
 	on_timer = node_timer,
-	can_dig = firebox.can_dig,
-	allow_metadata_inventory_put = firebox.allow_metadata_inventory_put,
-	allow_metadata_inventory_take = firebox.allow_metadata_inventory_take,
-	on_receive_fields = firebox.on_receive_fields,
-	on_rightclick = firebox.on_rightclick,
+	can_dig = oilburner.can_dig,
+	allow_metadata_inventory_put = oilburner.allow_metadata_inventory_put,
+	allow_metadata_inventory_take = oilburner.allow_metadata_inventory_take,
+	on_receive_fields = oilburner.on_receive_fields,
+	on_rightclick = oilburner.on_rightclick,
 	
 	on_construct = function(pos)
 		local mem = tubelib2.init_mem(pos)
+		techage.add_node(pos, "techage:furnace_firebox")
 		mem.running = false
 		mem.burn_cycles = 0
+		mem.liquid = {}
+		mem.liquid.amount =  0
 		local meta = M(pos)
-		meta:set_string("formspec", firebox.formspec(mem))
+		meta:set_string("formspec", oilburner.formspec(mem))
 		local inv = meta:get_inventory()
 		inv:set_size('fuel', 1)
 	end,
+
+	on_metadata_inventory_put = function(pos, listname, index, stack, player)
+		local mem = tubelib2.get_mem(pos)
+		mem.liquid = mem.liquid or {}
+		mem.liquid.amount = mem.liquid.amount or 0
+		oilburner.on_metadata_inventory_put(pos, listname, index, stack, player)
+	end,
+
+	liquid = {
+		capa = oilburner.CAPACITY,
+		peek = liquid.srv_peek,
+		put = liquid.srv_put,
+		take = liquid.srv_take,
+	},
+	networks = oilburner.networks,
 })
 
 minetest.register_node("techage:furnace_firebox_on", {
-	description = S("TA3 Furnace Firebox"),
+	description = S("TA3 Furnace Oil Burner"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_concrete.png^techage_frame_ta3.png",
@@ -134,11 +158,33 @@ minetest.register_node("techage:furnace_firebox_on", {
 	drop = "techage:furnace_firebox",
 	
 	on_timer = node_timer,
-	can_dig = firebox.can_dig,
-	allow_metadata_inventory_put = firebox.allow_metadata_inventory_put,
-	allow_metadata_inventory_take = firebox.allow_metadata_inventory_take,
-	on_receive_fields = firebox.on_receive_fields,
-	on_rightclick = firebox.on_rightclick,
+	can_dig = oilburner.can_dig,
+	allow_metadata_inventory_put = oilburner.allow_metadata_inventory_put,
+	allow_metadata_inventory_take = oilburner.allow_metadata_inventory_take,
+	on_receive_fields = oilburner.on_receive_fields,
+	on_rightclick = oilburner.on_rightclick,
+	
+	on_metadata_inventory_put = function(pos, listname, index, stack, player)
+		local mem = tubelib2.get_mem(pos)
+		mem.liquid = mem.liquid or {}
+		mem.liquid.amount = mem.liquid.amount or 0
+		start_firebox(pos, mem)
+		oilburner.on_metadata_inventory_put(pos, listname, index, stack, player)
+	end,
+
+	liquid = {
+		capa = oilburner.CAPACITY,
+		peek = liquid.srv_peek,
+		put = function(pos, indir, name, amount)
+			liquid.srv_put(pos, indir, name, amount)
+			local mem = tubelib2.get_mem(pos)
+			mem.liquid = mem.liquid or {}
+			mem.liquid.amount = mem.liquid.amount or 0
+			start_firebox(pos, mem)
+		end,
+		take = liquid.srv_take,
+	},
+	networks = oilburner.networks,
 })
 
 minetest.register_craft({
@@ -151,25 +197,6 @@ minetest.register_craft({
 })
 
 techage.register_node({"techage:furnace_firebox", "techage:furnace_firebox_on"}, {
-	on_pull_item = function(pos, in_dir, num)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		return techage.get_items(inv, "fuel", num)
-	end,
-	on_push_item = function(pos, in_dir, stack)
-		if firebox.Burntime[stack:get_name()] then
-			local meta = minetest.get_meta(pos)
-			local inv = meta:get_inventory()
-			local mem = tubelib2.get_mem(pos)
-			return techage.put_items(inv, "fuel", stack)
-		end
-		return false
-	end,
-	on_unpull_item = function(pos, in_dir, stack)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		return techage.put_items(inv, "fuel", stack)
-	end,
 	on_recv_message = function(pos, src, topic, payload)
 		local mem = tubelib2.get_mem(pos)
 		if topic == "state" then
@@ -179,9 +206,7 @@ techage.register_node({"techage:furnace_firebox", "techage:furnace_firebox_on"},
 				return "stopped"
 			end
 		elseif topic == "fuel" then
-			local inv = M(pos):get_inventory()
-			local stack = inv:get_stack("fuel", 1)
-			return stack:get_count()
+			return mem.liquid and mem.liquid.amount and mem.liquid.amount
 		else
 			return "unsupported"
 		end
@@ -200,6 +225,9 @@ techage.register_node({"techage:furnace_firebox", "techage:furnace_firebox_on"},
 		end
 	end
 })	
+
+Pipe:add_secondary_node_names({"techage:furnace_firebox", "techage:furnace_firebox_on"})
+
 
 minetest.register_lbm({
 	label = "[techage] Furnace firebox",

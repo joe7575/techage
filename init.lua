@@ -214,8 +214,8 @@ else
 	dofile(MP.."/energy_storage/nodes.lua")
 	
 	-- Chemistry
-	dofile(MP.."/chemistry/ta4_reactor.lua")
-	dofile(MP.."/chemistry/ta4_doser.lua")
+	--dofile(MP.."/chemistry/ta4_reactor.lua")
+	--dofile(MP.."/chemistry/ta4_doser.lua")
 	
 	-- Hydrogen
 	dofile(MP.."/hydrogen/hydrogen.lua")

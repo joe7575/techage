@@ -293,4 +293,20 @@ Pipe:add_secondary_node_names({
 	"techage:t4_pump", "techage:t4_pump_on",
 })
  
-  
+minetest.register_craft({
+	output = "techage:t3_pump 2",
+	recipe = {
+		{"group:wood", "techage:iron_ingot", "group:wood"},
+		{"techage:ta3_pipeS", "techage:usmium_nuggets", "techage:ta3_pipeS"},
+		{"group:wood", "techage:iron_ingot", "group:wood"},
+	},
+})
+
+minetest.register_craft({
+	output = "techage:t4_pump",
+	recipe = {
+		{"default:tin_ingot", "dye:blue", "default:steel_ingot"},
+		{"", "techage:t3_pump", ""},
+		{"", "", ""},
+	},
+})

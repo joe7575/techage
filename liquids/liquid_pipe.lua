@@ -181,9 +181,9 @@ minetest.register_craft({
 minetest.register_craft({
 	output = "techage:ta3_pipeS 6",
 	recipe = {
-		{'', '', "default:steel_ingot"},
-		{'dye:yellow', 'techage:meridium_ingot', ''},
-		{"default:steel_ingot", '', ''},
+		{'', '', "techage:iron_ingot"},
+		{'dye:yellow', 'default:steel_ingot', ''},
+		{"techage:iron_ingot", '', ''},
 	},
 })
 

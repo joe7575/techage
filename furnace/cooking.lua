@@ -96,11 +96,11 @@ function techage.furnace.smelting(pos, mem, elapsed)
 	local state = techage.RUNNING
 	if inv and not inv:is_empty("src") then
 		if not mem.output or not mem.num_recipe then
-			return techage.FAULT
+			return techage.FAULT, "recipe error"
 		end
 		local recipe = Recipes[mem.output][mem.num_recipe]
 		if not recipe then
-			return techage.FAULT
+			return techage.FAULT, "recipe error"
 		end
 		-- check dst inv
 		local item = ItemStack(mem.output)

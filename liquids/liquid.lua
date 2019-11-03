@@ -243,7 +243,23 @@ minetest.register_craftitem("techage:river_water", {
 	
 })
 
+minetest.register_craftitem("techage:barrel_water", {
+	description = S("Water Barrel"),
+	inventory_image = "techage_barrel_water_inv.png",
+	stack_max = 1,
+})
+
+minetest.register_craftitem("techage:barrel_river_water", {
+	description = S("River Water Barrel"),
+	inventory_image = "techage_barrel_water_inv.png",
+	stack_max = 1,
+})
+
 techage.register_liquid("bucket:bucket_water", "bucket:bucket_empty", 1, "techage:water")
 techage.register_liquid("bucket:bucket_river_water", "bucket:bucket_empty", 1, "techage:river_water")
+
+techage.register_liquid("techage:barrel_water", "techage:ta3_barrel_empty", 10, "techage:water")
+techage.register_liquid("techage:barrel_river_water", "techage:ta3_barrel_empty", 10, "techage:river_water")
+
 techage.register_liquid("bucket:bucket_lava", "bucket:bucket_empty", 1, "default:lava_source")
 

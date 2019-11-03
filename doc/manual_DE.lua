@@ -37,8 +37,9 @@ techage.manual_DE.aTitel = {
   "3,TA2 Gesicherte Kiste / Protected Chest",
   "3,Techage Forceload Block",
   "1,TA3: Ölzeitalter",
-  "2,Kohlekraftwerk",
+  "2,Kohlekraftwerk / Ölkraftwerk",
   "3,TA3 Kraftwerks-Feuerbox / Power Station Firebox",
+  "3,TA3 Kraftwerks-Ölbrenner / TA3 Power Station Oil Burner",
   "3,TA3 Boiler unten/oben",
   "3,TA3 Turbine",
   "3,TA3 Generator",
@@ -57,7 +58,7 @@ techage.manual_DE.aTitel = {
   "3,TA3 Akku Block /  Akku Box",
   "3,TA3 Strom Terminal / Power Terminal",
   "2,TA3 Industrieofen",
-  "3,TA3 Ofen-Feuerkiste / Furnace Firebox",
+  "3,TA3 Ofen-Ölbrenner / Furnace Oil Burner",
   "3,TA3 Ofenoberteil / Furnace Top",
   "3,TA3 Gebläse / Booster",
   "2,Öl-Anlagen",
@@ -88,6 +89,9 @@ techage.manual_DE.aTitel = {
   "3,TA3 Kiessieb / Gravel Sieve",
   "3,TA3 Mühle / Grinder",
   "3,TA3 Flüssigkeitensammler / Liquid Sampler",
+  "2,Flüssigkeiten",
+  "3,TA3 Tank / TA3 Tank",
+  "3,TA3 Pumpe / TA3 Pump",
   "2,Werkzeuge",
   "3,Techage Info Tool",
   "3,TechAge Programmer",
@@ -113,6 +117,9 @@ techage.manual_DE.aTitel = {
   "2,Wasserstoff",
   "3,Elektrolyseur",
   "3,Brennstoffzelle",
+  "2,Weitere TA4 Blöcke",
+  "3,TA4 Tank / TA4 Tank",
+  "3,TA4 Pumpe / TA4 Pump",
 }
 
 techage.manual_DE.aText = {
@@ -281,6 +288,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Ein Schieber ist in der Lage\\, Items aus Kisten oder Maschinen zu ziehen und in andere Kisten oder Maschinen zu schieben. Oder anders gesagt: Zwischen zwei Blöcken mit Inventar muss ein und genau ein Schieber sein. Mehrere Schieber in Reihe sind nicht möglich.\n"..
+  "In die Gegenrichtung ist ein Schieber für Items aber durchlässig\\, so dass eine Kiste über eine Röhre gefüllt und ebenso gelehrt werden kann. \n"..
   "\n"..
   "Ein Schieber geht in den Zustand \"standby\"\\, wenn der keine Items zum Schieben hat. Ist der Ausgang blockiert oder das Inventory des Empfängers voll\\, so geht der Schieber in den Zustand \"blocked\". Aus beiden Zuständen kommt der Schieber nach einigen Sekunden selbsttätig wieder raus\\, sofern sich die Situation geändert hat.\n"..
   "\n"..
@@ -389,15 +397,23 @@ techage.manual_DE.aText = {
   "Das Kohlekraftwerk besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden. Dazu werden die Blöcke TA3 Kraftwerks-Feuerbox\\, TA3 Boiler oben\\, TA3 Boiler unten\\, TA3 Turbine\\, TA3 Generator und TA3 Kühler benötigt.\n"..
   "\n"..
   "Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.\n"..
-  "Die Feuerbox muss mit Kohle\\, Holzkohle oder Erdöl gefüllt werden.\n"..
+  "Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.\n"..
   "Wenn das Wasser heiß ist\\, kann das Ventil am Boiler geöffnet und anschließend die Generator gestartet werden.\n"..
   "\n"..
-  "Das Kraftwerk liefert eine Leistung von 80 ku und kann mit Kohle\\, Holzkohle oder Erdöl betrieben werden.\n"..
+  "Das Kraftwerk kann alternativ auch mit einem Ölbrenner ausgestattet und dann mit Öl betrieben werden.\n"..
+  "Das Öl kann über eine Pumpe und Ölleitung nachgefüllt werden.\n"..
+  "\n"..
+  "Das Kraftwerk liefert eine Leistung von 80 ku.\n"..
   "\n"..
   "\n"..
   "\n",
   "Teil des Kraftwerks. \n"..
   "Die Feuerbox muss mit Kohle\\, Holzkohle oder Erdöl gefüllt werden. Die Brenndauer ist abhängig von der Leistung\\, die vom Kraftwerk angefordert wird. Unter Volllast brennt Kohle 20 s\\, Holzkohle 60 s und Erdöl 20 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Teil des Kraftwerks. \n"..
+  "Der Ölbrenner kann nur mit Öl gefüllt werden. Die Brenndauer ist abhängig von der Leistung\\, die vom Kraftwerk angefordert wird. Unter Volllast brennt Öl 20 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).\n"..
   "\n"..
   "\n"..
   "\n",
@@ -499,13 +515,13 @@ techage.manual_DE.aText = {
   "Der TA3 Industrieofen dient als Ergänzung zu normalen Ofen (furnace). Damit können alle Waren mit \"Koch\" Rezepte\\, auch im Industrieofen hergestellt werden. Es gibt aber auch spezielle Rezepte\\, die nur im Industrieofen hergestellt werden können.\n"..
   "Der Industrieofen hat sein eigenes Menü zur Rezeptauswahl. Abhängig von den Waren im Industrieofen Inventar links kann rechts das Ausgangsprodukt gewählt werden.\n"..
   "\n"..
-  "Der Industrieofen benötigt Strom (für das Gebläse) sowie Kohle\\, Holzkohle oder Erdöl für die Befeuerung. Der Industrieofens und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden.\n"..
+  "Der Industrieofen benötigt Strom (für das Gebläse) sowie Öl für den Brenner. Der Industrieofens und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden.\n"..
   "\n"..
-  "Die Brennzeit für Kohle und Erdöl beträgt 80 s und für Holzkohle 240 s.\n"..
+  "Die Brennzeit für Öl beträgt 80 s.\n"..
   "\n"..
   "\n"..
   "\n",
-  "Ist Teil des TA3 Industrieofen. Muss mit Kohle\\, Holzkohle oder Erdöl befeuert werden.\n"..
+  "Ist Teil des TA3 Industrieofen. Muss mit Öl befeuert werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -547,7 +563,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "An die Stelle der Ölbohrkiste muss nun die Ölpumpe platziert werden. Auch die Ölpumpe benötigt Strom (16 ku) und liefert alle 8 s ein Erdöl-Item\\, das in einer Kiste gesammelt werden muss. Dazu muss die Ölpumpe über eine Röhre mit der Kiste verbunden werden.\n"..
+  "An die Stelle der Ölbohrkiste muss nun die Ölpumpe platziert werden. Auch die Ölpumpe benötigt Strom (16 ku) und liefert alle 8 s ein Einheit Erdöl. Das Erdöl muss in einem Tank gesammelt werden. Dazu muss die Ölpumpe über eine Leitung (gelbe Röhre) mit dem Tank verbunden werden.\n"..
   "Ist alles Öl abgepumpt\\, kann auch die Ölpumpe wieder entfernt werden.\n"..
   "\n"..
   "\n"..
@@ -743,6 +759,32 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Flüssigkeiten wie Wasser oder Öl können nur die spezielle Leitungen gepumpt und in Tanks gespeichert werden. Wie auch bei Wasser gibt es aber Behälter (Eimer\\, Kanister\\, Fässer)\\, in denen die Flüssig gelagert und transportiert werden kann.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "In einem Tank können Flüssigkeiten gespeichert werden. Ein Tank kann über eine Pumpe gefüllt bzw. geleert werden. Dazu muss die Pumpe über einer Leitung (gelbe Röhre) mit dem Tank verbunden sein.\n"..
+  "Ein Tank kann aber auch über Eimer/Fässer gefüllt bzw. geleert werden:\n"..
+  "\n"..
+  "  - werden leere Fässer mit einem Schieber oder von Hand in den Tank gegeben\\, werden diese gefüllt und können ausgangsseitig wieder entnommen werden\n"..
+  "  - werden volle Fässer mit einem Schieber oder von Hand in den Tank gegeben\\, werden diese geleert und können ausgangsseitig wieder entnommen werden\n"..
+  "\n"..
+  "Dabei ist zu beachten\\, dass Fässer nur komplett gefüllt oder entleert werden können. Sind bspw. weniger als 10 Einheiten im Tank\\, muss dieser Rest mit Eimern entnommen oder leergepumpt werden.\n"..
+  "\n"..
+  "In einen TA3 Tank passen 500 Einheiten oder 50 Fässer einer Flüssigkeit.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Mit der Pumpe können Flüssigkeiten von Tanks oder Behältern zu anderen Tanks oder Behältern gepumpt werden. Bei der Pumpe muss die Pumprichtung (Pfeil) beachtet werden. Über die gelben Leitungen und Verbindungsstücke ist es auch möglich\\, mehrere Tanks auf jeder Seite der Pumpe anzuordnen. Allerdings müssen die Tanks den selben Inhalt haben.\n"..
+  "\n"..
+  "  - zum Füllen\\, oder volle Fässer zul Leeren\n"..
+  "  - in einen Eimer oder einen Kanister passt eine Einheit einer Flüssigkeit\\, bspw. Wasser\n"..
+  "  - in ein Fass passen 10 Einheiten Flüssigkeit\\, bspw. Öl\n"..
+  "\n"..
+  "Die TA3 Pumpe pumpt 4 Einheiten Flüssigkeit alle zwei Sekunden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "",
   "Das Techage Info Tool (Schraubenschlüssel) hat verschiedene Funktionen. Er zeigt die Uhrzeit\\, die Position\\, die Temperatur und das Biome an\\, wenn auf einen unbekannten Block geklickt wird.\n"..
   "Wird auf einen TechAge Block mit Kommandoschnittstelle geklickt\\, werden alle verfügbaren Daten abgerufen (siehe auch \"Logik-/Schalt-Blöcke\").\n"..
@@ -908,6 +950,19 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "",
+  "Siehe TA3 Tank.\n"..
+  "\n"..
+  "In einen TA4 Tank passen 1000 Einheiten oder 100 Fässer einer Flüssigkeit.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Siehe TA3 Pumpe.\n"..
+  "\n"..
+  "Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
 }
 
 techage.manual_DE.aItemName = {
@@ -949,6 +1004,7 @@ techage.manual_DE.aItemName = {
   "techage_ta3",
   "",
   "ta3_firebox",
+  "ta3_oilbox",
   "ta3_boiler",
   "ta3_turbine",
   "ta3_generator",
@@ -999,6 +1055,9 @@ techage.manual_DE.aItemName = {
   "ta3_grinder",
   "ta3_liquidsampler",
   "",
+  "ta3_tank",
+  "ta3_pump",
+  "",
   "ta3_end_wrench",
   "ta3_programmer",
   "ta3_trowel",
@@ -1023,6 +1082,9 @@ techage.manual_DE.aItemName = {
   "ta4_hydrogen",
   "ta4_electrolyzer",
   "ta4_fuelcell",
+  "",
+  "ta4_tank",
+  "ta4_pump",
 }
 
 techage.manual_DE.aPlanTable = {
@@ -1081,6 +1143,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
   "ta3_furnace",
   "",
   "",
@@ -1113,6 +1176,9 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "ta3_tank",
+  "",
+  "",
   "",
   "",
   "",
@@ -1131,6 +1197,9 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_storagesystem",
+  "",
+  "",
+  "",
   "",
   "",
   "",

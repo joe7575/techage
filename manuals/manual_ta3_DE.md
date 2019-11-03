@@ -9,15 +9,18 @@ Das Industrielle Zeitalter ist auf seinem Höhepunkt.
 [techage_ta3|image]
 
 
-## Kohlekraftwerk
+## Kohlekraftwerk / Ölkraftwerk
 
 Das Kohlekraftwerk besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet, zusammen gebaut werden. Dazu werden die Blöcke TA3 Kraftwerks-Feuerbox, TA3 Boiler oben, TA3 Boiler unten, TA3 Turbine, TA3 Generator und TA3 Kühler benötigt.
 
 Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.
-Die Feuerbox muss mit Kohle, Holzkohle oder Erdöl gefüllt werden.
+Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.
 Wenn das Wasser heiß ist, kann das Ventil am Boiler geöffnet und anschließend die Generator gestartet werden.
 
-Das Kraftwerk liefert eine Leistung von 80 ku und kann mit Kohle, Holzkohle oder Erdöl betrieben werden.
+Das Kraftwerk kann alternativ auch mit einem Ölbrenner ausgestattet und dann mit Öl betrieben werden.
+Das Öl kann über eine Pumpe und Ölleitung nachgefüllt werden.
+
+Das Kraftwerk liefert eine Leistung von 80 ku.
 
 [coalpowerstation|plan]
 
@@ -28,6 +31,14 @@ Teil des Kraftwerks.
 Die Feuerbox muss mit Kohle, Holzkohle oder Erdöl gefüllt werden. Die Brenndauer ist abhängig von der Leistung, die vom Kraftwerk angefordert wird. Unter Volllast brennt Kohle 20 s, Holzkohle 60 s und Erdöl 20 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).
 
 [ta3_firebox|image]
+
+
+### TA3 Kraftwerks-Ölbrenner / TA3 Power Station Oil Burner
+
+Teil des Kraftwerks. 
+Der Ölbrenner kann nur mit Öl gefüllt werden. Die Brenndauer ist abhängig von der Leistung, die vom Kraftwerk angefordert wird. Unter Volllast brennt Öl 20 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).
+
+[ta3_oilbox|image]
 
 
 ### TA3 Boiler unten/oben
@@ -179,16 +190,16 @@ Die Daten des Terminals werden beim Öffnen des Menüs und dann nur durch Anklic
 Der TA3 Industrieofen dient als Ergänzung zu normalen Ofen (furnace). Damit können alle Waren mit "Koch" Rezepte, auch im Industrieofen hergestellt werden. Es gibt aber auch spezielle Rezepte, die nur im Industrieofen hergestellt werden können.
 Der Industrieofen hat sein eigenes Menü zur Rezeptauswahl. Abhängig von den Waren im Industrieofen Inventar links kann rechts das Ausgangsprodukt gewählt werden.
 
-Der Industrieofen benötigt Strom (für das Gebläse) sowie Kohle, Holzkohle oder Erdöl für die Befeuerung. Der Industrieofens und muss wie im Plan rechts abgebildet, zusammen gebaut werden.
+Der Industrieofen benötigt Strom (für das Gebläse) sowie Öl für den Brenner. Der Industrieofens und muss wie im Plan rechts abgebildet, zusammen gebaut werden.
 
-Die Brennzeit für Kohle und Erdöl beträgt 80 s und für Holzkohle 240 s.
+Die Brennzeit für Öl beträgt 80 s.
 
 [ta3_furnace|plan]
 
 
-### TA3 Ofen-Feuerkiste / Furnace Firebox
+### TA3 Ofen-Ölbrenner / Furnace Oil Burner
 
-Ist Teil des TA3 Industrieofen. Muss mit Kohle, Holzkohle oder Erdöl befeuert werden.
+Ist Teil des TA3 Industrieofen. Muss mit Öl befeuert werden.
 
 [ta3_furnacefirebox|image]
 
@@ -248,7 +259,7 @@ Wurde das Ölfeld erreicht, kann der Bohrturm abgebaut und die Kiste entfernt we
 
 ### TA3 Ölpumpe / Oil Pumpjack
 
-An die Stelle der Ölbohrkiste muss nun die Ölpumpe platziert werden. Auch die Ölpumpe benötigt Strom (16 ku) und liefert alle 8 s ein Erdöl-Item, das in einer Kiste gesammelt werden muss. Dazu muss die Ölpumpe über eine Röhre mit der Kiste verbunden werden.
+An die Stelle der Ölbohrkiste muss nun die Ölpumpe platziert werden. Auch die Ölpumpe benötigt Strom (16 ku) und liefert alle 8 s ein Einheit Erdöl. Das Erdöl muss in einem Tank gesammelt werden. Dazu muss die Ölpumpe über eine Leitung (gelbe Röhre) mit dem Tank verbunden werden.
 Ist alles Öl abgepumpt, kann auch die Ölpumpe wieder entfernt werden.
 
 [ta3_pumpjack|image]
@@ -514,6 +525,41 @@ Die Verarbeitungsleistung ist 2 Items alle 8 s. Der Block benötigt 5 ku Strom.
 
 [ta3_liquidsampler|image]
 
+
+## Flüssigkeiten
+
+Flüssigkeiten wie Wasser oder Öl können nur die spezielle Leitungen gepumpt und in Tanks gespeichert werden. Wie auch bei Wasser gibt es aber Behälter (Eimer, Kanister, Fässer), in denen die Flüssig gelagert und transportiert werden kann.
+
+
+[ta3_tank|plan]
+
+
+### TA3 Tank / TA3 Tank
+
+In einem Tank können Flüssigkeiten gespeichert werden. Ein Tank kann über eine Pumpe gefüllt bzw. geleert werden. Dazu muss die Pumpe über einer Leitung (gelbe Röhre) mit dem Tank verbunden sein.
+Ein Tank kann aber auch über Eimer/Fässer gefüllt bzw. geleert werden:
+- werden leere Fässer mit einem Schieber oder von Hand in den Tank gegeben, werden diese gefüllt und können ausgangsseitig wieder entnommen werden
+- werden volle Fässer mit einem Schieber oder von Hand in den Tank gegeben, werden diese geleert und können ausgangsseitig wieder entnommen werden
+
+Dabei ist zu beachten, dass Fässer nur komplett gefüllt oder entleert werden können. Sind bspw. weniger als 10 Einheiten im Tank, muss dieser Rest mit Eimern entnommen oder leergepumpt werden.
+
+In einen TA3 Tank passen 500 Einheiten oder 50 Fässer einer Flüssigkeit.
+
+[ta3_tank|image]
+
+
+### TA3 Pumpe / TA3 Pump
+
+Mit der Pumpe können Flüssigkeiten von Tanks oder Behältern zu anderen Tanks oder Behältern gepumpt werden. Bei der Pumpe muss die Pumprichtung (Pfeil) beachtet werden. Über die gelben Leitungen und Verbindungsstücke ist es auch möglich, mehrere Tanks auf jeder Seite der Pumpe anzuordnen. Allerdings müssen die Tanks den selben Inhalt haben.
+
+- zum Füllen, oder volle Fässer zul Leeren 
+- in einen Eimer oder einen Kanister passt eine Einheit einer Flüssigkeit, bspw. Wasser
+- in ein Fass passen 10 Einheiten Flüssigkeit, bspw. Öl
+
+Die TA3 Pumpe pumpt 4 Einheiten Flüssigkeit alle zwei Sekunden.
+
+
+[ta3_pump|image]
 
 
 ## Werkzeuge
