@@ -74,8 +74,6 @@ def update_tr_file(lNew, mod_name, tr_file):
     open(tr_file, "w").write("\n".join(lOut))
     
 data = generate_template("./locale/template.txt")
-#update_tr_file(data, "mymod", "./locale/mymod.de.tr")
-#update_tr_file(data, "mymod", "./locale/mymod.fr.tr")
 update_tr_file(data, "techage", "./locale/techage.de.tr")
-update_tr_file(data, "techage", "./locale/techage.fr.tr")
+#update_tr_file(data, "techage", "./locale/techage.fr.tr")
 print("Done.\n")
