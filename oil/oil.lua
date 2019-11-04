@@ -94,6 +94,7 @@ minetest.register_node("techage:oil_flowing", {
 	diggable = false,
 	buildable_to = true,
 	is_ground_content = false,
+	liquid_renewable = false,
 	drop = "",
 	drowning = 1,
 	liquidtype = "flowing",
