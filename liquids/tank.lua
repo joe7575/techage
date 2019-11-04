@@ -8,7 +8,7 @@
 	GPL v3
 	See LICENSE.txt for more information
 	
-	TA3/TA4 Tank
+	TA3/TA4 Tank, Oil Tank
 
 ]]--
 
@@ -224,6 +224,90 @@ minetest.register_node("techage:ta3_tank", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
+minetest.register_node("techage:oiltank", {
+	description = S("Oil Tank"),
+	tiles = {
+		-- up, down, right, left, back, front
+		"techage_filling_metal.png^techage_framexl_ta3_top.png",
+		"techage_filling_metal.png^techage_framexl_ta3_top.png",
+		"techage_filling_metal.png^techage_framexl_ta3.png^techage_appl_explosive.png",
+	},
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {-6/8, -6/8, -6/8, 6/8, 6/8, 6/8},
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {-6/8, -6/8, -6/8, 6/8, 6/8, 6/8},
+	},
+	collision_box = {
+		type = "fixed",
+		fixed = {-6/8, -6/8, -6/8, 6/8, 6/8, 6/8},
+	},
+	on_construct = function(pos)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		inv:set_size('src', 1)
+		inv:set_size('dst', 1)
+	end,
+	after_place_node = function(pos, placer)
+		local meta = M(pos)
+		local mem = tubelib2.init_mem(pos)
+		mem.liquid = {}
+		local number = techage.add_node(pos, "techage:oiltank")
+		meta:set_string("node_number", number)
+		meta:set_string("owner", placer:get_player_name())
+		meta:set_string("formspec", formspec(mem))
+		meta:set_string("infotext", S("Oil Tank").." "..number)
+		Pipe:after_place_node(pos)
+	end,
+	tubelib2_on_update2 = function(pos, dir, tlib2, node)
+		liquid.update_network(pos)
+	end,
+	on_timer = function(pos, elapsed)
+		local mem = tubelib2.get_mem(pos)
+		mem.countdown = mem.countdown - 1
+		M(pos):set_string("formspec", formspec(mem))
+		return mem.countdown > 0
+	end,
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		Pipe:after_dig_node(pos)
+		techage.remove_node(pos)
+	end,
+	liquid = {
+		capa = CAPACITY * 4,
+		peek = liquid.srv_peek,
+		put = function(pos, indir, name, amount)
+			local leftover = liquid.srv_put(pos, indir, name, amount)
+			local inv = M(pos):get_inventory()
+			if not inv:is_empty("src") and inv:is_empty("dst") then
+				fill_container(pos, inv)
+			end
+			return leftover
+		end,
+		take = liquid.srv_take,
+	},
+	networks = {
+		pipe = {
+			sides = techage.networks.AllSides, -- Pipe connection sides
+			ntype = "tank",
+		},
+	},
+	on_rightclick = on_rightclick,
+	on_receive_fields = on_receive_fields,
+	can_dig = can_dig,
+	allow_metadata_inventory_put = allow_metadata_inventory_put,
+	allow_metadata_inventory_take = allow_metadata_inventory_take,
+	allow_metadata_inventory_move = allow_metadata_inventory_move,
+	on_metadata_inventory_put = on_metadata_inventory_put,
+	paramtype2 = "facedir",
+	on_rotate = screwdriver.disallow,
+	groups = {cracky=2},
+	is_ground_content = false,
+	sounds = default.node_sound_metal_defaults(),
+})
+
 minetest.register_node("techage:ta4_tank", {
 	description = S("TA4 Tank"),
 	tiles = {
@@ -299,7 +383,7 @@ minetest.register_node("techage:ta4_tank", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
-techage.register_node({"techage:ta3_tank", "techage:ta4_tank"}, {
+techage.register_node({"techage:ta3_tank", "techage:ta4_tank", "techage:oiltank"}, {
 	on_pull_item = function(pos, in_dir, num)
 		local inv = M(pos):get_inventory()
 		if not inv:is_empty("dst") then
@@ -339,7 +423,7 @@ techage.register_node({"techage:ta3_tank", "techage:ta4_tank"}, {
 	end,
 })	
 
-Pipe:add_secondary_node_names({"techage:ta3_tank", "techage:ta4_tank"})
+Pipe:add_secondary_node_names({"techage:ta3_tank", "techage:ta4_tank", "techage:oiltank"})
 
 minetest.register_craft({
 	output = "techage:ta3_tank 2",
@@ -347,6 +431,15 @@ minetest.register_craft({
 		{"techage:iron_ingot", "techage:ta3_barrel_empty", "group:wood"},
 		{"techage:tubeS", "techage:ta3_barrel_empty", "techage:ta3_pipeS"},
 		{"group:wood", "techage:ta3_barrel_empty", "techage:iron_ingot"},
+	},
+})
+
+minetest.register_craft({
+	output = "techage:oiltank",
+	recipe = {
+		{"", "", ""},
+		{"techage:ta3_tank", "techage:iron_ingot", ""},
+		{"techage:iron_ingot", "techage:ta3_tank", ""},
 	},
 })
 
