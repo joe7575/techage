@@ -272,6 +272,16 @@ Das Bohrgestänge wird für die Bohrung benötigt. Es werden so viele Bohrgestä
 [ta3_drillbit|image]
 
 
+### Öltank / Oil Tank
+
+Der Öltank ist die große Ausführung des TA3 Tanks (siehe Flüssigkeiten -> TA3 Tank).
+
+Der große Tank kann 2000 Einheiten Öl aufnehmen.
+
+
+[oiltank|image]
+
+
 ## Logik-/Schalt-Blöcke
 
 Neben den Röhren für Warentransport, sowie den Gas- und Stromleitungen gibt es auch noch eine drahtlose Kommunikationsebene, über die Blöcke untereinander Daten austauschen können. Dafür müssen keine Leitungen gezogen werden, sondern die Verbindung zwischen Sender und Empfänger erfolgt nur über die Blocknummer. Alle Blöcke, die an dieser Kommunikation teilnehmen können, zeigen die Blocknummer als Info-Text an, wenn man mit dem Mauscursor den Block fixiert.

@@ -81,6 +81,7 @@ techage.Items = {
 	ta3_end_wrench = "techage:end_wrench",
 	ta3_tank = "techage:ta3_tank",
 	ta3_pump = "techage:t3_pump",
+	oiltank = "techage:oiltank",
 	----------------------------
 	ta3_button = "techage:ta3_button_off",
 	ta3_cartdetector = "techage:ta3_cartdetector_off",

@@ -66,6 +66,7 @@ techage.manual_DE.aTitel = {
   "3,TA3 Ölbohrkiste / Oil Drill Box",
   "3,TA3 Ölpumpe / Oil Pumpjack",
   "3,TA3 Bohrgestänge / Drill Bit",
+  "3,Öltank / Oil Tank",
   "2,Logik-/Schalt-Blöcke",
   "3,TA3 Taster/Schalter / Button/Switch",
   "3,TA3 Logikblock / Logic Block",
@@ -572,6 +573,12 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der Öltank ist die große Ausführung des TA3 Tanks (siehe Flüssigkeiten -> TA3 Tank).\n"..
+  "\n"..
+  "Der große Tank kann 2000 Einheiten Öl aufnehmen.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Neben den Röhren für Warentransport\\, sowie den Gas- und Stromleitungen gibt es auch noch eine drahtlose Kommunikationsebene\\, über die Blöcke untereinander Daten austauschen können. Dafür müssen keine Leitungen gezogen werden\\, sondern die Verbindung zwischen Sender und Empfänger erfolgt nur über die Blocknummer. Alle Blöcke\\, die an dieser Kommunikation teilnehmen können\\, zeigen die Blocknummer als Info-Text an\\, wenn man mit dem Mauscursor den Block fixiert.\n"..
   "Welche Kommandos ein Block unterstützt\\, kann mit dem TechAge Info Werkzeug (Schraubenschlüssel) ausgelesen und angezeigt werden.\n"..
   "Die einfachsten Kommandos\\, die von fast allen Blöcken unterstützt werden\\, sind:\n"..
@@ -1031,6 +1038,7 @@ techage.manual_DE.aItemName = {
   "ta3_drillbox",
   "ta3_pumpjack",
   "ta3_drillbit",
+  "oiltank",
   "ta3_logic",
   "ta3_button",
   "ta3_logic",
@@ -1145,6 +1153,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta3_furnace",
+  "",
   "",
   "",
   "",

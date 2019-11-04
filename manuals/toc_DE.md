@@ -65,6 +65,7 @@
         - [TA3 Ölbohrkiste / Oil Drill Box](./manual_ta3_DE.md#ta3-Ölbohrkiste--oil-drill-box)
         - [TA3 Ölpumpe / Oil Pumpjack](./manual_ta3_DE.md#ta3-Ölpumpe--oil-pumpjack)
         - [TA3 Bohrgestänge / Drill Bit](./manual_ta3_DE.md#ta3-bohrgestänge--drill-bit)
+        - [Öltank / Oil Tank](./manual_ta3_DE.md#Öltank--oil-tank)
     - [Logik-/Schalt-Blöcke](./manual_ta3_DE.md#logik-schalt-blöcke)
         - [TA3 Taster/Schalter / Button/Switch](./manual_ta3_DE.md#ta3-tasterschalter--buttonswitch)
         - [TA3 Logikblock / Logic Block](./manual_ta3_DE.md#ta3-logikblock--logic-block)
