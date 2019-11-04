@@ -117,13 +117,13 @@ function techage.liquid.put(pos, outdir, name, amount)
 		if liquid and liquid.put and liquid.peek then
 			-- wrong items?
 			local peek = liquid.peek(item.pos, item.indir)
-			if peek and peek ~= name then return amount end
+			if peek and peek ~= name then return amount or 0 end
 			--techage.mark_position("singleplayer", item.pos, "put", "", 1) ------------------- debug
 			amount = liquid.put(item.pos, item.indir, name, amount)
-			if amount == 0 then break end
+			if not amount or amount == 0 then break end
 		end
 	end
-	return amount
+	return amount or 0
 end
 
 -- Take given amount of liquid for the remote inventory.
@@ -159,6 +159,7 @@ end
 function techage.liquid.srv_put(pos, indir, name, amount)
 	local mem = tubelib2.get_mem(pos)
 	mem.liquid = mem.liquid or {}
+	amount = amount or 0
 	if not mem.liquid.name then
 		mem.liquid.name = name
 		mem.liquid.amount = amount
@@ -181,6 +182,7 @@ end
 function techage.liquid.srv_take(pos, indir, name, amount)
 	local mem = tubelib2.get_mem(pos)
 	mem.liquid = mem.liquid or {}
+	amount = amount or 0
 	if not name or mem.liquid.name == name then
 		name = mem.liquid.name
 		mem.liquid.amount = mem.liquid.amount or 0

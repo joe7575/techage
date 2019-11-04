@@ -216,6 +216,7 @@ else
 	-- Chemistry
 	--dofile(MP.."/chemistry/ta4_reactor.lua")
 	--dofile(MP.."/chemistry/ta4_doser.lua")
+	--dofile(MP.."/chemistry/ta4_distiller.lua")
 	
 	-- Hydrogen
 	dofile(MP.."/hydrogen/hydrogen.lua")

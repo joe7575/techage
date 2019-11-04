@@ -105,7 +105,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	return 1
+	return stack:get_count()
 end
 
 local function allow_metadata_inventory_take(pos, listname, index, stack, player)

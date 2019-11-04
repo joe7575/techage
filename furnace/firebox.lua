@@ -175,13 +175,7 @@ minetest.register_node("techage:furnace_firebox_on", {
 	liquid = {
 		capa = oilburner.CAPACITY,
 		peek = liquid.srv_peek,
-		put = function(pos, indir, name, amount)
-			liquid.srv_put(pos, indir, name, amount)
-			local mem = tubelib2.get_mem(pos)
-			mem.liquid = mem.liquid or {}
-			mem.liquid.amount = mem.liquid.amount or 0
-			start_firebox(pos, mem)
-		end,
+		put = liquid.srv_put,
 		take = liquid.srv_take,
 	},
 	networks = oilburner.networks,
