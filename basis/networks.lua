@@ -108,7 +108,7 @@ end
 local function node_connections(pos, tlib2)
 	local node = techage.get_node_lvm(pos)
 	local val = 0
-	local sides = net_def(pos, tlib2.tube_type).sides
+	local sides = net_def2(node.name, tlib2.tube_type).sides
 	
 	if sides then
 		for dir = 1,6 do
@@ -136,12 +136,12 @@ local function pos_already_reached(pos)
 	return true
 end
 
--- check if the given pipe dir out of the node is valid
-local function valid_indir(pos, indir, param2, net_name)
-	local sides = net_def(pos, net_name).sides
-	if not sides then return false end
-	local side = DirToSide[indir_to_dir(indir, param2)]
-	if not sides[side] then return false end
+-- check if the given pipe dir into the node is valid
+local function valid_indir(indir, node, net_name)
+	local ndef = net_def2(node.name, net_name)
+	if not ndef or not ndef.sides or ndef.blocker then return false end
+	local side = DirToSide[indir_to_dir(indir, node.param2)]
+	if not ndef.sides[side] then return false end
 	return true
 end
 
@@ -154,8 +154,7 @@ local function connection_walk(pos, indir, node, tlib2, clbk)
 		if outdir ~= Flip[indir] then
 			local pos2, indir2 = tlib2:get_connected_node_pos(pos, outdir)
 			local node = techage.get_node_lvm(pos2)
-			if pos2 and not pos_already_reached(pos2) and 
-						valid_indir(pos2, indir2, node.param2, tlib2.tube_type) then
+			if pos2 and not pos_already_reached(pos2) and valid_indir(indir2, node, tlib2.tube_type) then
 				connection_walk(pos2, indir2, node, tlib2, clbk)
 			end
 		end
@@ -172,8 +171,7 @@ local function collect_network_nodes(pos, outdir, tlib2)
 	local net_name = tlib2.tube_type
 	-- outdir corresponds to the indir coming from
 	connection_walk(pos, outdir, node, tlib2, function(pos, indir, node)
-		local ntype = net_def(pos, net_name).ntype
-		print("collect_network_nodes", P2S(pos), ntype)
+		local ntype = net_def2(node.name, net_name).ntype
 		if ntype then
 			if not netw[ntype] then netw[ntype] = {} end
 			netw[ntype][#netw[ntype] + 1] = {pos = pos, indir = indir}
@@ -222,7 +220,7 @@ techage.networks.side_to_outdir = side_to_outdir
 
 -- check if the given pipe dir into the node is valid
 -- valid_indir(pos, indir, param2, net_name)
-techage.networks.valid_indir = valid_indir
+--techage.networks.valid_indir = valid_indir
 
 -- techage.networks.node_connections(pos, tlib2)
 techage.networks.node_connections = node_connections

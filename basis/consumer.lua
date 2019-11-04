@@ -200,6 +200,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				networks = tNode.networks,
 				tubelib2_on_update2 =  tNode.tubelib2_on_update2,
 
+				paramtype = tNode.paramtype,
 				paramtype2 = "facedir",
 				groups = table.copy(tNode.groups),
 				is_ground_content = false,

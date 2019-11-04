@@ -87,6 +87,7 @@ minetest.register_node("techage:coalfirebox", {
 		fixed = {-13/32, -16/32, -13/32, 13/32, 16/32, 13/32},
 	},
 
+	paramtype = "light",
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},
@@ -143,6 +144,7 @@ minetest.register_node("techage:coalfirehole", {
 		},
 	},
 
+	paramtype = "light",
 	paramtype2 = "facedir",
 	pointable = false,
 	diggable = false,
@@ -177,6 +179,7 @@ minetest.register_node("techage:coalfirehole_on", {
 			{-6/16, -6/16,  6/16,  6/16, 6/16,  12/16},
 		},
 	},
+	paramtype = "light",
 	paramtype2 = "facedir",
 	light_source = 8,
 	pointable = false,
@@ -238,6 +241,7 @@ minetest.register_node("techage:oilfirebox", {
 		fixed = {-13/32, -16/32, -13/32, 13/32, 16/32, 13/32},
 	},
 
+	paramtype = "light",
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},

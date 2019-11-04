@@ -71,6 +71,7 @@ for idx,pgn in ipairs(tPgns) do
 			tubelib2.del_mem(pos)
 		end,
 
+		paramtype = "light",
 		drawtype = "glasslike",
 		paramtype2 = "facedir",
 		sounds = default.node_sound_stone_defaults(),

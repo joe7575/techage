@@ -247,6 +247,7 @@ minetest.register_node("techage:coalboiler_top", {
 		minetest.after(0.5, move_to_water, pos)
 	end,
 	
+	paramtype = "light",
 	paramtype2 = "facedir",
 	groups = {cracky=1},
 	on_rotate = screwdriver.disallow,

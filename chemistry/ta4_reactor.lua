@@ -40,6 +40,7 @@ minetest.register_node("techage:ta4_reactor", {
 		fixed = {-1/2, -23/32, -1/2, 1/2, 32/32, 1/2},
 	},
 
+	paramtype = "light",
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},
@@ -79,6 +80,7 @@ minetest.register_node("techage:ta4_reactor_stand", {
 		type = "fixed",
 		fixed = {-1/2, -1/2, -1/2, 1/2, 1/2, 1/2},
 	},
+	paramtype = "light",
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},

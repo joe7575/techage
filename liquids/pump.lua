@@ -187,6 +187,7 @@ local nworks = {
 	pipe = {
 		sides = {L = 1, R = 1}, -- Pipe connection side
 		ntype = "pump",
+		blocker = true, -- for the connection_walk
 	},
 }
 

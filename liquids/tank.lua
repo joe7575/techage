@@ -183,9 +183,11 @@ minetest.register_node("techage:ta3_tank", {
 	end,
 	on_timer = function(pos, elapsed)
 		local mem = tubelib2.get_mem(pos)
-		mem.countdown = mem.countdown - 1
-		M(pos):set_string("formspec", formspec(mem))
-		return mem.countdown > 0
+		if mem.countdown then
+			mem.countdown = mem.countdown - 1
+			M(pos):set_string("formspec", formspec(mem))
+			return mem.countdown > 0
+		end
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
@@ -233,6 +235,7 @@ minetest.register_node("techage:oiltank", {
 		"techage_filling_metal.png^techage_framexl_ta3.png^techage_appl_explosive.png",
 	},
 	drawtype = "nodebox",
+	paramtype = "light",
 	node_box = {
 		type = "fixed",
 		fixed = {-6/8, -6/8, -6/8, 6/8, 6/8, 6/8},
@@ -267,9 +270,11 @@ minetest.register_node("techage:oiltank", {
 	end,
 	on_timer = function(pos, elapsed)
 		local mem = tubelib2.get_mem(pos)
-		mem.countdown = mem.countdown - 1
-		M(pos):set_string("formspec", formspec(mem))
-		return mem.countdown > 0
+		if mem.countdown then
+			mem.countdown = mem.countdown - 1
+			M(pos):set_string("formspec", formspec(mem))
+			return mem.countdown > 0
+		end
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
@@ -342,9 +347,11 @@ minetest.register_node("techage:ta4_tank", {
 	end,
 	on_timer = function(pos, elapsed)
 		local mem = tubelib2.get_mem(pos)
-		mem.countdown = mem.countdown - 1
-		M(pos):set_string("formspec", formspec(mem))
-		return mem.countdown > 0
+		if mem.countdown then
+			mem.countdown = mem.countdown - 1
+			M(pos):set_string("formspec", formspec(mem))
+			return mem.countdown > 0
+		end
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)

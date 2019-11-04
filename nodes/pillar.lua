@@ -23,6 +23,7 @@ minetest.register_node("techage:pillar", {
 		type = "fixed",
 		fixed = {-8/32, -16/32, -8/32, 8/32, 16/32, 8/32},
 	},
+	paramtype = "light",
 	backface_culling = true,
 	groups = {cracky=1},
 	on_rotate = screwdriver.disallow,

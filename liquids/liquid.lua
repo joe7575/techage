@@ -75,7 +75,7 @@ end
 
 
 local function get_network_table(pos, outdir, ntype)
-	-- jump to the next node because pumps have to network
+	-- jump to the next node because pumps have two network
     -- interfaces and therefore can't have a netID
 	local pos2 = Pipe:get_connected_node_pos(pos, outdir)
 	local mem = tubelib2.get_mem(pos2)

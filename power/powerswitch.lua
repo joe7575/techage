@@ -249,6 +249,8 @@ minetest.register_node("techage:powerswitch_box", {
 		},
 	},
 	
+	paramtype = "light",
+	sunlight_propagates = true,
 	on_place = on_place,
 	on_rotate = on_rotate,
 	paramtype2 = "facedir",
