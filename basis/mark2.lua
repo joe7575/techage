@@ -50,8 +50,8 @@ minetest.register_entity(":techage:position_cube", {
 		},
 		--use_texture_alpha = true,
 		physical = false,
-		visual_size = {x = 1.2, y = 1.2},
-		collisionbox = {-0.6,-0.6,-0.6, 0.6,0.6,0.6},
+		visual_size = {x = 1.1, y = 1.1},
+		collisionbox = {-0.55,-0.55,-0.55, 0.55,0.55,0.55},
 		glow = 8,
 	},
 	on_step = function(self, dtime)

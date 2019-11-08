@@ -38,6 +38,9 @@ Die Feuerbox muss mit Kohle, Holzkohle oder Erdöl gefüllt werden. Die Brenndau
 Teil des Kraftwerks. 
 Der Ölbrenner kann nur mit Öl gefüllt werden. Die Brenndauer ist abhängig von der Leistung, die vom Kraftwerk angefordert wird. Unter Volllast brennt Öl 20 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).
 
+Der Ölbrenner kann nur 50 Einheiten Öl aufnehmen. Ein zusätzlicher Öltank und eine Ölpumpe sind daher ratsam.
+
+
 [ta3_oilbox|image]
 
 
@@ -162,6 +165,9 @@ siehe TA Stromschalter.
 
 Der kleine Stromgenerator wird mit Erdöl betrieben und kann für kleine Verbraucher mit bis zu 12 ku genutzt werden. Unter Volllast brennt Erdöl 100 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).
 
+Der Stromgenerator kann nur 50 Einheiten Öl aufnehmen. Ein zusätzlicher Öltank und eine Ölpumpe sind daher ratsam.
+
+
 [ta3_tinygenerator|image]
 
 
@@ -194,12 +200,15 @@ Der Industrieofen benötigt Strom (für das Gebläse) sowie Öl für den Brenner
 
 Die Brennzeit für Öl beträgt 80 s.
 
+
 [ta3_furnace|plan]
 
 
 ### TA3 Ofen-Ölbrenner / Furnace Oil Burner
 
 Ist Teil des TA3 Industrieofen. Muss mit Öl befeuert werden.
+
+Der Ölbrenner kann nur 50 Einheiten Öl aufnehmen. Ein zusätzlicher Öltank und eine Ölpumpe sind daher ratsam.
 
 [ta3_furnacefirebox|image]
 
@@ -567,6 +576,10 @@ Mit der Pumpe können Flüssigkeiten von Tanks oder Behältern zu anderen Tanks 
 - in ein Fass passen 10 Einheiten Flüssigkeit, bspw. Öl
 
 Die TA3 Pumpe pumpt 4 Einheiten Flüssigkeit alle zwei Sekunden.
+
+Hinweis 1: Die Pumpe darf nicht direkt neben den Tank platziert werden. Es muss immer mindestens ein Stück gelbe Leitung dazwischen sein.
+
+Hinweis 2: Nach dem Starten markiert die Pumpe 10 x die Blöcke, von und zu denen gepumpt wird.
 
 
 [ta3_pump|image]

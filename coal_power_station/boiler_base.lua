@@ -22,7 +22,7 @@ minetest.register_node("techage:coalboiler_base", {
 	description = S("TA3 Boiler Base"),
 	tiles = {"techage_coal_boiler_mesh_base.png"},
 	drawtype = "mesh",
-	mesh = "techage_boiler_large.obj",
+	mesh = "techage_cylinder_12.obj",
 	selection_box = {
 		type = "fixed",
 		fixed = {-13/32, -16/32, -13/32, 13/32, 16/32, 13/32},

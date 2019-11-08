@@ -75,6 +75,7 @@ local function get_radius(pos, in_dir)
 			return radius
 		end
 	end
+	return 1
 end
 
 local function check_volume(pos, in_dir, owner)

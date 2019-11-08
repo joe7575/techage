@@ -18,7 +18,7 @@ minetest.register_node("techage:pillar", {
 	description = S("TA4 Pillar"),
 	tiles = {"techage_concrete.png"},
 	drawtype = "mesh",
-	mesh = "techage_pillar.obj",
+	mesh = "techage_cylinder_07.obj",
 	selection_box = {
 		type = "fixed",
 		fixed = {-8/32, -16/32, -8/32, 8/32, 16/32, 8/32},

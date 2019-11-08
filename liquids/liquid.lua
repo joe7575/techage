@@ -111,14 +111,17 @@ end
 
 -- Add given amount of liquid to the remote inventory.
 -- return leftover amount
-function techage.liquid.put(pos, outdir, name, amount)
+function techage.liquid.put(pos, outdir, name, amount, player_name)
 	for _,item in ipairs(get_network_table(pos, outdir, "tank")) do
 		local liquid = LQD(item.pos)
 		if liquid and liquid.put and liquid.peek then
 			-- wrong items?
 			local peek = liquid.peek(item.pos, item.indir)
 			if peek and peek ~= name then return amount or 0 end
-			--techage.mark_position("singleplayer", item.pos, "put", "", 1) ------------------- debug
+			if player_name then
+				local num = techage.get_node_number(pos)
+				techage.mark_position(player_name, item.pos, "("..num..") put", "", 1)
+			end
 			amount = liquid.put(item.pos, item.indir, name, amount)
 			if not amount or amount == 0 then break end
 		end
@@ -128,13 +131,16 @@ end
 
 -- Take given amount of liquid for the remote inventory.
 -- return taken amount and item name
-function techage.liquid.take(pos, outdir, name, amount)
+function techage.liquid.take(pos, outdir, name, amount, player_name)
 	local taken = 0
 	local item_name = nil
 	for _,item in ipairs(get_network_table(pos, outdir, "tank")) do
 		local liquid = LQD(item.pos)
 		if liquid and liquid.take then
-			--techage.mark_position("singleplayer", item.pos, "take", "", 1) ------------------- debug
+			if player_name then
+				local num = techage.get_node_number(pos)
+				techage.mark_position(player_name, item.pos, "("..num..") take", "", 1)
+			end
 			local val, name = liquid.take(item.pos, item.indir, name, amount - taken)
 			if val and name then
 				taken = taken + val

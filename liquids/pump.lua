@@ -21,10 +21,30 @@ local networks = techage.networks
 local liquid = techage.liquid
 local Flip = techage.networks.Flip
 
-local STANDBY_TICKS = 10
-local COUNTDOWN_TICKS = 10
+local STANDBY_TICKS = 5
+local COUNTDOWN_TICKS = 5
 local CYCLE_TIME = 2
 local CAPA = 4
+
+-- to mark the pump source and destinstion node
+local DebugCache = {}
+
+local function set_starter_name(pos, clicker)
+	local key = minetest.hash_node_position(pos)
+	DebugCache[key] = {starter = clicker:get_player_name(), count = 10}
+end
+
+local function get_starter_name(pos)
+	local key = minetest.hash_node_position(pos)
+	local def = DebugCache[key]
+	if def then
+		def.count = (def.count or 0) - 1
+		if def.count > 0 then
+			return def.starter
+		end
+		DebugCache[key] = nil
+	end
+end
 
 local State3 = techage.NodeStates:new({
 	node_name_passive = "techage:t3_pump",
@@ -44,9 +64,10 @@ local State4 = techage.NodeStates:new({
 
 local function pumping(pos, mem, state, capa)
 	local outdir = M(pos):get_int("outdir")
-	local taken, name = liquid.take(pos, Flip[outdir], nil, capa)
+	local starter = get_starter_name(pos)
+	local taken, name = liquid.take(pos, Flip[outdir], nil, capa, starter)
 	if taken > 0 then
-		local leftover = liquid.put(pos, outdir, name, taken)
+		local leftover = liquid.put(pos, outdir, name, taken, starter)
 		if leftover and leftover > 0 then
 			liquid.put(pos, Flip[outdir], name, leftover)
 			state:blocked(pos, mem)
@@ -89,10 +110,12 @@ end
 local function on_rightclick(pos, node, clicker)
 	local mem = tubelib2.get_mem(pos)
 	if node.name == "techage:t3_pump" then
+		set_starter_name(pos, clicker)
 		State3:start(pos, mem)
 	elseif node.name == "techage:t3_pump_on" then
 		State3:stop(pos, mem)
 	elseif node.name == "techage:t4_pump" then
+		set_starter_name(pos, clicker)
 		State4:start(pos, mem)
 	elseif node.name == "techage:t4_pump_on" then
 		State4:stop(pos, mem)
@@ -187,7 +210,6 @@ local nworks = {
 	pipe = {
 		sides = {L = 1, R = 1}, -- Pipe connection side
 		ntype = "pump",
-		blocker = true, -- for the connection_walk
 	},
 }
 

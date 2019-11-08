@@ -81,7 +81,7 @@ minetest.register_node("techage:coalfirebox", {
 	inventory_image = "techage_coal_boiler_inv.png",
 	tiles = {"techage_coal_boiler_mesh_top.png"},
 	drawtype = "mesh",
-	mesh = "techage_boiler_large.obj",
+	mesh = "techage_cylinder_12.obj",
 	selection_box = {
 		type = "fixed",
 		fixed = {-13/32, -16/32, -13/32, 13/32, 16/32, 13/32},
@@ -235,7 +235,7 @@ minetest.register_node("techage:oilfirebox", {
 	inventory_image = "techage_oil_boiler_inv.png",
 	tiles = {"techage_coal_boiler_mesh_top.png"},
 	drawtype = "mesh",
-	mesh = "techage_boiler_large.obj",
+	mesh = "techage_cylinder_12.obj",
 	selection_box = {
 		type = "fixed",
 		fixed = {-13/32, -16/32, -13/32, 13/32, 16/32, 13/32},

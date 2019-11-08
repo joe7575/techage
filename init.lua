@@ -164,6 +164,8 @@ else
 	dofile(MP.."/oil/drillbox.lua")
 	dofile(MP.."/oil/pumpjack.lua")
 	dofile(MP.."/oil/generator.lua")
+	--dofile(MP.."/oil/distiller.lua")
+	--dofile(MP.."/oil/reboiler.lua")
 	
 	-- Nodes2
 	if techage.basalt_stone_enabled then
@@ -216,7 +218,6 @@ else
 	-- Chemistry
 	--dofile(MP.."/chemistry/ta4_reactor.lua")
 	--dofile(MP.."/chemistry/ta4_doser.lua")
-	--dofile(MP.."/chemistry/ta4_distiller.lua")
 	
 	-- Hydrogen
 	dofile(MP.."/hydrogen/hydrogen.lua")

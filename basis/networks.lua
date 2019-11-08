@@ -64,6 +64,16 @@ local function net_def2(node_name, net_name)
 	return ndef and ndef.networks and ndef.networks[net_name] or {} 
 end
 
+local function connected(tlib2, pos, dir)
+	local param2, npos = tlib2:get_primary_node_param2(pos, dir)
+	if param2 then
+		local d1, d2, num = tlib2:decode_param2(npos, param2)
+		if not num then return end
+		return Flip[dir] == d1 or Flip[dir] == d2
+	end
+	return false
+end
+
 -- Calculate the node outdir based on node.param2 and nominal dir (according to side)
 local function dir_to_outdir(dir, param2)
 	if dir < 5 then
@@ -115,7 +125,7 @@ local function node_connections(pos, tlib2)
 			val = val * 2
 			local side = DirToSide[outdir_to_dir(dir, node.param2)]
 			if sides[side] then
-				if tlib2:connected(pos, dir) then
+				if connected(tlib2, pos, dir) then
 					val = val + 1
 				end
 			end
@@ -139,7 +149,7 @@ end
 -- check if the given pipe dir into the node is valid
 local function valid_indir(indir, node, net_name)
 	local ndef = net_def2(node.name, net_name)
-	if not ndef or not ndef.sides or ndef.blocker then return false end
+	if not ndef or not ndef.sides then return false end
 	local side = DirToSide[indir_to_dir(indir, node.param2)]
 	if not ndef.sides[side] then return false end
 	return true
@@ -148,14 +158,17 @@ end
 -- do the walk through the tubelib2 network
 -- indir is the direction which should not be covered by the walk
 -- (coming from there or is a different network)
-local function connection_walk(pos, indir, node, tlib2, clbk)
+local function connection_walk(pos, indir, node, tlib2, lvl, clbk)
 	if clbk then clbk(pos, indir, node) end
-	for _,outdir in pairs(get_node_connections(pos, tlib2.tube_type)) do
-		if outdir ~= Flip[indir] then
-			local pos2, indir2 = tlib2:get_connected_node_pos(pos, outdir)
-			local node = techage.get_node_lvm(pos2)
-			if pos2 and not pos_already_reached(pos2) and valid_indir(indir2, node, tlib2.tube_type) then
-				connection_walk(pos2, indir2, node, tlib2, clbk)
+	--techage.mark_position("singleplayer", pos, "walk", "", 1)
+	if lvl == 1 or net_def2(node.name, tlib2.tube_type).ntype == "junc" then
+		for _,outdir in pairs(get_node_connections(pos, tlib2.tube_type)) do
+			if outdir ~= Flip[indir] then
+				local pos2, indir2 = tlib2:get_connected_node_pos(pos, outdir)
+				local node = techage.get_node_lvm(pos2)
+				if pos2 and not pos_already_reached(pos2) and valid_indir(indir2, node, tlib2.tube_type) then
+					connection_walk(pos2, indir2, node, tlib2, lvl + 1, clbk)
+				end
 			end
 		end
 	end
@@ -170,7 +183,7 @@ local function collect_network_nodes(pos, outdir, tlib2)
 	local node = techage.get_node_lvm(pos)
 	local net_name = tlib2.tube_type
 	-- outdir corresponds to the indir coming from
-	connection_walk(pos, outdir, node, tlib2, function(pos, indir, node)
+	connection_walk(pos, outdir, node, tlib2, 1, function(pos, indir, node)
 		local ntype = net_def2(node.name, net_name).ntype
 		if ntype then
 			if not netw[ntype] then netw[ntype] = {} end
@@ -233,7 +246,7 @@ function techage.networks.connection_walk(pos, outdir, tlib2, clbk)
 	NumNodes = 0
 	pos_already_reached(pos) -- don't consider the start pos
 	local node = techage.get_node_lvm(pos)
-	connection_walk(pos, outdir, node, tlib2, clbk)
+	connection_walk(pos, outdir, node, tlib2, 1, clbk)
 	return NumNodes
 end
 

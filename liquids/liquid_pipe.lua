@@ -25,6 +25,7 @@ local Pipe = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
 	max_tube_length = MAX_PIPE_LENGHT, 
 	show_infotext = false,
+	force_to_use_tubes = true,
 	tube_type = "pipe",
 	primary_node_names = {"techage:ta3_pipeS", "techage:ta3_pipeA"}, 
 	secondary_node_names = {},

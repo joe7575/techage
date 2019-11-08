@@ -214,7 +214,7 @@ minetest.register_node("techage:boiler1", {
 	description = S("TA2 Boiler Base"),
 	tiles = {"techage_boiler.png"},
 	drawtype = "mesh",
-	mesh = "techage_boiler.obj",
+	mesh = "techage_cylinder_09.obj",
 	selection_box = {
 		type = "fixed",
 		fixed = {-8/32, -16/32, -8/32, 8/32, 16/32, 8/32},
@@ -232,7 +232,7 @@ minetest.register_node("techage:boiler2", {
 	description = S("TA2 Boiler Top"),
 	tiles = {"techage_boiler2.png"},
 	drawtype = "mesh",
-	mesh = "techage_boiler.obj",
+	mesh = "techage_cylinder_09.obj",
 	selection_box = {
 		type = "fixed",
 		fixed = {-10/32, -48/32, -10/32, 10/32, 16/32, 10/32},

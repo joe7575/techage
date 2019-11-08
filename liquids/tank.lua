@@ -238,15 +238,15 @@ minetest.register_node("techage:oiltank", {
 	paramtype = "light",
 	node_box = {
 		type = "fixed",
-		fixed = {-6/8, -6/8, -6/8, 6/8, 6/8, 6/8},
+		fixed = {-6/8, -4/8, -6/8, 6/8, 6/8, 6/8},
 	},
 	selection_box = {
 		type = "fixed",
-		fixed = {-6/8, -6/8, -6/8, 6/8, 6/8, 6/8},
+		fixed = {-6/8, -4/8, -6/8, 6/8, 6/8, 6/8},
 	},
 	collision_box = {
 		type = "fixed",
-		fixed = {-6/8, -6/8, -6/8, 6/8, 6/8, 6/8},
+		fixed = {-6/8, -4/8, -6/8, 6/8, 6/8, 6/8},
 	},
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)

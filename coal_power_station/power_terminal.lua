@@ -13,7 +13,7 @@
 ]]--
 
 -- for lazy programmers
-local P2P = minetest.string_to_pos
+local S2P = minetest.string_to_pos
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local M = minetest.get_meta
 local N = function(pos) return minetest.get_node(pos).name end
@@ -62,8 +62,10 @@ local function collect_network_data(pos, mem)
 				add(data.fcel, mem, mem.pwr_available, mem.provided)
 			elseif node.name == "techage:ta4_electrolyzer" or node.name == "techage:ta4_electrolyzer_on" then
 				add(data.elec, mem, -(mem.pwr_could_need or 0), -(mem.consumed or 0))
-			elseif mem.pwr_needed and mem.pwr_needed > 0 and (mem.pwr_node_alive_cnt or 0) > 0 then
-				add(data.other, mem, -(mem.pwr_needed or 0), (-mem.pwr_needed or 0))
+			elseif mem.pwr_needed and mem.pwr_needed > 0 then
+				local nomi = -mem.pwr_needed
+				local real = (mem.pwr_node_alive_cnt or 0) > 0 and -mem.pwr_needed
+				add(data.other, mem, nomi, real)
 			end
 		end
 	)
@@ -74,7 +76,7 @@ local function formspec(pos, mem)
 	local data, nnodes = collect_network_data(pos, mem)
 	local get = function(kind) 
 		return (data[kind].load or 0).." / "..(data[kind].num or 0).."  :  "..
-				(data[kind].curr or 0).." / "..(data[kind].nomi or 0).. " ku"
+				(data[kind].real or 0).." / "..(data[kind].nomi or 0).. " ku"
 	end
 		
 	local alarm = ""

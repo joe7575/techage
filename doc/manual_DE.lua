@@ -416,6 +416,8 @@ techage.manual_DE.aText = {
   "Teil des Kraftwerks. \n"..
   "Der Ölbrenner kann nur mit Öl gefüllt werden. Die Brenndauer ist abhängig von der Leistung\\, die vom Kraftwerk angefordert wird. Unter Volllast brennt Öl 20 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).\n"..
   "\n"..
+  "Der Ölbrenner kann nur 50 Einheiten Öl aufnehmen. Ein zusätzlicher Öltank und eine Ölpumpe sind daher ratsam.\n"..
+  "\n"..
   "\n"..
   "\n",
   "Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich der Boiler ab.\n"..
@@ -497,6 +499,8 @@ techage.manual_DE.aText = {
   "\n",
   "Der kleine Stromgenerator wird mit Erdöl betrieben und kann für kleine Verbraucher mit bis zu 12 ku genutzt werden. Unter Volllast brennt Erdöl 100 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).\n"..
   "\n"..
+  "Der Stromgenerator kann nur 50 Einheiten Öl aufnehmen. Ein zusätzlicher Öltank und eine Ölpumpe sind daher ratsam.\n"..
+  "\n"..
   "\n"..
   "\n",
   "Der Akku Block dient zur Speicherung von überschüssiger Energie und gibt bei Stromausfall automatisch Strom ab (soweit vorhanden).\n"..
@@ -523,6 +527,8 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Ist Teil des TA3 Industrieofen. Muss mit Öl befeuert werden.\n"..
+  "\n"..
+  "Der Ölbrenner kann nur 50 Einheiten Öl aufnehmen. Ein zusätzlicher Öltank und eine Ölpumpe sind daher ratsam.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -789,6 +795,10 @@ techage.manual_DE.aText = {
   "  - in ein Fass passen 10 Einheiten Flüssigkeit\\, bspw. Öl\n"..
   "\n"..
   "Die TA3 Pumpe pumpt 4 Einheiten Flüssigkeit alle zwei Sekunden.\n"..
+  "\n"..
+  "Hinweis 1: Die Pumpe darf nicht direkt neben den Tank platziert werden. Es muss immer mindestens ein Stück gelbe Leitung dazwischen sein.\n"..
+  "\n"..
+  "Hinweis 2: Nach dem Starten markiert die Pumpe 10 x die Blöcke\\, von und zu denen gepumpt wird.\n"..
   "\n"..
   "\n"..
   "\n",

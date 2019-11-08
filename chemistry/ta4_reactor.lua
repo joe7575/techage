@@ -30,7 +30,7 @@ minetest.register_node("techage:ta4_reactor", {
 	description = S("TA4 Reactor"),
 	tiles = {"techage_reactor_side.png"},
 	drawtype = "mesh",
-	mesh = "techage_boiler_huge.obj",
+	mesh = "techage_cylinder_12h.obj",
 	selection_box = {
 		type = "fixed",
 		fixed = {-1/2, -23/32, -1/2, 1/2, 32/32, 1/2},
