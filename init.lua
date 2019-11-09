@@ -123,7 +123,7 @@ else
 	dofile(MP.."/liquids/barrel.lua")
 	dofile(MP.."/liquids/tank.lua")
 	dofile(MP.."/liquids/pump.lua")
-	dofile(MP.."/liquids/oil_lib.lua")
+	dofile(MP.."/liquids/fuel_lib.lua")
 	
 	-- Coal power station
 	dofile(MP.."/coal_power_station/firebox.lua")
@@ -164,8 +164,10 @@ else
 	dofile(MP.."/oil/drillbox.lua")
 	dofile(MP.."/oil/pumpjack.lua")
 	dofile(MP.."/oil/generator.lua")
-	--dofile(MP.."/oil/distiller.lua")
-	--dofile(MP.."/oil/reboiler.lua")
+	dofile(MP.."/oil/petroleum.lua")
+	dofile(MP.."/oil/distiller.lua")
+	dofile(MP.."/oil/reboiler.lua")
+	dofile(MP.."/oil/gasflare.lua")
 	
 	-- Nodes2
 	if techage.basalt_stone_enabled then

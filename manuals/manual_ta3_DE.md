@@ -28,7 +28,7 @@ Das Kraftwerk liefert eine Leistung von 80 ku.
 ### TA3 Kraftwerks-Feuerbox / Power Station Firebox
 
 Teil des Kraftwerks. 
-Die Feuerbox muss mit Kohle, Holzkohle oder Erdöl gefüllt werden. Die Brenndauer ist abhängig von der Leistung, die vom Kraftwerk angefordert wird. Unter Volllast brennt Kohle 20 s, Holzkohle 60 s und Erdöl 20 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).
+Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden. Die Brenndauer ist abhängig von der Leistung, die vom Kraftwerk angefordert wird. Unter Volllast brennt Kohle 20 s und Holzkohle 60 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).
 
 [ta3_firebox|image]
 
@@ -36,9 +36,12 @@ Die Feuerbox muss mit Kohle, Holzkohle oder Erdöl gefüllt werden. Die Brenndau
 ### TA3 Kraftwerks-Ölbrenner / TA3 Power Station Oil Burner
 
 Teil des Kraftwerks. 
-Der Ölbrenner kann nur mit Öl gefüllt werden. Die Brenndauer ist abhängig von der Leistung, die vom Kraftwerk angefordert wird. Unter Volllast brennt Öl 20 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).
 
-Der Ölbrenner kann nur 50 Einheiten Öl aufnehmen. Ein zusätzlicher Öltank und eine Ölpumpe sind daher ratsam.
+Der Ölbrenner kann mit Erdöl, Schweröl, Naphtha oder Benzin gefüllt werden. Die Brenndauer ist abhängig von der Leistung, die vom Kraftwerk angefordert wird. Unter Volllast brennt Erdöl 15 s, Schweröl 20 s, Naphtha 22 s und Benzin 25 s. 
+
+Unter Teillast entsprechend länger (50% Last = doppelte Zeit).
+
+Der Ölbrenner kann nur 50 Einheiten Kraftstoff aufnehmen. Ein zusätzlicher Öltank und eine Ölpumpe sind daher ratsam.
 
 
 [ta3_oilbox|image]
@@ -75,7 +78,7 @@ Dient zur Abkühlung des heißen Dampfs aus der Turbine.  Muss über Dampfleitun
 ## Eletrischer Strom
 
 In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen und Generatoren mit Stromkabel verbunden werden.  
-Tech Age besitzt 2 Arten von Stromkabel:
+TA3 besitzt 2 Arten von Stromkabel:
 
 - Isolierte Kabel (TA Stromkabel) für die lokale Verkabelung im Boden oder in Gebäuden. Diese Kabel lassen sich in der Wand oder im Boden verstecken (können mit der Kelle "verputzt" werden).
 - Überlandleitungen (TA Stromleitung) für Freiluftverkabelung über große Strecken. Diese Kabel sind geschützt, können also von anderen Spielern nicht entfernt werden.
@@ -83,6 +86,9 @@ Tech Age besitzt 2 Arten von Stromkabel:
 Mehrere Verbraucher und Generatoren können in einem Stromnetzwerk zusammen betrieben werden. Mit Hilfe der Verteilerdosen können so große Netzwerke aufgebaut werden.
 Wird zu wenig Strom bereitgestellt, gehen Teile der Verbraucher aus, bzw. Lampen beginnen zu flackern.
 In diesem Zusammenhang ist auch wichtig, dass die Funktionsweise von Forceload Blöcken verstanden wurde, denn bspw. Generatoren liefern nur Strom, wenn der entsprechende Map-Block geladen ist. Dies kann mit einen Forceload Block erzwungen werden.
+
+In TA4 kommt noch ein Kabel für die Solaranlage hinzu.
+
 
 [ta3_powerswitch|image]
 
@@ -163,9 +169,9 @@ siehe TA Stromschalter.
 
 ### TA3 Kleiner Stromgenerator / Tiny Power Generator
 
-Der kleine Stromgenerator wird mit Erdöl betrieben und kann für kleine Verbraucher mit bis zu 12 ku genutzt werden. Unter Volllast brennt Erdöl 100 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).
+Der kleine Stromgenerator wird mit Benzin betrieben und kann für kleine Verbraucher mit bis zu 12 ku genutzt werden. Unter Volllast brennt Benzin 150 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).
 
-Der Stromgenerator kann nur 50 Einheiten Öl aufnehmen. Ein zusätzlicher Öltank und eine Ölpumpe sind daher ratsam.
+Der Stromgenerator kann nur 50 Einheiten Benzin aufnehmen. Ein zusätzlicher Tank und eine Pumpe sind daher ratsam.
 
 
 [ta3_tinygenerator|image]
@@ -183,22 +189,20 @@ Bei Volllast kann ein Akku 400 s lang Strom aufnehmen und wenn er voll ist, auch
 
 ### TA3 Strom Terminal / Power Terminal
 
-Das Strom-Terminal muss von eine Verteilerdose platziert werden. Es zeigt Daten aus dem Stromnetz an wie:
+Das Strom-Terminal muss vor eine Verteilerdose platziert werden. Es zeigt Daten aus dem Stromnetz an wie:
 - Anzahl und Leistung der verschiedenen Generatoren und Akkus (aktuell/maximal)
 - Anzahl der Netzwerk-Blöcke (max. 1000)
-Die Daten des Terminals werden beim Öffnen des Menüs und dann nur durch Anklicken des "Update" Buttons aktualisiert.
+Die Daten des Terminals werden beim Öffnen des Menüs für einige Sekunden aktualisiert. Danach kann die Anzeige durch Anklicken des "Update" Buttons erneut aktualisiert werden.
 
 [ta3_powerterminal|image]
 
 
 ## TA3 Industrieofen
 
-Der TA3 Industrieofen dient als Ergänzung zu normalen Ofen (furnace). Damit können alle Waren mit "Koch" Rezepte, auch im Industrieofen hergestellt werden. Es gibt aber auch spezielle Rezepte, die nur im Industrieofen hergestellt werden können.
+Der TA3 Industrieofen dient als Ergänzung zu normalen Ofen (furnace). Damit können alle Waren mit "Koch" Rezepten, auch im Industrieofen hergestellt werden. Es gibt aber auch spezielle Rezepte, die nur im Industrieofen hergestellt werden können.
 Der Industrieofen hat sein eigenes Menü zur Rezeptauswahl. Abhängig von den Waren im Industrieofen Inventar links kann rechts das Ausgangsprodukt gewählt werden.
 
-Der Industrieofen benötigt Strom (für das Gebläse) sowie Öl für den Brenner. Der Industrieofens und muss wie im Plan rechts abgebildet, zusammen gebaut werden.
-
-Die Brennzeit für Öl beträgt 80 s.
+Der Industrieofen benötigt Strom (für das Gebläse) sowie Öl/Benzin für den Brenner. Der Industrieofens und muss wie im Plan rechts abgebildet, zusammen gebaut werden.
 
 
 [ta3_furnace|plan]
@@ -206,9 +210,11 @@ Die Brennzeit für Öl beträgt 80 s.
 
 ### TA3 Ofen-Ölbrenner / Furnace Oil Burner
 
-Ist Teil des TA3 Industrieofen. Muss mit Öl befeuert werden.
+Ist Teil des TA3 Industrieofen.
 
-Der Ölbrenner kann nur 50 Einheiten Öl aufnehmen. Ein zusätzlicher Öltank und eine Ölpumpe sind daher ratsam.
+Der Ölbrenner kann mit Schweröl, Naphtha oder Benzin betrieben werden. Die Brennzeit beträgt für Schweröl 80 s, Naphtha 90 s und Benzin 100 s.
+
+Der Ölbrenner kann nur 50 Einheiten Kraftstoff aufnehmen. Ein zusätzlicher Tank und eine Pumpe sind daher ratsam.
 
 [ta3_furnacefirebox|image]
 
@@ -227,9 +233,45 @@ Ist Teil des TA3 Industrieofen. Siehe TA3 Industrieofen.
 [ta3_booster|image]
 
 
-## Öl-Anlagen
+## Flüssigkeiten
 
-Um deine Generatoren und Öfen mit Öl betrieben zu können, muss du zuerst nach Öl suchen und einen Bohrturm errichten und danach das Öl fördern.
+Flüssigkeiten wie Wasser oder Öl können nur die spezielle Leitungen gepumpt und in Tanks gespeichert werden. Wie auch bei Wasser gibt es aber Behälter (Eimer, Kanister, Fässer), in denen die Flüssig gelagert und transportiert werden kann.
+
+
+[ta3_tank|plan]
+
+
+### TA3 Tank / TA3 Tank
+
+In einem Tank können Flüssigkeiten gespeichert werden. Ein Tank kann über eine Pumpe gefüllt bzw. geleert werden. Dazu muss die Pumpe über einer Leitung (gelbe Röhre) mit dem Tank verbunden sein.
+Ein Tank kann aber auch über Eimer/Fässer gefüllt bzw. geleert werden:
+- werden leere Fässer mit einem Schieber oder von Hand in den Tank gegeben, werden diese gefüllt und können ausgangsseitig wieder entnommen werden
+- werden volle Fässer mit einem Schieber oder von Hand in den Tank gegeben, werden diese geleert und können ausgangsseitig wieder entnommen werden
+
+Dabei ist zu beachten, dass Fässer nur komplett gefüllt oder entleert werden können. Sind bspw. weniger als 10 Einheiten im Tank, muss dieser Rest mit Eimern oder Kanistern entnommen oder leergepumpt werden.
+
+In einen TA3 Tank passen 500 Einheiten oder 50 Fässer einer Flüssigkeit.
+
+[ta3_tank|image]
+
+
+### TA3 Pumpe / TA3 Pump
+
+Mit der Pumpe können Flüssigkeiten von Tanks oder Behältern zu anderen Tanks oder Behältern gepumpt werden. Bei der Pumpe muss die Pumprichtung (Pfeil) beachtet werden. Über die gelben Leitungen und Verbindungsstücke ist es auch möglich, mehrere Tanks auf jeder Seite der Pumpe anzuordnen. Allerdings müssen die Tanks den selben Inhalt haben.
+
+Die TA3 Pumpe pumpt 4 Einheiten Flüssigkeit alle zwei Sekunden.
+
+Hinweis 1: Die Pumpe darf nicht direkt neben den Tank platziert werden. Es muss immer mindestens ein Stück gelbe Leitung dazwischen sein.
+
+Hinweis 2: Nach dem Starten markiert die Pumpe 10 x die Blöcke, von und zu denen gepumpt wird.
+
+
+[ta3_pump|image]
+
+
+## Öl-Förderung
+
+Um deine Generatoren und Öfen mit Öl betreiben zu können, muss du zuerst nach Öl suchen und einen Bohrturm errichten und danach das Öl fördern.
 Dazu dienen dir TA3 Ölexplorer, TA3 Ölbohrkiste und TA3 Ölpumpe.
 
 [techage_ta3|image]
@@ -289,6 +331,41 @@ Der große Tank kann 2000 Einheiten Öl aufnehmen.
 
 
 [oiltank|image]
+
+
+## Öl-Verarbeitung
+
+Öl ist ein Stoffgemisch und besteht aus sehr vielen Komponenten. Über einen Destillationsturm kann das Öl in seine Hauptbestandteile wie Bitumen, Schweröl, Naphtha, Benzin und Gas zerlegt werden.
+Die weitere Verarbeitung zu Endprodukten erfolgt im Chemischen Reaktor.
+
+[techage_ta31|image]
+
+
+### Destillationsturm / distiller tower
+
+Der Destillationsturm muss wie im Plan rechts oben aufgebaut werden. 
+Über den Basisblock wird das Bitumen abgelassen. Der Ausgang ist auf der Rückseite des Basisblocks (Pfeilrichtung beachten).
+Auf diesen Basisblock kommen die "Destillationsturm" Blöcke mit den Nummern: 1, 2, 3, 2, 3, 2, 3, 4
+An den Öffnungen von unten nach oben werden Schweröl, Naphtha und Benzin abgeleitet. Ganz oben wird das Gas abgefangen.
+Es müssen alle Öffnungen am Turm mit Tanks verbunden werden.
+Der Aufkocher (reboiler) muss mit dem Block "Destillationsturm 1" verbunden werden.
+
+
+[ta3_distiller|plan]
+
+#### Aufkocher / reboiler)
+
+Der Aufkocher erhitzt das Erdöl auf ca. 400°C. Dabei verdampft es weitgehend und wird in den Destillationsturm zur Abkühlung geleitet.
+
+Der Aufkocher benötigt 12 Einheiten Strom und produziert alle 6 s jeweils eine Einheit Bitumen, Schweröl, Naphtha, Benzin und Gas.
+Dazu muss der Aufkocher über einen Pumpe mit Erdöl versorgt werden.
+
+[reboiler|image]
+
+
+### Chemischer Reaktor / chemical reactor
+
+[ta3_reactor|image]
 
 
 ## Logik-/Schalt-Blöcke
@@ -543,46 +620,6 @@ Die Funktion entspricht der von TA2.
 Die Verarbeitungsleistung ist 2 Items alle 8 s. Der Block benötigt 5 ku Strom.
 
 [ta3_liquidsampler|image]
-
-
-## Flüssigkeiten
-
-Flüssigkeiten wie Wasser oder Öl können nur die spezielle Leitungen gepumpt und in Tanks gespeichert werden. Wie auch bei Wasser gibt es aber Behälter (Eimer, Kanister, Fässer), in denen die Flüssig gelagert und transportiert werden kann.
-
-
-[ta3_tank|plan]
-
-
-### TA3 Tank / TA3 Tank
-
-In einem Tank können Flüssigkeiten gespeichert werden. Ein Tank kann über eine Pumpe gefüllt bzw. geleert werden. Dazu muss die Pumpe über einer Leitung (gelbe Röhre) mit dem Tank verbunden sein.
-Ein Tank kann aber auch über Eimer/Fässer gefüllt bzw. geleert werden:
-- werden leere Fässer mit einem Schieber oder von Hand in den Tank gegeben, werden diese gefüllt und können ausgangsseitig wieder entnommen werden
-- werden volle Fässer mit einem Schieber oder von Hand in den Tank gegeben, werden diese geleert und können ausgangsseitig wieder entnommen werden
-
-Dabei ist zu beachten, dass Fässer nur komplett gefüllt oder entleert werden können. Sind bspw. weniger als 10 Einheiten im Tank, muss dieser Rest mit Eimern entnommen oder leergepumpt werden.
-
-In einen TA3 Tank passen 500 Einheiten oder 50 Fässer einer Flüssigkeit.
-
-[ta3_tank|image]
-
-
-### TA3 Pumpe / TA3 Pump
-
-Mit der Pumpe können Flüssigkeiten von Tanks oder Behältern zu anderen Tanks oder Behältern gepumpt werden. Bei der Pumpe muss die Pumprichtung (Pfeil) beachtet werden. Über die gelben Leitungen und Verbindungsstücke ist es auch möglich, mehrere Tanks auf jeder Seite der Pumpe anzuordnen. Allerdings müssen die Tanks den selben Inhalt haben.
-
-- zum Füllen, oder volle Fässer zul Leeren 
-- in einen Eimer oder einen Kanister passt eine Einheit einer Flüssigkeit, bspw. Wasser
-- in ein Fass passen 10 Einheiten Flüssigkeit, bspw. Öl
-
-Die TA3 Pumpe pumpt 4 Einheiten Flüssigkeit alle zwei Sekunden.
-
-Hinweis 1: Die Pumpe darf nicht direkt neben den Tank platziert werden. Es muss immer mindestens ein Stück gelbe Leitung dazwischen sein.
-
-Hinweis 2: Nach dem Starten markiert die Pumpe 10 x die Blöcke, von und zu denen gepumpt wird.
-
-
-[ta3_pump|image]
 
 
 ## Werkzeuge

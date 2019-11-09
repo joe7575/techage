@@ -83,6 +83,13 @@ minetest.register_node("techage:ta3_distiller_base", {
 	groups = {cracky=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
+
+	networks = {
+		pipe = {
+			sides = {B=1}, -- Pipe connection sides
+			ntype = "pump",
+		},
+	},
 })
 
 minetest.register_node("techage:ta3_distiller1", {
@@ -101,7 +108,7 @@ minetest.register_node("techage:ta3_distiller1", {
 
 	after_place_node = function(pos, placer)
 		local res = orientation(pos, {"techage:ta3_distiller_base"})
-		M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
+		M(pos):set_int("outdir", networks.side_to_outdir(pos, "B"))
 		after_place_node(pos, placer)
 		return res
 	end,
@@ -115,6 +122,13 @@ minetest.register_node("techage:ta3_distiller1", {
 	groups = {cracky=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
+
+	networks = {
+		pipe = {
+			sides = {F=1}, -- Pipe connection sides
+			ntype = "tank",
+		},
+	},
 })
 
 minetest.register_node("techage:ta3_distiller2", {
@@ -171,6 +185,13 @@ minetest.register_node("techage:ta3_distiller3", {
 	groups = {cracky=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
+
+	networks = {
+		pipe = {
+			sides = {B=1}, -- Pipe connection sides
+			ntype = "pump",
+		},
+	},
 })
 
 minetest.register_node("techage:ta3_distiller4", {
@@ -202,25 +223,87 @@ minetest.register_node("techage:ta3_distiller4", {
 	groups = {cracky=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
+
+	networks = {
+		pipe = {
+			sides = {U=1}, -- Pipe connection sides
+			ntype = "pump",
+		},
+	},
 })
 
 
 Pipe:add_secondary_node_names({
-		"techage:ta3_distiller_base",
-		"techage:ta3_distiller1", "techage:ta3_distiller2", 
+		"techage:ta3_distiller_base", "techage:ta3_distiller1",
 		"techage:ta3_distiller3", "techage:ta3_distiller4",
 })
 
+local Liquids = {
+	[-1] = "techage:bitumen",
+	[2] = "techage:fueloil",
+	[4] = "techage:naphtha",
+	[6] = "techage:gasoline",
+	[7] = "techage:gas",
+}
+
 techage.register_node({"techage:ta3_distiller1"}, {
-	on_recv_message = function(pos, src, topic, payload)
+	on_transfer = function(pos, in_dir, topic, payload)
 		if topic == "put" then
-			local pos2 = {x = pos.x, y = pos.y + payload.height, z = pos.z}
-			local outdir = 6
-			if payload.height ~= 7 then
-				outdir = M(pos):get_int("outdir")
+			local leftover = 0
+			local outdir = M(pos):get_int("outdir")
+			for _,y in ipairs({-1, 2, 4, 6, 7}) do
+				local pos2 = {x = pos.x, y = pos.y + y, z = pos.z}
+				if y == 7 then
+					outdir = 6
+				end
+				leftover = leftover + liquid.put(pos2, outdir, Liquids[y], 1)
 			end
-			techage.mark_position("singleplayer", pos2, "put", "", 1)------------------------debug
-			return liquid.put(pos2, outdir, payload.name, payload.amount)
+			return leftover
 		end
 	end,
+})
+
+minetest.register_craft({
+	output = 'techage:ta3_distiller2',
+	recipe = {
+		{'default:steel_ingot', 'default:tin_ingot', 'default:steel_ingot'},
+		{'techage:iron_ingot', 'techage:ta3_barrel_empty', 'techage:iron_ingot'},
+		{'default:steel_ingot', 'default:tin_ingot', 'default:steel_ingot'},
+	}
+})
+
+minetest.register_craft({
+	output = 'techage:ta3_distiller1',
+	recipe = {
+		{'', '', ''},
+		{'techage:ta3_pipeS', 'techage:ta3_distiller2', ''},
+		{'', '', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'techage:ta3_distiller3',
+	recipe = {
+		{'', '', ''},
+		{'', 'techage:ta3_distiller2', 'techage:ta3_pipeS'},
+		{'', '', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'techage:ta3_distiller4',
+	recipe = {
+		{'', 'techage:ta3_pipeS', ''},
+		{'', 'techage:ta3_distiller2', ''},
+		{'', '', ''},
+	}
+})
+
+minetest.register_craft({
+	output = 'techage:ta3_distiller_base',
+	recipe = {
+		{'basic_materials:concrete_block', 'techage:ta3_pipeS', 'basic_materials:concrete_block'},
+		{'', 'techage:ta3_pipeS', 'techage:ta3_pipeS'},
+		{'basic_materials:concrete_block', '', 'basic_materials:concrete_block'},
+	}
 })

@@ -35,4 +35,16 @@ minetest.register_craftitem("techage:liquid", {
 	
 })
 
-techage.register_liquid("techage:ta3_barrel_empty", "techage:ta3_barrel_empty", 10, "techage:liquid")
+minetest.register_craftitem("techage:ta3_canister_empty", {
+	description = S("TA3 Canister"),
+	inventory_image = "techage_canister_inv.png",
+})
+
+minetest.register_craft({
+	output = 'techage:ta3_canister_empty 6',
+	recipe = {
+		{'basic_materials:plastic_sheet', 'basic_materials:plastic_sheet', 'basic_materials:plastic_sheet'},
+		{'basic_materials:plastic_sheet', '', 'basic_materials:plastic_sheet'},
+		{'basic_materials:plastic_sheet', 'basic_materials:plastic_sheet', 'basic_materials:plastic_sheet'},
+	}
+})

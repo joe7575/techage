@@ -19,13 +19,13 @@ local S = techage.S
 local Power = techage.ElectricCable
 local firebox = techage.firebox
 local power = techage.power
-local oilburner = techage.oilburner
+local fuel = techage.fuel
 local Pipe = techage.LiquidPipe
 local liquid = techage.liquid
 
 local CYCLE_TIME = 2
 local PWR_CAPA = 12
-local BURN_CYCLE_FACTOR = 2.5
+local EFFICIENCY = 2.5
 
 local function formspec(self, pos, mem)
 	local fuel_percent = 0
@@ -36,7 +36,7 @@ local function formspec(self, pos, mem)
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
-		oilburner.formspec_oil(1, 0, mem)..
+		fuel.formspec_fuel(1, 0, mem)..
 		"button[1.6,1;1.8,1;update;"..S("Update").."]"..
 		"image_button[5.5,0.5;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
 		"image[6.5,0;1,2;"..power.formspec_power_bar(PWR_CAPA, mem.provided).."]"..
@@ -87,10 +87,11 @@ local function burning(pos, mem)
 	if mem.burn_cycles <= 0 then
 		if mem.liquid.amount > 0 then
 			mem.liquid.amount = mem.liquid.amount - 1
-			mem.burn_cycles = (oilburner.Oilburntime or 1) / CYCLE_TIME * BURN_CYCLE_FACTOR
+			mem.burn_cycles = fuel.burntime(mem.liquid.name) * EFFICIENCY / CYCLE_TIME
 			mem.burn_cycles_total = mem.burn_cycles
 			return true
 		else
+			mem.liquid.name = nil 
 			State:fault(pos, mem)
 			return false
 		end
@@ -124,32 +125,39 @@ local function on_receive_fields(pos, formname, fields, player)
 	M(pos):set_string("formspec", formspec(State, pos, mem))
 end
 
-local function allow_metadata_inventory_put(pos, listname, index, stack, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
-		return 0
-	end
-	return 1
-end
-
-local function allow_metadata_inventory_take(pos, listname, index, stack, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
-		return 0
-	end
-	return stack:get_count()
-end
 
 local function formspec_clbk(pos, mem)
 	return formspec(State, pos, mem)
 end
 
 local function on_metadata_inventory_put(pos, listname, index, stack, player)
-	minetest.after(0.5, oilburner.move_item, pos, stack, formspec_clbk)
+	minetest.after(0.5, fuel.move_item, pos, stack, formspec_clbk)
 end
 
 local function on_rightclick(pos)
 	local mem = tubelib2.get_mem(pos)
 	M(pos):set_string("formspec", formspec(State, pos, mem))
 end
+
+local _liquid = {
+	fuel_cat = fuel.BT_NAPHTHA,
+	capa = fuel.CAPACITY,
+	peek = liquid.srv_peek,
+	put = function(pos, indir, name, amount)
+		if fuel.valid_fuel(name, fuel.BT_NAPHTHA) then
+			return liquid.srv_put(pos, indir, name, amount)
+		end
+		return amount
+	end,
+	take = liquid.srv_take,
+}
+
+local _networks = {
+	pipe = {
+		sides = techage.networks.AllSides, -- Pipe connection sides
+		ntype = "tank",
+	},
+}
 
 minetest.register_node("techage:tiny_generator", {
 	description = S("TA3 Tiny Power Generator"),
@@ -179,21 +187,16 @@ minetest.register_node("techage:tiny_generator", {
 		inv:set_size('fuel', 1)
 	end,
 
-	liquid = {
-		capa = oilburner.CAPACITY,
-		peek = liquid.srv_peek,
-		put = liquid.srv_put,
-		take = liquid.srv_take,
-	},
-	networks = oilburner.networks,
 	
-	allow_metadata_inventory_put = allow_metadata_inventory_put,
-	allow_metadata_inventory_take = allow_metadata_inventory_take,
+	allow_metadata_inventory_put = fuel.allow_metadata_inventory_put,
+	allow_metadata_inventory_take = fuel.allow_metadata_inventory_take,
 	on_metadata_inventory_put = on_metadata_inventory_put,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
-	can_dig = oilburner.can_dig,
+	can_dig = fuel.can_dig,
+	liquid = _liquid,
+	networks = _networks,
 })
 
 minetest.register_node("techage:tiny_generator_on", {
@@ -226,14 +229,6 @@ minetest.register_node("techage:tiny_generator_on", {
 		},
 	},
 	
-	liquid = {
-		capa = oilburner.CAPACITY,
-		peek = liquid.srv_peek,
-		put = liquid.srv_put,
-		take = liquid.srv_take,
-	},
-	networks = oilburner.networks,
-	
 	paramtype = "light",
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
@@ -248,7 +243,9 @@ minetest.register_node("techage:tiny_generator_on", {
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
-	can_dig = oilburner.can_dig,
+	can_dig = fuel.can_dig,
+	liquid = _liquid,
+	networks = _networks,
 })
 
 Pipe:add_secondary_node_names({"techage:tiny_generator", "techage:tiny_generator_on"})

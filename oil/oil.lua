@@ -109,7 +109,7 @@ minetest.register_node("techage:oil_flowing", {
 minetest.register_craft({
 	type = "fuel",
 	recipe = "techage:oil_source",
-	burntime = 40,
+	burntime = 30,
 })
 
 bucket.register_liquid(
@@ -119,20 +119,5 @@ bucket.register_liquid(
 	"techage_bucket_oil.png", 
 	"Oil Bucket")
 
-
-minetest.register_craftitem("techage:ta3_barrel_oil", {
-	description = S("TA3 Oil Barrel"),
-	inventory_image = "techage_barrel_oil_inv.png",
-	stack_max = 1,
-})
-
---minetest.register_craftitem("techage:oil", {
---	description = S("TA Oil"),
---	inventory_image = "techage_oil_inv.png",
---	groups = {not_in_creative_inventory=1},
-	
---})
-
-techage.register_liquid("techage:ta3_barrel_oil", "techage:ta3_barrel_empty", 10, "techage:oil_source")
 techage.register_liquid("techage:bucket_oil", "bucket:bucket_empty", 1, "techage:oil_source")
 techage.register_liquid("techage:oil_source", "", 1, "techage:oil_source")

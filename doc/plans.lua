@@ -18,6 +18,7 @@ techage.ConstructionPlans = {}
 local IMG_1 = {"", "techage_ta1.png"}
 local IMG_2 = {"", "techage_ta2.png"}
 local IMG_3 = {"", "techage_ta3.png"}
+local IMG31 = {"", "techage_ta3b.png"}
 local IMG_4 = {"", "techage_ta4.png"}
 local IMG41 = {"", "techage_ta4_tes.png"}
 local IMG42 = {"", "techage_ta4_solar.png"}
@@ -173,8 +174,8 @@ local Pump = {"techage_filling_ta3.png^techage_appl_pump.png^techage_frame_ta3.p
 local Tank = {"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_tank.png", "techage:ta3_tank"}
 local PIPEH = {"techage_gaspipe.png", "techage:ta4_pipeS"}
 local PIPEV = {"techage_gaspipe.png^[transformR90", "techage:ta4_pipeS"}
-local PN000 = {"techage_gaspipe_knee.png", "techage:ta4_pipeS"}
-local PN090 = {"techage_gaspipe_knee.png^[transformR90", "techage:ta4_pipeS"}
+local PN000 = {"techage_gaspipe_knee.png", "techage:ta4_pipeS"}  -- r
+local PN090 = {"techage_gaspipe_knee.png^[transformR90", "techage:ta4_pipeS"}  -- 7
 local PN180 = {"techage_gaspipe_knee.png^[transformR180", "techage:ta4_pipeS"}
 local PN270 = {"techage_gaspipe_knee.png^[transformR270", "techage:ta4_pipeS"}
 
@@ -185,6 +186,28 @@ techage.ConstructionPlans["ta3_tank"] = {
 	{false, PushL, Tubes, Tubes, TK180, false, false, false, false},
 }
 
+--
+-- Distiller
+--
+local DIST4 = {"techage_distiller_inv.png", "techage:ta3_distiller4"}
+local DIST3 = {"techage_distiller_inv.png", "techage:ta3_distiller3"}
+local DIST2 = {"techage_distiller_inv.png", "techage:ta3_distiller2"}
+local DIST1 = {"techage_distiller_inv.png", "techage:ta3_distiller1"}
+local DBASE = {"techage_concrete.png", "techage:ta3_distiller_base"}
+local REBIO = {"techage_filling_ta3.png^techage_appl_reboiler.png^techage_frame_ta3.png", "techage:ta3_reboiler"}
+
+techage.ConstructionPlans["ta3_distiller"] = {
+	{false, false, false, false, false, false, false, PN000, PIPEH, Tank,  false},
+	{false, IMG31, false, false, false, false, false, DIST4, false, false, false},
+	{false, false, false, false, false, false, false, DIST3, PIPEH, Tank,  false},
+	{false, false, false, false, false, false, false, DIST2, false, false, false},
+	{false, false, false, false, false, false, false, DIST3, PIPEH, Tank,  false},
+	{false, false, false, false, false, false, false, DIST2, false, false, false},
+	{false, false, false, false, false, false, false, DIST3, PIPEH, Tank,  false},
+	{false, false, false, false, false, false, false, DIST2, false, false, false},
+	{false, Tank,  PIPEH, Pump,  PIPEH, REBIO, PIPEH, DIST1, false, false, false},
+	{false, false, false, false, false, false, false, DBASE, PIPEH, Tank,  false},
+}
 
 --
 -- Wind Turbine

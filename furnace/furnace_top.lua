@@ -79,7 +79,7 @@ local function firebox_cmnd(pos, cmnd)
 end
 
 local function cooking(pos, crd, mem, elapsed)
-	if firebox_cmnd(pos, "fuel") then
+	if firebox_cmnd(pos, "running") then
 		local state, err = smelting(pos, mem, elapsed)
 		if state == techage.RUNNING then
 			crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
@@ -275,7 +275,7 @@ minetest.register_craft({
 	output = node_name_ta3,
 	recipe = {
 		{"", "techage:usmium_nuggets", ""},
-		{"", "default:furnace", ""},
+		{"default:steel_ingot", "default:furnace", "default:steel_ingot"},
 		{"", "techage:vacuum_tube", ""},
 	},
 })

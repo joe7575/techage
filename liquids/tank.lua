@@ -57,14 +57,16 @@ local function fill_container(pos, inv)
 	mem.liquid.amount = mem.liquid.amount or 0
 	local empty_container = inv:get_stack("src", 1):get_name()
 	local full_container = liquid.get_full_container(empty_container, mem.liquid.name)
-	local ldef = liquid.get_liquid_def(full_container)
-	if ldef and mem.liquid.amount - ldef.size >= 0 then 
-		if inv:room_for_item("dst", ItemStack(full_container)) then
-			inv:remove_item("src", ItemStack(empty_container))
-			inv:add_item("dst", ItemStack(full_container))
-			mem.liquid.amount = mem.liquid.amount - ldef.size
-			if mem.liquid.amount == 0 then
-				mem.liquid.name = nil
+	if empty_container and full_container then
+		local ldef = liquid.get_liquid_def(full_container)
+		if ldef and mem.liquid.amount - ldef.size >= 0 then 
+			if inv:room_for_item("dst", ItemStack(full_container)) then
+				inv:remove_item("src", ItemStack(empty_container))
+				inv:add_item("dst", ItemStack(full_container))
+				mem.liquid.amount = mem.liquid.amount - ldef.size
+				if mem.liquid.amount == 0 then
+					mem.liquid.name = nil
+				end
 			end
 		end
 	end

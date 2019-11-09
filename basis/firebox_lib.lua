@@ -23,8 +23,20 @@ techage.firebox.Burntime = {
 	["techage:charcoal"] = true, -- will be replaced by burntime
 	["default:coal_lump"] = true,
 	["default:coalblock"] = true,
-	["techage:oil_source"] = true
+	["techage:oil_source"] = true,
+	["techage:gas"] = true,
+	["techage:gasoline"] = true,
+	["techage:naphtha"] = true,
+	["techage:fueloil"] = true,
 }
+
+techage.firebox.ValidOilFuels = {
+	["techage:gasoline"] = 1, -- category
+	["techage:naphtha"] = 2,
+	["techage:fueloil"] = 3,
+	["techage:oil_source"] = 4,
+}
+
 
 local function determine_burntimes()
 	for k,_ in pairs(techage.firebox.Burntime)do

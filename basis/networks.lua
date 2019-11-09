@@ -50,7 +50,7 @@ local function output(network, valid)
 			tbl[#tbl+1] = count_nodes(ntype, table)
 		end
 	end
-	print("Network ("..valid.."): "..table.concat(tbl, ", "))
+	--print("Network ("..valid.."): "..table.concat(tbl, ", "))
 end
 
 -- return the node definition local networks table

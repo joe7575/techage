@@ -43,6 +43,7 @@ techage.Items = {
 	ta2_forceload = "techage:forceload",
 	---------------------
 	techage_ta3 = "techage_ta3.png",
+	techage_ta31 = "techage_ta3b.png",
 	ta3_firebox = "techage:coalfirebox",
 	ta3_oilbox = "techage:oilfirebox",
 	ta3_boiler = "techage:coalboiler_top",
@@ -82,6 +83,8 @@ techage.Items = {
 	ta3_tank = "techage:ta3_tank",
 	ta3_pump = "techage:t3_pump",
 	oiltank = "techage:oiltank",
+	reboiler = "techage:ta3_reboiler",
+	ta3_reactor = "techage_reactor_inv.png",
 	----------------------------
 	ta3_button = "techage:ta3_button_off",
 	ta3_cartdetector = "techage:ta3_cartdetector_off",

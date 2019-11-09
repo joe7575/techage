@@ -4,6 +4,12 @@ In TA1 geht es darum, mit einfachen Werkzeugen und Gerätschaften ausreichend Er
 
 Natürlich muss es für ein Eisenzeitalter auch Eisen geben und nicht nur Stahl (steel), wie in "Minetest Game". Daher wurden einige Rezepte geändert, so dass zuerst Eisen hergestellt werden muss und erst später dann Stahl.
 
+Auch ist die Haltbarkeit der Werkzeuge an die Zeitalter angelehnt und entspricht damit nicht dem Minetest Originalspiel.
+Die Haltbarkeit/Härte bspw. für eine Axt ist:
+
+* Bronze: 20
+* Stahl: 30
+
 [techage_ta1|image]
 
 

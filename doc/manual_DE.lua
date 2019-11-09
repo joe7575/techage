@@ -61,12 +61,19 @@ techage.manual_DE.aTitel = {
   "3,TA3 Ofen-Ölbrenner / Furnace Oil Burner",
   "3,TA3 Ofenoberteil / Furnace Top",
   "3,TA3 Gebläse / Booster",
-  "2,Öl-Anlagen",
+  "2,Flüssigkeiten",
+  "3,TA3 Tank / TA3 Tank",
+  "3,TA3 Pumpe / TA3 Pump",
+  "2,Öl-Förderung",
   "3,TA3 Ölexplorer / Oil Explorer",
   "3,TA3 Ölbohrkiste / Oil Drill Box",
   "3,TA3 Ölpumpe / Oil Pumpjack",
   "3,TA3 Bohrgestänge / Drill Bit",
   "3,Öltank / Oil Tank",
+  "2,Öl-Verarbeitung",
+  "3,Destillationsturm / distiller tower",
+  "4,Aufkocher / reboiler)",
+  "3,Chemischer Reaktor / chemical reactor",
   "2,Logik-/Schalt-Blöcke",
   "3,TA3 Taster/Schalter / Button/Switch",
   "3,TA3 Logikblock / Logic Block",
@@ -90,9 +97,6 @@ techage.manual_DE.aTitel = {
   "3,TA3 Kiessieb / Gravel Sieve",
   "3,TA3 Mühle / Grinder",
   "3,TA3 Flüssigkeitensammler / Liquid Sampler",
-  "2,Flüssigkeiten",
-  "3,TA3 Tank / TA3 Tank",
-  "3,TA3 Pumpe / TA3 Pump",
   "2,Werkzeuge",
   "3,Techage Info Tool",
   "3,TechAge Programmer",
@@ -161,6 +165,12 @@ techage.manual_DE.aText = {
   "In TA1 geht es darum\\, mit einfachen Werkzeugen und Gerätschaften ausreichend Erze zu schürfen und Holzkohle herzustellen\\, so dass damit TA2 Maschinen hergestellt und betrieben werden können.\n"..
   "\n"..
   "Natürlich muss es für ein Eisenzeitalter auch Eisen geben und nicht nur Stahl (steel)\\, wie in \"Minetest Game\". Daher wurden einige Rezepte geändert\\, so dass zuerst Eisen hergestellt werden muss und erst später dann Stahl.\n"..
+  "\n"..
+  "Auch ist die Haltbarkeit der Werkzeuge an die Zeitalter angelehnt und entspricht damit nicht dem Minetest Originalspiel.\n"..
+  "Die Haltbarkeit/Härte bspw. für eine Axt ist:\n"..
+  "\n"..
+  "  - Bronze: 20\n"..
+  "  - Stahl: 30\n"..
   "\n"..
   "\n"..
   "\n",
@@ -409,14 +419,17 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Teil des Kraftwerks. \n"..
-  "Die Feuerbox muss mit Kohle\\, Holzkohle oder Erdöl gefüllt werden. Die Brenndauer ist abhängig von der Leistung\\, die vom Kraftwerk angefordert wird. Unter Volllast brennt Kohle 20 s\\, Holzkohle 60 s und Erdöl 20 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).\n"..
+  "Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden. Die Brenndauer ist abhängig von der Leistung\\, die vom Kraftwerk angefordert wird. Unter Volllast brennt Kohle 20 s und Holzkohle 60 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).\n"..
   "\n"..
   "\n"..
   "\n",
   "Teil des Kraftwerks. \n"..
-  "Der Ölbrenner kann nur mit Öl gefüllt werden. Die Brenndauer ist abhängig von der Leistung\\, die vom Kraftwerk angefordert wird. Unter Volllast brennt Öl 20 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).\n"..
   "\n"..
-  "Der Ölbrenner kann nur 50 Einheiten Öl aufnehmen. Ein zusätzlicher Öltank und eine Ölpumpe sind daher ratsam.\n"..
+  "Der Ölbrenner kann mit Erdöl\\, Schweröl\\, Naphtha oder Benzin gefüllt werden. Die Brenndauer ist abhängig von der Leistung\\, die vom Kraftwerk angefordert wird. Unter Volllast brennt Erdöl 15 s\\, Schweröl 20 s\\, Naphtha 22 s und Benzin 25 s. \n"..
+  "\n"..
+  "Unter Teillast entsprechend länger (50% Last = doppelte Zeit).\n"..
+  "\n"..
+  "Der Ölbrenner kann nur 50 Einheiten Kraftstoff aufnehmen. Ein zusätzlicher Öltank und eine Ölpumpe sind daher ratsam.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -437,7 +450,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen und Generatoren mit Stromkabel verbunden werden.\n"..
-  "Tech Age besitzt 2 Arten von Stromkabel:\n"..
+  "TA3 besitzt 2 Arten von Stromkabel:\n"..
   "\n"..
   "  - Isolierte Kabel (TA Stromkabel) für die lokale Verkabelung im Boden oder in Gebäuden. Diese Kabel lassen sich in der Wand oder im Boden verstecken (können mit der Kelle \"verputzt\" werden).\n"..
   "  - Überlandleitungen (TA Stromleitung) für Freiluftverkabelung über große Strecken. Diese Kabel sind geschützt\\, können also von anderen Spielern nicht entfernt werden.\n"..
@@ -445,6 +458,8 @@ techage.manual_DE.aText = {
   "Mehrere Verbraucher und Generatoren können in einem Stromnetzwerk zusammen betrieben werden. Mit Hilfe der Verteilerdosen können so große Netzwerke aufgebaut werden.\n"..
   "Wird zu wenig Strom bereitgestellt\\, gehen Teile der Verbraucher aus\\, bzw. Lampen beginnen zu flackern.\n"..
   "In diesem Zusammenhang ist auch wichtig\\, dass die Funktionsweise von Forceload Blöcken verstanden wurde\\, denn bspw. Generatoren liefern nur Strom\\, wenn der entsprechende Map-Block geladen ist. Dies kann mit einen Forceload Block erzwungen werden.\n"..
+  "\n"..
+  "In TA4 kommt noch ein Kabel für die Solaranlage hinzu.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -497,9 +512,9 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der kleine Stromgenerator wird mit Erdöl betrieben und kann für kleine Verbraucher mit bis zu 12 ku genutzt werden. Unter Volllast brennt Erdöl 100 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).\n"..
+  "Der kleine Stromgenerator wird mit Benzin betrieben und kann für kleine Verbraucher mit bis zu 12 ku genutzt werden. Unter Volllast brennt Benzin 150 s. Unter Teillast entsprechend länger (50% Last = doppelte Zeit).\n"..
   "\n"..
-  "Der Stromgenerator kann nur 50 Einheiten Öl aufnehmen. Ein zusätzlicher Öltank und eine Ölpumpe sind daher ratsam.\n"..
+  "Der Stromgenerator kann nur 50 Einheiten Benzin aufnehmen. Ein zusätzlicher Tank und eine Pumpe sind daher ratsam.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -510,29 +525,25 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Das Strom-Terminal muss von eine Verteilerdose platziert werden. Es zeigt Daten aus dem Stromnetz an wie:\n"..
+  "Das Strom-Terminal muss vor eine Verteilerdose platziert werden. Es zeigt Daten aus dem Stromnetz an wie:\n"..
   "\n"..
   "  - Anzahl und Leistung der verschiedenen Generatoren und Akkus (aktuell/maximal)\n"..
-  "  - Anzahl der Netzwerk-Blöcke (max. 1000)\nDie Daten des Terminals werden beim Öffnen des Menüs und dann nur durch Anklicken des \"Update\" Buttons aktualisiert.\n"..
+  "  - Anzahl der Netzwerk-Blöcke (max. 1000)\nDie Daten des Terminals werden beim Öffnen des Menüs für einige Sekunden aktualisiert. Danach kann die Anzeige durch Anklicken des \"Update\" Buttons erneut aktualisiert werden.\n"..
   "\n"..
   "\n"..
   "\n",
-  "Der TA3 Industrieofen dient als Ergänzung zu normalen Ofen (furnace). Damit können alle Waren mit \"Koch\" Rezepte\\, auch im Industrieofen hergestellt werden. Es gibt aber auch spezielle Rezepte\\, die nur im Industrieofen hergestellt werden können.\n"..
+  "Der TA3 Industrieofen dient als Ergänzung zu normalen Ofen (furnace). Damit können alle Waren mit \"Koch\" Rezepten\\, auch im Industrieofen hergestellt werden. Es gibt aber auch spezielle Rezepte\\, die nur im Industrieofen hergestellt werden können.\n"..
   "Der Industrieofen hat sein eigenes Menü zur Rezeptauswahl. Abhängig von den Waren im Industrieofen Inventar links kann rechts das Ausgangsprodukt gewählt werden.\n"..
   "\n"..
-  "Der Industrieofen benötigt Strom (für das Gebläse) sowie Öl für den Brenner. Der Industrieofens und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden.\n"..
-  "\n"..
-  "Die Brennzeit für Öl beträgt 80 s.\n"..
+  "Der Industrieofen benötigt Strom (für das Gebläse) sowie Öl/Benzin für den Brenner. Der Industrieofens und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden.\n"..
   "\n"..
   "\n"..
   "\n",
-  "Ist Teil des TA3 Industrieofen. Muss mit Öl befeuert werden.\n"..
+  "Ist Teil des TA3 Industrieofen.\n"..
   "\n"..
-  "Der Ölbrenner kann nur 50 Einheiten Öl aufnehmen. Ein zusätzlicher Öltank und eine Ölpumpe sind daher ratsam.\n"..
+  "Der Ölbrenner kann mit Schweröl\\, Naphtha oder Benzin betrieben werden. Die Brennzeit beträgt für Schweröl 80 s\\, Naphtha 90 s und Benzin 100 s.\n"..
   "\n"..
-  "\n"..
-  "\n",
-  "Ist Teil des TA3 Industrieofen. Siehe TA3 Industrieofen.\n"..
+  "Der Ölbrenner kann nur 50 Einheiten Kraftstoff aufnehmen. Ein zusätzlicher Tank und eine Pumpe sind daher ratsam.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -540,7 +551,37 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Um deine Generatoren und Öfen mit Öl betrieben zu können\\, muss du zuerst nach Öl suchen und einen Bohrturm errichten und danach das Öl fördern.\n"..
+  "Ist Teil des TA3 Industrieofen. Siehe TA3 Industrieofen.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Flüssigkeiten wie Wasser oder Öl können nur die spezielle Leitungen gepumpt und in Tanks gespeichert werden. Wie auch bei Wasser gibt es aber Behälter (Eimer\\, Kanister\\, Fässer)\\, in denen die Flüssig gelagert und transportiert werden kann.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "In einem Tank können Flüssigkeiten gespeichert werden. Ein Tank kann über eine Pumpe gefüllt bzw. geleert werden. Dazu muss die Pumpe über einer Leitung (gelbe Röhre) mit dem Tank verbunden sein.\n"..
+  "Ein Tank kann aber auch über Eimer/Fässer gefüllt bzw. geleert werden:\n"..
+  "\n"..
+  "  - werden leere Fässer mit einem Schieber oder von Hand in den Tank gegeben\\, werden diese gefüllt und können ausgangsseitig wieder entnommen werden\n"..
+  "  - werden volle Fässer mit einem Schieber oder von Hand in den Tank gegeben\\, werden diese geleert und können ausgangsseitig wieder entnommen werden\n"..
+  "\n"..
+  "Dabei ist zu beachten\\, dass Fässer nur komplett gefüllt oder entleert werden können. Sind bspw. weniger als 10 Einheiten im Tank\\, muss dieser Rest mit Eimern oder Kanistern entnommen oder leergepumpt werden.\n"..
+  "\n"..
+  "In einen TA3 Tank passen 500 Einheiten oder 50 Fässer einer Flüssigkeit.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Mit der Pumpe können Flüssigkeiten von Tanks oder Behältern zu anderen Tanks oder Behältern gepumpt werden. Bei der Pumpe muss die Pumprichtung (Pfeil) beachtet werden. Über die gelben Leitungen und Verbindungsstücke ist es auch möglich\\, mehrere Tanks auf jeder Seite der Pumpe anzuordnen. Allerdings müssen die Tanks den selben Inhalt haben.\n"..
+  "\n"..
+  "Die TA3 Pumpe pumpt 4 Einheiten Flüssigkeit alle zwei Sekunden.\n"..
+  "\n"..
+  "Hinweis 1: Die Pumpe darf nicht direkt neben den Tank platziert werden. Es muss immer mindestens ein Stück gelbe Leitung dazwischen sein.\n"..
+  "\n"..
+  "Hinweis 2: Nach dem Starten markiert die Pumpe 10 x die Blöcke\\, von und zu denen gepumpt wird.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Um deine Generatoren und Öfen mit Öl betreiben zu können\\, muss du zuerst nach Öl suchen und einen Bohrturm errichten und danach das Öl fördern.\n"..
   "Dazu dienen dir TA3 Ölexplorer\\, TA3 Ölbohrkiste und TA3 Ölpumpe.\n"..
   "\n"..
   "\n"..
@@ -583,6 +624,29 @@ techage.manual_DE.aText = {
   "\n"..
   "Der große Tank kann 2000 Einheiten Öl aufnehmen.\n"..
   "\n"..
+  "\n"..
+  "\n",
+  "Öl ist ein Stoffgemisch und besteht aus sehr vielen Komponenten. Über einen Destillationsturm kann das Öl in seine Hauptbestandteile wie Bitumen\\, Schweröl\\, Naphtha\\, Benzin und Gas zerlegt werden.\n"..
+  "Die weitere Verarbeitung zu Endprodukten erfolgt im Chemischen Reaktor.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Destillationsturm muss wie im Plan rechts oben aufgebaut werden. \n"..
+  "Über den Basisblock wird das Bitumen abgelassen. Der Ausgang ist auf der Rückseite des Basisblocks (Pfeilrichtung beachten).\n"..
+  "Auf diesen Basisblock kommen die \"Destillationsturm\" Blöcke mit den Nummern: 1\\, 2\\, 3\\, 2\\, 3\\, 2\\, 3\\, 4\n"..
+  "An den Öffnungen von unten nach oben werden Schweröl\\, Naphtha und Benzin abgeleitet. Ganz oben wird das Gas abgefangen.\n"..
+  "Es müssen alle Öffnungen am Turm mit Tanks verbunden werden.\n"..
+  "Der Aufkocher (reboiler) muss mit dem Block \"Destillationsturm 1\" verbunden werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Aufkocher erhitzt das Erdöl auf ca. 400°C. Dabei verdampft es weitgehend und wird in den Destillationsturm zur Abkühlung geleitet.\n"..
+  "\n"..
+  "Der Aufkocher benötigt 12 Einheiten Strom und produziert alle 6 s jeweils eine Einheit Bitumen\\, Schweröl\\, Naphtha\\, Benzin und Gas.\n"..
+  "Dazu muss der Aufkocher über einen Pumpe mit Erdöl versorgt werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "\n"..
   "\n",
   "Neben den Röhren für Warentransport\\, sowie den Gas- und Stromleitungen gibt es auch noch eine drahtlose Kommunikationsebene\\, über die Blöcke untereinander Daten austauschen können. Dafür müssen keine Leitungen gezogen werden\\, sondern die Verbindung zwischen Sender und Empfänger erfolgt nur über die Blocknummer. Alle Blöcke\\, die an dieser Kommunikation teilnehmen können\\, zeigen die Blocknummer als Info-Text an\\, wenn man mit dem Mauscursor den Block fixiert.\n"..
@@ -769,36 +833,6 @@ techage.manual_DE.aText = {
   "\n",
   "Die Funktion entspricht der von TA2.\n"..
   "Die Verarbeitungsleistung ist 2 Items alle 8 s. Der Block benötigt 5 ku Strom.\n"..
-  "\n"..
-  "\n"..
-  "\n",
-  "Flüssigkeiten wie Wasser oder Öl können nur die spezielle Leitungen gepumpt und in Tanks gespeichert werden. Wie auch bei Wasser gibt es aber Behälter (Eimer\\, Kanister\\, Fässer)\\, in denen die Flüssig gelagert und transportiert werden kann.\n"..
-  "\n"..
-  "\n"..
-  "\n",
-  "In einem Tank können Flüssigkeiten gespeichert werden. Ein Tank kann über eine Pumpe gefüllt bzw. geleert werden. Dazu muss die Pumpe über einer Leitung (gelbe Röhre) mit dem Tank verbunden sein.\n"..
-  "Ein Tank kann aber auch über Eimer/Fässer gefüllt bzw. geleert werden:\n"..
-  "\n"..
-  "  - werden leere Fässer mit einem Schieber oder von Hand in den Tank gegeben\\, werden diese gefüllt und können ausgangsseitig wieder entnommen werden\n"..
-  "  - werden volle Fässer mit einem Schieber oder von Hand in den Tank gegeben\\, werden diese geleert und können ausgangsseitig wieder entnommen werden\n"..
-  "\n"..
-  "Dabei ist zu beachten\\, dass Fässer nur komplett gefüllt oder entleert werden können. Sind bspw. weniger als 10 Einheiten im Tank\\, muss dieser Rest mit Eimern entnommen oder leergepumpt werden.\n"..
-  "\n"..
-  "In einen TA3 Tank passen 500 Einheiten oder 50 Fässer einer Flüssigkeit.\n"..
-  "\n"..
-  "\n"..
-  "\n",
-  "Mit der Pumpe können Flüssigkeiten von Tanks oder Behältern zu anderen Tanks oder Behältern gepumpt werden. Bei der Pumpe muss die Pumprichtung (Pfeil) beachtet werden. Über die gelben Leitungen und Verbindungsstücke ist es auch möglich\\, mehrere Tanks auf jeder Seite der Pumpe anzuordnen. Allerdings müssen die Tanks den selben Inhalt haben.\n"..
-  "\n"..
-  "  - zum Füllen\\, oder volle Fässer zul Leeren\n"..
-  "  - in einen Eimer oder einen Kanister passt eine Einheit einer Flüssigkeit\\, bspw. Wasser\n"..
-  "  - in ein Fass passen 10 Einheiten Flüssigkeit\\, bspw. Öl\n"..
-  "\n"..
-  "Die TA3 Pumpe pumpt 4 Einheiten Flüssigkeit alle zwei Sekunden.\n"..
-  "\n"..
-  "Hinweis 1: Die Pumpe darf nicht direkt neben den Tank platziert werden. Es muss immer mindestens ein Stück gelbe Leitung dazwischen sein.\n"..
-  "\n"..
-  "Hinweis 2: Nach dem Starten markiert die Pumpe 10 x die Blöcke\\, von und zu denen gepumpt wird.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1043,12 +1077,19 @@ techage.manual_DE.aItemName = {
   "ta3_furnacefirebox",
   "ta3_furnace",
   "ta3_booster",
+  "",
+  "ta3_tank",
+  "ta3_pump",
   "techage_ta3",
   "ta3_oilexplorer",
   "ta3_drillbox",
   "ta3_pumpjack",
   "ta3_drillbit",
   "oiltank",
+  "techage_ta31",
+  "",
+  "reboiler",
+  "ta3_reactor",
   "ta3_logic",
   "ta3_button",
   "ta3_logic",
@@ -1072,9 +1113,6 @@ techage.manual_DE.aItemName = {
   "ta3_gravelsieve",
   "ta3_grinder",
   "ta3_liquidsampler",
-  "",
-  "ta3_tank",
-  "ta3_pump",
   "",
   "ta3_end_wrench",
   "ta3_programmer",
@@ -1166,36 +1204,40 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
-  "",
   "ta3_tank",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "ta3_distiller",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
   "",
   "",
   "",
