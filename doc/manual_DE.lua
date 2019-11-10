@@ -638,6 +638,8 @@ techage.manual_DE.aText = {
   "Es müssen alle Öffnungen am Turm mit Tanks verbunden werden.\n"..
   "Der Aufkocher (reboiler) muss mit dem Block \"Destillationsturm 1\" verbunden werden.\n"..
   "\n"..
+  "Der Aufkocher benötigt Strom (nicht im Plan zu sehen)!\n"..
+  "\n"..
   "\n"..
   "\n",
   "Der Aufkocher erhitzt das Erdöl auf ca. 400°C. Dabei verdampft es weitgehend und wird in den Destillationsturm zur Abkühlung geleitet.\n"..

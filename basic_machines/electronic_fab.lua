@@ -22,74 +22,38 @@ local STANDBY_TICKS = 10
 local COUNTDOWN_TICKS = 6
 local CYCLE_TIME = 6
 
+local recipes = techage.recipes
 
-local ValidInput = {
-	{},  -- 1
-	{  -- 2
-		["default:glass"] = true,
-		["basic_materials:copper_wire"] = true,
-		["basic_materials:plastic_sheet"] = true,
-		["techage:usmium_nuggets"] = true,
-	},
-	{  -- 3
-		["default:mese_crystal"] = true, 
-		["default:copper_ingot"] = true, 
-		["default:gold_ingot"] = true, 
-		["techage:ta4_silicon_wafer"] = true,
-	},  
-	{},  -- 4
-}
-
-local Input = {
-	{},  -- 1
-	{"default:glass", "basic_materials:copper_wire", "basic_materials:plastic_sheet", "techage:usmium_nuggets"}, --2
-	{"default:mese_crystal", "default:copper_ingot", "default:gold_ingot", "techage:ta4_silicon_wafer"},  -- 3
-	{},  -- 4
-}
-
-local Output = {
-	"",  -- 1
-	"techage:vacuum_tube 2",  -- 2
-	"techage:ta4_wlanchip 8",  -- 3
-	"",  -- 4
+local RecipeType = {	[2] = "ta2_electronic_fab",
+	[3]	= "ta3_electronic_fab",
+	[4] = "ta4_electronic_fab",
 }
 
 local function formspec(self, pos, mem)
-	local icon
-	local crd = CRD(pos)
-	if crd.stage == 2 then
-		icon = "techage:vacuum_tube"
-	elseif crd.stage == 3 then
-		icon = "techage:ta4_wlanchip"
-	else
-		icon = ""
-	end
-	return "size[8,8]"..
+	local rtype = RecipeType[CRD(pos).stage]
+	return "size[8.4,8.4]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	"list[context;src;0,0;3,3;]"..
-	"image[3.5,0;1,1;"..techage.get_power_image(pos, mem).."]"..
-	"image[3.5,1;1,1;techage_form_arrow.png]"..
-	"image_button[3.5,2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
-	"list[context;dst;5,0;3,3;]"..
-	"item_image[5,0;1,1;"..icon.."]"..
-	"list[current_player;main;0,4;8,4;]"..
+	"list[context;src;0,0;2,4;]"..
+	recipes.formspec(2.2, 0, rtype, mem)..
+	"list[context;dst;6.4,0;2,4;]"..
+	"image_button[3.7,3.3;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
+	"tooltip[3.7,3.3;1,1;"..self:get_state_tooltip(mem).."]"..
+	"list[current_player;main;0.2,4.5;8,4;]"..
 	"listring[context;dst]"..
 	"listring[current_player;main]"..
 	"listring[context;src]"..
 	"listring[current_player;main]"..
-	default.get_hotbar_bg(0, 4)
+	default.get_hotbar_bg(0.2, 4.5)
 end
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	--local meta = minetest.get_meta(pos)
-	--local inv = meta:get_inventory()
 	local crd = CRD(pos)
-	if listname == "src" and ValidInput[crd.stage][stack:get_name()] then
+	if listname == "src" then
 		crd.State:start_if_standby(pos)
 		return stack:get_count()
 	end
@@ -111,17 +75,22 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 end
 
 local function making(pos, crd, mem, inv)
-	if inv:room_for_item("dst", ItemStack(Output[crd.stage])) then
-		for _,name in ipairs(Input[crd.stage]) do
-			if not inv:contains_item("src", ItemStack(name)) then
+	local rtype = RecipeType[crd.stage]
+	local recipe = recipes.get(mem, rtype)
+	local output = ItemStack(recipe.output.name.." "..recipe.output.num)
+	if inv:room_for_item("dst", output) then
+		for _,item in ipairs(recipe.input) do
+			local input = ItemStack(item.name.." "..item.num)
+			if not inv:contains_item("src", input) then
 				crd.State:idle(pos, mem)
 				return
 			end
 		end
-		for _,name in ipairs(Input[crd.stage]) do
-			inv:remove_item("src", ItemStack(name))
+		for _,item in ipairs(recipe.input) do
+			local input = ItemStack(item.name.." "..item.num)
+			inv:remove_item("src", input)
 		end
-		inv:add_item("dst", ItemStack(Output[crd.stage]))
+		inv:add_item("dst", output)
 		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
 		return
 	end
@@ -142,8 +111,16 @@ local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
+	
 	local mem = tubelib2.get_mem(pos)
-	CRD(pos).State:state_button_event(pos, mem, fields)
+	local crd = CRD(pos)
+	
+	if not mem.running then	
+		recipes.on_receive_fields(pos, formname, fields, player)
+	end
+	
+	crd.State:state_button_event(pos, mem, fields)
+	M(pos):set_string("formspec", formspec(crd.State, pos, mem))
 end
 
 local function can_dig(pos, player)
@@ -238,8 +215,8 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		tubing = tubing,
 		after_place_node = function(pos, placer)
 			local inv = M(pos):get_inventory()
-			inv:set_size("src", 3*3)
-			inv:set_size("dst", 3*3)
+			inv:set_size("src", 8)
+			inv:set_size("dst", 8)
 		end,
 		can_dig = can_dig,
 		node_timer = keep_running,
@@ -300,16 +277,20 @@ if minetest.global_exists("unified_inventory") then
 		width = 2,
 		height = 2,
 	})
-	unified_inventory.register_craft({
-		output = "techage:vacuum_tube 2", 
-		items = {"default:glass", "basic_materials:copper_wire", "basic_materials:plastic_sheet", "techage:usmium_nuggets"},
-		type = "ta2_electronic_fab",
-	})
-	unified_inventory.register_craft({
-		output = "techage:ta4_wlanchip 8", 
-		items = {"default:mese_crystal", "default:copper_ingot", "default:gold_ingot", "techage:ta4_silicon_wafer"},
-		type = "ta3_electronic_fab",
-	})
 end
 
 
+recipes.add("ta2_electronic_fab", {
+	output = "techage:vacuum_tube 2",
+	input = {"default:glass 1", "basic_materials:copper_wire 1", "basic_materials:plastic_sheet 1", "techage:usmium_nuggets 1"}
+})
+
+recipes.add("ta3_electronic_fab", {
+	output = "techage:vacuum_tube 2",
+	input = {"default:glass 1", "basic_materials:copper_wire 1", "basic_materials:plastic_sheet 1", "techage:usmium_nuggets 1"}
+})
+
+recipes.add("ta3_electronic_fab", {
+	output = "techage:ta4_wlanchip 8",
+	input = {"default:mese_crystal 1", "default:copper_ingot 1", "default:gold_ingot 1", "techage:ta4_silicon_wafer 1"}
+})

@@ -47,6 +47,20 @@ if techage.modified_recipes_enabled then
 	minetest.clear_craft({output = "fire:flint_and_steel"})
 	minetest.clear_craft({output = "bucket:bucket_empty"})
 
+	-- add again
+	minetest.register_craft({
+		output = 'default:steel_ingot 9',
+		recipe = {
+			{'default:steelblock'},
+		}
+	})
+	minetest.register_craft({
+		output = 'default:bronze_ingot 9',
+		recipe = {
+			{'default:bronzeblock'},
+		}
+	})
+	
 	techage.ironage_register_recipe({
 		output = "default:bronze_ingot 4", 
 		recipe = {"default:copper_ingot", "default:copper_ingot", "default:copper_ingot", "default:tin_ingot"}, 

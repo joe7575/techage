@@ -17,9 +17,8 @@ local M = minetest.get_meta
 local N = function(pos) return minetest.get_node(pos).name end
 local Pipe = techage.BiogasPipe
 local liquid = techage.liquid
+local recipes = techage.recipes
 
-local Recipes = {}  -- {ouput = {....},...}
-local RecipeList = {}  -- {<output name>,...}
 local Liquids = {}  -- {hash(pos) = {name = outdir},...}
 
 local STANDBY_TICKS = 0
@@ -27,40 +26,15 @@ local COUNTDOWN_TICKS = 6
 local CYCLE_TIME = 2
 local POWER_NEED = 10
 
-local range = techage.range
-
--- Formspec
-local function input_string(recipe)
-	local tbl = {}
-	for idx, item in ipairs(recipe.input) do
-		local x = ((idx-1) % 2) + 1
-		local y = math.floor((idx-1) / 2)
-		tbl[idx] = techage.item_image(x, y, item.name.." "..item.num)
-	end
-	return table.concat(tbl, "")
-end
-
 local function formspec(self, pos, mem)
-	mem.recipe_idx = range(mem.recipe_idx or 1, 1, #RecipeList)
-	local idx = mem.recipe_idx
-	local recipe = Recipes[RecipeList[idx]]
-	local output = recipe.output.name.." "..recipe.output.num
-	local waste = recipe.waste.name.." "..recipe.waste.num
-	return "size[8,7.2]"..
+	return "size[8,7]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
-		input_string(recipe)..
-		"image[3,0.5;1,1;techage_form_arrow.png]"..
-		techage.item_image(4, 0, output)..
-		techage.item_image(4, 1, waste)..
-		"image_button[6.5,0.5;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
-		"tooltip[6.5,0.5;1,1;"..self:get_state_tooltip(mem).."]"..
-		"button[1,2.2;1,1;priv;<<]"..
-		"button[2,2.2;1,1;next;>>]"..
-		"label[3,2.5;"..S("Recipe")..": "..idx.."/"..#RecipeList.."]"..
-		
-		"list[current_player;main;0,3.5;8,4;]" ..
+		recipes.formspec(0, 0, "ta4_doser", mem)..
+		"image_button[6,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
+		"tooltip[6,1;1,1;"..self:get_state_tooltip(mem).."]"..
+		"list[current_player;main;0,3.3;8,4;]" ..
 		default.get_hotbar_bg(0, 3.5)
 end
 
@@ -140,7 +114,7 @@ local function dosing(pos, mem, elapsed)
 	end
 	-- available liquids
 	local liquids = get_liquids(pos)
-	local recipe = Recipes[RecipeList[mem.recipe_idx or 1]]
+	local recipe = recipes.get(mem, "ta4_doser")
 	if not liquids or not recipe then return end
 	-- inputs
 	for _,item in pairs(recipe.input) do
@@ -184,19 +158,13 @@ local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	local mem = tubelib2.get_mem(pos)
 	
-	mem.recipe_idx = mem.recipe_idx or 1
+	local mem = tubelib2.get_mem(pos)
 	if not mem.running then	
-		if fields.next == ">>" then
-			mem.recipe_idx = range(mem.recipe_idx + 1, 1, #RecipeList)
-			M(pos):set_string("formspec", formspec(State, pos, mem))
-		elseif fields.priv == "<<" then
-			mem.recipe_idx = range(mem.recipe_idx - 1, 1, #RecipeList)
-			M(pos):set_string("formspec", formspec(State, pos, mem))
-		end
+		recipes.on_receive_fields(pos, formname, fields, player)
 	end
 	State:state_button_event(pos, mem, fields)
+	M(pos):set_string("formspec", formspec(State, pos, mem))
 end
 
 
@@ -270,37 +238,16 @@ techage.power.register_node({"techage:ta4_doser", "techage:ta4_doser_on"}, {
 	end,
 })
 
--- Doser Recipe
--- {
---     output = "<item-name> <units>",  -- units = 1..n
---     waste = "<item-name> <units>",
---     input = {                        -- up to 4
---         "<item-name> <units>",
---         "<item-name> <units>",
---     },
--- }
---
-function techage.add_doser_recipe(recipe)
-	local name, num
-	local item = {input = {}}
-	for idx = 1,4 do
-		local inp = recipe.input[idx] or ""
-		name, num = unpack(string.split(inp, " "))
-		item.input[idx] = {name = name or "", num = tonumber(num) or 0}
-	end
-	if recipe.waste then 
-		name, num = unpack(string.split(recipe.waste, " "))
-	else
-		name, num = "", "0"
-	end
-	item.waste = {name = name or "", num = tonumber(num) or 0}
-	name, num = unpack(string.split(recipe.output, " "))
-	item.output = {name = name or "", num = tonumber(num) or 0}
-	Recipes[name] = item
-	RecipeList[#RecipeList+1] = name
+if minetest.global_exists("unified_inventory") then
+	unified_inventory.register_craft_type("ta4_doser", {
+		description = S("TA4 Doser"),
+		icon = 'techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_pump.png^techage_appl_hole_pipe.png',
+		width = 2,
+		height = 2,
+	})
 end
 
-techage.add_doser_recipe({
+recipes.add("ta4_doser", {
 	output = "techage:ta4_epoxy 3",
 	input = {
 		"techage:oil_source 2",

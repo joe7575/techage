@@ -82,7 +82,7 @@ minetest.register_node("techage:ta3_distiller_base", {
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},
 	is_ground_content = false,
-	sounds = default.node_sound_metal_defaults(),
+	sounds = default.node_sound_stone_defaults(),
 
 	networks = {
 		pipe = {

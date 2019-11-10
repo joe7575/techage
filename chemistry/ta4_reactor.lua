@@ -13,9 +13,11 @@
 ]]--
 
 local S = techage.S
-local Pipe = techage.BiogasPipe
 local Cable = techage.ElectricCable
 local power = techage.power
+local Pipe = techage.LiquidPipe
+local networks = techage.networks
+local liquid = techage.liquid
 
 -- pos of the reactor stand
 local function on_power(pos, mem)
@@ -52,12 +54,12 @@ minetest.register_node("techage:ta4_reactor_stand", {
 	description = S("TA4 Reactor"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_reactor_stand_top.png",
-		"techage_reactor_stand_bottom.png^[transformFY",
+		"techage_reactor_stand_top.png^[transformR90",
+		"techage_reactor_stand_bottom.png^[transformFY^[transformR270",
+		"techage_reactor_stand_front.png",
+		"techage_reactor_stand_back.png",
 		"techage_reactor_stand_side.png^[transformFX",
 		"techage_reactor_stand_side.png",
-		"techage_reactor_stand_back.png",
-		"techage_reactor_stand_front.png",
 	},
 	drawtype = "nodebox",
 	node_box = {
@@ -70,11 +72,15 @@ minetest.register_node("techage:ta4_reactor_stand", {
 			{ -8/16, -8/16,  6/16,  -6/16,  8/16,  8/16 },
 			{  6/16, -8/16,  6/16,   8/16,  8/16,  8/16 },
 			
-			{-1/8, -1/8, -4/8,   1/8, 1/8,  4/8},
-			{-1/8,  0/8, -1/8,   1/8, 4/8,  1/8},
-			{-3/8, -1/8, -4/8,   3/8, 1/8, -3/8},
-			{-3/8, -1/8,  3/8,   3/8, 1/8,  4/8},
-		},
+			{-1/8, -4/8, -1/8,   1/8, 4/8, 1/8},
+
+			{-4/8, -1/8, -1/8,   4/8, 1/8,  1/8},
+--			{-3/8, -1/8, -4/8,   3/8, 1/8, -3/8},
+			{-4/8, -1/8, -3/8,  -3/8, 1/8,  3/8},
+
+--			{-3/8, -1/8,  3/8,   3/8, 1/8,  4/8},
+			{ 3/8, -1/8, -3/8,   4/8, 1/8,  3/8},
+},
 	},
 	selection_box = {
 		type = "fixed",
@@ -86,17 +92,18 @@ minetest.register_node("techage:ta4_reactor_stand", {
 	groups = {cracky=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
-})
 
--- for mechanical pipe connections
-techage.power.register_node({"techage:ta4_reactor_stand"}, {
-	conn_sides = {"F"},
-	power_network  = Pipe,
+	networks = {
+		pipe = {
+			sides = {R=1}, -- Pipe connection sides
+			ntype = "pump",
+		},
+	},
 })
 
 -- for electrical connections
 techage.power.register_node({"techage:ta4_reactor_stand"}, {
-	conn_sides = {"B"},
+	conn_sides = {"L"},
 	power_network  = Cable,
 })
 
@@ -121,19 +128,6 @@ minetest.register_node("techage:ta4_reactor_fillerpipe", {
 		type = "fixed",
 		fixed = {-2/8, 0/8, -2/8, 2/8, 4/8, 2/8},
 	},
-	paramtype = "light",
-	sunlight_propagates = true,	
-	paramtype2 = "facedir",
-	on_rotate = screwdriver.disallow,
-	groups = {cracky=2},
-	is_ground_content = false,
-	sounds = default.node_sound_metal_defaults(),
-})
-
--- for mechanical pipe connections
-techage.power.register_node({"techage:ta4_reactor_fillerpipe"}, {
-	conn_sides = {"U"},
-	power_network  = Pipe,
 	after_place_node = function(pos)
 		local pos1 = {x = pos.x, y = pos.y-1, z = pos.z}
 		print(minetest.get_node(pos1).name)
@@ -141,8 +135,30 @@ techage.power.register_node({"techage:ta4_reactor_fillerpipe"}, {
 			local node = minetest.get_node(pos)
 			minetest.remove_node(pos)
 			minetest.set_node(pos1, node)
+			Pipe:after_place_node(pos1)
 		end
 	end,
+	tubelib2_on_update2 = function(pos, dir, tlib2, node)
+		liquid.update_network(pos)
+	end,
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		Pipe:after_dig_node(pos)
+	end,
+	
+	paramtype = "light",
+	sunlight_propagates = true,	
+	paramtype2 = "facedir",
+	on_rotate = screwdriver.disallow,
+	groups = {cracky=2},
+	is_ground_content = false,
+	sounds = default.node_sound_metal_defaults(),
+
+	networks = {
+		pipe = {
+			sides = {U=1}, -- Pipe connection sides
+			ntype = "tank",
+		},
+	},
 })
 
 -- controlled by the doser
@@ -169,4 +185,46 @@ techage.register_node({"techage:ta4_reactor_fillerpipe"}, {
 			return true
 		end
 	end,
+})
+
+minetest.register_node("techage:ta4_reactor_base", {
+	description = S("TA4 Reactor Base"),
+	tiles = {
+		-- up, down, right, left, back, front
+		"techage_concrete.png^techage_appl_arrowXL.png^techage_appl_hole_pipe.png^[transformR270",
+		"techage_concrete.png",
+		"techage_concrete.png^techage_appl_hole_pipe.png",
+		"techage_concrete.png",
+		"techage_concrete.png",
+		"techage_concrete.png",
+	},
+	
+	after_place_node = function(pos, placer)
+		Pipe:after_place_node(pos)
+	end,
+	tubelib2_on_update2 = function(pos, dir, tlib2, node)
+		liquid.update_network(pos)
+	end,
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		Pipe:after_dig_node(pos)
+	end,
+	
+	paramtype2 = "facedir",
+	on_rotate = screwdriver.disallow,
+	groups = {cracky=2},
+	is_ground_content = false,
+	sounds = default.node_sound_stone_defaults(),
+
+	networks = {
+		pipe = {
+			sides = {R=1}, -- Pipe connection sides
+			ntype = "pump",
+		},
+	},
+})
+
+Pipe:add_secondary_node_names({
+		"techage:ta4_reactor_base", 
+		"techage:ta4_reactor_fillerpipe", 
+		"techage:ta4_reactor_stand",
 })

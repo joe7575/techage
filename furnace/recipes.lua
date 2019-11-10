@@ -19,6 +19,13 @@ techage.furnace.register_recipe({
 	time = 2,
 })
 
+techage.furnace.register_recipe({
+	output = "default:obsidian", 
+	recipe = {"default:cobble"}, 
+	time = 8,
+})
+
+
 if techage.modified_recipes_enabled then
 	techage.furnace.register_recipe({
 		output = "default:bronze_ingot 4", 

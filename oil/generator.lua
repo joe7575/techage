@@ -237,8 +237,8 @@ minetest.register_node("techage:tiny_generator_on", {
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 
-	allow_metadata_inventory_put = allow_metadata_inventory_put,
-	allow_metadata_inventory_take = allow_metadata_inventory_take,
+	allow_metadata_inventory_put = fuel.allow_metadata_inventory_put,
+	allow_metadata_inventory_take = fuel.allow_metadata_inventory_take,
 	on_metadata_inventory_put = on_metadata_inventory_put,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,

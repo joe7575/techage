@@ -350,6 +350,8 @@ An den Öffnungen von unten nach oben werden Schweröl, Naphtha und Benzin abgel
 Es müssen alle Öffnungen am Turm mit Tanks verbunden werden.
 Der Aufkocher (reboiler) muss mit dem Block "Destillationsturm 1" verbunden werden.
 
+Der Aufkocher benötigt Strom (nicht im Plan zu sehen)!
+
 
 [ta3_distiller|plan]
 

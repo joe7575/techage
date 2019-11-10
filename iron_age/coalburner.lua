@@ -165,6 +165,7 @@ minetest.register_node("techage:ash", {
 	description = S("Ash"),
 	tiles = {"techage_ash.png"},
 	drawtype = "nodebox",
+	paramtype = "light",
 	node_box = {
 		type = "fixed",
 		fixed = {

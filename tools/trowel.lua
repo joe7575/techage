@@ -81,7 +81,7 @@ local function replace_node(itemstack, placer, pointed_thing)
 	end
 end
 
-minetest.register_node("techage:trowel", {
+minetest.register_tool("techage:trowel", {
 	description = S("TechAge Trowel"),
 	inventory_image = "techage_trowel.png",
 	wield_image = "techage_trowel.png",

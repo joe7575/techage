@@ -49,6 +49,7 @@ else
 	dofile(MP.."/basis/mark2.lua")
 	dofile(MP.."/basis/assemble.lua")
 	dofile(MP.."/basis/networks.lua")
+	dofile(MP.."/basis/recipe_lib.lua")
 
 	-- Main doc
 	dofile(MP.."/doc/manual_DE.lua")
@@ -194,7 +195,7 @@ else
 
 	-- Test
 	dofile(MP.."/recipe_checker.lua")
-	dofile(MP.."/.test/sink.lua")
+	--dofile(MP.."/.test/sink.lua")
 	dofile(MP.."/.test/source.lua")
 	--dofile(MP.."/.test/akku.lua")
 	--dofile(MP.."/.test/switch.lua")

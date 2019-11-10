@@ -57,6 +57,7 @@ local function add_rotor(pos, mem, player_name)
 	local num = #minetest.find_nodes_in_area(pos1, pos2, {"techage:ta4_wind_turbine"})
 	if num > 1 then
 		if player_name then
+			techage.mark_region(player_name, pos1, pos2, "")
 			minetest.chat_send_player(player_name, S("[TA4 Wind Turbine]")..
 				" "..S("The wind turbines are too close together!"))
 		end
@@ -71,8 +72,9 @@ local function add_rotor(pos, mem, player_name)
 	local num = #minetest.find_nodes_in_area(pos1, pos2, {"default:water_source", "default:water_flowing", "ignore"})
 	if num < (41*41*2-MAX_NUM_FOREIGN_NODES) then
 		if player_name then
+			techage.mark_region(player_name, pos1, pos2, "")
 			minetest.chat_send_player(player_name, S("[TA4 Wind Turbine]")..
-				" "..S("Wrong place for wind turbines!"))
+				" "..S("More water expected (2 m deep)!"))
 		end
 		M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..S("Error"))
 		mem.error = true
@@ -81,6 +83,9 @@ local function add_rotor(pos, mem, player_name)
 	
 	if pos.y < 12 or pos.y > 20 then
 		if player_name then
+			pos1 = {x=pos.x-13, y=12, z=pos.z-13}
+			pos2 = {x=pos.x+13, y=20, z=pos.z+13}
+			techage.mark_region(player_name, pos1, pos2, "")
 			minetest.chat_send_player(player_name, S("[TA4 Wind Turbine]")..
 				" "..S("No wind at this altitude!"))
 		end
