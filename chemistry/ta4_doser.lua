@@ -118,38 +118,42 @@ local function dosing(pos, mem, elapsed)
 		State:idle(pos, mem)
 		return
 	end
---	-- available liquids
---	local liquids = get_liquids(pos)
---	local recipe = recipes.get(mem, "ta4_doser")
---	if not liquids or not recipe then return end
---	-- inputs
---	for _,item in pairs(recipe.input) do
---		if item.name ~= "" then
---			print("dosing", item.name, dump(liquids))
---			local outdir = liquids[item.name]
---			if not outdir then
---				State:fault(pos, mem, S("input missing"))
---				return
---			end
---			if liquid.take(pos, outdir, item.name, item.num) < item.num then
---				State:fault(pos, mem, S("input missing"))
---				return
---			end
---		end
---	end
+	-- available liquids
+	local liquids = get_liquids(pos)
+	local recipe = recipes.get(mem, "ta4_doser")
+	if not liquids or not recipe then return end
+	-- inputs
+	for _,item in pairs(recipe.input) do
+		if item.name ~= "" then
+			print("dosing", item.name, dump(liquids))
+			local outdir = liquids[item.name]
+			if not outdir then
+				State:fault(pos, mem, S("input missing"))
+				return
+			end
+			if liquid.take(pos, outdir, item.name, item.num) < item.num then
+				State:fault(pos, mem, S("input missing"))
+				return
+			end
+		end
+	end
 	-- output
-	--if not reactor_cmnd(pos, "output", recipe.output.name) then
 	local leftover
-	leftover = reactor_cmnd(pos, "output", {name = "techage:gasoline", amount = 1, player_name = "singleplayer"})
+	leftover = reactor_cmnd(pos, "output", {
+			name = recipe.output.name, 
+			amount = recipe.output.num})
 	if not leftover or leftover > 0 then
 		State:fault(pos, mem, S("output blocked"))
 		return
 	end
-	--if not reactor_cmnd(pos, "waste", recipe.waste.name) then
-	leftover = reactor_cmnd(pos, "waste", {name = "techage:bitumen", amount = 1, player_name = "singleplayer"})
-	if not leftover or leftover > 0 then
-		State:fault(pos, mem, S("output blocked"))
-		return
+	if recipe.waste.name ~= "" then
+		leftover = reactor_cmnd(pos, "waste", {
+				name = recipe.waste.name, 
+				amount = recipe.waste.num})
+		if not leftover or leftover > 0 then
+			State:fault(pos, mem, S("output blocked"))
+			return
+		end
 	end
 	State:keep_running(pos, mem, COUNTDOWN_TICKS)
 end	
@@ -257,11 +261,3 @@ if minetest.global_exists("unified_inventory") then
 		height = 2,
 	})
 end
-
-recipes.add("ta4_doser", {
-	output = "techage:ta4_epoxy 3",
-	input = {
-		"techage:oil_source 2",
-		"basic_materials:oil_extract 1",
-	}
-})

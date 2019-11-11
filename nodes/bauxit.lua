@@ -20,8 +20,6 @@ minetest.register_node("techage:bauxite_stone", {
 	groups = {cracky = 3, stone = 1},
 	drop = 'techage:bauxite_cobble',
 	sounds = default.node_sound_stone_defaults(),
-	--paramtype = "light",
-	--light_source = minetest.LIGHT_MAX
 })
 
 minetest.register_node("techage:bauxite_cobble", {
@@ -41,21 +39,21 @@ minetest.register_node("techage:bauxite_gravel", {
 })
 
 minetest.register_ore({
-	ore_type        = "blob",
-	ore             = "techage:bauxite_stone",
-	wherein         = {"default:stone"},
-	clust_scarcity  = 12 * 12 * 12,
-	clust_size      = 5,
-	y_max           = -100,
-	y_min           = -200,
-	noise_threshold = 0.0,
-	noise_params    = {
-		offset = 0.5,
-		scale = 0.2,
-		spread = {x = 8, y = 8, z = 8},
-		seed = 1234, --2316,
-		octaves = 1,
-		persist = 0.0
-	},
-	biomes = {"underground"}
+	ore_type       = "blob",
+	ore            = "techage:bauxite_stone",
+	wherein        = {"default:stone", "default:desert_stone"},
+	clust_scarcity = 16 * 16 * 16,
+	clust_size     = 6,
+	y_max          = -50,
+	y_min          = -150,
+		noise_threshold = 0.0,
+		noise_params    = {
+			offset = 0.5,
+			scale = 0.2,
+			spread = {x = 5, y = 5, z = 5},
+			seed = 41524,
+			octaves = 1,
+			persist = 0.0
+		},
 })
+
