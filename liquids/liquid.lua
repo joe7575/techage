@@ -119,7 +119,7 @@ function techage.liquid.put(pos, outdir, name, amount, player_name)
 			local peek = liquid.peek(item.pos, item.indir)
 			if peek and peek ~= name then return amount or 0 end
 			if player_name then
-				local num = techage.get_node_number(pos)
+				local num = techage.get_node_number(pos) or "000"
 				techage.mark_position(player_name, item.pos, "("..num..") put", "", 1)
 			end
 			amount = liquid.put(item.pos, item.indir, name, amount)

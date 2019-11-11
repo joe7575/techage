@@ -42,10 +42,8 @@ local function on_rightclick(pos, node, clicker)
 	local mem = tubelib2.get_mem(pos)
 	if not mem.running and power.power_available(pos, mem, PWR_NEEDED) then
 		mem.running = true
-		--swap_node(pos, "techage:sink_on")
 		power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-		M(pos):set_string("infotext", "on")
+		M(pos):set_string("infotext", "...")
 	else
 		mem.running = false
 		swap_node(pos, "techage:sink")

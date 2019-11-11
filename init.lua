@@ -195,7 +195,7 @@ else
 
 	-- Test
 	dofile(MP.."/recipe_checker.lua")
-	--dofile(MP.."/.test/sink.lua")
+	dofile(MP.."/.test/sink.lua")
 	dofile(MP.."/.test/source.lua")
 	--dofile(MP.."/.test/akku.lua")
 	--dofile(MP.."/.test/switch.lua")
@@ -219,8 +219,9 @@ else
 	dofile(MP.."/energy_storage/nodes.lua")
 	
 	-- Chemistry
-	--dofile(MP.."/chemistry/ta4_reactor.lua")
-	--dofile(MP.."/chemistry/ta4_doser.lua")
+	dofile(MP.."/chemistry/ta4_reactor.lua")
+	dofile(MP.."/chemistry/ta4_stand.lua")
+	dofile(MP.."/chemistry/ta4_doser.lua")
 	
 	-- Hydrogen
 	dofile(MP.."/hydrogen/hydrogen.lua")

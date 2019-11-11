@@ -148,7 +148,7 @@ local function can_dig(pos, player)
 	end
 	local mem = tubelib2.get_mem(pos)
 	local inv = minetest.get_meta(pos):get_inventory()
-	return inv:is_empty("src") and inv:is_empty("dst") and (mem.liquid.amount or 0) == 0
+	return inv:is_empty("src") and inv:is_empty("dst") and (not mem.liquid or (mem.liquid.amount or 0) == 0)
 end
 
 

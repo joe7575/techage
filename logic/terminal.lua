@@ -156,7 +156,7 @@ local function command(pos, command, player)
 				return
 			end
 			
-			local cmnd, payload = command:match('^pipe%s+(%w+)%s*(.*)$')
+			local cmnd, payload = command:match('^pipe%s+([%w_]+)%s*(.*)$')
 			if cmnd then
 				if not minetest.check_player_privs(player, "server") then
 					output(pos, "server privs missing")

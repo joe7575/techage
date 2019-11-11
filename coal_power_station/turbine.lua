@@ -37,14 +37,23 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function play_sound(pos)
+
+local function node_timer(pos)
 	local mem = tubelib2.get_mem(pos)
 	if mem.running then
 		mem.handle = minetest.sound_play("techage_turbine", {
 			pos = pos, 
 			gain = 1,
 			max_hear_distance = 15})
-		minetest.after(2, play_sound, pos)
+	end
+	return mem.running
+end
+
+local function play_sound(pos)
+	local mem = tubelib2.get_mem(pos)
+	if mem.running then
+		node_timer(pos)
+		minetest.get_node_timer(pos):start(2)
 	end
 end
 
@@ -53,6 +62,7 @@ local function stop_sound(pos)
 	if mem.running and mem.handle then
 		minetest.sound_stop(mem.handle)
 		mem.handle = nil
+		minetest.get_node_timer(pos):stop(2)
 	end
 end
 
@@ -102,6 +112,7 @@ minetest.register_node("techage:turbine_on", {
 			},
 		},
 	},
+	on_timer = node_timer,
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
 	diggable = false,

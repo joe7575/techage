@@ -21,10 +21,9 @@ local recipes = techage.recipes
 
 local Liquids = {}  -- {hash(pos) = {name = outdir},...}
 
-local STANDBY_TICKS = 0
-local COUNTDOWN_TICKS = 6
-local CYCLE_TIME = 2
-local POWER_NEED = 10
+local STANDBY_TICKS = 4
+local COUNTDOWN_TICKS = 4
+local CYCLE_TIME = 4
 
 local function formspec(self, pos, mem)
 	return "size[8,7]"..
@@ -73,20 +72,24 @@ end
 
 local function can_start(pos, mem, state)
 	-- check reactor
-	local res = reactor_cmnd(pos, "can_start")
+	local res = reactor_cmnd(pos, "check")
 	if not res then
 		return S("reactor defect")
+	end
+	res = reactor_cmnd(pos, "can_start")
+	if not res then
+		return S("reactor defect or no power")
 	end
 	return true
 end
 
 local function start_node(pos, mem, state)
-	reactor_cmnd(pos, "start", {cycle_time = CYCLE_TIME, pwr_needed = POWER_NEED})
+	reactor_cmnd(pos, "start")
 	mem.running = true
 end
 
 local function stop_node(pos, mem, state)
-	reactor_cmnd(pos, "stop", nil)
+	reactor_cmnd(pos, "stop")
 	mem.running = false
 end
 
@@ -108,35 +111,43 @@ end
 
 local function dosing(pos, mem, elapsed)
 	-- trigger reactor (power)
-	if not reactor_cmnd(pos, "power", POWER_NEED) then
-		State:nopower(pos, mem, S("reactor has no power"))
+	if not reactor_cmnd(pos, "power") then
+		if not mem.techage_countdown or mem.techage_countdown < 2 then
+			State:nopower(pos, mem, S("reactor has no power"))
+		end
+		State:idle(pos, mem)
 		return
 	end
-	-- available liquids
-	local liquids = get_liquids(pos)
-	local recipe = recipes.get(mem, "ta4_doser")
-	if not liquids or not recipe then return end
-	-- inputs
-	for _,item in pairs(recipe.input) do
-		if item.name ~= "" then
-			print("dosing", item.name, dump(liquids))
-			local outdir = liquids[item.name]
-			if not outdir then
-				State:fault(pos, mem, S("input missing"))
-				return
-			end
-			if liquid.take(pos, outdir, item.name, item.num) < item.num then
-				State:fault(pos, mem, S("input missing"))
-				return
-			end
-		end
-	end
+--	-- available liquids
+--	local liquids = get_liquids(pos)
+--	local recipe = recipes.get(mem, "ta4_doser")
+--	if not liquids or not recipe then return end
+--	-- inputs
+--	for _,item in pairs(recipe.input) do
+--		if item.name ~= "" then
+--			print("dosing", item.name, dump(liquids))
+--			local outdir = liquids[item.name]
+--			if not outdir then
+--				State:fault(pos, mem, S("input missing"))
+--				return
+--			end
+--			if liquid.take(pos, outdir, item.name, item.num) < item.num then
+--				State:fault(pos, mem, S("input missing"))
+--				return
+--			end
+--		end
+--	end
 	-- output
-	if not reactor_cmnd(pos, "output", recipe.output.name) then
+	--if not reactor_cmnd(pos, "output", recipe.output.name) then
+	local leftover
+	leftover = reactor_cmnd(pos, "output", {name = "techage:gasoline", amount = 1, player_name = "singleplayer"})
+	if not leftover or leftover > 0 then
 		State:fault(pos, mem, S("output blocked"))
 		return
 	end
-	if not reactor_cmnd(pos, "waste", recipe.waste.name) then
+	--if not reactor_cmnd(pos, "waste", recipe.waste.name) then
+	leftover = reactor_cmnd(pos, "waste", {name = "techage:bitumen", amount = 1, player_name = "singleplayer"})
+	if not leftover or leftover > 0 then
 		State:fault(pos, mem, S("output blocked"))
 		return
 	end
