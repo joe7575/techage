@@ -265,11 +265,6 @@ techage.register_node({"techage:ta4_wind_turbine"}, {
 	end,
 })
 
-minetest.register_craftitem("techage:ta4_epoxy", {
-	description = S("TA4 Epoxide Resin"),
-	inventory_image = "techage_epoxy.png",
-})
-
 minetest.register_craftitem("techage:ta4_carbon_fiber", {
 	description = S("TA4 Carbon Fiber"),
 	inventory_image = "techage_carbon_fiber.png",
@@ -303,22 +298,18 @@ minetest.register_craft({
 	output = "techage:ta4_rotor_blade",
 	recipe = {
 		{"techage:ta4_carbon_fiber", "dye:white", "techage:ta4_carbon_fiber"},
-		{"techage:ta4_epoxy", "techage:ta4_carbon_fiber", "techage:ta4_epoxy"},
+		{"techage:canister_epoxy", "techage:ta4_carbon_fiber", "techage:canister_epoxy"},
 		{"techage:ta4_carbon_fiber", "dye:red", "techage:ta4_carbon_fiber"},
+	},
+	replacements = {
+		{"techage:canister_epoxy", "techage:ta3_canister_empty"},
+		{"techage:canister_epoxy", "techage:ta3_canister_empty"},
 	},
 })
 
 techage.furnace.register_recipe({
 	output = "techage:ta4_carbon_fiber", 
 	recipe = {"default:papyrus", "default:stick", "default:papyrus", "default:stick"}, 
-	heat = 4,
-	time = 3,
-})
-
-techage.furnace.register_recipe({
-	output = "techage:ta4_epoxy", 
-	recipe = {"basic_materials:oil_extract", "techage:oil_source", 
-		"basic_materials:oil_extract", "techage:oil_source"}, 
 	heat = 4,
 	time = 3,
 })

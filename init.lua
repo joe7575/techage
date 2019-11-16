@@ -58,11 +58,6 @@ else
 	dofile(MP.."/doc/items.lua")
 	dofile(MP.."/doc/guide.lua")  -- construction guides
 	
-	-- Nodes1
-	dofile(MP.."/nodes/baborium.lua")
-	dofile(MP.."/nodes/usmium.lua")
-	dofile(MP.."/nodes/bauxit.lua")
-	
 	-- Power networks
 	dofile(MP.."/power/schedule.lua")
 	--dofile(MP.."/power/distribute.lua")
@@ -121,8 +116,8 @@ else
 	-- Liquids
 	dofile(MP.."/liquids/liquid_pipe.lua")
 	dofile(MP.."/liquids/liquid.lua")
-	dofile(MP.."/liquids/barrel.lua")
 	dofile(MP.."/liquids/tank.lua")
+	dofile(MP.."/liquids/silo.lua")
 	dofile(MP.."/liquids/pump.lua")
 	dofile(MP.."/liquids/fuel_lib.lua")
 	
@@ -141,6 +136,7 @@ else
 	dofile(MP.."/furnace/cooking.lua")
 	dofile(MP.."/furnace/furnace_top.lua")
 	dofile(MP.."/furnace/booster.lua")
+	dofile(MP.."/furnace/heater.lua")
 	dofile(MP.."/furnace/recipes.lua")
 	
 	-- Tools
@@ -159,24 +155,14 @@ else
 	dofile(MP.."/lamps/industriallamp3.lua")
 	
 	-- Oil
-	dofile(MP.."/oil/oil.lua")
 	dofile(MP.."/oil/explore.lua")
 	dofile(MP.."/oil/tower.lua")
 	dofile(MP.."/oil/drillbox.lua")
 	dofile(MP.."/oil/pumpjack.lua")
 	dofile(MP.."/oil/generator.lua")
-	dofile(MP.."/oil/petroleum.lua")
 	dofile(MP.."/oil/distiller.lua")
 	dofile(MP.."/oil/reboiler.lua")
 	dofile(MP.."/oil/gasflare.lua")
-	
-	-- Nodes2
-	if techage.basalt_stone_enabled then
-		dofile(MP.."/nodes/basalt.lua")
-	end
-	dofile(MP.."/nodes/gateblock.lua")
-	dofile(MP.."/nodes/doorblock.lua")
-	dofile(MP.."/nodes/steelmat.lua")
 	
 	-- Logic
 	dofile(MP.."/logic/lib.lua")
@@ -192,6 +178,8 @@ else
 	dofile(MP.."/logic/node_detector.lua")
 	dofile(MP.."/logic/player_detector.lua")
 	dofile(MP.."/logic/cart_detector.lua")
+	dofile(MP.."/logic/gateblock.lua")
+	dofile(MP.."/logic/doorblock.lua")
 
 	-- Test
 	dofile(MP.."/recipe_checker.lua")
@@ -201,14 +189,13 @@ else
 	--dofile(MP.."/.test/switch.lua")
 	
 	-- Solar
-	dofile(MP.."/nodes/silicon.lua")
 	dofile(MP.."/solar/minicell.lua")
 	dofile(MP.."/solar/solarcell.lua")
 	dofile(MP.."/solar/inverter.lua")
 	
 	-- Wind
 	dofile(MP.."/wind_turbine/rotor.lua")
-	dofile(MP.."/nodes/pillar.lua")
+	dofile(MP.."/wind_turbine/pillar.lua")
 	dofile(MP.."/wind_turbine/signallamp.lua")
 	
 	-- TA4 Energy Storage
@@ -219,12 +206,30 @@ else
 	dofile(MP.."/energy_storage/nodes.lua")
 	
 	-- Chemistry
-	--dofile(MP.."/chemistry/ta4_reactor.lua")
-	--dofile(MP.."/chemistry/ta4_stand.lua")
-	--dofile(MP.."/chemistry/ta4_doser.lua")
+	dofile(MP.."/chemistry/ta4_reactor.lua")
+	dofile(MP.."/chemistry/ta4_stand.lua")
+	dofile(MP.."/chemistry/ta4_doser.lua")
 	
 	-- Hydrogen
 	dofile(MP.."/hydrogen/hydrogen.lua")
 	dofile(MP.."/hydrogen/electrolyzer.lua")
 	dofile(MP.."/hydrogen/fuelcell.lua")
+
+	-- Items
+	dofile(MP.."/items/barrel.lua")
+	dofile(MP.."/items/baborium.lua")
+	dofile(MP.."/items/usmium.lua")
+	dofile(MP.."/items/lye.lua")
+	dofile(MP.."/items/oil.lua")
+	dofile(MP.."/items/petroleum.lua")
+	dofile(MP.."/items/bauxit.lua")
+	dofile(MP.."/items/silicon.lua")
+	dofile(MP.."/items/steelmat.lua")
+	dofile(MP.."/items/powder.lua")
+	dofile(MP.."/items/epoxy.lua")
+	dofile(MP.."/items/aluminium.lua")
+	
+	if techage.basalt_stone_enabled then
+		dofile(MP.."/items/basalt.lua")
+	end
 end

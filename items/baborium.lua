@@ -8,7 +8,7 @@
 	GPL v3
 	See LICENSE.txt for more information
 	
-	Gravel Sieve basis functions
+	Baborium
 	
 ]]--
 

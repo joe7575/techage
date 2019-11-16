@@ -22,6 +22,18 @@ local range = techage.range
 
 techage.recipes = {}
 
+local RECIPE = {
+     output = {name = "", num = 0},
+     waste = {name = "", num = 0},
+     input = {                    
+         {name = "", num =0},
+         {name = "", num =0},
+         {name = "", num =0},
+         {name = "", num =0},
+     },
+ }
+
+
 -- Formspec
 local function input_string(recipe)
 	local tbl = {}
@@ -88,7 +100,7 @@ function techage.recipes.formspec(x, y, rtype, mem)
 	local recipe_list = RecipeList[rtype] or {}
 	mem.recipe_idx = range(mem.recipe_idx or 1, 1, #recipe_list)
 	local idx = mem.recipe_idx
-	local recipe = recipes[recipe_list[idx]]
+	local recipe = recipes[recipe_list[idx]] or RECIPE
 	local output = recipe.output.name.." "..recipe.output.num
 	local waste = recipe.waste.name.." "..recipe.waste.num
 	return "container["..x..","..y.."]"..

@@ -133,3 +133,21 @@ minetest.register_node("techage:ta4_reactor", {
 })
 
 Pipe:add_secondary_node_names({"techage:ta4_reactor_fillerpipe"})
+
+minetest.register_craft({
+	output = 'techage:ta4_reactor',
+	recipe = {
+		{'default:steel_ingot', 'techage:ta3_pipeS', 'default:steel_ingot'},
+		{'techage:iron_ingot', '', 'techage:iron_ingot'},
+		{'default:steel_ingot', 'techage:ta3_pipeS', 'default:steel_ingot'},
+	}
+})
+
+minetest.register_craft({
+	output = 'techage:ta4_reactor_fillerpipe',
+	recipe = {
+		{'', '', ''},
+		{'', 'techage:ta3_pipeS', ''},
+		{'default:steel_ingot', 'basic_materials:motor', 'default:steel_ingot'},
+	}
+})

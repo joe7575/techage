@@ -92,7 +92,7 @@ local function node_timer(pos, elapsed)
 	if mem.liquid.amount >= 5 and mem.liquid.name == "techage:oil_source" then
 		mem.liquid.amount = mem.liquid.amount - 5
 		local leftover = pump_cmnd(pos, "put")
-		if leftover > 0 then
+		if (tonumber(leftover) or 1) > 0 then
 			swap_node(pos, false)
 			return false
 		end

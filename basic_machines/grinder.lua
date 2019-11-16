@@ -293,5 +293,4 @@ techage.add_grinder_recipe({input="default:pine_tree", output="default:pine_need
 techage.add_grinder_recipe({input="default:acacia_tree", output="default:acacia_leaves 8"})
 techage.add_grinder_recipe({input="default:aspen_tree", output="default:aspen_leaves 8"})
 
-techage.add_grinder_recipe({input="techage:bauxite_cobble", output="techage:bauxite_gravel"})
 

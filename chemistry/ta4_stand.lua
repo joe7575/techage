@@ -85,20 +85,11 @@ minetest.register_node("techage:ta4_reactor_stand", {
 	on_timer = function(pos, elapsed)
 		local mem = tubelib2.get_mem(pos)
 		power.consumer_alive(pos, mem)
+		minetest.sound_play("techage_reactor", {
+				pos = pos, 
+				gain = 0.5,
+				max_hear_distance = 10})
 		return mem.running
-	end,
-	on_rightclick = function(pos, node, clicker)
-		local mem = tubelib2.get_mem(pos)
-		if not mem.running and power.power_available(pos, mem, PWR_NEEDED) then
-			mem.running = true
-			power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
-			M(pos):set_string("infotext", "...")
-		else
-			mem.running = false
-			power.consumer_stop(pos, mem)
-			minetest.get_node_timer(pos):stop()
-			M(pos):set_string("infotext", S("off"))
-		end
 	end,
 	after_dig_node = function(pos, oldnode)
 		techage.power.after_dig_node(pos, oldnode)
@@ -132,10 +123,11 @@ techage.power.enrich_node({"techage:ta4_reactor_stand"}, {
 -- controlled by the fillerpipe
 techage.register_node({"techage:ta4_reactor_stand"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
-		print(topic, payload)
+		--print(topic, dump(payload))
 		local mem = tubelib2.get_mem(pos)
 		if topic == "power" then
-			return mem.has_power
+			--print("power", mem.has_power)
+			return mem.has_power or power.power_available(pos, mem, 0)
 		elseif topic == "output" then
 			local outdir = M(pos):get_int("outdir")
 			return liquid.put(pos, outdir, payload.name, payload.amount, payload.player_name)
@@ -198,4 +190,22 @@ minetest.register_node("techage:ta4_reactor_base", {
 Pipe:add_secondary_node_names({
 		"techage:ta4_reactor_base", 
 		"techage:ta4_reactor_stand",
+})
+
+minetest.register_craft({
+	output = 'techage:ta4_reactor_stand',
+	recipe = {
+		{'', 'dye:blue', ''},
+		{'basic_materials:steel_bar', 'techage:ta3_pipeS', 'basic_materials:steel_bar'},
+		{'basic_materials:steel_bar', '', 'basic_materials:steel_bar'},
+	}
+})
+
+minetest.register_craft({
+	output = 'techage:ta4_reactor_base',
+	recipe = {
+		{'basic_materials:concrete_block', '', ''},
+		{'techage:ta3_pipeS', '', ''},
+		{'', '', ''},
+	}
 })

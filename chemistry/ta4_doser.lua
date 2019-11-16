@@ -12,10 +12,12 @@
 
 ]]--
 
-local S = techage.S
+local S2P = minetest.string_to_pos
+local P2S = minetest.pos_to_string
 local M = minetest.get_meta
-local N = function(pos) return minetest.get_node(pos).name end
-local Pipe = techage.BiogasPipe
+local S = techage.S
+local Pipe = techage.LiquidPipe
+local networks = techage.networks
 local liquid = techage.liquid
 local recipes = techage.recipes
 
@@ -23,7 +25,27 @@ local Liquids = {}  -- {hash(pos) = {name = outdir},...}
 
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
-local CYCLE_TIME = 4
+local CYCLE_TIME = 10
+
+-- to mark the pump source and destinstion node
+local DebugCache = {}
+
+local function set_starter_name(pos, clicker)
+	local key = minetest.hash_node_position(pos)
+	DebugCache[key] = {starter = clicker:get_player_name(), count = 10}
+end
+
+local function get_starter_name(pos)
+	local key = minetest.hash_node_position(pos)
+	local def = DebugCache[key]
+	if def then
+		def.count = (def.count or 0) - 1
+		if def.count > 0 then
+			return def.starter
+		end
+		DebugCache[key] = nil
+	end
+end
 
 local function formspec(self, pos, mem)
 	return "size[8,7]"..
@@ -85,6 +107,7 @@ end
 
 local function start_node(pos, mem, state)
 	reactor_cmnd(pos, "start")
+	del_liquids(pos)
 	mem.running = true
 end
 
@@ -105,34 +128,44 @@ local State = techage.NodeStates:new({
 	stop_node = stop_node,
 })
 
-local function reset_dosing(mem)
-	-- alle 4 ports checken und inputs vorladen
-end
-
 local function dosing(pos, mem, elapsed)
 	-- trigger reactor (power)
 	if not reactor_cmnd(pos, "power") then
-		if not mem.techage_countdown or mem.techage_countdown < 2 then
+		if not mem.techage_countdown or mem.techage_countdown < 3 then
+			reactor_cmnd(pos, "stop")
 			State:nopower(pos, mem, S("reactor has no power"))
 		end
 		State:idle(pos, mem)
 		return
+	end
+	-- check from time to time
+	mem.check_cnt = (mem.check_cnt or 0) + 1
+	if mem.check_cnt >= 4 then
+		mem.check_cnt = 0
+		local res = reactor_cmnd(pos, "check")
+		if not res then
+			State:fault(pos, mem, S("reactor defect"))
+			reactor_cmnd(pos, "stop")
+			return
+		end
 	end
 	-- available liquids
 	local liquids = get_liquids(pos)
 	local recipe = recipes.get(mem, "ta4_doser")
 	if not liquids or not recipe then return end
 	-- inputs
+	local starter = get_starter_name(pos)
 	for _,item in pairs(recipe.input) do
 		if item.name ~= "" then
-			print("dosing", item.name, dump(liquids))
 			local outdir = liquids[item.name]
 			if not outdir then
-				State:fault(pos, mem, S("input missing"))
+				State:standby(pos, mem)
+				reactor_cmnd(pos, "stop")
 				return
 			end
-			if liquid.take(pos, outdir, item.name, item.num) < item.num then
-				State:fault(pos, mem, S("input missing"))
+			if liquid.take(pos, outdir, item.name, item.num, starter) < item.num then
+				State:standby(pos, mem)
+				reactor_cmnd(pos, "stop")
 				return
 			end
 		end
@@ -142,16 +175,18 @@ local function dosing(pos, mem, elapsed)
 	leftover = reactor_cmnd(pos, "output", {
 			name = recipe.output.name, 
 			amount = recipe.output.num})
-	if not leftover or leftover > 0 then
-		State:fault(pos, mem, S("output blocked"))
+	if not leftover or (tonumber(leftover) or 1) > 0 then
+		State:blocked(pos, mem)
+		reactor_cmnd(pos, "stop")
 		return
 	end
 	if recipe.waste.name ~= "" then
 		leftover = reactor_cmnd(pos, "waste", {
 				name = recipe.waste.name, 
 				amount = recipe.waste.num})
-		if not leftover or leftover > 0 then
-			State:fault(pos, mem, S("output blocked"))
+		if not leftover or (tonumber(leftover) or 1) > 0 then
+			State:blocked(pos, mem)
+			reactor_cmnd(pos, "stop")
 			return
 		end
 	end
@@ -178,9 +213,17 @@ local function on_receive_fields(pos, formname, fields, player)
 	if not mem.running then	
 		recipes.on_receive_fields(pos, formname, fields, player)
 	end
+	set_starter_name(pos, player)
 	State:state_button_event(pos, mem, fields)
 	M(pos):set_string("formspec", formspec(State, pos, mem))
 end
+
+local nworks = {
+	pipe = {
+		sides = techage.networks.AllSides, -- Pipe connection sides
+		ntype = "pump",
+	},
+}
 
 
 minetest.register_node("techage:ta4_doser", {
@@ -189,12 +232,33 @@ minetest.register_node("techage:ta4_doser", {
 		-- up, down, right, left, back, front
 		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_hole_pipe.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_pump.png^techage_appl_hole_pipe.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_pump_up.png",
 	},
 
+	after_place_node = function(pos, placer)
+		local meta = M(pos)
+		local mem = tubelib2.init_mem(pos)
+		local number = techage.add_node(pos, "techage:ta4_doser")
+		meta:set_string("node_number", number)
+		meta:set_string("owner", placer:get_player_name())
+		meta:set_string("formspec", formspec(State, pos, mem))
+		meta:set_string("infotext", S("TA4 Doser").." "..number)
+		State:node_init(pos, mem, number)
+		Pipe:after_place_node(pos)
+	end,
+	tubelib2_on_update2 = function(pos, dir, tlib2, node)
+		liquid.update_network(pos, dir)
+		del_liquids(pos)
+	end,
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		techage.remove_node(pos)
+		Pipe:after_dig_node(pos)
+		tubelib2.del_mem(pos)
+	end,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
+	networks = nworks,
 
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -210,7 +274,7 @@ minetest.register_node("techage:ta4_doser_on", {
 		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_hole_pipe.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png",
 		{
-			image = "techage_filling8_ta4.png^techage_frame8_ta4.png^techage_appl_pump8.png",
+			image = "techage_filling8_ta4.png^techage_frame8_ta4.png^techage_appl_pump_up8.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -221,37 +285,39 @@ minetest.register_node("techage:ta4_doser_on", {
 		},
 	},
 
+	tubelib2_on_update2 = function(pos, dir, tlib2, node)
+		liquid.update_network(pos)
+		del_liquids(pos)
+	end,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
+	networks = nworks,
 	
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
-	groups = {cracky=2},
+	diggable = false,
+	groups = {not_in_creative_inventory=1},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
 })
 
--- for mechanical pipe connections
-techage.power.register_node({"techage:ta4_doser", "techage:ta4_doser_on"}, {
-	conn_sides = {"F", "B", "R", "L", "U"},
-	power_network  = Pipe,
-	after_place_node = function(pos, placer)
-		local meta = M(pos)
-		local mem = tubelib2.init_mem(pos)
-		local number = techage.add_node(pos, "techage:ta4_doser")
-		meta:set_string("node_number", number)
-		meta:set_string("owner", placer:get_player_name())
-		local node = minetest.get_node(pos)
-		local indir = techage.side_to_indir("R", node.param2)
-		meta:set_int("indir", indir) -- from liquid point of view
-		meta:set_string("formspec", formspec(State, pos, mem))
-		meta:set_string("infotext", S("TA4 Tank").." "..number)
+techage.register_node({"techage:ta4_doser", "techage:ta4_doser_on"}, {
+	on_recv_message = function(pos, src, topic, payload)
+		local resp = State:on_receive_message(pos, topic, payload)
+		if resp then
+			return resp
+		else
+			return "unsupported"
+		end
 	end,
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		techage.remove_node(pos)
+	on_node_load = function(pos)
+		State:on_node_load(pos)
 	end,
 })
+
+Pipe:add_secondary_node_names({"techage:ta4_doser", "techage:ta4_doser_on"})
+
 
 if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("ta4_doser", {
@@ -261,3 +327,12 @@ if minetest.global_exists("unified_inventory") then
 		height = 2,
 	})
 end
+
+minetest.register_craft({
+	output = "techage:ta4_doser",
+	recipe = {
+		{"", "techage:ta3_pipeS", ""},
+		{"techage:ta3_pipeS", "techage:t4_pump", "techage:ta3_pipeS"},
+		{"", "techage:ta4_wlanchip", ""},
+	},
+})

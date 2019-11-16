@@ -16,7 +16,7 @@ local S = techage.S
 
 minetest.register_node("techage:bauxite_stone", {
 	description = S("Bauxite Stone"),
-	tiles = {"default_desert_stone.png^techage_bauxit_overlay.png^[colorize:#800000:80"},
+	tiles = {"default_desert_stone.png^techage_bauxit_overlay.png^[colorize:#FB2A00:120"},
 	groups = {cracky = 3, stone = 1},
 	drop = 'techage:bauxite_cobble',
 	sounds = default.node_sound_stone_defaults(),
@@ -24,7 +24,7 @@ minetest.register_node("techage:bauxite_stone", {
 
 minetest.register_node("techage:bauxite_cobble", {
 	description = S("Bauxite Cobblestone"),
-	tiles = {"default_desert_cobble.png^[colorize:#800000:80"},
+	tiles = {"default_desert_cobble.png^[colorize:#FB2A00:80"},
 	is_ground_content = false,
 	groups = {cracky = 3, stone = 2},
 	sounds = default.node_sound_stone_defaults(),
@@ -32,11 +32,17 @@ minetest.register_node("techage:bauxite_cobble", {
 
 minetest.register_node("techage:bauxite_gravel", {
 	description = S("Bauxite Gravel"),
-	tiles = {"default_gravel.png^[colorize:#9b1f06:180"},
+	tiles = {"default_gravel.png^[colorize:#FB2A00:180"},
 	is_ground_content = false,
 	groups = {crumbly = 2, falling_node = 1},
 	sounds = default.node_sound_gravel_defaults(),
 })
+
+minetest.register_craftitem("techage:bauxite_powder", {
+	description = S("Bauxite Powder"),
+	inventory_image = "techage_powder_inv.png^[colorize:#FB2A00:120",
+})
+
 
 minetest.register_ore({
 	ore_type       = "blob",
@@ -57,3 +63,5 @@ minetest.register_ore({
 		},
 })
 
+techage.add_grinder_recipe({input="techage:bauxite_cobble", output="techage:bauxite_gravel"})
+techage.add_grinder_recipe({input="techage:bauxite_gravel", output="techage:bauxite_powder"})

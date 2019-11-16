@@ -157,18 +157,17 @@ end
 
 -- do the walk through the tubelib2 network
 -- indir is the direction which should not be covered by the walk
--- (coming from there or is a different network)
-local function connection_walk(pos, indir, node, tlib2, lvl, clbk)
+-- (coming from there)
+-- if outdirs is given, only this dirs are used
+local function connection_walk(pos, outdirs, indir, node, tlib2, clbk)
 	if clbk then clbk(pos, indir, node) end
 	--techage.mark_position("singleplayer", pos, "walk", "", 1)
-	if lvl == 1 or net_def2(node.name, tlib2.tube_type).ntype == "junc" then
-		for _,outdir in pairs(get_node_connections(pos, tlib2.tube_type)) do
-			if outdir ~= Flip[indir] then
-				local pos2, indir2 = tlib2:get_connected_node_pos(pos, outdir)
-				local node = techage.get_node_lvm(pos2)
-				if pos2 and not pos_already_reached(pos2) and valid_indir(indir2, node, tlib2.tube_type) then
-					connection_walk(pos2, indir2, node, tlib2, lvl + 1, clbk)
-				end
+	if outdirs or net_def2(node.name, tlib2.tube_type).ntype == "junc" then
+		for _,outdir in pairs(outdirs or get_node_connections(pos, tlib2.tube_type)) do
+			local pos2, indir2 = tlib2:get_connected_node_pos(pos, outdir)
+			local node = techage.get_node_lvm(pos2)
+			if pos2 and not pos_already_reached(pos2) and valid_indir(indir2, node, tlib2.tube_type) then
+				connection_walk(pos2, nil, indir2, node, tlib2, clbk)
 			end
 		end
 	end
@@ -183,7 +182,7 @@ local function collect_network_nodes(pos, outdir, tlib2)
 	local node = techage.get_node_lvm(pos)
 	local net_name = tlib2.tube_type
 	-- outdir corresponds to the indir coming from
-	connection_walk(pos, outdir, node, tlib2, 1, function(pos, indir, node)
+	connection_walk(pos, outdir and {outdir}, nil, node, tlib2, function(pos, indir, node)
 		local ntype = net_def2(node.name, net_name).ntype
 		if ntype then
 			if not netw[ntype] then netw[ntype] = {} end
@@ -246,7 +245,7 @@ function techage.networks.connection_walk(pos, outdir, tlib2, clbk)
 	NumNodes = 0
 	pos_already_reached(pos) -- don't consider the start pos
 	local node = techage.get_node_lvm(pos)
-	connection_walk(pos, outdir, node, tlib2, 1, clbk)
+	connection_walk(pos, {outdir}, Flip[outdir], node, tlib2, clbk)
 	return NumNodes
 end
 

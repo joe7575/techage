@@ -22,7 +22,7 @@ minetest.register_node("techage:oil_source", {
 	drawtype = "liquid",
     paramtype = "light",
 
-    inventory_image = "techage_oil_inv.png",
+    inventory_image = "techage_liquid2_inv.png^[colorize:#000000^techage_liquid1_inv.png",
     tiles = {
         {
             name = "techage_oil_animated.png",
@@ -119,5 +119,19 @@ bucket.register_liquid(
 	"techage_bucket_oil.png", 
 	"Oil Bucket")
 
+minetest.register_craftitem("techage:ta3_barrel_oil", {
+	description = S("TA3 Oil Barrel"),
+	inventory_image = "techage_barrel_inv.png^[colorize:#000000:120^techage_symbol_liquid.png",
+	stack_max = 1,
+})
+
+minetest.register_craftitem("techage:ta3_canister_oil", {
+	description = S("TA3 Oil Canister"),
+	inventory_image = "techage_canister_filling.png^[colorize:#000000^techage_canister_frame.png^techage_symbol_liquid.png",
+	stack_max = 1,
+})
+
 techage.register_liquid("techage:bucket_oil", "bucket:bucket_empty", 1, "techage:oil_source")
 techage.register_liquid("techage:oil_source", "", 1, "techage:oil_source")
+techage.register_liquid("techage:ta3_barrel_oil", "techage:ta3_barrel_empty", 10, "techage:oil_source")
+techage.register_liquid("techage:ta3_canister_oil", "techage:ta3_canister_empty", 1, "techage:oil_source")

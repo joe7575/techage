@@ -19,8 +19,8 @@ local S = techage.S
 
 local range = techage.range
 
-local Recipes = {}     -- registered recipes
-local Ingredients = {}
+local Recipes = {}     -- registered recipes {output = {recipe, ...},}
+local Ingredients = {} -- {{input = output},
 local KeyList = {}     -- index to Recipes key translation
 
 techage.furnace = {}
@@ -72,22 +72,60 @@ function techage.furnace.get_ingredients(pos)
 	return tbl
 end
 
+local function remove_item_from_list(list, item)
+	for _,stack in ipairs(list) do
+		if stack:get_name() == item then
+			stack:set_count(stack:get_count() - 1)
+			return true
+		end
+	end
+	return false
+end
+
 -- move recipe src items to output inventory
 local function process(inv, recipe, output)
-	-- check if all ingredients are available
+	-- check dst inv
+	local stack = ItemStack(output)
+	stack:set_count(recipe.number)
+	if not inv:room_for_item("dst", stack) then
+		return techage.BLOCKED
+	end
+	-- remove items
+	local list = inv:get_list("src")
 	for _,item in ipairs(recipe.input) do
-		if not inv:contains_item("src", item) then
+		if not remove_item_from_list(list, item) then
+			return techage.STANDBY
+		end
+	end
+	-- store changes on scr
+	inv:set_list("src", list)
+	-- add output to dst
+	inv:add_item("dst", stack)
+	return techage.RUNNING
+end		
+
+function techage.furnace.check_if_worth_to_wakeup(pos, mem)
+	local inv = M(pos):get_inventory()
+	if not mem.output or not mem.num_recipe then
+		return false
+	end
+	local recipe = Recipes[mem.output] and Recipes[mem.output][mem.num_recipe]
+	if not recipe then
+		return false
+	end
+	-- check dst inv
+	local stack = ItemStack(mem.output)
+	stack:set_count(recipe.number)
+	if not inv:room_for_item("dst", stack) then
+		return false
+	end
+	-- check src inv
+	local list = inv:get_list("src")
+	for _,item in ipairs(recipe.input) do
+		if not remove_item_from_list(list, item) then
 			return false
 		end
 	end
-	-- remove items
-	for _,item in ipairs(recipe.input) do
-		inv:remove_item("src", item)
-	end
-	-- add to dst
-	local stack = ItemStack(output)
-	stack:set_count(recipe.number)
-	inv:add_item("dst", stack)
 	return true
 end		
 
@@ -98,23 +136,16 @@ function techage.furnace.smelting(pos, mem, elapsed)
 		if not mem.output or not mem.num_recipe then
 			return techage.FAULT, "recipe error"
 		end
-		local recipe = Recipes[mem.output][mem.num_recipe]
+		local recipe = Recipes[mem.output] and Recipes[mem.output][mem.num_recipe]
 		if not recipe then
 			return techage.FAULT, "recipe error"
-		end
-		-- check dst inv
-		local item = ItemStack(mem.output)
-		if not inv:room_for_item("dst", item) then
-			return techage.BLOCKED
 		end
 			
 		elapsed = elapsed + (mem.leftover or 0)
 		while elapsed >= recipe.time do
-			if process(inv, recipe, mem.output) == false then 
-				mem.leftover = 0
-				return techage.STANDBY
-			else
-				state = techage.RUNNING
+			state = process(inv, recipe, mem.output)
+			if state ~= techage.RUNNING then 
+				return state
 			end
 			elapsed = elapsed - recipe.time
 		end
@@ -143,6 +174,7 @@ end
 
 function techage.furnace.reset_cooking(mem)
 	mem.leftover = 0
+	mem.item_percent = 0
 end
 
 

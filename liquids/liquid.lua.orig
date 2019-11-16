@@ -31,13 +31,13 @@ local ContainerDef = {}
 -- Networks
 --
 
--- determine network ID (largest hash number of all pumps)
+-- determine network ID (largest hash number)
 local function determine_netID(pos, outdir)
 	local netID = 0
 	networks.connection_walk(pos, outdir, Pipe, function(pos, indir, node)
 		local ntype = net_def(pos, "pipe").ntype
-		if ntype and ntype == "pump" then
-			local new = minetest.hash_node_position(pos) * 8 + outdir
+		if ntype and ntype ~= "pump" then
+			local new = minetest.hash_node_position(pos)
 			if netID <= new then
 				netID = new
 			end
@@ -46,31 +46,28 @@ local function determine_netID(pos, outdir)
 	return netID
 end
 
--- store network ID on each pump like node
+-- store network ID on each node
 local function store_netID(pos, outdir, netID)
 	networks.connection_walk(pos, outdir, Pipe, function(pos, indir, node)
 		local ntype = net_def(pos, "pipe").ntype
-		if ntype and ntype == "pump" then
+		if ntype and ntype ~= "pump" then
 			local mem = tubelib2.get_mem(pos)
-			local outdir = networks.Flip[indir]
 			mem.pipe = mem.pipe or {}
-			mem.pipe.netIDs = mem.pipe.netIDs or {}
-			mem.pipe.netIDs[outdir] = netID
+			mem.pipe.netID = netID
 		end
 	end)
 end
 
--- delete network and ID on each pump like node
+-- delete network and ID on each node
 local function delete_netID(pos, outdir)
 	local netID = 0
 	networks.connection_walk(pos, outdir, Pipe, function(pos, indir, node)
 		local ntype = net_def(pos, "pipe").ntype
-		if ntype and ntype == "pump" then
+		if ntype and ntype ~= "pump" then
 			local mem = tubelib2.get_mem(pos)
-			local outdir = networks.Flip[indir]
-			if mem.pipe and mem.pipe.netIDs and mem.pipe.netIDs[outdir] then
-				netID = mem.pipe.netIDs[outdir]
-				mem.pipe.netIDs[outdir] = nil
+			if mem.pipe and mem.pipe.netID then
+				netID = mem.pipe.netID
+				mem.pipe.netID = nil
 			end
 		end
 	end)
@@ -78,12 +75,20 @@ local function delete_netID(pos, outdir)
 end
 
 local function get_netID(pos, outdir)
-	local mem = tubelib2.get_mem(pos)
-	if not mem.pipe or not mem.pipe.netIDs or not mem.pipe.netIDs[outdir] then
-		local netID = determine_netID(pos, outdir)
-		store_netID(pos, outdir, netID)
+	-- jump to the next node because pumps have two network
+    -- interfaces and therefore can't have a netID
+	local pos2 = Pipe:get_connected_node_pos(pos, outdir)
+	if not vector.equals(pos2, pos) then
+		local mem = tubelib2.get_mem(pos2)
+		if not mem.pipe or not mem.pipe.netID then
+			-- determine the ID
+			local netID = determine_netID(pos2, outdir)
+			store_netID(pos2, outdir, netID)
+			mem.pipe = mem.pipe or {}
+			mem.pipe.netID = netID
+		end
+		return mem.pipe.netID
 	end
-	return mem.pipe.netIDs[outdir]
 end
 
 local function get_network_table(pos, outdir, ntype)
@@ -244,3 +249,38 @@ function techage.liquid.update_network(pos, outdir)
 	networks.node_connections(pos, Pipe)
 	delete_netID(pos, outdir)
 end
+
+minetest.register_craftitem("techage:water", {
+	description = S("Water"),
+	inventory_image = "techage_water_inv.png",
+	groups = {not_in_creative_inventory=1},
+	
+})
+
+minetest.register_craftitem("techage:river_water", {
+	description = S("Water"),
+	inventory_image = "techage_water_inv.png",
+	groups = {not_in_creative_inventory=1},
+	
+})
+
+minetest.register_craftitem("techage:barrel_water", {
+	description = S("Water Barrel"),
+	inventory_image = "techage_barrel_water_inv.png",
+	stack_max = 1,
+})
+
+minetest.register_craftitem("techage:barrel_river_water", {
+	description = S("River Water Barrel"),
+	inventory_image = "techage_barrel_water_inv.png",
+	stack_max = 1,
+})
+
+techage.register_liquid("bucket:bucket_water", "bucket:bucket_empty", 1, "techage:water")
+techage.register_liquid("bucket:bucket_river_water", "bucket:bucket_empty", 1, "techage:river_water")
+
+techage.register_liquid("techage:barrel_water", "techage:ta3_barrel_empty", 10, "techage:water")
+techage.register_liquid("techage:barrel_river_water", "techage:ta3_barrel_empty", 10, "techage:river_water")
+
+techage.register_liquid("bucket:bucket_lava", "bucket:bucket_empty", 1, "default:lava_source")
+

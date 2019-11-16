@@ -29,14 +29,21 @@ local get_output = techage.furnace.get_output
 local num_recipes = techage.furnace.get_num_recipes
 local reset_cooking = techage.furnace.reset_cooking
 local get_ingredients = techage.furnace.get_ingredients
+local check_if_worth_to_wakeup = techage.furnace.check_if_worth_to_wakeup
 local range = techage.range
 
-local function formspec(self, pos, mem)
+
+local function update_recipe_menu(pos, mem)
 	local ingr = get_ingredients(pos)
-	local num = num_recipes(ingr)
-	mem.recipe_idx = range(mem.recipe_idx or 1, 0, num)
-	local idx = mem.recipe_idx
-	local output = get_output(mem, ingr, idx)
+	mem.rp_num = num_recipes(ingr)
+	mem.rp_idx = range(mem.rp_idx or 1, 0, mem.rp_num)
+	mem.rp_outp = get_output(mem, ingr, mem.rp_idx)
+end
+
+local function formspec(self, pos, mem)
+	local idx = mem.rp_idx or 1
+	local num = mem.rp_num or 1
+	local outp = mem.rp_outp or ""
 	return "size[8,7.2]"..
 		default.gui_bg..
 		default.gui_bg_img..
@@ -50,7 +57,7 @@ local function formspec(self, pos, mem)
 		"list[context;dst;3,0;2,2;]"..
 		
 		"label[6,0;"..S("Outp")..": "..idx.."/"..num.."]"..
-		"item_image_button[6.5,0.5;1,1;"..(output or "")..";b1;]"..
+		"item_image_button[6.5,0.5;1,1;"..outp..";b1;]"..
 		"button[6,1.5;1,1;priv;<<]"..
 		"button[7,1.5;1,1;next;>>]"..
 		
@@ -75,23 +82,26 @@ local function firebox_cmnd(pos, cmnd)
 		cmnd,  -- topic
 		nil,  -- payload
 		nil,  -- network
-		{"techage:furnace_firebox", "techage:furnace_firebox_on"})
+		{"techage:furnace_firebox", "techage:furnace_firebox_on",
+		 "techage:furnace_heater", "techage:furnace_heater_on"})
 end
 
 local function cooking(pos, crd, mem, elapsed)
-	if firebox_cmnd(pos, "running") then
-		local state, err = smelting(pos, mem, elapsed)
-		if state == techage.RUNNING then
-			crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
-		elseif state == techage.BLOCKED then
-			crd.State:blocked(pos, mem)
-		elseif state == techage.FAULT then
-			crd.State:fault(pos, mem, err)
-		elseif state == techage.STANDBY then
+	if mem.techage_state == techage.RUNNING or check_if_worth_to_wakeup(pos, mem) then
+		if firebox_cmnd(pos, "fuel") then
+			local state, err = smelting(pos, mem, elapsed)
+			if state == techage.RUNNING then
+				crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+			elseif state == techage.BLOCKED then
+				crd.State:blocked(pos, mem)
+			elseif state == techage.FAULT then
+				crd.State:fault(pos, mem, err)
+			elseif state == techage.STANDBY then
+				crd.State:idle(pos, mem)
+			end
+		else
 			crd.State:idle(pos, mem)
 		end
-	else
-		crd.State:idle(pos, mem)
 	end
 end
 
@@ -100,7 +110,7 @@ local function keep_running(pos, elapsed)
 	local crd = CRD(pos)
 	cooking(pos, crd, mem, elapsed)
 	mem.toggle = not mem.toggle
-	if mem.toggle then 
+	if mem.toggle then -- progress bar/arrow
 		M(pos):set_string("formspec", formspec(crd.State, pos, mem))
 	end
 	return crd.State:is_active(mem)
@@ -112,7 +122,6 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	end
 	if listname == "src" then
 		local mem = tubelib2.get_mem(pos)
-		CRD(pos).State:start_if_standby(pos)
 		return stack:get_count()
 	elseif listname == "dst" then
 		return 0
@@ -144,15 +153,17 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	local mem = tubelib2.get_mem(pos)
-	mem.recipe_idx = mem.recipe_idx or 1
+	mem.rp_idx = mem.rp_idx or 1
 	if fields.next == ">>" then
 		local ingr = get_ingredients(pos)
-		mem.recipe_idx = math.min(mem.recipe_idx + 1, num_recipes(ingr))
+		mem.rp_idx = math.min(mem.rp_idx + 1, num_recipes(ingr))
+		update_recipe_menu(pos, mem)
 		M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
 		reset_cooking(mem)
 	elseif fields.priv == "<<" then
 		local ingr = get_ingredients(pos)
-		mem.recipe_idx = range(mem.recipe_idx - 1, 1, num_recipes(ingr))
+		mem.rp_idx = range(mem.rp_idx - 1, 1, num_recipes(ingr))
+		update_recipe_menu(pos, mem)
 		M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
 		reset_cooking(mem)
 	end
@@ -216,7 +227,6 @@ local tubing = {
 		local meta = minetest.get_meta(pos)
 		if meta:get_int("push_dir") == in_dir  or in_dir == 5 then
 			local inv = M(pos):get_inventory()
-			CRD(pos).State:start_if_standby(pos)
 			return techage.put_items(inv, "src", stack)
 		end
 	end,

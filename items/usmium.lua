@@ -19,3 +19,9 @@ minetest.register_craftitem("techage:usmium_nuggets", {
 	inventory_image = "techage_usmium_nuggets.png",
 })
 
+minetest.register_craftitem("techage:usmium_powder", {
+	description = S("Usmium Powder"),
+	inventory_image = "techage_powder_inv.png^[colorize:#46728E:120",
+})
+
+techage.add_grinder_recipe({input="techage:usmium_nuggets", output="techage:usmium_powder"})

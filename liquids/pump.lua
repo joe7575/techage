@@ -128,6 +128,7 @@ end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	Pipe:after_dig_node(pos)
+	tubelib2.del_mem(pos)
 end
 
 local ta3_tiles_pas = {

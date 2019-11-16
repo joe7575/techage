@@ -180,8 +180,8 @@ minetest.register_node("techage:ta3_tank", {
 		meta:set_string("infotext", S("TA3 Tank").." "..number)
 		Pipe:after_place_node(pos)
 	end,
-	tubelib2_on_update2 = function(pos, dir, tlib2, node)
-		liquid.update_network(pos)
+	tubelib2_on_update2 = function(pos, outdir, tlib2, node)
+		liquid.update_network(pos, outdir)
 	end,
 	on_timer = function(pos, elapsed)
 		local mem = tubelib2.get_mem(pos)
@@ -267,8 +267,8 @@ minetest.register_node("techage:oiltank", {
 		meta:set_string("infotext", S("Oil Tank").." "..number)
 		Pipe:after_place_node(pos)
 	end,
-	tubelib2_on_update2 = function(pos, dir, tlib2, node)
-		liquid.update_network(pos)
+	tubelib2_on_update2 = function(pos, outdir, tlib2, node)
+		liquid.update_network(pos, outdir)
 	end,
 	on_timer = function(pos, elapsed)
 		local mem = tubelib2.get_mem(pos)
@@ -344,8 +344,8 @@ minetest.register_node("techage:ta4_tank", {
 		meta:set_string("infotext", S("TA4 Tank").." "..number)
 		Pipe:after_place_node(pos)
 	end,
-	tubelib2_on_update2 = function(pos, dir, tlib2, node)
-		liquid.update_network(pos)
+	tubelib2_on_update2 = function(pos, outdir, tlib2, node)
+		liquid.update_network(pos, outdir)
 	end,
 	on_timer = function(pos, elapsed)
 		local mem = tubelib2.get_mem(pos)
