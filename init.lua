@@ -183,7 +183,7 @@ else
 
 	-- Test
 	dofile(MP.."/recipe_checker.lua")
-	dofile(MP.."/.test/sink.lua")
+	--dofile(MP.."/.test/sink.lua")
 	dofile(MP.."/.test/source.lua")
 	--dofile(MP.."/.test/akku.lua")
 	--dofile(MP.."/.test/switch.lua")

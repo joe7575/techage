@@ -55,7 +55,7 @@ local function formspec(self, pos, mem)
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	"image[0.5,0;1,1;techage_oil_inv.png]"..
+	"image[0.5,0;1,1;techage_liquid2_inv.png^[colorize:#000000^techage_liquid1_inv.png]"..
 	"image[2,0;1,1;"..techage.get_power_image(pos, mem).."]"..
 	"label[0,1.3;"..S("Oil amount:")..": "..amount.."]"..
 	"button[3,1.1;2,1;update;"..S("Update").."]"..
