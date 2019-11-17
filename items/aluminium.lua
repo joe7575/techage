@@ -45,10 +45,10 @@ techage.register_liquid("techage:barrel_redmud", "techage:ta3_barrel_empty", 10,
 techage.register_liquid("techage:canister_redmud", "techage:ta3_canister_empty", 1, "techage:epoxy")
 
 techage.recipes.add("ta4_doser", {
-	output = "techage:gibbsite_powder 1",
+	output = "techage:gibbsite_powder 2",
 	waste = "techage:redmud 1",
 	input = {
-		"techage:bauxite_powder 1",
+		"techage:bauxite_powder 2",
 		"techage:lye 1",
 	}
 })

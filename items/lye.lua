@@ -32,9 +32,9 @@ minetest.register_craftitem("techage:canister_lye", {
 })
 
 techage.recipes.add("ta4_doser", {
-	output = "techage:lye 1",
+	output = "techage:lye 4",
 	input = {
-		"techage:water 1",
+		"techage:water 3",
 		"techage:usmium_powder 1",
 	}
 })

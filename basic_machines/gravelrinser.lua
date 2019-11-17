@@ -284,10 +284,10 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		allow_metadata_inventory_take = allow_metadata_inventory_take,
 		groups = {choppy=2, cracky=2, crumbly=2},
 		sounds = default.node_sound_wood_defaults(),
-		num_items = {0,1,2,4},
-		power_consumption = {0,3,4,5},
+		num_items = {0,1,1,1},
+		power_consumption = {0,3,3,3},
 	},
-	{false, true, false, false})  -- TA2 only
+	{false, true, true, false})  -- TA2/A3
 
 minetest.register_craft({
 	output = node_name_ta2,
@@ -295,6 +295,15 @@ minetest.register_craft({
 		{"group:wood", "default:mese_crystal", "group:wood"},
 		{"techage:tubeS", "techage:sieve", "techage:tubeS"},
 		{"group:wood", "default:tin_ingot", "group:wood"},
+	},
+})
+
+minetest.register_craft({
+	output = node_name_ta3,
+	recipe = {
+		{"", "default:mese_crystal", ""},
+		{"", node_name_ta2, ""},
+		{"", "techage:vacuum_tube", ""},
 	},
 })
 
