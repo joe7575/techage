@@ -228,6 +228,7 @@ else
 	dofile(MP.."/items/powder.lua")
 	dofile(MP.."/items/epoxy.lua")
 	dofile(MP.."/items/aluminium.lua")
+	dofile(MP.."/items/plastic.lua")
 	
 	if techage.basalt_stone_enabled then
 		dofile(MP.."/items/basalt.lua")

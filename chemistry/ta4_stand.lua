@@ -37,7 +37,7 @@ local function on_nopower(pos, mem)
 end
 
 minetest.register_node("techage:ta4_reactor_stand", {
-	description = S("TA4 Reactor"),
+	description = S("TA4 Reactor Stand"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_reactor_stand_top.png^[transformR90",

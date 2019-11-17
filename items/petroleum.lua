@@ -22,17 +22,17 @@ minetest.register_craftitem("techage:bitumen", {
 
 minetest.register_craftitem("techage:fueloil", {
 	description = S("TA3 Fuel Oil"),
-	inventory_image = "techage_liquid2_inv.png^[colorize:#4b3f11^techage_liquid1_inv.png",
+	inventory_image = "techage_liquid2_inv.png^[colorize:#7E5D0A:180^techage_liquid1_inv.png",
 })
 
 minetest.register_craftitem("techage:naphtha", {
 	description = S("TA3 Naphtha"),
-	inventory_image = "techage_liquid2_inv.png^[colorize:#897937^techage_liquid1_inv.png",
+	inventory_image = "techage_liquid2_inv.png^[colorize:#AAA820:180^techage_liquid1_inv.png",
 })
 
 minetest.register_craftitem("techage:gasoline", {
 	description = S("TA3 Gasoline"),
-	inventory_image = "techage_liquid2_inv.png^[colorize:#bfaf6e^techage_liquid1_inv.png",
+	inventory_image = "techage_liquid2_inv.png^[colorize:#EEFC52:180^techage_liquid1_inv.png",
 })
 
 minetest.register_craftitem("techage:gas", {
@@ -50,44 +50,44 @@ minetest.register_craftitem("techage:ta3_barrel_bitumen", {
 
 minetest.register_craftitem("techage:ta3_barrel_fueloil", {
 	description = S("TA3 Fuel Oil Barrel"),
-	inventory_image = "techage_barrel_inv.png^[colorize:#4b3f11:120^techage_symbol_liquid.png",
+	inventory_image = "techage_barrel_inv.png^[colorize:#7E5D0A:180^techage_symbol_liquid.png",
 	stack_max = 1,
 })
 
 minetest.register_craftitem("techage:ta3_barrel_naphtha", {
 	description = S("TA3 Naphtha Barrel"),
-	inventory_image = "techage_barrel_inv.png^[colorize:#897937:120^techage_symbol_liquid.png",
+	inventory_image = "techage_barrel_inv.png^[colorize:#AAA820:180^techage_symbol_liquid.png",
 	stack_max = 1,
 })
 
 minetest.register_craftitem("techage:ta3_barrel_gasoline", {
 	description = S("TA3 Gasoline Barrel"),
-	inventory_image = "techage_barrel_inv.png^[colorize:#bfaf6e:120^techage_symbol_liquid.png",
+	inventory_image = "techage_barrel_inv.png^[colorize:#EEFC52:180^techage_symbol_liquid.png",
 	stack_max = 1,
 })
 
 
 minetest.register_craftitem("techage:ta3_canister_bitumen", {
 	description = S("TA3 Bitumen Canister"),
-	inventory_image = "techage_canister_filling.png^[colorize:#000000^techage_canister_frame.png",
+	inventory_image = "techage_canister_filling.png^[colorize:#000000:180^techage_canister_frame.png",
 	stack_max = 1,
 })
 
 minetest.register_craftitem("techage:ta3_canister_fueloil", {
 	description = S("TA3 Fuel Oil Canister"),
-	inventory_image = "techage_canister_filling.png^[colorize:#4b3f11^techage_canister_frame.png^techage_symbol_liquid.png",
+	inventory_image = "techage_canister_filling.png^[colorize:#7E5D0A:180^techage_canister_frame.png^techage_symbol_liquid.png",
 	stack_max = 1,
 })
 
 minetest.register_craftitem("techage:ta3_canister_naphtha", {
 	description = S("TA3 Naphtha Canister"),
-	inventory_image = "techage_canister_filling.png^[colorize:#897937^techage_canister_frame.png^techage_symbol_liquid.png",
+	inventory_image = "techage_canister_filling.png^[colorize:#AAA820:180^techage_canister_frame.png^techage_symbol_liquid.png",
 	stack_max = 1,
 })
 
 minetest.register_craftitem("techage:ta3_canister_gasoline", {
 	description = S("TA3 Gasoline Canister"),
-	inventory_image = "techage_canister_filling.png^[colorize:#bfaf6e^techage_canister_frame.png^techage_symbol_liquid.png",
+	inventory_image = "techage_canister_filling.png^[colorize:#EEFC52^techage_canister_frame.png^techage_symbol_liquid.png",
 	stack_max = 1,
 })
 

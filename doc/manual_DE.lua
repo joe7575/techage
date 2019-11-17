@@ -3,6 +3,12 @@ techage.manual_DE = {}
 techage.manual_DE.aTitel = {
   "1,Tech Age Mod",
   "2,Hinweise",
+  "2,Erze und Mineralien",
+  "3,Meridium",
+  "3,Usmium",
+  "3,Baborium",
+  "3,Erdöl",
+  "3,Bauxit",
   "2,History",
   "1,TA1: Eisenzeitalter",
   "2,Köhler / Coal Pile",
@@ -73,7 +79,6 @@ techage.manual_DE.aTitel = {
   "2,Öl-Verarbeitung",
   "3,Destillationsturm / distiller tower",
   "4,Aufkocher / reboiler)",
-  "3,Chemischer Reaktor / chemical reactor",
   "2,Logik-/Schalt-Blöcke",
   "3,TA3 Taster/Schalter / Button/Switch",
   "3,TA3 Logikblock / Logic Block",
@@ -95,6 +100,7 @@ techage.manual_DE.aTitel = {
   "3,TA3 Elektronikfabrik / Electronic Fab",
   "3,TA3 Trichter / Funnel",
   "3,TA3 Kiessieb / Gravel Sieve",
+  "3,TA3 Kieswaschanlage / Gravel Rinser",
   "3,TA3 Mühle / Grinder",
   "3,TA3 Flüssigkeitensammler / Liquid Sampler",
   "2,Werkzeuge",
@@ -122,9 +128,17 @@ techage.manual_DE.aTitel = {
   "2,Wasserstoff",
   "3,Elektrolyseur",
   "3,Brennstoffzelle",
+  "2,Chemischer Reaktor / chemical reactor",
+  "3,TA4 Dosierer / doser",
+  "3,TA4 Reaktor / reactor",
+  "3,TA4 Einfüllstutzen / fillerpipe",
+  "3,TA4 Reaktorständer / reactor stand",
+  "3,TA4 Reaktorsockel / reactor base",
+  "3,TA4 Silo / silo",
   "2,Weitere TA4 Blöcke",
   "3,TA4 Tank / TA4 Tank",
   "3,TA4 Pumpe / TA4 Pump",
+  "3,TA4 Ofenheizung / furnace heater",
 }
 
 techage.manual_DE.aText = {
@@ -159,8 +173,28 @@ techage.manual_DE.aText = {
   "\n"..
   "Mit TA4 kommen weitere Stromquellen dazu\\, aber auch höhere logistische Herausforderungen (Stromtrassen\\, Item Transport).\n"..
   "\n",
+  "Techage fügt dem Spiel einige neue Items hinzu:\n"..
+  "\n"..
+  "  - Meridium - eine Legierung zur Herstellung von leuchtenden Werkzeugen in TA1\n"..
+  "  - Usmium - ein Erz\\, was in TA2 gefördert und für TA3 benötigt wird\n"..
+  "  - Baborium - ein Metall\\, welches für Rezepte in TA3 benötigt wird\n"..
+  "  - Erdöl - wird in TA3 benötigt\n"..
+  "  - Bauxit - ein Aluminiumerz\\, was in TA4 zur Herstellung von Aluminium benötigt wird\n"..
+  "\n",
+  "Meridium ist eine Legierung aus Stahl und Mesekristallen. Meridium Ingots können mit dem Kohlebrenner aus Stahl und Mesesplitter hergestellt werden. Meridium leuchtet im Dunkeln. Auch Werkzeuge aus Meridium leuchten und sind daher im Untertagebau sehr hilfreich.\n"..
+  "\n",
+  "Usmium kommt nur als Nuggets vor und kann nur beim Waschen von Kies mit der TA2 Kieswaschanlage gewonnen werden.\n"..
+  "\n",
+  "Baborium wird nur im Untertagebau gewonnen. Baborium findet man nur in Stein in einer Höhe zwischen -250 und -340 Meter.\n"..
+  "\n",
+  "Erdöl kann nur mit Hilfe des Explorers gefunden und mit Hilfe entsprechender TA3 Maschinen gefördert werden. Siehe TA3.\n"..
+  "\n",
+  "Bauxit wird nur im Untertagebau gewonnen. Bauxit findet man nur in Stein in einer Höhe zwischen -50 und -150 Meter.\n"..
+  "Es wird zur Herstellung von Aluminium benötigt\\, was vor allem in TA4 Verwendung findet.\n"..
+  "\n",
   "  - 28.09.2019: Um Solaranlage erweitert\n"..
   "  - 05.10.2019: Daten zur Solaranlage und Beschreibung zum Wechselrichter und zum Power-Terminal geändert\n"..
+  "  - 17.11.2019: Reaktor\\, Aluminium\\, Silo\\, Bauxit hinzugefügt\n"..
   "\n",
   "In TA1 geht es darum\\, mit einfachen Werkzeugen und Gerätschaften ausreichend Erze zu schürfen und Holzkohle herzustellen\\, so dass damit TA2 Maschinen hergestellt und betrieben werden können.\n"..
   "\n"..
@@ -537,6 +571,8 @@ techage.manual_DE.aText = {
   "\n"..
   "Der Industrieofen benötigt Strom (für das Gebläse) sowie Öl/Benzin für den Brenner. Der Industrieofens und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden.\n"..
   "\n"..
+  "Siehe auch TA4 Ofenheizung.\n"..
+  "\n"..
   "\n"..
   "\n",
   "Ist Teil des TA3 Industrieofen.\n"..
@@ -647,8 +683,6 @@ techage.manual_DE.aText = {
   "Der Aufkocher benötigt 12 Einheiten Strom und produziert alle 6 s jeweils eine Einheit Bitumen\\, Schweröl\\, Naphtha\\, Benzin und Gas.\n"..
   "Dazu muss der Aufkocher über einen Pumpe mit Erdöl versorgt werden.\n"..
   "\n"..
-  "\n"..
-  "\n",
   "\n"..
   "\n",
   "Neben den Röhren für Warentransport\\, sowie den Gas- und Stromleitungen gibt es auch noch eine drahtlose Kommunikationsebene\\, über die Blöcke untereinander Daten austauschen können. Dafür müssen keine Leitungen gezogen werden\\, sondern die Verbindung zwischen Sender und Empfänger erfolgt nur über die Blocknummer. Alle Blöcke\\, die an dieser Kommunikation teilnehmen können\\, zeigen die Blocknummer als Info-Text an\\, wenn man mit dem Mauscursor den Block fixiert.\n"..
@@ -819,12 +853,20 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Der TA3 Trichter sammelt abgelegte Gegenstände und speichert sie in seinem Inventar. Gegenstände werden angesaugt\\, wenn sie auf den Trichterblock fallen.\n"..
+  "\n"..
+  "Der Trichter kann über das Menü und auch über on/off Kommandos ein-/ausgeschaltet werden.\n"..
+  "\n"..
   "Der Scanradius beträgt 1 m.\n"..
   "\n"..
   "\n"..
   "\n",
   "Die Funktion entspricht der von TA2.\n"..
   "Die Verarbeitungsleistung beträgt 2 Items alle 4 s. Der Block benötigt 4 ku Strom.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Funktion entspricht der von TA2.\n"..
+  "Die Wahrscheinlichkeit ist wie bei TA2. Der Block benötigt 3 ku Strom.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1003,6 +1045,57 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der Reaktor dient dazu\\, die über den Destillationsturm oder aus anderen Rezepten gewonnenen Zutaten zu neuen Produkten weiter zu verarbeiten. Ein Reaktor besteht aus:\n"..
+  "\n"..
+  "  - div. Tanks und Silos mit den Zutaten\\, die über Leitungen mit dem Dosierer verbunden sind\n"..
+  "  - optional einem Reaktorsockel\\, welcher die Abfälle aus dem Reaktor ableitet (nur bei Rezepten mit zwei Ausgangsstoffen notwendig)\n"..
+  "  - dem Reaktorständer\\, der auf den Sockel gesetzt werden muss (sofern vorhanden). Der Ständer hat einen Stromanschluss und zieht bei Betrieb 8 ku.\n"..
+  "  - dem eigentlichen Reaktorbehälter\\, der auf den Reaktorständer gesetzt werden muss\n"..
+  "  - dem Einfüllstutzen der auf den Reaktorbehälter gesetzt werden muss\n"..
+  "  - dem Dosierer\\, welcher über Leitungen mit den Tanks oder Silos sowie dem Einfüllstutzen verbunden werden muss\n"..
+  "\n"..
+  "Hinweis 1: Flüssigkeiten werden nur in Tanks gelagert\\, Stoffe in Pulverform nur in Silos. Dies gilt für Zutaten und Ausgangsstoffe.\n"..
+  "\n"..
+  "Hinweis 2: Tanks oder Silos mit verschiedenen Inhalten dürfen nicht zu einem Leitungssystem verbunden werden. Mehrere Tanks oder Silos mit gleichem Inhalt dürfen dagegen parallel an einer Leitung hängen.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Teil des Chemischen Reaktors.\n"..
+  "Auf allen 4 Seiten der Dosierers können Leitungen für Eingangsmaterialien angeschlossen werden. Nach oben werden die Materialien für den Reaktor ausgegeben.\n"..
+  "\n"..
+  "Über den Dosierer kann das Rezept eingestellt und der Reaktor gestartet werden.\n"..
+  "\n"..
+  "Wie auch bei anderen Maschinen:\n"..
+  "\n"..
+  "  - geht der Dosierer in den standby Zustand\\, so fehlen ein oder mehrere Zutaten\n"..
+  "  - geht der Dosierer in den blocked Zustand\\, so ist Ausgangstank oder Silo voll\\, defekt oder falsch angeschlossen\n"..
+  "\n"..
+  "Der Dosierer benötigt keinen Strom. Alle 10 s wird ein Rezept abgearbeitet.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Teil des Chemischen Reaktors.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Teil des Chemischen Reaktors. Muss auf den Reaktor gesetzt werden. Wenn dies nicht klappt\\, ggf. das Rohr an der Position darüber nochmals entfernen und neu setzen.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Teil des Chemischen Reaktors. Hier ist auch der Stromanschluss für den Reaktor. Der Reaktor benötigt 8 ku Strom.\n"..
+  "\n"..
+  "Der Ständer hat zwei Leitungsanschlüsse\\, nach rechst für das Ausgangsprodukt und nach unten für den Abfall\\, wie bspw. Rotschlamm bei der Aluminiumherstellung.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Teil des Chemischen Reaktors. Wird für den Abfluss des Abfallproduktes benötigt.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Teil des Chemischen Reaktors. Wird zur Aufbewahrung von Stoffen in Pulver- oder Granulatform benötigt.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "",
   "Siehe TA3 Tank.\n"..
   "\n"..
@@ -1016,10 +1109,22 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Mit TA4 hat der Industrieofen auch seine elektrische Heizung. Der Ölbrenner und auch das Gebläse können mit der Ofenheizung ersetzt werden.\n"..
+  "\n"..
+  "Die Ofenheizung benötigt 14 ku Strom.\n"..
+  "\n"..
+  "\n"..
+  "\n",
 }
 
 techage.manual_DE.aItemName = {
   "wlanchip",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
   "",
   "",
   "techage_ta1",
@@ -1091,7 +1196,6 @@ techage.manual_DE.aItemName = {
   "techage_ta31",
   "",
   "reboiler",
-  "ta3_reactor",
   "ta3_logic",
   "ta3_button",
   "ta3_logic",
@@ -1113,6 +1217,7 @@ techage.manual_DE.aItemName = {
   "ta3_electronicfab",
   "ta3_funnel",
   "ta3_gravelsieve",
+  "ta3_gravelrinser",
   "ta3_grinder",
   "ta3_liquidsampler",
   "",
@@ -1141,11 +1246,25 @@ techage.manual_DE.aItemName = {
   "ta4_electrolyzer",
   "ta4_fuelcell",
   "",
+  "ta4_doser",
+  "ta4_reactor",
+  "ta4_fillerpipe",
+  "ta4_reactorstand",
+  "ta4_reactorbase",
+  "ta4_silo",
+  "",
   "ta4_tank",
   "ta4_pump",
+  "ta4_furnaceheater",
 }
 
 techage.manual_DE.aPlanTable = {
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
   "",
   "",
   "",
@@ -1260,6 +1379,14 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_storagesystem",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "ta4_reactor",
   "",
   "",
   "",

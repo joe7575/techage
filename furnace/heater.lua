@@ -22,7 +22,7 @@ local Pipe = techage.LiquidPipe
 local liquid = techage.liquid
 
 local CYCLE_TIME = 2
-local PWR_NEEDED = 8
+local PWR_NEEDED = 14
 
 local Power = techage.ElectricCable
 local power = techage.power

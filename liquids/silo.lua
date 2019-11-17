@@ -56,7 +56,7 @@ local function can_dig(pos, player)
 end
 
 local function get_item_name(mem, inv)
-	for idx = 1, INV_SIZE do
+	for idx = 1, inv:get_size("main") do
 		local stack = inv:get_stack("main", idx)
 		if stack:get_count() > 0 then
 			mem.item_name = stack:get_name()
@@ -65,7 +65,18 @@ local function get_item_name(mem, inv)
 	end
 end	
 
-local function formspec()
+local function formspec3()
+	return "size[8,5]"..
+	default.gui_bg..
+	default.gui_bg_img..
+	default.gui_slots..
+	"list[context;main;0,0;8,1;]"..
+	"list[current_player;main;0,1.3;8,4;]"..
+	"listring[context;main]"..
+	"listring[current_player;main]"
+end
+
+local function formspec4()
 	return "size[8,6]"..
 	default.gui_bg..
 	default.gui_bg_img..
@@ -75,7 +86,6 @@ local function formspec()
 	"listring[context;main]"..
 	"listring[current_player;main]"
 end
-
 
 minetest.register_node("techage:ta3_silo", {
 	description = S("TA3 Silo"),
@@ -99,20 +109,89 @@ minetest.register_node("techage:ta3_silo", {
 		local number = techage.add_node(pos, "techage:ta3_silo")
 		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
-		meta:set_string("formspec", formspec(mem))
+		meta:set_string("formspec", formspec3(mem))
 		meta:set_string("infotext", S("TA3 Silo").." "..number)
 		Pipe:after_place_node(pos)
 	end,
 	tubelib2_on_update2 = function(pos, outdir, tlib2, node)
 		liquid.update_network(pos, outdir)
 	end,
-	on_timer = function(pos, elapsed)
-		local mem = tubelib2.get_mem(pos)
-		if mem.countdown then
-			mem.countdown = mem.countdown - 1
-			M(pos):set_string("formspec", formspec(mem))
-			return mem.countdown > 0
-		end
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		Pipe:after_dig_node(pos)
+		techage.remove_node(pos)
+	end,
+	liquid = {
+		capa = 0,
+		peek = function(pos, indir)
+			local mem = tubelib2.get_mem(pos)
+			local inv = M(pos):get_inventory()
+			if not inv:is_empty("main") then
+				return mem.item_name or get_item_name(mem, inv)
+			end
+		end,
+		put = function(pos, indir, name, amount)
+			local inv = M(pos):get_inventory()
+			local stack = ItemStack(name.." "..amount)
+			if inv:room_for_item("main", stack) then
+				inv:add_item("main", stack)
+				return 0
+			end
+			return amount
+		end,
+		take = function(pos, indir, name, amount)
+			local inv = M(pos):get_inventory()
+			local stack = ItemStack(name.." "..amount)
+			if inv:contains_item("main", stack) then
+				inv:room_for_item("main", stack)
+				return amount, name
+			end
+			return 0
+		end,
+	},
+	networks = {
+		pipe = {
+			sides = techage.networks.AllSides, -- Pipe connection sides
+			ntype = "tank",
+		},
+	},
+	can_dig = can_dig,
+	allow_metadata_inventory_put = allow_metadata_inventory_put,
+	allow_metadata_inventory_take = allow_metadata_inventory_take,
+	paramtype2 = "facedir",
+	on_rotate = screwdriver.disallow,
+	groups = {cracky=2},
+	is_ground_content = false,
+	sounds = default.node_sound_metal_defaults(),
+})
+
+minetest.register_node("techage:ta4_silo", {
+	description = S("TA4 Silo"),
+	tiles = {
+		-- up, down, right, left, back, front
+		"techage_filling_ta4.png^techage_frame_ta4_top.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_silo.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_silo.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_silo.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_silo.png",
+	},
+	on_construct = function(pos)
+		local inv = M(pos):get_inventory()
+		inv:set_size('main', INV_SIZE * 2)
+	end,
+	after_place_node = function(pos, placer)
+		local meta = M(pos)
+		local mem = tubelib2.init_mem(pos)
+		mem.liquid = {}
+		local number = techage.add_node(pos, "techage:ta4_silo")
+		meta:set_string("node_number", number)
+		meta:set_string("owner", placer:get_player_name())
+		meta:set_string("formspec", formspec4(mem))
+		meta:set_string("infotext", S("TA4 Silo").." "..number)
+		Pipe:after_place_node(pos)
+	end,
+	tubelib2_on_update2 = function(pos, outdir, tlib2, node)
+		liquid.update_network(pos, outdir)
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)

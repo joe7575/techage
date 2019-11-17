@@ -204,6 +204,7 @@ Der Industrieofen hat sein eigenes Menü zur Rezeptauswahl. Abhängig von den Wa
 
 Der Industrieofen benötigt Strom (für das Gebläse) sowie Öl/Benzin für den Brenner. Der Industrieofens und muss wie im Plan rechts abgebildet, zusammen gebaut werden.
 
+Siehe auch TA4 Ofenheizung.
 
 [ta3_furnace|plan]
 
@@ -363,11 +364,6 @@ Der Aufkocher benötigt 12 Einheiten Strom und produziert alle 6 s jeweils eine 
 Dazu muss der Aufkocher über einen Pumpe mit Erdöl versorgt werden.
 
 [reboiler|image]
-
-
-### Chemischer Reaktor / chemical reactor
-
-[ta3_reactor|image]
 
 
 ## Logik-/Schalt-Blöcke
@@ -595,6 +591,9 @@ Die Verarbeitungsleistung beträgt ein Chip alle 6 s. Der Block benötigt hierf�
 ### TA3 Trichter / Funnel
 
 Der TA3 Trichter sammelt abgelegte Gegenstände und speichert sie in seinem Inventar. Gegenstände werden angesaugt, wenn sie auf den Trichterblock fallen.
+
+Der Trichter kann über das Menü und auch über on/off Kommandos ein-/ausgeschaltet werden.
+
 Der Scanradius beträgt 1 m.
 
 [ta3_funnel|image]
@@ -606,6 +605,14 @@ Die Funktion entspricht der von TA2.
 Die Verarbeitungsleistung beträgt 2 Items alle 4 s. Der Block benötigt 4 ku Strom.
 
 [ta3_gravelsieve|image]
+
+
+### TA3 Kieswaschanlage / Gravel Rinser
+
+Die Funktion entspricht der von TA2.
+Die Wahrscheinlichkeit ist wie bei TA2. Der Block benötigt 3 ku Strom.
+
+[ta3_gravelrinser|image]
 
 
 ### TA3 Mühle / Grinder

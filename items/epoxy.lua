@@ -16,18 +16,18 @@ local S = techage.S
 
 minetest.register_craftitem("techage:epoxy", {
 	description = S("Epoxide Resin"),
-	inventory_image = "techage_liquid2_inv.png^[colorize:#ca2446:120^techage_liquid1_inv.png",
+	inventory_image = "techage_liquid2_inv.png^[colorize:#ca2446:140^techage_liquid1_inv.png",
 })
 
 minetest.register_craftitem("techage:barrel_epoxy", {
 	description = S("Epoxide Resin Barrel"),
-	inventory_image = "techage_barrel_inv.png^[colorize:#ca2446:120^techage_symbol_liquid.png",
+	inventory_image = "techage_barrel_inv.png^[colorize:#ca2446:140^techage_symbol_liquid.png",
 	stack_max = 1,
 })
 
 minetest.register_craftitem("techage:canister_epoxy", {
 	description = S("Epoxide Resin Canister"),
-	inventory_image = "techage_canister_filling.png^[colorize:#ca2446:120^techage_canister_frame.png^techage_symbol_liquid.png",
+	inventory_image = "techage_canister_filling.png^[colorize:#ca2446:140^techage_canister_frame.png^techage_symbol_liquid.png",
 	stack_max = 1,
 })
 

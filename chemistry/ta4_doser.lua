@@ -321,8 +321,8 @@ Pipe:add_secondary_node_names({"techage:ta4_doser", "techage:ta4_doser_on"})
 
 if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("ta4_doser", {
-		description = S("TA4 Doser"),
-		icon = 'techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_pump.png^techage_appl_hole_pipe.png',
+		description = S("TA4 Reactor"),
+		icon = 'techage_reactor_filler_plan.png',
 		width = 2,
 		height = 2,
 	})

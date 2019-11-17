@@ -83,7 +83,7 @@ local function get_netID(pos, outdir)
 		local netID = determine_netID(pos, outdir)
 		store_netID(pos, outdir, netID)
 	end
-	return mem.pipe.netIDs[outdir]
+	return mem.pipe and mem.pipe.netIDs and mem.pipe.netIDs[outdir]
 end
 
 local function get_network_table(pos, outdir, ntype)

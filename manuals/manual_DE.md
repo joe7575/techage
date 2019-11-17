@@ -34,9 +34,46 @@ Ab TA3 laufen die Maschinen mit Strom und besitzen eine Kommunikationsschnittste
 Mit TA4 kommen weitere Stromquellen dazu, aber auch höhere logistische Herausforderungen (Stromtrassen, Item Transport).
 
 
+## Erze und Mineralien
+
+Techage fügt dem Spiel einige neue Items hinzu:
+
+- Meridium - eine Legierung zur Herstellung von leuchtenden Werkzeugen in TA1
+- Usmium - ein Erz, was in TA2 gefördert und für TA3 benötigt wird
+- Baborium - ein Metall, welches für Rezepte in TA3 benötigt wird
+- Erdöl - wird in TA3 benötigt
+- Bauxit - ein Aluminiumerz, was in TA4 zur Herstellung von Aluminium benötigt wird
+
+
+### Meridium
+
+Meridium ist eine Legierung aus Stahl und Mesekristallen. Meridium Ingots können mit dem Kohlebrenner aus Stahl und Mesesplitter hergestellt werden. Meridium leuchtet im Dunkeln. Auch Werkzeuge aus Meridium leuchten und sind daher im Untertagebau sehr hilfreich.
+
+
+### Usmium
+
+Usmium kommt nur als Nuggets vor und kann nur beim Waschen von Kies mit der TA2 Kieswaschanlage gewonnen werden.
+
+
+### Baborium
+
+Baborium wird nur im Untertagebau gewonnen. Baborium findet man nur in Stein in einer Höhe zwischen -250 und -340 Meter.
+
+
+### Erdöl
+
+Erdöl kann nur mit Hilfe des Explorers gefunden und mit Hilfe entsprechender TA3 Maschinen gefördert werden. Siehe TA3.
+
+
+### Bauxit
+
+Bauxit wird nur im Untertagebau gewonnen. Bauxit findet man nur in Stein in einer Höhe zwischen -50 und -150 Meter.
+Es wird zur Herstellung von Aluminium benötigt, was vor allem in TA4 Verwendung findet.
+
+
 ## History
 
 - 28.09.2019: Um Solaranlage erweitert
 - 05.10.2019: Daten zur Solaranlage und Beschreibung zum Wechselrichter und zum Power-Terminal geändert
-
+- 18.11.2019: Kapitel für Erze, Reaktor, Aluminium, Silo, Bauxit, Ofenheizung, Kieswaschanlage hinzugefügt
 

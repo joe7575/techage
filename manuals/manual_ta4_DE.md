@@ -210,6 +210,77 @@ Die Brennstoffzelle kann bis zu 40 ku an Strom abgeben und benötigt dazu alle 6
 [ta4_fuelcell|image]
 
 
+## Chemischer Reaktor / chemical reactor
+
+Der Reaktor dient dazu, die über den Destillationsturm oder aus anderen Rezepten gewonnenen Zutaten zu neuen Produkten weiter zu verarbeiten. Ein Reaktor besteht aus:
+- div. Tanks und Silos mit den Zutaten, die über Leitungen mit dem Dosierer verbunden sind
+- optional einem Reaktorsockel, welcher die Abfälle aus dem Reaktor ableitet (nur bei Rezepten mit zwei Ausgangsstoffen notwendig)
+- dem Reaktorständer, der auf den Sockel gesetzt werden muss (sofern vorhanden). Der Ständer hat einen Stromanschluss und zieht bei Betrieb 8 ku.
+- dem eigentlichen Reaktorbehälter, der auf den Reaktorständer gesetzt werden muss
+- dem Einfüllstutzen der auf den Reaktorbehälter gesetzt werden muss
+- dem Dosierer, welcher über Leitungen mit den Tanks oder Silos sowie dem Einfüllstutzen verbunden werden muss
+
+Hinweis 1: Flüssigkeiten werden nur in Tanks gelagert, Stoffe in Pulverform nur in Silos. Dies gilt für Zutaten und Ausgangsstoffe.
+
+Hinweis 2: Tanks oder Silos mit verschiedenen Inhalten dürfen nicht zu einem Leitungssystem verbunden werden. Mehrere Tanks oder Silos mit gleichem Inhalt dürfen dagegen parallel an einer Leitung hängen.
+
+
+[ta4_reactor|plan]
+
+
+### TA4 Dosierer / doser
+
+Teil des Chemischen Reaktors.
+Auf allen 4 Seiten der Dosierers können Leitungen für Eingangsmaterialien angeschlossen werden. Nach oben werden die Materialien für den Reaktor ausgegeben.
+
+Über den Dosierer kann das Rezept eingestellt und der Reaktor gestartet werden.
+
+Wie auch bei anderen Maschinen:
+- geht der Dosierer in den standby Zustand, so fehlen ein oder mehrere Zutaten
+- geht der Dosierer in den blocked Zustand, so ist Ausgangstank oder Silo voll, defekt oder falsch angeschlossen
+
+Der Dosierer benötigt keinen Strom. Alle 10 s wird ein Rezept abgearbeitet.
+
+[ta4_doser|image]
+
+### TA4 Reaktor / reactor
+
+Teil des Chemischen Reaktors.
+
+[ta4_reactor|image]
+
+
+### TA4 Einfüllstutzen / fillerpipe
+
+Teil des Chemischen Reaktors. Muss auf den Reaktor gesetzt werden. Wenn dies nicht klappt, ggf. das Rohr an der Position darüber nochmals entfernen und neu setzen.
+
+[ta4_fillerpipe|image]
+
+
+### TA4 Reaktorständer / reactor stand
+
+Teil des Chemischen Reaktors. Hier ist auch der Stromanschluss für den Reaktor. Der Reaktor benötigt 8 ku Strom.
+
+Der Ständer hat zwei Leitungsanschlüsse, nach rechst für das Ausgangsprodukt und nach unten für den Abfall, wie bspw. Rotschlamm bei der Aluminiumherstellung.
+
+[ta4_reactorstand|image]
+
+
+### TA4 Reaktorsockel / reactor base
+
+Teil des Chemischen Reaktors. Wird für den Abfluss des Abfallproduktes benötigt.
+
+[ta4_reactorbase|image]
+
+
+### TA4 Silo / silo
+
+Teil des Chemischen Reaktors. Wird zur Aufbewahrung von Stoffen in Pulver- oder Granulatform benötigt.
+
+[ta4_silo|image]
+
+
+
 ## Weitere TA4 Blöcke
 
 
@@ -231,5 +302,11 @@ Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden.
 [ta4_pump|image]
 
 
+### TA4 Ofenheizung / furnace heater
 
+Mit TA4 hat der Industrieofen auch seine elektrische Heizung. Der Ölbrenner und auch das Gebläse können mit der Ofenheizung ersetzt werden.
+
+Die Ofenheizung benötigt 14 ku Strom.
+
+[ta4_furnaceheater|image]
 

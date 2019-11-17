@@ -22,6 +22,7 @@ local IMG31 = {"", "techage_ta3b.png"}
 local IMG_4 = {"", "techage_ta4.png"}
 local IMG41 = {"", "techage_ta4_tes.png"}
 local IMG42 = {"", "techage_ta4_solar.png"}
+local IMG43 = {"", "techage_reactor_inv.png"}
 
 --
 -- TA1: Coal Pile
@@ -175,9 +176,9 @@ local Tank = {"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_tank.p
 local PIPEH = {"techage_gaspipe.png", "techage:ta4_pipeS"}
 local PIPEV = {"techage_gaspipe.png^[transformR90", "techage:ta4_pipeS"}
 local PN000 = {"techage_gaspipe_knee.png", "techage:ta4_pipeS"}  -- r
-local PN090 = {"techage_gaspipe_knee.png^[transformR90", "techage:ta4_pipeS"}  -- 7
-local PN180 = {"techage_gaspipe_knee.png^[transformR180", "techage:ta4_pipeS"}
-local PN270 = {"techage_gaspipe_knee.png^[transformR270", "techage:ta4_pipeS"}
+local PN090 = {"techage_gaspipe_knee.png^[transformR90", "techage:ta4_pipeS"}   -- L
+local PN180 = {"techage_gaspipe_knee.png^[transformR180", "techage:ta4_pipeS"}  -- J
+local PN270 = {"techage_gaspipe_knee.png^[transformR270", "techage:ta4_pipeS"}  -- 7
 
 techage.ConstructionPlans["ta3_tank"] = {
 	{false, false, false, false, false, false, false, false, false},
@@ -207,6 +208,27 @@ techage.ConstructionPlans["ta3_distiller"] = {
 	{false, false, false, false, false, false, false, DIST2, false, false, false},
 	{false, Tank,  PIPEH, Pump,  PIPEH, REBIO, PIPEH, DIST1, false, false, false},
 	{false, false, false, false, false, false, false, DBASE, PIPEH, Tank,  false},
+}
+
+--
+-- Chemical Reactor
+--
+local RBASE = {"techage_concrete.png", "techage:ta4_reactor_stand"}
+local STAND = {"techage_reactor_stand_side.png", "techage:ta4_reactor_stand"}
+local REACT = {"techage_reactor_plan.png", "techage:ta4_reactor"}
+local FILLR = {"techage_reactor_filler_plan.png", "techage:ta4_reactor_fillerpipe"}
+local DOSER = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_pump_up.png", "techage:ta4_doser"}
+local SILO  = {"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_silo.png", "techage:ta3_silo"}
+
+techage.ConstructionPlans["ta4_reactor"] = {
+	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, IMG43, false, false, false, false, false, false, false, false, false},
+	{false, false, false, false, PN000, PIPEH, PIPEH, PN270, false, false, false},
+	{false, false, false, false, PIPEV, false, false, FILLR, false, false, false},
+	{false, false, false, false, PIPEV, false, false, REACT, false, false, false},
+	{false, false, false, false, PIPEV, false, false, STAND, PIPEH, PIPEH, Tank},
+	{false, Tank,  PIPEH, PIPEH, DOSER, PN270, false, RBASE, PIPEH, PIPEH, Tank},
+	{false, SILO,  PIPEH, PIPEH, PIPEH, PN180, false, false, false, false, false},
 }
 
 --
