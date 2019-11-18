@@ -87,6 +87,45 @@ local function formspec4()
 	"listring[current_player;main]"
 end
 
+local tLiquid = {
+	capa = 0,
+	peek = function(pos, indir)
+		local mem = tubelib2.get_mem(pos)
+		local inv = M(pos):get_inventory()
+		if not inv:is_empty("main") then
+			return mem.item_name or get_item_name(mem, inv)
+		end
+	end,
+	put = function(pos, indir, name, amount)
+		local inv = M(pos):get_inventory()
+		local stack = ItemStack(name.." "..amount)
+		if inv:room_for_item("main", stack) then
+			inv:add_item("main", stack)
+			return 0
+		end
+		return amount
+	end,
+	take = function(pos, indir, name, amount)
+		local mem = tubelib2.get_mem(pos)
+		local inv = M(pos):get_inventory()
+		if not name then
+			name = mem.item_name or get_item_name(mem, inv)
+		end
+		if name then
+			local stack = ItemStack(name.." "..amount)
+			return inv:remove_item("main", stack):get_count(), name
+		end
+		return 0
+	end,
+}
+
+local tNetworks = {
+	pipe = {
+		sides = techage.networks.AllSides, -- Pipe connection sides
+		ntype = "tank",
+	},
+}
+
 minetest.register_node("techage:ta3_silo", {
 	description = S("TA3 Silo"),
 	tiles = {
@@ -120,40 +159,8 @@ minetest.register_node("techage:ta3_silo", {
 		Pipe:after_dig_node(pos)
 		techage.remove_node(pos)
 	end,
-	liquid = {
-		capa = 0,
-		peek = function(pos, indir)
-			local mem = tubelib2.get_mem(pos)
-			local inv = M(pos):get_inventory()
-			if not inv:is_empty("main") then
-				return mem.item_name or get_item_name(mem, inv)
-			end
-		end,
-		put = function(pos, indir, name, amount)
-			local inv = M(pos):get_inventory()
-			local stack = ItemStack(name.." "..amount)
-			if inv:room_for_item("main", stack) then
-				inv:add_item("main", stack)
-				return 0
-			end
-			return amount
-		end,
-		take = function(pos, indir, name, amount)
-			local inv = M(pos):get_inventory()
-			local stack = ItemStack(name.." "..amount)
-			if inv:contains_item("main", stack) then
-				inv:room_for_item("main", stack)
-				return amount, name
-			end
-			return 0
-		end,
-	},
-	networks = {
-		pipe = {
-			sides = techage.networks.AllSides, -- Pipe connection sides
-			ntype = "tank",
-		},
-	},
+	liquid = tLiquid,
+	networks = tNetworks,
 	can_dig = can_dig,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
@@ -197,40 +204,8 @@ minetest.register_node("techage:ta4_silo", {
 		Pipe:after_dig_node(pos)
 		techage.remove_node(pos)
 	end,
-	liquid = {
-		capa = 0,
-		peek = function(pos, indir)
-			local mem = tubelib2.get_mem(pos)
-			local inv = M(pos):get_inventory()
-			if not inv:is_empty("main") then
-				return mem.item_name or get_item_name(mem, inv)
-			end
-		end,
-		put = function(pos, indir, name, amount)
-			local inv = M(pos):get_inventory()
-			local stack = ItemStack(name.." "..amount)
-			if inv:room_for_item("main", stack) then
-				inv:add_item("main", stack)
-				return 0
-			end
-			return amount
-		end,
-		take = function(pos, indir, name, amount)
-			local inv = M(pos):get_inventory()
-			local stack = ItemStack(name.." "..amount)
-			if inv:contains_item("main", stack) then
-				inv:room_for_item("main", stack)
-				return amount, name
-			end
-			return 0
-		end,
-	},
-	networks = {
-		pipe = {
-			sides = techage.networks.AllSides, -- Pipe connection sides
-			ntype = "tank",
-		},
-	},
+	liquid = tLiquid,
+	networks = tNetworks,
 	can_dig = can_dig,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,

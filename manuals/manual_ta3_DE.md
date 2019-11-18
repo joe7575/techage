@@ -75,7 +75,7 @@ Dient zur Abkühlung des heißen Dampfs aus der Turbine.  Muss über Dampfleitun
 [ta3_cooler|image]
 
 
-## Eletrischer Strom
+## Elektrischer Strom
 
 In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen und Generatoren mit Stromkabel verbunden werden.  
 TA3 besitzt 2 Arten von Stromkabel:
@@ -238,6 +238,8 @@ Ist Teil des TA3 Industrieofen. Siehe TA3 Industrieofen.
 
 Flüssigkeiten wie Wasser oder Öl können nur die spezielle Leitungen gepumpt und in Tanks gespeichert werden. Wie auch bei Wasser gibt es aber Behälter (Eimer, Kanister, Fässer), in denen die Flüssig gelagert und transportiert werden kann.
 
+Über die gelben Leitungen und Verbindungsstücke ist es auch möglich, mehrere Tanks zu verbinden. Allerdings müssen die Tanks den selben Inhalt haben und zwischen Tank, Pumpe und Verteiler muss immer mindestens eine gelbe Leitung sein.
+Bspw. zwei Tanks direkt mit einem Verteilerstück zu verbinden, geht nicht.
 
 [ta3_tank|plan]
 

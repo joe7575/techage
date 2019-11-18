@@ -49,7 +49,7 @@
         - [TA3 Turbine](./manual_ta3_DE.md#ta3-turbine)
         - [TA3 Generator](./manual_ta3_DE.md#ta3-generator)
         - [TA3 Kühler / Cooler](./manual_ta3_DE.md#ta3-kühler--cooler)
-    - [Eletrischer Strom](./manual_ta3_DE.md#eletrischer-strom)
+    - [Elektrischer Strom](./manual_ta3_DE.md#elektrischer-strom)
         - [TA Stromkabel / Electric Cable](./manual_ta3_DE.md#ta-stromkabel--electric-cable)
         - [TA Verteilerdose / Electric Junction Box](./manual_ta3_DE.md#ta-verteilerdose--electric-junction-box)
         - [TA Stromleitung / Power Line](./manual_ta3_DE.md#ta-stromleitung--power-line)

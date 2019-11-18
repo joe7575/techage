@@ -50,7 +50,7 @@ techage.manual_DE.aTitel = {
   "3,TA3 Turbine",
   "3,TA3 Generator",
   "3,TA3 Kühler / Cooler",
-  "2,Eletrischer Strom",
+  "2,Elektrischer Strom",
   "3,TA Stromkabel / Electric Cable",
   "3,TA Verteilerdose / Electric Junction Box",
   "3,TA Stromleitung / Power Line",
@@ -194,7 +194,7 @@ techage.manual_DE.aText = {
   "\n",
   "  - 28.09.2019: Um Solaranlage erweitert\n"..
   "  - 05.10.2019: Daten zur Solaranlage und Beschreibung zum Wechselrichter und zum Power-Terminal geändert\n"..
-  "  - 17.11.2019: Reaktor\\, Aluminium\\, Silo\\, Bauxit hinzugefügt\n"..
+  "  - 18.11.2019: Kapitel für Erze\\, Reaktor\\, Aluminium\\, Silo\\, Bauxit\\, Ofenheizung\\, Kieswaschanlage hinzugefügt\n"..
   "\n",
   "In TA1 geht es darum\\, mit einfachen Werkzeugen und Gerätschaften ausreichend Erze zu schürfen und Holzkohle herzustellen\\, so dass damit TA2 Maschinen hergestellt und betrieben werden können.\n"..
   "\n"..
@@ -592,6 +592,9 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Flüssigkeiten wie Wasser oder Öl können nur die spezielle Leitungen gepumpt und in Tanks gespeichert werden. Wie auch bei Wasser gibt es aber Behälter (Eimer\\, Kanister\\, Fässer)\\, in denen die Flüssig gelagert und transportiert werden kann.\n"..
+  "\n"..
+  "Über die gelben Leitungen und Verbindungsstücke ist es auch möglich\\, mehrere Tanks zu verbinden. Allerdings müssen die Tanks den selben Inhalt haben und zwischen Tank\\, Pumpe und Verteiler muss immer mindestens eine gelbe Leitung sein.\n"..
+  "Bspw. zwei Tanks direkt mit einem Verteilerstück zu verbinden\\, geht nicht.\n"..
   "\n"..
   "\n"..
   "\n",
