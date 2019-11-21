@@ -69,8 +69,8 @@ end
 
 local function pumping(pos, crd, meta, mem)
 	if has_oil(pos, meta) then
-		--if techage.push_items(pos, 6, items) ~= true then
-		if liquid.put(pos, 6, "techage:oil_source", 1) > 0 then
+		local leftover = liquid.put(pos, 6, "techage:oil_source", 1)
+		if leftover and leftover > 0 then
 			crd.State:blocked(pos, mem)
 			return
 		end
@@ -141,8 +141,6 @@ tiles.act = {
 }
 	
 local tubing = {
-	is_pusher = true, -- is a pulling/pushing node
-	
 	on_recv_message = function(pos, src, topic, payload)
 		local resp = CRD(pos).State:on_receive_message(pos, topic, payload)
 		if resp then
@@ -170,6 +168,7 @@ local _, node_name_ta3, _ =
 					M(pos):set_string("storage_pos", P2S(info.storage_pos)) 
 				end
 			end
+			Pipe:after_place_node(pos)
 		end,
 		networks = {
 			pipe = {
@@ -184,6 +183,10 @@ local _, node_name_ta3, _ =
 		on_receive_fields = on_receive_fields,
 		node_timer = keep_running,
 		on_rotate = screwdriver.disallow,
+		
+		after_dig_node = function(pos, oldnode, oldmetadata, digger)
+			Pipe:after_dig_node(pos)
+		end,
 		
 		groups = {choppy=2, cracky=2, crumbly=2},
 		is_ground_content = false,

@@ -361,7 +361,7 @@ techage.register_node({"techage:heatexchanger1"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local mem = tubelib2.get_mem(pos)
 		if topic == "capa" then
-			return mem.capa or 0
+			return techage.power.percent(mem.capa_max, mem.capa)
 		else
 			return State:on_receive_message(pos, topic, payload)
 		end

@@ -93,6 +93,9 @@ local function node_timer(pos, elapsed)
 		mem.liquid.amount = mem.liquid.amount - 5
 		local leftover = pump_cmnd(pos, "put")
 		if (tonumber(leftover) or 1) > 0 then
+			mem.liquid.amount = mem.liquid.amount + 5
+			mem.error = 25 -- = 5 pump cycles
+			M(pos):set_string("infotext", S("TA3 Oil Reboiler: blocked"))
 			swap_node(pos, false)
 			return false
 		end
@@ -127,8 +130,20 @@ local _liquid = {
 	capa = CAPA,
 	peek = liquid.srv_peek,
 	put = function(pos, indir, name, amount)
-		start_node(pos)
-		return liquid.srv_put(pos, indir, name, amount)
+		local mem = tubelib2.get_mem(pos)
+		if mem.error and mem.error > 0 then
+			mem.error = mem.error - 1
+			if mem.error <= 0 then
+				M(pos):set_string("infotext", S("TA3 Oil Reboiler"))
+				start_node(pos)
+				return liquid.srv_put(pos, indir, name, amount)
+			else
+				return amount
+			end
+		else
+			start_node(pos)
+			return liquid.srv_put(pos, indir, name, amount)
+		end
 	end,
 	take = liquid.srv_take,
 }

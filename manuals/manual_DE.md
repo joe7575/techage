@@ -67,7 +67,7 @@ Erdöl kann nur mit Hilfe des Explorers gefunden und mit Hilfe entsprechender TA
 
 ### Bauxit
 
-Bauxit wird nur im Untertagebau gewonnen. Bauxit findet man nur in Stein in einer Höhe zwischen -50 und -150 Meter.
+Bauxit wird nur im Untertagebau gewonnen. Bauxit findet man nur in Stein in einer Höhe zwischen -50 und -500 Meter.
 Es wird zur Herstellung von Aluminium benötigt, was vor allem in TA4 Verwendung findet.
 
 
