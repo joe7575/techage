@@ -104,7 +104,7 @@ local function start_flarestack(pos, playername)
 			max_hear_distance = 20, 
 			gain = 1, 
 			loop = true})
-	print("handle", handle)
+	--print("handle", handle)
 	meta:set_int("handle", handle)
 end
 
@@ -140,7 +140,7 @@ minetest.register_node("techage:gasflare", {
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		print(dump(oldmetadata))
+		--print(dump(oldmetadata))
 		stop_flarestack(pos, oldmetadata.fields.handle)
 		local node = minetest.get_node({x=pos.x, y=pos.y+1, z=pos.z})
 		if node.name == "techage:gasflare2" then

@@ -17,7 +17,7 @@ local P = minetest.string_to_pos
 local M = minetest.get_meta
 local S = techage.S
 
-local range = techage.range
+local range = techage.in_range
 
 local Recipes = {}     -- registered recipes {output = {recipe, ...},}
 local Ingredients = {} -- {{input = output},

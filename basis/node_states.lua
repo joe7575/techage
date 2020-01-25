@@ -51,10 +51,10 @@ Node states:
 	| FAULT      none           no            no
 	| STOPPED    none           no            no
 
-Node mem data:
+Node nvm data:
 	"techage_state"      - node state, like "RUNNING"
 	"techage_item_meter" - node item/runtime counter
-	"techage_countdown"  - countdown to stadby mode
+	"techage_countdown"  - countdown to standby mode
 ]]--
 
 -- for lazy programmers
@@ -95,7 +95,7 @@ function techage.state_button(state)
 	return "techage_inv_button_off.png"
 end
 
-function techage.get_power_image(pos, mem)
+function techage.get_power_image(pos, nvm)
 	local node = techage.get_node_lvm(pos)
 	local s = "3" -- electrical power
 	if string.find(node.name, "techage:ta2") then
@@ -124,12 +124,12 @@ local STOPPED = techage.STOPPED
 techage.NodeStates = {}
 local NodeStates = techage.NodeStates
 
-local function can_start(pos, mem)
+local function can_start(pos, nvm)
 	--if false, node goes in FAULT
 	return true
 end
 
-local function has_power(pos, mem)
+local function has_power(pos, nvm)
 	--if false, node goes in NOPOWER
 	return true
 end
@@ -144,14 +144,14 @@ local function swap_node(pos, name)
 end
 
 -- true if node_timer should be executed
-function techage.is_operational(mem)
-	local state = mem.techage_state or STOPPED
+function techage.is_operational(nvm)
+	local state = nvm.techage_state or STOPPED
 	return state < NOPOWER
 end
 
 -- consumes power
-function techage.needs_power(mem)
-	local state = mem.techage_state or STOPPED
+function techage.needs_power(nvm)
+	local state = nvm.techage_state or STOPPED
 	return state < BLOCKED
 end
 
@@ -159,8 +159,8 @@ function techage.needs_power2(state)
 	return state < BLOCKED
 end
 
-function techage.get_state_string(mem)
-	return techage.StateStrings[mem.techage_state or STOPPED]
+function techage.get_state_string(nvm)
+	return techage.StateStrings[nvm.techage_state or STOPPED]
 end
 
 function NodeStates:new(attr)
@@ -184,15 +184,15 @@ function NodeStates:new(attr)
 	return o
 end
 
-function NodeStates:node_init(pos, mem, number)
-	mem.techage_state = STOPPED
+function NodeStates:node_init(pos, nvm, number)
+	nvm.techage_state = STOPPED
 	M(pos):set_string("node_number", number)
 	if self.infotext_name then
 		M(pos):set_string("infotext", self.infotext_name.." "..number..": stopped")
 	end
-	mem.techage_item_meter = 0
+	nvm.techage_item_meter = 0
 	if self.formspec_func then
-		M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
+		M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
 	end
 end
 
@@ -207,11 +207,11 @@ local function start_timer_delayed(pos, cycle_time)
 	end
 end
 
-function NodeStates:stop(pos, mem)
-	local state = mem.techage_state or STOPPED
-	mem.techage_state = STOPPED
+function NodeStates:stop(pos, nvm)
+	local state = nvm.techage_state or STOPPED
+	nvm.techage_state = STOPPED
 	if self.stop_node then
-		self.stop_node(pos, mem, state)
+		self.stop_node(pos, nvm, state)
 	end
 	if self.node_name_passive then
 		swap_node(pos, self.node_name_passive)
@@ -221,8 +221,8 @@ function NodeStates:stop(pos, mem)
 		M(pos):set_string("infotext", self.infotext_name.." "..number..": stopped")
 	end
 	if self.formspec_func then
-		mem.ta_state_tooltip = "stopped"
-		M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
+		nvm.ta_state_tooltip = "stopped"
+		M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
 	end
 	if self.on_state_change then
 		self.on_state_change(pos, state, STOPPED)
@@ -233,23 +233,23 @@ function NodeStates:stop(pos, mem)
 	return true
 end
 
-function NodeStates:start(pos, mem)
-	local state = mem.techage_state or STOPPED
+function NodeStates:start(pos, nvm)
+	local state = nvm.techage_state or STOPPED
 	if state ~= RUNNING and state ~= FAULT then
-		local res = self.can_start(pos, mem, state)
+		local res = self.can_start(pos, nvm, state)
 		if res ~= true then
-			self:fault(pos, mem, res)
+			self:fault(pos, nvm, res)
 			return false
 		end
-		if not self.has_power(pos, mem, state) then
-			self:nopower(pos, mem)
+		if not self.has_power(pos, nvm, state) then
+			self:nopower(pos, nvm)
 			return false
 		end
-		mem.techage_state = RUNNING
+		nvm.techage_state = RUNNING
 		if self.start_node then
-			self.start_node(pos, mem, state)
+			self.start_node(pos, nvm, state)
 		end
-		mem.techage_countdown = 1
+		nvm.techage_countdown = 1
 		if self.node_name_active then
 			swap_node(pos, self.node_name_active)
 		end
@@ -258,8 +258,8 @@ function NodeStates:start(pos, mem)
 			M(pos):set_string("infotext", self.infotext_name.." "..number..": running")
 		end
 		if self.formspec_func then
-			mem.ta_state_tooltip = "running"
-			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
+			nvm.ta_state_tooltip = "running"
+			M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
 		end
 		if minetest.get_node_timer(pos):is_started() then
 			minetest.get_node_timer(pos):stop()
@@ -273,10 +273,10 @@ function NodeStates:start(pos, mem)
 	return false
 end
 
-function NodeStates:standby(pos, mem)
-	local state = mem.techage_state or STOPPED
+function NodeStates:standby(pos, nvm)
+	local state = nvm.techage_state or STOPPED
 	if state == RUNNING then
-		mem.techage_state = STANDBY
+		nvm.techage_state = STANDBY
 		if self.node_name_passive then
 			swap_node(pos, self.node_name_passive)
 		end
@@ -285,8 +285,8 @@ function NodeStates:standby(pos, mem)
 			M(pos):set_string("infotext", self.infotext_name.." "..number..": standby")
 		end
 		if self.formspec_func then
-			mem.ta_state_tooltip = "standby"
-			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
+			nvm.ta_state_tooltip = "standby"
+			M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
 		end
 		if self.on_state_change then
 			self.on_state_change(pos, state, STANDBY)
@@ -298,10 +298,10 @@ function NodeStates:standby(pos, mem)
 end	
 
 -- special case of standby for pushing nodes
-function NodeStates:blocked(pos, mem)
-	local state = mem.techage_state or STOPPED
+function NodeStates:blocked(pos, nvm)
+	local state = nvm.techage_state or STOPPED
 	if state == RUNNING then
-		mem.techage_state = BLOCKED
+		nvm.techage_state = BLOCKED
 		if self.node_name_passive then
 			swap_node(pos, self.node_name_passive)
 		end
@@ -310,8 +310,8 @@ function NodeStates:blocked(pos, mem)
 			M(pos):set_string("infotext", self.infotext_name.." "..number..": blocked")
 		end
 		if self.formspec_func then
-			mem.ta_state_tooltip = "blocked"
-			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
+			nvm.ta_state_tooltip = "blocked"
+			M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
 		end
 		if self.on_state_change then
 			self.on_state_change(pos, state, BLOCKED)
@@ -322,10 +322,10 @@ function NodeStates:blocked(pos, mem)
 	return false
 end	
 
-function NodeStates:nopower(pos, mem, err_string)
-	local state = mem.techage_state or RUNNING
+function NodeStates:nopower(pos, nvm, err_string)
+	local state = nvm.techage_state or RUNNING
 	if state ~= NOPOWER then
-		mem.techage_state = NOPOWER
+		nvm.techage_state = NOPOWER
 		if self.node_name_passive then
 			swap_node(pos, self.node_name_passive)
 		end
@@ -334,8 +334,8 @@ function NodeStates:nopower(pos, mem, err_string)
 			M(pos):set_string("infotext", self.infotext_name.." "..number..": no power")
 		end
 		if self.formspec_func then
-			mem.ta_state_tooltip = err_string or "no power"
-			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
+			nvm.ta_state_tooltip = err_string or "no power"
+			M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
 		end
 		if self.on_state_change then
 			self.on_state_change(pos, state, NOPOWER)
@@ -346,11 +346,11 @@ function NodeStates:nopower(pos, mem, err_string)
 	return false
 end	
 
-function NodeStates:fault(pos, mem, err_string)
-	local state = mem.techage_state or STOPPED
+function NodeStates:fault(pos, nvm, err_string)
+	local state = nvm.techage_state or STOPPED
 	err_string = err_string or "fault"
 	if state == RUNNING or state == STOPPED then
-		mem.techage_state = FAULT
+		nvm.techage_state = FAULT
 		if self.node_name_passive then
 			swap_node(pos, self.node_name_passive)
 		end
@@ -359,8 +359,8 @@ function NodeStates:fault(pos, mem, err_string)
 			M(pos):set_string("infotext", self.infotext_name.." "..number..": "..err_string)
 		end
 		if self.formspec_func then
-			mem.ta_state_tooltip = err_string or "fault"
-			M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
+			nvm.ta_state_tooltip = err_string or "fault"
+			M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
 		end
 		if self.on_state_change then
 			self.on_state_change(pos, state, FAULT)
@@ -371,90 +371,90 @@ function NodeStates:fault(pos, mem, err_string)
 	return false
 end	
 
-function NodeStates:get_state(mem)
-	return mem.techage_state or techage.STOPPED
+function NodeStates:get_state(nvm)
+	return nvm.techage_state or techage.STOPPED
 end
 
 -- keep the timer running?
-function NodeStates:is_active(mem)
-	local state = mem.techage_state or STOPPED
+function NodeStates:is_active(nvm)
+	local state = nvm.techage_state or STOPPED
 	return state < FAULT
 end
 
 function NodeStates:start_if_standby(pos)
-	local mem = tubelib2.get_mem(pos)
-	if mem.techage_state == STANDBY then
-		self:start(pos, mem)
+	local nvm = techage.get_nvm(pos)
+	if nvm.techage_state == STANDBY then
+		self:start(pos, nvm)
 	end
 end
 
 -- To be called if node is idle.
 -- If countdown reaches zero, the node is set to STANDBY.
-function NodeStates:idle(pos, mem)
-	local countdown = (mem.techage_countdown or 0) - 1
-	mem.techage_countdown = countdown
+function NodeStates:idle(pos, nvm)
+	local countdown = (nvm.techage_countdown or 0) - 1
+	nvm.techage_countdown = countdown
 	if countdown <= 0 then
-		self:standby(pos, mem)
+		self:standby(pos, nvm)
 	end
 end
 
 -- To be called after successful node action to raise the timer
 -- and keep the node in state RUNNING
-function NodeStates:keep_running(pos, mem, val, num_items)
+function NodeStates:keep_running(pos, nvm, val, num_items)
 	-- set to RUNNING if not already done
-	if mem.techage_state ~= RUNNING then
-		self:start(pos, mem)
+	if nvm.techage_state ~= RUNNING then
+		self:start(pos, nvm)
 	end
-	mem.techage_countdown = val or 4
-	mem.techage_item_meter = (mem.techage_item_meter or 0) + (num_items or 1)
+	nvm.techage_countdown = val or 4
+	nvm.techage_item_meter = (nvm.techage_item_meter or 0) + (num_items or 1)
 end
 
 -- Start/stop node based on button events.
 -- if function returns false, no button was pressed
-function NodeStates:state_button_event(pos, mem, fields)
+function NodeStates:state_button_event(pos, nvm, fields)
 	if fields.state_button ~= nil then
-		local state = mem.techage_state or STOPPED
+		local state = nvm.techage_state or STOPPED
 		if state == STOPPED or state == STANDBY or state == BLOCKED then
-			if not self:start(pos, mem) and (state == STANDBY or state == BLOCKED) then
-				self:stop(pos, mem)
+			if not self:start(pos, nvm) and (state == STANDBY or state == BLOCKED) then
+				self:stop(pos, nvm)
 			end	
 		elseif state == RUNNING or state == FAULT or state == NOPOWER then
-			self:stop(pos, mem)
+			self:stop(pos, nvm)
 		end
 		return true
 	end
 	return false
 end
 
-function NodeStates:get_state_button_image(mem)
-	local state = mem.techage_state or STOPPED
+function NodeStates:get_state_button_image(nvm)
+	local state = nvm.techage_state or STOPPED
 	return techage.state_button(state)
 end
 
-function NodeStates:get_state_tooltip(mem)
-	local tp = mem.ta_state_tooltip or ""
+function NodeStates:get_state_tooltip(nvm)
+	local tp = nvm.ta_state_tooltip or ""
 	return tp..";#0C3D32;#FFFFFF"
 end
 
 -- command interface
 function NodeStates:on_receive_message(pos, topic, payload)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	if topic == "on" then
-		self:start(pos, tubelib2.get_mem(pos))
+		self:start(pos, techage.get_nvm(pos))
 		return true
 	elseif topic == "off" then
-		self:stop(pos, tubelib2.get_mem(pos))
+		self:stop(pos, techage.get_nvm(pos))
 		return true
 	elseif topic == "state" then
 		local node = techage.get_node_lvm(pos)
 		if node.name == "ignore" then  -- unloaded node?
 			return "unloaded"
 		end
-		return techage.get_state_string(tubelib2.get_mem(pos))
+		return techage.get_state_string(techage.get_nvm(pos))
 	elseif topic == "counter" then
-		return mem.techage_item_meter or 1
+		return nvm.techage_item_meter or 1
 	elseif topic == "clear_counter" then
-		mem.techage_item_meter = 0
+		nvm.techage_item_meter = 0
 		return true
 	elseif topic == "fuel" then
 		local inv = M(pos):get_inventory()
@@ -470,7 +470,7 @@ end
 	
 -- repair corrupt node data
 function NodeStates:on_node_load(pos, not_start_timer)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	
 	-- Meta data corrupt?
 	local number = M(pos):get_string("node_number")
@@ -478,7 +478,7 @@ function NodeStates:on_node_load(pos, not_start_timer)
 		minetest.log("warning", "[TA] Node at "..S(pos).." has no node_number")
 		local name = techage.get_node_lvm(pos).name
 		local number = techage.add_node(pos, name)
-		self:node_init(pos, mem, number)
+		self:node_init(pos, nvm, number)
 		return
 	end
 	
@@ -499,12 +499,12 @@ function NodeStates:on_node_load(pos, not_start_timer)
 	end
 	
 	-- state corrupt?
-	local state = mem.techage_state or 0
+	local state = nvm.techage_state or 0
 	if state == 0 then
 		if minetest.get_node_timer(pos):is_started() then
-			mem.techage_state = RUNNING
+			nvm.techage_state = RUNNING
 		else
-			mem.techage_state = STOPPED
+			nvm.techage_state = STOPPED
 		end
 	elseif state == RUNNING and not not_start_timer then
 		minetest.get_node_timer(pos):start(self.cycle_time)
@@ -515,7 +515,12 @@ function NodeStates:on_node_load(pos, not_start_timer)
 	end
 	
 	if self.formspec_func then
-		M(pos):set_string("formspec", self.formspec_func(self, pos, mem))
+		M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
+	end
+	
+	-- power available?
+	if nvm.techage_state == RUNNING and not self.has_power(pos, nvm, state) then
+		self:nopower(pos, nvm)
 	end
 end
 

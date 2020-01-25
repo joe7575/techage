@@ -360,8 +360,10 @@ Pipe:add_secondary_node_names({"techage:heatexchanger1", "techage:heatexchanger3
 techage.register_node({"techage:heatexchanger1"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local mem = tubelib2.get_mem(pos)
-		if topic == "capa" then
+		if topic == "load" then
 			return techage.power.percent(mem.capa_max, mem.capa)
+		elseif topic == "size" then
+			return (mem.capa_max or 0) / GRVL_CAPA
 		else
 			return State:on_receive_message(pos, topic, payload)
 		end

@@ -1,10 +1,24 @@
+--[[
+
+	TechAge
+	=======
+
+	Copyright (C) 2019-2020 Joachim Stolberg
+
+	GPL v3
+	See LICENSE.txt for more information
+	
+	Demo for a electrical power consuming node
+
+]]--
+
 -- for lazy programmers
-local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
+local P2S = minetest.pos_to_string
 local M = minetest.get_meta
+local S = techage.S
 
 local PWR_NEEDED = 5
-local CYCLE_TIME = 4
+local CYCLE_TIME = 2
 
 local Cable = techage.ElectricCable
 local power = techage.power
@@ -18,58 +32,73 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function on_power(pos, mem)
-	if mem.running then
-		swap_node(pos, "techage:sink_on")
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-		M(pos):set_string("infotext", "on")
-	end
+local function on_power(pos)
+	print("on_power sink "..P2S(pos))
+	swap_node(pos, "techage:sink_on")
+	M(pos):set_string("infotext", "on")
 end
 
-local function on_nopower(pos, mem)
+local function on_nopower(pos)
+	print("on_nopower sink "..P2S(pos))
 	swap_node(pos, "techage:sink")
-	M(pos):set_string("infotext", "nopower")
+	M(pos):set_string("infotext", "off")
 end
 
 local function node_timer(pos, elapsed)
-	--print("node_timer sink "..S(pos))
-	local mem = tubelib2.get_mem(pos)
-	power.consumer_alive(pos, mem)
-	return mem.running
+	--print("node_timer sink "..P2S(pos))
+	local nvm = techage.get_nvm(pos)
+	power.consumer_alive(pos, Cable, CYCLE_TIME)
+--	if not techage.power.power_available(pos, Cable) then
+--		nvm.running = false
+--		swap_node(pos, "techage:sink")
+--		power.consumer_stop(pos, Cable)
+--		minetest.get_node_timer(pos):stop()
+--		M(pos):set_string("infotext", "off")
+--	end
+	return true
 end
 
 local function on_rightclick(pos, node, clicker)
-	local mem = tubelib2.get_mem(pos)
-	if not mem.running and power.power_available(pos, mem, PWR_NEEDED) then
-		mem.running = true
-		power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
+	local nvm = techage.get_nvm(pos)
+	if not nvm.running and power.power_available(pos, Cable) then
+		nvm.running = true
+		-- swap will be performed via on_power()
+		power.consumer_start(pos, Cable, CYCLE_TIME)
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		M(pos):set_string("infotext", "...")
 	else
-		mem.running = false
+		nvm.running = false
 		swap_node(pos, "techage:sink")
-		power.consumer_stop(pos, mem)
+		power.consumer_stop(pos, Cable)
 		minetest.get_node_timer(pos):stop()
 		M(pos):set_string("infotext", "off")
 	end
 end
 
---
--- Modul shows the usage of the power2 alternative function set
---
 local function after_place_node(pos)
-	local mem = tubelib2.init_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	M(pos):set_string("infotext", "off")
-	techage.power.after_place_node(pos)
+	Cable:after_place_node(pos)
 end
 
 local function after_dig_node(pos, oldnode)
-	techage.power.after_dig_node(pos, oldnode)
-	tubelib2.del_mem(pos)
+	Cable:after_dig_node(pos)
+	techage.del_mem(pos)
 end
 
-local function after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir) 
-	techage.power.after_tube_update2(node, pos, out_dir, peer_pos, peer_in_dir)
+local function tubelib2_on_update2(pos, outdir, tlib2, node) 
+	power.update_network(pos, outdir, tlib2)
 end
+
+local net_def = {
+	ele1 = {
+		sides = techage.networks.AllSides, -- Cable connection sides
+		ntype = "con1",
+		on_power = on_power,
+		on_nopower = on_nopower,
+		nominal = PWR_NEEDED,
+	},
+}
 
 minetest.register_node("techage:sink", {
 	description = "Sink",
@@ -79,13 +108,13 @@ minetest.register_node("techage:sink", {
 	on_rightclick = on_rightclick,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	after_tube_update = after_tube_update,
+	tubelib2_on_update2 = tubelib2_on_update2,
+	networks = net_def,
 
 	paramtype = "light",
 	light_source = 0,	
-	sunlight_propagates = true,
 	paramtype2 = "facedir",
-	groups = {choppy=2, cracky=2, crumbly=2},
+	groups = {choppy = 2, cracky = 2, crumbly = 2},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -98,22 +127,18 @@ minetest.register_node("techage:sink_on", {
 	on_rightclick = on_rightclick,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	after_tube_update = after_tube_update,
+	tubelib2_on_update2 = tubelib2_on_update2,
+	networks = net_def,
 
 	paramtype = "light",
 	light_source = minetest.LIGHT_MAX,	
-	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	diggable = false,
 	drop = "",
-	groups = {not_in_creative_inventory=1},
+	groups = {not_in_creative_inventory = 1},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
 })
 
--- Alternative registration function
-techage.power.enrich_node({"techage:sink", "techage:sink_on"}, {
-	power_network = Cable,
-	on_power = on_power,
-	on_nopower = on_nopower,
-})
+Cable:add_secondary_node_names({"techage:sink", "techage:sink_on"})
+

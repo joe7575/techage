@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -48,10 +48,10 @@ end
 
 -- 'size' is the size of the junction cube without any connection, e.g. 1/8
 -- 'boxes' is a table with 6 table elements for the 6 possible connection arms
--- 'network' is the power (tubelib2) instance or nil
+-- 'tlib2' is the tubelib2 instance
 -- 'node' is the node definition with tiles, callback functions, and so on
 -- 'index' number for the inventory node (default 0)
-function techage.register_junction(name, size, boxes, network, node, index)
+function techage.register_junction(name, size, boxes, tlib2, node, index)
 	for idx = 0,63 do
 		local ndef = table.copy(node)
 		if idx == (index or 0) then
@@ -69,21 +69,21 @@ function techage.register_junction(name, size, boxes, network, node, index)
 		ndef.is_ground_content = false 
 		ndef.drop = name..(index or "0")
 		minetest.register_node(name..idx, ndef)
-		-- Register in addition for power distribution
-		if network then
-			techage.power.register_node({name..idx}, {
-				power_network = network,
-				after_tube_update = ndef.after_tube_update,
-			})
-		end
+		tlib2:add_secondary_node_names({name..idx})
 	end
 end
 
 function techage.junction_type(pos, network)
 	local val = 0
 	for dir = 1,6 do
-		if network:connected(pos, dir) then
-			val = setbit(val, bit(dir))
+		if network.force_to_use_tubes then
+			if network:friendly_primary_node(pos, dir) then
+				val = setbit(val, bit(dir))
+			end
+		else
+			if network:connected(pos, dir) then
+				val = setbit(val, bit(dir))
+			end
 		end
 	end
 	return val

@@ -48,7 +48,7 @@ function techage.rotate_wallmounted(param2)
 	return offs + rot
 end
 
-function techage.range(val, min, max)
+function techage.in_range(val, min, max)
 	val = tonumber(val)
 	if val < min then return min end
 	if val > max then return max end
@@ -99,8 +99,6 @@ function techage.get_node_lvm(pos)
 	}
 	return node
 end
-
-
 
 --
 -- Functions used to hide electric cable and biogas pipes
@@ -167,7 +165,7 @@ local function determine_ocean_ids()
 	for name, _ in pairs(minetest.registered_biomes) do
 		if string.find(name, "ocean") then
 			local id = minetest.get_biome_id(name)
-			print(id, name)
+			--print(id, name)
 			techage.OceanIdTbl[id] = true
 		end
 	end
@@ -189,5 +187,49 @@ function techage.item_image(x, y, itemname)
 	return "box["..x..","..y..";0.85,0.9;#808080]"..
 		"item_image["..x..","..y..";1,1;"..itemname.."]"..
 		"tooltip["..x..","..y..";1,1;"..tooltip(itemname)..";#0C3D32;#FFFFFF]"
+end
+
+function techage.mydump(o, indent, nested, level)
+	local t = type(o)
+	if not level and t == "userdata" then
+		-- when userdata (e.g. player) is passed directly, print its metatable:
+		return "userdata metatable: " .. techage.mydump(getmetatable(o))
+	end
+	if t ~= "table" then
+		return basic_dump(o)
+	end
+	-- Contains table -> true/nil of currently nested tables
+	nested = nested or {}
+	if nested[o] then
+		return "<circular reference>"
+	end
+	nested[o] = true
+	indent = " "
+	level = level or 1
+	local t = {}
+	local dumped_indexes = {}
+	for i, v in ipairs(o) do
+		t[#t + 1] = techage.mydump(v, indent, nested, level + 1)
+		dumped_indexes[i] = true
+	end
+	for k, v in pairs(o) do
+		if not dumped_indexes[k] then
+			if type(k) ~= "string" or not is_valid_identifier(k) then
+				k = "["..techage.mydump(k, indent, nested, level + 1).."]"
+			end
+			v = techage.mydump(v, indent, nested, level + 1)
+			t[#t + 1] = k.." = "..v
+		end
+	end
+	nested[o] = nil
+	if indent ~= "" then
+		local indent_str = string.rep(indent, level)
+		local end_indent_str = string.rep(indent, level - 1)
+		return string.format("{%s%s%s}",
+				indent_str,
+				table.concat(t, ","..indent_str),
+				end_indent_str)
+	end
+	return "{"..table.concat(t, ", ").."}"
 end
 

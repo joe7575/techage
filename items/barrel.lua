@@ -56,6 +56,16 @@ minetest.register_craftitem("techage:ta3_canister_empty", {
 	inventory_image = "techage_canister_filling.png^[colorize:#BFBFBF:180^techage_canister_frame.png",
 })
 
+minetest.register_craftitem("techage:ta3_cylinder_small", {
+	description = S("Gas Cylinder Small"),
+	inventory_image = "techage_gas_cylinder_small.png^[colorize:#4D7481:100",
+})
+
+minetest.register_craftitem("techage:ta3_cylinder_large", {
+	description = S("Gas Cylinder Large"),
+	inventory_image = "techage_gas_cylinder_large.png^[colorize:#4D7481:100",
+})
+
 
 minetest.register_craft({
 	output = 'techage:ta3_barrel_empty 6',
@@ -74,6 +84,26 @@ minetest.register_craft({
 		{'basic_materials:plastic_sheet', 'basic_materials:plastic_sheet', 'basic_materials:plastic_sheet'},
 	}
 })
+
+minetest.register_craft({
+	output = 'techage:ta3_cylinder_small 8',
+	recipe = {
+		{'', 'techage:iron_ingot', ''},
+		{'techage:iron_ingot', '', 'techage:iron_ingot'},
+		{'techage:iron_ingot', 'techage:iron_ingot', 'techage:iron_ingot'},
+	}
+})
+
+minetest.register_craft({
+	output = 'techage:ta3_cylinder_large',
+	recipe = {
+		{'', 'techage:ta3_cylinder_small', ''},
+		{'', 'techage:ta3_cylinder_small', ''},
+		{'', 'techage:ta3_cylinder_small', ''},
+	}
+})
+
+
 
 techage.register_liquid("bucket:bucket_water", "bucket:bucket_empty", 1, "techage:water")
 techage.register_liquid("bucket:bucket_river_water", "bucket:bucket_empty", 1, "techage:river_water")

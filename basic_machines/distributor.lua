@@ -122,7 +122,7 @@ local function blocking_checkbox(pos, filter)
 	return ""
 end		
 		
-local function formspec(self, pos, mem)
+local function formspec(self, pos, nvm)
 	local filter = minetest.deserialize(M(pos):get_string("filter")) or {false,false,false,false}
 	local order = order_checkbox(pos, filter)
 	local blocking = blocking_checkbox(pos, filter)
@@ -134,7 +134,8 @@ local function formspec(self, pos, mem)
 	order..
 	blocking..
 	"image[2,1.5;1,1;techage_form_arrow.png]"..
-	"image_button[2,3;1,1;"..self:get_state_button_image(mem)..";state_button;]"..
+	"image_button[2,3;1,1;"..self:get_state_button_image(nvm)..";state_button;]"..
+	"tooltip[2,3;1,1;"..self:get_state_tooltip(nvm).."]"..
 	"checkbox[3,0;filter1;On;"..dump(filter[1]).."]"..
 	"checkbox[3,1;filter2;On;"..dump(filter[2]).."]"..
 	"checkbox[3,2;filter3;On;"..dump(filter[3]).."]"..
@@ -184,7 +185,7 @@ local function allow_metadata_inventory_move(pos, from_list, from_index, to_list
 end
 
 
-local function push_item(pos, filter, item_name, num_items, mem)
+local function push_item(pos, filter, item_name, num_items, nvm)
 	local idx = 1
 	local num_pushed = 0
 	local num_ports = #filter
@@ -196,7 +197,7 @@ local function push_item(pos, filter, item_name, num_items, mem)
 		local num_to_push = math.min(amount, num_items - num_pushed)
 		if techage.push_items(pos, push_dir, ItemStack(item_name.." "..num_to_push)) then
 			num_pushed = num_pushed + num_to_push
-			mem.port_counter[push_dir] = (mem.port_counter[push_dir] or 0) + num_to_push
+			nvm.port_counter[push_dir] = (nvm.port_counter[push_dir] or 0) + num_to_push
 		end
 		-- filter start offset
 		idx = idx + 1
@@ -208,14 +209,14 @@ local function push_item(pos, filter, item_name, num_items, mem)
 end
 
 -- move items to output slots
-local function distributing(pos, inv, crd, mem)
+local function distributing(pos, inv, crd, nvm)
 	local item_filter, open_ports = get_filter_settings(pos)
 	local sum_num_pushed = 0
 	local num_pushed = 0
 	local blocking_mode = M(pos):get_int("blocking") == 1
 	
 	-- start searching after last position
-	local offs = mem.last_index or 1
+	local offs = nvm.last_index or 1
 	
 	for i = 1, SRC_INV_SIZE do
 		local idx = ((i + offs - 1) % 8) + 1
@@ -227,35 +228,35 @@ local function distributing(pos, inv, crd, mem)
 		
 		if item_filter[item_name] then
 			-- Push items based on filter
-			num_pushed = push_item(pos, item_filter[item_name], item_name, num_to_push, mem)
+			num_pushed = push_item(pos, item_filter[item_name], item_name, num_to_push, nvm)
 		elseif blocking_mode and #open_ports > 0 then
 			-- Push items based on open ports
-			num_pushed = push_item(pos, open_ports, item_name, num_to_push, mem)
+			num_pushed = push_item(pos, open_ports, item_name, num_to_push, nvm)
 		end
 		if not blocking_mode and num_pushed == 0 and #open_ports > 0 then
 			-- Push items based on open ports
-			num_pushed = push_item(pos, open_ports, item_name, num_to_push, mem)
+			num_pushed = push_item(pos, open_ports, item_name, num_to_push, nvm)
 		end
 			
 		sum_num_pushed = sum_num_pushed + num_pushed
 		stack:take_item(num_pushed)
 		inv:set_stack("src", idx, stack)
 		if sum_num_pushed >= crd.num_items then 
-			mem.last_index = idx
+			nvm.last_index = idx
 			break 
 		end
 	end
 	
 	if num_pushed == 0 then
-		crd.State:blocked(pos, mem)
+		crd.State:blocked(pos, nvm)
 	else
-		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS, sum_num_pushed)
+		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS, sum_num_pushed)
 	end
 end
 
-local function sequencing(pos, inv, crd, mem)
+local function sequencing(pos, inv, crd, nvm)
 	local _,open_ports, filter_items = get_filter_settings(pos)
-	local offs = mem.last_index or 1
+	local offs = nvm.last_index or 1
 	local num_filters = 0 -- already processed
 	local num_pushed = 0
 	local push_dir = open_ports[1] or 1
@@ -278,32 +279,32 @@ local function sequencing(pos, inv, crd, mem)
 		num_filters = num_filters + 1
 	end
 	
-	mem.last_index = offs
+	nvm.last_index = offs
 	if blocked then
-		crd.State:blocked(pos, mem)
+		crd.State:blocked(pos, nvm)
 	elseif num_pushed == 0 then
-		crd.State:standby(pos, mem)
+		crd.State:standby(pos, nvm)
 	else
-		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS, num_pushed)
+		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS, num_pushed)
 	end
 end
 
 -- move items to the output slots
 local function keep_running(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	mem.port_counter = mem.port_counter or {}
+	local nvm = techage.get_nvm(pos)
+	nvm.port_counter = nvm.port_counter or {}
 	local crd = CRD(pos)
 	local inv = M(pos):get_inventory()
 	if not inv:is_empty("src") then
 		if M(pos):get_int("order") == 1 then
-			sequencing(pos, inv, crd, mem)
+			sequencing(pos, inv, crd, nvm)
 		else
-			distributing(pos, inv, crd, mem)
+			distributing(pos, inv, crd, nvm)
 		end
 	else
-		crd.State:idle(pos, mem)
+		crd.State:idle(pos, nvm)
 	end
-	return crd.State:is_active(mem)
+	return crd.State:is_active(nvm)
 end
 
 local function on_receive_fields(pos, formname, fields, player)
@@ -323,8 +324,8 @@ local function on_receive_fields(pos, formname, fields, player)
 		filter[4] = fields.filter4 == "true"
 	elseif fields.order ~= nil then
 		meta:set_int("order", fields.order == "true" and 1 or 0)
-		local mem = tubelib2.get_mem(pos)
-		mem.last_index = 1 -- start from the beginning
+		local nvm = techage.get_nvm(pos)
+		nvm.last_index = 1 -- start from the beginning
 	elseif fields.blocking ~= nil then
 		meta:set_int("blocking", fields.blocking == "true" and 1 or 0)
 	end
@@ -332,11 +333,11 @@ local function on_receive_fields(pos, formname, fields, player)
 	
 	filter_settings(pos)
 	
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	if fields.state_button ~= nil then
-		crd.State:state_button_event(pos, mem, fields)
+		crd.State:state_button_event(pos, nvm, fields)
 	else
-		meta:set_string("formspec", formspec(crd.State, pos, mem))
+		meta:set_string("formspec", formspec(crd.State, pos, nvm))
 	end
 end
 
@@ -353,8 +354,8 @@ local function change_filter_settings(pos, slot, val)
 	
 	filter_settings(pos)
 	
-	local mem = tubelib2.get_mem(pos)
-	meta:set_string("formspec", formspec(CRD(pos).State, pos, mem))
+	local nvm = techage.get_nvm(pos)
+	meta:set_string("formspec", formspec(CRD(pos).State, pos, nvm))
 	return true
 end
 
@@ -460,22 +461,22 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		on_metadata_inventory_move = function(pos, from_list, from_index, to_list)
 			if from_list ~= "src" or to_list ~= "src" then
 				filter_settings(pos)
-				local mem = tubelib2.get_mem(pos)
-				M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
+				local nvm = techage.get_nvm(pos)
+				M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
 			end
 		end,
 		on_metadata_inventory_put = function(pos, listname)
 			if listname ~= "src" then
 				filter_settings(pos)
-				local mem = tubelib2.get_mem(pos)
-				M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
+				local nvm = techage.get_nvm(pos)
+				M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
 			end
 		end,
 		on_metadata_inventory_take = function(pos, listname)
 			if listname ~= "src" then
 				filter_settings(pos)
-				local mem = tubelib2.get_mem(pos)
-				M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
+				local nvm = techage.get_nvm(pos)
+				M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
 			end
 		end,
 		

@@ -234,11 +234,15 @@ function techage.keep_running_burner(pos)
 			else
 				minetest.swap_node(pos, {name="techage:ash"})
 				remove_coal(pos, height)
+				local handle = meta:get_int("handle")
+				minetest.sound_stop(handle)
 				return false
 			end
 		else
 			minetest.swap_node(pos, {name="techage:ash"})
 			remove_coal(pos, height)
+			local handle = meta:get_int("handle")
+			minetest.sound_stop(handle)
 			return false
 		end
 	else

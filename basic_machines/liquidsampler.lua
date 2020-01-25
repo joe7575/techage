@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -23,16 +23,17 @@ local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 2
 local CYCLE_TIME = 8
 
-local function formspec(self, pos, mem)
+local function formspec(self, pos, nvm)
 	return "size[9,8.5]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
 	"list[context;src;0,0;1,4;]"..
 	"image[0,0;1,1;bucket.png]"..
-	"image[1,0;1,1;"..techage.get_power_image(pos, mem).."]"..
+	"image[1,0;1,1;"..techage.get_power_image(pos, nvm).."]"..
 	"image[1,1.5;1,1;techage_form_arrow.png]"..
-	"image_button[1,3;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
+	"image_button[1,3;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
+	"tooltip[1,3;1,1;"..self:get_state_tooltip(nvm).."]"..
 	"list[context;dst;2,0;7,4;]"..
 	"list[current_player;main;0.5,4.5;8,4;]"..
 	"listring[current_player;main]"..
@@ -73,7 +74,7 @@ local function test_liquid(node)
 	end
 end
 
-local function sample_liquid(pos, crd, mem, inv)
+local function sample_liquid(pos, crd, nvm, inv)
 	local meta = M(pos)
 	local water_pos = minetest.string_to_pos(meta:get_string("water_pos"))
 	local giving_back = test_liquid(techage.get_node_lvm(water_pos))
@@ -83,29 +84,29 @@ local function sample_liquid(pos, crd, mem, inv)
 			minetest.remove_node(water_pos)
 			inv:remove_item("src", ItemStack("bucket:bucket_empty"))
 			inv:add_item("dst", ItemStack(giving_back))
-			crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+			crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 		else
-			crd.State:idle(pos, mem)
+			crd.State:idle(pos, nvm)
 		end
 	else
-		crd.State:fault(pos, mem)
+		crd.State:fault(pos, nvm)
 	end
 end
 
 local function keep_running(pos, elapsed)
 	--if tubelib.data_not_corrupted(pos) then
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)	
 	local inv = M(pos):get_inventory()
-	sample_liquid(pos, crd, mem, inv)
+	sample_liquid(pos, crd, nvm, inv)
 end
 
 local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	local mem = tubelib2.get_mem(pos)
-	CRD(pos).State:state_button_event(pos, mem, fields)
+	local nvm = techage.get_nvm(pos)
+	CRD(pos).State:state_button_event(pos, nvm, fields)
 end
 
 local function can_dig(pos, player)
@@ -121,7 +122,7 @@ local tiles = {}
 -- '{power}' will be replaced by the power PNG
 tiles.pas = {
 	-- up, down, right, left, back, front
-	"techage_filling_ta#.png^techage_appl_hole_electric.png^techage_frame_ta#_top.png",
+	"techage_filling_ta#.png^{power}^techage_frame_ta#_top.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
@@ -130,7 +131,7 @@ tiles.pas = {
 }
 tiles.act = {
 	-- up, down, right, left, back, front
-	"techage_filling_ta#.png^techage_appl_hole_electric.png^techage_frame_ta#_top.png",
+	"techage_filling_ta#.png^{power}^techage_frame_ta#_top.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
@@ -189,7 +190,6 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 			inv:set_size("dst", 28)
 			local water_pos = techage.get_pos(pos, "B")
 			M(pos):set_string("water_pos", minetest.pos_to_string(water_pos))
-			techage.power.set_conn_dirs(pos, {"U"})
 		end,
 		can_dig = can_dig,
 		node_timer = keep_running,
@@ -201,6 +201,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		sounds = default.node_sound_wood_defaults(),
 		num_items = {0,1,2,4},
 		power_consumption = {0,3,5,8},
+		power_sides = {U=1},
 	})
 
 minetest.register_craft({

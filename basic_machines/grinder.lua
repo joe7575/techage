@@ -14,10 +14,10 @@
 
 -- for lazy programmers
 local M = minetest.get_meta
+local S = techage.S
+
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
-
-local S = techage.S
 
 local STANDBY_TICKS = 6
 local COUNTDOWN_TICKS = 4
@@ -27,7 +27,7 @@ local CYCLE_TIME = 4
 -- Grinder recipes
 local Recipes = {}
 
-local function formspec(self, pos, mem)
+local function formspec(self, pos, nvm)
 	return "size[8,8]"..
 	default.gui_bg..
 	default.gui_bg_img..
@@ -35,9 +35,10 @@ local function formspec(self, pos, mem)
 	"list[context;src;0,0;3,3;]"..
 	"item_image[0,0;1,1;default:cobble]"..
 	"image[0,0;1,1;techage_form_mask.png]"..
-	"image[3.5,0;1,1;"..techage.get_power_image(pos, mem).."]"..
+	"image[3.5,0;1,1;"..techage.get_power_image(pos, nvm).."]"..
 	"image[3.5,1;1,1;techage_form_arrow.png]"..
-	"image_button[3.5,2;1,1;"..self:get_state_button_image(mem)..";state_button;]"..
+	"image_button[3.5,2;1,1;"..self:get_state_button_image(nvm)..";state_button;]"..
+	"tooltip[3.5,2;1,1;"..self:get_state_tooltip(nvm).."]"..
 	"list[context;dst;5,0;3,3;]"..
 	"item_image[5,0;1,1;default:gravel]"..
 	"image[5,0;1,1;techage_form_mask.png]"..
@@ -84,39 +85,39 @@ local function src_to_dst(src_stack, idx, num_items, inv, dst_name)
 	return false
 end
 			
-local function grinding(pos, crd, mem, inv)
+local function grinding(pos, crd, nvm, inv)
 	local num_items = 0
 	for idx,stack in ipairs(inv:get_list("src")) do
 		if not stack:is_empty() then
 			local name = stack:get_name()
 			if Recipes[name] then
 				if src_to_dst(stack, idx, crd.num_items, inv, Recipes[name]) then
-					crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+					crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 				else
-					crd.State:blocked(pos, mem)
+					crd.State:blocked(pos, nvm)
 				end
 			else
-				crd.State:fault(pos, mem)
+				crd.State:fault(pos, nvm)
 			end
 			return
 		end
 	end
-	crd.State:idle(pos, mem)
+	crd.State:idle(pos, nvm)
 end
 
 local function keep_running(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
 	local inv = M(pos):get_inventory()
-	grinding(pos, crd, mem, inv)
+	grinding(pos, crd, nvm, inv)
 end
 
 local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	local mem = tubelib2.get_mem(pos)
-	CRD(pos).State:state_button_event(pos, mem, fields)
+	local nvm = techage.get_nvm(pos)
+	CRD(pos).State:state_button_event(pos, nvm, fields)
 end
 
 local function can_dig(pos, player)
@@ -183,7 +184,12 @@ local tubing = {
 		end
 	end,
 	on_recv_message = function(pos, src, topic, payload)
-		return CRD(pos).State:on_receive_message(pos, topic, payload)
+		local resp = CRD(pos).State:on_receive_message(pos, topic, payload)
+		if resp then
+			return resp
+		else
+			return "unsupported"
+		end
 	end,
 	on_node_load = function(pos)
 		CRD(pos).State:on_node_load(pos)
@@ -294,3 +300,5 @@ techage.add_grinder_recipe({input="default:acacia_tree", output="default:acacia_
 techage.add_grinder_recipe({input="default:aspen_tree", output="default:aspen_leaves 8"})
 
 
+local ndef = minetest.registered_nodes["techage:ta2_grinder_pas"] or {}
+print("techage:ta2_grinder_pas", dump(ndef.tubelib2_on_update2))

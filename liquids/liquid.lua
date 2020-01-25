@@ -89,10 +89,10 @@ end
 local function get_network_table(pos, outdir, ntype)
 	local netID = get_netID(pos, outdir)
 	if netID then
-		local netw = networks.get_network(netID, Pipe)
+		local netw = networks.get_network("pipe", netID)
 		if not netw then
 			netw = networks.collect_network_nodes(pos, outdir, Pipe)
-			networks.set_network(netID, Pipe, netw)
+			networks.set_network("pipe", netID, netw)
 		end
 		local s = minetest.pos_to_string(minetest.get_position_from_hash(netID))
 		--print("netw", string.format("%012X", netID),  s, dump(netw))

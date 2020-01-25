@@ -103,7 +103,7 @@ local function register_lbm(name, nodenames)
 		run_at_every_load = true,
 		action = function(pos, node)
 			if NodeDef[node.name] and NodeDef[node.name].on_node_load then
-				NodeDef[node.name].on_node_load(pos)
+				NodeDef[node.name].on_node_load(pos, node)
 			end
 		end
 	})
@@ -178,6 +178,15 @@ function techage.get_node_number(pos)
 		end
 	end
 	return nil
+end	
+
+function techage.get_pos(pos, side)
+	local node = techage.get_node_lvm(pos)
+	local dir = nil
+	if node.name ~= "air" and node.name ~= "ignore" then
+		dir = side_to_dir(side, node.param2)
+	end
+	return tubelib2.get_pos(pos, dir)
 end	
 
 -- Function is used for available nodes with lost numbers, only.

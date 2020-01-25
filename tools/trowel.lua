@@ -100,7 +100,7 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
 	if other_hidden_nodes(pos, "techage_hidden_nodename") then
 		-- test both hidden networks
 		techage.ElectricCable:after_dig_node(pos, oldnode, digger)
-		techage.BiogasPipe:after_dig_node(pos, oldnode, digger)
+		--techage.BiogasPipe:after_dig_node(pos, oldnode, digger)
 		-- probably a hidden node with mem data
 		tubelib2.del_mem(pos)
 	else

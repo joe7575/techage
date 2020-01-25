@@ -46,40 +46,24 @@ local function determine_burntimes()
 end	
 minetest.after(1, determine_burntimes)
 
-function techage.firebox.formspec(mem)
+function techage.firebox.formspec(nvm)
 	local fuel_percent = 0
-	if mem.running then
-		fuel_percent = ((mem.burn_cycles or 1) * 100) / (mem.burn_cycles_total or 1)
+	if nvm.running then
+		fuel_percent = ((nvm.burn_cycles or 1) * 100) / (nvm.burn_cycles_total or 1)
 	end
-	if mem.power_level then
-		return "size[8,6.5]"..
-			default.gui_bg..
-			default.gui_bg_img..
-			default.gui_slots..
-			"list[current_name;fuel;1,0.5;1,1;]"..
-			"image[2,0.5;1,1;default_furnace_fire_bg.png^[lowpart:"..
-			fuel_percent..":default_furnace_fire_fg.png]"..
-			"label[4.5,0.1;"..S("Power")..":]"..
-			"dropdown[6,0;1.8;power_level;25%,50%,75%,100%;"..mem.power_level.."]"..
-			"button[1,1.5;1.8,1;update;"..S("Update").."]"..
-			"list[current_player;main;0,2.8;8,4;]"..
-			"listring[current_name;fuel]"..
-			"listring[current_player;main]"..
-			default.get_hotbar_bg(0, 2.8)
-	else
-		return "size[8,6]"..
-			default.gui_bg..
-			default.gui_bg_img..
-			default.gui_slots..
-			"list[current_name;fuel;1,0.5;1,1;]"..
-			"image[3,0.5;1,1;default_furnace_fire_bg.png^[lowpart:"..
-			fuel_percent..":default_furnace_fire_fg.png]"..
-			"button[5,0.5;1.8,1;update;"..S("Update").."]"..
-			"list[current_player;main;0,2;8,4;]"..
-			"listring[current_name;fuel]"..
-			"listring[current_player;main]"..
-			default.get_hotbar_bg(0, 2)
-	end
+	return "size[8,6]"..
+		default.gui_bg..
+		default.gui_bg_img..
+		default.gui_slots..
+		"box[0,-0.1;7.8,0.5;#c6e8ff]"..
+		"label[3,-0.1;"..minetest.colorize( "#000000", S("Firebox")).."]"..
+		"list[current_name;fuel;3,1;1,1;]"..
+		"image[4,1;1,1;default_furnace_fire_bg.png^[lowpart:"..
+		fuel_percent..":default_furnace_fire_fg.png]"..
+		"list[current_player;main;0,2.3;8,4;]"..
+		"listring[current_name;fuel]"..
+		"listring[current_player;main]"..
+		default.get_hotbar_bg(0, 2.3)
 end
 
 function techage.firebox.can_dig(pos, player)
@@ -104,30 +88,10 @@ function techage.firebox.allow_metadata_inventory_take(pos, listname, index, sta
 	return stack:get_count()
 end
 
-local PowerLevel = {
-	["25%"] = 1,
-	["50%"] = 2,
-	["75%"] = 3,
-	["100%"] = 4,
-}
-
-function techage.firebox.on_receive_fields(pos, formname, fields, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
-		return
-	end
-	if fields.update then
-		local mem = tubelib2.get_mem(pos)
-		M(pos):set_string("formspec", techage.firebox.formspec(mem))
-	end
-	if fields.power_level then
-		local mem = tubelib2.get_mem(pos)
-		mem.power_level = PowerLevel[fields.power_level]
-	end
-end
-
 function techage.firebox.on_rightclick(pos, node, clicker)
-	local mem = tubelib2.get_mem(pos)
-	M(pos):set_string("formspec", techage.firebox.formspec(mem))
+	local nvm = techage.get_nvm(pos)
+	techage.set_activeformspec(pos, clicker)
+	M(pos):set_string("formspec", techage.firebox.formspec(nvm))
 end
 
 function techage.firebox.swap_node(pos, name)

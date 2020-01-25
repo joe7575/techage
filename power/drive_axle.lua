@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -33,11 +33,6 @@ local Axle = tubelib2.Tube:new({
 	end,
 })
 
-Axle:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir)
-	minetest.registered_nodes[node.name].after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
-end)
-
-techage.Axle = Axle
 
 minetest.register_node("techage:axle", {
 	description = S("TA2 Drive Axle"),
@@ -182,17 +177,4 @@ minetest.register_craft({
 })
 
 
--- Axles PNG animation
-function techage.switch_axles(pos, on)
-	local s = M(pos):get_string("power_dirs")
-	if s ~= "" then
-		for _,indir in ipairs(minetest.deserialize(s)) do
-			local out_dir = tubelib2.Turn180Deg[indir]
-			if on then
-				Axle:switch_tube_line(pos, out_dir, "on")
-			else
-				Axle:switch_tube_line(pos, out_dir, "off")
-			end
-		end
-	end
-end
+techage.Axle = Axle

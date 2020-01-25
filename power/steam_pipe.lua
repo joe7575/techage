@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -22,20 +22,13 @@ local Pipe = tubelib2.Tube:new({
 	max_tube_length = 12, 
 	show_infotext = false,
 	force_to_use_tubes = true,
-	tube_type = "steam_pipe",
+	tube_type = "pipe1",
 	primary_node_names = {"techage:steam_pipeS", "techage:steam_pipeA"}, 
 	secondary_node_names = {"techage:cylinder", "techage:cylinder_on", "techage:boiler2"},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
 		minetest.swap_node(pos, {name = "techage:steam_pipe"..tube_type, param2 = param2})
 	end,
 })
-
-Pipe:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir)
-	minetest.registered_nodes[node.name].after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
-end)
-
-techage.SteamPipe = Pipe
-
 
 minetest.register_node("techage:steam_pipeS", {
 	description = S("TA2 Steam Pipe"),
@@ -57,7 +50,7 @@ minetest.register_node("techage:steam_pipeS", {
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		Pipe:after_dig_tube(pos, oldnode)
+		Pipe:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
 	
 	paramtype2 = "facedir", -- important!
@@ -88,7 +81,7 @@ minetest.register_node("techage:steam_pipeA", {
 	},
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		Pipe:after_dig_tube(pos, oldnode)
+		Pipe:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
 	
 	paramtype2 = "facedir", -- important!
@@ -117,3 +110,5 @@ minetest.register_craft({
 		{"default:bronze_ingot", '', ''},
 	},
 })
+
+techage.SteamPipe = Pipe

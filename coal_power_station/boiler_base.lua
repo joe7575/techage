@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -17,6 +17,15 @@ local M = minetest.get_meta
 local S = techage.S
 
 local Pipe = techage.SteamPipe
+local networks = techage.networks
+
+local function after_place_node(pos)
+	Pipe:after_place_node(pos)
+end
+
+local function after_dig_node(pos, oldnode)
+	Pipe:after_dig_node(pos)
+end
 
 minetest.register_node("techage:coalboiler_base", {
 	description = S("TA3 Boiler Base"),
@@ -28,7 +37,8 @@ minetest.register_node("techage:coalboiler_base", {
 		fixed = {-13/32, -16/32, -13/32, 13/32, 16/32, 13/32},
 	},
 
-	on_construct = tubelib2.init_mem,
+	after_place_node = after_place_node,
+	after_dig_node = after_dig_node,
 	
 	paramtype = "light",
 	paramtype2 = "facedir",
@@ -38,21 +48,12 @@ minetest.register_node("techage:coalboiler_base", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-techage.power.register_node({"techage:coalboiler_base"}, {
-	conn_sides = {"F"},
-	power_network = Pipe,
-})
+Pipe:add_secondary_node_names({"techage:coalboiler_base"})
 	
 -- for logical communication
 techage.register_node({"techage:coalboiler_base"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
-		if topic == "start" then
-			return true
-		elseif topic == "stop" then
-			return true
-		elseif topic == "running" then
-			return true
-		end
+		return true
 	end
 })
 

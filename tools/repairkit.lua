@@ -88,10 +88,10 @@ local function read_state(itemstack, user, pointed_thing)
 					load = dump(load)
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": load = "..load.." %    ")
 				end
-				local capa = techage.send_single("0", number, "capa", nil)
-				if capa and capa ~= "" and capa ~= "unsupported" then
-					capa = dump(capa)
-					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": capa = "..capa.." %    ")
+				local size = techage.send_single("0", number, "size", nil)
+				if size and size ~= "" and size ~= "unsupported" then
+					size = dump(size)
+					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": size = "..size.." units    ")
 				end
 				local owner = M(pos):get_string("owner") or ""
 				if owner ~= "" then

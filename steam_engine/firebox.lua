@@ -23,8 +23,8 @@ local CYCLE_TIME = 2
 local BURN_CYCLE_FACTOR = 0.8
 
 local function node_timer(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	if mem.running then
+	local nvm = techage.get_nvm(pos)
+	if nvm.running then
 		local power = techage.transfer(
 			{x=pos.x, y=pos.y+2, z=pos.z}, 
 			nil,  -- outdir
@@ -33,18 +33,21 @@ local function node_timer(pos, elapsed)
 			nil,  -- network
 			{"techage:boiler2"}  -- nodenames
 		)
-		mem.burn_cycles = (mem.burn_cycles or 0) - math.max((power or 0.1), 0.1)
-		if mem.burn_cycles <= 0 then
+		nvm.burn_cycles = (nvm.burn_cycles or 0) - math.max((power or 0.1), 0.1)
+		if nvm.burn_cycles <= 0 then
 			local taken = firebox.get_fuel(pos) 
 			if taken then
-				mem.burn_cycles = (firebox.Burntime[taken:get_name()] or 1) / CYCLE_TIME * BURN_CYCLE_FACTOR
-				mem.burn_cycles_total = mem.burn_cycles
+				nvm.burn_cycles = (firebox.Burntime[taken:get_name()] or 1) / CYCLE_TIME * BURN_CYCLE_FACTOR
+				nvm.burn_cycles_total = nvm.burn_cycles
 			else
-				mem.running = false
+				nvm.running = false
 				firebox.swap_node(pos, "techage:firebox")
-				M(pos):set_string("formspec", firebox.formspec(mem))
+				M(pos):set_string("formspec", firebox.formspec(nvm))
 				return false
 			end
+		end
+		if techage.is_activeformspec(pos) then
+			M(pos):set_string("formspec", firebox.formspec(nvm))
 		end
 		return true
 	end
@@ -71,27 +74,26 @@ minetest.register_node("techage:firebox", {
 	can_dig = firebox.can_dig,
 	allow_metadata_inventory_put = firebox.allow_metadata_inventory_put,
 	allow_metadata_inventory_take = firebox.allow_metadata_inventory_take,
-	on_receive_fields = firebox.on_receive_fields,
 	on_rightclick = firebox.on_rightclick,
 	
 	on_construct = function(pos)
-		local mem = tubelib2.init_mem(pos)
-		mem.running = false
-		mem.burn_cycles = 0
+		local nvm = techage.get_nvm(pos)
+		nvm.running = false
+		nvm.burn_cycles = 0
 		local meta = M(pos)
-		meta:set_string("formspec", firebox.formspec(mem))
+		meta:set_string("formspec", firebox.formspec(nvm))
 		local inv = meta:get_inventory()
 		inv:set_size('fuel', 1)
 	end,
 
 	on_metadata_inventory_put = function(pos, listname, index, stack, player)
-		local mem = tubelib2.init_mem(pos)
-		mem.running = true
+		local nvm = techage.get_nvm(pos)
+		nvm.running = true
 		-- activate the formspec fire temporarily
-		mem.burn_cycles = firebox.Burntime[stack:get_name()] / CYCLE_TIME
-		mem.burn_cycles_total = mem.burn_cycles
-		M(pos):set_string("formspec", firebox.formspec(mem))
-		mem.burn_cycles = 0
+		nvm.burn_cycles = firebox.Burntime[stack:get_name()] / CYCLE_TIME
+		nvm.burn_cycles_total = nvm.burn_cycles
+		M(pos):set_string("formspec", firebox.formspec(nvm))
+		nvm.burn_cycles = 0
 		firebox.swap_node(pos, "techage:firebox_on")
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
@@ -163,9 +165,9 @@ minetest.register_lbm({
 	nodenames = {"techage:firebox_on"},
 	run_at_every_load = true,
 	action = function(pos, node)
+		local nvm = techage.get_nvm(pos)
+		nvm.running = true
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
-		local mem = tubelib2.get_mem(pos)
-		mem.power_level = nil
 	end
 })
 

@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -28,16 +28,17 @@ local STANDBY_TICKS = 6
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 4
 
-local function formspec(self, pos, mem)
+local function formspec(self, pos, nvm)
 	return "size[8,9.2]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
 		"list[context;recipe;0,0;3,3;]"..
 		"image[2.9,1;1,1;techage_form_arrow.png]"..
-		"image[3.8,0;1,1;"..techage.get_power_image(pos, mem).."]"..
+		"image[3.8,0;1,1;"..techage.get_power_image(pos, nvm).."]"..
 		"list[context;output;3.8,1;1,1;]"..
-		"image_button[3.8,2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
+		"image_button[3.8,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
+		"tooltip[3.8,2;1,1;"..self:get_state_tooltip(nvm).."]"..
 		"list[context;src;0,3.2;8,2;]"..
 		"list[context;dst;5,0;3,3;]"..
 		"list[current_player;main;0,5.4;8,4;]" ..
@@ -77,21 +78,21 @@ local function get_craft(pos, inventory, hash)
 	return craft
 end
 
-local function autocraft(pos, crd, mem, inv)
+local function autocraft(pos, crd, nvm, inv)
 	local craft = get_craft(pos, inv)
 	if not craft then 
-		crd.State:idle(pos, mem)
+		crd.State:idle(pos, nvm)
 		return
 	end
 	local output_item = craft.output.item
 	if output_item:get_name() == "" then
-		crd.State:idle(pos, mem)
+		crd.State:idle(pos, nvm)
 		return 
 	end
 		
 	-- check if we have enough room in dst
 	if not inv:room_for_item("dst", output_item) then	
-		crd.State:blocked(pos, mem)
+		crd.State:blocked(pos, nvm)
 		return
 	end
 	local consumption = craft.consumption
@@ -99,7 +100,7 @@ local function autocraft(pos, crd, mem, inv)
 	-- check if we have enough material available
 	for itemname, number in pairs(consumption) do
 		if (not inv_index[itemname]) or inv_index[itemname] < number then 
-			crd.State:idle(pos, mem)
+			crd.State:idle(pos, nvm)
 			return 
 		end
 	end
@@ -116,27 +117,27 @@ local function autocraft(pos, crd, mem, inv)
 		inv:add_item("dst", craft.decremented_input.items[i])
 	end
 	
-	crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+	crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 end
 
 
 local function keep_running(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
 	local inv = M(pos):get_inventory()
-	autocraft(pos, crd, mem, inv)
+	autocraft(pos, crd, nvm, inv)
 end
 
 -- note, that this function assumes allready being updated to virtual items
 -- and doesn't handle recipes with stacksizes > 1
 local function after_recipe_change(pos, inventory)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
 	-- if we emptied the grid, there's no point in keeping it running or cached
 	if inventory:is_empty("recipe") then
 		autocrafterCache[minetest.hash_node_position(pos)] = nil
 		inventory:set_stack("output", 1, "")
-		crd.State:stop(pos, mem)
+		crd.State:stop(pos, nvm)
 		return
 	end
 	local recipe = inventory:get_list("recipe")
@@ -159,7 +160,7 @@ local function after_recipe_change(pos, inventory)
 	craft = craft or get_craft(pos, inventory, hash)
 	local output_item = craft.output.item
 	inventory:set_stack("output", 1, output_item)
-	crd.State:stop(pos, mem)
+	crd.State:stop(pos, nvm)
 end
 
 -- clean out unknown items and groups, which would be handled like unknown items in the crafting grid
@@ -271,8 +272,8 @@ local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	local mem = tubelib2.get_mem(pos)
-	CRD(pos).State:state_button_event(pos, mem, fields)
+	local nvm = techage.get_nvm(pos)
+	CRD(pos).State:state_button_event(pos, nvm, fields)
 end
 
 local function can_dig(pos, player)

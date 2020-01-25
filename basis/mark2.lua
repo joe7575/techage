@@ -65,3 +65,43 @@ minetest.register_entity(":techage:position_cube", {
 	end,
 })
 
+function techage.mark_side(name, pos, dir, nametag, color, time)
+	local v = vector.multiply(tubelib2.Dir6dToVector[dir or 0], 0.7)
+	local pos2 = vector.add(pos, v)
+
+	local marker = minetest.add_entity(pos2, "techage:position_side")
+	if marker ~= nil then
+		marker:set_nametag_attributes({color = color, text = nametag})
+		marker:get_luaentity().player_name = name
+		if dir == 2 or dir == 4 then
+			marker:setyaw(math.pi / 2)
+		end
+
+		if not marker_region[name] then
+			marker_region[name] = {}
+		end
+		marker_region[name][#marker_region[name] + 1] = marker
+	end
+	minetest.after(time or 30, techage.unmark_position, name)
+end
+
+minetest.register_entity(":techage:position_side", {
+	initial_properties = {
+		visual = "upright_sprite",
+		textures = {"techage_side_mark.png"},
+		physical = false,
+		visual_size = {x = 1.1, y = 1.1, z = 1.1},
+		collisionbox = {-0.55,-0.55,-0.55, 0.55,0.55,0.55},
+		glow = 8,
+	},
+	on_step = function(self, dtime)
+		if marker_region[self.player_name] == nil then
+			self.object:remove()
+			return
+		end
+	end,
+	on_punch = function(self, hitter)
+		techage.unmark_position(self.player_name)
+	end,
+})
+

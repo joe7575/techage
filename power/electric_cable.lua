@@ -3,12 +3,12 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
 	
-	TA3/TA4 Cable for electrical power distribution
+	TA3 Electric Cables (AC)
 
 ]]--
 
@@ -18,13 +18,16 @@ local P2S = minetest.pos_to_string
 local M = minetest.get_meta
 local S = techage.S
 
+local ELE1_MAX_CABLE_LENGHT = 1000
+
 local Cable = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
-	max_tube_length = 1000, 
+	max_tube_length = ELE1_MAX_CABLE_LENGHT, 
 	show_infotext = false,
-	tube_type = "electric_cable",
-	primary_node_names = {"techage:electric_cableS", "techage:electric_cableA", 
-		"techage:power_line", "techage:power_lineS", "techage:power_lineA", "techage:power_pole2"},
+	tube_type = "ele1",
+	primary_node_names = {"techage:electric_cableS", "techage:electric_cableA",
+		"techage:power_line", "techage:power_lineS", "techage:power_lineA", 
+		"techage:power_pole2"},
 	secondary_node_names = {},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
 		-- Handle "power line" nodes
@@ -154,14 +157,6 @@ minetest.register_node("techage:electric_cableA", {
 	drop = "techage:electric_cableS",
 })
 
-Cable:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir)
-	if minetest.registered_nodes[node.name].after_tube_update then -- primay/secondary nodes
-		minetest.registered_nodes[node.name].after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
-	else -- all kind of nodes, used as cable filler/grout
-		techage.power.after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir, Cable)
-	end
-end)
-
 minetest.register_craft({
 	output = "techage:electric_cableS 6",
 	recipe = {
@@ -171,3 +166,5 @@ minetest.register_craft({
 	},
 })
 
+techage.ElectricCable = Cable
+techage.ELE1_MAX_CABLE_LENGHT = ELE1_MAX_CABLE_LENGHT

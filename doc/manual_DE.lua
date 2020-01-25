@@ -189,7 +189,7 @@ techage.manual_DE.aText = {
   "\n",
   "Erdöl kann nur mit Hilfe des Explorers gefunden und mit Hilfe entsprechender TA3 Maschinen gefördert werden. Siehe TA3.\n"..
   "\n",
-  "Bauxit wird nur im Untertagebau gewonnen. Bauxit findet man nur in Stein in einer Höhe zwischen -50 und -150 Meter.\n"..
+  "Bauxit wird nur im Untertagebau gewonnen. Bauxit findet man nur in Stein in einer Höhe zwischen -50 und -500 Meter.\n"..
   "Es wird zur Herstellung von Aluminium benötigt\\, was vor allem in TA4 Verwendung findet.\n"..
   "\n",
   "  - 28.09.2019: Um Solaranlage erweitert\n"..

@@ -32,7 +32,7 @@ minetest.register_node("techage:lighter_burn", {
 	drop = "",
 	light_source = 10,
 	is_ground_content = false,
-	groups = {crumbly = 1, not_in_creative_inventory=1},
+	groups = {crumbly = 3, snappy = 3, oddly_breakable_by_hand = 1, not_in_creative_inventory=1},
 	sounds = default.node_sound_dirt_defaults(),
 })
 
@@ -56,7 +56,7 @@ minetest.register_node("techage:coal_lighter_burn", {
 	drop = "",
 	light_source = 10,
 	is_ground_content = false,
-	groups = {crumbly = 1, not_in_creative_inventory=1},
+	groups = {crumbly = 3, snappy = 3, oddly_breakable_by_hand = 1, not_in_creative_inventory=1},
 	sounds = default.node_sound_dirt_defaults(),
 })
 
@@ -75,7 +75,7 @@ minetest.register_node("techage:lighter", {
 		meta:set_string("playername", placer:get_player_name())
 	end,
 	is_ground_content = false,
-	groups = {crumbly = 1, flammable = 2}, 
+	groups = {crumbly = 3, snappy = 3, oddly_breakable_by_hand = 1, flammable = 2}, 
 	sounds = default.node_sound_dirt_defaults(),
 })
 

@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -13,11 +13,15 @@
 ]]--
 
 -- for lazy programmers
-local P = minetest.string_to_pos
 local M = minetest.get_meta
 local S = techage.S
 
 local Pipe = techage.SteamPipe
+
+local function transfer_flywheel(pos, topic, payload)
+	return  techage.transfer(pos, "R", topic, payload, nil, 
+		{"techage:flywheel", "techage:flywheel_on"})
+end
 
 local function swap_node(pos, name)
 	local node = techage.get_node_lvm(pos)
@@ -26,6 +30,41 @@ local function swap_node(pos, name)
 	end
 	node.name = name
 	minetest.swap_node(pos, node)
+end
+
+local function play_sound(pos)
+	local mem = techage.get_mem(pos)
+	mem.handle = minetest.sound_play("techage_steamengine", {
+		pos = pos, 
+		gain = 0.5,
+		max_hear_distance = 10,
+		loop = true})
+	if mem.handle == -1 then
+		minetest.after(1, play_sound, pos)
+	end
+end
+
+local function stop_sound(pos)
+	local mem = techage.get_mem(pos)
+	if mem.handle then
+		minetest.sound_stop(mem.handle)
+		mem.handle = nil
+	end
+end
+
+local function after_place_node(pos)
+	Pipe:after_place_node(pos)
+end
+
+local function after_dig_node(pos, oldnode)
+	stop_sound(pos)
+	Pipe:after_dig_node(pos)
+	techage.del_mem(pos)
+end
+
+local function tubelib2_on_update2(pos, outdir, tlib2, node) 
+	swap_node(pos, "techage:cylinder")
+	stop_sound(pos)
 end
 
 minetest.register_node("techage:cylinder", {
@@ -39,6 +78,10 @@ minetest.register_node("techage:cylinder", {
 		"techage_filling_ta2.png^techage_cylinder.png^techage_frame_ta2.png",
 		"techage_filling_ta2.png^techage_cylinder.png^techage_frame_ta2.png",
 	},
+	
+	after_place_node = after_place_node,
+	after_dig_node = after_dig_node,
+	tubelib2_on_update2 = tubelib2_on_update2,
 	
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -77,6 +120,8 @@ minetest.register_node("techage:cylinder_on", {
 		},
 	},
 	
+	tubelib2_on_update2 = tubelib2_on_update2,
+	
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
 	diggable = false,
@@ -85,42 +130,38 @@ minetest.register_node("techage:cylinder_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-techage.power.register_node({"techage:cylinder", "techage:cylinder_on"}, {
-	conn_sides = {"L"},
-	power_network  = Pipe,
-	after_tube_update = function(node, pos, out_dir, peer_pos, peer_in_dir)
-		local mem = tubelib2.get_mem(pos)
-		mem.running = false
-		swap_node(pos, "techage:cylinder")
-	end,
-})
+Pipe:add_secondary_node_names({"techage:cylinder", "techage:cylinder_on"})
 
--- used by firebox
 techage.register_node({"techage:cylinder", "techage:cylinder_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
-		local mem = tubelib2.get_mem(pos)
-		if topic == "trigger" then
-			local power = techage.transfer(pos, "R", "trigger", nil, nil, {
-						"techage:flywheel", "techage:flywheel_on"}) or 0
-
-			if not power then
-				return 0
-			elseif power > 0 and not mem.running then
-				swap_node(pos, "techage:cylinder_on")
-				mem.running = true
-				return power
-			elseif power <= 0 and mem.running then
+		local nvm = techage.get_nvm(pos)
+		if topic == "trigger" then  -- used by firebox
+			local power = transfer_flywheel(pos, topic, payload)
+			if not power or power <= 0 and nvm.running then
 				swap_node(pos, "techage:cylinder")
-				mem.running = false
+				stop_sound(pos)
+				nvm.running = false
 				return 0
-			else
-				return power
 			end
-		elseif topic == "stop" then
+			return power
+		elseif topic == "start" then  -- used by flywheel
+			swap_node(pos, "techage:cylinder_on")
+			play_sound(pos)
+			nvm.running = true
+			return true
+		elseif topic == "stop" then  -- used by flywheel
 			swap_node(pos, "techage:cylinder")
-			mem.running = false
+			stop_sound(pos)
+			nvm.running = false
+			return true
 		end
-	end
+	end,
+	on_node_load = function(pos, node)
+		--print("on_node_load", node.name)
+		if node.name == "techage:cylinder_on" then
+			play_sound(pos)
+		end	
+	end,
 })
 
 minetest.register_craft({

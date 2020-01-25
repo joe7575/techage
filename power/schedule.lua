@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -18,70 +18,64 @@ local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local M = minetest.get_meta
 local N = function(pos) return minetest.get_node(pos).name end
 
-local CYCLE_TIME = 2.0
+local power = techage.power
+local networks = techage.networks
+
+local CYCLE_TIME = 2
 
 techage.schedule = {}
 
-local NetList = {}
+local JobTable = {}
 local JobQueue = {}
 local first = 0
 local last = -1
-local LocalTime = 0
+
+techage.SystemTime = 0
 
 local function push(item)
 	last = last + 1
-	item.time = LocalTime + CYCLE_TIME
+	item.time = techage.SystemTime + CYCLE_TIME
 	JobQueue[last] = item
 end
 
 local function pop()
 	if first > last then return end
 	local item = JobQueue[first]
-	if item.time <= LocalTime then
+	if item.time <= techage.SystemTime then
 		JobQueue[first] = nil -- to allow garbage collection
 		first = first + 1
 		return item
 	end
 end
 
+local function power_distribution(network, tlib_type)
+	local t = minetest.get_us_time()
+	power.power_distribution(network, tlib_type, techage.SystemTime)
+	t = minetest.get_us_time() - t
+	--print("t = "..t..", #jobs = "..(last + 1 - first))
+end
+
 -- Scheduler
 minetest.register_globalstep(function(dtime)
-	LocalTime = LocalTime + dtime
+	techage.SystemTime = techage.SystemTime + dtime
 	local item = pop()
 	while item do
-		local network = NetList[item.netkey]
+		local network = networks.get_network(item.tube_type, item.netID)
 		if network and network.alive and network.alive >= 0 then
-			--techage.distribute.power_distribution(LocalTime, network)
-			techage.power.power_distribution(LocalTime, network.mst_pos, network)
+			power_distribution(network, item.tube_type)
 			network.alive = network.alive - 1
 			push(item)
 		else
-			NetList[item.netkey] = nil
+			JobTable[item.netID] = nil
+			networks.delete_network(item.tube_type, item.netID)
 		end
 		item = pop()
 	end
 end)
 
-function techage.schedule.add_network(netkey, network)
-	if netkey then
-		if NetList[netkey] then -- already scheduled
-			NetList[netkey] = network
-		else
-			NetList[netkey] = network
-			push({netkey = netkey})
-		end
-		return NetList[netkey]
-	end
-end
-
-function techage.schedule.has_network(netkey)
-	if netkey then
-		return NetList[netkey] ~= nil
-	end
-end
-
-function techage.schedule.get_network(netkey)
-	if netkey then
-		return NetList[netkey]
+function techage.schedule.start(tube_type, netID)
+	if not JobTable[netID] then
+		push({tube_type = tube_type, netID = netID})
+		JobTable[netID] = true
 	end
 end

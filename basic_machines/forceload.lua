@@ -113,7 +113,7 @@ local function formspec(name)
 			default.gui_bg..
 			default.gui_bg_img..
 			default.gui_slots..
-			"label[0,0;List of your Forceload Blocks:]"..
+			"label[0,0;"..S("List of your Forceload Blocks:").."]"..
 			"tablecolumns[text,width=1.2;text,width=12;text,width=1.6;text,width=12]"..
 			"table[0,0.6;6.8,8.4;output;"..table.concat(tRes, ",")..";1]"
 	end
@@ -121,7 +121,7 @@ end
 
 
 minetest.register_node("techage:forceload", {
-	description = "Techage Forceload Block",
+	description = S("Techage Forceload Block"),
 	tiles = {
 		-- up, down, right, left, back, front
 		'techage_filling_ta2.png^techage_frame_ta2_top.png',
@@ -142,13 +142,13 @@ minetest.register_node("techage:forceload", {
 		if add_pos(pos, placer) then
 			minetest.forceload_block(pos, true)
 			local pos1, pos2, num, max = get_data(pos, placer)
-			M(pos):set_string("infotext", "Area "..P2S(pos1).." to "..P2S(pos2).." loaded!\n"..
-				"Punch the block to make the area visible.")
-			chat(placer, "Area ("..num.."/"..max..") "..P2S(pos1).." to "..P2S(pos2).." loaded!")
+			M(pos):set_string("infotext", "Area "..P2S(pos1).." to "..P2S(pos2).." "..S("loaded").."!\n"..
+				S("Punch the block to make the area visible."))
+			chat(placer, "Area ("..num.."/"..max..") "..P2S(pos1).." to "..P2S(pos2).." "..S("loaded").."!")
 			techage.mark_region(placer:get_player_name(), pos1, pos2)
 			M(pos):set_string("owner", placer:get_player_name())
 		else
-			chat(placer, "Area already loaded or max. number of Forceload Blocks reached!")
+			chat(placer, S("Area already loaded or max. number of Forceload Blocks reached!"))
 			minetest.remove_node(pos)
 			return itemstack
 		end
@@ -220,7 +220,7 @@ end)
 
 minetest.register_chatcommand("forceload", {
 	params = "",
-	description = "Forceloadblöcke der Umgebung 64x64x64 anzeigen",
+	description = S("Show all forceload blocks in a 64x64x64 range"),
 	func = function(name, param)
 		if minetest.check_player_privs(name, "superminer") then
 			local player = minetest.get_player_by_name(name)
@@ -230,7 +230,7 @@ minetest.register_chatcommand("forceload", {
 				shoe_flbs(pos, name, 64)
 			end
 		else
-			return false, "Priv missing"
+			return false, S("Priv missing")
 		end
 	end,
 })

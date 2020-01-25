@@ -11,45 +11,31 @@ else
 	techage = {
 		NodeDef = {},		-- node registration info
 	}
-	techage.max_num_forceload_blocks = tonumber(minetest.setting_get("techage_max_num_forceload_blocks")) or 24
-	techage.basalt_stone_enabled = minetest.setting_get("techage_basalt_stone_enabled") == "true"
-	techage.ore_rarity = tonumber(minetest.setting_get("techage_ore_rarity")) or 1
-	techage.modified_recipes_enabled = minetest.setting_get("techage_modified_recipes_enabled") == "true"
+	techage.max_num_forceload_blocks = tonumber(minetest.settings:get("techage_max_num_forceload_blocks")) or 24
+	 
+	techage.basalt_stone_enabled = minetest.settings:get_bool("techage_basalt_stone_enabled") ~= false
+	techage.ore_rarity = tonumber(minetest.settings:get("techage_ore_rarity")) or 1
+	techage.modified_recipes_enabled = minetest.settings:get_bool("techage_modified_recipes_enabled") ~= false
 
 	-- Load support for I18n.
 	techage.S = minetest.get_translator("techage")
 	
-	-- Debugging via "techage.Debug.dbg(text)"
-	techage.Debug = {
-		dbg = function(text, ...)
-			local t = string.format("%.4f:  ", minetest.get_us_time() / 1000000.0)
-			if type(text) ~= "string" then
-				text = dump(text)
-			end
-			print(t..text, unpack({...}))
-		end,
-		--con = true,  -- consumer modell
-		--pwr = true,  -- power distribution
-		--sts = true,  -- status plots
-		--dbg2 = true,
-		--tst = true,
-		--bot = true  -- Signs Bot
-		--slr = true,
-	}
-
 	-- Basis features
 	local MP = minetest.get_modpath("techage")
 	dofile(MP.."/basis/lib.lua")  -- helper functions
 	dofile(MP.."/basis/gravel_lib.lua")  -- ore probability
 	dofile(MP.."/basis/node_states.lua") -- state model
-	dofile(MP.."/basis/tubes.lua")  -- tubelib replacement
-	dofile(MP.."/basis/command.lua")  -- tubelib replacement
+	dofile(MP.."/basis/tubes.lua")  -- tubes for item transport
+	dofile(MP.."/basis/command.lua")  -- command API
 	dofile(MP.."/basis/firebox_lib.lua")  -- common firebox functions
+	dofile(MP.."/basis/boiler_lib.lua")  -- common boiler functions
 	dofile(MP.."/basis/mark.lua")
 	dofile(MP.."/basis/mark2.lua")
 	dofile(MP.."/basis/assemble.lua")
 	dofile(MP.."/basis/networks.lua")
 	dofile(MP.."/basis/recipe_lib.lua")
+	dofile(MP.."/basis/formspec_update.lua")
+	dofile(MP.."/basis/storage.lua")
 
 	-- Main doc
 	dofile(MP.."/doc/manual_DE.lua")
@@ -59,20 +45,30 @@ else
 	dofile(MP.."/doc/guide.lua")  -- construction guides
 	
 	-- Power networks
-	dofile(MP.."/power/schedule.lua")
-	--dofile(MP.."/power/distribute.lua")
-	--dofile(MP.."/power/test.lua")
-	dofile(MP.."/power/power.lua")
-	dofile(MP.."/power/power2.lua")
+	dofile(MP.."/power/node_api.lua")
 	dofile(MP.."/power/junction.lua") 
+	dofile(MP.."/power/distribution.lua")
+	dofile(MP.."/power/schedule.lua")
+	dofile(MP.."/power/formspecs.lua")
 	dofile(MP.."/power/drive_axle.lua")
+	dofile(MP.."/power/gearbox.lua")
 	dofile(MP.."/power/steam_pipe.lua")
 	dofile(MP.."/power/electric_cable.lua")
-	dofile(MP.."/power/power_line.lua")
 	dofile(MP.."/power/junctionbox.lua")
-	dofile(MP.."/power/powerswitch.lua")
+	dofile(MP.."/power/power_terminal.lua")
+	dofile(MP.."/power/powerswitchbox.lua")
 	dofile(MP.."/power/protection.lua")
-	dofile(MP.."/power/ta4_cable.lua")
+	dofile(MP.."/power/power_line.lua")
+	
+	
+	
+	--dofile(MP.."/power/test.lua")
+	--dofile(MP.."/power/power.lua")
+	--dofile(MP.."/power/power2.lua")
+	--dofile(MP.."/power/junction.lua") 
+	--dofile(MP.."/power/junctionbox.lua")
+	--dofile(MP.."/power/powerswitch.lua")
+	--dofile(MP.."/power/ta4_cable.lua")
 
 	-- Iron Age
 	dofile(MP.."/iron_age/main.lua")
@@ -96,10 +92,9 @@ else
 	dofile(MP.."/steam_engine/boiler.lua")
 	dofile(MP.."/steam_engine/cylinder.lua")
 	dofile(MP.."/steam_engine/flywheel.lua")
-	dofile(MP.."/steam_engine/gearbox.lua")
 	
 	-- Basic Machines
-	dofile(MP.."/basis/consumer.lua")  -- consumer base model
+	dofile(MP.."/basic_machines/consumer.lua")  -- consumer base model
 	dofile(MP.."/basic_machines/source.lua")
 	dofile(MP.."/basic_machines/pusher.lua")
 	dofile(MP.."/basic_machines/legacy_nodes.lua")
@@ -113,13 +108,14 @@ else
 	dofile(MP.."/basic_machines/funnel.lua")
 	dofile(MP.."/basic_machines/liquidsampler.lua")
 
-	-- Liquids
-	dofile(MP.."/liquids/liquid_pipe.lua")
-	dofile(MP.."/liquids/liquid.lua")
-	dofile(MP.."/liquids/tank.lua")
-	dofile(MP.."/liquids/silo.lua")
-	dofile(MP.."/liquids/pump.lua")
-	dofile(MP.."/liquids/fuel_lib.lua")
+--	-- Liquids
+--	dofile(MP.."/liquids/liquid_pipe.lua")
+--	dofile(MP.."/liquids/liquid.lua")
+--	dofile(MP.."/liquids/liquid_lib.lua")
+--	dofile(MP.."/liquids/tank.lua")
+--	dofile(MP.."/liquids/silo.lua")
+--	dofile(MP.."/liquids/pump.lua")
+--	dofile(MP.."/liquids/fuel_lib.lua")
 	
 	-- Coal power station
 	dofile(MP.."/coal_power_station/firebox.lua")
@@ -128,16 +124,14 @@ else
 	dofile(MP.."/coal_power_station/generator.lua")
 	dofile(MP.."/coal_power_station/turbine.lua")
 	dofile(MP.."/coal_power_station/cooler.lua")
-	dofile(MP.."/coal_power_station/akkubox.lua")
-	dofile(MP.."/coal_power_station/power_terminal.lua")
 	
-	-- Industrial Furnace
-	dofile(MP.."/furnace/firebox.lua")
-	dofile(MP.."/furnace/cooking.lua")
-	dofile(MP.."/furnace/furnace_top.lua")
-	dofile(MP.."/furnace/booster.lua")
-	dofile(MP.."/furnace/heater.lua")
-	dofile(MP.."/furnace/recipes.lua")
+--	-- Industrial Furnace
+--	dofile(MP.."/furnace/firebox.lua")
+--	dofile(MP.."/furnace/cooking.lua")
+--	dofile(MP.."/furnace/furnace_top.lua")
+--	dofile(MP.."/furnace/booster.lua")
+--	dofile(MP.."/furnace/heater.lua")
+--	dofile(MP.."/furnace/recipes.lua")
 	
 	-- Tools
 	dofile(MP.."/tools/trowel.lua")
@@ -145,24 +139,27 @@ else
 	dofile(MP.."/basic_machines/blackhole.lua")
 	dofile(MP.."/basic_machines/forceload.lua")
 	
-	-- Lamps
-	dofile(MP.."/lamps/lib.lua")
-	dofile(MP.."/lamps/simplelamp.lua")
-	dofile(MP.."/lamps/streetlamp.lua")
-	dofile(MP.."/lamps/ceilinglamp.lua")
-	dofile(MP.."/lamps/industriallamp1.lua")
-	dofile(MP.."/lamps/industriallamp2.lua")
-	dofile(MP.."/lamps/industriallamp3.lua")
+--	-- Lamps
+--	dofile(MP.."/lamps/lib.lua")
+--	dofile(MP.."/lamps/simplelamp.lua")
+--	dofile(MP.."/lamps/streetlamp.lua")
+--	dofile(MP.."/lamps/ceilinglamp.lua")
+--	dofile(MP.."/lamps/industriallamp1.lua")
+--	dofile(MP.."/lamps/industriallamp2.lua")
+--	dofile(MP.."/lamps/industriallamp3.lua")
 	
-	-- Oil
-	dofile(MP.."/oil/explore.lua")
-	dofile(MP.."/oil/tower.lua")
-	dofile(MP.."/oil/drillbox.lua")
-	dofile(MP.."/oil/pumpjack.lua")
-	dofile(MP.."/oil/generator.lua")
-	dofile(MP.."/oil/distiller.lua")
-	dofile(MP.."/oil/reboiler.lua")
-	dofile(MP.."/oil/gasflare.lua")
+--	-- Oil
+--	dofile(MP.."/oil/explore.lua")
+--	dofile(MP.."/oil/tower.lua")
+--	dofile(MP.."/oil/drillbox.lua")
+--	dofile(MP.."/oil/pumpjack.lua")
+--	dofile(MP.."/oil/distiller.lua")
+--	dofile(MP.."/oil/reboiler.lua")
+--	dofile(MP.."/oil/gasflare.lua")
+	
+--  TA3 power based
+	--dofile(MP.."/ta3_power/tiny_generator.lua")
+	--dofile(MP.."/ta3_power/akkubox.lua")
 	
 	-- Logic
 	dofile(MP.."/logic/lib.lua")
@@ -183,54 +180,71 @@ else
 
 	-- Test
 	dofile(MP.."/recipe_checker.lua")
-	--dofile(MP.."/.test/sink.lua")
-	dofile(MP.."/.test/source.lua")
-	--dofile(MP.."/.test/akku.lua")
-	--dofile(MP.."/.test/switch.lua")
+	dofile(MP.."/.test/sink.lua")
+	--dofile(MP.."/.test/source.lua")
+	--dofile(MP.."/.test/accu.lua")
 	
 	-- Solar
-	dofile(MP.."/solar/minicell.lua")
-	dofile(MP.."/solar/solarcell.lua")
-	dofile(MP.."/solar/inverter.lua")
+--	dofile(MP.."/solar/minicell.lua")
+--	dofile(MP.."/solar/solarcell.lua")
+--	dofile(MP.."/solar/inverter.lua")
 	
-	-- Wind
-	dofile(MP.."/wind_turbine/rotor.lua")
-	dofile(MP.."/wind_turbine/pillar.lua")
-	dofile(MP.."/wind_turbine/signallamp.lua")
+--	-- Wind
+--	dofile(MP.."/wind_turbine/rotor.lua")
+--	dofile(MP.."/wind_turbine/pillar.lua")
+--	dofile(MP.."/wind_turbine/signallamp.lua")
 	
-	-- TA4 Energy Storage
-	dofile(MP.."/energy_storage/heatexchanger.lua")
-	dofile(MP.."/energy_storage/generator.lua")
-	dofile(MP.."/energy_storage/turbine.lua")
-	dofile(MP.."/energy_storage/inlet.lua")
-	dofile(MP.."/energy_storage/nodes.lua")
+--	-- TA4 Energy Storage
+--	dofile(MP.."/energy_storage/heatexchanger.lua")
+--	dofile(MP.."/energy_storage/generator.lua")
+--	dofile(MP.."/energy_storage/turbine.lua")
+--	dofile(MP.."/energy_storage/inlet.lua")
+--	dofile(MP.."/energy_storage/nodes.lua")
 	
-	-- Chemistry
-	dofile(MP.."/chemistry/ta4_reactor.lua")
-	dofile(MP.."/chemistry/ta4_stand.lua")
-	dofile(MP.."/chemistry/ta4_doser.lua")
+--	-- Chemistry
+--	dofile(MP.."/chemistry/ta4_reactor.lua")
+--	dofile(MP.."/chemistry/ta4_stand.lua")
+--	dofile(MP.."/chemistry/ta4_doser.lua")
 	
-	-- Hydrogen
-	dofile(MP.."/hydrogen/hydrogen.lua")
-	dofile(MP.."/hydrogen/electrolyzer.lua")
-	dofile(MP.."/hydrogen/fuelcell.lua")
+--	-- Hydrogen
+--	dofile(MP.."/hydrogen/fuelcellstack.lua")
+--	dofile(MP.."/hydrogen/electrolyzer.lua")
+--	dofile(MP.."/hydrogen/fuelcell.lua")
+--	dofile(MP.."/hydrogen/legacy.lua")
 
 	-- Items
-	dofile(MP.."/items/barrel.lua")
+--	dofile(MP.."/items/barrel.lua")
 	dofile(MP.."/items/baborium.lua")
 	dofile(MP.."/items/usmium.lua")
-	dofile(MP.."/items/lye.lua")
-	dofile(MP.."/items/oil.lua")
-	dofile(MP.."/items/petroleum.lua")
-	dofile(MP.."/items/bauxit.lua")
-	dofile(MP.."/items/silicon.lua")
-	dofile(MP.."/items/steelmat.lua")
-	dofile(MP.."/items/powder.lua")
-	dofile(MP.."/items/epoxy.lua")
-	dofile(MP.."/items/aluminium.lua")
-	dofile(MP.."/items/plastic.lua")
+--	dofile(MP.."/items/lye.lua")
+--	dofile(MP.."/items/oil.lua")
+--	dofile(MP.."/items/petroleum.lua")
+--	dofile(MP.."/items/bauxit.lua")
+--	dofile(MP.."/items/silicon.lua")
+--	dofile(MP.."/items/steelmat.lua")
+--	dofile(MP.."/items/powder.lua")
+--	dofile(MP.."/items/epoxy.lua")
+--	dofile(MP.."/items/aluminium.lua")
+--	dofile(MP.."/items/plastic.lua")
+--	dofile(MP.."/items/hydrogen.lua")
 	
-	if techage.basalt_stone_enabled then
-		dofile(MP.."/items/basalt.lua")
-	end
+--	if techage.basalt_stone_enabled then
+--		dofile(MP.."/items/basalt.lua")
+--	end
+
+--	dofile(MP.."/power3/electric_cable.lua")
+--	dofile(MP.."/power3/node_api.lua")
+--	dofile(MP.."/power3/distribution.lua")
+--	dofile(MP.."/power3/schedule.lua")
+--	dofile(MP.."/power3/hud_debug.lua")
+--	dofile(MP.."/power3/junctionbox.lua")
+--	dofile(MP.."/power3/ele3_sink.lua")
+--	dofile(MP.."/power3/ele3_source.lua")
+--	dofile(MP.."/power3/accu.lua")
+--	dofile(MP.."/power3/power_terminal.lua")
+--	dofile(MP.."/power3/powerswitchbox.lua")
+--	dofile(MP.."/power3/drive_axle.lua")
+--	dofile(MP.."/power3/gearbox.lua")
+--	dofile(MP.."/power3/axle_sink.lua")
+--	dofile(MP.."/power3/axle_source.lua")
 end

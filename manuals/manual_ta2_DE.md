@@ -21,7 +21,7 @@ Bei allen Blöcken beim Setzen immer auch die Ausrichtung achten:
 
 Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.  
 Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.  
-Wenn das Wasser heiß ist, kann das Ventil am Boiler geöffnet und anschließend die Dampfmaschine am Schwungrad gestartet werden.
+Wenn das Wasser heiß ist (Temperaturanzeige ganz oben), kann die Dampfmaschine am Schwungrad gestartet werden.
 
 Die Dampfmaschine leistet 25 ku, kann damit mehrere Maschinen gleichzeitig antreiben.
 
@@ -39,7 +39,7 @@ Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden. Die Brenndauer ist a
 
 ### TA2 Boiler
 
-Teil der Dampfmaschine. Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt, schaltet sich der Boiler ab.
+Teil der Dampfmaschine. Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt, schaltet sich die Dampfmaschine ab.
 
 [ta2_boiler|image]
 

@@ -18,7 +18,7 @@ local M = minetest.get_meta
 local Recipes = {}     -- {rtype = {ouput = {....},...}}
 local RecipeList = {}  -- {rtype = {<output name>,...}}
 
-local range = techage.range
+local range = techage.in_range
 
 techage.recipes = {}
 

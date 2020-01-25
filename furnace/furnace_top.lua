@@ -30,7 +30,7 @@ local num_recipes = techage.furnace.get_num_recipes
 local reset_cooking = techage.furnace.reset_cooking
 local get_ingredients = techage.furnace.get_ingredients
 local check_if_worth_to_wakeup = techage.furnace.check_if_worth_to_wakeup
-local range = techage.range
+local range = techage.in_range
 
 
 local function update_recipe_menu(pos, mem)

@@ -33,7 +33,7 @@ local STANDBY_TICKS = 10
 local COUNTDOWN_TICKS = 10
 local CYCLE_TIME = 2
 
-local function pushing(pos, crd, meta, mem)
+local function pushing(pos, crd, meta, nvm)
 	local pull_dir = meta:get_int("pull_dir")
 	local push_dir = meta:get_int("push_dir")
 	local items = techage.pull_items(pos, pull_dir, crd.num_items)
@@ -41,29 +41,29 @@ local function pushing(pos, crd, meta, mem)
 		if techage.push_items(pos, push_dir, items) ~= true then
 			-- place item back
 			techage.unpull_items(pos, pull_dir, items)
-			crd.State:blocked(pos, mem)
+			crd.State:blocked(pos, nvm)
 			return
 		end
-		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 		return
 	end
-	crd.State:idle(pos, mem)
+	crd.State:idle(pos, nvm)
 end
 
 local function keep_running(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
-	pushing(pos, crd, M(pos), mem)
-	crd.State:is_active(mem)
+	pushing(pos, crd, M(pos), nvm)
+	crd.State:is_active(nvm)
 end	
 
 local function on_rightclick(pos, node, clicker)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	if not minetest.is_protected(pos, clicker:get_player_name()) then
-		if CRD(pos).State:get_state(mem) == techage.STOPPED then
-			CRD(pos).State:start(pos, mem)
+		if CRD(pos).State:get_state(nvm) == techage.STOPPED then
+			CRD(pos).State:start(pos, nvm)
 		else
-			CRD(pos).State:stop(pos, mem)
+			CRD(pos).State:stop(pos, nvm)
 		end
 	end
 end

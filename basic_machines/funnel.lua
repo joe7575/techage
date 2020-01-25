@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -18,16 +18,16 @@ local S = techage.S
 
 local CYCLE_TIME = 2
 
-local function start_node(pos, mem)
-	mem.running = true
+local function start_node(pos, nvm)
+	nvm.running = true
 	minetest.get_node_timer(pos):start(CYCLE_TIME)
 	local meta = M(pos)
 	local own_num = meta:get_string("node_number")
 	meta:set_string("infotext", S("TA3 Funnel").." "..own_num.." : running")
 end
 
-local function stop_node(pos, mem)
-	mem.running = false
+local function stop_node(pos, nvm)
+	nvm.running = false
 	minetest.get_node_timer(pos):stop()
 	local meta = M(pos)
 	local own_num = meta:get_string("node_number")
@@ -48,9 +48,9 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return stack:get_count()
 end
 
-local function formspec(mem)
+local function formspec(nvm)
 	local state = techage.STOPPED
-	if mem.running then
+	if nvm.running then
 		state = techage.RUNNING
 	end
 	return "size[9,7]"..
@@ -65,8 +65,8 @@ local function formspec(mem)
 end
 
 local function scan_for_objects(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	if not mem.running then
+	local nvm = techage.get_nvm(pos)
+	if not nvm.running then
 		return false
 	end
 	local meta = minetest.get_meta(pos)
@@ -125,14 +125,14 @@ minetest.register_node("techage:ta3_funnel", {
 	
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		local mem = tubelib2.init_mem(pos)
-		mem.running = false
+		local nvm = techage.get_nvm(pos)
+		nvm.running = false
 		local own_num = techage.add_node(pos, "techage:ta3_funnel")
 		local node = minetest.get_node(pos)
 		meta:set_string("node_number", own_num)
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("infotext", S("TA3 Funnel").." "..own_num.." : stopped")
-		meta:set_string("formspec", formspec(mem))
+		meta:set_string("formspec", formspec(nvm))
 		meta:set_int("pull_dir", techage.side_to_indir("R", node.param2))
 	end,
 
@@ -144,15 +144,15 @@ minetest.register_node("techage:ta3_funnel", {
 		end
 		
 		local meta = M(pos)
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		if fields.state_button ~= nil then
-			if mem.running then
-				stop_node(pos, mem)
+			if nvm.running then
+				stop_node(pos, nvm)
 			else
-				start_node(pos, mem)
+				start_node(pos, nvm)
 			end
 		end
-		meta:set_string("formspec", formspec(mem))
+		meta:set_string("formspec", formspec(nvm))
 	end,
 	
 	can_dig = function(pos, player)
@@ -165,7 +165,7 @@ minetest.register_node("techage:ta3_funnel", {
 
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
+		techage.del_nem(pos)
 	end,
 	
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
@@ -194,28 +194,28 @@ techage.register_node({"techage:ta3_funnel"}, {
 		end
 	end,
 	on_recv_message = function(pos, src, topic, payload)
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		if topic == "state" then
-			if mem.running then
+			if nvm.running then
 				return "running"
 			else
 				return "stopped"
 			end
 		elseif topic == "on" then
-			if not mem.running then
-				start_node(pos, mem)
+			if not nvm.running then
+				start_node(pos, nvm)
 			end
 		elseif topic == "off" then
-			if mem.running then
-				stop_node(pos, mem)
+			if nvm.running then
+				stop_node(pos, nvm)
 			end
 		else
 			return "unsupported"
 		end
 	end,
 	on_node_load = function(pos)
-		local mem = tubelib2.get_mem(pos)
-		if mem.running then
+		local nvm = techage.get_nvm(pos)
+		if nvm.running then
 			minetest.get_node_timer(pos):start(CYCLE_TIME)
 		end
 	end,

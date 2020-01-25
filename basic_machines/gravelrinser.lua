@@ -25,7 +25,7 @@ local CYCLE_TIME = 4
 
 local Probability = {}
 
-local function formspec(self, pos, mem)
+local function formspec(self, pos, nvm)
 	return "size[8,8]"..
 	default.gui_bg..
 	default.gui_bg_img..
@@ -33,9 +33,10 @@ local function formspec(self, pos, mem)
 	"list[context;src;0,0;3,3;]"..
 	"item_image[0,0;1,1;default:gravel]"..
 	"image[0,0;1,1;techage_form_mask.png]"..
-	"image[3.5,0;1,1;"..techage.get_power_image(pos, mem).."]"..
+	"image[3.5,0;1,1;"..techage.get_power_image(pos, nvm).."]"..
 	"image[3.5,1;1,1;techage_form_arrow.png]"..
-	"image_button[3.5,2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
+	"image_button[3.5,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
+	"tooltip[3.5,2;1,1;"..self:get_state_tooltip(nvm).."]"..
 	"list[context;dst;5,0;3,3;]"..
 	"list[current_player;main;0,4;8,4;]"..
 	"listring[context;dst]"..
@@ -101,11 +102,13 @@ local function determine_water_dir(pos)
 end
 
 local function set_velocity(obj, pos, vel)
-	obj:set_acceleration({x = 0, y = 0, z = 0})
-	local p = obj:get_pos()
-	if p then
-		obj:set_pos({x=p.x, y=p.y-0.3, z=p.z})
-		obj:set_velocity(vel)
+	if obj then
+		obj:set_acceleration({x = 0, y = 0, z = 0})
+		local p = obj:get_pos()
+		if p then
+			obj:set_pos({x=p.x, y=p.y-0.3, z=p.z})
+			obj:set_velocity(vel)
+		end
 	end
 end
 
@@ -126,12 +129,12 @@ local function get_random_gravel_ore()
 	end
 end
 
-local function washing(pos, crd, mem, inv)
+local function washing(pos, crd, nvm, inv)
 	-- for testing purposes
 	if inv:contains_item("src", ItemStack("default:stick")) then
 		add_object({x=pos.x, y=pos.y+1, z=pos.z}, "default:stick")
 		inv:remove_item("src", ItemStack("default:stick"))
-		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 		return
 	end
 	
@@ -143,32 +146,32 @@ local function washing(pos, crd, mem, inv)
 			add_object({x=pos.x, y=pos.y+1, z=pos.z}, ore)
 		end
 	else
-		crd.State:idle(pos, mem)
+		crd.State:idle(pos, nvm)
 		return
 	end
 	if not inv:room_for_item("dst", dst) then
-		crd.State:idle(pos, mem)
+		crd.State:idle(pos, nvm)
 		return
 	end
 	inv:add_item("dst", dst)
 	inv:remove_item("src", src)
-	crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+	crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 end
 
 local function keep_running(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
 	local inv = M(pos):get_inventory()
-	washing(pos, crd, mem, inv)
-	return crd.State:is_active(mem)
+	washing(pos, crd, nvm, inv)
+	return crd.State:is_active(nvm)
 end
 
 local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	local mem = tubelib2.get_mem(pos)
-	CRD(pos).State:state_button_event(pos, mem, fields)
+	local nvm = techage.get_nvm(pos)
+	CRD(pos).State:state_button_event(pos, nvm, fields)
 end
 
 local function can_dig(pos, player)
@@ -346,6 +349,6 @@ minetest.register_lbm({
 })
 
 
-techage.add_rinser_recipe({input="techage:sieved_gravel", output="techage:usmium_nuggets", probability=40})
-techage.add_rinser_recipe({input="techage:sieved_gravel", output="default:copper_lump", probability=20})
+techage.add_rinser_recipe({input="techage:sieved_gravel", output="techage:usmium_nuggets", probability=30})
+techage.add_rinser_recipe({input="techage:sieved_gravel", output="default:copper_lump", probability=15})
 
