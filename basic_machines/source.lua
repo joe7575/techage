@@ -115,6 +115,7 @@ local State4 = techage.NodeStates:new({
 })
 
 local function node_timer2(pos, elapsed)
+	--print("node_timer2")
 	local nvm = techage.get_nvm(pos)
 	local outdir = M(pos):get_int("outdir")
 	nvm.provided = power.generator_alive(pos, Axle, CYCLE_TIME, outdir)
@@ -125,6 +126,7 @@ local function node_timer2(pos, elapsed)
 end
 
 local function node_timer3(pos, elapsed)
+	--print("node_timer3")
 	local nvm = techage.get_nvm(pos)
 	local outdir = M(pos):get_int("outdir")
 	nvm.provided = power.generator_alive(pos, Pipe, CYCLE_TIME, outdir)
@@ -135,6 +137,7 @@ local function node_timer3(pos, elapsed)
 end
 
 local function node_timer4(pos, elapsed)
+	--print("node_timer4")
 	local nvm = techage.get_nvm(pos)
 	local outdir = M(pos):get_int("outdir")
 	nvm.provided = power.generator_alive(pos, Cable, CYCLE_TIME, outdir)

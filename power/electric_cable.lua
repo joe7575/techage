@@ -18,6 +18,8 @@ local P2S = minetest.pos_to_string
 local M = minetest.get_meta
 local S = techage.S
 
+local power = techage.power
+
 local ELE1_MAX_CABLE_LENGHT = 1000
 
 local Cable = tubelib2.Tube:new({
@@ -27,12 +29,16 @@ local Cable = tubelib2.Tube:new({
 	tube_type = "ele1",
 	primary_node_names = {"techage:electric_cableS", "techage:electric_cableA",
 		"techage:power_line", "techage:power_lineS", "techage:power_lineA", 
-		"techage:power_pole2"},
+		"techage:power_pole2", "techage:powerswitch_box"},
 	secondary_node_names = {},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
 		-- Handle "power line" nodes
 		local name = minetest.get_node(pos).name
 		if name == "techage:power_pole2" then
+			M(pos):set_int("tl2_param2", param2)
+			return
+		elseif name == "techage:powerswitch_box" then
+			minetest.swap_node(pos, {name = "techage:powerswitch_box", param2 = param2})
 			M(pos):set_int("tl2_param2", param2)
 			return
 		elseif name == "techage:power_line" or name == "techage:power_lineS" or name == "techage:power_lineA" then
@@ -156,6 +162,11 @@ minetest.register_node("techage:electric_cableA", {
 	sounds = default.node_sound_defaults(),
 	drop = "techage:electric_cableS",
 })
+
+-- only needed for hidden nodes, cause they don't have a tubelib2_on_update2 callback
+Cable:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir)
+	power.update_network(pos, nil, Cable)
+end)
 
 minetest.register_craft({
 	output = "techage:electric_cableS 6",

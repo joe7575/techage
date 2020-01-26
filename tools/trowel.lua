@@ -102,7 +102,7 @@ minetest.register_on_dignode(function(pos, oldnode, digger)
 		techage.ElectricCable:after_dig_node(pos, oldnode, digger)
 		--techage.BiogasPipe:after_dig_node(pos, oldnode, digger)
 		-- probably a hidden node with mem data
-		tubelib2.del_mem(pos)
+		techage.del_mem(pos)
 	else
 		-- store pos for other tools without own 'register_on_dignode'
 		techage.dug_node[digger:get_player_name()] = pos

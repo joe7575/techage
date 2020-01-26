@@ -50,7 +50,7 @@ local function output(network, valid)
 			tbl[#tbl+1] = count_nodes(ntype, table)
 		end
 	end
-	--print("Network ("..valid.."): "..table.concat(tbl, ", "))
+	print("Network ("..valid.."): "..table.concat(tbl, ", "))
 end
 
 local function hidden_node(pos, net_name)
@@ -141,13 +141,13 @@ local function node_connections(pos, tlib2)
 	local val = 0
 	local ndef = net_def2(pos, node.name, tlib2.tube_type)
 	local sides = ndef.sides or ndef.get_sides and ndef.get_sides(pos, node)
-	print("node_connections", node.name, dump(sides))
+	--print("node_connections", node.name, dump(sides))
 	if sides then
 		for dir = 1,6 do
 			val = val * 2
 			local side = DirToSide[outdir_to_dir(dir, node.param2)]
 			if sides[side] then
-				print(side, sides[side], P2S(pos), dir, connected(tlib2, pos, dir))
+				--print(side, sides[side], P2S(pos), dir, connected(tlib2, pos, dir))
 				if connected(tlib2, pos, dir) then
 					techage.mark_side("singleplayer", pos, dir, "node_connections", "", 1)--------------------
 					val = val + 1
@@ -249,7 +249,7 @@ local function remove_outdated_networks()
 	for net_name,tbl in pairs(Networks) do
 		for netID,network in pairs(tbl) do
 			local valid = (network.best_before or 0) - t
-			output(network, valid)
+			--output(network, valid)
 			if valid < 0 then
 				to_be_deleted[#to_be_deleted+1] = {net_name, netID}
 			end
@@ -294,11 +294,9 @@ function techage.networks.connection_walk(pos, outdir, tlib2, clbk)
 	return NumNodes
 end
 
-function techage.networks.get_network(tube_type, netID)
-	if Networks[tube_type] and Networks[tube_type][netID] then
-		Networks[tube_type][netID].best_before = minetest.get_gametime() + BEST_BEFORE
-		return Networks[tube_type][netID]
-	end
+-- return network without maintainting the "alive" data
+function techage.networks.peek_network(tube_type, netID)
+	return Networks[tube_type] and Networks[tube_type][netID]
 end
 
 function techage.networks.set_network(tube_type, netID, network)
@@ -316,39 +314,31 @@ end
 -- Power API
 --
 function techage.networks.has_network(tube_type, netID)
-	local netw = Networks[tube_type] and Networks[tube_type][netID]
-	if netw then
-		netw.alive = 1
-		netw.best_before = minetest.get_gametime() + BEST_BEFORE
-		return netw
-	end
+	return Networks[tube_type] and Networks[tube_type][netID]
 end
 
 function techage.networks.build_network(pos, outdir, tlib2, netID)
 	local netw = collect_network_nodes(pos, outdir, tlib2)
 	Networks[tlib2.tube_type] = Networks[tlib2.tube_type] or {}
 	Networks[tlib2.tube_type][netID] = netw
-	netw.alive = 1
+	netw.alive = 3
 	techage.schedule.start(tlib2.tube_type, netID)
 end
 	
-function techage.networks.delete_network(tube_type, netID)
-	if Networks[tube_type] then
-		Networks[tube_type][netID] = nil
+function techage.networks.get_network(tube_type, netID)
+	local netw = Networks[tube_type] and Networks[tube_type][netID]
+	if netw then
+		netw.alive = 3 -- monitored by scheduler (power)
+		netw.best_before = minetest.get_gametime() + BEST_BEFORE  -- monitored by networks (liquids)
+		return netw
 	end
 end
-	
+
 function techage.networks.delete_network(tube_type, netID)
 	if Networks[tube_type] and Networks[tube_type][netID] then
 		Networks[tube_type][netID] = nil
 	end
 end
-
---function techage.networks.connections(pos, tlib2)
---	for _,dir in ipairs(get_node_connections(pos, tlib2.tube_type)) do
---		print(({"North", "East", "South", "West", "Down", "Up"})[dir])
---	end
---end
 
 -- Get node tubelib2 connections as table of outdirs
 -- techage.networks.get_node_connections(pos, net_name)

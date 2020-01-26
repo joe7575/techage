@@ -53,7 +53,8 @@ local function store_netID(pos, outdir, netID, Cable)
 		--print(node.name, dump(net_def(pos, Cable.tube_type)))
 		if net_def(pos, Cable.tube_type) then
 			local nvm = techage.get_nvm(pos)
-			nvm[Cable.tube_type.."_netID"] = netID
+			nvm[Cable.tube_type] = nvm[Cable.tube_type] or {}
+			nvm[Cable.tube_type]["netID"] = netID
 		end
 	end)
 end
@@ -65,9 +66,9 @@ local function delete_netID(pos, outdir, Cable)
 		techage.mark_position("singleplayer", pos, "delete", "", 2)----------------------------------------
 		if net_def(pos, Cable.tube_type) then
 			local nvm = techage.get_nvm(pos)
-			if nvm[Cable.tube_type.."_netID"] then
-				netID = nvm[Cable.tube_type.."_netID"]
-				nvm[Cable.tube_type.."_netID"] = nil
+			if nvm[Cable.tube_type] and nvm[Cable.tube_type]["netID"] then
+				netID = nvm[Cable.tube_type]["netID"]
+				nvm[Cable.tube_type]["netID"] = nil
 			end
 		end
 	end)
@@ -77,13 +78,13 @@ end
 -- Keep the network up and running
 local function trigger_network(pos, outdir, Cable)
 	local nvm = techage.get_nvm(pos)
-	local netID = nvm[Cable.tube_type.."_netID"]
+	local netID = nvm[Cable.tube_type] and nvm[Cable.tube_type]["netID"]
 	if not netID then
 		print("determine_netID !!!!!!!!!!!!!!!!!!!!")
 		netID = determine_netID(pos, outdir, Cable)
 		store_netID(pos, outdir, netID, Cable)
 		networks.build_network(pos, outdir, Cable, netID)
-	elseif not networks.has_network(Cable.tube_type, netID) then
+	elseif not networks.get_network(Cable.tube_type, netID) then
 		print("build_network !!!!!!!!!!!!!!!!!!!!")
 		networks.build_network(pos, outdir, Cable, netID)
 	end
@@ -104,54 +105,50 @@ end
 
 -- check if there is a living network
 function techage.power.power_available(pos, Cable)
---	for _,outdir in ipairs(techage.networks.get_node_connections(pos, Cable.tube_type)) do
---		-- generator visible?
---		if determine_netID(pos, outdir, Cable) > 0 then return true end
---	end
 	local nvm = techage.get_nvm(pos)
 	local tlib_type = Cable.tube_type
-	return networks.has_network(tlib_type, nvm[tlib_type.."_netID"])
---	local mem = techage.get_mem(pos)
---	local tlib_type = Cable.tube_type
---	local netID = nvm[tlib_type.."_netID"]
---	local netw = techage.networks.get_network(tlib_type, netID)
---	if netw then -- network available
---		if not mem.new_ticker or mem.new_ticker ~= netw.ticker then
---			mem.new_ticker = netw.ticker
---			return true
---		end
---	return false
---	end
+	local netID = nvm[Cable.tube_type] and nvm[Cable.tube_type]["netID"]
+	return networks.has_network(tlib_type, netID)
 end
 
 -- this is more a try to start, the start will be performed by on_power()
 function techage.power.consumer_start(pos, Cable, cycle_time)
 	local nvm = techage.get_nvm(pos)
 	local tlib_type = Cable.tube_type
-	nvm[tlib_type.."_calive"] = (cycle_time / 2) + 1
-	nvm[tlib_type.."_cstate"] = NOPOWER
-	nvm[tlib_type.."_taken"] = 0
+	nvm[tlib_type] = nvm[tlib_type] or {}
+	nvm[tlib_type]["calive"] = (cycle_time / 2) + 1
+	nvm[tlib_type]["cstate"] = NOPOWER
+	nvm[tlib_type]["taken"] = 0
 end
 
 function techage.power.consumer_stop(pos, Cable)
 	local nvm = techage.get_nvm(pos)
 	local tlib_type = Cable.tube_type
-	nvm[tlib_type.."_calive"] = 0
-	nvm[tlib_type.."_cstate"] = STOPPED
-	nvm[tlib_type.."_taken"] = 0
+	nvm[tlib_type] = nvm[tlib_type] or {}
+	nvm[tlib_type]["calive"] = 0
+	nvm[tlib_type]["cstate"] = STOPPED
+	nvm[tlib_type]["taken"] = 0
 end
 
 function techage.power.consumer_alive(pos, Cable, cycle_time)
 	local nvm = techage.get_nvm(pos)
-	local tlib_type = Cable.tube_type
-	if nvm[tlib_type.."_netID"] then -- network available
-		nvm[tlib_type.."_calive"] = (cycle_time / 2) + 1
-	elseif nvm[tlib_type.."_cstate"] == RUNNING then
-		local ndef = net_def(pos, tlib_type)
-		ndef.on_nopower(pos)
-		nvm[tlib_type.."_cstate"] = NOPOWER
+	local def = nvm[Cable.tube_type] -- power related network data
+	if def then
+		local rv = (cycle_time / 2) + 1
+		if def["netID"] and def["calive"] and def["calive"] < rv then -- network available
+			def["calive"] = rv
+		elseif not def["cstate"] or def["cstate"] == RUNNING then
+			local ndef = net_def(pos, Cable.tube_type)
+			ndef.on_nopower(pos, Cable.tube_type)
+			def["cstate"] = NOPOWER
+			return 0
+		end
+		return def["taken"] or 0
+	else
+		local ndef = net_def(pos, Cable.tube_type)
+		ndef.on_nopower(pos, Cable.tube_type)
 	end
-	return nvm[tlib_type.."_taken"] or 0
+	return 0
 end
 
 --
@@ -160,26 +157,31 @@ end
 function techage.power.generator_start(pos, Cable, cycle_time, outdir)
 	local nvm = techage.get_nvm(pos)
 	local tlib_type = Cable.tube_type
-	nvm[tlib_type.."_galive"] = (cycle_time / 2) + 2
-	nvm[tlib_type.."_gstate"] = RUNNING
-	nvm[tlib_type.."_given"] = 0
+	nvm[tlib_type] = nvm[tlib_type] or {}
+	nvm[tlib_type]["galive"] = (cycle_time / 2) + 2
+	nvm[tlib_type]["gstate"] = RUNNING
+	nvm[tlib_type]["given"] = 0
 	trigger_network(pos, outdir, Cable)
 end
 
 function techage.power.generator_stop(pos, Cable, outdir)
 	local nvm = techage.get_nvm(pos)
 	local tlib_type = Cable.tube_type
-	nvm[tlib_type.."_galive"] = 0
-	nvm[tlib_type.."_gstate"] = STOPPED
-	nvm[tlib_type.."_given"] = 0
+	nvm[tlib_type] = nvm[tlib_type] or {}
+	nvm[tlib_type]["galive"] = 0
+	nvm[tlib_type]["gstate"] = STOPPED
+	nvm[tlib_type]["given"] = 0
 end
 
 function techage.power.generator_alive(pos, Cable, cycle_time, outdir)
 	local nvm = techage.get_nvm(pos)
-	local tlib_type = Cable.tube_type
-	trigger_network(pos, outdir, Cable)
-	nvm[tlib_type.."_galive"] = (cycle_time / 2) + 2
-	return nvm[tlib_type.."_given"] or 0
+	local def = nvm[Cable.tube_type] -- power related network data
+	if def then
+		trigger_network(pos, outdir, Cable)
+		def["galive"] = (cycle_time / 2) + 2
+		return def["given"] or 0
+	end
+	return 0
 end
 
 -- function delete_netID(pos, outdir, Cable)

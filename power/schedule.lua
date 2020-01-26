@@ -48,21 +48,14 @@ local function pop()
 	end
 end
 
-local function power_distribution(network, tlib_type)
-	local t = minetest.get_us_time()
-	power.power_distribution(network, tlib_type, techage.SystemTime)
-	t = minetest.get_us_time() - t
-	--print("t = "..t..", #jobs = "..(last + 1 - first))
-end
-
 -- Scheduler
 minetest.register_globalstep(function(dtime)
 	techage.SystemTime = techage.SystemTime + dtime
 	local item = pop()
 	while item do
-		local network = networks.get_network(item.tube_type, item.netID)
+		local network = networks.peek_network(item.tube_type, item.netID)
 		if network and network.alive and network.alive >= 0 then
-			power_distribution(network, item.tube_type)
+			power.power_distribution(network, item.tube_type)
 			network.alive = network.alive - 1
 			push(item)
 		else

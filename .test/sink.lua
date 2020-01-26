@@ -33,13 +33,13 @@ local function swap_node(pos, name)
 end
 
 local function on_power(pos)
-	print("on_power sink "..P2S(pos))
+	--print("on_power sink "..P2S(pos))
 	swap_node(pos, "techage:sink_on")
 	M(pos):set_string("infotext", "on")
 end
 
 local function on_nopower(pos)
-	print("on_nopower sink "..P2S(pos))
+	--print("on_nopower sink "..P2S(pos))
 	swap_node(pos, "techage:sink")
 	M(pos):set_string("infotext", "off")
 end
@@ -48,13 +48,6 @@ local function node_timer(pos, elapsed)
 	--print("node_timer sink "..P2S(pos))
 	local nvm = techage.get_nvm(pos)
 	power.consumer_alive(pos, Cable, CYCLE_TIME)
---	if not techage.power.power_available(pos, Cable) then
---		nvm.running = false
---		swap_node(pos, "techage:sink")
---		power.consumer_stop(pos, Cable)
---		minetest.get_node_timer(pos):stop()
---		M(pos):set_string("infotext", "off")
---	end
 	return true
 end
 

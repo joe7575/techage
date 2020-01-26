@@ -20,7 +20,7 @@ local networks = techage.networks
 local Cable = techage.ElectricCable
 local power = techage.power
 
--- Primary techage.ElectricCable node
+-- legacy node
 minetest.register_node("techage:power_line", {
 	description = S("TA Power Line"),
 	tiles = {"techage_power_line.png"},
@@ -61,6 +61,7 @@ minetest.register_node("techage:power_line", {
 	sounds = default.node_sound_defaults(),
 })
 
+-- new nodes lineS/lineA
 minetest.register_node("techage:power_lineS", {
 	description = S("TA Power Line"),
 	tiles = {"techage_power_line.png"},

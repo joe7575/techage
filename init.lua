@@ -57,6 +57,7 @@ else
 	dofile(MP.."/power/junctionbox.lua")
 	dofile(MP.."/power/power_terminal.lua")
 	dofile(MP.."/power/powerswitchbox.lua")
+	dofile(MP.."/power/powerswitch.lua")
 	dofile(MP.."/power/protection.lua")
 	dofile(MP.."/power/power_line.lua")
 	
@@ -67,7 +68,6 @@ else
 	--dofile(MP.."/power/power2.lua")
 	--dofile(MP.."/power/junction.lua") 
 	--dofile(MP.."/power/junctionbox.lua")
-	--dofile(MP.."/power/powerswitch.lua")
 	--dofile(MP.."/power/ta4_cable.lua")
 
 	-- Iron Age
