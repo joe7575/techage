@@ -23,17 +23,17 @@ local liquid = techage.liquid
 local PWR_NEEDED = 8
 local CYCLE_TIME = 4
 
-local function on_power(pos, mem)
-	if mem.running then
+local function on_power(pos, nvm)
+	if nvm.running then
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		M(pos):set_string("infotext", S("on"))
-		mem.has_power = true
+		nvm.has_power = true
 	end
 end
 
-local function on_nopower(pos, mem)
+local function on_nopower(pos, nvm)
 	M(pos):set_string("infotext", S("no power"))
-	mem.has_power = false
+	nvm.has_power = false
 end
 
 minetest.register_node("techage:ta4_reactor_stand", {
@@ -70,7 +70,7 @@ minetest.register_node("techage:ta4_reactor_stand", {
 	},
 	
 	after_place_node = function(pos, placer)
-		local mem = tubelib2.init_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		techage.power.after_place_node(pos)
 		M(pos):set_string("infotext", S("off"))
 		M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
@@ -83,18 +83,18 @@ minetest.register_node("techage:ta4_reactor_stand", {
 		techage.power.after_tube_update2(node, pos, out_dir, peer_pos, peer_in_dir)
 	end,
 	on_timer = function(pos, elapsed)
-		local mem = tubelib2.get_mem(pos)
-		power.consumer_alive(pos, mem)
+		local nvm = techage.get_nvm(pos)
+		power.consumer_alive(pos, nvm)
 		minetest.sound_play("techage_reactor", {
 				pos = pos, 
 				gain = 0.5,
 				max_hear_distance = 10})
-		return mem.running
+		return nvm.running
 	end,
 	after_dig_node = function(pos, oldnode)
 		techage.power.after_dig_node(pos, oldnode)
 		Pipe:after_dig_node(pos)
-		tubelib2.del_mem(pos)
+		techage.del_mem(pos)
 	end,
 	
 	paramtype = "light",
@@ -105,7 +105,7 @@ minetest.register_node("techage:ta4_reactor_stand", {
 	sounds = default.node_sound_metal_defaults(),
 	-- Pipe connection
 	networks = {
-		pipe = {
+		pipe2 = {
 			sides = {R=1}, 
 			ntype = "pump",
 		},
@@ -124,25 +124,25 @@ techage.power.enrich_node({"techage:ta4_reactor_stand"}, {
 techage.register_node({"techage:ta4_reactor_stand"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		--print(topic, dump(payload))
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		if topic == "power" then
-			--print("power", mem.has_power)
-			return mem.has_power or power.power_available(pos, mem, 0)
+			--print("power", nvm.has_power)
+			return nvm.has_power or power.power_available(pos, Cable)
 		elseif topic == "output" then
 			local outdir = M(pos):get_int("outdir")
 			return liquid.put(pos, outdir, payload.name, payload.amount, payload.player_name)
 		elseif topic == "can_start" then
-			return power.power_available(pos, mem, 0)
+			return power.power_available(pos, Cable)
 		elseif topic == "start" and payload then
-			mem.running = true
-			mem.has_power = false
-			power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
+			nvm.running = true
+			nvm.has_power = false
+			power.consumer_start(pos, Cable, CYCLE_TIME)
 			M(pos):set_string("infotext", "...")
 			return true
 		elseif topic == "stop" then
-			mem.running = false
-			mem.has_power = false
-			power.consumer_stop(pos, mem)
+			nvm.running = false
+			nvm.has_power = false
+			power.consumer_stop(pos, Cable)
 			minetest.get_node_timer(pos):stop()
 			M(pos):set_string("infotext", S("off"))
 			return true
@@ -180,7 +180,7 @@ minetest.register_node("techage:ta4_reactor_base", {
 	sounds = default.node_sound_stone_defaults(),
 
 	networks = {
-		pipe = {
+		pipe2 = {
 			sides = {R=1}, -- Pipe connection sides
 			ntype = "pump",
 		},

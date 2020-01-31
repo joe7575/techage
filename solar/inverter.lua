@@ -25,41 +25,41 @@ local power = techage.power
 local CYCLE_TIME = 2
 local PWR_PERF = 100
 
-local function determine_power(pos, mem)
+local function determine_power(pos, nvm)
 	-- determine DC node position
 	local dir = M(pos):get_int("left_dir")
-	local pos1 = tubelib2.get_pos(pos, dir)
+	local pos1 = techage.get_pos(pos, dir)
 	local max_power, num_inverter = power.get_power(pos1, "techage:ta4_solar_inverterDC")
 	if num_inverter == 1 then
-		mem.max_power = math.min(PWR_PERF, max_power)
+		nvm.max_power = math.min(PWR_PERF, max_power)
 	else
-		mem.max_power = 0
+		nvm.max_power = 0
 	end
 	return max_power, num_inverter
 end
 
-local function determine_power_from_time_to_time(pos, mem)
+local function determine_power_from_time_to_time(pos, nvm)
 	local time = minetest.get_timeofday() or 0
 	if time < 6.00/24.00 or time > 18.00/24.00 then
-		mem.ticks = 0
-		mem.max_power = 0
-		power.generator_update(pos, mem, mem.max_power)
+		nvm.ticks = 0
+		nvm.max_power = 0
+		power.generator_update(pos, nvm, nvm.max_power)
 		return
 	end
-	mem.ticks = mem.ticks or 0
-	if (mem.ticks % 10) == 0 then -- calculate max_power not to often
-		determine_power(pos, mem)
-		power.generator_update(pos, mem, mem.max_power)
+	nvm.ticks = nvm.ticks or 0
+	if (nvm.ticks % 10) == 0 then -- calculate max_power not to often
+		determine_power(pos, nvm)
+		power.generator_update(pos, nvm, nvm.max_power)
 	else
-		mem.max_power = mem.max_power or 0
+		nvm.max_power = nvm.max_power or 0
 	end
-	mem.ticks = mem.ticks + 1
+	nvm.ticks = nvm.ticks + 1
 end
 
-local function formspec(self, pos, mem)
-	determine_power(pos, mem)
-	local max_power = mem.max_power or 0
-	local delivered = mem.delivered or 0
+local function formspec(self, pos, nvm)
+	determine_power(pos, nvm)
+	local max_power = nvm.max_power or 0
+	local delivered = nvm.delivered or 0
 	local bar_in = techage.power.formspec_power_bar(max_power, max_power)
 	local bar_out = techage.power.formspec_power_bar(max_power, delivered)
 	return "size[5,3]"..
@@ -70,30 +70,30 @@ local function formspec(self, pos, mem)
 		"image[0,0.5;1,2;"..bar_in.."]"..
 		"label[0,2.5;"..max_power.." ku]"..
 		"button[1.1,1;1.8,1;update;"..S("Update").."]"..
-		"image_button[3,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
+		"image_button[3,1;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 		"label[4.2,0;AC]"..
 		"image[4,0.5;1,2;"..bar_out.."]"..
 		"label[4,2.5;"..delivered.." ku]"
 end
 
-local function can_start(pos, mem, state)
-	local max_power, num_inverter = determine_power(pos, mem)
+local function can_start(pos, nvm, state)
+	local max_power, num_inverter = determine_power(pos, nvm)
 	if num_inverter > 1 then return "solar network error" end
 	if max_power == 0 then return "no solar power" end
 	return true
 end
 
-local function start_node(pos, mem, state)
-	mem.running = true
-	mem.delivered = 0
-	mem.ticks = 0
-	power.generator_start(pos, mem, mem.max_power)
+local function start_node(pos, nvm, state)
+	nvm.running = true
+	nvm.delivered = 0
+	nvm.ticks = 0
+	power.generator_start(pos, nvm, nvm.max_power)
 end
 
-local function stop_node(pos, mem, state)
-	mem.running = false
-	mem.delivered = 0
-	power.generator_stop(pos, mem)
+local function stop_node(pos, nvm, state)
+	nvm.running = false
+	nvm.delivered = 0
+	power.generator_stop(pos, nvm)
 end
 
 local State = techage.NodeStates:new({
@@ -108,33 +108,33 @@ local State = techage.NodeStates:new({
 })
 
 local function node_timer(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	if mem.running then
-		determine_power(pos, mem)
-		if mem.max_power > 0 then
-			mem.delivered = power.generator_alive(pos, mem)
+	local nvm = techage.get_nvm(pos)
+	if nvm.running then
+		determine_power(pos, nvm)
+		if nvm.max_power > 0 then
+			nvm.delivered = power.generator_alive(pos, nvm)
 		else
-			mem.delivered = 0
+			nvm.delivered = 0
 		end
 	end
-	return mem.running
+	return nvm.running
 end
 
 local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	local mem = tubelib2.get_mem(pos)
-	State:state_button_event(pos, mem, fields)
+	local nvm = techage.get_nvm(pos)
+	State:state_button_event(pos, nvm, fields)
 	
 	if fields.update then
-		M(pos):set_string("formspec", formspec(State, pos, mem))
+		M(pos):set_string("formspec", formspec(State, pos, nvm))
 	end
 end
 
 local function on_rightclick(pos)
-	local mem = tubelib2.get_mem(pos)
-	M(pos):set_string("formspec", formspec(State, pos, mem))
+	local nvm = techage.get_nvm(pos)
+	M(pos):set_string("formspec", formspec(State, pos, nvm))
 end
 
 minetest.register_node("techage:ta4_solar_inverter", {
@@ -182,9 +182,9 @@ techage.power.register_node({"techage:ta4_solar_inverter"}, {
 		-- DC block direction
 		M(pos):set_int("left_dir", techage.power.side_to_outdir(pos, "L"))	
 		local number = techage.add_node(pos, "techage:ta4_solar_inverter")
-		local mem = tubelib2.init_mem(pos)
-		State:node_init(pos, mem, number)
-		M(pos):set_string("formspec", formspec(State, pos, mem))
+		local nvm = techage.get_nvm(pos)
+		State:node_init(pos, nvm, number)
+		M(pos):set_string("formspec", formspec(State, pos, nvm))
 		
 	end,
 })

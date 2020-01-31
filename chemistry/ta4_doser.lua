@@ -47,14 +47,14 @@ local function get_starter_name(pos)
 	end
 end
 
-local function formspec(self, pos, mem)
+local function formspec(self, pos, nvm)
 	return "size[8,7]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
-		recipes.formspec(0, 0, "ta4_doser", mem)..
-		"image_button[6,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
-		"tooltip[6,1;1,1;"..self:get_state_tooltip(mem).."]"..
+		recipes.formspec(0, 0, "ta4_doser", nvm)..
+		"image_button[6,1;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
+		"tooltip[6,1;1,1;"..self:get_state_tooltip(nvm).."]"..
 		"list[current_player;main;0,3.3;8,4;]" ..
 		default.get_hotbar_bg(0, 3.5)
 end
@@ -92,7 +92,7 @@ local function reactor_cmnd(pos, cmnd, payload)
 end
 
 
-local function can_start(pos, mem, state)
+local function can_start(pos, nvm, state)
 	-- check reactor
 	local res = reactor_cmnd(pos, "check")
 	if not res then
@@ -105,15 +105,15 @@ local function can_start(pos, mem, state)
 	return true
 end
 
-local function start_node(pos, mem, state)
+local function start_node(pos, nvm, state)
 	reactor_cmnd(pos, "start")
 	del_liquids(pos)
-	mem.running = true
+	nvm.running = true
 end
 
-local function stop_node(pos, mem, state)
+local function stop_node(pos, nvm, state)
 	reactor_cmnd(pos, "stop")
-	mem.running = false
+	nvm.running = false
 end
 
 local State = techage.NodeStates:new({
@@ -128,30 +128,30 @@ local State = techage.NodeStates:new({
 	stop_node = stop_node,
 })
 
-local function dosing(pos, mem, elapsed)
+local function dosing(pos, nvm, elapsed)
 	-- trigger reactor (power)
 	if not reactor_cmnd(pos, "power") then
-		if not mem.techage_countdown or mem.techage_countdown < 3 then
+		if not nvm.techage_countdown or nvm.techage_countdown < 3 then
 			reactor_cmnd(pos, "stop")
-			State:nopower(pos, mem, S("reactor has no power"))
+			State:nopower(pos, nvm, S("reactor has no power"))
 		end
-		State:idle(pos, mem)
+		State:idle(pos, nvm)
 		return
 	end
 	-- check from time to time
-	mem.check_cnt = (mem.check_cnt or 0) + 1
-	if mem.check_cnt >= 4 then
-		mem.check_cnt = 0
+	nvm.check_cnt = (nvm.check_cnt or 0) + 1
+	if nvm.check_cnt >= 4 then
+		nvm.check_cnt = 0
 		local res = reactor_cmnd(pos, "check")
 		if not res then
-			State:fault(pos, mem, S("reactor defect"))
+			State:fault(pos, nvm, S("reactor defect"))
 			reactor_cmnd(pos, "stop")
 			return
 		end
 	end
 	-- available liquids
 	local liquids = get_liquids(pos)
-	local recipe = recipes.get(mem, "ta4_doser")
+	local recipe = recipes.get(nvm, "ta4_doser")
 	if not liquids or not recipe then return end
 	-- inputs
 	local starter = get_starter_name(pos)
@@ -159,12 +159,12 @@ local function dosing(pos, mem, elapsed)
 		if item.name ~= "" then
 			local outdir = liquids[item.name]
 			if not outdir then
-				State:standby(pos, mem)
+				State:standby(pos, nvm)
 				reactor_cmnd(pos, "stop")
 				return
 			end
 			if liquid.take(pos, outdir, item.name, item.num, starter) < item.num then
-				State:standby(pos, mem)
+				State:standby(pos, nvm)
 				reactor_cmnd(pos, "stop")
 				return
 			end
@@ -176,7 +176,7 @@ local function dosing(pos, mem, elapsed)
 			name = recipe.output.name, 
 			amount = recipe.output.num})
 	if not leftover or (tonumber(leftover) or 1) > 0 then
-		State:blocked(pos, mem)
+		State:blocked(pos, nvm)
 		reactor_cmnd(pos, "stop")
 		return
 	end
@@ -185,23 +185,23 @@ local function dosing(pos, mem, elapsed)
 				name = recipe.waste.name, 
 				amount = recipe.waste.num})
 		if not leftover or (tonumber(leftover) or 1) > 0 then
-			State:blocked(pos, mem)
+			State:blocked(pos, nvm)
 			reactor_cmnd(pos, "stop")
 			return
 		end
 	end
-	State:keep_running(pos, mem, COUNTDOWN_TICKS)
+	State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 end	
 
 local function node_timer(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	dosing(pos, mem, elapsed)
-	return State:is_active(mem)
+	local nvm = techage.get_nvm(pos)
+	dosing(pos, nvm, elapsed)
+	return State:is_active(nvm)
 end	
 
 local function on_rightclick(pos)
-	local mem = tubelib2.get_mem(pos)
-	M(pos):set_string("formspec", formspec(State, pos, mem))
+	local nvm = techage.get_nvm(pos)
+	M(pos):set_string("formspec", formspec(State, pos, nvm))
 end
 
 local function on_receive_fields(pos, formname, fields, player)
@@ -209,17 +209,17 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	
-	local mem = tubelib2.get_mem(pos)
-	if not mem.running then	
+	local nvm = techage.get_nvm(pos)
+	if not nvm.running then	
 		recipes.on_receive_fields(pos, formname, fields, player)
 	end
 	set_starter_name(pos, player)
-	State:state_button_event(pos, mem, fields)
-	M(pos):set_string("formspec", formspec(State, pos, mem))
+	State:state_button_event(pos, nvm, fields)
+	M(pos):set_string("formspec", formspec(State, pos, nvm))
 end
 
 local nworks = {
-	pipe = {
+	pipe2 = {
 		sides = techage.networks.AllSides, -- Pipe connection sides
 		ntype = "pump",
 	},
@@ -237,13 +237,13 @@ minetest.register_node("techage:ta4_doser", {
 
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		local mem = tubelib2.init_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		local number = techage.add_node(pos, "techage:ta4_doser")
 		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
-		meta:set_string("formspec", formspec(State, pos, mem))
+		meta:set_string("formspec", formspec(State, pos, nvm))
 		meta:set_string("infotext", S("TA4 Doser").." "..number)
-		State:node_init(pos, mem, number)
+		State:node_init(pos, nvm, number)
 		Pipe:after_place_node(pos)
 	end,
 	tubelib2_on_update2 = function(pos, dir, tlib2, node)
@@ -253,7 +253,7 @@ minetest.register_node("techage:ta4_doser", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos)
 		Pipe:after_dig_node(pos)
-		tubelib2.del_mem(pos)
+		techage.del_mem(pos)
 	end,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,

@@ -49,7 +49,7 @@ local function start_node(pos, nvm, state)
 	nvm.needed = 0
 	local outdir = M(pos):get_int("outdir")
 	power.generator_start(pos, Cable, CYCLE_TIME, outdir)
-	power.consumer_start(pos, Cable, CYCLE_TIME, outdir)
+	power.consumer_start(pos, Cable, CYCLE_TIME)
 end
 
 local function stop_node(pos, nvm, state)
@@ -57,7 +57,7 @@ local function stop_node(pos, nvm, state)
 	nvm.needed = 0
 	local outdir = M(pos):get_int("outdir")
 	power.generator_stop(pos, Cable, outdir)
-	power.consumer_stop(pos, Cable, outdir)
+	power.consumer_stop(pos, Cable)
 end
 
 local State = techage.NodeStates:new({

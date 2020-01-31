@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -35,7 +35,7 @@ local ContainerDef = {}
 local function determine_netID(pos, outdir)
 	local netID = 0
 	networks.connection_walk(pos, outdir, Pipe, function(pos, indir, node)
-		local ntype = net_def(pos, "pipe").ntype
+		local ntype = net_def(pos, "pipe2").ntype
 		if ntype and ntype == "pump" then
 			local new = minetest.hash_node_position(pos) * 8 + outdir
 			if netID <= new then
@@ -49,13 +49,13 @@ end
 -- store network ID on each pump like node
 local function store_netID(pos, outdir, netID)
 	networks.connection_walk(pos, outdir, Pipe, function(pos, indir, node)
-		local ntype = net_def(pos, "pipe").ntype
+		local ntype = net_def(pos, "pipe2").ntype
 		if ntype and ntype == "pump" then
-			local mem = tubelib2.get_mem(pos)
+			local nvm = techage.get_nvm(pos)
 			local outdir = networks.Flip[indir]
-			mem.pipe = mem.pipe or {}
-			mem.pipe.netIDs = mem.pipe.netIDs or {}
-			mem.pipe.netIDs[outdir] = netID
+			nvm.pipe2 = nvm.pipe2 or {}
+			nvm.pipe2.netIDs = nvm.pipe2.netIDs or {}
+			nvm.pipe2.netIDs[outdir] = netID
 		end
 	end)
 end
@@ -64,13 +64,13 @@ end
 local function delete_netID(pos, outdir)
 	local netID = 0
 	networks.connection_walk(pos, outdir, Pipe, function(pos, indir, node)
-		local ntype = net_def(pos, "pipe").ntype
+		local ntype = net_def(pos, "pipe2").ntype
 		if ntype and ntype == "pump" then
-			local mem = tubelib2.get_mem(pos)
+			local nvm = techage.get_nvm(pos)
 			local outdir = networks.Flip[indir]
-			if mem.pipe and mem.pipe.netIDs and mem.pipe.netIDs[outdir] then
-				netID = mem.pipe.netIDs[outdir]
-				mem.pipe.netIDs[outdir] = nil
+			if nvm.pipe2 and nvm.pipe2.netIDs and nvm.pipe2.netIDs[outdir] then
+				netID = nvm.pipe2.netIDs[outdir]
+				nvm.pipe2.netIDs[outdir] = nil
 			end
 		end
 	end)
@@ -78,21 +78,21 @@ local function delete_netID(pos, outdir)
 end
 
 local function get_netID(pos, outdir)
-	local mem = tubelib2.get_mem(pos)
-	if not mem.pipe or not mem.pipe.netIDs or not mem.pipe.netIDs[outdir] then
+	local nvm = techage.get_nvm(pos)
+	if not nvm.pipe2 or not nvm.pipe2.netIDs or not nvm.pipe2.netIDs[outdir] then
 		local netID = determine_netID(pos, outdir)
 		store_netID(pos, outdir, netID)
 	end
-	return mem.pipe and mem.pipe.netIDs and mem.pipe.netIDs[outdir]
+	return nvm.pipe2 and nvm.pipe2.netIDs and nvm.pipe2.netIDs[outdir]
 end
 
 local function get_network_table(pos, outdir, ntype)
 	local netID = get_netID(pos, outdir)
 	if netID then
-		local netw = networks.get_network("pipe", netID)
+		local netw = networks.get_network("pipe2", netID)
 		if not netw then
 			netw = networks.collect_network_nodes(pos, outdir, Pipe)
-			networks.set_network("pipe", netID, netw)
+			networks.set_network("pipe2", netID, netw)
 		end
 		local s = minetest.pos_to_string(minetest.get_position_from_hash(netID))
 		--print("netw", string.format("%012X", netID),  s, dump(netw))
@@ -165,28 +165,28 @@ end
 --
 
 function techage.liquid.srv_peek(pos, indir)
-	local mem = tubelib2.get_mem(pos)
-	mem.liquid = mem.liquid or {}
-	return mem.liquid.name
+	local nvm = techage.get_nvm(pos)
+	nvm.liquid = nvm.liquid or {}
+	return nvm.liquid.name
 end
 
 function techage.liquid.srv_put(pos, indir, name, amount)
-	local mem = tubelib2.get_mem(pos)
-	mem.liquid = mem.liquid or {}
+	local nvm = techage.get_nvm(pos)
+	nvm.liquid = nvm.liquid or {}
 	amount = amount or 0
-	if not mem.liquid.name then
-		mem.liquid.name = name
-		mem.liquid.amount = amount
+	if not nvm.liquid.name then
+		nvm.liquid.name = name
+		nvm.liquid.amount = amount
 		return 0
-	elseif mem.liquid.name == name then
-		mem.liquid.amount = mem.liquid.amount or 0
+	elseif nvm.liquid.name == name then
+		nvm.liquid.amount = nvm.liquid.amount or 0
 		local capa = LQD(pos).capa
-		if mem.liquid.amount + amount <= capa then
-			mem.liquid.amount = mem.liquid.amount + amount
+		if nvm.liquid.amount + amount <= capa then
+			nvm.liquid.amount = nvm.liquid.amount + amount
 			return 0
 		else
-			local rest = mem.liquid.amount + amount - capa
-			mem.liquid.amount = capa
+			local rest = nvm.liquid.amount + amount - capa
+			nvm.liquid.amount = capa
 			return rest
 		end
 	end
@@ -194,20 +194,20 @@ function techage.liquid.srv_put(pos, indir, name, amount)
 end
 
 function techage.liquid.srv_take(pos, indir, name, amount)
-	local mem = tubelib2.get_mem(pos)
-	mem.liquid = mem.liquid or {}
+	local nvm = techage.get_nvm(pos)
+	nvm.liquid = nvm.liquid or {}
 	amount = amount or 0
-	if not name or mem.liquid.name == name then
-		name = mem.liquid.name
-		mem.liquid.amount = mem.liquid.amount or 0
-		if mem.liquid.amount > amount then
-			mem.liquid.amount = mem.liquid.amount - amount
+	if not name or nvm.liquid.name == name then
+		name = nvm.liquid.name
+		nvm.liquid.amount = nvm.liquid.amount or 0
+		if nvm.liquid.amount > amount then
+			nvm.liquid.amount = nvm.liquid.amount - amount
 			return amount, name
 		else 
-			local rest = mem.liquid.amount
-			local name = mem.liquid.name
-			mem.liquid.amount = 0
-			mem.liquid.name = nil
+			local rest = nvm.liquid.amount
+			local name = nvm.liquid.name
+			nvm.liquid.amount = 0
+			nvm.liquid.name = nil
 			return rest, name
 		end
 	end

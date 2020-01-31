@@ -32,11 +32,11 @@ end
 
 -- to detect the missing turbine
 local function node_timer(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	mem.remote_trigger = (mem.remote_trigger or 0) - 1
-	if mem.remote_trigger <= 0 then
+	local nvm = techage.get_nvm(pos)
+	nvm.remote_trigger = (nvm.remote_trigger or 0) - 1
+	if nvm.remote_trigger <= 0 then
 		swap_node(pos, "techage:ta4_generator")
-		mem.running = false
+		nvm.running = false
 	end
 	return true
 end
@@ -118,9 +118,9 @@ techage.power.register_node({"techage:ta4_generator", "techage:ta4_generator_on"
 	conn_sides = {"R"},
 	power_network = Cable,
 	after_place_node = function(pos, placer)
-		local mem = tubelib2.init_mem(pos)
-		mem.running = false
-		mem.remote_trigger = 0
+		local nvm = techage.get_nvm(pos)
+		nvm.running = false
+		nvm.remote_trigger = 0
 	end,
 
 })
@@ -128,24 +128,24 @@ techage.power.register_node({"techage:ta4_generator", "techage:ta4_generator_on"
 -- controlled by the turbine
 techage.register_node({"techage:ta4_generator", "techage:ta4_generator_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		if topic == "power" then
-			mem.remote_trigger = 2
+			nvm.remote_trigger = 2
 			return techage.power.power_network_available(pos)
 		elseif topic == "start" then
-			mem.remote_trigger = 2
+			nvm.remote_trigger = 2
 			swap_node(pos, "techage:ta4_generator_on")
-			mem.running = true
+			nvm.running = true
 			minetest.get_node_timer(pos):start(CYCLE_TIME)
 			return true
 		elseif topic == "stop" then
 			swap_node(pos, "techage:ta4_generator")
-			mem.running = false
-			mem.remote_trigger = 0
+			nvm.running = false
+			nvm.remote_trigger = 0
 			minetest.get_node_timer(pos):stop()
 			return true
 		elseif topic == "trigger" then
-			mem.remote_trigger = 2
+			nvm.remote_trigger = 2
 			return true
 		end
 	end,

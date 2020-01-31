@@ -57,11 +57,11 @@ for idx,pgn in ipairs(tPgns) do
 		},
 
 		after_place_node = function(pos, placer)
-			local mem = tubelib2.init_mem(pos)
+			local nvm = techage.get_nvm(pos)
 			local meta = minetest.get_meta(pos)
 			local node = minetest.get_node(pos)
 			local number = techage.add_node(pos, "techage:doorblock"..idx)
-			mem.facedir = node.param2
+			nvm.facedir = node.param2
 			meta:set_string("node_number", number)
 			meta:set_string("infotext", S("TechAge Door Block").." "..number)
 			meta:set_string("formspec", "size[3,2]"..
@@ -73,11 +73,11 @@ for idx,pgn in ipairs(tPgns) do
 		on_receive_fields = function(pos, formname, fields, player)
 			local meta = minetest.get_meta(pos)
 			local node = minetest.get_node(pos)
-			local mem = tubelib2.get_mem(pos)
+			local nvm = techage.get_nvm(pos)
 			if fields.type then
 				node.name = "techage:doorblock"..tTextures[fields.type]
 				minetest.swap_node(pos, node)
-				mem.name = node.name
+				nvm.name = node.name
 			end
 			if fields.exit then
 				meta:set_string("formspec", nil)
@@ -86,7 +86,7 @@ for idx,pgn in ipairs(tPgns) do
 		
 		after_dig_node = function(pos, oldnode, oldmetadata)
 			techage.remove_node(pos)
-			tubelib2.del_mem(pos)
+			techage.del_mem(pos)
 		end,
 
 		--drawtype = "glasslike",
@@ -104,10 +104,10 @@ for idx,pgn in ipairs(tPgns) do
 			if topic == "on" then
 				minetest.remove_node(pos)
 			elseif topic == "off" then
-				local mem = tubelib2.get_mem(pos)
-				mem.facedir = mem.facedir or 0
-				mem.name = mem.name or "techage:doorblock"..NUM_TEXTURES
-				minetest.add_node(pos, {name = mem.name, paramtype2 = "facedir", param2 = mem.facedir})
+				local nvm = techage.get_nvm(pos)
+				nvm.facedir = nvm.facedir or 0
+				nvm.name = nvm.name or "techage:doorblock"..NUM_TEXTURES
+				minetest.add_node(pos, {name = nvm.name, paramtype2 = "facedir", param2 = nvm.facedir})
 			end
 		end,
 	})		

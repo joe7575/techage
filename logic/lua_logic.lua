@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2019 Joachim Stolberg
+	Copyright (C) 2017-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -52,56 +52,56 @@ local function check(expression)
 	return true, "ok"
 end
 
-local function compile(mem, expression)
+local function compile(nvm, expression)
 	local res, err = check(expression)
     if res then
         local code, err = loadstring(expression, "")
 		if code then
-			mem.code = code
-			mem.error = "ok"
+			nvm.code = code
+			nvm.error = "ok"
 		else
-			mem.code = nil
-			mem.error = err
+			nvm.code = nil
+			nvm.error = err
 		end
 	else
-		mem.code = nil
-		mem.error = err
+		nvm.code = nil
+		nvm.error = err
    end
 end
 
-local function get_code(pos, mem)
+local function get_code(pos, nvm)
 	local meta = M(pos)
 	local if_expr = meta:get_string("if_expr") or ""
 	local then_expr = meta:get_string("then_expr") or ""
 	local else_expr = meta:get_string("else_expr") or ""
 	local expr = "if "..if_expr.." then return "..then_expr.." else return "..else_expr.." end"
-	compile(mem, expr)
-	return mem.code
+	compile(nvm, expr)
+	return nvm.code
 end
 
-local function eval(pos, mem)
-	mem.code = mem.code or get_code(pos, mem)
-	if mem.code then
-		setfenv(mem.code, mem.inp_tbl)
-		local res, sts = pcall(mem.code)
+local function eval(pos, nvm)
+	nvm.code = nvm.code or get_code(pos, nvm)
+	if nvm.code then
+		setfenv(nvm.code, nvm.inp_tbl)
+		local res, sts = pcall(nvm.code)
 		if res then
-			mem.error = "ok"
-			if sts == true and mem.inp_tbl.outp ~= true then
-				mem.inp_tbl.outp = sts
+			nvm.error = "ok"
+			if sts == true and nvm.inp_tbl.outp ~= true then
+				nvm.inp_tbl.outp = sts
 				return "on"
-			elseif sts == false and mem.inp_tbl.outp ~= false then 
-				mem.inp_tbl.outp = sts
+			elseif sts == false and nvm.inp_tbl.outp ~= false then 
+				nvm.inp_tbl.outp = sts
 				return "off"
 			end
 		else
-			mem.error = "Error: "..sts
+			nvm.error = "Error: "..sts
 		end
 	end
 end
 
-local function data(mem)
-	local tbl = {"inp = "..dump(mem.inp_tbl.inp), "outp = "..dump(mem.inp_tbl.outp)}
-	for k,v in pairs(mem.inp_tbl) do
+local function data(nvm)
+	local tbl = {"inp = "..dump(nvm.inp_tbl.inp), "outp = "..dump(nvm.inp_tbl.outp)}
+	for k,v in pairs(nvm.inp_tbl) do
 		if k ~= "inp" and k ~= "outp" then
 			tbl[#tbl+1] = k.." = "..dump(v)
 		end
@@ -110,18 +110,18 @@ local function data(mem)
 end
 
 local function formspec(pos, meta)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local numbers = meta:get_string("numbers") or ""
 	local if_expr = meta:get_string("if_expr") or ""
 	local then_expr = meta:get_string("then_expr") or ""
 	local else_expr = meta:get_string("else_expr") or ""
-	local err = mem.error or "ok"
+	local err = nvm.error or "ok"
 	if err ~= "ok" then 
 		err = string.sub(err, 15)
 	end
 	err = minetest.formspec_escape(err)
-	mem.inp_tbl = mem.inp_tbl or {inp = false, outp = false}
-	local data = data(mem)
+	nvm.inp_tbl = nvm.inp_tbl or {inp = false, outp = false}
+	local data = data(nvm)
 	return "size[9,8]"..
 		"background[0,0;9,1.3;techage_formspec_bg.png]"..
 		"field[0.5,0.2;8.5,2;numbers;"..S("Insert destination node number(s)")..";"..numbers.."]" ..
@@ -153,8 +153,8 @@ minetest.register_node("techage:ta3_logic", {
 
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		local mem = tubelib2.init_mem(pos)
-		mem.inp_tbl = {inp = false, outp = false}
+		local nvm = techage.get_nvm(pos)
+		nvm.inp_tbl = {inp = false, outp = false}
 		logic.after_place_node(pos, placer, "techage:ta3_logic", S("TA3 Logic Block"))
 		logic.infotext(meta, S("TA3 Logic Block"))
 		meta:set_string("formspec", formspec(pos, meta))
@@ -166,7 +166,7 @@ minetest.register_node("techage:ta3_logic", {
 		end
 		
 		local meta = M(pos)
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		if fields.numbers and fields.numbers ~= "" then
 			if techage.check_numbers(fields.numbers, player:get_player_name()) then
 				meta:set_string("numbers", fields.numbers)
@@ -183,14 +183,14 @@ minetest.register_node("techage:ta3_logic", {
 			meta:set_string("else_expr", fields.else_expr)
 		end
 		if fields.store then
-			get_code(pos, mem)
+			get_code(pos, nvm)
 		end
 		meta:set_string("formspec", formspec(pos, meta))
 	end,
 	
 	on_timer = function(pos,elapsed)
-		local mem = tubelib2.get_mem(pos)
-		local topic = eval(pos, mem)
+		local nvm = techage.get_nvm(pos)
+		local topic = eval(pos, nvm)
 		if topic then
 			local meta = M(pos)
 			local own_num = meta:get_string("node_number") or ""
@@ -209,7 +209,7 @@ minetest.register_node("techage:ta3_logic", {
 	
 	after_dig_node = function(pos)
 		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
+		techage.del_mem(pos)
 	end,
 	
 	paramtype2 = "facedir",
@@ -230,15 +230,15 @@ minetest.register_craft({
 
 techage.register_node({"techage:ta3_logic"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		local mem = tubelib2.get_mem(pos)
-		mem.inp_tbl = mem.inp_tbl or {outp = false}
+		local nvm = techage.get_nvm(pos)
+		nvm.inp_tbl = nvm.inp_tbl or {outp = false}
 		
 		if topic == "on" then
-			mem.inp_tbl.inp = true
-			mem.inp_tbl["n"..src] = true
+			nvm.inp_tbl.inp = true
+			nvm.inp_tbl["n"..src] = true
 		elseif topic == "off" then
-			mem.inp_tbl.inp = false
-			mem.inp_tbl["n"..src] = false
+			nvm.inp_tbl.inp = false
+			nvm.inp_tbl["n"..src] = false
 		else
 			return "unsupported"
 		end

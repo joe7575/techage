@@ -30,32 +30,32 @@ local Cable = techage.ElectricCable
 local power = techage.power
 
 local function node_timer(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	mem.capa = mem.capa or 0
+	local nvm = techage.get_nvm(pos)
+	nvm.capa = nvm.capa or 0
 	pos.y = pos.y + 1
 	local light = minetest.get_node_light(pos) or 0
 	pos.y = pos.y - 1
 	
 	if light >= (minetest.LIGHT_MAX - 1) then
-		if mem.providing then
-			power.generator_stop(pos, mem)
-			mem.providing = false
-			mem.provided = 0
+		if nvm.providing then
+			power.generator_stop(pos, nvm)
+			nvm.providing = false
+			nvm.provided = 0
 		end
-		mem.capa = math.min(mem.capa + PWR_PERF * 1.2, PWR_CAPA)
+		nvm.capa = math.min(nvm.capa + PWR_PERF * 1.2, PWR_CAPA)
 	else
-		if mem.capa > 0 then
-			if not mem.providing then
-				power.generator_start(pos, mem, PWR_PERF)
-				mem.providing = true
+		if nvm.capa > 0 then
+			if not nvm.providing then
+				power.generator_start(pos, nvm, PWR_PERF)
+				nvm.providing = true
 			end
-			mem.provided = power.generator_alive(pos, mem)
-			mem.capa = mem.capa - mem.provided
+			nvm.provided = power.generator_alive(pos, nvm)
+			nvm.capa = nvm.capa - nvm.provided
 		else
-			power.generator_stop(pos, mem)
-			mem.providing = false
-			mem.provided = 0
-			mem.capa = 0
+			power.generator_stop(pos, nvm)
+			nvm.providing = false
+			nvm.provided = 0
+			nvm.capa = 0
 		end
 	end
 	return true
@@ -91,25 +91,25 @@ techage.power.register_node({"techage:ta4_solar_minicell"}, {
 		local number = techage.add_node(pos, "techage:ta4_solar_minicell")
 		meta:set_string("node_number", number)
 		meta:set_string("infotext", S("TA4 Streetlamp Solar Cell").." "..number)
-		local mem = tubelib2.init_mem(pos)
-		mem.capa = 0
-		mem.providing = false
+		local nvm = techage.get_nvm(pos)
+		nvm.capa = 0
+		nvm.providing = false
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
 	
 	after_dig_node = function(pos)
 		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
+		techage.del_mem(pos)
 	end,
 })
 
 techage.register_node({"techage:ta4_solar_minicell"}, {	
 	on_recv_message = function(pos, src, topic, payload)
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		if topic == "state" then
-			if mem.providing then
+			if nvm.providing then
 				return "discharging"
-			elseif (mem.capa or 0) > 0 then
+			elseif (nvm.capa or 0) > 0 then
 				return "charging"
 			else
 				return "unused"

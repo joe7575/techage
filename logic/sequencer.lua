@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2019 Joachim Stolberg
+	Copyright (C) 2017-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -66,13 +66,13 @@ local function formspec_help()
 end
 
 local function stop_the_sequencer(pos)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local meta = M(pos)
-	mem.running = false
-	mem.endless = mem.endless or false
-	mem.rules = mem.rules or new_rules()
+	nvm.running = false
+	nvm.endless = nvm.endless or false
+	nvm.rules = nvm.rules or new_rules()
 	logic.infotext(meta, S("TA3 Sequencer"), "stopped")
-	meta:set_string("formspec", formspec(techage.STOPPED, mem.rules, mem.endless))
+	meta:set_string("formspec", formspec(techage.STOPPED, nvm.rules, nvm.endless))
 	minetest.get_node_timer(pos):stop()
 	return false
 end
@@ -98,20 +98,20 @@ local function restart_timer(pos, time)
 end	
 
 local function check_rules(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local own_num = M(pos):get_string("node_number")
-	mem.rules = mem.rules or new_rules()
-	mem.running = mem.running or false
-	mem.index = mem.index or 1
-	mem.endless = mem.endless or false
+	nvm.rules = nvm.rules or new_rules()
+	nvm.running = nvm.running or false
+	nvm.index = nvm.index or 1
+	nvm.endless = nvm.endless or false
 	while true do -- process all rules as long as offs == 0
-		local rule = mem.rules[mem.index]
-		local offs = tonumber(mem.rules[mem.index].offs or 1)
+		local rule = nvm.rules[nvm.index]
+		local offs = tonumber(nvm.rules[nvm.index].offs or 1)
 		techage.send_multi(own_num, rule.num, tAction[rule.act])
-		mem.index = get_next_slot(mem.index, mem.rules, mem.endless)
-		if mem.index ~= nil and offs ~= nil and mem.running then
+		nvm.index = get_next_slot(nvm.index, nvm.rules, nvm.endless)
+		if nvm.index ~= nil and offs ~= nil and nvm.running then
 			-- after the last rule a pause with 1 or more sec is required
-			if mem.index == 1 and offs < 1 then
+			if nvm.index == 1 and offs < 1 then
 				offs = 1
 			end
 			if offs > 0 then
@@ -126,13 +126,13 @@ local function check_rules(pos, elapsed)
 end
 
 local function start_the_sequencer(pos)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local meta = M(pos)
-	mem.running = true
-	mem.endless = mem.endless or false
-	mem.rules = mem.rules or new_rules()
+	nvm.running = true
+	nvm.endless = nvm.endless or false
+	nvm.rules = nvm.rules or new_rules()
 	logic.infotext(meta, S("TA3 Sequencer"), "running")
-	meta:set_string("formspec", formspec(techage.RUNNING, mem.rules, mem.endless))
+	meta:set_string("formspec", formspec(techage.RUNNING, nvm.rules, nvm.endless))
 	minetest.get_node_timer(pos):start(0.1)
 	return false
 end
@@ -143,10 +143,10 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 	
 	local meta = M(pos)
-	local mem = tubelib2.get_mem(pos)
-	mem.running = mem.running or false
-	mem.endless = mem.endless or false
-	mem.rules = mem.rules or new_rules()
+	local nvm = techage.get_nvm(pos)
+	nvm.running = nvm.running or false
+	nvm.endless = nvm.endless or false
+	nvm.rules = nvm.rules or new_rules()
 	
 	if fields.help ~= nil then
 		meta:set_string("formspec", formspec_help())
@@ -154,34 +154,34 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 	
 	if fields.endless ~= nil then
-		mem.endless = fields.endless == "true"
-		mem.index = 1
+		nvm.endless = fields.endless == "true"
+		nvm.index = 1
 	end
 	
 	if fields.exit ~= nil then
-		if mem.running then
-			meta:set_string("formspec", formspec(techage.RUNNING, mem.rules, mem.endless))
+		if nvm.running then
+			meta:set_string("formspec", formspec(techage.RUNNING, nvm.rules, nvm.endless))
 		else
-			meta:set_string("formspec", formspec(techage.STOPPED, mem.rules, mem.endless))
+			meta:set_string("formspec", formspec(techage.STOPPED, nvm.rules, nvm.endless))
 		end
 		return
 	end
 
 	for idx = 1,NUM_SLOTS do
 		if fields["offs"..idx] ~= nil then
-			mem.rules[idx].offs = tonumber(fields["offs"..idx]) or ""
+			nvm.rules[idx].offs = tonumber(fields["offs"..idx]) or ""
 		end
 		if fields["num"..idx] ~= nil and 
 				techage.check_numbers(fields["num"..idx], player:get_player_name()) then
-			mem.rules[idx].num = fields["num"..idx]
+			nvm.rules[idx].num = fields["num"..idx]
 		end
 		if fields["act"..idx] ~= nil then
-			mem.rules[idx].act = kvAction[fields["act"..idx]]
+			nvm.rules[idx].act = kvAction[fields["act"..idx]]
 		end
 	end
 
 	if fields.button ~= nil then
-		if mem.running then
+		if nvm.running then
 			stop_the_sequencer(pos)
 		else
 			start_the_sequencer(pos)
@@ -189,10 +189,10 @@ local function on_receive_fields(pos, formname, fields, player)
 	elseif fields.num1 ~= nil then  -- any other change?
 		stop_the_sequencer(pos)
 	else
-		if mem.running then
-			meta:set_string("formspec", formspec(techage.RUNNING, mem.rules, mem.endless))
+		if nvm.running then
+			meta:set_string("formspec", formspec(techage.RUNNING, nvm.rules, nvm.endless))
 		else
-			meta:set_string("formspec", formspec(techage.STOPPED, mem.rules, mem.endless))
+			meta:set_string("formspec", formspec(techage.STOPPED, nvm.rules, nvm.endless))
 		end
 	end
 end
@@ -208,14 +208,14 @@ minetest.register_node("techage:ta3_sequencer", {
 	
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		local mem = tubelib2.init_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		logic.after_place_node(pos, placer, "techage:ta3_sequencer", S("TA3 Sequencer"))
 		logic.infotext(meta, S("TA3 Sequencer"), S("stopped"))
-		mem.rules = new_rules()
-		mem.index = 1
-		mem.running = false
-		mem.endless = false
-		meta:set_string("formspec", formspec(techage.STOPPED, mem.rules, mem.endless))
+		nvm.rules = new_rules()
+		nvm.index = 1
+		nvm.running = false
+		nvm.endless = false
+		meta:set_string("formspec", formspec(techage.STOPPED, nvm.rules, nvm.endless))
 	end,
 
 	on_receive_fields = on_receive_fields,
@@ -224,11 +224,11 @@ minetest.register_node("techage:ta3_sequencer", {
 		if minetest.is_protected(pos, puncher:get_player_name()) then
 			return
 		end
-		local mem = tubelib2.get_mem(pos)
-		if not mem.running then
+		local nvm = techage.get_nvm(pos)
+		if not nvm.running then
 			minetest.node_dig(pos, node, puncher, pointed_thing)
 			techage.remove_node(pos)
-			tubelib2.del_mem(pos)
+			techage.del_mem(pos)
 		end
 	end,
 	
@@ -256,15 +256,15 @@ techage.register_node({"techage:ta3_sequencer"}, {
 			start_the_sequencer(pos)
 		elseif topic == "off" then
 			-- do not stop immediately
-			local mem = tubelib2.get_mem(pos)
-			mem.endless = false
+			local nvm = techage.get_nvm(pos)
+			nvm.endless = false
 		else
 			return "unsupported"
 		end
 	end,
 	on_node_load = function(pos)
-		local mem = tubelib2.get_mem(pos)
-		if mem.running then
+		local nvm = techage.get_nvm(pos)
+		if nvm.running then
 			minetest.get_node_timer(pos):start(1)
 		end
 	end,

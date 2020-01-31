@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2019 Joachim Stolberg
+	Copyright (C) 2017-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -32,24 +32,24 @@ local function switch_off(pos)
 end
 
 local function scan_for_player(pos)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local meta = minetest.get_meta(pos)
 	local names = meta:get_string("names") or ""
 	for _, object in pairs(minetest.get_objects_inside_radius(pos, 4)) do
 		if object:is_player() then
 			if names == "" then 
-				mem.player_name = object:get_player_name()
+				nvm.player_name = object:get_player_name()
 				return true 
 			end
 			for _,name in ipairs(string.split(names, " ")) do
 				if object:get_player_name() == name then 
-					mem.player_name = name
+					nvm.player_name = name
 					return true 
 				end
 			end
 		end
 	end
-	mem.player_name = nil
+	nvm.player_name = nil
 	return false
 end
 
@@ -133,7 +133,7 @@ minetest.register_node("techage:ta3_playerdetector_off", {
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
+		techage.del_mem(pos)
 	end,
 	
 	paramtype2 = "facedir",
@@ -168,7 +168,7 @@ minetest.register_node("techage:ta3_playerdetector_on", {
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
+		techage.del_mem(pos)
 	end,
 
 	paramtype2 = "facedir",
@@ -190,8 +190,8 @@ minetest.register_craft({
 techage.register_node({"techage:ta3_playerdetector_off", "techage:ta3_playerdetector_on"}, {
 	on_recv_message = function(pos, topic, payload)
 		if topic == "name" then
-			local mem = tubelib2.get_mem(pos)
-			return mem.player_name or ""
+			local nvm = techage.get_nvm(pos)
+			return nvm.player_name or ""
 		else
 			return "unsupported"
 		end

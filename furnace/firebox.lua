@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -25,32 +25,33 @@ local CYCLE_TIME = 2
 local EFFICIENCY = 2 -- burn cycles
 local CATEGORY = 3
 
-local function has_fuel(pos, mem)
-	return mem.burn_cycles > 0 or (mem.liquid and mem.liquid.amount and mem.liquid.amount > 0)
+local function has_fuel(pos, nvm)
+	print("has_fuel", nvm.burn_cycles, topic, payload)
+	return nvm.burn_cycles > 0 or (nvm.liquid and nvm.liquid.amount and nvm.liquid.amount > 0)
 end
 
-local function stop_firebox(pos, mem)
-	mem.running = false
+local function stop_firebox(pos, nvm)
+	nvm.running = false
 	firebox.swap_node(pos, "techage:furnace_firebox")
 	minetest.get_node_timer(pos):stop()
-	M(pos):set_string("formspec", fuel.formspec(mem))
+	M(pos):set_string("formspec", fuel.formspec(nvm))
 end
 
 local function node_timer(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	mem.liquid = mem.liquid or {}
-	mem.liquid.amount = mem.liquid.amount or 0
-	if mem.running then
-		fuel.formspec_update(pos, mem)
-		mem.burn_cycles = (mem.burn_cycles or 0) - 1
-		if mem.burn_cycles <= 0 then
-			if mem.liquid.amount > 0 then
-				mem.liquid.amount = mem.liquid.amount - 1
-				mem.burn_cycles = fuel.burntime(mem.liquid.name) * EFFICIENCY / CYCLE_TIME
-				mem.burn_cycles_total = mem.burn_cycles
+	local nvm = techage.get_nvm(pos)
+	nvm.liquid = nvm.liquid or {}
+	nvm.liquid.amount = nvm.liquid.amount or 0
+	if nvm.running then
+		fuel.formspec_update(pos, nvm)
+		nvm.burn_cycles = (nvm.burn_cycles or 0) - 1
+		if nvm.burn_cycles <= 0 then
+			if nvm.liquid.amount > 0 then
+				nvm.liquid.amount = nvm.liquid.amount - 1
+				nvm.burn_cycles = fuel.burntime(nvm.liquid.name) * EFFICIENCY / CYCLE_TIME
+				nvm.burn_cycles_total = nvm.burn_cycles
 			else
-				mem.liquid.name = nil
-				stop_firebox(pos, mem)
+				nvm.liquid.name = nil
+				stop_firebox(pos, nvm)
 				return false
 			end
 		end
@@ -58,13 +59,13 @@ local function node_timer(pos, elapsed)
 	end
 end
 
-local function start_firebox(pos, mem)
-	if not mem.running then
-		mem.running = true
+local function start_firebox(pos, nvm)
+	if not nvm.running then
+		nvm.running = true
 		node_timer(pos, 0)
 		firebox.swap_node(pos, "techage:furnace_firebox_on")
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
-		M(pos):set_string("formspec", fuel.formspec(mem))
+		M(pos):set_string("formspec", fuel.formspec(nvm))
 	end
 end
 
@@ -92,7 +93,7 @@ local _liquid = {
 }
 
 local _networks = {
-	pipe = {
+	pipe2 = {
 		sides = techage.networks.AllSides, -- Pipe connection sides
 		ntype = "tank",
 	},
@@ -126,14 +127,14 @@ minetest.register_node("techage:furnace_firebox", {
 	networks = _networks,
 	
 	on_construct = function(pos)
-		local mem = tubelib2.init_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		techage.add_node(pos, "techage:furnace_firebox")
-		mem.running = false
-		mem.burn_cycles = 0
-		mem.liquid = {}
-		mem.liquid.amount =  0
+		nvm.running = false
+		nvm.burn_cycles = 0
+		nvm.liquid = {}
+		nvm.liquid.amount =  0
 		local meta = M(pos)
-		meta:set_string("formspec", fuel.formspec(mem))
+		meta:set_string("formspec", fuel.formspec(nvm))
 		local inv = meta:get_inventory()
 		inv:set_size('fuel', 1)
 	end,
@@ -178,10 +179,10 @@ minetest.register_node("techage:furnace_firebox_on", {
 	networks = _networks,
 	
 	on_metadata_inventory_put = function(pos, listname, index, stack, player)
-		local mem = tubelib2.get_mem(pos)
-		mem.liquid = mem.liquid or {}
-		mem.liquid.amount = mem.liquid.amount or 0
-		start_firebox(pos, mem)
+		local nvm = techage.get_nvm(pos)
+		nvm.liquid = nvm.liquid or {}
+		nvm.liquid.amount = nvm.liquid.amount or 0
+		start_firebox(pos, nvm)
 		fuel.on_metadata_inventory_put(pos, listname, index, stack, player)
 	end,
 })
@@ -197,31 +198,32 @@ minetest.register_craft({
 
 techage.register_node({"techage:furnace_firebox", "techage:furnace_firebox_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		if topic == "state" then
-			if mem.running then
+			if nvm.running then
 				return "running"
 			else
 				return "stopped"
 			end
 		elseif topic == "fuel" then
-			return mem.liquid and mem.liquid.amount and mem.liquid.amount
+			return nvm.liquid and nvm.liquid.amount and nvm.liquid.amount
 		else
 			return "unsupported"
 		end
 	end,
 	-- called from furnace_top
 	on_transfer = function(pos, in_dir, topic, payload)
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		if topic == "fuel" then
-			return has_fuel(pos, mem) and booster_cmnd(pos, "power")
+			print(dump(nvm))
+			return has_fuel(pos, nvm) and booster_cmnd(pos, "power")
 		elseif topic == "running" then
-			return mem.running and booster_cmnd(pos, "power")
+			return nvm.running and booster_cmnd(pos, "power")
 		elseif topic == "start" then
-			start_firebox(pos, mem)
+			start_firebox(pos, nvm)
 			booster_cmnd(pos, "start")
 		elseif topic == "stop" then
-			stop_firebox(pos, mem)
+			stop_firebox(pos, nvm)
 			booster_cmnd(pos, "stop")
 		end
 	end

@@ -24,16 +24,16 @@ local STANDBY_TICKS = 5
 local PWR_CAPA = 40
 local PWR_UNITS_PER_HYDROGEN_ITEM = 240
 
-local function formspec(self, pos, mem)
+local function formspec(self, pos, nvm)
 	return "size[8,6.6]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
 		"list[context;src;0.5,0;2,2;]"..
 		"image[4,0;1,1;techage_form_arrow_fg.png^[transformR270]"..
-		"image_button[5,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
+		"image_button[5,1;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 		"button[3.1,1;1.8,1;update;"..S("Update").."]"..
-		"image[6.5,0;1,2;"..power.formspec_power_bar(PWR_CAPA, mem.provided).."]"..
+		"image[6.5,0;1,2;"..power.formspec_power_bar(PWR_CAPA, nvm.provided).."]"..
 		"label[6.7,1.9;"..S("\\[ku\\]").."]"..
 		"list[current_player;main;0,2.8;8,4;]" ..
 		"listring[current_player;main]"..
@@ -42,16 +42,16 @@ local function formspec(self, pos, mem)
 		default.get_hotbar_bg(0, 2.8)
 end
 
-local function start_node(pos, mem, state)
-	mem.running = true
-	mem.provided = 0
-	power.generator_start(pos, mem, PWR_CAPA)
+local function start_node(pos, nvm, state)
+	nvm.running = true
+	nvm.provided = 0
+	power.generator_start(pos, nvm, PWR_CAPA)
 end
 
-local function stop_node(pos, mem, state)
-	mem.running = false
-	mem.provided = 0
-	power.generator_stop(pos, mem)
+local function stop_node(pos, nvm, state)
+	nvm.running = false
+	nvm.provided = 0
+	power.generator_stop(pos, nvm)
 end
 
 local State = techage.NodeStates:new({
@@ -78,46 +78,46 @@ end
 	
 -- converts hydrogen into power
 local function node_timer(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	mem.num_pwr_units = mem.num_pwr_units or 0
-	--print("fuelcell", mem.running, mem.provided, mem.num_pwr_units, techage.get_state_string(mem))
-	if mem.running then
-		if techage.needs_power(mem) then
-			if mem.num_pwr_units <= 0 then
+	local nvm = techage.get_nvm(pos)
+	nvm.num_pwr_units = nvm.num_pwr_units or 0
+	--print("fuelcell", nvm.running, nvm.provided, nvm.num_pwr_units, techage.get_state_string(nvm))
+	if nvm.running then
+		if techage.needs_power(nvm) then
+			if nvm.num_pwr_units <= 0 then
 				if get_hydrogen(pos) then
-					State:keep_running(pos, mem, 1, 0) -- count items
-					mem.num_pwr_units = mem.num_pwr_units + PWR_UNITS_PER_HYDROGEN_ITEM
+					State:keep_running(pos, nvm, 1, 0) -- count items
+					nvm.num_pwr_units = nvm.num_pwr_units + PWR_UNITS_PER_HYDROGEN_ITEM
 				else
-					State:standby(pos, mem)
-					mem.provided = 0
-					power.generator_stop(pos, mem)
-					M(pos):set_string("formspec", formspec(State, pos, mem))
+					State:standby(pos, nvm)
+					nvm.provided = 0
+					power.generator_stop(pos, nvm)
+					M(pos):set_string("formspec", formspec(State, pos, nvm))
 					return true
 				end
 			end
-			mem.provided = power.generator_alive(pos, mem)
-			mem.num_pwr_units = mem.num_pwr_units - mem.provided
+			nvm.provided = power.generator_alive(pos, nvm)
+			nvm.num_pwr_units = nvm.num_pwr_units - nvm.provided
 		else
 			if contains_hydrogen(pos) then
-				State:start(pos, mem)
-				mem.provided = 0
-				power.generator_start(pos, mem, PWR_CAPA)
-				M(pos):set_string("formspec", formspec(State, pos, mem))
+				State:start(pos, nvm)
+				nvm.provided = 0
+				power.generator_start(pos, nvm, PWR_CAPA)
+				M(pos):set_string("formspec", formspec(State, pos, nvm))
 			end
 		end
 	end
-	return mem.running
+	return nvm.running
 end
 
 local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	local mem = tubelib2.get_mem(pos)
-	State:state_button_event(pos, mem, fields)
+	local nvm = techage.get_nvm(pos)
+	State:state_button_event(pos, nvm, fields)
 	
 	if fields.update then
-		M(pos):set_string("formspec", formspec(State, pos, mem))
+		M(pos):set_string("formspec", formspec(State, pos, nvm))
 	end
 end
 
@@ -132,8 +132,8 @@ local function allow_metadata_inventory(pos, listname, index, stack, player)
 end
 
 local function on_rightclick(pos)
-	local mem = tubelib2.get_mem(pos)
-	M(pos):set_string("formspec", formspec(State, pos, mem))
+	local nvm = techage.get_nvm(pos)
+	M(pos):set_string("formspec", formspec(State, pos, nvm))
 end
 
 minetest.register_node("techage:ta4_fuelcell", {
@@ -149,13 +149,13 @@ minetest.register_node("techage:ta4_fuelcell", {
 	},
 
 	on_construct = function(pos)
-		local mem = tubelib2.init_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		local number = techage.add_node(pos, "techage:ta4_fuelcell")
-		mem.running = false
-		mem.num_pwr_units = 0
-		State:node_init(pos, mem, number)
+		nvm.running = false
+		nvm.num_pwr_units = 0
+		State:node_init(pos, nvm, number)
 		local meta = M(pos)
-		meta:set_string("formspec", formspec(State, pos, mem))
+		meta:set_string("formspec", formspec(State, pos, nvm))
 		local inv = meta:get_inventory()
 		inv:set_size('src', 4)
 	end,

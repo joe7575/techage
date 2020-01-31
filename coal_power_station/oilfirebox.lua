@@ -38,28 +38,28 @@ local function firehole(pos, on)
 end	
 
 local function node_timer(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	if mem.running then
+	local nvm = techage.get_nvm(pos)
+	if nvm.running then
 		-- trigger generator and provide power ratio 0..1
 		local ratio = techage.transfer(
 			{x=pos.x, y=pos.y+2, z=pos.z}, 
 			nil,  -- outdir
 			"trigger",  -- topic
-			(mem.power_level or 4)/4.0,  -- payload
+			(nvm.power_level or 4)/4.0,  -- payload
 			nil,  -- network
 			{"techage:coalboiler_top"}  -- nodenames
 		)
 		ratio = math.max((ratio or 0.02), 0.02)
-		mem.burn_cycles = (mem.burn_cycles or 0) - ratio
-		if mem.burn_cycles <= 0 then
+		nvm.burn_cycles = (nvm.burn_cycles or 0) - ratio
+		if nvm.burn_cycles <= 0 then
 			local taken = firebox.get_fuel(pos) 
 			if taken then
-				mem.burn_cycles = (firebox.Burntime[taken:get_name()] or 1) * EFFICIENCY / CYCLE_TIME
-				mem.burn_cycles_total = mem.burn_cycles
+				nvm.burn_cycles = (firebox.Burntime[taken:get_name()] or 1) * EFFICIENCY / CYCLE_TIME
+				nvm.burn_cycles_total = nvm.burn_cycles
 			else
-				mem.running = false
+				nvm.running = false
 				firehole(pos, false)
-				M(pos):set_string("formspec", firebox.formspec(mem))
+				M(pos):set_string("formspec", firebox.formspec(nvm))
 				return false
 			end
 		end
@@ -67,9 +67,9 @@ local function node_timer(pos, elapsed)
 	end
 end
 
-local function start_firebox(pos, mem)
-	if not mem.running then
-		mem.running = true
+local function start_firebox(pos, nvm)
+	if not nvm.running then
+		nvm.running = true
 		node_timer(pos, 0)
 		firehole(pos, true)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
@@ -102,13 +102,13 @@ minetest.register_node("techage:coalfirebox", {
 	on_rightclick = firebox.on_rightclick,
 	
 	on_construct = function(pos)
-		local mem = tubelib2.init_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		techage.add_node(pos, "techage:coalfirebox")
-		mem.running = false
-		mem.burn_cycles = 0
-		mem.power_level = 4
+		nvm.running = false
+		nvm.burn_cycles = 0
+		nvm.power_level = 4
 		local meta = M(pos)
-		meta:set_string("formspec", firebox.formspec(mem))
+		meta:set_string("formspec", firebox.formspec(nvm))
 		local inv = meta:get_inventory()
 		inv:set_size('fuel', 1)
 		firehole(pos, false)
@@ -119,9 +119,9 @@ minetest.register_node("techage:coalfirebox", {
 	end,
 
 	on_metadata_inventory_put = function(pos, listname, index, stack, player)
-		local mem = tubelib2.get_mem(pos)
-		start_firebox(pos, mem)
-		M(pos):set_string("formspec", firebox.formspec(mem))
+		local nvm = techage.get_nvm(pos)
+		start_firebox(pos, nvm)
+		M(pos):set_string("formspec", firebox.formspec(nvm))
 	end,
 })
 
@@ -189,32 +189,32 @@ minetest.register_node("techage:coalfirehole_on", {
 })
 
 local function on_timer2(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	if mem.running then
-		fuel.formspec_update(pos, mem)
+	local nvm = techage.get_nvm(pos)
+	if nvm.running then
+		fuel.formspec_update(pos, nvm)
 		-- trigger generator and provide power ratio 0..1
 		local ratio = techage.transfer(
 			{x=pos.x, y=pos.y+2, z=pos.z}, 
 			nil,  -- outdir
 			"trigger",  -- topic
-			(mem.power_level or 4)/4.0,  -- payload
+			(nvm.power_level or 4)/4.0,  -- payload
 			nil,  -- network
 			{"techage:coalboiler_top"}  -- nodenames
 		)
 		ratio = math.max((ratio or 0.02), 0.02)
-		mem.burn_cycles = (mem.burn_cycles or 0) - ratio
-		mem.liquid = mem.liquid or {}
-		mem.liquid.amount = mem.liquid.amount or 0
-		if mem.burn_cycles <= 0 then
-			if mem.liquid.amount > 0 then
-				mem.liquid.amount = mem.liquid.amount - 1
-				mem.burn_cycles = fuel.burntime(mem.liquid.name) * EFFICIENCY / CYCLE_TIME
-				mem.burn_cycles_total = mem.burn_cycles
+		nvm.burn_cycles = (nvm.burn_cycles or 0) - ratio
+		nvm.liquid = nvm.liquid or {}
+		nvm.liquid.amount = nvm.liquid.amount or 0
+		if nvm.burn_cycles <= 0 then
+			if nvm.liquid.amount > 0 then
+				nvm.liquid.amount = nvm.liquid.amount - 1
+				nvm.burn_cycles = fuel.burntime(nvm.liquid.name) * EFFICIENCY / CYCLE_TIME
+				nvm.burn_cycles_total = nvm.burn_cycles
 			else
-				mem.running = false
-				mem.liquid.name = nil 
+				nvm.running = false
+				nvm.liquid.name = nil 
 				firehole(pos, false)
-				M(pos):set_string("formspec", fuel.formspec(mem))
+				M(pos):set_string("formspec", fuel.formspec(nvm))
 				return false
 			end
 		end
@@ -222,13 +222,13 @@ local function on_timer2(pos, elapsed)
 	end
 end
 
-local function start_firebox2(pos, mem)
-	if not mem.running and mem.liquid.amount > 0 then
-		mem.running = true
+local function start_firebox2(pos, nvm)
+	if not nvm.running and nvm.liquid.amount > 0 then
+		nvm.running = true
 		on_timer2(pos, 0)
 		firehole(pos, true)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
-		M(pos):set_string("formspec", fuel.formspec(mem))
+		M(pos):set_string("formspec", fuel.formspec(nvm))
 	end
 end
 
@@ -258,14 +258,14 @@ minetest.register_node("techage:oilfirebox", {
 	on_rightclick = fuel.on_rightclick,
 	
 	on_construct = function(pos)
-		local mem = tubelib2.init_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		techage.add_node(pos, "techage:oilfirebox")
-		mem.running = false
-		mem.burn_cycles = 0
-		mem.liquid = {}
-		mem.liquid.amount =  0
+		nvm.running = false
+		nvm.burn_cycles = 0
+		nvm.liquid = {}
+		nvm.liquid.amount =  0
 		local meta = M(pos)
-		meta:set_string("formspec", fuel.formspec(mem))
+		meta:set_string("formspec", fuel.formspec(nvm))
 		local inv = meta:get_inventory()
 		inv:set_size('fuel', 1)
 		firehole(pos, false)
@@ -276,10 +276,10 @@ minetest.register_node("techage:oilfirebox", {
 	end,
 
 	on_metadata_inventory_put = function(pos, listname, index, stack, player)
-		local mem = tubelib2.get_mem(pos)
-		mem.liquid = mem.liquid or {}
-		mem.liquid.amount = mem.liquid.amount or 0
-		minetest.after(1, start_firebox2, pos, mem)
+		local nvm = techage.get_nvm(pos)
+		nvm.liquid = nvm.liquid or {}
+		nvm.liquid.amount = nvm.liquid.amount or 0
+		minetest.after(1, start_firebox2, pos, nvm)
 		fuel.on_metadata_inventory_put(pos, listname, index, stack, player)
 	end,
 
@@ -290,10 +290,10 @@ minetest.register_node("techage:oilfirebox", {
 		put = function(pos, indir, name, amount)
 			if fuel.valid_fuel(name, fuel.BT_BITUMEN) then
 				local leftover = liquid.srv_put(pos, indir, name, amount)
-				local mem = tubelib2.get_mem(pos)
-				mem.liquid = mem.liquid or {}
-				mem.liquid.amount = mem.liquid.amount or 0
-				start_firebox2(pos, mem)
+				local nvm = techage.get_nvm(pos)
+				nvm.liquid = nvm.liquid or {}
+				nvm.liquid.amount = nvm.liquid.amount or 0
+				start_firebox2(pos, nvm)
 				return leftover
 			end
 			return amount
@@ -321,8 +321,8 @@ techage.register_node({"techage:coalfirebox"}, {
 		if firebox.Burntime[stack:get_name()] then
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
-			local mem = tubelib2.get_mem(pos)
-			start_firebox(pos, mem)
+			local nvm = techage.get_nvm(pos)
+			start_firebox(pos, nvm)
 			return techage.put_items(inv, "fuel", stack)
 		end
 		return false
@@ -333,9 +333,9 @@ techage.register_node({"techage:coalfirebox"}, {
 		return techage.put_items(inv, "fuel", stack)
 	end,
 	on_recv_message = function(pos, src, topic, payload)
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		if topic == "state" then
-			if mem.running then
+			if nvm.running then
 				return "running"
 			else
 				return "stopped"
@@ -352,15 +352,15 @@ techage.register_node({"techage:coalfirebox"}, {
 
 techage.register_node({"techage:oilfirebox"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		if topic == "state" then
-			if mem.running then
+			if nvm.running then
 				return "running"
 			else
 				return "stopped"
 			end
 		elseif topic == "fuel" then
-			return mem.liquid and mem.liquid.amount and mem.liquid.amount
+			return nvm.liquid and nvm.liquid.amount and nvm.liquid.amount
 		else
 			return "unsupported"
 		end

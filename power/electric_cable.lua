@@ -54,8 +54,6 @@ local Cable = tubelib2.Tube:new({
 	end,
 })
 
-techage.ElectricCable = Cable
-
 
 -- Overridden method of tubelib2!
 function Cable:get_primary_node_param2(pos, dir) 

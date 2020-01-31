@@ -85,7 +85,7 @@ minetest.register_node("techage:ta3_distiller_base", {
 	sounds = default.node_sound_stone_defaults(),
 
 	networks = {
-		pipe = {
+		pipe2 = {
 			sides = {B=1}, -- Pipe connection sides
 			ntype = "pump",
 		},
@@ -124,7 +124,7 @@ minetest.register_node("techage:ta3_distiller1", {
 	sounds = default.node_sound_metal_defaults(),
 
 	networks = {
-		pipe = {
+		pipe2 = {
 			sides = {F=1}, -- Pipe connection sides
 			ntype = "tank",
 		},
@@ -187,7 +187,7 @@ minetest.register_node("techage:ta3_distiller3", {
 	sounds = default.node_sound_metal_defaults(),
 
 	networks = {
-		pipe = {
+		pipe2 = {
 			sides = {B=1}, -- Pipe connection sides
 			ntype = "pump",
 		},
@@ -225,7 +225,7 @@ minetest.register_node("techage:ta3_distiller4", {
 	sounds = default.node_sound_metal_defaults(),
 
 	networks = {
-		pipe = {
+		pipe2 = {
 			sides = {U=1}, -- Pipe connection sides
 			ntype = "pump",
 		},

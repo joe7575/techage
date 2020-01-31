@@ -18,22 +18,47 @@ local P = minetest.string_to_pos
 local M = minetest.get_meta
 
 
+local function deserialize(s)
+	local tbl = {}
+	for line in s:gmatch("[^;]+") do
+		local num, spos = unpack(string.split(line, "="))
+		tbl[num] = {pos = minetest.string_to_pos(spos)}
+	end
+	return tbl
+end
+
+local function serialize(data)
+	local tbl = {}
+	for k,v in pairs(data) do
+		tbl[#tbl+1] = k.."="..minetest.pos_to_string(v.pos)
+	end
+	return table.concat(tbl, ";")
+end
+	
 ------------------------------------------------------------------
 -- Data base storage
 -------------------------------------------------------------------
 local storage = minetest.get_mod_storage()
 local NextNumber = minetest.deserialize(storage:get_string("NextNumber")) or 1
-local Version = minetest.deserialize(storage:get_string("Version")) or 1
-local Number2Pos = minetest.deserialize(storage:get_string("Number2Pos")) or {}
+local Version = minetest.deserialize(storage:get_string("Version")) or 2
+local Number2Pos
+if Version == 1 then
+	Version = 2
+	Number2Pos = minetest.deserialize(storage:get_string("Number2Pos")) or {}
+else
+	Number2Pos = deserialize(storage:get_string("Number2Pos"))
+end
 
 local function update_mod_storage()
+	local t = minetest.get_us_time()
 	minetest.log("action", "[TechAge] Store data...")
 	storage:set_string("NextNumber", minetest.serialize(NextNumber))
 	storage:set_string("Version", minetest.serialize(Version))
-	storage:set_string("Number2Pos", minetest.serialize(Number2Pos))
+	storage:set_string("Number2Pos", serialize(Number2Pos))
 	-- store data each hour
 	minetest.after(60*59, update_mod_storage)
-	minetest.log("action", "[TechAge] Data stored")
+	t = minetest.get_us_time() - t
+	minetest.log("action", "[TechAge] Data stored. t="..t.."us")
 end
 
 minetest.register_on_shutdown(function()
@@ -232,11 +257,7 @@ function techage.remove_node(pos)
 	local name
 	if Number2Pos[number] then
 		name = Number2Pos[number].name
-		Number2Pos[number] = {
-			pos = pos, 
-			name = nil,
-			time = minetest.get_day_count() -- used for reservation timeout
-		}
+		Number2Pos[number].name = nil
 	end
 	if item_handling_node(name) then
 		Tube:after_dig_node(pos)
@@ -485,18 +506,15 @@ end
 -------------------------------------------------------------------------------
 local function data_maintenance()
 	minetest.log("info", "[TechAge] Data maintenance started")
-	-- Remove old unused positions
-	local Tbl = table.copy(Number2Pos)
+	-- Remove unused positions
+	local tbl = table.copy(Number2Pos)
 	Number2Pos = {}
-	local day_cnt = minetest.get_day_count()
-	for num,item in pairs(Tbl) do
-		if item.name then
+	for num,item in pairs(tbl) do
+		local name = techage.get_node_lvm(item.pos).name
+		if NodeDef[name] then
 			Number2Pos[num] = item
-		-- data not older than 5 real days
-		elseif item.time and (item.time + (72*5)) > day_cnt then
-			Number2Pos[num] = item
-		else
-			minetest.log("info", "Position deleted", num)
+			-- add node names which are not stored as file
+			Number2Pos[num].name = name
 		end
 	end
 	minetest.log("info", "[TechAge] Data maintenance finished")
@@ -504,8 +522,6 @@ end
 	
 generate_Key2Number()
 
--- maintain data after 5 seconds
--- (minetest.get_day_count() will not be valid at start time)
-minetest.after(5, data_maintenance)
+minetest.after(2, data_maintenance)
 
 

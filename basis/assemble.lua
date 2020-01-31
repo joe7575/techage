@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -51,7 +51,7 @@ local function build(pos, param2, AssemblyPlan, idx)
 		minetest.add_node(pos1, {name=node_name, param2=(param2 + fd_offs) % 4})
 		minetest.after(0.5, build, pos, param2, AssemblyPlan, idx+1)
 	else
-		local mem = tubelib2.get_mem(pos)
+		local mem = techage.get_mem(pos)
 		mem.assemble_locked = false
 	end
 end	
@@ -65,7 +65,7 @@ local function remove(pos, param2, AssemblyPlan, idx)
 		minetest.remove_node(pos1)
 		minetest.after(0.5, remove, pos, param2, AssemblyPlan, idx-1)
 	else
-		local mem = tubelib2.get_mem(pos)
+		local mem = techage.get_mem(pos)
 		mem.assemble_locked = false
 	end
 end	
@@ -98,7 +98,7 @@ function techage.assemble.build(pos, AssemblyPlan, player_name)
 	if minetest.is_protected(pos, player_name) then
 		return
 	end			
-	local mem = tubelib2.get_mem(pos)
+	local mem = techage.get_mem(pos)
 	if mem.assemble_locked then
 		return
 	end
@@ -115,7 +115,7 @@ function techage.assemble.remove(pos, AssemblyPlan, player_name)
 	if minetest.is_protected(pos, player_name) then
 		return
 	end		
-	local mem = tubelib2.get_mem(pos)
+	local mem = techage.get_mem(pos)
 	if mem.assemble_locked then
 		return
 	end

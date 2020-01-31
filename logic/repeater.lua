@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2019 Joachim Stolberg
+	Copyright (C) 2017-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -38,7 +38,7 @@ minetest.register_node("techage:ta3_repeater", {
 
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		local mem = tubelib2.init_mem(pos)
+		local mem = techage.get_mem(pos)
 		logic.after_place_node(pos, placer, "techage:ta3_repeater", S("TA3 Repeater"))
 		logic.infotext(meta, S("TA3 Repeater"))
 		meta:set_string("formspec", formspec(meta))
@@ -60,7 +60,7 @@ minetest.register_node("techage:ta3_repeater", {
 	end,
 	
 	on_timer = function(pos,elapsed)
-		local mem = tubelib2.get_mem(pos)
+		local mem = techage.get_mem(pos)
 		mem.overload_cnt = 0
 		return true
 	end,
@@ -74,7 +74,7 @@ minetest.register_node("techage:ta3_repeater", {
 	
 	after_dig_node = function(pos)
 		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
+		techage.del_mem(pos)
 	end,
 
 	paramtype2 = "facedir",
@@ -95,7 +95,7 @@ minetest.register_craft({
 
 techage.register_node({"techage:ta3_repeater"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		local mem = tubelib2.get_mem(pos)
+		local mem = techage.get_mem(pos)
 		mem.overload_cnt = (mem.overload_cnt or 0) + 1
 		if mem.overload_cnt > OVER_LOAD_MAX then
 			logic.infotext(M(pos), S("TA3 Repeater"), "fault (overloaded)")

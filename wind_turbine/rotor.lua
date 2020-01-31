@@ -48,8 +48,8 @@ local function pos_and_yaw(pos, param2)
 	return pos, {x=0, y=yaw, z=0}
 end
 
-local function add_rotor(pos, mem, player_name)
-	mem.error = false
+local function add_rotor(pos, nvm, player_name)
+	nvm.error = false
 	
 	-- Check for next wind turbine
 	local pos1 = {x=pos.x-13, y=pos.y-9, z=pos.z-13}
@@ -62,7 +62,7 @@ local function add_rotor(pos, mem, player_name)
 				" "..S("The wind turbines are too close together!"))
 		end
 		M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..S("Error"))
-		mem.error = true
+		nvm.error = true
 		return
 	end
 	
@@ -77,7 +77,7 @@ local function add_rotor(pos, mem, player_name)
 				" "..S("More water expected (2 m deep)!"))
 		end
 		M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..S("Error"))
-		mem.error = true
+		nvm.error = true
 		return
 	end
 	
@@ -90,7 +90,7 @@ local function add_rotor(pos, mem, player_name)
 				" "..S("No wind at this altitude!"))
 		end
 		M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..S("Error"))
-		mem.error = true
+		nvm.error = true
 		return
 	end
 	
@@ -108,28 +108,28 @@ local function add_rotor(pos, mem, player_name)
 	M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..own_num)
 end	
 
-local function start_rotor(pos, mem)
+local function start_rotor(pos, nvm)
 	local npos = techage.get_pos(pos, "F")
 	local node = minetest.get_node(npos)
 	if node.name ~= "techage:ta4_wind_turbine_nacelle" then
 		M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..S("Error"))
-		mem.error = true
+		nvm.error = true
 		return
 	end
 	
-	mem.providing = true
-	mem.delivered = 0
-	power.generator_start(pos, mem, PWR_PERF)
+	nvm.providing = true
+	nvm.delivered = 0
+	power.generator_start(pos, nvm, PWR_PERF)
 	local hash = minetest.hash_node_position(pos)
 	if Rotors[hash] then
 		Rotors[hash]:set_animation_frame_speed(50)
 	end
 end
 
-local function stop_rotor(pos, mem)
-	mem.providing = false
-	mem.delivered = 0
-	power.generator_stop(pos, mem)
+local function stop_rotor(pos, nvm)
+	nvm.providing = false
+	nvm.delivered = 0
+	power.generator_stop(pos, nvm)
 	local hash = minetest.hash_node_position(pos)
 	if Rotors[hash] then
 		Rotors[hash]:set_animation_frame_speed(0)
@@ -137,24 +137,24 @@ local function stop_rotor(pos, mem)
 end
 
 local function node_timer(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	
-	if not mem.running then
+	if not nvm.running then
 		return false
 	end
 	
 	local time = minetest.get_timeofday() or 0
 	if (time >= 5.00/24.00 and time <= 9.00/24.00) or (time >= 17.00/24.00 and time <= 21.00/24.00) then
-		if not mem.providing then
-			start_rotor(pos, mem)
+		if not nvm.providing then
+			start_rotor(pos, nvm)
 		end
 	else
-		if mem.providing then
-			stop_rotor(pos, mem)
+		if nvm.providing then
+			stop_rotor(pos, nvm)
 		end
 	end
-	if mem.providing then
-		mem.delivered = power.generator_alive(pos, mem)
+	if nvm.providing then
+		nvm.delivered = power.generator_alive(pos, nvm)
 	end
 	return true
 end
@@ -212,14 +212,14 @@ techage.power.register_node({"techage:ta4_wind_turbine"}, {
 	conn_sides = {"D"},
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		local mem = tubelib2.init_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		local own_num = techage.add_node(pos, "techage:ta4_wind_turbine")
 		meta:set_string("node_number", own_num)
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("infotext", S("TA4 Wind Turbine").." "..own_num)
-		mem.providing = false
-		mem.running = true
-		add_rotor(pos, mem, placer:get_player_name())
+		nvm.providing = false
+		nvm.running = true
+		add_rotor(pos, nvm, placer:get_player_name())
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
 	
@@ -230,37 +230,37 @@ techage.power.register_node({"techage:ta4_wind_turbine"}, {
 		end
 		Rotors[hash] = nil
 		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
+		techage.del_mem(pos)
 	end,
 })
 
 techage.register_node({"techage:ta4_wind_turbine"}, {	
 	on_recv_message = function(pos, src, topic, payload)
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		if topic == "state" then
 			local node = minetest.get_node(pos)
 			if node.name == "ignore" then  -- unloaded node?
 				return "unloaded"
 			end
-			if mem.error then
+			if nvm.error then
 				return "error"
-			elseif mem.running and mem.providing then
+			elseif nvm.running and nvm.providing then
 				return "running"
 			else
 				return "stopped"
 			end
 		elseif topic == "on" then
-			mem.running = true
+			nvm.running = true
 		elseif topic == "off" then
-			mem.running = false
+			nvm.running = false
 		else
 			return "unsupported"
 		end
 	end,
 	on_node_load = function(pos)
-		local mem = tubelib2.get_mem(pos)
-		add_rotor(pos, mem)
-		mem.providing = false  -- to force the rotor start
+		local nvm = techage.get_nvm(pos)
+		add_rotor(pos, nvm)
+		nvm.providing = false  -- to force the rotor start
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
 })

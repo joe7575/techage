@@ -45,7 +45,7 @@ local function dec_oil_item(pos, meta)
 	end
 end
 
-local function formspec(self, pos, mem)
+local function formspec(self, pos, nvm)
 	local amount = 0
 	local storage_pos = M(pos):get_string("storage_pos")
 	if storage_pos ~= "" then
@@ -56,36 +56,36 @@ local function formspec(self, pos, mem)
 	default.gui_bg_img..
 	default.gui_slots..
 	"image[0.5,0;1,1;techage_liquid2_inv.png^[colorize:#000000^techage_liquid1_inv.png]"..
-	"image[2,0;1,1;"..techage.get_power_image(pos, mem).."]"..
+	"image[2,0;1,1;"..techage.get_power_image(pos, nvm).."]"..
 	"label[0,1.3;"..S("Oil amount:")..": "..amount.."]"..
 	"button[3,1.1;2,1;update;"..S("Update").."]"..
-	"image_button[2,2.2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"
+	"image_button[2,2.2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"
 end
 
 local function on_rightclick(pos, node, clicker)
-	local mem = tubelib2.get_mem(pos)
-	M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
+	local nvm = techage.get_nvm(pos)
+	M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
 end
 
-local function pumping(pos, crd, meta, mem)
+local function pumping(pos, crd, meta, nvm)
 	if has_oil(pos, meta) then
 		local leftover = liquid.put(pos, 6, "techage:oil_source", 1)
 		if leftover and leftover > 0 then
-			crd.State:blocked(pos, mem)
+			crd.State:blocked(pos, nvm)
 			return
 		end
 		dec_oil_item(pos, meta)
-		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 		return
 	end
-	crd.State:fault(pos, mem)
+	crd.State:fault(pos, nvm)
 end
 
 local function keep_running(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
-	pumping(pos, crd, M(pos), mem)
-	return crd.State:is_active(mem)
+	pumping(pos, crd, M(pos), nvm)
+	return crd.State:is_active(nvm)
 end	
 
 local function on_receive_fields(pos, formname, fields, player)
@@ -93,11 +93,11 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	if fields.update then
-		local mem = tubelib2.get_mem(pos)
-		M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
+		local nvm = techage.get_nvm(pos)
+		M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
 	else
-		local mem = tubelib2.get_mem(pos)
-		CRD(pos).State:state_button_event(pos, mem, fields)
+		local nvm = techage.get_nvm(pos)
+		CRD(pos).State:state_button_event(pos, nvm, fields)
 	end
 end
 
@@ -171,7 +171,7 @@ local _, node_name_ta3, _ =
 			Pipe:after_place_node(pos)
 		end,
 		networks = {
-			pipe = {
+			pipe2 = {
 				sides = {U = 1}, -- Pipe connection side
 				ntype = "pump",
 			},

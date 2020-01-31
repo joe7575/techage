@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2019 Joachim Stolberg
+	Copyright (C) 2017-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -37,7 +37,7 @@ local DropdownValues = {
 	[S("added or removed")] = 3,
 }
 
-local function formspec(meta, mem)
+local function formspec(meta, nvm)
 	local numbers = meta:get_string("numbers") or ""
 	local label = S("added")..","..S("removed")..","..S("added or removed")
 	return "size[7.5,4]"..
@@ -46,34 +46,34 @@ local function formspec(meta, mem)
 		default.gui_slots..
 		"field[0.5,0.6;7,1;numbers;"..S("Insert destination node number(s)")..";"..numbers.."]" ..
 		"label[0.2,1.6;"..S("Send signal if nodes have been:").."]"..
-		"dropdown[0.2,2.1;7.3,1;mode;"..label..";"..(mem.mode or 3).."]"..
+		"dropdown[0.2,2.1;7.3,1;mode;"..label..";"..(nvm.mode or 3).."]"..
 		"button_exit[2,3.2;3,1;accept;"..S("accept").."]"
 end
 
 local function any_node_changed(pos)
-	local mem = tubelib2.get_mem(pos)
-	if not mem.pos1 or not mem.pos2 or not mem.num then
+	local nvm = techage.get_nvm(pos)
+	if not nvm.pos1 or not nvm.pos2 or not nvm.num then
 		local node = minetest.get_node(pos)
 		local param2 = (node.param2 + 2) % 4
-		mem.pos1 = logic.dest_pos(pos, param2, {0})
-		mem.pos2 = logic.dest_pos(pos, param2, {0,0,0})
-		mem.num = #minetest.find_nodes_in_area(mem.pos1, mem.pos2, {"air"})
+		nvm.pos1 = logic.dest_pos(pos, param2, {0})
+		nvm.pos2 = logic.dest_pos(pos, param2, {0,0,0})
+		nvm.num = #minetest.find_nodes_in_area(nvm.pos1, nvm.pos2, {"air"})
 		return false
 	end
-	local num = #minetest.find_nodes_in_area(mem.pos1, mem.pos2, {"air"})
+	local num = #minetest.find_nodes_in_area(nvm.pos1, nvm.pos2, {"air"})
 	
-	if mem.num ~= num then
-		if mem.mode == 1 and num < mem.num then 
-			mem.num = num
+	if nvm.num ~= num then
+		if nvm.mode == 1 and num < nvm.num then 
+			nvm.num = num
 			return true
-		elseif mem.mode == 2 and num > mem.num then 
-			mem.num = num
+		elseif nvm.mode == 2 and num > nvm.num then 
+			nvm.num = num
 			return true
-		elseif mem.mode == 3 then
-			mem.num = num
+		elseif nvm.mode == 3 then
+			nvm.num = num
 			return true
 		end
-		mem.num = num
+		nvm.num = num
 	end
 	return false
 end
@@ -83,16 +83,16 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local meta = M(pos)
 	if fields.accept then
-		mem.mode = DropdownValues[fields.mode] or 3
+		nvm.mode = DropdownValues[fields.mode] or 3
 		if techage.check_numbers(fields.numbers, player:get_player_name()) then
 			meta:set_string("numbers", fields.numbers)
 			logic.infotext(M(pos), S("TA3 Node Detector"))
 		end
 	end
-	meta:set_string("formspec", formspec(meta, mem))
+	meta:set_string("formspec", formspec(meta, nvm))
 end
 
 local function node_timer(pos)
@@ -115,11 +115,11 @@ minetest.register_node("techage:ta3_nodedetector_off", {
 	
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		local mem = tubelib2.init_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		logic.after_place_node(pos, placer, "techage:ta3_repeater", S("TA3 Node Detector"))
 		logic.infotext(meta, S("TA3 Node Detector"))
-		mem.mode = 3 -- default mode
-		meta:set_string("formspec", formspec(meta, mem))
+		nvm.mode = 3 -- default mode
+		meta:set_string("formspec", formspec(meta, nvm))
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		any_node_changed(pos)
 	end,
@@ -130,13 +130,13 @@ minetest.register_node("techage:ta3_nodedetector_off", {
 	techage_set_numbers = function(pos, numbers, player_name)
 		local meta = M(pos)
 		local res = logic.set_numbers(pos, numbers, player_name, S("TA3 Node Detector"))
-		meta:set_string("formspec", formspec(meta, tubelib2.get_mem(pos)))
+		meta:set_string("formspec", formspec(meta, techage.get_nvm(pos)))
 		return res
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
+		techage.del_mem(pos)
 	end,
 	
 	on_rotate = screwdriver.disallow,
@@ -160,13 +160,13 @@ minetest.register_node("techage:ta3_nodedetector_on", {
 	techage_set_numbers = function(pos, numbers, player_name)
 		local meta = M(pos)
 		local res = logic.set_numbers(pos, numbers, player_name, S("TA3 Node Detector"))
-		meta:set_string("formspec", formspec(meta, tubelib2.get_mem(pos)))
+		meta:set_string("formspec", formspec(meta, techage.get_nvm(pos)))
 		return res
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
+		techage.del_mem(pos)
 	end,
 	
 	on_rotate = screwdriver.disallow,

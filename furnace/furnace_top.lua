@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -33,26 +33,26 @@ local check_if_worth_to_wakeup = techage.furnace.check_if_worth_to_wakeup
 local range = techage.in_range
 
 
-local function update_recipe_menu(pos, mem)
+local function update_recipe_menu(pos, nvm)
 	local ingr = get_ingredients(pos)
-	mem.rp_num = num_recipes(ingr)
-	mem.rp_idx = range(mem.rp_idx or 1, 0, mem.rp_num)
-	mem.rp_outp = get_output(mem, ingr, mem.rp_idx)
+	nvm.rp_num = num_recipes(ingr)
+	nvm.rp_idx = range(nvm.rp_idx or 1, 0, nvm.rp_num)
+	nvm.rp_outp = get_output(nvm, ingr, nvm.rp_idx)
 end
 
-local function formspec(self, pos, mem)
-	local idx = mem.rp_idx or 1
-	local num = mem.rp_num or 1
-	local outp = mem.rp_outp or ""
+local function formspec(self, pos, nvm)
+	local idx = nvm.rp_idx or 1
+	local num = nvm.rp_num or 1
+	local outp = nvm.rp_outp or ""
 	return "size[8,7.2]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
 		"list[context;src;0,0;2,2;]"..
 		"image[2,0.5;1,1;techage_form_arrow_bg.png^[lowpart:"..
-		(mem.item_percent or 0)..":techage_form_arrow_fg.png^[transformR270]"..
-		"image_button[2,2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
-		"tooltip[2,2;1,1;"..self:get_state_tooltip(mem).."]"..
+		(nvm.item_percent or 0)..":techage_form_arrow_fg.png^[transformR270]"..
+		"image_button[2,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
+		"tooltip[2,2;1,1;"..self:get_state_tooltip(nvm).."]"..
 
 		"list[context;dst;3,0;2,2;]"..
 		
@@ -71,8 +71,8 @@ local function formspec(self, pos, mem)
 end
 
 local function on_rightclick(pos, node, clicker)
-	local mem = tubelib2.get_mem(pos)
-	M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
+	local nvm = techage.get_nvm(pos)
+	M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
 end
 
 local function firebox_cmnd(pos, cmnd)
@@ -86,34 +86,34 @@ local function firebox_cmnd(pos, cmnd)
 		 "techage:furnace_heater", "techage:furnace_heater_on"})
 end
 
-local function cooking(pos, crd, mem, elapsed)
-	if mem.techage_state == techage.RUNNING or check_if_worth_to_wakeup(pos, mem) then
+local function cooking(pos, crd, nvm, elapsed)
+	if nvm.techage_state == techage.RUNNING or check_if_worth_to_wakeup(pos, nvm) then
 		if firebox_cmnd(pos, "fuel") then
-			local state, err = smelting(pos, mem, elapsed)
+			local state, err = smelting(pos, nvm, elapsed)
 			if state == techage.RUNNING then
-				crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+				crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 			elseif state == techage.BLOCKED then
-				crd.State:blocked(pos, mem)
+				crd.State:blocked(pos, nvm)
 			elseif state == techage.FAULT then
-				crd.State:fault(pos, mem, err)
+				crd.State:fault(pos, nvm, err)
 			elseif state == techage.STANDBY then
-				crd.State:idle(pos, mem)
+				crd.State:idle(pos, nvm)
 			end
 		else
-			crd.State:idle(pos, mem)
+			crd.State:idle(pos, nvm)
 		end
 	end
 end
 
 local function keep_running(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
-	cooking(pos, crd, mem, elapsed)
-	mem.toggle = not mem.toggle
-	if mem.toggle then -- progress bar/arrow
-		M(pos):set_string("formspec", formspec(crd.State, pos, mem))
+	cooking(pos, crd, nvm, elapsed)
+	nvm.toggle = not nvm.toggle
+	if nvm.toggle then -- progress bar/arrow
+		M(pos):set_string("formspec", formspec(crd.State, pos, nvm))
 	end
-	return crd.State:is_active(mem)
+	return crd.State:is_active(nvm)
 end	
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
@@ -121,7 +121,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 		return 0
 	end
 	if listname == "src" then
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		return stack:get_count()
 	elseif listname == "dst" then
 		return 0
@@ -143,31 +143,31 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 end
 
 local function on_metadata_inventory(pos)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
-	M(pos):set_string("formspec", formspec(crd.State, pos, mem))
+	M(pos):set_string("formspec", formspec(crd.State, pos, nvm))
 end
 
 local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	local mem = tubelib2.get_mem(pos)
-	mem.rp_idx = mem.rp_idx or 1
+	local nvm = techage.get_nvm(pos)
+	nvm.rp_idx = nvm.rp_idx or 1
 	if fields.next == ">>" then
 		local ingr = get_ingredients(pos)
-		mem.rp_idx = math.min(mem.rp_idx + 1, num_recipes(ingr))
-		update_recipe_menu(pos, mem)
-		M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
-		reset_cooking(mem)
+		nvm.rp_idx = math.min(nvm.rp_idx + 1, num_recipes(ingr))
+		update_recipe_menu(pos, nvm)
+		M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
+		reset_cooking(nvm)
 	elseif fields.priv == "<<" then
 		local ingr = get_ingredients(pos)
-		mem.rp_idx = range(mem.rp_idx - 1, 1, num_recipes(ingr))
-		update_recipe_menu(pos, mem)
-		M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
-		reset_cooking(mem)
+		nvm.rp_idx = range(nvm.rp_idx - 1, 1, num_recipes(ingr))
+		update_recipe_menu(pos, nvm)
+		M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
+		reset_cooking(nvm)
 	end
-	CRD(pos).State:state_button_event(pos, mem, fields)
+	CRD(pos).State:state_button_event(pos, nvm, fields)
 end
 
 local function can_dig(pos, player)
@@ -178,8 +178,7 @@ local function can_dig(pos, player)
 	return inv:is_empty("dst") and inv:is_empty("src")
 end
 
-local function can_start(pos, mem, state)
-	if D.dbg2 then D.dbg("can_start", state, firebox_cmnd(pos, "fuel")) end
+local function can_start(pos, nvm, state)
 	if not firebox_cmnd(pos, "fuel") then
 		return S("no fuel or no power")
 	end
@@ -187,7 +186,6 @@ local function can_start(pos, mem, state)
 end
 
 local function on_node_state_change(pos, old_state, new_state)
-	if D.dbg2 then D.dbg("on_node_state_change", new_state) end
 	local pwr1 = techage.needs_power2(old_state)
 	local pwr2 = techage.needs_power2(new_state)
 	if pwr1 ~= pwr2 then
@@ -197,8 +195,8 @@ local function on_node_state_change(pos, old_state, new_state)
 			firebox_cmnd(pos, "stop")
 		end
 	end
-	local mem = tubelib2.get_mem(pos)
-	reset_cooking(mem)
+	local nvm = techage.get_nvm(pos)
+	reset_cooking(nvm)
 end
 
 local tiles = {}

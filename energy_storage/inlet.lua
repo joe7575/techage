@@ -19,7 +19,7 @@ local D = techage.Debug
 local M = minetest.get_meta
 local S = techage.S
 
-local Pipe = techage.BiogasPipe
+local Pipe = techage.LiquidPipe
 
 minetest.register_node("techage:ta4_pipe_inlet", {
 	description = S("TA4 Pipe Inlet"),

@@ -31,9 +31,9 @@ local formspec0 = "size[5,4]"..
 	"button_exit[1,3.2;3,1;build;"..S("Build derrick").."]"
 
 local function play_sound(pos)
-	local mem = tubelib2.get_mem(pos)
-	if mem.techage_state == techage.RUNNING then
-		mem.handle = minetest.sound_play("techage_oildrill", {
+	local nvm = techage.get_nvm(pos)
+	if nvm.techage_state == techage.RUNNING then
+		nvm.handle = minetest.sound_play("techage_oildrill", {
 			pos = pos, 
 			gain = 1,
 			max_hear_distance = 15})
@@ -42,19 +42,19 @@ local function play_sound(pos)
 end
 
 local function stop_sound(pos)
-	local mem = tubelib2.get_mem(pos)
-	if mem.handle then
-		minetest.sound_stop(mem.handle)
-		mem.handle = nil
+	local nvm = techage.get_nvm(pos)
+	if nvm.handle then
+		minetest.sound_stop(nvm.handle)
+		nvm.handle = nil
 	end
 end
 
-local function formspec(self, pos, mem)
-	if not mem.assemble_build then
+local function formspec(self, pos, nvm)
+	if not nvm.assemble_build then
 		return formspec0
 	end
 	local depth = M(pos):get_int("depth")
-	local curr_depth = pos.y - (mem.drill_pos or pos).y
+	local curr_depth = pos.y - (nvm.drill_pos or pos).y
 	return "size[8,8]"..
 	default.gui_bg..
 	default.gui_bg_img..
@@ -64,9 +64,9 @@ local function formspec(self, pos, mem)
 	"item_image[1,1;1,1;techage:oil_drillbit]"..
 	"label[1,2;"..S("Drill Bit").."]"..
 	"label[0.5,3;"..S("Depth")..": "..curr_depth.."/"..depth.."]"..
-	"image[3.5,0;1,1;"..techage.get_power_image(pos, mem).."]"..
+	"image[3.5,0;1,1;"..techage.get_power_image(pos, nvm).."]"..
 	"image[3.5,1;1,1;techage_form_arrow.png]"..
-	"image_button[3.5,2;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
+	"image_button[3.5,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 	"label[6.2,0.5;OUT]"..
 	"list[context;dst;6,1;1,1;]"..
 	"button_exit[5,3;3,1;remove;"..S("Remove derrick").."]"..
@@ -105,8 +105,8 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 end
 
 local function on_rightclick(pos)
-	local mem = tubelib2.get_mem(pos)
-	M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
+	local nvm = techage.get_nvm(pos)
+	M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
 end
 
 local function on_node_state_change(pos, old_state, new_state)
@@ -117,65 +117,65 @@ local function on_node_state_change(pos, old_state, new_state)
 	end
 end
 
-local function drilling(pos, crd, mem, inv)
-	M(pos):set_string("formspec", formspec(CRD(pos).State, pos, mem))
-	mem.drill_pos = mem.drill_pos or {x=pos.x, y=pos.y-1, z=pos.z}
+local function drilling(pos, crd, nvm, inv)
+	M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
+	nvm.drill_pos = nvm.drill_pos or {x=pos.x, y=pos.y-1, z=pos.z}
 	local owner = M(pos):get_string("owner")
 	local depth = M(pos):get_int("depth")
-	local curr_depth = pos.y - (mem.drill_pos or pos).y
-	local node = techage.get_node_lvm(mem.drill_pos)
+	local curr_depth = pos.y - (nvm.drill_pos or pos).y
+	local node = techage.get_node_lvm(nvm.drill_pos)
 	local ndef = minetest.registered_nodes[node.name]
 	
 	if not inv:contains_item("src", ItemStack("techage:oil_drillbit")) then
-		crd.State:idle(pos, mem)
+		crd.State:idle(pos, nvm)
 	elseif curr_depth >= depth then
 		M(pos):set_string("oil_found", "true")
-		crd.State:stop(pos, mem)
-	elseif minetest.is_protected(mem.drill_pos, owner) then
-		crd.State:fault(pos, mem)
+		crd.State:stop(pos, nvm)
+	elseif minetest.is_protected(nvm.drill_pos, owner) then
+		crd.State:fault(pos, nvm)
 	elseif node.name == "techage:oil_drillbit2" then
-		mem.drill_pos.y = mem.drill_pos.y-1
-		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+		nvm.drill_pos.y = nvm.drill_pos.y-1
+		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 	elseif minetest.get_item_group(node.name, "lava") >= 1 then
-		minetest.swap_node(mem.drill_pos, {name = "techage:oil_drillbit2"})
+		minetest.swap_node(nvm.drill_pos, {name = "techage:oil_drillbit2"})
 		inv:remove_item("src", ItemStack("techage:oil_drillbit"))
-		mem.drill_pos.y = mem.drill_pos.y-1
-		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+		nvm.drill_pos.y = nvm.drill_pos.y-1
+		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 	elseif techage.can_node_dig(node, ndef) then
 		local drop_name = techage.dropped_node(node, ndef)
 		if drop_name then
 			local item = ItemStack(drop_name)
 			if not inv:room_for_item("dst", item) then
-				crd.State:blocked(pos, mem)
+				crd.State:blocked(pos, nvm)
 				return
 			end
 			inv:add_item("dst", item)
 		end
-		minetest.swap_node(mem.drill_pos, {name = "techage:oil_drillbit2"})
+		minetest.swap_node(nvm.drill_pos, {name = "techage:oil_drillbit2"})
 		inv:remove_item("src", ItemStack("techage:oil_drillbit"))
-		mem.drill_pos.y = mem.drill_pos.y-1
-		crd.State:keep_running(pos, mem, COUNTDOWN_TICKS)
+		nvm.drill_pos.y = nvm.drill_pos.y-1
+		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 	else
-		crd.State:fault(pos, mem)
+		crd.State:fault(pos, nvm)
 	end
 end
 
 local function keep_running(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
 	local inv = M(pos):get_inventory()
 	if inv then
-		drilling(pos, crd, mem, inv)
+		drilling(pos, crd, nvm, inv)
 	end
-	return crd.State:is_active(mem)
+	return crd.State:is_active(nvm)
 end
 
 local function can_dig(pos, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return false
 	end
-	local mem = tubelib2.get_mem(pos)
-	if mem.assemble_locked or mem.assemble_build then
+	local nvm = techage.get_nvm(pos)
+	if nvm.assemble_locked or nvm.assemble_build then
 		return false
 	end
 	local inv = M(pos):get_inventory()
@@ -194,9 +194,9 @@ local function on_receive_fields(pos, formname, fields, player)
 			techage.oiltower.remove(pos, player:get_player_name())
 		end
 	else
-		local mem = tubelib2.get_mem(pos)
-		if not mem.assemble_locked and M(pos):get_string("oil_found") ~= "true" then
-			CRD(pos).State:state_button_event(pos, mem, fields)
+		local nvm = techage.get_nvm(pos)
+		if not nvm.assemble_locked and M(pos):get_string("oil_found") ~= "true" then
+			CRD(pos).State:state_button_event(pos, nvm, fields)
 		end
 	end
 end
@@ -302,9 +302,9 @@ minetest.register_lbm({
 	nodenames = {"techage:ta3_drillbox_pas", "techage:ta3_drillbox_act"},
 	run_at_every_load = true,
 	action = function(pos, node)
-		local mem = tubelib2.get_mem(pos)
-		mem.assemble_locked = false
-		if mem.techage_state == techage.RUNNING then
+		local nvm = techage.get_nvm(pos)
+		nvm.assemble_locked = false
+		if nvm.techage_state == techage.RUNNING then
 			play_sound(pos)
 		end
 	end

@@ -45,10 +45,10 @@ local function input_string(recipe)
 	return table.concat(tbl, "")
 end
 
-function techage.recipes.get(mem, rtype)
+function techage.recipes.get(nvm, rtype)
 	local recipes = Recipes[rtype] or {}
 	local recipe_list = RecipeList[rtype] or {}
-	return recipes[recipe_list[mem.recipe_idx or 1]]
+	return recipes[recipe_list[nvm.recipe_idx or 1]]
 end
 	
 -- Add 4 input/output/waste recipe
@@ -95,11 +95,11 @@ function techage.recipes.add(rtype, recipe)
 	end
 end
 
-function techage.recipes.formspec(x, y, rtype, mem)
+function techage.recipes.formspec(x, y, rtype, nvm)
 	local recipes = Recipes[rtype] or {}
 	local recipe_list = RecipeList[rtype] or {}
-	mem.recipe_idx = range(mem.recipe_idx or 1, 1, #recipe_list)
-	local idx = mem.recipe_idx
+	nvm.recipe_idx = range(nvm.recipe_idx or 1, 1, #recipe_list)
+	local idx = nvm.recipe_idx
 	local recipe = recipes[recipe_list[idx]] or RECIPE
 	local output = recipe.output.name.." "..recipe.output.num
 	local waste = recipe.waste.name.." "..recipe.waste.num
@@ -119,14 +119,14 @@ function techage.recipes.on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	
-	mem.recipe_idx = mem.recipe_idx or 1
-	if not mem.running then	
+	nvm.recipe_idx = nvm.recipe_idx or 1
+	if not nvm.running then	
 		if fields.next == ">>" then
-			mem.recipe_idx = mem.recipe_idx + 1
+			nvm.recipe_idx = nvm.recipe_idx + 1
 		elseif fields.priv == "<<" then
-			mem.recipe_idx = mem.recipe_idx - 1
+			nvm.recipe_idx = nvm.recipe_idx - 1
 		end
 	end
 end

@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -21,13 +21,13 @@ local liquid = techage.liquid
 
 local CAPACITY = 500
 
-local function formspec(pos, mem)
-	local update = ((mem.countdown or 0) > 0 and mem.countdown) or S("Update")
+local function formspec(pos, nvm)
+	local update = ((nvm.countdown or 0) > 0 and nvm.countdown) or S("Update")
 	return "size[8,6]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	liquid.formspec_liquid(2, 0, mem)..
+	liquid.formspec_liquid(2, 0, nvm)..
 	"button[5.5,0.5;2,1;update;"..update.."]"..
 	"list[current_player;main;0,2.3;8,4;]"
 end
@@ -55,9 +55,9 @@ local function on_metadata_inventory_put(pos, listname, index, stack, player)
 end
 
 local function on_rightclick(pos)
-	local mem = tubelib2.get_mem(pos)
-	mem.countdown = 10
-	M(pos):set_string("formspec", formspec(pos, mem))
+	local nvm = techage.get_nvm(pos)
+	nvm.countdown = 10
+	M(pos):set_string("formspec", formspec(pos, nvm))
 	minetest.get_node_timer(pos):start(2)
 end
 
@@ -65,9 +65,9 @@ local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	local mem = tubelib2.get_mem(pos)
-	mem.countdown = 10
-	M(pos):set_string("formspec", formspec(pos, mem))
+	local nvm = techage.get_nvm(pos)
+	nvm.countdown = 10
+	M(pos):set_string("formspec", formspec(pos, nvm))
 	minetest.get_node_timer(pos):start(2)
 end
 
@@ -98,12 +98,12 @@ minetest.register_node("techage:ta3_tank", {
 	end,
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		local mem = tubelib2.init_mem(pos)
-		mem.liquid = {}
+		local nvm = techage.get_nvm(pos)
+		nvm.liquid = {}
 		local number = techage.add_node(pos, "techage:ta3_tank")
 		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
-		meta:set_string("formspec", formspec(pos, mem))
+		meta:set_string("formspec", formspec(pos, nvm))
 		meta:set_string("infotext", S("TA3 Tank").." "..number)
 		Pipe:after_place_node(pos)
 	end,
@@ -111,11 +111,11 @@ minetest.register_node("techage:ta3_tank", {
 		liquid.update_network(pos, outdir)
 	end,
 	on_timer = function(pos, elapsed)
-		local mem = tubelib2.get_mem(pos)
-		if mem.countdown then
-			mem.countdown = mem.countdown - 1
-			M(pos):set_string("formspec", formspec(pos, mem))
-			return mem.countdown > 0
+		local nvm = techage.get_nvm(pos)
+		if nvm.countdown then
+			nvm.countdown = nvm.countdown - 1
+			M(pos):set_string("formspec", formspec(pos, nvm))
+			return nvm.countdown > 0
 		end
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
@@ -136,7 +136,7 @@ minetest.register_node("techage:ta3_tank", {
 		take = liquid.srv_take,
 	},
 	networks = {
-		pipe = {
+		pipe2 = {
 			sides = techage.networks.AllSides, -- Pipe connection sides
 			ntype = "tank",
 		},
@@ -185,12 +185,12 @@ minetest.register_node("techage:oiltank", {
 	end,
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		local mem = tubelib2.init_mem(pos)
-		mem.liquid = {}
+		local nvm = techage.get_nvm(pos)
+		nvm.liquid = {}
 		local number = techage.add_node(pos, "techage:oiltank")
 		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
-		meta:set_string("formspec", formspec(pos, mem))
+		meta:set_string("formspec", formspec(pos, nvm))
 		meta:set_string("infotext", S("Oil Tank").." "..number)
 		Pipe:after_place_node(pos)
 	end,
@@ -198,11 +198,11 @@ minetest.register_node("techage:oiltank", {
 		liquid.update_network(pos, outdir)
 	end,
 	on_timer = function(pos, elapsed)
-		local mem = tubelib2.get_mem(pos)
-		if mem.countdown then
-			mem.countdown = mem.countdown - 1
-			M(pos):set_string("formspec", formspec(pos, mem))
-			return mem.countdown > 0
+		local nvm = techage.get_nvm(pos)
+		if nvm.countdown then
+			nvm.countdown = nvm.countdown - 1
+			M(pos):set_string("formspec", formspec(pos, nvm))
+			return nvm.countdown > 0
 		end
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
@@ -223,7 +223,7 @@ minetest.register_node("techage:oiltank", {
 		take = liquid.srv_take,
 	},
 	networks = {
-		pipe = {
+		pipe2 = {
 			sides = techage.networks.AllSides, -- Pipe connection sides
 			ntype = "tank",
 		},
@@ -262,12 +262,12 @@ minetest.register_node("techage:ta4_tank", {
 	end,
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		local mem = tubelib2.init_mem(pos)
-		mem.liquid = {}
+		local nvm = techage.get_nvm(pos)
+		nvm.liquid = {}
 		local number = techage.add_node(pos, "techage:ta4_tank")
 		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
-		meta:set_string("formspec", formspec(pos, mem))
+		meta:set_string("formspec", formspec(pos, nvm))
 		meta:set_string("infotext", S("TA4 Tank").." "..number)
 		Pipe:after_place_node(pos)
 	end,
@@ -275,11 +275,11 @@ minetest.register_node("techage:ta4_tank", {
 		liquid.update_network(pos, outdir)
 	end,
 	on_timer = function(pos, elapsed)
-		local mem = tubelib2.get_mem(pos)
-		if mem.countdown then
-			mem.countdown = mem.countdown - 1
-			M(pos):set_string("formspec", formspec(pos, mem))
-			return mem.countdown > 0
+		local nvm = techage.get_nvm(pos)
+		if nvm.countdown then
+			nvm.countdown = nvm.countdown - 1
+			M(pos):set_string("formspec", formspec(pos, nvm))
+			return nvm.countdown > 0
 		end
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
@@ -300,7 +300,7 @@ minetest.register_node("techage:ta4_tank", {
 		take = liquid.srv_take,
 	},
 	networks = {
-		pipe = {
+		pipe2 = {
 			sides = techage.networks.AllSides, -- Pipe connection sides
 			ntype = "tank",
 		},

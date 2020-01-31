@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -20,8 +20,9 @@ local D = techage.Debug
 local PWR_NEEDED = 3
 local CYCLE_TIME = 2
 
-local Power = techage.ElectricCable
+local Cable = techage.ElectricCable
 local power = techage.power
+--local networks = techage.networks
 
 local function infotext(pos, state)
 	M(pos):set_string("infotext", S("TA3 Booster")..": "..state)
@@ -36,35 +37,70 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function on_power(pos, mem)
-	if mem.running then
-		swap_node(pos, "techage:ta3_booster_on")
-		infotext(pos, "running")
+local function play_sound(pos)
+	local mem = techage.get_mem(pos)
+	mem.handle = minetest.sound_play("techage_booster", {
+		pos = pos, 
+		gain = 1,
+		max_hear_distance = 7,
+		loop = true})
+	if mem.handle == -1 then
+		minetest.after(1, play_sound, pos)
 	end
-	if D.dbg2 then D.dbg("booster on_power") end
-	mem.is_powered = true
 end
 
-local function on_nopower(pos, mem)
+local function stop_sound(pos)
+	local mem = techage.get_mem(pos)
+	if mem.handle then
+		minetest.sound_stop(mem.handle)
+		mem.handle = nil
+	end
+end
+
+local function on_power(pos)
+	swap_node(pos, "techage:ta3_booster_on")
+	infotext(pos, "running")
+	play_sound(pos)
+end
+
+local function on_nopower(pos)
 	swap_node(pos, "techage:ta3_booster")
 	infotext(pos, "no power")
-	if D.dbg2 then D.dbg("booster on_nopower") end
-	mem.is_powered = false
+	stop_sound(pos)
 end
 
 local function node_timer(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	if mem.running and mem.is_powered then
-		minetest.sound_play("techage_booster", {
-			pos = pos, 
-			gain = 1,
-			max_hear_distance = 7})
-	end
-	if mem.running then
-		power.consumer_alive(pos, mem)
-	end
-	return mem.running
+	power.consumer_alive(pos, Cable, CYCLE_TIME)
+	return true
 end
+
+local function after_place_node(pos)
+	local nvm = techage.get_nvm(pos)
+	Cable:after_place_node(pos)
+	local node = minetest.get_node(pos)
+	local indir = techage.side_to_indir("R", node.param2)
+	M(pos):set_int("indir", indir)
+	infotext(pos, "stopped")
+end
+
+local function after_dig_node(pos, oldnode)
+	Cable:after_dig_node(pos)
+	techage.del_mem(pos)
+end
+
+local function tubelib2_on_update2(pos, outdir, tlib2, node) 
+	power.update_network(pos, outdir, tlib2)
+end
+
+local net_def = {
+	ele1 = {
+		sides = {B = true, F = true, L = true, D = true, U = true},
+		ntype = "con1",
+		on_power = on_power,
+		on_nopower = on_nopower,
+		nominal = PWR_NEEDED,
+	},
+}
 
 minetest.register_node("techage:ta3_booster", {
 	description = S("TA3 Booster"),
@@ -77,7 +113,13 @@ minetest.register_node("techage:ta3_booster", {
 		"techage_filling_ta3.png^techage_appl_compressor.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_appl_compressor.png^[transformFX^techage_frame_ta3.png",
 	},
+	
 	on_timer = node_timer,
+	after_place_node = after_place_node,
+	after_dig_node = after_dig_node,
+	tubelib2_on_update2 = tubelib2_on_update2,
+	networks = net_def,
+	
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -116,6 +158,11 @@ minetest.register_node("techage:ta3_booster_on", {
 	},
 	
 	on_timer = node_timer,
+	after_place_node = after_place_node,
+	after_dig_node = after_dig_node,
+	tubelib2_on_update2 = tubelib2_on_update2,
+	networks = net_def,
+	
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory = 1},
 	diggable = false,
@@ -124,46 +171,30 @@ minetest.register_node("techage:ta3_booster_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-techage.power.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
-	power_network = Power,
-	conn_sides = {"F", "B", "U", "D", "L"},
-	on_power = on_power,
-	on_nopower = on_nopower,
-	after_place_node = function(pos, placer)
-		local mem = tubelib2.init_mem(pos)
-		local node = minetest.get_node(pos)
-		local indir = techage.side_to_indir("R", node.param2)
-		M(pos):set_int("indir", indir)
-		infotext(pos, "stopped")
-	end,
-})
+Cable:add_secondary_node_names({"techage:ta3_booster", "techage:ta3_booster_on"})
 
 -- for intra machine communication
 techage.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		if M(pos):get_int("indir") == in_dir then
-			local mem = tubelib2.get_mem(pos)
+			local nvm = techage.get_nvm(pos)
 			if topic == "power" then
-				if D.dbg2 then D.dbg("booster power") end
-				return power.power_available(pos, mem, 0)
-			elseif topic == "start" and not mem.running then
-				if D.dbg2 then D.dbg("booster try start", mem.pwr_master_pos, mem.pwr_power_provided_cnt) end
-				if power.power_available(pos, mem, 0) then
-					mem.running = true
-					if D.dbg2 then D.dbg("booster start") end
-					power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
+				return techage.get_node_lvm(pos).name == "techage:ta3_booster_on"
+			elseif topic == "start" and not nvm.running then
+				if power.power_available(pos, Cable) then
+					nvm.running = true
+					power.consumer_start(pos, Cable, CYCLE_TIME)
 					minetest.get_node_timer(pos):start(CYCLE_TIME)
 				else
-					if D.dbg2 then D.dbg("booster no power") end
 					infotext(pos, "no power")
 				end
 			elseif topic == "stop" then
-				mem.running = false
-				if D.dbg2 then D.dbg("booster stop") end
+				nvm.running = false
 				swap_node(pos, "techage:ta3_booster")
-				power.consumer_stop(pos, mem)
+				power.consumer_stop(pos, Cable)
 				minetest.get_node_timer(pos):stop()
 				infotext(pos, "stopped")
+				stop_sound(pos)
 			end
 		end
 	end

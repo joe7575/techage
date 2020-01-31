@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -55,7 +55,6 @@ minetest.register_node("techage:signal_lamp_off", {
 
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
 		if COLORED then
 			unifieddyes.after_dig_node(pos, oldnode, oldmetadata, digger)
 		end
@@ -99,7 +98,6 @@ minetest.register_node("techage:signal_lamp_on", {
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
 		if COLORED then
 			unifieddyes.after_dig_node(pos, oldnode, oldmetadata, digger)
 		end

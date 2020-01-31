@@ -3,7 +3,7 @@
 	Terminal
 	========
 
-	Copyright (C) 2018-2019 Joachim Stolberg
+	Copyright (C) 2018-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -167,7 +167,7 @@ local function command(pos, command, player)
 					"B",  -- outdir
 					cmnd,  -- topic
 					payload,  -- payload
-					techage.BiogasPipe,  -- network
+					techage.LiquidPipe,  -- network
 					nil)  -- valid nodes
 				output(pos, dump(resp))
 				return
@@ -228,7 +228,6 @@ local function register_terminal(num, tiles, node_box, selection_box)
 		
 		after_dig_node = function(pos)
 			techage.remove_node(pos)
-			tubelib2.del_mem(pos)
 		end,
 		
 		paramtype = "light",

@@ -18,7 +18,7 @@ local P = minetest.string_to_pos
 local M = minetest.get_meta
 
 local PWR_NEEDED = 0.5
-local CYCLE_TIME = 4
+local CYCLE_TIME = 2
 
 local Cable = techage.ElectricCable
 local power = techage.power
@@ -33,22 +33,17 @@ local function swap_node(pos, postfix)
 	minetest.swap_node(pos, node)
 end
 
-local function on_power(pos, mem)
-	if mem.turned_on then
-		swap_node(pos, "on")
-	end
+local function on_power(pos)
+	swap_node(pos, "on")
 end
 
-local function on_nopower(pos, mem)
+local function on_nopower(pos)
 	swap_node(pos, "off")
 end
 
 local function node_timer(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	if mem.turned_on then
-		power.consumer_alive(pos, mem)
-	end
-	return mem.turned_on
+	power.consumer_alive(pos, Cable, CYCLE_TIME)
+	return true
 end
 
 local function lamp_on_rightclick(pos, node, clicker)
@@ -56,16 +51,16 @@ local function lamp_on_rightclick(pos, node, clicker)
 		return
 	end
 	
-	local mem = tubelib2.get_mem(pos)
-	minetest.get_node_timer(pos):start(CYCLE_TIME)
-	
-	if not mem.turned_on and power.power_available(pos, mem, PWR_NEEDED) then
-		mem.turned_on = true
-		power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
+	local nvm = techage.get_nvm(pos)
+	if not nvm.turned_on and power.power_available(pos, Cable) then
+		nvm.turned_on = true
+		power.consumer_start(pos, Cable, CYCLE_TIME)
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		swap_node(pos, "on")
 	else
-		mem.turned_on = false
-		power.consumer_stop(pos, mem)
+		nvm.turned_on = false
+		power.consumer_stop(pos, Cable)
+		minetest.get_node_timer(pos):stop()
 		swap_node(pos, "off")
 	end
 end
@@ -86,12 +81,35 @@ local function on_place(itemstack, placer, pointed_thing)
 	return minetest.rotate_and_place(itemstack, placer, pointed_thing)
 end
 
-local function determine_power_side(pos, node)
-	return {techage.determine_node_bottom_as_dir(node)}
+local function after_place_node(pos)
+	local nvm = techage.get_nvm(pos)
+	Cable:after_place_node(pos)
 end
 
+local function after_dig_node(pos, oldnode)
+	Cable:after_dig_node(pos)
+	techage.del_mem(pos)
+end
+
+local function tubelib2_on_update2(pos, outdir, tlib2, node) 
+	power.update_network(pos, outdir, tlib2)
+end
+
+local net_def = {
+	ele1 = {
+		sides = {U=1, D=1}, -- Cable connection sides
+		ntype = "con1",
+		on_power = on_power,
+		on_nopower = on_nopower,
+		nominal = PWR_NEEDED,
+	},
+}
+
 function techage.register_lamp(basename, ndef_off, ndef_on)
-	ndef_off.on_construct = tubelib2.init_mem
+	ndef_off.after_place_node = after_place_node
+	ndef_off.after_dig_node = after_dig_node
+	ndef_off.tubelib2_on_update2 = tubelib2_on_update2
+	ndef_off.networks = net_def
 	ndef_off.on_rightclick = lamp_on_rightclick
 	if not ndef_off.on_rotate then
 		ndef_off.on_place = on_place
@@ -106,7 +124,10 @@ function techage.register_lamp(basename, ndef_off, ndef_on)
 	ndef_off.is_ground_content = false
 	ndef_off.sounds = default.node_sound_glass_defaults()
 	
-	ndef_on.on_construct = tubelib2.init_mem
+	ndef_on.after_place_node = after_place_node
+	ndef_on.after_dig_node = after_dig_node
+	ndef_on.tubelib2_on_update2 = tubelib2_on_update2
+	ndef_on.networks = net_def
 	ndef_on.on_rightclick = lamp_on_rightclick
 	ndef_on.on_rotate = ndef_on.on_rotate or on_rotate
 	ndef_on.on_timer = node_timer
@@ -121,23 +142,7 @@ function techage.register_lamp(basename, ndef_off, ndef_on)
 	
 	minetest.register_node(basename.."_off", ndef_off)
 	minetest.register_node(basename.."_on", ndef_on)
-
-	techage.power.register_node({basename.."_off", basename.."_on"}, {
-		power_network  = Cable,
-		conn_sides = ndef_off.conn_sides or determine_power_side,  -- will be handled by clbk function
-		on_power = on_power,
-		on_nopower = on_nopower,
-	})
-	minetest.register_lbm({
-		label = "[techage] Start lamp",
-		name = "techage:start_lamp",
-		nodenames = {basename.."_on"},
-		run_at_every_load = true,
-		action = function(pos, node)
-			local mem = tubelib2.get_mem(pos)
-			minetest.get_node_timer(pos):start(CYCLE_TIME)
-			power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
-		end
-	})
+	
+	Cable:add_secondary_node_names({basename.."_off", basename.."_on"})
 end
 

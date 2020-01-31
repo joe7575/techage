@@ -66,7 +66,7 @@ minetest.register_node("techage:ta4_reactor_fillerpipe", {
 	sounds = default.node_sound_metal_defaults(),
 
 	networks = {
-		pipe = {
+		pipe2 = {
 			sides = {U=1}, -- Pipe connection sides
 			ntype = "tank",
 		},

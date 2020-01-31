@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2019 Joachim Stolberg
+	Copyright (C) 2017-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -140,7 +140,6 @@ minetest.register_node("techage:ta3_button_off", {
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
 	end,
 	
 	on_rotate = screwdriver.disallow,
@@ -186,7 +185,6 @@ minetest.register_node("techage:ta3_button_on", {
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
 	end,
 	
 	paramtype2 = "facedir",

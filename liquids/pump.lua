@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -62,7 +62,7 @@ local State4 = techage.NodeStates:new({
 	standby_ticks = STANDBY_TICKS,
 })
 
-local function pumping(pos, mem, state, capa)
+local function pumping(pos, nvm, state, capa)
 	local outdir = M(pos):get_int("outdir")
 	local starter = get_starter_name(pos)
 	local taken, name = liquid.take(pos, Flip[outdir], nil, capa, starter)
@@ -70,55 +70,55 @@ local function pumping(pos, mem, state, capa)
 		local leftover = liquid.put(pos, outdir, name, taken, starter)
 		if leftover and leftover > 0 then
 			liquid.put(pos, Flip[outdir], name, leftover)
-			state:blocked(pos, mem)
+			state:blocked(pos, nvm)
 			return
 		end
-		state:keep_running(pos, mem, COUNTDOWN_TICKS)
+		state:keep_running(pos, nvm, COUNTDOWN_TICKS)
 		return
 	end
-	state:idle(pos, mem)
+	state:idle(pos, nvm)
 end
 
 local function after_place_node3(pos, placer)
-	local mem = tubelib2.init_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local number = techage.add_node(pos, "techage:t3_pump")
-	State3:node_init(pos, mem, number)
+	State3:node_init(pos, nvm, number)
 	M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
 	Pipe:after_place_node(pos)
 end
 
 local function after_place_node4(pos, placer)
-	local mem = tubelib2.init_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	local number = techage.add_node(pos, "techage:t4_pump")
-	State4:node_init(pos, mem, number)
+	State4:node_init(pos, nvm, number)
 	M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
 	Pipe:after_place_node(pos)
 end
 
 local function node_timer3(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	pumping(pos, mem, State3, CAPA)
-	return State3:is_active(mem)
+	local nvm = techage.get_nvm(pos)
+	pumping(pos, nvm, State3, CAPA)
+	return State3:is_active(nvm)
 end	
 
 local function node_timer4(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	pumping(pos, mem, State4, CAPA * 2)
-	return State4:is_active(mem)
+	local nvm = techage.get_nvm(pos)
+	pumping(pos, nvm, State4, CAPA * 2)
+	return State4:is_active(nvm)
 end	
 
 local function on_rightclick(pos, node, clicker)
-	local mem = tubelib2.get_mem(pos)
+	local nvm = techage.get_nvm(pos)
 	if node.name == "techage:t3_pump" then
 		set_starter_name(pos, clicker)
-		State3:start(pos, mem)
+		State3:start(pos, nvm)
 	elseif node.name == "techage:t3_pump_on" then
-		State3:stop(pos, mem)
+		State3:stop(pos, nvm)
 	elseif node.name == "techage:t4_pump" then
 		set_starter_name(pos, clicker)
-		State4:start(pos, mem)
+		State4:start(pos, nvm)
 	elseif node.name == "techage:t4_pump_on" then
-		State4:stop(pos, mem)
+		State4:stop(pos, nvm)
 	end
 end
 
@@ -128,7 +128,7 @@ end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	Pipe:after_dig_node(pos)
-	tubelib2.del_mem(pos)
+	techage.del_mem(pos)
 end
 
 local ta3_tiles_pas = {
@@ -208,7 +208,7 @@ local ta4_tiles_act = {
 }
 
 local nworks = {
-	pipe = {
+	pipe2 = {
 		sides = {L = 1, R = 1}, -- Pipe connection side
 		ntype = "pump",
 	},

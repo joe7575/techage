@@ -16,54 +16,58 @@
 local M = minetest.get_meta
 local S = techage.S
 
-local Power = techage.ElectricCable
+local Cable = techage.ElectricCable
 local firebox = techage.firebox
 local power = techage.power
 local fuel = techage.fuel
 local Pipe = techage.LiquidPipe
 local liquid = techage.liquid
+local networks = techage.networks
 
 local CYCLE_TIME = 2
 local PWR_CAPA = 12
 local EFFICIENCY = 2.5
 
-local function formspec(self, pos, mem)
+local function formspec(self, pos, nvm)
 	local fuel_percent = 0
-	if mem.running then
-		fuel_percent = ((mem.burn_cycles or 1) * 100) / (mem.burn_cycles_total or 1)
+	if nvm.running then
+		fuel_percent = ((nvm.burn_cycles or 1) * 100) / (nvm.burn_cycles_total or 1)
 	end
 	return "size[8,6]"..
+		--"box[0,-0.1;3.8,0.5;#c6e8ff]"..
+		--"label[1,-0.1;"..minetest.colorize( "#000000", S("Tiny Generator")).."]"..
+		--power.formspec_label_bar(0, 0.8, S("power"), PWR_CAPA, nvm.provided)..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
-		fuel.formspec_fuel(1, 0, mem)..
+		fuel.formspec_fuel(1, 0, nvm)..
 		"button[1.6,1;1.8,1;update;"..S("Update").."]"..
-		"image_button[5.5,0.5;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
-		"image[6.5,0;1,2;"..power.formspec_power_bar(PWR_CAPA, mem.provided).."]"..
+		"image_button[5.5,0.5;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
+		"image[6.5,0;1,2;"..power.formspec_power_bar(PWR_CAPA, nvm.provided).."]"..
 		"list[current_player;main;0,2.3;8,4;]"..
 		default.get_hotbar_bg(0, 3)
 end
 
-local function can_start(pos, mem, state)
-	if mem.burn_cycles > 0 or (mem.liquid and mem.liquid.amount and mem.liquid.amount > 0) then 
+local function can_start(pos, nvm, state)
+	if nvm.burn_cycles > 0 or (nvm.liquid and nvm.liquid.amount and nvm.liquid.amount > 0) then 
 		return true 
 	end
 	return false
 end
 
-local function start_node(pos, mem, state)
-	mem.running = true
-	power.generator_start(pos, mem, PWR_CAPA)
+local function start_node(pos, nvm, state)
+	nvm.running = true
+	power.generator_start(pos, nvm, PWR_CAPA)
 	minetest.sound_play("techage_generator", {
 		pos = pos, 
 		gain = 1,
 		max_hear_distance = 10})
 end
 
-local function stop_node(pos, mem, state)
-	mem.running = false
-	mem.provided = 0
-	power.generator_stop(pos, mem)
+local function stop_node(pos, nvm, state)
+	nvm.running = false
+	nvm.provided = 0
+	power.generator_stop(pos, nvm)
 end
 
 local State = techage.NodeStates:new({
@@ -72,27 +76,27 @@ local State = techage.NodeStates:new({
 	cycle_time = CYCLE_TIME,
 	standby_ticks = 0,
 	formspec_func = formspec,
-	infotext_name = "TA3 Tiny Power Generator",
+	infotext_name = S("TA3 Tiny Power Generator"),
 	can_start = can_start,
 	start_node = start_node,
 	stop_node = stop_node,
 })
 
-local function burning(pos, mem)
-	local ratio = math.max((mem.provided or PWR_CAPA) / PWR_CAPA, 0.02)
+local function burning(pos, nvm)
+	local ratio = math.max((nvm.provided or PWR_CAPA) / PWR_CAPA, 0.02)
 	
-	mem.liquid = mem.liquid or {}
-	mem.liquid.amount = mem.liquid.amount or 0
-	mem.burn_cycles = (mem.burn_cycles or 0) - ratio
-	if mem.burn_cycles <= 0 then
-		if mem.liquid.amount > 0 then
-			mem.liquid.amount = mem.liquid.amount - 1
-			mem.burn_cycles = fuel.burntime(mem.liquid.name) * EFFICIENCY / CYCLE_TIME
-			mem.burn_cycles_total = mem.burn_cycles
+	nvm.liquid = nvm.liquid or {}
+	nvm.liquid.amount = nvm.liquid.amount or 0
+	nvm.burn_cycles = (nvm.burn_cycles or 0) - ratio
+	if nvm.burn_cycles <= 0 then
+		if nvm.liquid.amount > 0 then
+			nvm.liquid.amount = nvm.liquid.amount - 1
+			nvm.burn_cycles = fuel.burntime(nvm.liquid.name) * EFFICIENCY / CYCLE_TIME
+			nvm.burn_cycles_total = nvm.burn_cycles
 			return true
 		else
-			mem.liquid.name = nil 
-			State:fault(pos, mem)
+			nvm.liquid.name = nil 
+			State:fault(pos, nvm)
 			return false
 		end
 	else
@@ -101,16 +105,16 @@ local function burning(pos, mem)
 end
 
 local function node_timer(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	if mem.running and burning(pos, mem) then
-		mem.provided = power.generator_alive(pos, mem)
+	local nvm = techage.get_nvm(pos)
+	if nvm.running and burning(pos, nvm) then
+		nvm.provided = power.generator_alive(pos, nvm)
 		minetest.sound_play("techage_generator", {
 			pos = pos, 
 			gain = 1,
 			max_hear_distance = 10})
 		return true
 	else
-		mem.provided = 0
+		nvm.provided = 0
 	end
 	return false
 end
@@ -119,15 +123,15 @@ local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	local mem = tubelib2.get_mem(pos)
-	State:state_button_event(pos, mem, fields)
+	local nvm = techage.get_nvm(pos)
+	State:state_button_event(pos, nvm, fields)
 	
-	M(pos):set_string("formspec", formspec(State, pos, mem))
+	M(pos):set_string("formspec", formspec(State, pos, nvm))
 end
 
 
-local function formspec_clbk(pos, mem)
-	return formspec(State, pos, mem)
+local function formspec_clbk(pos, nvm)
+	return formspec(State, pos, nvm)
 end
 
 local function on_metadata_inventory_put(pos, listname, index, stack, player)
@@ -135,8 +139,8 @@ local function on_metadata_inventory_put(pos, listname, index, stack, player)
 end
 
 local function on_rightclick(pos)
-	local mem = tubelib2.get_mem(pos)
-	M(pos):set_string("formspec", formspec(State, pos, mem))
+	local nvm = techage.get_nvm(pos)
+	M(pos):set_string("formspec", formspec(State, pos, nvm))
 end
 
 local _liquid = {
@@ -176,13 +180,13 @@ minetest.register_node("techage:tiny_generator", {
 	is_ground_content = false,
 
 	on_construct = function(pos)
-		local mem = tubelib2.init_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		local number = techage.add_node(pos, "techage:tiny_generator")
-		mem.running = false
-		mem.burn_cycles = 0
-		State:node_init(pos, mem, number)
+		nvm.running = false
+		nvm.burn_cycles = 0
+		State:node_init(pos, nvm, number)
 		local meta = M(pos)
-		meta:set_string("formspec", formspec(State, pos, mem))
+		meta:set_string("formspec", formspec(State, pos, nvm))
 		local inv = meta:get_inventory()
 		inv:set_size('fuel', 1)
 	end,
@@ -257,9 +261,9 @@ techage.power.register_node({"techage:tiny_generator", "techage:tiny_generator_o
 
 techage.register_node({"techage:tiny_generator", "techage:tiny_generator_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		if topic == "load" then
-			return power.percent(PWR_CAPA, mem.provided)
+			return power.percent(PWR_CAPA, nvm.provided)
 		else
 			return State:on_receive_message(pos, topic, payload)
 		end

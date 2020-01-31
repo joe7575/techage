@@ -28,7 +28,7 @@ local PWR_CAPA = {
 }
 
 local Cable = techage.ElectricCable
-local Pipe = techage.BiogasPipe
+local Pipe = techage.LiquidPipe
 local power = techage.power
 
 local function in_range(val, min, max)
@@ -69,9 +69,9 @@ local function inlet_cmnd(pos, cmnd, payload)
 end
 
 local function play_sound(pos)
-	local mem = tubelib2.get_mem(pos)
-	if mem.running then
-		mem.handle = minetest.sound_play("techage_booster", {
+	local nvm = techage.get_nvm(pos)
+	if nvm.running then
+		nvm.handle = minetest.sound_play("techage_booster", {
 			pos = pos, 
 			gain = 0.5,
 			max_hear_distance = 10})
@@ -79,10 +79,10 @@ local function play_sound(pos)
 end
 
 local function stop_sound(pos)
-	local mem = tubelib2.get_mem(pos)
-	if mem.running and mem.handle then
-		minetest.sound_stop(mem.handle)
-		mem.handle = nil
+	local nvm = techage.get_nvm(pos)
+	if nvm.running and nvm.handle then
+		minetest.sound_stop(nvm.handle)
+		nvm.handle = nil
 	end
 end
 
@@ -95,12 +95,12 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function charging(pos, mem, is_charging)
-	if mem.capa >= mem.capa_max then
+local function charging(pos, nvm, is_charging)
+	if nvm.capa >= nvm.capa_max then
 		return
 	end
-	if is_charging ~= mem.was_charging then
-		mem.was_charging = is_charging
+	if is_charging ~= nvm.was_charging then
+		nvm.was_charging = is_charging
 		if is_charging then
 			turbine_cmnd(pos, "stop")
 			play_sound(pos)
@@ -113,12 +113,12 @@ local function charging(pos, mem, is_charging)
 	end
 end
 
-local function delivering(pos, mem, delivered)
-	if mem.capa <= 0 then
+local function delivering(pos, nvm, delivered)
+	if nvm.capa <= 0 then
 		return
 	end
-	if delivered ~= mem.had_delivered then
-		mem.had_delivered = delivered
+	if delivered ~= nvm.had_delivered then
+		nvm.had_delivered = delivered
 		if delivered > 0 then
 			turbine_cmnd(pos, "start")
 		elseif delivered == 0 then
@@ -127,26 +127,26 @@ local function delivering(pos, mem, delivered)
 	end
 end
 
-local function glowing(pos, mem, should_glow)
-	if mem.win_pos then
+local function glowing(pos, nvm, should_glow)
+	if nvm.win_pos then
 		if should_glow then
-			swap_node(mem.win_pos, "techage:glow_gravel")
+			swap_node(nvm.win_pos, "techage:glow_gravel")
 		else
-			swap_node(mem.win_pos, "default:gravel")
+			swap_node(nvm.win_pos, "default:gravel")
 		end
 	end
 end
 
-local function formspec(self, pos, mem)
+local function formspec(self, pos, nvm)
 	return "size[5,3]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
-		"image[0,0.5;1,2;"..techage.power.formspec_power_bar(mem.capa_max, mem.capa).."]"..
+		"image[0,0.5;1,2;"..techage.power.formspec_power_bar(nvm.capa_max, nvm.capa).."]"..
 		"label[0.2,2.5;Load]"..
 		"button[1.1,1;1.8,1;update;"..S("Update").."]"..
-		"image_button[3,1;1,1;".. self:get_state_button_image(mem) ..";state_button;]"..
-		"image[4,0.5;1,2;"..techage.power.formspec_load_bar(-(mem.delivered or 0), PWR_PERF).."]"..
+		"image_button[3,1;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
+		"image[4,0.5;1,2;"..techage.power.formspec_load_bar(-(nvm.delivered or 0), PWR_PERF).."]"..
 		"label[4.2,2.5;Flow]"
 end
 
@@ -156,12 +156,12 @@ local function error_info(pos, err)
 	M(pos1):set_string("infotext", S("TA4 Heat Exchanger").." "..own_num.." : "..err)
 end
 
-local function can_start(pos, mem, state)
+local function can_start(pos, nvm, state)
 	if turbine_cmnd(pos, "power") then
 		local diameter = inlet_cmnd(pos, "diameter")
 		if diameter then
-			mem.capa_max = PWR_CAPA[tonumber(diameter)] or 0
-			if mem.capa_max ~= 0 then
+			nvm.capa_max = PWR_CAPA[tonumber(diameter)] or 0
+			if nvm.capa_max ~= 0 then
 				local owner = M(pos):get_string("owner") or ""
 				if inlet_cmnd(pos, "volume", owner) then
 					error_info(pos, "")
@@ -185,21 +185,21 @@ local function can_start(pos, mem, state)
 	return false
 end
 
-local function start_node(pos, mem, state)
-	mem.running = true
-	mem.delivered = 0
-	mem.was_charging = true
-	mem.had_delivered = nil
+local function start_node(pos, nvm, state)
+	nvm.running = true
+	nvm.delivered = 0
+	nvm.was_charging = true
+	nvm.had_delivered = nil
 	play_sound(pos)
-	mem.win_pos = inlet_cmnd(pos, "window")
-	power.secondary_start(pos, mem, PWR_PERF, PWR_PERF)
+	nvm.win_pos = inlet_cmnd(pos, "window")
+	power.secondary_start(pos, nvm, PWR_PERF, PWR_PERF)
 end
 
-local function stop_node(pos, mem, state)
-	mem.running = false
-	mem.delivered = 0
+local function stop_node(pos, nvm, state)
+	nvm.running = false
+	nvm.delivered = 0
 	turbine_cmnd(pos, "stop")
-	power.secondary_stop(pos, mem)
+	power.secondary_stop(pos, nvm)
 end
 
 local State = techage.NodeStates:new({
@@ -212,24 +212,24 @@ local State = techage.NodeStates:new({
 })
 
 local function node_timer(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	if mem.running and turbine_cmnd(pos, "power") then
-		mem.capa = mem.capa or 0
-		mem.capa_max = mem.capa_max or 0
-		mem.delivered = mem.delivered or 0
-		mem.delivered = power.secondary_alive(pos, mem, mem.capa, mem.capa_max)
-		mem.capa = mem.capa - mem.delivered
-		mem.capa = in_range(mem.capa, 0, mem.capa_max)
-		glowing(pos, mem, mem.capa > mem.capa_max * 0.8)
-		charging(pos, mem, mem.delivered < 0)
-		delivering(pos, mem, mem.delivered) 
+	local nvm = techage.get_nvm(pos)
+	if nvm.running and turbine_cmnd(pos, "power") then
+		nvm.capa = nvm.capa or 0
+		nvm.capa_max = nvm.capa_max or 0
+		nvm.delivered = nvm.delivered or 0
+		nvm.delivered = power.secondary_alive(pos, nvm, nvm.capa, nvm.capa_max)
+		nvm.capa = nvm.capa - nvm.delivered
+		nvm.capa = in_range(nvm.capa, 0, nvm.capa_max)
+		glowing(pos, nvm, nvm.capa > nvm.capa_max * 0.8)
+		charging(pos, nvm, nvm.delivered < 0)
+		delivering(pos, nvm, nvm.delivered) 
 	end
-	return mem.running
+	return nvm.running
 end
 
 local function can_dig(pos, player)
-	local mem = tubelib2.get_mem(pos)
-	return not mem.running
+	local nvm = techage.get_nvm(pos)
+	return not nvm.running
 end
 
 local function orientate_node(pos, name)
@@ -292,16 +292,16 @@ minetest.register_node("techage:heatexchanger2", {
 			return true
 		end
 		local pos1 = {x = pos.x, y = pos.y - 1, z = pos.z}
-		local mem = tubelib2.get_mem(pos1)
+		local nvm = techage.get_nvm(pos1)
 		local own_num = M(pos1):get_string("node_number")
-		M(pos):set_string("formspec", formspec(State, pos1, mem))
+		M(pos):set_string("formspec", formspec(State, pos1, nvm))
 		M(pos):set_string("infotext", S("TA4 Heat Exchanger").." "..own_num)
 	end,
 	
 	on_rightclick = function(pos)
 		local pos1 = {x = pos.x, y = pos.y - 1, z = pos.z}
-		local mem = tubelib2.get_mem(pos1)
-		M(pos):set_string("formspec", formspec(State, pos1, mem))
+		local nvm = techage.get_nvm(pos1)
+		M(pos):set_string("formspec", formspec(State, pos1, nvm))
 	end,
 	
 	on_receive_fields = function(pos, formname, fields, player)
@@ -309,9 +309,9 @@ minetest.register_node("techage:heatexchanger2", {
 			return
 		end
 		local pos1 = {x = pos.x, y = pos.y - 1, z = pos.z}
-		local mem = tubelib2.get_mem(pos1)
-		State:state_button_event(pos1, mem, fields)
-		M(pos):set_string("formspec", formspec(State, pos1, mem))
+		local nvm = techage.get_nvm(pos1)
+		State:state_button_event(pos1, nvm, fields)
+		M(pos):set_string("formspec", formspec(State, pos1, nvm))
 	end,
 
 	paramtype2 = "facedir",
@@ -345,12 +345,12 @@ techage.power.register_node({"techage:heatexchanger1"}, {
 	conn_sides = {"F", "B"},
 	power_network  = Cable,
 	after_place_node = function(pos, placer)
-		local mem = tubelib2.init_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		local meta = M(pos)
 		local own_num = techage.add_node(pos, "techage:heatexchanger1")
 		meta:set_string("owner", placer:get_player_name())
-		State:node_init(pos, mem, own_num)
-		mem.capa = 0
+		State:node_init(pos, nvm, own_num)
+		nvm.capa = 0
 	end,
 })
 
@@ -359,11 +359,11 @@ Pipe:add_secondary_node_names({"techage:heatexchanger1", "techage:heatexchanger3
 -- for logical communication
 techage.register_node({"techage:heatexchanger1"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		if topic == "load" then
-			return techage.power.percent(mem.capa_max, mem.capa)
+			return techage.power.percent(nvm.capa_max, nvm.capa)
 		elseif topic == "size" then
-			return (mem.capa_max or 0) / GRVL_CAPA
+			return (nvm.capa_max or 0) / GRVL_CAPA
 		else
 			return State:on_receive_message(pos, topic, payload)
 		end

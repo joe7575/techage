@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2019 Joachim Stolberg
+	Copyright (C) 2017-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -20,7 +20,7 @@ local logic = techage.logic
 local BLOCKING_TIME = 8 -- seconds
 
 local function switch_on(pos)
-	local mem = tubelib2.get_mem(pos)
+	local mem = techage.get_mem(pos)
 	local t = minetest.get_gametime()
 	if t > (mem.time or 0) then
 		logic.swap_node(pos, "techage:ta3_detector_on")
@@ -55,7 +55,6 @@ minetest.register_node("techage:ta3_detector_off", {
 
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		local mem = tubelib2.init_mem(pos)
 		logic.after_place_node(pos, placer, "techage:ta3_detector_off", S("TA3 Detector"))
 		logic.infotext(meta, S("TA3 Detector"))
 		meta:set_string("formspec", formspec(meta))
@@ -79,7 +78,7 @@ minetest.register_node("techage:ta3_detector_off", {
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
+		techage.del_mem(pos)
 	end,
 	
 	on_rotate = screwdriver.disallow,
@@ -116,7 +115,7 @@ minetest.register_node("techage:ta3_detector_on", {
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
+		techage.del_mem(pos)
 	end,
 	
 	paramtype2 = "facedir",

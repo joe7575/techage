@@ -491,6 +491,7 @@ function NodeStates:on_node_load(pos, not_start_timer)
 			elseif not info.pos then
 				minetest.log("warning", "[TA] Node at "..S(pos).." has no info.pos")
 			elseif not vector.equals(pos, info.pos) then
+				print(S(pos), S(info.pos))
 				minetest.log("warning", "[TA] Node at "..S(pos).." is pos ~= info.pos")
 			end
 			swap_node(pos, "techage:defect_dummy")

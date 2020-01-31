@@ -79,8 +79,8 @@ end
 
 
 local function check_rules(pos,elapsed)
-	local mem = tubelib2.get_mem(pos)
-	mem.done = mem.done or {false,false,false,false,false,false}
+	local nvm = techage.get_nvm(pos)
+	nvm.done = nvm.done or {false,false,false,false,false,false}
 	local hour = math.floor(minetest.get_timeofday() * 24)
 	local meta = minetest.get_meta(pos)
 	local events = deserialize(meta, "events")
@@ -94,19 +94,19 @@ local function check_rules(pos,elapsed)
 			if act ~= "" and numbers[idx] ~= "" then
 				local hr = (events[idx] - 1) * 2
 				if ((hour - hr) % 24) <= 4 then  -- last 4 hours?
-					if mem.done[idx] == false then  -- not already executed?
+					if nvm.done[idx] == false then  -- not already executed?
 						techage.send_multi(number, numbers[idx], act)
-						mem.done[idx] = true
+						nvm.done[idx] = true
 					end
 				else
-					mem.done[idx] = false
+					nvm.done[idx] = false
 				end
 			end
 		end
 		
 		-- prepare for the next day
 		if hour == 23 then
-			mem.done = {false,false,false,false,false,false}
+			nvm.done = {false,false,false,false,false,false}
 		end
 		return true
 	end
@@ -125,13 +125,13 @@ minetest.register_node("techage:ta3_timer", {
 
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		local mem = tubelib2.init_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		logic.after_place_node(pos, placer, "techage:ta3_timer", S("TA3 Timer"))
 		logic.infotext(meta, S("TA3 Timer"))
 		local events = {1,1,1,1,1,1}
 		local numbers = {"0000","","","","",""}
 		local actions = {"","","","","",""}
-		mem.done = {false,false,false,false,false,false}
+		nvm.done = {false,false,false,false,false,false}
 		meta:set_string("events",  minetest.serialize(events))
 		meta:set_string("numbers", minetest.serialize(numbers))
 		meta:set_string("actions", minetest.serialize(actions))
@@ -169,15 +169,15 @@ minetest.register_node("techage:ta3_timer", {
 		end
 		meta:set_string("actions", minetest.serialize(actions))
 		meta:set_string("formspec", formspec(events, numbers, actions))
-		local mem = tubelib2.get_mem(pos)
-		mem.done = {false,false,false,false,false,false}
+		local nvm = techage.get_nvm(pos)
+		nvm.done = {false,false,false,false,false,false}
 	end,
 	
 	on_timer = check_rules,
 
 	after_dig_node = function(pos)
 		techage.remove_node(pos)
-		tubelib2.del_mem(pos)
+		techage.del_mem(pos)
 	end,
 
 	paramtype = "light",
@@ -202,8 +202,8 @@ techage.register_node({"techage:ta3_timer"}, {
 	on_node_load = function(pos)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		-- check rules for just loaded areas
-		local mem = tubelib2.get_mem(pos)
-		mem.done = {false,false,false,false,false,false}
+		local nvm = techage.get_nvm(pos)
+		nvm.done = {false,false,false,false,false,false}
 		check_rules(pos,0)
 	end,
 })

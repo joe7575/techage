@@ -18,7 +18,7 @@ local S = techage.S
 
 local CYCLE_TIME = 2
 
-local Pipe = techage.BiogasPipe
+local Pipe = techage.LiquidPipe
 
 local function swap_node(pos, name)
 	local node = techage.get_node_lvm(pos)
@@ -30,9 +30,9 @@ local function swap_node(pos, name)
 end
 
 local function play_sound(pos)
-	local mem = tubelib2.get_mem(pos)
-	if mem.running then
-		mem.handle = minetest.sound_play("techage_turbine", {
+	local nvm = techage.get_nvm(pos)
+	if nvm.running then
+		nvm.handle = minetest.sound_play("techage_turbine", {
 			pos = pos, 
 			gain = 0.5,
 			max_hear_distance = 10})
@@ -40,10 +40,10 @@ local function play_sound(pos)
 end
 
 local function stop_sound(pos)
-	local mem = tubelib2.get_mem(pos)
-	if mem.running and mem.handle then
-		minetest.sound_stop(mem.handle)
-		mem.handle = nil
+	local nvm = techage.get_nvm(pos)
+	if nvm.running and nvm.handle then
+		minetest.sound_stop(nvm.handle)
+		nvm.handle = nil
 	end
 end
 
@@ -59,12 +59,12 @@ end
 
 -- to detect the missing "steam pressure"
 local function node_timer(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	mem.remote_trigger = (mem.remote_trigger or 0) - 1
-	if mem.remote_trigger <= 0 then
+	local nvm = techage.get_nvm(pos)
+	nvm.remote_trigger = (nvm.remote_trigger or 0) - 1
+	if nvm.remote_trigger <= 0 then
 		swap_node(pos, "techage:ta4_turbine")
 		stop_sound(pos)
-		mem.running = false
+		nvm.running = false
 	end
 	play_sound(pos)
 	return true
@@ -138,35 +138,35 @@ techage.power.register_node({"techage:ta4_turbine", "techage:ta4_turbine_on"}, {
 	conn_sides = {"L", "U"},
 	power_network  = Pipe,
 	after_place_node = function(pos, placer)
-		local mem = tubelib2.init_mem(pos)
-		mem.running = false
-		mem.remote_trigger = 0
+		local nvm = techage.get_nvm(pos)
+		nvm.running = false
+		nvm.remote_trigger = 0
 	end,
 })
 
 -- for logical communication
 techage.register_node({"techage:ta4_turbine", "techage:ta4_turbine_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		if topic == "power" then
-			mem.remote_trigger = 2
+			nvm.remote_trigger = 2
 			return generator_cmnd(pos, topic)
 		elseif topic == "start" then
-			mem.remote_trigger = 2
+			nvm.remote_trigger = 2
 			swap_node(pos, "techage:ta4_turbine_on")
-			mem.running = true
+			nvm.running = true
 			minetest.get_node_timer(pos):start(CYCLE_TIME)
 			play_sound(pos)
 			return generator_cmnd(pos, topic)
 		elseif topic == "stop" then
 			swap_node(pos, "techage:ta4_turbine")
-			mem.running = false
-			mem.remote_trigger = 0
+			nvm.running = false
+			nvm.remote_trigger = 0
 			minetest.get_node_timer(pos):stop()
 			stop_sound(pos)
 			return generator_cmnd(pos, topic)
 		elseif topic == "trigger" then
-			mem.remote_trigger = 2
+			nvm.remote_trigger = 2
 			return generator_cmnd(pos, topic)
 		end
 	end

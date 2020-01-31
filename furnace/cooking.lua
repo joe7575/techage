@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -104,17 +104,17 @@ local function process(inv, recipe, output)
 	return techage.RUNNING
 end		
 
-function techage.furnace.check_if_worth_to_wakeup(pos, mem)
+function techage.furnace.check_if_worth_to_wakeup(pos, nvm)
 	local inv = M(pos):get_inventory()
-	if not mem.output or not mem.num_recipe then
+	if not nvm.output or not nvm.num_recipe then
 		return false
 	end
-	local recipe = Recipes[mem.output] and Recipes[mem.output][mem.num_recipe]
+	local recipe = Recipes[nvm.output] and Recipes[nvm.output][nvm.num_recipe]
 	if not recipe then
 		return false
 	end
 	-- check dst inv
-	local stack = ItemStack(mem.output)
+	local stack = ItemStack(nvm.output)
 	stack:set_count(recipe.number)
 	if not inv:room_for_item("dst", stack) then
 		return false
@@ -129,52 +129,52 @@ function techage.furnace.check_if_worth_to_wakeup(pos, mem)
 	return true
 end		
 
-function techage.furnace.smelting(pos, mem, elapsed)
+function techage.furnace.smelting(pos, nvm, elapsed)
 	local inv = M(pos):get_inventory()
 	local state = techage.RUNNING
 	if inv and not inv:is_empty("src") then
-		if not mem.output or not mem.num_recipe then
+		if not nvm.output or not nvm.num_recipe then
 			return techage.FAULT, "recipe error"
 		end
-		local recipe = Recipes[mem.output] and Recipes[mem.output][mem.num_recipe]
+		local recipe = Recipes[nvm.output] and Recipes[nvm.output][nvm.num_recipe]
 		if not recipe then
 			return techage.FAULT, "recipe error"
 		end
 			
-		elapsed = elapsed + (mem.leftover or 0)
+		elapsed = elapsed + (nvm.leftover or 0)
 		while elapsed >= recipe.time do
-			state = process(inv, recipe, mem.output)
+			state = process(inv, recipe, nvm.output)
 			if state ~= techage.RUNNING then 
 				return state
 			end
 			elapsed = elapsed - recipe.time
 		end
-		mem.leftover = elapsed
+		nvm.leftover = elapsed
 		if recipe.time >= 10 then
-			mem.item_percent = math.min(math.floor((mem.leftover * 100.0) / recipe.time), 100)
+			nvm.item_percent = math.min(math.floor((nvm.leftover * 100.0) / recipe.time), 100)
 		else
-			mem.item_percent = 100
+			nvm.item_percent = 100
 		end
 		return state
 	end
 	return techage.STANDBY
 end
 
-function techage.furnace.get_output(mem, ingr, idx)
+function techage.furnace.get_output(nvm, ingr, idx)
 	local tbl = get_recipes(ingr)
 	idx = range(idx, 1, #tbl)
-	mem.output = tbl[idx] or tbl[1]
-	mem.num_recipe = all_ingredients_available(mem.output, ingr)
-	return mem.output
+	nvm.output = tbl[idx] or tbl[1]
+	nvm.num_recipe = all_ingredients_available(nvm.output, ingr)
+	return nvm.output
 end
 
 function techage.furnace.get_num_recipes(ingr)
 	return #get_recipes(ingr)
 end
 
-function techage.furnace.reset_cooking(mem)
-	mem.leftover = 0
-	mem.item_percent = 0
+function techage.furnace.reset_cooking(nvm)
+	nvm.leftover = 0
+	nvm.item_percent = 0
 end
 
 

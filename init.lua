@@ -60,15 +60,7 @@ else
 	dofile(MP.."/power/powerswitch.lua")
 	dofile(MP.."/power/protection.lua")
 	dofile(MP.."/power/power_line.lua")
-	
-	
-	
-	--dofile(MP.."/power/test.lua")
-	--dofile(MP.."/power/power.lua")
-	--dofile(MP.."/power/power2.lua")
-	--dofile(MP.."/power/junction.lua") 
-	--dofile(MP.."/power/junctionbox.lua")
-	--dofile(MP.."/power/ta4_cable.lua")
+	dofile(MP.."/power/ta4_cable.lua")
 
 	-- Iron Age
 	dofile(MP.."/iron_age/main.lua")
@@ -109,13 +101,13 @@ else
 	dofile(MP.."/basic_machines/liquidsampler.lua")
 
 --	-- Liquids
---	dofile(MP.."/liquids/liquid_pipe.lua")
---	dofile(MP.."/liquids/liquid.lua")
---	dofile(MP.."/liquids/liquid_lib.lua")
---	dofile(MP.."/liquids/tank.lua")
---	dofile(MP.."/liquids/silo.lua")
---	dofile(MP.."/liquids/pump.lua")
---	dofile(MP.."/liquids/fuel_lib.lua")
+	dofile(MP.."/liquids/liquid_pipe.lua")
+	dofile(MP.."/liquids/liquid.lua")
+	dofile(MP.."/liquids/liquid_lib.lua")
+	dofile(MP.."/liquids/tank.lua")
+	dofile(MP.."/liquids/silo.lua")
+	dofile(MP.."/liquids/pump.lua")
+	dofile(MP.."/liquids/fuel_lib.lua")
 	
 	-- Coal power station
 	dofile(MP.."/coal_power_station/firebox.lua")
@@ -126,12 +118,12 @@ else
 	dofile(MP.."/coal_power_station/cooler.lua")
 	
 --	-- Industrial Furnace
---	dofile(MP.."/furnace/firebox.lua")
---	dofile(MP.."/furnace/cooking.lua")
---	dofile(MP.."/furnace/furnace_top.lua")
---	dofile(MP.."/furnace/booster.lua")
---	dofile(MP.."/furnace/heater.lua")
---	dofile(MP.."/furnace/recipes.lua")
+	dofile(MP.."/furnace/firebox.lua")
+	dofile(MP.."/furnace/cooking.lua")
+	dofile(MP.."/furnace/furnace_top.lua")
+	dofile(MP.."/furnace/booster.lua")
+	dofile(MP.."/furnace/heater.lua")
+	dofile(MP.."/furnace/recipes.lua")
 	
 	-- Tools
 	dofile(MP.."/tools/trowel.lua")
@@ -139,14 +131,14 @@ else
 	dofile(MP.."/basic_machines/blackhole.lua")
 	dofile(MP.."/basic_machines/forceload.lua")
 	
---	-- Lamps
---	dofile(MP.."/lamps/lib.lua")
---	dofile(MP.."/lamps/simplelamp.lua")
---	dofile(MP.."/lamps/streetlamp.lua")
---	dofile(MP.."/lamps/ceilinglamp.lua")
---	dofile(MP.."/lamps/industriallamp1.lua")
---	dofile(MP.."/lamps/industriallamp2.lua")
---	dofile(MP.."/lamps/industriallamp3.lua")
+	-- Lamps
+	dofile(MP.."/lamps/lib.lua")
+	dofile(MP.."/lamps/simplelamp.lua")
+	dofile(MP.."/lamps/streetlamp.lua")
+	dofile(MP.."/lamps/ceilinglamp.lua")
+	dofile(MP.."/lamps/industriallamp1.lua")
+	dofile(MP.."/lamps/industriallamp2.lua")
+	dofile(MP.."/lamps/industriallamp3.lua")
 	
 --	-- Oil
 --	dofile(MP.."/oil/explore.lua")
@@ -181,6 +173,7 @@ else
 	-- Test
 	dofile(MP.."/recipe_checker.lua")
 	dofile(MP.."/.test/sink.lua")
+	dofile(MP.."/.test/meta_node.lua")
 	--dofile(MP.."/.test/source.lua")
 	--dofile(MP.."/.test/accu.lua")
 	
@@ -213,24 +206,24 @@ else
 --	dofile(MP.."/hydrogen/legacy.lua")
 
 	-- Items
---	dofile(MP.."/items/barrel.lua")
+	dofile(MP.."/items/barrel.lua")
 	dofile(MP.."/items/baborium.lua")
 	dofile(MP.."/items/usmium.lua")
---	dofile(MP.."/items/lye.lua")
---	dofile(MP.."/items/oil.lua")
---	dofile(MP.."/items/petroleum.lua")
---	dofile(MP.."/items/bauxit.lua")
---	dofile(MP.."/items/silicon.lua")
---	dofile(MP.."/items/steelmat.lua")
---	dofile(MP.."/items/powder.lua")
---	dofile(MP.."/items/epoxy.lua")
---	dofile(MP.."/items/aluminium.lua")
---	dofile(MP.."/items/plastic.lua")
---	dofile(MP.."/items/hydrogen.lua")
+	dofile(MP.."/items/lye.lua")
+	dofile(MP.."/items/oil.lua")
+	dofile(MP.."/items/petroleum.lua")
+	dofile(MP.."/items/bauxit.lua")
+	dofile(MP.."/items/silicon.lua")
+	dofile(MP.."/items/steelmat.lua")
+	dofile(MP.."/items/powder.lua")
+	dofile(MP.."/items/epoxy.lua")
+	dofile(MP.."/items/aluminium.lua")
+	dofile(MP.."/items/plastic.lua")
+	dofile(MP.."/items/hydrogen.lua")
 	
---	if techage.basalt_stone_enabled then
---		dofile(MP.."/items/basalt.lua")
---	end
+	if techage.basalt_stone_enabled then
+		dofile(MP.."/items/basalt.lua")
+	end
 
 --	dofile(MP.."/power3/electric_cable.lua")
 --	dofile(MP.."/power3/node_api.lua")

@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -26,7 +26,7 @@ local Pipe = tubelib2.Tube:new({
 	max_tube_length = MAX_PIPE_LENGHT, 
 	show_infotext = false,
 	force_to_use_tubes = true,
-	tube_type = "pipe",
+	tube_type = "pipe2",
 	primary_node_names = {"techage:ta3_pipeS", "techage:ta3_pipeA"}, 
 	secondary_node_names = {},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
@@ -54,7 +54,7 @@ minetest.register_node("techage:ta3_pipeS", {
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		Pipe:after_dig_tube(pos, oldnode)
+		Pipe:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
 	
 	paramtype2 = "facedir", -- important!
@@ -85,7 +85,7 @@ minetest.register_node("techage:ta3_pipeA", {
 	},
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		Pipe:after_dig_tube(pos, oldnode)
+		Pipe:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
 	
 	paramtype2 = "facedir", -- important!
@@ -138,7 +138,7 @@ local Boxes = {
 	}
 }
 
-techage.register_junction("techage:ta3_junctionpipe", 1/8, Boxes, nil, {
+techage.register_junction("techage:ta3_junctionpipe", 1/8, Boxes, Pipe, {
 	description = S("TA Junction Pipe"),
 	tiles = {"techage_gaspipe_junction.png"},
 	groups = {crumbly = 2, cracky = 2, snappy = 2, techage_trowel = 1},
@@ -158,17 +158,12 @@ techage.register_junction("techage:ta3_junctionpipe", 1/8, Boxes, nil, {
 		Pipe:after_dig_node(pos)
 	end,
 	networks = {
-		pipe = {
+		pipe2 = {
 			sides = networks.AllSides, -- connection sides for pipes
 			ntype = "junc",
 		},
 	},
 }, 25)
-
--- register by hand, as there is no power support 
-for idx = 0,63 do
-	Pipe:add_secondary_node_names({"techage:ta3_junctionpipe"..idx})
-end
 
 minetest.register_craft({
 	output = "techage:ta3_junctionpipe25 2",
@@ -191,6 +186,5 @@ minetest.register_craft({
 minetest.register_alias("techage:ta4_pipeA", "techage:ta3_pipeA")
 minetest.register_alias("techage:ta4_pipeS", "techage:ta3_pipeS")
 
-techage.BiogasPipe = Pipe
 techage.LiquidPipe = Pipe
 

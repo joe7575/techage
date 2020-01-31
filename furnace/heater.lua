@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -24,7 +24,7 @@ local liquid = techage.liquid
 local CYCLE_TIME = 2
 local PWR_NEEDED = 14
 
-local Power = techage.ElectricCable
+local Cable = techage.ElectricCable
 local power = techage.power
 
 local function swap_node(pos, name)
@@ -36,24 +36,41 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function on_power(pos, mem)
-	if mem.running then
-		swap_node(pos, "techage:furnace_heater_on")
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-	end
-	mem.has_power = true
+local function on_power(pos)
+	swap_node(pos, "techage:furnace_heater_on")
 end
 
-local function on_nopower(pos, mem)
+local function on_nopower(pos)
 	swap_node(pos, "techage:furnace_heater")
-	mem.has_power = false
 end
 
 local function node_timer(pos, elapsed)
-	local mem = tubelib2.get_mem(pos)
-	power.consumer_alive(pos, mem)
-	return mem.running
+	power.consumer_alive(pos, Cable, CYCLE_TIME)
+	return true
 end
+
+local function after_place_node(pos)
+	Cable:after_place_node(pos)
+end
+
+local function after_dig_node(pos, oldnode)
+	Cable:after_dig_node(pos)
+	techage.del_mem(pos)
+end
+
+local function tubelib2_on_update2(pos, outdir, tlib2, node) 
+	power.update_network(pos, outdir, tlib2)
+end
+
+local net_def = {
+	ele1 = {
+		sides = {B = true, F = true, L = true, D = true, U = true},
+		ntype = "con1",
+		on_power = on_power,
+		on_nopower = on_nopower,
+		nominal = PWR_NEEDED,
+	},
+}
 
 minetest.register_node("techage:furnace_heater", {
 	description = S("TA4 Furnace Heater"),
@@ -66,7 +83,13 @@ minetest.register_node("techage:furnace_heater", {
 		"techage_concrete.png^techage_frame_ta3.png",
 		"techage_concrete.png^techage_appl_heater.png^techage_frame_ta3.png",
 	},
+	
 	on_timer = node_timer,
+	after_place_node = after_place_node,
+	after_dig_node = after_dig_node,
+	tubelib2_on_update2 = tubelib2_on_update2,
+	networks = net_def,
+	
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -86,8 +109,13 @@ minetest.register_node("techage:furnace_heater_on", {
 		"techage_concrete.png^techage_appl_heater_on.png^techage_frame_ta3.png",
 	},
 	
-	light_source = 8,
 	on_timer = node_timer,
+	after_place_node = after_place_node,
+	after_dig_node = after_dig_node,
+	tubelib2_on_update2 = tubelib2_on_update2,
+	networks = net_def,
+	
+	light_source = 8,
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory = 1},
 	diggable = false,
@@ -96,15 +124,7 @@ minetest.register_node("techage:furnace_heater_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-techage.power.register_node({"techage:furnace_heater", "techage:furnace_heater_on"}, {
-	power_network = Power,
-	conn_sides = {"F", "B", "U", "D", "L"},
-	on_power = on_power,
-	on_nopower = on_nopower,
-	after_place_node = function(pos, placer)
-		local mem = tubelib2.init_mem(pos)
-	end,
-})
+Cable:add_secondary_node_names({"techage:furnace_heater", "techage:furnace_heater_on"})
 
 minetest.register_craft({
 	output = "techage:furnace_heater",
@@ -118,22 +138,22 @@ minetest.register_craft({
 techage.register_node({"techage:furnace_heater", "techage:furnace_heater_on"}, {
 	-- called from furnace_top
 	on_transfer = function(pos, in_dir, topic, payload)
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		if topic == "fuel" then
-			return mem.has_power or power.power_available(pos, mem, 0)
+			return power.power_available(pos, Cable)
 		elseif topic == "running" then
-			return mem.running and (mem.has_power or power.power_available(pos, mem, 0))
-		elseif topic == "start" and not mem.running then
-			if power.power_available(pos, mem, 0) then
-				mem.running = true
-				mem.has_power = false
-				power.consumer_start(pos, mem, CYCLE_TIME, PWR_NEEDED)
+			return techage.get_node_lvm(pos).name == "techage:furnace_heater_on"
+		elseif topic == "start" and not nvm.running then
+			if power.power_available(pos, Cable) then
+				nvm.running = true
+				power.consumer_start(pos, Cable, CYCLE_TIME)
+				minetest.get_node_timer(pos):start(CYCLE_TIME)
 				return true
 			end
-		elseif topic == "stop" and mem.running then
-			mem.running = false
+		elseif topic == "stop" and nvm.running then
+			nvm.running = false
 			swap_node(pos, "techage:furnace_heater")
-			power.consumer_stop(pos, mem)
+			power.consumer_stop(pos, Cable)
 			minetest.get_node_timer(pos):stop()
 			return true
 		end

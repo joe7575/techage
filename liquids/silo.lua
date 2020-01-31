@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -26,8 +26,8 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	local mem = tubelib2.get_mem(pos)
-	mem.item_name = nil
+	local nvm = techage.get_nvm(pos)
+	nvm.item_name = nil
 	local inv = minetest.get_meta(pos):get_inventory()
 	if inv:is_empty(listname) then
 		return stack:get_count()
@@ -42,8 +42,8 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	local mem = tubelib2.get_mem(pos)
-	mem.item_name = nil
+	local nvm = techage.get_nvm(pos)
+	nvm.item_name = nil
 	return stack:get_count()
 end
 
@@ -55,12 +55,12 @@ local function can_dig(pos, player)
 	return inv:is_empty("main")
 end
 
-local function get_item_name(mem, inv)
+local function get_item_name(nvm, inv)
 	for idx = 1, inv:get_size("main") do
 		local stack = inv:get_stack("main", idx)
 		if stack:get_count() > 0 then
-			mem.item_name = stack:get_name()
-			return mem.item_name
+			nvm.item_name = stack:get_name()
+			return nvm.item_name
 		end
 	end
 end	
@@ -90,10 +90,10 @@ end
 local tLiquid = {
 	capa = 0,
 	peek = function(pos, indir)
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		local inv = M(pos):get_inventory()
 		if not inv:is_empty("main") then
-			return mem.item_name or get_item_name(mem, inv)
+			return nvm.item_name or get_item_name(nvm, inv)
 		end
 	end,
 	put = function(pos, indir, name, amount)
@@ -106,10 +106,10 @@ local tLiquid = {
 		return amount
 	end,
 	take = function(pos, indir, name, amount)
-		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
 		local inv = M(pos):get_inventory()
 		if not name then
-			name = mem.item_name or get_item_name(mem, inv)
+			name = nvm.item_name or get_item_name(nvm, inv)
 		end
 		if name then
 			local stack = ItemStack(name.." "..amount)
@@ -120,7 +120,7 @@ local tLiquid = {
 }
 
 local tNetworks = {
-	pipe = {
+	pipe2 = {
 		sides = techage.networks.AllSides, -- Pipe connection sides
 		ntype = "tank",
 	},
@@ -143,12 +143,12 @@ minetest.register_node("techage:ta3_silo", {
 	end,
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		local mem = tubelib2.init_mem(pos)
-		mem.liquid = {}
+		local nvm = techage.get_nvm(pos)
+		nvm.liquid = {}
 		local number = techage.add_node(pos, "techage:ta3_silo")
 		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
-		meta:set_string("formspec", formspec3(mem))
+		meta:set_string("formspec", formspec3(nvm))
 		meta:set_string("infotext", S("TA3 Silo").." "..number)
 		Pipe:after_place_node(pos)
 	end,
@@ -188,12 +188,12 @@ minetest.register_node("techage:ta4_silo", {
 	end,
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		local mem = tubelib2.init_mem(pos)
-		mem.liquid = {}
+		local nvm = techage.get_nvm(pos)
+		nvm.liquid = {}
 		local number = techage.add_node(pos, "techage:ta4_silo")
 		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
-		meta:set_string("formspec", formspec4(mem))
+		meta:set_string("formspec", formspec4(nvm))
 		meta:set_string("infotext", S("TA4 Silo").." "..number)
 		Pipe:after_place_node(pos)
 	end,
