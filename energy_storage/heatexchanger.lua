@@ -69,20 +69,24 @@ local function inlet_cmnd(pos, cmnd, payload)
 end
 
 local function play_sound(pos)
-	local nvm = techage.get_nvm(pos)
-	if nvm.running then
-		nvm.handle = minetest.sound_play("techage_booster", {
+	local mem = techage.get_mem(pos)
+	if not mem.handle or mem.handle == -1 then
+		mem.handle = minetest.sound_play("techage_booster", {
 			pos = pos, 
 			gain = 0.5,
-			max_hear_distance = 10})
+			max_hear_distance = 10,
+			loop = true})
+		if mem.handle == -1 then
+			minetest.after(1, play_sound, pos)
+		end
 	end
 end
 
 local function stop_sound(pos)
-	local nvm = techage.get_nvm(pos)
-	if nvm.running and nvm.handle then
-		minetest.sound_stop(nvm.handle)
-		nvm.handle = nil
+	local mem = techage.get_mem(pos)
+	if mem.handle then
+		minetest.sound_stop(mem.handle)
+		mem.handle = nil
 	end
 end
 

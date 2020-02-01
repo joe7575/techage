@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -27,6 +27,28 @@ local CYCLE_TIME = 6
 local CAPA = 12
 local PWR_NEEDED = 14
 
+local function play_sound(pos)
+	local mem = techage.get_mem(pos)
+	if not mem.handle or mem.handle == -1 then
+		mem.handle = minetest.sound_play("techage_reboiler", {
+			pos = pos, 
+			gain = 1,
+			max_hear_distance = 15,
+			loop = true})
+		if mem.handle == -1 then
+			minetest.after(1, play_sound, pos)
+		end
+	end
+end
+
+local function stop_sound(pos)
+	local mem = techage.get_mem(pos)
+	if mem.handle then
+		minetest.sound_stop(mem.handle)
+		mem.handle = nil
+	end
+end
+
 local function swap_node(pos, on)
 	local nvm = techage.get_nvm(pos)
 	if on then
@@ -34,10 +56,7 @@ local function swap_node(pos, on)
 		node.name = "techage:ta3_reboiler_on"
 		minetest.swap_node(pos, node)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
-		minetest.sound_play("techage_reboiler", {
-			pos = pos, 
-			gain = 1,
-			max_hear_distance = 10})
+		play_sound(pos)
 	elseif not on and nvm.running then
 		local node = techage.get_node_lvm(pos)
 		node.name = "techage:ta3_reboiler"
@@ -45,16 +64,15 @@ local function swap_node(pos, on)
 		minetest.get_node_timer(pos):stop()
 		nvm.running = false
 		power.consumer_stop(pos, Cable)
+		stop_sound(pos)
 	end
 end
 
-local function on_power(pos, nvm)
-	if nvm.running then
-		swap_node(pos, true)
-	end
+local function on_power(pos)
+	swap_node(pos, true)
 end
 
-local function on_nopower(pos, nvm)
+local function on_nopower(pos)
 	swap_node(pos, false)
 end
 
@@ -99,34 +117,32 @@ local function node_timer(pos, elapsed)
 			swap_node(pos, false)
 			return false
 		end
-		minetest.sound_play("techage_reboiler", {
-			pos = pos, 
-			gain = 1,
-			max_hear_distance = 10})
 		return true
 	end
 	swap_node(pos, false)
 	return false
 end	
 
--- liquid
-local function tubelib2_on_update2(pos, outdir, tlib2, node)
-	liquid.update_network(pos, outdir)
+local function after_place_node(pos)
+	Pipe:after_place_node(pos)
+	Cable:after_place_node(pos)
 end
 
--- power
-local function after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir) 
-	power.after_tube_update2(node, pos, out_dir, peer_pos, peer_in_dir)
-end
-
-
-local function after_dig_node(pos, oldnode, oldmetadata, digger)
+local function after_dig_node(pos, oldnode)
 	Pipe:after_dig_node(pos)
-	power.after_dig_node(pos, oldnode)
+	Cable:after_dig_node(pos)
 	techage.del_mem(pos)
 end
 
-local _liquid = {
+local function tubelib2_on_update2(pos, outdir, tlib2, node) 
+	if tlib2 == Pipe then
+		liquid.update_network(pos, outdir)
+	else
+		power.update_network(pos, outdir, tlib2)
+	end
+end
+
+local liquid_def = {
 	capa = CAPA,
 	peek = liquid.srv_peek,
 	put = function(pos, indir, name, amount)
@@ -148,10 +164,17 @@ local _liquid = {
 	take = liquid.srv_take,
 }
 
-local _networks = {
+local net_def = {
 	pipe2 = {
 		sides = {L = true, R = true}, -- Pipe connection sides
 		ntype = "tank",
+	},
+	ele1 = {
+		sides = techage.networks.AllSides, -- Cable connection sides
+		ntype = "con1",
+		on_power = on_power,
+		on_nopower = on_nopower,
+		nominal = PWR_NEEDED,
 	},
 }
 
@@ -177,12 +200,13 @@ minetest.register_node("techage:ta3_reboiler", {
 		power.after_place_node(pos)
 	end,
 	
-	tubelib2_on_update2 = tubelib2_on_update2, -- liquid
-	after_tube_update = after_tube_update, -- power
+	tubelib2_on_update2 = tubelib2_on_update2,
 	on_timer = node_timer,
+	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	liquid = _liquid,
-	networks = _networks,
+	after_dig_node = after_dig_node,
+	liquid = liquid_def,
+	networks = net_def,
 	
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -199,34 +223,32 @@ minetest.register_node("techage:ta3_reboiler_on", {
 		"techage_filling_ta3.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
-	{
-		image = "techage_filling4_ta3.png^techage_appl_reboiler4.png^techage_frame4_ta3.png^[transformFX",
-		backface_culling = false,
-		animation = {
-			type = "vertical_frames",
-			aspect_w = 32,
-			aspect_h = 32,
-			length = 2.0,
+		{
+			image = "techage_filling4_ta3.png^techage_appl_reboiler4.png^techage_frame4_ta3.png^[transformFX",
+			backface_culling = false,
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 32,
+				aspect_h = 32,
+				length = 2.0,
+			},
 		},
-	},
-	{
-		image = "techage_filling4_ta3.png^techage_appl_reboiler4.png^techage_frame4_ta3.png",
-		backface_culling = false,
-		animation = {
-			type = "vertical_frames",
-			aspect_w = 32,
-			aspect_h = 32,
-			length = 2.0,
+		{
+			image = "techage_filling4_ta3.png^techage_appl_reboiler4.png^techage_frame4_ta3.png",
+			backface_culling = false,
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 32,
+				aspect_h = 32,
+				length = 2.0,
+			},
 		},
-	},
 	},
 
-	tubelib2_on_update2 = tubelib2_on_update2, -- liquid
-	after_tube_update = after_tube_update, -- power
+	tubelib2_on_update2 = tubelib2_on_update2,
 	on_timer = node_timer,
-	after_dig_node = after_dig_node,
-	liquid = _liquid,
-	networks = _networks,
+	liquid = liquid_def,
+	networks = net_def,
 	
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -236,19 +258,8 @@ minetest.register_node("techage:ta3_reboiler_on", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
---
--- Liquids
---
 Pipe:add_secondary_node_names({"techage:ta3_reboiler", "techage:ta3_reboiler_on"})
- 
---
--- Power
---
-techage.power.enrich_node({"techage:ta3_reboiler", "techage:ta3_reboiler_on"}, {
-	power_network = Cable,
-	on_power = on_power,
-	on_nopower = on_nopower,
-})
+Cable:add_secondary_node_names({"techage:ta3_reboiler", "techage:ta3_reboiler_on"})
 
 minetest.register_craft({
 	output = "techage:ta3_reboiler",

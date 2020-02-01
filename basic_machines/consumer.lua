@@ -29,6 +29,8 @@ local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).
 
 local power = techage.power
 local networks = techage.networks
+local Pipe = techage.LiquidPipe
+local liquid = techage.liquid
 
 local function has_power(pos, nvm, state)
 	local crd = CRD(pos)
@@ -115,19 +117,22 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 					power_png = 'techage_appl_hole_electric.png'
 					tNetworks = {
 						ele1 = {
-							sides = tNode.power_sides or {F=1, B=1},
+							sides = tNode.power_sides or {F=1, B=1, U=1, D=1},
 							ntype = "con1",
 							nominal = tNode.power_consumption[stage],
 							on_power = on_power,
 							on_nopower = on_nopower,
 						},
 					}
+					if tNode.networks and tNode.networks.pipe2 then
+						tNetworks.pipe2 = tNode.networks.pipe2
+					end
 				else
 					power_network = techage.Axle
 					power_png = 'techage_axle_clutch.png'
 					tNetworks = {
 						axle = {
-							sides = tNode.power_sides or {F=1, B=1},
+							sides = tNode.power_sides or {F=1, B=1, U=1, D=1},
 							ntype = "con1",
 							nominal = tNode.power_consumption[stage],
 							on_power = on_power,
@@ -196,7 +201,12 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 			end
 			
 			local tubelib2_on_update2 = function(pos, outdir, tlib2, node) 
-				power.update_network(pos, outdir, tlib2)
+				print("tubelib2_on_update2", tlib2.tube_type)
+				if tlib2.tube_type == "pipe2" then
+					liquid.update_network(pos, outdir, tlib2)
+				else
+					power.update_network(pos, outdir, tlib2)
+				end
 			end
 			
 			tNode.groups.not_in_creative_inventory = 0

@@ -26,7 +26,6 @@ local EFFICIENCY = 2 -- burn cycles
 local CATEGORY = 3
 
 local function has_fuel(pos, nvm)
-	print("has_fuel", nvm.burn_cycles, topic, payload)
 	return nvm.burn_cycles > 0 or (nvm.liquid and nvm.liquid.amount and nvm.liquid.amount > 0)
 end
 
@@ -55,8 +54,11 @@ local function node_timer(pos, elapsed)
 				return false
 			end
 		end
-		return true
 	end
+	if techage.is_activeformspec(pos) then
+		M(pos):set_string("formspec", fuel.formspec(nvm))
+	end
+	return true
 end
 
 local function start_firebox(pos, nvm)
@@ -85,11 +87,23 @@ local _liquid = {
 	peek = liquid.srv_peek,
 	put = function(pos, indir, name, amount)
 		if fuel.valid_fuel(name, fuel.BT_OIL) then
-			return liquid.srv_put(pos, indir, name, amount)
+			local res = liquid.srv_put(pos, indir, name, amount)
+			if techage.is_activeformspec(pos) then
+				local nvm = techage.get_nvm(pos)
+				M(pos):set_string("formspec", fuel.formspec(nvm))
+			end
+			return res
 		end
 		return amount
 	end,
-	take = liquid.srv_take,
+	take = function(pos, indir, name, amount)
+		amount, name = liquid.srv_take(pos, indir, name, amount)
+		if techage.is_activeformspec(pos) then
+			local nvm = techage.get_nvm(pos)
+			M(pos):set_string("formspec", fuel.formspec(nvm))
+		end
+		return amount, name
+	end
 }
 
 local _networks = {
@@ -121,6 +135,7 @@ minetest.register_node("techage:furnace_firebox", {
 	allow_metadata_inventory_take = fuel.allow_metadata_inventory_take,
 	allow_metadata_inventory_put = fuel.allow_metadata_inventory_put,
 	on_metadata_inventory_put = fuel.on_metadata_inventory_put,
+	on_punch = fuel.on_punch,
 	on_receive_fields = fuel.on_receive_fields,
 	on_rightclick = fuel.on_rightclick,
 	liquid = _liquid,
@@ -174,6 +189,7 @@ minetest.register_node("techage:furnace_firebox_on", {
 	allow_metadata_inventory_put = fuel.allow_metadata_inventory_put,
 	allow_metadata_inventory_take = fuel.allow_metadata_inventory_take,
 	on_receive_fields = fuel.on_receive_fields,
+	on_punch = fuel.on_punch,
 	on_rightclick = fuel.on_rightclick,
 	liquid = _liquid,
 	networks = _networks,
@@ -215,7 +231,6 @@ techage.register_node({"techage:furnace_firebox", "techage:furnace_firebox_on"},
 	on_transfer = function(pos, in_dir, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		if topic == "fuel" then
-			print(dump(nvm))
 			return has_fuel(pos, nvm) and booster_cmnd(pos, "power")
 		elseif topic == "running" then
 			return nvm.running and booster_cmnd(pos, "power")

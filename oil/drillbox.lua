@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -19,7 +19,7 @@ local S = techage.S
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 
-local STANDBY_TICKS = 4
+local STANDBY_TICKS = 1
 local COUNTDOWN_TICKS = 6
 local CYCLE_TIME = 16
 
@@ -31,21 +31,24 @@ local formspec0 = "size[5,4]"..
 	"button_exit[1,3.2;3,1;build;"..S("Build derrick").."]"
 
 local function play_sound(pos)
-	local nvm = techage.get_nvm(pos)
-	if nvm.techage_state == techage.RUNNING then
-		nvm.handle = minetest.sound_play("techage_oildrill", {
+	local mem = techage.get_mem(pos)
+	if not mem.handle or mem.handle == -1 then
+		mem.handle = minetest.sound_play("techage_oildrill", {
 			pos = pos, 
 			gain = 1,
-			max_hear_distance = 15})
-		minetest.after(4, play_sound, pos)
+			max_hear_distance = 15,
+			loop = true})
+		if mem.handle == -1 then
+			minetest.after(1, play_sound, pos)
+		end
 	end
 end
 
 local function stop_sound(pos)
-	local nvm = techage.get_nvm(pos)
-	if nvm.handle then
-		minetest.sound_stop(nvm.handle)
-		nvm.handle = nil
+	local mem = techage.get_mem(pos)
+	if mem.handle then
+		minetest.sound_stop(mem.handle)
+		mem.handle = nil
 	end
 end
 
@@ -104,8 +107,9 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return stack:get_count()
 end
 
-local function on_rightclick(pos)
+local function on_rightclick(pos, node, clicker)
 	local nvm = techage.get_nvm(pos)
+	techage.set_activeformspec(pos, clicker)
 	M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
 end
 
@@ -118,6 +122,7 @@ local function on_node_state_change(pos, old_state, new_state)
 end
 
 local function drilling(pos, crd, nvm, inv)
+	print("drilling")
 	M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
 	nvm.drill_pos = nvm.drill_pos or {x=pos.x, y=pos.y-1, z=pos.z}
 	local owner = M(pos):get_string("owner")
@@ -127,12 +132,12 @@ local function drilling(pos, crd, nvm, inv)
 	local ndef = minetest.registered_nodes[node.name]
 	
 	if not inv:contains_item("src", ItemStack("techage:oil_drillbit")) then
-		crd.State:idle(pos, nvm)
+		crd.State:idle(pos, nvm, S("Drill bits missing"))
 	elseif curr_depth >= depth then
 		M(pos):set_string("oil_found", "true")
 		crd.State:stop(pos, nvm)
 	elseif minetest.is_protected(nvm.drill_pos, owner) then
-		crd.State:fault(pos, nvm)
+		crd.State:fault(pos, nvm, S("Drill area is protected"))
 	elseif node.name == "techage:oil_drillbit2" then
 		nvm.drill_pos.y = nvm.drill_pos.y-1
 		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
@@ -156,7 +161,7 @@ local function drilling(pos, crd, nvm, inv)
 		nvm.drill_pos.y = nvm.drill_pos.y-1
 		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 	else
-		crd.State:fault(pos, nvm)
+		crd.State:fault(pos, nvm, S("block can't be dug"))
 	end
 end
 
@@ -167,7 +172,9 @@ local function keep_running(pos, elapsed)
 	if inv then
 		drilling(pos, crd, nvm, inv)
 	end
-	return crd.State:is_active(nvm)
+	if techage.is_activeformspec(pos) then
+		M(pos):set_string("formspec", formspec(crd.State, pos, nvm))
+	end
 end
 
 local function can_dig(pos, player)
@@ -196,6 +203,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	else
 		local nvm = techage.get_nvm(pos)
 		if not nvm.assemble_locked and M(pos):get_string("oil_found") ~= "true" then
+			local nvm = techage.get_nvm(pos)
 			CRD(pos).State:state_button_event(pos, nvm, fields)
 		end
 	end
@@ -245,8 +253,12 @@ local tubing = {
 			return "unsupported"
 		end
 	end,
-	on_node_load = function(pos)
+	on_node_load = function(pos, node)
 		CRD(pos).State:on_node_load(pos)
+		local nvm = techage.get_nvm(pos)
+		if nvm.techage_state == techage.RUNNING then
+			play_sound(pos)
+		end
 	end,
 }
 
@@ -294,18 +306,4 @@ minetest.register_craft({
 		{"techage:tubeS", "basic_materials:gear_steel", "techage:tubeS"},
 		{"default:steel_ingot", "techage:vacuum_tube", "default:steel_ingot"},
 	},
-})
-
-minetest.register_lbm({
-	label = "[techage] Oil Tower sound",
-	name = "techage:oil_tower",
-	nodenames = {"techage:ta3_drillbox_pas", "techage:ta3_drillbox_act"},
-	run_at_every_load = true,
-	action = function(pos, node)
-		local nvm = techage.get_nvm(pos)
-		nvm.assemble_locked = false
-		if nvm.techage_state == techage.RUNNING then
-			play_sound(pos)
-		end
-	end
 })

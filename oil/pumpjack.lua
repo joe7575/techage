@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -24,7 +24,7 @@ local liquid = techage.liquid
 local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).consumer end
 
-local STANDBY_TICKS = 10
+local STANDBY_TICKS = 1
 local COUNTDOWN_TICKS = 10
 local CYCLE_TIME = 8
 
@@ -52,53 +52,85 @@ local function formspec(self, pos, nvm)
 		amount = techage.explore.get_oil_amount(P(storage_pos))
 	end
 	return "size[5,3]"..
-	default.gui_bg..
-	default.gui_bg_img..
-	default.gui_slots..
-	"image[0.5,0;1,1;techage_liquid2_inv.png^[colorize:#000000^techage_liquid1_inv.png]"..
-	"image[2,0;1,1;"..techage.get_power_image(pos, nvm).."]"..
-	"label[0,1.3;"..S("Oil amount:")..": "..amount.."]"..
-	"button[3,1.1;2,1;update;"..S("Update").."]"..
-	"image_button[2,2.2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"
+		default.gui_bg..
+		default.gui_bg_img..
+		default.gui_slots..
+		"box[0,-0.1;4.8,0.5;#c6e8ff]"..
+		"label[1.5,-0.1;"..minetest.colorize( "#000000", S("Pumpjack")).."]"..
+		"image[0.5,1.4;1,1;techage_liquid2_inv.png^[colorize:#000000^techage_liquid1_inv.png]"..
+		"image[4,0.8;1,1;"..techage.get_power_image(pos, nvm).."]"..
+		"tooltip[4,0.8;1,1;"..S("needs power").."]"..
+		"label[0,2.5;"..S("Oil amount")..": "..amount.."]"..
+		"image_button[2.5,2.2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"
+end
+
+local function play_sound(pos)
+	local mem = techage.get_mem(pos)
+	if not mem.handle or mem.handle == -1 then
+		mem.handle = minetest.sound_play("techage_reboiler", {
+			pos = pos, 
+			gain = 1,
+			max_hear_distance = 15,
+			loop = true})
+		if mem.handle == -1 then
+			minetest.after(1, play_sound, pos)
+		end
+	end
+end
+
+local function stop_sound(pos)
+	local mem = techage.get_mem(pos)
+	if mem.handle then
+		minetest.sound_stop(mem.handle)
+		mem.handle = nil
+	end
+end
+
+local function on_node_state_change(pos, old_state, new_state)
+	if new_state == techage.RUNNING then
+		play_sound(pos)
+	else
+		stop_sound(pos)
+	end
 end
 
 local function on_rightclick(pos, node, clicker)
 	local nvm = techage.get_nvm(pos)
+	techage.set_activeformspec(pos, clicker)
 	M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
 end
 
 local function pumping(pos, crd, meta, nvm)
 	if has_oil(pos, meta) then
 		local leftover = liquid.put(pos, 6, "techage:oil_source", 1)
+		print("pumping", dump(leftover))
 		if leftover and leftover > 0 then
 			crd.State:blocked(pos, nvm)
+			stop_sound(pos)
 			return
 		end
 		dec_oil_item(pos, meta)
 		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 		return
 	end
-	crd.State:fault(pos, nvm)
+	crd.State:fault(pos, nvm, S("no oil"))
 end
 
 local function keep_running(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
 	pumping(pos, crd, M(pos), nvm)
-	return crd.State:is_active(nvm)
+	if techage.is_activeformspec(pos) then
+		M(pos):set_string("formspec", formspec(crd.State, pos, nvm))
+	end
 end	
 
 local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	if fields.update then
-		local nvm = techage.get_nvm(pos)
-		M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
-	else
-		local nvm = techage.get_nvm(pos)
-		CRD(pos).State:state_button_event(pos, nvm, fields)
-	end
+	local nvm = techage.get_nvm(pos)
+	CRD(pos).State:state_button_event(pos, nvm, fields)
 end
 
 local tiles = {}
@@ -149,8 +181,11 @@ local tubing = {
 			return "unsupported"
 		end
 	end,
-	on_node_load = function(pos)
+	on_node_load = function(pos, node)
 		CRD(pos).State:on_node_load(pos)
+		if node.name == "techage:ta3_pumpjack_act" then
+			play_sound(pos)
+		end	
 	end,
 }
 	
@@ -160,6 +195,7 @@ local _, node_name_ta3, _ =
 		standby_ticks = STANDBY_TICKS,
 		formspec = formspec,
 		tubing = tubing,
+		on_state_change = on_node_state_change,
 		after_place_node = function(pos, placer)
 			local node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
 			if node.name == "techage:oil_drillbit2" then
@@ -176,9 +212,7 @@ local _, node_name_ta3, _ =
 				ntype = "pump",
 			},
 		},
-		tubelib2_on_update2 = function(pos, outdir, tlib2, node)
-			liquid.update_network(pos, outdir)
-		end,
+		power_sides = {F=1, B=1, L=1, R=1, D=1},
 		on_rightclick = on_rightclick,
 		on_receive_fields = on_receive_fields,
 		node_timer = keep_running,

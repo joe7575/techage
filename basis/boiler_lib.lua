@@ -97,6 +97,20 @@ function techage.boiler.can_dig(pos, player)
 	return nvm.num_water == 0
 end
 
+local function space_in_inventory(wielded_item, item_count, puncher)
+	-- check if holding more than 1 empty container
+	if item_count > 1 then
+		local inv = puncher:get_inventory()
+		local item = ItemStack({name=wielded_item, count = item_count - 1})
+		if inv:room_for_item("main", item) then
+			inv:add_item("main", item)
+			return true
+		end
+		return false
+	end
+	return true
+end
+
 function techage.boiler.on_punch(pos, node, puncher, pointed_thing)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
@@ -107,15 +121,27 @@ function techage.boiler.on_punch(pos, node, puncher, pointed_thing)
 	
 	nvm.num_water = nvm.num_water or 0
 	local wielded_item = puncher:get_wielded_item():get_name()
+	local item_count = puncher:get_wielded_item():get_count()
 	if IsWater[wielded_item] and nvm.num_water < MAX_WATER then
 		mem.blocking_time = techage.SystemTime + BLOCKING_TIME
 		nvm.num_water = nvm.num_water + 1
 		puncher:set_wielded_item(ItemStack("bucket:bucket_empty"))
 		M(pos):set_string("formspec", techage.boiler.formspec(pos, nvm))
 	elseif IsBucket[wielded_item] and nvm.num_water > 0 then
-		mem.blocking_time = techage.SystemTime + BLOCKING_TIME
-		nvm.num_water = nvm.num_water - 1
-		puncher:set_wielded_item(ItemStack("bucket:bucket_water"))
+		if item_count > 1 then
+			local inv = puncher:get_inventory()
+			local item = ItemStack("bucket:bucket_water")
+			if inv:room_for_item("main", item) then
+				inv:add_item("main", item)
+				puncher:set_wielded_item({name=wielded_item, count = item_count - 1})
+				mem.blocking_time = techage.SystemTime + BLOCKING_TIME
+				nvm.num_water = nvm.num_water - 1
+			end
+		else
+			mem.blocking_time = techage.SystemTime + BLOCKING_TIME
+			nvm.num_water = nvm.num_water - 1
+			puncher:set_wielded_item(ItemStack("bucket:bucket_water"))
+		end
 		M(pos):set_string("formspec", techage.boiler.formspec(pos, nvm))
 	end
 end

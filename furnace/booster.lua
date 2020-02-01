@@ -39,13 +39,15 @@ end
 
 local function play_sound(pos)
 	local mem = techage.get_mem(pos)
-	mem.handle = minetest.sound_play("techage_booster", {
-		pos = pos, 
-		gain = 1,
-		max_hear_distance = 7,
-		loop = true})
-	if mem.handle == -1 then
-		minetest.after(1, play_sound, pos)
+	if not mem.handle or mem.handle == -1 then
+		mem.handle = minetest.sound_play("techage_booster", {
+			pos = pos, 
+			gain = 1,
+			max_hear_distance = 7,
+			loop = true})
+		if mem.handle == -1 then
+			minetest.after(1, play_sound, pos)
+		end
 	end
 end
 
@@ -179,7 +181,8 @@ techage.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 		if M(pos):get_int("indir") == in_dir then
 			local nvm = techage.get_nvm(pos)
 			if topic == "power" then
-				return techage.get_node_lvm(pos).name == "techage:ta3_booster_on"
+				return techage.get_node_lvm(pos).name == "techage:ta3_booster_on" or
+						power.power_available(pos, Cable)
 			elseif topic == "start" and not nvm.running then
 				if power.power_available(pos, Cable) then
 					nvm.running = true
@@ -197,7 +200,12 @@ techage.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 				stop_sound(pos)
 			end
 		end
-	end
+	end,
+	on_node_load = function(pos, node)
+		if node.name == "techage:ta3_booster_on" then
+			play_sound(pos)
+		end	
+	end,
 })
 
 minetest.register_craft({

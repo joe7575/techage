@@ -72,7 +72,7 @@ local function delete_netID(pos, outdir, Cable)
 			end
 		end
 	end)
-	networks.delete_network(netID, Cable)
+	networks.delete_network(Cable.tube_type, netID)
 end
 
 -- Keep the network up and running

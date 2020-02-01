@@ -29,45 +29,61 @@ local PWR_CAPA = 12
 local EFFICIENCY = 2.5
 
 local function formspec(self, pos, nvm)
-	local fuel_percent = 0
-	if nvm.running then
-		fuel_percent = ((nvm.burn_cycles or 1) * 100) / (nvm.burn_cycles_total or 1)
-	end
-	return "size[8,6]"..
-		--"box[0,-0.1;3.8,0.5;#c6e8ff]"..
-		--"label[1,-0.1;"..minetest.colorize( "#000000", S("Tiny Generator")).."]"..
-		--power.formspec_label_bar(0, 0.8, S("power"), PWR_CAPA, nvm.provided)..
+	return "size[5,4]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
-		fuel.formspec_fuel(1, 0, nvm)..
-		"button[1.6,1;1.8,1;update;"..S("Update").."]"..
-		"image_button[5.5,0.5;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
-		"image[6.5,0;1,2;"..power.formspec_power_bar(PWR_CAPA, nvm.provided).."]"..
-		"list[current_player;main;0,2.3;8,4;]"..
-		default.get_hotbar_bg(0, 3)
+		"box[0,-0.1;4.8,0.5;#c6e8ff]"..
+		"label[1.5,-0.1;"..minetest.colorize( "#000000", S("Tiny Generator")).."]"..
+		fuel.fuel_container(0, 0.9, nvm)..
+		"image[1.4,1.6;1,1;techage_form_arrow_bg.png^[transformR270]"..
+		"image_button[1.4,3.2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
+		"tooltip[1.5,3;1,1;"..self:get_state_tooltip(nvm).."]"..
+		power.formspec_label_bar(2.5, 0.8, S("power"), PWR_CAPA, nvm.provided)
+end
+
+local function play_sound(pos)
+	local mem = techage.get_mem(pos)
+	if not mem.handle or mem.handle == -1 then
+		mem.handle = minetest.sound_play("techage_generator", {
+			pos = pos, 
+			gain = 1,
+			max_hear_distance = 10,
+			loop = true})
+		if mem.handle == -1 then
+			minetest.after(1, play_sound, pos)
+		end
+	end
+end
+
+local function stop_sound(pos)
+	local mem = techage.get_mem(pos)
+	if mem.handle then
+		minetest.sound_stop(mem.handle)
+		mem.handle = nil
+	end
 end
 
 local function can_start(pos, nvm, state)
 	if nvm.burn_cycles > 0 or (nvm.liquid and nvm.liquid.amount and nvm.liquid.amount > 0) then 
 		return true 
 	end
-	return false
+	return S("no fuel")
 end
 
 local function start_node(pos, nvm, state)
-	nvm.running = true
-	power.generator_start(pos, nvm, PWR_CAPA)
-	minetest.sound_play("techage_generator", {
-		pos = pos, 
-		gain = 1,
-		max_hear_distance = 10})
+	nvm.running = true -- needed by fuel_lib
+	local outdir = M(pos):get_int("outdir")
+	power.generator_start(pos, Cable, CYCLE_TIME, outdir)
+	play_sound(pos)
 end
 
 local function stop_node(pos, nvm, state)
 	nvm.running = false
 	nvm.provided = 0
-	power.generator_stop(pos, nvm)
+	local outdir = M(pos):get_int("outdir")
+	power.generator_stop(pos, Cable, outdir)
+	stop_sound(pos)
 end
 
 local State = techage.NodeStates:new({
@@ -96,7 +112,8 @@ local function burning(pos, nvm)
 			return true
 		else
 			nvm.liquid.name = nil 
-			State:fault(pos, nvm)
+			State:fault(pos, nvm, S("no fuel"))
+			stop_sound(pos)
 			return false
 		end
 	else
@@ -106,17 +123,16 @@ end
 
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
+	local outdir = M(pos):get_int("outdir")
 	if nvm.running and burning(pos, nvm) then
-		nvm.provided = power.generator_alive(pos, nvm)
-		minetest.sound_play("techage_generator", {
-			pos = pos, 
-			gain = 1,
-			max_hear_distance = 10})
-		return true
+		nvm.provided = power.generator_alive(pos, Cable, CYCLE_TIME, outdir)
 	else
 		nvm.provided = 0
 	end
-	return false
+	if techage.is_activeformspec(pos) then
+		M(pos):set_string("formspec", formspec(State, pos, nvm))
+	end
+	return true
 end
 
 local function on_receive_fields(pos, formname, fields, player)
@@ -125,41 +141,49 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 	local nvm = techage.get_nvm(pos)
 	State:state_button_event(pos, nvm, fields)
-	
 	M(pos):set_string("formspec", formspec(State, pos, nvm))
 end
 
-
-local function formspec_clbk(pos, nvm)
-	return formspec(State, pos, nvm)
-end
-
-local function on_metadata_inventory_put(pos, listname, index, stack, player)
-	minetest.after(0.5, fuel.move_item, pos, stack, formspec_clbk)
-end
-
-local function on_rightclick(pos)
+local function on_rightclick(pos, node, clicker)
+	techage.set_activeformspec(pos, clicker)
 	local nvm = techage.get_nvm(pos)
 	M(pos):set_string("formspec", formspec(State, pos, nvm))
 end
 
-local _liquid = {
+local liquid_def = {
 	fuel_cat = fuel.BT_NAPHTHA,
 	capa = fuel.CAPACITY,
 	peek = liquid.srv_peek,
 	put = function(pos, indir, name, amount)
-		if fuel.valid_fuel(name, fuel.BT_NAPHTHA) then
-			return liquid.srv_put(pos, indir, name, amount)
+		if fuel.valid_fuel(name, fuel.BT_OIL) then
+			local res = liquid.srv_put(pos, indir, name, amount)
+			if techage.is_activeformspec(pos) then
+				local nvm = techage.get_nvm(pos)
+				M(pos):set_string("formspec", formspec(State, pos, nvm))
+			end
+			return res
 		end
 		return amount
 	end,
-	take = liquid.srv_take,
+	take = function(pos, indir, name, amount)
+		amount, name = liquid.srv_take(pos, indir, name, amount)
+		if techage.is_activeformspec(pos) then
+			local nvm = techage.get_nvm(pos)
+			M(pos):set_string("formspec", formspec(State, pos, nvm))
+		end
+		return amount, name
+	end
 }
 
-local _networks = {
-	pipe = {
+local net_def = {
+	pipe2 = {
 		sides = techage.networks.AllSides, -- Pipe connection sides
 		ntype = "tank",
+	},
+	ele1 = {
+		sides = {R = 1},
+		ntype = "gen1",
+		nominal = PWR_CAPA,
 	},
 }
 
@@ -179,28 +203,23 @@ minetest.register_node("techage:tiny_generator", {
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 
-	on_construct = function(pos)
+	after_place_node = function(pos)
 		local nvm = techage.get_nvm(pos)
 		local number = techage.add_node(pos, "techage:tiny_generator")
 		nvm.running = false
 		nvm.burn_cycles = 0
 		State:node_init(pos, nvm, number)
-		local meta = M(pos)
-		meta:set_string("formspec", formspec(State, pos, nvm))
-		local inv = meta:get_inventory()
-		inv:set_size('fuel', 1)
+		M(pos):set_string("formspec", formspec(State, pos, nvm))
+		M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
 	end,
-
 	
-	allow_metadata_inventory_put = fuel.allow_metadata_inventory_put,
-	allow_metadata_inventory_take = fuel.allow_metadata_inventory_take,
-	on_metadata_inventory_put = on_metadata_inventory_put,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
+	on_punch = fuel.on_punch,
 	on_timer = node_timer,
 	can_dig = fuel.can_dig,
-	liquid = _liquid,
-	networks = _networks,
+	liquid = liquid_def,
+	networks = net_def,
 })
 
 minetest.register_node("techage:tiny_generator_on", {
@@ -241,23 +260,17 @@ minetest.register_node("techage:tiny_generator_on", {
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 
-	allow_metadata_inventory_put = fuel.allow_metadata_inventory_put,
-	allow_metadata_inventory_take = fuel.allow_metadata_inventory_take,
-	on_metadata_inventory_put = on_metadata_inventory_put,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
+	on_punch = fuel.on_punch,
 	on_timer = node_timer,
 	can_dig = fuel.can_dig,
-	liquid = _liquid,
-	networks = _networks,
+	liquid = liquid_def,
+	networks = net_def,
 })
 
 Pipe:add_secondary_node_names({"techage:tiny_generator", "techage:tiny_generator_on"})
-
-techage.power.register_node({"techage:tiny_generator", "techage:tiny_generator_on"}, {
-	conn_sides = {"R"},
-	power_network  = Power,
-})
+Cable:add_secondary_node_names({"techage:tiny_generator", "techage:tiny_generator_on"})
 
 techage.register_node({"techage:tiny_generator", "techage:tiny_generator_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
@@ -268,8 +281,11 @@ techage.register_node({"techage:tiny_generator", "techage:tiny_generator_on"}, {
 			return State:on_receive_message(pos, topic, payload)
 		end
 	end,
-	on_node_load = function(pos)
+	on_node_load = function(pos, node)
 		State:on_node_load(pos)
+		if node.name == "techage:tiny_generator_on" then
+			play_sound(pos)
+		end	
 	end,
 })	
 

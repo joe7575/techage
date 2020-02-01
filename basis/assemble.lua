@@ -51,8 +51,8 @@ local function build(pos, param2, AssemblyPlan, idx)
 		minetest.add_node(pos1, {name=node_name, param2=(param2 + fd_offs) % 4})
 		minetest.after(0.5, build, pos, param2, AssemblyPlan, idx+1)
 	else
-		local mem = techage.get_mem(pos)
-		mem.assemble_locked = false
+		local nvm = techage.get_nvm(pos)
+		nvm.assemble_locked = false
 	end
 end	
 	
@@ -65,8 +65,8 @@ local function remove(pos, param2, AssemblyPlan, idx)
 		minetest.remove_node(pos1)
 		minetest.after(0.5, remove, pos, param2, AssemblyPlan, idx-1)
 	else
-		local mem = techage.get_mem(pos)
-		mem.assemble_locked = false
+		local nvm = techage.get_nvm(pos)
+		nvm.assemble_locked = false
 	end
 end	
 
@@ -91,22 +91,22 @@ end
 
 
 -- Two important flags:
--- 1) mem.assemble_locked is true while the object is being assembled/disassembled
--- 2) mem.assemble_build is true if the object is assembled
+-- 1) nvm.assemble_locked is true while the object is being assembled/disassembled
+-- 2) nvm.assemble_build is true if the object is assembled
 function techage.assemble.build(pos, AssemblyPlan, player_name)
 	-- check protection
 	if minetest.is_protected(pos, player_name) then
 		return
 	end			
-	local mem = techage.get_mem(pos)
-	if mem.assemble_locked then
+	local nvm = techage.get_nvm(pos)
+	if nvm.assemble_locked then
 		return
 	end
 	local node = minetest.get_node(pos)
 	if check_space(pos, node.param2, AssemblyPlan, player_name) then
-		mem.assemble_locked = true
+		nvm.assemble_locked = true
 		build(pos, node.param2, AssemblyPlan, 1)
-		mem.assemble_build = true
+		nvm.assemble_build = true
 	end
 end
 
@@ -115,12 +115,12 @@ function techage.assemble.remove(pos, AssemblyPlan, player_name)
 	if minetest.is_protected(pos, player_name) then
 		return
 	end		
-	local mem = techage.get_mem(pos)
-	if mem.assemble_locked then
+	local nvm = techage.get_nvm(pos)
+	if nvm.assemble_locked then
 		return
 	end
 	local node = minetest.get_node(pos)
-	mem.assemble_locked = true
+	nvm.assemble_locked = true
 	remove(pos, node.param2, AssemblyPlan, #AssemblyPlan)
-	mem.assemble_build = false
+	nvm.assemble_build = false
 end

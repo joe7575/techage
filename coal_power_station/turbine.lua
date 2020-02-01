@@ -39,13 +39,15 @@ end
 
 local function play_sound(pos)
 	local mem = techage.get_mem(pos)
-	mem.handle = minetest.sound_play("techage_turbine", {
-		pos = pos, 
-		gain = 1,
-		max_hear_distance = 15,
-		loop = true})
-	if mem.handle == -1 then
-		minetest.after(1, play_sound, pos)
+	if not mem.handle or mem.handle == -1 then
+		mem.handle = minetest.sound_play("techage_turbine", {
+			pos = pos, 
+			gain = 1,
+			max_hear_distance = 15,
+			loop = true})
+		if mem.handle == -1 then
+			minetest.after(1, play_sound, pos)
+		end
 	end
 end
 

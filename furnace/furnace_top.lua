@@ -100,7 +100,7 @@ local function cooking(pos, crd, nvm, elapsed)
 				crd.State:idle(pos, nvm)
 			end
 		else
-			crd.State:idle(pos, nvm)
+			crd.State:standby(pos, nvm, S("no fuel or no power"))
 		end
 	end
 end
@@ -113,7 +113,6 @@ local function keep_running(pos, elapsed)
 	if nvm.toggle then -- progress bar/arrow
 		M(pos):set_string("formspec", formspec(crd.State, pos, nvm))
 	end
-	return crd.State:is_active(nvm)
 end	
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
@@ -186,6 +185,7 @@ local function can_start(pos, nvm, state)
 end
 
 local function on_node_state_change(pos, old_state, new_state)
+	print("on_node_state_change")
 	local pwr1 = techage.needs_power2(old_state)
 	local pwr2 = techage.needs_power2(new_state)
 	if pwr1 ~= pwr2 then

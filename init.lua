@@ -85,6 +85,12 @@ else
 	dofile(MP.."/steam_engine/cylinder.lua")
 	dofile(MP.."/steam_engine/flywheel.lua")
 	
+	-- Liquids I
+	dofile(MP.."/liquids/liquid_pipe.lua")
+	dofile(MP.."/liquids/liquid.lua")
+	dofile(MP.."/liquids/liquid_lib.lua")
+	dofile(MP.."/liquids/fuel_lib.lua")
+	
 	-- Basic Machines
 	dofile(MP.."/basic_machines/consumer.lua")  -- consumer base model
 	dofile(MP.."/basic_machines/source.lua")
@@ -100,14 +106,10 @@ else
 	dofile(MP.."/basic_machines/funnel.lua")
 	dofile(MP.."/basic_machines/liquidsampler.lua")
 
---	-- Liquids
-	dofile(MP.."/liquids/liquid_pipe.lua")
-	dofile(MP.."/liquids/liquid.lua")
-	dofile(MP.."/liquids/liquid_lib.lua")
+	-- Liquids II
 	dofile(MP.."/liquids/tank.lua")
 	dofile(MP.."/liquids/silo.lua")
 	dofile(MP.."/liquids/pump.lua")
-	dofile(MP.."/liquids/fuel_lib.lua")
 	
 	-- Coal power station
 	dofile(MP.."/coal_power_station/firebox.lua")
@@ -141,17 +143,17 @@ else
 	dofile(MP.."/lamps/industriallamp3.lua")
 	
 --	-- Oil
---	dofile(MP.."/oil/explore.lua")
---	dofile(MP.."/oil/tower.lua")
---	dofile(MP.."/oil/drillbox.lua")
---	dofile(MP.."/oil/pumpjack.lua")
---	dofile(MP.."/oil/distiller.lua")
---	dofile(MP.."/oil/reboiler.lua")
+	dofile(MP.."/oil/explore.lua")
+	dofile(MP.."/oil/tower.lua")
+	dofile(MP.."/oil/drillbox.lua")
+	dofile(MP.."/oil/pumpjack.lua")
+	dofile(MP.."/oil/distiller.lua")
+	dofile(MP.."/oil/reboiler.lua")
 --	dofile(MP.."/oil/gasflare.lua")
 	
 --  TA3 power based
-	--dofile(MP.."/ta3_power/tiny_generator.lua")
-	--dofile(MP.."/ta3_power/akkubox.lua")
+	dofile(MP.."/ta3_power/tiny_generator.lua")
+	dofile(MP.."/ta3_power/akkubox.lua")
 	
 	-- Logic
 	dofile(MP.."/logic/lib.lua")

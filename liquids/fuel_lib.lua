@@ -25,6 +25,7 @@ local Burntime = techage.firebox.Burntime
 techage.fuel = {}
 
 local CAPACITY = 50
+local BLOCKING_TIME = 0.3 -- 300ms
 
 techage.fuel.CAPACITY = CAPACITY
 
@@ -35,7 +36,7 @@ techage.fuel.BT_FUELOIL = 2
 techage.fuel.BT_NAPHTHA = 1
 
 
-local function formspec_fuel(x, y, nvm)
+function techage.fuel.fuel_container(x, y, nvm)
 	local itemname = ""
 	if nvm.liquid and nvm.liquid.name and nvm.liquid.amount and nvm.liquid.amount > 0  then
 		itemname = nvm.liquid.name.." "..nvm.liquid.amount
@@ -44,27 +45,25 @@ local function formspec_fuel(x, y, nvm)
 	if nvm.running then
 		fuel_percent = ((nvm.burn_cycles or 1) * 100) / (nvm.burn_cycles_total or 1)
 	end
+	local tooltip = S("To add fuel punch\nthis block\nwith a fuel container")
 	return "container["..x..","..y.."]"..
-		"background[0,0;3,1.05;techage_form_grey.png]"..
-		"list[context;fuel;0,0;1,1;]"..
-		techage.item_image(1, 0, itemname)..
-		"image[2,0;1,1;default_furnace_fire_bg.png^[lowpart:"..
+		"box[0,0;1.05,2.1;#000000]"..
+		"tooltip[0,0;1.1,1.1;"..tooltip..";#0C3D32;#FFFFFF]"..
+		"image[0.1,0.1;1,1;default_furnace_fire_bg.png^[lowpart:"..
 		fuel_percent..":default_furnace_fire_fg.png]"..
+		techage.item_image(0.1, 1.1, itemname)..
 		"container_end[]"
 end	
 
-techage.fuel.formspec_fuel = formspec_fuel
-
-
 function techage.fuel.formspec(nvm)
-	local update = ((nvm.countdown or 0) > 0 and nvm.countdown) or S("Update")
-	return "size[8,5]"..
-	default.gui_bg..
-	default.gui_bg_img..
-	default.gui_slots..
-	formspec_fuel(1, 0, nvm)..
-	"button[5,0;2,1;update;"..update.."]"..
-	"list[current_player;main;0,1.3;8,4;]"
+	local title = S("Fuel Menu")
+	return "size[4,3]"..
+		default.gui_bg..
+		default.gui_bg_img..
+		default.gui_slots..
+		"box[0,-0.1;3.8,0.5;#c6e8ff]"..
+		"label[1,-0.1;"..minetest.colorize("#000000", title).."]"..
+		techage.fuel.fuel_container(1.5, 1, nvm)
 end
 
 local function fill_container(pos, inv, nvm)
@@ -163,9 +162,9 @@ function techage.fuel.can_dig(pos, player)
 	return inv:is_empty("fuel") and nvm.liquid.amount == 0
 end
 
-function techage.fuel.on_rightclick(pos)
+function techage.fuel.on_rightclick(pos, node, clicker)
+	techage.set_activeformspec(pos, clicker)
 	local nvm = techage.get_nvm(pos)
-	nvm.countdown = 10
 	M(pos):set_string("formspec", techage.fuel.formspec(nvm))
 end
 
@@ -195,4 +194,70 @@ end
 
 function techage.fuel.valid_fuel(name, category)
 	return ValidOilFuels[name] and ValidOilFuels[name] <= category
+end
+
+-- check if the given empty container can be replaced by a full
+-- container and added to the players inventory
+local function fill(nvm, empty_container, item_count, puncher)
+	nvm.liquid = nvm.liquid or {}
+	nvm.liquid.amount = nvm.liquid.amount or 0
+	local full_container = liquid.get_full_container(empty_container, nvm.liquid.name)
+	if empty_container and full_container then
+		local item = ItemStack(full_container) -- to be added
+		local ldef = liquid.get_liquid_def(full_container)
+		if ldef and nvm.liquid.amount - ldef.size >= 0 then 
+			if item_count > 1 then -- can't be simply replaced?
+				-- check for extra free space
+				local inv = puncher:get_inventory()
+				if inv:room_for_item("main", item) then
+					-- add full container and return
+					-- the empty once - 1
+					inv:add_item("main", item)	
+					item = {name = empty_container, count = item_count - 1}
+				else
+					return -- no free space
+				end
+			end
+			nvm.liquid.amount = nvm.liquid.amount - ldef.size
+			if nvm.liquid.amount == 0 then 
+				nvm.liquid.name = nil 
+			end
+			return item -- to be added to the players inv.
+		end
+	end
+end
+
+local function empty(nvm, full_container)
+	nvm.liquid = nvm.liquid or {}
+	nvm.liquid.amount = nvm.liquid.amount or 0
+	local ldef = liquid.get_liquid_def(full_container)
+	if ldef and ValidOilFuels[ldef.inv_item] then
+		if not nvm.liquid.name or ldef.inv_item == nvm.liquid.name then
+			if nvm.liquid.amount + ldef.size <= CAPACITY then 
+				nvm.liquid.amount = nvm.liquid.amount + ldef.size
+				nvm.liquid.name = ldef.inv_item
+				return ItemStack(ldef.container)
+			end
+		end
+	end
+end
+
+function techage.fuel.on_punch(pos, node, puncher, pointed_thing)
+	local nvm = techage.get_nvm(pos)
+	local mem = techage.get_mem(pos)
+	mem.blocking_time = mem.blocking_time or 0
+	if mem.blocking_time > techage.SystemTime then
+		return
+	end
+	
+	local wielded_item = puncher:get_wielded_item():get_name()
+	local item_count = puncher:get_wielded_item():get_count()
+	local new_item = fill(nvm, wielded_item, item_count, puncher) 
+			or empty(nvm, wielded_item)
+	if new_item then
+		puncher:set_wielded_item(ItemStack(new_item))
+		M(pos):set_string("formspec", techage.fuel.formspec(pos, nvm))
+		mem.blocking_time = techage.SystemTime + BLOCKING_TIME
+		return
+	end
 end

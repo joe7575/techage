@@ -335,8 +335,10 @@ function techage.networks.get_network(tube_type, netID)
 end
 
 function techage.networks.delete_network(tube_type, netID)
+	print("delete_network", tube_type, string.format("%012X", netID))
 	if Networks[tube_type] and Networks[tube_type][netID] then
 		Networks[tube_type][netID] = nil
+		print("deleted")
 	end
 end
 

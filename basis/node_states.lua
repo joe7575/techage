@@ -273,7 +273,7 @@ function NodeStates:start(pos, nvm)
 	return false
 end
 
-function NodeStates:standby(pos, nvm)
+function NodeStates:standby(pos, nvm, err_string)
 	local state = nvm.techage_state or STOPPED
 	if state == RUNNING then
 		nvm.techage_state = STANDBY
@@ -282,10 +282,10 @@ function NodeStates:standby(pos, nvm)
 		end
 		if self.infotext_name then
 			local number = M(pos):get_string("node_number")
-			M(pos):set_string("infotext", self.infotext_name.." "..number..": standby")
+			M(pos):set_string("infotext", self.infotext_name.." "..number..": "..(err_string or "standby"))
 		end
 		if self.formspec_func then
-			nvm.ta_state_tooltip = "standby"
+			nvm.ta_state_tooltip = err_string or "standby"
 			M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
 		end
 		if self.on_state_change then
@@ -331,7 +331,7 @@ function NodeStates:nopower(pos, nvm, err_string)
 		end
 		if self.infotext_name then
 			local number = M(pos):get_string("node_number")
-			M(pos):set_string("infotext", self.infotext_name.." "..number..": no power")
+			M(pos):set_string("infotext", self.infotext_name.." "..number..": "..(err_string or "no power"))
 		end
 		if self.formspec_func then
 			nvm.ta_state_tooltip = err_string or "no power"
@@ -513,15 +513,6 @@ function NodeStates:on_node_load(pos, not_start_timer)
 		minetest.get_node_timer(pos):start(self.cycle_time * self.standby_ticks)
 	elseif state == BLOCKED then
 		minetest.get_node_timer(pos):start(self.cycle_time * self.standby_ticks)
-	end
-	
-	if self.formspec_func then
-		M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
-	end
-	
-	-- power available?
-	if nvm.techage_state == RUNNING and not self.has_power(pos, nvm, state) then
-		self:nopower(pos, nvm)
 	end
 end
 
