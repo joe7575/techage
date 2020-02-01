@@ -298,7 +298,3 @@ techage.add_grinder_recipe({input="default:jungletree", output="default:junglele
 techage.add_grinder_recipe({input="default:pine_tree", output="default:pine_needles 8"})
 techage.add_grinder_recipe({input="default:acacia_tree", output="default:acacia_leaves 8"})
 techage.add_grinder_recipe({input="default:aspen_tree", output="default:aspen_leaves 8"})
-
-
-local ndef = minetest.registered_nodes["techage:ta2_grinder_pas"] or {}
-print("techage:ta2_grinder_pas", dump(ndef.tubelib2_on_update2))

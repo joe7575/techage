@@ -141,13 +141,11 @@ local function node_connections(pos, tlib2)
 	local val = 0
 	local ndef = net_def2(pos, node.name, tlib2.tube_type)
 	local sides = ndef.sides or ndef.get_sides and ndef.get_sides(pos, node)
-	--print("node_connections", node.name, dump(sides))
 	if sides then
 		for dir = 1,6 do
 			val = val * 2
 			local side = DirToSide[outdir_to_dir(dir, node.param2)]
 			if sides[side] then
-				--print(side, sides[side], P2S(pos), dir, connected(tlib2, pos, dir))
 				if connected(tlib2, pos, dir) then
 					techage.mark_side("singleplayer", pos, dir, "node_connections", "", 1)--------------------
 					val = val + 1
@@ -335,10 +333,8 @@ function techage.networks.get_network(tube_type, netID)
 end
 
 function techage.networks.delete_network(tube_type, netID)
-	print("delete_network", tube_type, string.format("%012X", netID))
 	if Networks[tube_type] and Networks[tube_type][netID] then
 		Networks[tube_type][netID] = nil
-		print("deleted")
 	end
 end
 

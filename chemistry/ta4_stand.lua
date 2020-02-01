@@ -123,10 +123,8 @@ techage.power.enrich_node({"techage:ta4_reactor_stand"}, {
 -- controlled by the fillerpipe
 techage.register_node({"techage:ta4_reactor_stand"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
-		--print(topic, dump(payload))
 		local nvm = techage.get_nvm(pos)
 		if topic == "power" then
-			--print("power", nvm.has_power)
 			return nvm.has_power or power.power_available(pos, Cable)
 		elseif topic == "output" then
 			local outdir = M(pos):get_int("outdir")

@@ -201,7 +201,6 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 			end
 			
 			local tubelib2_on_update2 = function(pos, outdir, tlib2, node) 
-				print("tubelib2_on_update2", tlib2.tube_type)
 				if tlib2.tube_type == "pipe2" then
 					liquid.update_network(pos, outdir, tlib2)
 				else

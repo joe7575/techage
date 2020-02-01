@@ -185,7 +185,6 @@ local function can_start(pos, nvm, state)
 end
 
 local function on_node_state_change(pos, old_state, new_state)
-	print("on_node_state_change")
 	local pwr1 = techage.needs_power2(old_state)
 	local pwr2 = techage.needs_power2(new_state)
 	if pwr1 ~= pwr2 then

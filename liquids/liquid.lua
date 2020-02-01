@@ -88,19 +88,15 @@ end
 
 local function get_network_table(pos, outdir, ntype)
 	local netID = get_netID(pos, outdir)
-print(1)	
 	if netID then
-print(2)	
 		local netw = networks.get_network("pipe2", netID)
 		if not netw then
-print(3)	
 			netw = networks.collect_network_nodes(pos, outdir, Pipe)
 			networks.set_network("pipe2", netID, netw)
 		end
 		print("netw", string.format("%012X", netID),  dump(netw))
 		return netw[ntype] or {}
 	end
-print(4)	
 	return {}
 end
 
