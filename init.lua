@@ -5,8 +5,8 @@ elseif minetest.global_exists("ironage") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod ironage!")
 elseif minetest.global_exists("techpack") then
 	minetest.log("error", "[techage] Techage can't be used together with the modpack techpack!")
-elseif minetest.global_exists("tubelib2") and tubelib2.version < 1.6 then
-	minetest.log("error", "[techage] Techage requires tubelib2 version 1.6 or newer!")
+elseif minetest.global_exists("tubelib2") and tubelib2.version < 1.8 then
+	minetest.log("error", "[techage] Techage requires tubelib2 version 1.8 or newer!")
 else
 	techage = {
 		NodeDef = {},		-- node registration info
@@ -29,6 +29,8 @@ else
 	dofile(MP.."/basis/command.lua")  -- command API
 	dofile(MP.."/basis/firebox_lib.lua")  -- common firebox functions
 	dofile(MP.."/basis/boiler_lib.lua")  -- common boiler functions
+	dofile(MP.."/basis/liquid_lib.lua")  -- common liquids functions
+	dofile(MP.."/basis/fuel_lib.lua")  -- common fuel functions
 	dofile(MP.."/basis/mark.lua")
 	dofile(MP.."/basis/mark2.lua")
 	dofile(MP.."/basis/assemble.lua")
@@ -87,9 +89,8 @@ else
 	
 	-- Liquids I
 	dofile(MP.."/liquids/liquid_pipe.lua")
-	dofile(MP.."/liquids/liquid.lua")
-	dofile(MP.."/liquids/liquid_lib.lua")
-	dofile(MP.."/liquids/fuel_lib.lua")
+	dofile(MP.."/liquids/node_api.lua")
+	--dofile(MP.."/liquids/liquid_lib.lua")
 	
 	-- Basic Machines
 	dofile(MP.."/basic_machines/consumer.lua")  -- consumer base model
@@ -108,6 +109,7 @@ else
 
 	-- Liquids II
 	dofile(MP.."/liquids/tank.lua")
+	dofile(MP.."/liquids/filler.lua")
 	dofile(MP.."/liquids/silo.lua")
 	dofile(MP.."/liquids/pump.lua")
 	

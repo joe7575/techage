@@ -15,7 +15,6 @@
 -- for lazy programmers
 local M = minetest.get_meta
 local S = techage.S
-local D = techage.Debug
 
 local PWR_NEEDED = 3
 local CYCLE_TIME = 2

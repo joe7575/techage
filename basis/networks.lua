@@ -89,7 +89,9 @@ local function connected(tlib2, pos, dir)
 		return Flip[dir] == d1 or Flip[dir] == d2
 	end
 	-- secondary nodes allowed?
-	if not tlib2.force_to_use_tubes then
+	if tlib2.force_to_use_tubes then
+		return tlib2:is_special_node(pos, dir)
+	else
 		return tlib2:is_secondary_node(pos, dir)
 	end
 	return false
@@ -147,7 +149,7 @@ local function node_connections(pos, tlib2)
 			local side = DirToSide[outdir_to_dir(dir, node.param2)]
 			if sides[side] then
 				if connected(tlib2, pos, dir) then
-					techage.mark_side("singleplayer", pos, dir, "node_connections", "", 1)--------------------
+					--techage.mark_side("singleplayer", pos, dir, "node_connections", "", 1)--------------------
 					val = val + 1
 				end
 			end
@@ -199,11 +201,11 @@ end
 -- if outdirs is given, only this dirs are used
 local function connection_walk(pos, outdirs, indir, node, tlib2, clbk)
 	if clbk then clbk(pos, indir, node) end
-	--techage.mark_position("singleplayer", pos, "walk", "", 1)
+	techage.mark_position("singleplayer", pos, "walk", "", 1)
 	--print("connection_walk", node.name, outdirs or is_junction(pos, node.name, tlib2.tube_type))
 	if outdirs or is_junction(pos, node.name, tlib2.tube_type) then
 		for _,outdir in pairs(outdirs or get_node_connections(pos, tlib2.tube_type)) do
-			techage.mark_side("singleplayer", pos, outdir, "connection_walk", "", 3)--------------------
+			--techage.mark_side("singleplayer", pos, outdir, "connection_walk", "", 3)--------------------
 			--print("get_node_connections", node.name, outdir)
 			local pos2, indir2 = tlib2:get_connected_node_pos(pos, outdir)
 			local node = techage.get_node_lvm(pos2)

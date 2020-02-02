@@ -70,6 +70,8 @@ function techage.register_junction(name, size, boxes, tlib2, node, index)
 		ndef.drop = name..(index or "0")
 		minetest.register_node(name..idx, ndef)
 		tlib2:add_secondary_node_names({name..idx})
+		-- for the case that 'tlib2.force_to_use_tubes' is set
+		tlib2:add_special_node_names({name..idx}) 
 	end
 end
 
@@ -78,6 +80,8 @@ function techage.junction_type(pos, network)
 	for dir = 1,6 do
 		if network.force_to_use_tubes then
 			if network:friendly_primary_node(pos, dir) then
+				val = setbit(val, bit(dir))
+			elseif network:is_special_node(pos, dir) then
 				val = setbit(val, bit(dir))
 			end
 		else

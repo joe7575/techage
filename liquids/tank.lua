@@ -21,54 +21,20 @@ local liquid = techage.liquid
 
 local CAPACITY = 500
 
-local function formspec(pos, nvm)
-	local update = ((nvm.countdown or 0) > 0 and nvm.countdown) or S("Update")
-	return "size[8,6]"..
-	default.gui_bg..
-	default.gui_bg_img..
-	default.gui_slots..
-	liquid.formspec_liquid(2, 0, nvm)..
-	"button[5.5,0.5;2,1;update;"..update.."]"..
-	"list[current_player;main;0,2.3;8,4;]"
-end
-
-local function allow_metadata_inventory_put(pos, listname, index, stack, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
-		return 0
-	end
-	return stack:get_count()
-end
-
-local function allow_metadata_inventory_take(pos, listname, index, stack, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
-		return 0
-	end
-	return stack:get_count()
-end
-
-local function allow_metadata_inventory_move()
-	return 0
-end
-
-local function on_metadata_inventory_put(pos, listname, index, stack, player)
-	minetest.after(0.5, liquid.move_item, pos, stack, CAPACITY, formspec)
-end
-
-local function on_rightclick(pos)
+local function on_rightclick(pos, node, clicker)
 	local nvm = techage.get_nvm(pos)
-	nvm.countdown = 10
-	M(pos):set_string("formspec", formspec(pos, nvm))
+	techage.set_activeformspec(pos, clicker)
+	M(pos):set_string("formspec", liquid.formspec(pos, nvm))
 	minetest.get_node_timer(pos):start(2)
 end
 
-local function on_receive_fields(pos, formname, fields, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
-		return
-	end
-	local nvm = techage.get_nvm(pos)
-	nvm.countdown = 10
-	M(pos):set_string("formspec", formspec(pos, nvm))
-	minetest.get_node_timer(pos):start(2)
+local function node_timer(pos, elapsed)
+	if techage.is_activeformspec(pos) then
+		local nvm = techage.get_nvm(pos)
+		M(pos):set_string("formspec", liquid.formspec(pos, nvm))
+		return true
+	end	
+	return false
 end
 
 local function can_dig(pos, player)
@@ -78,6 +44,30 @@ local function can_dig(pos, player)
 	return liquid.is_empty(pos)
 end
 
+local function take_liquid(pos, indir, name, amount)
+	amount, name = liquid.srv_take(pos, indir, name, amount)
+	if techage.is_activeformspec(pos) then
+		local nvm = techage.get_nvm(pos)
+		M(pos):set_string("formspec", liquid.formspec(pos, nvm))
+	end
+	return amount, name
+end
+	
+local function put_liquid(pos, indir, name, amount)
+	local leftover = liquid.srv_put(pos, indir, name, amount)
+	if techage.is_activeformspec(pos) then
+		local nvm = techage.get_nvm(pos)
+		M(pos):set_string("formspec", liquid.formspec(pos, nvm))
+	end
+	return leftover
+end
+
+local networks_def = {
+	pipe2 = {
+		sides = techage.networks.AllSides, -- Pipe connection sides
+		ntype = "tank",
+	},
+}
 
 minetest.register_node("techage:ta3_tank", {
 	description = S("TA3 Tank"),
@@ -90,12 +80,6 @@ minetest.register_node("techage:ta3_tank", {
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_tank.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_tank.png",
 	},
-	on_construct = function(pos)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		inv:set_size('src', 1)
-		inv:set_size('dst', 1)
-	end,
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
@@ -103,21 +87,15 @@ minetest.register_node("techage:ta3_tank", {
 		local number = techage.add_node(pos, "techage:ta3_tank")
 		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
-		meta:set_string("formspec", formspec(pos, nvm))
+		meta:set_string("formspec", liquid.formspec(pos, nvm))
 		meta:set_string("infotext", S("TA3 Tank").." "..number)
 		Pipe:after_place_node(pos)
 	end,
 	tubelib2_on_update2 = function(pos, outdir, tlib2, node)
 		liquid.update_network(pos, outdir)
 	end,
-	on_timer = function(pos, elapsed)
-		local nvm = techage.get_nvm(pos)
-		if nvm.countdown then
-			nvm.countdown = nvm.countdown - 1
-			M(pos):set_string("formspec", formspec(pos, nvm))
-			return nvm.countdown > 0
-		end
-	end,
+	on_timer = node_timer,
+	on_punch = liquid.on_punch,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 		techage.remove_node(pos)
@@ -125,29 +103,12 @@ minetest.register_node("techage:ta3_tank", {
 	liquid = {
 		capa = CAPACITY,
 		peek = liquid.srv_peek,
-		put = function(pos, indir, name, amount)
-			local leftover = liquid.srv_put(pos, indir, name, amount)
-			local inv = M(pos):get_inventory()
-			if not inv:is_empty("src") and inv:is_empty("dst") then
-				liquid.fill_container(pos, inv)
-			end
-			return leftover
-		end,
-		take = liquid.srv_take,
+		put = put_liquid,
+		take = take_liquid,
 	},
-	networks = {
-		pipe2 = {
-			sides = techage.networks.AllSides, -- Pipe connection sides
-			ntype = "tank",
-		},
-	},
+	networks = networks_def,
 	on_rightclick = on_rightclick,
-	on_receive_fields = on_receive_fields,
 	can_dig = can_dig,
-	allow_metadata_inventory_put = allow_metadata_inventory_put,
-	allow_metadata_inventory_take = allow_metadata_inventory_take,
-	allow_metadata_inventory_move = allow_metadata_inventory_move,
-	on_metadata_inventory_put = on_metadata_inventory_put,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},
@@ -177,12 +138,6 @@ minetest.register_node("techage:oiltank", {
 		type = "fixed",
 		fixed = {-6/8, -4/8, -6/8, 6/8, 6/8, 6/8},
 	},
-	on_construct = function(pos)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		inv:set_size('src', 1)
-		inv:set_size('dst', 1)
-	end,
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
@@ -190,21 +145,15 @@ minetest.register_node("techage:oiltank", {
 		local number = techage.add_node(pos, "techage:oiltank")
 		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
-		meta:set_string("formspec", formspec(pos, nvm))
+		meta:set_string("formspec", liquid.formspec(pos, nvm))
 		meta:set_string("infotext", S("Oil Tank").." "..number)
 		Pipe:after_place_node(pos)
 	end,
 	tubelib2_on_update2 = function(pos, outdir, tlib2, node)
 		liquid.update_network(pos, outdir)
 	end,
-	on_timer = function(pos, elapsed)
-		local nvm = techage.get_nvm(pos)
-		if nvm.countdown then
-			nvm.countdown = nvm.countdown - 1
-			M(pos):set_string("formspec", formspec(pos, nvm))
-			return nvm.countdown > 0
-		end
-	end,
+	on_timer = node_timer,
+	on_punch = liquid.on_punch,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 		techage.remove_node(pos)
@@ -212,29 +161,12 @@ minetest.register_node("techage:oiltank", {
 	liquid = {
 		capa = CAPACITY * 4,
 		peek = liquid.srv_peek,
-		put = function(pos, indir, name, amount)
-			local leftover = liquid.srv_put(pos, indir, name, amount)
-			local inv = M(pos):get_inventory()
-			if not inv:is_empty("src") and inv:is_empty("dst") then
-				liquid.fill_container(pos, inv)
-			end
-			return leftover
-		end,
-		take = liquid.srv_take,
+		put = put_liquid,
+		take = take_liquid,
 	},
-	networks = {
-		pipe2 = {
-			sides = techage.networks.AllSides, -- Pipe connection sides
-			ntype = "tank",
-		},
-	},
+	networks = networks_def,
 	on_rightclick = on_rightclick,
-	on_receive_fields = on_receive_fields,
 	can_dig = can_dig,
-	allow_metadata_inventory_put = allow_metadata_inventory_put,
-	allow_metadata_inventory_take = allow_metadata_inventory_take,
-	allow_metadata_inventory_move = allow_metadata_inventory_move,
-	on_metadata_inventory_put = on_metadata_inventory_put,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},
@@ -254,12 +186,6 @@ minetest.register_node("techage:ta4_tank", {
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_tank.png",
 	},
 
-	on_construct = function(pos)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		inv:set_size('src', 1)
-		inv:set_size('dst', 1)
-	end,
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
@@ -267,21 +193,15 @@ minetest.register_node("techage:ta4_tank", {
 		local number = techage.add_node(pos, "techage:ta4_tank")
 		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
-		meta:set_string("formspec", formspec(pos, nvm))
+		meta:set_string("formspec", liquid.formspec(pos, nvm))
 		meta:set_string("infotext", S("TA4 Tank").." "..number)
 		Pipe:after_place_node(pos)
 	end,
 	tubelib2_on_update2 = function(pos, outdir, tlib2, node)
 		liquid.update_network(pos, outdir)
 	end,
-	on_timer = function(pos, elapsed)
-		local nvm = techage.get_nvm(pos)
-		if nvm.countdown then
-			nvm.countdown = nvm.countdown - 1
-			M(pos):set_string("formspec", formspec(pos, nvm))
-			return nvm.countdown > 0
-		end
-	end,
+	on_timer = node_timer,
+	on_punch = liquid.on_punch,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 		techage.remove_node(pos)
@@ -289,29 +209,12 @@ minetest.register_node("techage:ta4_tank", {
 	liquid = {
 		capa = CAPACITY * 2,
 		peek = liquid.srv_peek,
-		put = function(pos, indir, name, amount)
-			local leftover = liquid.srv_put(pos, indir, name, amount)
-			local inv = M(pos):get_inventory()
-			if not inv:is_empty("src") and inv:is_empty("dst") then
-				liquid.fill_container(pos, inv)
-			end
-			return leftover
-		end,
-		take = liquid.srv_take,
+		put = put_liquid,
+		take = take_liquid,
 	},
-	networks = {
-		pipe2 = {
-			sides = techage.networks.AllSides, -- Pipe connection sides
-			ntype = "tank",
-		},
-	},
+	networks = networks_def,
 	on_rightclick = on_rightclick,
-	on_receive_fields = on_receive_fields,
 	can_dig = can_dig,
-	allow_metadata_inventory_put = allow_metadata_inventory_put,
-	allow_metadata_inventory_take = allow_metadata_inventory_take,
-	allow_metadata_inventory_move = allow_metadata_inventory_move,
-	on_metadata_inventory_put = on_metadata_inventory_put,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},

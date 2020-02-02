@@ -103,7 +103,6 @@ end
 local function pumping(pos, crd, meta, nvm)
 	if has_oil(pos, meta) then
 		local leftover = liquid.put(pos, 6, "techage:oil_source", 1)
-		print("pumping", dump(leftover))
 		if leftover and leftover > 0 then
 			crd.State:blocked(pos, nvm)
 			stop_sound(pos)

@@ -15,7 +15,7 @@
 -- for lazy programmers
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local S2P = minetest.string_to_pos
-local D = techage.Debug
+local M = minetest.get_meta
 local M = minetest.get_meta
 local S = techage.S
 
