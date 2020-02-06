@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -30,8 +30,6 @@ minetest.register_node("techage:pillar", {
 	is_ground_content = false,
 	sounds = default.node_sound_stone_defaults(),
 })
-
-
 
 minetest.register_craft({
 	type = "shapeless",

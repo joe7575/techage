@@ -56,7 +56,7 @@ local function get_generator_sum(tbl, tlib_type)
 		if def and def["gstate"] ~= STOPPED then
 			def["galive"] = (def["galive"] or 1) - 1
 			if def["galive"] > 0 then
-				sum = sum + v.nominal
+				sum = sum + (def.curr_power or v.nominal)
 			end
 		end
 	end
@@ -82,7 +82,11 @@ local function set_given(pos, given, tlib_type)
 	local nvm = techage.get_nvm(pos)
 	local def = nvm[tlib_type] -- power related network data
 	if (def and def["galive"] or 0) > 0 then
-		def["given"] = given
+		if def.curr_power and def.curr_power < given then
+			def["given"] = def.curr_power
+		else
+			def["given"] = given
+		end
 		return given
 	end
 	return 0

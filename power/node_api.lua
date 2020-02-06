@@ -98,6 +98,31 @@ function techage.power.update_network(pos, outdir, Cable)
 	delete_netID(pos, outdir, Cable) -- network walk to delete all IDs
 end
 
+--
+-- Read the current power value from all connected devices (used for solar cells)
+-- Only used by the solar inverter to collect the power of all solar cells.
+-- Only one inverter per network is allowed. Therefore, we have to check,
+-- if additional inverters are in the network.
+-- Function returns in addition the number of found inverters.
+function techage.power.get_power(pos, outdir, Cable, inverter)
+	local sum = 0
+	local num_inverter = 0
+	networks.connection_walk(pos, outdir, Cable, function(pos, indir, node)
+		techage.mark_position("singleplayer", pos, "get_power", "", 2)-----------------------------------------
+		local def = net_def(pos, Cable.tube_type)
+		if def and def.on_getpower then
+			sum = sum + def.on_getpower(pos)
+		else
+			local node = techage.get_node_lvm(pos)
+			if node.name == inverter then
+				num_inverter = num_inverter + 1
+			end
+		end
+	end)
+	return sum, num_inverter
+end	
+
+
 
 --
 -- Consumer related functions
@@ -154,13 +179,15 @@ end
 --
 -- Generator related functions
 --
-function techage.power.generator_start(pos, Cable, cycle_time, outdir)
+-- curr_power is optional, only needed for generators with variable output power
+function techage.power.generator_start(pos, Cable, cycle_time, outdir, curr_power)
 	local nvm = techage.get_nvm(pos)
 	local tlib_type = Cable.tube_type
 	nvm[tlib_type] = nvm[tlib_type] or {}
 	nvm[tlib_type]["galive"] = (cycle_time / 2) + 2
 	nvm[tlib_type]["gstate"] = RUNNING
 	nvm[tlib_type]["given"] = 0
+	nvm[tlib_type]["curr_power"] = curr_power
 	trigger_network(pos, outdir, Cable)
 end
 
@@ -173,12 +200,14 @@ function techage.power.generator_stop(pos, Cable, outdir)
 	nvm[tlib_type]["given"] = 0
 end
 
-function techage.power.generator_alive(pos, Cable, cycle_time, outdir)
+-- curr_power is optional, only needed for generators with variable output power
+function techage.power.generator_alive(pos, Cable, cycle_time, outdir, curr_power)
 	local nvm = techage.get_nvm(pos)
 	local def = nvm[Cable.tube_type] -- power related network data
 	if def then
 		trigger_network(pos, outdir, Cable)
 		def["galive"] = (cycle_time / 2) + 2
+		def["curr_power"] = curr_power
 		return def["given"] or 0
 	end
 	return 0

@@ -95,7 +95,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	local nvm,_ = techage.get_nvm(pos, true)
+	local nvm = techage.get_nvm(pos)
 	State:state_button_event(pos, nvm, fields)
 end
 
@@ -207,6 +207,7 @@ minetest.register_node("techage:generator_on", {
 
 Cable:add_secondary_node_names({"techage:generator", "techage:generator_on"})
 
+-- controlled by the turbine
 techage.register_node({"techage:generator", "techage:generator_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		local nvm = techage.get_nvm(pos)

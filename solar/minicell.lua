@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -38,7 +38,7 @@ local function node_timer(pos, elapsed)
 	
 	if light >= (minetest.LIGHT_MAX - 1) then
 		if nvm.providing then
-			power.generator_stop(pos, nvm)
+			power.generator_stop(pos, Cable, 5)
 			nvm.providing = false
 			nvm.provided = 0
 		end
@@ -46,13 +46,14 @@ local function node_timer(pos, elapsed)
 	else
 		if nvm.capa > 0 then
 			if not nvm.providing then
-				power.generator_start(pos, nvm, PWR_PERF)
+				power.generator_start(pos, Cable, CYCLE_TIME, 5)
 				nvm.providing = true
+			else
+				nvm.provided = power.generator_alive(pos, Cable, CYCLE_TIME, 5)
+				nvm.capa = nvm.capa - nvm.provided
 			end
-			nvm.provided = power.generator_alive(pos, nvm)
-			nvm.capa = nvm.capa - nvm.provided
 		else
-			power.generator_stop(pos, nvm)
+			power.generator_stop(pos, Cable, 5)
 			nvm.providing = false
 			nvm.provided = 0
 			nvm.capa = 0
@@ -60,6 +61,36 @@ local function node_timer(pos, elapsed)
 	end
 	return true
 end
+
+local function after_place_node(pos)
+	local meta = M(pos)
+	local number = techage.add_node(pos, "techage:ta4_solar_minicell")
+	meta:set_string("node_number", number)
+	meta:set_string("infotext", S("TA4 Streetlamp Solar Cell").." "..number)
+	local nvm = techage.get_nvm(pos)
+	nvm.capa = 0
+	nvm.providing = false
+	minetest.get_node_timer(pos):start(CYCLE_TIME)
+	Cable:after_place_node(pos)
+end
+
+local function after_dig_node(pos, oldnode)
+	Cable:after_dig_node(pos)
+	techage.remove_node(pos)
+	techage.del_mem(pos)
+end
+
+local function tubelib2_on_update2(pos, outdir, tlib2, node) 
+	power.update_network(pos, outdir, tlib2)
+end
+
+local net_def = {
+	ele1 = {
+		sides = {D = 1},
+		ntype = "gen1",
+		nominal = PWR_CAPA,
+	},
+}
 
 minetest.register_node("techage:ta4_solar_minicell", {
 	description = S("TA4 Streetlamp Solar Cell"),
@@ -80,28 +111,14 @@ minetest.register_node("techage:ta4_solar_minicell", {
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
+	
+	after_place_node = after_place_node,
+	after_dig_node = after_dig_node,
 	on_timer = node_timer,
+	tubelib2_on_update2 = tubelib2_on_update2,
 })
 
-techage.power.register_node({"techage:ta4_solar_minicell"}, {
-	power_network  = Cable,
-	conn_sides = {"D"},
-	after_place_node = function(pos)
-		local meta = minetest.get_meta(pos)
-		local number = techage.add_node(pos, "techage:ta4_solar_minicell")
-		meta:set_string("node_number", number)
-		meta:set_string("infotext", S("TA4 Streetlamp Solar Cell").." "..number)
-		local nvm = techage.get_nvm(pos)
-		nvm.capa = 0
-		nvm.providing = false
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-	end,
-	
-	after_dig_node = function(pos)
-		techage.remove_node(pos)
-		techage.del_mem(pos)
-	end,
-})
+Cable:add_secondary_node_names({"techage:ta4_solar_minicell"})
 
 techage.register_node({"techage:ta4_solar_minicell"}, {	
 	on_recv_message = function(pos, src, topic, payload)
@@ -119,12 +136,7 @@ techage.register_node({"techage:ta4_solar_minicell"}, {
 		end
 	end,
 	on_node_load = function(pos)
-		local meta = M(pos)
-		local number = meta:get_string("number") or ""
-		if number ~= "" then
-			meta:set_string("node_number", number)
-			meta:set_string("number", nil)
-		end
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
 })
 

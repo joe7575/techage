@@ -201,7 +201,7 @@ end
 -- if outdirs is given, only this dirs are used
 local function connection_walk(pos, outdirs, indir, node, tlib2, clbk)
 	if clbk then clbk(pos, indir, node) end
-	techage.mark_position("singleplayer", pos, "walk", "", 1)
+	--techage.mark_position("singleplayer", pos, "walk", "", 1)
 	--print("connection_walk", node.name, outdirs or is_junction(pos, node.name, tlib2.tube_type))
 	if outdirs or is_junction(pos, node.name, tlib2.tube_type) then
 		for _,outdir in pairs(outdirs or get_node_connections(pos, tlib2.tube_type)) do

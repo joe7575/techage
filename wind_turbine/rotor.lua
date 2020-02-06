@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 DS-Minetest, Joachim Stolberg
+	Copyright (C) 2019-2020 DS-Minetest, Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -119,7 +119,7 @@ local function start_rotor(pos, nvm)
 	
 	nvm.providing = true
 	nvm.delivered = 0
-	power.generator_start(pos, nvm, PWR_PERF)
+	power.generator_start(pos, Cable, CYCLE_TIME, 5)
 	local hash = minetest.hash_node_position(pos)
 	if Rotors[hash] then
 		Rotors[hash]:set_animation_frame_speed(50)
@@ -129,7 +129,7 @@ end
 local function stop_rotor(pos, nvm)
 	nvm.providing = false
 	nvm.delivered = 0
-	power.generator_stop(pos, nvm)
+	power.generator_stop(pos, Cable, 5)
 	local hash = minetest.hash_node_position(pos)
 	if Rotors[hash] then
 		Rotors[hash]:set_animation_frame_speed(0)
@@ -153,10 +153,37 @@ local function node_timer(pos, elapsed)
 			stop_rotor(pos, nvm)
 		end
 	end
-	if nvm.providing then
-		nvm.delivered = power.generator_alive(pos, nvm)
-	end
+	nvm.delivered = power.generator_alive(pos, Cable, CYCLE_TIME, 5, (nvm.providing and PWR_PERF) or 0)
 	return true
+end
+
+local function after_place_node(pos, placer)
+	local meta = M(pos)
+	local nvm = techage.get_nvm(pos)
+	local own_num = techage.add_node(pos, "techage:ta4_wind_turbine")
+	meta:set_string("node_number", own_num)
+	meta:set_string("owner", placer:get_player_name())
+	meta:set_string("infotext", S("TA4 Wind Turbine").." "..own_num)
+	nvm.providing = false
+	nvm.running = true
+	add_rotor(pos, nvm, placer:get_player_name())
+	minetest.get_node_timer(pos):start(CYCLE_TIME)
+	Cable:after_place_node(pos)
+end
+
+local function after_dig_node(pos, oldnode)
+	local hash = minetest.hash_node_position(pos)
+	if Rotors[hash] and Rotors[hash]:get_luaentity() then
+		Rotors[hash]:remove()
+	end
+	Rotors[hash] = nil
+	Cable:after_dig_node(pos)
+	techage.remove_node(pos)
+	techage.del_mem(pos)
+end
+
+local function tubelib2_on_update2(pos, outdir, tlib2, node) 
+	power.update_network(pos, outdir, tlib2)
 end
 
 minetest.register_node("techage:ta4_wind_turbine", {
@@ -172,6 +199,16 @@ minetest.register_node("techage:ta4_wind_turbine", {
 		"techage_rotor.png^techage_appl_open.png",
 	},
 	
+	networks = {
+		ele1 = {
+			sides = {D = 1},
+			ntype = "gen1",
+			nominal = PWR_PERF,
+		},
+	},
+	after_place_node = after_place_node,
+	after_dig_node = after_dig_node,
+	tubelib2_on_update2 = tubelib2_on_update2,
 	on_timer = node_timer,
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -207,32 +244,7 @@ minetest.register_entity("techage:rotor_ent", {initial_properties = {
 	static_save = false,
 }})
 
-techage.power.register_node({"techage:ta4_wind_turbine"}, {
-	power_network  = Cable,
-	conn_sides = {"D"},
-	after_place_node = function(pos, placer)
-		local meta = M(pos)
-		local nvm = techage.get_nvm(pos)
-		local own_num = techage.add_node(pos, "techage:ta4_wind_turbine")
-		meta:set_string("node_number", own_num)
-		meta:set_string("owner", placer:get_player_name())
-		meta:set_string("infotext", S("TA4 Wind Turbine").." "..own_num)
-		nvm.providing = false
-		nvm.running = true
-		add_rotor(pos, nvm, placer:get_player_name())
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-	end,
-	
-	after_dig_node = function(pos)
-		local hash = minetest.hash_node_position(pos)
-		if Rotors[hash] and Rotors[hash]:get_luaentity() then
-			Rotors[hash]:remove()
-		end
-		Rotors[hash] = nil
-		techage.remove_node(pos)
-		techage.del_mem(pos)
-	end,
-})
+Cable:add_secondary_node_names({"techage:ta4_wind_turbine"})
 
 techage.register_node({"techage:ta4_wind_turbine"}, {	
 	on_recv_message = function(pos, src, topic, payload)

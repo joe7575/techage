@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -14,8 +14,6 @@
 
 local S = techage.S
 local M = minetest.get_meta
-local Cable = techage.ElectricCable
-local power = techage.power
 local Pipe = techage.LiquidPipe
 local networks = techage.networks
 local liquid = techage.liquid
@@ -67,7 +65,7 @@ minetest.register_node("techage:ta4_reactor_fillerpipe", {
 
 	networks = {
 		pipe2 = {
-			sides = {U=1}, -- Pipe connection sides
+			sides = {U = 1}, -- Pipe connection sides
 			ntype = "tank",
 		},
 	},

@@ -90,7 +90,6 @@ else
 	-- Liquids I
 	dofile(MP.."/liquids/liquid_pipe.lua")
 	dofile(MP.."/liquids/node_api.lua")
-	--dofile(MP.."/liquids/liquid_lib.lua")
 	
 	-- Basic Machines
 	dofile(MP.."/basic_machines/consumer.lua")  -- consumer base model
@@ -182,24 +181,26 @@ else
 	--dofile(MP.."/.test/accu.lua")
 	
 	-- Solar
---	dofile(MP.."/solar/minicell.lua")
---	dofile(MP.."/solar/solarcell.lua")
---	dofile(MP.."/solar/inverter.lua")
+	dofile(MP.."/solar/minicell.lua")
+	dofile(MP.."/solar/solarcell.lua")
+	dofile(MP.."/solar/inverter.lua")
 	
 --	-- Wind
---	dofile(MP.."/wind_turbine/rotor.lua")
---	dofile(MP.."/wind_turbine/pillar.lua")
---	dofile(MP.."/wind_turbine/signallamp.lua")
+	dofile(MP.."/wind_turbine/rotor.lua")
+	dofile(MP.."/wind_turbine/pillar.lua")
+	dofile(MP.."/wind_turbine/signallamp.lua")
 	
 --	-- TA4 Energy Storage
---	dofile(MP.."/energy_storage/heatexchanger.lua")
---	dofile(MP.."/energy_storage/generator.lua")
---	dofile(MP.."/energy_storage/turbine.lua")
---	dofile(MP.."/energy_storage/inlet.lua")
---	dofile(MP.."/energy_storage/nodes.lua")
+	dofile(MP.."/energy_storage/heatexchanger3.lua")
+	dofile(MP.."/energy_storage/heatexchanger2.lua")
+	dofile(MP.."/energy_storage/heatexchanger1.lua")
+	dofile(MP.."/energy_storage/generator.lua")
+	dofile(MP.."/energy_storage/turbine.lua")
+	dofile(MP.."/energy_storage/inlet.lua")
+	dofile(MP.."/energy_storage/nodes.lua")
 	
 --	-- Chemistry
---	dofile(MP.."/chemistry/ta4_reactor.lua")
+	dofile(MP.."/chemistry/ta4_reactor.lua")
 --	dofile(MP.."/chemistry/ta4_stand.lua")
 --	dofile(MP.."/chemistry/ta4_doser.lua")
 	

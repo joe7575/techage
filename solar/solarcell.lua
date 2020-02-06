@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -32,8 +32,7 @@ end
 
 -- return the required param2 for solar modules
 local function get_param2(pos, side)
-	local node = techage.get_node_lvm(pos)
-	local dir = power.side_to_dir(node.param2, side)
+	local dir = techage.networks.side_to_outdir(pos, side)
 	return (dir + 1) % 4
 end
 
@@ -62,7 +61,7 @@ local function is_solar_module(base_pos, pos, side)
 end
 
 -- provide the available power, which is temperature dependent
-local function on_getpower1(pos, mem)
+local function on_getpower1(pos)
 	local pos1 = {x = pos.x, y = pos.y, z = pos.z}
 	if is_solar_module(pos, pos1, "L") and is_solar_module(pos, pos1, "R") then
 		return PWR_PERF * M(pos):get_int("temperature") / 100.0
@@ -70,7 +69,7 @@ local function on_getpower1(pos, mem)
 	return 0
 end
 
-local function on_getpower2(pos, mem)
+local function on_getpower2(pos)
 	local pos1 = {x = pos.x, y = pos.y+1, z = pos.z}
 	if is_solar_module(pos, pos1, "L") and is_solar_module(pos, pos1, "R") then
 		return PWR_PERF * M(pos):get_int("temperature") / 100.0
@@ -78,6 +77,36 @@ local function on_getpower2(pos, mem)
 	return 0
 end
 
+local function after_place_node(pos)
+	M(pos):set_int("temperature", temperature(pos))
+	M(pos):set_int("left_param2", get_param2(pos, "L"))
+	M(pos):set_int("right_param2", get_param2(pos, "R"))
+	Cable:after_place_node(pos)
+end
+
+local function after_dig_node(pos, oldnode)
+	Cable:after_dig_node(pos)
+end
+
+local function tubelib2_on_update2(pos, outdir, tlib2, node) 
+	power.update_network(pos, outdir, tlib2)
+end
+
+local net_def1 = {
+	ele2 = {
+		sides = {F=1, B=1},
+		ntype = "junc",
+		on_getpower = on_getpower1,
+	},
+}
+
+local net_def2 = {
+	ele2 = {
+		sides = {F=1, B=1},
+		ntype = "junc",
+		on_getpower = on_getpower2,
+	},
+}
 
 minetest.register_node("techage:ta4_solar_module", {
 	description = S("TA4 Solar Module"),
@@ -130,6 +159,17 @@ minetest.register_node("techage:ta4_solar_carrier", {
 			{-3/8,  5/16, -1/2,  3/8,  7/16, 1/2},
 		},
 	},
+	after_place_node = function(pos)
+		M(pos):set_int("temperature", temperature(pos))
+		M(pos):set_int("left_param2", get_param2(pos, "L"))
+		M(pos):set_int("right_param2", get_param2(pos, "R"))
+	end,
+	
+	after_place_node = after_place_node,
+	after_dig_node = after_dig_node,
+	tubelib2_on_update2 = tubelib2_on_update2,
+	networks = net_def1,
+	
 	paramtype = "light",
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -156,6 +196,18 @@ minetest.register_node("techage:ta4_solar_carrierB", {
 			{-1/8, -6/16, -1/2,  1/8,  8/16, 1/2},
 		},
 	},
+	after_place_node = function(pos)
+		M(pos):set_int("temperature", temperature(pos))
+		M(pos):set_int("left_param2", get_param2(pos, "L"))
+		M(pos):set_int("right_param2", get_param2(pos, "R"))
+		Cable:after_place_node(pos)
+	end,
+	
+	after_place_node = after_place_node,
+	after_dig_node = after_dig_node,
+	tubelib2_on_update2 = tubelib2_on_update2,
+	networks = net_def2,
+	
 	paramtype = "light",
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -189,27 +241,8 @@ minetest.register_node("techage:ta4_solar_carrierT", {
 	is_ground_content = false,
 })
 
-techage.power.register_node({"techage:ta4_solar_carrier"}, {
-	power_network  = Cable,
-	on_getpower = on_getpower1,
-	conn_sides ={"F", "B"},
-	after_place_node = function(pos)
-		M(pos):set_int("temperature", temperature(pos))
-		M(pos):set_int("left_param2", get_param2(pos, "L"))
-		M(pos):set_int("right_param2", get_param2(pos, "R"))
-	end,
-})
+Cable:add_secondary_node_names({"techage:ta4_solar_carrier", "techage:ta4_solar_carrierB"})
 
-techage.power.register_node({"techage:ta4_solar_carrierB"}, {
-	power_network  = Cable,
-	on_getpower = on_getpower2,
-	conn_sides ={"F", "B"},
-	after_place_node = function(pos)
-		M(pos):set_int("temperature", temperature(pos))
-		M(pos):set_int("left_param2", get_param2(pos, "L"))
-		M(pos):set_int("right_param2", get_param2(pos, "R"))
-	end,
-})
 
 minetest.register_craft({
 	output = "techage:ta4_solar_module",

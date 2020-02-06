@@ -70,7 +70,6 @@ local function on_rightclick(pos, node, clicker)
 end
 
 local function node_timer(pos, elapsed)
-	print("node_timer")
 	local inv = M(pos):get_inventory()
 	if not inv:is_empty("src") then
 		local taken = techage.get_items(inv, "src", 1)

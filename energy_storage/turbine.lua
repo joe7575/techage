@@ -3,12 +3,12 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
 	
-	TA4 Gas Turbine
+	TA4 TES Gas Turbine
 
 ]]--
 
@@ -16,9 +16,17 @@
 local M = minetest.get_meta
 local S = techage.S
 
-local CYCLE_TIME = 2
-
 local Pipe = techage.LiquidPipe
+
+local function transfer_heatexchanger3(pos, topic, payload)
+	return techage.transfer(pos, 6, topic, payload, Pipe, 
+		{"techage:heatexchanger3"})
+end
+
+local function transfer_generator(pos, topic, payload)
+	return techage.transfer(pos, "R", topic, payload, nil, 
+		{"techage:ta4_generator", "techage:ta4_generator_on"})
+end
 
 local function swap_node(pos, name)
 	local node = techage.get_node_lvm(pos)
@@ -34,7 +42,7 @@ local function play_sound(pos)
 	if not mem.handle or mem.handle == -1 then
 		mem.handle = minetest.sound_play("techage_turbine", {
 			pos = pos, 
-			gain = 0.5,
+			gain = 0.4,
 			max_hear_distance = 10,
 			loop = true})
 		if mem.handle == -1 then
@@ -51,29 +59,20 @@ local function stop_sound(pos)
 	end
 end
 
-local function generator_cmnd(pos, cmnd)
-	return techage.transfer(
-		pos, 
-		"R",  -- outdir
-		cmnd,  -- topic
-		nil,  -- payload
-		nil,  -- network
-		{"techage:ta4_generator", "techage:ta4_generator_on"})
+local function after_place_node(pos)
+	Pipe:after_place_node(pos)
 end
 
--- to detect the missing "steam pressure"
-local function node_timer(pos, elapsed)
-	local nvm = techage.get_nvm(pos)
-	nvm.remote_trigger = (nvm.remote_trigger or 0) - 1
-	if nvm.remote_trigger <= 0 then
-		swap_node(pos, "techage:ta4_turbine")
-		stop_sound(pos)
-		nvm.running = false
-	end
-	play_sound(pos)
-	return true
+local function after_dig_node(pos, oldnode)
+	stop_sound(pos)
+	Pipe:after_dig_node(pos)
+	techage.del_mem(pos)
 end
 
+local function tubelib2_on_update2(pos, outdir, tlib2, node) 
+	swap_node(pos, "techage:ta4_turbine")
+	stop_sound(pos)
+end
 
 minetest.register_node("techage:ta4_turbine", {
 	description = S("TA4 Turbine"),
@@ -86,7 +85,11 @@ minetest.register_node("techage:ta4_turbine", {
 		"techage_filling_ta4.png^techage_appl_turbine.png^techage_frame_ta4.png",
 		"techage_filling_ta4.png^techage_appl_turbine.png^techage_frame_ta4.png",
 	},
-	on_timer = node_timer,
+	
+	after_place_node = after_place_node,
+	after_dig_node = after_dig_node,
+	tubelib2_on_update2 = tubelib2_on_update2,
+	
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -123,12 +126,8 @@ minetest.register_node("techage:ta4_turbine_on", {
 		},
 	},
 	
-	on_rightclick = function(pos)
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-	end,
+	tubelib2_on_update2 = tubelib2_on_update2,
 	
-	on_timer = node_timer,
-	drop = "",
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
 	diggable = false,
@@ -137,43 +136,45 @@ minetest.register_node("techage:ta4_turbine_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
--- for mechanical pipe connections
-techage.power.register_node({"techage:ta4_turbine", "techage:ta4_turbine_on"}, {
-	conn_sides = {"L", "U"},
-	power_network  = Pipe,
-	after_place_node = function(pos, placer)
-		local nvm = techage.get_nvm(pos)
-		nvm.running = false
-		nvm.remote_trigger = 0
-	end,
-})
+Pipe:add_secondary_node_names({"techage:ta4_turbine", "techage:ta4_turbine_on"})
 
--- for logical communication
 techage.register_node({"techage:ta4_turbine", "techage:ta4_turbine_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		if topic == "power" then
-			nvm.remote_trigger = 2
-			return generator_cmnd(pos, topic)
-		elseif topic == "start" then
-			nvm.remote_trigger = 2
+		if topic == "trigger" then  -- used by heatexchanger1
+			if not transfer_heatexchanger3(pos, topic, payload) then
+				return 0
+			end
+			local power = transfer_generator(pos, topic, payload)
+			if not power or power <= 0 and nvm.running then
+				swap_node(pos, "techage:ta4_turbine")
+				stop_sound(pos)
+				nvm.running = false
+				return 0
+			elseif power and power > 0 and not nvm.running then
+				swap_node(pos, "techage:ta4_turbine_on")
+				play_sound(pos)
+				nvm.running = true
+			end
+			return power
+		elseif topic == "start" then  -- used by generator
 			swap_node(pos, "techage:ta4_turbine_on")
-			nvm.running = true
-			minetest.get_node_timer(pos):start(CYCLE_TIME)
 			play_sound(pos)
-			return generator_cmnd(pos, topic)
-		elseif topic == "stop" then
+			nvm.running = true
+			return true
+		elseif topic == "stop" then  -- used by generator
 			swap_node(pos, "techage:ta4_turbine")
-			nvm.running = false
-			nvm.remote_trigger = 0
-			minetest.get_node_timer(pos):stop()
 			stop_sound(pos)
-			return generator_cmnd(pos, topic)
-		elseif topic == "trigger" then
-			nvm.remote_trigger = 2
-			return generator_cmnd(pos, topic)
+			nvm.running = false
+			return true
 		end
-	end
+	end,
+	on_node_load = function(pos, node)
+		--print("on_node_load", node.name)
+		if node.name == "techage:ta4_turbine_on" then
+			play_sound(pos)
+		end	
+	end,
 })
 
 minetest.register_craft({

@@ -38,10 +38,10 @@ local function generator_data(gen_tbl)
 		tbl.pow_all = tbl.pow_all + (gen.nominal or 0)
 		if nvm.ele1 and nvm.ele1.gstate and nvm.ele1.gstate ~= STOPPED then
 			tbl.num_on = tbl.num_on + 1
-			tbl.pow_on = tbl.pow_on + (gen.nominal or 0)
+			tbl.pow_on = tbl.pow_on + (nvm.ele1.curr_power or gen.nominal or 0)
 			if (nvm.ele1.galive or 0) > 0 then
 				tbl.num_act = tbl.num_act + 1
-				tbl.pow_act = tbl.pow_act + (gen.nominal or 0)
+				tbl.pow_act = tbl.pow_act + (nvm.ele1.curr_power or gen.nominal or 0)
 				if (nvm.ele1.given or 0) > 0 then
 					tbl.num_used = tbl.num_used + 1
 					tbl.pow_used = tbl.pow_used + (nvm.ele1.given or 0)

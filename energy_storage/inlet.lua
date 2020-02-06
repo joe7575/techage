@@ -21,6 +21,14 @@ local S = techage.S
 
 local Pipe = techage.LiquidPipe
 
+local function after_place_node(pos, placer, itemstack)
+	Pipe:after_place_node(pos)
+end
+
+local function after_dig_node(pos, oldnode, oldmetadata, digger)
+	Pipe:after_dig_node(pos)
+end
+
 minetest.register_node("techage:ta4_pipe_inlet", {
 	description = S("TA4 Pipe Inlet"),
 	tiles = {
@@ -33,6 +41,9 @@ minetest.register_node("techage:ta4_pipe_inlet", {
 		"basic_materials_concrete_block.png^techage_tes_inlet.png",
 	},
 	
+	after_place_node = after_place_node,
+	after_dig_node = after_dig_node,
+	
 	paramtype2 = "facedir", -- important!
 	on_rotate = screwdriver.disallow, -- important!
 	groups = {crumbly = 2, cracky = 2, snappy = 2},
@@ -40,11 +51,7 @@ minetest.register_node("techage:ta4_pipe_inlet", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
--- for mechanical pipe connections
-techage.power.register_node({"techage:ta4_pipe_inlet"}, {
-	conn_sides = {"F", "B"},
-	power_network  = Pipe,
-})
+Pipe:add_secondary_node_names({"techage:ta4_pipe_inlet"})
 
 local Numbers = {
 	shell = {
@@ -63,6 +70,7 @@ local function chat(owner, text)
 	if owner ~= nil then
 		minetest.chat_send_player(owner, string.char(0x1b).."(c@#ff0000)".."[Techage] Error: "..text.."!")
 	end
+	return text
 end
 
 local function get_radius(pos, in_dir)
@@ -91,18 +99,14 @@ local function check_volume(pos, in_dir, owner)
 				"basic_materials:concrete_block", "default:obsidian_glass",
 				"techage:glow_gravel"})
 		if node_tbl["default:obsidian_glass"] > 1 then 
-			chat(owner, "one window maximum")
-			return false
+			return chat(owner, "one window maximum")
 		elseif node_tbl["default:obsidian_glass"] + node_tbl["basic_materials:concrete_block"] ~= Numbers.shell[radius] then
-			chat(owner, "wrong number of shell nodes")
-			return false
+			return chat(owner, "wrong number of shell nodes")
 		elseif node_tbl["default:gravel"] + node_tbl["techage:glow_gravel"] ~= Numbers.filling[radius] then
-			chat(owner, "wrong number of gravel nodes")
-			return false
+			return chat(owner, "wrong number of gravel nodes")
 		end
 	else
-		chat(owner, "wrong diameter (should be 5, 7, or 9)")
-		return false
+		return chat(owner, "wrong diameter (should be 5, 7, or 9)")
 	end
 	return true
 end
@@ -131,6 +135,8 @@ techage.register_node({"techage:ta4_pipe_inlet"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		if topic == "diameter" then
 			return get_radius(pos, in_dir) * 2 - 1
+		elseif topic == "integrity" then
+			return check_volume(pos, in_dir, payload)
 		elseif topic == "volume" then
 			return check_volume(pos, in_dir, payload)
 		elseif topic == "window" then
