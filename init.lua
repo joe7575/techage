@@ -177,8 +177,6 @@ else
 	dofile(MP.."/recipe_checker.lua")
 	dofile(MP.."/.test/sink.lua")
 	dofile(MP.."/.test/meta_node.lua")
-	--dofile(MP.."/.test/source.lua")
-	--dofile(MP.."/.test/accu.lua")
 	
 	-- Solar
 	dofile(MP.."/solar/minicell.lua")

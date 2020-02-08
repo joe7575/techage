@@ -43,6 +43,11 @@ local function formspec(self, pos, nvm)
 		"image[4,1.7;1,2;"..techage.power.formspec_load_bar(needed, PWR_PERF).."]"
 end
 
+local function on_power(pos)
+end
+
+local function on_nopower(pos)
+end
 
 local function start_node(pos, nvm, state)
 	nvm.running = true
@@ -159,6 +164,8 @@ local net_def = {
 		sides = {R = 1},
 		ntype = {"gen2", "con2"},
 		nominal = PWR_PERF,
+		on_power = on_power,
+		on_nopower = on_nopower,
 	},
 }
 

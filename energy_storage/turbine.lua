@@ -145,18 +145,7 @@ techage.register_node({"techage:ta4_turbine", "techage:ta4_turbine_on"}, {
 			if not transfer_heatexchanger3(pos, topic, payload) then
 				return 0
 			end
-			local power = transfer_generator(pos, topic, payload)
-			if not power or power <= 0 and nvm.running then
-				swap_node(pos, "techage:ta4_turbine")
-				stop_sound(pos)
-				nvm.running = false
-				return 0
-			elseif power and power > 0 and not nvm.running then
-				swap_node(pos, "techage:ta4_turbine_on")
-				play_sound(pos)
-				nvm.running = true
-			end
-			return power
+			return transfer_generator(pos, topic, payload)
 		elseif topic == "start" then  -- used by generator
 			swap_node(pos, "techage:ta4_turbine_on")
 			play_sound(pos)

@@ -66,7 +66,7 @@ local function play_sound(pos)
 	if not mem.handle or mem.handle == -1 then
 		mem.handle = minetest.sound_play("techage_booster", {
 			pos = pos, 
-			gain = 0.2,
+			gain = 0.3,
 			max_hear_distance = 10,
 			loop = true})
 		if mem.handle == -1 then
@@ -88,12 +88,9 @@ local function stop_sound(pos)
 end
 
 local function on_power(pos)
-	play_sound(pos)
 end
 
 local function on_nopower(pos)
-	nvm.needed = 0
-	stop_sound(pos)
 end
 
 local function start_node(pos, nvm)
@@ -164,7 +161,9 @@ local function node_timer(pos, elapsed)
 	local taken = 0
 	local given = 0
 	
-	if nvm.capa < (nvm.capa_max * 0.9) then
+	if nvm.capa < (nvm.capa_max * 0.9) and not nvm.charging then
+		taken = power.consumer_alive(pos, Cable, CYCLE_TIME)
+	elseif nvm.capa < nvm.capa_max and nvm.charging then
 		taken = power.consumer_alive(pos, Cable, CYCLE_TIME)
 	end
 	if nvm.capa > 0 then
@@ -193,6 +192,8 @@ local net_def = {
 	pipe2 = {
 		sides = {L = 1, R = 1},
 		ntype = "con1",
+		on_power = on_power,
+		on_nopower = on_nopower,
 	},
 }
 
@@ -212,7 +213,7 @@ minetest.register_node("techage:heatexchanger1", {
 	after_place_node = after_place_node,
 	can_dig = can_dig,
 	after_dig_node = after_dig_node,
-	--tubelib2_on_update2 = tubelib2_on_update2,
+	tubelib2_on_update2 = tubelib2_on_update2,
 	networks = net_def,
 	
 	paramtype2 = "facedir",
@@ -228,11 +229,10 @@ Cable:add_secondary_node_names({"techage:heatexchanger1"})
 -- command interface
 techage.register_node({"techage:heatexchanger1"}, {
 	on_transfer = function(pos, indir, topic, payload)
-		print("on_transfer")
 		local nvm = techage.get_nvm(pos)
 		-- used by heatexchanger2
 		if topic == "state" then
-			return nvm.capa_max, nvm.capa, PWR_PERF, math.max(nvm.needed, 0)
+			return nvm.capa_max, nvm.capa, PWR_PERF, math.max(nvm.needed or 0, 0)
 		elseif topic == "integrity" then
 			return inlet_cmnd(pos, "volume", payload)
 		elseif topic == "state" then

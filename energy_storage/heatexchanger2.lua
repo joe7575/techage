@@ -80,7 +80,6 @@ local State = techage.NodeStates:new({
 })
 
 local function node_timer(pos, elapsed)
-	print("node_timer")
 	local nvm = techage.get_nvm(pos)
 	local res = check_TES_integrity(pos, nvm)
 	if res ~= true then

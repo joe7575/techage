@@ -162,13 +162,12 @@ function techage.power.consumer_alive(pos, Cable, cycle_time)
 		local rv = (cycle_time / 2) + 1
 		if def["netID"] and def["calive"] and def["calive"] < rv then -- network available
 			def["calive"] = rv
+			return def["taken"] or 0
 		elseif not def["cstate"] or def["cstate"] == RUNNING then
 			local ndef = net_def(pos, Cable.tube_type)
 			ndef.on_nopower(pos, Cable.tube_type)
 			def["cstate"] = NOPOWER
-			return 0
 		end
-		return def["taken"] or 0
 	else
 		local ndef = net_def(pos, Cable.tube_type)
 		ndef.on_nopower(pos, Cable.tube_type)
