@@ -119,6 +119,7 @@ else
 	dofile(MP.."/coal_power_station/generator.lua")
 	dofile(MP.."/coal_power_station/turbine.lua")
 	dofile(MP.."/coal_power_station/cooler.lua")
+	dofile(MP.."/coal_power_station/oilfirebox.lua")
 	
 --	-- Industrial Furnace
 	dofile(MP.."/furnace/firebox.lua")
@@ -199,8 +200,8 @@ else
 	
 --	-- Chemistry
 	dofile(MP.."/chemistry/ta4_reactor.lua")
---	dofile(MP.."/chemistry/ta4_stand.lua")
---	dofile(MP.."/chemistry/ta4_doser.lua")
+	dofile(MP.."/chemistry/ta4_stand.lua")
+	dofile(MP.."/chemistry/ta4_doser.lua")
 	
 --	-- Hydrogen
 --	dofile(MP.."/hydrogen/fuelcellstack.lua")

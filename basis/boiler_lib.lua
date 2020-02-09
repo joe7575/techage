@@ -67,6 +67,7 @@ end
 function techage.boiler.water_temperature(pos, nvm)
 	nvm.temperature = nvm.temperature or 20
 	nvm.num_water = nvm.num_water or 0
+	nvm.water_level = nvm.water_level or 0
 	if nvm.fire_trigger then
 		nvm.temperature = math.min(nvm.temperature + HEAT_STEP, 100)
 	else

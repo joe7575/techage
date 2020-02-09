@@ -48,15 +48,15 @@ local function get_starter_name(pos)
 end
 
 local function formspec(self, pos, nvm)
-	return "size[8,7]"..
+	return "size[6,3.6]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
-		recipes.formspec(0, 0, "ta4_doser", nvm)..
-		"image_button[6,1;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
-		"tooltip[6,1;1,1;"..self:get_state_tooltip(nvm).."]"..
-		"list[current_player;main;0,3.3;8,4;]" ..
-		default.get_hotbar_bg(0, 3.5)
+		"box[0,-0.1;5.8,0.5;#c6e8ff]"..
+		"label[2.5,-0.1;"..minetest.colorize( "#000000", S("Doser")).."]"..
+		recipes.formspec(0.1, 0.8, "ta4_doser", nvm)..
+		"image_button[5,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
+		"tooltip[5,2;1,1;"..self:get_state_tooltip(nvm).."]"
 end
 
 local function get_liquids(pos)

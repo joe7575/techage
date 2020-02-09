@@ -71,91 +71,6 @@ function techage.fuel.formspec(nvm)
 		techage.fuel.fuel_container(1.5, 1, nvm)
 end
 
---local function fill_container(pos, inv, nvm)
---	nvm.liquid = nvm.liquid or {}
---	nvm.liquid.amount = nvm.liquid.amount or 0
---	local empty_container = inv:get_stack("fuel", 1):get_name()
---	local full_container = liquid.get_full_container(empty_container, nvm.liquid.name)
---	if empty_container and full_container then
---		local ldef = liquid.get_liquid_def(full_container)
---		if ldef and nvm.liquid.amount - ldef.size >= 0 then 
---			inv:remove_item("fuel", ItemStack(empty_container))
---			inv:add_item("fuel", ItemStack(full_container))
---			nvm.liquid.amount = nvm.liquid.amount - ldef.size
---			if nvm.liquid.amount == 0 then 
---				nvm.liquid.name = nil 
---			end
---		end
---	end
---end
-
---local function empty_container(pos, inv, nvm)
---	nvm.liquid = nvm.liquid or {}
---	nvm.liquid.amount = nvm.liquid.amount or 0
---	local stack = inv:get_stack("fuel", 1)
---	if stack:get_count() == 1 then
---		local ldef = liquid.get_liquid_def(stack:get_name())
---		if ldef and ValidOilFuels[ldef.inv_item] then
---			if not nvm.liquid.name or ldef.inv_item == nvm.liquid.name then
---				if nvm.liquid.amount + ldef.size <= CAPACITY then 
---					inv:remove_item("fuel", stack)
---					inv:add_item("fuel", ItemStack(ldef.container))
---					nvm.liquid.amount = nvm.liquid.amount + ldef.size
---					nvm.liquid.name = ldef.inv_item
---				end
---			end
---		end
---	end
---end
-
---local function move_item(pos, stack)
---	local nvm = techage.get_nvm(pos)
---	local inv = M(pos):get_inventory()
---	if liquid.is_container_empty(stack:get_name()) then
---		fill_container(pos, inv, nvm)
---	else
---		empty_container(pos, inv, nvm)
---	end
---	M(pos):set_string("formspec", techage.fuel.formspec(nvm))
---end
-
---function techage.fuel.move_item(pos, stack, formspec)
---	local nvm = techage.get_nvm(pos)
---	local inv = M(pos):get_inventory()
---	if liquid.is_container_empty(stack:get_name()) then
---		fill_container(pos, inv, nvm)
---	else
---		empty_container(pos, inv, nvm)
---	end
---	M(pos):set_string("formspec", formspec(pos, nvm))
---end
-
---function techage.fuel.allow_metadata_inventory_put(pos, listname, index, stack, player)
---	if minetest.is_protected(pos, player:get_player_name()) then
---		return 0
---	end
---	if liquid.is_container_empty(stack:get_name()) then
---		return 1
---	end
---	local category = LQD(pos).fuel_cat
---	local ldef = liquid.get_liquid_def(stack:get_name())
---	if ldef and ValidOilFuels[ldef.inv_item] and ValidOilFuels[ldef.inv_item] <= category then
---		return 1
---	end
---	return 0
---end
-
---function techage.fuel.allow_metadata_inventory_take(pos, listname, index, stack, player)
---	if minetest.is_protected(pos, player:get_player_name()) then
---		return 0
---	end
---	return stack:get_count()
---end
-
---function techage.fuel.on_metadata_inventory_put(pos, listname, index, stack, player)
---	minetest.after(0.5, move_item, pos, stack)
---end
-
 function techage.fuel.can_dig(pos, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return false
@@ -172,22 +87,6 @@ function techage.fuel.on_rightclick(pos, node, clicker)
 	local nvm = techage.get_nvm(pos)
 	M(pos):set_string("formspec", techage.fuel.formspec(nvm))
 end
-
---function techage.fuel.on_receive_fields(pos, formname, fields, player)
---	if minetest.is_protected(pos, player:get_player_name()) then
---		return
---	end
---	local nvm = techage.get_nvm(pos)
---	nvm.countdown = 10
---	M(pos):set_string("formspec", techage.fuel.formspec(nvm))
---end
-
---function techage.fuel.formspec_update(pos, nvm)
---	if nvm.countdown and nvm.countdown > 0 then
---		nvm.countdown = nvm.countdown - 1
---		M(pos):set_string("formspec", techage.fuel.formspec(nvm))
---	end
---end
 
 -- name is the fuel item name
 function techage.fuel.burntime(name)
@@ -228,4 +127,21 @@ function techage.fuel.on_punch(pos, node, puncher, pointed_thing)
 			mem.blocking_time = techage.SystemTime + BLOCKING_TIME
 		end
 	end
+end
+
+function techage.fuel.get_fuel(nvm)
+	if nvm.liquid and nvm.liquid.name and nvm.liquid.amount then
+		if nvm.liquid.amount > 0 then
+			nvm.liquid.amount = nvm.liquid.amount - 1
+			return nvm.liquid.name
+		end
+		nvm.liquid.name = nil 
+	end
+	return nil
+end
+
+function techage.fuel.has_fuel(nvm)
+	nvm.liquid = nvm.liquid or {}
+	nvm.liquid.amount = nvm.liquid.amount or 0
+	return nvm.liquid.amount > 0
 end

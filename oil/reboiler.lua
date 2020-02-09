@@ -96,6 +96,7 @@ local function start_node(pos)
 		if power.power_available(pos, Cable) then
 			nvm.running = true
 			power.consumer_start(pos, Cable, CYCLE_TIME)
+			minetest.get_node_timer(pos):start(CYCLE_TIME)
 		end
 	end
 end
@@ -105,14 +106,14 @@ local function node_timer(pos, elapsed)
 	nvm.liquid = nvm.liquid or {}
 	nvm.liquid.amount = nvm.liquid.amount or 0
 	
-	power.consumer_alive(pos, nvm)
+	power.consumer_alive(pos, Cable, CYCLE_TIME)
 	
 	if nvm.liquid.amount >= 5 and nvm.liquid.name == "techage:oil_source" then
 		nvm.liquid.amount = nvm.liquid.amount - 5
 		local leftover = pump_cmnd(pos, "put")
 		if (tonumber(leftover) or 1) > 0 then
 			nvm.liquid.amount = nvm.liquid.amount + 5
-			nvm.error = 25 -- = 5 pump cycles
+			nvm.error = 2 -- = 2 pump cycles
 			M(pos):set_string("infotext", S("TA3 Oil Reboiler: blocked"))
 			swap_node(pos, false)
 			return false
@@ -135,8 +136,9 @@ local function after_dig_node(pos, oldnode)
 end
 
 local function tubelib2_on_update2(pos, outdir, tlib2, node) 
-	if tlib2 == Pipe then
-		liquid.update_network(pos, outdir)
+	print("tubelib2_on_update2", tlib2.tube_type)
+	if tlib2.tube_type == "pipe2" then
+		liquid.update_network(pos, outdir, tlib2)
 	else
 		power.update_network(pos, outdir, tlib2)
 	end
@@ -196,6 +198,9 @@ minetest.register_node("techage:ta3_reboiler", {
 		local meta = M(pos)
 		meta:set_string("infotext", S("TA3 Oil Reboiler"))
 		meta:set_int("outdir", networks.side_to_outdir(pos, "R"))
+		local number = techage.add_node(pos, "techage:ta3_reboiler")
+		meta:set_string("node_number", number)
+		meta:set_string("owner", placer:get_player_name())
 		Pipe:after_place_node(pos)
 		power.after_place_node(pos)
 	end,
@@ -260,6 +265,33 @@ minetest.register_node("techage:ta3_reboiler_on", {
 
 Pipe:add_secondary_node_names({"techage:ta3_reboiler", "techage:ta3_reboiler_on"})
 Cable:add_secondary_node_names({"techage:ta3_reboiler", "techage:ta3_reboiler_on"})
+
+techage.register_node({"techage:ta3_reboiler", "techage:ta3_reboiler_on"}, {
+	on_recv_message = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == "on" then
+			start_node(pos)
+			return true
+		elseif topic == "off" then
+			swap_node(pos, false)
+			return true
+		elseif topic == "state" then
+			if nvm.error and nvm.error > 0 then
+				return "blocked"
+			elseif nvm.running then
+				return "running"
+			end
+			return "stopped"
+		else
+			return "unsupported"
+		end
+	end,
+	on_node_load = function(pos, node)
+		if node.name == "techage:ta3_reboiler_on" then
+			play_sound(pos)
+		end	
+	end,
+})
 
 minetest.register_craft({
 	output = "techage:ta3_reboiler",

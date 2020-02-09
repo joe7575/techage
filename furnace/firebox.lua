@@ -41,7 +41,6 @@ local function node_timer(pos, elapsed)
 	nvm.liquid = nvm.liquid or {}
 	nvm.liquid.amount = nvm.liquid.amount or 0
 	if nvm.running then
-		fuel.formspec_update(pos, nvm)
 		nvm.burn_cycles = (nvm.burn_cycles or 0) - 1
 		if nvm.burn_cycles <= 0 then
 			if nvm.liquid.amount > 0 then

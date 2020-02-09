@@ -36,33 +36,31 @@ end
 
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
-	if nvm.running then
-		local power = techage.transfer(
-			{x=pos.x, y=pos.y+2, z=pos.z}, 
-			nil,  -- outdir
-			"trigger",  -- topic
-			nil,  -- payload
-			nil,  -- network
-			{"techage:coalboiler_top"}  -- nodenames
-		)
-		nvm.burn_cycles = (nvm.burn_cycles or 0) - math.max((power or 0.02), 0.02)
-		if nvm.burn_cycles <= 0 then
-			local taken = firebox.get_fuel(pos) 
-			if taken then
-				nvm.burn_cycles = (firebox.Burntime[taken:get_name()] or 1) / CYCLE_TIME * BURN_CYCLE_FACTOR
-				nvm.burn_cycles_total = nvm.burn_cycles
-			else
-				nvm.running = false
-				firehole(pos, false)
-				M(pos):set_string("formspec", firebox.formspec(nvm))
-				return false
-			end
-		end
-		if techage.is_activeformspec(pos) then
+	local power = techage.transfer(
+		{x=pos.x, y=pos.y+2, z=pos.z}, 
+		nil,  -- outdir
+		"trigger",  -- topic
+		nil,  -- payload
+		nil,  -- network
+		{"techage:coalboiler_top"}  -- nodenames
+	)
+	nvm.burn_cycles = (nvm.burn_cycles or 0) - math.max((power or 0.02), 0.02)
+	if nvm.burn_cycles <= 0 then
+		local taken = firebox.get_fuel(pos) 
+		if taken then
+			nvm.burn_cycles = (firebox.Burntime[taken:get_name()] or 1) / CYCLE_TIME * BURN_CYCLE_FACTOR
+			nvm.burn_cycles_total = nvm.burn_cycles
+		else
+			nvm.running = false
+			firehole(pos, false)
 			M(pos):set_string("formspec", firebox.formspec(nvm))
+			return false
 		end
-		return true
 	end
+	if techage.is_activeformspec(pos) then
+		M(pos):set_string("formspec", firebox.formspec(nvm))
+	end
+	return true
 end
 
 local function start_firebox(pos, nvm)

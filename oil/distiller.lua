@@ -41,7 +41,7 @@ local function after_place_node(pos, placer)
 end
 
 local function tubelib2_on_update2(pos, dir, tlib2, node)
-	liquid.update_network(pos)
+	liquid.update_network(pos, dir, tlib2)
 end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
