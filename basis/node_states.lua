@@ -298,7 +298,7 @@ function NodeStates:standby(pos, nvm, err_string)
 end	
 
 -- special case of standby for pushing nodes
-function NodeStates:blocked(pos, nvm)
+function NodeStates:blocked(pos, nvm, err_string)
 	local state = nvm.techage_state or STOPPED
 	if state == RUNNING then
 		nvm.techage_state = BLOCKED
@@ -307,10 +307,10 @@ function NodeStates:blocked(pos, nvm)
 		end
 		if self.infotext_name then
 			local number = M(pos):get_string("node_number")
-			M(pos):set_string("infotext", self.infotext_name.." "..number..": blocked")
+			M(pos):set_string("infotext", self.infotext_name.." "..number..": "..(err_string or "blocked"))
 		end
 		if self.formspec_func then
-			nvm.ta_state_tooltip = "blocked"
+			nvm.ta_state_tooltip = err_string or "blocked"
 			M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
 		end
 		if self.on_state_change then

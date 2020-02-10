@@ -30,9 +30,9 @@ end
 
 local function formspec(self, pos, nvm)
 	local capa_max, capa, needed_max, needed = he1_cmnd(pos, "state")
-	local arrow = "image[2.5,1.5;1,1;techage_form_arrow_bg.png^[transformR90]"
+	local arrow = "image[2.5,1.5;1,1;techage_form_arrow_bg.png^[transformR270]"
 	if needed > 0 then
-		arrow = "image[2.5,1.5;1,1;techage_form_arrow_fg.png^[transformR90]"
+		arrow = "image[2.5,1.5;1,1;techage_form_arrow_fg.png^[transformR270]"
 	end
 	return "size[6,4]"..
 		default.gui_bg..
@@ -40,8 +40,8 @@ local function formspec(self, pos, nvm)
 		default.gui_slots..
 		"box[0,-0.1;5.8,0.5;#c6e8ff]"..
 		"label[2,-0.1;"..minetest.colorize( "#000000", S("Heat Exchanger")).."]"..
-		power.formspec_label_bar(0,   0.8, S("Thermal"), capa_max, capa, "")..
-		power.formspec_label_bar(3.5, 0.8, S("Input"), needed_max, needed)..
+		power.formspec_label_bar(0,   0.8, S("Electricity"), needed_max, needed)..
+		power.formspec_label_bar(3.5, 0.8, S("Thermal"), capa_max, capa, "")..
 		arrow..
 		"image_button[2.5,3;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 		"tooltip[2.5,3;1,1;"..self:get_state_tooltip(nvm).."]"

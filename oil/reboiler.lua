@@ -136,7 +136,6 @@ local function after_dig_node(pos, oldnode)
 end
 
 local function tubelib2_on_update2(pos, outdir, tlib2, node) 
-	print("tubelib2_on_update2", tlib2.tube_type)
 	if tlib2.tube_type == "pipe2" then
 		liquid.update_network(pos, outdir, tlib2)
 	else

@@ -121,7 +121,7 @@ else
 	dofile(MP.."/coal_power_station/cooler.lua")
 	dofile(MP.."/coal_power_station/oilfirebox.lua")
 	
---	-- Industrial Furnace
+	-- Industrial Furnace
 	dofile(MP.."/furnace/firebox.lua")
 	dofile(MP.."/furnace/cooking.lua")
 	dofile(MP.."/furnace/furnace_top.lua")
@@ -144,7 +144,7 @@ else
 	dofile(MP.."/lamps/industriallamp2.lua")
 	dofile(MP.."/lamps/industriallamp3.lua")
 	
---	-- Oil
+	-- Oil
 	dofile(MP.."/oil/explore.lua")
 	dofile(MP.."/oil/tower.lua")
 	dofile(MP.."/oil/drillbox.lua")
@@ -153,7 +153,7 @@ else
 	dofile(MP.."/oil/reboiler.lua")
 --	dofile(MP.."/oil/gasflare.lua")
 	
---  TA3 power based
+	-- TA3 power based
 	dofile(MP.."/ta3_power/tiny_generator.lua")
 	dofile(MP.."/ta3_power/akkubox.lua")
 	
@@ -177,19 +177,19 @@ else
 	-- Test
 	dofile(MP.."/recipe_checker.lua")
 	dofile(MP.."/.test/sink.lua")
-	dofile(MP.."/.test/meta_node.lua")
+	--dofile(MP.."/.test/meta_node.lua")
 	
 	-- Solar
 	dofile(MP.."/solar/minicell.lua")
 	dofile(MP.."/solar/solarcell.lua")
 	dofile(MP.."/solar/inverter.lua")
 	
---	-- Wind
+	-- Wind
 	dofile(MP.."/wind_turbine/rotor.lua")
 	dofile(MP.."/wind_turbine/pillar.lua")
 	dofile(MP.."/wind_turbine/signallamp.lua")
 	
---	-- TA4 Energy Storage
+	-- TA4 Energy Storage
 	dofile(MP.."/energy_storage/heatexchanger3.lua")
 	dofile(MP.."/energy_storage/heatexchanger2.lua")
 	dofile(MP.."/energy_storage/heatexchanger1.lua")
@@ -198,16 +198,15 @@ else
 	dofile(MP.."/energy_storage/inlet.lua")
 	dofile(MP.."/energy_storage/nodes.lua")
 	
---	-- Chemistry
+	-- Chemistry
 	dofile(MP.."/chemistry/ta4_reactor.lua")
 	dofile(MP.."/chemistry/ta4_stand.lua")
 	dofile(MP.."/chemistry/ta4_doser.lua")
 	
---	-- Hydrogen
---	dofile(MP.."/hydrogen/fuelcellstack.lua")
---	dofile(MP.."/hydrogen/electrolyzer.lua")
---	dofile(MP.."/hydrogen/fuelcell.lua")
---	dofile(MP.."/hydrogen/legacy.lua")
+	-- Hydrogen
+	dofile(MP.."/hydrogen/fuelcellstack.lua")
+	dofile(MP.."/hydrogen/electrolyzer.lua")
+	dofile(MP.."/hydrogen/fuelcell.lua")
 
 	-- Items
 	dofile(MP.."/items/barrel.lua")
@@ -228,20 +227,4 @@ else
 	if techage.basalt_stone_enabled then
 		dofile(MP.."/items/basalt.lua")
 	end
-
---	dofile(MP.."/power3/electric_cable.lua")
---	dofile(MP.."/power3/node_api.lua")
---	dofile(MP.."/power3/distribution.lua")
---	dofile(MP.."/power3/schedule.lua")
---	dofile(MP.."/power3/hud_debug.lua")
---	dofile(MP.."/power3/junctionbox.lua")
---	dofile(MP.."/power3/ele3_sink.lua")
---	dofile(MP.."/power3/ele3_source.lua")
---	dofile(MP.."/power3/accu.lua")
---	dofile(MP.."/power3/power_terminal.lua")
---	dofile(MP.."/power3/powerswitchbox.lua")
---	dofile(MP.."/power3/drive_axle.lua")
---	dofile(MP.."/power3/gearbox.lua")
---	dofile(MP.."/power3/axle_sink.lua")
---	dofile(MP.."/power3/axle_source.lua")
 end

@@ -39,7 +39,7 @@ local function formspec(self, pos, nvm)
 		"image[1.4,1.6;1,1;techage_form_arrow_bg.png^[transformR270]"..
 		"image_button[1.4,3.2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 		"tooltip[1.5,3;1,1;"..self:get_state_tooltip(nvm).."]"..
-		power.formspec_label_bar(2.5, 0.8, S("power"), PWR_CAPA, nvm.provided)
+		power.formspec_label_bar(2.5, 0.8, S("Electricity"), PWR_CAPA, nvm.provided)
 end
 
 local function play_sound(pos)
@@ -211,8 +211,16 @@ minetest.register_node("techage:tiny_generator", {
 		State:node_init(pos, nvm, number)
 		M(pos):set_string("formspec", formspec(State, pos, nvm))
 		M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
+		Pipe:after_place_node(pos)
+		Cable:after_place_node(pos)
 	end,
 	
+	after_dig_node = function(pos, oldnode)
+		Pipe:after_dig_node(pos)
+		Cable:after_dig_node(pos)
+		techage.del_mem(pos)
+	end,
+
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_punch = fuel.on_punch,

@@ -222,7 +222,7 @@ minetest.register_node("techage:ta4_tank", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
-techage.register_node({"techage:ta3_tank", "techage:ta4_tank", "techage:oiltank"}, liquid.tubing)	
+techage.register_node({"techage:ta3_tank", "techage:ta4_tank", "techage:oiltank"}, liquid.recv_message)	
 
 Pipe:add_secondary_node_names({"techage:ta3_tank", "techage:ta4_tank", "techage:oiltank"})
 

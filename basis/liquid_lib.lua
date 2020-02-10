@@ -45,52 +45,13 @@ function techage.liquid.formspec(pos, nvm)
 		techage.item_image(1.5, 1, itemname)
 end	
 
---function techage.liquid.move_item(pos, stack, size, formspec)
---	local nvm = techage.get_nvm(pos)
---	local inv = M(pos):get_inventory()
---	if liquid.is_container_empty(stack:get_name()) then
---		fill_container(pos, inv)
---	else
---		empty_container(pos, inv, size)
---	end
---	M(pos):set_string("formspec", formspec(pos, nvm))
---end
-	
 function techage.liquid.is_empty(pos)
 	local nvm = techage.get_nvm(pos)
 	local inv = minetest.get_meta(pos):get_inventory()
 	return inv:is_empty("src") and inv:is_empty("dst") and (not nvm.liquid or (nvm.liquid.amount or 0) == 0)
 end
 
-techage.liquid.tubing = {
---	on_pull_item = function(pos, in_dir, num)
---		local inv = M(pos):get_inventory()
---		if not inv:is_empty("dst") then
---			local taken = techage.get_items(inv, "dst", num) 
---			if not inv:is_empty("src") then
---				fill_container(pos, inv)
---			end
---			return taken
---		end
---	end,
---	on_push_item = function(pos, in_dir, stack)
---		local inv = M(pos):get_inventory()
---		if inv:room_for_item("src", stack) then
---			inv:add_item("src", stack)
---			if liquid.is_container_empty(stack:get_name()) then
---				fill_container(pos, inv)
---			else
---				empty_container(pos, inv)
---			end
---			return true
---		end
---		return false
---	end,
---	on_unpull_item = function(pos, in_dir, stack)
---		local meta = M(pos)
---		local inv = meta:get_inventory()
---		return techage.put_items(inv, "dst", stack)
---	end,
+techage.liquid.recv_message = {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "load" then
 			local nvm = techage.get_nvm(pos)
@@ -153,7 +114,8 @@ local function empty_container(pos, inv, full_container)
 	local nvm = techage.get_nvm(pos)
 	nvm.liquid = nvm.liquid or {}
 	nvm.liquid.amount = nvm.liquid.amount or 0
-	local tank_size = LQD(pos).capa or 0
+	local ndef_lqd = LQD(pos)
+	local tank_size = (ndef_lqd and ndef_lqd.capa) or 0
 	local ldef = get_liquid_def(full_container)
 	--print("ldef", dump(ldef), "tank_size", tank_size)
 	if ldef and (not nvm.liquid.name or ldef.inv_item == nvm.liquid.name) then
@@ -205,14 +167,15 @@ end
 local function empty_on_punch(pos, nvm, full_container)
 	nvm.liquid = nvm.liquid or {}
 	nvm.liquid.amount = nvm.liquid.amount or 0
-	local ldef = get_liquid_def(full_container)
-	if ldef then 
-		local tank_size = LQD(pos).capa or 0
-		if not nvm.liquid.name or ldef.inv_item == nvm.liquid.name then
-			if nvm.liquid.amount + ldef.size <= tank_size then 
-				nvm.liquid.amount = nvm.liquid.amount + ldef.size
-				nvm.liquid.name = ldef.inv_item
-				return {name = ldef.container}
+	local lqd_def = get_liquid_def(full_container)
+	local ndef_lqd = LQD(pos)
+	if lqd_def and ndef_lqd then 
+		local tank_size = ndef_lqd.capa or 0
+		if not nvm.liquid.name or lqd_def.inv_item == nvm.liquid.name then
+			if nvm.liquid.amount + lqd_def.size <= tank_size then 
+				nvm.liquid.amount = nvm.liquid.amount + lqd_def.size
+				nvm.liquid.name = lqd_def.inv_item
+				return {name = lqd_def.container}
 			end
 		end
 	end
