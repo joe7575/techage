@@ -8,7 +8,7 @@
 	GPL v3
 	See LICENSE.txt for more information
 	
-	TA2/TA3/TA4 Liquid Sampler
+	TA2/TA3 Bucket based Liquid Sampler
 	
 ]]--
 
@@ -178,7 +178,7 @@ local tubing = {
 	end,
 }
 
-local node_name_ta2, node_name_ta3, node_name_ta4 = 
+local node_name_ta2, node_name_ta3, _ = 
 	techage.register_consumer("liquidsampler", S("Liquid Sampler"), tiles, {
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
@@ -202,7 +202,8 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		num_items = {0,1,2,4},
 		power_consumption = {0,3,5,8},
 		power_sides = {U=1},
-	})
+	},
+	{false, true, true, false})  -- TA2/A3
 
 minetest.register_craft({
 	output = node_name_ta2,

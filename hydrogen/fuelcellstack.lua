@@ -22,8 +22,8 @@ minetest.register_craftitem("techage:ta4_fuelcellstack", {
 minetest.register_craft({
 	output = "techage:ta4_fuelcellstack",
 	recipe = {
-		{'techage:baborium_ingot', 'techage:ta4_carbon_fiber', 'default:copper_ingot'},
-		{'default:gold_ingot', 'techage:ta4_carbon_fiber', 'default:tin_ingot'},
-		{"techage:baborium_ingot", 'techage:ta4_carbon_fiber', 'default:copper_ingot'},
+		{'default:copper_ingot', 'techage:ta4_carbon_fiber', 'default:copper_ingot'},
+		{'techage:baborium_ingot', 'techage:ta4_carbon_fiber', 'techage:baborium_ingot'},
+		{"techage:lye", 'techage:ta4_carbon_fiber', 'techage:lye'},
 	},
 })
