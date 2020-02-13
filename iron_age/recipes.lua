@@ -9,6 +9,7 @@
 	See LICENSE.txt for more information
 	
 	Meltingpot recipes
+	Bucket redefinitions
 	
 ]]--
 
@@ -36,6 +37,101 @@ minetest.register_craftitem("techage:iron_ingot", {
 	inventory_image = "techage_iron_ingot.png",
 	use_texture_alpha = true,
 })
+
+local function check_protection(pos, name, text)
+	if minetest.is_protected(pos, name) then
+		minetest.log("action", (name ~= "" and name or "A mod")
+			.. " tried to " .. text
+			.. " at protected position "
+			.. minetest.pos_to_string(pos)
+			.. " with a bucket")
+		minetest.record_protection_violation(pos, name)
+		return true
+	end
+	return false
+end
+
+-- derived from bucket/init.lua
+local function register_liquid(source, flowing, itemname, inventory_image, name,
+		groups, force_renew)
+	bucket.liquids[source] = {
+		source = source,
+		flowing = flowing,
+		itemname = itemname,
+		force_renew = force_renew,
+	}
+	bucket.liquids[flowing] = bucket.liquids[source]
+
+	if itemname ~= nil then
+		minetest.unregister_item(itemname)
+	
+		minetest.register_craftitem(":"..itemname, {
+			description = name,
+			inventory_image = inventory_image,
+			stack_max = 1,
+			liquids_pointable = true,
+			groups = groups,
+
+			on_place = function(itemstack, user, pointed_thing)
+				-- Must be pointing to node
+				if pointed_thing.type ~= "node" then
+					return
+				end
+
+				local node = minetest.get_node_or_nil(pointed_thing.under)
+				local ndef = node and minetest.registered_nodes[node.name]
+
+				-- Call on_rightclick if the pointed node defines it
+				if ndef and ndef.on_rightclick and
+						not (user and user:is_player() and
+						user:get_player_control().sneak) then
+					return ndef.on_rightclick(
+						pointed_thing.under,
+						node, user,
+						itemstack)
+				end
+
+				local lpos
+
+				-- Check if pointing to a buildable node
+				if ndef and ndef.buildable_to then
+					-- buildable; replace the node
+					lpos = pointed_thing.under
+				else
+					-- not buildable to; place the liquid above
+					-- check if the node above can be replaced
+
+					lpos = pointed_thing.above
+					node = minetest.get_node_or_nil(lpos)
+					local above_ndef = node and minetest.registered_nodes[node.name]
+
+					if not above_ndef or not above_ndef.buildable_to then
+						-- do not remove the bucket with the liquid
+						return itemstack
+					end
+				end
+
+				if check_protection(lpos, user
+						and user:get_player_name()
+						or "", "place "..source) then
+					return
+				end
+
+				-------------------------------- Start Modification
+--				minetest.set_node(lpos, {name = source})
+				if source == "default:lava_source" and lpos.y > 0 then
+				   minetest.chat_send_player(user:get_player_name(), S("[Bucket] Lava can only be placed below sea level!"))
+				   return
+				else
+					-- see "basis/lib.lua" techage.is_ocean(pos)
+				    minetest.set_node(lpos, {name = source, param2 = 1})
+				end
+				-------------------------------- End Modification				
+				return ItemStack("bucket:bucket_empty")
+			end
+		})
+	end
+end
 
 
 --
@@ -82,6 +178,14 @@ if techage.modified_recipes_enabled then
 	   }
 	})
 
+	minetest.register_craft({
+		output = 'bucket:bucket_empty 2',
+		recipe = {
+			{'techage:iron_ingot', '', 'techage:iron_ingot'},
+			{'', 'techage:iron_ingot', ''},
+		}
+	})
+
 	minetest.override_item("fire:flint_and_steel", {
 			description = S("Flint and Iron"),
 			inventory_image = "fire_flint_steel.png^[colorize:#c7643d:60",
@@ -90,22 +194,25 @@ if techage.modified_recipes_enabled then
 	minetest.override_item("bucket:bucket_empty", {
 			inventory_image = "bucket.png^[colorize:#c7643d:40"
 	})
-	minetest.override_item("bucket:bucket_lava", {
-			inventory_image = "bucket_lava.png^[colorize:#c7643d:30"
-	})
 	minetest.override_item("bucket:bucket_river_water", {
 			inventory_image = "bucket_river_water.png^[colorize:#c7643d:30"
 	})
-	minetest.override_item("bucket:bucket_water", {
-			inventory_image = "bucket_water.png^[colorize:#c7643d:30"
-	})
 	
-	minetest.register_craft({
-	output = 'bucket:bucket_empty 2',
-	recipe = {
-		{'techage:iron_ingot', '', 'techage:iron_ingot'},
-		{'', 'techage:iron_ingot', ''},
-	}
-})
+	register_liquid(
+		"default:water_source",
+		"default:water_flowing",
+		"bucket:bucket_water",
+		"bucket_water.png^[colorize:#c7643d:30",
+		"Water Bucket",
+		{water_bucket = 1}
+	)
+
+	register_liquid(
+		"default:lava_source",
+		"default:lava_flowing",
+		"bucket:bucket_lava",
+		"bucket_lava.png^[colorize:#c7643d:30",
+		"Lava Bucket"
+	)
 end
 

@@ -116,4 +116,3 @@ minetest.register_craft({
 		{"", "", "default:stick"},
 	},
 })
-

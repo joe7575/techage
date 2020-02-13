@@ -20,6 +20,7 @@ local Cable = techage.ElectricCable
 local power = techage.power
 local Pipe = techage.LiquidPipe
 local liquid = techage.liquid
+local networks = techage.networks
 
 local CYCLE_TIME = 4
 local STANDBY_TICKS = 3
@@ -38,7 +39,15 @@ local function formspec(self, pos, nvm)
 end
 
 local function can_start(pos, nvm, state)
-	return power.power_available(pos, Cable)
+	local outdir = M(pos):get_int("waterdir")
+	local pos1 = vector.add(pos, tubelib2.Dir6dToVector[outdir or 0])
+	if not techage.is_ocean(pos1) then
+		return S("no usable water")
+	end
+	if not power.power_available(pos, Cable) then
+		return S("no power")
+	end
+	return true
 end
 
 local function start_node(pos, nvm, state)
@@ -56,6 +65,7 @@ local State = techage.NodeStates:new({
 	cycle_time = CYCLE_TIME,
 	standby_ticks = STANDBY_TICKS,
 	formspec_func = formspec,
+	can_start = can_start,
 	start_node = start_node,
 	stop_node = stop_node,
 })
@@ -72,14 +82,10 @@ local function on_nopower(pos)
 	nvm.running = false
 end
 
-local function water_available(pos, nvm)
-	return true
-end
-
 local function pumping(pos, nvm)
 	if not nvm.running  then
 		State:nopower(pos, nvm)
-	elseif water_available(pos, nvm) then
+	else
 		local leftover = liquid.put(pos, 6, "default:water_source", 1)
 		if leftover and leftover > 0 then
 			State:blocked(pos, nvm)
@@ -112,6 +118,7 @@ local function after_place_node(pos)
 	nvm.running = false
 	local number = techage.add_node(pos, "techage:t4_waterpump")
 	State:node_init(pos, nvm, number)
+	M(pos):set_int("waterdir", networks.side_to_outdir(pos, "R"))
 	Pipe:after_place_node(pos)
 	Cable:after_place_node(pos)
 end
