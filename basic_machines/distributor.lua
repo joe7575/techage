@@ -164,8 +164,10 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if listname == "src" then
 		CRD(pos).State:start_if_standby(pos)
 		return stack:get_count()
-	elseif (list[index]:get_count() == 0 or stack:get_name() ~= list[index]:get_name()) then
-		return 1
+	elseif not inv:contains_item(listname, {name = stack:get_name()}) then
+		stack:set_count(1)
+		inv:set_stack(listname, index, stack)
+		return 0
 	end
 	return 0
 end
@@ -174,16 +176,35 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	return stack:get_count()
+	if listname == "src" then
+		return stack:get_count()
+	else
+		local inv = M(pos):get_inventory()
+		inv:set_stack(listname, index, nil)
+		return 0
+	end
 end
 
 local function allow_metadata_inventory_move(pos, from_list, from_index, to_list, to_index, count, player)
-	local meta = M(pos)
-	local inv = meta:get_inventory()
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return 0
+	end
+	local inv = minetest.get_meta(pos):get_inventory()
 	local stack = inv:get_stack(from_list, from_index)
-	return allow_metadata_inventory_put(pos, to_list, to_index, stack, player)
-end
 
+	if from_list == "src" and to_list ~= "src" and not inv:contains_item(to_list, {name = stack:get_name()}) then
+		stack:set_count(1)
+		inv:set_stack(to_list, to_index, stack)
+		return 0
+	elseif from_list ~= "src" and to_list == "src" then
+		inv:set_stack(from_list, from_index, nil)
+		return 0
+	elseif not inv:contains_item(to_list, {name = stack:get_name()}) then
+		return 1
+	else
+		return 0
+	end
+end
 
 local function push_item(pos, filter, item_name, num_items, nvm)
 	local idx = 1

@@ -469,51 +469,8 @@ function NodeStates:on_receive_message(pos, topic, payload)
 end
 	
 -- repair corrupt node data
-function NodeStates:on_node_load(pos, not_start_timer)
-	local nvm = techage.get_nvm(pos)
-	
-	-- Meta data corrupt?
-	local number = M(pos):get_string("node_number")
-	if number == "" then 
-		minetest.log("warning", "[TA] Node at "..S(pos).." has no node_number")
-		local name = techage.get_node_lvm(pos).name
-		local number = techage.add_node(pos, name)
-		self:node_init(pos, nvm, number)
-		return
-	end
-	
-	-- wrong number and no dummy number?
-	if number ~= "-" then 
-		local info = techage.get_node_info(number)
-		if not info or not info.pos or not vector.equals(pos, info.pos) then
-			if not info then
-				minetest.log("warning", "[TA] Node at "..S(pos).." has no info")
-			elseif not info.pos then
-				minetest.log("warning", "[TA] Node at "..S(pos).." has no info.pos")
-			elseif not vector.equals(pos, info.pos) then
-				print(S(pos), S(info.pos))
-				minetest.log("warning", "[TA] Node at "..S(pos).." is pos ~= info.pos")
-			end
-			swap_node(pos, "techage:defect_dummy")
-			return
-		end
-	end
-	
-	-- state corrupt?
-	local state = nvm.techage_state or 0
-	if state == 0 then
-		if minetest.get_node_timer(pos):is_started() then
-			nvm.techage_state = RUNNING
-		else
-			nvm.techage_state = STOPPED
-		end
-	elseif state == RUNNING and not not_start_timer then
-		minetest.get_node_timer(pos):start(self.cycle_time)
-	elseif state == STANDBY then
-		minetest.get_node_timer(pos):start(self.cycle_time * self.standby_ticks)
-	elseif state == BLOCKED then
-		minetest.get_node_timer(pos):start(self.cycle_time * self.standby_ticks)
-	end
+function NodeStates:on_node_load(pos)
+	-- tbd
 end
 
 minetest.register_node("techage:defect_dummy", {

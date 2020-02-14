@@ -66,30 +66,22 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return stack:get_count()
 end
 
-local function test_liquid(node)
-	local liquiddef = bucket.liquids[node.name]
-	if liquiddef ~= nil	and liquiddef.itemname ~= nil and 
-			node.name == liquiddef.source then
-		return liquiddef.itemname
+local function can_start(pos, nvm, state)
+	local water_pos = minetest.string_to_pos(M(pos):get_string("water_pos"))
+	if not techage.is_ocean(water_pos) then
+		return S("no usable water")
 	end
+	return true
 end
 
 local function sample_liquid(pos, crd, nvm, inv)
-	local meta = M(pos)
-	local water_pos = minetest.string_to_pos(meta:get_string("water_pos"))
-	local giving_back = test_liquid(techage.get_node_lvm(water_pos))
-	if giving_back then
-		if inv:room_for_item("dst", ItemStack(giving_back)) and
-				inv:contains_item("src", ItemStack("bucket:bucket_empty")) then
-			minetest.remove_node(water_pos)
-			inv:remove_item("src", ItemStack("bucket:bucket_empty"))
-			inv:add_item("dst", ItemStack(giving_back))
-			crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-		else
-			crd.State:idle(pos, nvm)
-		end
+	if inv:room_for_item("dst", {name = "bucket:bucket_water"}) and
+			inv:contains_item("src", {name = "bucket:bucket_empty"}) then
+		inv:remove_item("src", {name = "bucket:bucket_empty"})
+		inv:add_item("dst", {name = "bucket:bucket_water"})
+		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 	else
-		crd.State:fault(pos, nvm)
+		crd.State:idle(pos, nvm)
 	end
 end
 
@@ -184,6 +176,7 @@ local node_name_ta2, node_name_ta3, _ =
 		standby_ticks = STANDBY_TICKS,
 		formspec = formspec,
 		tubing = tubing,
+		can_start = can_start,
 		after_place_node = function(pos, placer)
 			local inv = M(pos):get_inventory()
 			inv:set_size("src", 4)
