@@ -21,6 +21,7 @@ local BLOCKING_TIME = 0.3 -- 300ms
 
 techage.liquid = {}
 local LiquidDef = {}
+local IsLiquid = {}
 local ContainerDef = {}
 
 local function help(x, y)
@@ -69,6 +70,7 @@ function techage.register_liquid(full_container, empty_container, container_size
 	LiquidDef[full_container] = {container = empty_container, size = container_size, inv_item = inv_item}
 	ContainerDef[empty_container] = ContainerDef[empty_container] or {}
 	ContainerDef[empty_container][inv_item] = full_container
+	IsLiquid[inv_item] = true
 end
 
 local function get_liquid_def(full_container)
@@ -160,6 +162,16 @@ local function fill_on_punch(nvm, empty_container, item_count, puncher)
 				nvm.liquid.name = nil 
 			end
 			return item -- to be added to the players inv.
+		end
+	elseif nvm.liquid.name and not IsLiquid[nvm.liquid.name] then
+		if empty_container == "" then
+			local count = math.max(nvm.liquid.amount, 99)
+			local name = nvm.liquid.name
+			nvm.liquid.amount = nvm.liquid.amount - count
+			if nvm.liquid.amount == 0 then 
+				nvm.liquid.name = nil 
+			end
+			return {name = name, count = count}
 		end
 	end
 end
