@@ -32,7 +32,8 @@ techage.manual_DE.aTitel = {
   "3,TA2 Verteiler / Distributor",
   "2,Kieswaschanlage",
   "3,TA2 Kiesspüler / Gravel Rinser",
-  "2,Stein mahlen und sieben",
+  "2,Stein brechen\\, mahlen und sieben",
+  "3,TA2 Steinbrecher / Quarry",
   "3,TA2 Mühle / Grinder",
   "3,TA2 Kiessieb / Gravel Sieve",
   "2,Items produzieren",
@@ -98,7 +99,7 @@ techage.manual_DE.aTitel = {
   "3,TA3 Verteiler / Distributor",
   "3,TA3 Autocrafter",
   "3,TA3 Elektronikfabrik / Electronic Fab",
-  "3,TA3 Trichter / Funnel",
+  "3,TA3 Steinbrecher / Quarry",
   "3,TA3 Kiessieb / Gravel Sieve",
   "3,TA3 Kieswaschanlage / Gravel Rinser",
   "3,TA3 Mühle / Grinder",
@@ -292,7 +293,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.\n"..
   "Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.\n"..
-  "Wenn das Wasser heiß ist\\, kann das Ventil am Boiler geöffnet und anschließend die Dampfmaschine am Schwungrad gestartet werden.\n"..
+  "Wenn das Wasser heiß ist (Temperaturanzeige ganz oben)\\, kann die Dampfmaschine am Schwungrad gestartet werden.\n"..
   "\n"..
   "Die Dampfmaschine leistet 25 ku\\, kann damit mehrere Maschinen gleichzeitig antreiben.\n"..
   "\n"..
@@ -304,7 +305,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Teil der Dampfmaschine. Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich der Boiler ab.\n"..
+  "Teil der Dampfmaschine. Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich die Dampfmaschine ab.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -381,7 +382,12 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Das Mahlen und Siebe von Gestein dient zur Gewinnung von Erzen. Gesiebtes Kies kann aber auch anderweitig genutzt werden. Mühle und Sieb müssen angetrieben und damit in der Nähe einer Dampfmaschine aufgebaut werden.\n"..
+  "Das Brechen\\, Mahlen und Siebe von Gestein dient zur Gewinnung von Erzen. Gesiebtes Kies kann aber auch anderweitig genutzt werden. Steinbrecher\\, Mühle und Sieb müssen angetrieben und damit in der Nähe einer Dampfmaschine aufgebaut werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Steinbrecher dient zum Abbau von Steinen und anderen Materialien aus dem Untergrund. Der Steinbrecher gräbt ein 5x5 Blöcke großes Loch. Die Tiefe ist einstellbar.\n"..
+  "Die Verarbeitungsleistung ist ein Block alle 4 s. Der Steinbrecher benötigt 10 ku Energie. Die maximale Tiefe beträgt 20 Meter. Für größere Tiefen siehe TA3/TA4.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -855,11 +861,8 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der TA3 Trichter sammelt abgelegte Gegenstände und speichert sie in seinem Inventar. Gegenstände werden angesaugt\\, wenn sie auf den Trichterblock fallen.\n"..
-  "\n"..
-  "Der Trichter kann über das Menü und auch über on/off Kommandos ein-/ausgeschaltet werden.\n"..
-  "\n"..
-  "Der Scanradius beträgt 1 m.\n"..
+  "Die Funktion entspricht der von TA2.\n"..
+  "Die maximale Tiefe beträgt 40 Meter. Der Autocrafter benötigt 12 ku Strom.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1019,7 +1022,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Die Röhren dienen bei TA4 zur Weiterleitung von Gas und Dampf. \n"..
+  "Die Röhren dienen bei TA4 zur Weiterleitung von Gas und Flüssigkeiten. \n"..
   "Die maximale Leitungslänge beträgt 100 m.\n"..
   "\n"..
   "\n"..
@@ -1027,24 +1030,25 @@ techage.manual_DE.aText = {
   "Strom kann mittels Elektrolyse in Wasserstoff und Sauerstoff aufgespalten werden. Auf der anderen Seite kann über eine Brennstoffzelle Wasserstoff mit Sauerstoff aus der Luft wieder in Strom umgewandelt werden.\n"..
   "Damit können Stromspitzen oder ein Überangebot an Strom in Wasserstoff umgewandelt und so gespeichert werden.\n"..
   "\n"..
-  "Im Spiel kann Strom mit Hilfe des Elektrolyseurs in Wasserstoff-Items und Wasserstoff-Items über die Brennstoffzelle wieder in Strom umgewandelt werden.\n"..
-  "Damit kann Strom (in Form von Wasserstoff-Items) nicht nur in Kisten gelagert\\, sonder auch über Wagen (carts) oder Röhren transportiert werden.\n"..
+  "Im Spiel kann Strom mit Hilfe des Elektrolyseurs in Wasserstoff und Wasserstoff über die Brennstoffzelle wieder in Strom umgewandelt werden.\n"..
+  "Damit kann Strom (in Form von Wasserstoff) nicht nur in Tanks gelagert\\, sonder mit Hilfe von Gasflaschen auch mit Wagen (carts) transportiert werden.\n"..
   "\n"..
-  "Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Von 100 Einheiten Strom kommen nach der Umwandlung in Wasserstoff und zurück nur 75 Einheiten Strom wieder raus.\n"..
+  "Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Von 100 Einheiten Strom kommen nach der Umwandlung in Wasserstoff und zurück nur 83 Einheiten Strom wieder raus.\n"..
   "\n"..
   "\n"..
   "\n",
   "Der Elektrolyseur wandelt Strom in Wasserstoff um.\n"..
-  "Es muss von links mit Strom versorgt werden. Rechts können die Wasserstoff-Items per Schieber entnommen werden.\n"..
+  "Es muss von links mit Strom versorgt werden. Rechts kann Wasserstoff über Röhren und Pumpen entnommen werden.\n"..
   "\n"..
-  "Der Elektrolyseur kann bis zu 40 ku an Strom aufnehmen und generiert alle 8 s ein Wasserstoff Item.\n"..
+  "Der Elektrolyseur kann bis zu 30 ku an Strom aufnehmen und generiert dann alle 4 s ein Wasserstoff Item.\n"..
+  "In den Elektrolyseur passen 200 Einheiten Wasserstoff.\n"..
   "\n"..
   "\n"..
   "\n",
   "Die Brennstoffzelle wandelt Wasserstoff in Strom um.\n"..
-  "Sie muss von links per Schieber mit Wasserstoff-Items versorgt werden. Rechts ist der Stromanschluss.\n"..
+  "Sie muss von links per Pumpe mit Wasserstoff versorgt werden. Rechts ist der Stromanschluss.\n"..
   "\n"..
-  "Die Brennstoffzelle kann bis zu 40 ku an Strom abgeben und benötigt dazu alle 6 s ein Wasserstoff Item.\n"..
+  "Die Brennstoffzelle kann bis zu 25 ku an Strom abgeben und benötigt dazu alle 4 s ein Wasserstoff Item.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1153,6 +1157,7 @@ techage.manual_DE.aItemName = {
   "",
   "ta2_rinser",
   "ta2_grinder",
+  "ta2_quarry",
   "ta2_grinder",
   "ta2_gravelsieve",
   "",
@@ -1218,7 +1223,7 @@ techage.manual_DE.aItemName = {
   "ta3_distributor",
   "ta3_autocrafter",
   "ta3_electronicfab",
-  "ta3_funnel",
+  "ta3_quarry",
   "ta3_gravelsieve",
   "ta3_gravelrinser",
   "ta3_grinder",
@@ -1292,6 +1297,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "gravelrinser",
+  "",
   "",
   "",
   "",

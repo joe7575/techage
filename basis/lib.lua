@@ -26,6 +26,13 @@ local Input = {
 	20,21,22,23,  -- 6
 }
 
+-- allowed for digging
+local RegisteredNodesToBeDug = {}
+
+function techage.register_node_to_be_dug(name)
+	RegisteredNodesToBeDug[name] = true
+end
+
 -- translation from param2 to dir (out of the node upwards)
 local Param2Dir = {}
 for idx,val in ipairs(Input) do
@@ -121,12 +128,17 @@ end
 
 -- returns true, if node can be dug, otherwise false
 function techage.can_node_dig(node, ndef)
+	if RegisteredNodesToBeDug[node.name] then 
+		return true 
+	end
 	if not ndef then return false end
 	if node.name == "ignore" then return false end
 	if node.name == "air" then return true end
 	if ndef.buildable_to == true then return true end
 	if ndef.diggable == false then return false end
 	if ndef.after_dig_node then return false end
+	-- add it to the white list
+	RegisteredNodesToBeDug[node.name] = true
 	return true
 end	
 
@@ -241,5 +253,12 @@ function techage.mydump(o, indent, nested, level)
 				end_indent_str)
 	end
 	return "{"..table.concat(t, ", ").."}"
+end
+
+-- title bar help (width is the fornmspec width)
+function techage.question_mark_help(width, tooltip)
+	local x = width- 0.6
+	return "label["..x..",-0.1;"..minetest.colorize("#000000", minetest.formspec_escape("[?]")).."]"..
+		"tooltip["..x..",-0.1;0.5,0.5;"..tooltip..";#0C3D32;#FFFFFF]"
 end
 

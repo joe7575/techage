@@ -560,7 +560,7 @@ Im folgenden sind daher nur die unterschiedlichen, technischen Daten angegeben.
 
 ### TA3 Schieber / Pusher
 
-Die Funktion entspricht der von TA2.
+Die Funktion entspricht der von TA2.  
 Die Verarbeitungsleistung beträgt 6 Items alle 2 s.
 
 [ta3_pusher|image]
@@ -568,7 +568,7 @@ Die Verarbeitungsleistung beträgt 6 Items alle 2 s.
 
 ### TA3 Verteiler / Distributor
 
-Die Funktion entspricht der von TA2.
+Die Funktion entspricht der von TA2.  
 Die Verarbeitungsleistung beträgt 12 Items alle 4 s.
 
 [ta3_distributor|image]
@@ -576,7 +576,7 @@ Die Verarbeitungsleistung beträgt 12 Items alle 4 s.
 
 ### TA3 Autocrafter
 
-Die Funktion entspricht der von TA2.
+Die Funktion entspricht der von TA2.  
 Die Verarbeitungsleistung beträgt 2 Items alle 4 s. Der Autocrafter benötigt hierfür 6 ku Strom.
 
 [ta3_autocrafter|image]
@@ -584,26 +584,23 @@ Die Verarbeitungsleistung beträgt 2 Items alle 4 s. Der Autocrafter benötigt h
 
 ### TA3 Elektronikfabrik / Electronic Fab
 
-Die Funktion entspricht der von TA2, nur werden hier TA4 WLAN Chips produziert.
+Die Funktion entspricht der von TA2, nur werden hier TA4 WLAN Chips produziert.  
 Die Verarbeitungsleistung beträgt ein Chip alle 6 s. Der Block benötigt hierfür 12 ku Strom.
 
 [ta3_electronicfab|image]
 
 
-### TA3 Trichter / Funnel
+### TA3 Steinbrecher / Quarry
 
-Der TA3 Trichter sammelt abgelegte Gegenstände und speichert sie in seinem Inventar. Gegenstände werden angesaugt, wenn sie auf den Trichterblock fallen.
+Die Funktion entspricht der von TA2.  
+Die maximale Tiefe beträgt 40 Meter. Der Autocrafter benötigt 12 ku Strom.
 
-Der Trichter kann über das Menü und auch über on/off Kommandos ein-/ausgeschaltet werden.
-
-Der Scanradius beträgt 1 m.
-
-[ta3_funnel|image]
+[ta3_quarry|image]
 
 
 ### TA3 Kiessieb / Gravel Sieve
 
-Die Funktion entspricht der von TA2.
+Die Funktion entspricht der von TA2.  
 Die Verarbeitungsleistung beträgt 2 Items alle 4 s. Der Block benötigt 4 ku Strom.
 
 [ta3_gravelsieve|image]
@@ -611,7 +608,7 @@ Die Verarbeitungsleistung beträgt 2 Items alle 4 s. Der Block benötigt 4 ku St
 
 ### TA3 Kieswaschanlage / Gravel Rinser
 
-Die Funktion entspricht der von TA2.
+Die Funktion entspricht der von TA2.  
 Die Wahrscheinlichkeit ist wie bei TA2. Der Block benötigt 3 ku Strom.
 
 [ta3_gravelrinser|image]
@@ -619,7 +616,7 @@ Die Wahrscheinlichkeit ist wie bei TA2. Der Block benötigt 3 ku Strom.
 
 ### TA3 Mühle / Grinder
 
-Die Funktion entspricht der von TA2.
+Die Funktion entspricht der von TA2.  
 Die Verarbeitungsleistung beträgt 2 Items alle 4 s. Der Block benötigt 6 ku Strom.
 
 [ta3_grinder|image]
@@ -627,7 +624,7 @@ Die Verarbeitungsleistung beträgt 2 Items alle 4 s. Der Block benötigt 6 ku St
 
 ### TA3 Flüssigkeitensammler / Liquid Sampler
 
-Die Funktion entspricht der von TA2.
+Die Funktion entspricht der von TA2.  
 Die Verarbeitungsleistung ist 2 Items alle 8 s. Der Block benötigt 5 ku Strom.
 
 [ta3_liquidsampler|image]

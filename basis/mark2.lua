@@ -37,6 +37,28 @@ function techage.mark_position(name, pos, nametag, color, time)
 	minetest.after(time or 30, techage.unmark_position, name)
 end
 
+function techage.mark_cube(name, pos1, pos2, nametag, color, time)
+	local new_x = pos1.x + ((pos2.x - pos1.x) / 2)
+	local new_y = pos1.y + ((pos2.y - pos1.y) / 2)
+	local new_z = pos1.z + ((pos2.z - pos1.z) / 2)
+	local size_x = math.abs(pos1.x - pos2.x)  + 1
+	local size_y = math.abs(pos1.y - pos2.y)  + 1
+	local size_z = math.abs(pos1.z - pos2.z)  + 1
+	
+	local marker = minetest.add_entity(
+		{x = new_x, y = new_y, z = new_z}, "techage:position_cube")
+	if marker ~= nil then
+		marker:set_nametag_attributes({color = color, text = nametag, visual_size = {x = size_x, y = size_y, z = size_z}})
+		marker:get_luaentity().player_name = name
+		marker:set_properties({visual_size = {x = size_x, y = size_y, z = size_z}})
+		if not marker_region[name] then
+			marker_region[name] = {}
+		end
+		marker_region[name][#marker_region[name] + 1] = marker
+	end
+	minetest.after(time or 30, techage.unmark_position, name)
+end
+
 minetest.register_entity(":techage:position_cube", {
 	initial_properties = {
 		visual = "cube",

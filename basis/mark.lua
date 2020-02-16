@@ -24,7 +24,7 @@ function techage.unmark_region(name)
 	end
 end
 
-function techage.mark_region(name, pos1, pos2, owner)
+function techage.mark_region(name, pos1, pos2, owner, secs)
 
 	techage.unmark_region(name)
 	
@@ -58,14 +58,14 @@ function techage.mark_region(name, pos1, pos2, owner)
 				--collisionbox = {-thickness, -sizey, -sizez, thickness, sizey, sizez},
 				collisionbox = {0,0,0, 0,0,0},
 			})
-			marker:setyaw(math.pi / 2)
+			marker:set_yaw(math.pi / 2)
 			marker:get_luaentity().player_name = name
 			table.insert(markers, marker)
 		end
 	end
 
 	marker_region[name] = markers
-	minetest.after(20, techage.unmark_region, name)
+	minetest.after(secs or 20, techage.unmark_region, name)
 end
 
 function techage.switch_region(name, pos1, pos2)

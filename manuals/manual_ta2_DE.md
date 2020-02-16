@@ -144,11 +144,19 @@ Die Verarbeitungsleistung ist ein Kies Item alle 2 s. Der Kiesspüler benötigt 
 [ta2_rinser|image]
 
 
-## Stein mahlen und sieben
+## Stein brechen, mahlen und sieben
 
-Das Mahlen und Siebe von Gestein dient zur Gewinnung von Erzen. Gesiebtes Kies kann aber auch anderweitig genutzt werden. Mühle und Sieb müssen angetrieben und damit in der Nähe einer Dampfmaschine aufgebaut werden.
+Das Brechen, Mahlen und Siebe von Gestein dient zur Gewinnung von Erzen. Gesiebtes Kies kann aber auch anderweitig genutzt werden. Steinbrecher, Mühle und Sieb müssen angetrieben und damit in der Nähe einer Dampfmaschine aufgebaut werden.
 
 [ta2_grinder|image]
+
+
+### TA2 Steinbrecher / Quarry
+
+Der Steinbrecher dient zum Abbau von Steinen und anderen Materialien aus dem Untergrund. Der Steinbrecher gräbt ein 5x5 Blöcke großes Loch. Die Tiefe ist einstellbar.
+Die Verarbeitungsleistung ist ein Block alle 4 s. Der Steinbrecher benötigt 10 ku Energie. Die maximale Tiefe beträgt 20 Meter. Für größere Tiefen siehe TA3/TA4.
+
+[ta2_quarry|image]
 
 
 ### TA2 Mühle / Grinder

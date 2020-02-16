@@ -12,6 +12,9 @@
 	
 ]]--
 
+-- Consumer Related Data
+local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
+
 -- use the minecart hopper
 minetest.register_alias("techage:hopper_ta1", "minecart:hopper")
 
@@ -27,6 +30,29 @@ minecart.register_inventory(
 		},
 		take = {
 			listname = "main",
+		},
+	}
+)
+
+
+
+
+minecart.register_inventory(
+	{
+		"techage:ta2_distributor_pas", "techage:ta2_distributor_act",
+		"techage:ta3_distributor_pas", "techage:ta3_distributor_act",
+		"techage:ta4_distributor_pas", "techage:ta4_distributor_act",
+	}, 
+	{
+		put = {
+			allow_inventory_put = function(pos, stack, player_name)
+				CRD(pos).State:start_if_standby(pos)
+				return true
+			end, 
+			listname = "src",
+		},
+		take = {
+			listname = "src",
 		},
 	}
 )
