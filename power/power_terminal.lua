@@ -218,3 +218,5 @@ minetest.register_node("techage:power_terminal", {
 
 Cable:add_secondary_node_names({"techage:power_terminal"})
 
+minetest.register_alias("techage:ta3_power_terminal", "techage:power_terminal")
+

@@ -65,6 +65,7 @@ local State4 = techage.NodeStates:new({
 local function pumping(pos, nvm, state, capa)
 	local outdir = M(pos):get_int("outdir")
 	local starter = get_starter_name(pos)
+	print("pumping", outdir, Flip[outdir])
 	local taken, name = liquid.take(pos, Flip[outdir], nil, capa, starter)
 	if taken > 0 then
 		local leftover = liquid.put(pos, outdir, name, taken, starter)

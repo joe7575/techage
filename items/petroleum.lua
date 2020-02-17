@@ -36,18 +36,18 @@ minetest.register_craftitem("techage:gasoline", {
 })
 
 minetest.register_craftitem("techage:gas", {
-	description = S("TA3 Gas"),
+	description = S("TA3 Propane"),
 	inventory_image = "techage_gas_inv.png",
 })
 
 minetest.register_craftitem("techage:ta3_cylinder_small_gas", {
-	description = S("Gas Cylinder Small"),
+	description = S("Propane Cylinder Small"),
 	inventory_image = "techage_gas_cylinder_small.png^[colorize:#e51818:120",
 	stack_max = 1,
 })
 
 minetest.register_craftitem("techage:ta3_cylinder_large_gas", {
-	description = S("Gas Cylinder Large"),
+	description = S("Propane Cylinder Large"),
 	inventory_image = "techage_gas_cylinder_large.png^[colorize:#e51818:120",
 	stack_max = 1,
 })

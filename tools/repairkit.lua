@@ -15,24 +15,24 @@
 local M = minetest.get_meta
 local S = techage.S
 
-local Nodes2Convert = {
-	["techage:detector_off"] = "techage:ta3_detector_off",
-	["techage:detector_on"] = "techage:ta3_detector_on",
-	["techage:repeater"] = "techage:ta3_repeater",
-	["techage:button_off"] = "techage:ta3_button_off",
-	["techage:button_on"] = "techage:ta3_button_on",
-}
+local Cable1 = techage.ElectricCable
+local Cable2 = techage.TA4_Cable
+local Pipe2 = techage.LiquidPipe
+local networks = techage.networks
 
-local function power_data(power)
-	local tbl = {}
-	tbl[1] = S("Primary available")   ..": "..(power.prim_available or 0)
-	tbl[2] = S("Secondary available") ..": "..(power.sec_available or 0)
-	tbl[3] = S("Primary needed")      ..": "..(power.prim_needed or 0)
-	tbl[4] = S("Secondary needed")    ..": "..(power.sec_needed or 0)
-	tbl[5] = S("Number of nodes")     ..": "..(power.num_nodes or 0)
-	tbl[6] = ""
-	return table.concat(tbl, "\n")
-end
+local function network_check(start_pos, Cable, player_name)
+	local ndef = techage.networks.net_def(start_pos, Cable.tube_type)
+	local outdir = nil
+	if ndef and ndef.ntype ~= "junc" then
+		outdir = M(start_pos):get_int("outdir")
+	end
+	networks.connection_walk(start_pos, outdir, Cable, function(pos, indir, node)
+		local distance = vector.distance(start_pos, pos)
+		if distance < 50 then
+			techage.mark_position(player_name, pos, "check", "#ff0000", 6)
+		end
+	end)
+end	
 
 local function read_state(itemstack, user, pointed_thing)
 	local pos = pointed_thing.under
@@ -46,21 +46,22 @@ local function read_state(itemstack, user, pointed_thing)
 		if data then
 			local name = minetest.get_biome_name(data.biome)
 			minetest.chat_send_player(user:get_player_name(), S("Biome")..": "..name..", "..S("Position temperature")..": "..math.floor(data.heat).."    ")
-			if techage.OceanIdTbl[data.biome] then
-				minetest.chat_send_player(user:get_player_name(), "Suitable for wind turbines")
-			end
 		end
 		local number = techage.get_node_number(pos)
 		local node = minetest.get_node(pos)
-		if Nodes2Convert[node.name] then
-			if minetest.is_protected(pos, user:get_player_name()) then
-				return
-			end
-			node.name = Nodes2Convert[node.name]
-			minetest.swap_node(pos, node)
-			return
-		end
 		local ndef = minetest.registered_nodes[node.name]
+		
+		if ndef.networks then
+			local player_name = user:get_player_name()
+			if ndef.networks.ele1 then
+				network_check(pos, Cable1, player_name)
+			elseif ndef.networks.ele2 then
+				network_check(pos, Cable2, player_name)
+			elseif ndef.networks.pipe2 then
+				network_check(pos, Pipe2, player_name)
+			end
+		end
+		
 		if number then
 			if ndef and ndef.description then
 				local info = techage.send_single("0", number, "info", nil)
@@ -102,13 +103,7 @@ local function read_state(itemstack, user, pointed_thing)
 				return itemstack
 			end
 		elseif ndef and ndef.description then
-			if ndef.is_power_available then
-				techage.power.mark_nodes(user:get_player_name(), pos)
-				local power = ndef.is_power_available(pos)
-				if power then
-					minetest.chat_send_player(user:get_player_name(), ndef.description..":\n"..power_data(power))
-				end
-			elseif ndef.techage_info then
+			if ndef.techage_info then
 				local info = ndef.techage_info(pos) or ""
 				minetest.chat_send_player(user:get_player_name(), ndef.description..":\n"..info)
 			end

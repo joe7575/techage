@@ -48,8 +48,7 @@ end
 
 function techage.liquid.is_empty(pos)
 	local nvm = techage.get_nvm(pos)
-	local inv = minetest.get_meta(pos):get_inventory()
-	return inv:is_empty("src") and inv:is_empty("dst") and (not nvm.liquid or (nvm.liquid.amount or 0) == 0)
+	return not nvm.liquid or (nvm.liquid.amount or 0) == 0
 end
 
 techage.liquid.recv_message = {
@@ -89,6 +88,7 @@ local function get_full_container(empty_container, inv_item)
 	return ContainerDef[empty_container] and ContainerDef[empty_container][inv_item]
 end
 
+-- used by filler
 local function fill_container(pos, inv, empty_container)
 	local nvm = techage.get_nvm(pos)
 	nvm.liquid = nvm.liquid or {}
@@ -112,6 +112,7 @@ local function fill_container(pos, inv, empty_container)
 	return false
 end
 
+-- used by filler
 local function empty_container(pos, inv, full_container)
 	local nvm = techage.get_nvm(pos)
 	nvm.liquid = nvm.liquid or {}
@@ -135,7 +136,7 @@ local function empty_container(pos, inv, full_container)
 	return false
 end
 
--- check if the given empty container can be replaced by a full
+-- check if the wielded empty container can be replaced by a full
 -- container and added to the players inventory
 local function fill_on_punch(nvm, empty_container, item_count, puncher)
 	nvm.liquid = nvm.liquid or {}
@@ -176,10 +177,17 @@ local function fill_on_punch(nvm, empty_container, item_count, puncher)
 	end
 end
 
-local function empty_on_punch(pos, nvm, full_container)
+-- check of the wielded full container can be emptied into the tank
+local function empty_on_punch(pos, nvm, full_container, item_count)
 	nvm.liquid = nvm.liquid or {}
 	nvm.liquid.amount = nvm.liquid.amount or 0
-	local lqd_def = get_liquid_def(full_container)
+	local lqd_def
+	-- handle legacy items
+	if full_container == "techage:hydrogen" or full_container == "techage:oil_source" then
+		lqd_def = {inv_item = full_container, size = item_count, container = ""}
+	else
+		lqd_def = get_liquid_def(full_container)
+	end
 	local ndef_lqd = LQD(pos)
 	if lqd_def and ndef_lqd then 
 		local tank_size = ndef_lqd.capa or 0
@@ -204,7 +212,7 @@ function techage.liquid.on_punch(pos, node, puncher, pointed_thing)
 	local wielded_item = puncher:get_wielded_item():get_name()
 	local item_count = puncher:get_wielded_item():get_count()
 	local new_item = fill_on_punch(nvm, wielded_item, item_count, puncher) 
-			or empty_on_punch(pos, nvm, wielded_item)
+			or empty_on_punch(pos, nvm, wielded_item, item_count)
 	if new_item then
 		puncher:set_wielded_item(new_item)
 		M(pos):set_string("formspec", techage.fuel.formspec(pos, nvm))

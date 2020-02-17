@@ -8,7 +8,7 @@
 	GPL v3
 	See LICENSE.txt for more information
 	
-	TA4 Electrolyzer v2
+	TA4 Electrolyzer
 
 ]]--
 
@@ -64,8 +64,8 @@ local function stop_node(pos, nvm, state)
 end
 
 local State = techage.NodeStates:new({
-	node_name_passive = "techage:ta4_electrolyzer2",
-	node_name_active = "techage:ta4_electrolyzer2_on",
+	node_name_passive = "techage:ta4_electrolyzer",
+	node_name_active = "techage:ta4_electrolyzer_on",
 	cycle_time = CYCLE_TIME,
 	standby_ticks = STANDBY_TICKS,
 	formspec_func = formspec,
@@ -90,7 +90,7 @@ end
 local function generating(pos, nvm)
 	nvm.num_pwr_units = nvm.num_pwr_units or 0
 	nvm.countdown = nvm.countdown or 0
-	print("electrolyzer", nvm.running, nvm.taken, nvm.num_pwr_units, nvm.liquid.amount)
+	--print("electrolyzer", nvm.running, nvm.taken, nvm.num_pwr_units, nvm.liquid.amount)
 	if nvm.taken > 0 then
 		nvm.num_pwr_units = nvm.num_pwr_units + (nvm.taken or 0)
 		if nvm.num_pwr_units >= PWR_UNITS_PER_HYDROGEN_ITEM then
@@ -140,7 +140,7 @@ local function after_place_node(pos)
 	local nvm = techage.get_nvm(pos)
 	nvm.running = false
 	nvm.num_pwr_units = 0
-	local number = techage.add_node(pos, "techage:ta4_electrolyzer2")
+	local number = techage.add_node(pos, "techage:ta4_electrolyzer")
 	State:node_init(pos, nvm, number)
 	local node = minetest.get_node(pos)
 	M(pos):set_int("in_dir", techage.side_to_indir("R", node.param2))
@@ -196,7 +196,7 @@ local liquid_def = {
 	end
 }
 
-minetest.register_node("techage:ta4_electrolyzer2", {
+minetest.register_node("techage:ta4_electrolyzer", {
 	description = S("TA4 Electrolyzer"),
 	tiles = {
 		-- up, down, right, left, back, front
@@ -231,7 +231,7 @@ minetest.register_node("techage:ta4_electrolyzer2", {
 	is_ground_content = false,
 })
 
-minetest.register_node("techage:ta4_electrolyzer2_on", {
+minetest.register_node("techage:ta4_electrolyzer_on", {
 	description = S("TA4 Electrolyzer"),
 	tiles = {
 		-- up, down, right, left, back, front
@@ -278,12 +278,12 @@ minetest.register_node("techage:ta4_electrolyzer2_on", {
 	light_source = 6,
 })
 
-Cable:add_secondary_node_names({"techage:ta4_electrolyzer2", "techage:ta4_electrolyzer2_on"})
-Pipe:add_secondary_node_names({"techage:ta4_electrolyzer2", "techage:ta4_electrolyzer2_on"})
-techage.register_node({"techage:ta4_electrolyzer2", "techage:ta4_electrolyzer2_on"}, liquid.recv_message)	
+Cable:add_secondary_node_names({"techage:ta4_electrolyzer", "techage:ta4_electrolyzer_on"})
+Pipe:add_secondary_node_names({"techage:ta4_electrolyzer", "techage:ta4_electrolyzer_on"})
+techage.register_node({"techage:ta4_electrolyzer", "techage:ta4_electrolyzer_on"}, liquid.recv_message)	
 
 minetest.register_craft({
-	output = "techage:ta4_electrolyzer2",
+	output = "techage:ta4_electrolyzer",
 	recipe = {
 		{'default:steel_ingot', 'dye:blue', 'default:steel_ingot'},
 		{'techage:electric_cableS', 'default:glass', 'techage:tubeS'},

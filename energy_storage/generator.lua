@@ -212,7 +212,7 @@ techage.register_node({"techage:ta4_generator", "techage:ta4_generator_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		if topic == "trigger" then
-			print("trigger", nvm.provided)
+			--print("trigger", nvm.provided)
 			nvm.heatexchanger_trigger = 3
 			if nvm.running then
 				return nvm.provided or 0.1

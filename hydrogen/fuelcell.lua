@@ -83,11 +83,6 @@ local function has_hydrogen(nvm)
 	return nvm.num_pwr_units > 0 or (nvm.liquid.amount > 0 and nvm.liquid.name == "techage:hydrogen")
 end
 
-local function contains_hydrogen(pos)
-	local inv = M(pos):get_inventory()
-	return inv:contains_item("src", ItemStack("techage:hydrogen"))
-end
-	
 local function consuming(pos, nvm)	
 	if nvm.num_pwr_units <= 0 then
 		nvm.num_pwr_units = nvm.num_pwr_units + PWR_UNITS_PER_HYDROGEN_ITEM
@@ -99,7 +94,7 @@ end
 -- converts hydrogen into power
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
-	print("fuelcell", nvm.running, nvm.given, nvm.num_pwr_units)
+	--print("fuelcell", nvm.running, nvm.given, nvm.num_pwr_units)
 	if has_hydrogen(nvm) then
 		local outdir = M(pos):get_int("outdir")
 		nvm.given = power.generator_alive(pos, Cable, CYCLE_TIME, outdir)

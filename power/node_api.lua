@@ -49,7 +49,7 @@ end
 -- store network ID on each node
 local function store_netID(pos, outdir, netID, Cable)
 	networks.connection_walk(pos, outdir, Cable, function(pos, indir, node)
-		techage.mark_position("singleplayer", pos, "store", "", 2)-----------------------------------------
+		--techage.mark_position("singleplayer", pos, "store", "", 2)-----------------------------------------
 		--print(node.name, dump(net_def(pos, Cable.tube_type)))
 		if net_def(pos, Cable.tube_type) then
 			local nvm = techage.get_nvm(pos)
@@ -63,7 +63,7 @@ end
 local function delete_netID(pos, outdir, Cable)
 	local netID = 0
 	networks.connection_walk(pos, outdir, Cable, function(pos, indir, node)
-		techage.mark_position("singleplayer", pos, "delete", "", 2)----------------------------------------
+		--techage.mark_position("singleplayer", pos, "delete", "", 2)----------------------------------------
 		if net_def(pos, Cable.tube_type) then
 			local nvm = techage.get_nvm(pos)
 			if nvm[Cable.tube_type] and nvm[Cable.tube_type]["netID"] then
@@ -108,7 +108,7 @@ function techage.power.get_power(pos, outdir, Cable, inverter)
 	local sum = 0
 	local num_inverter = 0
 	networks.connection_walk(pos, outdir, Cable, function(pos, indir, node)
-		techage.mark_position("singleplayer", pos, "get_power", "", 2)-----------------------------------------
+		--techage.mark_position("singleplayer", pos, "get_power", "", 2)-----------------------------------------
 		local def = net_def(pos, Cable.tube_type)
 		if def and def.on_getpower then
 			sum = sum + def.on_getpower(pos)

@@ -46,6 +46,7 @@ end
 -- store network ID on each pump like node
 local function store_netID(pos, outdir, netID)
 	networks.connection_walk(pos, outdir, Pipe, function(pos, indir, node)
+		print("store_netID", dump(indir)) 
 		local ntype = net_def(pos, "pipe2").ntype
 		if ntype and ntype == "pump" then
 			local nvm = techage.get_nvm(pos)
@@ -84,6 +85,7 @@ local function get_netID(pos, outdir)
 end
 
 local function get_network_table(pos, outdir, ntype)
+	print("get_network_table", outdir)
 	local netID = get_netID(pos, outdir)
 	if netID then
 		local netw = networks.get_network("pipe2", netID)

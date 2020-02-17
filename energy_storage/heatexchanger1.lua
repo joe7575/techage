@@ -135,6 +135,8 @@ end
 
 local function tubelib2_on_update2(pos, outdir, tlib2, node) 
 	power.update_network(pos, outdir, tlib2)
+	local nvm = techage.get_nvm(pos)
+	nvm.running = false
 end
 
 local function can_start(pos, nvm)
@@ -179,7 +181,7 @@ local function node_timer(pos, elapsed)
 	nvm.needed = taken - given
 	nvm.capa = in_range(nvm.capa + nvm.needed, 0, nvm.capa_max)
 	glowing(pos, nvm, nvm.capa > nvm.capa_max * 0.8)
-	print("node_timer TES "..P2S(pos), nvm.needed, nvm.capa, nvm.capa_max)
+	--print("node_timer TES "..P2S(pos), nvm.needed, nvm.capa, nvm.capa_max)
 	return true		
 end
 

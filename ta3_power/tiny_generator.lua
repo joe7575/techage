@@ -65,7 +65,7 @@ local function stop_sound(pos)
 end
 
 local function can_start(pos, nvm, state)
-	if nvm.burn_cycles > 0 or (nvm.liquid and nvm.liquid.amount and nvm.liquid.amount > 0) then 
+	if (nvm.burn_cycles or 0) > 0 or (nvm.liquid and nvm.liquid.amount and nvm.liquid.amount > 0) then 
 		return true 
 	end
 	return S("no fuel")
@@ -293,6 +293,15 @@ techage.register_node({"techage:tiny_generator", "techage:tiny_generator_on"}, {
 		State:on_node_load(pos)
 		if node.name == "techage:tiny_generator_on" then
 			play_sound(pos)
+		end
+		local inv = M(pos):get_inventory()
+		if not inv:is_empty("fuel") then
+			local nvm = techage.get_nvm(pos)
+			nvm.liquid = nvm.liquid or {}
+			local count = inv:get_stack("fuel", 1):get_count()
+			nvm.liquid.amount = (nvm.liquid.amount or 0) + count
+			nvm.liquid.name = "techage:gasoline"
+			inv:set_stack("fuel", 1, nil)
 		end	
 	end,
 })	

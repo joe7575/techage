@@ -87,7 +87,7 @@ local function set_given(pos, given, tlib_type)
 		else
 			def["given"] = given
 		end
-		return given
+		return def["given"]
 	end
 	return 0
 end
@@ -126,7 +126,7 @@ function techage.power.power_distribution(network, tlib_type)
 	network.available2 = get_generator_sum(network.gen2, tlib_type)
 	network.needed1 = get_consumer_sum(network.con1, tlib_type)
 	network.needed2 = get_consumer_sum(network.con2, tlib_type)
-	--print(network.available1, network.available2, network.needed1, network.needed2, network.alive)
+	print(network.available1, network.available2, network.needed1, network.needed2, network.alive)
 	
 	-- store results
 	network.on = network.available1 + network.available2 >= network.needed1

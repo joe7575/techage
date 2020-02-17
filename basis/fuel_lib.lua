@@ -79,7 +79,7 @@ function techage.fuel.can_dig(pos, player)
 	nvm.liquid = nvm.liquid or {}
 	nvm.liquid.amount = nvm.liquid.amount or 0
 	local inv = M(pos):get_inventory()
-	return inv:is_empty("fuel") and nvm.liquid.amount == 0
+	return not inv or inv:is_empty("fuel") and nvm.liquid.amount == 0
 end
 
 function techage.fuel.on_rightclick(pos, node, clicker)
