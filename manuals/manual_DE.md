@@ -16,6 +16,34 @@ Regenerative Energiequellen wie Wind, Sonne und Biokraft helfen dir, das Ölzeit
 
 [wlanchip|image]
 
+## Software Update
+Zum 23.02.2020 gab es ein größeres Software-Update, was einige Änderungen und aus Sicht der Spieler auch "Probleme" mit sich bringt. Das Software-Update war aber nötig, um die techage Mod weiter ausbauen und entwickeln zu können.
+
+Da sich mit dem Update die Art und Weise wie Daten der Maschinen gespeichert werden, geändert hat, sind nach dem Update alle Maschinen erst einmal ohne Daten und damit Funktionslos und müssen "repariert" werden. 
+
+Dazu gibt es ein Reparaturset, bestehend aus dem Schraubenschlüssel (Techage Info Werkzeug) und der Werkzeugtasche (TechAge Reparaturset). Beide Werkzeuge können gecraftet werden.
+
+- Mit dem Schraubenschlüssel können die Verbindungen über das Stromnetz geprüft werden. Dazu einfach auf einen Generator oder eine Junction klicken, dann werden alle verbundenen Blöcke in der Umgebung markiert. Bei Unterbrechungen immer den letzten markierten Block (Junction) in der Kette neu setzen.
+- normale Maschinen müssen nur neu gestartet werden. Hilft dies nicht, einfach neu setzen.
+- Generatoren (auch Akkus und Brennstoffzelle) können entweder neu gesetzt, oder mit dem Reparaturset angeklickt und damit repariert werden.
+- Die Trägermodule der Solarzellen müssen ebenfalls mit dem "Reparaturset" angeklickt werden.
+- Die Stromschalterbox und die Stromschalter müssen neu gesetzt werden. Die Stromschalterbox verhält sich beim Setzen nun ähnlich wie Stromkabel.
+- Der TA4 Solar Wechselrichter besteht jetzt nur noch aus einem Block. Der zweite Block muss entfernt und durch ein rotes Kabel ersetzt werden.
+- Wasserstoff ist nun wie eine Flüssigkeit zu behandeln. Elektrolyseur und Brennstoffzelle müssen daher nicht mehr über Röhren und Schieber sondern über Pumpen und Flüssigkeitsleitungen miteinander verbunden werden.
+
+### Was hat sich am Spiel geändert?
+
+- der TA1 Hopper ist weg, dafür kann jetzt der Hopper aus der Mod Minecart genutzt werden.
+- Blöcke für Wasser und andere Flüssigkeiten (Boiler, Tanks) haben kein Inventory mehr. Diese muss man nun füllen bzw. leeren, in dem man mit einem vollen bzw. leeren Behälter auf den Block klickt. Bei Wasser ist das der Eimer, bei Öl und anderen Flüssigkeiten die Fässer oder Kanister.
+- für TA2 und TA3 gibt er jetzt einen Steinbrecher (Quarry) zum Abbau von Steinen.
+- Die Stromschalterbox und die Stromschalter wurden überarbeitet und sind nun leichter zu Platzieren.
+- Alle Menüs werden nun automatisch und zyklisch aktualisiert, den "Update" Button gibt es nicht mehr.
+- Die Tanks können nun nicht mehr direkt über Schieber gefüllt oder geleert werden. Hierzu ist zusätzlich ein TA Einfülltrichter (TA Liquid Filler) notwendig.
+- Gas, was beim Destillieren entsteht (Propangas), kann über den Reformer in Wasserstoff umgewandelt und dann zu Strom gemacht werden.
+- Der TA4 Solar Wechselrichter besteht jetzt nur noch aus einem Block.
+- Generator und Wärmetauscher beim Energiespeicher arbeiten nun unabhängig von einander und können auch einzeln mit dem Stromnetz verbunden sein.
+- 
+
 ## Hinweise
 
 Diese Dokumentation ist sowohl "ingame" (Block Konstruktionsplan) als auch auf GitHub als MD-Files verfügbar.
@@ -76,4 +104,5 @@ Es wird zur Herstellung von Aluminium benötigt, was vor allem in TA4 Verwendung
 - 28.09.2019: Um Solaranlage erweitert
 - 05.10.2019: Daten zur Solaranlage und Beschreibung zum Wechselrichter und zum Power-Terminal geändert
 - 18.11.2019: Kapitel für Erze, Reaktor, Aluminium, Silo, Bauxit, Ofenheizung, Kieswaschanlage hinzugefügt
+- 22.02.2020: Korrekturen und Kapitel zum Update
 

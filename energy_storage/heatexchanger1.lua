@@ -160,6 +160,7 @@ end
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	nvm.capa = nvm.capa or 0
+	nvm.capa_max = nvm.capa_max or 0
 	local taken = 0
 	local given = 0
 	
@@ -234,7 +235,7 @@ techage.register_node({"techage:heatexchanger1"}, {
 		local nvm = techage.get_nvm(pos)
 		-- used by heatexchanger2
 		if topic == "state" then
-			return nvm.capa_max, nvm.capa, PWR_PERF, math.max(nvm.needed or 0, 0)
+			return (nvm.capa_max or 0), (nvm.capa or 0), PWR_PERF, math.max(nvm.needed or 0, 0)
 		elseif topic == "integrity" then
 			return inlet_cmnd(pos, "volume", payload)
 		elseif topic == "state" then
@@ -262,6 +263,10 @@ techage.register_node({"techage:heatexchanger1"}, {
 		if nvm.running and nvm.charging then
 			play_sound(pos)
 		end	
+		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
+		nvm.capa = (nvm.capa or 0) + (mem.capa or 0)
+		tubelib2.del_mem(pos)
 	end,
 })
 

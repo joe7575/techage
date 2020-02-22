@@ -55,7 +55,7 @@ Der Schmelztiegel hat ein eigenes Menü mit Rezepten und ein Inventar, wo du die
 
 ## Erze und Werkzeuge
 
-TA1 hat seine eigenen Werkzeuge wie Hammer und Kiessieb, aber auch bereits eine Maschine zur Automatisierung, den TA1 Trichter (hopper).
+TA1 hat seine eigenen Werkzeuge wie Hammer und Kiessieb, aber auch der Minecart Hopper kann genutzt werden.
 
 [ta1_gravelsieve|image]
 
@@ -78,9 +78,9 @@ Um hier nicht stundenlang am Sieb zu stehen, kann das Sieben mit dem Trichter (h
 
 ### Trichter / Hopper
 
-Der Trichter saugt Gegenstände (items) von oben ein und gibt diese nach rechts weiter. Beim Platzieren des Trichters muss daher auf die Ausgaberichtung geachtet werden.
+Der Hopper aus der Mod "Minecart" dient in erster Linie zum Be- und Entladen von Minecarts. Er saugt Gegenstände (items) von oben ein und gibt diese nach rechts weiter. Beim Platzieren des Trichters muss daher auf die Ausgaberichtung geachtet werden.
 
-Der Trichter kann auch Items aus Kisten (chest) ziehen, sofern die Kiste auf dem Trichter steht. 
+Der Trichter kann aber auch Items aus Kisten (chest) ziehen, sofern die Kiste auf dem Trichter steht. 
 
 Der Trichter kann auch Items in Kisten legen, sofern die Kiste neben dem Trichter steht.
 

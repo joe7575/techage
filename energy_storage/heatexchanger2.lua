@@ -48,7 +48,7 @@ local function formspec(self, pos, nvm)
 end
 
 local function can_start(pos, nvm, state)
-	print("can_start", he1_cmnd(pos, "can_start"))
+	--print("can_start", he1_cmnd(pos, "can_start"))
 	return he1_cmnd(pos, "can_start") or S("did you check the plan?")
 end
 

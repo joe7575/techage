@@ -2,6 +2,8 @@ techage.manual_DE = {}
 
 techage.manual_DE.aTitel = {
   "1,Tech Age Mod",
+  "2,Software Update",
+  "3,Was hat sich am Spiel geändert",
   "2,Hinweise",
   "2,Erze und Mineralien",
   "3,Meridium",
@@ -71,6 +73,7 @@ techage.manual_DE.aTitel = {
   "2,Flüssigkeiten",
   "3,TA3 Tank / TA3 Tank",
   "3,TA3 Pumpe / TA3 Pump",
+  "3,TA Einfülltrichter / TA Liquid Filler",
   "2,Öl-Förderung",
   "3,TA3 Ölexplorer / Oil Explorer",
   "3,TA3 Ölbohrkiste / Oil Drill Box",
@@ -140,6 +143,7 @@ techage.manual_DE.aTitel = {
   "3,TA4 Tank / TA4 Tank",
   "3,TA4 Pumpe / TA4 Pump",
   "3,TA4 Ofenheizung / furnace heater",
+  "3,TA4 Wasserpumpe / Water Pump",
 }
 
 techage.manual_DE.aText = {
@@ -159,10 +163,18 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "\027(c@#ffffff)Da sich mit dem Update die Art und Weise wie Daten der Maschinen gespeichert werden\\, geändert hat\\, sind nach dem Update alle Maschinen erst einmal ohne Daten und damit Funktionslos und müssen \"repariert\" werden. \n"..
+  "\n"..
+  "Dazu gibt es ein Reparaturset\\, bestehend aus dem Schraubenschlüssel (Techage Info Werkzeug) und der Werkzeugtasche (TechAge Reparaturset). Beide Werkzeuge können gecraftet werden.\n"..
+  "\n"..
+  "  - Mit dem Schraubenschlüssel können die Verbindungen über das Stromnetz geprüft werden. Dazu einfach auf einen Generator oder eine Junction klicken\\, dann werden alle verbundenen Blöcke in der Umgebung markiert. Bei Unterbrechungen immer den letzten markierten Block (Junction) in der Kette neu setzen.\n"..
+  "  - Wasserstoff ist nun wie eine Flüssigkeit zu behandeln. Elektrolyseur und Brennstoffzelle müssen daher nicht mehr über Röhren und Schieber sondern über Pumpen und Flüssigkeitsleitungen miteinander verbunden werden.\n"..
+  "\n",
+  "  - Generator und Wärmetauscher beim Energiespeicher arbeiten nun unabhängig von einander und können auch einzeln mit dem Stromnetz verbunden sein.\n"..
+  "  - \n"..
+  "\n",
   "Diese Dokumentation ist sowohl \"ingame\" (Block Konstruktionsplan) als auch auf GitHub als MD-Files verfügbar.\n"..
   "\n"..
-  "  - Link: https://github.com/joe7575/techage/blob/master/manuals/toc_DE.md\n"..
-  "  - Short Link: https://tinyurl.com/y2lwl35h\n"..
   "\n"..
   "Die Konstruktionspläne (Diagramme) für den Aufbau der Maschinen sowie die Bilder sind aber nur ingame verfügbar.\n"..
   "\n"..
@@ -196,6 +208,7 @@ techage.manual_DE.aText = {
   "  - 28.09.2019: Um Solaranlage erweitert\n"..
   "  - 05.10.2019: Daten zur Solaranlage und Beschreibung zum Wechselrichter und zum Power-Terminal geändert\n"..
   "  - 18.11.2019: Kapitel für Erze\\, Reaktor\\, Aluminium\\, Silo\\, Bauxit\\, Ofenheizung\\, Kieswaschanlage hinzugefügt\n"..
+  "  - 22.02.2020: Korrekturen und Kapitel zum Update\n"..
   "\n",
   "In TA1 geht es darum\\, mit einfachen Werkzeugen und Gerätschaften ausreichend Erze zu schürfen und Holzkohle herzustellen\\, so dass damit TA2 Maschinen hergestellt und betrieben werden können.\n"..
   "\n"..
@@ -242,7 +255,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "TA1 hat seine eigenen Werkzeuge wie Hammer und Kiessieb\\, aber auch bereits eine Maschine zur Automatisierung\\, den TA1 Trichter (hopper).\n"..
+  "TA1 hat seine eigenen Werkzeuge wie Hammer und Kiessieb\\, aber auch der Minecart Hopper kann genutzt werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -256,9 +269,9 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der Trichter saugt Gegenstände (items) von oben ein und gibt diese nach rechts weiter. Beim Platzieren des Trichters muss daher auf die Ausgaberichtung geachtet werden.\n"..
+  "Der Hopper aus der Mod \"Minecart\" dient in erster Linie zum Be- und Entladen von Minecarts. Er saugt Gegenstände (items) von oben ein und gibt diese nach rechts weiter. Beim Platzieren des Trichters muss daher auf die Ausgaberichtung geachtet werden.\n"..
   "\n"..
-  "Der Trichter kann auch Items aus Kisten (chest) ziehen\\, sofern die Kiste auf dem Trichter steht. \n"..
+  "Der Trichter kann aber auch Items aus Kisten (chest) ziehen\\, sofern die Kiste auf dem Trichter steht. \n"..
   "\n"..
   "Der Trichter kann auch Items in Kisten legen\\, sofern die Kiste neben dem Trichter steht.\n"..
   "\n"..
@@ -305,7 +318,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Teil der Dampfmaschine. Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich die Dampfmaschine ab.\n"..
+  "Teil der Dampfmaschine. Muss mit Wasser gefüllt werden. Dies erfolgt durch Klicken mit einem Wassereimer auf den Boiler. Wenn kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich die Dampfmaschine ab.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -473,7 +486,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich der Boiler ab.\n"..
+  "Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich das Kraftwerk ab.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -496,7 +509,7 @@ techage.manual_DE.aText = {
   "  - Überlandleitungen (TA Stromleitung) für Freiluftverkabelung über große Strecken. Diese Kabel sind geschützt\\, können also von anderen Spielern nicht entfernt werden.\n"..
   "\n"..
   "Mehrere Verbraucher und Generatoren können in einem Stromnetzwerk zusammen betrieben werden. Mit Hilfe der Verteilerdosen können so große Netzwerke aufgebaut werden.\n"..
-  "Wird zu wenig Strom bereitgestellt\\, gehen Teile der Verbraucher aus\\, bzw. Lampen beginnen zu flackern.\n"..
+  "Wird zu wenig Strom bereitgestellt\\, gehen die Verbraucher aus.\n"..
   "In diesem Zusammenhang ist auch wichtig\\, dass die Funktionsweise von Forceload Blöcken verstanden wurde\\, denn bspw. Generatoren liefern nur Strom\\, wenn der entsprechende Map-Block geladen ist. Dies kann mit einen Forceload Block erzwungen werden.\n"..
   "\n"..
   "In TA4 kommt noch ein Kabel für die Solaranlage hinzu.\n"..
@@ -565,10 +578,10 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Das Strom-Terminal muss vor eine Verteilerdose platziert werden. Es zeigt Daten aus dem Stromnetz an wie:\n"..
+  "Das Strom-Terminal muss mit dem Stromnetz verbunden werden. Es zeigt Daten aus dem Stromnetz an wie:\n"..
   "\n"..
   "  - Anzahl und Leistung der verschiedenen Generatoren und Akkus (aktuell/maximal)\n"..
-  "  - Anzahl der Netzwerk-Blöcke (max. 1000)\nDie Daten des Terminals werden beim Öffnen des Menüs für einige Sekunden aktualisiert. Danach kann die Anzeige durch Anklicken des \"Update\" Buttons erneut aktualisiert werden.\n"..
+  "  - Anzahl der Netzwerk-Blöcke (max. 1000)\n"..
   "\n"..
   "\n"..
   "\n",
@@ -597,7 +610,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Flüssigkeiten wie Wasser oder Öl können nur die spezielle Leitungen gepumpt und in Tanks gespeichert werden. Wie auch bei Wasser gibt es aber Behälter (Eimer\\, Kanister\\, Fässer)\\, in denen die Flüssig gelagert und transportiert werden kann.\n"..
+  "Flüssigkeiten wie Wasser oder Öl können nur die spezielle Leitungen gepumpt und in Tanks gespeichert werden. Wie auch bei Wasser gibt es aber Behälter (Kanister\\, Fässer)\\, in denen die Flüssig gelagert und transportiert werden kann.\n"..
   "\n"..
   "Über die gelben Leitungen und Verbindungsstücke ist es auch möglich\\, mehrere Tanks zu verbinden. Allerdings müssen die Tanks den selben Inhalt haben und zwischen Tank\\, Pumpe und Verteiler muss immer mindestens eine gelbe Leitung sein.\n"..
   "Bspw. zwei Tanks direkt mit einem Verteilerstück zu verbinden\\, geht nicht.\n"..
@@ -605,12 +618,8 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "In einem Tank können Flüssigkeiten gespeichert werden. Ein Tank kann über eine Pumpe gefüllt bzw. geleert werden. Dazu muss die Pumpe über einer Leitung (gelbe Röhre) mit dem Tank verbunden sein.\n"..
-  "Ein Tank kann aber auch über Eimer/Fässer gefüllt bzw. geleert werden:\n"..
   "\n"..
-  "  - werden leere Fässer mit einem Schieber oder von Hand in den Tank gegeben\\, werden diese gefüllt und können ausgangsseitig wieder entnommen werden\n"..
-  "  - werden volle Fässer mit einem Schieber oder von Hand in den Tank gegeben\\, werden diese geleert und können ausgangsseitig wieder entnommen werden\n"..
-  "\n"..
-  "Dabei ist zu beachten\\, dass Fässer nur komplett gefüllt oder entleert werden können. Sind bspw. weniger als 10 Einheiten im Tank\\, muss dieser Rest mit Eimern oder Kanistern entnommen oder leergepumpt werden.\n"..
+  "Ein Tank kann auch von Hand gefüllt oder geleert werden\\, indem mit einem vollen oder leeren Flüssigkeitsbehälter (Fass\\, Kanister) auf den Tank geklickt wird. Dabei ist zu beachten\\, dass Fässer nur komplett gefüllt oder entleert werden können. Sind bspw. weniger als 10 Einheiten im Tank\\, muss dieser Rest mit Kanistern entnommen oder leergepumpt werden.\n"..
   "\n"..
   "In einen TA3 Tank passen 500 Einheiten oder 50 Fässer einer Flüssigkeit.\n"..
   "\n"..
@@ -623,6 +632,15 @@ techage.manual_DE.aText = {
   "Hinweis 1: Die Pumpe darf nicht direkt neben den Tank platziert werden. Es muss immer mindestens ein Stück gelbe Leitung dazwischen sein.\n"..
   "\n"..
   "Hinweis 2: Nach dem Starten markiert die Pumpe 10 x die Blöcke\\, von und zu denen gepumpt wird.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Um Flüssigkeiten zwischen Behältern und Tanks umzufüllen\\, dient der Einfülltrichter.\n"..
+  "\n"..
+  "  - wird der Einfülltrichter unter einen Tank gesetzt und werden leere Fässer mit einem Schieber oder von Hand in den Einfülltrichter gegeben\\, wird der Tankinhalt in die Fässer umgefüllt und die Fässer können ausgangsseitig wieder entnommen werden\n"..
+  "  - wird der Einfülltrichter auf einen Tank gesetzt und werden volle Fässer mit einem Schieber oder von Hand in den Einfülltrichter gegeben\\, werden diese in den Tank umgefüllt und die Fässer können ausgangsseitig wieder entnommen werden\n"..
+  "\n"..
+  "Dabei ist zu beachten\\, dass Fässer nur komplett gefüllt oder entleert werden können. Sind bspw. weniger als 10 Einheiten im Tank\\, muss dieser Rest mit Kanistern entnommen oder leergepumpt werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -889,7 +907,7 @@ techage.manual_DE.aText = {
   "",
   "Das Techage Info Tool (Schraubenschlüssel) hat verschiedene Funktionen. Er zeigt die Uhrzeit\\, die Position\\, die Temperatur und das Biome an\\, wenn auf einen unbekannten Block geklickt wird.\n"..
   "Wird auf einen TechAge Block mit Kommandoschnittstelle geklickt\\, werden alle verfügbaren Daten abgerufen (siehe auch \"Logik-/Schalt-Blöcke\").\n"..
-  "Bei Strom-Verteilerdosen werden die Daten aus dem Stromnetz angezeigt. Außerdem werden die benachbarten Netzwerkteilnehmer (über bis zu 4 Verteiler hinweg) mit einem blauen Käfig und einem Text angezeigt. Der Text zeigt die Position und die Anzahl der Verbindungen zu anderen Blöcken (0..6). Dies soll bei der Suche nach Kabelunterbrechungen helfen.\n"..
+  "Bei Strom-Verteilerdosen werden die benachbarten Netzwerkteilnehmer (bis zu 50 Meter weit) mit einem blauen Käfig angezeigt.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -970,8 +988,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Der Wechselrichter wandelt den Solarstrom (DC) in Wechselstrom (AC) um\\, so dass dieser in das Stromnetz eingespeist werden kann.\n"..
-  "Ein Wechselrichter\\, bestehend aus zwei Blöcken kann maximal 100 ku an Strom einspeisen\\, was 33 Solarmodulen oder auch mehr entspricht.\n"..
-  "Der DC Block muss links neben den AC-Block gesetzt werden.\n"..
+  "Ein Wechselrichter kann maximal 100 ku an Strom einspeisen\\, was 33 Solarmodulen oder auch mehr entspricht.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1018,7 +1035,9 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der Generator dient zur Stromerzeugung. Daher muss auch der Generator am Stromnetz angeschlossen werden. Dabei muss beachtet werden\\, dass es ein funktionierendes Stromnetz ist\\, denn der Generator des Energiespeichers kann nicht als einzelne Stromquelle funktionieren. Der Generator kann 60 ku abgeben.\n"..
+  "Der Generator dient zur Stromerzeugung. Daher muss auch der Generator am Stromnetz angeschlossen werden. \n"..
+  "\n"..
+  "Der Generator kann 60 ku abgeben.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1122,10 +1141,16 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Mit der Wasserpumpe kann Wasser über Flüssigkeitsleitungen in Tanks gepumpt und so für Rezepte genutzt werden. Die Wasserpumpe muss dazu ins Meer gesetzt werden Ein \"Pool\" aus ein paar Wasserblöcken geht nicht!\n"..
+  "\n"..
+  "\n"..
+  "\n",
 }
 
 techage.manual_DE.aItemName = {
   "wlanchip",
+  "",
+  "",
   "",
   "",
   "",
@@ -1195,6 +1220,7 @@ techage.manual_DE.aItemName = {
   "",
   "ta3_tank",
   "ta3_pump",
+  "ta3_filler",
   "techage_ta3",
   "ta3_oilexplorer",
   "ta3_drillbox",
@@ -1264,9 +1290,12 @@ techage.manual_DE.aItemName = {
   "ta4_tank",
   "ta4_pump",
   "ta4_furnaceheater",
+  "ta4_waterpump",
 }
 
 techage.manual_DE.aPlanTable = {
+  "",
+  "",
   "",
   "",
   "",
@@ -1344,6 +1373,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
   "ta3_distiller",
   "",
   "",
@@ -1396,6 +1426,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
   "",
   "",
   "",

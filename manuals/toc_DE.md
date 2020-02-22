@@ -1,6 +1,8 @@
 # Inhaltsverzeichnis
 
 - [Tech Age Mod](./manual_DE.md#tech-age-mod)
+    - [Software Update](./manual_DE.md#software-update)
+        - [Was hat sich am Spiel geändert?](./manual_DE.md#was-hat-sich-am-spiel-geändert?)
     - [Hinweise](./manual_DE.md#hinweise)
     - [Erze und Mineralien](./manual_DE.md#erze-und-mineralien)
         - [Meridium](./manual_DE.md#meridium)
@@ -70,6 +72,7 @@
     - [Flüssigkeiten](./manual_ta3_DE.md#flüssigkeiten)
         - [TA3 Tank / TA3 Tank](./manual_ta3_DE.md#ta3-tank--ta3-tank)
         - [TA3 Pumpe / TA3 Pump](./manual_ta3_DE.md#ta3-pumpe--ta3-pump)
+        - [TA Einfülltrichter / TA Liquid Filler](./manual_ta3_DE.md#ta-einfülltrichter--ta-liquid-filler)
     - [Öl-Förderung](./manual_ta3_DE.md#Öl-förderung)
         - [TA3 Ölexplorer / Oil Explorer](./manual_ta3_DE.md#ta3-Ölexplorer--oil-explorer)
         - [TA3 Ölbohrkiste / Oil Drill Box](./manual_ta3_DE.md#ta3-Ölbohrkiste--oil-drill-box)
@@ -139,3 +142,4 @@
         - [TA4 Tank / TA4 Tank](./manual_ta4_DE.md#ta4-tank--ta4-tank)
         - [TA4 Pumpe / TA4 Pump](./manual_ta4_DE.md#ta4-pumpe--ta4-pump)
         - [TA4 Ofenheizung / furnace heater](./manual_ta4_DE.md#ta4-ofenheizung--furnace-heater)
+        - [TA4 Wasserpumpe / Water Pump](./manual_ta4_DE.md#ta4-wasserpumpe--water-pump)

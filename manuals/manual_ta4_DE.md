@@ -55,6 +55,7 @@ In dieser Zeit steht immer die gleiche Leistung zur Verfügung. Nach 18:00 schal
 
 Für die Leistung der Solarmodule ist die Biome Temperatur entscheidend. Je heißer die Temperatur, um so höher der Ertrag.
 Die Biome Temperatur kann mit dem Techage Info Tool (Schraubenschlüssel) bestimmt werden. Sie schwankt typischerweise zwischen 0 und 100:
+
 - bei 100 steht die volle Leistung zur Verfügung
 - bei 50 steht die halbe Leistung zur Verfügung
 - bei 0 steht keine Leistung zur Verfügung
@@ -94,8 +95,7 @@ Die Trägermodule können direkt aneinander gesetzt und so zu einer Modulreihe v
 ### TA4 Solar Wechselrichter / Solar Inverter
 
 Der Wechselrichter wandelt den Solarstrom (DC) in Wechselstrom (AC) um, so dass dieser in das Stromnetz eingespeist werden kann.
-Ein Wechselrichter, bestehend aus zwei Blöcken kann maximal 100 ku an Strom einspeisen, was 33 Solarmodulen oder auch mehr entspricht.
-Der DC Block muss links neben den AC-Block gesetzt werden.
+Ein Wechselrichter kann maximal 100 ku an Strom einspeisen, was 33 Solarmodulen oder auch mehr entspricht.
 
 [ta4_solar_inverter|image]
 
@@ -164,7 +164,9 @@ Die Turbine ist Teil des Energiespeichers. Sie muss neben den Generator gesetzt 
 
 ### TA4 Generator
 
-Der Generator dient zur Stromerzeugung. Daher muss auch der Generator am Stromnetz angeschlossen werden. Dabei muss beachtet werden, dass es ein funktionierendes Stromnetz ist, denn der Generator des Energiespeichers kann nicht als einzelne Stromquelle funktionieren. Der Generator kann 60 ku abgeben.
+Der Generator dient zur Stromerzeugung. Daher muss auch der Generator am Stromnetz angeschlossen werden. 
+
+Der Generator kann 60 ku abgeben.
 
 [ta4_generator|image]
 
@@ -311,3 +313,9 @@ Die Ofenheizung benötigt 14 ku Strom.
 
 [ta4_furnaceheater|image]
 
+
+### TA4 Wasserpumpe / Water Pump
+
+Mit der Wasserpumpe kann Wasser über Flüssigkeitsleitungen in Tanks gepumpt und so für Rezepte genutzt werden. Die Wasserpumpe muss dazu ins Meer gesetzt werden Ein "Pool" aus ein paar Wasserblöcken geht nicht!
+
+[ta4_waterpump|image]

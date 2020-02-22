@@ -39,7 +39,7 @@ Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden. Die Brenndauer ist a
 
 ### TA2 Boiler
 
-Teil der Dampfmaschine. Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt, schaltet sich die Dampfmaschine ab.
+Teil der Dampfmaschine. Muss mit Wasser gefüllt werden. Dies erfolgt durch Klicken mit einem Wassereimer auf den Boiler. Wenn kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt, schaltet sich die Dampfmaschine ab.
 
 [ta2_boiler|image]
 

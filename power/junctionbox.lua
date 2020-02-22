@@ -56,3 +56,22 @@ techage.register_junction("techage:electric_junction", 2/8, Boxes, Cable, {
 		},
 	},
 })
+
+local Names = {}
+
+for idx = 0,63 do
+	Names[#Names+1] = "techage:electric_junction"..idx
+end
+
+minetest.register_lbm({
+	label = "Repair Junction",
+	name = "techage:electric_junction",
+	nodenames = Names,
+	run_at_every_load = true,
+	action = function(pos, node)
+		local ndef = minetest.registered_nodes[node.name]
+		ndef.after_place_node(pos)
+		ndef.tubelib2_on_update2(pos, 0, Cable)
+		tubelib2.del_mem(pos)
+	end,
+})

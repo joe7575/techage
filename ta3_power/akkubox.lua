@@ -219,6 +219,10 @@ techage.register_node({"techage:ta3_akku"}, {
 			meta:set_string("node_number", own_num)
 			meta:set_string("infotext", S("TA3 Accu Box").." "..own_num)
 		end
+		local mem = tubelib2.get_mem(pos)
+		local nvm = techage.get_nvm(pos)
+		nvm.capa = (nvm.capa or 0) + (mem.capa or 0)
+		tubelib2.del_mem(pos)
 	end,
 })
 

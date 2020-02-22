@@ -144,3 +144,13 @@ techage.register_node({"techage:filler"}, {
 		return techage.put_items(inv, "dst", stack)
 	end,
 })	
+
+
+minetest.register_craft({
+	output = "techage:filler",
+	recipe = {
+		{"default:steel_ingot", "group:wood", "default:steel_ingot"},
+		{"techage:tubeS", "", "techage:tubeS"},
+		{"default:steel_ingot", "group:wood", "default:steel_ingot"},
+	},
+})

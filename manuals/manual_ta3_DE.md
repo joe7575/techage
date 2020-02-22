@@ -49,7 +49,7 @@ Der Ölbrenner kann nur 50 Einheiten Kraftstoff aufnehmen. Ein zusätzlicher Öl
 
 ### TA3 Boiler unten/oben
 
-Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt, schaltet sich der Boiler ab.
+Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt, schaltet sich das Kraftwerk ab.
 
 [ta3_boiler|image]
 
@@ -84,7 +84,7 @@ TA3 besitzt 2 Arten von Stromkabel:
 - Überlandleitungen (TA Stromleitung) für Freiluftverkabelung über große Strecken. Diese Kabel sind geschützt, können also von anderen Spielern nicht entfernt werden.
 
 Mehrere Verbraucher und Generatoren können in einem Stromnetzwerk zusammen betrieben werden. Mit Hilfe der Verteilerdosen können so große Netzwerke aufgebaut werden.
-Wird zu wenig Strom bereitgestellt, gehen Teile der Verbraucher aus, bzw. Lampen beginnen zu flackern.
+Wird zu wenig Strom bereitgestellt, gehen die Verbraucher aus.
 In diesem Zusammenhang ist auch wichtig, dass die Funktionsweise von Forceload Blöcken verstanden wurde, denn bspw. Generatoren liefern nur Strom, wenn der entsprechende Map-Block geladen ist. Dies kann mit einen Forceload Block erzwungen werden.
 
 In TA4 kommt noch ein Kabel für die Solaranlage hinzu.
@@ -189,10 +189,9 @@ Bei Volllast kann ein Akku 400 s lang Strom aufnehmen und wenn er voll ist, auch
 
 ### TA3 Strom Terminal / Power Terminal
 
-Das Strom-Terminal muss vor eine Verteilerdose platziert werden. Es zeigt Daten aus dem Stromnetz an wie:
+Das Strom-Terminal muss mit dem Stromnetz verbunden werden. Es zeigt Daten aus dem Stromnetz an wie:
 - Anzahl und Leistung der verschiedenen Generatoren und Akkus (aktuell/maximal)
 - Anzahl der Netzwerk-Blöcke (max. 1000)
-Die Daten des Terminals werden beim Öffnen des Menüs für einige Sekunden aktualisiert. Danach kann die Anzeige durch Anklicken des "Update" Buttons erneut aktualisiert werden.
 
 [ta3_powerterminal|image]
 
@@ -236,7 +235,7 @@ Ist Teil des TA3 Industrieofen. Siehe TA3 Industrieofen.
 
 ## Flüssigkeiten
 
-Flüssigkeiten wie Wasser oder Öl können nur die spezielle Leitungen gepumpt und in Tanks gespeichert werden. Wie auch bei Wasser gibt es aber Behälter (Eimer, Kanister, Fässer), in denen die Flüssig gelagert und transportiert werden kann.
+Flüssigkeiten wie Wasser oder Öl können nur die spezielle Leitungen gepumpt und in Tanks gespeichert werden. Wie auch bei Wasser gibt es aber Behälter (Kanister, Fässer), in denen die Flüssig gelagert und transportiert werden kann.
 
 Über die gelben Leitungen und Verbindungsstücke ist es auch möglich, mehrere Tanks zu verbinden. Allerdings müssen die Tanks den selben Inhalt haben und zwischen Tank, Pumpe und Verteiler muss immer mindestens eine gelbe Leitung sein.
 Bspw. zwei Tanks direkt mit einem Verteilerstück zu verbinden, geht nicht.
@@ -247,11 +246,8 @@ Bspw. zwei Tanks direkt mit einem Verteilerstück zu verbinden, geht nicht.
 ### TA3 Tank / TA3 Tank
 
 In einem Tank können Flüssigkeiten gespeichert werden. Ein Tank kann über eine Pumpe gefüllt bzw. geleert werden. Dazu muss die Pumpe über einer Leitung (gelbe Röhre) mit dem Tank verbunden sein.
-Ein Tank kann aber auch über Eimer/Fässer gefüllt bzw. geleert werden:
-- werden leere Fässer mit einem Schieber oder von Hand in den Tank gegeben, werden diese gefüllt und können ausgangsseitig wieder entnommen werden
-- werden volle Fässer mit einem Schieber oder von Hand in den Tank gegeben, werden diese geleert und können ausgangsseitig wieder entnommen werden
 
-Dabei ist zu beachten, dass Fässer nur komplett gefüllt oder entleert werden können. Sind bspw. weniger als 10 Einheiten im Tank, muss dieser Rest mit Eimern oder Kanistern entnommen oder leergepumpt werden.
+Ein Tank kann auch von Hand gefüllt oder geleert werden, indem mit einem vollen oder leeren Flüssigkeitsbehälter (Fass, Kanister) auf den Tank geklickt wird. Dabei ist zu beachten, dass Fässer nur komplett gefüllt oder entleert werden können. Sind bspw. weniger als 10 Einheiten im Tank, muss dieser Rest mit Kanistern entnommen oder leergepumpt werden.
 
 In einen TA3 Tank passen 500 Einheiten oder 50 Fässer einer Flüssigkeit.
 
@@ -268,8 +264,19 @@ Hinweis 1: Die Pumpe darf nicht direkt neben den Tank platziert werden. Es muss 
 
 Hinweis 2: Nach dem Starten markiert die Pumpe 10 x die Blöcke, von und zu denen gepumpt wird.
 
-
 [ta3_pump|image]
+
+
+### TA Einfülltrichter / TA Liquid Filler
+
+Um Flüssigkeiten zwischen Behältern und Tanks umzufüllen, dient der Einfülltrichter.
+
+- wird der Einfülltrichter unter einen Tank gesetzt und werden leere Fässer mit einem Schieber oder von Hand in den Einfülltrichter gegeben, wird der Tankinhalt in die Fässer umgefüllt und die Fässer können ausgangsseitig wieder entnommen werden
+- wird der Einfülltrichter auf einen Tank gesetzt und werden volle Fässer mit einem Schieber oder von Hand in den Einfülltrichter gegeben, werden diese in den Tank umgefüllt und die Fässer können ausgangsseitig wieder entnommen werden
+
+Dabei ist zu beachten, dass Fässer nur komplett gefüllt oder entleert werden können. Sind bspw. weniger als 10 Einheiten im Tank, muss dieser Rest mit Kanistern entnommen oder leergepumpt werden.
+
+[ta3_filler|image]
 
 
 ## Öl-Förderung
@@ -636,7 +643,7 @@ Die Verarbeitungsleistung ist 2 Items alle 8 s. Der Block benötigt 5 ku Strom.
 
 Das Techage Info Tool (Schraubenschlüssel) hat verschiedene Funktionen. Er zeigt die Uhrzeit, die Position, die Temperatur und das Biome an, wenn auf einen unbekannten Block geklickt wird.
 Wird auf einen TechAge Block mit Kommandoschnittstelle geklickt, werden alle verfügbaren Daten abgerufen (siehe auch "Logik-/Schalt-Blöcke").
-Bei Strom-Verteilerdosen werden die Daten aus dem Stromnetz angezeigt. Außerdem werden die benachbarten Netzwerkteilnehmer (über bis zu 4 Verteiler hinweg) mit einem blauen Käfig und einem Text angezeigt. Der Text zeigt die Position und die Anzahl der Verbindungen zu anderen Blöcken (0..6). Dies soll bei der Suche nach Kabelunterbrechungen helfen.
+Bei Strom-Verteilerdosen werden die benachbarten Netzwerkteilnehmer (bis zu 50 Meter weit) mit einem blauen Käfig angezeigt.
 
 [ta3_end_wrench|image]
 

@@ -97,7 +97,7 @@ end
 
 local net_def = {
 	ele1 = {
-		sides = {U=1, D=1}, -- Cable connection sides
+		sides = {U=1, D=1, L=1, R=1, F=1, B=1}, -- Cable connection sides
 		ntype = "con1",
 		on_power = on_power,
 		on_nopower = on_nopower,

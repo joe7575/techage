@@ -3,14 +3,10 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
-	
-	Gravel Sieve, sieving gravel to find ores
-	
-	quarry.lua
 	
 	Quarry machine to dig stones and other ground blocks.
 	
@@ -395,17 +391,26 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 minetest.register_craft({
 	output = node_name_ta2,
 	recipe = {
-		{"default:steel_ingot", "default:diamond", "default:steel_ingot"},
-		{"techage:tubeS", "basic_materials:gear_steel", "techage:tubeS"},
-		{"default:steel_ingot", "default:steel_ingot", "default:steel_ingot"},
+		{"group:wood", "default:mese_crystal", "group:wood"},
+		{"techage:tubeS", "default:pick_diamond", "techage:iron_ingot"},
+		{"group:wood", "techage:iron_ingot", "group:wood"},
 	},
 })
 
 minetest.register_craft({
 	output = node_name_ta3,
 	recipe = {
-		{"", "default:diamond", ""},
-		{"", "node_name_ta2", ""},
+		{"", "default:mese_crystal", ""},
+		{"", node_name_ta2, ""},
 		{"", "techage:vacuum_tube", ""},
+	},
+})
+
+minetest.register_craft({
+	output = node_name_ta4,
+	recipe = {
+		{"", "default:mese_crystal", ""},
+		{"", node_name_ta3, ""},
+		{"", "techage:ta4_wlanchip", ""},
 	},
 })

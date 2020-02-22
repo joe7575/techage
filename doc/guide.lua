@@ -79,10 +79,8 @@ local function formspec_help(meta)
 	default.gui_slots..
 	"item_image[9.6,0;1,1;techage:construction_board]"..
 	bttn..
-	"style_type[textarea;textcolor=#AAAAAA]"..
+	"style_type[textarea;textcolor=#FFFFFF]"..
 	"textarea[0.3,5.7;11,5.3;;"..(aText[idx] or "")..";]"..
-	--"textarea[0.3,4.7;11,5.3;;\027(c@#0000ff)Text \027(c@#00ff00)Text2;]"..
-	--"textarea[0.3,4.7;11,5.3;;"..tostring(text)..";]"..
 
 	"box[0,5.75;10.775,4.45;#000000]"..
 	"tablecolumns[tree,width=1;text,width=10,align=inline]"..

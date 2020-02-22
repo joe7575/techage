@@ -135,6 +135,10 @@ local function after_place_node(pos)
 	M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
 	Pipe:after_place_node(pos)
 	Cable:after_place_node(pos)
+	local inv = M(pos):get_inventory()
+	inv:set_size('src', 4)
+	inv:set_stack('src', 2, {name = "techage:gasoline", count = 60})
+	inv:set_stack('src', 4, {name = "techage:gasoline", count = 60})
 end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)

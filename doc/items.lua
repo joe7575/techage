@@ -86,6 +86,7 @@ techage.Items = {
 	ta3_pump = "techage:t3_pump",
 	oiltank = "techage:oiltank",
 	reboiler = "techage:ta3_reboiler",
+	ta3_filler = "techage:filler",
 	----------------------------
 	ta3_button = "techage:ta3_button_off",
 	ta3_cartdetector = "techage:ta3_cartdetector_off",
@@ -131,5 +132,6 @@ techage.Items = {
 	ta4_reactorstand = "techage:ta4_reactor_stand",
 	ta4_reactorbase = "techage:ta4_reactor_base",
 	ta4_furnaceheater = "techage:furnace_heater",
+	ta4_waterpump = "techage:t4_waterpump",
 	--ta4_ "", 
 }

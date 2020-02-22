@@ -213,6 +213,9 @@ minetest.register_node("techage:power_pole2", {
 			Cable:after_dig_tube(pos, oldnode)
 		end
 	end,
+	tubelib2_on_update2 = function(pos, dir1, tlib2, node)
+		power.update_network(pos, nil, tlib2)
+	end,
 	
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
@@ -292,6 +295,7 @@ minetest.register_node("techage:power_pole_conn", {
 	},
 	connects_to = {"techage:power_line", "techage:power_lineS", "techage:power_lineA"},
 
+	-- after_place_node -- see techage:power_pole
 	tubelib2_on_update2 = function(pos, dir1, tlib2, node)
 		power.update_network(pos, nil, tlib2)
 	end,

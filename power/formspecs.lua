@@ -62,6 +62,9 @@ function techage.power.formspec_label_bar(x, y, label, max_power, current_power,
 		local offs = 2.4 - (current_power / max_power) * 2.4
 		ypos = 0.4 + in_range(offs, 0.4, 2.4)
 	end
+	if current_power >= 100 then
+		current_power = math.floor(current_power)
+	end
 	percent = (percent + 5) / 1.1  -- texture correction
 	return "container["..x..","..y.."]"..
 		"box[0,0;2.3,3.3;#395c74]"..
