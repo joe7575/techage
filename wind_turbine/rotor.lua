@@ -110,9 +110,9 @@ end
 
 local function start_rotor(pos, nvm)
 	local npos = techage.get_pos(pos, "F")
-	local node = minetest.get_node(npos)
+	local node = techage.get_node_lvm(npos)
 	if node.name ~= "techage:ta4_wind_turbine_nacelle" then
-		M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..S("Error"))
+		M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..S("Nacelle is missing"))
 		nvm.error = true
 		return
 	end
@@ -139,7 +139,7 @@ end
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	
-	if not nvm.running then
+	if not nvm.running or nvm.error then
 		return false
 	end
 	

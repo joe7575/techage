@@ -280,13 +280,13 @@ minetest.register_craft({
 	},
 })
 
-minetest.register_lbm({
-	label = "Repair Carrier Module",
-	name = "techage:ta4_solar_carrier",
-	nodenames = {"techage:ta4_solar_carrier", "techage:ta4_solar_carrierB"},
-	run_at_every_load = true,
-	action = function(pos, node)
-		local ndef = minetest.registered_nodes[node.name]
-		ndef.after_place_node(pos)
-	end,
-})
+--minetest.register_lbm({
+--	label = "Repair Carrier Module",
+--	name = "techage:ta4_solar_carrier",
+--	nodenames = {"techage:ta4_solar_carrier", "techage:ta4_solar_carrierB"},
+--	run_at_every_load = false,
+--	action = function(pos, node)
+--		local ndef = minetest.registered_nodes[node.name]
+--		ndef.after_place_node(pos)
+--	end,
+--})

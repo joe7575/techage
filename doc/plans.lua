@@ -282,7 +282,6 @@ techage.ConstructionPlans["ta4_storagesystem"] = {
 local SOLAR = {"techage_solar_module_top.png", "techage:ta4_solar_module"}
 local RCBLE = {"techage_ta4_cable_inv.png", "techage:ta4_power_cableS"}
 local CARRI = {"techage:ta4_solar_carrier", "techage:ta4_solar_carrier"}
-local INVDC = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_inverterDC.png", "techage:ta4_solar_inverterDC"}
 local INVAC = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_inverter.png", "techage:ta4_solar_inverter"}
 
 techage.ConstructionPlans["ta4_solarplant"] = {
@@ -290,7 +289,7 @@ techage.ConstructionPlans["ta4_solarplant"] = {
 	{false, false, false, false, false, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false, false},
     {false, SOLAR, SOLAR, SOLAR},
-    {false, CARRI, CARRI, CARRI, RCBLE, RCBLE, INVDC, INVAC, Cable},
+    {false, CARRI, CARRI, CARRI, RCBLE, RCBLE, RCBLE, INVAC, Cable},
     {false, SOLAR, SOLAR, SOLAR},
 }
 

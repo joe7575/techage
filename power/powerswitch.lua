@@ -41,8 +41,11 @@ local function switch_on(pos, node, clicker, name)
 		})
 	local dir = Param2ToDir[node.param2]
 	local pos2 = tubelib2.get_pos(pos, dir)
-	M(pos2):set_int("tl2_param2", M(pos2):get_int("techage_hidden_param2"))
-	Cable:after_place_tube(pos2, clicker)
+	local node2 = techage.get_node_lvm(pos2)
+	if node2.name == "techage:powerswitch_box" then
+		M(pos2):set_int("tl2_param2", M(pos2):get_int("techage_hidden_param2"))
+		Cable:after_place_tube(pos2, clicker)
+	end
 end
 
 local function switch_off(pos, node, clicker, name)
@@ -60,9 +63,11 @@ local function switch_off(pos, node, clicker, name)
 	local dir = Param2ToDir[node.param2]
 	local pos2 = tubelib2.get_pos(pos, dir)
 	local node2 = techage.get_node_lvm(pos2)
-	node2.param2 = Cable:get_primary_node_param2(pos2)
-	M(pos2):set_int("tl2_param2", 0)
-	Cable:after_dig_tube(pos2, node2)
+	if node2.name == "techage:powerswitch_box" then
+		node2.param2 = Cable:get_primary_node_param2(pos2)
+		M(pos2):set_int("tl2_param2", 0)
+		Cable:after_dig_tube(pos2, node2)
+	end
 end
 
 

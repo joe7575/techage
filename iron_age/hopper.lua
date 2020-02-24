@@ -21,7 +21,7 @@ minetest.register_alias("techage:hopper_ta1", "minecart:hopper")
 
 minecart.register_inventory(
 	{
-		"techage:chest_ta3", "techage:chest_ta4",
+		"techage:chest_ta2", "techage:chest_ta3", "techage:chest_ta4",
 		"techage:meltingpot", "techage:meltingpot_active",
 	}, 
 	{

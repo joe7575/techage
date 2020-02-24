@@ -252,3 +252,20 @@ minetest.register_craft({
 		{"", "", ""},
 	},
 })
+
+minetest.register_lbm({
+	label = "Repair Tanks",
+	name = "techage:tank",
+	nodenames = {"techage:ta3_tank", "techage:oiltank", "techage:ta4_tank"},
+	run_at_every_load = true,
+	action = function(pos, node)
+		local mem = tubelib2.get_mem(pos)
+		if mem.liquid and mem.liquid.amount then
+			local nvm = techage.get_nvm(pos)
+			nvm.liquid = nvm.liquid or {}
+			nvm.liquid.amount = mem.liquid.amount
+			nvm.liquid.name = mem.liquid.name
+			--tubelib2.del_mem(pos)
+		end
+	end,
+})

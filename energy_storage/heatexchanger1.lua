@@ -264,9 +264,8 @@ techage.register_node({"techage:heatexchanger1"}, {
 			play_sound(pos)
 		end	
 		local mem = tubelib2.get_mem(pos)
-		local nvm = techage.get_nvm(pos)
 		nvm.capa = (nvm.capa or 0) + (mem.capa or 0)
-		tubelib2.del_mem(pos)
+		--tubelib2.del_mem(pos)
 	end,
 })
 

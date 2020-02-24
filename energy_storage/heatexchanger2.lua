@@ -30,6 +30,10 @@ end
 
 local function formspec(self, pos, nvm)
 	local capa_max, capa, needed_max, needed = he1_cmnd(pos, "state")
+	capa_max = capa_max or 0
+	capa = capa or 0
+	needed_max = needed_max or 0
+	needed = needed or 0
 	local arrow = "image[2.5,1.5;1,1;techage_form_arrow_bg.png^[transformR270]"
 	if needed > 0 then
 		arrow = "image[2.5,1.5;1,1;techage_form_arrow_fg.png^[transformR270]"

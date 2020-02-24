@@ -147,7 +147,7 @@ techage.register_node({"techage:turbine", "techage:turbine_on"}, {
 			end
 			local power = transfer_generator(pos, topic, payload)
 			if not power or power <= 0 and nvm.running then
-				swap_node(pos, "techage:cylinder")
+				swap_node(pos, "techage:turbine")
 				stop_sound(pos)
 				nvm.running = false
 				return 0

@@ -62,36 +62,6 @@ minetest.register_node("techage:powerswitch_box", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-minetest.register_node("techage:powerswitch_box_off", {
-	description = S("TA Power Switch Box"),
-	tiles = {
-		-- up, down, right, left, back, front
-		'techage_electric_switch.png^[transformR90',
-		'techage_electric_switch.png^[transformR90',
-		'techage_electric_switch.png',
-		'techage_electric_switch.png',
-		'techage_electric_junction.png',
-		'techage_electric_junction.png',
-	},
-
-	drawtype = "nodebox",
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{ -1/4, -1/4, -2/4,  1/4, 1/4, 2/4},
-		},
-	},
-	
-	paramtype = "light",
-	sunlight_propagates = true,
-	on_rotate = screwdriver.disallow, -- important!
-	paramtype2 = "facedir",
-	drop = "techage:powerswitch_box",
-	groups = {choppy=2, cracky=2, crumbly=2, techage_trowel = 1, not_in_creative_inventory = 1},
-	is_ground_content = false,
-	sounds = default.node_sound_wood_defaults(),
-})
-
 minetest.register_craft({
 	output = "techage:powerswitch_box",
 	recipe = {

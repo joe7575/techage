@@ -152,19 +152,23 @@ local function repair(itemstack, user, pointed_thing)
 			end
 			
 			if netw and netw.ele1 and netw.ele1.ntype == "junc" then
-				ndef.after_place_node(pos)
-				ndef.tubelib2_on_update2(pos, 0, Cable1)
-				minetest.chat_send_player(user:get_player_name(), ndef.description.." "..S("repaired"))
-				itemstack:add_wear(65636/200)
-				return itemstack
+				if ndef.after_place_node and ndef.tubelib2_on_update2 then
+					ndef.after_place_node(pos)
+					ndef.tubelib2_on_update2(pos, 0, Cable1)
+					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..S("repaired"))
+					itemstack:add_wear(65636/200)
+					return itemstack
+				end
 			end
 		
 			if netw and netw.ele2 and netw.ele2.ntype == "junc" then
-				ndef.after_place_node(pos)
-				ndef.tubelib2_on_update2(pos, 0, Cable2)
-				minetest.chat_send_player(user:get_player_name(), ndef.description.." "..S("repaired"))
-				itemstack:add_wear(65636/200)
-				return itemstack
+				if ndef.after_place_node and ndef.tubelib2_on_update2 then
+					ndef.after_place_node(pos)
+					ndef.tubelib2_on_update2(pos, 0, Cable2)
+					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..S("repaired"))
+					itemstack:add_wear(65636/200)
+					return itemstack
+				end
 			end
 		end
 	end
@@ -202,7 +206,7 @@ local function read_state(itemstack, user, pointed_thing)
 		local node = minetest.get_node(pos)
 		local ndef = minetest.registered_nodes[node.name]
 		
-		if ndef.networks then
+		if ndef and ndef.networks then
 			local player_name = user:get_player_name()
 			if ndef.networks.ele1 then
 				network_check(pos, Cable1, player_name)

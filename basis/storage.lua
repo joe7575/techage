@@ -18,7 +18,7 @@ local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 
 -- Node data will be stored every NUM_SLOTS * CYCLE_TIME seconds
 local NUM_SLOTS = 50
-local CYCLE_TIME = 30
+local CYCLE_TIME = 60
 local NvmStore = {}
 local MemStore = {}
 local NumNodes = 0
@@ -99,7 +99,9 @@ local function cyclic_task()
 	StoredNodes = 0
 	local deleted = nvm_storage()
 	t = minetest.get_us_time() - t
-	print("[TA NVM Storage] duration="..t.."us, total="..NumNodes..", stored="..StoredNodes..", deleted="..deleted)
+	if StoredNodes > 0 then
+		minetest.log("action", "[TA NVM Storage] duration="..t.."us, total="..NumNodes..", stored="..StoredNodes..", deleted="..deleted)
+	end
 	minetest.after(CYCLE_TIME, cyclic_task)
 end
 

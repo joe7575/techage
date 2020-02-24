@@ -26,7 +26,7 @@ local EFFICIENCY = 2 -- burn cycles
 local CATEGORY = 3
 
 local function has_fuel(pos, nvm)
-	return nvm.burn_cycles > 0 or (nvm.liquid and nvm.liquid.amount and nvm.liquid.amount > 0)
+	return (nvm.burn_cycles or 0) > 0 or (nvm.liquid and nvm.liquid.amount and nvm.liquid.amount > 0)
 end
 
 local function stop_firebox(pos, nvm)

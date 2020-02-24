@@ -120,7 +120,6 @@ local function empty_container(pos, inv, full_container)
 	local ndef_lqd = LQD(pos)
 	local tank_size = (ndef_lqd and ndef_lqd.capa) or 0
 	local ldef = get_liquid_def(full_container)
-	--print("ldef", dump(ldef), "tank_size", tank_size)
 	if ldef and (not nvm.liquid.name or ldef.inv_item == nvm.liquid.name) then
 		if nvm.liquid.amount + ldef.size <= tank_size then 
 			if inv:room_for_item("dst", {name = ldef.container}) then
@@ -177,14 +176,16 @@ local function fill_on_punch(nvm, empty_container, item_count, puncher)
 	end
 end
 
+
+
 -- check of the wielded full container can be emptied into the tank
 local function empty_on_punch(pos, nvm, full_container, item_count)
 	nvm.liquid = nvm.liquid or {}
 	nvm.liquid.amount = nvm.liquid.amount or 0
 	local lqd_def
 	-- handle legacy items
-	if full_container == "techage:hydrogen" or full_container == "techage:oil_source" then
-		lqd_def = {inv_item = full_container, size = item_count, container = ""}
+	if IsLiquid[full_container] then
+		lqd_def = {inv_item = full_container, size = (item_count or 1), container = ""}
 	else
 		lqd_def = get_liquid_def(full_container)
 	end
@@ -219,12 +220,6 @@ function techage.liquid.on_punch(pos, node, puncher, pointed_thing)
 		mem.blocking_time = techage.SystemTime + BLOCKING_TIME
 		return
 	end
-end
-
-function techage.register_liquid(full_container, empty_container, container_size, inv_item)
-	LiquidDef[full_container] = {container = empty_container, size = container_size, inv_item = inv_item}
-	ContainerDef[empty_container] = ContainerDef[empty_container] or {}
-	ContainerDef[empty_container][inv_item] = full_container
 end
 
 techage.liquid.get_liquid_def = get_liquid_def

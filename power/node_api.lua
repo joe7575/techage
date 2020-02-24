@@ -86,6 +86,7 @@ local function trigger_network(pos, outdir, Cable)
 		networks.build_network(pos, outdir, Cable, netID)
 	elseif not networks.get_network(Cable.tube_type, netID) then
 		print("build_network !!!!!!!!!!!!!!!!!!!!")
+		delete_netID(pos, outdir, Cable)
 		networks.build_network(pos, outdir, Cable, netID)
 	end
 end

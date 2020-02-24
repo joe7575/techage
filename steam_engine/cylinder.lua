@@ -38,7 +38,7 @@ local function play_sound(pos)
 		mem.handle = minetest.sound_play("techage_steamengine", {
 			pos = pos, 
 			gain = 0.5,
-			max_hear_distance = 10,
+			max_hear_distance = 8,
 			loop = true})
 		if mem.handle == -1 then
 			minetest.after(1, play_sound, pos)

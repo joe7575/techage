@@ -52,10 +52,11 @@ end
 minetest.register_globalstep(function(dtime)
 	techage.SystemTime = techage.SystemTime + dtime
 	local item = pop()
+	local t = minetest.get_us_time()
 	while item do
 		local network = networks.peek_network(item.tube_type, item.netID)
 		if network and network.alive and network.alive >= 0 then
-			power.power_distribution(network, item.tube_type)
+			power.power_distribution(network, item.tube_type, item.netID)
 			network.alive = network.alive - 1
 			push(item)
 		else
@@ -63,6 +64,10 @@ minetest.register_globalstep(function(dtime)
 			networks.delete_network(item.tube_type, item.netID)
 		end
 		item = pop()
+	end
+	t = minetest.get_us_time() - t
+	if t > 10000 then
+		minetest.log("action", "[TA Schedule] duration="..t.."us")
 	end
 end)
 

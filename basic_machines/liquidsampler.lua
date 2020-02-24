@@ -66,9 +66,17 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return stack:get_count()
 end
 
+local function is_water(pos)
+	local node = minetest.get_node(pos)
+	local liquiddef = bucket.liquids[node.name]
+	if liquiddef ~= nil	and liquiddef.itemname ~= nil and node.name == liquiddef.source then
+		return true
+	end
+end
+
 local function can_start(pos, nvm, state)
 	local water_pos = minetest.string_to_pos(M(pos):get_string("water_pos"))
-	if not techage.is_ocean(water_pos) then
+	if not is_water(water_pos) then
 		return S("no usable water")
 	end
 	return true

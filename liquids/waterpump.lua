@@ -189,8 +189,8 @@ minetest.register_craft({
 	output = "techage:t4_waterpump",
 	recipe = {
 		{"", "default:mese_crystal", ""},
-		{"", "default:mese_crystal", ""},
-		{"", "techage:vacuum_tube", ""},
+		{"", "techage:ta3_liquidsampler_pas", ""},
+		{"", "techage:ta4_wlanchip", ""},
 	},
 })
 
