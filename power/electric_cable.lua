@@ -38,7 +38,7 @@ local Cable = tubelib2.Tube:new({
 			M(pos):set_int("tl2_param2", param2)
 			return
 		elseif name == "techage:powerswitch_box" then
-			minetest.swap_node(pos, {name = "techage:powerswitch_box", param2 = param2})
+			minetest.swap_node(pos, {name = "techage:powerswitch_box", param2 = param2 % 32})
 			M(pos):set_int("tl2_param2", param2)
 			return
 		elseif name == "techage:power_line" or name == "techage:power_lineS" or name == "techage:power_lineA" then

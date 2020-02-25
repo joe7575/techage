@@ -57,3 +57,11 @@ techage.register_junction("techage:electric_junction", 2/8, Boxes, Cable, {
 	},
 })
 
+minetest.register_craft({
+	output = "techage:electric_junction0 2",
+	recipe = {
+		{"", "basic_materials:plastic_sheet", ""},
+		{"basic_materials:plastic_sheet", "default:copper_ingot", "basic_materials:plastic_sheet"},
+		{"", "basic_materials:plastic_sheet", ""},
+	},
+})

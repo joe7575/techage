@@ -28,6 +28,11 @@ local Param2ToDir = {
 	[5] = 3,
 }
 
+local function is_switchbox(pos)
+	return techage.get_node_lvm(pos).name == "techage:powerswitch_box" or 
+			M(pos):get_string("techage_hidden_nodename") == "techage:powerswitch_box"
+end
+
 local function switch_on(pos, node, clicker, name)
 	if clicker and minetest.is_protected(pos, clicker:get_player_name()) then
 		return
@@ -41,9 +46,13 @@ local function switch_on(pos, node, clicker, name)
 		})
 	local dir = Param2ToDir[node.param2]
 	local pos2 = tubelib2.get_pos(pos, dir)
-	local node2 = techage.get_node_lvm(pos2)
-	if node2.name == "techage:powerswitch_box" then
-		M(pos2):set_int("tl2_param2", M(pos2):get_int("techage_hidden_param2"))
+	
+	if is_switchbox(pos2) then
+		if M(pos2):get_int("tl2_param2_copy") == 0 then
+			M(pos2):set_int("tl2_param2", techage.get_node_lvm(pos2).param2)
+		else
+			M(pos2):set_int("tl2_param2", M(pos2):get_int("tl2_param2_copy"))
+		end
 		Cable:after_place_tube(pos2, clicker)
 	end
 end
@@ -62,9 +71,11 @@ local function switch_off(pos, node, clicker, name)
 		})
 	local dir = Param2ToDir[node.param2]
 	local pos2 = tubelib2.get_pos(pos, dir)
-	local node2 = techage.get_node_lvm(pos2)
-	if node2.name == "techage:powerswitch_box" then
-		node2.param2 = Cable:get_primary_node_param2(pos2)
+	
+	if is_switchbox(pos2) then
+		local node2 = techage.get_node_lvm(pos2)
+		node2.param2 = M(pos2):get_int("tl2_param2")
+		M(pos2):set_int("tl2_param2_copy", M(pos2):get_int("tl2_param2"))
 		M(pos2):set_int("tl2_param2", 0)
 		Cable:after_dig_tube(pos2, node2)
 	end
@@ -93,6 +104,8 @@ minetest.register_node("techage:powerswitch", {
 		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("infotext", S("TA Power Switch").." "..number)
+		local node = minetest.get_node(pos)
+		switch_on(pos, node, placer, "techage:powerswitch_on")
 	end,
 
 	on_rightclick = function(pos, node, clicker)
@@ -161,6 +174,8 @@ minetest.register_node("techage:powerswitchsmall", {
 		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("infotext", S("TA Power Switch Small").." "..number)
+		local node = minetest.get_node(pos)
+		switch_on(pos, node, placer, "techage:powerswitchsmall_on")
 	end,
 
 	on_rightclick = function(pos, node, clicker)
