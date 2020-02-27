@@ -222,6 +222,13 @@ function techage.liquid.on_punch(pos, node, puncher, pointed_thing)
 	end
 end
 
+function techage.liquid.get_liquid_amount(nvm)
+	if nvm.liquid and nvm.liquid.amount then
+		return nvm.liquid.amount
+	end
+	return 0
+end
+
 techage.liquid.get_liquid_def = get_liquid_def
 techage.liquid.get_container_def = get_container_def
 techage.liquid.is_container_empty = is_container_empty

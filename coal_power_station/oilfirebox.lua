@@ -170,13 +170,9 @@ techage.register_node({"techage:oilfirebox"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		if topic == "state" then
-			if nvm.running then
-				return "running"
-			else
-				return "stopped"
-			end
+			return nvm.running and "running" or "stopped"
 		elseif topic == "fuel" then
-			return nvm.liquid and nvm.liquid.amount and nvm.liquid.amount
+			return techage.fuel.get_fuel_amount(nvm)
 		else
 			return "unsupported"
 		end
@@ -190,18 +186,6 @@ minetest.register_craft({
 		{'', 'techage:ta3_barrel_empty', ''},
 		{'', '', ''},
 	},
-})
-
-minetest.register_lbm({
-	label = "[techage] Power Station firebox",
-	name = "techage:steam_engine",
-	nodenames = {"techage:oilfirebox"},
-	run_at_every_load = true,
-	action = function(pos, node)
-		local nvm = techage.get_nvm(pos)
-		nvm.running = true
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-	end
 })
 
 

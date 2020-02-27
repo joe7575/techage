@@ -166,7 +166,6 @@ techage.register_node({"techage:turbine", "techage:turbine_on"}, {
 		end
 	end,
 	on_node_load = function(pos, node)
-		--print("on_node_load", node.name)
 		if node.name == "techage:turbine_on" then
 			play_sound(pos)
 		end	

@@ -238,15 +238,7 @@ local tubing = {
 		end
 	end,
 	on_recv_message = function(pos, src, topic, payload)
-		local resp = CRD(pos).State:on_receive_message(pos, topic, payload)
-		if resp then
-			return resp
-		else
-			return "unsupported"
-		end
-	end,
-	on_node_load = function(pos)
-		CRD(pos).State:on_node_load(pos)
+		return CRD(pos).State:on_receive_message(pos, topic, payload)
 	end,
 }
 
@@ -290,7 +282,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		num_items = {0,1,1,1},
 		power_consumption = {0,3,3,3},
 	},
-	{false, true, true, false})  -- TA2/A3
+	{false, true, true, false})  -- TA2/TA3
 
 minetest.register_craft({
 	output = node_name_ta2,

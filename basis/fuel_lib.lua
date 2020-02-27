@@ -145,3 +145,10 @@ function techage.fuel.has_fuel(nvm)
 	nvm.liquid.amount = nvm.liquid.amount or 0
 	return nvm.liquid.amount > 0
 end
+
+function techage.fuel.get_fuel_amount(nvm)
+	if nvm.liquid and nvm.liquid.amount then
+		return nvm.liquid.amount
+	end
+	return 0
+end

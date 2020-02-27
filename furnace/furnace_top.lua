@@ -234,15 +234,7 @@ local tubing = {
 		end
 	end,
 	on_recv_message = function(pos, src, topic, payload)
-		local resp = CRD(pos).State:on_receive_message(pos, topic, payload)
-		if resp then
-			return resp
-		else
-			return "unsupported"
-		end
-	end,
-	on_node_load = function(pos)
-		CRD(pos).State:on_node_load(pos)
+		return CRD(pos).State:on_receive_message(pos, topic, payload)
 	end,
 }
 

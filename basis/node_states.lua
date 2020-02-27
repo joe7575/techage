@@ -446,23 +446,15 @@ function NodeStates:on_receive_message(pos, topic, payload)
 		self:stop(pos, techage.get_nvm(pos))
 		return true
 	elseif topic == "state" then
-		local node = techage.get_node_lvm(pos)
+		local node = minetest.get_node(pos)
 		if node.name == "ignore" then  -- unloaded node?
 			return "unloaded"
 		end
 		return techage.get_state_string(techage.get_nvm(pos))
-	elseif topic == "counter" then
-		return nvm.techage_item_meter or 1
-	elseif topic == "clear_counter" then
-		nvm.techage_item_meter = 0
-		return true
 	elseif topic == "fuel" then
-		local inv = M(pos):get_inventory()
-		if inv:get_size("fuel") == 1 then
-			local stack = inv:get_stack("fuel", 1)
-			return stack:get_count()
-		end
-		return
+		return techage.fuel.get_fuel_amount(nvm)
+	elseif topic == "load" then
+		return techage.liquid.get_liquid_amount(nvm)
 	else
 		return "unsupported"
 	end

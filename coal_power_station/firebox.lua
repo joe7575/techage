@@ -207,15 +207,9 @@ techage.register_node({"techage:coalfirebox"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		if topic == "state" then
-			if nvm.running then
-				return "running"
-			else
-				return "stopped"
-			end
+			return nvm.running and "running" or "stopped"
 		elseif topic == "fuel" then
-			local inv = M(pos):get_inventory()
-			local stack = inv:get_stack("fuel", 1)
-			return stack:get_count()
+			return techage.fuel.get_fuel_amount(nvm)
 		else
 			return "unsupported"
 		end
@@ -230,17 +224,3 @@ minetest.register_craft({
 		{'default:stone', 'default:stone', 'default:stone'},
 	},
 })
-
-minetest.register_lbm({
-	label = "[techage] Power Station firebox",
-	name = "techage:coalfirebox",
-	nodenames = {"techage:coalfirebox"},
-	run_at_every_load = true,
-	action = function(pos, node)
-		local nvm = techage.get_nvm(pos)
-		nvm.running = true
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-	end
-})
-
-

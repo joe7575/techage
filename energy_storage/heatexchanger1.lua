@@ -32,6 +32,8 @@ local Pipe = techage.LiquidPipe
 local power = techage.power
 local in_range = techage.in_range
 
+local INFO = [[- Command 'load' returns the storage load in percent]]
+
 local function swap_node(pos, name)
 	local node = techage.get_node_lvm(pos)
 	if node.name == name then
@@ -115,6 +117,9 @@ local function after_place_node(pos, placer, itemstack)
 	local nvm = techage.get_nvm(pos)
 	nvm.capa = 0
 	M(pos):set_string("owner", placer:get_player_name())
+	local number = techage.add_node(pos, "techage:heatexchanger1")
+	M(pos):set_string("node_number", number)
+	M(pos):set_string("infotext", S("TA4 Heat Exchanger 1").." "..number)
 	Cable:after_place_node(pos)
 	Pipe:after_place_node(pos)
 end
@@ -250,10 +255,24 @@ techage.register_node({"techage:heatexchanger1"}, {
 	end,
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		if topic == "load" then
+		if topic == "state" then
+			if nvm.charging then
+				return "running"
+			elseif nvm.running then
+				return "standby"
+			else
+				return "stopped"
+			end
+		elseif topic == "load" then
 			return techage.power.percent(nvm.capa_max, nvm.capa)
-		elseif topic == "size" then
-			return (nvm.capa_max or 0) / GRVL_CAPA
+		elseif topic == "on" then
+			start_node(pos, techage.get_nvm(pos))
+			return true
+		elseif topic == "off" then
+			stop_node(pos, techage.get_nvm(pos))
+			return true
+		elseif topic == "info" then
+			return INFO
 		else
 			return "unsupported"
 		end

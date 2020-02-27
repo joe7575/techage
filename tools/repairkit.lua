@@ -234,20 +234,10 @@ local function read_state(itemstack, user, pointed_thing)
 					fuel = dump(fuel)
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": fuel = "..fuel.."    ")
 				end
-				local counter = techage.send_single("0", number, "counter", nil)
-				if counter and counter ~= "" and counter ~= "unsupported" then
-					counter = dump(counter)
-					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": counter = "..counter.."    ")
-				end
 				local load = techage.send_single("0", number, "load", nil)
 				if load and load ~= "" and load ~= "unsupported" then
 					load = dump(load)
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": load = "..load.." %    ")
-				end
-				local size = techage.send_single("0", number, "size", nil)
-				if size and size ~= "" and size ~= "unsupported" then
-					size = dump(size)
-					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": size = "..size.." units    ")
 				end
 				local owner = M(pos):get_string("owner") or ""
 				if owner ~= "" then

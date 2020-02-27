@@ -215,13 +215,9 @@ techage.register_node({"techage:furnace_firebox", "techage:furnace_firebox_on"},
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		if topic == "state" then
-			if nvm.running then
-				return "running"
-			else
-				return "stopped"
-			end
+			return nvm.running and "running" or "stopped"
 		elseif topic == "fuel" then
-			return nvm.liquid and nvm.liquid.amount and nvm.liquid.amount
+			return techage.fuel.get_fuel_amount(nvm)
 		else
 			return "unsupported"
 		end
@@ -244,15 +240,3 @@ techage.register_node({"techage:furnace_firebox", "techage:furnace_firebox_on"},
 })	
 
 Pipe:add_secondary_node_names({"techage:furnace_firebox", "techage:furnace_firebox_on"})
-
-
-minetest.register_lbm({
-	label = "[techage] Furnace firebox",
-	name = "techage:furnace",
-	nodenames = {"techage:furnace_firebox_on"},
-	run_at_every_load = true,
-	action = function(pos, node)
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-	end
-})
-

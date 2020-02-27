@@ -26,8 +26,7 @@ local COUNTDOWN_TICKS = 10
 local STANDBY_TICKS = 10
 local CYCLE_TIME = 4
 
-local INFO = [[- Turn port on/off: command = "port", payload = "red/green/blue/yellow=on/off"
-- Clear counter: command = "clear_counter"]]
+local INFO = [[Turn port on/off: command = 'port', payload = red/green/blue/yellow=on/off]]
 
 
 --local Side2Color = {B="red", L="green", F="blue", R="yellow"}
@@ -441,12 +440,7 @@ local tubing = {
 			local slot, val = techage.ident_value(payload)
 			return change_filter_settings(pos, slot, val)
 		else		
-			local resp = CRD(pos).State:on_receive_message(pos, topic, payload)
-			if resp then
-				return resp
-			else
-				return "unsupported"
-			end
+			return CRD(pos).State:on_receive_message(pos, topic, payload)
 		end
 	end,
 	
