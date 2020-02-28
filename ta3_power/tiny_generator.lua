@@ -283,8 +283,10 @@ Cable:add_secondary_node_names({"techage:tiny_generator", "techage:tiny_generato
 techage.register_node({"techage:tiny_generator", "techage:tiny_generator_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		if topic == "load" then
-			return power.percent(PWR_CAPA, nvm.provided)
+		if topic == "power" then
+			return nvm.provided or 0
+		elseif topic == "fuel" then
+			return techage.fuel.get_fuel_amount(nvm)
 		else
 			return State:on_receive_message(pos, topic, payload)
 		end

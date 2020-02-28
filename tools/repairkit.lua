@@ -178,13 +178,16 @@ end
 local function network_check(start_pos, Cable, player_name)
 	local ndef = techage.networks.net_def(start_pos, Cable.tube_type)
 	local outdir = nil
+	local num = 0
 	if ndef and ndef.ntype ~= "junc" then
 		outdir = M(start_pos):get_int("outdir")
 	end
 	networks.connection_walk(start_pos, outdir, Cable, function(pos, indir, node)
 		local distance = vector.distance(start_pos, pos)
-		if distance < 50 then
-			techage.mark_position(player_name, pos, "check", "#ff0000", 6)
+		num = num + 1
+		if distance < 50 and num < 100 then
+			local state = techage.power.power_available(pos, Cable) and "power" or "no power"
+			techage.mark_position(player_name, pos, state, "#ff0000", 6)
 		end
 	end)
 end	
@@ -238,6 +241,11 @@ local function read_state(itemstack, user, pointed_thing)
 				if load and load ~= "" and load ~= "unsupported" then
 					load = dump(load)
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": load = "..load.." %    ")
+				end
+				local power = techage.send_single("0", number, "power", nil)
+				if power and power ~= "" and power ~= "unsupported" then
+					power = dump(power)
+					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": power = "..power.." ku    ")
 				end
 				local owner = M(pos):get_string("owner") or ""
 				if owner ~= "" then

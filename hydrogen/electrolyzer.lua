@@ -280,7 +280,18 @@ minetest.register_node("techage:ta4_electrolyzer_on", {
 
 Cable:add_secondary_node_names({"techage:ta4_electrolyzer", "techage:ta4_electrolyzer_on"})
 Pipe:add_secondary_node_names({"techage:ta4_electrolyzer", "techage:ta4_electrolyzer_on"})
-techage.register_node({"techage:ta4_electrolyzer", "techage:ta4_electrolyzer_on"}, liquid.recv_message)	
+techage.register_node({"techage:ta4_electrolyzer", "techage:ta4_electrolyzer_on"}, {
+	on_recv_message = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == "load" then
+			return techage.power.percent(CAPACITY, (nvm.liquid and nvm.liquid.amount) or 0)
+		elseif topic == "power" then
+			return math.floor((nvm.taken or 0) + 0.5)
+		else
+			return State:on_receive_message(pos, topic, payload)
+		end
+	end,
+})	
 
 minetest.register_craft({
 	output = "techage:ta4_electrolyzer",

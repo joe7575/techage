@@ -32,8 +32,6 @@ local Pipe = techage.LiquidPipe
 local power = techage.power
 local in_range = techage.in_range
 
-local INFO = [[- Command 'load' returns the storage load in percent]]
-
 local function swap_node(pos, name)
 	local node = techage.get_node_lvm(pos)
 	if node.name == name then
@@ -263,6 +261,8 @@ techage.register_node({"techage:heatexchanger1"}, {
 			else
 				return "stopped"
 			end
+		elseif topic == "power" then
+			return math.max(nvm.needed or 0, 0)
 		elseif topic == "load" then
 			return techage.power.percent(nvm.capa_max, nvm.capa)
 		elseif topic == "on" then
@@ -271,8 +271,6 @@ techage.register_node({"techage:heatexchanger1"}, {
 		elseif topic == "off" then
 			stop_node(pos, techage.get_nvm(pos))
 			return true
-		elseif topic == "info" then
-			return INFO
 		else
 			return "unsupported"
 		end

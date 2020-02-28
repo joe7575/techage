@@ -173,12 +173,7 @@ tiles.act = {
 	
 local tubing = {
 	on_recv_message = function(pos, src, topic, payload)
-		local resp = CRD(pos).State:on_receive_message(pos, topic, payload)
-		if resp then
-			return resp
-		else
-			return "unsupported"
-		end
+		return CRD(pos).State:on_receive_message(pos, topic, payload)
 	end,
 	on_node_load = function(pos, node)
 		CRD(pos).State:on_node_load(pos)

@@ -287,29 +287,13 @@ minetest.register_node("techage:t4_pump_on", {
 
 techage.register_node({"techage:t3_pump", "techage:t3_pump_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		local resp = State3:on_receive_message(pos, topic, payload)
-		if resp then
-			return resp
-		else
-			return "unsupported"
-		end
-	end,
-	on_node_load = function(pos)
-		State3:on_node_load(pos)
+		return State3:on_receive_message(pos, topic, payload)
 	end,
 })
 
 techage.register_node({"techage:t4_pump", "techage:t4_pump_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		local resp = State4:on_receive_message(pos, topic, payload)
-		if resp then
-			return resp
-		else
-			return "unsupported"
-		end
-	end,
-	on_node_load = function(pos)
-		State4:on_node_load(pos)
+		return State4:on_receive_message(pos, topic, payload)
 	end,
 })
 

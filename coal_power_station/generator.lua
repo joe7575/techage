@@ -25,8 +25,6 @@ local Cable = techage.ElectricCable
 local power = techage.power
 local networks = techage.networks
 
-local INFO = [[Command 'load' returns the current provided power in ku]]
-
 local function formspec(self, pos, nvm)
 	return "size[4,4]"..
 		"box[0,-0.1;3.8,0.5;#c6e8ff]"..
@@ -224,9 +222,7 @@ techage.register_node({"techage:generator", "techage:generator_on"}, {
 	end,
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		if topic == "info" then
-			return INFO
-		elseif topic == "load" then
+		if topic == "power" then
 			return math.floor((nvm.provided or 0) + 0.5)
 		else
 			return State:on_receive_message(pos, topic, payload)

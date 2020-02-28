@@ -205,8 +205,8 @@ techage.register_node({"techage:ta3_akku"}, {
 		local nvm = techage.get_nvm(pos)
 		if topic == "load" then
 			return techage.power.percent(PWR_CAPA, nvm.capa)
-		elseif topic == "size" then
-			return PWR_CAPA
+		elseif topic == "power" then
+			return nvm.needed or 0
 		else
 			return State:on_receive_message(pos, topic, payload)
 		end

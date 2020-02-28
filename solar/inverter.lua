@@ -195,48 +195,17 @@ minetest.register_node("techage:ta4_solar_inverter", {
 	}
 })
 
---minetest.register_node("techage:ta4_solar_inverterDC", {
---	description = S("TA4 Solar Inverter DC"),
---	tiles = {
---		-- up, down, right, left, back, front
---		"techage_filling_ta4.png^techage_frame_ta4_top.png",
---		"techage_filling_ta4.png^techage_frame_ta4.png",
---		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_open.png",
---		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_ta4_cable.png",
---		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_inverterDC.png",
---		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_inverterDC.png",
---	},
-	
---	after_place_node = function(pos)
---		Solar:after_place_node(pos)
---	end,
-	
---	after_dig_node = function(pos, oldnode)
---		Solar:after_dig_node(pos)
---	end,
-	
---	tubelib2_on_update2 = tubelib2_on_update2,
---	paramtype2 = "facedir",
---	groups = {cracky=2, crumbly=2, choppy=2},
---	on_rotate = screwdriver.disallow,
---	is_ground_content = false,
---	networks = {
---		ele2 = {
---			sides = {L = 1},
---			ntype = "con1",
---		},
---	}
---})
-
 Cable:add_secondary_node_names({"techage:ta4_solar_inverter"})
 Solar:add_secondary_node_names({"techage:ta4_solar_inverter"})
 
 techage.register_node({"techage:ta4_solar_inverter"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		return State:on_receive_message(pos, topic, payload)
-	end,
-	on_node_load = function(pos)
-		State:on_node_load(pos)
+		local nvm = techage.get_nvm(pos)
+		if topic == "power" then
+			return math.floor((nvm.delivered or 0) + 0.5)
+		else
+			return State:on_receive_message(pos, topic, payload)
+		end
 	end,
 })	
 
