@@ -209,6 +209,19 @@ else
 	dofile(MP.."/hydrogen/electrolyzer.lua")
 	dofile(MP.."/hydrogen/fuelcell.lua")
 
+	-- ICTA Controller
+	dofile(MP.."/icta_controller/submenu.lua")
+	dofile(MP.."/icta_controller/condition.lua")
+	dofile(MP.."/icta_controller/action.lua")
+	dofile(MP.."/icta_controller/formspec.lua")
+	dofile(MP.."/icta_controller/controller.lua")
+	dofile(MP.."/icta_controller/commands.lua")
+	dofile(MP.."/icta_controller/edit.lua")
+	dofile(MP.."/icta_controller/battery.lua")
+	--dofile(MP.."/icta_controller/stopwatch.lua")
+	dofile(MP.."/icta_controller/display.lua")
+	dofile(MP.."/icta_controller/signaltower.lua")
+	
 	-- Items
 	dofile(MP.."/items/barrel.lua")
 	dofile(MP.."/items/baborium.lua")
@@ -224,6 +237,7 @@ else
 	dofile(MP.."/items/aluminium.lua")
 	dofile(MP.."/items/plastic.lua")
 	dofile(MP.."/items/hydrogen.lua")
+	dofile(MP.."/items/electronic.lua")
 	
 	if techage.basalt_stone_enabled then
 		dofile(MP.."/items/basalt.lua")

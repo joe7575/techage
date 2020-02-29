@@ -339,6 +339,7 @@ function techage.check_numbers(numbers, placer_name)
 end	
 
 function techage.send_multi(src, numbers, topic, payload)
+	--print("send_multi", src, numbers, topic)
 	for _,num in ipairs(string_split(numbers, " ")) do
 		if Number2Pos[num] and Number2Pos[num].name then
 			local data = Number2Pos[num]
@@ -350,6 +351,7 @@ function techage.send_multi(src, numbers, topic, payload)
 end		
 
 function techage.send_single(src, number, topic, payload)
+	--print("send_single", src, number, topic)
 	if Number2Pos[number] and Number2Pos[number].name then
 		local data = Number2Pos[number]
 		if data.pos and NodeDef[data.name] and NodeDef[data.name].on_recv_message then

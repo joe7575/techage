@@ -24,7 +24,8 @@ local CYCLE_TIME = 6
 
 local recipes = techage.recipes
 
-local RecipeType = {	[2] = "ta2_electronic_fab",
+local RecipeType = {
+	[2] = "ta2_electronic_fab",
 	[3]	= "ta3_electronic_fab",
 	[4] = "ta4_electronic_fab",
 }
@@ -239,22 +240,6 @@ minetest.register_craft({
 	},
 })
 
-minetest.register_craftitem("techage:vacuum_tube", {
-	description = S("TA3 Vacuum Tube"),
-	inventory_image = "techage_vacuum_tube.png",
-})
-
-minetest.register_craftitem("techage:ta4_wlanchip", {
-	description = S("TA4 WLAN Chip"),
-	inventory_image = "techage_wlanchip.png",
-})
-
-minetest.register_craftitem("techage:wlanchip", {
-	description = S("WLAN Chip"),
-	inventory_image = "techage_wlanchip.png",
-})
-
-
 if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("ta2_electronic_fab", {
 		description = S("TA2 Ele Fab"),
@@ -270,18 +255,3 @@ if minetest.global_exists("unified_inventory") then
 	})
 end
 
-
-recipes.add("ta2_electronic_fab", {
-	output = "techage:vacuum_tube 2",
-	input = {"default:glass 1", "basic_materials:copper_wire 1", "basic_materials:plastic_sheet 1", "techage:usmium_nuggets 1"}
-})
-
-recipes.add("ta3_electronic_fab", {
-	output = "techage:vacuum_tube 2",
-	input = {"default:glass 1", "basic_materials:copper_wire 1", "basic_materials:plastic_sheet 1", "techage:usmium_nuggets 1"}
-})
-
-recipes.add("ta3_electronic_fab", {
-	output = "techage:ta4_wlanchip 8",
-	input = {"default:mese_crystal 1", "default:copper_ingot 1", "default:gold_ingot 1", "techage:ta4_silicon_wafer 1"}
-})

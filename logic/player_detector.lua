@@ -188,7 +188,7 @@ minetest.register_craft({
 })
 
 techage.register_node({"techage:ta3_playerdetector_off", "techage:ta3_playerdetector_on"}, {
-	on_recv_message = function(pos, topic, payload)
+	on_recv_message = function(pos, src, topic, payload)
 		if topic == "name" then
 			local nvm = techage.get_nvm(pos)
 			return nvm.player_name or ""
