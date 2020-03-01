@@ -219,6 +219,7 @@ else
 	dofile(MP.."/icta_controller/edit.lua")
 	dofile(MP.."/icta_controller/battery.lua")
 	--dofile(MP.."/icta_controller/stopwatch.lua")
+	--dofile(MP.."/icta_controller/expression.lua")
 	dofile(MP.."/icta_controller/display.lua")
 	dofile(MP.."/icta_controller/signaltower.lua")
 	

@@ -16,18 +16,18 @@
 local function switch_on(pos, node, color)
 	local meta = minetest.get_meta(pos)
 	meta:set_string("state", color)
-	node.name = "techage:signaltower_"..color
+	node.name = "techage:ta4_signaltower_"..color
 	minetest.swap_node(pos, node)
 end	
 
 local function switch_off(pos, node)
 	local meta = minetest.get_meta(pos)
 	meta:set_string("state", "off")
-	node.name = "techage:signaltower"
+	node.name = "techage:ta4_signaltower"
 	minetest.swap_node(pos, node)
 end	
 
-minetest.register_node("techage:signaltower", {
+minetest.register_node("techage:ta4_signaltower", {
 	description = "TA4 Signal Tower",
 	tiles = {
 		'techage_signaltower_top.png',
@@ -44,7 +44,7 @@ minetest.register_node("techage:signaltower", {
 	},
 	
 	after_place_node = function(pos, placer)
-		local number = techage.add_node(pos, "techage:signaltower")
+		local number = techage.add_node(pos, "techage:ta4_signaltower")
 		local meta = minetest.get_meta(pos)
 		meta:set_string("state", "off")
 		meta:set_string("infotext", "TA4 Signal Tower "..number)
@@ -70,7 +70,7 @@ minetest.register_node("techage:signaltower", {
 })
 
 for _,color in ipairs({"green", "amber", "red"}) do
-	minetest.register_node("techage:signaltower_"..color, {
+	minetest.register_node("techage:ta4_signaltower_"..color, {
 		description = "TA4 Signal Tower",
 		tiles = {
 			'techage_signaltower_top.png',
@@ -98,12 +98,12 @@ for _,color in ipairs({"green", "amber", "red"}) do
 		groups = {crumbly=0, not_in_creative_inventory=1},
 		is_ground_content = false,
 		sounds = default.node_sound_glass_defaults(),
-		drop = "techage:signaltower",
+		drop = "techage:ta4_signaltower",
 	})
 end
 
 minetest.register_craft({
-	output = "techage:signaltower",
+	output = "techage:ta4_signaltower",
 	recipe = {
 		{"dye:red",    "default:copper_ingot", ""},
 		{"dye:orange", "default:glass", ""},
@@ -111,10 +111,10 @@ minetest.register_craft({
 	},
 })
 
-techage.register_node({"techage:signaltower", 
-	"techage:signaltower_green", 
-	"techage:signaltower_amber", 
-	"techage:signaltower_red"}, {
+techage.register_node({"techage:ta4_signaltower", 
+	"techage:ta4_signaltower_green", 
+	"techage:ta4_signaltower_amber", 
+	"techage:ta4_signaltower_red"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local node = minetest.get_node(pos)
 		if topic == "green" then

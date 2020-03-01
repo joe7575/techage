@@ -236,7 +236,7 @@ end
 
 
 local function battery(pos)
-	local battery_pos = minetest.find_node_near(pos, 1, {"techage:battery"})
+	local battery_pos = minetest.find_node_near(pos, 1, {"techage:ta4_battery"})
 	if battery_pos then
 		local meta = minetest.get_meta(pos)
 		meta:set_string("battery", minetest.pos_to_string(battery_pos))
@@ -408,7 +408,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 end
 
-minetest.register_node("techage:ta4_controller", {
+minetest.register_node("techage:ta4_icta_controller", {
 	description = "TA4 ICTA Controller",
 	inventory_image = "techage_ta4_controller_inventory.png",
 	wield_image = "techage_ta4_controller_inventory.png",
@@ -433,7 +433,7 @@ minetest.register_node("techage:ta4_controller", {
 	
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos)
-		local number = techage.add_node(pos, "techage:ta4_controller")
+		local number = techage.add_node(pos, "techage:ta4_icta_controller")
 		local fs_data = FS_DATA
 		meta:set_string("fs_data", minetest.serialize(fs_data)) 
 		meta:set_string("owner", placer:get_player_name())
@@ -467,7 +467,7 @@ minetest.register_node("techage:ta4_controller", {
 
 
 minetest.register_craft({
-	output = "techage:ta4_controller",
+	output = "techage:ta4_icta_controller",
 	recipe = {
 		{"basic_materials:plastic_sheet", "dye:blue", "basic_materials:plastic_sheet"},
 		{"", "default:copper_ingot", ""},
@@ -491,7 +491,7 @@ local function set_input(pos, own_number, rmt_number, val)
 	end
 end	
 
-techage.register_node({"techage:ta4_controller"}, {
+techage.register_node({"techage:ta4_icta_controller"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local meta = minetest.get_meta(pos)
 		local number = meta:get_string("number")

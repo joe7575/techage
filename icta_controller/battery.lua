@@ -29,7 +29,7 @@ local function on_timer(pos, elapsed)
 	meta:set_string("infotext", S("Battery").." ("..percent.."%)")
 	if percent == 0 then
 		local node = minetest.get_node(pos)
-		node.name = "techage:battery_empty"
+		node.name = "techage:ta4_battery_empty"
 		minetest.swap_node(pos, node)
 		return false
 	end
@@ -37,7 +37,7 @@ local function on_timer(pos, elapsed)
 end
 
 local function register_battery(ext, percent, nici)
-	minetest.register_node("techage:battery"..ext, {
+	minetest.register_node("techage:ta4_battery"..ext, {
 		description = S("Battery").." "..ext,
 		inventory_image = 'techage_battery_inventory.png',
 		wield_image = 'techage_battery_inventory.png',
@@ -63,7 +63,7 @@ local function register_battery(ext, percent, nici)
 			local meta = minetest.get_meta(pos)
 			meta:set_int("content", BATTERY_CAPACITY * percent)
 			local node = minetest.get_node(pos)
-			node.name = "techage:battery"
+			node.name = "techage:ta4_battery"
 			minetest.swap_node(pos, node)
 			on_timer(pos, 1)
 			minetest.get_node_timer(pos):start(30)
@@ -75,13 +75,13 @@ local function register_battery(ext, percent, nici)
 			local percent = calc_percent(tonumber(oldmetadata.fields.content))
 			local stack
 			if percent > 95 then
-				stack = ItemStack("techage:battery")
+				stack = ItemStack("techage:ta4_battery")
 			elseif percent > 75 then
-				stack = ItemStack("techage:battery75")
+				stack = ItemStack("techage:ta4_battery75")
 			elseif percent > 50 then
-				stack = ItemStack("techage:battery50")
+				stack = ItemStack("techage:ta4_battery50")
 			elseif percent > 25 then
-				stack = ItemStack("techage:battery25")
+				stack = ItemStack("techage:ta4_battery25")
 			else
 				return
 			end
@@ -104,7 +104,7 @@ register_battery("75", 0.75, 1)
 register_battery("50", 0.5, 1)
 register_battery("25", 0.25, 1)
 
-minetest.register_node("techage:battery_empty", {
+minetest.register_node("techage:ta4_battery_empty", {
 	description = S("Battery"),
 	tiles = {
 		-- up, down, right, left, back, front
@@ -141,7 +141,7 @@ minetest.register_node("techage:battery_empty", {
 
 if minetest.global_exists("moreores") then
 	minetest.register_craft({
-		output = "techage:battery 2",
+		output = "techage:ta4_battery 2",
 		recipe = {
 			{"", "moreores:silver_ingot", ""},
 			{"", "default:copper_ingot", ""},
@@ -150,7 +150,7 @@ if minetest.global_exists("moreores") then
 	})
 else
 	minetest.register_craft({
-		output = "techage:battery 2",
+		output = "techage:ta4_battery 2",
 		recipe = {
 			{"", "default:tin_ingot", ""},
 			{"", "default:copper_ingot", ""},
@@ -159,7 +159,8 @@ else
 	})
 end
 
-techage.register_node({"techage:battery", "techage:battery25", "techage:battery50", "techage:battery75"}, 
+techage.register_node({"techage:ta4_battery", "techage:ta4_battery25", 
+		"techage:ta4_battery50", "techage:ta4_battery75"}, 
 	{
 		on_node_load = function(pos)
 			minetest.get_node_timer(pos):start(30)

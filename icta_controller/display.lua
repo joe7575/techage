@@ -11,8 +11,10 @@
 	ICTA Controller - Display
 
 ]]--
-  
-  
+ 
+local NUM_ROWS = 5 
+local RADIUS = 6
+ 
 lcdlib.register_display_entity("techage:display_entity")
 
 local function display_update(pos, objref) 
@@ -21,8 +23,7 @@ local function display_update(pos, objref)
 	text = string.gsub(text, "|", " \n")
 	local texture = lcdlib.make_multiline_texture(
 		"default", text,
-		--120, 120, 9, "top", "#000")
-		70, 70, 5, "top", "#000")
+		70, 70, NUM_ROWS, "top", "#000")
 	objref:set_properties({ textures = {texture},
 							visual_size = {x=0.94, y=0.94} })
 end
@@ -30,10 +31,10 @@ end
 local function on_timer(pos)
 	local node = minetest.get_node(pos) 
 	-- check if display is loaded and a player in front of the display
-	if node.name == "techage:display" then 
+	if node.name == "techage:ta4_display" then 
 		local dir = minetest.facedir_to_dir((node.param2 + 2) % 4)
-		local pos2 = vector.add(pos, vector.multiply(dir, 6))
-		for _, obj in pairs(minetest.get_objects_inside_radius(pos2, 6)) do
+		local pos2 = vector.add(pos, vector.multiply(dir, RADIUS))
+		for _, obj in pairs(minetest.get_objects_inside_radius(pos2, RADIUS)) do
 			if obj:is_player() then
 				lcdlib.update_entities(pos)
 				break
@@ -48,7 +49,7 @@ local lcd_box = {
 	wall_top = {-8/16, 15/32, -8/16, 8/16, 8/16, 8/16}
 }
 
-minetest.register_node("techage:display", {
+minetest.register_node("techage:ta4_display", {
 	description = "TA4 Display",
 	inventory_image = 'techage_display_inventory.png',
 	tiles = {"techage_display.png"},
@@ -66,7 +67,7 @@ minetest.register_node("techage:display", {
 	},
 
 	after_place_node = function(pos, placer)
-		local number = techage.add_node(pos, "techage:display")
+		local number = techage.add_node(pos, "techage:ta4_display")
 		local meta = minetest.get_meta(pos)
 		meta:set_string("number", number)
 		meta:set_string("text", "My\nTechage\nTA4\nDisplay\nNo: "..number)
@@ -90,10 +91,10 @@ minetest.register_node("techage:display", {
 
 
 minetest.register_craft({
-	output = "techage:display",
+	output = "techage:ta4_display",
 	recipe = {
 		{"", "", ""},
-		{"default:glass", "dye:green", "techage:ta4_wlanchip"},
+		{"techage:basalt_glass_thin", "dye:green", "techage:ta4_wlanchip"},
 		{"", "default:copper_ingot", ""},
 	},
 })
@@ -107,7 +108,7 @@ local function add_line(meta, payload)
 	else
 		rows = string.split(text, "|")
 	end
-	if #rows > 8 then
+	if #rows >= NUM_ROWS then
 		table.remove(rows, 1)
 	end
 	table.insert(rows, payload)
@@ -119,7 +120,7 @@ local function write_row(meta, payload)
 	local text = meta:get_string("text")
 	if type(payload) == "table" then
 		local row = tonumber(payload.row) or 0
-		if row > 9 then row = 9 end
+		if row > NUM_ROWS then row = NUM_ROWS end
 		local str = payload.str or "oops"
 		if row == 0 then
 			meta:set_string("infotext", str)
@@ -132,8 +133,8 @@ local function write_row(meta, payload)
 		else
 			rows = string.split(text, "|")
 		end
-		if #rows < 9 then
-			for i = #rows, 9 do
+		if #rows < NUM_ROWS then
+			for i = #rows, NUM_ROWS do
 				table.insert(rows, " ")
 			end
 		end
@@ -143,7 +144,7 @@ local function write_row(meta, payload)
 	end
 end
 
-techage.register_node({"techage:display"}, {
+techage.register_node({"techage:ta4_display"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local node = minetest.get_node(pos)
 		local timer = minetest.get_node_timer(pos)

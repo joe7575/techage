@@ -61,7 +61,7 @@ end
 -- return the Lua code	
 function techage.code_condition(kvSelect, environ)
 	if kvSelect and kvRegisteredCond[kvSelect.choice] then
-		if techage.submenu_verify(kvRegisteredCond, kvSelect) then
+		if techage.submenu_verify(environ.owner, kvRegisteredCond, kvSelect) then
 			return kvRegisteredCond[kvSelect.choice].code(kvSelect, environ)
 		end
 	end

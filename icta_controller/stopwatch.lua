@@ -66,7 +66,7 @@ techage.icta_register_condition("stopwatch", {
 	title = "stopwatch",
 	formspec = {
 		{
-			type = "numbers", 
+			type = "number", 
 			name = "number", 
 			label = "Switch number", 
 			default = "",
@@ -89,7 +89,7 @@ techage.icta_register_action("stopwatch", {
 	title = "stopwatch",
 	formspec = {
 		{
-			type = "numbers", 
+			type = "number", 
 			name = "number", 
 			label = "Display number", 
 			default = "",
@@ -126,7 +126,7 @@ techage.icta_register_action("stopwatch", {
 	code = function(data, environ)
 		local idx = ({time=1, highscore= 2, name=3})[data.type]
 		local s1 = string.format('local payload = {row = %s, str = "%s "..env.stopwatch_result['..idx..']}', data.row, techage.escape(data.text))
-		local s2 = string.format('techage.send_multi("%s", "%s", "row", payload)', environ.number, data.number)
+		local s2 = string.format('techage.send_single("%s", "%s", "row", payload)', environ.number, data.number)
 		return s1.."\n\t"..s2
 	end,
 })

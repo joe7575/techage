@@ -163,7 +163,7 @@ techage.icta_register_condition("state", {
 	title = "block state request",
 	formspec = {
 		{
-			type = "digits",
+			type = "number",
 			name = "number",
 			label = "block number",
 			default = "",
@@ -201,7 +201,7 @@ techage.icta_register_condition("fuel", {
 	title = "fuel request",
 	formspec = {
 		{
-			type = "digits",
+			type = "number",
 			name = "number",
 			label = "block number",
 			default = "",
@@ -238,7 +238,7 @@ techage.icta_register_condition("load", {
 	title = "load request",
 	formspec = {
 		{
-			type = "digits",
+			type = "number",
 			name = "number",
 			label = "block number",
 			default = "",
@@ -275,7 +275,7 @@ techage.icta_register_condition("chest", {
 	title = "chest state request",
 	formspec = {
 		{
-			type = "digits",
+			type = "number",
 			name = "number",
 			label = "chest number",
 			default = "",
@@ -314,7 +314,7 @@ techage.icta_register_condition("signaltower", {
 	title = "Signal Tower state request",
 	formspec = {
 		{
-			type = "digits",
+			type = "number",
 			name = "number",
 			label = "Signal Tower number",
 			default = "",
@@ -419,7 +419,7 @@ techage.icta_register_action("display", {
 			type = "textlist", 
 			name = "row", 
 			label = "Display line", 
-			choices = "1,2,3,4,5,6,7,8,9", 
+			choices = "1,2,3,4,5", 
 			default = "1",
 		},
 		{
@@ -449,7 +449,7 @@ techage.icta_register_action("cleardisplay", {
 	title = "Display: Clear screen",
 	formspec = {
 		{
-			type = "numbers", 
+			type = "number", 
 			name = "number", 
 			label = "Display number", 
 			default = "",
@@ -537,7 +537,6 @@ techage.icta_register_action("door", {
 
 function techage.icta_player_detect(own_num, number, name)
 	local state = techage.send_single(own_num, number, "name", nil)
-	print("state="..state.."< name="..name.."<")
 	if state ~= "" then
 		if name == "*" or string.find(name, state) then
 			return state
@@ -552,7 +551,7 @@ techage.icta_register_condition("playerdetector", {
 	title = "Player Detector name request",
 	formspec = {
 		{
-			type = "digits",
+			type = "number",
 			name = "number",
 			label = "Player Detector number",
 			default = "",
@@ -582,7 +581,7 @@ techage.icta_register_action("set_filter", {
 	title = "turn Distributor filter on/off",
 	formspec = {
 		{
-			type = "numbers", 
+			type = "number", 
 			name = "number", 
 			label = "distri number", 
 			default = "",
@@ -612,7 +611,7 @@ techage.icta_register_action("set_filter", {
 	end,
 	code = function(data, environ)
 		local payload = '{slot = "'..data.color..'", val = "'..data.value..'"}'
-		return send_multi_string(environ, data.number, "filter", payload)
+		return send_single_string(environ, data.number, "filter", payload)
 	end,
 })
 

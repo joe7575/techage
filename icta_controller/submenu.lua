@@ -119,14 +119,24 @@ local function field_to_kvSelect(kvDefinition, kvSelect, fields)
 	return kvSelect
 end
 
-function techage.submenu_verify(kvDefinition, kvSelect)
+function techage.submenu_verify(owner, kvDefinition, kvSelect)
 	local error = false
 	local lControls = kvDefinition[kvSelect.choice].formspec
 	for idx,elem in ipairs(lControls) do
 		if elem.type == "numbers" then	
 			if not kvSelect[elem.name]:find("^[%d ]+$") then 
 				error = true
-			end
+			end 
+			if not techage.check_numbers(kvSelect[elem.name], owner) then
+				error = true
+			end 
+		elseif elem.type == "number" then	
+			if not kvSelect[elem.name]:find("^[%d]+$") then 
+				error = true
+			end 
+			if not techage.check_numbers(kvSelect[elem.name], owner) then
+				error = true
+			end 
 		elseif elem.type == "digits" then  -- including positions	
 			if not kvSelect[elem.name]:find("^[+%%-,%d]+$") then 
 				error = true

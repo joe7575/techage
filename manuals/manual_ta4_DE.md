@@ -284,6 +284,64 @@ Teil des Chemischen Reaktors. Wird zur Aufbewahrung von Stoffen in Pulver- oder 
 
 
 
+
+## ICTA Controller
+
+Der ICTA Controller (ICTA steht für "If Condition Then Action") dient zur Überwachung und Steuerung von Maschinen. Mit dem Controller kann man Daten von Maschinen und anderen Blöcken einlesen und abhängig davon andere Maschinen und Blöcke ein-/ausschalten.
+
+Einlesen von Maschinendaten sowie das Steuern von Blöcken und Maschinen erfolgt über sogenannte Kommandos. Für das Verständnis, wie Kommandos funktionieren, ist das Kapitel TA3 -> Logik-/Schalt-Blöcke wichtig. 
+
+Der Controller benötigt für den Betrieb eine Batterie. Das Display dient zur Ausgabe von Daten, der Signal Tower zur Anzeige von Fehlern.
+
+[ta4_icta_controller|image]
+
+
+
+### TA4 ICTA Controller
+
+Der Controller arbeitet auf das Basis von ```IF <condition> THEN <action>``` Regeln. Es können bis zu 8 Regeln pro Controller angelegt werden.
+
+Beispiele für Regeln sind:
+
+- Wenn ein Verteiler verstopft ist (```blocked```), soll der Schieber davor ausgeschaltet werden
+- Wenn eine Maschine einen Fehler anzeigt, soll dieser auf dem Display ausgegeben werden
+
+Der Controller prüft diese Regeln zyklisch. Dazu muss pro Regel eine Zykluszeit in Sekunden (```Cycle/s```) angegeben werden (1..1000). 
+
+Für Regeln die einen on/off Eingang auswerten, bspw. von einen Schalter oder Detektor, muss als Zykluszeit 0 angegeben werden. Der Wert 0 bedeutet, dass diese Regel immer dann ausgeführt werden soll, wenn sich das Eingangssignal geändert hat, also bspw. der Button einen neuen Wert gesendet hat.
+
+Alle Regeln sollten nur so oft wie notwendig ausgeführt werden. Dies hat zwei Vorteile:
+
+- die Batterie des Controllers hält länger (jeder Controller benötigt eine Batterie)
+- die Last für den Server ist geringer (damit weniger Lags)
+
+Man muss für jede action eine Verzögerungszeit (```after/s```) einstellen. Soll die Aktion sofort ausgeführt werden, ist 0 einzugeben.
+
+Der Controller hat eine eigene Hilfe und Hinweise zu allen Kommandos über das Controller-Menü.
+
+[ta4_icta_controller|image]
+
+### Batterie
+
+Die Batterie muss in unmittelbarer Nähe zum Controller platziert werden, also an einer der 26 Positionen um den Controller herum.
+
+[ta4_battery|image]
+
+### TA4 Display
+
+Das Display zeigt nach dem Platzieren seine Nummer an. Über diese Nummer kann das Display angesprochen werden. Auf dem Display können Texte ausgegeben werden, wobei das Display 5 Zeilen und damit 5 unterschiedliche Texte darstellen kann.
+
+[ta4_display|image]
+
+
+### TA4 Signal Tower
+
+Der Signal Tower kann rot, grün und orange anzeigen. Eine Kombination der 3 Farben ist nicht möglich.
+
+[ta4_signaltower|image]
+
+
+
 ## Weitere TA4 Blöcke
 
 

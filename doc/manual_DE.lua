@@ -3,7 +3,7 @@ techage.manual_DE = {}
 techage.manual_DE.aTitel = {
   "1,Tech Age Mod",
   "2,Software Update",
-  "3,Was hat sich am Spiel geändert",
+  "3,Was hat sich am Spiel geändert?",
   "2,Hinweise",
   "2,Erze und Mineralien",
   "3,Meridium",
@@ -139,6 +139,11 @@ techage.manual_DE.aTitel = {
   "3,TA4 Reaktorständer / reactor stand",
   "3,TA4 Reaktorsockel / reactor base",
   "3,TA4 Silo / silo",
+  "2,ICTA Controller",
+  "3,TA4 ICTA Controller",
+  "3,Batterie",
+  "3,TA4 Display",
+  "3,TA4 Signal Tower",
   "2,Weitere TA4 Blöcke",
   "3,TA4 Tank / TA4 Tank",
   "3,TA4 Pumpe / TA4 Pump",
@@ -163,18 +168,35 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "\027(c@#ffffff)Da sich mit dem Update die Art und Weise wie Daten der Maschinen gespeichert werden\\, geändert hat\\, sind nach dem Update alle Maschinen erst einmal ohne Daten und damit Funktionslos und müssen \"repariert\" werden. \n"..
+  "Zum 23.02.2020 gab es ein größeres Software-Update\\, was einige Änderungen und aus Sicht der Spieler auch \"Probleme\" mit sich bringt. Das Software-Update war aber nötig\\, um die techage Mod weiter ausbauen und entwickeln zu können.\n"..
+  "\n"..
+  "Da sich mit dem Update die Art und Weise wie Daten der Maschinen gespeichert werden\\, geändert hat\\, sind nach dem Update alle Maschinen erst einmal ohne Daten und damit Funktionslos und müssen \"repariert\" werden. \n"..
   "\n"..
   "Dazu gibt es ein Reparaturset\\, bestehend aus dem Schraubenschlüssel (Techage Info Werkzeug) und der Werkzeugtasche (TechAge Reparaturset). Beide Werkzeuge können gecraftet werden.\n"..
   "\n"..
   "  - Mit dem Schraubenschlüssel können die Verbindungen über das Stromnetz geprüft werden. Dazu einfach auf einen Generator oder eine Junction klicken\\, dann werden alle verbundenen Blöcke in der Umgebung markiert. Bei Unterbrechungen immer den letzten markierten Block (Junction) in der Kette neu setzen.\n"..
+  "  - normale Maschinen müssen nur neu gestartet werden. Hilft dies nicht\\, einfach neu setzen.\n"..
+  "  - Generatoren (auch Akkus und Brennstoffzelle) können entweder neu gesetzt\\, oder mit dem Reparaturset angeklickt und damit repariert werden.\n"..
+  "  - Die Trägermodule der Solarzellen müssen ebenfalls mit dem \"Reparaturset\" angeklickt werden.\n"..
+  "  - Die Stromschalterbox und die Stromschalter müssen neu gesetzt werden. Die Stromschalterbox verhält sich beim Setzen nun ähnlich wie Stromkabel.\n"..
+  "  - Der TA4 Solar Wechselrichter besteht jetzt nur noch aus einem Block. Der zweite Block muss entfernt und durch ein rotes Kabel ersetzt werden.\n"..
   "  - Wasserstoff ist nun wie eine Flüssigkeit zu behandeln. Elektrolyseur und Brennstoffzelle müssen daher nicht mehr über Röhren und Schieber sondern über Pumpen und Flüssigkeitsleitungen miteinander verbunden werden.\n"..
   "\n",
+  "  - der TA1 Hopper ist weg\\, dafür kann jetzt der Hopper aus der Mod Minecart genutzt werden.\n"..
+  "  - Blöcke für Wasser und andere Flüssigkeiten (Boiler\\, Tanks) haben kein Inventory mehr. Diese muss man nun füllen bzw. leeren\\, in dem man mit einem vollen bzw. leeren Behälter auf den Block klickt. Bei Wasser ist das der Eimer\\, bei Öl und anderen Flüssigkeiten die Fässer oder Kanister.\n"..
+  "  - für TA2 und TA3 gibt er jetzt einen Steinbrecher (Quarry) zum Abbau von Steinen.\n"..
+  "  - Die Stromschalterbox und die Stromschalter wurden überarbeitet und sind nun leichter zu Platzieren.\n"..
+  "  - Alle Menüs werden nun automatisch und zyklisch aktualisiert\\, den \"Update\" Button gibt es nicht mehr.\n"..
+  "  - Die Tanks können nun nicht mehr direkt über Schieber gefüllt oder geleert werden. Hierzu ist zusätzlich ein TA Einfülltrichter (TA Liquid Filler) notwendig.\n"..
+  "  - Gas\\, was beim Destillieren entsteht (Propangas)\\, kann über den Reformer in Wasserstoff umgewandelt und dann zu Strom gemacht werden.\n"..
+  "  - Der TA4 Solar Wechselrichter besteht jetzt nur noch aus einem Block.\n"..
   "  - Generator und Wärmetauscher beim Energiespeicher arbeiten nun unabhängig von einander und können auch einzeln mit dem Stromnetz verbunden sein.\n"..
   "  - \n"..
   "\n",
   "Diese Dokumentation ist sowohl \"ingame\" (Block Konstruktionsplan) als auch auf GitHub als MD-Files verfügbar.\n"..
   "\n"..
+  "  - Link: https://github.com/joe7575/techage/blob/master/manuals/toc_DE.md\n"..
+  "  - Short Link: https://tinyurl.com/y2lwl35h\n"..
   "\n"..
   "Die Konstruktionspläne (Diagramme) für den Aufbau der Maschinen sowie die Bilder sind aber nur ingame verfügbar.\n"..
   "\n"..
@@ -744,7 +766,7 @@ techage.manual_DE.aText = {
   "  - 'standby' --> nichts zu tun\\, da Quell-Inventar leer\n"..
   "  - 'blocked' --> kann nichts tun\\, da Ziel-Inventar voll\n"..
   "\n"..
-  "Dieser Status wird bei vielen Blöcken gleichzeitig auch über den Info-Text angezeigt.\n"..
+  "Dieser Status und weitere Informationen werden auch ausgegeben\\, wenn mit dem Schraubenschlüssel auf den Block geklickt wird.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1122,6 +1144,48 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der ICTA Controller (ICTA steht für \"If Condition Then Action\") dient zur Überwachung und Steuerung von Maschinen. Mit dem Controller kann man Daten von Maschinen und anderen Blöcken einlesen und abhängig davon andere Maschinen und Blöcke ein-/ausschalten.\n"..
+  "\n"..
+  "Einlesen von Maschinendaten sowie das Steuern von Blöcken und Maschinen erfolgt über sogenannte Kommandos. Für das Verständnis\\, wie Kommandos funktionieren\\, ist das Kapitel TA3 -> Logik-/Schalt-Blöcke wichtig. \n"..
+  "\n"..
+  "Der Controller benötigt für den Betrieb eine Batterie. Das Display dient zur Ausgabe von Daten\\, der Signal Tower zur Anzeige von Fehlern.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Controller arbeitet auf das Basis von 'IF <condition> THEN <action>' Regeln. Es können bis zu 8 Regeln pro Controller angelegt werden.\n"..
+  "\n"..
+  "Beispiele für Regeln sind:\n"..
+  "\n"..
+  "  - Wenn ein Verteiler verstopft ist ('blocked')\\, soll der Schieber davor ausgeschaltet werden\n"..
+  "  - Wenn eine Maschine einen Fehler anzeigt\\, soll dieser auf dem Display ausgegeben werden\n"..
+  "\n"..
+  "Der Controller prüft diese Regeln zyklisch. Dazu muss pro Regel eine Zykluszeit in Sekunden ('Cycle/s') angegeben werden (1..1000). \n"..
+  "\n"..
+  "Für Regeln die einen on/off Eingang auswerten\\, bspw. von einen Schalter oder Detektor\\, muss als Zykluszeit 0 angegeben werden. Der Wert 0 bedeutet\\, dass diese Regel immer dann ausgeführt werden soll\\, wenn sich das Eingangssignal geändert hat\\, also bspw. der Button einen neuen Wert gesendet hat.\n"..
+  "\n"..
+  "Alle Regeln sollten nur so oft wie notwendig ausgeführt werden. Dies hat zwei Vorteile:\n"..
+  "\n"..
+  "  - die Batterie des Controllers hält länger (jeder Controller benötigt eine Batterie)\n"..
+  "  - die Last für den Server ist geringer (damit weniger Lags)\n"..
+  "\n"..
+  "Man muss für jede action eine Verzögerungszeit ('after/s') einstellen. Soll die Aktion sofort ausgeführt werden\\, ist 0 einzugeben.\n"..
+  "\n"..
+  "Der Controller hat eine eigene Hilfe und Hinweise zu allen Kommandos über das Controller-Menü.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Batterie muss in unmittelbarer Nähe zum Controller platziert werden\\, also an einer der 26 Positionen um den Controller herum.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Das Display zeigt nach dem Platzieren seine Nummer an. Über diese Nummer kann das Display angesprochen werden. Auf dem Display können Texte ausgegeben werden\\, wobei das Display 5 Zeilen und damit 5 unterschiedliche Texte darstellen kann.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Signal Tower kann rot\\, grün und orange anzeigen. Eine Kombination der 3 Farben ist nicht möglich.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "",
   "Siehe TA3 Tank.\n"..
   "\n"..
@@ -1286,6 +1350,11 @@ techage.manual_DE.aItemName = {
   "ta4_reactorstand",
   "ta4_reactorbase",
   "ta4_silo",
+  "ta4_icta_controller",
+  "ta4_icta_controller",
+  "ta4_battery",
+  "ta4_display",
+  "ta4_signaltower",
   "",
   "ta4_tank",
   "ta4_pump",
@@ -1426,6 +1495,11 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
+  "",
+  "",
+  "",
+  "",
   "",
   "",
   "",

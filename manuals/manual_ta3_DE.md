@@ -408,7 +408,7 @@ Mögliche Antworten des Schiebers sind:
 - `standby` --> nichts zu tun, da Quell-Inventar leer
 - `blocked` --> kann nichts tun, da Ziel-Inventar voll
 
-Dieser Status wird bei vielen Blöcken gleichzeitig auch über den Info-Text angezeigt.
+Dieser Status und weitere Informationen werden auch ausgegeben, wenn mit dem Schraubenschlüssel auf den Block geklickt wird.
 
 [ta3_logic|image]
 

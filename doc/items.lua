@@ -133,5 +133,9 @@ techage.Items = {
 	ta4_reactorbase = "techage:ta4_reactor_base",
 	ta4_furnaceheater = "techage:furnace_heater",
 	ta4_waterpump = "techage:t4_waterpump",
+	ta4_icta_controller = "techage:ta4_icta_controller",
+	ta4_battery = "techage:ta4_battery",
+	ta4_display = "techage:ta4_display",
+	ta4_signaltower = "techage:ta4_signaltower",
 	--ta4_ "", 
 }
