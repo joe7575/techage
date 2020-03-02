@@ -128,6 +128,7 @@ techage.manual_DE.aTitel = {
   "3,TA4 Wärmetauscher / Heat Exchanger",
   "3,TA4 Turbine",
   "3,TA4 Generator",
+  "3,TA4 Rohrzulauf / TA4 Pipe Inlet",
   "3,TA4 Röhre / Pipe",
   "2,Wasserstoff",
   "3,Elektrolyseur",
@@ -1038,7 +1039,7 @@ techage.manual_DE.aText = {
   "\n"..
   "In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man\\, ob der Speicher zu mehr aus 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken\\, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung achten (der Pfeil bei Block 1 muss zur Turbine zeigen).\n"..
   "\n"..
-  "Entgegen dem Plan rechts müssen die Anschlüsse am Speicherblock auf gleicher Ebene sein (horizontal angeordnet\\, also nicht unten und oben). Die Rohrzuläufe (TA4 Pipe Inlet) müssen genau in der Mitte der Wand sein und stehen sich damit gegenüber. Als Röhren kommen die TA4 Röhren zum Einsatz. Die TA4 Verbindungsrohre dürfen hier nicht verwendet werden.\n"..
+  "Entgegen dem Plan rechts müssen die Anschlüsse am Speicherblock auf gleicher Ebene sein (horizontal angeordnet\\, also nicht unten und oben). Die Rohrzuläufe (TA4 Pipe Inlet) müssen genau in der Mitte der Wand sein und stehen sich damit gegenüber. Als Röhren kommen die gelbel TA4 Röhren zum Einsatz. Die TA3 Dampfrohre können hier nicht verwendet werden.\n"..
   "Sowohl der Generator als auch der Wärmetauscher haben einen Stromanschluss und müssen mit dem Stromnetz verbunden werden.\n"..
   "\n"..
   "Im Prinzip arbeitet das das Wärmespeichersystem genau gleich wie die Akkus\\, nur mit viel mehr Speicherkapazität. \n"..
@@ -1048,7 +1049,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der Wärmetauscher besteht aus 3 Teilen\\, die aufeinander gesetzt werden müssen\\, wobei der Pfeil des ersten Blockes Richtung Turbine zeigen muss. Die Dampfleitungen müssen mit den TA4 Röhren aufgebaut werden.\n"..
+  "Der Wärmetauscher besteht aus 3 Teilen\\, die aufeinander gesetzt werden müssen\\, wobei der Pfeil des ersten Blockes Richtung Turbine zeigen muss. Die Rohrleitungen müssen mit den gelben TA4 Röhren aufgebaut werden.\n"..
   "Der Wärmetauscher muss am Stromnetz angeschlossen werden. Der Wärmetauscher kann 60 ku aufnehmen.\n"..
   "\n"..
   "\n"..
@@ -1063,7 +1064,13 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Die Röhren dienen bei TA4 zur Weiterleitung von Gas und Flüssigkeiten. \n"..
+  "Je ein Rohrzulaufblock muss auf beiden Seiten des Speicherblockes eingebaut werden. Die Blöcke müssen sich exakt gegenüber stehen.\n"..
+  "\n"..
+  "Die Rohrzulaufblöcke können alternativ auch als Wanddurchbrüche verwendet werden\\, um also mit einer Röhre durch eine Wand zu fahren.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die gelben Röhren dienen bei TA4 zur Weiterleitung von Gas und Flüssigkeiten. \n"..
   "Die maximale Leitungslänge beträgt 100 m.\n"..
   "\n"..
   "\n"..
@@ -1339,6 +1346,7 @@ techage.manual_DE.aItemName = {
   "ta4_heatexchanger",
   "ta4_turbine",
   "ta4_generator",
+  "ta4_pipeinlet",
   "ta4_pipe",
   "ta4_hydrogen",
   "ta4_electrolyzer",
@@ -1487,6 +1495,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_storagesystem",
+  "",
   "",
   "",
   "",

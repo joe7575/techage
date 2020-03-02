@@ -136,7 +136,7 @@ Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit 
 
 In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man, ob der Speicher zu mehr aus 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung achten (der Pfeil bei Block 1 muss zur Turbine zeigen).
 
-Entgegen dem Plan rechts müssen die Anschlüsse am Speicherblock auf gleicher Ebene sein (horizontal angeordnet, also nicht unten und oben). Die Rohrzuläufe (TA4 Pipe Inlet) müssen genau in der Mitte der Wand sein und stehen sich damit gegenüber. Als Röhren kommen die TA4 Röhren zum Einsatz. Die TA4 Verbindungsrohre dürfen hier nicht verwendet werden.
+Entgegen dem Plan rechts müssen die Anschlüsse am Speicherblock auf gleicher Ebene sein (horizontal angeordnet, also nicht unten und oben). Die Rohrzuläufe (TA4 Pipe Inlet) müssen genau in der Mitte der Wand sein und stehen sich damit gegenüber. Als Röhren kommen die gelbel TA4 Röhren zum Einsatz. Die TA3 Dampfrohre können hier nicht verwendet werden.
 Sowohl der Generator als auch der Wärmetauscher haben einen Stromanschluss und müssen mit dem Stromnetz verbunden werden.
 
 Im Prinzip arbeitet das das Wärmespeichersystem genau gleich wie die Akkus, nur mit viel mehr Speicherkapazität. 
@@ -149,7 +149,7 @@ Damit das Wärmespeichersystem funktioniert, müssen alle Blöcke (außer Betonh
 
 ### TA4 Wärmetauscher / Heat Exchanger
 
-Der Wärmetauscher besteht aus 3 Teilen, die aufeinander gesetzt werden müssen, wobei der Pfeil des ersten Blockes Richtung Turbine zeigen muss. Die Dampfleitungen müssen mit den TA4 Röhren aufgebaut werden.
+Der Wärmetauscher besteht aus 3 Teilen, die aufeinander gesetzt werden müssen, wobei der Pfeil des ersten Blockes Richtung Turbine zeigen muss. Die Rohrleitungen müssen mit den gelben TA4 Röhren aufgebaut werden.
 Der Wärmetauscher muss am Stromnetz angeschlossen werden. Der Wärmetauscher kann 60 ku aufnehmen.
 
 [ta4_heatexchanger|image]
@@ -171,9 +171,18 @@ Der Generator kann 60 ku abgeben.
 [ta4_generator|image]
 
 
+### TA4 Rohrzulauf / TA4 Pipe Inlet
+
+Je ein Rohrzulaufblock muss auf beiden Seiten des Speicherblockes eingebaut werden. Die Blöcke müssen sich exakt gegenüber stehen.
+
+Die Rohrzulaufblöcke können alternativ auch als Wanddurchbrüche verwendet werden, um also mit einer Röhre durch eine Wand zu fahren.
+
+[ta4_pipeinlet|image]
+
+
 ### TA4 Röhre / Pipe
 
-Die Röhren dienen bei TA4 zur Weiterleitung von Gas und Flüssigkeiten. 
+Die gelben Röhren dienen bei TA4 zur Weiterleitung von Gas und Flüssigkeiten. 
 Die maximale Leitungslänge beträgt 100 m.
 
 [ta4_pipe|image]

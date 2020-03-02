@@ -127,6 +127,7 @@
         - [TA4 Wärmetauscher / Heat Exchanger](./manual_ta4_DE.md#ta4-wärmetauscher--heat-exchanger)
         - [TA4 Turbine](./manual_ta4_DE.md#ta4-turbine)
         - [TA4 Generator](./manual_ta4_DE.md#ta4-generator)
+        - [TA4 Rohrzulauf / TA4 Pipe Inlet](./manual_ta4_DE.md#ta4-rohrzulauf--ta4-pipe-inlet)
         - [TA4 Röhre / Pipe](./manual_ta4_DE.md#ta4-röhre--pipe)
     - [Wasserstoff](./manual_ta4_DE.md#wasserstoff)
         - [Elektrolyseur](./manual_ta4_DE.md#elektrolyseur)
