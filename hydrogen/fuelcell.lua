@@ -276,7 +276,7 @@ techage.register_node({"techage:ta4_fuelcell", "techage:ta4_fuelcell_on"}, {
 		local nvm = techage.get_nvm(pos)
 		if topic == "load" then
 			return techage.power.percent(CAPACITY, (nvm.liquid and nvm.liquid.amount) or 0)
-		elseif topic == "power" then
+		elseif topic == "delivered" then
 			return math.floor((nvm.given or 0) + 0.5)
 		else
 			return State:on_receive_message(pos, topic, payload)

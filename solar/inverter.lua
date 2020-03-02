@@ -201,7 +201,7 @@ Solar:add_secondary_node_names({"techage:ta4_solar_inverter"})
 techage.register_node({"techage:ta4_solar_inverter"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		if topic == "power" then
+		if topic == "delivered" then
 			return math.floor((nvm.delivered or 0) + 0.5)
 		else
 			return State:on_receive_message(pos, topic, payload)

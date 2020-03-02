@@ -261,7 +261,7 @@ techage.register_node({"techage:ta4_wind_turbine"}, {
 			else
 				return "stopped"
 			end
-		elseif topic == "power" then
+		elseif topic == "delivered" then
 			return nvm.delivered or 0
 		elseif topic == "on" then
 			nvm.running = true

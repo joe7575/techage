@@ -34,7 +34,7 @@ local function add_controls_to_table(tbl, kvDefinition, kvSelect)
 				tbl[#tbl+1] = "label[0,"..offs..";"..elem.label..":]"
 				offs = offs + 0.4
 			end
-			if elem.type == "numbers" or elem.type == "digits" or elem.type == "letters" 
+			if elem.type == "numbers" or elem.type == "number" or elem.type == "digits" or elem.type == "letters" 
 					or elem.type == "ascii" then
 				val = kvSelect[elem.name] or elem.default
 				tbl[#tbl+1] = "field[0.3,"..(offs+0.2)..";8,1;"..elem.name..";;"..val.."]"
@@ -68,6 +68,15 @@ local function field_to_kvSelect(kvDefinition, kvSelect, fields)
 	local lControls = kvDefinition[kvSelect.choice].formspec
 	for idx,elem in ipairs(lControls) do
 		if elem.type == "numbers" then	
+			if fields[elem.name] then
+				if fields[elem.name]:find("^[%d ]+$") then 
+					kvSelect[elem.name] = fields[elem.name]
+				else
+					kvSelect[elem.name] = elem.default
+					error = true
+				end
+			end
+		elseif elem.type == "number" then	
 			if fields[elem.name] then
 				if fields[elem.name]:find("^[%d ]+$") then 
 					kvSelect[elem.name] = fields[elem.name]

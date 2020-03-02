@@ -160,7 +160,7 @@ techage.icta_register_condition("input", {
 })
 
 techage.icta_register_condition("state", {
-	title = "block state request",
+	title = "read block state",
 	formspec = {
 		{
 			type = "number",
@@ -198,7 +198,7 @@ techage.icta_register_condition("state", {
 })
 
 techage.icta_register_condition("fuel", {
-	title = "fuel request",
+	title = "read amount of fuel",
 	formspec = {
 		{
 			type = "number",
@@ -235,7 +235,7 @@ techage.icta_register_condition("fuel", {
 })
 
 techage.icta_register_condition("load", {
-	title = "load request",
+	title = "read power/liquid load",
 	formspec = {
 		{
 			type = "number",
@@ -271,8 +271,45 @@ techage.icta_register_condition("load", {
 	end,
 })
 
+techage.icta_register_condition("delivered", {
+	title = "read delivered power",
+	formspec = {
+		{
+			type = "number",
+			name = "number",
+			label = "block number",
+			default = "",
+		},
+		{
+			type = "textlist",
+			name = "operand",
+			label = "",
+			choices = "greater,less",
+			default = "greater",
+		},
+		{
+			type = "digits",
+			name = "value",
+			label = "than",
+			default = ""
+		},
+		{
+			type = "label", 
+			name = "lbl", 
+			label = "Read and evaluate the delivered\npower from a generator block.\nPower consuming blocks like accus\ncould also provide a negative value.", 
+		},
+	},
+	button = function(data, environ) 
+		return 'deliv('..techage.fmt_number(data.number)..","..data.operand..' '..data.value..')'
+	end,
+	code = function(data, environ) 
+		return send_single_string(environ, data.number, "delivered"),
+			techage.operand(data.operand)..tonumber(data.value)
+	end,
+})
+
 techage.icta_register_condition("chest", {
-	title = "chest state request",
+	title = "read chest state",
 	formspec = {
 		{
 			type = "number",
@@ -311,7 +348,7 @@ techage.icta_register_condition("chest", {
 })
 
 techage.icta_register_condition("signaltower", {
-	title = "Signal Tower state request",
+	title = "read Signal Tower state",
 	formspec = {
 		{
 			type = "number",
@@ -347,7 +384,7 @@ techage.icta_register_condition("signaltower", {
 })
 
 techage.icta_register_action("signaltower", {
-	title = "Signal Tower command",
+	title = "send Signal Tower command",
 	formspec = {
 		{
 			type = "numbers", 
@@ -464,7 +501,7 @@ techage.icta_register_action("cleardisplay", {
 })
 
 techage.icta_register_action("chat", {
-	title = "chat send",
+	title = "send chat message",
 	formspec = {
 		{
 			type = "ascii", 
@@ -505,7 +542,7 @@ function techage.icta_door_toggle(pos, owner, state)
 end
 
 techage.icta_register_action("door", {
-	title = "doors open/close",
+	title = "open/close door",
 	formspec = {
 		{
 			type = "digits", 
@@ -548,7 +585,7 @@ function techage.icta_player_detect(own_num, number, name)
 end
 
 techage.icta_register_condition("playerdetector", {
-	title = "Player Detector name request",
+	title = "read Player Detector",
 	formspec = {
 		{
 			type = "number",

@@ -223,6 +223,11 @@ else
 	dofile(MP.."/icta_controller/display.lua")
 	dofile(MP.."/icta_controller/signaltower.lua")
 	
+	-- Lua Controller
+--	dofile(MP.."/lua_controller/controller.lua")
+--	dofile(MP.."/lua_controller/commands.lua")
+--	dofile(MP.."/lua_controller/server.lua")
+	
 	-- Items
 	dofile(MP.."/items/barrel.lua")
 	dofile(MP.."/items/baborium.lua")
@@ -239,6 +244,7 @@ else
 	dofile(MP.."/items/plastic.lua")
 	dofile(MP.."/items/hydrogen.lua")
 	dofile(MP.."/items/electronic.lua")
+	dofile(MP.."/items/redstone.lua")
 	
 	if techage.basalt_stone_enabled then
 		dofile(MP.."/items/basalt.lua")

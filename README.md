@@ -13,9 +13,9 @@ Textures: CC BY-SA 3.0
 
 
 ### Dependencies  
-Required: default, doors, tubelib2, basic_materials, bucket, stairs, lcdlib  
-Optional: unified_inventory, wielded_light, minecart  
-Highly recommended: signs_bot, minecart  
+Required: default, doors, tubelib2, basic_materials, bucket, stairs, screwdriver, minecart, lcdlib, safer_lua  
+Optional: unified_inventory,wielded_light,unifieddyes  
+Highly recommended: signs_bot, hyperloop  
 
 
 ### History  

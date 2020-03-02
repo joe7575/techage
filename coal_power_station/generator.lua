@@ -222,7 +222,7 @@ techage.register_node({"techage:generator", "techage:generator_on"}, {
 	end,
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		if topic == "power" then
+		if topic == "delivered" then
 			return math.floor((nvm.provided or 0) + 0.5)
 		else
 			return State:on_receive_message(pos, topic, payload)
