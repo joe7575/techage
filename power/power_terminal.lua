@@ -212,7 +212,7 @@ minetest.register_node("techage:power_terminal", {
 	on_rotate = screwdriver.disallow,
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {cracky = 1, level = 2},
+	groups = {cracky = 2, level = 2},
 	sounds = default.node_sound_metal_defaults(),
 })
 

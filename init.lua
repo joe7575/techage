@@ -227,6 +227,7 @@ else
 --	dofile(MP.."/lua_controller/controller.lua")
 --	dofile(MP.."/lua_controller/commands.lua")
 --	dofile(MP.."/lua_controller/server.lua")
+--	dofile(MP.."/lua_controller/sensorchest.lua")
 	
 	-- Items
 	dofile(MP.."/items/barrel.lua")
