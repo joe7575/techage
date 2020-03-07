@@ -19,7 +19,7 @@ local S = techage.S
 local Pipe = techage.LiquidPipe
 local liquid = techage.liquid
 
-local CAPACITY = 500
+local CAPACITY = 1000
 
 local function on_rightclick(pos, node, clicker)
 	local nvm = techage.get_nvm(pos)

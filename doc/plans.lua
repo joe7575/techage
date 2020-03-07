@@ -62,7 +62,7 @@ techage.ConstructionPlans["coalburner"] = {
 -- Hopper + Sieve
 --
 local CHEST = {"default_chest_lock.png", "default:chest_locked"}
-local HOPPR = {"techage_hopper.png^[transformFX", "techage:hopper_ta1)"}
+local HOPPR = {"techage_hopper.png^[transformFX", "minecart:hopper"}
 local SIEVE = {"techage_sieve_sieve_ta1.png", "techage:sieve3"}
 
 techage.ConstructionPlans["hoppersieve"] = {
@@ -173,6 +173,7 @@ techage.ConstructionPlans["ta3_furnace"] = {
 --
 local Pump = {"techage_filling_ta3.png^techage_appl_pump.png^techage_frame_ta3.png", "techage:t3_pump"}
 local Tank = {"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_tank.png", "techage:ta3_tank"}
+local Fillr = {"techage_filling_ta3.png^techage_appl_liquid_hopper.png^techage_frame_ta3.png", "techage:filler"}
 local PIPEH = {"techage_gaspipe.png", "techage:ta4_pipeS"}
 local PIPEV = {"techage_gaspipe.png^[transformR90", "techage:ta4_pipeS"}
 local PN000 = {"techage_gaspipe_knee.png", "techage:ta4_pipeS"}  -- r
@@ -181,11 +182,38 @@ local PN180 = {"techage_gaspipe_knee.png^[transformR180", "techage:ta4_pipeS"}  
 local PN270 = {"techage_gaspipe_knee.png^[transformR270", "techage:ta4_pipeS"}  -- 7
 
 techage.ConstructionPlans["ta3_tank"] = {
-	{false, false, false, false, false, false, false, false, false},
-	{false, false, false, false, false, false, false, false, false},
-	{false, Tubes, PushR, Tubes, Tank,  PIPEH, Pump,  PIPEH, Tank},
-	{false, PushL, Tubes, Tubes, TK180, false, false, false, false},
+	{false, false, false, false, false, false, false, false, false, false},
+	{false, Tubes, PushR, Tubes, Fillr, Tubes, PushR, Tubes, false, false},
+	{false, false, false, false, Tank,  PIPEH, PIPEH, Pump,  PIPEH, Tank},
+	{false, false, false, false, false, false, false, false, false, false},
 }
+
+
+--
+-- TA3 Oil Loading station
+--
+local MCART = {minetest.inventorycube("carts_cart_top.png", 
+		"carts_cart_side.png^minecart_logo.png", "carts_cart_side.png^minecart_logo.png"), 
+		"minecart:cart"}
+local PRAIL = {"carts_rail_straight_pwr.png", "carts:powerrail"}
+local PRAIH = {"carts_rail_straight_pwr.png^[transformR90", "carts:powerrail"}
+local TRAIL = {"carts_rail_t_junction.png^[transformR90", "carts:rail"}
+local RAILH = {"carts_rail_straight.png^[transformR90", "carts:rail"}
+local CRAIL = {"carts_rail_curved.png^[transformR90", "carts:rail"}
+local BUFFR = {"default_junglewood.png^minecart_buffer.png", "minecart:buffer"}
+
+techage.ConstructionPlans["ta3_loading"] = {
+	{false, false, PIPEH, Pump,  PIPEH, PN270, false, false, false, false, false},
+	{false, false, false, false, false, PIPEV, false, false, false, false, false},
+	{false, MCART, false, false, false, PN090, Tank,  false, false, false, false},
+	{false, HOPPR, CHEST, Tubes, PushR, Tubes, Fillr, PushR, Tubes, MCART, false},
+	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, BUFFR, false, false, false, false, false, false, false, BUFFR, false},
+	{false, PRAIL, false, false, false, false, false, false, false, PRAIL, false},
+	{false, CRAIL, RAILH, PRAIH, RAILH, RAILH, PRAIH, RAILH, RAILH, TRAIL, RAILH},
+}
+
 
 --
 -- Distiller

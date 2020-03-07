@@ -80,6 +80,7 @@ techage.manual_DE.aTitel = {
   "3,TA3 Ölpumpe / Oil Pumpjack",
   "3,TA3 Bohrgestänge / Drill Bit",
   "3,Öltank / Oil Tank",
+  "2,Öl-Transport",
   "2,Öl-Verarbeitung",
   "3,Destillationsturm / distiller tower",
   "4,Aufkocher / reboiler)",
@@ -636,7 +637,12 @@ techage.manual_DE.aText = {
   "Flüssigkeiten wie Wasser oder Öl können nur die spezielle Leitungen gepumpt und in Tanks gespeichert werden. Wie auch bei Wasser gibt es aber Behälter (Kanister\\, Fässer)\\, in denen die Flüssig gelagert und transportiert werden kann.\n"..
   "\n"..
   "Über die gelben Leitungen und Verbindungsstücke ist es auch möglich\\, mehrere Tanks zu verbinden. Allerdings müssen die Tanks den selben Inhalt haben und zwischen Tank\\, Pumpe und Verteiler muss immer mindestens eine gelbe Leitung sein.\n"..
+  "\n"..
   "Bspw. zwei Tanks direkt mit einem Verteilerstück zu verbinden\\, geht nicht.\n"..
+  "\n"..
+  "Um Flüssigkeiten von Behältern nach Tanks umzufüllen\\, dient der Einfülltrichter. Im Plan ist dargestellt\\, wie Kanistern oder Fässer mit Flüssigkeiten über Schieber in einen Einfülltrichter geschoben werden. Im Einfülltrichter wird der Behälter geleert und die Flüssigkeit nach unten in den Tank geleitet. \n"..
+  "\n"..
+  "Der Einfülltrichter kann auch unter einen Tank gesetzt werden\\, um den Tank zu leeren.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -709,6 +715,16 @@ techage.manual_DE.aText = {
   "Der Öltank ist die große Ausführung des TA3 Tanks (siehe Flüssigkeiten -> TA3 Tank).\n"..
   "\n"..
   "Der große Tank kann 2000 Einheiten Öl aufnehmen.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Um Öl von der Ölquelle zur Ölverarbeitungsanlage zu befördern\\, können Minecarts genutzt werden.  In die Minecarts können aber nur Kanister oder Fässer geladen werden. Deshalb muss das Öl zuvor in Fässer umgeladen werden. Die Ölfässer können direkt mit einem Schieber und Röhren in das Minecart geschoben werden (siehe Plan). Die leeren Fässer\\, welche per Minecart von der Entladestation zurück kommen\\, können über einen Hopper entladen werden\\, der unter der Schiene an der Haltestelle platziert wird.\n"..
+  "\n"..
+  "Es ist mit dem Hopper nicht möglich\\, an *einer* Haltestelle sowohl die leeren Fässer zu entladen\\, als auch die vollen Fässer zu beladen. Der Hopper lädt die vollen Fässer sofort wieder aus. Daher ist es ratsam\\, jeweils 2 Stationen auf der Be- und Entladeseite einzurichten und den Minecart dann über eine Aufzeichnungsfahrt entsprechend zu programmieren.\n"..
+  "\n"..
+  "Der Plan zeigt\\, wie das Öl in einen Tank gepumpt und über einen Einfülltrichter in Fässer umgefüllt und in Minecarts geladen werden kann.\n"..
+  "\n"..
+  "Damit die Minecarts automatisch wieder starten\\, müssen die Prellböcke mit Stationsname und Wartezeit konfiguriert werden. Für das Entladen reichen 5 s. Da aber die Schieber immer für mehrere Sekunden in den Standby fallen\\, wenn kein Minecart  da ist\\, muss für das Beladen eine Zeit von 15 oder mehr Sekunden eingegeben werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1298,6 +1314,7 @@ techage.manual_DE.aItemName = {
   "ta3_pumpjack",
   "ta3_drillbit",
   "oiltank",
+  "",
   "techage_ta31",
   "",
   "reboiler",
@@ -1450,6 +1467,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "ta3_loading",
   "",
   "ta3_distiller",
   "",

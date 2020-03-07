@@ -79,6 +79,7 @@
         - [TA3 Ölpumpe / Oil Pumpjack](./manual_ta3_DE.md#ta3-Ölpumpe--oil-pumpjack)
         - [TA3 Bohrgestänge / Drill Bit](./manual_ta3_DE.md#ta3-bohrgestänge--drill-bit)
         - [Öltank / Oil Tank](./manual_ta3_DE.md#Öltank--oil-tank)
+    - [Öl-Transport](./manual_ta3_DE.md#Öl-transport)
     - [Öl-Verarbeitung](./manual_ta3_DE.md#Öl-verarbeitung)
         - [Destillationsturm / distiller tower](./manual_ta3_DE.md#destillationsturm--distiller-tower)
             - [Aufkocher / reboiler)](./manual_ta3_DE.md#aufkocher--reboiler))
