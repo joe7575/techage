@@ -220,3 +220,11 @@ Cable:add_secondary_node_names({"techage:power_terminal"})
 
 minetest.register_alias("techage:ta3_power_terminal", "techage:power_terminal")
 
+minetest.register_craft({
+	output = "techage:power_terminal",
+	recipe = {
+		{"", "techage:usmium_nuggets", "default:steel_ingot"},
+		{"", "techage:basalt_glass_thin", "default:copper_ingot"},
+		{"", "techage:vacuum_tube", "default:steel_ingot"},
+	},
+})
