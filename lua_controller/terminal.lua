@@ -27,6 +27,10 @@ Local commands:
 Global commands:
 - send <num> on/off  = send on/off event
 - msg <num> <text>    = send a text message
+
+For more help:
+https://github.com/joe7575/techage/wiki
+
 ]]
 
 local function formspec1()

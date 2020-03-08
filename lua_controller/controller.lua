@@ -22,11 +22,12 @@ local sHELP = [[TA4 Lua Controller
  TechAge machines.
  This controller can be programmed in Lua.
  
- See on GitHub for more help: goo.gl/Et8D6n
-
- The controller only runs, if a battery is 
- placed nearby.
+ See on GitHub for more help: 
+ https://github.com/joe7575/techage/wiki
  
+ or download the PDF file from:
+ https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.pdf
+
 ]]
 
 techage.lua_ctlr = {}
