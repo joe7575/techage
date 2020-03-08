@@ -678,7 +678,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Mit dem Ölexplorer kannst du nach Öl suchen. Dazu den Block auf den Boden setzen und mit Rechtsklick die Suche starten.\n"..
+  "Mit dem Ölexplorer kannst du nach Öl suchen. Dazu den Block auf den Boden setzen und mit Rechtsklick die Suche starten. Der Ölexplorer kann oberirdisch und unterirdisch in Tiefen bis zu -50 Meter eingesetzt werden.\n"..
   "Über die Chat-Ausgabe wird dir angezeigt\\, in welcher Tiefe nach Öl gesucht wurde und wie viel Öl (oil) gefunden wurde.\n"..
   "Du kannst bis zu 4 mal auf den Block klicken\\, um auch in tieferen Bereichen nach Öl zu suchen. Ölfelder haben eine Größe von 2000 bis zu 20000 Items.\n"..
   "\n"..

@@ -112,7 +112,7 @@ local function status(pos, player_name, depth, amount)
 	depth = depth + pos.y
 	local posC = {x = center(pos.x), y = pos.y, z = center(pos.z)}
 	minetest.chat_send_player(player_name, 
-		"[TA Oil] "..P2S(posC).." depth: "..depth..",  Oil: "..amount.."    ")
+		"[TA Oil] "..P2S(posC).." "..S("depth")..": "..depth..",  "..S("Oil")..": "..amount.."    ")
 end
 
 local function marker(player_name, pos)
@@ -142,7 +142,10 @@ local function explore_area(pos, pos1, pos2, posC, depth, amount, player_name)
 end
 
 local function emerge_area(pos, node, player_name)
-	if get_oil_amount(pos) == 0 then -- nothing found so far?
+	if pos.y < -50 then
+		minetest.chat_send_player(player_name, 
+		S("[TA Oil] No oil exploration possible at this depth!  "))
+	elseif get_oil_amount(pos) == 0 then -- nothing found so far?
 		local depth = get_next_depth(pos)
 		local posC = {x = center(pos.x), y = center(-depth), z = center(pos.z)}
 		local radius = 7

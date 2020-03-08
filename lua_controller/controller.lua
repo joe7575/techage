@@ -539,7 +539,7 @@ minetest.register_node("techage:ta4_lua_controller", {
 minetest.register_craft({
 	output = "techage:ta4_lua_controller",
 	recipe = {
-		{"basic_materials:plastic_sheet", "dye:blue", "basic_materials:plastic_sheet"},
+		{"basic_materials:plastic_sheet", "dye:blue", "techage:aluminum"},
 		{"", "default:copper_ingot", ""},
 		{"techage:ta4_ramchip", "techage:ta4_wlanchip", "techage:ta4_ramchip"},
 	},

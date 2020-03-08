@@ -1,11 +1,11 @@
 --[[
 
-	sl_controller
-	=============
+	Techage
+	=======
 
-	Copyright (C) 2018 Joachim Stolberg
+	Copyright (C) 2020 Joachim Stolberg
 
-	LGPLv2.1+
+	GPL v3
 	See LICENSE.txt for more information
 
 	commands.lua:
@@ -55,38 +55,35 @@ techage.lua_ctlr.register_function("get_player_action", {
 		' example: player, action, item = $get_player_action("1234")'
 })
 
---techage.lua_ctlr.register_function("get_counter", {
---	cmnd = function(self, num) 
---		num = tostring(num or "")
---		return techage.send_single(self.meta.number, num, "counter", nil)
---	end,
---	help = " $get_counter(num)\n"..
---		" Read number of pushed items from a\n"..
---		" Pusher/Distributor node.\n"..
---		" The Pusher returns a single value (number)\n"..
---		" The Distributor returns a list with 4 values\n"..
---		" like: {red=1, green=0, blue=8, yellow=0}\n"..
---		' example: cnt = $get_counter("1234")\n'
---})
-
---techage.lua_ctlr.register_function("clear_counter", {
---	cmnd = function(self, num) 
---		num = tostring(num or "")
---		return techage.send_single(self.meta.number, num, "clear_counter", nil)
---	end,
---	help = " $clear_counter(num)\n"..
---		" Set counter(s) from Pusher/Distributor to zero.\n"..
---		' example: $clear_counter("1234")'
---})
-
 techage.lua_ctlr.register_function("get_fuel_value", {
 	cmnd = function(self, num) 
 		num = tostring(num or "")
 		return techage.send_single(self.meta.number, num, "fuel", nil)
 	end,
 	help = " $get_fuel_value(num)\n"..
-		" Read fuel value from fuel consuming blocks.\n"..
+		" Read the fuel value from fuel consuming blocks.\n"..
 		' example: val = $get_fuel_value("1234")'
+})
+
+techage.lua_ctlr.register_function("get_load_value", {
+	cmnd = function(self, num) 
+		num = tostring(num or "")
+		return techage.send_single(self.meta.number, num, "load", nil)
+	end,
+	help = " $get_load_value(num)\n"..
+		" Read the load value (0..100) from a tank/storage block.\n"..
+		' example: val = $get_load_value("1234")'
+})
+
+techage.lua_ctlr.register_function("get_delivered_value", {
+	cmnd = function(self, num) 
+		num = tostring(num or "")
+		return techage.send_single(self.meta.number, num, "delivered", nil)
+	end,
+	help = " $get_delivered_value(num)\n"..
+		" Read the delivered power value from a generator block.\n"..
+		" Power consuming blocks like accus\nalso provide a negative value.\n"..
+		' example: val = $get_delivered_value("1234")'
 })
 
 --techage.lua_ctlr.register_function("get_num_items", {
@@ -179,7 +176,7 @@ techage.lua_ctlr.register_action("display", {
 		' Send a text line to the display with number "num".\n'..
 		" 'row' is a value from 1..5\n"..
 		" The function accepts up to 3 text parameters\n"..
-		' example: $display("0123", 1, "Hello ", name, " !")'
+		' example: $display("123", 1, "Hello ", name, " !")'
 })
 
 techage.lua_ctlr.register_action("clear_screen", {
@@ -233,3 +230,6 @@ techage.lua_ctlr.register_action("door", {
 		' example: $door("123,7,-1200", "close")\n'..
 		" Hint: Use the Techage Programmer to\ndetermine the door position."
 })
+
+-- function not_protected(owner, number(s))
+techage.lua_ctlr.not_protected = not_protected

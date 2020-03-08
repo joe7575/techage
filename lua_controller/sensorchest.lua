@@ -44,7 +44,7 @@ local function send_command(pos)
 	if numbers ~= "" then
 		local own_num = meta:get_string("node_number")
 		techage.send_multi(own_num, numbers, "on")
-		minetest.after(1, send_off_command, pos)
+		minetest.after(0.2, send_off_command, pos)
 	end
 end
 
@@ -86,7 +86,7 @@ local function formspec(pos)
 	default.gui_slots..
 	"list[context;main;0,0;2,2;]"..
 	"button[2,0;1,1;f1;F1]"..
-	"button[2,1;1,1;ok;OK]"..
+	"button[2,1;1,1;f2;F2]"..
 	"label[3,0;"..text.."]"..
 	"list[current_player;main;0,2.3;8,4;]"..
 	"listring[context;main]"..
@@ -128,8 +128,8 @@ minetest.register_node("techage:ta4_sensor_chest", {
 			store_action(pos, player, "f1")
 			send_command(pos)
 		end
-		if fields.ok then
-			store_action(pos, player, "ok")
+		if fields.f2 then
+			store_action(pos, player, "f2")
 			send_command(pos)
 		end
 		meta:set_string("formspec", formspec(pos, meta))
