@@ -328,7 +328,7 @@ techage.icta_register_condition("chest", {
 			type = "textlist",
 			name = "value",
 			label = "",
-			choices = "empty,loaded,invalid",
+			choices = "empty,loaded,full,invalid",
 			default = "empty",
 		},
 		{
