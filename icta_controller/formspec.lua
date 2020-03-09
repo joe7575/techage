@@ -55,6 +55,13 @@ The battery pack has to be placed near the
 controller (1 node distance). 
 The needed battery power is directly dependent 
 on the CPU time the controller consumes.
+
+ The Manual in German: 
+ https://github.com/joe7575/techage/blob/master/manuals/ta4_icta_controller_DE.md
+ 
+ Or the same as PDF:
+ https://github.com/joe7575/techage/blob/master/manuals/ta4_icta_controller_DE.pdf
+
 ]]
 
 -- to simplify the search for a pressed main form button (condition/action)

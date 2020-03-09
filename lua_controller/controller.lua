@@ -23,7 +23,7 @@ local sHELP = [[TA4 Lua Controller
  This controller can be programmed in Lua.
  
  See on GitHub for more help: 
- https://github.com/joe7575/techage/wiki
+ https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md
  
  or download the PDF file from:
  https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.pdf
