@@ -561,7 +561,7 @@ techage.icta_register_action("door", {
 			type = "label", 
 			name = "lbl", 
 			label = "For standard doors like the Steel Doors.\n"..
-				"Use the Techage Programmer to\neasily determine a door position.", 
+				"Use the Techage Info Tool to\neasily determine a door position.", 
 		},
 	},
 	code = function(data, environ) 
