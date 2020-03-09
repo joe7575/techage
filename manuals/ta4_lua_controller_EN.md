@@ -9,6 +9,12 @@ But to write Lua scripts, some knowledge with the programming language Lua is re
 
 Minetest uses Lua 5.1. The reference document for Lua 5.1 is [here](https://www.lua.org/manual/5.1/). The  book [Programming in Lua (first edition)](https://www.lua.org/pil/contents.html) is also a perfect source for learning Lua.
 
+This manual is also available as PDF:
+
+https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.pdf
+
+
+
 ## Table of Contents
 
 - [TA4 Lua Controller Blocks](#TA4-Lua-Controller-Blocks)

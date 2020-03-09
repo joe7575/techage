@@ -100,7 +100,11 @@ Der Controller hat eine eigene Hilfe und Hinweise zu allen Kommandos über das C
 
 Einlesen von Maschinendaten sowie das Steuern von Blöcken und Maschinen erfolgt über sogenannte Kommandos. Für das Verständnis, wie Kommandos funktionieren, ist das Kapitel TA3 -> Logik-/Schalt-Blöcke in der In-Game Hilfe (Konstruktionsplan) hilfreich. 
 
-Die Hilfe existiert auch als PDF zum Drucken oder offline Lesen.
+Die Hilfe existiert auch als PDF zum Drucken oder offline Lesen:
+
+https://github.com/joe7575/techage/blob/master/manuals/ta4_icta_controller_DE.pdf
+
+
 
 
 
