@@ -95,11 +95,8 @@ minetest.register_node("techage:oilfirebox", {
 
 	on_timer = node_timer,
 	can_dig = fuel.can_dig,
-	allow_metadata_inventory_put = fuel.allow_metadata_inventory_put,
-	allow_metadata_inventory_take = fuel.allow_metadata_inventory_take,
 	on_rightclick = fuel.on_rightclick,
 	on_receive_fields = fuel.on_receive_fields,
-	on_punch = fuel.on_punch,
 	
 	on_construct = function(pos)
 		techage.add_node(pos, "techage:oilfirebox")
@@ -111,7 +108,6 @@ minetest.register_node("techage:oilfirebox", {
 		local meta = M(pos)
 		meta:set_string("formspec", fuel.formspec(nvm))
 		local inv = meta:get_inventory()
-		inv:set_size('fuel', 1)
 		firehole(pos, false)
 	end,
 
@@ -119,14 +115,14 @@ minetest.register_node("techage:oilfirebox", {
 		firehole(pos, nil)
 	end,
 
-	on_metadata_inventory_put = function(pos, listname, index, stack, player)
+	on_punch = function(pos, node, puncher, pointed_thing)
 		local nvm = techage.get_nvm(pos)
-		nvm.liquid = nvm.liquid or {}
-		nvm.liquid.amount = nvm.liquid.amount or 0
-		minetest.after(1, start_firebox, pos, nvm)
-		fuel.on_metadata_inventory_put(pos, listname, index, stack, player)
+		fuel.on_punch(pos, node, puncher, pointed_thing)
+		if nvm.liquid and nvm.liquid.amount and nvm.liquid.amount > 0 then
+			minetest.after(1, start_firebox, pos, nvm)
+		end
 	end,
-
+	
 	liquid = {
 		capa = fuel.CAPACITY,
 		fuel_cat = fuel.BT_BITUMEN,
