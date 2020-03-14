@@ -254,7 +254,7 @@ In einem Tank können Flüssigkeiten gespeichert werden. Ein Tank kann über ein
 
 Ein Tank kann auch von Hand gefüllt oder geleert werden, indem mit einem vollen oder leeren Flüssigkeitsbehälter (Fass, Kanister) auf den Tank geklickt wird. Dabei ist zu beachten, dass Fässer nur komplett gefüllt oder entleert werden können. Sind bspw. weniger als 10 Einheiten im Tank, muss dieser Rest mit Kanistern entnommen oder leergepumpt werden.
 
-In einen TA3 Tank passen 500 Einheiten oder 50 Fässer einer Flüssigkeit.
+In einen TA3 Tank passen 1000 Einheiten oder 100 Fässer einer Flüssigkeit.
 
 [ta3_tank|image]
 
@@ -342,7 +342,7 @@ Das Bohrgestänge wird für die Bohrung benötigt. Es werden so viele Bohrgestä
 
 Der Öltank ist die große Ausführung des TA3 Tanks (siehe Flüssigkeiten -> TA3 Tank).
 
-Der große Tank kann 2000 Einheiten Öl aufnehmen.
+Der große Tank kann 4000 Einheiten Öl aufnehmen.
 
 [oiltank|image]
 

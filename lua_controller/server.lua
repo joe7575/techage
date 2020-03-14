@@ -12,39 +12,24 @@
 
 ]]--
 
-local SERVER_CAPA = 5000
-local DEFAULT_MEM = {
-	size=0, 
-	data={
-		version = 1,
-		info = "SaferLua key/value Server",
-	}
-}
+-- for lazy programmers
+local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
+local M = minetest.get_meta
 
-local function formspec(meta)
-	local names = meta:get_string("names") or ""
+local SERVER_CAPA = 5000
+
+local function formspec(nvm)
+	local names = table.concat(nvm.names or {}, " ")
 	return "size[9,4]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	"field[0.2,1;9,1;names;Allowed user names (spaces separated):;"..names.."]" ..
+	"field[0.2,1;9,1;names;Allowed user names (space separated):;"..names.."]" ..
 	"button_exit[3.5,2.5;2,1;exit;Save]"
 end
 
-
-local function on_time(pos, elasped)
-	local meta = minetest.get_meta(pos)
-	local nvm = techage.get_nvm(pos)
-	if next(nvm) == nil then
-		nvm = table.copy(DEFAULT_MEM)
-	end
-	local number = meta:get_string("number")
-	meta:set_string("infotext", "Server "..number..": ("..(nvm.size or 0).."/"..SERVER_CAPA..")")
-	return true
-end
-
 minetest.register_node("techage:ta4_server", {
-	description = "Central Server",
+	description = "TA4 Lua Server",
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_server_top.png",
@@ -73,23 +58,25 @@ minetest.register_node("techage:ta4_server", {
 	},
 	
 	after_place_node = function(pos, placer)
-		local meta = minetest.get_meta(pos)
+		local meta = M(pos)
+		local nvm = techage.get_nvm(pos)
 		local number = techage.add_node(pos, "techage:ta4_server")
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("number", number)
-		meta:set_string("formspec", formspec(meta))
-		on_time(pos, 0)
+		meta:set_string("formspec", formspec(nvm))
+		nvm.size = 0
+		meta:set_string("infotext", "Server "..number..": ("..nvm.size.."/"..SERVER_CAPA..")")
 		minetest.get_node_timer(pos):start(20)
 	end,
 	
 	on_receive_fields = function(pos, formname, fields, player)
-		local meta = minetest.get_meta(pos)
+		local meta = M(pos)
+		local nvm = techage.get_nvm(pos)
 		local owner = meta:get_string("owner")
 		if player:get_player_name() == owner then
 			if fields.names and fields.names ~= "" then
-				local names = string.gsub(fields.names, " +", " ")
-				meta:set_string("names", names)
-				meta:set_string("formspec", formspec(meta))
+				nvm.names = string.split(fields.names, " ")
+				meta:set_string("formspec", formspec(nvm))
 			end
 		end
 	end,
@@ -98,14 +85,18 @@ minetest.register_node("techage:ta4_server", {
 		if minetest.is_protected(pos, puncher:get_player_name()) then
 			return
 		end
-		local meta = minetest.get_meta(pos)
-		local number = meta:get_string("number")
 		techage.del_mem(pos)
-		minetest.node_dig(pos, node, puncher, pointed_thing)
 		techage.remove_node(pos)
 	end,
 		
-	on_timer = on_time,
+	on_timer = function(pos, elasped)
+		local meta = M(pos)
+		local nvm = techage.get_nvm(pos)
+		nvm.size = nvm.size or 0
+		local number = meta:get_string("number")
+		meta:set_string("infotext", "Server "..number..": ("..nvm.size.."/"..SERVER_CAPA..")")
+		return true
+	end,
 	
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -138,25 +129,14 @@ local function calc_size(v)
 	end
 end
 
-local function get_memory(pos, num, name)
+local function get_memory(num, name)
 	local info = techage.get_node_info(num)
-	if info and info.name == "techage:ta4_server" then
-		local meta = minetest.get_meta(info.pos)
-		local owner = meta:get_string("owner")
-		if name == owner then
-			local nvm = techage.get_nvm(pos)
-			if next(nvm) == nil then
-				nvm = table.copy(DEFAULT_MEM)
-			end
-			return nvm
-		end
-		local names = meta:get_string("names")
-		for _,n in ipairs(string.split(names, " ")) do
-			local nvm = techage.get_nvm(pos)
+	if info and info.pos then
+		local nvm = techage.get_nvm(info.pos)
+		nvm.names = nvm.names or {}
+		for _,n in ipairs(nvm.names) do
 			if name == n then
-				if next(nvm) == nil then
-					nvm = table.copy(DEFAULT_MEM)
-				end
+				nvm.data = nvm.data or {}
 				return nvm
 			end
 		end
@@ -173,7 +153,9 @@ local function write_value(nvm, key, item)
 		end
 		nvm.size = nvm.size + calc_size(item)
 		nvm.data[key] = item
+		return true
 	end
+	return false
 end	
 
 local function read_value(nvm, key)
@@ -185,7 +167,7 @@ local function read_value(nvm, key)
 end	
 
 techage.register_node({"techage:ta4_server"}, {
-	on_recv_message = function(pos, topic, payload)
+	on_recv_message = function(pos, src, topic, payload)
 		return "unsupported"
 	end,
 	on_node_load = function(pos)
@@ -197,7 +179,7 @@ techage.register_node({"techage:ta4_server"}, {
 techage.lua_ctlr.register_function("server_read", {
 	cmnd = function(self, num, key) 
 		if type(key) == "string" then
-			local nvm = get_memory(self.meta.pos, num, self.meta.owner)
+			local nvm = get_memory(num, self.meta.owner)
 			if nvm then
 				return read_value(nvm, key)
 			end
@@ -208,15 +190,15 @@ techage.lua_ctlr.register_function("server_read", {
 	help = " $server_read(num, key)\n"..
 		" Read a value from the server.\n"..
 		" 'key' must be a string.\n"..
-		' example: state = $server_read("0123", "state")'
+		' example: state = $server_read("123", "state")'
 })
 
 techage.lua_ctlr.register_action("server_write", {
 	cmnd = function(self, num, key, value)
 		if type(key) == "string" then
-			local nvm = get_memory(self.meta.pos, num, self.meta.owner)
+			local nvm = get_memory(num, self.meta.owner)
 			if nvm then
-				write_value(nvm, key, value)
+				return write_value(nvm, key, value)
 			end
 		else
 			self.error("Invalid server_write parameter")
@@ -226,7 +208,8 @@ techage.lua_ctlr.register_action("server_write", {
 		" Store a value on the server under the key 'key'.\n"..
 		" 'key' must be a string. 'value' can be either a\n"..
 		" number, string, boolean, nil or data structure.\n"..
-		' example: $server_write("0123", "state", state)'
+		" return value: true if successful or false\n"..
+		' example: res = $server_write("123", "state", state)'
 })
 
 

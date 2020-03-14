@@ -214,7 +214,7 @@ techage.register_node({"techage:generator", "techage:generator_on"}, {
 		if topic == "trigger" then
 			nvm.firebox_trigger = 3
 			if nvm.running then
-				return math.max((nvm.provided or PWR_CAPA) / PWR_CAPA, 0.1)
+				return math.max((nvm.provided or PWR_CAPA) / PWR_CAPA, 0.02)
 			else
 				return 0
 			end

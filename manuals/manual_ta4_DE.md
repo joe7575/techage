@@ -351,6 +351,36 @@ Der Signal Tower kann rot, grün und orange anzeigen. Eine Kombination der 3 Far
 
 
 
+## TA4 Lua Controller
+
+Der Lua Controller muss, wie der Name schon sagt, in der Programmiersprache Lua programmiert werden. Außerdem sollte man etwas Englisch können (oder Google bemühen), denn die Anleitung dazu gibt es nur in Englisch:
+
+https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md
+
+Auch der Lua Controller benötigt eine Batterie. Die Batterie muss in unmittelbarer Nähe zum Controller platziert werden, also an einer der 26 Positionen um den Controller herum.
+
+[ta4_lua_controller|image]
+
+### TA4 Lua Server
+
+Der Server dient zur zentralen Speicherung von Daten von mehreren Lua Controllern. Es speichert auch die Daten über einen Server-Neustart hinweg.
+
+[ta4_lua_server|image]
+
+### TA4 Sensor Kiste/Chest
+
+Die TA4 Sensor Kiste dient zum Aufbau von Automatischen Lagern oder Verkaufsautomaten. Sie hat erweitere Kommandos zur Fernsteuerung.
+
+[ta4_sensor_chest|image]
+
+### TA4 Lua Controller Terminal
+
+Das Terminal dient zur Ein-/Ausgabe für den Lua Controller.
+
+[ta4_terminal|image]
+
+
+
 ## Weitere TA4 Blöcke
 
 
@@ -358,7 +388,7 @@ Der Signal Tower kann rot, grün und orange anzeigen. Eine Kombination der 3 Far
 
 Siehe TA3 Tank.
 
-In einen TA4 Tank passen 1000 Einheiten oder 100 Fässer einer Flüssigkeit.
+In einen TA4 Tank passen 2000 Einheiten oder 200 Fässer einer Flüssigkeit.
 
 [ta4_tank|image]
 

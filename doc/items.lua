@@ -137,5 +137,9 @@ techage.Items = {
 	ta4_battery = "techage:ta4_battery",
 	ta4_display = "techage:ta4_display",
 	ta4_signaltower = "techage:ta4_signaltower",
+	ta4_lua_controller = "techage:ta4_lua_controller",
+	ta4_lua_server = "techage:ta4_server",
+	ta4_sensor_chest = "techage:ta4_sensor_chest",
+	ta4_terminal = "techage:ta4_terminal",
 	--ta4_ "", 
 }

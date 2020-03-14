@@ -80,11 +80,13 @@ local function command(pos, cmnd, player)
 			meta:set_string("formspec", formspec2(meta))
 		elseif cmnd == "pub" and owner == player then
 			meta:set_int("public", 1)
-			output(pos, player..":$ "..cmnd)
+			--output(pos, player..":$ "..cmnd)
+			output(pos, "> "..cmnd)
 			output(pos, "Switched to public use!")
 		elseif cmnd == "priv" and owner == player then
 			meta:set_int("public", 0)
-			output(pos, player..":$ "..cmnd)
+			--output(pos, player..":$ "..cmnd)
+			output(pos, "> "..cmnd)
 			output(pos, "Switched to private use!")
 		elseif meta:get_int("public") == 1 or owner == player then
 			-- send <num> on/off
@@ -92,7 +94,8 @@ local function command(pos, cmnd, player)
 			if num and topic then
 				local own_number = meta:get_string("own_number")
 				if techage.lua_ctlr.not_protected(owner, num) then
-					output(pos, player..":$ send "..num.." "..topic)
+					--output(pos, player..":$ send "..num.." "..topic)
+					output(pos, "> send "..num.." "..topic)
 					techage.send_single(own_number, num, topic, nil)
 					return
 				end
@@ -102,15 +105,17 @@ local function command(pos, cmnd, player)
 			if num and text then
 				local own_number = meta:get_string("own_number")
 				if techage.lua_ctlr.not_protected(owner, num) then
-					output(pos, player..":$ msg "..num.." "..text)
+					--output(pos, player..":$ msg "..num.." "..text)
+					output(pos, "> msg "..num.." "..text)
 					techage.send_single(own_number, num, "msg", {src=own_number, text=text})
 					return
 				end
 			end
 			local number = meta:get_string("number")
 			local own_number = meta:get_string("own_number")
-			if techage.lua_ctlr.not_protected(owner, num) then
-				output(pos, player..":$ "..cmnd)
+			if techage.lua_ctlr.not_protected(owner, number) then
+				--output(pos, player..":$ "..cmnd)
+				output(pos, "> "..cmnd)
 				techage.send_single(own_number, number, "term", cmnd)
 			end
 		end
@@ -157,9 +162,7 @@ minetest.register_node("techage:ta4_terminal", {
 		local meta = minetest.get_meta(pos)
 		if fields.number and fields.number ~= "" then
 			local owner = meta:get_string("owner")
-			print(fields.number, owner)
 			if techage.check_numbers(fields.number, owner) then
-				print(1)
 				meta:set_string("number", fields.number)
 				local own_number = meta:get_string("own_number")
 				meta:set_string("infotext", "TA4 Lua Controller Terminal "..own_number..": connected with "..fields.number)
@@ -192,7 +195,7 @@ minetest.register_craft({
 })
 
 techage.register_node({"techage:ta4_terminal"}, {
-	on_recv_message = function(pos, topic, payload)
+	on_recv_message = function(pos, src, topic, payload)
 		if topic == "term" then
 			output(pos, payload)
 			return true

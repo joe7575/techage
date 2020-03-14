@@ -16,7 +16,7 @@
 local M = minetest.get_meta
 local S = techage.S
 local logic = techage.logic
-local BATTERY_CAPACITY = 5000000
+local BATTERY_CAPACITY = 10000000
 
 local function calc_percent(content)
 	local val = (BATTERY_CAPACITY - math.min(content or 0, BATTERY_CAPACITY))

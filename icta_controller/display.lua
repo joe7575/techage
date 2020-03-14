@@ -108,7 +108,7 @@ local function add_line(meta, payload)
 	else
 		rows = string.split(text, "|")
 	end
-	if #rows >= NUM_ROWS then
+	while #rows >= NUM_ROWS do
 		table.remove(rows, 1)
 	end
 	table.insert(rows, payload)

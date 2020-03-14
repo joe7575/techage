@@ -218,17 +218,15 @@ else
 	dofile(MP.."/icta_controller/commands.lua")
 	dofile(MP.."/icta_controller/edit.lua")
 	dofile(MP.."/icta_controller/battery.lua")
-	--dofile(MP.."/icta_controller/stopwatch.lua")
-	--dofile(MP.."/icta_controller/expression.lua")
 	dofile(MP.."/icta_controller/display.lua")
 	dofile(MP.."/icta_controller/signaltower.lua")
 	
 	-- Lua Controller
---	dofile(MP.."/lua_controller/controller.lua")
---	dofile(MP.."/lua_controller/commands.lua")
---	dofile(MP.."/lua_controller/server.lua")
---	dofile(MP.."/lua_controller/sensorchest.lua")
---	dofile(MP.."/lua_controller/terminal.lua")
+	dofile(MP.."/lua_controller/controller.lua")
+	dofile(MP.."/lua_controller/commands.lua")
+	dofile(MP.."/lua_controller/server.lua")
+	dofile(MP.."/lua_controller/sensorchest.lua")
+	dofile(MP.."/lua_controller/terminal.lua")
 	
 	-- Items
 	dofile(MP.."/items/barrel.lua")

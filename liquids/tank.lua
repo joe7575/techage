@@ -230,7 +230,7 @@ minetest.register_craft({
 	output = "techage:ta3_tank 2",
 	recipe = {
 		{"techage:iron_ingot", "techage:ta3_barrel_empty", "group:wood"},
-		{"techage:tubeS", "techage:ta3_barrel_empty", "techage:ta3_pipeS"},
+		{"group:wood", "techage:ta3_barrel_empty", "techage:ta3_pipeS"},
 		{"group:wood", "techage:ta3_barrel_empty", "techage:iron_ingot"},
 	},
 })

@@ -22,5 +22,6 @@ Highly recommended: signs_bot, hyperloop
 - 2019-06-16  V0.01  * First upload  
 - 2019-09-28  V0.02  * TA3 finished  
 - 2020-02-29  V0.04  * TA4 ICTA controller added  
+- 2020-03-14  V0.05  * TA4 Lua controller added  
 
 

@@ -30,6 +30,16 @@ lItemName = []
 lPlanTable = []
 lTocLinks = []
 
+def reset():
+    global lTitel, lText, lItemName, lPlanTable, lTocLinks
+    
+    lTitel = []
+    lText = []
+    lItemName = []
+    lPlanTable = []
+    lTocLinks = []
+
+
 def lua_table(name, lData):
     lOut = []
     lOut.append("%s = {" % name)
@@ -209,16 +219,26 @@ def gen_lua_file(dest_name):
     lOut.append(lua_table("%s.%s.aPlanTable" % (mod, manual), lPlanTable))
     file(dest_name, "w").write("".join(lOut))
     
-def gen_toc_md_file(dest_name, titel):
+def gen_toc_md_file(dest_name, titel, level_range=[1,6]):
     print("Write MD file '%s'" % dest_name)
     lOut = ["# "+ titel]
     lOut.append("")
     for item in lTocLinks:
-        list_item = "    " * (item["level"] - 1) + "-"
-        link = "%s#%s" % (item["link"], header_escsape(item["header"]))
-        lOut.append("%s [%s](%s)" % (list_item, item["header"], link))
+        if item["level"] in range(*level_range):
+            list_item = "    " * (item["level"] - level_range[0]) + "-"
+            link = "%s#%s" % (item["link"], header_escsape(item["header"]))
+            lOut.append("%s [%s](%s)" % (list_item, item["header"], link))
     file(dest_name, "w").write("\n".join(lOut))
     
+def gen_file_local_toc(dest_name, level_range=[1,6]):
+    lOut = []
+    for item in lTocLinks:
+        if item["level"] in range(*level_range):
+            list_item = "    " * (item["level"] - level_range[0]) + "-"
+            link = "#%s" % (item["header"].replace(" ", "-").replace("\\", ""))
+            lOut.append("%s [%s](%s)" % (list_item, item["header"].replace("\\", ""), link))
+    file(dest_name, "w").write("\n".join(lOut))
+
 mod = "techage"
 manual = "manual_DE"
 parse_md_file("./manual_DE.md", mod, manual)
@@ -228,3 +248,7 @@ parse_md_file("./manual_ta3_DE.md", mod, manual)
 parse_md_file("./manual_ta4_DE.md", mod, manual)
 gen_lua_file("../doc/manual_DE.lua")
 gen_toc_md_file("./toc_DE.md", "Inhaltsverzeichnis")
+
+reset()
+parse_md_file("./ta4_lua_controller_EN.md", mod, manual)
+gen_file_local_toc("toc.txt", level_range=[2,4])

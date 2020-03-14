@@ -17,11 +17,14 @@
 -- store protection data locally
 local LocalRef = {}
 local function not_protected(owner, numbers)
-	LocalRef[owner] = LocalRef[owner] or {}
-	if LocalRef[owner][numbers] == nil then
-		LocalRef[owner][numbers] = techage.check_numbers(numbers, owner)
+	if owner and numbers then
+		LocalRef[owner] = LocalRef[owner] or {}
+		if LocalRef[owner][numbers] == nil then
+			LocalRef[owner][numbers] = techage.check_numbers(numbers, owner)
+		end
+		return LocalRef[owner][numbers]
 	end
-	return LocalRef[owner][numbers]
+	return false
 end
 
 techage.lua_ctlr.register_function("get_input", {
@@ -35,68 +38,17 @@ techage.lua_ctlr.register_function("get_input", {
 		" The device has to be connected with the controller."
 })
 
-techage.lua_ctlr.register_function("get_status", {
-	cmnd = function(self, num) 
+techage.lua_ctlr.register_function("read_data", {
+	cmnd = function(self, num, ident) 
 		num = tostring(num or "")
-		return techage.send_single(self.meta.number, num, "state", nil)
+		return techage.send_single(self.meta.number, num, ident, nil)
 	end,
-	help = " $get_status(num) ,\n"..
-		" Read status string from a remote device.\n"..
-		' example: sts = $get_status("1234")'
+	help = " $read_data(num, ident)\n"..
+		" Read any kind of data from another block.\n"..
+		' "num" is the block number\n'..
+		' "ident" specifies the data to be read\n'..
+		' example: sts = $read_data("1234", "state")'
 })
-
-techage.lua_ctlr.register_function("get_player_action", {
-	cmnd = function(self, num) 
-		num = tostring(num or "")
-		return unpack(techage.send_single(self.meta.number, num, "player_action", nil) or {"","",""})
-	end,
-	help = " $get_player_action(num) ,\n"..
-		" Read player action status from a Sensor Chest.\n"..
-		' example: player, action, item = $get_player_action("1234")'
-})
-
-techage.lua_ctlr.register_function("get_fuel_value", {
-	cmnd = function(self, num) 
-		num = tostring(num or "")
-		return techage.send_single(self.meta.number, num, "fuel", nil)
-	end,
-	help = " $get_fuel_value(num)\n"..
-		" Read the fuel value from fuel consuming blocks.\n"..
-		' example: val = $get_fuel_value("1234")'
-})
-
-techage.lua_ctlr.register_function("get_load_value", {
-	cmnd = function(self, num) 
-		num = tostring(num or "")
-		return techage.send_single(self.meta.number, num, "load", nil)
-	end,
-	help = " $get_load_value(num)\n"..
-		" Read the load value (0..100) from a tank/storage block.\n"..
-		' example: val = $get_load_value("1234")'
-})
-
-techage.lua_ctlr.register_function("get_delivered_value", {
-	cmnd = function(self, num) 
-		num = tostring(num or "")
-		return techage.send_single(self.meta.number, num, "delivered", nil)
-	end,
-	help = " $get_delivered_value(num)\n"..
-		" Read the delivered power value from a generator block.\n"..
-		" Power consuming blocks like accus\nalso provide a negative value.\n"..
-		' example: val = $get_delivered_value("1234")'
-})
-
---techage.lua_ctlr.register_function("get_num_items", {
---	cmnd = function(self, num, idx) 
---		num = tostring(num or "")
---		idx = tonumber(idx)
---		return techage.send_single(self.meta.number, num, "num_items", idx)
---	end,
---	help = " $get_num_items(num)\n"..
---		" Read number of stored items in one\n"..
---		" storage (1..8) from a Warehouse Box.\n"..
---		' example: cnt = $get_num_items("1234", 4)\n'
---})
 
 techage.lua_ctlr.register_function("time_as_str", {
 	cmnd = function(self) 
@@ -122,28 +74,18 @@ techage.lua_ctlr.register_function("time_as_num", {
 		' example: time = $time_as_num()'
 })
 
-techage.lua_ctlr.register_function("playerdetector", {
-	cmnd = function(self, num) 
-		num = tostring(num or "")
-		if not_protected(self.meta.owner, num) then
-			return techage.send_single(self.meta.number, num, "name", nil)
-		end
-	end,
-	help = ' $playerdetector(num) --> e.g. "Joe"\n'..
-		' "" is returned if no player is nearby.\n'..
-		' example: name = $playerdetector("1234")'
-})
-
 techage.lua_ctlr.register_action("send_cmnd", {
-	cmnd = function(self, num, text) 
+	cmnd = function(self, num, cmnd, data) 
 		num = tostring(num or "")
-		text = tostring(text or "")
+		cmnd = tostring(cmnd or "")
 		if not_protected(self.meta.owner, num) then
-			techage.send_single(self.meta.number, num, text, nil)
+			techage.send_single(self.meta.number, num, cmnd, data)
 		end
 	end,
-	help = " $send_cmnd(num, text)\n"..
+	help = " $send_cmnd(num, cmnd, data)\n"..
 		' Send a command to the device with number "num".\n'..
+		'"cmnd" is the command as text string\n'..
+		'"data" is additional data (optional)\n'..
 		' example: $send_cmnd("1234", "on")'
 })
 
@@ -163,20 +105,30 @@ techage.lua_ctlr.register_action("set_filter", {
 
 
 techage.lua_ctlr.register_action("display", {
-	cmnd = function(self, num, row, text1, text2, text3)
+	cmnd = function(self, num, row, text)
 		num = tostring(num or "")
-		text1 = tostring(text1 or "")
-		text2 = tostring(text2 or "")
-		text3 = tostring(text3 or "")
+		row = tonumber(row or 1) or 1
+		text = tostring(text or "")
 		if not_protected(self.meta.owner, num) then
-			techage.send_single(self.meta.number, num, "set", {row = row, str = text1..text2..text3})
+			if text:byte(1) ~= 32 then -- left aligned?
+				text = "<"..text	-- use the '<' lcdlib control char for left-aligned
+			else
+				text = text:sub(2) -- delete blank for centered
+			end
+			if row == 0 then -- add line?
+				techage.send_single(self.meta.number, num, "add", text)
+			else
+				techage.send_single(self.meta.number, num, "set", {row = row, str = text})
+			end
 		end
 	end,
-	help = " $display(num, row, text,...)\n"..
+	help = " $display(num, row, text)\n"..
 		' Send a text line to the display with number "num".\n'..
-		" 'row' is a value from 1..5\n"..
-		" The function accepts up to 3 text parameters\n"..
-		' example: $display("123", 1, "Hello ", name, " !")'
+		" 'row' is a value from 1..5, or 0 for scroll screen\n"..
+		" and add a new line. If the first char of the string\n"..
+		" is a blank, the text will be horizontally centered.\n"..
+		' example: $display("123", 1, "Hello "..name)'
+		
 })
 
 techage.lua_ctlr.register_action("clear_screen", {

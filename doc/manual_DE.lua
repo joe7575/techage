@@ -146,6 +146,10 @@ techage.manual_DE.aTitel = {
   "3,Batterie",
   "3,TA4 Display",
   "3,TA4 Signal Tower",
+  "2,TA4 Lua Controller",
+  "3,TA4 Lua Server",
+  "3,TA4 Sensor Kiste/Chest",
+  "3,TA4 Lua Controller Terminal",
   "2,Weitere TA4 Blöcke",
   "3,TA4 Tank / TA4 Tank",
   "3,TA4 Pumpe / TA4 Pump",
@@ -650,7 +654,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Ein Tank kann auch von Hand gefüllt oder geleert werden\\, indem mit einem vollen oder leeren Flüssigkeitsbehälter (Fass\\, Kanister) auf den Tank geklickt wird. Dabei ist zu beachten\\, dass Fässer nur komplett gefüllt oder entleert werden können. Sind bspw. weniger als 10 Einheiten im Tank\\, muss dieser Rest mit Kanistern entnommen oder leergepumpt werden.\n"..
   "\n"..
-  "In einen TA3 Tank passen 500 Einheiten oder 50 Fässer einer Flüssigkeit.\n"..
+  "In einen TA3 Tank passen 1000 Einheiten oder 100 Fässer einer Flüssigkeit.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -714,7 +718,7 @@ techage.manual_DE.aText = {
   "\n",
   "Der Öltank ist die große Ausführung des TA3 Tanks (siehe Flüssigkeiten -> TA3 Tank).\n"..
   "\n"..
-  "Der große Tank kann 2000 Einheiten Öl aufnehmen.\n"..
+  "Der große Tank kann 4000 Einheiten Öl aufnehmen.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1209,10 +1213,30 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der Lua Controller muss\\, wie der Name schon sagt\\, in der Programmiersprache Lua programmiert werden. Außerdem sollte man etwas Englisch können (oder Google bemühen)\\, denn die Anleitung dazu gibt es nur in Englisch:\n"..
+  "\n"..
+  "https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md\n"..
+  "\n"..
+  "Auch der Lua Controller benötigt eine Batterie. Die Batterie muss in unmittelbarer Nähe zum Controller platziert werden\\, also an einer der 26 Positionen um den Controller herum.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Server dient zur zentralen Speicherung von Daten von mehreren Lua Controllern. Es speichert auch die Daten über einen Server-Neustart hinweg.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die TA4 Sensor Kiste dient zum Aufbau von Automatischen Lagern oder Verkaufsautomaten. Sie hat erweitere Kommandos zur Fernsteuerung.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Das Terminal dient zur Ein-/Ausgabe für den Lua Controller.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "",
   "Siehe TA3 Tank.\n"..
   "\n"..
-  "In einen TA4 Tank passen 1000 Einheiten oder 100 Fässer einer Flüssigkeit.\n"..
+  "In einen TA4 Tank passen 2000 Einheiten oder 200 Fässer einer Flüssigkeit.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1380,6 +1404,10 @@ techage.manual_DE.aItemName = {
   "ta4_battery",
   "ta4_display",
   "ta4_signaltower",
+  "ta4_lua_controller",
+  "ta4_lua_server",
+  "ta4_sensor_chest",
+  "ta4_terminal",
   "",
   "ta4_tank",
   "ta4_pump",
@@ -1522,6 +1550,10 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
+  "",
+  "",
+  "",
   "",
   "",
   "",

@@ -32,12 +32,13 @@ local sHELP = [[TA4 Lua Controller
 
 techage.lua_ctlr = {}
 
-local BATTERY_CAPA = 5000000
+local BATTERY_CAPA = 10000000
 
 local Cache = {}
 
 local STATE_STOPPED = 0
 local STATE_RUNNING = 1
+local CYCLE_TIME = 1
 
 local tCommands = {}
 local tFunctions = {" Overview", " Data structures"}
@@ -82,17 +83,14 @@ local function merge(dest, keys, values)
 end
 
 techage.lua_ctlr.register_action("print", {
-	cmnd = function(self, text1, text2, text3)
+	cmnd = function(self, text)
 		local pos = self.meta.pos
-		text1 = tostring(text1 or "")
-		text2 = tostring(text2 or "")
-		text3 = tostring(text3 or "")
-		output(pos, text1..text2..text3)
+		text = tostring(text or "")
+		output(pos, text)
 	end,
-	help = " $print(text,...)\n"..
+	help = " $print(text)\n"..
 		" Send a text line to the output window.\n"..
-		" The function accepts up to 3 text strings\n"..
-		' e.g. $print("Hello ", name, " !")'
+		' e.g. $print("Hello "..name)'
 })
 
 techage.lua_ctlr.register_action("loopcycle", {
@@ -329,7 +327,7 @@ local function start_controller(pos)
 		return false
 	end
 	
-	meta:set_string("output", "<press update>")
+	meta:set_string("output", "")
 	meta:set_int("cycletime", 1)
 	meta:set_int("cyclecount", 0)
 	meta:set_int("cpu", 0)
@@ -337,7 +335,7 @@ local function start_controller(pos)
 	if compile(pos, meta, number) then
 		meta:set_int("state", techage.RUNNING)
 		meta:set_int("running", STATE_RUNNING)
-		minetest.get_node_timer(pos):start(1)
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		meta:set_string("formspec", formspec4(meta))
 		meta:set_string("infotext", "Controller "..number..": running")
 		return true
@@ -416,6 +414,10 @@ local function on_timer(pos, elapsed)
 	end
 	meta:set_int("cyclecount", 0)
 
+	if techage.is_activeformspec(pos) then
+		local meta = minetest.get_meta(pos)
+		meta:set_string("formspec", formspec4(meta))
+	end
 	return call_loop(pos, meta, elapsed)
 end
 
@@ -444,6 +446,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	
 	if fields.update then
 		meta:set_string("formspec", formspec4(meta))
+		techage.set_activeformspec(pos, player)
 	elseif fields.clear then
 		meta:set_string("output", "<press update>")
 		meta:set_string("formspec", formspec4(meta))
@@ -516,6 +519,14 @@ minetest.register_node("techage:ta4_lua_controller", {
 	end,
 
 	on_receive_fields = on_receive_fields,
+	
+	on_rightclick = function(pos, node, clicker)
+		local meta = M(pos)
+		if meta:get_int("running") == STATE_RUNNING then
+			techage.set_activeformspec(pos, clicker)
+			meta:set_string("formspec", formspec4(meta))
+		end
+	end,
 	
 	on_dig = function(pos, node, puncher, pointed_thing)
 		if minetest.is_protected(pos, puncher:get_player_name()) then
@@ -596,14 +607,14 @@ function techage.lua_ctlr.get_msg(number)
 end	
 
 techage.register_node({"techage:ta4_lua_controller"}, {
-	on_recv_message = function(pos, topic, payload)
+	on_recv_message = function(pos, src, topic, payload)
 		local meta = minetest.get_meta(pos)
 		local number = meta:get_string("number")
 		
 		if topic == "on" then
-			set_input(pos, number, payload, topic)
+			set_input(pos, number, src, topic)
 		elseif topic == "off" then
-			set_input(pos, number, payload, topic)
+			set_input(pos, number, src, topic)
 		elseif topic == "term" then
 			set_input(pos, number, "term", payload)
 		elseif topic == "msg" then
