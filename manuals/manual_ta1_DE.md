@@ -80,7 +80,7 @@ Um hier nicht stundenlang am Sieb zu stehen, kann das Sieben mit dem Trichter (h
 
 Der Hopper aus der Mod "Minecart" dient in erster Linie zum Be- und Entladen von Minecarts. Er saugt Gegenstände (items) von oben ein und gibt diese nach rechts weiter. Beim Platzieren des Trichters muss daher auf die Ausgaberichtung geachtet werden.
 
-Der Trichter kann aber auch Items aus Kisten (chest) ziehen, sofern die Kiste auf dem Trichter steht. 
+Der Trichter kann aber auch Items aus Kisten (chest) ziehen, sofern die Kiste neben oder auf dem Trichter steht. 
 
 Der Trichter kann auch Items in Kisten legen, sofern die Kiste neben dem Trichter steht.
 

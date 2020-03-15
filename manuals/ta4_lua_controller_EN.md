@@ -400,7 +400,7 @@ Messages are used to transport data between Controllers. Messages are text strin
 * `$send_msg(num, msg)` - Send a message to another Controller.  _num_ is the destination number. (see example "Emails")
 
 
-* `$chat(text,...)` - Send yourself a chat message. This function allows up to 3 text strings.
+* `$chat(text)` - Send yourself a chat message. _text_ is a text string.
 * `$door(pos, text)` - Open/Close a door at position "pos".    
   Example: `$door("123,7,-1200", "close")`.    
   Hint: Use the Techage Info Tool to determine the door position.

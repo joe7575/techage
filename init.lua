@@ -174,11 +174,12 @@ else
 	dofile(MP.."/logic/cart_detector.lua")
 	dofile(MP.."/logic/gateblock.lua")
 	dofile(MP.."/logic/doorblock.lua")
+	dofile(MP.."/logic/collector.lua")
 
 	-- Test
 	dofile(MP.."/recipe_checker.lua")
 	dofile(MP.."/.test/sink.lua")
-	--dofile(MP.."/.test/meta_node.lua")
+	dofile(MP.."/.test/state_node.lua")
 	
 	-- Solar
 	dofile(MP.."/solar/minicell.lua")

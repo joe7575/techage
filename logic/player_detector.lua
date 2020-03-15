@@ -8,25 +8,26 @@
 	GPL v3
 	See LICENSE.txt for more information
 	
-	Player Detector
+	TA3 & TA4 Player Detector
 
 ]]--
 
 -- for lazy programmers
 local M = minetest.get_meta
 local S = techage.S
+local NDEF = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}) end
 
 local logic = techage.logic
 local CYCLE_TIME = 1
 
-local function switch_on(pos)
-	if logic.swap_node(pos, "techage:ta3_playerdetector_on") then
+local function switch_on(pos, stage)
+	if logic.swap_node(pos, "techage:ta"..stage.."_playerdetector_on") then
 		logic.send_on(pos, M(pos))
 	end
 end
 
-local function switch_off(pos)
-	if logic.swap_node(pos, "techage:ta3_playerdetector_off") then
+local function switch_off(pos, stage)
+	if logic.swap_node(pos, "techage:ta"..stage.."_playerdetector_off") then
 		logic.send_off(pos, M(pos))
 	end
 end
@@ -88,7 +89,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	if fields.exit == "Save" then
 		if techage.check_numbers(fields.numbers, player:get_player_name()) then
 			meta:set_string("numbers", fields.numbers)
-			logic.infotext(M(pos), S("TA3 Player Detector"))
+			logic.infotext(M(pos), NDEF(pos).description)
 		end
 		meta:set_string("names", fields.names)
 		meta:set_string("formspec", formspec(meta))
@@ -119,7 +120,7 @@ minetest.register_node("techage:ta3_playerdetector_off", {
 	
 	on_timer = function (pos, elapsed)
 		if scan_for_player(pos) then
-			switch_on(pos)
+			switch_on(pos, 3)
 		end
 		return true
 	end,
@@ -139,7 +140,7 @@ minetest.register_node("techage:ta3_playerdetector_off", {
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
-	sounds = default.node_sound_metal_defaults(),
+	sounds = default.node_sound_wood_defaults(),
 })
 
 minetest.register_node("techage:ta3_playerdetector_on", {
@@ -154,7 +155,7 @@ minetest.register_node("techage:ta3_playerdetector_on", {
 	
 	on_timer = function (pos, elapsed)
 		if not scan_for_player(pos) then
-			switch_off(pos)
+			switch_off(pos, 3)
 		end
 		return true
 	end,
@@ -178,6 +179,113 @@ minetest.register_node("techage:ta3_playerdetector_on", {
 	drop = "techage:ta3_playerdetector_off"
 })
 
+minetest.register_node("techage:ta4_playerdetector_off", {
+	description = S("TA4 Player Detector"),
+	inventory_image = 'techage_smartline_detector_inv.png',
+	tiles = {
+		-- up, down, right, left, back, front
+		"techage_smartline.png",
+		"techage_smartline.png",
+		"techage_smartline.png",
+		"techage_smartline.png",
+		"techage_smartline.png",
+		"techage_smartline.png^techage_smartline_detector.png",
+	},
+
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{ -6/32, -6/32, 14/32,  6/32,  6/32, 16/32},
+		},
+	},
+	after_place_node = function(pos, placer)
+		local meta = M(pos)
+		logic.after_place_node(pos, placer, "techage:ta4_playerdetector_off", S("TA4 Player Detector"))
+		logic.infotext(meta, S("TA4 Player Detector"))
+		meta:set_string("formspec", formspec(meta))
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
+	end,
+
+	on_receive_fields = on_receive_fields,
+	
+	on_timer = function (pos, elapsed)
+		if scan_for_player(pos) then
+			switch_on(pos, 4)
+		end
+		return true
+	end,
+
+	techage_set_numbers = function(pos, numbers, player_name)
+		local meta = M(pos)
+		local res = logic.set_numbers(pos, numbers, player_name, S("TA4 Player Detector"))
+		meta:set_string("formspec", formspec(meta))
+		return res
+	end,
+	
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		techage.remove_node(pos)
+		techage.del_mem(pos)
+	end,
+	
+	paramtype = "light",
+	sunlight_propagates = true,
+	paramtype2 = "facedir",
+	groups = {choppy=2, cracky=2, crumbly=2},
+	is_ground_content = false,
+	sounds = default.node_sound_metal_defaults(),
+})
+
+minetest.register_node("techage:ta4_playerdetector_on", {
+	description = "TA4 Player Detector",
+	inventory_image = 'techage_smartline_detector_inv.png',
+	tiles = {
+		-- up, down, right, left, back, front
+		"techage_smartline.png",
+		"techage_smartline.png",
+		"techage_smartline.png",
+		"techage_smartline.png",
+		"techage_smartline.png",
+		"techage_smartline.png^techage_smartline_detector_on.png",
+	},
+
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{ -6/32, -6/32, 14/32,  6/32,  6/32, 16/32},
+		},
+	},
+	on_receive_fields = on_receive_fields,
+	
+	on_timer = function (pos, elapsed)
+		if not scan_for_player(pos) then
+			switch_off(pos, 4)
+		end
+		return true
+	end,
+	
+	techage_set_numbers = function(pos, numbers, player_name)
+		local meta = M(pos)
+		local res = logic.set_numbers(pos, numbers, player_name, S("TA4 Player Detector"))
+		meta:set_string("formspec", formspec(meta))
+		return res
+	end,
+	
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		techage.remove_node(pos)
+		techage.del_mem(pos)
+	end,
+
+	paramtype = "light",
+	sunlight_propagates = true,
+	paramtype2 = "facedir",
+	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
+	is_ground_content = false,
+	sounds = default.node_sound_metal_defaults(),
+	drop = "techage:ta4_playerdetector_off"
+})
+
 minetest.register_craft({
 	output = "techage:ta3_playerdetector_off",
 	recipe = {
@@ -187,17 +295,29 @@ minetest.register_craft({
 	},
 })
 
-techage.register_node({"techage:ta3_playerdetector_off", "techage:ta3_playerdetector_on"}, {
-	on_recv_message = function(pos, src, topic, payload)
-		if topic == "name" then
-			local nvm = techage.get_nvm(pos)
-			return nvm.player_name or ""
-		else
-			return "unsupported"
-		end
-	end,
-	on_node_load = function(pos)
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
-	end,
-})		
+minetest.register_craft({
+	output = "techage:ta4_playerdetector_off",
+	recipe = {
+		{"", "techage:aluminum", "dye:blue"},
+		{"", "default:copper_ingot", "techage:ta4_wlanchip"},
+	},
+})
+
+techage.register_node({
+		"techage:ta3_playerdetector_off", "techage:ta3_playerdetector_on",
+		"techage:ta4_playerdetector_off", "techage:ta4_playerdetector_on"
+	}, {
+		on_recv_message = function(pos, src, topic, payload)
+			if topic == "name" then
+				local nvm = techage.get_nvm(pos)
+				return nvm.player_name or ""
+			else
+				return "unsupported"
+			end
+		end,
+		on_node_load = function(pos)
+			minetest.get_node_timer(pos):start(CYCLE_TIME)
+		end,
+	}
+)		
 

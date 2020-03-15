@@ -381,6 +381,27 @@ Das Terminal dient zur Ein-/Ausgabe für den Lua Controller.
 
 
 
+## TA4 Logik-/Schalt-Module
+
+### TA4 Taster/Schalter / Button/Switch
+
+Beim TA4 Taster/Schalter hat sich nur das Aussehen geändert. Die Funktionalität ist gleich wie beim TA3 Taster/Schalter.
+
+[ta4_button|image]
+
+### TA4 Spieler Detektor / Player Detector
+
+Beim TA4 Spieler Detektor hat sich nur das Aussehen geändert. Die Funktionalität ist gleich wie beim TA3 Spieler Detektor.
+
+[ta4_playerdetector|image]
+
+### TA4 Zustandssammler / State Collector
+
+[ta4_collector|image]
+
+Der Zustandssammler fragt der Reihe nach alle konfigurierten Maschinen nach dem Status ab. Wenn eine der Maschinen einen vorkonfigurierte Status erreicht oder überschritten hat, wird ein "on" Kommando gesendet. Damit können bspw. vom einem Lua Controller aus sehr einfach viele Maschinen auf Störungen überwacht werden.
+
+
 ## Weitere TA4 Blöcke
 
 

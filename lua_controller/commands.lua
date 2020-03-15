@@ -145,16 +145,13 @@ techage.lua_ctlr.register_action("clear_screen", {
 })
 
 techage.lua_ctlr.register_action("chat", {
-	cmnd = function(self, text1, text2, text3) 
-		text1 = tostring(text1 or "")
-		text2 = tostring(text2 or "")
-		text3 = tostring(text3 or "")
-		minetest.chat_send_player(self.meta.owner, "[TA4 Lua Controller] "..text1..text2..text3)
+	cmnd = function(self, text) 
+		text = tostring(text or "")
+		minetest.chat_send_player(self.meta.owner, "[TA4 Lua Controller] "..text)
 	end,
 	help =  " $chat(text,...)\n"..
 		" Send yourself a chat message.\n"..
-		" The function accepts up to 3 text parameters\n"..
-		' example: $chat("Hello ", name)'
+		' example: $chat("Hello "..name)'
 })
 
 techage.lua_ctlr.register_action("door", {

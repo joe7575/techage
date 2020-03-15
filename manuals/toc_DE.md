@@ -1,8 +1,6 @@
 # Inhaltsverzeichnis
 
 - [Tech Age Mod](./manual_DE.md#tech-age-mod)
-    - [Software Update](./manual_DE.md#software-update)
-        - [Was hat sich am Spiel geändert?](./manual_DE.md#was-hat-sich-am-spiel-geändert?)
     - [Hinweise](./manual_DE.md#hinweise)
     - [Erze und Mineralien](./manual_DE.md#erze-und-mineralien)
         - [Meridium](./manual_DE.md#meridium)
@@ -149,6 +147,11 @@
         - [TA4 Lua Server](./manual_ta4_DE.md#ta4-lua-server)
         - [TA4 Sensor Kiste/Chest](./manual_ta4_DE.md#ta4-sensor-kistechest)
         - [TA4 Lua Controller Terminal](./manual_ta4_DE.md#ta4-lua-controller-terminal)
+    - [TA4 Logik-/Schalt-Blöcke](./manual_ta4_DE.md#ta4-logik-schalt-blöcke)
+        - [TA4 Taster/Schalter / Button/Switch](./manual_ta4_DE.md#ta4-tasterschalter--buttonswitch)
+        - [TA4 Spieler Detektor / Player Detector](./manual_ta4_DE.md#ta4-spieler-detektor--player-detector)
+        - [TA4 Collector](./manual_ta4_DE.md#ta4-collector)
+        - [ ](./manual_ta4_DE.md#-)
     - [Weitere TA4 Blöcke](./manual_ta4_DE.md#weitere-ta4-blöcke)
         - [TA4 Tank / TA4 Tank](./manual_ta4_DE.md#ta4-tank--ta4-tank)
         - [TA4 Pumpe / TA4 Pump](./manual_ta4_DE.md#ta4-pumpe--ta4-pump)

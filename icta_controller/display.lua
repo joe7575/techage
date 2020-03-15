@@ -14,6 +14,7 @@
  
 local NUM_ROWS = 5 
 local RADIUS = 6
+local Param2ToFacedir = {[0] = 0, 0, 3, 1, 2, 0}
  
 lcdlib.register_display_entity("techage:display_entity")
 
@@ -32,7 +33,7 @@ local function on_timer(pos)
 	local node = minetest.get_node(pos) 
 	-- check if display is loaded and a player in front of the display
 	if node.name == "techage:ta4_display" then 
-		local dir = minetest.facedir_to_dir((node.param2 + 2) % 4)
+		local dir = minetest.facedir_to_dir(Param2ToFacedir[node.param2 % 6])
 		local pos2 = vector.add(pos, vector.multiply(dir, RADIUS))
 		for _, obj in pairs(minetest.get_objects_inside_radius(pos2, RADIUS)) do
 			if obj:is_player() then

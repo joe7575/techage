@@ -63,7 +63,7 @@ local function formspec(self, pos, nvm)
 	"label[1.6,0.9;"..S("Start level").."]"..
 	"dropdown[0,1.8;1.5;depth;"..depth_list..";"..Depth2Idx[nvm.quarry_depth].."]".. 
 	"label[1.6,1.9;"..S("Digging depth").."]"..
-	"label[0,2.9;"..S("level=")..level..",  "..S("pos=")..index.."/25]"..
+	"label[0,2.9;"..S("level").."="..level..",  "..S("pos=")..index.."/25]"..
 	"list[context;main;5,0.8;3,3;]"..
 	"image[4,0.8;1,1;"..techage.get_power_image(pos, nvm).."]"..
 	"image_button[4,2.8;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
