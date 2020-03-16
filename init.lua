@@ -179,7 +179,7 @@ else
 	-- Test
 	dofile(MP.."/recipe_checker.lua")
 	dofile(MP.."/.test/sink.lua")
-	dofile(MP.."/.test/state_node.lua")
+	--dofile(MP.."/.test/state_node.lua")
 	
 	-- Solar
 	dofile(MP.."/solar/minicell.lua")
