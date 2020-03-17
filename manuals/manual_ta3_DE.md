@@ -636,7 +636,8 @@ Die Verarbeitungsleistung beträgt 2 Items alle 4 s. Der Block benötigt 4 ku St
 ### TA3 Kieswaschanlage / Gravel Rinser
 
 Die Funktion entspricht der von TA2.  
-Die Wahrscheinlichkeit ist wie bei TA2. Der Block benötigt 3 ku Strom.
+Auch die Wahrscheinlichkeit ist wie bei TA2. Der Block benötigt auch 3 ku Strom.  
+Aber im Gegensatz zu TA2 kann beim TA3 Block bspw. der Status abgefragt werden (Controller)
 
 [ta3_gravelrinser|image]
 

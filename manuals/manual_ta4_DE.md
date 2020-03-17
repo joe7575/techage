@@ -404,7 +404,6 @@ Der Zustandssammler fragt der Reihe nach alle konfigurierten Maschinen nach dem 
 
 ## Weitere TA4 Blöcke
 
-
 ### TA4 Tank / TA4 Tank
 
 Siehe TA3 Tank.
@@ -412,7 +411,6 @@ Siehe TA3 Tank.
 In einen TA4 Tank passen 2000 Einheiten oder 200 Fässer einer Flüssigkeit.
 
 [ta4_tank|image]
-
 
 ### TA4 Pumpe / TA4 Pump
 
@@ -422,7 +420,6 @@ Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden.
 
 [ta4_pump|image]
 
-
 ### TA4 Ofenheizung / furnace heater
 
 Mit TA4 hat der Industrieofen auch seine elektrische Heizung. Der Ölbrenner und auch das Gebläse können mit der Ofenheizung ersetzt werden.
@@ -431,9 +428,43 @@ Die Ofenheizung benötigt 14 ku Strom.
 
 [ta4_furnaceheater|image]
 
-
 ### TA4 Wasserpumpe / Water Pump
 
 Mit der Wasserpumpe kann Wasser über Flüssigkeitsleitungen in Tanks gepumpt und so für Rezepte genutzt werden. Die Wasserpumpe muss dazu ins Meer gesetzt werden Ein "Pool" aus ein paar Wasserblöcken geht nicht!
 
 [ta4_waterpump|image]
+
+### TA4 Röhren / TA4 Tube
+
+TA4 hat auch seine eigenen Röhren im TA4 Design. Die maximale Länge beträgt 300 m (Blöcke). Ansonsten entsprechen die TA4 Röhren den Standard Röhren.
+
+[ta4_tube|image]
+
+### TA4 Schieber / Pusher
+
+Die Funktion entspricht der von TA2.  
+Die Verarbeitungsleistung beträgt 18 Items alle 2 s.
+
+[ta4_pusher|image]
+
+### TA4 Verteiler / Distributor
+
+Die Funktion entspricht der von TA2.  
+Die Verarbeitungsleistung beträgt 36 Items alle 4 s.
+
+[ta4_distributor|image]
+
+### TA4 Kiessieb / Gravel Sieve
+
+Die Funktion entspricht der von TA2.  
+Die Verarbeitungsleistung beträgt 4 Items alle 4 s. Der Block benötigt 5 ku Strom.
+
+[ta4_gravelsieve|image]
+
+### TA4 Mühle / Grinder
+
+Die Funktion entspricht der von TA2.  
+Die Verarbeitungsleistung beträgt 4 Items alle 4 s. Der Block benötigt 9 ku Strom.
+
+[ta4_grinder|image]
+

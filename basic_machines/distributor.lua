@@ -518,3 +518,11 @@ minetest.register_craft({
 	},
 })
 
+minetest.register_craft({
+	output = node_name_ta4,
+	recipe = {
+		{"", "techage:iron_ingot", ""},
+		{"", node_name_ta3, ""},
+		{"", "techage:ta4_wlanchip", ""},
+	},
+})

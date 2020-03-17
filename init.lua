@@ -26,6 +26,7 @@ else
 	dofile(MP.."/basis/gravel_lib.lua")  -- ore probability
 	dofile(MP.."/basis/node_states.lua") -- state model
 	dofile(MP.."/basis/tubes.lua")  -- tubes for item transport
+	dofile(MP.."/basis/tubes_ta4.lua")  -- TA4 tubes for item transport
 	dofile(MP.."/basis/command.lua")  -- command API
 	dofile(MP.."/basis/firebox_lib.lua")  -- common firebox functions
 	dofile(MP.."/basis/boiler_lib.lua")  -- common boiler functions

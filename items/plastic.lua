@@ -27,7 +27,7 @@ techage.recipes.add("ta4_doser", {
 })
 
 techage.furnace.register_recipe({
-	output = "basic_materials:plastic_sheet", 
+	output = "basic_materials:plastic_sheet 4", 
 	recipe = {"techage:plastic_granules"}, 
 	time = 2,
 	

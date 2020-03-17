@@ -333,7 +333,7 @@ end
 minetest.register_lbm({
 	label = "[techage] Rinser update",
 	name = "techage:update",
-	nodenames = {"techage:ta2_rinser_act"},
+	nodenames = {"techage:ta2_rinser_act", "techage:ta3_rinser_act"},
 	run_at_every_load = true,
 	action = function(pos, node)
 		remove_objects({x=pos.x, y=pos.y+1, z=pos.z})

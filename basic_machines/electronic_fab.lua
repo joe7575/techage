@@ -220,7 +220,8 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		sounds = default.node_sound_wood_defaults(),
 		num_items = {0,1,1,1},
 		power_consumption = {0,8,12,18},
-	})
+	},
+	{false, true, true, false})  -- TA2/TA3
 
 minetest.register_craft({
 	output = node_name_ta2,

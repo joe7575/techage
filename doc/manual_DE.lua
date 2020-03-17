@@ -148,16 +148,20 @@ techage.manual_DE.aTitel = {
   "3,TA4 Lua Server",
   "3,TA4 Sensor Kiste/Chest",
   "3,TA4 Lua Controller Terminal",
-  "2,TA4 Logik-/Schalt-Blöcke",
+  "2,TA4 Logik-/Schalt-Module",
   "3,TA4 Taster/Schalter / Button/Switch",
   "3,TA4 Spieler Detektor / Player Detector",
-  "3,TA4 Collector",
-  "3, ",
+  "3,TA4 Zustandssammler / State Collector",
   "2,Weitere TA4 Blöcke",
   "3,TA4 Tank / TA4 Tank",
   "3,TA4 Pumpe / TA4 Pump",
   "3,TA4 Ofenheizung / furnace heater",
   "3,TA4 Wasserpumpe / Water Pump",
+  "3,TA4 Röhren / TA4 Tube",
+  "3,TA4 Schieber / Pusher",
+  "3,TA4 Verteiler / Distributor",
+  "3,TA4 Kiessieb / Gravel Sieve",
+  "3,TA4 Mühle / Grinder",
 }
 
 techage.manual_DE.aText = {
@@ -923,7 +927,8 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Die Funktion entspricht der von TA2.\n"..
-  "Die Wahrscheinlichkeit ist wie bei TA2. Der Block benötigt 3 ku Strom.\n"..
+  "Auch die Wahrscheinlichkeit ist wie bei TA2. Der Block benötigt auch 3 ku Strom.\n"..
+  "Aber im Gegensatz zu TA2 kann beim TA3 Block bspw. der Status abgefragt werden (Controller)\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1233,8 +1238,9 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "\n"..
+  "\n"..
+  "Der Zustandssammler fragt der Reihe nach alle konfigurierten Maschinen nach dem Status ab. Wenn eine der Maschinen einen vorkonfigurierte Status erreicht oder überschritten hat\\, wird ein \"on\" Kommando gesendet. Damit können bspw. vom einem Lua Controller aus sehr einfach viele Maschinen auf Störungen überwacht werden.\n"..
   "\n",
-  "",
   "",
   "Siehe TA3 Tank.\n"..
   "\n"..
@@ -1255,6 +1261,30 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Mit der Wasserpumpe kann Wasser über Flüssigkeitsleitungen in Tanks gepumpt und so für Rezepte genutzt werden. Die Wasserpumpe muss dazu ins Meer gesetzt werden Ein \"Pool\" aus ein paar Wasserblöcken geht nicht!\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "TA4 hat auch seine eigenen Röhren im TA4 Design. Die maximale Länge beträgt 300 m (Blöcke). Ansonsten entsprechen die TA4 Röhren den Standard Röhren.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Funktion entspricht der von TA2.\n"..
+  "Die Verarbeitungsleistung beträgt 18 Items alle 2 s.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Funktion entspricht der von TA2.\n"..
+  "Die Verarbeitungsleistung beträgt 36 Items alle 4 s.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Funktion entspricht der von TA2.\n"..
+  "Die Verarbeitungsleistung beträgt 4 Items alle 4 s. Der Block benötigt 5 ku Strom.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Funktion entspricht der von TA2.\n"..
+  "Die Verarbeitungsleistung beträgt 4 Items alle 4 s. Der Block benötigt 9 ku Strom.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1413,11 +1443,15 @@ techage.manual_DE.aItemName = {
   "ta4_playerdetector",
   "ta4_collector",
   "",
-  "",
   "ta4_tank",
   "ta4_pump",
   "ta4_furnaceheater",
   "ta4_waterpump",
+  "ta4_tube",
+  "ta4_pusher",
+  "ta4_distributor",
+  "ta4_gravelsieve",
+  "ta4_grinder",
 }
 
 techage.manual_DE.aPlanTable = {
@@ -1553,6 +1587,10 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
+  "",
+  "",
+  "",
   "",
   "",
   "",

@@ -232,6 +232,15 @@ minetest.register_craft({
 	},
 })
 
+minetest.register_craft({
+	output = node_name_ta4,
+	recipe = {
+		{"", "default:mese_crystal", ""},
+		{"", node_name_ta3, ""},
+		{"", "techage:ta4_wlanchip", ""},
+	},
+})
+
 if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("ta2_gravelsieve", {
 		description = S("TA2 Gravel Sieve"),
@@ -245,6 +254,12 @@ if minetest.global_exists("unified_inventory") then
 		width = 1,
 		height = 1,
 	})
+	unified_inventory.register_craft_type("ta4_gravelsieve", {
+		description = S("TA4 Gravel Sieve"),
+		icon = 'techage_filling_ta4.png^techage_appl_sieve.png^techage_frame_ta4.png',
+		width = 1,
+		height = 1,
+	})
 	unified_inventory.register_craft({
 		output = "techage:sieved_basalt_gravel", 
 		items = {"techage:basalt_gravel"},
@@ -254,5 +269,10 @@ if minetest.global_exists("unified_inventory") then
 		output = "techage:sieved_basalt_gravel", 
 		items = {"techage:basalt_gravel"},
 		type = "ta3_gravelsieve",
+	})
+	unified_inventory.register_craft({
+		output = "techage:sieved_basalt_gravel", 
+		items = {"techage:basalt_gravel"},
+		type = "ta4_gravelsieve",
 	})
 end

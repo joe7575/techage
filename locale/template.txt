@@ -260,6 +260,7 @@ TA4 Fuel Cell=
 TA4 Fuel Cell Stack=
 TA4 Furnace Heater=
 TA4 Generator=
+TA4 Gravel Sieve=
 TA4 Heat Exchanger=
 TA4 Heat Exchanger 1=
 TA4 Heat Exchanger 2=
