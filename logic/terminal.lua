@@ -239,32 +239,6 @@ local function register_terminal(num, tiles, node_box, selection_box)
 	})
 end
 
-register_terminal("1", {
-		-- up, down, right, left, back, front
-		'techage_terminal1_top.png',
-		'techage_terminal1_bottom.png',
-		'techage_terminal1_side.png',
-		'techage_terminal1_side.png',
-		'techage_terminal1_bottom.png',
-		"techage_terminal1_front.png",
-	},
-	{
-		type = "fixed",
-		fixed = {
-			{-12/32, -16/32,  -8/32,  12/32, -14/32, 12/32},
-			{-12/32, -14/32,  12/32,  12/32,   6/32, 14/32},
-		},
-	})
-
---minetest.register_craft({
---	output = "techage:terminal",
---	recipe = {
---		{"", "smartline:display", ""},
---		{"", "", ""},
---		{"dye:black", "tubelib:wlanchip", "default:copper_ingot"},
---	},
---})
-
 register_terminal("2", {
 		-- up, down, right, left, back, front
 		'techage_terminal2_top.png',
@@ -302,7 +276,7 @@ minetest.register_craft({
 	},
 })
 
-techage.register_node({"techage:terminal1", "techage:terminal2"}, {
+techage.register_node({"techage:terminal2"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		output(pos, "src="..src..", cmd="..dump(topic)..", data="..dump(payload))
 		return true
@@ -316,47 +290,3 @@ techage.register_node({"techage:terminal1", "techage:terminal2"}, {
 		end
 	end,
 })
-
---sl_controller.register_function("get_term", {
---	cmnd = function(self)
---		return sl_controller.get_command(self.meta.number)
---	end,
---	help = ' $get_term()  --> text string or nil\n'..
---		' Read an entered string (command) from the Terminal.\n'..
---		' example: s = $get_term()\n'..
---		" The Terminal has to be connected to the controller."
---})
-
---sl_controller.register_action("put_term", {
---	cmnd = function(self, num, text)
---		text = tostring(text or "")
---		tubelib.send_message(num, self.meta.owner, nil, "term", text)
---	end,
---	help = " $put_term(num, text)\n"..
---		' Send a text line to the terminal with number "num".\n'..
---		' example: $put_term("0123", "Hello "..name)'
---})
-
---sl_controller.register_function("get_msg", {
---	cmnd = function(self)
---		local msg = sl_controller.get_msg(self.meta.number)
---		if msg then
---			return msg.src, msg.text
---		end
---	end,
---	help = ' $get_msg()  --> number and text string or nil\n'..
---		' Read a received messages. Number is the node\n'..
---		' number of the sender.\n'..
---		' example: num,msg = $get_msg().'
---})
-
---sl_controller.register_action("send_msg", {
---	cmnd = function(self, num, text)
---		local msg = {src = self.meta.number, text = tostring(text or "")}
---		tubelib.send_message(num, self.meta.owner, nil, "msg", msg)
---	end,
---	help = " $send_msg(num, text)\n"..
---		' Send a message to the controller with number "num".\n'..
---		' example: $send_msg("0123", "test")'
---})
-
