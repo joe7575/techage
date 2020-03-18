@@ -151,6 +151,7 @@
         - [TA4 Taster/Schalter / Button/Switch](./manual_ta4_DE.md#ta4-tasterschalter--buttonswitch)
         - [TA4 Spieler Detektor / Player Detector](./manual_ta4_DE.md#ta4-spieler-detektor--player-detector)
         - [TA4 Zustandssammler / State Collector](./manual_ta4_DE.md#ta4-zustandssammler--state-collector)
+        - [TA4 Detektor / Detector](./manual_ta4_DE.md#ta4-detektor--detector)
     - [Weitere TA4 Blöcke](./manual_ta4_DE.md#weitere-ta4-blöcke)
         - [TA4 Tank / TA4 Tank](./manual_ta4_DE.md#ta4-tank--ta4-tank)
         - [TA4 Pumpe / TA4 Pump](./manual_ta4_DE.md#ta4-pumpe--ta4-pump)

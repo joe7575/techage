@@ -548,9 +548,10 @@ Detektoren scannen ihre Umgebung ab und senden ein `on`-Kommando, wenn das Gesuc
 
 ### TA3 Detektor / Detector
 
-Der Detektor ist eine spezieller Röhrenblock, der erkennt, wenn Items über die Röhre weitergegeben werden. Es muss dazu auf beiden Seiten mit der Röhre verbunden sein.
+Der Detektor ist eine spezieller Röhrenblock, der erkennt, wenn Items über die Röhre weitergegeben werden. Es muss dazu auf beiden Seiten mit der Röhre verbunden sein. Werden Items mit einem Schieber in den Detektor geschoben, gibt er diese automatisch weiter.
 Er sendet ein `on`, wenn ein Item erkannt wird, gefolgt von einem `off` eine Sekunde später.
 Danach werden weitere Kommando für 8 Sekunden blockiert.
+
 
 [ta3_detector|image]
 

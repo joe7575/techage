@@ -12,27 +12,7 @@
 
 ]]--
 
-
-
--- used for registered nodes
-techage.KnownNodes = {
-	["techage:ta4_tubeS"] = true,
-	["techage:ta4_tubeA"] = true,
-}
-
-
-local Tube = tubelib2.Tube:new({
-	                -- North, East, South, West, Down, Up
-	dirs_to_check = {1,2,3,4,5,6},
-	max_tube_length = 300, 
-	show_infotext = false,
-	primary_node_names = {"techage:ta4_tubeS", "techage:ta4_tubeA"}, 
-	after_place_tube = function(pos, param2, tube_type, num_tubes, tbl)
-		minetest.swap_node(pos, {name = "techage:ta4_tube"..tube_type, param2 = param2})
-	end,
-})
-
-techage.Tube = Tube
+local Tube = techage.Tube
 
 minetest.register_node("techage:ta4_tubeS", {
 	description = "TA4 Tube",

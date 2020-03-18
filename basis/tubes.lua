@@ -18,6 +18,8 @@
 techage.KnownNodes = {
 	["techage:tubeS"] = true,
 	["techage:tubeA"] = true,
+	["techage:ta4_tubeS"] = true,
+	["techage:ta4_tubeA"] = true,
 }
 
 
@@ -26,9 +28,14 @@ local Tube = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
 	max_tube_length = 200, 
 	show_infotext = false,
-	primary_node_names = {"techage:tubeS", "techage:tubeA"}, 
+	primary_node_names = {"techage:tubeS", "techage:tubeA", "techage:ta4_tubeS", "techage:ta4_tubeA"}, 
 	after_place_tube = function(pos, param2, tube_type, num_tubes, tbl)
-		minetest.swap_node(pos, {name = "techage:tube"..tube_type, param2 = param2})
+		local name = minetest.get_node(pos).name
+		if name == "techage:tubeS" or name == "techage:tubeA" then
+			minetest.swap_node(pos, {name = "techage:tube"..tube_type, param2 = param2})
+		else
+			minetest.swap_node(pos, {name = "techage:ta4_tube"..tube_type, param2 = param2})
+		end
 	end,
 })
 

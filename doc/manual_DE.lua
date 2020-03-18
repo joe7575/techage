@@ -152,6 +152,7 @@ techage.manual_DE.aTitel = {
   "3,TA4 Taster/Schalter / Button/Switch",
   "3,TA4 Spieler Detektor / Player Detector",
   "3,TA4 Zustandssammler / State Collector",
+  "3,TA4 Detektor / Detector",
   "2,Weitere TA4 Blöcke",
   "3,TA4 Tank / TA4 Tank",
   "3,TA4 Pumpe / TA4 Pump",
@@ -872,7 +873,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der Detektor ist eine spezieller Röhrenblock\\, der erkennt\\, wenn Items über die Röhre weitergegeben werden. Es muss dazu auf beiden Seiten mit der Röhre verbunden sein.\n"..
+  "Der Detektor ist eine spezieller Röhrenblock\\, der erkennt\\, wenn Items über die Röhre weitergegeben werden. Es muss dazu auf beiden Seiten mit der Röhre verbunden sein. Werden Items mit einem Schieber in den Detektor geschoben\\, gibt er diese automatisch weiter.\n"..
   "Er sendet ein 'on'\\, wenn ein Item erkannt wird\\, gefolgt von einem 'off' eine Sekunde später.\n"..
   "Danach werden weitere Kommando für 8 Sekunden blockiert.\n"..
   "\n"..
@@ -1241,6 +1242,11 @@ techage.manual_DE.aText = {
   "\n"..
   "Der Zustandssammler fragt der Reihe nach alle konfigurierten Maschinen nach dem Status ab. Wenn eine der Maschinen einen vorkonfigurierte Status erreicht oder überschritten hat\\, wird ein \"on\" Kommando gesendet. Damit können bspw. vom einem Lua Controller aus sehr einfach viele Maschinen auf Störungen überwacht werden.\n"..
   "\n",
+  "Die Funktionalität ist gleich wie beim TA3 Detektor / Detector. Zusätzlich zählt der Detector aber die weitergegebenen Items. \n"..
+  "Diesen Zähler kann man über das Kommando 'count' abfragen und über 'reset' zurücksetzen.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "",
   "Siehe TA3 Tank.\n"..
   "\n"..
@@ -1264,7 +1270,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "TA4 hat auch seine eigenen Röhren im TA4 Design. Die maximale Länge beträgt 300 m (Blöcke). Ansonsten entsprechen die TA4 Röhren den Standard Röhren.\n"..
+  "TA4 hat auch seine eigenen Röhren im TA4 Design. Diese entsprechen den Standard Röhren\\, sehen nur besser aus. \\;-)\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1442,6 +1448,7 @@ techage.manual_DE.aItemName = {
   "ta4_button",
   "ta4_playerdetector",
   "ta4_collector",
+  "ta4_detector",
   "",
   "ta4_tank",
   "ta4_pump",
@@ -1587,6 +1594,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
   "",
   "",
   "",

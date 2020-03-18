@@ -254,6 +254,7 @@ TA3 Vacuum Tube=
 TA4 Button/Switch=
 TA4 Carbon Fiber=
 TA4 Derrick=
+TA4 Detector=
 TA4 Doser=
 TA4 Electrolyzer=
 TA4 Fuel Cell=

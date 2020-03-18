@@ -357,18 +357,20 @@ In addition to Lua standard function the Lua Controller provides the following f
 | "delivered" | number                                                       | Read the current delivered power value from a generator block. A power consuming block (accu) provides a negative value |
 | "action"    | player-name, action-string                                   | only for Sensor Chests                                       |
 | "stacks"    | Array with up to 4 Stores with the inventory content (see example) | only for Sensor Chests                                       |
+| "count"     | number                                                       | Read the item counter of the TA4 Item Detector block         |
 
 
 
 
 * `$send_cmnd(num, cmnd, data)` - Send a command to another block. _num_ is the number of the remote block, like "1234". _cmnd_ is the command, _data_ is additional data (see table below):
 
-| cmnd                             | data        | comment                                   |
-| -------------------------------- | ----------- | ----------------------------------------- |
-| "on", "off"                      | nil         | turn a node on/off (machine, lamp,...)    |
-| "red, "amber", "green", "off"    | nil         | set Signal Tower color                    |
-| "red", "green", "blue", "yellow" | "on", "off" | Enable/disable a Distributor filter slot. |
-| "text"                           | text string | Text to be used for the Sensor Chest menu |
+| cmnd                             | data        | comment                                               |
+| -------------------------------- | ----------- | ----------------------------------------------------- |
+| "on", "off"                      | nil         | turn a node on/off (machine, lamp,...)                |
+| "red, "amber", "green", "off"    | nil         | set Signal Tower color                                |
+| "red", "green", "blue", "yellow" | "on", "off" | Enable/disable a Distributor filter slot.             |
+| "text"                           | text string | Text to be used for the Sensor Chest menu             |
+| "reset"                          | nil         | Reset the item counter of the TA4 Item Detector block |
 
 
 
