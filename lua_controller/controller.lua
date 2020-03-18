@@ -621,7 +621,7 @@ techage.register_node({"techage:ta4_lua_controller"}, {
 			set_input(pos, number, "msg", payload)
 		elseif topic == "state" then
 			local running = meta:get_int("running") or STATE_STOPPED
-			return techage.statestring(running)
+			return techage.StateStrings(running)
 		else
 			return "unsupported"
 		end
