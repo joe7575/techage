@@ -159,6 +159,7 @@
         - [TA4 Wasserpumpe / Water Pump](./manual_ta4_DE.md#ta4-wasserpumpe--water-pump)
         - [TA4 Röhren / TA4 Tube](./manual_ta4_DE.md#ta4-röhren--ta4-tube)
         - [TA4 Schieber / Pusher](./manual_ta4_DE.md#ta4-schieber--pusher)
+        - [TA4 Kiste / Chest](./manual_ta4_DE.md#ta4-kiste--chest)
         - [TA4 Verteiler / Distributor](./manual_ta4_DE.md#ta4-verteiler--distributor)
         - [TA4 Kiessieb / Gravel Sieve](./manual_ta4_DE.md#ta4-kiessieb--gravel-sieve)
         - [TA4 Mühle / Grinder](./manual_ta4_DE.md#ta4-mühle--grinder)

@@ -22,8 +22,7 @@ Regenerative Energiequellen wie Wind, Sonne und Biokraft helfen dir, das Ölzeit
 
 Diese Dokumentation ist sowohl "ingame" (Block Konstruktionsplan) als auch auf GitHub als MD-Files verfügbar.
 
-- Link: https://github.com/joe7575/techage/blob/master/manuals/toc_DE.md
-- Short Link: https://tinyurl.com/y2lwl35h
+- Link: https://github.com/joe7575/techage/wiki
 
 Die Konstruktionspläne (Diagramme) für den Aufbau der Maschinen sowie die Bilder sind aber nur ingame verfügbar.
 
@@ -93,4 +92,5 @@ Es wird zur Herstellung von Aluminium benötigt, was vor allem in TA4 Verwendung
 - 22.02.2020: Korrekturen und Kapitel zum Update
 - 29.02.2020: ICTA Controller hinzugefügt und weitere Korrekturen
 - 14.03.2020 Lua Controller hinzugefügt und weitere Korrekturen
+- 22.03.2020 Weitere TA4 Blöcke hinzugefügt
 

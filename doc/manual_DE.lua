@@ -160,6 +160,7 @@ techage.manual_DE.aTitel = {
   "3,TA4 Wasserpumpe / Water Pump",
   "3,TA4 Röhren / TA4 Tube",
   "3,TA4 Schieber / Pusher",
+  "3,TA4 Kiste / Chest",
   "3,TA4 Verteiler / Distributor",
   "3,TA4 Kiessieb / Gravel Sieve",
   "3,TA4 Mühle / Grinder",
@@ -184,8 +185,7 @@ techage.manual_DE.aText = {
   "\n",
   "Diese Dokumentation ist sowohl \"ingame\" (Block Konstruktionsplan) als auch auf GitHub als MD-Files verfügbar.\n"..
   "\n"..
-  "  - Link: https://github.com/joe7575/techage/blob/master/manuals/toc_DE.md\n"..
-  "  - Short Link: https://tinyurl.com/y2lwl35h\n"..
+  "  - Link: https://github.com/joe7575/techage/wiki\n"..
   "\n"..
   "Die Konstruktionspläne (Diagramme) für den Aufbau der Maschinen sowie die Bilder sind aber nur ingame verfügbar.\n"..
   "\n"..
@@ -232,6 +232,7 @@ techage.manual_DE.aText = {
   "  - 22.02.2020: Korrekturen und Kapitel zum Update\n"..
   "  - 29.02.2020: ICTA Controller hinzugefügt und weitere Korrekturen\n"..
   "  - 14.03.2020 Lua Controller hinzugefügt und weitere Korrekturen\n"..
+  "  - 22.03.2020 Weitere TA4 Blöcke hinzugefügt\n"..
   "\n",
   "In TA1 geht es darum\\, mit einfachen Werkzeugen und Gerätschaften ausreichend Erze zu schürfen und Holzkohle herzustellen\\, so dass damit TA2 Maschinen hergestellt und betrieben werden können.\n"..
   "\n"..
@@ -1274,8 +1275,21 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Die Funktion entspricht der von TA2.\n"..
-  "Die Verarbeitungsleistung beträgt 18 Items alle 2 s.\n"..
+  "Die Funktion entspricht grundsätzlich der von TA2/TA3. Zusätzlich kann aber über ein Menü konfiguriert werden\\, welche Gegenstände aus einer TA4 Kiste geholt und weiter transportiert werden sollen.\n"..
+  "Die Verarbeitungsleistung beträgt 12 Items alle 2 s.\n"..
+  "\n"..
+  "Der TA4 Schieber besitzt zwei zusätzliche Kommandos für den Lua Controller:\n"..
+  "\n"..
+  "  - 'config' dient zur Konfiguration des Schiebers\\, analog zum manuellen Konfiguration über das Menü.\nBeispiel:  '$send_cmnd(PUSHER\\, \"config\"\\, \"default:dirt\")'\n"..
+  "  - 'pull' dient zum Absetzen eines Auftrags an den Schieber:\nBeispiel: '$send_cmnd(PUSHER\\, \"pull\"\\, \"default:dirt 8\")'\nAls Nummer sind Werte von 1 bis 12 zulässig. Danach geht der Schieber wieder in den 'stopped' Mode.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die TA4 Kiste hat kein normales Inventar wir andere Kisten\\, sondern verfügt über 8 Speicher\\, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2\\, TA3 oder TA4) gefüllt bzw. geleert werden.\n"..
+  "\n"..
+  "Der TA4 Kiste besitzt ein zusätzliches Kommandos für den Lua Controller:\n"..
+  "\n"..
+  "  - 'count' dient zur Anfrage\\, wie viele Items in der Kiste sind.\nBeispiel 1:  '$read_data(CHEST\\, \"count\")'  --> Summe der Items über alle 8 Speicher\nBeispiel 2:  '$read_data(CHEST\\, \"count\"\\, 2)'  --> Anzahl der Items in Speicher 2 (zweiter von links)\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1456,6 +1470,7 @@ techage.manual_DE.aItemName = {
   "ta4_waterpump",
   "ta4_tube",
   "ta4_pusher",
+  "ta4_chest",
   "ta4_distributor",
   "ta4_gravelsieve",
   "ta4_grinder",
@@ -1594,6 +1609,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
   "",
   "",
   "",

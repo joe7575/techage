@@ -110,6 +110,7 @@ Oil Pumpjack=
 Oil Source=
 Oil Tank=
 Oil amount=
+Optionally configure@nthe pusher with one item=
 Outp=
 Plan=
 Plastic Granules=

@@ -449,10 +449,32 @@ TA4 hat auch seine eigenen Röhren im TA4 Design. Diese entsprechen den Standard
 
 ### TA4 Schieber / Pusher
 
-Die Funktion entspricht der von TA2.  
-Die Verarbeitungsleistung beträgt 18 Items alle 2 s.
+Die Funktion entspricht grundsätzlich der von TA2/TA3. Zusätzlich kann aber über ein Menü konfiguriert werden, welche Gegenstände aus einer TA4 Kiste geholt und weiter transportiert werden sollen.
+Die Verarbeitungsleistung beträgt 12 Items alle 2 s.
+
+Der TA4 Schieber besitzt zwei zusätzliche Kommandos für den Lua Controller:
+
+- `config` dient zur Konfiguration des Schiebers, analog zum manuellen Konfiguration über das Menü.
+  Beispiel:  `$send_cmnd(PUSHER, "config", "default:dirt")`
+- `pull` dient zum Absetzen eines Auftrags an den Schieber:
+  Beispiel: `$send_cmnd(PUSHER, "pull", "default:dirt 8")`
+  Als Nummer sind Werte von 1 bis 12 zulässig. Danach geht der Schieber wieder in den `stopped` Mode.
 
 [ta4_pusher|image]
+
+### TA4 Kiste / Chest
+
+Die TA4 Kiste hat kein normales Inventar wir andere Kisten, sondern verfügt über 8 Speicher, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2, TA3 oder TA4) gefüllt bzw. geleert werden.
+
+Der TA4 Kiste besitzt ein zusätzliches Kommandos für den Lua Controller:
+
+- `count` dient zur Anfrage, wie viele Items in der Kiste sind.
+  Beispiel 1:  `$read_data(CHEST, "count")`  --> Summe der Items über alle 8 Speicher
+  Beispiel 2:  `$read_data(CHEST, "count", 2)`  --> Anzahl der Items in Speicher 2 (zweiter von links)
+
+[ta4_chest|image]
+
+
 
 ### TA4 Verteiler / Distributor
 

@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 	
 	TA2/TA3/TA4 Pusher
-	Simple node for push/pull operation of StackItems from chests or other
+	Nodes for push/pull operation of StackItems from chests or other
 	inventory/server nodes to tubes or other inventory/server nodes.
 
                  +--------+
@@ -33,10 +33,53 @@ local STANDBY_TICKS = 5
 local COUNTDOWN_TICKS = 5
 local CYCLE_TIME = 2
 
+local function ta4_formspec(self, pos, nvm)
+	if CRD(pos).stage == 4 then -- TA4 node?
+		return "size[8,7.2]"..
+			default.gui_bg..
+			default.gui_bg_img..
+			default.gui_slots..
+			"box[0,-0.1;7.8,0.5;#c6e8ff]"..
+			"label[3,-0.1;"..minetest.colorize("#000000", S("Pusher")).."]"..
+			techage.question_mark_help(8, S("Optionally configure\nthe pusher with one item"))..
+			"list[context;main;3.5,1;1,1;]"..
+			"image_button[3.5,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
+			"tooltip[3.5,2;1,1;"..self:get_state_tooltip(nvm).."]"..
+			"list[current_player;main;0,3.5;8,4;]"..
+			"listring[context;main]"..
+			"listring[current_player;main]"
+	end
+end
+
+local function allow_metadata_inventory_put(pos, listname, index, stack, player)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return 0
+	end
+	
+	local inv = M(pos):get_inventory()
+	local list = inv:get_list(listname)
+	if list[index]:get_count() == 0 then
+		stack:set_count(1)
+		inv:set_stack(listname, index, stack)
+		return 0
+	end
+	return 0
+end
+
+local function allow_metadata_inventory_take(pos, listname, index, stack, player)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return 0
+	end
+	
+	local inv = M(pos):get_inventory()
+	inv:set_stack(listname, index, nil)
+	return 0
+end
+
 local function pushing(pos, crd, meta, nvm)
 	local pull_dir = meta:get_int("pull_dir")
 	local push_dir = meta:get_int("push_dir")
-	local items = techage.pull_items(pos, pull_dir, crd.num_items)
+	local items = techage.pull_items(pos, pull_dir, nvm.item_count or crd.num_items, nvm.item_name)
 	if items ~= nil then
 		if techage.push_items(pos, push_dir, items) ~= true then
 			-- place item back
@@ -44,7 +87,13 @@ local function pushing(pos, crd, meta, nvm)
 			crd.State:blocked(pos, nvm)
 			return
 		end
-		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+		if nvm.item_count then  -- remote job?
+			nvm.item_count = nil
+			nvm.item_name = nil
+			crd.State:stop(pos, nvm)
+		else
+			crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+		end
 		return
 	end
 	crd.State:idle(pos, nvm)
@@ -58,14 +107,54 @@ local function keep_running(pos, elapsed)
 end	
 
 local function on_rightclick(pos, node, clicker)
-	local nvm = techage.get_nvm(pos)
-	if not minetest.is_protected(pos, clicker:get_player_name()) then
-		if CRD(pos).State:get_state(nvm) == techage.STOPPED then
-			CRD(pos).State:start(pos, nvm)
-		else
-			CRD(pos).State:stop(pos, nvm)
+	if CRD(pos).stage ~= 4 then -- Not TA4 node?
+		local nvm = techage.get_nvm(pos)
+		if not minetest.is_protected(pos, clicker:get_player_name()) then
+			if CRD(pos).State:get_state(nvm) == techage.STOPPED then
+				CRD(pos).State:start(pos, nvm)
+			else
+				CRD(pos).State:stop(pos, nvm)
+			end
 		end
 	end
+end
+
+local function on_receive_fields(pos, formname, fields, player)
+	if CRD(pos).stage == 4 then -- TA4 node?
+		if minetest.is_protected(pos, player:get_player_name()) then
+			return
+		end
+		local nvm = techage.get_nvm(pos)
+		CRD(pos).State:state_button_event(pos, nvm, fields)
+		M(pos):set_string("formspec", ta4_formspec(CRD(pos).State, pos, nvm))
+	end
+end
+
+local function can_start(pos, nvm, state)
+	if CRD(pos).stage == 4 then -- TA4 node?
+		local inv = M(pos):get_inventory()
+		local name = inv:get_stack("main", 1):get_name()
+		if name ~= "" then
+			nvm.item_name = name
+		else
+			nvm.item_name = nil
+		end
+	else
+		nvm.item_name = nil
+	end
+	return true
+end
+
+local function config_item(pos, payload)
+	local name, count = unpack(payload:split(" "))
+	if name and (minetest.registered_nodes[name] or minetest.registered_items[name] 
+			or minetest.registered_craftitems[name]) then
+		count = tonumber(count) or 1
+		local inv = M(pos):get_inventory()
+		inv:set_stack("main", 1, {name = name, count = 1})
+		return count
+	end
+	return 0
 end
 
 local tiles = {}
@@ -115,7 +204,21 @@ local tubing = {
 	is_pusher = true, -- is a pulling/pushing node
 	
 	on_recv_message = function(pos, src, topic, payload)
-		return CRD(pos).State:on_receive_message(pos, topic, payload)
+		if topic == "pull" then
+			local nvm = techage.get_nvm(pos)
+			CRD(pos).State:stop(pos, nvm)
+			nvm.item_count = math.min(config_item(pos, payload), 12)
+			CRD(pos).State:start(pos, nvm)
+			return true
+		elseif topic == "config" then
+			local nvm = techage.get_nvm(pos)
+			CRD(pos).State:stop(pos, nvm)
+			config_item(pos, payload)
+			CRD(pos).State:start(pos, nvm)
+			return true
+		else
+			return CRD(pos).State:on_receive_message(pos, topic, payload)
+		end
 	end,
 }
 	
@@ -123,22 +226,33 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 	techage.register_consumer("pusher", S("Pusher"), tiles, {
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
+		formspec = ta4_formspec,
 		tubing = tubing,
+		can_start = can_start,
 		after_place_node = function(pos, placer)
 			local meta = M(pos)
 			local node = minetest.get_node(pos)
 			meta:set_int("pull_dir", techage.side_to_outdir("L", node.param2))
 			meta:set_int("push_dir", techage.side_to_outdir("R", node.param2))
+			if CRD(pos).stage == 4 then -- TA4 node?
+				local inv = M(pos):get_inventory()
+				inv:set_size('main', 1)
+				local nvm = techage.get_nvm(pos)
+				M(pos):set_string("formspec", ta4_formspec(CRD(pos).State, pos, nvm))
+			end
 		end,
 
+		allow_metadata_inventory_put = allow_metadata_inventory_put,
+		allow_metadata_inventory_take = allow_metadata_inventory_take,
 		on_rightclick = on_rightclick,
+		on_receive_fields = on_receive_fields,
 		node_timer = keep_running,
 		on_rotate = screwdriver.disallow,
 		
 		groups = {choppy=2, cracky=2, crumbly=2},
 		is_ground_content = false,
 		sounds = default.node_sound_wood_defaults(),
-		num_items = {0,2,6,18},
+		num_items = {0,2,6,12},
 	})
 
 minetest.register_craft({

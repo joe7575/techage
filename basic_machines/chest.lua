@@ -193,8 +193,9 @@ minetest.register_node("techage:chest_ta4", {
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
 
 	paramtype2 = "facedir",
-	groups = {choppy=2, cracky=2, crumbly=2},
+	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
 	is_ground_content = false,
+	drop = "techage:ta4_chest",
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -238,8 +239,8 @@ minetest.register_craft({
 	recipe = {"techage:chest_ta2", "default:chest"}
 })
 
-minetest.register_craft({
-	type = "shapeless",
-	output = "techage:chest_ta4",
-	recipe = {"techage:chest_ta3", "default:chest"}
-})
+--minetest.register_craft({
+--	type = "shapeless",
+--	output = "techage:chest_ta4",
+--	recipe = {"techage:chest_ta3", "default:chest"}
+--})

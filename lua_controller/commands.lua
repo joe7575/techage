@@ -39,14 +39,15 @@ techage.lua_ctlr.register_function("get_input", {
 })
 
 techage.lua_ctlr.register_function("read_data", {
-	cmnd = function(self, num, ident) 
+	cmnd = function(self, num, ident, add_data) 
 		num = tostring(num or "")
-		return techage.send_single(self.meta.number, num, ident, nil)
+		return techage.send_single(self.meta.number, num, ident, add_data)
 	end,
-	help = " $read_data(num, ident)\n"..
+	help = " $read_data(num, ident, add_data)\n"..
 		" Read any kind of data from another block.\n"..
 		' "num" is the block number\n'..
 		' "ident" specifies the data to be read\n'..
+		' "add_data" is additional data (optional)\n'..
 		' example: sts = $read_data("1234", "state")'
 })
 
@@ -79,13 +80,13 @@ techage.lua_ctlr.register_action("send_cmnd", {
 		num = tostring(num or "")
 		cmnd = tostring(cmnd or "")
 		if not_protected(self.meta.owner, num) then
-			techage.send_single(self.meta.number, num, cmnd, data)
+			return techage.send_single(self.meta.number, num, cmnd, data)
 		end
 	end,
-	help = " $send_cmnd(num, cmnd, data)\n"..
+	help = " $send_cmnd(num, cmnd, add_data)\n"..
 		' Send a command to the device with number "num".\n'..
-		'"cmnd" is the command as text string\n'..
-		'"data" is additional data (optional)\n'..
+		' "cmnd" is the command as text string\n'..
+		' "add_data" is additional data (optional)\n'..
 		' example: $send_cmnd("1234", "on")'
 })
 
@@ -179,6 +180,7 @@ techage.lua_ctlr.register_action("door", {
 		' example: $door("123,7,-1200", "close")\n'..
 		" Hint: Use the Techage Programmer to\ndetermine the door position."
 })
+
 
 -- function not_protected(owner, number(s))
 techage.lua_ctlr.not_protected = not_protected

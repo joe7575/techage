@@ -283,7 +283,7 @@ end
 -- Param names: List of node names like {"techage:pusher_off", "techage:pusher_on"}
 -- Param node_definition: A table according to:
 --    {
---        on_pull_item = func(pos, in_dir, num),
+--        on_pull_item = func(pos, in_dir, num, (opt.) item_name),
 --        on_push_item = func(pos, in_dir, item),
 --        on_unpull_item = func(pos, in_dir, item),
 --        on_recv_message = func(pos, src, topic, payload),
@@ -399,10 +399,10 @@ end
 -- Client side Push/Pull item functions
 -------------------------------------------------------------------
 
-function techage.pull_items(pos, out_dir, num)
+function techage.pull_items(pos, out_dir, num, item_name)
 	local npos, in_dir, name = get_dest_node(pos, out_dir)
 	if npos and NodeDef[name] and NodeDef[name].on_pull_item then
-		return NodeDef[name].on_pull_item(npos, in_dir, num)
+		return NodeDef[name].on_pull_item(npos, in_dir, num, item_name)
 	end
 end
 
