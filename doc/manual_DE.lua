@@ -91,6 +91,7 @@ techage.manual_DE.aTitel = {
   "3,TA3 Terminal",
   "3,TechAge Signallampe / Signal Lamp",
   "3,Tür/Tor Blöcke / Door/Gate Blocks",
+  "3,TA3 Tür Controller / Door Controller",
   "2,Detektoren",
   "3,TA3 Detektor / Detector",
   "3,TA3 Wagen Detektor / Cart Detector",
@@ -864,9 +865,14 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Diese Blöcke kann man mit einem 'off' Kommando verschwinden lassen und mit dem 'on' Kommando wieder hervor zaubern.\n"..
+  "Mit diese Blöcken kann man Türe und Tore realisieren\\, die über Kommandos geöffnet (Blöcke verschwinden) und wieder geschlossen werden können. Pro Tor oder Tür wird dazu ein Tür Controller benötigt. \n"..
+  "\n"..
   "Das Aussehen der Blöcke kann über das Block-Menü eingestellt werden.\n"..
-  "Damit lassen sich Geheimtüren realisieren\\, die sich nur bei bestimmten Spielern öffnen (mit Hilfe des Spieler-Detektors).\n"..
+  "Damit lassen sich Geheimtüren realisieren\\, die sich nur bei bestimmten Spielern öffnen (mit Hilfe des Spieler-Detektors). \n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Tür Controller dient zur Ansteuerung der TA3 Tür/Tor Blöcke. Beim Tür Controller müssen die Nummern der Tür/Tor Blöcke eingegeben werden. Wird ein  'on'/'off' Kommando Kommando an den Tür Controller gesendet\\, öffnet/schließt dieser die Tür bzw. das Tor.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1401,6 +1407,7 @@ techage.manual_DE.aItemName = {
   "ta3_terminal",
   "ta3_signallamp",
   "ta3_doorblock",
+  "ta3_doorcontroller",
   "ta3_nodedetector",
   "ta3_detector",
   "ta3_cartdetector",
@@ -1557,6 +1564,7 @@ techage.manual_DE.aPlanTable = {
   "ta3_loading",
   "",
   "ta3_distiller",
+  "",
   "",
   "",
   "",

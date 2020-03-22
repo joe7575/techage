@@ -104,6 +104,7 @@ techage.Items = {
 	ta3_signallamp = "techage:signal_lamp_off",
 	ta3_doorblock = "techage:doorblock20",
 	ta3_programmer = "techage:programmer",
+	ta3_doorcontroller = "techage:ta3_doorcontroller",
 	----------------------------
 	techage_ta4 = "techage_ta4.png",
 	ta4_windturbine = "techage:ta4_wind_turbine",

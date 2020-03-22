@@ -90,6 +90,7 @@
         - [TA3 Terminal](./manual_ta3_DE.md#ta3-terminal)
         - [TechAge Signallampe / Signal Lamp](./manual_ta3_DE.md#techage-signallampe--signal-lamp)
         - [Tür/Tor Blöcke / Door/Gate Blocks](./manual_ta3_DE.md#türtor-blöcke--doorgate-blocks)
+        - [TA3 Tür Controller / Door Controller](./manual_ta3_DE.md#ta3-tür-controller--door-controller)
     - [Detektoren](./manual_ta3_DE.md#detektoren)
         - [TA3 Detektor / Detector](./manual_ta3_DE.md#ta3-detektor--detector)
         - [TA3 Wagen Detektor / Cart Detector](./manual_ta3_DE.md#ta3-wagen-detektor--cart-detector)

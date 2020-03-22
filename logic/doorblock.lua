@@ -12,6 +12,7 @@
 	
 ]]--
 
+local M = minetest.get_meta
 local S = techage.S
 
 -- See also gateblock!!!
@@ -52,19 +53,12 @@ for idx,pgn in ipairs(tPgns) do
 		node_box = {
 			type = "fixed",
 			fixed = {
-				{ -8/16, -8/16, -2/16,  8/16,  8/16, 2/16},
+				{ -8/16, -8/16, -1/16,  8/16,  8/16, 1/16},
 			},
 		},
 
 		after_place_node = function(pos, placer)
-			local nvm = techage.get_nvm(pos)
-			local meta = minetest.get_meta(pos)
-			local node = minetest.get_node(pos)
-			local number = techage.add_node(pos, "techage:doorblock"..idx)
-			nvm.facedir = node.param2
-			meta:set_string("node_number", number)
-			meta:set_string("infotext", S("TechAge Door Block").." "..number)
-			meta:set_string("formspec", "size[3,2]"..
+			M(pos):set_string("formspec", "size[3,2]"..
 			"label[0,0;Select texture]"..
 			"dropdown[0,0.5;3;type;"..sTextures..";"..NUM_TEXTURES.."]".. 
 			"button_exit[0.5,1.5;2,1;exit;Save]")
@@ -73,23 +67,21 @@ for idx,pgn in ipairs(tPgns) do
 		on_receive_fields = function(pos, formname, fields, player)
 			local meta = minetest.get_meta(pos)
 			local node = minetest.get_node(pos)
-			local nvm = techage.get_nvm(pos)
 			if fields.type then
 				node.name = "techage:doorblock"..tTextures[fields.type]
 				minetest.swap_node(pos, node)
-				nvm.name = node.name
 			end
 			if fields.exit then
 				meta:set_string("formspec", nil)
+				local number = techage.add_node(pos, node.name)
+				meta:set_string("infotext", S("TechAge Door Block").." "..number)
 			end
 		end,
 		
-		after_dig_node = function(pos, oldnode, oldmetadata)
+		after_dig_node = function(pos)
 			techage.remove_node(pos)
-			techage.del_mem(pos)
 		end,
 
-		--drawtype = "glasslike",
 		paramtype = "light",
 		paramtype2 = "facedir",
 		sunlight_propagates = true,
@@ -97,27 +89,15 @@ for idx,pgn in ipairs(tPgns) do
 		groups = {cracky=2, choppy=2, crumbly=2, not_in_creative_inventory = idx==NUM_TEXTURES and 0 or 1},
 		is_ground_content = false,
 		drop = "techage:doorblock"..NUM_TEXTURES,
-	})
-
-	techage.register_node({"techage:doorblock"..idx}, {
-		on_recv_message = function(pos, src, topic, payload)
-			if topic == "on" then
-				minetest.remove_node(pos)
-			elseif topic == "off" then
-				local nvm = techage.get_nvm(pos)
-				nvm.facedir = nvm.facedir or 0
-				nvm.name = nvm.name or "techage:doorblock"..NUM_TEXTURES
-				minetest.add_node(pos, {name = nvm.name, paramtype2 = "facedir", param2 = nvm.facedir})
-			end
-		end,
-	})		
+	},
+	techage.register_node({"techage:doorblock"..idx}, {}))
 end
 
 minetest.register_craft({
 	output = "techage:doorblock"..NUM_TEXTURES,
 	recipe = {
+		{"techage:basalt_glass_thin", "", ""},
 		{"default:mese_crystal_fragment", "",""},
-		{"techage:vacuum_tube", "", ""},
 		{"group:wood",       "", ""},
 	},
 })

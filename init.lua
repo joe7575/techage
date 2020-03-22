@@ -176,6 +176,7 @@ else
 	dofile(MP.."/logic/cart_detector.lua")
 	dofile(MP.."/logic/gateblock.lua")
 	dofile(MP.."/logic/doorblock.lua")
+	dofile(MP.."/logic/doorcontroller.lua")
 	dofile(MP.."/logic/collector.lua")
 
 	-- Test

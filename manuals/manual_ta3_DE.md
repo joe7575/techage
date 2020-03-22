@@ -531,11 +531,20 @@ kann mit der Spritzpistole farbig gemacht werden.
 
 ### Tür/Tor Blöcke / Door/Gate Blocks
 
-Diese Blöcke kann man mit einem `off` Kommando verschwinden lassen und mit dem `on` Kommando wieder hervor zaubern.
+Mit diese Blöcken kann man Türe und Tore realisieren, die über Kommandos geöffnet (Blöcke verschwinden) und wieder geschlossen werden können. Pro Tor oder Tür wird dazu ein Tür Controller benötigt. 
+
 Das Aussehen der Blöcke kann über das Block-Menü eingestellt werden.
-Damit lassen sich Geheimtüren realisieren, die sich nur bei bestimmten Spielern öffnen (mit Hilfe des Spieler-Detektors).
+Damit lassen sich Geheimtüren realisieren, die sich nur bei bestimmten Spielern öffnen (mit Hilfe des Spieler-Detektors). 
 
 [ta3_doorblock|image]
+
+
+
+### TA3 Tür Controller / Door Controller
+
+Der Tür Controller dient zur Ansteuerung der TA3 Tür/Tor Blöcke. Beim Tür Controller müssen die Nummern der Tür/Tor Blöcke eingegeben werden. Wird ein  `on`/`off` Kommando Kommando an den Tür Controller gesendet, öffnet/schließt dieser die Tür bzw. das Tor.
+
+[ta3_doorcontroller|image]
 
 
 

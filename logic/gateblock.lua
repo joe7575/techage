@@ -12,6 +12,7 @@
 	
 ]]--
 
+local M = minetest.get_meta
 local S = techage.S
 
 -- See also doorblock!!!
@@ -41,13 +42,9 @@ for idx,pgn in ipairs(tPgns) do
 	minetest.register_node("techage:gateblock"..idx, {
 		description = S("TechAge Gate Block"),
 		tiles = {pgn},
+		drawtype = "glasslike",
 		after_place_node = function(pos, placer)
-			local meta = minetest.get_meta(pos)
-			local node = minetest.get_node(pos)
-			local number = techage.add_node(pos, "techage:gateblock"..idx)
-			meta:set_string("node_number", number)
-			meta:set_string("infotext", S("TechAge Gate Block").." "..number)
-			meta:set_string("formspec", "size[3,2]"..
+			M(pos):set_string("formspec", "size[3,2]"..
 			"label[0,0;Select texture]"..
 			"dropdown[0,0.5;3;type;"..sTextures..";"..NUM_TEXTURES.."]".. 
 			"button_exit[0.5,1.5;2,1;exit;Save]")
@@ -59,49 +56,36 @@ for idx,pgn in ipairs(tPgns) do
 			if fields.type then
 				node.name = "techage:gateblock"..tTextures[fields.type]
 				minetest.swap_node(pos, node)
-				techage.add_node(pos, node.name)
 			end
 			if fields.exit then
 				meta:set_string("formspec", nil)
+				print(node.name)
+				local number = techage.add_node(pos, node.name)
+				meta:set_string("infotext", S("TechAge Gate Block").." "..number)
 			end
 		end,
 		
 		after_dig_node = function(pos)
 			techage.remove_node(pos)
-			tubelib2.del_mem(pos)
 		end,
 
 		paramtype = "light",
-		drawtype = "glasslike",
 		paramtype2 = "facedir",
+		sunlight_propagates = true,
 		sounds = default.node_sound_stone_defaults(),
 		groups = {cracky=2, choppy=2, crumbly=2, not_in_creative_inventory = idx==NUM_TEXTURES and 0 or 1},
 		is_ground_content = false,
 		drop = "techage:gateblock"..NUM_TEXTURES,
-	})
-
-	techage.register_node({"techage:gateblock"..idx}, {
-		on_recv_message = function(pos, src, topic, payload)
-			local node = minetest.get_node(pos)
-			if topic == "on" then
-				minetest.remove_node(pos)
-			elseif topic == "off" then
-				local num = techage.get_node_number(pos)
-				local info = techage.get_node_info(num)
-				if info then
-					minetest.add_node(pos, {name=info.name})
-				end
-			end
-		end,
-	})		
+	},
+	techage.register_node({"techage:gateblock"..idx}, {}))
 end
 
 minetest.register_craft({
 	output = "techage:gateblock"..NUM_TEXTURES,
 	recipe = {
-		{"group:wood",       "", ""},
-		{"techage:vacuum_tube", "", ""},
+		{"techage:basalt_glass", "", ""},
 		{"default:mese_crystal_fragment", "",""},
+		{"group:wood",       "", ""},
 	},
 })
 
