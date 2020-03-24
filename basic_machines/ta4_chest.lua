@@ -350,6 +350,6 @@ techage.register_node({"techage:ta4_chest"}, {
 
 minetest.register_craft({
 	type = "shapeless",
-	output = "techage:chest_ta4",
+	output = "techage:ta4_chest",
 	recipe = {"techage:chest_ta3", "default:chest"}
 })
