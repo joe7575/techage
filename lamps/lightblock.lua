@@ -45,7 +45,6 @@ function techage.light_ring(center_pos, on)
 	for _,dir in ipairs(Positions) do
 		local pos1 = vector.add(center_pos, dir)
 		local node = techage.get_node_lvm(pos1)
-		print("light_ring", node.name, minetest.pos_to_string(pos1))
 		if on then
 			if node.name == "air" then
 				minetest.set_node(pos1, {name = "techage:lightblock"})
