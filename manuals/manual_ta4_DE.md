@@ -409,6 +409,27 @@ Diesen Zähler kann man über das Kommando 'count' abfragen und über 'reset' zu
 [ta4_detector|image]
 
 
+## TA4 Lampen
+
+TA4 beinhaltet eine Reihe von leistungsstarken Lampen, die eine bessere Ausleuchtung ermöglichen oder Spezialaufgaben übernehmen.
+
+### TA4 LED Pflanzenlampe / TA4 LED Grow Light
+
+Die TA4 LED Pflanzenlampe ermöglicht ein schnelles und kräftiges Wachstum aller Pflanzen aus der `farming` Mod. Die Lampe beleuchtet ein 3x3 großes Feld, so dass sich damit auch Pflanzen unter Tage anbauen lassen.
+Die Lampe muss mit einem Abstand von einem Block über dem Boden in der Mitte des 3x3 Feldes platziert werden.
+
+Zusätzlich kann  die Lampe auch zur Blumenzucht genutzt werden. Wird die Lampe über ein 3x3 großes Blumenbeet aus "Garden Soil" (Mod `compost`) platziert, so wachsen dort die Blumen ganz von selbst (über und unter Tage).
+
+Abernten kann man die Blumen mit den Signs Bot, der auch über ein entsprechendes Zeichen verfügt, das vor das Blumenfeld gestellt werden muss.
+
+Die Lampe benötigt 1 ku Strom.
+
+[ta4_growlight|image]
+
+### weitere Lampen kommen noch...
+
+
+
 ## Weitere TA4 Blöcke
 
 ### TA4 Tank / TA4 Tank
@@ -462,11 +483,17 @@ Der TA4 Schieber besitzt zwei zusätzliche Kommandos für den Lua Controller:
 
 [ta4_pusher|image]
 
-### TA4 Kiste / Chest
+### TA4 Kiste / TA4 Chest
 
-Die TA4 Kiste hat kein normales Inventar wir andere Kisten, sondern verfügt über 8 Speicher, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2, TA3 oder TA4) gefüllt bzw. geleert werden.
+Die Funktion entspricht der von TA3. Die Kiste kann aber mehr Inhalt aufnehmen.
 
-Der TA4 Kiste besitzt ein zusätzliches Kommandos für den Lua Controller:
+[ta4_chest|image]
+
+### TA4 8x2000 Kiste / TA4 8x2000 Chest
+
+Die TA4 8x2000 Kiste hat kein normales Inventar wir andere Kisten, sondern verfügt über 8 Speicher, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2, TA3 oder TA4) gefüllt bzw. geleert werden.
+
+Der Kiste besitzt ein zusätzliches Kommandos für den Lua Controller:
 
 - `count` dient zur Anfrage, wie viele Items in der Kiste sind.
   Beispiel 1:  `$read_data(CHEST, "count")`  --> Summe der Items über alle 8 Speicher

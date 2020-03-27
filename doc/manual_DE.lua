@@ -154,6 +154,9 @@ techage.manual_DE.aTitel = {
   "3,TA4 Spieler Detektor / Player Detector",
   "3,TA4 Zustandssammler / State Collector",
   "3,TA4 Detektor / Detector",
+  "2,TA4 Lampen",
+  "3,TA4 LED Pflanzenlampe / TA4 LED Grow Light",
+  "3,weitere Lampen kommen noch...",
   "2,Weitere TA4 Blöcke",
   "3,TA4 Tank / TA4 Tank",
   "3,TA4 Pumpe / TA4 Pump",
@@ -161,7 +164,8 @@ techage.manual_DE.aTitel = {
   "3,TA4 Wasserpumpe / Water Pump",
   "3,TA4 Röhren / TA4 Tube",
   "3,TA4 Schieber / Pusher",
-  "3,TA4 Kiste / Chest",
+  "3,TA4 Kiste / TA4 Chest",
+  "3,TA4 8x2000 Kiste / TA4 8x2000 Chest",
   "3,TA4 Verteiler / Distributor",
   "3,TA4 Kiessieb / Gravel Sieve",
   "3,TA4 Mühle / Grinder",
@@ -1254,6 +1258,20 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "TA4 beinhaltet eine Reihe von leistungsstarken Lampen\\, die eine bessere Ausleuchtung ermöglichen oder Spezialaufgaben übernehmen.\n"..
+  "\n",
+  "Die TA4 LED Pflanzenlampe ermöglicht ein schnelles und kräftiges Wachstum aller Pflanzen aus der 'farming' Mod. Die Lampe beleuchtet ein 3x3 großes Feld\\, so dass sich damit auch Pflanzen unter Tage anbauen lassen.\n"..
+  "Die Lampe muss mit einem Abstand von einem Block über dem Boden in der Mitte des 3x3 Feldes platziert werden.\n"..
+  "\n"..
+  "Zusätzlich kann  die Lampe auch zur Blumenzucht genutzt werden. Wird die Lampe über ein 3x3 großes Blumenbeet aus \"Garden Soil\" (Mod 'compost') platziert\\, so wachsen dort die Blumen ganz von selbst (über und unter Tage).\n"..
+  "\n"..
+  "Abernten kann man die Blumen mit den Signs Bot\\, der auch über ein entsprechendes Zeichen verfügt\\, das vor das Blumenfeld gestellt werden muss.\n"..
+  "\n"..
+  "Die Lampe benötigt 1 ku Strom.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "",
   "",
   "Siehe TA3 Tank.\n"..
   "\n"..
@@ -1291,9 +1309,13 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Die TA4 Kiste hat kein normales Inventar wir andere Kisten\\, sondern verfügt über 8 Speicher\\, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2\\, TA3 oder TA4) gefüllt bzw. geleert werden.\n"..
+  "Die Funktion entspricht der von TA3. Die Kiste kann aber mehr Inhalt aufnehmen.\n"..
   "\n"..
-  "Der TA4 Kiste besitzt ein zusätzliches Kommandos für den Lua Controller:\n"..
+  "\n"..
+  "\n",
+  "Die TA4 8x2000 Kiste hat kein normales Inventar wir andere Kisten\\, sondern verfügt über 8 Speicher\\, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2\\, TA3 oder TA4) gefüllt bzw. geleert werden.\n"..
+  "\n"..
+  "Der Kiste besitzt ein zusätzliches Kommandos für den Lua Controller:\n"..
   "\n"..
   "  - 'count' dient zur Anfrage\\, wie viele Items in der Kiste sind.\nBeispiel 1:  '$read_data(CHEST\\, \"count\")'  --> Summe der Items über alle 8 Speicher\nBeispiel 2:  '$read_data(CHEST\\, \"count\"\\, 2)'  --> Anzahl der Items in Speicher 2 (zweiter von links)\n"..
   "\n"..
@@ -1471,12 +1493,16 @@ techage.manual_DE.aItemName = {
   "ta4_collector",
   "ta4_detector",
   "",
+  "ta4_growlight",
+  "",
+  "",
   "ta4_tank",
   "ta4_pump",
   "ta4_furnaceheater",
   "ta4_waterpump",
   "ta4_tube",
   "ta4_pusher",
+  "ta4_chest",
   "ta4_chest",
   "ta4_distributor",
   "ta4_gravelsieve",
@@ -1617,6 +1643,10 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
+  "",
+  "",
+  "",
   "",
   "",
   "",

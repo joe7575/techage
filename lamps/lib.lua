@@ -31,6 +31,10 @@ local function swap_node(pos, postfix)
 	end
 	node.name = parts[1].."_"..postfix
 	minetest.swap_node(pos, node)
+	local ndef = minetest.registered_nodes[node.name]
+	if ndef.on_switch_lamp then
+		ndef.on_switch_lamp(pos, postfix == "on")
+	end
 end
 
 local function on_power(pos)
@@ -130,7 +134,7 @@ function techage.register_lamp(basename, ndef_off, ndef_on)
 	ndef_on.networks = net_def
 	ndef_on.on_rightclick = lamp_on_rightclick
 	ndef_on.on_rotate = ndef_on.on_rotate or on_rotate
-	ndef_on.on_timer = node_timer
+	ndef_on.on_timer = ndef_on.on_timer or node_timer
 	ndef_on.paramtype = "light"
 	ndef_on.light_source = minetest.LIGHT_MAX
 	ndef_on.sunlight_propagates = true

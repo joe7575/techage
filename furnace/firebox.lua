@@ -236,7 +236,18 @@ techage.register_node({"techage:furnace_firebox", "techage:furnace_firebox_on"},
 			stop_firebox(pos, nvm)
 			booster_cmnd(pos, "stop")
 		end
-	end
+	end,
+	on_node_load = function(pos, node)
+		local inv = M(pos):get_inventory()
+		if not inv:is_empty("fuel") then
+			local nvm = techage.get_nvm(pos)
+			nvm.liquid = nvm.liquid or {}
+			local count = inv:get_stack("fuel", 1):get_count()
+			nvm.liquid.amount = (nvm.liquid.amount or 0) + count
+			nvm.liquid.name = "techage:gasoline"
+			inv:set_stack("fuel", 1, nil)
+		end	
+	end,
 })	
 
 Pipe:add_secondary_node_names({"techage:furnace_firebox", "techage:furnace_firebox_on"})

@@ -8,7 +8,7 @@
 	GPL v3
 	See LICENSE.txt for more information
 	
-	TA4 Protected Chest
+	TA4 8x2000 Chest
 	
 ]]--
 
@@ -16,7 +16,7 @@
 local M = minetest.get_meta
 local S = techage.S
 
-local DESCRIPTION = S("TA4 Protected Chest")
+local DESCRIPTION = S("TA4 8x2000 Chest")
 local STACK_SIZE = 2000
 
 local function gen_inv(nvm)
@@ -263,7 +263,7 @@ minetest.register_node("techage:ta4_chest", {
 	description = DESCRIPTION,
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta4.png^techage_frame_ta4.png",
+		"techage_filling_ta4.png^techage_frame_ta4_top.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_chest_back_ta4.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_chest_back_ta4.png",
@@ -351,5 +351,11 @@ techage.register_node({"techage:ta4_chest"}, {
 minetest.register_craft({
 	type = "shapeless",
 	output = "techage:ta4_chest",
-	recipe = {"techage:chest_ta3", "default:chest"}
+	recipe = {"techage:chest_ta4"}
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "techage:chest_ta4",
+	recipe = {"techage:ta4_chest"}
 })

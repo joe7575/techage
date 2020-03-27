@@ -221,7 +221,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		num_items = {0,1,1,1},
 		power_consumption = {0,8,12,18},
 	},
-	{false, true, true, false})  -- TA2/TA3
+	{false, true, true, true})  -- TA2/TA3/TA4
 
 minetest.register_craft({
 	output = node_name_ta2,
@@ -241,6 +241,15 @@ minetest.register_craft({
 	},
 })
 
+minetest.register_craft({
+	output = node_name_ta4,
+	recipe = {
+		{"", "default:diamond", ""},
+		{"", node_name_ta3, ""},
+		{"", "techage:ta4_wlanchip", ""},
+	},
+})
+
 if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("ta2_electronic_fab", {
 		description = S("TA2 Ele Fab"),
@@ -251,6 +260,12 @@ if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("ta3_electronic_fab", {
 		description = S("TA3 Ele Fab"),
 		icon = 'techage_filling_ta3.png^techage_appl_electronic_fab.png^techage_frame_ta3.png',
+		width = 2,
+		height = 2,
+	})
+	unified_inventory.register_craft_type("ta4_electronic_fab", {
+		description = S("TA4 Ele Fab"),
+		icon = 'techage_filling_ta4.png^techage_appl_electronic_fab.png^techage_frame_ta4.png',
 		width = 2,
 		height = 2,
 	})

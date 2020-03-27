@@ -99,7 +99,7 @@ minetest.register_node("techage:ta4_tubeA", {
 	is_ground_content = false,
 	groups = {choppy=2, cracky=3, stone=1, not_in_creative_inventory=1},
 	sounds = default.node_sound_wood_defaults(),
-	drop = "techage:tubeS",
+	drop = "techage:ta4_tubeS",
 })
 
 minetest.register_craft({

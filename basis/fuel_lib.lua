@@ -120,7 +120,7 @@ function techage.fuel.on_punch(pos, node, puncher, pointed_thing)
 		
 	local ldef = liquid.get_liquid_def(wielded_item)
 	if ldef and ValidOilFuels[ldef.inv_item] then
-		local new_item = liquid.empty_on_punch(pos, nvm, wielded_item)
+		local new_item = liquid.empty_on_punch(pos, nvm, wielded_item, item_count)
 		if new_item then
 			puncher:set_wielded_item(new_item)
 			M(pos):set_string("formspec", techage.fuel.formspec(pos, nvm))

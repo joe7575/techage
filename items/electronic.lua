@@ -34,6 +34,11 @@ minetest.register_craftitem("techage:ta4_ramchip", {
 	inventory_image = "techage_ramchip.png",
 })
 
+minetest.register_craftitem("techage:ta4_leds", {
+	description = S("TA4 LEDs"),
+	inventory_image = "techage_leds.png",
+})
+
 
 techage.recipes.add("ta2_electronic_fab", {
 	output = "techage:vacuum_tube 2",
@@ -53,4 +58,19 @@ techage.recipes.add("ta3_electronic_fab", {
 techage.recipes.add("ta3_electronic_fab", {
 	output = "techage:ta4_ramchip 8",
 	input = {"default:mese_crystal 1", "default:gold_ingot 1", "default:copper_ingot 1", "techage:ta4_silicon_wafer 1"}
+})
+
+techage.recipes.add("ta4_electronic_fab", {
+	output = "techage:ta4_wlanchip 8",
+	input = {"default:mese_crystal 1", "default:copper_ingot 1", "default:gold_ingot 1", "techage:ta4_silicon_wafer 1"}
+})
+
+techage.recipes.add("ta4_electronic_fab", {
+	output = "techage:ta4_ramchip 8",
+	input = {"default:mese_crystal 1", "default:gold_ingot 1", "default:copper_ingot 1", "techage:ta4_silicon_wafer 1"}
+})
+
+techage.recipes.add("ta4_electronic_fab", {
+	output = "techage:ta4_leds 8",
+	input = {"basic_materials:plastic_sheet 4", "basic_materials:copper_wire 1", "techage:ta4_silicon_wafer 1"}
 })
