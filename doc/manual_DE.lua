@@ -157,7 +157,7 @@ techage.manual_DE.aTitel = {
   "2,TA4 Lampen",
   "3,TA4 LED Pflanzenlampe / TA4 LED Grow Light",
   "3,TA4 LED Straßenlampe / TA4 LED Street Lamp",
-  "3,weitere Lampen folgen...",
+  "3,TA4 LED Industrielampe / TA4 LED Industrial Lamp",
   "2,Weitere TA4 Blöcke",
   "3,TA4 Tank / TA4 Tank",
   "3,TA4 Pumpe / TA4 Pump",
@@ -1280,7 +1280,12 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "",
+  "Die TA4 LED Industrielampe ist eine Lampe mit besonders starker Ausleuchtung. Die Lampe muss von oben mit Strom versorgt werden.\n"..
+  "\n"..
+  "Die Lampe benötigt 1 ku Strom.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "",
   "Siehe TA3 Tank.\n"..
   "\n"..
@@ -1504,7 +1509,7 @@ techage.manual_DE.aItemName = {
   "",
   "ta4_growlight",
   "ta4_streetlamp",
-  "",
+  "ta4_industriallamp",
   "",
   "ta4_tank",
   "ta4_pump",

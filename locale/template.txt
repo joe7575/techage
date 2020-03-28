@@ -273,6 +273,7 @@ TA4 Heat Exchanger 2=
 TA4 Heat Exchanger 3=
 TA4 Hydrogen=
 TA4 LED Grow Light=
+TA4 LED Industrial Lamp=
 TA4 LED Street Lamp=
 TA4 LED Street Lamp Arm=
 TA4 LED Street Lamp Pole=

@@ -109,11 +109,26 @@ local net_def = {
 	},
 }
 
+local net_def2 = {
+	ele1 = {
+		sides = {U=1, D=1, L=1, R=1, F=1, B=1}, -- Cable connection sides
+		ntype = "con1",
+		on_power = on_power,
+		on_nopower = on_nopower,
+		nominal = PWR_NEEDED * 2,
+	},
+}
+
+
 function techage.register_lamp(basename, ndef_off, ndef_on)
 	ndef_off.after_place_node = after_place_node
 	ndef_off.after_dig_node = after_dig_node
 	ndef_off.tubelib2_on_update2 = tubelib2_on_update2
-	ndef_off.networks = net_def
+	if ndef_off.high_power then
+		ndef_off.networks = net_def2
+	else
+		ndef_off.networks = net_def
+	end
 	ndef_off.on_rightclick = lamp_on_rightclick
 	if not ndef_off.on_rotate then
 		ndef_off.on_place = on_place
@@ -131,7 +146,11 @@ function techage.register_lamp(basename, ndef_off, ndef_on)
 	ndef_on.after_place_node = after_place_node
 	ndef_on.after_dig_node = after_dig_node
 	ndef_on.tubelib2_on_update2 = tubelib2_on_update2
-	ndef_on.networks = net_def
+	if ndef_on.high_power then
+		ndef_on.networks = net_def2
+	else
+		ndef_on.networks = net_def
+	end
 	ndef_on.on_rightclick = lamp_on_rightclick
 	ndef_on.on_rotate = ndef_on.on_rotate or on_rotate
 	ndef_on.on_timer = ndef_on.on_timer or node_timer

@@ -436,7 +436,14 @@ Die Lampe benötigt 1 ku Strom.
 
 [ta4_streetlamp|image]
 
-### weitere Lampen folgen...
+### TA4 LED Industrielampe / TA4 LED Industrial Lamp
+
+Die TA4 LED Industrielampe ist eine Lampe mit besonders starker Ausleuchtung. Die Lampe muss von oben mit Strom versorgt werden.
+
+Die Lampe benötigt 1 ku Strom.
+
+[ta4_industriallamp|image]
+
 
 
 

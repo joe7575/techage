@@ -148,6 +148,7 @@ else
 	dofile(MP.."/lamps/industriallamp1.lua")
 	dofile(MP.."/lamps/industriallamp2.lua")
 	dofile(MP.."/lamps/industriallamp3.lua")
+	dofile(MP.."/lamps/industriallamp4.lua")
 	dofile(MP.."/lamps/growlight.lua")
 	
 	-- Oil

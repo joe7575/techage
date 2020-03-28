@@ -156,7 +156,7 @@
     - [TA4 Lampen](./manual_ta4_DE.md#ta4-lampen)
         - [TA4 LED Pflanzenlampe / TA4 LED Grow Light](./manual_ta4_DE.md#ta4-led-pflanzenlampe--ta4-led-grow-light)
         - [TA4 LED Straßenlampe / TA4 LED Street Lamp](./manual_ta4_DE.md#ta4-led-straßenlampe--ta4-led-street-lamp)
-        - [weitere Lampen folgen...](./manual_ta4_DE.md#weitere-lampen-folgen...)
+        - [TA4 LED Industrielampe / TA4 LED Industrial Lamp](./manual_ta4_DE.md#ta4-led-industrielampe--ta4-led-industrial-lamp)
     - [Weitere TA4 Blöcke](./manual_ta4_DE.md#weitere-ta4-blöcke)
         - [TA4 Tank / TA4 Tank](./manual_ta4_DE.md#ta4-tank--ta4-tank)
         - [TA4 Pumpe / TA4 Pump](./manual_ta4_DE.md#ta4-pumpe--ta4-pump)

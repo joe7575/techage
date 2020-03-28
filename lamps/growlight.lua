@@ -82,6 +82,7 @@ techage.register_lamp("techage:growlight", {
 		},
 	},
 	on_switch_lamp = on_switch_lamp,
+	high_power = true,
 },{
 	description = S("TA4 LED Grow Light"),
 	tiles = {
@@ -103,6 +104,7 @@ techage.register_lamp("techage:growlight", {
 	},
 	on_timer = node_timer,
 	on_switch_lamp = on_switch_lamp,
+	high_power = true,
 })
 
 minetest.register_craft({

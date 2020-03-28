@@ -157,5 +157,6 @@ techage.Items = {
 	ta4_chest = "techage:ta4_chest",
 	ta4_growlight = "techage:growlight_on",
 	ta4_streetlamp = "techage_ta4_streetlamp.png",
+	ta4_industriallamp = "techage:industriallamp4_off",
 	--ta4_ "", 
 }

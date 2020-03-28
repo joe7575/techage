@@ -35,6 +35,7 @@ techage.register_lamp("techage:streetlamp2", {
 	on_switch_lamp = on_switch_lamp,
 	on_rotate = screwdriver.disallow,
 	conn_sides = {"F", "B"},
+	high_power = true,
 },{
 	description = S("TA4 LED Street Lamp"),
 	tiles = {
@@ -52,6 +53,7 @@ techage.register_lamp("techage:streetlamp2", {
 	on_switch_lamp = on_switch_lamp,
 	on_rotate = screwdriver.disallow,
 	conn_sides = {"F", "B"},
+	high_power = true,
 })
 
 minetest.register_node("techage:streetlamp_pole", {

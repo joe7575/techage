@@ -116,6 +116,7 @@ minetest.register_node("techage:ta4_solar_minicell", {
 	after_dig_node = after_dig_node,
 	on_timer = node_timer,
 	tubelib2_on_update2 = tubelib2_on_update2,
+	networks = net_def,
 })
 
 Cable:add_secondary_node_names({"techage:ta4_solar_minicell"})
