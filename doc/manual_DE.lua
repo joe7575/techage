@@ -156,7 +156,8 @@ techage.manual_DE.aTitel = {
   "3,TA4 Detektor / Detector",
   "2,TA4 Lampen",
   "3,TA4 LED Pflanzenlampe / TA4 LED Grow Light",
-  "3,weitere Lampen kommen noch...",
+  "3,TA4 LED Straßenlampe / TA4 LED Street Lamp",
+  "3,weitere Lampen folgen...",
   "2,Weitere TA4 Blöcke",
   "3,TA4 Tank / TA4 Tank",
   "3,TA4 Pumpe / TA4 Pump",
@@ -1271,6 +1272,14 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Die TA4 LED Straßenlampe ist eine Lampe mit besonders starker Ausleuchtung. Die Lampe besteht aus dem Lampengehäuse\\, Lampenarm und Lampenmast Blöcken.\n"..
+  "\n"..
+  "Der Strom muss von unten durch den Mast nach oben zum Lampengehäuse geführt werden. Dazu zuerst die Stromleitung nach oben ziehen und das Stromkabel dann mit Lampenmast Blöcken \"verputzen\".\n"..
+  "\n"..
+  "Die Lampe benötigt 1 ku Strom.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "",
   "",
   "Siehe TA3 Tank.\n"..
@@ -1494,6 +1503,7 @@ techage.manual_DE.aItemName = {
   "ta4_detector",
   "",
   "ta4_growlight",
+  "ta4_streetlamp",
   "",
   "",
   "ta4_tank",
@@ -1643,6 +1653,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
   "",
   "",
   "",

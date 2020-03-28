@@ -143,6 +143,7 @@ else
 	dofile(MP.."/lamps/lightblock.lua")	
 	dofile(MP.."/lamps/simplelamp.lua")
 	dofile(MP.."/lamps/streetlamp.lua")
+	dofile(MP.."/lamps/streetlamp2.lua")
 	dofile(MP.."/lamps/ceilinglamp.lua")
 	dofile(MP.."/lamps/industriallamp1.lua")
 	dofile(MP.."/lamps/industriallamp2.lua")

@@ -426,7 +426,17 @@ Die Lampe benötigt 1 ku Strom.
 
 [ta4_growlight|image]
 
-### weitere Lampen kommen noch...
+### TA4 LED Straßenlampe / TA4 LED Street Lamp
+
+Die TA4 LED Straßenlampe ist eine Lampe mit besonders starker Ausleuchtung. Die Lampe besteht aus dem Lampengehäuse, Lampenarm und Lampenmast Blöcken.
+
+Der Strom muss von unten durch den Mast nach oben zum Lampengehäuse geführt werden. Dazu zuerst die Stromleitung nach oben ziehen und das Stromkabel dann mit Lampenmast Blöcken "verputzen".
+
+Die Lampe benötigt 1 ku Strom.
+
+[ta4_streetlamp|image]
+
+### weitere Lampen folgen...
 
 
 
