@@ -21,7 +21,7 @@ local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm
 
 local STANDBY_TICKS = 1
 local COUNTDOWN_TICKS = 6
-local CYCLE_TIME = 16
+local CYCLE_TIME = 2 ---------------------------------------- TODO 16
 
 local formspec0 = "size[5,4]"..
 	default.gui_bg..
@@ -70,6 +70,7 @@ local function formspec(self, pos, nvm)
 	"image[3.5,0;1,1;"..techage.get_power_image(pos, nvm).."]"..
 	"image[3.5,1;1,1;techage_form_arrow.png]"..
 	"image_button[3.5,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
+	"tooltip[3.5,2;1,1;"..self:get_state_tooltip(nvm).."]"..
 	"label[6.2,0.5;OUT]"..
 	"list[context;dst;6,1;1,1;]"..
 	"button_exit[5,3;3,1;remove;"..S("Remove derrick").."]"..
@@ -133,6 +134,12 @@ local function drilling(pos, crd, nvm, inv)
 	if not inv:contains_item("src", ItemStack("techage:oil_drillbit")) then
 		crd.State:idle(pos, nvm, S("Drill bits missing"))
 	elseif curr_depth >= depth then
+		M(pos):set_string("oil_found", "false")
+		crd.State:blocked(pos, nvm, S("No oil found"))
+	elseif node.name == "techage:oilstorage" then -- old oil bubble node?
+		nvm.drill_pos.y = nvm.drill_pos.y-1
+		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+	elseif node.name == "techage:oil_source" then
 		M(pos):set_string("oil_found", "true")
 		crd.State:stop(pos, nvm)
 	elseif minetest.is_protected(nvm.drill_pos, owner) then
@@ -150,7 +157,7 @@ local function drilling(pos, crd, nvm, inv)
 		if drop_name then
 			local item = ItemStack(drop_name)
 			if not inv:room_for_item("dst", item) then
-				crd.State:blocked(pos, nvm)
+				crd.State:blocked(pos, nvm, S("item output blocked"))
 				return
 			end
 			inv:add_item("dst", item)
@@ -159,8 +166,9 @@ local function drilling(pos, crd, nvm, inv)
 		inv:remove_item("src", ItemStack("techage:oil_drillbit"))
 		nvm.drill_pos.y = nvm.drill_pos.y-1
 		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-	else
-		crd.State:fault(pos, nvm, S("block can't be dug"))
+	elseif node.name == "ignore" then
+		-- load world and pause the drilling for one step
+		minetest.emerge_area(nvm.drill_pos, nvm.drill_pos)
 	end
 end
 
@@ -250,6 +258,7 @@ local tubing = {
 	on_node_load = function(pos, node)
 		CRD(pos).State:on_node_load(pos)
 		local nvm = techage.get_nvm(pos)
+		nvm.assemble_locked = false
 		if nvm.techage_state == techage.RUNNING then
 			play_sound(pos)
 		end

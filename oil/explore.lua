@@ -17,20 +17,29 @@ local M = minetest.get_meta
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local S = techage.S
 
-local PROBABILITY = 80
+local PROBABILITY = 20
 local OIL_MIN = 2000
 local OIL_MAX = 20000
-local DEPTH_MIN = 8
-local DEPTH_MAX = (16 * 25) + 8
-local DEPTH_STEP = 96
+local DEPTH_MIN = 16
+local DEPTH_MAX = 30*16
+local DEPTH_STEP = 16
+local YPOS_MAX = -6*16
+local RADIUS = 8
 
-local seed = 1234  -- confidental!
+local seed = tonumber(minetest.settings:get("techage_oil_exploration_seed")) or 1234  -- confidental!
 
 local InvalidGroundNodes = {
-	"air",
+	["air"] = true,
+}
+
+local ValidGroundNodes = {
+	["default:cobble"] = true,
+	["default:mossycobble"] = true,
+	["default:desert_cobble"] = true,
 }
 
 local function oil_amount(pos)
+	if pos.y > YPOS_MAX then return 0 end
 	local block_key = seed + 
 		math.floor((pos.z + 32768) / 16) * 4096 * 4096 + 
 		math.floor((pos.y + 32768) / 16) * 4096 +
@@ -49,26 +58,29 @@ local function center(coord)
 	return (math.floor(coord/16) * 16) + 8
 end
 
-local function gen_oil_slice(pos1, posc, y, radius, data, id)
-	local y_offs = (y - pos1.y) * 16
-	for x = posc.x - radius + 2, posc.x + radius + 2 do
-		for z = posc.z - radius + 1, posc.z + radius + 1 do
-			local idx = x - pos1.x + y_offs + (z - pos1.z) * 16 * 16
+local function calc_depth(pos, explore_pos)
+	return pos.y - explore_pos.y + 1
+end
+
+local function gen_oil_slice(ypos, from, to, data, id)
+	for x = from, to do
+		for z = from, to do
+			local idx = (x + (ypos * 16) + (z * 16 * 16)) + 1
 			data[idx] = id
 		end
 	end
-	return (radius * 2 + 1) * (radius * 2 + 1)
 end
 
-local function gen_oil_bubble(pos1, posC, amount, data)
+local function gen_oil_bubble(data)
 	local id = minetest.get_content_id("techage:oil_source")
-	--local id = minetest.get_content_id("air")
-	local radius = math.floor(math.pow(amount, 1.0/3) / 2)
-	local sum = 0
-	for y = posC.y - radius, posC.y + radius do
-		sum = sum + gen_oil_slice(pos1, posC, y, radius + 1, data, id)
-		if sum >= amount then break end
+	
+	gen_oil_slice(1, 3, 12, data, id)
+	gen_oil_slice(2, 2, 13, data, id)
+	for offs = 3, 12 do
+		gen_oil_slice(offs, 1, 14, data, id)
 	end
+	gen_oil_slice(13, 2, 13, data, id)
+	gen_oil_slice(14, 3, 12, data, id)
 end	
 	
 local function useable_stone_block(data)
@@ -76,27 +88,33 @@ local function useable_stone_block(data)
 	for _,id in ipairs(data) do
 		if not valid[id] then
 			local itemname = minetest.get_name_from_content_id(id)
-			local ndef = minetest.registered_nodes[itemname]
-			if not ndef or not ndef.is_ground_content or InvalidGroundNodes[itemname] then
-				return false
+			if not ValidGroundNodes[itemname] then
+				local ndef = minetest.registered_nodes[itemname]
+				if InvalidGroundNodes[itemname] or not ndef or ndef.is_ground_content == false then 
+					print("useable_stone_block false", itemname)
+					return false 
+				end
 			end
 			valid[id] = true
 		end
 	end
+	print("useable_stone_block true")
 	return true
 end
 	
-local function get_next_depth(pos)
+local function get_next_explore_pos(pos)
 	local meta = M(pos)
-	local depth = meta:get_int("exploration_depth")
-	if depth == 0 then
-		depth = DEPTH_MIN
+	local ypos = meta:get_int("exploration_ypos")
+	if ypos == 0 then
+		ypos = math.min(YPOS_MAX, center(pos.y))
 	end
-	if depth + DEPTH_STEP < DEPTH_MAX then
-		depth = depth + DEPTH_STEP
-		meta:set_int("exploration_depth", depth)
+	local d = calc_depth(pos, {y = ypos})
+	if d + DEPTH_STEP < DEPTH_MAX then
+		ypos = ypos - DEPTH_STEP
+		meta:set_int("exploration_ypos", ypos)
 	end
-	return depth
+	print(minetest.pos_to_string({x = center(pos.x), y = center(ypos), z = center(pos.z)}))
+	return {x = center(pos.x), y = center(ypos), z = center(pos.z)}
 end
 
 local function get_oil_amount(pos)
@@ -108,11 +126,10 @@ local function set_oil_amount(pos, amount)
 	return M(pos):set_int("oil_amount", amount)
 end
 
-local function status(pos, player_name, depth, amount)
-	depth = depth + pos.y
-	local posC = {x = center(pos.x), y = pos.y, z = center(pos.z)}
+local function status(pos, player_name, explore_pos, amount)
+	local depth = calc_depth(pos, explore_pos)
 	minetest.chat_send_player(player_name, 
-		"[TA Oil] "..P2S(posC).." "..S("depth")..": "..depth..",  "..S("Oil")..": "..amount.."    ")
+		"[TA Oil] "..P2S(explore_pos).." "..S("depth")..": "..depth..",  "..S("Oil")..": "..amount.."    ")
 end
 
 local function marker(player_name, pos)
@@ -122,64 +139,81 @@ local function marker(player_name, pos)
 	techage.switch_region(player_name, pos1, pos2)
 end
 
-local function explore_area(pos, pos1, pos2, posC, depth, amount, player_name)
+-- check if oil can be placed and if so, do it and return true
+local function generate_oil_bubble(posC, amount)
+	local pos1 = {x = posC.x - RADIUS, y = posC.y - RADIUS, z = posC.z - RADIUS}
+	local pos2 = {x = posC.x + RADIUS - 1, y = posC.y + RADIUS - 1, z = posC.z + RADIUS - 1}
 	local vm = minetest.get_voxel_manip(pos1, pos2)
 	local data = vm:get_data()
 	
+	print("#data", #data)
+	
 	if useable_stone_block(data) then
-		gen_oil_bubble(pos1, posC, amount/10, data)
+		gen_oil_bubble(data)
 		vm:set_data(data)
 		vm:write_to_map()
 		vm:update_map()
-		M(pos):set_int("oil_amount", amount)
-		M(pos):set_int("depth", depth)
 		set_oil_amount(posC, amount)
-		marker(player_name, pos)
-	else
-		amount = 0
+		return true
 	end
-	status(pos, player_name, depth, amount)
+	return false
 end
 
-local function emerge_area(pos, node, player_name)
-	if pos.y < -50 then
-		minetest.chat_send_player(player_name, 
-		S("[TA Oil] No oil exploration possible at this depth!  "))
-	elseif get_oil_amount(pos) == 0 then -- nothing found so far?
-		local depth = get_next_depth(pos)
-		local posC = {x = center(pos.x), y = center(-depth), z = center(pos.z)}
-		local radius = 7
-		local pos1 = {x = posC.x - radius, y = posC.y - radius, z = posC.z - radius}
-		local pos2 = {x = posC.x + radius, y = posC.y + radius, z = posC.z + radius}
-		local amount = oil_amount(posC)
-		if creative and creative.is_enabled_for	and 
-				creative.is_enabled_for(player_name) then
-			amount = 10000
-		end
-		
-		minetest.sound_play("techage_explore", {
-			pos = pos, 
-			max_hear_distance = 8})
+-- replace oil by air
+local function generate_air_bubble(posC)
+	local pos1 = {x = posC.x - RADIUS, y = posC.y - RADIUS, z = posC.z - RADIUS}
+	local pos2 = {x = posC.x + RADIUS - 1, y = posC.y + RADIUS - 1, z = posC.z + RADIUS - 1}
+	local vm = minetest.get_voxel_manip(pos1, pos2)
+	local data = vm:get_data()
+	local air = minetest.get_content_id("air")
+	local oil = minetest.get_content_id("techage:oil_source")
 	
+	for i = 1, #data do
+		if date[i] == oil then
+			data[i] = air
+		end
+	end
+	
+	vm:set_data(data)
+	vm:write_to_map()
+	vm:update_map()
+end
+
+local function explore_area(pos, node, player_name)
+	if M(pos):get_int("oil_amount") == 0 then -- nothing found so far?
+		local posC, amount
+		
 		node.name = "techage:oilexplorer_on"
 		minetest.swap_node(pos, node)
 		minetest.get_node_timer(pos):start(2.2)
+		minetest.sound_play("techage_explore", {
+			pos = pos, 
+			max_hear_distance = 8})
+		
+		for i = 1,4 do
+			posC = get_next_explore_pos(pos)
+			amount = oil_amount(posC)
+			print("explore", P2S(posC), amount)
+			if amount > 0 then
+				break
+			end
+		end
 		
 		if amount > 0 then
 			if get_oil_amount(posC) == 0 then -- not explored so far?
-				minetest.emerge_area(pos1, pos2)
-				minetest.after(2, explore_area, pos, pos1, pos2, posC, depth, amount, player_name)
-			else
-				M(pos):set_int("oil_amount", amount)
-				M(pos):set_int("depth", depth)
-				minetest.after(2, status, pos, player_name, depth, amount)
-				minetest.after(2, marker, player_name, pos)
+				if generate_oil_bubble(posC, amount) then
+					marker(player_name, pos)
+				else
+					amount = 0
+				end
 			end
-		else
-			minetest.after(2, status, pos, player_name, depth, 0)
-		end	
+			M(pos):set_int("oil_amount", amount)
+		end
+		
+		minetest.after(2, status, pos, player_name, posC, amount)
 	else
-		status(pos, player_name, M(pos):get_int("depth"), M(pos):get_int("oil_amount"))
+		local explore_pos = {x = center(pos.x), y = M(pos):get_int("exploration_ypos"), z = center(pos.z)}
+		status(pos, player_name, explore_pos, M(pos):get_int("oil_amount"))
 		marker(player_name, pos)
 	end
 end
@@ -203,7 +237,7 @@ minetest.register_node("techage:oilexplorer", {
 	},
 
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
-		emerge_area(pos, node, clicker:get_player_name())
+		explore_area(pos, node, clicker:get_player_name())
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.unmark_region(digger:get_player_name())
@@ -216,16 +250,17 @@ minetest.register_node("techage:oilexplorer", {
 minetest.register_node("techage:oilexplorer_on", {
 	description = S("TA3 Oil Explorer"),
 	tiles = {
-	{
-		image = "techage_filling4_ta3.png^techage_appl_oilexplorer_top4.png^techage_frame4_ta3_top.png",
-		backface_culling = false,
-		animation = {
-			type = "vertical_frames",
-			aspect_w = 32,
-			aspect_h = 32,
-			length = 1.2,
+		{
+			image = "techage_filling4_ta3.png^techage_appl_oilexplorer_top4.png^techage_frame4_ta3_top.png",
+			backface_culling = false,
+			animation = {
+				type = "vertical_frames",
+				
+				aspect_w = 32,
+				aspect_h = 32,
+				length = 1.2,
+			},
 		},
-	},
 		"techage_filling_ta3.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_oilexplorer.png",
 	},
@@ -244,7 +279,6 @@ minetest.register_node("techage:oilexplorer_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-
 minetest.register_craft({
 	output = "techage:oilexplorer",
 	recipe = {
@@ -260,13 +294,13 @@ techage.explore = {}
 function techage.explore.get_oil_info(pos)
 	local amount = 0
 	local depth = DEPTH_MIN
-	local posC
+	local posC = {x = center(pos.x), y = center(pos.y) - DEPTH_MIN, z = center(pos.z)}
 	while amount == 0 and depth < DEPTH_MAX do
-		depth = depth + DEPTH_STEP
-		posC = {x = center(pos.x), y = center(-depth), z = center(pos.z)}
 		amount = get_oil_amount(posC)
+		depth = calc_depth(pos, posC)
+		posC.y = posC.y - DEPTH_STEP
 	end
-	return {depth = center(depth) - 1 + pos.y, amount = amount, storage_pos = posC}
+	return {depth = depth, amount = amount, storage_pos = posC}
 end
 
 function techage.explore.get_oil_amount(posC)
@@ -279,3 +313,6 @@ function techage.explore.dec_oil_amount(posC)
 	meta:set_int("oil_amount", amount-1)
 	return amount-1
 end
+
+-- generate_air_bubble(posC)
+techage.explore.generate_air_bubble = generate_air_bubble

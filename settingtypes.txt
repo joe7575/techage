@@ -4,11 +4,6 @@ techage_max_num_forceload_blocks (Max. number of Forceload Blocks) int 20
 # Enable Basalt Stone (and disable ore generation via cobble generator)
 techage_basalt_stone_enabled (Basalt Stone enabled) bool false
 
-# This aging value is used to calculate the lifetime of machines before 
-# they go defect . The value 200 (default) results in a lifetime
-# for standard machines of about 2000 - 8000 item processing cycles.
-techage_machine_aging_value (MKachine aging value) int 200
-
 # Rarity factor to find ores when sieving with the Gravel Sieve
 # 1.0 is according to the mapgen generator 
 # 2.0 means half as many ores as result
@@ -18,3 +13,7 @@ techage_ore_rarity (Rarity factor to find ores) float 1.0
 # Enable alternative recipes for steel and bronze.
 # Instead of the furnace the player has to use the Coal Burner.
 techage_modified_recipes_enabled (Enable alternative recipes for steel and bronze) bool false
+
+# Seed for the oil exploration random function.
+# Change this for your server in order not to be able to predict the oil reserves!
+techage_oil_exploration_seed (techage oil exploration seed) int 1234

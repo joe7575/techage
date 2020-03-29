@@ -35,6 +35,7 @@ local function has_oil(pos, meta)
 		if amount > 0 then
 			return true
 		end
+		techage.explore.generate_air_bubble(P(storage_pos))
 	end
 end
 

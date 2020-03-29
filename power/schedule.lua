@@ -21,7 +21,7 @@ local N = function(pos) return minetest.get_node(pos).name end
 local power = techage.power
 local networks = techage.networks
 
-local CYCLE_TIME = 2
+local CYCLE_TIME = 1.8
 
 techage.schedule = {}
 
