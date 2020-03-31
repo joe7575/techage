@@ -19,12 +19,7 @@ local S = techage.S
 
 local CYCLE_TIME = 2
 local PWR_PERF = 1
-local PWR_CAPA = 30 * 20 -- default day
-
-minetest.after(2, function()
-	-- calculate the capacity depending on the day duration
-	PWR_CAPA = math.max(minetest.get_gametime() / minetest.get_day_count() / 2, PWR_CAPA)
-end)
+local PWR_CAPA = 2400 -- ticks (2s) with 1 ku ==> 80 min = 4 game days
 
 local Cable = techage.ElectricCable
 local power = techage.power
@@ -34,15 +29,18 @@ local function node_timer(pos, elapsed)
 	nvm.capa = nvm.capa or 0
 	pos.y = pos.y + 1
 	local light = minetest.get_node_light(pos) or 0
+	local t = minetest.get_timeofday()
 	pos.y = pos.y - 1
 	
-	if light >= (minetest.LIGHT_MAX - 1) then
+	if t > 0.25 and t < 0.75 then
 		if nvm.providing then
 			power.generator_stop(pos, Cable, 5)
 			nvm.providing = false
 			nvm.provided = 0
 		end
-		nvm.capa = math.min(nvm.capa + PWR_PERF * 1.2, PWR_CAPA)
+		if light >= (minetest.LIGHT_MAX - 1) then
+			nvm.capa = math.min(nvm.capa + PWR_PERF * 1.2, PWR_CAPA)
+		end
 	else
 		if nvm.capa > 0 then
 			if not nvm.providing then
@@ -88,7 +86,7 @@ local net_def = {
 	ele1 = {
 		sides = {D = 1},
 		ntype = "gen1",
-		nominal = PWR_CAPA,
+		nominal = PWR_PERF,
 	},
 }
 

@@ -17,6 +17,7 @@ local P2P = minetest.string_to_pos
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local M = minetest.get_meta
 local N = function(pos) return minetest.get_node(pos).name end
+local HEX = function(val) return string.format("%XH", val) end
 
 local power = techage.power
 local networks = techage.networks

@@ -117,10 +117,8 @@ local function after_place_node(pos, placer)
 		return true
 	end
 	local nvm = techage.get_nvm(pos)
-	local own_num = techage.add_node(pos, "techage:heatexchanger2")
-	State:node_init(pos, nvm, own_num)
+	State:node_init(pos, nvm, "")
 	M(pos):set_string("formspec", formspec(State, pos, nvm))
-	M(pos):set_string("infotext", S("TA4 Heat Exchanger").." "..own_num)
 end
 	
 local function on_receive_fields(pos, formname, fields, player)
