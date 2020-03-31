@@ -199,10 +199,17 @@ minetest.register_node("techage:chest_ta4", {
 })
 
 techage.register_node({"techage:chest_ta2", "techage:chest_ta3", "techage:chest_ta4"}, {
-	on_pull_item = function(pos, in_dir, num)
+	on_pull_item = function(pos, in_dir, num, item_name)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		return techage.get_items(inv, "main", num)
+		if item_name and inv:get_size("main") == 50 then -- TA4 chest?
+			local taken = inv:remove_item("main", {name = item_name, count = num})
+			if taken:get_count() > 0 then
+				return taken
+			end
+		else
+			return techage.get_items(inv, "main", num)
+		end
 	end,
 	on_push_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)

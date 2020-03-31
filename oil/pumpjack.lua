@@ -31,11 +31,10 @@ local CYCLE_TIME = 8
 local function has_oil(pos, meta)
 	local storage_pos = meta:get_string("storage_pos")
 	if storage_pos ~= "" then
-		local amount = techage.explore.get_oil_amount(P(storage_pos))
+		local amount, initial_amount = techage.explore.get_oil_amount(P(storage_pos))
 		if amount > 0 then
 			return true
 		end
-		techage.explore.generate_air_bubble(P(storage_pos))
 	end
 end
 
@@ -58,11 +57,12 @@ local function formspec(self, pos, nvm)
 		default.gui_slots..
 		"box[0,-0.1;4.8,0.5;#c6e8ff]"..
 		"label[1.5,-0.1;"..minetest.colorize( "#000000", S("Pumpjack")).."]"..
-		"image[0.5,1.4;1,1;techage_liquid2_inv.png^[colorize:#000000^techage_liquid1_inv.png]"..
+		"image[0.5,1.5;1,1;techage_liquid2_inv.png^[colorize:#000000^techage_liquid1_inv.png]"..
 		"image[4,0.8;1,1;"..techage.get_power_image(pos, nvm).."]"..
 		"tooltip[4,0.8;1,1;"..S("needs power").."]"..
-		"label[0,2.5;"..S("Oil amount")..": "..amount.."]"..
-		"image_button[2.5,2.2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"
+		"label[0,0.8;"..S("Oil amount")..": "..amount.."]"..
+		"image_button[2,2.2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
+		"tooltip[2,2.2;1,1;"..self:get_state_tooltip(nvm).."]"
 end
 
 local function play_sound(pos)

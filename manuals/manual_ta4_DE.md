@@ -510,6 +510,8 @@ Die Funktion entspricht der von TA3. Die Kiste kann aber mehr Inhalt aufnehmen.
 
 Die TA4 8x2000 Kiste hat kein normales Inventar wir andere Kisten, sondern verfügt über 8 Speicher, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2, TA3 oder TA4) gefüllt bzw. geleert werden.
 
+Die Kiste kann nur von den Spielern genutzt werden, die an diesem Ort auch bauen können, also Protection Rechte besitzen. Es spielt dabei keine Rolle, wer die Kiste setzt. 
+
 Der Kiste besitzt ein zusätzliches Kommandos für den Lua Controller:
 
 - `count` dient zur Anfrage, wie viele Items in der Kiste sind.

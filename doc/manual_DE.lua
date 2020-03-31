@@ -684,14 +684,14 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Mit dem Ölexplorer kannst du nach Öl suchen. Dazu den Block auf den Boden setzen und mit Rechtsklick die Suche starten. Der Ölexplorer kann oberirdisch und unterirdisch in Tiefen bis zu -50 Meter eingesetzt werden.\n"..
+  "Mit dem Ölexplorer kannst du nach Öl suchen. Dazu den Block auf den Boden setzen und mit Rechtsklick die Suche starten. Der Ölexplorer kann oberirdisch und unterirdisch in allen Tiefen eingesetzt werden.\n"..
   "Über die Chat-Ausgabe wird dir angezeigt\\, in welcher Tiefe nach Öl gesucht wurde und wie viel Öl (oil) gefunden wurde.\n"..
-  "Du kannst bis zu 4 mal auf den Block klicken\\, um auch in tieferen Bereichen nach Öl zu suchen. Ölfelder haben eine Größe von 2000 bis zu 20000 Items.\n"..
+  "Du kannst mehrfach auf den Block klicken\\, um auch in tieferen Bereichen nach Öl zu suchen. Ölfelder haben eine Größe von 4000 bis zu 20000 Items.\n"..
   "\n"..
   "Falls die Suche erfolglos war\\, musst du den Block ca. 16 m weiter setzen.\n"..
   "Der Ölexplorer sucht immer innerhalb des ganzen Map-Blocks und darunter nach Öl\\, in dem er gesetzt wurde. Eine erneute Suche im gleichen Map-Block (16x16 Feld) macht daher keinen Sinn.\n"..
   "\n"..
-  "Falls Öl gefunden wurde\\, wird die Stelle für den Bohrturm angezeigt. Die Mitte des angezeigten Bereiches am besten gleich mit einem  Schild markieren und den ganzen Bereich gegen fremde Spieler schützen.\n"..
+  "Falls Öl gefunden wurde\\, wird die Stelle für den Bohrturm angezeigt. Du musst den Bohrturm innerhalb des angezeigten Bereiches errichten\\, die Stelle am besten gleich mit einem  Schild markieren und den ganzen Bereich gegen fremde Spieler schützen.\n"..
   "\n"..
   "Gib die Suche nach Öl nicht zu schnell auf. Es kann wenn du Pech hast\\, sehr lange dauern\\, bis du eine Ölquelle gefunden hast.\n"..
   "Es macht auch keinen Sinn\\, einen Bereich den ein anderer Spieler bereits abgesucht hat\\, nochmals abzusuchen. Die Chance\\, irgendwo Öl zu finden\\, ist für alle Spieler gleich.\n"..
@@ -700,7 +700,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Die Ölbohrkiste muss genau an die Stelle gesetzt werden\\, die vom Ölexplorer angezeigt wurde.\n"..
+  "Die Ölbohrkiste muss an die Stelle gesetzt werden\\, die vom Ölexplorer angezeigt wurde. An anderen Stellen nach Öl zu bohren ist zwecklos.\n"..
   "Wird auf den Button der Ölbohrkiste geklickt\\, wird über der Kiste ein Bohrturm errichtet. Dies dauert einige Sekunden.\n"..
   "Die Ölbohrkiste hat 4 Seiten\\, bei IN muss das Bohrgestänge über Schieber angeliefert und bei OUT muss das Bohrmaterial abtransportiert werden. Über eine der anderen zwei Seiten muss die Ölbohrkiste mit Strom versorgt werden.\n"..
   "\n"..
@@ -720,7 +720,7 @@ techage.manual_DE.aText = {
   "\n",
   "Der Öltank ist die große Ausführung des TA3 Tanks (siehe Flüssigkeiten -> TA3 Tank).\n"..
   "\n"..
-  "Der große Tank kann 4000 Einheiten Öl aufnehmen.\n"..
+  "Der große Tank kann 4000 Einheiten Öl\\, aber auch jede andere Art von Flüssigkeit aufnehmen.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1328,6 +1328,8 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Die TA4 8x2000 Kiste hat kein normales Inventar wir andere Kisten\\, sondern verfügt über 8 Speicher\\, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2\\, TA3 oder TA4) gefüllt bzw. geleert werden.\n"..
+  "\n"..
+  "Die Kiste kann nur von den Spielern genutzt werden\\, die an diesem Ort auch bauen können\\, also Protection Rechte besitzen. Es spielt dabei keine Rolle\\, wer die Kiste setzt. \n"..
   "\n"..
   "Der Kiste besitzt ein zusätzliches Kommandos für den Lua Controller:\n"..
   "\n"..

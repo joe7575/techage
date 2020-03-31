@@ -37,12 +37,8 @@ local Level2Idx = {[2]=1, [1]=2, [0]=3, [-1]=4, [-2]=5, [-3]=6,
 
 local function formspec(self, pos, nvm)
 	local tooltip = S("Start level = 0\nmeans the same Y-level\nas the quarry is placed")
-	local level = "-"
-	local index = "-"
-	if nvm.quarry_pos then
-		level = nvm.quarry_pos.y - pos.y
-		index = nvm.idx
-	end
+	local level = nvm.level or "-"
+	local index = nvm.index or "-"
 	local depth_list = "1,2,3,5,10,15,20,25,40,60,80"
 	if CRD(pos).stage == 3 then
 		depth_list = "1,2,3,5,10,15,20,25,40"
@@ -53,24 +49,24 @@ local function formspec(self, pos, nvm)
 	nvm.start_level = nvm.start_level or -1
 
 	return "size[8,8]"..
-	default.gui_bg..
-	default.gui_bg_img..
-	default.gui_slots..
-	"box[0,-0.1;7.8,0.5;#c6e8ff]"..
-	"label[3.5,-0.1;"..minetest.colorize( "#000000", S("Quarry")).."]"..
-	techage.question_mark_help(8, tooltip)..
-	"dropdown[0,0.8;1.5;level;2,1,0,-1,-2,-3,-5,-10,-15,-20;"..Level2Idx[nvm.start_level].."]".. 
-	"label[1.6,0.9;"..S("Start level").."]"..
-	"dropdown[0,1.8;1.5;depth;"..depth_list..";"..Depth2Idx[nvm.quarry_depth].."]".. 
-	"label[1.6,1.9;"..S("Digging depth").."]"..
-	"label[0,2.9;"..S("level").."="..level..",  "..S("pos=")..index.."/25]"..
-	"list[context;main;5,0.8;3,3;]"..
-	"image[4,0.8;1,1;"..techage.get_power_image(pos, nvm).."]"..
-	"image_button[4,2.8;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
-	"tooltip[4,2.8;1,1;"..self:get_state_tooltip(nvm).."]"..
-	"list[current_player;main;0,4.3;8,4;]"..
-	"listring[context;main]"..
-	"listring[current_player;main]"
+		default.gui_bg..
+		default.gui_bg_img..
+		default.gui_slots..
+		"box[0,-0.1;7.8,0.5;#c6e8ff]"..
+		"label[3.5,-0.1;"..minetest.colorize( "#000000", S("Quarry")).."]"..
+		techage.question_mark_help(8, tooltip)..
+		"dropdown[0,0.8;1.5;level;2,1,0,-1,-2,-3,-5,-10,-15,-20;"..Level2Idx[nvm.start_level].."]".. 
+		"label[1.6,0.9;"..S("Start level").."]"..
+		"dropdown[0,1.8;1.5;depth;"..depth_list..";"..Depth2Idx[nvm.quarry_depth].."]".. 
+		"label[1.6,1.9;"..S("Digging depth").."]"..
+		"label[0,2.9;"..S("level").."="..level..",  "..S("pos=")..index.."/25]"..
+		"list[context;main;5,0.8;3,3;]"..
+		"image[4,0.8;1,1;"..techage.get_power_image(pos, nvm).."]"..
+		"image_button[4,2.8;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
+		"tooltip[4,2.8;1,1;"..self:get_state_tooltip(nvm).."]"..
+		"list[current_player;main;0,4.3;8,4;]"..
+		"listring[context;main]"..
+		"listring[current_player;main]"
 end
 
 local function play_sound(pos)
@@ -96,14 +92,13 @@ local function stop_sound(pos)
 end
 
 local function on_node_state_change(pos, old_state, new_state)
+	local mem = techage.get_mem(pos)
+	local owner = M(pos):get_string("owner")
+	mem.co = nil
+	techage.unmark_position(owner)
 	if new_state == techage.RUNNING then
 		play_sound(pos)
-	elseif new_state == techage.STOP then
-		local nvm = techage.get_nvm(pos)
-		nvm.quarry_pos = nil
-		stop_sound(pos)
 	else
-		local nvm = techage.get_nvm(pos)
 		stop_sound(pos)
 	end
 end
@@ -128,13 +123,20 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return stack:get_count()
 end
 
-local QuarrySchedule = {3,0,0,3,3,3,3,2,2,2,2,1,1,1,1,0,3,0,0,3,3,2,2,1,0}
+local QuarryPath = {
+	3,3,3,3,2,
+	1,1,1,1,2,
+	3,3,3,3,2,
+	1,1,1,1,2,
+	3,3,3,3,2,
+}
 
-local function get_next_pos(pos, facedir, dir)
-	facedir = (facedir + dir) % 4
+local function get_next_pos(pos, facedir, idx)
+	facedir = (facedir + QuarryPath[idx]) % 4
 	return vector.add(pos, core.facedir_to_dir(facedir))
 end
 
+-- pos is the quarry pos, y_pos the current dug level
 local function get_corner_positions(pos, facedir, y_pos)
 	local start_pos = get_pos(pos, facedir, "L")
 	local pos1 = get_pos(start_pos, facedir, "F", 2)
@@ -145,115 +147,96 @@ local function get_corner_positions(pos, facedir, y_pos)
 	return pos1, pos2
 end
 
-local function check_protection(pos, nvm, facedir, owner)
-	local pos1, pos2 = get_corner_positions(pos, facedir, nvm.start_y)
-	while true do
-		if minetest.is_protected(pos1, owner) then
-			return false
-		end
-		if minetest.is_protected(pos2, owner) then
-			return false
-		end
-		if pos1.y < nvm.stop_y then
-			break
-		end
-		pos1.y = pos1.y - 5
-		pos2.y = pos2.y - 5
-	end
-	return true
+local function is_air_level(pos1, pos2) 
+	return #minetest.find_nodes_in_area(pos1, pos2, {"air"}) == 25
 end
 
-local function skip_air_levels(pos, nvm, facedir, owner) 
-	local pos1, pos2
-	pos1, pos2 = get_corner_positions(pos, facedir, nvm.start_y)
-	while pos1.y >= nvm.stop_y do
-		local lPos = minetest.find_nodes_in_area(pos1, pos2, {"air"})
-		if #lPos ~= 25 then break end
-		pos1.y = pos1.y - 1
-		pos2.y = pos2.y - 1
-	end
-	-- quarry block position with start y-level
-	nvm.quarry_pos = {x = pos.x, y = pos2.y, z = pos.z}
+local function mark_area(pos1, pos2, owner)
 	pos1.y = pos1.y + 0.2
 	techage.mark_cube(owner, pos1, pos2, "quarry", "#FF0000", 20)
+	pos1.y = pos1.y - 0.2
 end
 
-local function can_start(pos, nvm, state)
+local function peek_node(qpos)
+	local node = techage.get_node_lvm(qpos)
+	local ndef = minetest.registered_nodes[node.name]
+	if techage.can_node_dig(node, ndef) then
+		return techage.dropped_node(node, ndef)
+	end
+end
+
+local function add_to_inv(pos, item_name)
+	local inv = M(pos):get_inventory()
+	if inv:room_for_item("main", {name = item_name}) then
+		inv:add_item("main", {name = item_name})
+		return true
+	end
+	return false
+end
+
+local function quarry_task(pos, crd, nvm)
+	nvm.start_level = nvm.start_level or 0
+	nvm.quarry_depth = nvm.quarry_depth or 1
+	local y_first = pos.y + nvm.start_level
+	local y_last  = y_first - nvm.quarry_depth + 1
 	local facedir = minetest.get_node(pos).param2
 	local owner = M(pos):get_string("owner")
 	
-	nvm.start_level = nvm.start_level or 0
-	nvm.quarry_depth = nvm.quarry_depth or 1
-	nvm.start_y = pos.y + nvm.start_level
-	nvm.stop_y = nvm.start_y - nvm.quarry_depth + 1
-	nvm.idx = nvm.idx or 1
+	nvm.level = 1
+	for y_curr = y_first, y_last, -1 do
+		local pos1, pos2 = get_corner_positions(pos, facedir, y_curr)
+		local qpos = {x = pos1.x, y = pos1.y, z = pos1.z}
+
+		if minetest.is_area_protected(pos1, pos2, owner, 5) then
+			crd.State:fault(pos, nvm, S("area is protected"))
+			return
+		end
+		
+		if not is_air_level(pos1, pos2) then
+			mark_area(pos1, pos2, owner)
+			coroutine.yield()
+			
+			nvm.index = 1
+			for i = 1, 25 do
+				local item_name = peek_node(qpos)
+				if item_name then
+					if add_to_inv(pos, item_name) then
+						minetest.remove_node(qpos)
+						crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS, 1)
+					else
+						crd.State:blocked(pos, nvm, S("inventory full"))
+					end
+					coroutine.yield()
+				end
+				qpos = get_next_pos(qpos, facedir, i)
+				nvm.index = nvm.index + 1
+			end
+			techage.unmark_position(owner)
+		end
+		nvm.level = nvm.level + 1
+	end
+	crd.State:stop(pos, nvm, S("finished"))
+end
 	
-	if state == techage.STOPPED then
-		nvm.idx = 1
+local function keep_running(pos, elapsed)
+	local mem = techage.get_mem(pos)
+	if not mem.co then
+		mem.co = coroutine.create(quarry_task)
 	end
-	if not check_protection(pos, nvm, facedir, owner) then
-		return S("Quarry area is protected")
+	
+	local nvm = techage.get_nvm(pos)
+	local crd = CRD(pos)
+	coroutine.resume(mem.co, pos, crd, nvm)
+		
+	if techage.is_activeformspec(pos) then
+		M(pos):set_string("formspec", formspec(crd.State, pos, nvm))
 	end
-	skip_air_levels(pos, nvm, facedir, owner) 
-	return true
 end
 
 local function on_rightclick(pos, node, clicker)
 	local nvm = techage.get_nvm(pos)
 	techage.set_activeformspec(pos, clicker)
 	M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
-end
-
-local function quarry_next_node(pos, crd, nvm, inv)
-	if nvm.quarry_pos then
-		local facedir = minetest.get_node(pos).param2
-		if nvm.idx <= #QuarrySchedule then
-			nvm.quarry_pos = get_next_pos(nvm.quarry_pos, facedir, QuarrySchedule[nvm.idx])
-			nvm.idx = nvm.idx + 1
-		elseif nvm.quarry_pos.y > nvm.stop_y then
-			local owner = M(pos):get_string("owner")
-			local pos1, pos2
-			pos1, pos2 = get_corner_positions(pos, facedir, nvm.quarry_pos.y - 1)
-			-- quarry block position with new y-level
-			nvm.quarry_pos = {x = pos.x, y = pos2.y, z = pos.z}
-			nvm.idx = 1
-			pos1.y = pos1.y + 0.2
-			techage.mark_cube(owner, pos1, pos2, "quarry", "#FF0000", 20)
-		else
-			nvm.idx = 1
-			nvm.quarry_pos = nil
-			crd.State:stop(pos, nvm)
-			return
-		end
-	
-		local node = techage.get_node_lvm(nvm.quarry_pos)
-		local ndef = minetest.registered_nodes[node.name]
-		if techage.can_node_dig(node, ndef) then
-			local drop_name = techage.dropped_node(node, ndef)
-			if drop_name then
-				local inv = M(pos):get_inventory()
-				if inv:room_for_item("main", {name = drop_name}) then
-					minetest.remove_node(nvm.quarry_pos)
-					inv:add_item("main", {name = drop_name})
-					crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS, 1)
-				else
-					crd.State:blocked(pos, nvm)
-				end
-			end
-		end
-	end
-end
-
-local function keep_running(pos, elapsed)
-	local nvm = techage.get_nvm(pos)
-	local crd = CRD(pos)
-	local inv = M(pos):get_inventory()
-	if inv then
-		quarry_next_node(pos, crd, nvm, inv)
-	end
-	if techage.is_activeformspec(pos) then
-		M(pos):set_string("formspec", formspec(crd.State, pos, nvm))
-	end
 end
 
 local function can_dig(pos, player)
@@ -269,11 +252,12 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	local nvm = techage.get_nvm(pos)
+	local mem = techage.get_mem(pos)
 	
 	if fields.depth then
 		if tonumber(fields.depth) ~= nvm.quarry_depth then
 			nvm.quarry_depth = tonumber(fields.depth)
-			nvm.quarry_pos = nil
+			mem.co = nil
 			CRD(pos).State:stop(pos, nvm)
 		end
 	end
@@ -281,7 +265,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	if fields.level then
 		if tonumber(fields.level) ~= nvm.start_level then
 			nvm.start_level = tonumber(fields.level)
-			nvm.quarry_pos = nil
+			mem.co = nil
 			CRD(pos).State:stop(pos, nvm)
 		end
 	end
@@ -360,13 +344,11 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		standby_ticks = STANDBY_TICKS,
 		formspec = formspec,
 		tubing = tubing,
-		can_start = can_start,
 		on_state_change = on_node_state_change,
 		after_place_node = function(pos, placer)
 			local inv = M(pos):get_inventory()
 			local nvm = techage.get_nvm(pos)
 			inv:set_size('main', 9)
-			nvm.quarry_pos = nil
 			M(pos):set_string("owner", placer:get_player_name())
 		end,
 		can_dig = can_dig,

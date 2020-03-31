@@ -294,14 +294,14 @@ Dazu dienen dir TA3 Ölexplorer, TA3 Ölbohrkiste und TA3 Ölpumpe.
 
 ### TA3 Ölexplorer / Oil Explorer
 
-Mit dem Ölexplorer kannst du nach Öl suchen. Dazu den Block auf den Boden setzen und mit Rechtsklick die Suche starten. Der Ölexplorer kann oberirdisch und unterirdisch in Tiefen bis zu -50 Meter eingesetzt werden.
+Mit dem Ölexplorer kannst du nach Öl suchen. Dazu den Block auf den Boden setzen und mit Rechtsklick die Suche starten. Der Ölexplorer kann oberirdisch und unterirdisch in allen Tiefen eingesetzt werden.
 Über die Chat-Ausgabe wird dir angezeigt, in welcher Tiefe nach Öl gesucht wurde und wie viel Öl (oil) gefunden wurde.
-Du kannst bis zu 4 mal auf den Block klicken, um auch in tieferen Bereichen nach Öl zu suchen. Ölfelder haben eine Größe von 2000 bis zu 20000 Items.
+Du kannst mehrfach auf den Block klicken, um auch in tieferen Bereichen nach Öl zu suchen. Ölfelder haben eine Größe von 4000 bis zu 20000 Items.
 
 Falls die Suche erfolglos war, musst du den Block ca. 16 m weiter setzen.
 Der Ölexplorer sucht immer innerhalb des ganzen Map-Blocks und darunter nach Öl, in dem er gesetzt wurde. Eine erneute Suche im gleichen Map-Block (16x16 Feld) macht daher keinen Sinn.
 
-Falls Öl gefunden wurde, wird die Stelle für den Bohrturm angezeigt. Die Mitte des angezeigten Bereiches am besten gleich mit einem  Schild markieren und den ganzen Bereich gegen fremde Spieler schützen.
+Falls Öl gefunden wurde, wird die Stelle für den Bohrturm angezeigt. Du musst den Bohrturm innerhalb des angezeigten Bereiches errichten, die Stelle am besten gleich mit einem  Schild markieren und den ganzen Bereich gegen fremde Spieler schützen.
 
 Gib die Suche nach Öl nicht zu schnell auf. Es kann wenn du Pech hast, sehr lange dauern, bis du eine Ölquelle gefunden hast.
 Es macht auch keinen Sinn, einen Bereich den ein anderer Spieler bereits abgesucht hat, nochmals abzusuchen. Die Chance, irgendwo Öl zu finden, ist für alle Spieler gleich.
@@ -313,7 +313,7 @@ Der Ölexplorer kann immer wieder zur Suche nach Öl eingesetzt werden.
 
 ### TA3 Ölbohrkiste / Oil Drill Box
 
-Die Ölbohrkiste muss genau an die Stelle gesetzt werden, die vom Ölexplorer angezeigt wurde.  
+Die Ölbohrkiste muss an die Stelle gesetzt werden, die vom Ölexplorer angezeigt wurde. An anderen Stellen nach Öl zu bohren ist zwecklos.
 Wird auf den Button der Ölbohrkiste geklickt, wird über der Kiste ein Bohrturm errichtet. Dies dauert einige Sekunden.  
 Die Ölbohrkiste hat 4 Seiten, bei IN muss das Bohrgestänge über Schieber angeliefert und bei OUT muss das Bohrmaterial abtransportiert werden. Über eine der anderen zwei Seiten muss die Ölbohrkiste mit Strom versorgt werden.
 
@@ -342,7 +342,7 @@ Das Bohrgestänge wird für die Bohrung benötigt. Es werden so viele Bohrgestä
 
 Der Öltank ist die große Ausführung des TA3 Tanks (siehe Flüssigkeiten -> TA3 Tank).
 
-Der große Tank kann 4000 Einheiten Öl aufnehmen.
+Der große Tank kann 4000 Einheiten Öl, aber auch jede andere Art von Flüssigkeit aufnehmen.
 
 [oiltank|image]
 

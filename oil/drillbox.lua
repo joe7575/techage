@@ -21,7 +21,7 @@ local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm
 
 local STANDBY_TICKS = 1
 local COUNTDOWN_TICKS = 6
-local CYCLE_TIME = 2 ---------------------------------------- TODO 16
+local CYCLE_TIME = 16
 
 local formspec0 = "size[5,4]"..
 	default.gui_bg..
@@ -56,7 +56,7 @@ local function formspec(self, pos, nvm)
 	if not nvm.assemble_build then
 		return formspec0
 	end
-	local depth = M(pos):get_int("depth")
+	local depth = M(pos):get_int("depth") - 7 -- oil bubble
 	local curr_depth = pos.y - (nvm.drill_pos or pos).y
 	return "size[8,8]"..
 	default.gui_bg..
@@ -139,9 +139,6 @@ local function drilling(pos, crd, nvm, inv)
 	elseif node.name == "techage:oilstorage" then -- old oil bubble node?
 		nvm.drill_pos.y = nvm.drill_pos.y-1
 		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-	elseif node.name == "techage:oil_source" then
-		M(pos):set_string("oil_found", "true")
-		crd.State:stop(pos, nvm)
 	elseif minetest.is_protected(nvm.drill_pos, owner) then
 		crd.State:fault(pos, nvm, S("Drill area is protected"))
 	elseif node.name == "techage:oil_drillbit2" then
@@ -238,11 +235,14 @@ local tubing = {
 		end
 	end,
 	on_push_item = function(pos, in_dir, stack)
-		local meta = minetest.get_meta(pos)
-		if meta:get_int("push_dir") == in_dir  or in_dir == 5 then
-			local inv = M(pos):get_inventory()
-			CRD(pos).State:start_if_standby(pos)
-			return techage.put_items(inv, "src", stack)
+		local nvm = techage.get_nvm(pos)
+		if not nvm.assemble_locked then
+			local meta = minetest.get_meta(pos)
+			if meta:get_int("push_dir") == in_dir  or in_dir == 5 then
+				local inv = M(pos):get_inventory()
+				CRD(pos).State:start_if_standby(pos)
+				return techage.put_items(inv, "src", stack)
+			end
 		end
 	end,
 	on_unpull_item = function(pos, in_dir, stack)

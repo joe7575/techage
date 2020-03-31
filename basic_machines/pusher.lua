@@ -56,6 +56,11 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 		return 0
 	end
 	
+	local nvm = techage.get_nvm(pos)
+	if CRD(pos).State:get_state(nvm) ~= techage.STOPPED then
+		return 0
+	end
+	
 	local inv = M(pos):get_inventory()
 	local list = inv:get_list(listname)
 	if list[index]:get_count() == 0 then
@@ -68,6 +73,11 @@ end
 
 local function allow_metadata_inventory_take(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
+		return 0
+	end
+	
+	local nvm = techage.get_nvm(pos)
+	if CRD(pos).State:get_state(nvm) ~= techage.STOPPED then
 		return 0
 	end
 	
