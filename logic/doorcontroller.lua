@@ -51,6 +51,8 @@ local function swap_door_nodes(pos, open)
 				end
 			elseif node.name == "air" then
 				minetest.add_node(item.pos, {name = item.name, param2 = item.param2})			
+			else
+				minetest.add_item(pos, item.pos, {name = item.name})
 			end
 		end
 	end
@@ -80,6 +82,7 @@ minetest.register_node("techage:ta3_doorcontroller", {
 
 		local meta = M(pos)
 		if techage.check_numbers(fields.numbers, player:get_player_name()) then
+			swap_door_nodes(pos, false)
 			meta:set_string("numbers", fields.numbers)
 			logic.infotext(M(pos), S("TA3 Door Controller"))
 			meta:set_string("formspec", formspec(meta))
@@ -91,6 +94,7 @@ minetest.register_node("techage:ta3_doorcontroller", {
 		local meta = M(pos)
 		local res = logic.set_numbers(pos, numbers, player_name, S("TA3 Repeater"))
 		if res then
+			swap_door_nodes(pos, false)
 			meta:set_string("formspec", formspec(meta))
 			store_door_data(pos)
 		end
