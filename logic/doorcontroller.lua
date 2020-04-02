@@ -42,14 +42,14 @@ local function swap_door_nodes(pos, open)
 	local nvm = techage.get_nvm(pos)
 	for _,item in ipairs(nvm.door_blocks or {}) do
 		if item.pos and item.name and item.param2 then
+			local node = techage.get_node_lvm(item.pos)
 			if open then
-				local node = techage.get_node_lvm(item.pos)
 				if node.name == item.name then
 					minetest.remove_node(item.pos)
 				else
 					item.name = nil
 				end
-			else
+			elseif node.name == "air" then
 				minetest.add_node(item.pos, {name = item.name, param2 = item.param2})			
 			end
 		end
@@ -98,6 +98,7 @@ minetest.register_node("techage:ta3_doorcontroller", {
 	end,
 	
 	after_dig_node = function(pos)
+		swap_door_nodes(pos, false)
 		techage.remove_node(pos)
 		techage.del_mem(pos)
 	end,

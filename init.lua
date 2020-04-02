@@ -150,6 +150,7 @@ else
 	dofile(MP.."/lamps/industriallamp3.lua")
 	dofile(MP.."/lamps/industriallamp4.lua")
 	dofile(MP.."/lamps/growlight.lua")
+	dofile(MP.."/lamps/lampholder.lua")
 	
 	-- Oil
 	dofile(MP.."/oil/explore.lua")

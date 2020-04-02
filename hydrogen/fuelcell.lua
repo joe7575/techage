@@ -48,19 +48,19 @@ local function formspec(self, pos, nvm)
 		"image[2,1.5;1,1;techage_form_arrow_fg.png^[transformR270]"..
 		"image_button[2,2.5;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 		"tooltip[2,2.5;1,1;"..self:get_state_tooltip(nvm).."]"..
-		techage.power.formspec_label_bar(3.5, 0.8, S("Electricity"), PWR_CAPA, nvm.provided)
+		techage.power.formspec_label_bar(3.5, 0.8, S("Electricity"), PWR_CAPA, nvm.given)
 end
 
 local function start_node(pos, nvm, state)
 	nvm.running = true
-	nvm.provided = 0
+	nvm.given = 0
 	local outdir = M(pos):get_int("outdir")
 	power.generator_start(pos, Cable, CYCLE_TIME, outdir)
 end
 
 local function stop_node(pos, nvm, state)
 	nvm.running = false
-	nvm.provided = 0
+	nvm.given = 0
 	local outdir = M(pos):get_int("outdir")
 	power.generator_stop(pos, Cable, outdir)
 end

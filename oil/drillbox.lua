@@ -56,7 +56,7 @@ local function formspec(self, pos, nvm)
 	if not nvm.assemble_build then
 		return formspec0
 	end
-	local depth = M(pos):get_int("depth") - 7 -- oil bubble
+	local depth = M(pos):get_int("depth")
 	local curr_depth = pos.y - (nvm.drill_pos or pos).y
 	return "size[8,8]"..
 	default.gui_bg..
@@ -134,8 +134,8 @@ local function drilling(pos, crd, nvm, inv)
 	if not inv:contains_item("src", ItemStack("techage:oil_drillbit")) then
 		crd.State:idle(pos, nvm, S("Drill bits missing"))
 	elseif curr_depth >= depth then
-		M(pos):set_string("oil_found", "false")
-		crd.State:blocked(pos, nvm, S("No oil found"))
+		M(pos):set_string("oil_found", "true")
+		crd.State:stop(pos, nvm)
 	elseif node.name == "techage:oilstorage" then -- old oil bubble node?
 		nvm.drill_pos.y = nvm.drill_pos.y-1
 		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
@@ -278,7 +278,7 @@ local _, node_name_ta3, _ =
 			inv:set_size("src", 1)
 			inv:set_size("dst", 1)
 			local info = techage.explore.get_oil_info(pos)
-			M(pos):set_int("depth", info.depth) 
+			M(pos):set_int("depth", info.depth - 5)  -- oil bubble
 			M(pos):set_int("amount", info.amount) 
 			M(pos):set_string("oil_found", "false")
 			M(pos):set_string("owner", placer:get_player_name())

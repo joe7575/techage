@@ -109,6 +109,10 @@ local function node_timer4(pos, elapsed)
 end	
 
 local function on_rightclick(pos, node, clicker)
+	if minetest.is_protected(pos, clicker:get_player_name()) then
+		return
+	end
+	
 	local nvm = techage.get_nvm(pos)
 	if node.name == "techage:t3_pump" then
 		set_starter_name(pos, clicker)

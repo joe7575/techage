@@ -502,8 +502,8 @@ techage.register_node({"techage:ta4_icta_controller"}, {
 		elseif state == techage.RUNNING and topic == "off" then
 			set_input(pos, number, src, topic)
 		elseif topic == "state" then
-			local state = meta:get_int("state")
-			return techage.StateStrings(state)
+			local state = meta:get_int("state") or 0
+			return techage.StateStrings[state] or "stopped"
 		else
 			return "unsupported"
 		end
