@@ -19,7 +19,7 @@ local S = techage.S
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 
-local STANDBY_TICKS = 1
+local STANDBY_TICKS = 5
 local COUNTDOWN_TICKS = 6
 local CYCLE_TIME = 16
 

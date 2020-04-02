@@ -1329,6 +1329,12 @@ techage.manual_DE.aText = {
   "\n",
   "Die TA4 8x2000 Kiste hat kein normales Inventar wir andere Kisten\\, sondern verfügt über 8 Speicher\\, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2\\, TA3 oder TA4) gefüllt bzw. geleert werden.\n"..
   "\n"..
+  "Wird die Kiste mit einem Schieber gefüllt\\, so füllen sich alle Speicherplätze von links nach rechts. Sind alle 8 Speicher voll und können keine weiteren Items hinzugefügt werden\\, so werden diese Items im Ein-/Ausgabe-Inventar gespeichert. Die Kiste ist damit für den Schieberbetrieb vollständig gefüllt und weitere Items werden abgewiesen.\n"..
+  "\n"..
+  "Dies bedeutet aber auch\\, dass keine Items von einem Schieber angenommen werden\\, wenn sich Items im Ein-/Ausgabe-Inventar befinden.\n"..
+  "\n"..
+  "Wird die Kiste über einen Schieber geleert\\, leeren sich auch die Speicher wieder von links nach rechts.\n"..
+  "\n"..
   "Die Kiste kann nur von den Spielern genutzt werden\\, die an diesem Ort auch bauen können\\, also Protection Rechte besitzen. Es spielt dabei keine Rolle\\, wer die Kiste setzt. \n"..
   "\n"..
   "Der Kiste besitzt ein zusätzliches Kommandos für den Lua Controller:\n"..

@@ -77,7 +77,7 @@ end
 -- If the nvm inventry is full, the items are stored in the main inventory
 -- If the main inventory is also full, false is returned
 local function sort_in(inv, nvm, stack)
-	if inv:room_for_item("main", stack) then -- for the case the nvm-inventory is full
+	if inv:is_empty("main") then -- the main inv is used for the case the nvm-inventory is full
 		for _,item in ipairs(nvm.inventory or {}) do
 			if item.name and (item.name == "" or item.name == stack:get_name()) then
 				local count = math.min(stack:get_count(), STACK_SIZE - item.count)
