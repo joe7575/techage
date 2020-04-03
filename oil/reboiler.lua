@@ -106,7 +106,9 @@ local function node_timer(pos, elapsed)
 	nvm.liquid = nvm.liquid or {}
 	nvm.liquid.amount = nvm.liquid.amount or 0
 	
-	power.consumer_alive(pos, Cable, CYCLE_TIME)
+	if not nvm.error or nvm.error == 0 then
+		power.consumer_alive(pos, Cable, CYCLE_TIME)
+	end
 	
 	if nvm.liquid.amount >= 5 and nvm.liquid.name == "techage:oil_source" then
 		nvm.liquid.amount = nvm.liquid.amount - 5

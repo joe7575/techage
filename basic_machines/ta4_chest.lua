@@ -95,8 +95,18 @@ local function sort_in(inv, nvm, stack)
 	return false
 end
 
-local function get_item(nvm, item_name, count)
+local function get_item(inv, nvm, item_name, count)
 	local stack = {count = 0}
+	if not inv:is_empty("main") then
+		if item_name then
+			local taken = inv:remove_item("main", {name = item_name, count = count})
+			if taken:get_count() > 0 then
+				return taken
+			end
+		else
+			return techage.get_items(inv, "main", count)
+		end
+	end
 	for _,item in ipairs(nvm.inventory or {}) do
 		if (item_name == nil and stack.name == nil) or item.name == item_name then
 			local num = math.min(item.count, count - stack.count)
@@ -310,7 +320,8 @@ minetest.register_node("techage:ta4_chest", {
 techage.register_node({"techage:ta4_chest"}, {
 	on_pull_item = function(pos, in_dir, num, item_name)
 		local nvm = techage.get_nvm(pos)
-		local res = get_item(nvm, item_name, num)
+		local inv =  M(pos):get_inventory()
+		local res = get_item(inv, nvm, item_name, num)
 		if techage.is_activeformspec(pos) then
 			M(pos):set_string("formspec", formspec(pos))
 		end

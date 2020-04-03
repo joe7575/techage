@@ -63,7 +63,7 @@ end
 local function node_timer(pos, elapsed)
 	local crd = CRD(pos)
 	local nvm = techage.get_nvm(pos)
-	if crd.power_netw then
+	if crd.power_netw and techage.needs_power(nvm) then
 		power.consumer_alive(pos, crd.power_netw, crd.cycle_time)
 	end
 	-- call the node timer routine
