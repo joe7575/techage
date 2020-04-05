@@ -19,8 +19,8 @@ local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm
 
 local S = techage.S
 
-local STANDBY_TICKS = 4
-local COUNTDOWN_TICKS = 2
+local STANDBY_TICKS = 2
+local COUNTDOWN_TICKS = 3
 local CYCLE_TIME = 8
 
 local function formspec(self, pos, nvm)

@@ -13,6 +13,7 @@
 ]]--
 
 local N = function(pos) return techage.get_node_lvm(pos).name end
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local net_def = techage.networks.net_def
 
 local STOPPED = techage.power.STOPPED
@@ -56,7 +57,7 @@ local function get_generator_sum(tbl, tlib_type)
 		local def = nvm[tlib_type] -- power related network data
 		if def and def["gstate"] ~= STOPPED then
 			def["galive"] = (def["galive"] or 1) - 1
-			if def["galive"] > 0 then
+			if def["galive"] >= 0 then
 				sum = sum + (def.curr_power or v.nominal)
 			end
 		end
@@ -71,10 +72,11 @@ local function get_consumer_sum(tbl, tlib_type)
 		local def = nvm[tlib_type] -- power related network data
 		if def and def["cstate"] ~= STOPPED then
 			def["calive"] = (def["calive"] or 1) - 1
-			if def["calive"] > 0 then
+			if def["calive"] >= 0 then
 				sum = sum + v.nominal
 			end
 		end
+		--print(N(v.pos), P2S(v.pos), def["cstate"], def["calive"])
 	end
 	return sum
 end

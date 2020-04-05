@@ -23,7 +23,7 @@ local liquid = techage.liquid
 local networks = techage.networks
 
 local CYCLE_TIME = 2
-local STANDBY_TICKS = 5
+local STANDBY_TICKS = 3
 local PWR_NEEDED = 30
 local PWR_UNITS_PER_HYDROGEN_ITEM = 80
 local CAPACITY = 200

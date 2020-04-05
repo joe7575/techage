@@ -23,8 +23,8 @@ local recipes = techage.recipes
 
 local Liquids = {}  -- {hash(pos) = {name = outdir},...}
 
-local STANDBY_TICKS = 4
-local COUNTDOWN_TICKS = 4
+local STANDBY_TICKS = 2
+local COUNTDOWN_TICKS = 3
 local CYCLE_TIME = 10
 
 -- to mark the pump source and destinstion node

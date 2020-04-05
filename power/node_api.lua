@@ -151,7 +151,7 @@ function techage.power.consumer_stop(pos, Cable)
 	local nvm = techage.get_nvm(pos)
 	local tlib_type = Cable.tube_type
 	nvm[tlib_type] = nvm[tlib_type] or {}
-	nvm[tlib_type]["calive"] = 0
+	nvm[tlib_type]["calive"] = -1
 	nvm[tlib_type]["cstate"] = STOPPED
 	nvm[tlib_type]["taken"] = 0
 end
@@ -195,7 +195,7 @@ function techage.power.generator_stop(pos, Cable, outdir)
 	local nvm = techage.get_nvm(pos)
 	local tlib_type = Cable.tube_type
 	nvm[tlib_type] = nvm[tlib_type] or {}
-	nvm[tlib_type]["galive"] = 0
+	nvm[tlib_type]["galive"] = -1
 	nvm[tlib_type]["gstate"] = STOPPED
 	nvm[tlib_type]["given"] = 0
 end

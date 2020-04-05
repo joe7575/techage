@@ -24,7 +24,7 @@ local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm
 
 local S = techage.S
 
-local STANDBY_TICKS = 6
+local STANDBY_TICKS = 3
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 4
 
@@ -122,6 +122,7 @@ end
 
 
 local function keep_running(pos, elapsed)
+	print("autocrafter keep_running")
 	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
 	local inv = M(pos):get_inventory()

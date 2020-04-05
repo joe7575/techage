@@ -39,7 +39,7 @@ local function generator_data(gen_tbl)
 		if nvm.ele1 and nvm.ele1.gstate and nvm.ele1.gstate ~= STOPPED then
 			tbl.num_on = tbl.num_on + 1
 			tbl.pow_on = tbl.pow_on + (nvm.ele1.curr_power or gen.nominal or 0)
-			if (nvm.ele1.galive or 0) > 0 then
+			if (nvm.ele1.galive or -1) >= 0 then
 				tbl.num_act = tbl.num_act + 1
 				tbl.pow_act = tbl.pow_act + (nvm.ele1.curr_power or gen.nominal or 0)
 				if (nvm.ele1.given or 0) > 0 then
@@ -65,7 +65,7 @@ local function consumer_data(con_tbl)
 		if nvm.ele1 and nvm.ele1.cstate and nvm.ele1.cstate ~= STOPPED then
 			tbl.num_on = tbl.num_on + 1
 			tbl.pow_on = tbl.pow_on + (gen.nominal or 0)
-			if (nvm.ele1.calive or 0) > 0 then
+			if (nvm.ele1.calive or -1) >= 0 then
 				tbl.num_act = tbl.num_act + 1
 				tbl.pow_act = tbl.pow_act + (gen.nominal or 0)
 				if (nvm.ele1.taken or 0) > 0 then

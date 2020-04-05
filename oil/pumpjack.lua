@@ -24,7 +24,7 @@ local liquid = techage.liquid
 local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).consumer end
 
-local STANDBY_TICKS = 1
+local STANDBY_TICKS = 2
 local COUNTDOWN_TICKS = 10
 local CYCLE_TIME = 8
 

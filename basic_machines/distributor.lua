@@ -22,8 +22,8 @@ local S = techage.S
 
 local SRC_INV_SIZE = 8
 
-local COUNTDOWN_TICKS = 10
-local STANDBY_TICKS = 10
+local STANDBY_TICKS = 3
+local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 4
 
 local INFO = [[Turn port on/off: command = 'port', payload = red/green/blue/yellow=on/off]]

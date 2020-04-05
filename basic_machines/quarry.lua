@@ -10,7 +10,7 @@
 	
 	Quarry machine to dig stones and other ground blocks.
 	
-	The Quarry digs a hole 5x5 blocks large and up to 80 blocks deep.
+	The Quarry digs a hole (default) 5x5 blocks large and up to 80 blocks deep.
 	It starts at the given level (0 is same level as the quarry block,
 	1 is one level higher and so on)) and goes down to the given depth number.
 	It digs one block every 4 seconds.
@@ -26,28 +26,34 @@ local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm
 
 local S = techage.S
 
-local CYCLE_TIME = 4
+local CYCLE_TIME = 3
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
 
 local Side2Facedir = {F=0, R=1, B=2, L=3, D=4, U=5}
 local Depth2Idx = {[1]=1 ,[2]=2, [3]=3, [5]=4, [10]=5, [15]=6, [20]=7, [25]=8, [40]=9, [60]=10, [80]=11}
+local Holesize2Idx = {["3x3"] = 1, ["5x5"] = 2, ["7x7"] = 3, ["9x9"] = 4, ["11x11"] = 5}
+local Holesize2Diameter = {["3x3"] = 3, ["5x5"] = 5, ["7x7"] = 7, ["9x9"] = 9, ["11x11"] = 11}
 local Level2Idx = {[2]=1, [1]=2, [0]=3, [-1]=4, [-2]=5, [-3]=6, 
 				   [-5]=7, [-10]=8, [-15]=9, [-20]=10}
 
 local function formspec(self, pos, nvm)
-	local tooltip = S("Start level = 0\nmeans the same Y-level\nas the quarry is placed")
+	local tooltip = S("Start level = 0\nmeans the same level\nas the quarry is placed")
+	local level_idx = Level2Idx[nvm.start_level or 1] or 2
+	local depth_idx = Depth2Idx[nvm.quarry_depth or 1] or 1
+	local hsize_idx = Holesize2Idx[nvm.hole_size or "5x5"] or 2
 	local level = nvm.level or "-"
-	local index = nvm.index or "-"
+	local hsize_list = "5x5"
+	if CRD(pos).stage == 4 then
+		hsize_list = "3x3,5x5,7x7,9x9,11x11"
+	end
 	local depth_list = "1,2,3,5,10,15,20,25,40,60,80"
 	if CRD(pos).stage == 3 then
 		depth_list = "1,2,3,5,10,15,20,25,40"
 	elseif CRD(pos).stage == 2 then
 		depth_list = "1,2,3,5,10,15,20"
 	end
-	nvm.quarry_depth = nvm.quarry_depth or 1
-	nvm.start_level = nvm.start_level or -1
-
+	
 	return "size[8,8]"..
 		default.gui_bg..
 		default.gui_bg_img..
@@ -55,11 +61,12 @@ local function formspec(self, pos, nvm)
 		"box[0,-0.1;7.8,0.5;#c6e8ff]"..
 		"label[3.5,-0.1;"..minetest.colorize( "#000000", S("Quarry")).."]"..
 		techage.question_mark_help(8, tooltip)..
-		"dropdown[0,0.8;1.5;level;2,1,0,-1,-2,-3,-5,-10,-15,-20;"..Level2Idx[nvm.start_level].."]".. 
+		"dropdown[0,0.8;1.5;level;2,1,0,-1,-2,-3,-5,-10,-15,-20;"..level_idx.."]".. 
 		"label[1.6,0.9;"..S("Start level").."]"..
-		"dropdown[0,1.8;1.5;depth;"..depth_list..";"..Depth2Idx[nvm.quarry_depth].."]".. 
-		"label[1.6,1.9;"..S("Digging depth").."]"..
-		"label[0,2.9;"..S("level").."="..level..",  "..S("pos=")..index.."/25]"..
+		"dropdown[0,1.8;1.5;depth;"..depth_list..";"..depth_idx.."]".. 
+		"label[1.6,1.9;"..S("Digging depth").." ("..level..")]"..
+		"dropdown[0,2.8;1.5;hole_size;"..hsize_list..";"..hsize_idx.."]".. 
+		"label[1.6,2.9;"..S("Hole size").."]"..
 		"list[context;main;5,0.8;3,3;]"..
 		"image[4,0.8;1,1;"..techage.get_power_image(pos, nvm).."]"..
 		"image_button[4,2.8;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
@@ -123,32 +130,25 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return stack:get_count()
 end
 
-local QuarryPath = {
-	3,3,3,3,2,
-	1,1,1,1,2,
-	3,3,3,3,2,
-	1,1,1,1,2,
-	3,3,3,3,2,
-}
 
-local function get_next_pos(pos, facedir, idx)
-	facedir = (facedir + QuarryPath[idx]) % 4
-	return vector.add(pos, core.facedir_to_dir(facedir))
+local function get_quarry_pos(pos, xoffs, zoffs)
+	return {x = pos.x + xoffs - 1, y = pos.y, z = pos.z + zoffs - 1}
 end
 
--- pos is the quarry pos, y_pos the current dug level
-local function get_corner_positions(pos, facedir, y_pos)
-	local start_pos = get_pos(pos, facedir, "L")
-	local pos1 = get_pos(start_pos, facedir, "F", 2)
-	local pos2 = get_pos(start_pos, facedir, "B", 2)
-	pos2 = get_pos(pos2, facedir, "L", 4)
-	pos1.y = y_pos
-	pos2.y = y_pos
+-- pos is the quarry pos
+local function get_corner_positions(pos, facedir, hole_diameter)
+	local _pos = get_pos(pos, facedir, "L")
+	local pos1 = get_pos(_pos, facedir, "F", math.floor((hole_diameter - 1) / 2))
+	local pos2 = get_pos(_pos, facedir, "B", math.floor((hole_diameter - 1) / 2))
+	pos2 = get_pos(pos2, facedir, "L", hole_diameter - 1)
+	if pos1.x > pos2.x then pos1.x, pos2.x = pos2.x, pos1.x end
+	if pos1.y > pos2.y then pos1.y, pos2.y = pos2.y, pos1.y end
+	if pos1.z > pos2.z then pos1.z, pos2.z = pos2.z, pos1.z end
 	return pos1, pos2
 end
 
-local function is_air_level(pos1, pos2) 
-	return #minetest.find_nodes_in_area(pos1, pos2, {"air"}) == 25
+local function is_air_level(pos1, pos2, hole_diameter) 
+	return #minetest.find_nodes_in_area(pos1, pos2, {"air"}) == hole_diameter * hole_diameter
 end
 
 local function mark_area(pos1, pos2, owner)
@@ -177,39 +177,41 @@ end
 local function quarry_task(pos, crd, nvm)
 	nvm.start_level = nvm.start_level or 0
 	nvm.quarry_depth = nvm.quarry_depth or 1
+	nvm.hole_diameter = nvm.hole_diameter or 5
 	local y_first = pos.y + nvm.start_level
 	local y_last  = y_first - nvm.quarry_depth + 1
 	local facedir = minetest.get_node(pos).param2
 	local owner = M(pos):get_string("owner")
 	
+	local pos1, pos2 = get_corner_positions(pos, facedir, nvm.hole_diameter)
 	nvm.level = 1
 	for y_curr = y_first, y_last, -1 do
-		local pos1, pos2 = get_corner_positions(pos, facedir, y_curr)
-		local qpos = {x = pos1.x, y = pos1.y, z = pos1.z}
+		pos1.y = y_curr
+		pos2.y = y_curr
 
 		if minetest.is_area_protected(pos1, pos2, owner, 5) then
 			crd.State:fault(pos, nvm, S("area is protected"))
 			return
 		end
 		
-		if not is_air_level(pos1, pos2) then
+		if not is_air_level(pos1, pos2, nvm.hole_diameter) then
 			mark_area(pos1, pos2, owner)
 			coroutine.yield()
 			
-			nvm.index = 1
-			for i = 1, 25 do
-				local item_name = peek_node(qpos)
-				if item_name then
-					if add_to_inv(pos, item_name) then
-						minetest.remove_node(qpos)
-						crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS, 1)
-					else
-						crd.State:blocked(pos, nvm, S("inventory full"))
+			for zoffs = 1, nvm.hole_diameter do
+				for xoffs = 1, nvm.hole_diameter do
+					local qpos = get_quarry_pos(pos1, xoffs, zoffs)
+					local item_name = peek_node(qpos)
+					if item_name then
+						if add_to_inv(pos, item_name) then
+							minetest.remove_node(qpos)
+							crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS, 1)
+						else
+							crd.State:blocked(pos, nvm, S("inventory full"))
+						end
+						coroutine.yield()
 					end
-					coroutine.yield()
 				end
-				qpos = get_next_pos(qpos, facedir, i)
-				nvm.index = nvm.index + 1
 			end
 			techage.unmark_position(owner)
 		end
@@ -257,6 +259,11 @@ local function on_receive_fields(pos, formname, fields, player)
 	if fields.depth then
 		if tonumber(fields.depth) ~= nvm.quarry_depth then
 			nvm.quarry_depth = tonumber(fields.depth)
+			if CRD(pos).stage == 2 then
+				nvm.quarry_depth = math.min(nvm.quarry_depth, 20)
+			elseif CRD(pos).stage == 3 then
+				nvm.quarry_depth = math.min(nvm.quarry_depth, 40)
+			end
 			mem.co = nil
 			CRD(pos).State:stop(pos, nvm)
 		end
@@ -267,6 +274,20 @@ local function on_receive_fields(pos, formname, fields, player)
 			nvm.start_level = tonumber(fields.level)
 			mem.co = nil
 			CRD(pos).State:stop(pos, nvm)
+		end
+	end
+
+	if fields.hole_size then
+		if CRD(pos).stage == 4 then
+			if fields.hole_size ~= nvm.hole_size then
+				nvm.hole_size = fields.hole_size
+				nvm.hole_diameter = Holesize2Diameter[fields.hole_size or "5x5"] or 5
+				mem.co = nil
+				CRD(pos).State:stop(pos, nvm)
+			end
+		else
+			nvm.hole_size = "5x5"
+			nvm.hole_diameter = 5
 		end
 	end
 

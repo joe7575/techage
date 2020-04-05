@@ -188,10 +188,12 @@ minetest.register_node("techage:power_pole2", {
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		M(pos):set_string("owner", placer:get_player_name())
 		if techage.is_protected(pos, placer:get_player_name()) then
+			minetest.chat_send_player(placer:get_player_name(), "position is protected   ")
 			minetest.remove_node(pos)
 			return true
 		end
 		if not Cable:after_place_tube(pos, placer, pointed_thing) then
+			minetest.chat_send_player(placer:get_player_name(), "invalid pole position   ")
 			minetest.remove_node(pos)
 			return true
 		end
@@ -252,6 +254,7 @@ minetest.register_node("techage:power_pole", {
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		M(pos):set_string("owner", placer:get_player_name())
 		if techage.is_protected(pos, placer:get_player_name()) then
+			minetest.chat_send_player(placer:get_player_name(), "position is protected   ")
 			minetest.remove_node(pos)
 			return true
 		end

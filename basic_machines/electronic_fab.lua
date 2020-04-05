@@ -18,8 +18,8 @@ local M = minetest.get_meta
 local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 
 local S = techage.S
-local STANDBY_TICKS = 5
-local COUNTDOWN_TICKS = 6
+local STANDBY_TICKS = 3
+local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 6
 
 local recipes = techage.recipes

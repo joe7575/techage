@@ -21,8 +21,8 @@ local networks = techage.networks
 local liquid = techage.liquid
 local Flip = techage.networks.Flip
 
-local STANDBY_TICKS = 5
-local COUNTDOWN_TICKS = 5
+local STANDBY_TICKS = 3
+local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 2
 local CAPA = 4
 

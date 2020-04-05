@@ -152,11 +152,11 @@ end
 -- consumes power
 function techage.needs_power(nvm)
 	local state = nvm.techage_state or STOPPED
-	return state < BLOCKED
+	return state == RUNNING or state == NOPOWER
 end
 
 function techage.needs_power2(state)
-	return state < BLOCKED
+	return state == RUNNING or state == NOPOWER
 end
 
 function techage.get_state_string(nvm)
