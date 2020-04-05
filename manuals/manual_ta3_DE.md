@@ -630,7 +630,7 @@ Die Verarbeitungsleistung beträgt ein Chip alle 6 s. Der Block benötigt hierf�
 ### TA3 Steinbrecher / Quarry
 
 Die Funktion entspricht der von TA2.  
-Die maximale Tiefe beträgt 40 Meter. Der Autocrafter benötigt 12 ku Strom.
+Die maximale Tiefe beträgt 40 Meter. Der Steinbrecher benötigt 12 ku Strom.
 
 [ta3_quarry|image]
 

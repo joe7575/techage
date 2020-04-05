@@ -158,5 +158,6 @@ techage.Items = {
 	ta4_growlight = "techage:growlight_on",
 	ta4_streetlamp = "techage_ta4_streetlamp.png",
 	ta4_industriallamp = "techage:industriallamp4_off",
+	ta4_quarry = "techage:ta4_quarry_pas",
 	--ta4_ "", 
 }
