@@ -157,7 +157,7 @@ if(minetest.get_modpath("moreblocks")) then
                                         {
                                             description = value.desc,
                                             tiles = value.tile,
-                                            group = value.group,
+                                            groups = value.group,
                                             sound = value.sound,
                                         })
         --end
@@ -171,13 +171,7 @@ if(minetest.get_modpath("barchairs")) then
     
     for _,value in pairs(nodes) do
                 print("Register Barchair techage:" .. value.subname)
-                barchair.register_barchair("techage:", value.subname, 0,
-                                        {
-                                            description = value.desc,
-                                            tiles = value.tile,
-                                            group = value.group,
-                                            sound = value.sound,
-                                        })
+                barchair.register_barchair("techage:", value.subname, 0)
     
     end
     
