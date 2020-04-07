@@ -153,7 +153,6 @@ if(minetest.get_modpath("moreblocks")) then
 
     for _,value in pairs(nodes) do
 
-        --if(minetest.registered_items["techage:" .. value.subname] ~= nil) then
                 stairsplus:register_all("techage", value.subname, value.item,
                                         {
                                             description = value.desc,
@@ -168,3 +167,18 @@ if(minetest.get_modpath("moreblocks")) then
 end
 
     
+if(minetest.get_modpath("barchairs")) then
+    
+    for _,value in pairs(nodes) do
+                print("Register Barchair techage:" .. value.subname)
+                barchair.register_barchair("techage:", value.subname, 0,
+                                        {
+                                            description = value.desc,
+                                            tiles = value.tile,
+                                            group = value.group,
+                                            sound = value.sound,
+                                        })
+    
+    end
+    
+end
