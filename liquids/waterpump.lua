@@ -86,7 +86,7 @@ local function pumping(pos, nvm)
 	if not nvm.running  then
 		State:nopower(pos, nvm)
 	else
-		local leftover = liquid.put(pos, 6, "default:water_source", 1)
+		local leftover = liquid.put(pos, 6, "techage:water", 1)
 		if leftover and leftover > 0 then
 			State:blocked(pos, nvm)
 			return

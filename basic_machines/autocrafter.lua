@@ -122,7 +122,6 @@ end
 
 
 local function keep_running(pos, elapsed)
-	print("autocrafter keep_running")
 	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
 	local inv = M(pos):get_inventory()

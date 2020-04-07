@@ -95,6 +95,15 @@ local function sort_in(inv, nvm, stack)
 	return false
 end
 
+local function max_stack_size(item_name)
+	local ndef = minetest.registered_nodes[item_name] or minetest.registered_items[item_name] or minetest.registered_craftitems[item_name]
+	if ndef then 
+		return ndef.stack_max
+	end
+	return 0
+end
+
+
 local function get_item(inv, nvm, item_name, count)
 	local stack = {count = 0}
 	if not inv:is_empty("main") then
@@ -109,7 +118,7 @@ local function get_item(inv, nvm, item_name, count)
 	end
 	for _,item in ipairs(nvm.inventory or {}) do
 		if (item_name == nil and stack.name == nil) or item.name == item_name then
-			local num = math.min(item.count, count - stack.count)
+			local num = math.min(item.count, count - stack.count, max_stack_size(item.name))
 			item.count = item.count - num
 			stack.count = stack.count + num
 			if item.name ~= "" then
@@ -132,7 +141,7 @@ local function formspec_container(x, y, nvm, inv)
 	local tbl = {"container["..x..","..y.."]"}
 	for i = 1,8 do
 		local xpos = i - 1
-		tbl[#tbl+1] = "box["..xpos..",0;0.8,0.9;#808080]"
+		tbl[#tbl+1] = "box["..(xpos - 0.03)..",0;0.86,0.9;#808080]"
 		local stack = get_stack(nvm, i)
 		if stack.name ~= "" then
 			local itemname = stack.name.." "..stack.count
@@ -212,7 +221,7 @@ local function move_from_nvm_to_inv(pos, idx)
 	local nvm_stack = get_stack(nvm, idx)
 	
 	if nvm_stack.count > 0 and inv_stack:get_count() == 0 then
-		local count = math.min(nvm_stack.count, 99)
+		local count = math.min(nvm_stack.count, max_stack_size(nvm_stack.name))
 		nvm_stack.count = nvm_stack.count - count
 		inv:set_stack("main", idx, {name = nvm_stack.name, count = count})
 		if nvm_stack.count == 0 then

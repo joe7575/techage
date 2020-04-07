@@ -81,6 +81,21 @@ local function del_liquids(pos)
 	Liquids[hash] = nil
 end
 	
+-- if liquids are missing, update the cached liquid table
+local function reload_liquids(pos)	
+	local hash = minetest.hash_node_position(pos)
+	-- determine the available input liquids
+	local tbl = {}
+	for outdir = 1,4 do
+		local name, num = liquid.peek(pos, outdir)
+		if name then
+			tbl[name] = outdir
+		end
+	end
+	Liquids[hash] = tbl
+	return Liquids[hash]
+end	
+
 local function reactor_cmnd(pos, cmnd, payload)
 	return techage.transfer(
 		pos, 
@@ -134,6 +149,7 @@ local function dosing(pos, nvm, elapsed)
 		if not nvm.techage_countdown or nvm.techage_countdown < 3 then
 			reactor_cmnd(pos, "stop")
 			State:nopower(pos, nvm, S("reactor has no power"))
+			return
 		end
 		State:idle(pos, nvm)
 		return
@@ -157,7 +173,7 @@ local function dosing(pos, nvm, elapsed)
 	local starter = get_starter_name(pos)
 	for _,item in pairs(recipe.input) do
 		if item.name ~= "" then
-			local outdir = liquids[item.name]
+			local outdir = liquids[item.name] or reload_liquids(pos)[item.name]
 			if not outdir then
 				State:standby(pos, nvm)
 				reactor_cmnd(pos, "stop")
@@ -286,7 +302,7 @@ minetest.register_node("techage:ta4_doser_on", {
 	},
 
 	tubelib2_on_update2 = function(pos, dir, tlib2, node)
-		liquid.update_network(pos)
+		liquid.update_network(pos, dir)
 		del_liquids(pos)
 	end,
 	on_receive_fields = on_receive_fields,

@@ -194,21 +194,36 @@ function techage.is_ocean(pos)
 	return true
 end
 
-
-
-local function tooltip(name)
-	name = string.split(name, " ")[1]
-	local ndef = minetest.registered_nodes[name] or minetest.registered_items[name] or minetest.registered_craftitems[name]
-	if ndef and ndef.description then
-		return minetest.formspec_escape(ndef.description)
-	end
-	return ""
-end
-
 function techage.item_image(x, y, itemname)
+	local name, size = unpack(string.split(itemname, " "))
+	local label = ""
+	local tooltip = ""
+	local ndef = minetest.registered_nodes[name] or minetest.registered_items[name] or minetest.registered_craftitems[name]
+	
+	if ndef and ndef.description then
+		local text = minetest.formspec_escape(ndef.description)
+		tooltip = "tooltip["..x..","..y..";1,1;"..text..";#0C3D32;#FFFFFF]"
+	end
+	
+	if ndef and ndef.stack_max == 1 then
+		size = tonumber(size)
+		local offs = 0
+		if size < 10 then
+			offs = 0.65
+		elseif size < 100 then
+			offs = 0.5
+		elseif size < 1000 then
+			offs = 0.35
+		else
+			offs = 0.2
+		end
+		label = "label["..(x + offs)..","..(y + 0.45)..";"..tostring(size).."]"
+	end
+	
 	return "box["..x..","..y..";0.85,0.9;#808080]"..
 		"item_image["..x..","..y..";1,1;"..itemname.."]"..
-		"tooltip["..x..","..y..";1,1;"..tooltip(itemname)..";#0C3D32;#FFFFFF]"
+		tooltip..
+		label
 end
 
 function techage.mydump(o, indent, nested, level)
