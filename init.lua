@@ -256,7 +256,8 @@ else
 	dofile(MP.."/items/hydrogen.lua")
 	dofile(MP.."/items/electronic.lua")
 	dofile(MP.."/items/redstone.lua")
-	
+	dofile(MP.."/items/register_mods.lua")
+    
 	if techage.basalt_stone_enabled then
 		dofile(MP.."/items/basalt.lua")
 	end
