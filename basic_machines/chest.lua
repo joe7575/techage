@@ -241,6 +241,18 @@ minetest.register_craft({
 
 minetest.register_craft({
 	type = "shapeless",
+	output = "techage:chest_ta2",
+	recipe = {"default:chest_locked", "techage:tubeS", "techage:iron_ingot"}
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "techage:chest_ta2",
+	recipe = {"protector:chest", "techage:tubeS", "techage:iron_ingot"}
+})
+
+minetest.register_craft({
+	type = "shapeless",
 	output = "techage:chest_ta3",
 	recipe = {"techage:chest_ta2", "default:chest"}
 })

@@ -158,6 +158,7 @@ techage.register_node({"techage:ta4_reactor_stand"}, {
 		elseif topic == "stop" then
 			nvm.has_power = false
 			power.consumer_stop(pos, Cable)
+			stop_sound(pos)
 			minetest.get_node_timer(pos):stop()
 			M(pos):set_string("infotext", S("off"))
 			return true
