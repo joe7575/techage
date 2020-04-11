@@ -1344,7 +1344,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Wird die Kiste über einen Schieber geleert\\, leeren sich auch die Speicher wieder von links nach rechts.\n"..
   "\n"..
-  "*Stapelfunktion*\n"..
+  "*Reihenfunktion*\n"..
   "\n"..
   "Mehrere TA4 8x2000 Kisten können zu einer großen Kiste mit mehr Inhalt verbunden werden. Dazu müssen die Kisten in einer Reihe hintereinander gesetzt werden.\n"..
   "\n"..

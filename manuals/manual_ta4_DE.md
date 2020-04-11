@@ -524,7 +524,7 @@ Wird die Kiste mit einem Schieber gefüllt, so füllen sich alle Speicherplätze
 
 Wird die Kiste über einen Schieber geleert, leeren sich auch die Speicher wieder von links nach rechts.
 
-**Stapelfunktion**
+**Reihenfunktion**
 
 Mehrere TA4 8x2000 Kisten können zu einer großen Kiste mit mehr Inhalt verbunden werden. Dazu müssen die Kisten in einer Reihe hintereinander gesetzt werden.
 
