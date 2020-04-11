@@ -574,12 +574,12 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Hat bis zu vier Arme und erlaubt damit\\, Strom in bis zu 6 Richtungen weiter zu verteilen.\n"..
+  "Hat bis zu vier Arme und erlaubt damit\\, Strom in bis zu 6 Richtungen weiter zu verteilen. \n"..
   "Der Strommastkopf schützt Stromleitungen und Masten in einem Radius von 8 m.\n"..
   "\n"..
   "\n"..
   "\n",
-  "Dieser Strommastkopf hat nur 2 Arme und wird für die Überlandleitungen genutzt. \n"..
+  "Dieser Strommastkopf hat zwei feste Arme und wird für die Überlandleitungen genutzt. Er kann aber auch Strom nach unten und oben weiterleiten.\n"..
   "Der Strommastkopf schützt Stromleitungen und Masten in einem Radius von 8 m.\n"..
   "\n"..
   "\n"..
@@ -609,10 +609,11 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Das Strom-Terminal muss mit dem Stromnetz verbunden werden. Es zeigt Daten aus dem Stromnetz an wie:\n"..
+  "Das Strom-Terminal muss mit dem Stromnetz verbunden werden. Es zeigt Daten aus dem Stromnetz an.\n"..
   "\n"..
-  "  - Anzahl und Leistung der verschiedenen Generatoren und Akkus (aktuell/maximal)\n"..
-  "  - Anzahl der Netzwerk-Blöcke (max. 1000)\n"..
+  "In der oberen Hälfte werden nur die Daten eines ausgewählten Typs ausgegeben. Wird als Typ bspw. \"Kraftwerk\" gewählt\\, so werden nur die Daten von Öl- und Kohlekraftwerken gesammelt und ausgegeben. Links werden die Daten von Generatoren (Stromabgabe) und rechts die Daten von Energiespeichern (Stromaufnahme) ausgegeben. Beim Akkublocks bspw. wird beides ausgegeben\\, da der Akku Strom aufnehmen und abgeben kann.\n"..
+  "\n"..
+  "In der unteren Hälfte werden die Daten aller Generatoren und Speichersystemen des ganzen Stromnetzen zusammengefasst ausgegeben.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -983,7 +984,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Der Strom muss vom Rotor-Block durch den Mast nach unten geführt werden. Dazu zuerst die Stromleitung nach oben ziehen und das Stromkabel dann mit TA4 Säulenblöcke \"verputzen\". Unten kann eine Arbeitsplattform errichtet werden. Der Plan rechts zeigt den Aufbau im oberen Teil.\n"..
   "\n"..
-  "Die Windkraftanlage liefert eine Leistung von 80 ku\\, aber dies nur 8 Stunden am Tag (siehe oben).\n"..
+  "Die Windkraftanlage liefert eine Leistung von 70 ku\\, aber dies nur 8 Stunden am Tag (siehe oben).\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1024,7 +1025,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Solarmodule liefern Gleichspannung\\, welcher nicht direkt in das Stromnetz eingespeist werden kann. Daher müssen zuerst die Solareinheiten über das rote Kabel mit dem Wechselrichter verbunden werden. Dieser besteht aus zwei Blöcken\\, einen für das rote Kabel zu den Solarmodulen (DC) und einen für das graue Stromkabel ins Stromnetz (AC).\n"..
   "\n"..
-  "Der Kartenbereich\\, wo die Solaranlage steht\\, muss komplett geladen sein. Es empfiehlt sich daher\\, zuerst einen Forceload Block zu setzen\\, und dann innerhalb dieses Bereiches die Module zu platzieren.\n"..
+  "Der Kartenbereich\\, wo die Solaranlage steht\\, muss komplett geladen sein. Die gilt auch für die direkte Position über dem Solarmodul\\, denn dort wird regelmäßig die Lichtstärke gemessen. Es empfiehlt sich daher\\, zuerst einen Forceload Block zu setzen\\, und dann innerhalb dieses Bereiches die Module zu platzieren.\n"..
   "\n"..
   "\n"..
   "\n",

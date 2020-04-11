@@ -22,7 +22,7 @@ local M = minetest.get_meta
 local S = techage.S
 
 local CYCLE_TIME = 2
-local PWR_PERF = 80
+local PWR_PERF = 70
 
 local Cable = techage.ElectricCable
 local power = techage.power

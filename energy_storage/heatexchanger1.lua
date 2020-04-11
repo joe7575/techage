@@ -194,12 +194,12 @@ local net_def = {
 		sides = {F = 1, B = 1},
 		ntype = "con2",
 		nominal = PWR_PERF,
+		on_power = on_power,
+		on_nopower = on_nopower,
 	},
 	pipe2 = {
 		sides = {L = 1, R = 1},
 		ntype = "con1",
-		on_power = on_power,
-		on_nopower = on_nopower,
 	},
 }
 

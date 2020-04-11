@@ -80,12 +80,12 @@ local function trigger_network(pos, outdir, Cable)
 	local nvm = techage.get_nvm(pos)
 	local netID = nvm[Cable.tube_type] and nvm[Cable.tube_type]["netID"]
 	if not netID then
-		print("determine_netID !!!!!!!!!!!!!!!!!!!!")
+		--print("determine_netID !!!!!!!!!!!!!!!!!!!!")
 		netID = determine_netID(pos, outdir, Cable)
 		store_netID(pos, outdir, netID, Cable)
 		networks.build_network(pos, outdir, Cable, netID)
 	elseif not networks.get_network(Cable.tube_type, netID) then
-		print("build_network !!!!!!!!!!!!!!!!!!!!")
+		--print("build_network !!!!!!!!!!!!!!!!!!!!")
 		delete_netID(pos, outdir, Cable)
 		networks.build_network(pos, outdir, Cable, netID)
 	end
@@ -163,6 +163,11 @@ function techage.power.consumer_alive(pos, Cable, cycle_time)
 		local rv = (cycle_time / 2) + 1
 		if def["netID"] and def["calive"] and def["calive"] < rv then -- network available
 			def["calive"] = rv
+			def["still_runing"] = true
+			return def["taken"] or 0
+		elseif def["still_runing"] then
+			def["calive"] = rv
+			def["still_runing"] = false
 			return def["taken"] or 0
 		elseif not def["cstate"] or def["cstate"] == RUNNING then
 			local ndef = net_def(pos, Cable.tube_type)

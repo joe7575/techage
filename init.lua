@@ -59,6 +59,7 @@ else
 	dofile(MP.."/power/electric_cable.lua")
 	dofile(MP.."/power/junctionbox.lua")
 	dofile(MP.."/power/power_terminal.lua")
+	dofile(MP.."/power/power_terminal2.lua")
 	dofile(MP.."/power/powerswitchbox.lua")
 	dofile(MP.."/power/powerswitch.lua")
 	dofile(MP.."/power/protection.lua")

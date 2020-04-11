@@ -222,7 +222,8 @@ minetest.register_node("techage:powerswitchsmall_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-techage.register_node({"techage:powerswitch", "techage:powerswitch_on"}, {
+techage.register_node({"techage:powerswitch", "techage:powerswitch_on",
+		"techage:powerswitchsmall", "techage:powerswitchsmall_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local node = techage.get_node_lvm(pos)
 		if topic == "on" and node.name == "techage:powerswitch" then

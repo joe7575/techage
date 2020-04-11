@@ -14,7 +14,7 @@ Der Rotor muss in einer Höhe (Y-Koordinate) von 12 bis maximal 20 m platziert w
 
 Der Strom muss vom Rotor-Block durch den Mast nach unten geführt werden. Dazu zuerst die Stromleitung nach oben ziehen und das Stromkabel dann mit TA4 Säulenblöcke "verputzen". Unten kann eine Arbeitsplattform errichtet werden. Der Plan rechts zeigt den Aufbau im oberen Teil.
 
-Die Windkraftanlage liefert eine Leistung von 80 ku, aber dies nur 8 Stunden am Tag (siehe oben).
+Die Windkraftanlage liefert eine Leistung von 70 ku, aber dies nur 8 Stunden am Tag (siehe oben).
 
 [ta4_windturbine|plan]
 
@@ -70,7 +70,7 @@ Der Plan rechts zeigt 3 Einheiten mit je zwei Solarmodulen und einem Trägermodu
 
 Solarmodule liefern Gleichspannung, welcher nicht direkt in das Stromnetz eingespeist werden kann. Daher müssen zuerst die Solareinheiten über das rote Kabel mit dem Wechselrichter verbunden werden. Dieser besteht aus zwei Blöcken, einen für das rote Kabel zu den Solarmodulen (DC) und einen für das graue Stromkabel ins Stromnetz (AC).
 
-Der Kartenbereich, wo die Solaranlage steht, muss komplett geladen sein. Es empfiehlt sich daher, zuerst einen Forceload Block zu setzen, und dann innerhalb dieses Bereiches die Module zu platzieren.
+Der Kartenbereich, wo die Solaranlage steht, muss komplett geladen sein. Die gilt auch für die direkte Position über dem Solarmodul, denn dort wird regelmäßig die Lichtstärke gemessen. Es empfiehlt sich daher, zuerst einen Forceload Block zu setzen, und dann innerhalb dieses Bereiches die Module zu platzieren.
 
 [ta4_solarplant|plan]
 

@@ -22,7 +22,7 @@ local Networks = {} -- cache for networks
 
 techage.networks = {}  -- name space
 
-local MAX_NUM_NODES = 500
+local MAX_NUM_NODES = 1000
 local BEST_BEFORE = 5 * 60  -- 5 minutes
 local Route = {} -- Used to determine the already passed nodes while walking
 local NumNodes = 0
@@ -343,3 +343,5 @@ end
 -- Get node tubelib2 connections as table of outdirs
 -- techage.networks.get_node_connections(pos, net_name)
 techage.networks.get_node_connections = get_node_connections
+
+techage.networks.MAX_NUM_NODES = MAX_NUM_NODES
