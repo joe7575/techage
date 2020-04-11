@@ -41,22 +41,24 @@ minetest.register_node("techage:lightblock", {
 	groups = {not_in_creative_inventory=1},
 })
 
-function techage.light_ring(center_pos, on)
-	for _,dir in ipairs(Positions) do
-		local pos1 = vector.add(center_pos, dir)
-		local node = techage.get_node_lvm(pos1)
-		if on then
+function techage.light_ring(center_pos, on, large)
+	if on then
+		for _,dir in ipairs(Positions) do
+			if large then
+				dir = vector.multiply(dir, 2)
+			end
+			local pos1 = vector.add(center_pos, dir)
+			local node = techage.get_node_lvm(pos1)
 			if node.name == "air" then
 				minetest.set_node(pos1, {name = "techage:lightblock"})
 			end
-		else
-			if node.name == "techage:lightblock" then
-				minetest.remove_node(pos1)
-			end
 		end
+	else
+		local pos1 = {x=center_pos.x-2, y=center_pos.y-2, z=center_pos.z-2}
+		local pos2 = {x=center_pos.x+2, y=center_pos.y+2, z=center_pos.z+2}
+		for _,pos in ipairs(minetest.find_nodes_in_area(pos1, pos2, "techage:lightblock")) do
+			minetest.remove_node(pos)
+		end
+		minetest.fix_light(pos1, pos2)
 	end
-	local pos1 = {x=center_pos.x-2, y=center_pos.y-2, z=center_pos.z-2}
-	local pos2 = {x=center_pos.x+2, y=center_pos.y+2, z=center_pos.z+2}
-	minetest.fix_light(pos1, pos2)
 end
-				

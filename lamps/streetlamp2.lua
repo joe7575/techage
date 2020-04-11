@@ -15,7 +15,7 @@
 local S = techage.S
 
 local function on_switch_lamp(pos, on)
-	techage.light_ring({x = pos.x, y = pos.y - 3, z = pos.z}, on)
+	techage.light_ring({x = pos.x, y = pos.y - 3, z = pos.z}, on, true)
 end
 
 techage.register_lamp("techage:streetlamp2", {

@@ -144,6 +144,7 @@ techage.manual_DE.aTitel = {
   "3,TA4 ICTA Controller",
   "3,Batterie",
   "3,TA4 Display",
+  "3,TA4 Display XL",
   "3,TA4 Signal Tower",
   "2,TA4 Lua Controller",
   "3,TA4 Lua Server",
@@ -1217,6 +1218,14 @@ techage.manual_DE.aText = {
   "\n",
   "Das Display zeigt nach dem Platzieren seine Nummer an. Über diese Nummer kann das Display angesprochen werden. Auf dem Display können Texte ausgegeben werden\\, wobei das Display 5 Zeilen und damit 5 unterschiedliche Texte darstellen kann.\n"..
   "\n"..
+  "Das Display wird maximal ein mal pro Sekunde aktualisiert.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Das TA4 Display XL hat die doppelte Größ wie das TA4 Display.\n"..
+  "\n"..
+  "Das Display wird maximal alle zwei Sekunden aktualisiert.\n"..
+  "\n"..
   "\n"..
   "\n",
   "Der Signal Tower kann rot\\, grün und orange anzeigen. Eine Kombination der 3 Farben ist nicht möglich.\n"..
@@ -1334,6 +1343,14 @@ techage.manual_DE.aText = {
   "Wird die Kiste mit einem Schieber gefüllt\\, so füllen sich alle Speicherplätze von links nach rechts. Sind alle 8 Speicher voll und können keine weiteren Items hinzugefügt werden\\, so werden diese Items im Ein-/Ausgabe-Inventar gespeichert. Die Kiste ist damit für den Schieberbetrieb vollständig gefüllt und weitere Items werden abgewiesen.\n"..
   "\n"..
   "Wird die Kiste über einen Schieber geleert\\, leeren sich auch die Speicher wieder von links nach rechts.\n"..
+  "\n"..
+  "*Stapelfunktion*\n"..
+  "\n"..
+  "Mehrere TA4 8x2000 Kisten können zu einer großen Kiste mit mehr Inhalt verbunden werden. Dazu müssen die Kisten in einer Reihe hintereinander gesetzt werden.\n"..
+  "\n"..
+  "Zuerst muss die Front-Kiste gesetzt werden\\, dann werden die Stapel-Kisten mit gleicher Blickrichtung dahinter gesetzt (alle Kisten haben die Front in Richtung Spieler). Bei 2 Kisten in Reihe erhöht sich die Größe auf 8x4000\\, usw.\n"..
+  "\n"..
+  "Die angereihten Kisten können nun nicht mehr entfernt werden. Um die Kisten wieder abbauen zu können\\, muss zuerst die Frontkiste entfernt werden. Danach können die Kisten der Reihe nach wieder entfernt werden. \n"..
   "\n"..
   "Die Kiste kann nur von den Spielern genutzt werden\\, die an diesem Ort auch bauen können\\, also Protection Rechte besitzen. Es spielt dabei keine Rolle\\, wer die Kiste setzt. \n"..
   "\n"..
@@ -1511,6 +1528,7 @@ techage.manual_DE.aItemName = {
   "ta4_icta_controller",
   "ta4_battery",
   "ta4_display",
+  "ta4_displayXL",
   "ta4_signaltower",
   "ta4_lua_controller",
   "ta4_lua_server",
@@ -1674,6 +1692,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
   "",
   "",
   "",

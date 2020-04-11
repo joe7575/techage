@@ -53,6 +53,16 @@ local function output(network, valid)
 	print("Network ("..valid.."): "..table.concat(tbl, ", "))
 end
 
+local function debug(ntype)
+	local tbl = {}
+	for netID,netw in pairs(Networks[ntype] or {}) do
+		if type(netw) == "table" then
+			tbl[#tbl+1] = string.format("%X", netID)
+		end
+	end
+	return "Networks: "..table.concat(tbl, ", ")
+end
+
 local function hidden_node(pos, net_name)
 	local name = M(pos):get_string("techage_hidden_nodename")
 	local ndef = minetest.registered_nodes[name]
@@ -257,7 +267,6 @@ local function remove_outdated_networks()
 	end
 	for _,item in ipairs(to_be_deleted) do
 		local net_name, netID = unpack(item)
-		print("delete", net_name, netID)
 		Networks[net_name][netID] = nil
 	end
 	minetest.after(60, remove_outdated_networks)
@@ -296,6 +305,7 @@ end
 
 -- return network without maintainting the "alive" data
 function techage.networks.peek_network(tube_type, netID)
+	--print("peek_network", debug(tube_type))
 	return Networks[tube_type] and Networks[tube_type][netID]
 end
 
@@ -326,6 +336,7 @@ function techage.networks.build_network(pos, outdir, tlib2, netID)
 end
 	
 function techage.networks.get_network(tube_type, netID)
+	--print("get_network", string.format("%X", netID), debug(tube_type))
 	local netw = Networks[tube_type] and Networks[tube_type][netID]
 	if netw then
 		netw.alive = 3 -- monitored by scheduler (power)

@@ -15,6 +15,7 @@
 local S = techage.S
 
 local CYCLE_TIME = 2
+local RANDOM_VAL = 20
 local Cable = techage.ElectricCable
 local power = techage.power
 local Flowers = {}
@@ -35,21 +36,31 @@ local Positions = {
 local function node_timer(pos, elapsed)
 	power.consumer_alive(pos, Cable, CYCLE_TIME)
 	local nvm = techage.get_nvm(pos)
-	nvm.tick = nvm.tick or math.random(15, 30)
+	local mem = techage.get_mem(pos)
+	mem.grow_pos = mem.grow_pos or {} -- keep the pos blank for same time
+	nvm.tick = nvm.tick or math.random(RANDOM_VAL, RANDOM_VAL*2)
 	nvm.tick = nvm.tick - 1
 	if nvm.tick == 0 then
-		nvm.tick = math.random(15, 30)
-		local plant_pos = vector.add(pos, Positions[math.random(1, 9)])
+		nvm.tick = math.random(RANDOM_VAL, RANDOM_VAL*2)
+		local plant_idx = math.random(1, 9)
+		local plant_pos = vector.add(pos, Positions[plant_idx])
 		local soil_pos = {x = plant_pos.x, y = plant_pos.y - 1, z = plant_pos.z}
 		local plant_node = minetest.get_node(plant_pos)
 		local soil_node = minetest.get_node(soil_pos)
 		if soil_node and soil_node.name == "compost:garden_soil" then
 			if plant_node and plant_node.name == "air" then
-				local idx = math.floor(math.random(1, #Flowers))
-				minetest.set_node(plant_pos, {name = Flowers[idx]})
+				if mem.grow_pos[plant_idx] then
+					local idx = math.floor(math.random(1, #Flowers))
+					minetest.set_node(plant_pos, {name = Flowers[idx]})
+					mem.grow_pos[plant_idx] = false
+				else
+					mem.grow_pos[plant_idx] = true
+				end
 			elseif plant_node and Plants[plant_node.name] then
 				local ndef = minetest.registered_nodes[plant_node.name]
 				ndef.on_timer(plant_pos, 200)
+			else
+				mem.grow_pos[plant_idx] = false
 			end
 		end
 	end

@@ -91,6 +91,15 @@ local function trigger_network(pos, outdir, Cable)
 	end
 end
 
+local function build_network_consumer(pos, Cable)
+	local outdirs = techage.networks.get_node_connections(pos, Cable.tube_type)
+	if #outdirs == 1 then
+		local netID = determine_netID(pos, outdirs[1], Cable)
+		store_netID(pos, outdirs[1], netID, Cable)
+		networks.build_network(pos, outdirs[1], Cable, netID)
+	end
+end
+
 -- To be called from each node via 'tubelib2_on_update2'
 -- 'output' is optional and only needed for nodes with dedicated
 -- pipe sides (e.g. pumps).
@@ -160,14 +169,12 @@ function techage.power.consumer_alive(pos, Cable, cycle_time)
 	local nvm = techage.get_nvm(pos)
 	local def = nvm[Cable.tube_type] -- power related network data
 	if def then
+		if not def["netID"] or not networks.get_network(Cable.tube_type, def["netID"]) then
+			build_network_consumer(pos, Cable)
+		end
 		local rv = (cycle_time / 2) + 1
 		if def["netID"] and def["calive"] and def["calive"] < rv then -- network available
 			def["calive"] = rv
-			def["still_runing"] = true
-			return def["taken"] or 0
-		elseif def["still_runing"] then
-			def["calive"] = rv
-			def["still_runing"] = false
 			return def["taken"] or 0
 		elseif not def["cstate"] or def["cstate"] == RUNNING then
 			local ndef = net_def(pos, Cable.tube_type)

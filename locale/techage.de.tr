@@ -35,7 +35,7 @@ Build derrick=Errichte Ölturm
 Compressed Gravel=Komprimiertes Kies
 Consum. 1=Konsum. 1
 Consum. 2=Konsum. 2
-Current power:=Aktueller Verbrauch:
+Current power:=Strom aktuell:
 Depth=Tiefe
 Digging depth=Grabungstiefe
 Dirt with Ash=Erde mit Asche
@@ -161,6 +161,7 @@ Send signal if nodes have been:=Sende ein Signal falls Blöcke:
 Show all forceload blocks in a 64x64x64 range=Zeige alle Forceload Blöcke im Umkreis von 64x64x64 Blöcken
 Sieved Basalt Gravel=Basaltkies gesiebt
 Sieved Gravel=Gesiebtes Kies
+Size=Größe
 Solar system=Solaranlage
 Start level=Startebene
 Start level @= 0@nmeans the same level@nas the quarry is placed=Startebene @= 0@nbedeutet gleiche Ebene@nwie der Steinbrecher

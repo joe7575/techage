@@ -334,7 +334,6 @@ function techage.explore.dec_oil_amount(posC)
 	if idx <= (OIL_BUBBLE_SIZE - 256) then -- first level is stone, too
 		local pos = calc_vmdata_pos(posC, idx)
 		local node = techage.get_node_lvm(pos)
-		print(idx, P2S(pos), node.name)
 		if node.name == "techage:oil_source" then
 			minetest.remove_node(pos)
 		end

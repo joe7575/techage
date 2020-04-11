@@ -22,7 +22,7 @@ local HEX = function(val) return string.format("%XH", val) end
 local power = techage.power
 local networks = techage.networks
 
-local CYCLE_TIME = 1.8
+local CYCLE_TIME = 1
 
 techage.schedule = {}
 
@@ -57,7 +57,7 @@ minetest.register_globalstep(function(dtime)
 	while item do
 		local network = networks.peek_network(item.tube_type, item.netID)
 		if network and network.alive and network.alive >= 0 then
-			power.power_distribution(network, item.tube_type, item.netID)
+			power.power_distribution(network, item.tube_type, item.netID, CYCLE_TIME)
 			network.alive = network.alive - 1
 			push(item)
 		else
@@ -74,6 +74,9 @@ end)
 
 function techage.schedule.start(tube_type, netID)
 	if not JobTable[netID] then
+		local network = networks.peek_network(tube_type, netID)
+		power.power_distribution(network, tube_type, netID, CYCLE_TIME/2)
+		network.alive = network.alive - 1
 		push({tube_type = tube_type, netID = netID})
 		JobTable[netID] = true
 	end

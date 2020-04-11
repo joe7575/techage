@@ -13,6 +13,7 @@
 ]]--
 
 -- for lazy programmers
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local M = minetest.get_meta
 local S = techage.S
 
@@ -162,16 +163,65 @@ end
 local function formspec(pos)
 	local nvm = techage.get_nvm(pos)
 	local inv = M(pos):get_inventory()
-	return "size[8,7.2]"..
+	local size = M(pos):get_int("stacksize")
+	if size == 0 then size = STACK_SIZE end
+	return "size[8,7.6]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	formspec_container(0, 0, nvm, inv)..
-	"list[current_player;main;0,3.5;8,4;]"..
+	"label[0,-0.2;"..S("Size")..": 8x"..size.."]"..
+	formspec_container(0, 0.4, nvm, inv)..
+	"list[current_player;main;0,3.9;8,4;]"..
 	"listring[context;main]"..
 	"listring[current_player;main]"
 end
 
+local function count_number_of_chests(pos)
+	local node = techage.get_node_lvm(pos)
+	local dir = techage.side_to_outdir("B", node.param2)
+	local pos1 = tubelib2.get_pos(pos, dir)
+	local cnt = 1
+	while cnt < 50 do
+		node = techage.get_node_lvm(pos1)
+		if node.name ~= "techage:ta4_chest_dummy" then
+			break
+		end
+		pos1 = tubelib2.get_pos(pos1, dir)
+		cnt = cnt + 1
+	end
+	M(pos):set_int("stacksize", STACK_SIZE * cnt)
+end
+
+local function search_chest_in_front(pos, node)
+	local dir = techage.side_to_outdir("F", node.param2)
+	local pos1 = tubelib2.get_pos(pos, dir)
+	local cnt = 1
+	while cnt < 50 do
+		node = techage.get_node_lvm(pos1)
+		if node.name ~= "techage:ta4_chest_dummy" then
+			break
+		end
+		pos1 = tubelib2.get_pos(pos1, dir)
+		cnt = cnt + 1
+	end
+	if node.name == "techage:ta4_chest" then
+		minetest.after(1, count_number_of_chests, pos1)
+		return true
+	end
+	return false
+end
+
+local function convert_to_chest_again(pos, node, player)
+	local dir = techage.side_to_outdir("B", node.param2)
+	local pos1 = tubelib2.get_pos(pos, dir)
+	local node1 = techage.get_node_lvm(pos1)
+	if node1.name == "techage:ta4_chest_dummy" then
+		node1.name = "techage:ta4_chest"
+		minetest.swap_node(pos1, node1)
+		M(pos1):set_int("disabled", 1)
+	end
+end	
+	
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
@@ -209,8 +259,10 @@ local function on_metadata_inventory_take(pos, listname, index, stack, player)
 end
 
 local function on_rightclick(pos, node, clicker)
-	M(pos):set_string("formspec", formspec(pos))
-	techage.set_activeformspec(pos, clicker)
+	if M(pos):get_int("disabled") ~= 1 then
+		M(pos):set_string("formspec", formspec(pos))
+		techage.set_activeformspec(pos, clicker)
+	end
 end
 
 -- take items from chest
@@ -276,6 +328,7 @@ end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	techage.remove_node(pos)
+	convert_to_chest_again(pos, oldnode, digger)
 end
 
 minetest.register_node("techage:ta4_chest", {
@@ -287,7 +340,7 @@ minetest.register_node("techage:ta4_chest", {
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_chest_back_ta4.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_chest_back_ta4.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_chest_back_ta4.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_chest_front_ta4.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_chest_front_ta4.png^techage_appl_warehouse.png",
 	},
 
 	on_construct = function(pos)
@@ -296,12 +349,18 @@ minetest.register_node("techage:ta4_chest", {
 	end,
 	
 	after_place_node = function(pos, placer)
-		local nvm = techage.get_nvm(pos)
-		gen_inv(nvm)
-		local number = techage.add_node(pos, "techage:ta4_chest")
-		M(pos):set_string("owner", placer:get_player_name())
-		M(pos):set_string("formspec", formspec(pos))
-		M(pos):set_string("infotext", DESCRIPTION.." "..number)
+		local node = minetest.get_node(pos)
+		if search_chest_in_front(pos, node) then
+			node.name = "techage:ta4_chest_dummy"
+			minetest.swap_node(pos, node)
+		else
+			local nvm = techage.get_nvm(pos)
+			gen_inv(nvm)
+			local number = techage.add_node(pos, "techage:ta4_chest")
+			M(pos):set_string("owner", placer:get_player_name())
+			M(pos):set_string("formspec", formspec(pos))
+			M(pos):set_string("infotext", DESCRIPTION.." "..number)
+		end
 	end,
 
 	techage_set_numbers = function(pos, numbers, player_name)
@@ -320,7 +379,28 @@ minetest.register_node("techage:ta4_chest", {
 	on_metadata_inventory_take = on_metadata_inventory_take,
 
 	paramtype2 = "facedir",
-	groups = {choppy=2, cracky=2, crumbly=2},
+	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory = 1},
+	is_ground_content = false,
+	sounds = default.node_sound_wood_defaults(),
+})
+
+minetest.register_node("techage:ta4_chest_dummy", {
+	description = DESCRIPTION,
+	tiles = {
+		-- up, down, right, left, back, front
+		"techage_filling_ta4.png^techage_frame_ta4_top.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_chest_back_ta4.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_chest_back_ta4.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_chest_back_ta4.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_chest_front_ta4.png^techage_appl_warehouse.png",
+	},
+
+	on_rightclick = function(pos, node, clicker)
+	end,
+	paramtype2 = "facedir",
+	diggable = false,
+	groups = {not_in_creative_inventory = 1},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
 })

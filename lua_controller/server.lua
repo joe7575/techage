@@ -149,11 +149,8 @@ local function write_value(nvm, key, item)
 		if nvm.data[key] then
 			nvm.size = nvm.size - calc_size(nvm.data[key])
 		end
-		print(type(item))
 		if type(item) == "table" then
-			print("item1", dump(item))
 			item = safer_lua.datastruct_to_table(item)
-			print("item1", dump(item))
 		end
 		nvm.size = nvm.size + calc_size(item)
 		nvm.data[key] = item
