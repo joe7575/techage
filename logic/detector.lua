@@ -225,7 +225,6 @@ techage.register_node({"techage:ta4_detector_off", "techage:ta4_detector_on"}, {
 	is_pusher = true,  -- is a pulling/pushing node
 	
 	on_recv_message = function(pos, src, topic, payload)
-		print(topic, payload)
 		if topic == "count" then
 			local nvm = techage.get_nvm(pos)
 			return nvm.counter or 0

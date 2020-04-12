@@ -14,7 +14,7 @@ Der Rotor muss in einer Höhe (Y-Koordinate) von 12 bis maximal 20 m platziert w
 
 Der Strom muss vom Rotor-Block durch den Mast nach unten geführt werden. Dazu zuerst die Stromleitung nach oben ziehen und das Stromkabel dann mit TA4 Säulenblöcke "verputzen". Unten kann eine Arbeitsplattform errichtet werden. Der Plan rechts zeigt den Aufbau im oberen Teil.
 
-Die Windkraftanlage liefert eine Leistung von 80 ku, aber dies nur 8 Stunden am Tag (siehe oben).
+Die Windkraftanlage liefert eine Leistung von 70 ku, aber dies nur 8 Stunden am Tag (siehe oben).
 
 [ta4_windturbine|plan]
 
@@ -70,7 +70,7 @@ Der Plan rechts zeigt 3 Einheiten mit je zwei Solarmodulen und einem Trägermodu
 
 Solarmodule liefern Gleichspannung, welcher nicht direkt in das Stromnetz eingespeist werden kann. Daher müssen zuerst die Solareinheiten über das rote Kabel mit dem Wechselrichter verbunden werden. Dieser besteht aus zwei Blöcken, einen für das rote Kabel zu den Solarmodulen (DC) und einen für das graue Stromkabel ins Stromnetz (AC).
 
-Der Kartenbereich, wo die Solaranlage steht, muss komplett geladen sein. Es empfiehlt sich daher, zuerst einen Forceload Block zu setzen, und dann innerhalb dieses Bereiches die Module zu platzieren.
+Der Kartenbereich, wo die Solaranlage steht, muss komplett geladen sein. Die gilt auch für die direkte Position über dem Solarmodul, denn dort wird regelmäßig die Lichtstärke gemessen. Es empfiehlt sich daher, zuerst einen Forceload Block zu setzen, und dann innerhalb dieses Bereiches die Module zu platzieren.
 
 [ta4_solarplant|plan]
 
@@ -340,7 +340,17 @@ Die Batterie muss in unmittelbarer Nähe zum Controller platziert werden, also a
 
 Das Display zeigt nach dem Platzieren seine Nummer an. Über diese Nummer kann das Display angesprochen werden. Auf dem Display können Texte ausgegeben werden, wobei das Display 5 Zeilen und damit 5 unterschiedliche Texte darstellen kann.
 
+Das Display wird maximal ein mal pro Sekunde aktualisiert.
+
 [ta4_display|image]
+
+### TA4 Display XL
+
+Das TA4 Display XL hat die doppelte Größ wie das TA4 Display.
+
+Das Display wird maximal alle zwei Sekunden aktualisiert.
+
+[ta4_displayXL|image]
 
 
 ### TA4 Signal Tower
@@ -513,6 +523,14 @@ Die TA4 8x2000 Kiste hat kein normales Inventar wir andere Kisten, sondern verf�
 Wird die Kiste mit einem Schieber gefüllt, so füllen sich alle Speicherplätze von links nach rechts. Sind alle 8 Speicher voll und können keine weiteren Items hinzugefügt werden, so werden diese Items im Ein-/Ausgabe-Inventar gespeichert. Die Kiste ist damit für den Schieberbetrieb vollständig gefüllt und weitere Items werden abgewiesen.
 
 Wird die Kiste über einen Schieber geleert, leeren sich auch die Speicher wieder von links nach rechts.
+
+**Reihenfunktion**
+
+Mehrere TA4 8x2000 Kisten können zu einer großen Kiste mit mehr Inhalt verbunden werden. Dazu müssen die Kisten in einer Reihe hintereinander gesetzt werden.
+
+Zuerst muss die Front-Kiste gesetzt werden, dann werden die Stapel-Kisten mit gleicher Blickrichtung dahinter gesetzt (alle Kisten haben die Front in Richtung Spieler). Bei 2 Kisten in Reihe erhöht sich die Größe auf 8x4000, usw.
+
+Die angereihten Kisten können nun nicht mehr entfernt werden. Um die Kisten wieder abbauen zu können, muss zuerst die Frontkiste entfernt werden. Danach können die Kisten der Reihe nach wieder entfernt werden. 
 
 Die Kiste kann nur von den Spielern genutzt werden, die an diesem Ort auch bauen können, also Protection Rechte besitzen. Es spielt dabei keine Rolle, wer die Kiste setzt. 
 

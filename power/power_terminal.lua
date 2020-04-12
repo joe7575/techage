@@ -8,7 +8,7 @@
 	GPL v3
 	See LICENSE.txt for more information
 	
-	TA3 Power Terminal
+	TA3 Power Terminal Old
 
 ]]--
 
@@ -155,7 +155,7 @@ local function formspec(pos, nvm)
 end
 
 minetest.register_node("techage:power_terminal", {
-	description = S("TA3 Power Terminal"),
+	description = S("TA3 Power Terminal Old"),
 	inventory_image = "techage_power_terminal_front.png",
 	tiles = {
 		"techage_power_terminal_top.png",
@@ -212,19 +212,9 @@ minetest.register_node("techage:power_terminal", {
 	on_rotate = screwdriver.disallow,
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {cracky = 2, level = 2},
+	groups = {cracky = 2, level = 2, not_in_creative_inventory = 1},
 	sounds = default.node_sound_metal_defaults(),
 })
 
 Cable:add_secondary_node_names({"techage:power_terminal"})
 
-minetest.register_alias("techage:ta3_power_terminal", "techage:power_terminal")
-
-minetest.register_craft({
-	output = "techage:power_terminal",
-	recipe = {
-		{"", "techage:usmium_nuggets", "default:steel_ingot"},
-		{"", "techage:basalt_glass_thin", "default:copper_ingot"},
-		{"", "techage:vacuum_tube", "default:steel_ingot"},
-	},
-})

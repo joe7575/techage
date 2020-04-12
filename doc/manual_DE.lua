@@ -144,6 +144,7 @@ techage.manual_DE.aTitel = {
   "3,TA4 ICTA Controller",
   "3,Batterie",
   "3,TA4 Display",
+  "3,TA4 Display XL",
   "3,TA4 Signal Tower",
   "2,TA4 Lua Controller",
   "3,TA4 Lua Server",
@@ -574,12 +575,12 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Hat bis zu vier Arme und erlaubt damit\\, Strom in bis zu 6 Richtungen weiter zu verteilen.\n"..
+  "Hat bis zu vier Arme und erlaubt damit\\, Strom in bis zu 6 Richtungen weiter zu verteilen. \n"..
   "Der Strommastkopf schützt Stromleitungen und Masten in einem Radius von 8 m.\n"..
   "\n"..
   "\n"..
   "\n",
-  "Dieser Strommastkopf hat nur 2 Arme und wird für die Überlandleitungen genutzt. \n"..
+  "Dieser Strommastkopf hat zwei feste Arme und wird für die Überlandleitungen genutzt. Er kann aber auch Strom nach unten und oben weiterleiten.\n"..
   "Der Strommastkopf schützt Stromleitungen und Masten in einem Radius von 8 m.\n"..
   "\n"..
   "\n"..
@@ -609,10 +610,11 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Das Strom-Terminal muss mit dem Stromnetz verbunden werden. Es zeigt Daten aus dem Stromnetz an wie:\n"..
+  "Das Strom-Terminal muss mit dem Stromnetz verbunden werden. Es zeigt Daten aus dem Stromnetz an.\n"..
   "\n"..
-  "  - Anzahl und Leistung der verschiedenen Generatoren und Akkus (aktuell/maximal)\n"..
-  "  - Anzahl der Netzwerk-Blöcke (max. 1000)\n"..
+  "In der oberen Hälfte werden nur die Daten eines ausgewählten Typs ausgegeben. Wird als Typ bspw. \"Kraftwerk\" gewählt\\, so werden nur die Daten von Öl- und Kohlekraftwerken gesammelt und ausgegeben. Links werden die Daten von Generatoren (Stromabgabe) und rechts die Daten von Energiespeichern (Stromaufnahme) ausgegeben. Beim Akkublocks bspw. wird beides ausgegeben\\, da der Akku Strom aufnehmen und abgeben kann.\n"..
+  "\n"..
+  "In der unteren Hälfte werden die Daten aller Generatoren und Speichersystemen des ganzen Stromnetzen zusammengefasst ausgegeben.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -983,7 +985,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Der Strom muss vom Rotor-Block durch den Mast nach unten geführt werden. Dazu zuerst die Stromleitung nach oben ziehen und das Stromkabel dann mit TA4 Säulenblöcke \"verputzen\". Unten kann eine Arbeitsplattform errichtet werden. Der Plan rechts zeigt den Aufbau im oberen Teil.\n"..
   "\n"..
-  "Die Windkraftanlage liefert eine Leistung von 80 ku\\, aber dies nur 8 Stunden am Tag (siehe oben).\n"..
+  "Die Windkraftanlage liefert eine Leistung von 70 ku\\, aber dies nur 8 Stunden am Tag (siehe oben).\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1024,7 +1026,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Solarmodule liefern Gleichspannung\\, welcher nicht direkt in das Stromnetz eingespeist werden kann. Daher müssen zuerst die Solareinheiten über das rote Kabel mit dem Wechselrichter verbunden werden. Dieser besteht aus zwei Blöcken\\, einen für das rote Kabel zu den Solarmodulen (DC) und einen für das graue Stromkabel ins Stromnetz (AC).\n"..
   "\n"..
-  "Der Kartenbereich\\, wo die Solaranlage steht\\, muss komplett geladen sein. Es empfiehlt sich daher\\, zuerst einen Forceload Block zu setzen\\, und dann innerhalb dieses Bereiches die Module zu platzieren.\n"..
+  "Der Kartenbereich\\, wo die Solaranlage steht\\, muss komplett geladen sein. Die gilt auch für die direkte Position über dem Solarmodul\\, denn dort wird regelmäßig die Lichtstärke gemessen. Es empfiehlt sich daher\\, zuerst einen Forceload Block zu setzen\\, und dann innerhalb dieses Bereiches die Module zu platzieren.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1216,6 +1218,14 @@ techage.manual_DE.aText = {
   "\n",
   "Das Display zeigt nach dem Platzieren seine Nummer an. Über diese Nummer kann das Display angesprochen werden. Auf dem Display können Texte ausgegeben werden\\, wobei das Display 5 Zeilen und damit 5 unterschiedliche Texte darstellen kann.\n"..
   "\n"..
+  "Das Display wird maximal ein mal pro Sekunde aktualisiert.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Das TA4 Display XL hat die doppelte Größ wie das TA4 Display.\n"..
+  "\n"..
+  "Das Display wird maximal alle zwei Sekunden aktualisiert.\n"..
+  "\n"..
   "\n"..
   "\n",
   "Der Signal Tower kann rot\\, grün und orange anzeigen. Eine Kombination der 3 Farben ist nicht möglich.\n"..
@@ -1333,6 +1343,14 @@ techage.manual_DE.aText = {
   "Wird die Kiste mit einem Schieber gefüllt\\, so füllen sich alle Speicherplätze von links nach rechts. Sind alle 8 Speicher voll und können keine weiteren Items hinzugefügt werden\\, so werden diese Items im Ein-/Ausgabe-Inventar gespeichert. Die Kiste ist damit für den Schieberbetrieb vollständig gefüllt und weitere Items werden abgewiesen.\n"..
   "\n"..
   "Wird die Kiste über einen Schieber geleert\\, leeren sich auch die Speicher wieder von links nach rechts.\n"..
+  "\n"..
+  "*Reihenfunktion*\n"..
+  "\n"..
+  "Mehrere TA4 8x2000 Kisten können zu einer großen Kiste mit mehr Inhalt verbunden werden. Dazu müssen die Kisten in einer Reihe hintereinander gesetzt werden.\n"..
+  "\n"..
+  "Zuerst muss die Front-Kiste gesetzt werden\\, dann werden die Stapel-Kisten mit gleicher Blickrichtung dahinter gesetzt (alle Kisten haben die Front in Richtung Spieler). Bei 2 Kisten in Reihe erhöht sich die Größe auf 8x4000\\, usw.\n"..
+  "\n"..
+  "Die angereihten Kisten können nun nicht mehr entfernt werden. Um die Kisten wieder abbauen zu können\\, muss zuerst die Frontkiste entfernt werden. Danach können die Kisten der Reihe nach wieder entfernt werden. \n"..
   "\n"..
   "Die Kiste kann nur von den Spielern genutzt werden\\, die an diesem Ort auch bauen können\\, also Protection Rechte besitzen. Es spielt dabei keine Rolle\\, wer die Kiste setzt. \n"..
   "\n"..
@@ -1510,6 +1528,7 @@ techage.manual_DE.aItemName = {
   "ta4_icta_controller",
   "ta4_battery",
   "ta4_display",
+  "ta4_displayXL",
   "ta4_signaltower",
   "ta4_lua_controller",
   "ta4_lua_server",
@@ -1673,6 +1692,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
   "",
   "",
   "",
