@@ -512,6 +512,8 @@ Die TA4 8x2000 Kiste hat kein normales Inventar wir andere Kisten, sondern verf�
 
 Wird die Kiste mit einem Schieber gefüllt, so füllen sich alle Speicherplätze von links nach rechts. Sind alle 8 Speicher voll und können keine weiteren Items hinzugefügt werden, so werden diese Items im Ein-/Ausgabe-Inventar gespeichert. Die Kiste ist damit für den Schieberbetrieb vollständig gefüllt und weitere Items werden abgewiesen.
 
+Dies bedeutet aber auch, dass keine Items von einem Schieber angenommen werden, wenn sich Items im Ein-/Ausgabe-Inventar befinden.
+
 Wird die Kiste über einen Schieber geleert, leeren sich auch die Speicher wieder von links nach rechts.
 
 Die Kiste kann nur von den Spielern genutzt werden, die an diesem Ort auch bauen können, also Protection Rechte besitzen. Es spielt dabei keine Rolle, wer die Kiste setzt. 
@@ -547,11 +549,3 @@ Die Verarbeitungsleistung beträgt 4 Items alle 4 s. Der Block benötigt 9 ku St
 
 [ta4_grinder|image]
 
-### TA4 Steinbrecher / Quarry
-
-Die Funktion entspricht weitgehend der von TA2. 
-
-Zusätzlich kann die Lochgröße zwischen 3x3 und 11x11 Blöcken eingestellt werden. 
-Die maximale Tiefe beträgt 80 Meter. Der Steinbrecher benötigt 14 ku Strom.
-
-[ta4_quarry|image]

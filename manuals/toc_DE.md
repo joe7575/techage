@@ -169,4 +169,3 @@
         - [TA4 Verteiler / Distributor](./manual_ta4_DE.md#ta4-verteiler--distributor)
         - [TA4 Kiessieb / Gravel Sieve](./manual_ta4_DE.md#ta4-kiessieb--gravel-sieve)
         - [TA4 Mühle / Grinder](./manual_ta4_DE.md#ta4-mühle--grinder)
-        - [TA4 Steinbrecher / Quarry](./manual_ta4_DE.md#ta4-steinbrecher--quarry)
