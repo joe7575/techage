@@ -50,13 +50,13 @@ local function stop_consumer(tbl, tlib_type)
 	end
 end
 
-local function get_generator_sum(tbl, tlib_type)
+local function get_generator_sum(tbl, tlib_type, cycle_time)
 	local sum = 0
 	for _,v in ipairs(tbl or {}) do
 		local nvm = techage.get_nvm(v.pos)
 		local def = nvm[tlib_type] -- power related network data
 		if def and def["gstate"] ~= STOPPED then
-			def["galive"] = (def["galive"] or 1) - 1
+			def["galive"] = (def["galive"] or 1) - cycle_time/2
 			if def["galive"] >= 0 then
 				sum = sum + (def.curr_power or v.nominal)
 			end
@@ -65,13 +65,13 @@ local function get_generator_sum(tbl, tlib_type)
 	return sum
 end
 
-local function get_consumer_sum(tbl, tlib_type)
+local function get_consumer_sum(tbl, tlib_type, cycle_time)
 	local sum = 0
 	for _,v in ipairs(tbl or {}) do
 		local nvm = techage.get_nvm(v.pos)
 		local def = nvm[tlib_type] -- power related network data
 		if def and def["cstate"] ~= STOPPED then
-			def["calive"] = (def["calive"] or 1) - 1
+			def["calive"] = (def["calive"] or 1) - cycle_time/2
 			if def["calive"] >= 0 then
 				sum = sum + v.nominal
 			end
@@ -123,13 +123,13 @@ local function set_taken_values(tbl, taken, tlib_type)
 	return taken
 end
 
-function techage.power.power_distribution(network, tlib_type, netID)
+function techage.power.power_distribution(network, tlib_type, netID, cycle_time)
 	-- calc maximum power values
-	network.available1 = get_generator_sum(network.gen1, tlib_type)
-	network.available2 = get_generator_sum(network.gen2, tlib_type)
-	network.needed1 = get_consumer_sum(network.con1, tlib_type)
-	network.needed2 = get_consumer_sum(network.con2, tlib_type)
-	--print(string.format("%X", netID), network.available1, network.available2, network.needed1, network.needed2, network.alive)
+	network.available1 = get_generator_sum(network.gen1, tlib_type, cycle_time)
+	network.available2 = get_generator_sum(network.gen2, tlib_type, cycle_time)
+	network.needed1 = get_consumer_sum(network.con1, tlib_type, cycle_time)
+	network.needed2 = get_consumer_sum(network.con2, tlib_type, cycle_time)
+	--print(string.format("%X", netID), network.available1, network.available2, network.needed1, network.needed2)
 	
 	-- store results
 	network.on = network.available1 + network.available2 >= network.needed1

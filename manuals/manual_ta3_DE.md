@@ -132,7 +132,7 @@ Dient zum Bauen von Strommasten. Ist durch den Strommast-Kopf vor Zerstörung ge
 
 
 ### TA Strommastkopf / Power Pole Top
-Hat bis zu vier Arme und erlaubt damit, Strom in bis zu 6 Richtungen weiter zu verteilen.
+Hat bis zu vier Arme und erlaubt damit, Strom in bis zu 6 Richtungen weiter zu verteilen. 
 Der Strommastkopf schützt Stromleitungen und Masten in einem Radius von 8 m.
 
 [ta3_powerpole4|image]
@@ -140,7 +140,7 @@ Der Strommastkopf schützt Stromleitungen und Masten in einem Radius von 8 m.
 
 ### TA Strommastkopf 2 / Power Pole Top 2
 
-Dieser Strommastkopf hat nur 2 Arme und wird für die Überlandleitungen genutzt. 
+Dieser Strommastkopf hat zwei feste Arme und wird für die Überlandleitungen genutzt. Er kann aber auch Strom nach unten und oben weiterleiten.
 Der Strommastkopf schützt Stromleitungen und Masten in einem Radius von 8 m.
 
 [ta3_powerpole2|image]
@@ -189,9 +189,11 @@ Bei Volllast kann ein Akku 400 s lang Strom aufnehmen und wenn er voll ist, auch
 
 ### TA3 Strom Terminal / Power Terminal
 
-Das Strom-Terminal muss mit dem Stromnetz verbunden werden. Es zeigt Daten aus dem Stromnetz an wie:
-- Anzahl und Leistung der verschiedenen Generatoren und Akkus (aktuell/maximal)
-- Anzahl der Netzwerk-Blöcke (max. 1000)
+Das Strom-Terminal muss mit dem Stromnetz verbunden werden. Es zeigt Daten aus dem Stromnetz an.
+
+In der oberen Hälfte werden nur die Daten eines ausgewählten Typs ausgegeben. Wird als Typ bspw. "Kraftwerk" gewählt, so werden nur die Daten von Öl- und Kohlekraftwerken gesammelt und ausgegeben. Links werden die Daten von Generatoren (Stromabgabe) und rechts die Daten von Energiespeichern (Stromaufnahme) ausgegeben. Beim Akkublocks bspw. wird beides ausgegeben, da der Akku Strom aufnehmen und abgeben kann.
+
+In der unteren Hälfte werden die Daten aller Generatoren und Speichersystemen des ganzen Stromnetzen zusammengefasst ausgegeben.
 
 [ta3_powerterminal|image]
 

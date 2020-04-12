@@ -143,6 +143,7 @@
         - [TA4 ICTA Controller](./manual_ta4_DE.md#ta4-icta-controller)
         - [Batterie](./manual_ta4_DE.md#batterie)
         - [TA4 Display](./manual_ta4_DE.md#ta4-display)
+        - [TA4 Display XL](./manual_ta4_DE.md#ta4-display-xl)
         - [TA4 Signal Tower](./manual_ta4_DE.md#ta4-signal-tower)
     - [TA4 Lua Controller](./manual_ta4_DE.md#ta4-lua-controller)
         - [TA4 Lua Server](./manual_ta4_DE.md#ta4-lua-server)

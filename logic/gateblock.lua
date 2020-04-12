@@ -59,7 +59,6 @@ for idx,pgn in ipairs(tPgns) do
 			end
 			if fields.exit then
 				meta:set_string("formspec", nil)
-				print(node.name)
 				local number = techage.add_node(pos, node.name)
 				meta:set_string("infotext", S("TechAge Gate Block").." "..number)
 			end

@@ -33,6 +33,16 @@ function techage.set_activeformspec(pos, player)
 	end
 end
 
+function techage.reset_activeformspec(pos, player)
+	local name = player and player:get_player_name()
+	if name then
+		if ActivePlayer[name] then
+			ActiveFormspecs[ActivePlayer[name]] = nil
+			ActivePlayer[name] = nil
+		end
+	end
+end
+
 minetest.register_on_leaveplayer(function(player)
 	local name = player:get_player_name()
 	if ActivePlayer[name] then
