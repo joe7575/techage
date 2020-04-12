@@ -119,6 +119,7 @@ local function register_liquid(source, flowing, itemname, inventory_image, name,
 
 				-------------------------------- Start Modification
 --				minetest.set_node(lpos, {name = source})
+--[[
 				if source == "default:lava_source" and lpos.y > 0 then
 				   minetest.chat_send_player(user:get_player_name(), S("[Bucket] Lava can only be placed below sea level!"))
 				   return
@@ -127,6 +128,8 @@ local function register_liquid(source, flowing, itemname, inventory_image, name,
 				    minetest.set_node(lpos, {name = source, param2 = 1})
 				end
 				-------------------------------- End Modification				
+]]--
+                minetest.set_node(lpos, {name = source, param2 = 1})
 				return ItemStack("bucket:bucket_empty")
 			end
 		})

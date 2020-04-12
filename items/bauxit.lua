@@ -51,7 +51,7 @@ minetest.register_ore({
 	clust_scarcity = 16 * 16 * 16,
 	clust_size     = 6,
 	y_max          = -50,
-	y_min          = -500,
+	y_min          = -10000,
 		noise_threshold = 0.0,
 		noise_params    = {
 			offset = 0.5,

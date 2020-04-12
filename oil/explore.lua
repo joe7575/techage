@@ -18,8 +18,8 @@ local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local S = techage.S
 
 local PROBABILITY = 100
-local OIL_MIN = 4096
-local OIL_MAX = 20000
+local OIL_MIN = 10000
+local OIL_MAX = 35000
 local DEPTH_MIN = 16
 local DEPTH_MAX = 25*16
 local DEPTH_STEP = 16
