@@ -132,7 +132,8 @@ else
 	dofile(MP.."/furnace/booster.lua")
 	dofile(MP.."/furnace/heater.lua")
 	dofile(MP.."/furnace/recipes.lua")
-	
+	dofile(MP.."/furnace/recipes_extend.lua")
+    
 	-- Tools
 	dofile(MP.."/tools/trowel.lua")
 	dofile(MP.."/tools/repairkit.lua")
@@ -256,8 +257,10 @@ else
 	dofile(MP.."/items/hydrogen.lua")
 	dofile(MP.."/items/electronic.lua")
 	dofile(MP.."/items/redstone.lua")
-	
+    
 	if techage.basalt_stone_enabled then
 		dofile(MP.."/items/basalt.lua")
 	end
+    
+    dofile(MP.."/items/register_mods.lua")
 end

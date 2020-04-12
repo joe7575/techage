@@ -74,30 +74,14 @@ local function inv_state(nvm)
 	return "loaded"
 end
 
-local function max_stacksize(item_name)
-	local ndef = minetest.registered_nodes[item_name] or minetest.registered_items[item_name] or minetest.registered_craftitems[item_name]
-	if ndef then 
-		return ndef.stack_max
-	end
-	return 0
-end
-
-local function get_stacksize(pos)
-	local size = M(pos):get_int("stacksize")
-	if size == 0 then 
-		return STACK_SIZE 
-	end
-	return size
-end
-
 -- Sort the items into the nvm inventory
 -- If the nvm inventry is full, the items are stored in the main inventory
 -- If the main inventory is also full, false is returned
-local function sort_in(pos, inv, nvm, stack)
+local function sort_in(inv, nvm, stack)
 	if inv:is_empty("main") then -- the main inv is used for the case the nvm-inventory is full
 		for _,item in ipairs(nvm.inventory or {}) do
 			if item.name and (item.name == "" or item.name == stack:get_name()) then
-				local count = math.min(stack:get_count(), get_stacksize(pos) - item.count)
+				local count = math.min(stack:get_count(), STACK_SIZE - item.count)
 				item.count = item.count + count
 				item.name = stack:get_name()
 				stack:set_count(stack:get_count() - count)
@@ -111,6 +95,15 @@ local function sort_in(pos, inv, nvm, stack)
 	end
 	return false
 end
+
+local function max_stack_size(item_name)
+	local ndef = minetest.registered_nodes[item_name] or minetest.registered_items[item_name] or minetest.registered_craftitems[item_name]
+	if ndef then 
+		return ndef.stack_max
+	end
+	return 0
+end
+
 
 local function get_item(inv, nvm, item_name, count)
 	local stack = {count = 0}
@@ -126,7 +119,7 @@ local function get_item(inv, nvm, item_name, count)
 	end
 	for _,item in ipairs(nvm.inventory or {}) do
 		if (item_name == nil and stack.name == nil) or item.name == item_name then
-			local num = math.min(item.count, count - stack.count, max_stacksize(item.name))
+			local num = math.min(item.count, count - stack.count, max_stack_size(item.name))
 			item.count = item.count - num
 			stack.count = stack.count + num
 			if item.name ~= "" then
@@ -170,16 +163,17 @@ end
 local function formspec(pos)
 	local nvm = techage.get_nvm(pos)
 	local inv = M(pos):get_inventory()
-	local size = get_stacksize(pos)
+	local size = M(pos):get_int("stacksize")
+	if size == 0 then size = STACK_SIZE end
 	return "size[8,7.6]"..
-		default.gui_bg..
-		default.gui_bg_img..
-		default.gui_slots..
-		"label[0,-0.2;"..S("Size")..": 8x"..size.."]"..
-		formspec_container(0, 0.4, nvm, inv)..
-		"list[current_player;main;0,3.9;8,4;]"..
-		"listring[context;main]"..
-		"listring[current_player;main]"
+	default.gui_bg..
+	default.gui_bg_img..
+	default.gui_slots..
+	"label[0,-0.2;"..S("Size")..": 8x"..size.."]"..
+	formspec_container(0, 0.4, nvm, inv)..
+	"list[current_player;main;0,3.9;8,4;]"..
+	"listring[context;main]"..
+	"listring[current_player;main]"
 end
 
 local function count_number_of_chests(pos)
@@ -279,7 +273,7 @@ local function move_from_nvm_to_inv(pos, idx)
 	local nvm_stack = get_stack(nvm, idx)
 	
 	if nvm_stack.count > 0 and inv_stack:get_count() == 0 then
-		local count = math.min(nvm_stack.count, max_stacksize(nvm_stack.name))
+		local count = math.min(nvm_stack.count, max_stack_size(nvm_stack.name))
 		nvm_stack.count = nvm_stack.count - count
 		inv:set_stack("main", idx, {name = nvm_stack.name, count = count})
 		if nvm_stack.count == 0 then
@@ -297,7 +291,7 @@ local function move_from_inv_to_nvm(pos, idx)
 
 	if inv_stack:get_count() > 0 then
 		if nvm_stack.count == 0 or nvm_stack.name == inv_stack:get_name() then
-			local count = math.min(inv_stack:get_count(), get_stacksize(pos) - nvm_stack.count)
+			local count = math.min(inv_stack:get_count(), STACK_SIZE - nvm_stack.count)
 			nvm_stack.count = nvm_stack.count + count
 			nvm_stack.name = inv_stack:get_name()
 			inv_stack:set_count(inv_stack:get_count() - count)
@@ -425,7 +419,7 @@ techage.register_node({"techage:ta4_chest"}, {
 	on_push_item = function(pos, in_dir, stack)
 		local nvm = techage.get_nvm(pos)
 		local inv =  M(pos):get_inventory()
-		local res = sort_in(pos, inv, nvm, stack)
+		local res = sort_in(inv, nvm, stack)
 		if techage.is_activeformspec(pos) then
 			M(pos):set_string("formspec", formspec(pos))
 		end
@@ -434,7 +428,7 @@ techage.register_node({"techage:ta4_chest"}, {
 	on_unpull_item = function(pos, in_dir, stack)
 		local nvm = techage.get_nvm(pos)
 		local inv =  M(pos):get_inventory()
-		local res = sort_in(pos, inv, nvm, stack)
+		local res = sort_in(inv, nvm, stack)
 		if techage.is_activeformspec(pos) then
 			M(pos):set_string("formspec", formspec(pos))
 		end

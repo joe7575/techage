@@ -31,9 +31,9 @@ local CAPACITY = 200
 local function formspec(self, pos, nvm)
 	local amount = (nvm.liquid and nvm.liquid.amount) or 0
 	local lqd_name = (nvm.liquid and nvm.liquid.name) or "techage:liquid"
-	local arrow = "image[3,1.5;1,1;techage_form_arrow_bg.png^[transformR270]"
+	local arrow = "image[3,1;1,1;techage_form_arrow_bg.png^[transformR270]"
 	if nvm.running then
-		arrow = "image[3,1.5;1,1;techage_form_arrow_fg.png^[transformR270]"
+		arrow = "image[3,1;1,1;techage_form_arrow_fg.png^[transformR270]"
 	end
 	if amount > 0 then
 		lqd_name = lqd_name.." "..amount
@@ -45,7 +45,7 @@ local function formspec(self, pos, nvm)
 		"box[0,-0.1;5.8,0.5;#c6e8ff]"..
 		"label[2.5,-0.1;"..minetest.colorize( "#000000", S("Electrolyzer")).."]"..
 		techage.power.formspec_label_bar(0.1, 0.8, S("Electricity"), PWR_NEEDED, nvm.taken)..
-		arrow..
+		"image[3,1.5;1,1;techage_form_arrow_fg.png^[transformR270]"..
 		"image_button[3,2.5;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 		"tooltip[3,2.5;1,1;"..self:get_state_tooltip(nvm).."]"..
 		techage.item_image(4.5,2, lqd_name)

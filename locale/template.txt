@@ -340,6 +340,7 @@ TechAge Door Block=
 TechAge Gate Block=
 TechAge Gravel=
 TechAge Info Tool (use @= read status info)=
+TechAge Pipe Wrench=
 TechAge Programmer (right @= read number, left @= write numbers)=
 TechAge Repair Kit=
 TechAge Signal Lamp=

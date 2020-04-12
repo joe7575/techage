@@ -342,6 +342,7 @@ TechAge Door Block=TechAge Türblock
 TechAge Gate Block=TechAge Torblock
 TechAge Gravel=TechAge Kies
 TechAge Info Tool (use @= read status info)=TechAge Info Werkzeug
+TechAge Pipe Wrench=Rohrzange
 TechAge Programmer (right @= read number, left @= write numbers)=TechAge Programmer (rechts @= lese Nummer, links @= schreibe Nummern)
 TechAge Repair Kit=TechAge Reparaturset
 TechAge Signal Lamp=TechAge Signallampe
