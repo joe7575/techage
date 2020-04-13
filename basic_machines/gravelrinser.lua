@@ -226,7 +226,7 @@ local tubing = {
 		local meta = minetest.get_meta(pos)
 		if meta:get_int("push_dir") == in_dir  or in_dir == 5 then
 			local inv = M(pos):get_inventory()
-			CRD(pos).State:start_if_standby(pos)
+			-- CRD(pos).State:start_if_standby(pos) -- would need power!
 			return techage.put_items(inv, "src", stack)
 		end
 	end,

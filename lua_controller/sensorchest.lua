@@ -141,7 +141,7 @@ minetest.register_node("techage:ta4_sensor_chest", {
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("text", "Text to be changed\nby command.")
 		meta:set_string("formspec", formspec1())
-		meta:set_string("infotext", S("TA4 Sensor Chest").." "..number)
+		meta:set_string("infotext", S("TA4 Sensor Chest").." "..number..": "..S("not connected"))
 	end,
 
 	on_receive_fields = function(pos, formname, fields, player)

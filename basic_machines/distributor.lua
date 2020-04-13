@@ -294,7 +294,7 @@ local function sequencing(pos, inv, crd, nvm)
 	local num_filters = 0 -- already processed
 	local num_pushed = 0
 	local push_dir = open_ports[1] or 1
-	local blocked = false
+	local blocked = true
 	
 	while num_pushed < crd.num_items and num_filters < 7 do
 		local stack = filter_items[offs] and ItemStack(filter_items[offs])
@@ -302,12 +302,11 @@ local function sequencing(pos, inv, crd, nvm)
 			if not inv:contains_item("src", stack) then
 				break
 			end
-			if not techage.push_items(pos, push_dir, stack, offs) then
-				blocked = true
-				break
+			if techage.push_items(pos, push_dir, stack, offs) then
+				num_pushed = num_pushed + 1
+				inv:remove_item("src", stack)
+				blocked = false
 			end
-			num_pushed = num_pushed + 1
-			inv:remove_item("src", stack)
 		end
 		offs = (offs % 6) + 1
 		num_filters = num_filters + 1
@@ -416,7 +415,7 @@ tiles.pas = {
 tiles.act = {
 	-- up, down, right, left, back, front
 	{
-		image = "techage_filling4_ta#.png^techage_appl_distri4.png^techage_frame4_ta#_top.png",
+		image = "techage_filling4_ta#.png^techage_appl_distri4.png^techage_frame4_ta#_top.png^techage_appl_color_top4.png",
 		backface_culling = false,
 		animation = {
 			type = "vertical_frames",
