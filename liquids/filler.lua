@@ -72,7 +72,7 @@ end
 local function node_timer(pos, elapsed)
 	local inv = M(pos):get_inventory()
 	if not inv:is_empty("src") then
-		local taken = techage.get_items(inv, "src", 1)
+		local taken = techage.get_items(pos, inv, "src", 1)
 		if liquid.is_container_empty(taken:get_name()) then
 			return liquid.fill_container({x = pos.x, y = pos.y+1, z = pos.z}, inv, taken:get_name())
 		else
@@ -132,7 +132,7 @@ minetest.register_node("techage:filler", {
 techage.register_node({"techage:filler"}, {
 	on_pull_item = function(pos, in_dir, num)
 		local inv = M(pos):get_inventory()
-		return techage.get_items(inv, "dst", num)
+		return techage.get_items(pos, inv, "dst", num)
 	end,
 	on_push_item = function(pos, in_dir, stack)
 		local inv = M(pos):get_inventory()

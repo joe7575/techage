@@ -185,7 +185,7 @@ techage.register_node({"techage:ta4_sensor_chest"}, {
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		return techage.get_items(inv, "main", num)
+		return techage.get_items(pos, inv, "main", num)
 	end,
 	on_push_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)

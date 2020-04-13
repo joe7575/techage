@@ -35,7 +35,7 @@ techage.register_node({"default:chest", "default:chest_open"}, {
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		return techage.get_items(inv, "main", num)
+		return techage.get_items(pos, inv, "main", num)
 	end,
 	on_push_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)
@@ -54,7 +54,7 @@ techage.register_node({"default:chest_locked", "default:chest_locked_open"}, {
 		local meta = minetest.get_meta(pos)
 		if is_owner(pos, meta) then
 			local inv = meta:get_inventory()
-			return techage.get_items(inv, "main", num)
+			return techage.get_items(pos, inv, "main", num)
 		end
 	end,
 	on_push_item = function(pos, in_dir, stack)
@@ -73,7 +73,7 @@ techage.register_node({"default:furnace", "default:furnace_active"}, {
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		return techage.get_items(inv, "dst", num)
+		return techage.get_items(pos, inv, "dst", num)
 	end,
 	on_push_item = function(pos, side, stack)
 		local meta = minetest.get_meta(pos)

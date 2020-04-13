@@ -23,6 +23,7 @@ else
 	-- Basis features
 	local MP = minetest.get_modpath("techage")
 	dofile(MP.."/basis/lib.lua")  -- helper functions
+	dofile(MP.."/basis/storage.lua")
 	dofile(MP.."/basis/gravel_lib.lua")  -- ore probability
 	dofile(MP.."/basis/node_states.lua") -- state model
 	dofile(MP.."/basis/tubes.lua")  -- tubes for item transport
@@ -38,7 +39,6 @@ else
 	dofile(MP.."/basis/networks.lua")
 	dofile(MP.."/basis/recipe_lib.lua")
 	dofile(MP.."/basis/formspec_update.lua")
-	dofile(MP.."/basis/storage.lua")
 
 	-- Main doc
 	dofile(MP.."/doc/manual_DE.lua")

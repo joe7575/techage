@@ -522,7 +522,7 @@ Die TA4 8x2000 Kiste hat kein normales Inventar wir andere Kisten, sondern verf�
 
 Wird die Kiste mit einem Schieber gefüllt, so füllen sich alle Speicherplätze von links nach rechts. Sind alle 8 Speicher voll und können keine weiteren Items hinzugefügt werden, so werden diese Items im Ein-/Ausgabe-Inventar gespeichert. Die Kiste ist damit für den Schieberbetrieb vollständig gefüllt und weitere Items werden abgewiesen.
 
-Wird die Kiste über einen Schieber geleert, leeren sich auch die Speicher wieder von links nach rechts.
+Wird die Kiste über einen Schieber geleert, werden von Speicherplätzen Items entnommen.
 
 **Reihenfunktion**
 
@@ -530,7 +530,12 @@ Mehrere TA4 8x2000 Kisten können zu einer großen Kiste mit mehr Inhalt verbund
 
 Zuerst muss die Front-Kiste gesetzt werden, dann werden die Stapel-Kisten mit gleicher Blickrichtung dahinter gesetzt (alle Kisten haben die Front in Richtung Spieler). Bei 2 Kisten in Reihe erhöht sich die Größe auf 8x4000, usw.
 
-Die angereihten Kisten können nun nicht mehr entfernt werden. Um die Kisten wieder abbauen zu können, muss zuerst die Frontkiste entfernt werden. Danach können die Kisten der Reihe nach wieder entfernt werden. 
+Die angereihten Kisten können nun nicht mehr entfernt werden. Um die Kisten wieder abbauen zu können, gibt es zwei Möglichkeiten:
+
+- Die Frontkiste leeren und entfernen. Damit wird die nächste Kiste entsperrt und kann entfernt werden.
+- Die Frontkiste soweit leeren dass alle Speicherplätzen maximal 2000 Items beinhalten. Damit wird die nächste Kiste entsperrt und kann entfernt werden.
+
+Die Kisten haben eine "Reihenfolge" Checkbox. Wird diese Checkbox aktiviert, werden die Speicherplätze durch einen Schieber nicht mehr vollständig entleert. Das letzte Item verbleibt als Vorbelegung in dem Speicherplatz. Damit ergibt sich eine feste Zuordnung von Items zu Speicherplätzen.
 
 Die Kiste kann nur von den Spielern genutzt werden, die an diesem Ort auch bauen können, also Protection Rechte besitzen. Es spielt dabei keine Rolle, wer die Kiste setzt. 
 

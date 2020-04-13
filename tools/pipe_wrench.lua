@@ -22,8 +22,8 @@ local function remove_pipe(itemstack, user, pointed_thing)
 end -- remove_pipe
 
 
-minetest.register_tool("techage:ta3_pipe_wrench", {
-	description = S("TA3 Pipe Wrench"),
+minetest.register_tool("techage:ta3_drill_pipe_wrench", {
+	description = S("TA3 Drill Pipe Wrench"),
 	inventory_image = "techage_pipe_wrench.png",
 	wield_image = "techage_pipe_wrench.png",
 	groups = {cracky=1},
@@ -32,9 +32,9 @@ minetest.register_tool("techage:ta3_pipe_wrench", {
 })
 
 minetest.register_craft({
-	output = "techage:ta3_pipe_wrench",
+	output = "techage:ta3_drill_pipe_wrench",
 	recipe = {
-		{"hyperloop:hypersteel_ingot", "hyperloop:hypersteel_ingot", ""},
+		{"default:diamond", "default:diamond", ""},
 		{"dye:red", "default:steel_ingot", "dye:red"},
 		{"default:steel_ingot", "", "default:steel_ingot"},
 	},
