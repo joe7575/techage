@@ -16,11 +16,25 @@ local NUM_ROWS = 5
 local RADIUS = 6
 local Param2ToFacedir = {[0] = 0, 0, 3, 1, 2, 0}
  
+local function lcdlib_bugfix(text_tbl) 
+	if text_tbl and next(text_tbl) then
+		local t = {}
+		for _,txt in ipairs(text_tbl) do
+			if txt == "" then
+				t[#t+1] = " "
+			else
+				t[#t+1] = txt
+			end
+		end
+		return table.concat(t, "\n")
+	end
+	return ""
+end
+ 
 local function display_update(pos, objref) 
 	pos = vector.round(pos)
 	local nvm = techage.get_nvm(pos)
-	nvm.text = nvm.text or {""}
-	local text = table.concat(nvm.text, "\n")
+	local text = lcdlib_bugfix(nvm.text) 
 	local texture = lcdlib.make_multiline_texture(
 		"default", text,
 		70, 70, NUM_ROWS, "top", "#000")
@@ -31,8 +45,7 @@ end
 local function display_updateXL(pos, objref) 
 	pos = vector.round(pos)
 	local nvm = techage.get_nvm(pos)
-	nvm.text = nvm.text or {""}
-	local text = table.concat(nvm.text, "\n")
+	local text = lcdlib_bugfix(nvm.text) 
 	local texture = lcdlib.make_multiline_texture(
 		"default", text,
 		126, 70, NUM_ROWS, "top", "#000")
@@ -175,7 +188,7 @@ minetest.register_craft({
 local function add_line(pos, payload, cycle_time)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
-	nvm.text = nvm.text or {""}
+	nvm.text = nvm.text or {}
 	mem.ticks = mem.ticks or 0
 	local str = tostring(payload) or "oops"
 	
@@ -192,7 +205,7 @@ end
 local function write_row(pos, payload, cycle_time)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
-	nvm.text = nvm.text or {""}
+	nvm.text = nvm.text or {}
 	mem.ticks = mem.ticks or 0
 	local str = tostring(payload.str) or "oops"
 	local row = tonumber(payload.row) or 1
@@ -209,8 +222,8 @@ local function write_row(pos, payload, cycle_time)
 		return 
 	end	
 	
-	while #nvm.text <= row do
-		table.insert(nvm.text, " ")
+	while #nvm.text < row do
+		table.insert(nvm.text, "")
 	end
 	nvm.text[row] = str
 end
@@ -224,7 +237,7 @@ local function clear_screen(pos, cycle_time)
 		mem.ticks = cycle_time
 	end
 
-	nvm.text = {""}
+	nvm.text = {}
 end
 
 techage.register_node({"techage:ta4_display"}, {

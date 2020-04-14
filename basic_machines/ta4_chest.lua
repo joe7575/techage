@@ -27,6 +27,18 @@ local function gen_inv(nvm)
 	end
 end
 
+local function repair_inv(nvm)
+	nvm.inventory = nvm.inventory or {}
+	for i = 1,8 do
+		local item = nvm.inventory[i]
+		if not item or type(item) ~= "table" 
+		or not item.name  or type(item.name)  ~= "string" 
+		or not item.count or type(item.count) ~= "number" then
+			nvm.inventory[i] = {name = "", count = 0}
+		end
+	end
+end
+
 local function get_stack(nvm, idx)
 	nvm.inventory = nvm.inventory or {}
 	if nvm.inventory[idx] then
@@ -91,24 +103,26 @@ local function get_stacksize(pos)
 end
 
 -- Sort the items into the nvm inventory
--- If the nvm inventry is full, the items are stored in the main inventory
--- If the main inventory is also full, false is returned
-local function sort_in(pos, inv, nvm, stack)
-	if inv:is_empty("main") then -- the main inv is used for the case the nvm-inventory is full
-		for _,item in ipairs(nvm.inventory or {}) do
-			if item.name and (item.name == "" or item.name == stack:get_name()) then
-				local count = math.min(stack:get_count(), get_stacksize(pos) - item.count)
-				item.count = item.count + count
-				item.name = stack:get_name()
-				stack:set_count(stack:get_count() - count)
-				if stack:get_count() == 0 then
-					return true
-				end
+local function sort_in(pos, nvm, stack)
+	local old_counts = {}
+	local orig_count = stack:get_count()
+	for idx,item in ipairs(nvm.inventory or {}) do
+		if item.name and (item.name == "" or item.name == stack:get_name()) then
+			local count = math.min(stack:get_count(), get_stacksize(pos) - item.count)
+			old_counts[idx] = item.count -- store old value
+			item.count = item.count + count
+			item.name = stack:get_name()
+			stack:set_count(stack:get_count() - count)
+			if stack:get_count() == 0 then
+				return true
 			end
 		end
-		inv:add_item("main", stack)
-		return true
 	end
+	-- restore old values
+	for idx,cnt in pairs(old_counts) do
+		nvm.inventory[idx].count = cnt
+	end
+	stack:set_count(orig_count)
 	return false
 end
 
@@ -124,20 +138,9 @@ local function move_items_to_stack(item, stack, num)
 	return stack
 end	
 
-local function get_item(pos, inv, nvm, item_name, count)
+local function get_item(pos, nvm, item_name, count)
 	local stack = {count = 0}
 	nvm.inventory = nvm.inventory or {}
-	
-	if not inv:is_empty("main") then
-		if item_name then
-			local taken = inv:remove_item("main", {name = item_name, count = count})
-			if taken:get_count() > 0 then
-				return taken
-			end
-		else
-			return techage.get_items(pos, inv, "main", count)
-		end
-	end
 	
 	if item_name then
 		-- Take specified items from the chest
@@ -327,6 +330,8 @@ end
 
 local function on_rightclick(pos, node, clicker)
 	if M(pos):get_int("disabled") ~= 1 then
+		local nvm = techage.get_nvm(pos)
+		repair_inv(nvm)
 		M(pos):set_string("formspec", formspec(pos))
 		techage.set_activeformspec(pos, clicker)
 	end
@@ -482,8 +487,7 @@ minetest.register_node("techage:ta4_chest_dummy", {
 techage.register_node({"techage:ta4_chest"}, {
 	on_pull_item = function(pos, in_dir, num, item_name)
 		local nvm = techage.get_nvm(pos)
-		local inv =  M(pos):get_inventory()
-		local res = get_item(pos, inv, nvm, item_name, num)
+		local res = get_item(pos, nvm, item_name, num)
 		if techage.is_activeformspec(pos) then
 			M(pos):set_string("formspec", formspec(pos))
 		end
@@ -491,8 +495,7 @@ techage.register_node({"techage:ta4_chest"}, {
 	end,
 	on_push_item = function(pos, in_dir, stack)
 		local nvm = techage.get_nvm(pos)
-		local inv =  M(pos):get_inventory()
-		local res = sort_in(pos, inv, nvm, stack)
+		local res = sort_in(pos, nvm, stack)
 		if techage.is_activeformspec(pos) then
 			M(pos):set_string("formspec", formspec(pos))
 		end
@@ -500,8 +503,7 @@ techage.register_node({"techage:ta4_chest"}, {
 	end,
 	on_unpull_item = function(pos, in_dir, stack)
 		local nvm = techage.get_nvm(pos)
-		local inv =  M(pos):get_inventory()
-		local res = sort_in(pos, inv, nvm, stack)
+		local res = sort_in(pos, nvm, stack)
 		if techage.is_activeformspec(pos) then
 			M(pos):set_string("formspec", formspec(pos))
 		end
