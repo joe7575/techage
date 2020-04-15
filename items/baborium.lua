@@ -40,7 +40,7 @@ minetest.register_ore({
 	clust_num_ores = 5,
 	clust_size     = 3,
 	y_min          = -340,
-	y_max          = -250,
+	y_max          = -12000,
 })
 
 minetest.register_craft({

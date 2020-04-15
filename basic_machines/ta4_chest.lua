@@ -86,23 +86,8 @@ local function inv_state(nvm)
 	return "loaded"
 end
 
-local function max_stacksize(item_name)
-	local ndef = minetest.registered_nodes[item_name] or minetest.registered_items[item_name] or minetest.registered_craftitems[item_name]
-	if ndef then 
-		return ndef.stack_max
-	end
-	return 0
-end
-
-local function get_stacksize(pos)
-	local size = M(pos):get_int("stacksize")
-	if size == 0 then 
-		return STACK_SIZE 
-	end
-	return size
-end
-
 -- Sort the items into the nvm inventory
+
 local function sort_in(pos, nvm, stack)
 	local old_counts = {}
 	local orig_count = stack:get_count()
@@ -125,6 +110,7 @@ local function sort_in(pos, nvm, stack)
 	stack:set_count(orig_count)
 	return false
 end
+
 
 local function move_items_to_stack(item, stack, num)
 	item.count = item.count - num
@@ -176,6 +162,7 @@ local function get_item(pos, nvm, item_name, count)
 					mem.startpos = idx
 					return ItemStack(stack)
 				end
+
 			end
 			mem.startpos = idx
 		end
@@ -210,6 +197,7 @@ end
 local function formspec(pos)
 	local nvm = techage.get_nvm(pos)
 	local inv = M(pos):get_inventory()
+
 	local size = get_stacksize(pos)
 	local assignment = M(pos):get_int("assignment") == 1 and "true" or "false"
 	return "size[8,8]"..
@@ -225,6 +213,7 @@ local function formspec(pos)
 		"list[current_player;main;0,4.3;8,4;]"..
 		"listring[context;main]"..
 		"listring[current_player;main]"
+
 end
 
 local function count_number_of_chests(pos)
@@ -345,7 +334,7 @@ local function move_from_nvm_to_inv(pos, idx)
 	local nvm_stack = get_stack(nvm, idx)
 	
 	if nvm_stack.count > 0 and inv_stack:get_count() == 0 then
-		local count = math.min(nvm_stack.count, max_stacksize(nvm_stack.name))
+		local count = math.min(nvm_stack.count, max_stack_size(nvm_stack.name))
 		nvm_stack.count = nvm_stack.count - count
 		inv:set_stack("main", idx, {name = nvm_stack.name, count = count})
 		if nvm_stack.count == 0 then
@@ -363,7 +352,7 @@ local function move_from_inv_to_nvm(pos, idx)
 
 	if inv_stack:get_count() > 0 then
 		if nvm_stack.count == 0 or nvm_stack.name == inv_stack:get_name() then
-			local count = math.min(inv_stack:get_count(), get_stacksize(pos) - nvm_stack.count)
+			local count = math.min(inv_stack:get_count(), STACK_SIZE - nvm_stack.count)
 			nvm_stack.count = nvm_stack.count + count
 			nvm_stack.name = inv_stack:get_name()
 			inv_stack:set_count(inv_stack:get_count() - count)
@@ -496,6 +485,7 @@ techage.register_node({"techage:ta4_chest"}, {
 	on_push_item = function(pos, in_dir, stack)
 		local nvm = techage.get_nvm(pos)
 		local res = sort_in(pos, nvm, stack)
+
 		if techage.is_activeformspec(pos) then
 			M(pos):set_string("formspec", formspec(pos))
 		end
@@ -503,7 +493,9 @@ techage.register_node({"techage:ta4_chest"}, {
 	end,
 	on_unpull_item = function(pos, in_dir, stack)
 		local nvm = techage.get_nvm(pos)
+
 		local res = sort_in(pos, nvm, stack)
+
 		if techage.is_activeformspec(pos) then
 			M(pos):set_string("formspec", formspec(pos))
 		end
