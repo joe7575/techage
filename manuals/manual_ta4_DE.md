@@ -506,7 +506,7 @@ Der TA4 Schieber besitzt zwei zusätzliche Kommandos für den Lua Controller:
   Beispiel:  `$send_cmnd(PUSHER, "config", "default:dirt")`
 - `pull` dient zum Absetzen eines Auftrags an den Schieber:
   Beispiel: `$send_cmnd(PUSHER, "pull", "default:dirt 8")`
-  Als Nummer sind Werte von 1 bis 12 zulässig. Danach geht der Schieber wieder in den `stopped` Mode.
+  Als Nummer sind Werte von 1 bis 12 zulässig. Danach geht der Schieber wieder in den `stopped` Mode und sendet ein "off" Kommando zurück an den Sender des "pull" Kommandos.
 
 [ta4_pusher|image]
 
