@@ -27,6 +27,7 @@ end
 
 local function store_door_data(pos)
 	local nvm = techage.get_nvm(pos)
+	nvm.door_state = false
 	local numbers = M(pos):get_string("numbers")
 	nvm.door_blocks = {}
 	for _,num in ipairs(string.split(numbers, " ")) do
@@ -40,19 +41,22 @@ end
 
 local function swap_door_nodes(pos, open)
 	local nvm = techage.get_nvm(pos)
-	for _,item in ipairs(nvm.door_blocks or {}) do
-		if item.pos and item.name and item.param2 then
-			local node = techage.get_node_lvm(item.pos)
-			if open then
-				if node.name == item.name then
-					minetest.remove_node(item.pos)
+	if nvm.door_state ~= open then
+		nvm.door_state = open
+		for _,item in ipairs(nvm.door_blocks or {}) do
+			if item.pos and item.name and item.param2 then
+				local node = techage.get_node_lvm(item.pos)
+				if open then
+					if node.name == item.name then
+						minetest.remove_node(item.pos)
+					else
+						item.name = nil
+					end
+				elseif node.name == "air" then
+					minetest.add_node(item.pos, {name = item.name, param2 = item.param2})			
 				else
-					item.name = nil
+					minetest.add_item(pos, item.pos, {name = item.name})
 				end
-			elseif node.name == "air" then
-				minetest.add_node(item.pos, {name = item.name, param2 = item.param2})			
-			else
-				minetest.add_item(pos, item.pos, {name = item.name})
 			end
 		end
 	end

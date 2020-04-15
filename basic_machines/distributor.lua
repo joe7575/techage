@@ -42,6 +42,7 @@ local function filter_settings(pos)
 	local ItemFilter = {}  -- {<item:name> = {dir,...}]
 	local OpenPorts = {}  -- {dir, ...}
 	local FilterItems = {} -- {<item:name>, <item:name>, ...}  for sequencing only
+	local FilterItemIdx = {} -- {<item:name> = <slot-idx>, <item:name> = <slot-idx>, ...}  for sequencing only
 	-- collect all filter settings
 	for idx,slot in ipairs(SlotColors) do
 		if filter[idx] == true then
@@ -50,7 +51,7 @@ local function filter_settings(pos)
 			if inv:is_empty(slot) then
 				table.insert(OpenPorts, out_dir)
 			else
-				for _,stack in ipairs(inv:get_list(slot)) do
+				for idx2,stack in ipairs(inv:get_list(slot)) do
 					local name = stack:get_name()
 					if name ~= "" then
 						if not ItemFilter[name] then
@@ -58,6 +59,7 @@ local function filter_settings(pos)
 						end
 						table.insert(ItemFilter[name], out_dir)
 						table.insert(FilterItems, name)
+						FilterItemIdx[name] = idx2
 					end
 				end
 			end
@@ -68,6 +70,7 @@ local function filter_settings(pos)
 		ItemFilter = ItemFilter, 
 		OpenPorts = OpenPorts,
 		FilterItems = FilterItems,
+		FilterItemIdx = FilterItemIdx,
 	}
 end
 
@@ -89,8 +92,19 @@ local function get_filter_settings(pos)
 	return FilterCache[hash].ItemFilter, FilterCache[hash].OpenPorts, FilterCache[hash].FilterItems
 end
 
+local function get_slot_index(pos, name)
+	local hash = minetest.hash_node_position(pos)
+	if FilterCache[hash] == nil then
+		filter_settings(pos)
+	end
+	return FilterCache[hash].FilterItemIdx[name]
+end
+
 local function order_checkbox(pos, filter)
 	local cnt = 0
+	
+	if CRD(pos).stage == 2 then return "" end
+	
 	for _,val in ipairs(filter) do
 		if val then cnt = cnt + 1 end
 	end
@@ -280,7 +294,7 @@ local function sequencing(pos, inv, crd, nvm)
 	local num_filters = 0 -- already processed
 	local num_pushed = 0
 	local push_dir = open_ports[1] or 1
-	local blocked = false
+	local blocked = true
 	
 	while num_pushed < crd.num_items and num_filters < 7 do
 		local stack = filter_items[offs] and ItemStack(filter_items[offs])
@@ -288,12 +302,11 @@ local function sequencing(pos, inv, crd, nvm)
 			if not inv:contains_item("src", stack) then
 				break
 			end
-			if not techage.push_items(pos, push_dir, stack) then
-				blocked = true
-				break
+			if techage.push_items(pos, push_dir, stack, offs) then
+				num_pushed = num_pushed + 1
+				inv:remove_item("src", stack)
+				blocked = false
 			end
-			num_pushed = num_pushed + 1
-			inv:remove_item("src", stack)
 		end
 		offs = (offs % 6) + 1
 		num_filters = num_filters + 1
@@ -342,7 +355,7 @@ local function on_receive_fields(pos, formname, fields, player)
 		filter[3] = fields.filter3 == "true"
 	elseif fields.filter4 ~= nil then
 		filter[4] = fields.filter4 == "true"
-	elseif fields.order ~= nil then
+	elseif fields.order ~= nil and CRD(pos).stage > 2 then
 		meta:set_int("order", fields.order == "true" and 1 or 0)
 		local nvm = techage.get_nvm(pos)
 		nvm.last_index = 1 -- start from the beginning
@@ -402,7 +415,7 @@ tiles.pas = {
 tiles.act = {
 	-- up, down, right, left, back, front
 	{
-		image = "techage_filling4_ta#.png^techage_appl_distri4.png^techage_frame4_ta#_top.png",
+		image = "techage_filling4_ta#.png^techage_appl_distri4.png^techage_frame4_ta#_top.png^techage_appl_color_top4.png",
 		backface_culling = false,
 		animation = {
 			type = "vertical_frames",
@@ -418,19 +431,37 @@ tiles.act = {
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_blue.png",
 }
 
+local function put_items(pos, item)
+	local order = M(pos):get_int("order") == 1
+	local inv = M(pos):get_inventory()
+	if order then
+		local name = item:get_name()
+		local idx = get_slot_index(pos, name)
+		if idx then
+			local stack = inv:get_stack("src", idx)
+			if stack:item_fits(item) then
+				stack:add_item(item)
+				inv:set_stack("src", idx, stack)
+				return true
+			end
+		end
+		return false
+	else
+		return techage.put_items(inv, "src", item)
+	end
+end
+
 local tubing = {
 	on_pull_item = function(pos, in_dir, num)
 		local inv = M(pos):get_inventory()
-		return techage.get_items(inv, "src", num)
+		return techage.get_items(pos, inv, "src", num)
 	end,
 	on_push_item = function(pos, in_dir, stack)
-		local inv = M(pos):get_inventory()
 		CRD(pos).State:start_if_standby(pos)
-		return techage.put_items(inv, "src", stack)
+		return put_items(pos, stack)
 	end,
 	on_unpull_item = function(pos, in_dir, stack)
-		local inv = M(pos):get_inventory()
-		return techage.put_items(inv, "src", stack)
+		return put_items(pos, stack)
 	end,
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "info" then

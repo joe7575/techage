@@ -27,6 +27,18 @@ local function gen_inv(nvm)
 	end
 end
 
+local function repair_inv(nvm)
+	nvm.inventory = nvm.inventory or {}
+	for i = 1,8 do
+		local item = nvm.inventory[i]
+		if not item or type(item) ~= "table" 
+		or not item.name  or type(item.name)  ~= "string" 
+		or not item.count or type(item.count) ~= "number" then
+			nvm.inventory[i] = {name = "", count = 0}
+		end
+	end
+end
+
 local function get_stack(nvm, idx)
 	nvm.inventory = nvm.inventory or {}
 	if nvm.inventory[idx] then
@@ -91,53 +103,81 @@ local function get_stacksize(pos)
 end
 
 -- Sort the items into the nvm inventory
--- If the nvm inventry is full, the items are stored in the main inventory
--- If the main inventory is also full, false is returned
-local function sort_in(pos, inv, nvm, stack)
-	if inv:is_empty("main") then -- the main inv is used for the case the nvm-inventory is full
-		for _,item in ipairs(nvm.inventory or {}) do
-			if item.name and (item.name == "" or item.name == stack:get_name()) then
-				local count = math.min(stack:get_count(), get_stacksize(pos) - item.count)
-				item.count = item.count + count
-				item.name = stack:get_name()
-				stack:set_count(stack:get_count() - count)
-				if stack:get_count() == 0 then
-					return true
-				end
+local function sort_in(pos, nvm, stack)
+	local old_counts = {}
+	local orig_count = stack:get_count()
+	for idx,item in ipairs(nvm.inventory or {}) do
+		if item.name and (item.name == "" or item.name == stack:get_name()) then
+			local count = math.min(stack:get_count(), get_stacksize(pos) - item.count)
+			old_counts[idx] = item.count -- store old value
+			item.count = item.count + count
+			item.name = stack:get_name()
+			stack:set_count(stack:get_count() - count)
+			if stack:get_count() == 0 then
+				return true
 			end
 		end
-		inv:add_item("main", stack)
-		return true
 	end
+	-- restore old values
+	for idx,cnt in pairs(old_counts) do
+		nvm.inventory[idx].count = cnt
+	end
+	stack:set_count(orig_count)
 	return false
 end
 
-local function get_item(inv, nvm, item_name, count)
-	local stack = {count = 0}
-	if not inv:is_empty("main") then
-		if item_name then
-			local taken = inv:remove_item("main", {name = item_name, count = count})
-			if taken:get_count() > 0 then
-				return taken
-			end
-		else
-			return techage.get_items(inv, "main", count)
-		end
+local function move_items_to_stack(item, stack, num)
+	item.count = item.count - num
+	stack.count = stack.count + num
+	if stack.count > 0 then
+		stack.name = item.name
 	end
-	for _,item in ipairs(nvm.inventory or {}) do
-		if (item_name == nil and stack.name == nil) or item.name == item_name then
-			local num = math.min(item.count, count - stack.count, max_stacksize(item.name))
-			item.count = item.count - num
-			stack.count = stack.count + num
-			if item.name ~= "" then
-				stack.name = item.name
+	if item.count == 0 then
+		item.name = "" -- empty
+	end
+	return stack
+end	
+
+local function get_item(pos, nvm, item_name, count)
+	local stack = {count = 0}
+	nvm.inventory = nvm.inventory or {}
+	
+	if item_name then
+		-- Take specified items from the chest
+		for _,item in ipairs(nvm.inventory) do
+			if item.name == item_name then
+				local num = math.min(item.count, count - stack.count, max_stacksize(item.name))
+				if M(pos):get_int("assignment") == 1 and num == item.count then
+					-- never take the last item
+					num = num - 1
+				end
+				stack = move_items_to_stack(item, stack, num)
+				if stack.count == count then
+					return ItemStack(stack)
+				end
 			end
-			if item.count == 0 then
-				item.name = "" -- empty
+		end
+	else
+		-- Take any items. The position within the inventory
+		-- is incremented each time so that different item stacks will be considered.
+		local mem = techage.get_mem(pos)
+		mem.startpos = mem.startpos or 1
+		for idx = mem.startpos, mem.startpos + 8 do
+			idx = (idx % 8) + 1
+			local item = nvm.inventory[idx]
+			if item.name ~= "" and (stack.name == nil or stack.name == item.name) then
+				local num = math.min(item.count, count - stack.count, max_stacksize(item.name))
+				if M(pos):get_int("assignment") == 1 and num == item.count then
+					-- never take the last item
+					num = num - 1
+				end
+				stack = move_items_to_stack(item, stack, num)
+				if stack.count == count then
+					mem.startpos = idx
+					return ItemStack(stack)
+				end
 			end
-			if stack.count == count then
-				return ItemStack(stack)
-			end
+			mem.startpos = idx
 		end
 	end
 	if stack.count > 0 then
@@ -171,13 +211,18 @@ local function formspec(pos)
 	local nvm = techage.get_nvm(pos)
 	local inv = M(pos):get_inventory()
 	local size = get_stacksize(pos)
-	return "size[8,7.6]"..
+	local assignment = M(pos):get_int("assignment") == 1 and "true" or "false"
+	return "size[8,8]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
-		"label[0,-0.2;"..S("Size")..": 8x"..size.."]"..
-		formspec_container(0, 0.4, nvm, inv)..
-		"list[current_player;main;0,3.9;8,4;]"..
+		formspec_container(0, 0, nvm, inv)..
+		"button[1,3;2,1;unlock;"..S("Unlock").."]"..
+		"tooltip[1,3;2,1;"..S("Unlock connected chest\nif all slots are below 2000")..";#0C3D32;#FFFFFF]"..
+		"label[4,3;"..S("Size")..": 8x"..size.."]"..
+		"checkbox[4,3.3;assignment;"..S("keep assignment")..";"..assignment.."]"..
+		"tooltip[4,3.5;2,0.6;"..S("Never completely empty the slots\nwith the pusher to keep the items assignment")..";#0C3D32;#FFFFFF]"..
+		"list[current_player;main;0,4.3;8,4;]"..
 		"listring[context;main]"..
 		"listring[current_player;main]"
 end
@@ -221,13 +266,32 @@ local function convert_to_chest_again(pos, node, player)
 	local dir = techage.side_to_outdir("B", node.param2)
 	local pos1 = tubelib2.get_pos(pos, dir)
 	local node1 = techage.get_node_lvm(pos1)
+	if minetest.is_protected(pos1, player:get_player_name()) then
+		return
+	end
 	if node1.name == "techage:ta4_chest_dummy" then
 		node1.name = "techage:ta4_chest"
 		minetest.swap_node(pos1, node1)
-		M(pos1):set_int("disabled", 1)
+		--M(pos1):set_int("disabled", 1)
+		local nvm = techage.get_nvm(pos1)
+		gen_inv(nvm)
+		local number = techage.add_node(pos1, "techage:ta4_chest")
+		M(pos1):set_string("owner", player:get_player_name())
+		M(pos1):set_string("formspec", formspec(pos1))
+		M(pos1):set_string("infotext", DESCRIPTION.." "..number)
 	end
 end	
 	
+local function unlock_chests(pos, player)
+	local nvm = techage.get_nvm(pos)
+	for idx = 1,8 do
+		if get_count(nvm, idx) > STACK_SIZE then return end
+	end
+	local node = techage.get_node_lvm(pos)
+	convert_to_chest_again(pos, node, player)
+	M(pos):set_int("stacksize", STACK_SIZE)
+end
+
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
@@ -266,6 +330,8 @@ end
 
 local function on_rightclick(pos, node, clicker)
 	if M(pos):get_int("disabled") ~= 1 then
+		local nvm = techage.get_nvm(pos)
+		repair_inv(nvm)
 		M(pos):set_string("formspec", formspec(pos))
 		techage.set_activeformspec(pos, clicker)
 	end
@@ -319,6 +385,12 @@ local function on_receive_fields(pos, formname, fields, player)
 			move_from_inv_to_nvm(pos, i)
 			break
 		end
+	end
+	if fields.unlock then
+		unlock_chests(pos, player)
+	end
+	if fields.assignment then
+		M(pos):set_int("assignment", fields.assignment == "true" and 1 or 0)
 	end
 	M(pos):set_string("formspec", formspec(pos))
 end
@@ -385,7 +457,7 @@ minetest.register_node("techage:ta4_chest", {
 	on_metadata_inventory_take = on_metadata_inventory_take,
 
 	paramtype2 = "facedir",
-	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory = 1},
+	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -415,8 +487,7 @@ minetest.register_node("techage:ta4_chest_dummy", {
 techage.register_node({"techage:ta4_chest"}, {
 	on_pull_item = function(pos, in_dir, num, item_name)
 		local nvm = techage.get_nvm(pos)
-		local inv =  M(pos):get_inventory()
-		local res = get_item(inv, nvm, item_name, num)
+		local res = get_item(pos, nvm, item_name, num)
 		if techage.is_activeformspec(pos) then
 			M(pos):set_string("formspec", formspec(pos))
 		end
@@ -424,8 +495,7 @@ techage.register_node({"techage:ta4_chest"}, {
 	end,
 	on_push_item = function(pos, in_dir, stack)
 		local nvm = techage.get_nvm(pos)
-		local inv =  M(pos):get_inventory()
-		local res = sort_in(pos, inv, nvm, stack)
+		local res = sort_in(pos, nvm, stack)
 		if techage.is_activeformspec(pos) then
 			M(pos):set_string("formspec", formspec(pos))
 		end
@@ -433,8 +503,7 @@ techage.register_node({"techage:ta4_chest"}, {
 	end,
 	on_unpull_item = function(pos, in_dir, stack)
 		local nvm = techage.get_nvm(pos)
-		local inv =  M(pos):get_inventory()
-		local res = sort_in(pos, inv, nvm, stack)
+		local res = sort_in(pos, nvm, stack)
 		if techage.is_activeformspec(pos) then
 			M(pos):set_string("formspec", formspec(pos))
 		end

@@ -338,15 +338,15 @@ local tubing = {
 		local meta = minetest.get_meta(pos)
 		if meta:get_int("pull_dir") == in_dir then
 			local inv = M(pos):get_inventory()
-			return techage.get_items(inv, "dst", num)
+			return techage.get_items(pos, inv, "dst", num)
 		end
 	end,
-	on_push_item = function(pos, in_dir, stack)
+	on_push_item = function(pos, in_dir, stack, idx)
 		local meta = minetest.get_meta(pos)
-		if meta:get_int("push_dir") == in_dir  or in_dir == 5 then
+		if meta:get_int("push_dir") == in_dir or in_dir == 5 then
 			local inv = M(pos):get_inventory()
-			CRD(pos).State:start_if_standby(pos)
-			return techage.put_items(inv, "src", stack)
+			--CRD(pos).State:start_if_standby(pos) -- would need power!
+			return techage.put_items(inv, "src", stack, idx)
 		end
 	end,
 	on_unpull_item = function(pos, in_dir, stack)

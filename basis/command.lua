@@ -406,10 +406,10 @@ function techage.pull_items(pos, out_dir, num, item_name)
 	end
 end
 
-function techage.push_items(pos, out_dir, stack)
+function techage.push_items(pos, out_dir, stack, idx)
 	local npos, in_dir, name = get_dest_node(pos, out_dir)
 	if npos and NodeDef[name] and NodeDef[name].on_push_item then
-		return NodeDef[name].on_push_item(npos, in_dir, stack)	
+		return NodeDef[name].on_push_item(npos, in_dir, stack, idx)	
 	elseif is_air_like(name) or check_cart(npos) then
 		minetest.add_item(npos, stack)
 		return true 
@@ -461,20 +461,22 @@ end
 -------------------------------------------------------------------
 
 -- Get the given number of items from the inv. The position within the list
--- is random so that different item stacks will be considered.
+-- is incremented each time so that different item stacks will be considered.
 -- Returns nil if ItemList is empty.
-function techage.get_items(inv, listname, num)
+function techage.get_items(pos, inv, listname, num)
 	if inv:is_empty(listname) then
 		return nil
 	end
 	local size = inv:get_size(listname)
-	local startpos = math.random(1, size)
-	for idx = startpos, startpos+size do
+	local mem = techage.get_mem(pos)
+	mem.ta_startpos = mem.ta_startpos or 1
+	for idx = mem.ta_startpos, mem.ta_startpos+size do
 		idx = (idx % size) + 1
 		local items = inv:get_stack(listname, idx)
 		if items:get_count() > 0 then
 			local taken = items:take_item(num)
 			inv:set_stack(listname, idx, items)
+			mem.ta_startpos = idx
 			return taken
 		end
 	end
@@ -483,10 +485,19 @@ end
 
 -- Put the given stack into the given ItemList.
 -- Function returns false if ItemList is full.
-function techage.put_items(inv, listname, stack)
-	if inv and inv.room_for_item and inv:room_for_item(listname, stack) then
-		inv:add_item(listname, stack)
-		return true
+function techage.put_items(inv, listname, item, idx)
+	if idx and inv and idx <= inv:get_size(listname) then
+		local stack = inv:get_stack(listname, idx)
+		if stack:item_fits(item) then
+			stack:add_item(item)
+			inv:set_stack(listname, idx, stack)
+			return true
+		end
+	else
+		if inv and inv:room_for_item(listname, item) then
+			inv:add_item(listname, item)
+			return true
+		end
 	end
 	return false
 end

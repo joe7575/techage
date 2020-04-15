@@ -208,7 +208,7 @@ techage.register_node({"techage:chest_ta2", "techage:chest_ta3", "techage:chest_
 				return taken
 			end
 		else
-			return techage.get_items(inv, "main", num)
+			return techage.get_items(pos, inv, "main", num)
 		end
 	end,
 	on_push_item = function(pos, in_dir, stack)

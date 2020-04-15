@@ -162,7 +162,7 @@ minetest.register_node("techage:oiltower5", {
 })
 
 minetest.register_node("techage:oil_drillbit", {
-	description = S("TA3 Drill Bit"),
+	description = S("TA3 Drill Pipe"),
 	drawtype = "plantlike",
 	tiles = {"techage_oil_drillbit.png"},
 	inventory_image = "techage_oil_drillbit_inv.png",
@@ -175,7 +175,7 @@ minetest.register_node("techage:oil_drillbit", {
 })
 
 minetest.register_node("techage:oil_drillbit2", {
-	description = S("TA3 Drill Bit"),
+	description = S("TA3 Drill Pipe"),
 	drawtype = "plantlike",
 	tiles = {"techage_oil_drillbit.png"},
 	inventory_image = "techage_oil_drillbit_inv.png",

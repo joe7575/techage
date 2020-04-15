@@ -29,7 +29,7 @@ local S = techage.S
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 
-local STANDBY_TICKS = 3
+local STANDBY_TICKS = 2
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 2
 
@@ -101,6 +101,8 @@ local function pushing(pos, crd, meta, nvm)
 			nvm.item_count = nil
 			nvm.item_name = nil
 			crd.State:stop(pos, nvm)
+			local number = M(pos):get_string("node_number")
+			techage.send_single(number, nvm.rmt_num, "off")
 		else
 			crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 		end
@@ -218,6 +220,7 @@ local tubing = {
 			local nvm = techage.get_nvm(pos)
 			CRD(pos).State:stop(pos, nvm)
 			nvm.item_count = math.min(config_item(pos, payload), 12)
+			nvm.rmt_num = src
 			CRD(pos).State:start(pos, nvm)
 			return true
 		elseif topic == "config" then

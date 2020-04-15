@@ -141,7 +141,7 @@ minetest.register_node("techage:ta4_sensor_chest", {
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("text", "Text to be changed\nby command.")
 		meta:set_string("formspec", formspec1())
-		meta:set_string("infotext", S("TA4 Sensor Chest").." "..number)
+		meta:set_string("infotext", S("TA4 Sensor Chest").." "..number..": "..S("not connected"))
 	end,
 
 	on_receive_fields = function(pos, formname, fields, player)
@@ -185,7 +185,7 @@ techage.register_node({"techage:ta4_sensor_chest"}, {
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		return techage.get_items(inv, "main", num)
+		return techage.get_items(pos, inv, "main", num)
 	end,
 	on_push_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)

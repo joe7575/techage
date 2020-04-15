@@ -16,13 +16,25 @@ local NUM_ROWS = 5
 local RADIUS = 6
 local Param2ToFacedir = {[0] = 0, 0, 3, 1, 2, 0}
  
-lcdlib.register_display_entity("techage:display_entity")
-lcdlib.register_display_entity("techage:display_entityXL")
-
+local function lcdlib_bugfix(text_tbl) 
+	if text_tbl and next(text_tbl) then
+		local t = {}
+		for _,txt in ipairs(text_tbl) do
+			if txt == "" then
+				t[#t+1] = " "
+			else
+				t[#t+1] = txt
+			end
+		end
+		return table.concat(t, "\n")
+	end
+	return ""
+end
+ 
 local function display_update(pos, objref) 
-	local meta = minetest.get_meta(pos)
-	local text = meta:get_string("text") or ""
-	text = string.gsub(text, "|", " \n")
+	pos = vector.round(pos)
+	local nvm = techage.get_nvm(pos)
+	local text = lcdlib_bugfix(nvm.text) 
 	local texture = lcdlib.make_multiline_texture(
 		"default", text,
 		70, 70, NUM_ROWS, "top", "#000")
@@ -31,9 +43,9 @@ local function display_update(pos, objref)
 end
 
 local function display_updateXL(pos, objref) 
-	local meta = minetest.get_meta(pos)
-	local text = meta:get_string("text") or ""
-	text = string.gsub(text, "|", " \n")
+	pos = vector.round(pos)
+	local nvm = techage.get_nvm(pos)
+	local text = lcdlib_bugfix(nvm.text) 
 	local texture = lcdlib.make_multiline_texture(
 		"default", text,
 		126, 70, NUM_ROWS, "top", "#000")
@@ -42,19 +54,25 @@ local function display_updateXL(pos, objref)
 end
 
 local function on_timer(pos)
-	local node = minetest.get_node(pos) 
-	-- check if display is loaded and a player in front of the display
-	if node.name == "techage:ta4_display" or node.name == "techage:ta4_displayXL" then 
-		local dir = minetest.facedir_to_dir(Param2ToFacedir[node.param2 % 6])
-		local pos2 = vector.add(pos, vector.multiply(dir, RADIUS))
-		for _, obj in pairs(minetest.get_objects_inside_radius(pos2, RADIUS)) do
-			if obj:is_player() then
-				lcdlib.update_entities(pos)
-				break
+	local mem = techage.get_mem(pos)
+	mem.ticks = mem.ticks or 0
+	
+	if mem.ticks > 0 then
+		local node = minetest.get_node(pos) 
+		-- check if display is loaded and a player in front of the display
+		if node.name == "techage:ta4_display" or node.name == "techage:ta4_displayXL" then 
+			local dir = minetest.facedir_to_dir(Param2ToFacedir[node.param2 % 6])
+			local pos2 = vector.add(pos, vector.multiply(dir, RADIUS))
+			for _, obj in pairs(minetest.get_objects_inside_radius(pos2, RADIUS)) do
+				if obj:is_player() then
+					lcdlib.update_entities(pos)
+					mem.ticks = mem.ticks - 1
+					break
+				end
 			end
 		end
 	end
-	return false
+	return true
 end
 
 local lcd_box = {
@@ -83,9 +101,10 @@ minetest.register_node("techage:ta4_display", {
 		local number = techage.add_node(pos, "techage:ta4_display")
 		local meta = minetest.get_meta(pos)
 		meta:set_string("number", number)
-		meta:set_string("text", "My\nTechage\nTA4\nDisplay\nNo: "..number)
-		meta:set_int("startscreen", 1)
+		local nvm = techage.get_nvm(pos)
+		nvm.text = {"My", "Techage","TA4", "Display", "No: "..number}
 		lcdlib.update_entities(pos)
+		minetest.get_node_timer(pos):start(1)
 	end,
 
 	after_dig_node = function(pos)
@@ -128,9 +147,10 @@ minetest.register_node("techage:ta4_displayXL", {
 		local number = techage.add_node(pos, "techage:ta4_displayXL")
 		local meta = minetest.get_meta(pos)
 		meta:set_string("number", number)
-		meta:set_string("text", "My\nTechage\nTA4\nDisplay\nNo: "..number)
-		meta:set_int("startscreen", 1)
+		local nvm = techage.get_nvm(pos)
+		nvm.text = {"My", "Techage","TA4", "Display", "No: "..number}
 		lcdlib.update_entities(pos)
+		minetest.get_node_timer(pos):start(2)
 	end,
 
 	after_dig_node = function(pos)
@@ -165,97 +185,85 @@ minetest.register_craft({
 	},
 })
 
-local function add_line(meta, payload)
-	local text = meta:get_string("text")
-	local rows
-	if meta:get_int("startscreen") == 1 then
-		rows = {}
-		meta:set_int("startscreen", 0)
-	else
-		rows = string.split(text, "|")
+local function add_line(pos, payload, cycle_time)
+	local nvm = techage.get_nvm(pos)
+	local mem = techage.get_mem(pos)
+	nvm.text = nvm.text or {}
+	mem.ticks = mem.ticks or 0
+	local str = tostring(payload) or "oops"
+	
+	if mem.ticks == 0 then
+		mem.ticks = cycle_time
 	end
-	while #rows >= NUM_ROWS do
-		table.remove(rows, 1)
+	
+	while #nvm.text >= NUM_ROWS do
+		table.remove(nvm.text, 1)
 	end
-	table.insert(rows, payload)
-	text = table.concat(rows, "|")
-	meta:set_string("text", text)
+	table.insert(nvm.text, payload)
 end
 
-local function write_row(meta, payload)
-	local text = meta:get_string("text")
-	if type(payload) == "table" then
-		local row = tonumber(payload.row) or 0
-		if row > NUM_ROWS then row = NUM_ROWS end
-		local str = payload.str or "oops"
-		if row == 0 then
-			meta:set_string("infotext", str)
-			return 
-		end
-		local rows
-		if meta:get_int("startscreen") == 1 then
-			rows = {}
-			meta:set_int("startscreen", 0)
-		else
-			rows = string.split(text, "|")
-		end
-		if #rows < NUM_ROWS then
-			for i = #rows, NUM_ROWS do
-				table.insert(rows, " ")
-			end
-		end
-		rows[row] = str
-		text = table.concat(rows, "|")
-		meta:set_string("text", text)
+local function write_row(pos, payload, cycle_time)
+	local nvm = techage.get_nvm(pos)
+	local mem = techage.get_mem(pos)
+	nvm.text = nvm.text or {}
+	mem.ticks = mem.ticks or 0
+	local str = tostring(payload.str) or "oops"
+	local row = tonumber(payload.row) or 1
+	
+	if mem.ticks == 0 then
+		mem.ticks = cycle_time
 	end
+	
+	if row < 0 then row = 1 end
+	if row > NUM_ROWS then row = NUM_ROWS end
+	
+	if row == 0 then
+		meta:set_string("infotext", str)
+		return 
+	end	
+	
+	while #nvm.text < row do
+		table.insert(nvm.text, "")
+	end
+	nvm.text[row] = str
+end
+
+local function clear_screen(pos, cycle_time)
+	local nvm = techage.get_nvm(pos)
+	local mem = techage.get_mem(pos)
+	mem.ticks = mem.ticks or 0
+	
+	if mem.ticks == 0 then
+		mem.ticks = cycle_time
+	end
+
+	nvm.text = {}
 end
 
 techage.register_node({"techage:ta4_display"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		local timer = minetest.get_node_timer(pos)
 		if topic == "add" then  -- add one line and scroll if necessary
-			local meta = minetest.get_meta(pos)
-			add_line(meta, payload)
-			if not timer:is_started() then
-				timer:start(1)
-			end
+			add_line(pos, payload, 1)
 		elseif topic == "set" then  -- overwrite the given row
-			local meta = minetest.get_meta(pos)
-			write_row(meta, payload)
-			if not timer:is_started() then
-				timer:start(1)
-			end
+			write_row(pos, payload, 1)
 		elseif topic == "clear" then  -- clear the screen
-			local meta = minetest.get_meta(pos)
-			meta:set_string("text", "")
-			if not timer:is_started() then
-				timer:start(1)
-			end
+			clear_screen(pos, 1)
 		end
 	end,
 })		
 
 techage.register_node({"techage:ta4_displayXL"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		local timer = minetest.get_node_timer(pos)
 		if topic == "add" then  -- add one line and scroll if necessary
-			local meta = minetest.get_meta(pos)
-			add_line(meta, payload)
-			if not timer:is_started() then
-				timer:start(2)
-			end
+			add_line(pos, payload, 2)
 		elseif topic == "set" then  -- overwrite the given row
-			local meta = minetest.get_meta(pos)
-			write_row(meta, payload)
-			if not timer:is_started() then
-				timer:start(2)
-			end
+			write_row(pos, payload, 2)
 		elseif topic == "clear" then  -- clear the screen
-			local meta = minetest.get_meta(pos)
-			meta:set_string("text", "")
-			if not timer:is_started() then
-				timer:start(2)
-			end
+			clear_screen(pos, 2)
 		end
 	end,
 })		
+
+lcdlib.register_display_entity("techage:display_entity")
+lcdlib.register_display_entity("techage:display_entityXL")
+

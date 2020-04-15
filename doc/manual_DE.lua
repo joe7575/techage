@@ -76,7 +76,7 @@ techage.manual_DE.aTitel = {
   "3,TA3 Ölexplorer / Oil Explorer",
   "3,TA3 Ölbohrkiste / Oil Drill Box",
   "3,TA3 Ölpumpe / Oil Pumpjack",
-  "3,TA3 Bohrgestänge / Drill Bit",
+  "3,TA3 Bohrgestänge / Drill Pipe",
   "3,Öltank / Oil Tank",
   "2,Öl-Transport",
   "2,Öl-Verarbeitung",
@@ -111,6 +111,7 @@ techage.manual_DE.aTitel = {
   "3,Techage Info Tool",
   "3,TechAge Programmer",
   "3,TechAge Kelle / Trowel",
+  "3,TA3 Bohrgestängezange / TA3 Drill Pipe Wrench",
   "1,TA4: Zukunft",
   "2,Windkraftanlage",
   "3,TA4 Windkraftanlage / Wind Turbine",
@@ -387,7 +388,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der Verteiler ist in der Lage\\, die Items aus seinem Inventar sortieren in bis zu vier Richtungen weiter zu transportieren. Dazu muss der Verteiler entsprechend konfiguriert werden. \n"..
+  "Der Verteiler ist in der Lage\\, die Items aus seinem Inventar sortiert in bis zu vier Richtungen weiter zu transportieren. Dazu muss der Verteiler entsprechend konfiguriert werden. \n"..
   "\n"..
   "Der Verteiler besitzt dazu ein Menü mit 4 Filter mit unterschiedlichen Farben\\, entsprechend den 4 Ausgängen. Soll ein Ausgang genutzt werden\\, so muss der entsprechende Filter über die \"on\" Checkbox aktiviert werden. Alle Items\\, die für diesen Filter konfiguriert sind\\, werden über den zugeordneten Ausgang ausgegeben. Wird ein Filter aktiviert\\, ohne das Items konfiguriert werden\\, so sprechen wir hier von einem \"nicht-konfigurierten\"\\, offenen Ausgang.\n"..
   "\n"..
@@ -400,8 +401,6 @@ techage.manual_DE.aText = {
   "Im ersten Fall werden immer alle Items weitergeleitet und der Verteiler läuft nicht voll. Im zweiten Fall werden Items zurückgehalten und der Verteiler kann voll laufen und in der Folge blockieren.\n"..
   "\n"..
   "Einstellbar ist die Betriebsart über die \">>|\" Checkbox (an => Betriebsart 2)\n"..
-  "\n"..
-  "Wird nur ein Ausgang aktiviert und mit mehreren Items konfiguriert\\, so kann die 1:1 Checkbox angeklickt werden. In diesem Falle werden Items streng gemäß der Filtereinstellung weitergegeben. Fehlt ein Item in der Reihenfolge\\, blockiert der Verteiler. Damit lassen sich andere Maschinen wie bspw. der Autocrafter exakt gemäß dem eingestellten Rezept bestücken.\n"..
   "\n"..
   "Der Verarbeitungsleistung eines TA2 Verteilers beträgt 4 Items alle 2 s\\, wobei der Verteiler dabei versucht\\, die 4 Items auf die offenen Ausgänge zu verteilen.\n"..
   "\n"..
@@ -717,7 +716,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Das Bohrgestänge wird für die Bohrung benötigt. Es werden so viele Bohrgestänge Items benötigt wie als Tiefe für das Ölfeld angegeben wurde. Das Bohrgestänge ist nach der Bohrung nutzlos\\, kann aber auch nicht abgebaut werden und verbleibt im Boden.\n"..
+  "Das Bohrgestänge wird für die Bohrung benötigt. Es werden so viele Bohrgestänge Items benötigt wie als Tiefe für das Ölfeld angegeben wurde. Das Bohrgestänge ist nach der Bohrung nutzlos\\, kann aber auch nicht abgebaut werden und verbleibt im Boden. Es gibt aber ein Werkzeug\\, um die Bohrgestänge Blöcke wieder entfernen zu können (-> Werkzeuge -> TA3 Bohrgestängezange).\n"..
   "\n"..
   "\n"..
   "\n",
@@ -917,7 +916,15 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Die Funktion entspricht der von TA2.\n"..
+  "Die Funktion des TA3 Verteilers entspricht der von TA2 mit einer weiteren Betriebart.\n"..
+  "\n"..
+  "*1:1 Bestückungsfunktion*\n"..
+  "\n"..
+  "Wird nur ein Ausgang aktiviert und mit mehreren Items konfiguriert\\, so kann die 1:1 Checkbox angeklickt werden. In diesem Falle werden nur Items gemäß der Filtereinstellung angenommen und in der Reihenfolge\\, wie die Items im Filter eingetragen sind\\, in definierte Positionen im Ziel-Inventar abgelegt. Damit kann weder das Inventar des Verteilers noch des Zielblocks volllaufen. Dies funktioniert für Autocrafter\\, Industrieofen und Elektronikfabrik.\n"..
+  "Mit dieser Betriebsart lassen sich andere Maschinen wie bspw. der Autocrafter exakt gemäß dem eingestellten Rezept bestücken. \n"..
+  "\n"..
+  "Dies funktioniert nur nur\\, wenn die Inventare des Verteilers und des Zielblocks zuvor frei sind.\n"..
+  "\n"..
   "Die Verarbeitungsleistung beträgt 12 Items alle 4 s.\n"..
   "\n"..
   "\n"..
@@ -973,6 +980,8 @@ techage.manual_DE.aText = {
   "Die Kelle dient zum Verputzen von Stromkabel. Siehe dazu \"TA Stromkabel\".\n"..
   "\n"..
   "\n"..
+  "\n",
+  "Mit diesem Werkzeug lassen sich die Bohrgestängezange Blöcke wieder entfernen\\, wenn dort bspw. ein Tunnel durch soll.\n"..
   "\n",
   "Regenerative Energiequellen wie Wind\\, Sonne und Biokraft helfen dir\\, das Ölzeitalter zu verlassen. Mit modernen Technologien und intelligenten Maschinen machst du dich auf in die Zukunft.\n"..
   "\n"..
@@ -1330,7 +1339,7 @@ techage.manual_DE.aText = {
   "Der TA4 Schieber besitzt zwei zusätzliche Kommandos für den Lua Controller:\n"..
   "\n"..
   "  - 'config' dient zur Konfiguration des Schiebers\\, analog zum manuellen Konfiguration über das Menü.\nBeispiel:  '$send_cmnd(PUSHER\\, \"config\"\\, \"default:dirt\")'\n"..
-  "  - 'pull' dient zum Absetzen eines Auftrags an den Schieber:\nBeispiel: '$send_cmnd(PUSHER\\, \"pull\"\\, \"default:dirt 8\")'\nAls Nummer sind Werte von 1 bis 12 zulässig. Danach geht der Schieber wieder in den 'stopped' Mode.\n"..
+  "  - 'pull' dient zum Absetzen eines Auftrags an den Schieber:\nBeispiel: '$send_cmnd(PUSHER\\, \"pull\"\\, \"default:dirt 8\")'\nAls Nummer sind Werte von 1 bis 12 zulässig. Danach geht der Schieber wieder in den 'stopped' Mode und sendet ein \"off\" Kommando zurück an den Sender des \"pull\" Kommandos.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1340,9 +1349,7 @@ techage.manual_DE.aText = {
   "\n",
   "Die TA4 8x2000 Kiste hat kein normales Inventar wir andere Kisten\\, sondern verfügt über 8 Speicher\\, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2\\, TA3 oder TA4) gefüllt bzw. geleert werden.\n"..
   "\n"..
-  "Wird die Kiste mit einem Schieber gefüllt\\, so füllen sich alle Speicherplätze von links nach rechts. Sind alle 8 Speicher voll und können keine weiteren Items hinzugefügt werden\\, so werden diese Items im Ein-/Ausgabe-Inventar gespeichert. Die Kiste ist damit für den Schieberbetrieb vollständig gefüllt und weitere Items werden abgewiesen.\n"..
-  "\n"..
-  "Wird die Kiste über einen Schieber geleert\\, leeren sich auch die Speicher wieder von links nach rechts.\n"..
+  "Wird die Kiste mit einem Schieber gefüllt\\, so füllen sich alle Speicherplätze von links nach rechts. Sind alle 8 Speicher voll und können keine weiteren Items hinzugefügt werden\\, so werden weitere Items werden abgewiesen.\n"..
   "\n"..
   "*Reihenfunktion*\n"..
   "\n"..
@@ -1350,7 +1357,12 @@ techage.manual_DE.aText = {
   "\n"..
   "Zuerst muss die Front-Kiste gesetzt werden\\, dann werden die Stapel-Kisten mit gleicher Blickrichtung dahinter gesetzt (alle Kisten haben die Front in Richtung Spieler). Bei 2 Kisten in Reihe erhöht sich die Größe auf 8x4000\\, usw.\n"..
   "\n"..
-  "Die angereihten Kisten können nun nicht mehr entfernt werden. Um die Kisten wieder abbauen zu können\\, muss zuerst die Frontkiste entfernt werden. Danach können die Kisten der Reihe nach wieder entfernt werden. \n"..
+  "Die angereihten Kisten können nun nicht mehr entfernt werden. Um die Kisten wieder abbauen zu können\\, gibt es zwei Möglichkeiten:\n"..
+  "\n"..
+  "  - Die Frontkiste leeren und entfernen. Damit wird die nächste Kiste entsperrt und kann entfernt werden.\n"..
+  "  - Die Frontkiste soweit leeren dass alle Speicherplätzen maximal 2000 Items beinhalten. Damit wird die nächste Kiste entsperrt und kann entfernt werden.\n"..
+  "\n"..
+  "Die Kisten haben eine \"Reihenfolge\" Checkbox. Wird diese Checkbox aktiviert\\, werden die Speicherplätze durch einen Schieber nicht mehr vollständig entleert. Das letzte Item verbleibt als Vorbelegung in dem Speicherplatz. Damit ergibt sich eine feste Zuordnung von Items zu Speicherplätzen.\n"..
   "\n"..
   "Die Kiste kann nur von den Spielern genutzt werden\\, die an diesem Ort auch bauen können\\, also Protection Rechte besitzen. Es spielt dabei keine Rolle\\, wer die Kiste setzt. \n"..
   "\n"..
@@ -1495,6 +1507,7 @@ techage.manual_DE.aItemName = {
   "ta3_end_wrench",
   "ta3_programmer",
   "ta3_trowel",
+  "",
   "techage_ta4",
   "",
   "ta4_windturbine",
@@ -1639,6 +1652,7 @@ techage.manual_DE.aPlanTable = {
   "ta3_loading",
   "",
   "ta3_distiller",
+  "",
   "",
   "",
   "",

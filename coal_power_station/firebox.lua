@@ -187,7 +187,7 @@ techage.register_node({"techage:coalfirebox"}, {
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		return techage.get_items(inv, "fuel", num)
+		return techage.get_items(pos, inv, "fuel", num)
 	end,
 	on_push_item = function(pos, in_dir, stack)
 		if firebox.Burntime[stack:get_name()] then

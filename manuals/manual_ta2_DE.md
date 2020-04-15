@@ -97,7 +97,7 @@ Der Verarbeitungsleistung eines TA2 Schiebers beträgt 2 Items alle 2 s.
 
 ### TA2 Verteiler / Distributor
 
-Der Verteiler ist in der Lage, die Items aus seinem Inventar sortieren in bis zu vier Richtungen weiter zu transportieren. Dazu muss der Verteiler entsprechend konfiguriert werden. 
+Der Verteiler ist in der Lage, die Items aus seinem Inventar sortiert in bis zu vier Richtungen weiter zu transportieren. Dazu muss der Verteiler entsprechend konfiguriert werden. 
 
 Der Verteiler besitzt dazu ein Menü mit 4 Filter mit unterschiedlichen Farben, entsprechend den 4 Ausgängen. Soll ein Ausgang genutzt werden, so muss der entsprechende Filter über die "on" Checkbox aktiviert werden. Alle Items, die für diesen Filter konfiguriert sind, werden über den zugeordneten Ausgang ausgegeben. Wird ein Filter aktiviert, ohne das Items konfiguriert werden, so sprechen wir hier von einem "nicht-konfigurierten", offenen Ausgang.
 
@@ -110,8 +110,6 @@ Für einen nicht-konfigurierten Ausgang gibt es zwei Betriebsarten:
 Im ersten Fall werden immer alle Items weitergeleitet und der Verteiler läuft nicht voll. Im zweiten Fall werden Items zurückgehalten und der Verteiler kann voll laufen und in der Folge blockieren.
 
 Einstellbar ist die Betriebsart über die ">>|" Checkbox (an => Betriebsart 2)
-
-Wird nur ein Ausgang aktiviert und mit mehreren Items konfiguriert, so kann die 1:1 Checkbox angeklickt werden. In diesem Falle werden Items streng gemäß der Filtereinstellung weitergegeben. Fehlt ein Item in der Reihenfolge, blockiert der Verteiler. Damit lassen sich andere Maschinen wie bspw. der Autocrafter exakt gemäß dem eingestellten Rezept bestücken.
 
 Der Verarbeitungsleistung eines TA2 Verteilers beträgt 4 Items alle 2 s, wobei der Verteiler dabei versucht, die 4 Items auf die offenen Ausgänge zu verteilen.
 

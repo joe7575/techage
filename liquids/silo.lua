@@ -221,7 +221,7 @@ techage.register_node({"techage:ta3_silo", "techage:ta4_silo"}, {
 	on_pull_item = function(pos, in_dir, num)
 		local inv = M(pos):get_inventory()
 		if not inv:is_empty("main") then
-			return techage.get_items(inv, "main", num) 
+			return techage.get_items(pos, inv, "main", num) 
 		end
 	end,
 	on_push_item = function(pos, in_dir, stack)
