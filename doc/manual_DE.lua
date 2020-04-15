@@ -72,6 +72,8 @@ techage.manual_DE.aTitel = {
   "3,TA3 Tank / TA3 Tank",
   "3,TA3 Pumpe / TA3 Pump",
   "3,TA Einfülltrichter / TA Liquid Filler",
+  "3,TA4 Röhre / Pipe",
+  "3,TA3 Rohr/Wanddurchbruch / TA3 Pipe Wall Entry Blöcke",
   "2,Öl-Förderung",
   "3,TA3 Ölexplorer / Oil Explorer",
   "3,TA3 Ölbohrkiste / Oil Drill Box",
@@ -681,6 +683,15 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Die gelben Röhren dienen zur Weiterleitung von Gas und Flüssigkeiten. \n"..
+  "Die maximale Leitungslänge beträgt 100 m.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Blöcke dienen als Wanddurchbrüche für Röhren\\, so dass keine Löcher offen bleiben.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Um deine Generatoren und Öfen mit Öl betreiben zu können\\, muss du zuerst nach Öl suchen und einen Bohrturm errichten und danach das Öl fördern.\n"..
   "Dazu dienen dir TA3 Ölexplorer\\, TA3 Ölbohrkiste und TA3 Ölpumpe.\n"..
   "\n"..
@@ -982,6 +993,8 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Mit diesem Werkzeug lassen sich die Bohrgestängezange Blöcke wieder entfernen\\, wenn dort bspw. ein Tunnel durch soll.\n"..
+  "\n"..
+  "\n"..
   "\n",
   "Regenerative Energiequellen wie Wind\\, Sonne und Biokraft helfen dir\\, das Ölzeitalter zu verlassen. Mit modernen Technologien und intelligenten Maschinen machst du dich auf in die Zukunft.\n"..
   "\n"..
@@ -1106,7 +1119,7 @@ techage.manual_DE.aText = {
   "\n",
   "Je ein Rohrzulaufblock muss auf beiden Seiten des Speicherblockes eingebaut werden. Die Blöcke müssen sich exakt gegenüber stehen.\n"..
   "\n"..
-  "Die Rohrzulaufblöcke können alternativ auch als Wanddurchbrüche verwendet werden\\, um also mit einer Röhre durch eine Wand zu fahren.\n"..
+  "Die Rohrzulaufblöcke können *nicht* als normale Wanddurchbrüche verwendet werden\\, dazu die TA3 Rohr/Wanddurchbruch / TA3 Pipe Wall Entry Blöcke verwenden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1468,6 +1481,8 @@ techage.manual_DE.aItemName = {
   "ta3_tank",
   "ta3_pump",
   "ta3_filler",
+  "ta3_pipe",
+  "ta3_pipe_wall_entry",
   "techage_ta3",
   "ta3_oilexplorer",
   "ta3_drillbox",
@@ -1507,7 +1522,7 @@ techage.manual_DE.aItemName = {
   "ta3_end_wrench",
   "ta3_programmer",
   "ta3_trowel",
-  "",
+  "ta3_drill_pipe_wrench",
   "techage_ta4",
   "",
   "ta4_windturbine",
@@ -1640,6 +1655,8 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta3_tank",
+  "",
+  "",
   "",
   "",
   "",

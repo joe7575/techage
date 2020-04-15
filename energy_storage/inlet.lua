@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -29,26 +29,6 @@ local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	Pipe:after_dig_node(pos)
 end
 
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
-	techage.liquid.update_network(pos, outdir)
-	local conn = M(pos):get_int("pipe2_conn")
-	if conn == 20 or conn == 40 then
-		-- replace node by tube
-		minetest.remove_node(pos)
-		Pipe:after_dig_node(pos)
-		node.name = "techage:ta4_wall_pipe"
-		minetest.set_node(pos, node)
-		Pipe:after_place_tube(pos)
-	end
-end
-
-local networks_def = {
-	pipe2 = {
-		sides = {F=1, B=1},
-		ntype = "tank",
-	},
-}
-
 minetest.register_node("techage:ta4_pipe_inlet", {
 	description = S("TA4 Pipe Inlet"),
 	tiles = {
@@ -63,48 +43,11 @@ minetest.register_node("techage:ta4_pipe_inlet", {
 	
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	tubelib2_on_update2 = tubelib2_on_update2,
-	networks = networks_def,
 	
 	paramtype2 = "facedir", -- important!
 	on_rotate = screwdriver.disallow, -- important!
 	groups = {crumbly = 2, cracky = 2, snappy = 2},
 	is_ground_content = false,
-	sounds = default.node_sound_metal_defaults(),
-})
-
-minetest.register_node("techage:ta4_wall_pipe", {
-	description = S("TA4 Wall Pipe"),
-	tiles = {
-		-- up, down, right, left, back, front
-		"basic_materials_concrete_block.png",
-		"basic_materials_concrete_block.png",
-		"basic_materials_concrete_block.png",
-		"basic_materials_concrete_block.png",
-		"basic_materials_concrete_block.png^techage_tes_inlet.png",
-		"basic_materials_concrete_block.png^techage_tes_inlet.png",
-	},
-	
-	after_place_node = function(pos, placer, itemstack, pointed_thing)
-		if not Pipe:after_place_tube(pos, placer, pointed_thing) then
-			minetest.remove_node(pos)
-			return true
-		end
-		return false
-	end,
-	
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
-			oldnode.param2 = oldmetadata.fields.tl2_param2
-			Pipe:after_dig_tube(pos, oldnode)
-		end
-	end,
-	
-	paramtype2 = "facedir", -- important!
-	on_rotate = screwdriver.disallow, -- important!
-	groups = {crumbly = 2, cracky = 2, snappy = 2, not_in_creative_inventory = 1},
-	is_ground_content = false,
-	drop = "techage:ta4_pipe_inlet",
 	sounds = default.node_sound_metal_defaults(),
 })
 

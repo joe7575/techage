@@ -28,6 +28,7 @@ else
 	dofile(MP.."/basis/node_states.lua") -- state model
 	dofile(MP.."/basis/tubes.lua")  -- tubes for item transport
 	dofile(MP.."/basis/tubes_ta4.lua")  -- TA4 tubes for item transport
+	dofile(MP.."/basis/tube_wall_entry.lua")
 	dofile(MP.."/basis/command.lua")  -- command API
 	dofile(MP.."/basis/firebox_lib.lua")  -- common firebox functions
 	dofile(MP.."/basis/boiler_lib.lua")  -- common boiler functions
@@ -92,6 +93,7 @@ else
 	-- Liquids I
 	dofile(MP.."/liquids/liquid_pipe.lua")
 	dofile(MP.."/liquids/node_api.lua")
+	dofile(MP.."/liquids/pipe_wall_entry.lua")
 	
 	-- Basic Machines
 	dofile(MP.."/basic_machines/consumer.lua")  -- consumer base model

@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -28,11 +28,17 @@ local Tube = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
 	max_tube_length = 200, 
 	show_infotext = false,
-	primary_node_names = {"techage:tubeS", "techage:tubeA", "techage:ta4_tubeS", "techage:ta4_tubeA"}, 
+	primary_node_names = {
+		"techage:tubeS", "techage:tubeA", 
+		"techage:ta4_tubeS", "techage:ta4_tubeA",
+		"techage:tube_wall_entry",
+	}, 
 	after_place_tube = function(pos, param2, tube_type, num_tubes, tbl)
 		local name = minetest.get_node(pos).name
 		if name == "techage:tubeS" or name == "techage:tubeA" then
 			minetest.swap_node(pos, {name = "techage:tube"..tube_type, param2 = param2})
+		elseif name == "techage:tube_wall_entry" then
+			minetest.swap_node(pos, {name = "techage:tube_wall_entry", param2 = param2})
 		else
 			minetest.swap_node(pos, {name = "techage:ta4_tube"..tube_type, param2 = param2})
 		end

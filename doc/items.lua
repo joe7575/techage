@@ -105,6 +105,9 @@ techage.Items = {
 	ta3_doorblock = "techage:doorblock20",
 	ta3_programmer = "techage:programmer",
 	ta3_doorcontroller = "techage:ta3_doorcontroller",
+	ta3_drill_pipe_wrench = "techage:ta3_drill_pipe_wrench",
+	ta3_pipe = "techage:ta3_pipeS", 
+	ta3_pipe_wall_entry = "techage:ta3_pipe_wall_entry",
 	----------------------------
 	techage_ta4 = "techage_ta4.png",
 	ta4_windturbine = "techage:ta4_wind_turbine",

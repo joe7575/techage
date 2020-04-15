@@ -285,6 +285,19 @@ Dabei ist zu beachten, dass Fässer nur komplett gefüllt oder entleert werden k
 
 [ta3_filler|image]
 
+### TA4 Röhre / Pipe
+
+Die gelben Röhren dienen zur Weiterleitung von Gas und Flüssigkeiten. 
+Die maximale Leitungslänge beträgt 100 m.
+
+[ta3_pipe|image]
+
+### TA3 Rohr/Wanddurchbruch / TA3 Pipe Wall Entry Blöcke
+
+Die Blöcke dienen als Wanddurchbrüche für Röhren, so dass keine Löcher offen bleiben.
+
+[ta3_pipe_wall_entry|image]
+
 
 ## Öl-Förderung
 
@@ -708,3 +721,5 @@ Die Kelle dient zum Verputzen von Stromkabel. Siehe dazu "TA Stromkabel".
 ### TA3 Bohrgestängezange / TA3 Drill Pipe Wrench
 
 Mit diesem Werkzeug lassen sich die Bohrgestängezange Blöcke wieder entfernen, wenn dort bspw. ein Tunnel durch soll.
+
+[ta3_drill_pipe_wrench|image]

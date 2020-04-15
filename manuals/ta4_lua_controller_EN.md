@@ -356,7 +356,7 @@ In addition to Lua standard function the Lua Controller provides the following f
 | "state"     | one of: "red", "amber", "green", "off"                       | Signal Tower state                                           |
 | "state"     | one of: "empty", "loaded", "full"                            | State of a chest or Sensor Chest                             |
 | "fuel"      | number                                                       | fuel value from fuel consuming block                         |
-| "load"      | number                                                       | Read the load value in percent  (0..100) from a tank/storage block |
+| "load"      | number                                                       | Read the load value in percent  (0..100) from a tank/storage block, an accu block, of from the Signs Bot Box. |
 | "delivered" | number                                                       | Read the current delivered power value from a generator block. A power consuming block (accu) provides a negative value |
 | "action"    | player-name, action-string                                   | only for Sensor Chests                                       |
 | "stacks"    | Array with up to 4 Stores with the inventory content (see example) | only for Sensor Chests                                       |

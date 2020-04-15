@@ -175,7 +175,7 @@ Der Generator kann 60 ku abgeben.
 
 Je ein Rohrzulaufblock muss auf beiden Seiten des Speicherblockes eingebaut werden. Die Blöcke müssen sich exakt gegenüber stehen.
 
-Die Rohrzulaufblöcke können alternativ auch als Wanddurchbrüche verwendet werden, um also mit einer Röhre durch eine Wand zu fahren.
+Die Rohrzulaufblöcke können **nicht** als normale Wanddurchbrüche verwendet werden, dazu die TA3 Rohr/Wanddurchbruch / TA3 Pipe Wall Entry Blöcke verwenden.
 
 [ta4_pipeinlet|image]
 
@@ -186,7 +186,6 @@ Die gelben Röhren dienen bei TA4 zur Weiterleitung von Gas und Flüssigkeiten.
 Die maximale Leitungslänge beträgt 100 m.
 
 [ta4_pipe|image]
-
 
 ## Wasserstoff
 

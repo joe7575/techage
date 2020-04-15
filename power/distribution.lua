@@ -100,6 +100,7 @@ local function set_taken(pos, taken, tlib_type)
 	local def = nvm[tlib_type] -- power related network data
 	if (def and def["calive"] or 0) > 0 then
 		def["taken"] = taken
+		def["cstate"] = RUNNING
 		return taken
 	end
 	return 0
