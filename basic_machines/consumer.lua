@@ -219,7 +219,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				selection_box = tNode.selection_box,
 
 				can_dig = tNode.can_dig,
-				on_rotate = screwdriver.disallow,
+				on_rotate = tNode.on_rotate or screwdriver.disallow,
 				on_timer = node_timer,
 				on_receive_fields = tNode.on_receive_fields,
 				on_rightclick = tNode.on_rightclick,
@@ -251,7 +251,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				node_box = tNode.node_box,
 				selection_box = tNode.selection_box,
 				
-				on_rotate = screwdriver.disallow,
+				on_rotate = tNode.on_rotate or screwdriver.disallow,
 				on_timer = node_timer,
 				on_receive_fields = tNode.on_receive_fields,
 				on_rightclick = tNode.on_rightclick,

@@ -53,7 +53,6 @@ Node states:
 
 Node nvm data:
 	"techage_state"      - node state, like "RUNNING"
-	"techage_item_meter" - node item/runtime counter
 	"techage_countdown"  - countdown to standby mode
 ]]--
 
@@ -190,7 +189,6 @@ function NodeStates:node_init(pos, nvm, number)
 	if self.infotext_name then
 		M(pos):set_string("infotext", self.infotext_name.." "..number..": stopped")
 	end
-	nvm.techage_item_meter = 0
 	if self.formspec_func then
 		M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
 	end
@@ -400,13 +398,12 @@ end
 
 -- To be called after successful node action to raise the timer
 -- and keep the node in state RUNNING
-function NodeStates:keep_running(pos, nvm, val, num_items)
+function NodeStates:keep_running(pos, nvm, val)
 	-- set to RUNNING if not already done
 	if nvm.techage_state ~= RUNNING then
 		self:start(pos, nvm)
 	end
 	nvm.techage_countdown = val or 4
-	nvm.techage_item_meter = (nvm.techage_item_meter or 0) + (num_items or 1)
 end
 
 -- Start/stop node based on button events.

@@ -157,6 +157,22 @@ local function get_item(pos, nvm, item_name, count)
 				end
 			end
 		end
+	elseif M(pos):get_int("priority") == 1 then
+		-- Take any items. The position within the inventory is from right to left
+		for idx = 8,1,-1 do
+			local item = nvm.inventory[idx]
+			if item.name ~= "" and (stack.name == nil or stack.name == item.name) then
+				local num = math.min(item.count, count - stack.count, max_stacksize(item.name))
+				if M(pos):get_int("assignment") == 1 and num == item.count then
+					-- never take the last item
+					num = num - 1
+				end
+				stack = move_items_to_stack(item, stack, num)
+				if stack.count == count then
+					return ItemStack(stack)
+				end
+			end
+		end
 	else
 		-- Take any items. The position within the inventory
 		-- is incremented each time so that different item stacks will be considered.
@@ -212,17 +228,20 @@ local function formspec(pos)
 	local inv = M(pos):get_inventory()
 	local size = get_stacksize(pos)
 	local assignment = M(pos):get_int("assignment") == 1 and "true" or "false"
-	return "size[8,8]"..
+	local priority = M(pos):get_int("priority") == 1 and "true" or "false"
+	return "size[8,8.3]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
 		formspec_container(0, 0, nvm, inv)..
-		"button[1,3;2,1;unlock;"..S("Unlock").."]"..
-		"tooltip[1,3;2,1;"..S("Unlock connected chest\nif all slots are below 2000")..";#0C3D32;#FFFFFF]"..
-		"label[4,3;"..S("Size")..": 8x"..size.."]"..
-		"checkbox[4,3.3;assignment;"..S("keep assignment")..";"..assignment.."]"..
-		"tooltip[4,3.5;2,0.6;"..S("Never completely empty the slots\nwith the pusher to keep the items assignment")..";#0C3D32;#FFFFFF]"..
-		"list[current_player;main;0,4.3;8,4;]"..
+		"button[0,3.5;3,1;unlock;"..S("Unlock").."]"..
+		"tooltip[0,3.5;3,1;"..S("Unlock connected chest\nif all slots are below 2000")..";#0C3D32;#FFFFFF]"..
+		"label[0,3;"..S("Size")..": 8x"..size.."]"..
+		"checkbox[4,3;assignment;"..S("keep assignment")..";"..assignment.."]"..
+		"tooltip[4,3;2,0.6;"..S("Never completely empty the slots\nwith the pusher to keep the item assignment")..";#0C3D32;#FFFFFF]"..
+		"checkbox[4,3.6;priority;"..S("right to left")..";"..priority.."]"..
+		"tooltip[4,3.6;2,0.6;"..S("Empty the slots always \nfrom right to left")..";#0C3D32;#FFFFFF]"..
+		"list[current_player;main;0,4.6;8,4;]"..
 		"listring[context;main]"..
 		"listring[current_player;main]"
 end
@@ -392,6 +411,10 @@ local function on_receive_fields(pos, formname, fields, player)
 	if fields.assignment then
 		M(pos):set_int("assignment", fields.assignment == "true" and 1 or 0)
 	end
+	if fields.priority then
+		M(pos):set_int("priority", fields.priority == "true" and 1 or 0)
+	end
+	
 	M(pos):set_string("formspec", formspec(pos))
 end
 
@@ -402,6 +425,14 @@ local function can_dig(pos, player)
 	local inv = minetest.get_meta(pos):get_inventory()
 	local nvm = techage.get_nvm(pos)
 	return inv:is_empty("main") and inv_empty(nvm)
+end
+
+local function on_rotate(pos, node, user, mode, new_param2)
+	if get_stacksize(pos) == STACK_SIZE then
+		return screwdriver.rotate_simple(pos, node, user, mode, new_param2)
+	else
+		return screwdriver.disallow(pos, node, user, mode, new_param2)
+	end
 end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
@@ -445,6 +476,7 @@ minetest.register_node("techage:ta4_chest", {
 		return techage.logic.set_numbers(pos, numbers, player_name, DESCRIPTION)
 	end,
 	
+	on_rotate = on_rotate,
 	on_rightclick = on_rightclick,
 	on_receive_fields = on_receive_fields,
 	can_dig = can_dig,

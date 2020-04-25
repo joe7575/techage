@@ -36,7 +36,7 @@ local function read_number(itemstack, user, pointed_thing)
 		local number = techage.get_node_number(pos)
 		if number then
 			local numbers = minetest.deserialize(user:get_attribute("techage_prog_numbers")) or {}
-			numbers[number] = true
+			techage.add_to_set(numbers, number)
 			user:set_attribute("techage_prog_numbers", minetest.serialize(numbers))
 			minetest.chat_send_player(user:get_player_name(), S("[TechAge Programmer] number").." "..number.." read")
 		else
@@ -59,7 +59,7 @@ local function program_numbers(itemstack, placer, pointed_thing)
 			minetest.chat_send_player(player_name, S("[TechAge Programmer] foreign or unknown node!"))
 			return itemstack
 		end
-		local text = join_to_string(numbers)
+		local text = table.concat(numbers, " ")
 		local ndef = minetest.registered_nodes[minetest.get_node(pos).name]
 		if ndef and ndef.techage_set_numbers then
 			local res = ndef.techage_set_numbers(pos, text, player_name)

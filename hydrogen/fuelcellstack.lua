@@ -24,6 +24,11 @@ minetest.register_craft({
 	recipe = {
 		{'default:copper_ingot', 'techage:ta4_carbon_fiber', 'default:copper_ingot'},
 		{'techage:baborium_ingot', 'techage:ta4_carbon_fiber', 'techage:baborium_ingot'},
-		{"techage:lye", 'techage:ta4_carbon_fiber', 'techage:lye'},
+		{"techage:canister_lye", 'techage:ta4_carbon_fiber', "techage:canister_lye"},
 	},
+	replacements = {
+		{"techage:canister_lye", "techage:ta3_canister_empty"},
+		{"techage:canister_lye", "techage:ta3_canister_empty"},
+	}
 })
+

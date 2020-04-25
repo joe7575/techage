@@ -110,7 +110,7 @@ local function node_timer(pos, elapsed)
 	if nvm.liquid.amount < CAPACITY then
 		nvm.taken = power.consumer_alive(pos, Cable, CYCLE_TIME)
 		generating(pos, nvm)
-		State:keep_running(pos, nvm, 1, 0) -- count items
+		State:keep_running(pos, nvm, 1) -- TODO warum hier 1 und nicht COUNTDOWN_TICKS?
 	else
 		State:blocked(pos, nvm, S("full"))
 		power.consumer_stop(pos, Cable)

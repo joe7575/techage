@@ -47,7 +47,7 @@ local function formspec(self, pos, nvm)
 		"listring[current_player;main]"..
 		"listring[context;dst]" ..
 		"listring[current_player;main]"..
-		default.get_hotbar_bg(0, 4)
+		default.get_hotbar_bg(0, 5.4)
 end
 
 local function count_index(invlist)

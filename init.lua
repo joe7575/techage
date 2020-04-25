@@ -110,7 +110,8 @@ else
 	dofile(MP.."/basic_machines/liquidsampler.lua")
 	dofile(MP.."/basic_machines/quarry.lua")
 	dofile(MP.."/basic_machines/ta4_chest.lua")
-
+	dofile(MP.."/basic_machines/ta4_injector.lua")
+	
 	-- Liquids II
 	dofile(MP.."/liquids/tank.lua")
 	dofile(MP.."/liquids/filler.lua")

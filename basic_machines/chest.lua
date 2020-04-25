@@ -16,6 +16,9 @@
 local M = minetest.get_meta
 local S = techage.S
 
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local mConf = dofile(MP.."/basis/conf_inv.lua")
+
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
@@ -145,15 +148,93 @@ minetest.register_node("techage:chest_ta3", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-local function formspec4()
+techage.register_node({"techage:chest_ta2", "techage:chest_ta3"}, {
+	on_pull_item = function(pos, in_dir, num, item_name)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.get_items(pos, inv, "main", num)
+	end,
+	on_push_item = function(pos, in_dir, stack)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.put_items(inv, "main", stack)
+	end,
+	on_unpull_item = function(pos, in_dir, stack)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.put_items(inv, "main", stack)
+	end,
+	on_recv_message = function(pos, src, topic, payload)
+		if topic == "state" then
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			return techage.get_inv_state(inv, "main")
+		else
+			return "unsupported"
+		end
+	end,
+})	
+
+
+local function formspec4(pos)
 	return "size[10,9]"..
+	"tabheader[0,0;tab;"..S("Inventory,Configuration")..";1;;true]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
 	"list[context;main;0,0;10,5;]"..
+	mConf.preassigned_stacks(pos, 10, 5)..
 	"list[current_player;main;1,5.3;8,4;]"..
 	"listring[context;main]"..
 	"listring[current_player;main]"
+end
+
+local function formspec4_cfg(pos)
+	return "size[10,9]"..
+	"tabheader[0,0;tab;"..S("Inventory,Configuration")..";2;;true]"..
+	default.gui_bg..
+	default.gui_bg_img..
+	default.gui_slots..
+	"list[context;conf;0,0;10,5;]"..
+	"list[current_player;main;1,5.3;8,4;]"..
+	"listring[context;conf]"..
+	"listring[current_player;main]"
+end
+
+local function ta4_allow_metadata_inventory_put(pos, listname, index, stack, player)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return 0
+	end
+	
+	if listname == "main" then
+		return stack:get_count()
+	else
+		return mConf.allow_conf_inv_put(pos, listname, index, stack, player)
+	end
+end
+
+local function ta4_allow_metadata_inventory_take(pos, listname, index, stack, player)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return 0
+	end
+	
+	if listname == "main" then
+		return stack:get_count()
+	else
+		return mConf.allow_conf_inv_take(pos, listname, index, stack, player)
+	end
+end
+
+local function ta4_allow_metadata_inventory_move(pos, from_list, from_index, to_list, to_index, count, player)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return 0
+	end
+	
+	if from_list == "main" then
+		return count
+	else
+		return mConf.allow_conf_inv_move(pos, from_list, from_index, to_list, to_index, count, player)
+	end
 end
 
 minetest.register_node("techage:chest_ta4", {
@@ -172,6 +253,7 @@ minetest.register_node("techage:chest_ta4", {
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		inv:set_size('main', 50)
+		inv:set_size('conf', 50)
 	end,
 	
 	after_place_node = function(pos, placer)
@@ -179,18 +261,36 @@ minetest.register_node("techage:chest_ta4", {
 		local number = techage.add_node(pos, "techage:chest_ta4")
 		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
-		meta:set_string("formspec", formspec4())
+		meta:set_string("formspec", formspec4(pos))
 		meta:set_string("infotext", S("TA4 Protected Chest").." "..number)
 	end,
 
+	on_receive_fields = function(pos, formname, fields, player)
+		if minetest.is_protected(pos, player:get_player_name()) then
+			return
+		end
+		
+		local meta = minetest.get_meta(pos)
+		local mem = techage.get_mem(pos)
+		if fields.tab == "1" then
+			mem.filter = nil
+			meta:set_string("formspec", formspec4(pos))
+		elseif fields.tab == "2" then
+			meta:set_string("formspec", formspec4_cfg(pos))
+		elseif fields.quit == "true" then
+			mem.filter = nil
+		end
+	end,
+	
 	techage_set_numbers = function(pos, numbers, player_name)
 		return techage.logic.set_numbers(pos, numbers, player_name, S("TA4 Protected Chest"))
 	end,
 	
 	can_dig = can_dig,
 	after_dig_node = after_dig_node,
-	allow_metadata_inventory_put = allow_metadata_inventory_put,
-	allow_metadata_inventory_take = allow_metadata_inventory_take,
+	allow_metadata_inventory_put = ta4_allow_metadata_inventory_put,
+	allow_metadata_inventory_take = ta4_allow_metadata_inventory_take,
+	allow_metadata_inventory_move = ta4_allow_metadata_inventory_move,
 
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
@@ -198,28 +298,68 @@ minetest.register_node("techage:chest_ta4", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-techage.register_node({"techage:chest_ta2", "techage:chest_ta3", "techage:chest_ta4"}, {
+
+techage.register_node({"techage:chest_ta4"}, {
 	on_pull_item = function(pos, in_dir, num, item_name)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		if item_name and inv:get_size("main") == 50 then -- TA4 chest?
-			local taken = inv:remove_item("main", {name = item_name, count = num})
-			if taken:get_count() > 0 then
-				return taken
+		local mem = techage.get_mem(pos)
+		mem.filter = mem.filter or mConf.item_filter(pos, 50)
+		mem.chest_configured = mem.chest_configured or #mem.filter["unconfigured"] < 50
+		
+		if inv:is_empty("main") then
+			return nil
+		end
+		
+		if item_name then
+			if mem.filter[item_name] then -- configured item
+				local taken = inv:remove_item("main", {name = item_name, count = num})
+				if taken:get_count() > 0 then
+					return taken
+				end
+			elseif not mem.chest_configured then
+				local taken = inv:remove_item("main", {name = item_name, count = num})
+				if taken:get_count() > 0 then
+					return taken
+				end
 			end
-		else
-			return techage.get_items(pos, inv, "main", num)
+		else -- no item given
+			if mem.chest_configured then
+				return mConf.take_item(pos, inv, "main", num, mem.filter["unconfigured"] or {})
+			else
+				return techage.get_items(pos, inv, "main", num)
+			end
 		end
 	end,
-	on_push_item = function(pos, in_dir, stack)
+	on_push_item = function(pos, in_dir, item, idx)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		return techage.put_items(inv, "main", stack)
+		local mem = techage.get_mem(pos)
+		mem.filter = mem.filter or mConf.item_filter(pos, 50)
+		mem.chest_configured = mem.chest_configured or #mem.filter["unconfigured"] < 50
+		
+		if mem.chest_configured then
+			local name = item:get_name()
+			local stacks = mem.filter[name] or mem.filter["unconfigured"]
+			return mConf.put_items(pos, inv, "main", item, stacks, idx)
+		else
+			return techage.put_items(inv, "main", item, idx)
+		end
 	end,
 	on_unpull_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		return techage.put_items(inv, "main", stack)
+		local mem = techage.get_mem(pos)
+		mem.filter = mem.filter or mConf.item_filter(pos, 50)
+		mem.chest_configured = mem.chest_configured or #mem.filter["unconfigured"] < 50
+		
+		if mem.chest_configured then
+			local name = item:get_name()
+			local stacks = mem.filter[name] or mem.filter["unconfigured"]
+			return mConf.put_items(pos, inv, "main", item, stacks)
+		else
+			return techage.put_items(inv, "main", item)
+		end
 	end,
 	
 	on_recv_message = function(pos, src, topic, payload)

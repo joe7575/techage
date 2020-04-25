@@ -174,3 +174,5 @@
         - [TA4 Kiessieb / Gravel Sieve](./manual_ta4_DE.md#ta4-kiessieb--gravel-sieve)
         - [TA4 Mühle / Grinder](./manual_ta4_DE.md#ta4-mühle--grinder)
         - [TA4 Steinbrecher / Quarry](./manual_ta4_DE.md#ta4-steinbrecher--quarry)
+        - [TA4 Elektronikfabrik / Electronic Fab](./manual_ta4_DE.md#ta4-elektronikfabrik--electronic-fab)
+        - [TA4 Injektor / Injector](./manual_ta4_DE.md#ta4-injektor--injector)

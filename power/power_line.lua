@@ -20,6 +20,16 @@ local networks = techage.networks
 local Cable = techage.ElectricCable
 local power = techage.power
 
+local function can_dig(pos, digger)
+	if M(pos):get_string("owner") == digger:get_player_name() then
+		return true
+	end
+	if minetest.check_player_privs(digger:get_player_name(), "powerline") then
+		return true
+	end
+	return false
+end
+
 -- legacy node
 minetest.register_node("techage:power_line", {
 	description = S("TA Power Line"),
@@ -33,6 +43,7 @@ minetest.register_node("techage:power_line", {
 		return false
 	end,
 	
+	can_dig = can_dig,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
 			oldnode.param2 = oldmetadata.fields.tl2_param2
@@ -74,6 +85,7 @@ minetest.register_node("techage:power_lineS", {
 		return false
 	end,
 	
+	can_dig = can_dig,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
 			oldnode.param2 = oldmetadata.fields.tl2_param2
@@ -121,6 +133,7 @@ minetest.register_node("techage:power_lineA", {
 		return false
 	end,
 	
+	can_dig = can_dig,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
 			oldnode.param2 = oldmetadata.fields.tl2_param2
@@ -199,16 +212,7 @@ minetest.register_node("techage:power_pole2", {
 		end
 		return false
 	end,
-	can_dig = function(pos, digger)
-		local meta = minetest.get_meta(pos)
-		if meta:get_string("owner") == digger:get_player_name() then
-			return true
-		end
-		if minetest.check_player_privs(digger:get_player_name(), "powerline") then
-			return true
-		end
-		return false
-	end,
+	can_dig = can_dig,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
 			oldnode.param2 = oldmetadata.fields.tl2_param2
@@ -305,16 +309,7 @@ minetest.register_node("techage:power_pole_conn", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Cable:after_dig_node(pos)
 	end,
-	can_dig = function(pos, digger)
-		local meta = minetest.get_meta(pos)
-		if meta:get_string("owner") == digger:get_player_name() then
-			return true
-		end
-		if minetest.check_player_privs(digger:get_player_name(), "powerline") then
-			return true
-		end
-		return false
-	end,
+	can_dig = can_dig,
 	networks = {
 		ele1 = {
 			sides = networks.AllSides, -- connection sides for cables
@@ -350,6 +345,7 @@ minetest.register_node("techage:power_pole3", {
 			{ -4/32, -16/32,  -4/32,   4/32, 16/32,   4/32},
 		},
 	},
+	can_dig = can_dig,
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
 	sunlight_propagates = true,

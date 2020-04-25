@@ -99,7 +99,7 @@ local function node_timer(pos, elapsed)
 		local outdir = M(pos):get_int("outdir")
 		nvm.given = power.generator_alive(pos, Cable, CYCLE_TIME, outdir)
 		consuming(pos, nvm)
-		State:keep_running(pos, nvm, 1, 0) -- count items
+		State:keep_running(pos, nvm, 1) -- TODO warum hier 1 und nicht COUNTDOWN_TICKS?
 	else
 		State:standby(pos, nvm)
 		nvm.given = 0

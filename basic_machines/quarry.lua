@@ -205,7 +205,7 @@ local function quarry_task(pos, crd, nvm)
 					if item_name then
 						if add_to_inv(pos, item_name) then
 							minetest.remove_node(qpos)
-							crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS, 1)
+							crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 						else
 							crd.State:blocked(pos, nvm, S("inventory full"))
 						end

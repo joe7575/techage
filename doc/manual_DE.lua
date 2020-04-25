@@ -175,6 +175,8 @@ techage.manual_DE.aTitel = {
   "3,TA4 Kiessieb / Gravel Sieve",
   "3,TA4 Mühle / Grinder",
   "3,TA4 Steinbrecher / Quarry",
+  "3,TA4 Elektronikfabrik / Electronic Fab",
+  "3,TA4 Injektor / Injector",
 }
 
 techage.manual_DE.aText = {
@@ -1358,6 +1360,8 @@ techage.manual_DE.aText = {
   "\n",
   "Die Funktion entspricht der von TA3. Die Kiste kann aber mehr Inhalt aufnehmen.\n"..
   "\n"..
+  "Zusätzlich besitzt die TA4 Kiste ein Schatteninventar zur Konfiguration. Hier können bestimmte Speicherplätze mit einem Item vorbelegt werden. Vorbelegte Speicherplätze werden beim Füllen nur mit diesen Items belegt. Zum Leeren eines vorbelegten Speicherplatzes wird ein TA4 Schieber oder TA4 Injektor mit entsprechender Konfiguration benötigt.\n"..
+  "\n"..
   "\n"..
   "\n",
   "Die TA4 8x2000 Kiste hat kein normales Inventar wir andere Kisten\\, sondern verfügt über 8 Speicher\\, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2\\, TA3 oder TA4) gefüllt bzw. geleert werden.\n"..
@@ -1386,7 +1390,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Die Funktion entspricht der von TA2.\n"..
-  "Die Verarbeitungsleistung beträgt 36 Items alle 4 s.\n"..
+  "Die Verarbeitungsleistung beträgt 24 Items alle 4 s.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1404,6 +1408,19 @@ techage.manual_DE.aText = {
   "\n"..
   "Zusätzlich kann die Lochgröße zwischen 3x3 und 11x11 Blöcken eingestellt werden. \n"..
   "Die maximale Tiefe beträgt 80 Meter. Der Steinbrecher benötigt 14 ku Strom.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Funktion entspricht der von TA2\\, nur werden hier verschiedene Chips produziert.\n"..
+  "Die Verarbeitungsleistung beträgt ein Chip alle 6 s. Der Block benötigt hierfür 12 ku Strom.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Injektor ist ein TA4 Schieber mit speziellen Eigenschaften. Er besitzt ein Menü zur Konfiguration. Hier können bis zu 8 Items konfiguriert werden. Er entnimmt nur diese Items einer Kiste (TA4 Kiste oder TA4 8x2000 Kiste) um sie an Maschinen mit Rezepturen weiterzugeben (Autocrafter\\, Industrieofen und Elektronikfabrik). \n"..
+  "\n"..
+  "Beim Weitergeben wird in der Zielmaschine pro Item nur eine Position im Inventar genutzt. Sind bspw. nur die ersten drei Einträge im Injektor konfiguriert\\, so werden auch nur die ersten drei Speicherplätze im Inventar der Maschine belegt. Damit wir ein Überlauf im Inventar der Maschine verhindert. \n"..
+  "\n"..
+  "Die Verarbeitungsleistung beträgt bis zu 8 Items alle 3 Sekunden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1579,11 +1596,13 @@ techage.manual_DE.aItemName = {
   "ta4_tube",
   "ta4_pusher",
   "ta4_chest",
-  "ta4_chest",
+  "ta4_8x2000_chest",
   "ta4_distributor",
   "ta4_gravelsieve",
   "ta4_grinder",
   "ta4_quarry",
+  "ta4_electronicfab",
+  "ta4_injector",
 }
 
 techage.manual_DE.aPlanTable = {
@@ -1723,6 +1742,8 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
+  "",
   "",
   "",
   "",

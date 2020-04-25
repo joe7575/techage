@@ -42,7 +42,7 @@ local function ta4_formspec(self, pos, nvm)
 			"box[0,-0.1;7.8,0.5;#c6e8ff]"..
 			"label[3,-0.1;"..minetest.colorize("#000000", S("Pusher")).."]"..
 			techage.question_mark_help(8, S("Optionally configure\nthe pusher with one item"))..
-			"list[context;main;3.5,1;1,1;]"..
+			"list[context;main;3.5,0.8;1,1;]"..
 			"image_button[3.5,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 			"tooltip[3.5,2;1,1;"..self:get_state_tooltip(nvm).."]"..
 			"list[current_player;main;0,3.5;8,4;]"..

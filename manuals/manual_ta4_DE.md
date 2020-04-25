@@ -513,6 +513,8 @@ Der TA4 Schieber besitzt zwei zusätzliche Kommandos für den Lua Controller:
 
 Die Funktion entspricht der von TA3. Die Kiste kann aber mehr Inhalt aufnehmen.
 
+Zusätzlich besitzt die TA4 Kiste ein Schatteninventar zur Konfiguration. Hier können bestimmte Speicherplätze mit einem Item vorbelegt werden. Vorbelegte Speicherplätze werden beim Füllen nur mit diesen Items belegt. Zum Leeren eines vorbelegten Speicherplatzes wird ein TA4 Schieber oder TA4 Injektor mit entsprechender Konfiguration benötigt.
+
 [ta4_chest|image]
 
 ### TA4 8x2000 Kiste / TA4 8x2000 Chest
@@ -542,14 +544,14 @@ Der Kiste besitzt ein zusätzliches Kommandos für den Lua Controller:
   Beispiel 1:  `$read_data(CHEST, "count")`  --> Summe der Items über alle 8 Speicher
   Beispiel 2:  `$read_data(CHEST, "count", 2)`  --> Anzahl der Items in Speicher 2 (zweiter von links)
 
-[ta4_chest|image]
+[ta4_8x2000_chest|image]
 
 
 
 ### TA4 Verteiler / Distributor
 
 Die Funktion entspricht der von TA2.  
-Die Verarbeitungsleistung beträgt 36 Items alle 4 s.
+Die Verarbeitungsleistung beträgt 24 Items alle 4 s.
 
 [ta4_distributor|image]
 
@@ -575,3 +577,20 @@ Zusätzlich kann die Lochgröße zwischen 3x3 und 11x11 Blöcken eingestellt wer
 Die maximale Tiefe beträgt 80 Meter. Der Steinbrecher benötigt 14 ku Strom.
 
 [ta4_quarry|image]
+
+### TA4 Elektronikfabrik / Electronic Fab
+
+Die Funktion entspricht der von TA2, nur werden hier verschiedene Chips produziert.  
+Die Verarbeitungsleistung beträgt ein Chip alle 6 s. Der Block benötigt hierfür 12 ku Strom.
+
+[ta4_electronicfab|image]
+
+### TA4 Injektor / Injector
+
+Der Injektor ist ein TA4 Schieber mit speziellen Eigenschaften. Er besitzt ein Menü zur Konfiguration. Hier können bis zu 8 Items konfiguriert werden. Er entnimmt nur diese Items einer Kiste (TA4 Kiste oder TA4 8x2000 Kiste) um sie an Maschinen mit Rezepturen weiterzugeben (Autocrafter, Industrieofen und Elektronikfabrik). 
+
+Beim Weitergeben wird in der Zielmaschine pro Item nur eine Position im Inventar genutzt. Sind bspw. nur die ersten drei Einträge im Injektor konfiguriert, so werden auch nur die ersten drei Speicherplätze im Inventar der Maschine belegt. Damit wir ein Überlauf im Inventar der Maschine verhindert. 
+
+Die Verarbeitungsleistung beträgt bis zu 8 Items alle 3 Sekunden.
+
+[ta4_injector|image]

@@ -86,7 +86,8 @@ local function trigger_network(pos, outdir, Cable)
 		networks.build_network(pos, outdir, Cable, netID)
 	elseif not networks.get_network(Cable.tube_type, netID) then
 		--print("build_network !!!!!!!!!!!!!!!!!!!!")
-		delete_netID(pos, outdir, Cable)
+		netID = determine_netID(pos, outdir, Cable)
+		store_netID(pos, outdir, netID, Cable)
 		networks.build_network(pos, outdir, Cable, netID)
 	end
 end
@@ -169,6 +170,7 @@ function techage.power.consumer_alive(pos, Cable, cycle_time)
 	local nvm = techage.get_nvm(pos)
 	local def = nvm[Cable.tube_type] -- power related network data
 	if def then
+		-- if network is deleted (cable removed/placed) rebuild it to prevent flickering lights
 		if not def["netID"] or not networks.get_network(Cable.tube_type, def["netID"]) then
 			build_network_consumer(pos, Cable)
 		end

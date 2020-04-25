@@ -219,7 +219,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		groups = {choppy=2, cracky=2, crumbly=2},
 		sounds = default.node_sound_wood_defaults(),
 		num_items = {0,1,1,1},
-		power_consumption = {0,8,12,18},
+		power_consumption = {0,8,12,12},
 	},
 	{false, true, true, true})  -- TA2/TA3/TA4
 
