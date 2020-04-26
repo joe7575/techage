@@ -83,7 +83,7 @@ Für jede Regel kann eine der folgenden Bedingungen konfiguriert werden. Pro Reg
 
 Für alle Aktionen, die einen Block (wie bspw. eine Lampe) steuern, muss die Nummer des Blocks bei der Aktion angegeben werden. Pro Regel kann nur eine Aktion konfiguriert werden.
 
-- `print to outpit window` - Bspw. für Testzwecke kann ein Text im Controller-Menü (unter 'outp') ausgegeben werden. Dies ist vor allem bei der Fehlersuche hilfreich.
+- `print to output window` - Bspw. für Testzwecke kann ein Text im Controller-Menü (unter 'outp') ausgegeben werden. Dies ist vor allem bei der Fehlersuche hilfreich.
 - `send Signal Tower command` - Damit kann die Farbe des Signal Towers gesetzt werden. Mögliche Werte sind: `off`, `green`, `amber`, `red`. 
 - `turn block off/on` - Damit kann ein Block oder Maschine aus- bzw. wieder eingeschaltet werden.
 - `Display: overwrite one line` - Damit kann ein Text auf dem Display ausgegeben werden. Die Zeilennummer auf dem Display (1..5) muss dabei angegeben werden.
