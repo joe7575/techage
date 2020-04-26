@@ -72,7 +72,7 @@ dofile(MP.."/basis/formspec_update.lua")
 
 -- Main doc
 dofile(MP.."/doc/manual_DE.lua")
---dofile(MP.."/doc/manual_EN.lua")
+dofile(MP.."/doc/manual_EN.lua")
 dofile(MP.."/doc/plans.lua")
 dofile(MP.."/doc/items.lua")
 dofile(MP.."/doc/guide.lua")  -- construction guides

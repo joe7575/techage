@@ -239,6 +239,7 @@ def gen_file_local_toc(dest_name, level_range=[1,6]):
             lOut.append("%s [%s](%s)" % (list_item, item["header"].replace("\\", ""), link))
     file(dest_name, "w").write("\n".join(lOut))
 
+########################### German #########################
 mod = "techage"
 manual = "manual_DE"
 parse_md_file("./manual_DE.md", mod, manual)
@@ -249,6 +250,21 @@ parse_md_file("./manual_ta4_DE.md", mod, manual)
 gen_lua_file("../doc/manual_DE.lua")
 gen_toc_md_file("./toc_DE.md", "Inhaltsverzeichnis")
 
+########################### English #########################
+reset()
+mod = "techage"
+manual = "manual_EN"
+parse_md_file("./manual_EN.md", mod, manual)
+parse_md_file("./manual_ta1_EN.md", mod, manual)
+parse_md_file("./manual_ta2_EN.md", mod, manual)
+parse_md_file("./manual_ta3_EN.md", mod, manual)
+parse_md_file("./manual_ta4_EN.md", mod, manual)
+gen_lua_file("../doc/manual_EN.lua")
+gen_toc_md_file("./toc_EN.md", "Table of Contents")
+
+########################### Lua Manual #########################
 reset()
 parse_md_file("./ta4_lua_controller_EN.md", mod, manual)
 gen_file_local_toc("toc.txt", level_range=[2,4])
+
+

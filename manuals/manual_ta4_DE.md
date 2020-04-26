@@ -62,7 +62,7 @@ Die Biome Temperatur kann mit dem Techage Info Tool (Schraubenschlüssel) bestim
 
 Es empfiehlt sich daher, nach heißen Steppen und Wüsten für die Solaranlage Ausschau zu halten.  
 Für den Stromtransport stehen die Überlandleitungen zur Verfügung.  
-Es kann aber auch Wasserstoff produziert werden, welcher sich transportieren und am Ziel wieder zu Strom umwandeln lässt (geplant).
+Es kann aber auch Wasserstoff produziert werden, welcher sich transportieren und am Ziel wieder zu Strom umwandeln lässt.
 
 Die kleinste Einheit bei einer Solaranlage sind zwei Solarmodule und ein Trägermodul. Das Trägermodul muss zuerst gesetzt werden, die zwei Solarmodule dann links und rechts daneben (nicht darüber!).
 
@@ -134,7 +134,7 @@ Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit 
 - Hülle mit 7x7x7 Concrete Blocks, gefüllt mit 125 Gravel, Speicherkapazität: 2,5 Tage bei 60 ku
 - Hülle mit 9x9x9 Concrete Blocks, gefüllt mit 343 Gravel, Speicherkapazität: 6,5 Tage bei 60 ku 
 
-In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man, ob der Speicher zu mehr aus 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung achten (der Pfeil bei Block 1 muss zur Turbine zeigen).
+In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man, ob der Speicher mehr als 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung achten (der Pfeil bei Block 1 muss zur Turbine zeigen).
 
 Entgegen dem Plan rechts müssen die Anschlüsse am Speicherblock auf gleicher Ebene sein (horizontal angeordnet, also nicht unten und oben). Die Rohrzuläufe (TA4 Pipe Inlet) müssen genau in der Mitte der Wand sein und stehen sich damit gegenüber. Als Röhren kommen die gelbel TA4 Röhren zum Einsatz. Die TA3 Dampfrohre können hier nicht verwendet werden.
 Sowohl der Generator als auch der Wärmetauscher haben einen Stromanschluss und müssen mit dem Stromnetz verbunden werden.
@@ -502,9 +502,9 @@ Die Verarbeitungsleistung beträgt 12 Items alle 2 s.
 Der TA4 Schieber besitzt zwei zusätzliche Kommandos für den Lua Controller:
 
 - `config` dient zur Konfiguration des Schiebers, analog zum manuellen Konfiguration über das Menü.
-  Beispiel:  `$send_cmnd(PUSHER, "config", "default:dirt")`
+  Beispiel:  `$send_cmnd(1234, "config", "default:dirt")`
 - `pull` dient zum Absetzen eines Auftrags an den Schieber:
-  Beispiel: `$send_cmnd(PUSHER, "pull", "default:dirt 8")`
+  Beispiel: `$send_cmnd(1234, "pull", "default:dirt 8")`
   Als Nummer sind Werte von 1 bis 12 zulässig. Danach geht der Schieber wieder in den `stopped` Mode und sendet ein "off" Kommando zurück an den Sender des "pull" Kommandos.
 
 [ta4_pusher|image]

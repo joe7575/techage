@@ -4,11 +4,6 @@
 
 local S = techage.S
 
-local aTitel = techage.manual_DE.aTitel
-local aText = techage.manual_DE.aText
-local aItemName = techage.manual_DE.aItemName  -- item identifier as key
-local aPlanTable = techage.manual_DE.aPlanTable  -- plan identifier as key
-
 local tItems = techage.Items  -- k/v table with item definitions
 local tPlans = techage.ConstructionPlans  -- k/v table with plan definitions
 
@@ -56,10 +51,14 @@ local function plan(images)
 	return table.concat(tbl)
 end	
 
-local function formspec_help(meta)
+local function formspec_help(meta, manual)
 	local bttn
 	local idx = meta:get_int("index")
 	local box = "box[9.5,0.9;1,1.1;#BBBBBB]"
+	local aTitel = manual.aTitel
+	local aText = manual.aText
+	local aItemName = manual.aItemName  -- item identifier as key
+	local aPlanTable = manual.aPlanTable  -- plan identifier as key
 
 	if aPlanTable[idx] ~= "" then
 		bttn = "button[9.6,1;1,1;plan;"..S("Plan").."]"
@@ -88,17 +87,18 @@ local function formspec_help(meta)
 	"table[0.1,0;9,5;page;"..table.concat(aTitel, ",")..";"..idx.."]"
 end
 
-local function formspec_plan(meta)
+local function formspec_plan(meta, manual)
 	local idx = meta:get_int("index")
-	local images = tPlans[aPlanTable[idx]] or "none"
-	local titel = string.sub(aTitel[idx], 3) or "unknown"
+	local images = tPlans[manual.aPlanTable[idx]] or "none"
+	local titel = string.sub(manual.aTitel[idx], 3) or "unknown"
+
 	return "size[11,10]"..
-	default.gui_bg..
-	default.gui_bg_img..
-	default.gui_slots..
-	"label[0,0;"..titel..":]"..
-	"button[10,0;1,0.8;back;<<]"..
-	plan(images)
+		default.gui_bg..
+		default.gui_bg_img..
+		default.gui_slots..
+		"label[0,0;"..titel..":]"..
+		"button[10,0;1,0.8;back;<<]"..
+		plan(images)
 end
 
 local board_box = {
@@ -109,7 +109,7 @@ local board_box = {
 }
 
 minetest.register_node("techage:construction_board", {
-	description = S("TA Construction Board"),
+	description = "TA Konstruktionsplan (DE)",
 	inventory_image = 'techage_constr_plan_inv.png',
 	tiles = {"techage_constr_plan.png"},
 	drawtype = "nodebox",
@@ -119,7 +119,7 @@ minetest.register_node("techage:construction_board", {
 	after_place_node = function(pos, placer, itemstack)
 		local meta = minetest.get_meta(pos)
 		meta:set_int("index", 1)
-		meta:set_string("formspec", formspec_help(meta))
+		meta:set_string("formspec", formspec_help(meta, techage.manual_DE))
 	end,
 	
 	on_receive_fields = function(pos, formname, fields, player)
@@ -129,15 +129,15 @@ minetest.register_node("techage:construction_board", {
 		end
 		local meta = minetest.get_meta(pos)
 		if fields.plan then
-			meta:set_string("formspec", formspec_plan(meta))
+			meta:set_string("formspec", formspec_plan(meta, techage.manual_DE))
 		elseif fields.back then
-			meta:set_string("formspec", formspec_help(meta))
+			meta:set_string("formspec", formspec_help(meta, techage.manual_DE))
 		elseif fields.page then
 			local evt = minetest.explode_table_event(fields.page)
 			if evt.type == "CHG" then
 				local idx = tonumber(evt.row)
 				meta:set_int("index", idx)
-				meta:set_string("formspec", formspec_help(meta))
+				meta:set_string("formspec", formspec_help(meta, techage.manual_DE))
 			end
 		end
 	end,
@@ -159,4 +159,54 @@ minetest.register_craft({
 	},
 })
 
+minetest.register_node("techage:construction_board_EN", {
+	description = "TA Construction Board (EN)",
+	inventory_image = 'techage_constr_plan_inv.png',
+	tiles = {"techage_constr_plan.png"},
+	drawtype = "nodebox",
+	node_box = board_box,
+	selection_box = board_box,
+	
+	after_place_node = function(pos, placer, itemstack)
+		local meta = minetest.get_meta(pos)
+		meta:set_int("index", 1)
+		meta:set_string("formspec", formspec_help(meta, techage.manual_EN))
+	end,
+	
+	on_receive_fields = function(pos, formname, fields, player)
+		local player_name = player:get_player_name()
+		if minetest.is_protected(pos, player_name) then
+			return
+		end
+		local meta = minetest.get_meta(pos)
+		if fields.plan then
+			meta:set_string("formspec", formspec_plan(meta, techage.manual_EN))
+		elseif fields.back then
+			meta:set_string("formspec", formspec_help(meta, techage.manual_EN))
+		elseif fields.page then
+			local evt = minetest.explode_table_event(fields.page)
+			if evt.type == "CHG" then
+				local idx = tonumber(evt.row)
+				meta:set_int("index", idx)
+				meta:set_string("formspec", formspec_help(meta, techage.manual_EN))
+			end
+		end
+	end,
+	
+	paramtype2 = "wallmounted",
+	paramtype = "light",
+	sunlight_propagates = true,
+	is_ground_content = false,
+	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
+	sounds = default.node_sound_wood_defaults(),
+})
+
+minetest.register_craft({
+	output = "techage:construction_board_EN",
+	recipe = {
+		{"default:stick", "default:paper", "default:stick"},
+		{"default:paper", "default:paper", "default:paper"},
+		{"default:paper", "default:paper", "default:paper"},
+	},
+})
 

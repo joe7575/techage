@@ -55,7 +55,7 @@ Meridium ist eine Legierung aus Stahl und Mesekristallen. Meridium Ingots könne
 
 ### Usmium
 
-Usmium kommt nur als Nuggets vor und kann nur beim Waschen von Kies mit der TA2 Kieswaschanlage gewonnen werden.
+Usmium kommt nur als Nuggets vor und kann nur beim Waschen von Kies mit der TA2/TA3 Kieswaschanlage gewonnen werden.
 
 [usmium|image]
 

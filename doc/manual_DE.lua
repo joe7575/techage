@@ -222,7 +222,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Usmium kommt nur als Nuggets vor und kann nur beim Waschen von Kies mit der TA2 Kieswaschanlage gewonnen werden.\n"..
+  "Usmium kommt nur als Nuggets vor und kann nur beim Waschen von Kies mit der TA2/TA3 Kieswaschanlage gewonnen werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -384,7 +384,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Ein Schieber ist in der Lage\\, Items aus Kisten oder Maschinen zu ziehen und in andere Kisten oder Maschinen zu schieben. Oder anders gesagt: Zwischen zwei Blöcken mit Inventar muss ein und genau ein Schieber sein. Mehrere Schieber in Reihe sind nicht möglich.\n"..
-  "In die Gegenrichtung ist ein Schieber für Items aber durchlässig\\, so dass eine Kiste über eine Röhre gefüllt und ebenso gelehrt werden kann. \n"..
+  "In die Gegenrichtung ist ein Schieber für Items aber durchlässig\\, so dass eine Kiste über eine Röhre gefüllt und ebenso geleert werden kann. \n"..
   "\n"..
   "Ein Schieber geht in den Zustand \"standby\"\\, wenn der keine Items zum Schieben hat. Ist der Ausgang blockiert oder das Inventory des Empfängers voll\\, so geht der Schieber in den Zustand \"blocked\". Aus beiden Zuständen kommt der Schieber nach einigen Sekunden selbsttätig wieder raus\\, sofern sich die Situation geändert hat.\n"..
   "\n"..
@@ -404,7 +404,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Im ersten Fall werden immer alle Items weitergeleitet und der Verteiler läuft nicht voll. Im zweiten Fall werden Items zurückgehalten und der Verteiler kann voll laufen und in der Folge blockieren.\n"..
   "\n"..
-  "Einstellbar ist die Betriebsart über die \">>|\" Checkbox (an => Betriebsart 2)\n"..
+  "Einstellbar ist die Betriebsart über die \"blockiere\" Checkbox.\n"..
   "\n"..
   "Der Verarbeitungsleistung eines TA2 Verteilers beträgt 4 Items alle 2 s\\, wobei der Verteiler dabei versucht\\, die 4 Items auf die offenen Ausgänge zu verteilen.\n"..
   "\n"..
@@ -418,11 +418,11 @@ techage.manual_DE.aText = {
   "  - daneben den Kiesspüler\\, ggf. mit Röhrenanschlüssen für den Kies An- und Abtransport\n"..
   "  - dann den Trichter mit Kiste\n"..
   "\n"..
-  "Das Ganze umgeben von weiteren Glasblöcken\\, so dass das Wasser über den Kiesspüler und den Trichter fließt und ausgespielten Nuggets vom Trichter wieder eingesammelt werden können.\n"..
+  "Das Ganze umgeben von weiteren Glasblöcken\\, so dass das Wasser über den Kiesspüler und den Trichter fließt und ausgespülten Nuggets vom Trichter wieder eingesammelt werden können.\n"..
   "\n"..
   "\n"..
   "\n",
-  "Der Kiesspüler ist in der Lade\\, aus bereits gesiebtem Kies die Erze  Usmium und Kupfer auszuspülen\\, sofern dieser von Wasser überspült wird.\n"..
+  "Der Kiesspüler ist in der Lage\\, aus bereits gesiebtem Kies die Erze  Usmium und Kupfer auszuspülen\\, sofern dieser von Wasser überspült wird.\n"..
   "\n"..
   "Ob der Kiesspüler korrekt arbeitet\\, kann mit Hilfe von Stöcken (sticks) getestet werden\\, wenn diese in das Inventar des Kiesspülers getan werden. Diese müssen einzeln ausgespült und vom Trichter eingefangen werden.\n"..
   "\n"..
@@ -1042,7 +1042,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Es empfiehlt sich daher\\, nach heißen Steppen und Wüsten für die Solaranlage Ausschau zu halten.\n"..
   "Für den Stromtransport stehen die Überlandleitungen zur Verfügung.\n"..
-  "Es kann aber auch Wasserstoff produziert werden\\, welcher sich transportieren und am Ziel wieder zu Strom umwandeln lässt (geplant).\n"..
+  "Es kann aber auch Wasserstoff produziert werden\\, welcher sich transportieren und am Ziel wieder zu Strom umwandeln lässt.\n"..
   "\n"..
   "Die kleinste Einheit bei einer Solaranlage sind zwei Solarmodule und ein Trägermodul. Das Trägermodul muss zuerst gesetzt werden\\, die zwei Solarmodule dann links und rechts daneben (nicht darüber!).\n"..
   "\n"..
@@ -1092,7 +1092,7 @@ techage.manual_DE.aText = {
   "  - Hülle mit 7x7x7 Concrete Blocks\\, gefüllt mit 125 Gravel\\, Speicherkapazität: 2\\,5 Tage bei 60 ku\n"..
   "  - Hülle mit 9x9x9 Concrete Blocks\\, gefüllt mit 343 Gravel\\, Speicherkapazität: 6\\,5 Tage bei 60 ku\n"..
   "\n"..
-  "In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man\\, ob der Speicher zu mehr aus 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken\\, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung achten (der Pfeil bei Block 1 muss zur Turbine zeigen).\n"..
+  "In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man\\, ob der Speicher mehr als 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken\\, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung achten (der Pfeil bei Block 1 muss zur Turbine zeigen).\n"..
   "\n"..
   "Entgegen dem Plan rechts müssen die Anschlüsse am Speicherblock auf gleicher Ebene sein (horizontal angeordnet\\, also nicht unten und oben). Die Rohrzuläufe (TA4 Pipe Inlet) müssen genau in der Mitte der Wand sein und stehen sich damit gegenüber. Als Röhren kommen die gelbel TA4 Röhren zum Einsatz. Die TA3 Dampfrohre können hier nicht verwendet werden.\n"..
   "Sowohl der Generator als auch der Wärmetauscher haben einen Stromanschluss und müssen mit dem Stromnetz verbunden werden.\n"..
@@ -1353,8 +1353,8 @@ techage.manual_DE.aText = {
   "\n"..
   "Der TA4 Schieber besitzt zwei zusätzliche Kommandos für den Lua Controller:\n"..
   "\n"..
-  "  - 'config' dient zur Konfiguration des Schiebers\\, analog zum manuellen Konfiguration über das Menü.\nBeispiel:  '$send_cmnd(PUSHER\\, \"config\"\\, \"default:dirt\")'\n"..
-  "  - 'pull' dient zum Absetzen eines Auftrags an den Schieber:\nBeispiel: '$send_cmnd(PUSHER\\, \"pull\"\\, \"default:dirt 8\")'\nAls Nummer sind Werte von 1 bis 12 zulässig. Danach geht der Schieber wieder in den 'stopped' Mode und sendet ein \"off\" Kommando zurück an den Sender des \"pull\" Kommandos.\n"..
+  "  - 'config' dient zur Konfiguration des Schiebers\\, analog zum manuellen Konfiguration über das Menü.\nBeispiel:  '$send_cmnd(1234\\, \"config\"\\, \"default:dirt\")'\n"..
+  "  - 'pull' dient zum Absetzen eines Auftrags an den Schieber:\nBeispiel: '$send_cmnd(1234\\, \"pull\"\\, \"default:dirt 8\")'\nAls Nummer sind Werte von 1 bis 12 zulässig. Danach geht der Schieber wieder in den 'stopped' Mode und sendet ein \"off\" Kommando zurück an den Sender des \"pull\" Kommandos.\n"..
   "\n"..
   "\n"..
   "\n",

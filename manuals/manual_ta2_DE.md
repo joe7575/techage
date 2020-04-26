@@ -86,7 +86,7 @@ Die Transportkapazität einer Röhre ist unbegrenzt und nur durch die Schieber b
 ### TA2 Schieber / Pusher
 
 Ein Schieber ist in der Lage, Items aus Kisten oder Maschinen zu ziehen und in andere Kisten oder Maschinen zu schieben. Oder anders gesagt: Zwischen zwei Blöcken mit Inventar muss ein und genau ein Schieber sein. Mehrere Schieber in Reihe sind nicht möglich.
-In die Gegenrichtung ist ein Schieber für Items aber durchlässig, so dass eine Kiste über eine Röhre gefüllt und ebenso gelehrt werden kann. 
+In die Gegenrichtung ist ein Schieber für Items aber durchlässig, so dass eine Kiste über eine Röhre gefüllt und ebenso geleert werden kann. 
 
 Ein Schieber geht in den Zustand "standby", wenn der keine Items zum Schieben hat. Ist der Ausgang blockiert oder das Inventory des Empfängers voll, so geht der Schieber in den Zustand "blocked". Aus beiden Zuständen kommt der Schieber nach einigen Sekunden selbsttätig wieder raus, sofern sich die Situation geändert hat.
 
@@ -109,7 +109,7 @@ Für einen nicht-konfigurierten Ausgang gibt es zwei Betriebsarten:
 
 Im ersten Fall werden immer alle Items weitergeleitet und der Verteiler läuft nicht voll. Im zweiten Fall werden Items zurückgehalten und der Verteiler kann voll laufen und in der Folge blockieren.
 
-Einstellbar ist die Betriebsart über die ">>|" Checkbox (an => Betriebsart 2)
+Einstellbar ist die Betriebsart über die "blockiere" Checkbox.
 
 Der Verarbeitungsleistung eines TA2 Verteilers beträgt 4 Items alle 2 s, wobei der Verteiler dabei versucht, die 4 Items auf die offenen Ausgänge zu verteilen.
 
@@ -126,14 +126,14 @@ Aufbau von links nach rechts (siehe auch Plan):
 * daneben den Kiesspüler, ggf. mit Röhrenanschlüssen für den Kies An- und Abtransport
 * dann den Trichter mit Kiste 
 
-Das Ganze umgeben von weiteren Glasblöcken, so dass das Wasser über den Kiesspüler und den Trichter fließt und ausgespielten Nuggets vom Trichter wieder eingesammelt werden können.
+Das Ganze umgeben von weiteren Glasblöcken, so dass das Wasser über den Kiesspüler und den Trichter fließt und ausgespülten Nuggets vom Trichter wieder eingesammelt werden können.
 
 [gravelrinser|plan]
 
 
 ### TA2 Kiesspüler / Gravel Rinser
 
-Der Kiesspüler ist in der Lade, aus bereits gesiebtem Kies die Erze  Usmium und Kupfer auszuspülen, sofern dieser von Wasser überspült wird.
+Der Kiesspüler ist in der Lage, aus bereits gesiebtem Kies die Erze  Usmium und Kupfer auszuspülen, sofern dieser von Wasser überspült wird.
 
 Ob der Kiesspüler korrekt arbeitet, kann mit Hilfe von Stöcken (sticks) getestet werden, wenn diese in das Inventar des Kiesspülers getan werden. Diese müssen einzeln ausgespült und vom Trichter eingefangen werden.
 
