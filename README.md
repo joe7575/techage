@@ -61,6 +61,6 @@ It is highly recommended that you install the following mods, too:
 - 2019-09-28  V0.02  * TA3 finished  
 - 2020-02-29  V0.04  * TA4 ICTA controller added  
 - 2020-03-14  V0.05  * TA4 Lua controller added  
-- 2020-04-26  V0.06  * TA4 injector added  
-
+- 2020-04-24  V0.06  * TA4 injector added  
+- 2020-04-26  V0.07  * English translation added  
 
