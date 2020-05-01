@@ -43,7 +43,6 @@ minetest.register_node("techage:power_line", {
 		return false
 	end,
 	
-	can_dig = can_dig,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
 			oldnode.param2 = oldmetadata.fields.tl2_param2
@@ -85,7 +84,6 @@ minetest.register_node("techage:power_lineS", {
 		return false
 	end,
 	
-	can_dig = can_dig,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
 			oldnode.param2 = oldmetadata.fields.tl2_param2
@@ -133,7 +131,6 @@ minetest.register_node("techage:power_lineA", {
 		return false
 	end,
 	
-	can_dig = can_dig,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
 			oldnode.param2 = oldmetadata.fields.tl2_param2
@@ -345,7 +342,6 @@ minetest.register_node("techage:power_pole3", {
 			{ -4/32, -16/32,  -4/32,   4/32, 16/32,   4/32},
 		},
 	},
-	can_dig = can_dig,
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
 	sunlight_propagates = true,
