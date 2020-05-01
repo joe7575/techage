@@ -148,7 +148,7 @@ local function command(pos, command, player)
 				end
 				return
 			end
-			local bttn_num, label, cmnd = command:match('^set%s+([1-9])%s+(%w+)%s+(.+)$')
+			local bttn_num, label, cmnd = command:match('^set%s+([1-9])%s+([%w_]+)%s+(.+)$')
 			if bttn_num and label and cmnd then
 				meta:set_string("bttn_text"..bttn_num, label)
 				meta:set_string("bttn_cmnd"..bttn_num, cmnd)
