@@ -97,11 +97,15 @@ local tLiquid = {
 		end
 	end,
 	put = function(pos, indir, name, amount)
-		local inv = M(pos):get_inventory()
-		local stack = ItemStack(name.." "..amount)
-		if inv:room_for_item("main", stack) then
-			inv:add_item("main", stack)
-			return 0
+		-- check if it is powder
+		local ndef = minetest.registered_craftitems[name] or {}
+		if ndef.groups and ndef.groups.powder == 1 then
+			local inv = M(pos):get_inventory()
+			local stack = ItemStack(name.." "..amount)
+			if inv:room_for_item("main", stack) then
+				inv:add_item("main", stack)
+				return 0
+			end
 		end
 		return amount
 	end,

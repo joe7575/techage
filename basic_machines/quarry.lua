@@ -354,6 +354,8 @@ local tubing = {
 		local nvm = techage.get_nvm(pos)
 		if nvm.techage_state == techage.RUNNING then
 			play_sound(pos)
+		else
+			stop_sound(pos)
 		end
 	end,
 }

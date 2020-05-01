@@ -54,12 +54,17 @@ local function take_liquid(pos, indir, name, amount)
 end
 	
 local function put_liquid(pos, indir, name, amount)
-	local leftover = liquid.srv_put(pos, indir, name, amount)
-	if techage.is_activeformspec(pos) then
-		local nvm = techage.get_nvm(pos)
-		M(pos):set_string("formspec", liquid.formspec(pos, nvm))
+	-- check if it is not powder
+	local ndef = minetest.registered_craftitems[name] or {}
+	if not ndef.groups or ndef.groups.powder ~= 1 then
+		local leftover = liquid.srv_put(pos, indir, name, amount)
+		if techage.is_activeformspec(pos) then
+			local nvm = techage.get_nvm(pos)
+			M(pos):set_string("formspec", liquid.formspec(pos, nvm))
+		end
+		return leftover
 	end
-	return leftover
+	return amount
 end
 
 local networks_def = {

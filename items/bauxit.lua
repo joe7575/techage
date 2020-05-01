@@ -41,6 +41,7 @@ minetest.register_node("techage:bauxite_gravel", {
 minetest.register_craftitem("techage:bauxite_powder", {
 	description = S("Bauxite Powder"),
 	inventory_image = "techage_powder_inv.png^[colorize:#FB2A00:120",
+	groups = {powder = 1},
 })
 
 

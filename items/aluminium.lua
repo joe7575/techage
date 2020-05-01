@@ -17,6 +17,7 @@ local S = techage.S
 minetest.register_craftitem("techage:gibbsite_powder", {
 	description = S("Gibbsite Powder"),
 	inventory_image = "techage_powder_inv.png^[colorize:#C6DCDB:120",
+	groups = {powder = 1},
 })
 
 minetest.register_craftitem("techage:aluminum", {

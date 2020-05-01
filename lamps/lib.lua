@@ -39,10 +39,18 @@ end
 
 local function on_power(pos)
 	swap_node(pos, "on")
+	local nvm = techage.get_nvm(pos)
+	nvm.turned_on = true
 end
 
 local function on_nopower(pos)
 	swap_node(pos, "off")
+	local nvm = techage.get_nvm(pos)
+	nvm.turned_on = false
+end
+
+local function is_running(pos, nvm) 
+	return nvm.turned_on 
 end
 
 local function node_timer(pos, elapsed)
@@ -106,6 +114,7 @@ local net_def = {
 		on_power = on_power,
 		on_nopower = on_nopower,
 		nominal = PWR_NEEDED,
+		is_running = is_running,
 	},
 }
 
@@ -116,6 +125,7 @@ local net_def2 = {
 		on_power = on_power,
 		on_nopower = on_nopower,
 		nominal = PWR_NEEDED * 2,
+		is_running = is_running,
 	},
 }
 

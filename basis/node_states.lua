@@ -148,6 +148,10 @@ function techage.is_operational(nvm)
 	return state < NOPOWER
 end
 
+function techage.is_running(nvm)
+	return (nvm.techage_state or STOPPED) == RUNNING
+end
+
 -- consumes power
 function techage.needs_power(nvm)
 	local state = nvm.techage_state or STOPPED

@@ -20,8 +20,9 @@ local ore_probability = {
 }
 
 local ProbabilityCorrections = {
+	["default:tin_lump"] = 0.5,  -- extensively used
 	["default:coal_lump"] = 0.3,  -- extensively used
-	["default:iron_lump"] = 0.4,  -- extensively used
+	["default:iron_lump"] = 0.5,  -- extensively used
 	["techage:baborium_lump"] = 99999,  -- mining required
 }
 

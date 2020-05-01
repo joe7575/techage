@@ -93,6 +93,10 @@ end
 local function on_nopower(pos)
 end
 
+local function is_running(pos, nvm) 
+	return nvm.charging 
+end
+
 local function start_node(pos, nvm)
 	nvm.running = true
 	nvm.needed = 0
@@ -196,6 +200,7 @@ local net_def = {
 		nominal = PWR_PERF,
 		on_power = on_power,
 		on_nopower = on_nopower,
+		is_running = is_running,
 	},
 	pipe2 = {
 		sides = {L = 1, R = 1},
@@ -279,6 +284,8 @@ techage.register_node({"techage:heatexchanger1"}, {
 		local nvm = techage.get_nvm(pos)
 		if nvm.running and nvm.charging then
 			play_sound(pos)
+		else
+			stop_sound(pos)
 		end	
 		local mem = tubelib2.get_mem(pos)
 		nvm.capa = (nvm.capa or 0) + (mem.capa or 0)

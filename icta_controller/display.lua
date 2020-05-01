@@ -12,6 +12,8 @@
 
 ]]--
  
+local S = techage.S
+
 local NUM_ROWS = 5 
 local RADIUS = 6
 local Param2ToFacedir = {[0] = 0, 0, 3, 1, 2, 0}
@@ -81,7 +83,7 @@ local lcd_box = {
 }
 
 minetest.register_node("techage:ta4_display", {
-	description = "TA4 Display",
+	description = S("TA4 Display"),
 	inventory_image = 'techage_display_inventory.png',
 	tiles = {"techage_display.png"},
 	drawtype = "nodebox",
@@ -101,6 +103,7 @@ minetest.register_node("techage:ta4_display", {
 		local number = techage.add_node(pos, "techage:ta4_display")
 		local meta = minetest.get_meta(pos)
 		meta:set_string("number", number)
+		meta:set_string("infotext", S("Display no: ")..number)
 		local nvm = techage.get_nvm(pos)
 		nvm.text = {"My", "Techage","TA4", "Display", "No: "..number}
 		lcdlib.update_entities(pos)
@@ -127,7 +130,7 @@ local lcd_boxXL = {
 }
 
 minetest.register_node("techage:ta4_displayXL", {
-	description = "TA4 Display XL",
+	description = S("TA4 Display XL"),
 	inventory_image = 'techage_display_inventoryXL.png',
 	tiles = {"techage_displayXL.png"},
 	drawtype = "nodebox",
@@ -147,6 +150,7 @@ minetest.register_node("techage:ta4_displayXL", {
 		local number = techage.add_node(pos, "techage:ta4_displayXL")
 		local meta = minetest.get_meta(pos)
 		meta:set_string("number", number)
+		meta:set_string("infotext", S("Display no: ")..number)
 		local nvm = techage.get_nvm(pos)
 		nvm.text = {"My", "Techage","TA4", "Display", "No: "..number}
 		lcdlib.update_entities(pos)
@@ -214,13 +218,8 @@ local function write_row(pos, payload, cycle_time)
 		mem.ticks = cycle_time
 	end
 	
-	if row < 0 then row = 1 end
+	if row < 1 then row = 1 end
 	if row > NUM_ROWS then row = NUM_ROWS end
-	
-	if row == 0 then
-		meta:set_string("infotext", str)
-		return 
-	end	
 	
 	while #nvm.text < row do
 		table.insert(nvm.text, "")

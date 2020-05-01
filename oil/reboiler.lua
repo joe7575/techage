@@ -76,6 +76,10 @@ local function on_nopower(pos)
 	swap_node(pos, false)
 end
 
+local function is_running(pos, nvm) 
+	return nvm.running 
+end
+
 local function pump_cmnd(pos, cmnd, payload)
 	return techage.transfer(
 		pos, 
@@ -178,6 +182,7 @@ local net_def = {
 		on_power = on_power,
 		on_nopower = on_nopower,
 		nominal = PWR_NEEDED,
+		is_running = is_running,
 	},
 }
 

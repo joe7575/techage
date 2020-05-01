@@ -90,6 +90,12 @@ local function process(inv, recipe, output)
 	if not inv:room_for_item("dst", stack) then
 		return techage.BLOCKED
 	end
+	-- handle waste
+	if recipe.waste then
+		if not inv:room_for_item("dst", ItemStack(recipe.waste)) then
+			return techage.BLOCKED
+		end
+	end
 	-- remove items
 	local list = inv:get_list("src")
 	for _,item in ipairs(recipe.input) do
@@ -101,6 +107,14 @@ local function process(inv, recipe, output)
 	inv:set_list("src", list)
 	-- add output to dst
 	inv:add_item("dst", stack)
+	-- add waste to dst
+	if recipe.waste then
+		local leftover = inv:add_item("dst", ItemStack(recipe.waste))
+		if leftover:get_count() > 0 then
+			inv:set_list("src", leftover)
+			return techage.BLOCKED
+		end
+	end
 	return techage.RUNNING
 end		
 
@@ -198,6 +212,7 @@ function techage.furnace.register_recipe(recipe)
 	end
 	table.insert(Recipes[output], {
 		input = recipe.recipe,
+		waste = recipe.waste,
 		number = number,
 		time = math.max((recipe.time or 3) * number, 2),
 	})

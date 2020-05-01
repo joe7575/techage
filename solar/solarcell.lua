@@ -137,6 +137,7 @@ minetest.register_node("techage:ta4_solar_module", {
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
+	sounds = default.node_sound_glass_defaults(),
 })
 
 minetest.register_node("techage:ta4_solar_carrier", {
@@ -175,6 +176,7 @@ minetest.register_node("techage:ta4_solar_carrier", {
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
+	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node("techage:ta4_solar_carrierB", {
@@ -213,6 +215,7 @@ minetest.register_node("techage:ta4_solar_carrierB", {
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
+	sounds = default.node_sound_stone_defaults(),
 })
 
 minetest.register_node("techage:ta4_solar_carrierT", {
@@ -239,6 +242,7 @@ minetest.register_node("techage:ta4_solar_carrierT", {
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
+	sounds = default.node_sound_stone_defaults(),
 })
 
 Cable:add_secondary_node_names({"techage:ta4_solar_carrier", "techage:ta4_solar_carrierB"})

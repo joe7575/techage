@@ -59,6 +59,10 @@ local function on_nopower(pos)
 	nvm.has_power = false
 end
 
+local function is_running(pos, nvm) 
+	return nvm.has_power 
+end
+
 minetest.register_node("techage:ta4_reactor_stand", {
 	description = S("TA4 Reactor Stand"),
 	tiles = {
@@ -134,6 +138,7 @@ minetest.register_node("techage:ta4_reactor_stand", {
 			on_power = on_power,
 			on_nopower = on_nopower,
 			nominal = PWR_NEEDED,
+			is_running = is_running,
 		},
 	},
 })

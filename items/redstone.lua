@@ -95,9 +95,10 @@ minetest.register_craft({
 techage.furnace.register_recipe({
 	output = "techage:red_stone",
 	recipe = {
-		"techage:redmud", 
+		"techage:canister_redmud", 
 		"default:sand", 
 	},
+	waste = "techage:ta3_canister_empty",
 	time = 4,
 })
 

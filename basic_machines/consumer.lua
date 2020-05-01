@@ -122,6 +122,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 							nominal = tNode.power_consumption[stage],
 							on_power = on_power,
 							on_nopower = on_nopower,
+							is_running = function(pos, nvm) return techage.is_running(nvm) end,
 						},
 					}
 					if tNode.networks and tNode.networks.pipe2 then

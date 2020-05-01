@@ -86,6 +86,9 @@ local function on_nopower(pos)
 	nvm.running = false
 end
 
+local function is_running(pos, nvm) 
+	return nvm.running 
+end
 
 local function generating(pos, nvm)
 	nvm.num_pwr_units = nvm.num_pwr_units or 0
@@ -172,6 +175,7 @@ local netw_def = {
 		on_power = on_power,
 		on_nopower = on_nopower,
 		nominal = PWR_NEEDED,
+		is_running = is_running,
 	},
 }
 

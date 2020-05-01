@@ -39,8 +39,8 @@ local function stop_consumer(tbl, tlib_type)
 	for _,v in pairs(tbl or {}) do
 		local nvm = techage.get_nvm(v.pos)
 		local def = nvm[tlib_type] -- power related network data
-		if def and def["cstate"] == RUNNING then
-			local ndef = net_def(v.pos, tlib_type)
+		local ndef = net_def(v.pos, tlib_type)
+		if (def and def["cstate"] == RUNNING) or (ndef.is_running and ndef.is_running(v.pos, nvm)) then
 			def["cstate"] = NOPOWER
 			def["taken"] = 0
 			if ndef.on_nopower then

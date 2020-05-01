@@ -83,6 +83,7 @@ local function get_netID(pos, outdir)
 	return nvm.pipe2 and nvm.pipe2.netIDs and nvm.pipe2.netIDs[outdir]
 end
 
+-- return list of nodes {pos = ..., indir = ...} of given type
 local function get_network_table(pos, outdir, ntype)
 	local netID = get_netID(pos, outdir)
 	if netID then
@@ -133,7 +134,7 @@ function liquid.put(pos, outdir, name, amount, player_name)
 	return amount or 0
 end
 
--- Take given amount of liquid for the remote inventory.
+-- Take given amount of liquid from the remote inventory.
 -- return taken amount and item name
 function liquid.take(pos, outdir, name, amount, player_name)
 	local taken = 0

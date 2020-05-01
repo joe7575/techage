@@ -62,16 +62,6 @@ local function tubelib2_on_update2(pos, outdir, tlib2, node)
 	power.update_network(pos, outdir, tlib2)
 end
 
-local net_def = {
-	ele1 = {
-		sides = {B = true, F = true, L = true, D = true, U = true},
-		ntype = "con1",
-		on_power = on_power,
-		on_nopower = on_nopower,
-		nominal = PWR_NEEDED,
-	},
-}
-
 minetest.register_node("techage:furnace_heater", {
 	description = S("TA4 Furnace Heater"),
 	tiles = {
@@ -88,7 +78,15 @@ minetest.register_node("techage:furnace_heater", {
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	tubelib2_on_update2 = tubelib2_on_update2,
-	networks = net_def,
+	networks = {
+		ele1 = {
+			sides = {B = true, F = true, L = true, D = true, U = true},
+			ntype = "con1",
+			on_power = on_power,
+			on_nopower = on_nopower,
+			nominal = PWR_NEEDED,
+		},
+	},
 	
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -113,7 +111,16 @@ minetest.register_node("techage:furnace_heater_on", {
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	tubelib2_on_update2 = tubelib2_on_update2,
-	networks = net_def,
+	networks = {
+		ele1 = {
+			sides = {B = true, F = true, L = true, D = true, U = true},
+			ntype = "con1",
+			on_power = on_power,
+			on_nopower = on_nopower,
+			nominal = PWR_NEEDED,
+			is_running = function() return true end,
+		},
+	},
 	
 	light_source = 8,
 	paramtype2 = "facedir",
