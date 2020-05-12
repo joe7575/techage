@@ -346,7 +346,7 @@ techage.register_node({"techage:chest_ta4"}, {
 			return techage.put_items(inv, "main", item, idx)
 		end
 	end,
-	on_unpull_item = function(pos, in_dir, stack)
+	on_unpull_item = function(pos, in_dir, item)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		local mem = techage.get_mem(pos)

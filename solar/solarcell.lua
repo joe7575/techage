@@ -252,7 +252,7 @@ minetest.register_craft({
 	output = "techage:ta4_solar_module",
 	recipe = {
 		{"techage:ta4_silicon_wafer", "techage:ta4_silicon_wafer", "techage:ta4_silicon_wafer"},
-		{"default:tin_ingot", "default:copper_ingot", "default:tin_ingot"},
+		{"default:copper_ingot", "default:tin_ingot", "default:copper_ingot"},
 		{"", "", ""},
 	},
 })

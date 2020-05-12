@@ -17,6 +17,7 @@ local S = techage.S
 minetest.register_craftitem("techage:plastic_granules", {
 	description = S("Plastic Granules"),
 	inventory_image = "techage_powder_inv.png^[colorize:#FFFFFF:180",
+	groups = {powder = 1},
 })
 
 techage.recipes.add("ta4_doser", {
