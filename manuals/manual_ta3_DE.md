@@ -365,7 +365,22 @@ Der große Tank kann 4000 Einheiten Öl, aber auch jede andere Art von Flüssigk
 
 ## Öl-Transport
 
-Um Öl von der Ölquelle zur Ölverarbeitungsanlage zu befördern, können Minecarts genutzt werden.  In die Minecarts können aber nur Kanister oder Fässer geladen werden. Deshalb muss das Öl zuvor in Fässer umgeladen werden. Die Ölfässer können direkt mit einem Schieber und Röhren in das Minecart geschoben werden (siehe Plan). Die leeren Fässer, welche per Minecart von der Entladestation zurück kommen, können über einen Hopper entladen werden, der unter der Schiene an der Haltestelle platziert wird.
+### Öl-Transport mit dem Tankwagen
+Um Öl von der Ölquelle zur Ölverarbeitungsanlage zu befördern, können Tankwagen (tank carts) genutzt werden.  Ein Tankwagen kann direkt über Pumpen gefüllt bzw. geleert werden. In beiden Fällen muss die gelbe Röhre von oben mit dem Tankwagen verbunden werden.
+
+Dazu sind folgende Schritte notwendig:
+
+- Den Tankwagen vor den Prellbock setzen. Der Prellbock darf noch nicht mit einer Zeit programmiert sein, so dass der Tankwagen nicht automatisch losfährt
+- Den Tankwagen über gelbe Röhren mit der Pumpe verbinden
+- Pumpe einschalten
+- Prellbock mit einer Zeit (10 - 20 s) programmieren
+
+Diese Reihenfolge muss auf beiden Seiten /Füllen/Leeren) eingehalten werden.
+
+[tank_cart|image]
+
+### Öl-Transport mit Fässern über Minecarts
+In die Minecarts können Kanister und Fässer geladen werden. Das Öl muss dazu zuvor in Fässer umgeladen werden. Die Ölfässer können direkt mit einem Schieber und Röhren in das Minecart geschoben werden (siehe Plan). Die leeren Fässer, welche per Minecart von der Entladestation zurück kommen, können über einen Hopper entladen werden, der unter der Schiene an der Haltestelle platziert wird.
 
 Es ist mit dem Hopper nicht möglich, an **einer** Haltestelle sowohl die leeren Fässer zu entladen, als auch die vollen Fässer zu beladen. Der Hopper lädt die vollen Fässer sofort wieder aus. Daher ist es ratsam, jeweils 2 Stationen auf der Be- und Entladeseite einzurichten und den Minecart dann über eine Aufzeichnungsfahrt entsprechend zu programmieren.
 
@@ -375,6 +390,22 @@ Damit die Minecarts automatisch wieder starten, müssen die Prellböcke mit Stat
 
 [ta3_loading|plan]
 
+
+### Tankwagen / Tank Cart
+
+Der Tankwagen dient zum Transport von Flüssigkeiten. Es kann wie Tanks mit Pumpen gefüllt bzw. geleert werden.  In beiden Fällen muss die gelbe Röhre von oben mit dem Tankwagen verbunden werden.
+
+In den Tankwagen passen 100 Einheiten.
+
+[tank_cart|image]
+
+### Kistenwagen / Chest Cart
+
+Der Kistenwagen dient zum Transport von Items. Es kann wie Kisten über Schieber gefüllt bzw. geleert werden.
+
+In den Kistenwagen passen 4 Stacks.
+
+[chest_cart|image]
 
 
 
@@ -583,6 +614,8 @@ Danach werden weitere Kommando für 8 Sekunden blockiert.
 ### TA3 Wagen Detektor / Cart Detector
 
 Der Wagen Detektor sendet ein `on`-Kommando, wenn er einen Wagen/Cart (Minecart) direkt vor sich erkannt hat. Zusätzlich kann der Detektor auch den Wagen wieder starten, wenn ein `on`-Kommando empfangen wird.
+
+Der Detektor kann auch mit seiner eigenen Nummer programmiert werden. In diesem Falle schiebt er alle Wagen an, die in seiner Nähe (ein Block in alle Richtungen) zum Halten kommen.
 
 [ta3_cartdetector|image]
 

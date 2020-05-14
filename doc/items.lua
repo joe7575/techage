@@ -90,6 +90,8 @@ techage.Items = {
 	oiltank = "techage:oiltank",
 	reboiler = "techage:ta3_reboiler",
 	ta3_filler = "techage:filler",
+	tank_cart = "techage:tank_cart",
+	chest_cart = "techage:chest_cart",
 	----------------------------
 	ta3_button = "techage:ta3_button_off",
 	ta3_cartdetector = "techage:ta3_cartdetector_off",

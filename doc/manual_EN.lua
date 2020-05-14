@@ -81,6 +81,10 @@ techage.manual_EN.aTitel = {
   "3,TA3 Drill Pipe",
   "3,Oil tank",
   "2,Oil Transportation",
+  "3,Oil transportation by Tank Carts",
+  "3,Oil transportation with barrels over Minecarts",
+  "3,Tank Cart",
+  "3,Chest Cart",
   "2,Oil Processing",
   "3,Distillation Tower",
   "4,Reboiler",
@@ -737,13 +741,39 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Minecarts can be used to transport oil from the oil well to the oil processing plant. Only canisters or barrels can be loaded into the Minecarts. Therefore\\, the oil must first be transferred to barrels. The oil barrels can be pushed directly into the Minecart with a pusher and tubes (see map). The empty barrels\\, which come back from the unloading station by Minecart\\, can be unloaded using a hopper\\, which is placed under the rail at the stop.\n"..
+  "",
+  "Tank carts can be used to transport oil from the oil well to the oil processing plant. A tank cart  can be filled or emptied directly using pumps. In both cases\\, the yellow pipes must be connected to the tank cart from above.\n"..
+  "\n"..
+  "The following steps are necessary:\n"..
+  "\n"..
+  "  - Place the tank cart in front of the rail bumper block. The bumper block must not yet be programmed with a time so that the tank cart does not start automatically\n"..
+  "  - Connect the tank cart to the pump using yellow pipes\n"..
+  "  - Switch on the pump\n"..
+  "  - Program the bumper with a time (10 - 20 s)\n"..
+  "\n"..
+  "This sequence must be observed on both sides (fill / empty).\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Canisters and barrels can be loaded into the Minecarts. To do this\\, the oil must first be transferred to barrels. The oil barrels can be pushed directly into the Minecart with a pusher and tubes (see map). The empty barrels\\, which come back from the unloading station by Minecart\\, can be unloaded using a hopper\\, which is placed under the rail at the stop.\n"..
   "\n"..
   "It is not possible with the hopper to both *unload the empty barrels and load the full barrels at a stop*. The hopper immediately unloads the full barrels. It is therefore advisable to set up 2 stations on the loading and unloading side and then program the Minecart accordingly using a recording run.\n"..
   "\n"..
   "The plan shows how the oil can be pumped into a tank and filled into barrels via a liquid filler and loaded into Minecarts.\n"..
   "\n"..
   "For the Minecarts to start again automatically\\, the bumper blocks must be configured with the station name and waiting time. 5 s are sufficient for unloading. However\\, since the pushers always go into standby for several seconds when there is no Minecart\\, a time of 15 or more seconds must be entered for loading.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The tank truck is used to transport liquids. Like tanks\\, it can be filled with pumps or emptied. In both cases\\, the yellow tube must be connected to the tank truck from above.\n"..
+  "\n"..
+  "100 units fit in the tank truck.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The chest cart is used to transport items. Like chests\\, it can be filled or emptied using a pusher.\n"..
+  "\n"..
+  "4 stacks fit in the chest cart.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -905,6 +935,8 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "The cart detector sends an 'on' command if it has recognized a cart (Minecart) directly in front of it. In addition\\, the detector can also restart the cart when an 'on' command is received.\n"..
+  "\n"..
+  "The detector can also be programmed with its own number. In this case\\, he pushes all the wagons that stop near him (one block in all directions).\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1497,6 +1529,10 @@ techage.manual_EN.aItemName = {
   "ta3_drillbit",
   "oiltank",
   "",
+  "",
+  "",
+  "",
+  "",
   "techage_ta31",
   "",
   "reboiler",
@@ -1675,7 +1711,11 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
+  "",
+  "",
   "ta3_loading",
+  "",
+  "",
   "",
   "ta3_distiller",
   "",

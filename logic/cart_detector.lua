@@ -15,45 +15,24 @@
 -- for lazy programmers
 local M = minetest.get_meta
 local S = techage.S
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 
 local logic = techage.logic
 local CYCLE_TIME = 2
 
-local function switch_on(pos)
-	if logic.swap_node(pos, "techage:ta3_cartdetector_on") then
-		logic.send_on(pos, M(pos))
-	end
-end
-
 local function switch_off(pos)
-	if logic.swap_node(pos, "techage:ta3_cartdetector_off") then
-		logic.send_off(pos, M(pos))
-	end
+	logic.swap_node(pos, "techage:ta3_cartdetector_off")
+	logic.send_off(pos, M(pos))
 end
 
-local function check_cart(pos)	
-	for _, object in pairs(minetest.get_objects_inside_radius(pos, 1)) do
-		if object:get_entity_name() == "minecart:cart" then
-			return true
-		end
-	end
-	return false
+local function switch_on(pos)
+	logic.swap_node(pos, "techage:ta3_cartdetector_on")
+	logic.send_on(pos, M(pos))
+	minetest.after(1, switch_off, pos)
 end
-
-local function punch_cart(pos)
-	for _, object in pairs(minetest.get_objects_inside_radius(pos, 1)) do
-		if object:get_entity_name() == "minecart:cart" then
-			object:punch(object, 1.0, {
-				full_punch_interval = 1.0,
-				damage_groups = {fleshy = 1},
-			}, minetest.facedir_to_dir(0))
-			break -- start only one cart
-		end
-	end
-end	
 
 local function node_timer(pos)
-	if check_cart(pos)then
+	if minecart.check_cart_for_pushing(pos, nil, 1.5) then
 		switch_on(pos)
 	else
 		switch_off(pos)
@@ -101,7 +80,7 @@ minetest.register_node("techage:ta3_cartdetector_off", {
 	description = S("TA3 Cart Detector"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta3.png^techage_frame_ta3_top.png",
+		"techage_filling_ta3.png^techage_frame_ta3_top.png^techage_appl_arrow.png^[transformR90",
 		"techage_filling_ta3.png^techage_frame_ta3_top.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_cartdetector.png",
 	},
@@ -127,7 +106,7 @@ minetest.register_node("techage:ta3_cartdetector_on", {
 	description = "TA3 Cart Detector",
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta3.png^techage_frame_ta3_top.png",
+		"techage_filling_ta3.png^techage_frame_ta3_top.png^techage_appl_arrow.png^[transformR90",
 		"techage_filling_ta3.png^techage_frame_ta3_top.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_cartdetector_on.png",
 	},
@@ -154,7 +133,9 @@ minetest.register_craft({
 techage.register_node({"techage:ta3_cartdetector_off", "techage:ta3_cartdetector_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "on" then
-			punch_cart(pos)
+			local node = minetest.get_node(pos)
+			local dir = minetest.facedir_to_dir(node.param2)
+			minecart.punch_cart(pos, nil, 1.5, dir)
 		else
 			return "unsupported"
 		end

@@ -17,7 +17,7 @@ local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local P = minetest.string_to_pos
 local M = minetest.get_meta
 
-local check_cart = minecart.check_cart
+local check_cart_for_loading = minecart.check_cart_for_loading
 
 local function deserialize(s)
 	local tbl = {}
@@ -410,7 +410,7 @@ function techage.push_items(pos, out_dir, stack, idx)
 	local npos, in_dir, name = get_dest_node(pos, out_dir)
 	if npos and NodeDef[name] and NodeDef[name].on_push_item then
 		return NodeDef[name].on_push_item(npos, in_dir, stack, idx)	
-	elseif is_air_like(name) or check_cart(npos) then
+	elseif is_air_like(name) or check_cart_for_loading(npos) then
 		minetest.add_item(npos, stack)
 		return true 
 	end

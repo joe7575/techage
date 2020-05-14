@@ -363,7 +363,24 @@ The large tank can hold 4000 units of oil, but also any other type of liquid.
 
 ## Oil Transportation
 
-Minecarts can be used to transport oil from the oil well to the oil processing plant. Only canisters or barrels can be loaded into the Minecarts. Therefore, the oil must first be transferred to barrels. The oil barrels can be pushed directly into the Minecart with a pusher and tubes (see map). The empty barrels, which come back from the unloading station by Minecart, can be unloaded using a hopper, which is placed under the rail at the stop.
+### Oil transportation by Tank Carts
+
+Tank carts can be used to transport oil from the oil well to the oil processing plant. A tank cart  can be filled or emptied directly using pumps. In both cases, the yellow pipes must be connected to the tank cart from above.
+
+The following steps are necessary:
+
+- Place the tank cart in front of the rail bumper block. The bumper block must not yet be programmed with a time so that the tank cart does not start automatically
+- Connect the tank cart to the pump using yellow pipes
+- Switch on the pump
+- Program the bumper with a time (10 - 20 s)
+
+This sequence must be observed on both sides (fill / empty).
+
+[tank_cart | image]
+
+### Oil transportation with barrels over Minecarts
+
+Canisters and barrels can be loaded into the Minecarts. To do this, the oil must first be transferred to barrels. The oil barrels can be pushed directly into the Minecart with a pusher and tubes (see map). The empty barrels, which come back from the unloading station by Minecart, can be unloaded using a hopper, which is placed under the rail at the stop.
 
 It is not possible with the hopper to both **unload the empty barrels and load the full barrels at a stop**. The hopper immediately unloads the full barrels. It is therefore advisable to set up 2 stations on the loading and unloading side and then program the Minecart accordingly using a recording run.
 
@@ -373,7 +390,21 @@ For the Minecarts to start again automatically, the bumper blocks must be config
 
 [ta3_loading|plan]
 
+###  Tank Cart
 
+The tank truck is used to transport liquids. Like tanks, it can be filled with pumps or emptied. In both cases, the yellow tube must be connected to the tank truck from above.
+
+100 units fit in the tank truck.
+
+[tank_cart | image]
+
+### Chest Cart
+
+The chest cart is used to transport items. Like chests, it can be filled or emptied using a pusher.
+
+4 stacks fit in the chest cart.
+
+[chest_cart | image]
 
 
 ## Oil Processing
@@ -580,6 +611,8 @@ Then further commands are blocked for 8 seconds.
 ### TA3 Cart Detector
 
 The cart detector sends an `on` command if it has recognized a cart (Minecart) directly in front of it. In addition, the detector can also restart the cart when an `on` command is received.
+
+The detector can also be programmed with its own number. In this case, he pushes all the wagons that stop near him (one block in all directions).
 
 [ta3_cartdetector|image]
 

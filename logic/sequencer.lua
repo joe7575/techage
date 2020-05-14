@@ -127,13 +127,15 @@ end
 
 local function start_the_sequencer(pos)
 	local nvm = techage.get_nvm(pos)
-	local meta = M(pos)
-	nvm.running = true
-	nvm.endless = nvm.endless or false
-	nvm.rules = nvm.rules or new_rules()
-	logic.infotext(meta, S("TA3 Sequencer"), "running")
-	meta:set_string("formspec", formspec(techage.RUNNING, nvm.rules, nvm.endless))
-	minetest.get_node_timer(pos):start(0.1)
+	if not nvm.running then
+		local meta = M(pos)
+		nvm.running = true
+		nvm.endless = nvm.endless or false
+		nvm.rules = nvm.rules or new_rules()
+		logic.infotext(meta, S("TA3 Sequencer"), "running")
+		meta:set_string("formspec", formspec(techage.RUNNING, nvm.rules, nvm.endless))
+		minetest.get_node_timer(pos):start(0.1)
+	end
 	return false
 end
 

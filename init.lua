@@ -27,8 +27,8 @@ elseif minetest.global_exists("techpack") then
 elseif minetest.global_exists("tubelib2") and tubelib2.version < 1.8 then
 	minetest.log("error", "[techage] Techage requires tubelib2 version 1.8 or newer!")
 	return
-elseif minetest.global_exists("minecart") and minecart.version < 1.03 then
-	minetest.log("error", "[techage] Techage requires minecart version 1.03 or newer!")
+elseif minetest.global_exists("minecart") and minecart.version < 1.05 then
+	minetest.log("error", "[techage] Techage requires minecart version 1.05 or newer!")
 	return
 elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.0 then
 	minetest.log("error", "[techage] Techage requires lcdlib version 1.0 or newer!")
@@ -292,3 +292,7 @@ dofile(MP.."/items/redstone.lua")
 if techage.basalt_stone_enabled then
 	dofile(MP.."/items/basalt.lua")
 end
+
+-- Carts
+dofile(MP.."/carts/tank_cart.lua")
+dofile(MP.."/carts/chest_cart.lua")

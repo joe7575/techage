@@ -92,7 +92,12 @@ local function get_network_table(pos, outdir, ntype)
 			netw = networks.collect_network_nodes(pos, outdir, Pipe)
 			networks.set_network("pipe2", netID, netw)
 		end
-		--print("netw", string.format("%012X", netID),  dump(netw))
+		if not netw[ntype] then -- connection lost (e.g. tank cart)?
+			-- reactivate network
+			networks.node_connections(pos, Pipe)
+			delete_netID(pos, outdir)
+		end
+		--print("netw", string.format("%012X", netID),  dump(netw[ntype]))
 		return netw[ntype] or {}
 	end
 	return {}

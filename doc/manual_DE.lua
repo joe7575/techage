@@ -81,6 +81,10 @@ techage.manual_DE.aTitel = {
   "3,TA3 Bohrgestänge / Drill Pipe",
   "3,Öltank / Oil Tank",
   "2,Öl-Transport",
+  "3,Öl-Transport mit dem Tankwagen",
+  "3,Öl-Transport mit Fässern über Minecarts",
+  "3,Tankwagen / Tank Cart",
+  "3,Kistenwagen / Chest Cart",
   "2,Öl-Verarbeitung",
   "3,Destillationsturm / distiller tower",
   "4,Aufkocher / reboiler)",
@@ -739,13 +743,39 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Um Öl von der Ölquelle zur Ölverarbeitungsanlage zu befördern\\, können Minecarts genutzt werden.  In die Minecarts können aber nur Kanister oder Fässer geladen werden. Deshalb muss das Öl zuvor in Fässer umgeladen werden. Die Ölfässer können direkt mit einem Schieber und Röhren in das Minecart geschoben werden (siehe Plan). Die leeren Fässer\\, welche per Minecart von der Entladestation zurück kommen\\, können über einen Hopper entladen werden\\, der unter der Schiene an der Haltestelle platziert wird.\n"..
+  "",
+  "Um Öl von der Ölquelle zur Ölverarbeitungsanlage zu befördern\\, können Tankwagen (tank carts) genutzt werden.  Ein Tankwagen kann direkt über Pumpen gefüllt bzw. geleert werden. In beiden Fällen muss die gelbe Röhre von oben mit dem Tankwagen verbunden werden.\n"..
+  "\n"..
+  "Dazu sind folgende Schritte notwendig:\n"..
+  "\n"..
+  "  - Den Tankwagen vor den Prellbock setzen. Der Prellbock darf noch nicht mit einer Zeit programmiert sein\\, so dass der Tankwagen nicht automatisch losfährt\n"..
+  "  - Den Tankwagen über gelbe Röhren mit der Pumpe verbinden\n"..
+  "  - Pumpe einschalten\n"..
+  "  - Prellbock mit einer Zeit (10 - 20 s) programmieren\n"..
+  "\n"..
+  "Diese Reihenfolge muss auf beiden Seiten /Füllen/Leeren) eingehalten werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "In die Minecarts können Kanister und Fässer geladen werden. Das Öl muss dazu zuvor in Fässer umgeladen werden. Die Ölfässer können direkt mit einem Schieber und Röhren in das Minecart geschoben werden (siehe Plan). Die leeren Fässer\\, welche per Minecart von der Entladestation zurück kommen\\, können über einen Hopper entladen werden\\, der unter der Schiene an der Haltestelle platziert wird.\n"..
   "\n"..
   "Es ist mit dem Hopper nicht möglich\\, an *einer* Haltestelle sowohl die leeren Fässer zu entladen\\, als auch die vollen Fässer zu beladen. Der Hopper lädt die vollen Fässer sofort wieder aus. Daher ist es ratsam\\, jeweils 2 Stationen auf der Be- und Entladeseite einzurichten und den Minecart dann über eine Aufzeichnungsfahrt entsprechend zu programmieren.\n"..
   "\n"..
   "Der Plan zeigt\\, wie das Öl in einen Tank gepumpt und über einen Einfülltrichter in Fässer umgefüllt und in Minecarts geladen werden kann.\n"..
   "\n"..
   "Damit die Minecarts automatisch wieder starten\\, müssen die Prellböcke mit Stationsname und Wartezeit konfiguriert werden. Für das Entladen reichen 5 s. Da aber die Schieber immer für mehrere Sekunden in den Standby fallen\\, wenn kein Minecart  da ist\\, muss für das Beladen eine Zeit von 15 oder mehr Sekunden eingegeben werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Tankwagen dient zum Transport von Flüssigkeiten. Es kann wie Tanks mit Pumpen gefüllt bzw. geleert werden.  In beiden Fällen muss die gelbe Röhre von oben mit dem Tankwagen verbunden werden.\n"..
+  "\n"..
+  "In den Tankwagen passen 100 Einheiten.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Kistenwagen dient zum Transport von Items. Es kann wie Kisten über Schieber gefüllt bzw. geleert werden.\n"..
+  "\n"..
+  "In den Kistenwagen passen 4 Stacks.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -907,6 +937,8 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Der Wagen Detektor sendet ein 'on'-Kommando\\, wenn er einen Wagen/Cart (Minecart) direkt vor sich erkannt hat. Zusätzlich kann der Detektor auch den Wagen wieder starten\\, wenn ein 'on'-Kommando empfangen wird.\n"..
+  "\n"..
+  "Der Detektor kann auch mit seiner eigenen Nummer programmiert werden. In diesem Falle schiebt er alle Wagen an\\, die in seiner Nähe (ein Block in alle Richtungen) zum Halten kommen.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1507,6 +1539,10 @@ techage.manual_DE.aItemName = {
   "ta3_drillbit",
   "oiltank",
   "",
+  "tank_cart",
+  "",
+  "tank_cart",
+  "chest_cart",
   "techage_ta31",
   "",
   "reboiler",
@@ -1685,7 +1721,11 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
+  "",
   "ta3_loading",
+  "",
+  "",
   "",
   "ta3_distiller",
   "",
