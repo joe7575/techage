@@ -62,19 +62,19 @@ function backend.get_nodepos(number)
 end	
 	
 function backend.set_nodepos(number, pos)
-	storage:get_string(number, minetest.pos_to_string(pos))
+	storage:set_string(number, minetest.pos_to_string(pos))
 end	
 	
 function backend.add_nodepos(pos)
 	local num = tostring(NextNumber)
 	NextNumber = NextNumber + 1
 	storage:set_int("NextNumber", NextNumber)
-	storage:get_string(num, minetest.pos_to_string(pos))
+	storage:set_string(num, minetest.pos_to_string(pos))
 	return num
 end	
 	
 function backend.del_nodepos(number)
-	storage:get_string(number, "")
+	storage:set_string(number, "")
 end	
 
 -- delete invalid entries
@@ -87,6 +87,8 @@ function backend.delete_invalid_entries(node_def)
 			local name = techage.get_node_lvm(pos).name
 			if not node_def[name] then
 				backend.del_nodepos(number)
+			else
+				minetest.get_meta(pos):set_string("node_number", number) 
 			end
 		end
 	end

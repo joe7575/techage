@@ -19,7 +19,7 @@ local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 
 local NodeInfoCache = {}
 local MP = minetest.get_modpath("techage")
-local use_database = minetest.settings:get_bool('techage.use_database', false)
+local use_database = minetest.settings:get_bool('techage_use_database', false)
 
 -- Localize functions to avoid table lookups (better performance)
 local string_split = string.split
@@ -60,7 +60,7 @@ end
 -- Keep the cache size small by deleting entries randomly 
 local function keep_small(number)
 	number = delete_nodeinfo_entry(number)
-	minetest.after(2, keep_small, number)
+	minetest.after(10, keep_small, number)
 end
 
 keep_small()

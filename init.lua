@@ -46,6 +46,9 @@ techage.basalt_stone_enabled = minetest.settings:get_bool("techage_basalt_stone_
 techage.ore_rarity = tonumber(minetest.settings:get("techage_ore_rarity")) or 1
 techage.modified_recipes_enabled = minetest.settings:get_bool("techage_modified_recipes_enabled") ~= false
 
+-- allow to load marshal and sqlite3
+techage.IE = minetest.request_insecure_environment()
+
 -- Load support for I18n.
 techage.S = minetest.get_translator("techage")
 
@@ -296,3 +299,7 @@ end
 -- Carts
 dofile(MP.."/carts/tank_cart.lua")
 dofile(MP.."/carts/chest_cart.lua")
+
+
+-- Prevent other mods from using IE
+techage.IE = nil

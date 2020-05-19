@@ -26,6 +26,34 @@ local StoredNodes = 0
 local NextNum = 0
 local Timeslot = 0
 local FNAME = minetest.get_worldpath()..DIR_DELIM.."techage_metadata.txt"
+local use_marshal = minetest.settings:get_bool('techage_use_marshal', false)
+local MAR_MAGIC = 0x8e
+
+-- default functions
+local serialize = minetest.serialize
+local deserialize = minetest.deserialize
+
+if use_marshal then
+	if not techage.IE then
+		error("Please add 'secure.trusted_mods = techage' to minetest.conf!")
+	end
+	local marshal = techage.IE.require("marshal")
+	if not marshal then
+		error("Please install marshal via 'luarocks install lua-marshal'")
+	end
+	
+	serialize = marshal.encode
+
+	deserialize = function(s)
+		if s ~= "" then
+			if s:byte(1) == MAR_MAGIC then
+				return marshal.decode(s)
+			else
+				return minetest.deserialize(s)
+			end
+		end
+	end
+end
 
 local function read_file()
     local f = io.open(FNAME, "r")
@@ -51,10 +79,13 @@ minetest.register_on_shutdown(function()
 end)
 
 
+
+
+
 local function set_metadata(hash, tbl)
 	local pos = minetest.get_position_from_hash(hash)
 	tbl.USED = nil
-	local data = minetest.serialize(tbl)
+	local data = serialize(tbl)
 	local meta = minetest.get_meta(pos)
 	meta:set_string("ta_data", data)
 	meta:mark_as_private("ta_data")
@@ -65,7 +96,7 @@ local function get_metadata(hash)
 	local meta = minetest.get_meta(pos)
 	local s = meta:get_string("ta_data")
 	if s ~= "" then
-		return minetest.deserialize(s)
+		return deserialize(s)
 	end
 end
 
