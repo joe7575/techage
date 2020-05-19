@@ -53,6 +53,12 @@ local function chat(player, text)
 	minetest.chat_send_player(player:get_player_name(), "[Techage] "..text)
 end
 
+local function postload_area(pos)
+	if not minetest.forceload_block(pos, true) then
+		minetest.after(60, postload_area, pos)
+	end
+end
+	
 local function add_pos(pos, player)
 	local lPos = minetest.deserialize(player:get_attribute("techage_forceload_blocks")) or {}
 	if not in_list(lPos, pos) and (#lPos < techage.max_num_forceload_blocks or
@@ -259,7 +265,9 @@ minetest.register_on_joinplayer(function(player)
 	for _,pos in ipairs(get_pos_list(player)) do
 		local node = techage.get_node_lvm(pos)
 		if node.name == "techage:forceload" or node.name == "techage:forceloadtile" then
-			minetest.forceload_block(pos, true)
+			if not minetest.forceload_block(pos, true) then
+				minetest.after(60, postload_area, pos)
+			end
 			lPos[#lPos+1] = pos
 		end
 	end

@@ -14,7 +14,9 @@ Suche und fördere Öl, baute Schienenwege zur Ölbeförderung. Ein Kraftwerk li
 TA4: Zukunft (Future Age)
 Regenerative Energiequellen wie Wind, Sonne und Biokraft helfen dir, das Ölzeitalter zu verlassen. Mit modernen Technologien und intelligenten Maschinen machst du dich auf in die Zukunft.
 
-[wlanchip|image]
+Hinweis: Mit Klicken auf die Pluszeichen kommst du in die Unterkapitel dieser Anleitung.
+
+[techage_ta4|image]
 
 
 

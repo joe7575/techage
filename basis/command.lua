@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -14,68 +14,62 @@
 
 --- for lazy programmers
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local P = minetest.string_to_pos
-local M = minetest.get_meta
+--local P = minetest.string_to_pos
+--local M = minetest.get_meta
 
+local NodeInfoCache = {}
+local MP = minetest.get_modpath("techage")
+local use_database = minetest.settings:get_bool('techage.use_database', false)
+
+-- Localize functions to avoid table lookups (better performance)
+local string_split = string.split
+local NodeDef = techage.NodeDef
+local Tube = techage.Tube
 local check_cart_for_loading = minecart.check_cart_for_loading
 
-local function deserialize(s)
-	local tbl = {}
-	for line in s:gmatch("[^;]+") do
-		local num, spos = unpack(string.split(line, "="))
-		tbl[num] = {pos = minetest.string_to_pos(spos)}
-	end
-	return tbl
-end
-
-local function serialize(data)
-	local tbl = {}
-	for k,v in pairs(data) do
-		tbl[#tbl+1] = k.."="..minetest.pos_to_string(v.pos)
-	end
-	return table.concat(tbl, ";")
-end
-	
-------------------------------------------------------------------
--- Data base storage
 -------------------------------------------------------------------
-local storage = minetest.get_mod_storage()
-local NextNumber = minetest.deserialize(storage:get_string("NextNumber")) or 1
-local Version = minetest.deserialize(storage:get_string("Version")) or 2
-local Number2Pos
-if Version == 1 then
-	Version = 2
-	Number2Pos = minetest.deserialize(storage:get_string("Number2Pos")) or {}
+-- Database
+-------------------------------------------------------------------
+local backend
+if use_database then
+    backend = dofile(MP .. "/basis/backend_sqlite.lua")
 else
-	Number2Pos = deserialize(storage:get_string("Number2Pos"))
+    backend = dofile(MP .. "/basis/backend_storage.lua")
 end
 
-local function update_mod_storage()
-	local t = minetest.get_us_time()
-	minetest.log("action", "[TechAge] Store data...")
-	storage:set_string("NextNumber", minetest.serialize(NextNumber))
-	storage:set_string("Version", minetest.serialize(Version))
-	storage:set_string("Number2Pos", serialize(Number2Pos))
-	-- store data each hour
-	minetest.after(60*59, update_mod_storage)
-	t = minetest.get_us_time() - t
-	minetest.log("action", "[TechAge] Data stored. t="..t.."us")
+local function update_nodeinfo(number)
+	local pos = backend.get_nodepos(number)
+	if pos then
+		NodeInfoCache[number] = {pos = pos, name = techage.get_node_lvm(pos).name}
+		return NodeInfoCache[number]
+	end
 end
 
-minetest.register_on_shutdown(function()
-	update_mod_storage()
-end)
+local function delete_nodeinfo_entry(number)
+	if number and NodeInfoCache[number] then
+		number, _ = next(NodeInfoCache, number)
+		if number then
+			NodeInfoCache[number] = nil
+		end
+	else
+		number, _ = next(NodeInfoCache, nil)
+	end
+	return number
+end
 
--- store data after one hour
-minetest.after(60*59, update_mod_storage)
+-- Keep the cache size small by deleting entries randomly 
+local function keep_small(number)
+	number = delete_nodeinfo_entry(number)
+	minetest.after(2, keep_small, number)
+end
 
--- Key2Number will be generated at runtine
-local Key2Number = {} 
+keep_small()
+
+minetest.after(2, backend.delete_invalid_entries, NodeDef)
 
 -------------------------------------------------------------------
 -- Local helper functions
 -------------------------------------------------------------------
-
 local function in_list(list, x)
 	for _, v in ipairs(list) do
 		if v == x then return true end
@@ -83,26 +77,17 @@ local function in_list(list, x)
 	return false
 end
 
--- Localize functions to avoid table lookups (better performance).
-local string_split = string.split
-local NodeDef = techage.NodeDef
-local Tube = techage.Tube
-
 -- Determine position related node number for addressing purposes
-local function get_number(pos)
-	local key = minetest.hash_node_position(pos)
-	if not Key2Number[key] then
-		Key2Number[key] = NextNumber
-		NextNumber = NextNumber + 1
+local function get_number(pos, new)
+	local meta = minetest.get_meta(pos)
+	if meta:contains("node_number") then 
+		return meta:get_string("node_number") 
 	end
-	return string.format("%u", Key2Number[key])
-end
-
-local function generate_Key2Number()
-	local key
-	for num,item in pairs(Number2Pos) do
-		key = minetest.hash_node_position(item.pos)
-		Key2Number[key] = num
+	-- generate new number
+	if new then
+		local num = backend.add_nodepos(pos)
+		meta:set_string("node_number", num) 
+		return num
 	end
 end
 
@@ -133,16 +118,6 @@ local function register_lbm(name, nodenames)
 			end
 		end
 	})
-end
-
-
-local DirToSide = {"B", "R", "F", "L", "D", "U"}
-
-local function dir_to_side(dir, param2)
-	if dir < 5 then
-		dir = (((dir - 1) - (param2 % 4)) % 4) + 1
-	end
-	return DirToSide[dir]
 end
 
 local SideToDir = {B=1, R=2, F=3, L=4, D=5, U=6}
@@ -192,26 +167,15 @@ end
 -- API helper functions
 -------------------------------------------------------------------
 	
--- Function returns { pos, name } for the node on the given position number.
+-- Function returns { pos, name } for the node referenced by number
 function techage.get_node_info(dest_num)
-	if Number2Pos[dest_num] then
-		return Number2Pos[dest_num]
-	end
-	return nil
+	return NodeInfoCache[dest_num] or update_nodeinfo(dest_num)
 end	
 
 -- Function returns the node number from the given position or
 -- nil, if no node number for this position is assigned.
 function techage.get_node_number(pos)
-	local key = minetest.hash_node_position(pos)
-	local num = Key2Number[key]
-	if num then
-		num = string.format("%u", num)
-		if Number2Pos[num] and Number2Pos[num].name then
-			return num
-		end
-	end
-	return nil
+	return get_number(pos)
 end	
 
 function techage.get_pos(pos, side)
@@ -226,12 +190,7 @@ end
 -- Function is used for available nodes with lost numbers, only.
 function techage.get_new_number(pos, name)
 	-- store position 
-	local number = get_number(pos)
-	Number2Pos[number] = {
-		pos = pos, 
-		name = name,
-	}
-	return number
+	return get_number(pos, true)
 end
 
 -- extract ident and value from strings like "ident=value"
@@ -252,24 +211,21 @@ function techage.add_node(pos, name)
 		Tube:after_place_node(pos)
 	end
 	-- store position 
-	local number = get_number(pos)
-	Number2Pos[number] = {
-		pos = pos, 
-		name = name,
-	}
-	return number
+	return get_number(pos, true)
 end
 
 -- Function removes the node from the techage lists.
 function techage.remove_node(pos)
 	local number = get_number(pos)
-	local name
-	if Number2Pos[number] then
-		name = Number2Pos[number].name
-		Number2Pos[number].name = nil
-	end
-	if item_handling_node(name) then
-		Tube:after_dig_node(pos)
+	if number then
+		local ninfo = NodeInfoCache[number] or update_nodeinfo(number)
+		if ninfo then
+			backend.del_nodepos(number)
+			NodeInfoCache[number] = nil
+			if item_handling_node(ninfo.name) then
+				Tube:after_dig_node(pos)
+			end
+		end
 	end
 end
 
@@ -314,11 +270,9 @@ end
 -------------------------------------------------------------------
 
 function techage.not_protected(number, placer_name, clicker_name)
-	if Number2Pos[number] and Number2Pos[number].name then
-		local data = Number2Pos[number]
-		if data.pos	then
-			return not_protected(data.pos, placer_name, clicker_name)
-		end
+	local ninfo = NodeInfoCache[number] or update_nodeinfo(number)
+	if ninfo and ninfo.pos then
+		return not_protected(ninfo.pos, placer_name, clicker_name)
 	end
 	return false
 end
@@ -341,10 +295,11 @@ end
 function techage.send_multi(src, numbers, topic, payload)
 	--print("send_multi", src, numbers, topic)
 	for _,num in ipairs(string_split(numbers, " ")) do
-		if Number2Pos[num] and Number2Pos[num].name then
-			local data = Number2Pos[num]
-			if data.pos and NodeDef[data.name] and NodeDef[data.name].on_recv_message then
-				NodeDef[data.name].on_recv_message(data.pos, src, topic, payload)
+		local ninfo = NodeInfoCache[num] or update_nodeinfo(num)
+		if ninfo and ninfo.name and ninfo.pos then
+			local ndef = NodeDef[ninfo.name]
+			if ndef and ndef.on_recv_message then
+				ndef.on_recv_message(ninfo.pos, src, topic, payload)
 			end
 		end
 	end
@@ -352,10 +307,11 @@ end
 
 function techage.send_single(src, number, topic, payload)
 	--print("send_single", src, number, topic)
-	if Number2Pos[number] and Number2Pos[number].name then
-		local data = Number2Pos[number]
-		if data.pos and NodeDef[data.name] and NodeDef[data.name].on_recv_message then
-			return NodeDef[data.name].on_recv_message(data.pos, src, topic, payload)
+	local ninfo = NodeInfoCache[number] or update_nodeinfo(number)
+	if ninfo and ninfo.name and ninfo.pos then
+		local ndef = NodeDef[ninfo.name]
+		if ndef and ndef.on_recv_message then
+			return ndef.on_recv_message(ninfo.pos, src, topic, payload)
 		end
 	end
 	return false
@@ -502,7 +458,6 @@ function techage.put_items(inv, listname, item, idx)
 	return false
 end
 
-
 -- Return "full", "loaded", or "empty" depending
 -- on the inventory load.
 -- Full is returned, when no empty stack is available.
@@ -521,29 +476,3 @@ function techage.get_inv_state(inv, listname)
     end
     return state
 end
-
-
--------------------------------------------------------------------------------
--- Data Maintenance
--------------------------------------------------------------------------------
-local function data_maintenance()
-	minetest.log("info", "[TechAge] Data maintenance started")
-	-- Remove unused positions
-	local tbl = table.copy(Number2Pos)
-	Number2Pos = {}
-	for num,item in pairs(tbl) do
-		local name = techage.get_node_lvm(item.pos).name
-		if NodeDef[name] then
-			Number2Pos[num] = item
-			-- add node names which are not stored as file
-			Number2Pos[num].name = name
-		end
-	end
-	minetest.log("info", "[TechAge] Data maintenance finished")
-end	
-	
-generate_Key2Number()
-
-minetest.after(2, data_maintenance)
-
-

@@ -14,7 +14,9 @@ Find and extract oil, built railways for oil transportation. A power plant provi
 TA4: Future Age
 Renewable energy sources such as wind, sun and biofuels help you to leave the oil age. With modern technologies and intelligent machines you set out into the future.
 
-[wlanchip|image]
+Note: With a click on the plus sign you get into the subchapters of this manual.
+
+[techage_ta4|image]
 
 
 
