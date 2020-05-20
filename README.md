@@ -56,6 +56,21 @@ It is highly recommended that you install the following mods, too:
 * [autobahn](https://github.com/joe7575/autobahn): Street blocks and slopes with stripes for faster traveling
 
 
+### Configuration
+
+For servers with many players, it is recommended to use the external Lua library 'lua-marshal' to accelarate
+the serialization/deserialization of node metadata.
+To be able to use 'lua-marshal', install 'lua-marshal' with:
+
+    sudo luarocks install lua-marshal
+
+and add 'techage' to the list of trusted mods in minetest.conf:
+
+    secure.trusted_mods = techage
+
+For the installation of 'luarocks' (if not already available), see: https://luarocks.org/
+
+
 ### History  
 - 2019-06-16  V0.01  * First upload  
 - 2019-09-28  V0.02  * TA3 finished  
@@ -63,4 +78,5 @@ It is highly recommended that you install the following mods, too:
 - 2020-03-14  V0.05  * TA4 Lua controller added  
 - 2020-04-24  V0.06  * TA4 injector added  
 - 2020-04-26  V0.07  * English translation added  
+- 2020-05-20  V0.08  * Support for 'lua-marshal' added  
 

@@ -17,3 +17,12 @@ techage_modified_recipes_enabled (Enable alternative recipes for steel and bronz
 # Seed for the oil exploration random function.
 # Change this for your server in order not to be able to predict the oil reserves!
 techage_oil_exploration_seed (techage oil exploration seed) int 1234
+
+
+# Use the external Lua library 'lua-marshal' for faster serialization/deserialization 
+# of node meta data. For that, you have to add 'techage' to the list of 
+# trusted mods in minetest.conf:
+#
+#     secure.trusted_mods = techage
+#
+techage_use_marshal (use lua-marshal as serialize/deserialize functions) bool false
