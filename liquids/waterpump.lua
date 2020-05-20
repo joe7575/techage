@@ -83,9 +83,10 @@ local function on_nopower(pos)
 end
 
 local function pumping(pos, nvm)
-	if not nvm.running  then
-		State:nopower(pos, nvm)
-	else
+	if techage.needs_power(nvm) then
+		power.consumer_alive(pos, Cable, CYCLE_TIME)
+	end
+	if nvm.running then
 		local leftover = liquid.put(pos, 6, "techage:water", 1)
 		if leftover and leftover > 0 then
 			State:blocked(pos, nvm)
@@ -94,7 +95,6 @@ local function pumping(pos, nvm)
 		State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 		return
 	end
-	State:idle(pos, nvm)
 end
 
 -- converts power into hydrogen

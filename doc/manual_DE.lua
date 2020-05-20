@@ -198,6 +198,8 @@ techage.manual_DE.aText = {
   "TA4: Zukunft (Future Age)\n"..
   "Regenerative Energiequellen wie Wind\\, Sonne und Biokraft helfen dir\\, das Ölzeitalter zu verlassen. Mit modernen Technologien und intelligenten Maschinen machst du dich auf in die Zukunft.\n"..
   "\n"..
+  "Hinweis: Mit Klicken auf die Pluszeichen kommst du in die Unterkapitel dieser Anleitung.\n"..
+  "\n"..
   "\n"..
   "\n",
   "Diese Dokumentation ist sowohl \"ingame\" (Block Konstruktionsplan) als auch auf GitHub als MD-Files verfügbar.\n"..
@@ -1459,7 +1461,7 @@ techage.manual_DE.aText = {
 }
 
 techage.manual_DE.aItemName = {
-  "wlanchip",
+  "techage_ta4",
   "",
   "",
   "meridium",
