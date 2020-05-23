@@ -138,7 +138,7 @@
         - [TA4 Pipe](./manual_ta4_EN.md#ta4-pipe)
     - [Hydrogen](./manual_ta4_EN.md#hydrogen)
         - [Electrolyzer](./manual_ta4_EN.md#electrolyzer)
-        - [Fuel VCell](./manual_ta4_EN.md#fuel-vcell)
+        - [Fuel Cell](./manual_ta4_EN.md#fuel-cell)
     - [Chemical Reactor](./manual_ta4_EN.md#chemical-reactor)
         - [TA4 Doser](./manual_ta4_EN.md#ta4-doser)
         - [TA4 Reactor](./manual_ta4_EN.md#ta4-reactor)

@@ -139,7 +139,7 @@ techage.manual_EN.aTitel = {
   "3,TA4 Pipe",
   "2,Hydrogen",
   "3,Electrolyzer",
-  "3,Fuel VCell",
+  "3,Fuel Cell",
   "2,Chemical Reactor",
   "3,TA4 Doser",
   "3,TA4 Reactor",

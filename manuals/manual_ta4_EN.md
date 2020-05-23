@@ -211,7 +211,7 @@ The electrolyzer can draw up to 30 ku of electricity and then generates a hydrog
 [ta4_electrolyzer|image]
 
 
-### Fuel VCell
+### Fuel Cell
 
 The fuel cell converts hydrogen into electricity.
 It must be supplied with hydrogen from the left by a pump. The power connection is on the right.

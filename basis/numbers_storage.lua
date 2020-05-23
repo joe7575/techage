@@ -8,12 +8,12 @@
 	GPL v3
 	See LICENSE.txt for more information
 	
-	Mod storage based solution
+	Storage backend for node number mapping via mod storage
 
 ]]--
 
 local backend = {}
-local storage = minetest.get_mod_storage()
+local storage = techage.storage
 
 -- legacy method
 local function deserialize(s)

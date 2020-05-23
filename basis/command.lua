@@ -19,7 +19,7 @@ local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 
 local NodeInfoCache = {}
 local MP = minetest.get_modpath("techage")
-local use_database = minetest.settings:get_bool('techage_use_database', false)
+local techage_use_sqlite = minetest.settings:get_bool('techage_use_sqlite', false)
 
 -- Localize functions to avoid table lookups (better performance)
 local string_split = string.split
@@ -31,10 +31,10 @@ local check_cart_for_loading = minecart.check_cart_for_loading
 -- Database
 -------------------------------------------------------------------
 local backend
-if use_database then
-    backend = dofile(MP .. "/basis/backend_sqlite.lua")
+if techage_use_sqlite then
+    backend = dofile(MP .. "/basis/numbers_sqlite.lua")
 else
-    backend = dofile(MP .. "/basis/backend_storage.lua")
+    backend = dofile(MP .. "/basis/numbers_storage.lua")
 end
 
 local function update_nodeinfo(number)
@@ -47,12 +47,12 @@ end
 
 local function delete_nodeinfo_entry(number)
 	if number and NodeInfoCache[number] then
-		number, _ = next(NodeInfoCache, number)
+		number = next(NodeInfoCache, number)
 		if number then
 			NodeInfoCache[number] = nil
 		end
 	else
-		number, _ = next(NodeInfoCache, nil)
+		number = next(NodeInfoCache, nil)
 	end
 	return number
 end

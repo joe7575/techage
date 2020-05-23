@@ -82,12 +82,12 @@ techage.register_node({"default:furnace", "default:furnace_active"}, {
 		if minetest.get_craft_result({method="fuel", width=1, items={stack}}).time ~= 0 then
 			return techage.put_items(inv, "fuel", stack)
 		else
-			return techage.put_items(meta, "src", stack)
+			return techage.put_items(inv, "src", stack)
 		end
 	end,
 	on_unpull_item = function(pos, side, stack)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		return techage.put_items(meta, "dst", stack)
+		return techage.put_items(inv, "dst", stack)
 	end,
 })	

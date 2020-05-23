@@ -52,10 +52,13 @@ techage.IE = minetest.request_insecure_environment()
 -- Load support for I18n.
 techage.S = minetest.get_translator("techage")
 
+-- Load mod storage
+techage.storage = minetest.get_mod_storage()
+
 -- Basis features
 local MP = minetest.get_modpath("techage")
 dofile(MP.."/basis/lib.lua")  -- helper functions
-dofile(MP.."/basis/storage.lua")
+dofile(MP.."/basis/node_store.lua")
 dofile(MP.."/basis/gravel_lib.lua")  -- ore probability
 dofile(MP.."/basis/node_states.lua") -- state model
 dofile(MP.."/basis/tubes.lua")  -- tubes for item transport

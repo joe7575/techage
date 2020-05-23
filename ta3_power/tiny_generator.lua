@@ -132,7 +132,7 @@ local function node_timer(pos, elapsed)
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(State, pos, nvm))
 	end
-	return true
+	return State:is_active(nvm)
 end
 
 local function on_receive_fields(pos, formname, fields, player)

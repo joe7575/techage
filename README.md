@@ -59,16 +59,22 @@ It is highly recommended that you install the following mods, too:
 ### Configuration
 
 For servers with many players, it is recommended to use the external Lua library 'lua-marshal' to accelarate
-the serialization/deserialization of node metadata.
-To be able to use 'lua-marshal', install 'lua-marshal' with:
+the serialization/deserialization of node data and the database SQLite (lsqlite3) to store large amounts of data.
+To be able to use 'lua-marshal' and 'lsqlite3', install the packages with:
 
-    sudo luarocks install lua-marshal
+    luarocks install lua-marshal
+    luarocks install lsqlite3
 
 and add 'techage' to the list of trusted mods in minetest.conf:
 
     secure.trusted_mods = techage
 
 For the installation of 'luarocks' (if not already available), see: https://luarocks.org/
+
+If you enable 'lsqlite3' you also have to enable 'lua-marshal'. Available worlds will be converted
+to 'lsqlite3' and 'lua-marshal', but there is no way back, so:
+
+** Never disable 'lsqlite3' and 'lua-marshal' for a world, which it was already used!**
 
 
 ### History  
@@ -78,5 +84,5 @@ For the installation of 'luarocks' (if not already available), see: https://luar
 - 2020-03-14  V0.05  * TA4 Lua controller added  
 - 2020-04-24  V0.06  * TA4 injector added  
 - 2020-04-26  V0.07  * English translation added  
-- 2020-05-20  V0.08  * Support for 'lua-marshal' added  
+- 2020-05-22  V0.08  * Support for 'lua-marshal' and 'lsqlite3' added  
 
