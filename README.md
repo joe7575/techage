@@ -35,7 +35,8 @@ Textures: CC BY-SA 3.0
 ### Dependencies  
 Required: default, doors, bucket, stairs, screwdriver, basic_materials, tubelib2, minecart, lcdlib, safer_lua  
 Recommended: signs_bot, hyperloop, compost, techpack_stairway, autobahn  
-Optional: unified_inventory, wielded_light, unifieddyes
+Optional: unified_inventory, wielded_light, unifieddyes, lua-mashal, lsqlite3
+
 
 The mods `default`, `doors`, `bucket`, `stairs`, and `screwdriver` are part of Minetest Game.
 
@@ -55,21 +56,21 @@ It is highly recommended that you install the following mods, too:
 * [techpack_stairway](https://github.com/joe7575/techpack_stairway): Ladders, stairways, and bridges for your machines
 * [autobahn](https://github.com/joe7575/autobahn): Street blocks and slopes with stripes for faster traveling
 
+For large servers with many player, the following packages are recommended:
 
-### Configuration
+* `lua-mashal` for faster serialization/deserialization of data
+* `lsqlite3` for storing node and network data
 
-For servers with many players, it is recommended to use the external Lua library 'lua-marshal' to accelarate
-the serialization/deserialization of node data and the database SQLite (lsqlite3) to store large amounts of data.
-To be able to use 'lua-marshal' and 'lsqlite3', install the packages with:
+Both packages are installed via [luarocks](https://luarocks.org/):
 
     luarocks install lua-marshal
     luarocks install lsqlite3
 
-and add 'techage' to the list of trusted mods in minetest.conf:
+To enable this `unsafe` packages, add 'techage' to the list of trusted mods in minetest.conf:
 
     secure.trusted_mods = techage
 
-For the installation of 'luarocks' (if not already available), see: https://luarocks.org/
+For the installation of 'luarocks' (if not already available), see [luarocks](https://luarocks.org/)
 
 If you enable 'lsqlite3' you also have to enable 'lua-marshal'. Available worlds will be converted
 to 'lsqlite3' and 'lua-marshal', but there is no way back, so:
