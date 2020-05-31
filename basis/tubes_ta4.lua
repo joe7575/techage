@@ -110,3 +110,8 @@ minetest.register_craft({
 		{"basic_materials:plastic_sheet", "", "techage:aluminum"},
 	},
 })
+
+techage.TA4tubes = {
+	["techage:ta4_tubeS"] = true,
+	["techage:ta4_tubeA"] = true,
+}

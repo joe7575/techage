@@ -1378,12 +1378,13 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "TA4 hat auch seine eigenen Röhren im TA4 Design. Diese entsprechen den Standard Röhren\\, sehen nur besser aus. \\;-)\n"..
+  "TA4 hat auch seine eigenen Röhren im TA4 Design. Diese können wie Standard Röhren eingesetzt werden.\n"..
+  "Aber: TA4 Schieber und TA4 Verteiler erreichen ihre volle Leistungsfähigkeit nur beim Einsatz mit TA4 Röhren.\n"..
   "\n"..
   "\n"..
   "\n",
   "Die Funktion entspricht grundsätzlich der von TA2/TA3. Zusätzlich kann aber über ein Menü konfiguriert werden\\, welche Gegenstände aus einer TA4 Kiste geholt und weiter transportiert werden sollen.\n"..
-  "Die Verarbeitungsleistung beträgt 12 Items alle 2 s.\n"..
+  "Die Verarbeitungsleistung beträgt 12 Items alle 2 s\\, sofern auf beiden Seiten TA4 Röhren verwendet werden. Anderenfalls sind es nur 6 Items alle 2 s.\n"..
   "\n"..
   "Der TA4 Schieber besitzt zwei zusätzliche Kommandos für den Lua Controller:\n"..
   "\n"..
@@ -1424,7 +1425,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Die Funktion entspricht der von TA2.\n"..
-  "Die Verarbeitungsleistung beträgt 24 Items alle 4 s.\n"..
+  "Die Verarbeitungsleistung beträgt 24 Items alle 4 s\\, sofern auf allen Seiten TA4 Röhren verwendet werden. Anderenfalls sind es nur 12 Items alle 4 s.\n"..
   "\n"..
   "\n"..
   "\n",

@@ -107,7 +107,7 @@ minetest.register_globalstep(function(dtime)
 			NvmStore[key] = nil -- remove unused data from cache
 		end
 		t = minetest.get_us_time() - t
-		if t > 10000 then
+		if t > 20000 then
 			minetest.log("warning", "[TA Storage] duration = "..(t/1000.0).." ms")
 		end
 	end

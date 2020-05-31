@@ -17,6 +17,7 @@ local M = minetest.get_meta
 local N = minetest.get_node
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
+local Tube = techage.Tube
 
 local S = techage.S
 
@@ -184,6 +185,23 @@ local function allow_metadata_inventory_move(pos, from_list, from_index, to_list
 	end
 end
 
+local function tubelib2_on_update2(pos, outdir, tlib2, node)
+	local is_ta4_tube = true
+	for dir = 1,4 do
+		for i, pos, node in Tube:get_tube_line(pos, dir) do
+			is_ta4_tube = is_ta4_tube and techage.TA4tubes[node.name]
+		end
+	end
+	
+	local nvm = techage.get_nvm(pos)
+	local crd = CRD(pos)
+	if CRD(pos).stage == 4 and not is_ta4_tube then
+		nvm.num_items = crd.num_items / 2
+	else
+		nvm.num_items = crd.num_items
+	end
+end
+
 local function push_item(pos, filter, item_name, num_items, nvm)
 	local idx = 1
 	local num_pushed = 0
@@ -222,7 +240,7 @@ local function distributing(pos, inv, crd, nvm)
 		local stack = inv:get_stack("src", idx)
 		local item_name = stack:get_name()
 		local num_items = stack:get_count()
-		local num_to_push = math.min(crd.num_items - sum_num_pushed, num_items)
+		local num_to_push = math.min((nvm.num_items or crd.num_items) - sum_num_pushed, num_items)
 		num_pushed = 0
 		
 		if item_filter[item_name] then
@@ -240,7 +258,7 @@ local function distributing(pos, inv, crd, nvm)
 		sum_num_pushed = sum_num_pushed + num_pushed
 		stack:take_item(num_pushed)
 		inv:set_stack("src", idx, stack)
-		if sum_num_pushed >= crd.num_items then 
+		if sum_num_pushed >= (nvm.num_items or crd.num_items) then 
 			nvm.last_index = idx
 			break 
 		end
@@ -408,6 +426,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		allow_metadata_inventory_put = allow_metadata_inventory_put,
 		allow_metadata_inventory_move = allow_metadata_inventory_move,
 		allow_metadata_inventory_take = allow_metadata_inventory_take,
+		tubelib2_on_update2 = tubelib2_on_update2,
 		
 		on_metadata_inventory_move = function(pos, from_list, from_index, to_list)
 			if from_list ~= "src" or to_list ~= "src" then

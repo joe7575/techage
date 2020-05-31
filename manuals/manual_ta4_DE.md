@@ -490,14 +490,15 @@ Mit der Wasserpumpe kann Wasser über Flüssigkeitsleitungen in Tanks gepumpt un
 
 ### TA4 Röhren / TA4 Tube
 
-TA4 hat auch seine eigenen Röhren im TA4 Design. Diese entsprechen den Standard Röhren, sehen nur besser aus. ;-)
+TA4 hat auch seine eigenen Röhren im TA4 Design. Diese können wie Standard Röhren eingesetzt werden.
+Aber: TA4 Schieber und TA4 Verteiler erreichen ihre volle Leistungsfähigkeit nur beim Einsatz mit TA4 Röhren.
 
 [ta4_tube|image]
 
 ### TA4 Schieber / Pusher
 
 Die Funktion entspricht grundsätzlich der von TA2/TA3. Zusätzlich kann aber über ein Menü konfiguriert werden, welche Gegenstände aus einer TA4 Kiste geholt und weiter transportiert werden sollen.
-Die Verarbeitungsleistung beträgt 12 Items alle 2 s.
+Die Verarbeitungsleistung beträgt 12 Items alle 2 s, sofern auf beiden Seiten TA4 Röhren verwendet werden. Anderenfalls sind es nur 6 Items alle 2 s.
 
 Der TA4 Schieber besitzt zwei zusätzliche Kommandos für den Lua Controller:
 
@@ -551,7 +552,7 @@ Der Kiste besitzt ein zusätzliches Kommandos für den Lua Controller:
 ### TA4 Verteiler / Distributor
 
 Die Funktion entspricht der von TA2.  
-Die Verarbeitungsleistung beträgt 24 Items alle 4 s.
+Die Verarbeitungsleistung beträgt 24 Items alle 4 s, sofern auf allen Seiten TA4 Röhren verwendet werden. Anderenfalls sind es nur 12 Items alle 4 s.
 
 [ta4_distributor|image]
 

@@ -490,14 +490,15 @@ With the water pump, water can be pumped through liquid lines in tanks and thus 
 
 ### TA4 Tube
 
-TA4 also has its own tubes in the TA4 design. These correspond to the standard tubes, only look better. ;-)
+TA4 also has its own tubes in the TA4 design. These can be used like standard tubes.
+But: TA4 pushers and TA4 distributors only achieve their full performance when used with TA4 tubes.
 
 [ta4_tube|image]
 
 ### TA4 Pusher
 
 The function basically corresponds to that of TA2 / TA3. In addition, a menu can be used to configure which objects should be taken from a TA4 chest and transported further.
-The processing power is 12 items every 2 s.
+The processing power is 12 items every 2 s, if TA4 tubes are used on both sides. Otherwise there are only 6 items every 2 s.
 
 The TA4 pusher has two additional commands for the Lua controller:
 
@@ -551,7 +552,7 @@ The chest has an additional command for the Lua controller:
 ### TA4 Distributor
 
 The function corresponds to that of TA2.
-The processing power is 24 items every 4 s.
+The processing power is 24 items every 4 s, provided TA4 tubes are used on all sides. Otherwise there are only 12 items every 4 s.
 
 [ta4_distributor|image]
 

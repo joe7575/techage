@@ -372,7 +372,7 @@ In addition to Lua standard function the Lua Controller provides the following f
 | -------------------------------- | ------------ | ------------------------------------------------------------ |
 | "on", "off"                      | nil          | turn a node on/off (machine, lamp,...)                       |
 | "red, "amber", "green", "off"    | nil          | set Signal Tower color                                       |
-| "red", "green", "blue", "yellow" | "on", "off"  | Enable/disable a Distributor filter slot.                    |
+| "port"                          | `<color>=on/off` | Enable/disable a Distributor filter slot..<br />Example: `yellow=on`<br />colors: "red", "green", "blue", "yellow" |
 | "text"                           | text string  | Text to be used for the Sensor Chest menu                    |
 | "reset"                          | nil          | Reset the item counter of the TA4 Item Detector block        |
 | "pull"                           | item  string | Start the TA4 pusher to pull/push items.<br /> Example: `default:dirt 8` |

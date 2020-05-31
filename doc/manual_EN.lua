@@ -1368,12 +1368,13 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "TA4 also has its own tubes in the TA4 design. These correspond to the standard tubes\\, only look better. \\;-)\n"..
+  "TA4 also has its own tubes in the TA4 design. These can be used like standard tubes.\n"..
+  "But: TA4 pushers and TA4 distributors only achieve their full performance when used with TA4 tubes.\n"..
   "\n"..
   "\n"..
   "\n",
   "The function basically corresponds to that of TA2 / TA3. In addition\\, a menu can be used to configure which objects should be taken from a TA4 chest and transported further.\n"..
-  "The processing power is 12 items every 2 s.\n"..
+  "The processing power is 12 items every 2 s\\, if TA4 tubes are used on both sides. Otherwise there are only 6 items every 2 s.\n"..
   "\n"..
   "The TA4 pusher has two additional commands for the Lua controller:\n"..
   "\n"..
@@ -1414,7 +1415,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "The function corresponds to that of TA2.\n"..
-  "The processing power is 24 items every 4 s.\n"..
+  "The processing power is 24 items every 4 s\\, provided TA4 tubes are used on all sides. Otherwise there are only 12 items every 4 s.\n"..
   "\n"..
   "\n"..
   "\n",

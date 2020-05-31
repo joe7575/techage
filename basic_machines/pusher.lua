@@ -28,11 +28,12 @@ local S = techage.S
 
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
+local Tube = techage.Tube
 
 local STANDBY_TICKS = 2
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 2
-
+	
 local function ta4_formspec(self, pos, nvm)
 	if CRD(pos).stage == 4 then -- TA4 node?
 		return "size[8,7.2]"..
@@ -89,7 +90,8 @@ end
 local function pushing(pos, crd, meta, nvm)
 	local pull_dir = meta:get_int("pull_dir")
 	local push_dir = meta:get_int("push_dir")
-	local items = techage.pull_items(pos, pull_dir, nvm.item_count or crd.num_items, nvm.item_name)
+	local num = nvm.item_count or nvm.num_items or crd.num_items
+	local items = techage.pull_items(pos, pull_dir, num, nvm.item_name)
 	if items ~= nil then
 		if techage.push_items(pos, push_dir, items) ~= true then
 			-- place item back
@@ -139,6 +141,27 @@ local function on_receive_fields(pos, formname, fields, player)
 		local nvm = techage.get_nvm(pos)
 		CRD(pos).State:state_button_event(pos, nvm, fields)
 		M(pos):set_string("formspec", ta4_formspec(CRD(pos).State, pos, nvm))
+	end
+end
+
+local function tubelib2_on_update2(pos, outdir, tlib2, node)
+	local pull_dir = M(pos):get_int("pull_dir")
+	local push_dir = M(pos):get_int("push_dir")
+	local is_ta4_tube = true
+	
+	for i, pos, node in Tube:get_tube_line(pos, pull_dir) do
+		is_ta4_tube = is_ta4_tube and techage.TA4tubes[node.name]
+	end
+	for i, pos, node in Tube:get_tube_line(pos, push_dir) do
+		is_ta4_tube = is_ta4_tube and techage.TA4tubes[node.name]
+	end
+	
+	local nvm = techage.get_nvm(pos)
+	local crd = CRD(pos)
+	if CRD(pos).stage == 4 and not is_ta4_tube then
+		nvm.num_items = crd.num_items / 2
+	else
+		nvm.num_items = crd.num_items
 	end
 end
 
@@ -261,6 +284,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		on_receive_fields = on_receive_fields,
 		node_timer = keep_running,
 		on_rotate = screwdriver.disallow,
+		tubelib2_on_update2 = tubelib2_on_update2,
 		
 		groups = {choppy=2, cracky=2, crumbly=2},
 		is_ground_content = false,
