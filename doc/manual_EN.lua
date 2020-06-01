@@ -436,7 +436,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Crushing\\, grinding and sieving of rock is used to extract ores. Sieved gravel can also be used for other purposes. Quarry\\, grinder and sieve must be driven and thus installed near a steam engine.\n"..
+  "Crushing\\, grinding and sieving of cobblestone is used to extract ores. Sieved gravel can also be used for other purposes. Quarry\\, grinder and sieve must be driven and thus installed near a steam engine.\n"..
   "\n"..
   "\n"..
   "\n",
