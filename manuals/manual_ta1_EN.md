@@ -13,9 +13,9 @@ The durability / hardness for an axe, for example:
 [techage_ta1|image]
 
 
-## Coal Pile
+## Charcoal Pile (charcoal burner)
 
-You need the charcoal burner to make charcoal. Charcoal is required for the burner, but also, for example, in TA2 for the steam engine.
+You need the Charcoal Pile to make charcoal. Charcoal is required for the melting furnace, but also, for example, in TA2 for the steam engine.
 
 Building instructions (see also plan):
 
@@ -28,14 +28,14 @@ Building instructions (see also plan):
 - If you have done everything correctly, the coal burner will start smoking after a few seconds
 - Only open the charcoal burner when the smoke has disappeared (approx. 20 min)
 
-Then you can remove the 9 charcoal blocks and refill the charcoal burner.
+Then you can remove the 9 charcoal blocks and refill the Charcoal Pile.
 
 [coalpile|plan]
 
 
-## Coal Burner
+## Melting Furnace
 
-You need the coal burner, for example, to melt iron and other ores in the melting pot. There are different recipes that require different temperatures. The higher the tower, the hotter the flame. A height of 11 blocks above the base plate is for all recipes, but a burner with this height also requires more charcoal.
+You need the melting furnace, for example, to melt iron and other ores in the melting pot. There are different recipes that require different temperatures. The higher the melting tower, the hotter the flame. A height of 11 blocks above the base plate is for all recipes, but a burner with this height also requires more charcoal.
 
 Building instructions (see also plan):
 

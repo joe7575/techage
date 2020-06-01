@@ -144,7 +144,7 @@ The processing power is one gravel item every 2 s. The gravel washer needs 3 ku 
 
 ## Dig stone, grind and sieve
 
-Crushing, grinding and sieving of rock is used to extract ores. Sieved gravel can also be used for other purposes. Quarry, grinder and sieve must be driven and thus installed near a steam engine.
+Crushing, grinding and sieving of cobblestone is used to extract ores. Sieved gravel can also be used for other purposes. Quarry, grinder and sieve must be driven and thus installed near a steam engine.
 
 [ta2_grinder|image]
 

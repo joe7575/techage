@@ -11,8 +11,8 @@ techage.manual_EN.aTitel = {
   "3,Bauxite",
   "2,History",
   "1,TA1: Iron Age",
-  "2,Coal Pile",
-  "2,Coal Burner",
+  "2,Charcoal Pile (charcoal burner)",
+  "2,Melting Furnace",
   "2,Ores and Tools",
   "3,Hammer",
   "3,Gravel Sieve",
@@ -265,7 +265,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "You need the charcoal burner to make charcoal. Charcoal is required for the burner\\, but also\\, for example\\, in TA2 for the steam engine.\n"..
+  "You need the Charcoal Pile to make charcoal. Charcoal is required for the melting furnace\\, but also\\, for example\\, in TA2 for the steam engine.\n"..
   "\n"..
   "Building instructions (see also plan):\n"..
   "\n"..
@@ -278,11 +278,11 @@ techage.manual_EN.aText = {
   "  - If you have done everything correctly\\, the coal burner will start smoking after a few seconds\n"..
   "  - Only open the charcoal burner when the smoke has disappeared (approx. 20 min)\n"..
   "\n"..
-  "Then you can remove the 9 charcoal blocks and refill the charcoal burner.\n"..
+  "Then you can remove the 9 charcoal blocks and refill the Charcoal Pile.\n"..
   "\n"..
   "\n"..
   "\n",
-  "You need the coal burner\\, for example\\, to melt iron and other ores in the melting pot. There are different recipes that require different temperatures. The higher the tower\\, the hotter the flame. A height of 11 blocks above the base plate is for all recipes\\, but a burner with this height also requires more charcoal.\n"..
+  "You need the melting furnace\\, for example\\, to melt iron and other ores in the melting pot. There are different recipes that require different temperatures. The higher the melting tower\\, the hotter the flame. A height of 11 blocks above the base plate is for all recipes\\, but a burner with this height also requires more charcoal.\n"..
   "\n"..
   "Building instructions (see also plan):\n"..
   "\n"..
