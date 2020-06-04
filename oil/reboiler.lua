@@ -90,21 +90,6 @@ local function pump_cmnd(pos, cmnd, payload)
 		{"techage:ta3_distiller1"})
 end
 
-local function start_node(pos)
-	local nvm = techage.get_nvm(pos)
-	if nvm.running then return end
-	
-	nvm.liquid = nvm.liquid or {}
-	nvm.liquid.amount = nvm.liquid.amount or 0
-	if nvm.liquid.amount >= 5 and nvm.liquid.name == "techage:oil_source" then
-		if power.power_available(pos, Cable) then
-			nvm.running = true
-			power.consumer_start(pos, Cable, CYCLE_TIME)
-			minetest.get_node_timer(pos):start(CYCLE_TIME)
-		end
-	end
-end
-	
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	nvm.liquid = nvm.liquid or {}
@@ -130,6 +115,23 @@ local function node_timer(pos, elapsed)
 	return false
 end	
 
+local function start_node(pos)
+	local nvm = techage.get_nvm(pos)
+	if nvm.running then return end
+	
+	nvm.liquid = nvm.liquid or {}
+	nvm.liquid.amount = nvm.liquid.amount or 0
+	if nvm.liquid.amount >= 5 and nvm.liquid.name == "techage:oil_source" then
+		if power.power_available(pos, Cable) then
+			if node_timer(pos, CYCLE_TIME) then
+				nvm.running = true
+				power.consumer_start(pos, Cable, CYCLE_TIME)
+				minetest.get_node_timer(pos):start(CYCLE_TIME)
+			end
+		end
+	end
+end
+	
 local function after_place_node(pos)
 	Pipe:after_place_node(pos)
 	Cable:after_place_node(pos)
