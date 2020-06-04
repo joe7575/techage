@@ -87,6 +87,7 @@ to 'lsqlite3' and 'lua-marshal', but there is no way back, so:
 - 2020-04-26  V0.07  * English translation added  
 - 2020-05-22  V0.08  * Support for 'lua-marshal' and 'lsqlite3' added  
 - 2020-05-31  V0.09  * TA4 tubes upgraded, manuals updated  
+- 2020-06-04  V0.10  * minor changes and bugfixes
 
 
 
