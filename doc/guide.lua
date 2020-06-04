@@ -210,3 +210,9 @@ minetest.register_craft({
 	},
 })
 
+minetest.register_craft({
+  type = "shapeless",
+	output = "techage:construction_board_EN",
+	recipe = {"techage:construction_board"},
+})
+

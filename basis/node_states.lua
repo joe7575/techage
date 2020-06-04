@@ -277,7 +277,7 @@ end
 
 function NodeStates:standby(pos, nvm, err_string)
 	local state = nvm.techage_state or STOPPED
-	if state == RUNNING then
+	if state == RUNNING or state == BLOCKED then
 		nvm.techage_state = STANDBY
 		if self.node_name_passive then
 			swap_node(pos, self.node_name_passive)

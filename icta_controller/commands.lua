@@ -185,7 +185,7 @@ techage.icta_register_condition("state", {
 		{
 			type = "label", 
 			name = "lbl", 
-			label = "Read the state from a TA3/TA4 machine.\n", 
+			label = "Read the state of a TA3/TA4 machine.\n", 
 		},
 	},
 	button = function(data, environ)  -- default button label
@@ -222,7 +222,7 @@ techage.icta_register_condition("fuel", {
 		{
 			type = "label", 
 			name = "lbl", 
-			label = "Read and evaluate the fuel value\nfrom a fuel consuming block.", 
+			label = "Read and evaluate the fuel value\nof a fuel consuming block.", 
 		},
 	},
 	button = function(data, environ) 
@@ -259,7 +259,7 @@ techage.icta_register_condition("load", {
 		{
 			type = "label", 
 			name = "lbl", 
-			label = "Read and evaluate the load (0..100)\nfrom a tank/storage block.", 
+			label = "Read and evaluate the load (0..100)\nof a tank/storage block.", 
 		},
 	},
 	button = function(data, environ) 
@@ -267,6 +267,43 @@ techage.icta_register_condition("load", {
 	end,
 	code = function(data, environ) 
 		return send_single_string(environ, data.number, "load"),
+			techage.operand(data.operand)..tonumber(data.value)
+	end,
+})
+
+techage.icta_register_condition("depth", {
+	title = "read quarry depth",
+	formspec = {
+		{
+			type = "number",
+			name = "number",
+			label = "quarry number",
+			default = "",
+		},
+		{
+			type = "textlist",
+			name = "operand",
+			label = "",
+			choices = "greater,less",
+			default = "greater",
+		},
+		{
+			type = "digits",
+			name = "value",
+			label = "than",
+			default = ""
+		},
+		{
+			type = "label", 
+			name = "lbl", 
+			label = "Read and evaluate the current\ndepth of a quarry block.", 
+		},
+	},
+	button = function(data, environ) 
+		return 'depth('..techage.fmt_number(data.number)..","..data.operand..' '..data.value..')'
+	end,
+	code = function(data, environ) 
+		return send_single_string(environ, data.number, "depth"),
 			techage.operand(data.operand)..tonumber(data.value)
 	end,
 })
@@ -296,7 +333,7 @@ techage.icta_register_condition("delivered", {
 		{
 			type = "label", 
 			name = "lbl", 
-			label = "Read and evaluate the delivered\npower from a generator block.\nPower consuming blocks like accus\ncould also provide a negative value.", 
+			label = "Read and evaluate the delivered\npower of a generator block.\nPower consuming blocks like accus\ncould also provide a negative value.", 
 		},
 	},
 	button = function(data, environ) 
@@ -371,7 +408,7 @@ techage.icta_register_condition("signaltower", {
 		{
 			type = "label", 
 			name = "lbl", 
-			label = "Read the color state\nfrom a Signal Tower.", 
+			label = "Read the color state\nof a Signal Tower.", 
 		},
 	},
 	button = function(data, environ)  -- default button label
@@ -602,7 +639,7 @@ techage.icta_register_condition("playerdetector", {
 		{
 			type = "label", 
 			name = "lbl", 
-			label = "Read and check the name\nfrom a Player Detector.\nUse a '*' character for all player names.\n Use a '-' character for no player.", 
+			label = "Read and check the name\nof a Player Detector.\nUse a '*' character for all player names.\n Use a '-' character for no player.", 
 		},
 	},
 	

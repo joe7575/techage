@@ -189,6 +189,8 @@ local function quarry_task(pos, crd, nvm)
 		pos1.y = y_curr
 		pos2.y = y_curr
 
+		nvm.level = y_first - y_curr
+		
 		if minetest.is_area_protected(pos1, pos2, owner, 5) then
 			crd.State:fault(pos, nvm, S("area is protected"))
 			return
@@ -215,7 +217,6 @@ local function quarry_task(pos, crd, nvm)
 			end
 			techage.unmark_position(owner)
 		end
-		nvm.level = nvm.level + 1
 	end
 	crd.State:stop(pos, nvm, S("finished"))
 end
@@ -348,7 +349,12 @@ local tubing = {
 		end
 	end,
 	on_recv_message = function(pos, src, topic, payload)
-		return CRD(pos).State:on_receive_message(pos, topic, payload)
+		if topic == "depth" then
+			local nvm = techage.get_nvm(pos)
+			return nvm.level or 0
+		else
+			return CRD(pos).State:on_receive_message(pos, topic, payload)
+		end
 	end,
 	on_node_load = function(pos, node)
 		local nvm = techage.get_nvm(pos)

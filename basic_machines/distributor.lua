@@ -264,7 +264,7 @@ local function distributing(pos, inv, crd, nvm)
 		end
 	end
 	
-	if num_pushed == 0 then
+	if sum_num_pushed == 0 then
 		crd.State:blocked(pos, nvm)
 	else
 		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)

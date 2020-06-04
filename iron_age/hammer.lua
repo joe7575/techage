@@ -48,6 +48,25 @@ local function handler(player_name, node, itemstack, digparams)
 	end
 end
 
+minetest.register_tool("techage:hammer_stone", {
+	description = S("TA1 Stone Hammer (smash stone to gravel)"),
+	inventory_image = "techage_tool_hammer_stone.png",
+	tool_capabilities = {
+		full_punch_interval = 1.0,
+		max_drop_level=1,
+		groupcaps={
+			cracky = {times={[1]=6.00, [2]=2.5, [3]=1.2}, uses=30, maxlevel=2},
+		},
+		damage_groups = {fleshy=4},
+	},
+	sound = {breaks = "default_tool_breaks"},
+	after_use = function(itemstack, user, node, digparams)
+		minetest.after(0.01, handler, user:get_player_name(), node)
+		itemstack:add_wear(digparams.wear)
+		return itemstack
+	end,
+})
+
 minetest.register_tool("techage:hammer_bronze", {
 	description = S("TA1 Bronze Hammer (smash stone to gravel)"),
 	inventory_image = "techage_tool_hammer_bronze.png",
@@ -153,6 +172,14 @@ if minetest.global_exists("wielded_light") then
 	})
 end
 
+minetest.register_craft({
+	output = "techage:hammer_stone 2",
+	recipe = {
+		{"default:cobble", "group:stick", "default:cobble"},
+		{"default:cobble", "group:stick", "default:cobble"},
+		{"", "group:stick", ""},
+	}
+})
 minetest.register_craft({
 	output = "techage:hammer_bronze 2",
 	recipe = {
