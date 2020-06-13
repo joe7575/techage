@@ -105,9 +105,9 @@ minetest.register_node("techage:ta3_doorcontroller", {
 		return res
 	end,
 	
-	after_dig_node = function(pos)
+	after_dig_node = function(pos, oldnode, oldmetadata)
 		swap_door_nodes(pos, false)
-		techage.remove_node(pos)
+		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
 	end,
 

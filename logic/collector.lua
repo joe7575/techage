@@ -177,8 +177,8 @@ minetest.register_node("techage:ta4_collector", {
 	
 	on_timer = on_timer,
 	
-	after_dig_node = function(pos)
-		techage.remove_node(pos)
+	after_dig_node = function(pos, oldnode, oldmetadata)
+		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 
 	paramtype = "light",

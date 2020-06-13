@@ -267,7 +267,7 @@ minetest.register_node("techage:ta4_doser", {
 		del_liquids(pos)
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		techage.remove_node(pos)
+		techage.remove_node(pos, oldnode, oldmetadata)
 		Pipe:after_dig_node(pos)
 		techage.del_mem(pos)
 	end,

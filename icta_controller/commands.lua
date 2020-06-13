@@ -688,4 +688,3 @@ techage.icta_register_action("set_filter", {
 		return send_single_string(environ, data.number, "filter", payload)
 	end,
 })
-

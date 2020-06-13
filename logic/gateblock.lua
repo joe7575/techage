@@ -64,8 +64,8 @@ for idx,pgn in ipairs(tPgns) do
 			end
 		end,
 		
-		after_dig_node = function(pos)
-			techage.remove_node(pos)
+		after_dig_node = function(pos, oldnode, oldmetadata)
+			techage.remove_node(pos, oldnode, oldmetadata)
 		end,
 
 		paramtype = "light",

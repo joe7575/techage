@@ -175,8 +175,8 @@ minetest.register_node("techage:ta3_timer", {
 	
 	on_timer = check_rules,
 
-	after_dig_node = function(pos)
-		techage.remove_node(pos)
+	after_dig_node = function(pos, oldnode, oldmetadata)
+		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
 	end,
 

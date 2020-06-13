@@ -197,7 +197,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				if crd.power_netw then
 					crd.power_netw:after_dig_node(pos)
 				end
-				techage.remove_node(pos)
+				techage.remove_node(pos, oldnode, oldmetadata)
 				techage.del_mem(pos)
 			end
 			

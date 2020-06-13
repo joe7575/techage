@@ -19,6 +19,10 @@ local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local S2P = minetest.string_to_pos
 local Pipe = techage.LiquidPipe
 local liquid = techage.liquid
+local MP = minetest.get_modpath("minecart")
+local cart = dofile(MP.."/cart_lib1.lua")
+
+cart:init(true)
 
 local CAPACITY = 100
 
@@ -110,8 +114,7 @@ minetest.register_node("techage:tank_cart", {
 	end,
 	
 	on_place = function(itemstack, placer, pointed_thing)
-		return minecart.node_on_place(itemstack, placer, pointed_thing, 
-					"techage:tank_cart")
+		return cart.add_cart(itemstack, placer, pointed_thing, "techage:tank_cart")
 	end,
 	
 	on_punch = function(pos, node, puncher, pointed_thing)
@@ -121,7 +124,7 @@ minetest.register_node("techage:tank_cart", {
 		if techage.liquid.is_container_empty(wielded_item) then
 			liquid.on_punch(pos, node, puncher, pointed_thing)
 		else
-			minecart.node_on_punch(pos, node, puncher, pointed_thing, "techage:tank_cart_entity")
+			cart.node_on_punch(pos, node, puncher, pointed_thing, "techage:tank_cart_entity")
 		end
 	end,
 	
@@ -170,9 +173,9 @@ minecart.register_cart_entity("techage:tank_cart_entity", "techage:tank_cart", {
 		visual_size = {x=0.66, y=0.66, z=0.66},
 		static_save = false,
 	},
-	on_activate = minecart.on_activate,
-	on_punch = minecart.on_punch,
-	on_step = minecart.on_step,
+	on_activate = cart.on_activate,
+	on_punch = cart.on_punch,
+	on_step = cart.on_step,
 })
 
 minetest.register_craft({

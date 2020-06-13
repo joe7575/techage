@@ -171,14 +171,14 @@ local function after_place_node(pos, placer)
 	Cable:after_place_node(pos)
 end
 
-local function after_dig_node(pos, oldnode)
+local function after_dig_node(pos, oldnode, oldmetadata)
 	local hash = minetest.hash_node_position(pos)
 	if Rotors[hash] and Rotors[hash]:get_luaentity() then
 		Rotors[hash]:remove()
 	end
 	Rotors[hash] = nil
 	Cable:after_dig_node(pos)
-	techage.remove_node(pos)
+	techage.remove_node(pos, oldnode, oldmetadata)
 	techage.del_mem(pos)
 end
 

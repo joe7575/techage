@@ -103,7 +103,7 @@ minetest.register_node("techage:ta3_tank", {
 	on_punch = liquid.on_punch,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
-		techage.remove_node(pos)
+		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 	liquid = {
 		capa = CAPACITY,
@@ -161,7 +161,7 @@ minetest.register_node("techage:oiltank", {
 	on_punch = liquid.on_punch,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
-		techage.remove_node(pos)
+		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 	liquid = {
 		capa = CAPACITY * 4,
@@ -209,7 +209,7 @@ minetest.register_node("techage:ta4_tank", {
 	on_punch = liquid.on_punch,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
-		techage.remove_node(pos)
+		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 	liquid = {
 		capa = CAPACITY * 2,

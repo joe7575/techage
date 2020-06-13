@@ -54,7 +54,7 @@ minetest.register_node("techage:signal_lamp_off", {
 	on_rightclick = switch_on,
 
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		techage.remove_node(pos)
+		techage.remove_node(pos, oldnode, oldmetadata)
 		if COLORED then
 			unifieddyes.after_dig_node(pos, oldnode, oldmetadata, digger)
 		end
@@ -97,7 +97,7 @@ minetest.register_node("techage:signal_lamp_on", {
 	after_place_node = COLORED and unifieddyes.recolor_on_place or nil,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		techage.remove_node(pos)
+		techage.remove_node(pos, oldnode, oldmetadata)
 		if COLORED then
 			unifieddyes.after_dig_node(pos, oldnode, oldmetadata, digger)
 		end

@@ -110,8 +110,8 @@ minetest.register_node("techage:ta4_display", {
 		minetest.get_node_timer(pos):start(1)
 	end,
 
-	after_dig_node = function(pos)
-		techage.remove_node(pos)
+	after_dig_node = function(pos, oldnode, oldmetadata)
+		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 
 	on_timer = on_timer,
@@ -157,8 +157,8 @@ minetest.register_node("techage:ta4_displayXL", {
 		minetest.get_node_timer(pos):start(2)
 	end,
 
-	after_dig_node = function(pos)
-		techage.remove_node(pos)
+	after_dig_node = function(pos, oldnode, oldmetadata)
+		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 
 	on_timer = on_timer,

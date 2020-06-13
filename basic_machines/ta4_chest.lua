@@ -436,7 +436,7 @@ local function on_rotate(pos, node, user, mode, new_param2)
 end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
-	techage.remove_node(pos)
+	techage.remove_node(pos, oldnode, oldmetadata)
 	convert_to_chest_again(pos, oldnode, digger)
 end
 

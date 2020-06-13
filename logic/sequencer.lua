@@ -228,8 +228,8 @@ minetest.register_node("techage:ta3_sequencer", {
 		end
 		local nvm = techage.get_nvm(pos)
 		if not nvm.running then
-			minetest.node_dig(pos, node, puncher, pointed_thing)
 			techage.remove_node(pos)
+			minetest.node_dig(pos, node, puncher, pointed_thing)
 			techage.del_mem(pos)
 		end
 	end,

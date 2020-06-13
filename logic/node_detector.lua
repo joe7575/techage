@@ -135,7 +135,7 @@ minetest.register_node("techage:ta3_nodedetector_off", {
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		techage.remove_node(pos)
+		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
 	end,
 	
@@ -165,7 +165,7 @@ minetest.register_node("techage:ta3_nodedetector_on", {
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		techage.remove_node(pos)
+		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
 	end,
 	

@@ -161,7 +161,7 @@ minetest.register_node("techage:ta3_silo", {
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
-		techage.remove_node(pos)
+		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 	liquid = tLiquid,
 	networks = tNetworks,
@@ -206,7 +206,7 @@ minetest.register_node("techage:ta4_silo", {
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
-		techage.remove_node(pos)
+		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 	liquid = tLiquid,
 	networks = tNetworks,

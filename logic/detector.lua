@@ -76,7 +76,7 @@ local function techage_set_numbers(pos, numbers, player_name)
 end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
-	techage.remove_node(pos)
+	techage.remove_node(pos, oldnode, oldmetadata)
 	techage.del_mem(pos)
 end
 

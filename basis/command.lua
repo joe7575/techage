@@ -18,6 +18,7 @@ local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 --local M = minetest.get_meta
 
 local NodeInfoCache = {}
+local NumbersToBeRecycled = {}
 local MP = minetest.get_modpath("techage")
 local techage_use_sqlite = minetest.settings:get_bool('techage_use_sqlite', false)
 
@@ -210,17 +211,19 @@ function techage.add_node(pos, name)
 	if item_handling_node(name) then
 		Tube:after_place_node(pos)
 	end
-	-- store position 
-	return get_number(pos, true)
+	local key = minetest.hash_node_position(pos)
+	return NumbersToBeRecycled[key] or get_number(pos, true)
 end
 
 -- Function removes the node from the techage lists.
-function techage.remove_node(pos)
-	local number = get_number(pos)
+function techage.remove_node(pos, oldnode, oldmetadata)
+	local number = oldmetadata and oldmetadata.fields and oldmetadata.fields.node_number
+	number = number or get_number(pos)
 	if number then
+		local key = minetest.hash_node_position(pos)
+		NumbersToBeRecycled[key] = number
 		local ninfo = NodeInfoCache[number] or update_nodeinfo(number)
 		if ninfo then
-			backend.del_nodepos(number)
 			NodeInfoCache[number] = nil
 			if item_handling_node(ninfo.name) then
 				Tube:after_dig_node(pos)

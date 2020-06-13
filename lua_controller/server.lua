@@ -86,8 +86,8 @@ minetest.register_node("techage:ta4_server", {
 			return
 		end
 		techage.del_mem(pos)
-		minetest.node_dig(pos, node, puncher, pointed_thing)
 		techage.remove_node(pos)
+		minetest.node_dig(pos, node, puncher, pointed_thing)
 	end,
 		
 	on_timer = function(pos, elasped)

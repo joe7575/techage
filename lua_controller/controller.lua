@@ -533,8 +533,8 @@ minetest.register_node("techage:ta4_lua_controller", {
 			return
 		end
 		
-		minetest.node_dig(pos, node, puncher, pointed_thing)
 		techage.remove_node(pos)
+		minetest.node_dig(pos, node, puncher, pointed_thing)
 	end,
 	
 	on_timer = on_timer,

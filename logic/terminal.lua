@@ -226,8 +226,8 @@ local function register_terminal(num, tiles, node_box, selection_box)
 			end
 		end,
 		
-		after_dig_node = function(pos)
-			techage.remove_node(pos)
+		after_dig_node = function(pos, oldnode, oldmetadata)
+			techage.remove_node(pos, oldnode, oldmetadata)
 		end,
 		
 		paramtype = "light",

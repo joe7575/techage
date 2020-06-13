@@ -17,6 +17,10 @@ local M = minetest.get_meta
 local S = techage.S
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local S2P = minetest.string_to_pos
+local MP = minetest.get_modpath("minecart")
+local cart = dofile(MP.."/cart_lib1.lua")
+
+cart:init(true)
 
 local function formspec()
 	return "size[8,6]"..
@@ -31,7 +35,8 @@ end
 
 local function can_dig(pos, player)
 	local owner = M(pos):get_string("owner")
-	if owner ~= "" and owner ~= player:get_player_name() then
+	if owner ~= "" and (owner ~= player:get_player_name() or
+			not minetest.check_player_privs(player:get_player_name(), "minecart")) then
 		return false
 	end
 	local inv = minetest.get_meta(pos):get_inventory()
@@ -91,12 +96,11 @@ minetest.register_node("techage:chest_cart", {
 	end,
 	
 	on_place = function(itemstack, placer, pointed_thing)
-		return minecart.node_on_place(itemstack, placer, pointed_thing, 
-					"techage:chest_cart")
+		return cart.add_cart(itemstack, placer, pointed_thing, "techage:chest_cart")
 	end,
 	
 	on_punch = function(pos, node, puncher, pointed_thing)
-		minecart.node_on_punch(pos, node, puncher, pointed_thing, "techage:chest_cart_entity")
+		cart.node_on_punch(pos, node, puncher, pointed_thing, "techage:chest_cart_entity")
 	end,
 	
 	set_cargo = function(pos, data)
@@ -133,9 +137,9 @@ minecart.register_cart_entity("techage:chest_cart_entity", "techage:chest_cart",
 		visual_size = {x=0.66, y=0.66, z=0.66},
 		static_save = false,
 	},
-	on_activate = minecart.on_activate,
-	on_punch = minecart.on_punch,
-	on_step = minecart.on_step,
+	on_activate = cart.on_activate,
+	on_punch = cart.on_punch,
+	on_step = cart.on_step,
 })
 
 techage.register_node({"techage:chest_cart"}, {

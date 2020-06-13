@@ -207,8 +207,8 @@ minetest.register_node("techage:ta3_logic", {
 		return res
 	end,
 	
-	after_dig_node = function(pos)
-		techage.remove_node(pos)
+	after_dig_node = function(pos, oldnode, oldmetadata)
+		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
 	end,
 	

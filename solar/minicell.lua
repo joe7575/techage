@@ -72,9 +72,9 @@ local function after_place_node(pos)
 	Cable:after_place_node(pos)
 end
 
-local function after_dig_node(pos, oldnode)
+local function after_dig_node(pos, oldnode, oldmetadata)
 	Cable:after_dig_node(pos)
-	techage.remove_node(pos)
+	techage.remove_node(pos, oldnode, oldmetadata)
 	techage.del_mem(pos)
 end
 
