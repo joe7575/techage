@@ -43,9 +43,8 @@ minetest.register_ore({
 	y_max          = -250,
 })
 
-minetest.register_craft({
-	type = 'cooking',
+techage.furnace.register_recipe({
 	output = 'techage:baborium_ingot',
-	recipe = 'techage:baborium_lump',
-	cooktime = 5,
+	recipe = {'techage:baborium_lump'},
+	time = 3,
 })

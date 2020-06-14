@@ -25,7 +25,6 @@ techage.furnace.register_recipe({
 	time = 8,
 })
 
-
 if techage.modified_recipes_enabled then
 	techage.furnace.register_recipe({
 		output = "default:bronze_ingot 4", 
@@ -148,3 +147,24 @@ techage.furnace.register_recipe({
 	},
 	time = 4,
 })
+
+if minetest.global_exists("moreores") then
+	
+	if techage.modified_recipes_enabled then
+		minetest.clear_craft({output = "moreores:mithril_ingot"})
+		minetest.clear_craft({output = "moreores:silver_ingot"})
+	end
+	
+	techage.furnace.register_recipe({
+		output = 'moreores:silver_ingot',
+		recipe = {'moreores:silver_lump'},
+		time = 2,
+	})
+
+	techage.furnace.register_recipe({
+		output = 'moreores:mithril_ingot',
+		recipe = {'moreores:mithril_lump'},
+		time = 5,
+	})
+
+end
