@@ -224,7 +224,7 @@ techage.manual_EN.aText = {
   "  - Petroleum - is needed in TA3\n"..
   "  - Bauxite - an aluminum ore that is needed in TA4 to produce aluminum\n"..
   "\n",
-  "Meridium is an alloy of steel and mesecons crystals. Meridium ingots can be made with the coal burner from steel andesecons crystals. Meridium glows in the dark. Tools made of Meridium also light up and are therefore very helpful in underground mining.\n"..
+  "Meridium is an alloy of steel and mesecons crystals. Meridium ingots can be made with the coal burner from steel and mesecons crystals. Meridium glows in the dark. Tools made of Meridium also light up and are therefore very helpful in underground mining.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -326,7 +326,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "TA1 has its own metal alloy meridium. Meridium ingots can be made with the coal burner from steel and mesecons splinters. Meridium glows in the dark. Tools made of Meridium also light up and are therefore very helpful in underground mining.\n"..
+  "TA1 has its own metal alloy meridium. Meridium ingots can be made with the coal burner from steel and mesecons crystals. Meridium glows in the dark. Tools made of Meridium also light up and are therefore very helpful in underground mining.\n"..
   "\n"..
   "\n"..
   "\n",

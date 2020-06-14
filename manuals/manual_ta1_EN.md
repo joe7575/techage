@@ -98,6 +98,6 @@ Make sure that the boxes are "chest_locked", otherwise someone will steal the va
 
 ### Meridium
 
-TA1 has its own metal alloy meridium. Meridium ingots can be made with the coal burner from steel and mesecons splinters. Meridium glows in the dark. Tools made of Meridium also light up and are therefore very helpful in underground mining.
+TA1 has its own metal alloy meridium. Meridium ingots can be made with the coal burner from steel and mesecons crystals. Meridium glows in the dark. Tools made of Meridium also light up and are therefore very helpful in underground mining.
 
 [meridium|image]

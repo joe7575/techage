@@ -50,7 +50,7 @@ Techage adds some new items to the game:
 
 ### Meridium
 
-Meridium is an alloy of steel and mesecons crystals. Meridium ingots can be made with the coal burner from steel andesecons crystals. Meridium glows in the dark. Tools made of Meridium also light up and are therefore very helpful in underground mining.
+Meridium is an alloy of steel and mesecons crystals. Meridium ingots can be made with the coal burner from steel and mesecons crystals. Meridium glows in the dark. Tools made of Meridium also light up and are therefore very helpful in underground mining.
 
 [meridium|image]
 
