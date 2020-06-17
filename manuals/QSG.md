@@ -26,7 +26,7 @@ Since the levels build on each other, all ages have to be run through one after 
 
 ## Iron Age (TA1)
 
-1. Search and harvest cactus to make paper and craft the Techage Construction Board. This plan is the ingame manual for all four Techage phases
+1. Search and harvest papyrus to make paper and craft the Techage Construction Board. This plan is the ingame manual for all four Techage phases
 2. Cut trees and make wood out of them
 3. Collect dirt for the charcoal burner to make charcoal
 4. Go mining and seach for ores, or

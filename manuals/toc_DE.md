@@ -25,6 +25,7 @@
         - [TA2 Zylinder /Cylinder](./manual_ta2_DE.md#ta2-zylinder-cylinder)
         - [TA2 Schwungrad / Flywheel](./manual_ta2_DE.md#ta2-schwungrad--flywheel)
         - [TA2 Dampfleitungen / Steam Pipe](./manual_ta2_DE.md#ta2-dampfleitungen--steam-pipe)
+        - [TA2 Antriebsachsen / TA2 Drive Axle](./manual_ta2_DE.md#ta2-antriebsachsen--ta2-drive-axle)
     - [Items schieben und sortieren](./manual_ta2_DE.md#items-schieben-und-sortieren)
         - [Röhren / TechAge Tube](./manual_ta2_DE.md#röhren--techage-tube)
         - [TA2 Schieber / Pusher](./manual_ta2_DE.md#ta2-schieber--pusher)

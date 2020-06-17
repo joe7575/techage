@@ -65,6 +65,12 @@ Part of the steam engine. The boiler must be connected to the cylinder via the s
 [ta2_steampipe|image]
 
 
+### TA2 Drive Axle / TA2 Gearbox
+
+The drive axles are used to transmit power from the steam engine to other machines. The maximum length of a drive axis is 8 blocks. With TA2 Gearboxes, larger distances can be bridged, and branches and changes of direction can be realized.
+
+[ta2_driveaxle|image]
+
 ## Push and sort items
 
 In order to transport objects from one processing station to the next, pushers and tubes are used. See plan.

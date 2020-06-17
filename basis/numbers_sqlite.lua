@@ -80,6 +80,9 @@ end
 local Version = storage:get_int("Version") or 0
 local NextNumber = 0
 
+if Version == 0 then
+	Version = 4
+end
 if Version == 3 then
 	Version = 4
 	NextNumber = storage:get_int("NextNumber")

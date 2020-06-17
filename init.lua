@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 0.11
+techage.version = 0.12
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -278,6 +278,7 @@ dofile(MP.."/lua_controller/sensorchest.lua")
 dofile(MP.."/lua_controller/terminal.lua")
 
 -- Items
+dofile(MP.."/items/registered_nodes.lua")
 dofile(MP.."/items/barrel.lua")
 dofile(MP.."/items/baborium.lua")
 dofile(MP.."/items/usmium.lua")

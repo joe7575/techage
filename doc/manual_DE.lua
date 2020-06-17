@@ -26,6 +26,7 @@ techage.manual_DE.aTitel = {
   "3,TA2 Zylinder /Cylinder",
   "3,TA2 Schwungrad / Flywheel",
   "3,TA2 Dampfleitungen / Steam Pipe",
+  "3,TA2 Antriebsachsen / TA2 Drive Axle",
   "2,Items schieben und sortieren",
   "3,Röhren / TechAge Tube",
   "3,TA2 Schieber / Pusher",
@@ -233,6 +234,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Baborium wird nur im Untertagebau gewonnen. Baborium findet man nur in Stein in einer Höhe zwischen -250 und -340 Meter.\n"..
+  "Baborium kann nur im TA3 Industrieofen geschmolzen werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -374,6 +376,10 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Teil der Dampfmaschine. Der Boiler muss mit dem Zylinder über die Dampfleitungen (steam pipes) verbunden werden. Die Dampfleitung besitzt keine Abzweigungen\\, die maximale Länge beträgt 12 m (Blöcke).\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Antriebsachsen dienen zur Kraftübertragung von der Dampfmaschine zu anderen Maschinen. Die maximale Länge einer Antriebsachse beträgt 8 Blöcke. Über Getriebeboxen können auch größere Strecken überbrückt\\, sowie Abzweigungen und Richtungswechsel realisiert werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1487,6 +1493,7 @@ techage.manual_DE.aItemName = {
   "ta2_cylinder",
   "ta2_flywheel",
   "ta2_steampipe",
+  "ta2_driveaxle",
   "",
   "tube",
   "ta2_pusher",
@@ -1665,6 +1672,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "steamengine",
+  "",
   "",
   "",
   "",

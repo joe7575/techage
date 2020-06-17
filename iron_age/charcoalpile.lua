@@ -29,8 +29,7 @@ end
 local function num_dirt(pos)
 	local pos1 = {x=pos.x-2, y=pos.y-1, z=pos.z-2}
 	local pos2 = {x=pos.x+2, y=pos.y+3, z=pos.z+2}
-	local nodes = minetest.find_nodes_in_area(pos1, pos2, {"default:dirt", "default:dirt_with_grass", 
-			"default:dirt_with_dry_grass", "default:dirt_with_snow", "techage:dirt_with_ash"})
+	local nodes = minetest.find_nodes_in_area(pos1, pos2, techage.aAnyKindOfDirtBlocks)
 	return #nodes
 end
 
@@ -40,6 +39,11 @@ local function make_dirt_with_dry_grass(pos)
 	local pos2 = {x=pos.x+2, y=pos.y+3, z=pos.z+2}
 	for _,p in ipairs(minetest.find_nodes_in_area(pos1, pos2, "default:dirt_with_grass")) do
 		minetest.swap_node(p, {name = "default:dirt_with_dry_grass"})
+	end
+	if minetest.global_exists("ethereal") then
+		for _,p in ipairs(minetest.find_nodes_in_area(pos1, pos2, techage.aEtherealDirts)) do
+			minetest.swap_node(p, {name = "default:dirt_with_dry_grass"})
+		end
 	end
 end
 

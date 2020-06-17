@@ -174,6 +174,13 @@ if techage.modified_recipes_enabled then
 		time = 8,
 	})
 
+	techage.ironage_register_recipe({
+		output = "default:tin_ingot 1", 
+		recipe = {"default:tin_lump"}, 
+		heat = 4,
+		time = 2,
+	})
+	
 	if minetest.global_exists("moreores") then
 		techage.ironage_register_recipe({
 			output = "moreores:silver_ingot 1", 
@@ -182,12 +189,6 @@ if techage.modified_recipes_enabled then
 			time = 2,
 		})
 
-		techage.ironage_register_recipe({
-			output = "moreores:tin_ingot 1", 
-			recipe = {"moreores:tin_lump"}, 
-			heat = 4,
-			time = 2,
-		})
 	end
 
 	minetest.register_craft({

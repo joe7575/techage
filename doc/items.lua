@@ -46,6 +46,7 @@ techage.Items = {
 	ta2_rinser = "techage:ta2_rinser_pas",
 	ta2_chest = "techage:chest_ta2",
 	ta2_forceload = "techage:forceload",
+	ta2_driveaxle = "techage:axle",
 	---------------------
 	techage_ta3 = "techage_ta3.png",
 	techage_ta31 = "techage_ta3b.png",

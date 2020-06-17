@@ -25,6 +25,7 @@
         - [TA2 Cylinder](./manual_ta2_EN.md#ta2-cylinder)
         - [TA2 Flywheel](./manual_ta2_EN.md#ta2-flywheel)
         - [TA2 Steam Pipes](./manual_ta2_EN.md#ta2-steam-pipes)
+        - [TA2 Drive Axle / TA2 Gearbox](./manual_ta2_EN.md#ta2-drive-axle--ta2-gearbox)
     - [Push and sort items](./manual_ta2_EN.md#push-and-sort-items)
         - [TechAge Tube](./manual_ta2_EN.md#techage-tube)
         - [TA2 Pusher](./manual_ta2_EN.md#ta2-pusher)

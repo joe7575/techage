@@ -26,6 +26,7 @@ techage.manual_EN.aTitel = {
   "3,TA2 Cylinder",
   "3,TA2 Flywheel",
   "3,TA2 Steam Pipes",
+  "3,TA2 Drive Axle / TA2 Gearbox",
   "2,Push and sort items",
   "3,TechAge Tube",
   "3,TA2 Pusher",
@@ -233,6 +234,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "Baborium is only extracted in underground mining. Baborium can only be found in stone at an altitude between -250 and -340 meters.\n"..
+  "Baborium can only be melted in the TA3 Industrial Furnace.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -374,6 +376,10 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "Part of the steam engine. The boiler must be connected to the cylinder via the steam pipes. The steam pipe has no branches\\, the maximum length is 12 m (blocks).\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The drive axles are used to transmit power from the steam engine to other machines. The maximum length of a drive axis is 8 blocks. With TA2 Gearboxes\\, larger distances can be bridged\\, and branches and changes of direction can be realized.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1477,6 +1483,7 @@ techage.manual_EN.aItemName = {
   "ta2_cylinder",
   "ta2_flywheel",
   "ta2_steampipe",
+  "ta2_driveaxle",
   "",
   "tube",
   "ta2_pusher",
@@ -1655,6 +1662,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "steamengine",
+  "",
   "",
   "",
   "",

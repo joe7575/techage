@@ -64,6 +64,12 @@ Teil der Dampfmaschine. Der Boiler muss mit dem Zylinder über die Dampfleitunge
 
 [ta2_steampipe|image]
 
+### TA2 Antriebsachsen / TA2 Drive Axle
+
+Die Antriebsachsen dienen zur Kraftübertragung von der Dampfmaschine zu anderen Maschinen. Die maximale Länge einer Antriebsachse beträgt 8 Blöcke. Über Getriebeboxen können auch größere Strecken überbrückt, sowie Abzweigungen und Richtungswechsel realisiert werden.
+
+[ta2_driveaxle|image]
+
 
 ## Items schieben und sortieren
 

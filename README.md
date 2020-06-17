@@ -89,5 +89,5 @@ to 'lsqlite3' and 'lua-marshal', but there is no way back, so:
 - 2020-05-31  V0.09  * TA4 tubes upgraded, manuals updated  
 - 2020-06-04  V0.10  * minor changes and bugfixes
 - 2020-06-14  V0.11  * cart commands added for both controllers, support for moreores added
-
+- 2020-06-17  V0.12  * Ethereal support added, manual correction, tin ingot recipe bugfix
 
