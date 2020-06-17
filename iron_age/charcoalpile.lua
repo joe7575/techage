@@ -37,7 +37,11 @@ end
 local function make_dirt_with_dry_grass(pos)
 	local pos1 = {x=pos.x-2, y=pos.y+3, z=pos.z-2}
 	local pos2 = {x=pos.x+2, y=pos.y+3, z=pos.z+2}
-	for _,p in ipairs(minetest.find_nodes_in_area(pos1, pos2, "default:dirt_with_grass")) do
+	for _,p in ipairs(minetest.find_nodes_in_area(pos1, pos2, {
+				"default:dirt_with_grass",
+				"default:dirt_with_coniferous_litter",
+				"default:dirt_with_rainforest_litter",
+			})) do
 		minetest.swap_node(p, {name = "default:dirt_with_dry_grass"})
 	end
 	if minetest.global_exists("ethereal") then

@@ -33,7 +33,6 @@ minetest.register_on_mods_loaded(function()
 				ndef.drawtype == "normal" and
 				ndef.groups.crumbly and ndef.groups.crumbly > 0 then
 			techage.aAnyKindOfDirtBlocks[#techage.aAnyKindOfDirtBlocks + 1] = name
-			print(name)
 		end
 	end
 end)
