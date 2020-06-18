@@ -35,9 +35,23 @@ local function push_items(pos, items)
 	minetest.add_item({x=pos.x, y=pos.y-0.4, z=pos.z}, items)
 end
 
+local function minecart_hopper_takeitem(pos, num)
+	for _, obj in pairs(minetest.get_objects_inside_radius({x=pos.x, y=pos.y-0.4, z=pos.z}, 0.2)) do
+		local entity = obj:get_luaentity()
+		if not obj:is_player() and entity and entity.name == "__builtin:item" then
+			obj:remove()
+			return ItemStack(entity.itemstring or "air")
+		end
+	end
+end
+
+local function minecart_hopper_untakeitem(pos, in_dir, stack)
+	push_items(pos, stack)
+end
+
 local function keep_running(pos, elapsed)
-	local inv = M(pos):get_inventory()
 	if swap_node(pos) then
+		local inv = M(pos):get_inventory()
 		local src, dst
 		
 		if inv:contains_item("src", ItemStack("techage:basalt_gravel")) then
@@ -53,6 +67,7 @@ local function keep_running(pos, elapsed)
 		push_items(pos, dst)
 		inv:remove_item("src", src)
 	end
+	local inv = M(pos):get_inventory()
 	return not inv:is_empty("src")
 end
 
@@ -127,6 +142,9 @@ for idx = 0,3 do
 		on_construct = idx == 3 and on_construct or nil, 
 		on_punch = idx == 3 and on_punch or nil,
 		on_timer = keep_running,
+		
+		minecart_hopper_takeitem = minecart_hopper_takeitem,
+		minecart_hopper_untakeitem = minecart_hopper_untakeitem,
 
 		paramtype = "light",
 		sounds = default.node_sound_wood_defaults(),

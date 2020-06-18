@@ -73,8 +73,5 @@ minecart.register_inventory(
 			end, 
 			listname = "src",
 		},
-		take = {
-			listname = "src",
-		},
 	}
 )
