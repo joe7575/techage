@@ -99,6 +99,7 @@ techage.manual_EN.aTitel = {
   "3,TechAge Signal Lamp",
   "3,Door/Gate Blocks",
   "3,TA3 Door Controller",
+  "3,TA3 Mesecons Converter",
   "2,Detectors",
   "3,TA3 Detector",
   "3,TA3 Cart Detector",
@@ -932,6 +933,13 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The Mesecons converter is used to convert Techage on/off commands into Mesecons signals and vice versa.\n"..
+  "To do this\\, one or more node numbers must be entered and the converter with Mesecons blocks\n"..
+  "has to be connected via Mesecons cables. The Mesecons converter can also be configured with the programmer.\n"..
+  "The Mesecons converter accepts up to 5 commands per second\\; it switches itself off at higher loads.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Detectors scan their surroundings and send an 'on' command when the search is recognized.\n"..
   "\n"..
   "\n"..
@@ -1556,6 +1564,7 @@ techage.manual_EN.aItemName = {
   "ta3_signallamp",
   "ta3_doorblock",
   "ta3_doorcontroller",
+  "ta3_mesecons_converter",
   "ta3_nodedetector",
   "ta3_detector",
   "ta3_cartdetector",
@@ -1729,6 +1738,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "ta3_distiller",
+  "",
   "",
   "",
   "",

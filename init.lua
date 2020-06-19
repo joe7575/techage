@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 0.12
+techage.version = 0.13
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -223,6 +223,9 @@ dofile(MP.."/logic/gateblock.lua")
 dofile(MP.."/logic/doorblock.lua")
 dofile(MP.."/logic/doorcontroller.lua")
 dofile(MP.."/logic/collector.lua")
+if minetest.global_exists("mesecon") then
+	dofile(MP.."/logic/mesecons_converter.lua")
+end
 
 -- Test
 dofile(MP.."/recipe_checker.lua")

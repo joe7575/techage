@@ -98,6 +98,7 @@
         - [TechAge Signal Lamp](./manual_ta3_EN.md#techage-signal-lamp)
         - [Door/Gate Blocks](./manual_ta3_EN.md#doorgate-blocks)
         - [TA3 Door Controller](./manual_ta3_EN.md#ta3-door-controller)
+        - [TA3 Mesecons Converter](./manual_ta3_EN.md#ta3-mesecons-converter)
     - [Detectors](./manual_ta3_EN.md#detectors)
         - [TA3 Detector](./manual_ta3_EN.md#ta3-detector)
         - [TA3 Cart Detector](./manual_ta3_EN.md#ta3-cart-detector)

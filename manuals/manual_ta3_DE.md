@@ -592,6 +592,14 @@ Der Tür Controller dient zur Ansteuerung der TA3 Tür/Tor Blöcke. Beim Tür Co
 
 [ta3_doorcontroller|image]
 
+### TA3 Mesecons Umsetzer / TA3 Mesecons Converter
+
+Der Mesecons Umsetzer dient zur Umwandlung von Techage on/off Kommandos in Mesecons Signale und umgekehrt.
+Dazu müssen eine oder mehrere Knotennummern eingegeben und der Konverter mit Mesecons Blöcken 
+über Mesecons Leitungen verbunden werden. Den Mesecons Umsetzer kann man auch mit dem Programmer konfigurieren.
+Der Mesecons Umsetzer akzeptiert bis zu 5 Kommandos pro Sekunde, bei höherer Belastung schaltet er sich ab.
+
+[ta3_mesecons_converter|image]
 
 
 ## Detektoren

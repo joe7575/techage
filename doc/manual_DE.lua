@@ -99,6 +99,7 @@ techage.manual_DE.aTitel = {
   "3,TechAge Signallampe / Signal Lamp",
   "3,Tür/Tor Blöcke / Door/Gate Blocks",
   "3,TA3 Tür Controller / Door Controller",
+  "3,TA3 Mesecons Umsetzer / TA3 Mesecons Converter",
   "2,Detektoren",
   "3,TA3 Detektor / Detector",
   "3,TA3 Wagen Detektor / Cart Detector",
@@ -934,6 +935,13 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der Mesecons Umsetzer dient zur Umwandlung von Techage on/off Kommandos in Mesecons Signale und umgekehrt.\n"..
+  "Dazu müssen eine oder mehrere Knotennummern eingegeben und der Konverter mit Mesecons Blöcken \n"..
+  "über Mesecons Leitungen verbunden werden. Den Mesecons Umsetzer kann man auch mit dem Programmer konfigurieren.\n"..
+  "Der Mesecons Umsetzer akzeptiert bis zu 5 Kommandos pro Sekunde\\, bei höherer Belastung schaltet er sich ab.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Detektoren scannen ihre Umgebung ab und senden ein 'on'-Kommando\\, wenn das Gesuchte erkannt wurde.\n"..
   "\n"..
   "\n"..
@@ -1566,6 +1574,7 @@ techage.manual_DE.aItemName = {
   "ta3_signallamp",
   "ta3_doorblock",
   "ta3_doorcontroller",
+  "ta3_mesecons_converter",
   "ta3_nodedetector",
   "ta3_detector",
   "ta3_cartdetector",
@@ -1739,6 +1748,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta3_distiller",
+  "",
   "",
   "",
   "",

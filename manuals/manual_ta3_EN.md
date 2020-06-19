@@ -590,6 +590,16 @@ The door controller is used to control the TA3 door/gate blocks. With the door c
 [ta3_doorcontroller|image]
 
 
+### TA3 Mesecons Converter
+
+The Mesecons converter is used to convert Techage on/off commands into Mesecons signals and vice versa.
+To do this, one or more node numbers must be entered and the converter with Mesecons blocks
+has to be connected via Mesecons cables. The Mesecons converter can also be configured with the programmer.
+The Mesecons converter accepts up to 5 commands per second; it switches itself off at higher loads.
+
+[ta3_mesecons_converter|image]
+
+
 
 ## Detectors
 

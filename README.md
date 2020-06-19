@@ -35,7 +35,7 @@ Textures: CC BY-SA 3.0
 ### Dependencies  
 Required: default, doors, bucket, stairs, screwdriver, basic_materials, tubelib2, minecart, lcdlib, safer_lua  
 Recommended: signs_bot, hyperloop, compost, techpack_stairway, autobahn  
-Optional: unified_inventory, wielded_light, unifieddyes, lua-mashal, lsqlite3, moreores
+Optional: unified_inventory, wielded_light, unifieddyes, lua-mashal, lsqlite3, moreores, ethereal, mesecon
 
 
 The mods `default`, `doors`, `bucket`, `stairs`, and `screwdriver` are part of Minetest Game.
@@ -87,7 +87,8 @@ to 'lsqlite3' and 'lua-marshal', but there is no way back, so:
 - 2020-04-26  V0.07  * English translation added  
 - 2020-05-22  V0.08  * Support for 'lua-marshal' and 'lsqlite3' added  
 - 2020-05-31  V0.09  * TA4 tubes upgraded, manuals updated  
-- 2020-06-04  V0.10  * minor changes and bugfixes
-- 2020-06-14  V0.11  * cart commands added for both controllers, support for moreores added
-- 2020-06-17  V0.12  * Ethereal support added, manual correction, tin ingot recipe bugfix
+- 2020-06-04  V0.10  * minor changes and bugfixes  
+- 2020-06-14  V0.11  * cart commands added for both controllers, support for moreores added  
+- 2020-06-17  V0.12  * Ethereal support added, manual correction, tin ingot recipe bugfix  
+- 2020-06-19  V0.13  * Mesecons Converter added  
 
