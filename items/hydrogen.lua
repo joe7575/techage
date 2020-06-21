@@ -31,7 +31,6 @@ minetest.register_craftitem("techage:cylinder_large_hydrogen", {
 	stack_max = 1,
 })
 
-techage.register_liquid("techage:hydrogen", "", 1, "techage:hydrogen")
 techage.register_liquid("techage:cylinder_small_hydrogen", "techage:ta3_cylinder_small", 1, "techage:hydrogen")
 techage.register_liquid("techage:cylinder_large_hydrogen", "techage:ta3_cylinder_large", 6, "techage:hydrogen")
 

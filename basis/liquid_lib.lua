@@ -182,13 +182,7 @@ end
 local function empty_on_punch(pos, nvm, full_container, item_count)
 	nvm.liquid = nvm.liquid or {}
 	nvm.liquid.amount = nvm.liquid.amount or 0
-	local lqd_def
-	-- handle legacy items
-	if IsLiquid[full_container] then
-		lqd_def = {inv_item = full_container, size = (item_count or 1), container = ""}
-	else
-		lqd_def = get_liquid_def(full_container)
-	end
+	local lqd_def = get_liquid_def(full_container)
 	local ndef_lqd = LQD(pos)
 	if lqd_def and ndef_lqd then 
 		local tank_size = ndef_lqd.capa or 0
