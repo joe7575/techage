@@ -37,7 +37,7 @@ The fire box must be filled with coal or charcoal. The burning time depends on t
 
 Part of the power plant.
 
-The oil burner can be filled with petroleum, heavy oil, naphtha or petrol. The burning time depends on the power that is requested by the power plant. Under full load, petroleum burns 15 s, heavy oil 20 s, naphtha 22 s and gasoline 25 s.
+The oil burner can be filled with crude oil, fuel oil, naphtha or gasoline. The burning time depends on the power that is requested by the power plant. Under full load, crude oil burns 15 s, fuel oil 20 s, naphtha 22 s and gasoline 25 s.
 
 Correspondingly longer under partial load (50% load = double time).
 
@@ -214,7 +214,7 @@ See also TA4 heater.
 
 Is part of the TA3 industrial furnace.
 
-The oil burner can be operated with heavy oil, naphtha or gasoline. The burning time is 80 s for heavy oil, 90 s for naphtha and 100 s for gasoline.
+The oil burner can be operated with fuel oil, naphtha or gasoline. The burning time is 80 s for fuel oil, 90 s for naphtha and 100 s for gasoline.
 
 The oil burner can only hold 50 units of fuel. An additional tank and a pump are therefore advisable.
 
@@ -409,7 +409,7 @@ The chest cart is used to transport items. Like chests, it can be filled or empt
 
 ## Oil Processing
 
-Oil is a mixture of substances and consists of many components. The oil can be broken down into its main components such as bitumen, heavy oil, naphtha, gasoline and gas via a distillation tower.
+Oil is a mixture of substances and consists of many components. The oil can be broken down into its main components such as bitumen, fuel oil, naphtha, gasoline and propane gas via a distillation tower.
 Further processing to end products takes place in the chemical reactor.
 
 [techage_ta31|image]
@@ -420,7 +420,7 @@ Further processing to end products takes place in the chemical reactor.
 The distillation tower must be set up as in the plan at the top right.
 The bitumen is drained off via the base block. The exit is on the back of the base block (note the direction of the arrow).
 The "distillation tower" blocks with the numbers: 1, 2, 3, 2, 3, 2, 3, 4 are placed on this basic block
-Heavy oil, naphtha and gasoline are drained from the openings from bottom to top. The gas is caught at the top.
+Fuel oil, naphtha and gasoline are drained from the openings from bottom to top. The propane gas is caught at the top.
 All openings on the tower must be connected to tanks.
 The reboiler must be connected to the "distillation tower 1" block.
 
@@ -433,7 +433,7 @@ The reboiler needs electricity (not shown in the plan)!
 
 The reboiler heats the oil to approx. 400 ° C. It largely evaporates and is fed into the distillation tower for cooling.
 
-The reboiler requires 12 units of electricity and produces one unit of bitumen, heavy oil, naphtha, gasoline and gas every 6 s.
+The reboiler requires 14 units of electricity and produces one unit of bitumen, fuel oil, naphtha, gasoline and propane every 16 s.
 To do this, the reboiler must be supplied with oil via a pump.
 
 [reboiler|image]
@@ -567,7 +567,7 @@ In the private mode, only the owner can enter commands himself or use keys.
 ### TechAge Signal Lamp
 
 The signal lamp can be switched on or off with the `on` / `off` command. This lamp does not need electricity and
-can be colored with the spray gun.
+can be colored with the airbrush tool of the mod Unified Dyes.
 
 [ta3_signallamp|image]
 

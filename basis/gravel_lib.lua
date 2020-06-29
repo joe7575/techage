@@ -20,8 +20,8 @@ local ore_probability = {
 }
 
 local ProbabilityCorrections = {
-	["default:tin_lump"] = 0.5,  -- extensively used
-	["default:coal_lump"] = 0.3,  -- extensively used
+	["default:tin_lump"] = 0.3,  -- extensively used
+	["default:coal_lump"] = 0.2,  -- extensively used
 	["default:iron_lump"] = 0.5,  -- extensively used
 	["techage:baborium_lump"] = 99999,  -- mining required
 }
@@ -39,15 +39,14 @@ local function add_ores()
 			and item.clust_scarcity ~= nil and item.clust_scarcity > 0 
 			and item.clust_num_ores ~= nil and item.clust_num_ores > 0 
 			and item.y_max ~= nil and item.y_min ~= nil then
-				local probability = (techage.ore_rarity / PROBABILITY_FACTOR) * item.clust_scarcity /
-						(item.clust_num_ores * ((item.y_max - item.y_min) / 65535))
-				if ore_probability[drop] == nil then
-					ore_probability[drop] = probability
-				else
-					-- harmonic sum
-					ore_probability[drop] = 1.0 / ((1.0 / ore_probability[drop]) +
-							(1.0 / probability))
+				local factor = 0.5
+				if item.y_max < -250 then 
+					factor = -250 / item.y_max 
 				end
+				local probability = (techage.ore_rarity / PROBABILITY_FACTOR) * item.clust_scarcity /
+						(item.clust_num_ores * factor)
+				-- lower value means higher probability
+				ore_probability[drop] = math.min(ore_probability[drop] or 100000, probability)
 			end
 		end
 	end
@@ -55,6 +54,8 @@ local function add_ores()
 	for key, correction in pairs(ProbabilityCorrections) do
 		if ore_probability[key] then
 			ore_probability[key] = ore_probability[key] * correction
+			-- consider upper and lower level
+			ore_probability[key] = techage.in_range(ore_probability[key], 10, 100000)
 		end
 	end
 	local overall_probability = 0.0

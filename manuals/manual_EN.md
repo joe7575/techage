@@ -46,6 +46,7 @@ Techage adds some new items to the game:
 - Baborium - a metal that is needed for recipes in TA3
 - Petroleum - is needed in TA3
 - Bauxite - an aluminum ore that is needed in TA4 to produce aluminum
+- Basalt - arises when water and lave touch
 
 
 ### Meridium
@@ -86,6 +87,14 @@ It is required for the production of aluminum, which is mainly used in TA4.
 [bauxite|image]
 
 
+### Basalt
+
+Basalt is only created when lava and water come together.
+The best thing to do is to set up a system where a lava and a water source flow together.
+Lava is formed where both liquids meet.
+You can build an automated basalt generator with the Sign Bot.
+
+[basalt|image]
 
 
 ## History

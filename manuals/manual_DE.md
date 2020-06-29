@@ -46,7 +46,7 @@ Techage fügt dem Spiel einige neue Items hinzu:
 - Baborium - ein Metall, welches für Rezepte in TA3 benötigt wird
 - Erdöl - wird in TA3 benötigt
 - Bauxit - ein Aluminiumerz, was in TA4 zur Herstellung von Aluminium benötigt wird
-
+- Basalt - entsteht, wenn sich Wasser und Lave berühren
 
 ### Meridium
 
@@ -84,6 +84,15 @@ Es wird zur Herstellung von Aluminium benötigt, was vor allem in TA4 Verwendung
 
 [bauxite|image]
 
+
+### Basalt
+
+Basalt entsteht nur, wenn Lava und Wasser zusammenkommen.
+Dazu sollte man am besten eine Anlage aufbauen, bei der eine Lava- und eine Wasserquelle zusammenfließen.
+Dort wo sich beide Flüssigkeiten treffen, entsteht Lava.
+Einen automatisierten Basalt Generator kann man mit dem Sign Bot aufbauen.
+
+[basalt|image]
 
 
 

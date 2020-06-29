@@ -55,7 +55,7 @@ techage.recipes.add("ta4_doser", {
 })
 
 techage.furnace.register_recipe({
-	output = "techage:aluminum", 
+	output = "techage:aluminum 2", 
 	recipe = {"techage:gibbsite_powder", "techage:gibbsite_powder", 
 		"techage:gibbsite_powder", "techage:gibbsite_powder"}, 
 	time = 16,

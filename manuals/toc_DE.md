@@ -8,6 +8,7 @@
         - [Baborium](./manual_DE.md#baborium)
         - [Erdöl](./manual_DE.md#erdöl)
         - [Bauxit](./manual_DE.md#bauxit)
+        - [Basalt](./manual_DE.md#basalt)
     - [History](./manual_DE.md#history)
 - [TA1: Eisenzeitalter](./manual_ta1_DE.md#ta1:-eisenzeitalter)
     - [Köhler / Coal Pile](./manual_ta1_DE.md#köhler--coal-pile)

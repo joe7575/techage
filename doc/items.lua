@@ -23,6 +23,7 @@ techage.Items = {
 	baborium = "techage:stone_with_baborium",
 	bauxite = "techage:bauxite_stone",
 	usmium = "techage:usmium_nuggets",
+	basalt = "techage:basalt_stone",
 	oil = "techage:oil_source",
 	ta1_hopper = "techage:hopper_ta1",
 	wlanchip = "techage:ta4_wlanchip",

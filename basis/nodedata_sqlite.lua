@@ -72,14 +72,20 @@ end
 local api = {}
 
 function api.store_mapblock_data(key, mapblock_data)
-	local s = marshal.encode(mapblock_data)
+	-- deactivated due to weird server crashes without error logs
+	--local s = marshal.encode(mapblock_data)
+	local s = minetest.serialize(mapblock_data)
 	return set_block(key, s)
 end	
 	
 function api.get_mapblock_data(key)
 	local s = get_block(key)
 	if s then
-		return marshal.decode(s)
+		if s:byte(1) == MAR_MAGIC then
+			return marshal.decode(s)
+		else
+			return minetest.deserialize(s)
+		end
 	end
 	api.store_mapblock_data(key, {})
 	return {}

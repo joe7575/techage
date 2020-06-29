@@ -422,7 +422,7 @@ Die weitere Verarbeitung zu Endprodukten erfolgt im Chemischen Reaktor.
 Der Destillationsturm muss wie im Plan rechts oben aufgebaut werden. 
 Über den Basisblock wird das Bitumen abgelassen. Der Ausgang ist auf der Rückseite des Basisblocks (Pfeilrichtung beachten).
 Auf diesen Basisblock kommen die "Destillationsturm" Blöcke mit den Nummern: 1, 2, 3, 2, 3, 2, 3, 4
-An den Öffnungen von unten nach oben werden Schweröl, Naphtha und Benzin abgeleitet. Ganz oben wird das Gas abgefangen.
+An den Öffnungen von unten nach oben werden Schweröl, Naphtha und Benzin abgeleitet. Ganz oben wird das Propangas abgefangen.
 Es müssen alle Öffnungen am Turm mit Tanks verbunden werden.
 Der Aufkocher (reboiler) muss mit dem Block "Destillationsturm 1" verbunden werden.
 
@@ -435,7 +435,7 @@ Der Aufkocher benötigt Strom (nicht im Plan zu sehen)!
 
 Der Aufkocher erhitzt das Erdöl auf ca. 400°C. Dabei verdampft es weitgehend und wird in den Destillationsturm zur Abkühlung geleitet.
 
-Der Aufkocher benötigt 12 Einheiten Strom und produziert alle 6 s jeweils eine Einheit Bitumen, Schweröl, Naphtha, Benzin und Gas.
+Der Aufkocher benötigt 14 Einheiten Strom und produziert alle 16 s jeweils eine Einheit Bitumen, Schweröl, Naphtha, Benzin und Propangas.
 Dazu muss der Aufkocher über einen Pumpe mit Erdöl versorgt werden.
 
 [reboiler|image]
@@ -570,7 +570,7 @@ Im privaten Modul kann nur der Besitzer selbst Kommandos eingeben oder Tasten nu
 ### TechAge Signallampe / Signal Lamp
 
 Die Signallampe kann mit `on`/`off` Kommando ein- bzw. ausgeschaltet werden. Diese Lampe braucht keinen Strom und
-kann mit der Spritzpistole farbig gemacht werden.
+kann mit der Spritzpistole aus der Mod "Unified Dyes" farbig gemacht werden.
 
 [ta3_signallamp|image]
 

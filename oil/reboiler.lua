@@ -23,7 +23,7 @@ local Flip = techage.networks.Flip
 local Cable = techage.ElectricCable
 local power = techage.power
 
-local CYCLE_TIME = 6
+local CYCLE_TIME = 16
 local CAPA = 12
 local PWR_NEEDED = 14
 

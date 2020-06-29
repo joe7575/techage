@@ -8,6 +8,7 @@
         - [Baborium](./manual_EN.md#baborium)
         - [Petroleum](./manual_EN.md#petroleum)
         - [Bauxite](./manual_EN.md#bauxite)
+        - [Basalt](./manual_EN.md#basalt)
     - [History](./manual_EN.md#history)
 - [TA1: Iron Age](./manual_ta1_EN.md#ta1:-iron-age)
     - [Charcoal Pile (charcoal burner)](./manual_ta1_EN.md#charcoal-pile-(charcoal-burner))

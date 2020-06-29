@@ -79,16 +79,58 @@ to 'lsqlite3' and 'lua-marshal', but there is no way back, so:
 
 
 ### History  
-- 2019-06-16  V0.01  * First upload  
-- 2019-09-28  V0.02  * TA3 finished  
-- 2020-02-29  V0.04  * TA4 ICTA controller added  
-- 2020-03-14  V0.05  * TA4 Lua controller added  
-- 2020-04-24  V0.06  * TA4 injector added  
-- 2020-04-26  V0.07  * English translation added  
-- 2020-05-22  V0.08  * Support for 'lua-marshal' and 'lsqlite3' added  
-- 2020-05-31  V0.09  * TA4 tubes upgraded, manuals updated  
-- 2020-06-04  V0.10  * minor changes and bugfixes  
-- 2020-06-14  V0.11  * cart commands added for both controllers, support for moreores added  
-- 2020-06-17  V0.12  * Ethereal support added, manual correction, tin ingot recipe bugfix  
-- 2020-06-19  V0.13  * Mesecons Converter added  
+
+**2020-06-29  V0.14**
+- quarry sound bugfix
+- grinder bugfix
+- ore probability calculation changed
+- lua-marshal deactivated (due to weird server crashes)
+- alternative cement recipe added
+- aluminum output increased
+- reboiler cycle time increased to 16 s (from 6)
+- many manual improvements
+
+**2020-06-19  V0.13**
+- Mesecons Converter added
+
+**2020-06-17  V0.12** 
+- Ethereal support added
+- manual correction
+- tin ingot recipe bugfix
+
+**2020-06-14  V0.11**
+- cart commands added for both controllers
+- support for moreores added
+
+**2020-06-04  V0.10**
+- minor changes and bugfixes
+
+**2020-05-31  V0.09**
+- TA4 tubes upgraded, manuals updated
+
+**2020-05-22  V0.08**
+- Support for 'lua-marshal' and 'lsqlite3' added
+
+**2020-04-26  V0.07**
+- English translation added
+
+**2020-04-24  V0.06**
+- TA4 injector added
+
+**2020-03-14  V0.05**
+- TA4 Lua controller added
+
+**2020-02-29  V0.04**
+- TA4 ICTA controller added
+
+**2019-09-28  V0.02**
+- TA3 finished
+
+**2019-06-16  V0.01**
+- First upload
+
+-   
+-   
+-   
+- 
 

@@ -9,6 +9,7 @@ techage.manual_EN.aTitel = {
   "3,Baborium",
   "3,Petroleum",
   "3,Bauxite",
+  "3,Basalt",
   "2,History",
   "1,TA1: Iron Age",
   "2,Charcoal Pile (charcoal burner)",
@@ -225,6 +226,7 @@ techage.manual_EN.aText = {
   "  - Baborium - a metal that is needed for recipes in TA3\n"..
   "  - Petroleum - is needed in TA3\n"..
   "  - Bauxite - an aluminum ore that is needed in TA4 to produce aluminum\n"..
+  "  - Basalt - arises when water and lave touch\n"..
   "\n",
   "Meridium is an alloy of steel and mesecons crystals. Meridium ingots can be made with the coal burner from steel and mesecons crystals. Meridium glows in the dark. Tools made of Meridium also light up and are therefore very helpful in underground mining.\n"..
   "\n"..
@@ -245,6 +247,13 @@ techage.manual_EN.aText = {
   "\n",
   "Bauxite is only extracted in underground mining. Bauxite is only found in stone at a height between -50 and -500 meters.\n"..
   "It is required for the production of aluminum\\, which is mainly used in TA4.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Basalt is only created when lava and water come together.\n"..
+  "The best thing to do is to set up a system where a lava and a water source flow together.\n"..
+  "Lava is formed where both liquids meet.\n"..
+  "You can build an automated basalt generator with the Sign Bot.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -526,7 +535,7 @@ techage.manual_EN.aText = {
   "\n",
   "Part of the power plant.\n"..
   "\n"..
-  "The oil burner can be filled with petroleum\\, heavy oil\\, naphtha or petrol. The burning time depends on the power that is requested by the power plant. Under full load\\, petroleum burns 15 s\\, heavy oil 20 s\\, naphtha 22 s and gasoline 25 s.\n"..
+  "The oil burner can be filled with crude oil\\, fuel oil\\, naphtha or gasoline. The burning time depends on the power that is requested by the power plant. Under full load\\, crude oil burns 15 s\\, fuel oil 20 s\\, naphtha 22 s and gasoline 25 s.\n"..
   "\n"..
   "Correspondingly longer under partial load (50% load = double time).\n"..
   "\n"..
@@ -645,7 +654,7 @@ techage.manual_EN.aText = {
   "\n",
   "Is part of the TA3 industrial furnace.\n"..
   "\n"..
-  "The oil burner can be operated with heavy oil\\, naphtha or gasoline. The burning time is 80 s for heavy oil\\, 90 s for naphtha and 100 s for gasoline.\n"..
+  "The oil burner can be operated with fuel oil\\, naphtha or gasoline. The burning time is 80 s for fuel oil\\, 90 s for naphtha and 100 s for gasoline.\n"..
   "\n"..
   "The oil burner can only hold 50 units of fuel. An additional tank and a pump are therefore advisable.\n"..
   "\n"..
@@ -786,7 +795,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Oil is a mixture of substances and consists of many components. The oil can be broken down into its main components such as bitumen\\, heavy oil\\, naphtha\\, gasoline and gas via a distillation tower.\n"..
+  "Oil is a mixture of substances and consists of many components. The oil can be broken down into its main components such as bitumen\\, fuel oil\\, naphtha\\, gasoline and propane gas via a distillation tower.\n"..
   "Further processing to end products takes place in the chemical reactor.\n"..
   "\n"..
   "\n"..
@@ -794,7 +803,7 @@ techage.manual_EN.aText = {
   "The distillation tower must be set up as in the plan at the top right.\n"..
   "The bitumen is drained off via the base block. The exit is on the back of the base block (note the direction of the arrow).\n"..
   "The \"distillation tower\" blocks with the numbers: 1\\, 2\\, 3\\, 2\\, 3\\, 2\\, 3\\, 4 are placed on this basic block\n"..
-  "Heavy oil\\, naphtha and gasoline are drained from the openings from bottom to top. The gas is caught at the top.\n"..
+  "Fuel oil\\, naphtha and gasoline are drained from the openings from bottom to top. The propane gas is caught at the top.\n"..
   "All openings on the tower must be connected to tanks.\n"..
   "The reboiler must be connected to the \"distillation tower 1\" block.\n"..
   "\n"..
@@ -804,7 +813,7 @@ techage.manual_EN.aText = {
   "\n",
   "The reboiler heats the oil to approx. 400 ° C. It largely evaporates and is fed into the distillation tower for cooling.\n"..
   "\n"..
-  "The reboiler requires 12 units of electricity and produces one unit of bitumen\\, heavy oil\\, naphtha\\, gasoline and gas every 6 s.\n"..
+  "The reboiler requires 14 units of electricity and produces one unit of bitumen\\, fuel oil\\, naphtha\\, gasoline and propane every 16 s.\n"..
   "To do this\\, the reboiler must be supplied with oil via a pump.\n"..
   "\n"..
   "\n"..
@@ -918,7 +927,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "The signal lamp can be switched on or off with the 'on' / 'off' command. This lamp does not need electricity and\n"..
-  "can be colored with the spray gun.\n"..
+  "can be colored with the airbrush tool of the mod Unified Dyes.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1474,6 +1483,7 @@ techage.manual_EN.aItemName = {
   "baborium",
   "oil",
   "bauxite",
+  "basalt",
   "",
   "techage_ta1",
   "",
@@ -1651,6 +1661,7 @@ techage.manual_EN.aItemName = {
 }
 
 techage.manual_EN.aPlanTable = {
+  "",
   "",
   "",
   "",

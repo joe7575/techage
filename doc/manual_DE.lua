@@ -9,6 +9,7 @@ techage.manual_DE.aTitel = {
   "3,Baborium",
   "3,Erdöl",
   "3,Bauxit",
+  "3,Basalt",
   "2,History",
   "1,TA1: Eisenzeitalter",
   "2,Köhler / Coal Pile",
@@ -225,6 +226,7 @@ techage.manual_DE.aText = {
   "  - Baborium - ein Metall\\, welches für Rezepte in TA3 benötigt wird\n"..
   "  - Erdöl - wird in TA3 benötigt\n"..
   "  - Bauxit - ein Aluminiumerz\\, was in TA4 zur Herstellung von Aluminium benötigt wird\n"..
+  "  - Basalt - entsteht\\, wenn sich Wasser und Lave berühren\n"..
   "\n",
   "Meridium ist eine Legierung aus Stahl und Mesekristallen. Meridium Ingots können mit dem Kohlebrenner aus Stahl und Mesesplitter hergestellt werden. Meridium leuchtet im Dunkeln. Auch Werkzeuge aus Meridium leuchten und sind daher im Untertagebau sehr hilfreich.\n"..
   "\n"..
@@ -245,6 +247,13 @@ techage.manual_DE.aText = {
   "\n",
   "Bauxit wird nur im Untertagebau gewonnen. Bauxit findet man nur in Stein in einer Höhe zwischen -50 und -500 Meter.\n"..
   "Es wird zur Herstellung von Aluminium benötigt\\, was vor allem in TA4 Verwendung findet.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Basalt entsteht nur\\, wenn Lava und Wasser zusammenkommen.\n"..
+  "Dazu sollte man am besten eine Anlage aufbauen\\, bei der eine Lava- und eine Wasserquelle zusammenfließen.\n"..
+  "Dort wo sich beide Flüssigkeiten treffen\\, entsteht Lava.\n"..
+  "Einen automatisierten Basalt Generator kann man mit dem Sign Bot aufbauen.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -796,7 +805,7 @@ techage.manual_DE.aText = {
   "Der Destillationsturm muss wie im Plan rechts oben aufgebaut werden. \n"..
   "Über den Basisblock wird das Bitumen abgelassen. Der Ausgang ist auf der Rückseite des Basisblocks (Pfeilrichtung beachten).\n"..
   "Auf diesen Basisblock kommen die \"Destillationsturm\" Blöcke mit den Nummern: 1\\, 2\\, 3\\, 2\\, 3\\, 2\\, 3\\, 4\n"..
-  "An den Öffnungen von unten nach oben werden Schweröl\\, Naphtha und Benzin abgeleitet. Ganz oben wird das Gas abgefangen.\n"..
+  "An den Öffnungen von unten nach oben werden Schweröl\\, Naphtha und Benzin abgeleitet. Ganz oben wird das Propangas abgefangen.\n"..
   "Es müssen alle Öffnungen am Turm mit Tanks verbunden werden.\n"..
   "Der Aufkocher (reboiler) muss mit dem Block \"Destillationsturm 1\" verbunden werden.\n"..
   "\n"..
@@ -806,7 +815,7 @@ techage.manual_DE.aText = {
   "\n",
   "Der Aufkocher erhitzt das Erdöl auf ca. 400°C. Dabei verdampft es weitgehend und wird in den Destillationsturm zur Abkühlung geleitet.\n"..
   "\n"..
-  "Der Aufkocher benötigt 12 Einheiten Strom und produziert alle 6 s jeweils eine Einheit Bitumen\\, Schweröl\\, Naphtha\\, Benzin und Gas.\n"..
+  "Der Aufkocher benötigt 14 Einheiten Strom und produziert alle 16 s jeweils eine Einheit Bitumen\\, Schweröl\\, Naphtha\\, Benzin und Propangas.\n"..
   "Dazu muss der Aufkocher über einen Pumpe mit Erdöl versorgt werden.\n"..
   "\n"..
   "\n"..
@@ -920,7 +929,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Die Signallampe kann mit 'on'/'off' Kommando ein- bzw. ausgeschaltet werden. Diese Lampe braucht keinen Strom und\n"..
-  "kann mit der Spritzpistole farbig gemacht werden.\n"..
+  "kann mit der Spritzpistole aus der Mod \"Unified Dyes\" farbig gemacht werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1484,6 +1493,7 @@ techage.manual_DE.aItemName = {
   "baborium",
   "oil",
   "bauxite",
+  "basalt",
   "",
   "techage_ta1",
   "",
@@ -1661,6 +1671,7 @@ techage.manual_DE.aItemName = {
 }
 
 techage.manual_DE.aPlanTable = {
+  "",
   "",
   "",
   "",

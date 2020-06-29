@@ -234,6 +234,9 @@ local function keep_running(pos, elapsed)
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(crd.State, pos, nvm))
 	end
+	if nvm.techage_state ~= techage.RUNNING then
+		stop_sound(pos)
+	end
 end
 
 local function on_rightclick(pos, node, clicker)
