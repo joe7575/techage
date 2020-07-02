@@ -195,10 +195,10 @@ techage.register_node({"techage:ta3_valve_closed", "techage:ta3_valve_open"}, {
 })	
 
 minetest.register_craft({
-	output = "techage:ta3_valve_closed",
+	output = "techage:ta3_valve_open",
 	recipe = {
-		{"", "", ""},
-		{"techage:ta3_pipeS", "techage:iron_ingot", "techage:ta3_pipeS"},
-		{"", "", ""},
+		{"", "dye:black", ""},
+		{"techage:ta3_pipeS", "basic_materials:steel_bar", "techage:ta3_pipeS"},
+		{"", "techage:vacuum_tube", ""},
 	},
 })
