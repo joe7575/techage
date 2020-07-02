@@ -298,6 +298,13 @@ Die Blöcke dienen als Wanddurchbrüche für Röhren, so dass keine Löcher offe
 
 [ta3_pipe_wall_entry|image]
 
+### TA Ventil / TA Valve
+
+Für die gelben Röhren gibt es ein Ventil, welches über Mausklicks geöffnet und geschlossen werden kann.
+Das Ventil kann auch über on/off Kommandos angesteuert werden.
+
+[ta3_valve|image]
+
 
 ## Öl-Förderung
 

@@ -47,6 +47,7 @@ minetest.register_craft({
 	recipe = {
 		{"bucket:bucket_water", "techage:cement_powder"},
 		{"group:sand", "default:gravel"},
-	}
+	},
+	replacements = {{"bucket:bucket_water", "bucket:bucket_empty"}},
 })
 

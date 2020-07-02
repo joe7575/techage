@@ -223,7 +223,9 @@ Die Brennstoffzelle kann bis zu 25 ku an Strom abgeben und benötigt dazu alle 4
 
 ## Chemischer Reaktor / chemical reactor
 
-Der Reaktor dient dazu, die über den Destillationsturm oder aus anderen Rezepten gewonnenen Zutaten zu neuen Produkten weiter zu verarbeiten. Ein Reaktor besteht aus:
+Der Reaktor dient dazu, die über den Destillationsturm oder aus anderen Rezepten gewonnenen Zutaten zu neuen Produkten weiter zu verarbeiten. Der Plan links zeigt nur eine mögliche Variante, da die Anordnung der Silos und Tanks rezeptabhängig ist.
+
+Ein Reaktor besteht aus:
 - div. Tanks und Silos mit den Zutaten, die über Leitungen mit dem Dosierer verbunden sind
 - optional einem Reaktorsockel, welcher die Abfälle aus dem Reaktor ableitet (nur bei Rezepten mit zwei Ausgangsstoffen notwendig)
 - dem Reaktorständer, der auf den Sockel gesetzt werden muss (sofern vorhanden). Der Ständer hat einen Stromanschluss und zieht bei Betrieb 8 ku.

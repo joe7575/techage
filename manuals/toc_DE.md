@@ -75,6 +75,7 @@
         - [TA Einfülltrichter / TA Liquid Filler](./manual_ta3_DE.md#ta-einfülltrichter--ta-liquid-filler)
         - [TA4 Röhre / Pipe](./manual_ta3_DE.md#ta4-röhre--pipe)
         - [TA3 Rohr/Wanddurchbruch / TA3 Pipe Wall Entry Blöcke](./manual_ta3_DE.md#ta3-rohrwanddurchbruch--ta3-pipe-wall-entry-blöcke)
+        - [TA Ventil / TA Valve](./manual_ta3_DE.md#ta-ventil--ta-valve)
     - [Öl-Förderung](./manual_ta3_DE.md#Öl-förderung)
         - [TA3 Ölexplorer / Oil Explorer](./manual_ta3_DE.md#ta3-Ölexplorer--oil-explorer)
         - [TA3 Ölbohrkiste / Oil Drill Box](./manual_ta3_DE.md#ta3-Ölbohrkiste--oil-drill-box)

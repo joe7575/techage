@@ -29,13 +29,15 @@ local Pipe = tubelib2.Tube:new({
 	tube_type = "pipe2",
 	primary_node_names = {
 		"techage:ta3_pipeS", "techage:ta3_pipeA", 
-		"techage:ta3_pipe_wall_entry",
+		"techage:ta3_pipe_wall_entry", "techage:ta3_valve_open", 
 	}, 
-	secondary_node_names = {},
+	secondary_node_names = {"techage:ta3_valve_closed"},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
 		local name = minetest.get_node(pos).name
 		if name == "techage:ta3_pipe_wall_entry" then
 			minetest.swap_node(pos, {name = "techage:ta3_pipe_wall_entry", param2 = param2})
+		elseif name == "techage:ta3_valve_open" then
+			minetest.swap_node(pos, {name = "techage:ta3_valve_open", param2 = param2})
 		else
 			minetest.swap_node(pos, {name = "techage:ta3_pipe"..tube_type, param2 = param2})
 		end

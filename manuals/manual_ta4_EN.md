@@ -223,7 +223,10 @@ The fuel cell can deliver up to 25 ku of electricity and needs a hydrogen item e
 
 ## Chemical Reactor
 
-The reactor is used to process the ingredients obtained from the distillation tower or from other recipes into new products. A reactor consists of:
+The reactor is used to process the ingredients obtained from the distillation tower or from other recipes into new products.
+The plan on the left shows only one possible variant, since the arrangement of the silos and tanks depends on the recipe.
+
+A reactor consists of:
 - Various tanks and silos with the ingredients that are connected to the doser via pipes
 - optionally a reactor base, which discharges the waste from the reactor (only necessary for recipes with two starting materials)
 - the reactor stand, which must be placed on the base (if available). The stand has a power connection and draws 8 ku during operation.

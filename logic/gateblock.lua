@@ -16,27 +16,30 @@ local M = minetest.get_meta
 local S = techage.S
 
 -- See also doorblock!!!
-local NUM_TEXTURES = 20
+local NUM_TEXTURES = 22
 
 local sTextures = "Wood,Aspen Wood,Jungle Wood,Pine Wood,"..
                   "Cobblestone,Sandstone,Stone,Desert Sandstone,"..
 				  "Desert Stone,Silver Sandstone,Mossy Cobble,Desert Cobble,"..  
                   "Copper,Steel,Tin,Coral,"..
-				  "Glas,Obsidian Glas,Ice,Gate Wood"  
+				  "Glas,Obsidian Glas,Basalt Glass,Basalt Glass 2,"..
+				  "Ice,Gate Wood"  
 
 local tTextures = {
 	["Wood"]=1, ["Aspen Wood"]=2, ["Jungle Wood"]=3, ["Pine Wood"]=4,
 	["Cobblestone"]=5, ["Sandstone"]=6, ["Stone"]=7, ["Desert Sandstone"]=8,
 	["Desert Stone"]=9, ["Silver Sandstone"]=10, ["Mossy Cobble"]=11, ["Desert Cobble"]=12,
 	["Copper"]=13, ["Steel"]=14, ["Tin"]=15, ["Coral"]=16,
-	["Glas"]=17, ["Obsidian Glas"]=18, ["Ice"]=19, ["Gate Wood"]=20,
+	["Glas"]=17, ["Obsidian Glas"]=18, ["Basalt Glass"]=19, ["Basalt Glass 2"]=20, 
+	["Ice"]=21, ["Gate Wood"]=22,
 }
 	
 local tPgns = {"default_wood.png", "default_aspen_wood.png", "default_junglewood.png", "default_pine_wood.png",
 	"default_cobble.png", "default_sandstone.png", "default_stone.png", "default_desert_sandstone.png",
 	"default_desert_stone_block.png", "default_silver_sandstone.png", "default_mossycobble.png", "default_desert_cobble.png",
 	"default_copper_block.png", "default_steel_block.png", "default_tin_block.png", "default_coral_skeleton.png",
-	"default_glass.png", "default_obsidian_glass.png", "default_ice.png", "techage_gate.png"}
+	"default_glass.png", "default_obsidian_glass.png", "techage_basalt_glass.png", "techage_basalt_glass2.png",
+	"default_ice.png", "techage_gate.png"}
 
 for idx,pgn in ipairs(tPgns) do
 	minetest.register_node("techage:gateblock"..idx, {
@@ -70,6 +73,7 @@ for idx,pgn in ipairs(tPgns) do
 
 		paramtype = "light",
 		paramtype2 = "facedir",
+		use_texture_alpha = true,
 		sunlight_propagates = true,
 		sounds = default.node_sound_stone_defaults(),
 		groups = {cracky=2, choppy=2, crumbly=2, not_in_creative_inventory = idx==NUM_TEXTURES and 0 or 1},

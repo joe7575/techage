@@ -127,6 +127,7 @@ dofile(MP.."/steam_engine/flywheel.lua")
 
 -- Liquids I
 dofile(MP.."/liquids/liquid_pipe.lua")
+dofile(MP.."/liquids/valve.lua")
 dofile(MP.."/liquids/node_api.lua")
 dofile(MP.."/liquids/pipe_wall_entry.lua")
 

@@ -76,6 +76,7 @@ techage.manual_EN.aTitel = {
   "3,TA Liquid Filler",
   "3,TA4 Pipe",
   "3,TA3 Pipe Wall Entry Blocks",
+  "3,TA Valve",
   "2,Oil Production",
   "3,TA3 Oil Explorer",
   "3,TA3 Oil Drill Box",
@@ -714,6 +715,11 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "There is a valve for the yellow pipes\\, which can be opened and closed with a click of the mouse.\n"..
+  "The valve can also be controlled via on/off commands.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "In order to run your generators and stoves with oil\\, you must first look for oil and build a derrick and then extract the oil.\n"..
   "TA3 oil explorer\\, TA3 oil drilling box and TA3 pump jack are used for this.\n"..
   "\n"..
@@ -1202,7 +1208,10 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The reactor is used to process the ingredients obtained from the distillation tower or from other recipes into new products. A reactor consists of:\n"..
+  "The reactor is used to process the ingredients obtained from the distillation tower or from other recipes into new products.\n"..
+  "The plan on the left shows only one possible variant\\, since the arrangement of the silos and tanks depends on the recipe.\n"..
+  "\n"..
+  "A reactor consists of:\n"..
   "\n"..
   "  - Various tanks and silos with the ingredients that are connected to the doser via pipes\n"..
   "  - optionally a reactor base\\, which discharges the waste from the reactor (only necessary for recipes with two starting materials)\n"..
@@ -1550,6 +1559,7 @@ techage.manual_EN.aItemName = {
   "ta3_filler",
   "ta3_pipe",
   "ta3_pipe_wall_entry",
+  "ta3_valve",
   "techage_ta3",
   "ta3_oilexplorer",
   "ta3_drillbox",
@@ -1731,6 +1741,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "ta3_tank",
+  "",
   "",
   "",
   "",

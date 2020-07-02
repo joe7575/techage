@@ -51,8 +51,10 @@ local function node_timer(pos, elapsed)
 			if plant_node and plant_node.name == "air" then
 				if mem.grow_pos[plant_idx] then
 					local idx = math.floor(math.random(1, #Flowers))
-					minetest.set_node(plant_pos, {name = Flowers[idx]})
-					mem.grow_pos[plant_idx] = false
+					if Flowers[idx] then
+						minetest.set_node(plant_pos, {name = Flowers[idx]})
+						mem.grow_pos[plant_idx] = false
+					end
 				else
 					mem.grow_pos[plant_idx] = true
 				end

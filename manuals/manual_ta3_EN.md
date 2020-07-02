@@ -297,6 +297,14 @@ The blocks serve as wall openings for tubes, so that no holes remain open.
 [ta3_pipe_wall_entry|image]
 
 
+### TA Valve
+
+There is a valve for the yellow pipes, which can be opened and closed with a click of the mouse.
+The valve can also be controlled via on/off commands.
+
+[ta3_valve|image]
+
+
 ## Oil Production
 
 In order to run your generators and stoves with oil, you must first look for oil and build a derrick and then extract the oil.

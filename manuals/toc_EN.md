@@ -75,6 +75,7 @@
         - [TA Liquid Filler](./manual_ta3_EN.md#ta-liquid-filler)
         - [TA4 Pipe](./manual_ta3_EN.md#ta4-pipe)
         - [TA3 Pipe Wall Entry Blocks](./manual_ta3_EN.md#ta3-pipe-wall-entry-blocks)
+        - [TA Valve](./manual_ta3_EN.md#ta-valve)
     - [Oil Production](./manual_ta3_EN.md#oil-production)
         - [TA3 Oil Explorer](./manual_ta3_EN.md#ta3-oil-explorer)
         - [TA3 Oil Drill Box](./manual_ta3_EN.md#ta3-oil-drill-box)

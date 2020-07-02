@@ -55,30 +55,32 @@ It is highly recommended that you install the following mods, too:
 * [compost](https://github.com/joe7575/compost): The garden soil is needed for the TA4 LED Grow Light based flower bed
 * [techpack_stairway](https://github.com/joe7575/techpack_stairway): Ladders, stairways, and bridges for your machines
 * [autobahn](https://github.com/joe7575/autobahn): Street blocks and slopes with stripes for faster traveling
+* [[ta4_jetpack](https://github.com/joe7575/ta4_jetpack): A Jetpack with hydrogen as fuel and TA4 recipe
 
-For large servers with many player, the following packages are recommended:
+For large servers with many player `lsqlite3` is recommended.
+The package has to be installed via [luarocks](https://luarocks.org/):
 
-* `lua-mashal` for faster serialization/deserialization of data
-* `lsqlite3` for storing node and network data
-
-Both packages are installed via [luarocks](https://luarocks.org/):
-
-    luarocks install lua-marshal
     luarocks install lsqlite3
 
-To enable this `unsafe` packages, add 'techage' to the list of trusted mods in minetest.conf:
+To enable this `unsafe` package, add 'techage' to the list of trusted mods in minetest.conf:
 
     secure.trusted_mods = techage
 
 For the installation of 'luarocks' (if not already available), see [luarocks](https://luarocks.org/)
 
-If you enable 'lsqlite3' you also have to enable 'lua-marshal'. Available worlds will be converted
-to 'lsqlite3' and 'lua-marshal', but there is no way back, so:
+Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
-** Never disable 'lsqlite3' and 'lua-marshal' for a world, which it was already used!**
+** Never disable 'lsqlite3' for a world that has already been used!**
 
 
-### History  
+### History
+
+**2020-07-02  V0.15**
+- pipe valve added
+- growlight bugfix
+- further textures to gate/door blocks added
+- cement recipe bugfix
+- manual improvements
 
 **2020-06-29  V0.14**
 - quarry sound bugfix
@@ -128,9 +130,3 @@ to 'lsqlite3' and 'lua-marshal', but there is no way back, so:
 
 **2019-06-16  V0.01**
 - First upload
-
--   
--   
--   
-- 
-

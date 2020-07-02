@@ -76,6 +76,7 @@ techage.manual_DE.aTitel = {
   "3,TA Einfülltrichter / TA Liquid Filler",
   "3,TA4 Röhre / Pipe",
   "3,TA3 Rohr/Wanddurchbruch / TA3 Pipe Wall Entry Blöcke",
+  "3,TA Ventil / TA Valve",
   "2,Öl-Förderung",
   "3,TA3 Ölexplorer / Oil Explorer",
   "3,TA3 Ölbohrkiste / Oil Drill Box",
@@ -716,6 +717,11 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Für die gelben Röhren gibt es ein Ventil\\, welches über Mausklicks geöffnet und geschlossen werden kann.\n"..
+  "Das Ventil kann auch über on/off Kommandos angesteuert werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Um deine Generatoren und Öfen mit Öl betreiben zu können\\, muss du zuerst nach Öl suchen und einen Bohrturm errichten und danach das Öl fördern.\n"..
   "Dazu dienen dir TA3 Ölexplorer\\, TA3 Ölbohrkiste und TA3 Ölpumpe.\n"..
   "\n"..
@@ -1212,7 +1218,9 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der Reaktor dient dazu\\, die über den Destillationsturm oder aus anderen Rezepten gewonnenen Zutaten zu neuen Produkten weiter zu verarbeiten. Ein Reaktor besteht aus:\n"..
+  "Der Reaktor dient dazu\\, die über den Destillationsturm oder aus anderen Rezepten gewonnenen Zutaten zu neuen Produkten weiter zu verarbeiten. Der Plan links zeigt nur eine mögliche Variante\\, da die Anordnung der Silos und Tanks rezeptabhängig ist.\n"..
+  "\n"..
+  "Ein Reaktor besteht aus:\n"..
   "\n"..
   "  - div. Tanks und Silos mit den Zutaten\\, die über Leitungen mit dem Dosierer verbunden sind\n"..
   "  - optional einem Reaktorsockel\\, welcher die Abfälle aus dem Reaktor ableitet (nur bei Rezepten mit zwei Ausgangsstoffen notwendig)\n"..
@@ -1560,6 +1568,7 @@ techage.manual_DE.aItemName = {
   "ta3_filler",
   "ta3_pipe",
   "ta3_pipe_wall_entry",
+  "ta3_valve",
   "techage_ta3",
   "ta3_oilexplorer",
   "ta3_drillbox",
@@ -1741,6 +1750,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta3_tank",
+  "",
   "",
   "",
   "",
