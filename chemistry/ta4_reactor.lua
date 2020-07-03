@@ -108,6 +108,34 @@ techage.register_node({"techage:ta4_reactor_fillerpipe"}, {
 	end,
 })
 
+local function formspec()
+	local title = S("TA4 Reactor")
+	return "size[8,6]"..
+		default.gui_bg..
+		default.gui_bg_img..
+		default.gui_slots..
+		"box[0,-0.1;7.8,0.5;#c6e8ff]"..
+		"label[3,-0.1;"..minetest.colorize("#000000", title).."]"..
+		"list[context;main;3.5,1;1,1;]"..
+		"list[current_player;main;0,2.3;8,4;]"..
+		"listring[context;main]"..
+		"listring[current_player;main]"
+end
+
+local function allow_metadata_inventory_put(pos, listname, index, stack, player)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return 0
+	end
+	return 1
+end
+
+local function allow_metadata_inventory_take(pos, listname, index, stack, player)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return 0
+	end
+	return stack:get_count()
+end
+
 minetest.register_node("techage:ta4_reactor", {
 	description = S("TA4 Reactor"),
 	tiles = {"techage_reactor_side.png"},
@@ -121,7 +149,14 @@ minetest.register_node("techage:ta4_reactor", {
 		type = "fixed",
 		fixed = {-1/2, -23/32, -1/2, 1/2, 32/32, 1/2},
 	},
-
+	after_place_node = function(pos)
+		local inv = M(pos):get_inventory()
+		inv:set_size('main', 1)
+		M(pos):set_string("formspec", formspec())
+	end,
+	allow_metadata_inventory_put = allow_metadata_inventory_put,
+	allow_metadata_inventory_take = allow_metadata_inventory_take,
+	
 	paramtype = "light",
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -148,4 +183,21 @@ minetest.register_craft({
 		{'', 'techage:ta3_pipeS', ''},
 		{'default:steel_ingot', 'basic_materials:motor', 'default:steel_ingot'},
 	}
+})
+
+minetest.register_lbm({
+    label = "Upgrade reactor",
+    name = "techage:update_reactor",
+
+    nodenames = {
+		"techage:ta4_reactor", 
+	},
+
+    run_at_every_load = true,
+
+    action = function(pos, node)
+		local inv = M(pos):get_inventory()
+		inv:set_size('main', 1)
+		M(pos):set_string("formspec", formspec())
+	end,
 })
