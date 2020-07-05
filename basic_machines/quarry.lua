@@ -167,8 +167,8 @@ end
 
 local function add_to_inv(pos, item_name)
 	local inv = M(pos):get_inventory()
-	if inv:room_for_item("main", {name = item_name}) then
-		inv:add_item("main", {name = item_name})
+	if inv:room_for_item("main", item_name) then
+		inv:add_item("main", item_name)
 		return true
 	end
 	return false
