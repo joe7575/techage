@@ -37,7 +37,7 @@ local function node_timer(pos, elapsed)
 	power.consumer_alive(pos, Cable, CYCLE_TIME)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
-	mem.grow_pos = mem.grow_pos or {} -- keep the pos blank for same time
+	mem.grow_pos = mem.grow_pos or {} -- keep the pos blank for some time
 	nvm.tick = nvm.tick or math.random(RANDOM_VAL, RANDOM_VAL*2)
 	nvm.tick = nvm.tick - 1
 	if nvm.tick == 0 then
@@ -153,6 +153,9 @@ minetest.after(1, function()
 				if ndef.on_timer then -- probably a plant that still needs to grow
 					techage.register_plant(name)
 				end
+			elseif mod == "flowers" then
+				print(name)
+				techage.register_flower(name)
 			end
 		end
 	end

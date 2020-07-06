@@ -332,7 +332,7 @@ end
 
 minetest.register_lbm({
 	label = "[techage] Rinser update",
-	name = "techage:update",
+	name = "techage:rinser_update",
 	nodenames = {"techage:ta2_rinser_act", "techage:ta3_rinser_act"},
 	run_at_every_load = true,
 	action = function(pos, node)

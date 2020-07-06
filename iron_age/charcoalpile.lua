@@ -207,7 +207,7 @@ minetest.register_craft({
 
 minetest.register_lbm({
 	label = "[techage] Lighter update",
-	name = "techage:update",
+	name = "techage:lighter_update",
 	nodenames = {"techage:lighter_burn"},
 	run_at_every_load = true,
 	action = function(pos, node)
