@@ -102,6 +102,14 @@ techage.register_node({"techage:ta4_reactor_fillerpipe"}, {
 			return true
 		elseif topic == "waste" then
 			return base_waste(pos, payload or {})
+		elseif topic == "catalyst" then
+			local pos2,node = Pipe:get_node(pos, 5)
+			if not node or node.name ~= "techage:ta4_reactor" then 
+				return
+			end
+			local inv =  M(pos2):get_inventory()
+			local stack = inv:get_stack("main", 1)
+			return stack and stack:get_name()
 		else
 			return stand_cmnd(pos, topic, payload or {})
 		end
@@ -116,6 +124,7 @@ local function formspec()
 		default.gui_slots..
 		"box[0,-0.1;7.8,0.5;#c6e8ff]"..
 		"label[3,-0.1;"..minetest.colorize("#000000", title).."]"..
+		"label[4.5,1.2;"..S("Catalyst").."]"..
 		"list[context;main;3.5,1;1,1;]"..
 		"list[current_player;main;0,2.3;8,4;]"..
 		"listring[context;main]"..

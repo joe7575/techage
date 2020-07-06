@@ -83,6 +83,7 @@ function techage.recipes.add(rtype, recipe)
 	item.waste = {name = name or "", num = tonumber(num) or 0}
 	name, num = unpack(string.split(recipe.output, " "))
 	item.output = {name = name or "", num = tonumber(num) or 0}
+	item.catalyst = recipe.catalyst
 	Recipes[rtype][name] = item
 	RecipeList[rtype][#(RecipeList[rtype])+1] = name
 
@@ -103,10 +104,12 @@ function techage.recipes.formspec(x, y, rtype, nvm)
 	local recipe = recipes[recipe_list[idx]] or RECIPE
 	local output = recipe.output.name.." "..recipe.output.num
 	local waste = recipe.waste.name.." "..recipe.waste.num
+	local catalyst = recipe.catalyst and techage.item_image_small(2.05, 0, recipe.catalyst, S("Catalyst")) or ""
 	return "container["..x..","..y.."]"..
 		"background[0,0;4,3;techage_form_grey.png]"..
 		input_string(recipe)..
-		"image[2,0.5;1,1;techage_form_arrow.png]"..
+		"image[2,0.7;1,1;techage_form_arrow.png]"..
+		catalyst..
 		techage.item_image(2.95, 0, output)..
 		techage.item_image(2.95, 1, waste)..
 		"button[0,2;1,1;priv;<<]"..

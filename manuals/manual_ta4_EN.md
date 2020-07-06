@@ -238,6 +238,13 @@ Note 1: Liquids are only stored in tanks, substances in powder form only in silo
 
 Note 2: Tanks or silos with different contents must not be connected to a pipe system. In contrast, several tanks or silos with the same content may hang in parallel on one line.
 
+Cracking breaks long chains of hydrocarbons into short chains using a catalyst.
+Gibbsite powder serves as a catalyst (is not consumed). It can be used to convert bitumen into fueloil, fueloil into naphtha and naphtha into gasoline.
+
+In hydrogenation, pairs of hydrogen atoms are added to a molecule to convert short-chain hydrocarbons into long ones. 
+Here iron powder is required as a catalyst (is not consumed). It can be used to convert gasoline into naphtha,
+naphtha into fueloil, and fueloil into bitumen.
+
 
 [ta4_reactor|plan]
 
@@ -251,7 +258,7 @@ The recipe can be set and the reactor started via the doser.
 
 As with other machines:
 - if the doser is in standby mode, one or more ingredients are missing
-- if thedoser is in the blocked state, the outlet tank or silo is full, defective or incorrectly connected
+- if the doser is in the blocked state, the outlet tank or silo is full, defective or incorrectly connected
 
 The doser does not need any electricity. A recipe is processed every 10 s.
 
@@ -259,7 +266,7 @@ The doser does not need any electricity. A recipe is processed every 10 s.
 
 ### TA4 Reactor
 
-Part of the chemical reactor.
+Part of the chemical reactor. The reactor has a inventory for the catalyst items (for cracking and hydrogenation recipes).
 
 [ta4_reactor|image]
 

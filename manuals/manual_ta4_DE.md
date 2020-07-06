@@ -237,6 +237,11 @@ Hinweis 1: Flüssigkeiten werden nur in Tanks gelagert, Stoffe in Pulverform nur
 
 Hinweis 2: Tanks oder Silos mit verschiedenen Inhalten dürfen nicht zu einem Leitungssystem verbunden werden. Mehrere Tanks oder Silos mit gleichem Inhalt dürfen dagegen parallel an einer Leitung hängen.
 
+Beim Cracken werden lange Kette von Kohlenwasserstoffen unter Verwendung eines Katalysator in kurze Ketten gebrochen.
+Als Katalysator dient Gibbsitpulver (wird nicht verbraucht). Damit kann Bitumen in Schweröl, Schweröl in Naphtha und Naphtha in Benzin umgewandelt werden.
+
+Bei der Hydrierung werden einem Molekül Paare von Wasserstoffatomen hinzugefügt, um kurzkettige Kohlenwasserstoffe in lange umzuwandeln. Hier wird Eisenpulver als Katalysator benötigt (wird nicht verbraucht). Damit kann Benzin in Naphtha, 
+Naphtha in Schweröl und Schweröl in Bitumen umgewandelt werden.
 
 [ta4_reactor|plan]
 
@@ -258,7 +263,8 @@ Der Dosierer benötigt keinen Strom. Alle 10 s wird ein Rezept abgearbeitet.
 
 ### TA4 Reaktor / reactor
 
-Teil des Chemischen Reaktors.
+Teil des Chemischen Reaktors. Der Reaktor verfügt über ein Inventar für die Katalysator 
+Gegenstände (für Cracking- und Hydrierungs-Rezepte).
 
 [ta4_reactor|image]
 

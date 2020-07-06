@@ -1224,6 +1224,13 @@ techage.manual_EN.aText = {
   "\n"..
   "Note 2: Tanks or silos with different contents must not be connected to a pipe system. In contrast\\, several tanks or silos with the same content may hang in parallel on one line.\n"..
   "\n"..
+  "Cracking breaks long chains of hydrocarbons into short chains using a catalyst.\n"..
+  "Gibbsite powder serves as a catalyst (is not consumed). It can be used to convert bitumen into fueloil\\, fueloil into naphtha and naphtha into gasoline.\n"..
+  "\n"..
+  "In hydrogenation\\, pairs of hydrogen atoms are added to a molecule to convert short-chain hydrocarbons into long ones. \n"..
+  "Here iron powder is required as a catalyst (is not consumed). It can be used to convert gasoline into naphtha\\,\n"..
+  "naphtha into fueloil\\, and fueloil into bitumen.\n"..
+  "\n"..
   "\n"..
   "\n",
   "Part of the chemical reactor.\n"..
@@ -1234,13 +1241,13 @@ techage.manual_EN.aText = {
   "As with other machines:\n"..
   "\n"..
   "  - if the doser is in standby mode\\, one or more ingredients are missing\n"..
-  "  - if thedoser is in the blocked state\\, the outlet tank or silo is full\\, defective or incorrectly connected\n"..
+  "  - if the doser is in the blocked state\\, the outlet tank or silo is full\\, defective or incorrectly connected\n"..
   "\n"..
   "The doser does not need any electricity. A recipe is processed every 10 s.\n"..
   "\n"..
   "\n"..
   "\n",
-  "Part of the chemical reactor.\n"..
+  "Part of the chemical reactor. The reactor has a inventory for the catalyst items (for cracking and hydrogenation recipes).\n"..
   "\n"..
   "\n"..
   "\n",

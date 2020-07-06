@@ -117,6 +117,16 @@ local function can_start(pos, nvm, state)
 	if not res then
 		return S("reactor defect or no power")
 	end
+	local recipe = recipes.get(nvm, "ta4_doser")
+	if recipe.catalyst then
+		res = reactor_cmnd(pos, "catalyst")
+		if not res or res == "" then
+			return S("catalyst missing")
+		end
+		if res ~= recipe.catalyst then
+			return S("wrong catalyst")
+		end
+	end
 	return true
 end
 
@@ -154,6 +164,10 @@ local function dosing(pos, nvm, elapsed)
 		State:idle(pos, nvm)
 		return
 	end
+	-- available liquids
+	local liquids = get_liquids(pos)
+	local recipe = recipes.get(nvm, "ta4_doser")
+	if not liquids or not recipe then return end
 	-- check from time to time
 	nvm.check_cnt = (nvm.check_cnt or 0) + 1
 	if nvm.check_cnt >= 4 then
@@ -164,11 +178,20 @@ local function dosing(pos, nvm, elapsed)
 			reactor_cmnd(pos, "stop")
 			return
 		end
+		if recipe.catalyst then
+			res = reactor_cmnd(pos, "catalyst")
+			if not res then
+				State:fault(pos, nvm, S("catalyst missing"))
+				reactor_cmnd(pos, "stop")
+				return
+			end
+			if res ~= recipe.catalyst then
+				State:fault(pos, nvm, S("wrong catalyst"))
+				reactor_cmnd(pos, "stop")
+				return
+			end
+		end
 	end
-	-- available liquids
-	local liquids = get_liquids(pos)
-	local recipe = recipes.get(nvm, "ta4_doser")
-	if not liquids or not recipe then return end
 	-- inputs
 	local starter = get_starter_name(pos)
 	for _,item in pairs(recipe.input) do

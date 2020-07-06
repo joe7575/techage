@@ -226,6 +226,21 @@ function techage.item_image(x, y, itemname)
 		label
 end
 
+function techage.item_image_small(x, y, itemname, tooltip_prefix)
+	local name = unpack(string.split(itemname, " "))
+	local tooltip = ""
+	local ndef = minetest.registered_nodes[name] or minetest.registered_items[name] or minetest.registered_craftitems[name]
+	
+	if ndef and ndef.description then
+		local text = minetest.formspec_escape(ndef.description)
+		tooltip = "tooltip["..x..","..y..";0.8,0.8;"..tooltip_prefix..": "..text..";#0C3D32;#FFFFFF]"
+	end
+	
+	return "box["..x..","..y..";0.65,0.7;#808080]"..
+		"item_image["..x..","..y..";0.8,0.8;"..name.."]"..
+		tooltip
+end
+
 function techage.mydump(o, indent, nested, level)
 	local t = type(o)
 	if not level and t == "userdata" then
