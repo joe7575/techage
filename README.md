@@ -75,6 +75,12 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2020-07-06  V0.16**
+- Oil cracking/hydrogenation recipes added
+- Ethereal growlight bugfix
+- Charcoal pile bugfix (issue #9) Thanks to Skamiz
+- Quarry bugfix (pull request #10) Thanks to programmerjake
+
 **2020-07-02  V0.15**
 - pipe valve added
 - growlight bugfix
