@@ -154,7 +154,6 @@ minetest.after(1, function()
 					techage.register_plant(name)
 				end
 			elseif mod == "flowers" then
-				print(name)
 				techage.register_flower(name)
 			end
 		end
