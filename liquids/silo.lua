@@ -26,14 +26,18 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	local nvm = techage.get_nvm(pos)
-	nvm.item_name = nil
-	local inv = minetest.get_meta(pos):get_inventory()
-	if inv:is_empty(listname) then
-		return stack:get_count()
-	end
-	if inv:contains_item(listname, ItemStack(stack:get_name())) then
-		return stack:get_count()
+	-- check if it is powder
+	local ndef = minetest.registered_craftitems[stack:get_name()] or {}
+	if ndef.groups and ndef.groups.powder == 1 then
+		local nvm = techage.get_nvm(pos)
+		nvm.item_name = nil
+		local inv = minetest.get_meta(pos):get_inventory()
+		if inv:is_empty(listname) then
+			return stack:get_count()
+		end
+		if inv:contains_item(listname, ItemStack(stack:get_name())) then
+			return stack:get_count()
+		end
 	end
 	return 0
 end
@@ -229,10 +233,21 @@ techage.register_node({"techage:ta3_silo", "techage:ta4_silo"}, {
 		end
 	end,
 	on_push_item = function(pos, in_dir, stack)
-		local inv = M(pos):get_inventory()
-		if inv:room_for_item("main", stack) then
-			inv:add_item("main", stack)
-			return true
+		-- check if it is powder
+		local name = stack:get_name()
+		local ndef = minetest.registered_craftitems[name] or {}
+		if ndef.groups and ndef.groups.powder == 1 then
+			local inv = M(pos):get_inventory()
+				
+			if inv:is_empty("main")  then
+				inv:add_item("main", stack)
+				return true
+			end
+			
+			if inv:contains_item("main", name) and inv:room_for_item("main", stack) then
+				inv:add_item("main", stack)
+				return true
+			end
 		end
 		return false
 	end,
