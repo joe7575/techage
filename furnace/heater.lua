@@ -16,11 +16,6 @@
 local M = minetest.get_meta
 local S = techage.S
 
-local firebox = techage.firebox
-local fuel = techage.fuel
-local Pipe = techage.LiquidPipe
-local liquid = techage.liquid
-
 local CYCLE_TIME = 2
 local PWR_NEEDED = 14
 
@@ -147,7 +142,10 @@ techage.register_node({"techage:furnace_heater", "techage:furnace_heater_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		if topic == "fuel" then
-			return power.power_available(pos, Cable)
+			local tlib_type = Cable.tube_type
+			local netID = nvm[tlib_type] and nvm[tlib_type]["netID"]
+			local network = techage.networks.peek_network(tlib_type, netID)
+			return power.power_available(pos, Cable) and network.on
 		elseif topic == "running" then
 			return techage.get_node_lvm(pos).name == "techage:furnace_heater_on"
 		elseif topic == "start" and not nvm.running then
@@ -165,7 +163,4 @@ techage.register_node({"techage:furnace_heater", "techage:furnace_heater_on"}, {
 			return true
 		end
 	end
-})	
-
-Pipe:add_secondary_node_names({"techage:furnace_heater", "techage:furnace_heater_on"})
-
+})
