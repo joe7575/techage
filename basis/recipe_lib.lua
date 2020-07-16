@@ -16,7 +16,6 @@ local S = techage.S
 local M = minetest.get_meta
 
 local Recipes = {}     -- {rtype = {ouput = {....},...}}
-local RecipeList = {}  -- {rtype = {<output name>,...}}
 
 local range = techage.in_range
 
@@ -47,8 +46,7 @@ end
 
 function techage.recipes.get(nvm, rtype)
 	local recipes = Recipes[rtype] or {}
-	local recipe_list = RecipeList[rtype] or {}
-	return recipes[recipe_list[nvm.recipe_idx or 1]]
+	return recipes[nvm.recipe_idx or 1]
 end
 	
 -- Add 4 input/output/waste recipe
@@ -63,9 +61,6 @@ end
 function techage.recipes.add(rtype, recipe)
 	if not Recipes[rtype] then
 		Recipes[rtype] = {}
-	end
-	if not RecipeList[rtype] then
-		RecipeList[rtype] = {}
 	end
 	
 	local name, num
@@ -84,8 +79,7 @@ function techage.recipes.add(rtype, recipe)
 	name, num = unpack(string.split(recipe.output, " "))
 	item.output = {name = name or "", num = tonumber(num) or 0}
 	item.catalyst = recipe.catalyst
-	Recipes[rtype][name] = item
-	RecipeList[rtype][#(RecipeList[rtype])+1] = name
+	Recipes[rtype][#Recipes[rtype]+1] = item
 
 	if minetest.global_exists("unified_inventory") then
 		unified_inventory.register_craft({
@@ -98,10 +92,9 @@ end
 
 function techage.recipes.formspec(x, y, rtype, nvm)
 	local recipes = Recipes[rtype] or {}
-	local recipe_list = RecipeList[rtype] or {}
-	nvm.recipe_idx = range(nvm.recipe_idx or 1, 1, #recipe_list)
+	nvm.recipe_idx = range(nvm.recipe_idx or 1, 1, #recipes)
 	local idx = nvm.recipe_idx
-	local recipe = recipes[recipe_list[idx]] or RECIPE
+	local recipe = recipes[idx] or RECIPE
 	local output = recipe.output.name.." "..recipe.output.num
 	local waste = recipe.waste.name.." "..recipe.waste.num
 	local catalyst = recipe.catalyst and techage.item_image_small(2.05, 0, recipe.catalyst, S("Catalyst")) or ""
@@ -114,7 +107,7 @@ function techage.recipes.formspec(x, y, rtype, nvm)
 		techage.item_image(2.95, 1, waste)..
 		"button[0,2;1,1;priv;<<]"..
 		"button[1,2;1,1;next;>>]"..
-		"label[1.9,2.2;"..S("Recipe")..": "..idx.."/"..#recipe_list.."]"..
+		"label[1.9,2.2;"..S("Recipe")..": "..idx.."/"..#recipes.."]"..
 		"container_end[]"
 end
 

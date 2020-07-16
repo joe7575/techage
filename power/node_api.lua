@@ -139,7 +139,7 @@ end
 -- Consumer related functions
 --
 
--- check if there is a living network
+-- function checks for a power grid, not for enough power
 function techage.power.power_available(pos, Cable)
 	local nvm = techage.get_nvm(pos)
 	local tlib_type = Cable.tube_type

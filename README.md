@@ -75,6 +75,12 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2020-07-16  V0.17**
+- TA4 Reactor recipe bugfix
+- TA3 furnace power bugfix (response to the pull request #12 from Thomas-S)
+- Manual bugfix (Thomas-S)
+- Charcoal pile doesn't start smoking after beeing unloaded (issue #9 from Skamiz) 
+
 **2020-07-06  V0.16**
 - Oil cracking/hydrogenation recipes added
 - Ethereal growlight bugfix

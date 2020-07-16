@@ -228,7 +228,7 @@ techage.register_node({"techage:furnace_firebox", "techage:furnace_firebox_on"},
 		if topic == "fuel" then
 			return has_fuel(pos, nvm) and booster_cmnd(pos, "power")
 		elseif topic == "running" then
-			return nvm.running and booster_cmnd(pos, "power")
+			return nvm.running and booster_cmnd(pos, "running")
 		elseif topic == "start" then
 			start_firebox(pos, nvm)
 			booster_cmnd(pos, "start")

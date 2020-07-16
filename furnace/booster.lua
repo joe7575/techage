@@ -189,6 +189,8 @@ techage.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 			if topic == "power" then
 				return techage.get_node_lvm(pos).name == "techage:ta3_booster_on" or
 						power.power_available(pos, Cable)
+			elseif topic == "running" then
+				return techage.get_node_lvm(pos).name == "techage:ta3_booster_on"
 			elseif topic == "start" and not nvm.running then
 				if power.power_available(pos, Cable) then
 					nvm.running = true

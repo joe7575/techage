@@ -85,9 +85,17 @@ local function firebox_cmnd(pos, cmnd)
 		 "techage:furnace_heater", "techage:furnace_heater_on"})
 end
 
+local function firebox_has_fuel(nvm, pos)
+	if nvm.techage_state == techage.RUNNING then
+		return firebox_cmnd(pos, "running")
+	else
+		return firebox_cmnd(pos, "fuel")
+	end
+end
+
 local function cooking(pos, crd, nvm, elapsed)
 	if nvm.techage_state == techage.RUNNING or check_if_worth_to_wakeup(pos, nvm) then
-		if firebox_cmnd(pos, "fuel") then
+		if firebox_has_fuel(nvm, pos) then
 			local state, err = smelting(pos, nvm, elapsed)
 			if state == techage.RUNNING then
 				crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
