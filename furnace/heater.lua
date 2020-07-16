@@ -16,11 +16,6 @@
 local M = minetest.get_meta
 local S = techage.S
 
-local firebox = techage.firebox
-local fuel = techage.fuel
-local Pipe = techage.LiquidPipe
-local liquid = techage.liquid
-
 local CYCLE_TIME = 2
 local PWR_NEEDED = 14
 
@@ -166,6 +161,3 @@ techage.register_node({"techage:furnace_heater", "techage:furnace_heater_on"}, {
 		end
 	end
 })	
-
-Pipe:add_secondary_node_names({"techage:furnace_heater", "techage:furnace_heater_on"})
-
