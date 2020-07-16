@@ -91,7 +91,7 @@ It is required for the production of aluminum, which is mainly used in TA4.
 
 Basalt is only created when lava and water come together.
 The best thing to do is to set up a system where a lava and a water source flow together.
-Lava is formed where both liquids meet.
+Basalt is formed where both liquids meet.
 You can build an automated basalt generator with the Sign Bot.
 
 [basalt|image]

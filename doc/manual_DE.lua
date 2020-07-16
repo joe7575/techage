@@ -253,7 +253,7 @@ techage.manual_DE.aText = {
   "\n",
   "Basalt entsteht nur\\, wenn Lava und Wasser zusammenkommen.\n"..
   "Dazu sollte man am besten eine Anlage aufbauen\\, bei der eine Lava- und eine Wasserquelle zusammenfließen.\n"..
-  "Dort wo sich beide Flüssigkeiten treffen\\, entsteht Lava.\n"..
+  "Dort wo sich beide Flüssigkeiten treffen\\, entsteht Basalt.\n"..
   "Einen automatisierten Basalt Generator kann man mit dem Sign Bot aufbauen.\n"..
   "\n"..
   "\n"..

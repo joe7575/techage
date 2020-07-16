@@ -253,7 +253,7 @@ techage.manual_EN.aText = {
   "\n",
   "Basalt is only created when lava and water come together.\n"..
   "The best thing to do is to set up a system where a lava and a water source flow together.\n"..
-  "Lava is formed where both liquids meet.\n"..
+  "Basalt is formed where both liquids meet.\n"..
   "You can build an automated basalt generator with the Sign Bot.\n"..
   "\n"..
   "\n"..

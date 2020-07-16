@@ -89,7 +89,7 @@ Es wird zur Herstellung von Aluminium benötigt, was vor allem in TA4 Verwendung
 
 Basalt entsteht nur, wenn Lava und Wasser zusammenkommen.
 Dazu sollte man am besten eine Anlage aufbauen, bei der eine Lava- und eine Wasserquelle zusammenfließen.
-Dort wo sich beide Flüssigkeiten treffen, entsteht Lava.
+Dort wo sich beide Flüssigkeiten treffen, entsteht Basalt.
 Einen automatisierten Basalt Generator kann man mit dem Sign Bot aufbauen.
 
 [basalt|image]
