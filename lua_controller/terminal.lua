@@ -50,6 +50,7 @@ local function formspec2(meta)
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
+	"style_type[table,field;font=mono]"..
 	"table[0.1,0.1;8.6,6.6;output;"..output..";200]"..
 	"field[0.5,7.6;6,1;cmnd;Enter command;]" ..
 	"field_close_on_enter[cmnd;false]"..

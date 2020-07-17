@@ -172,6 +172,7 @@ local function formspec1(meta)
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
+	"style_type[textarea;font=mono]"..
 	"tabheader[0,0;tab;init,func,loop,outp,notes,help;1;;true]"..
 	"textarea[0.3,0.2;10,8.3;init;function init();"..init.."]"..
 	"label[0,7.3;end]"..
@@ -189,6 +190,7 @@ local function formspec2(meta)
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
+	"style_type[textarea;font=mono]"..
 	"tabheader[0,0;tab;init,func,loop,outp,notes,help;2;;true]"..
 	"textarea[0.3,0.2;10,8.3;func;functions:;"..func.."]"..
 	"button_exit[4.4,7.5;1.8,1;cancel;Cancel]"..
@@ -205,6 +207,7 @@ local function formspec3(meta)
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
+	"style_type[textarea;font=mono]"..
 	"tabheader[0,0;tab;init,func,loop,outp,notes,help;3;;true]"..
 	"textarea[0.3,0.2;10,8.3;loop;function loop(ticks, elapsed);"..loop.."]"..
 	"label[0,7.3;end]"..
@@ -237,6 +240,7 @@ local function formspec5(meta)
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
+	"style_type[textarea;font=mono]"..
 	"tabheader[0,0;tab;init,func,loop,outp,notes,help;5;;true]"..
 	"textarea[0.3,0.2;10,8.3;notes;Notepad:;"..notes.."]"..
 	"button_exit[6.3,7.5;1.8,1;cancel;Cancel]"..
@@ -249,6 +253,7 @@ local function formspec6(items, pos, text)
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
+	"style_type[textarea;font=mono]"..
 	"tabheader[0,0;tab;init,func,loop,outp,notes,help;6;;true]"..
 	"label[0,-0.2;Functions:]"..
 	"dropdown[0.3,0.2;10,8.3;functions;"..items..";"..pos.."]"..

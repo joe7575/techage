@@ -38,7 +38,7 @@ local function formspec(nvm, meta)
 		default.gui_slots..
 		"field[0.3,0.6;9,1;poll_numbers;"..S("Node numbers to read the states from")..":;"..poll_numbers.."]" ..
 		"field[0.3,2;9,1;event_number;"..S("Node number to send the events to")..":;"..event_number.."]" ..
-		"label[1.3,2.8;"..S("Send an event if state is equal or larget than")..":]"..
+		"label[1.3,2.8;"..S("Send an event if state is equal or larger than")..":]"..
 		"dropdown[1.2,3.4;7,4;severity;1 standby,2 blocked,3 nopower,4 fault;"..dropdown_pos.."]"..
 		"button_exit[3,5;2,1;exit;Save]"
 end	
