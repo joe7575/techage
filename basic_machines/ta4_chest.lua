@@ -381,6 +381,12 @@ local function move_from_inv_to_nvm(pos, idx)
 	local nvm_stack = get_stack(nvm, idx)
 
 	if inv_stack:get_count() > 0 then
+		-- Don't handle items with meta or wear information because it would get lost.
+		local meta_table = inv_stack:get_meta():to_table()
+		if meta_table ~= nil and next(meta_table.fields) ~= nil or inv_stack:get_wear() ~= 0 then
+			return
+		end
+
 		if nvm_stack.count == 0 or nvm_stack.name == inv_stack:get_name() then
 			local count = math.min(inv_stack:get_count(), get_stacksize(pos) - nvm_stack.count)
 			nvm_stack.count = nvm_stack.count + count
