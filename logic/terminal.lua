@@ -76,6 +76,7 @@ local function formspec2(meta)
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
+	"style_type[table,field;font=mono]"..
 	"button[0,0;3.3,1;bttn1;"..bttn_text1.."]button[3.3,0;3.3,1;bttn2;"..bttn_text2.."]button[6.6,0;3.3,1;bttn3;"..bttn_text3.."]"..
 	"button[0,0.8;3.3,1;bttn4;"..bttn_text4.."]button[3.3,0.8;3.3,1;bttn5;"..bttn_text5.."]button[6.6,0.8;3.3,1;bttn6;"..bttn_text6.."]"..
 	"button[0,1.6;3.3,1;bttn7;"..bttn_text7.."]button[3.3,1.6;3.3,1;bttn8;"..bttn_text8.."]button[6.6,1.6;3.3,1;bttn9;"..bttn_text9.."]"..
