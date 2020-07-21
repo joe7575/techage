@@ -53,6 +53,7 @@ end
 -- '#' is used as placeholder for rule numbers and has to be escaped
 function techage.icta_escape(s)
 	s = tostring(s)
+	s  = s:gsub('"', '\\"') -- to prevent code injection!!!
 	return s:gsub("#", '"..string.char(35).."')
 end
 
@@ -553,7 +554,7 @@ techage.icta_register_action("chat", {
 		},
 	},
 	code = function(data, environ) 
-		return 'minetest.chat_send_player("'..environ.owner..'", "[TA4 ICTA Controller] '..data.text..'    ")'
+		return 'minetest.chat_send_player("'..environ.owner..'", "[TA4 ICTA Controller] '..techage.icta_escape(data.text)..'    ")'
 	end,
 	button = function(data, environ) 
 		return 'chat("'..data.text:sub(1,12)..'")'
@@ -644,7 +645,7 @@ techage.icta_register_condition("playerdetector", {
 	},
 	
 	code = function(data, environ) 
-		return 'techage.icta_player_detect("'..environ.number..'", "'..data.number..'", "'..data.name..'")', "~= nil"
+		return 'techage.icta_player_detect("'..environ.number..'", "'..data.number..'", "'..techage.icta_escape(data.name)..'")', "~= nil"
 	end,
 	button = function(data, environ) 
 		return "detector("..techage.fmt_number(data.number)..","..data.name:sub(1,8)..")"

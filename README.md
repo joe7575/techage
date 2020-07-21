@@ -75,6 +75,14 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2020-07-21  V0.18**
+- Pull request #13: Use Monospace Font for Code-Related Formspecs (from Thomas-S)
+- Pull request #14: Don't allow to put items with meta or wear information into the 8x2000 chest (from Thomas-S)
+- Pull request #15: Blackhole: Add support for liquids (from Thomas-S)
+- Pull request #16: ICTA Controller: Add support for valves by adding on/off states (from Thomas-S)
+- Bugfix: Digging Redstone gives an 'unknown block'
+- ICTA Controller: Escape quotation marks for text outputs
+
 **2020-07-16  V0.17**
 - TA4 Reactor recipe bugfix
 - TA3 furnace power bugfix (response to the pull request #12 from Thomas-S)
