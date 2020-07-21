@@ -19,7 +19,6 @@ minetest.register_node("techage:red_stone", {
 	description = S("Red Stone"),
 	tiles = {"default_stone.png^[colorize:#ff4538:110"},
 	groups = {cracky = 3, stone = 1},
-	drop = 'techage:basalt_cobble',
 	sounds = default.node_sound_stone_defaults(),
 })
 

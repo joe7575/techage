@@ -176,13 +176,19 @@ local function fill_on_punch(nvm, empty_container, item_count, puncher)
 	end
 end
 
+local function legacy_items(full_container, item_count)
+	if full_container == "techage:hydrogen" then
+		return {container = "", size = item_count, inv_item = full_container}
+	elseif full_container == "techage:oil_source" then
+		return {container = "", size = item_count, inv_item = full_container}
+	end
+end	
 
-
--- check of the wielded full container can be emptied into the tank
+-- check if the wielded full container can be emptied into the tank
 local function empty_on_punch(pos, nvm, full_container, item_count)
 	nvm.liquid = nvm.liquid or {}
 	nvm.liquid.amount = nvm.liquid.amount or 0
-	local lqd_def = get_liquid_def(full_container)
+	local lqd_def = get_liquid_def(full_container) or legacy_items(full_container, item_count)
 	local ndef_lqd = LQD(pos)
 	if lqd_def and ndef_lqd then 
 		local tank_size = ndef_lqd.capa or 0
