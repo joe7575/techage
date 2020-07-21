@@ -179,7 +179,7 @@ techage.icta_register_condition("state", {
 			type = "textlist",
 			name = "value",
 			label = "",
-			choices = "stopped,running,standby,blocked,nopower,fault,unloaded,invalid",
+			choices = "stopped,running,standby,blocked,nopower,fault,unloaded,invalid,on,off",
 			default = "stopped",
 		},
 		{
