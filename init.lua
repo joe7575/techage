@@ -206,6 +206,11 @@ dofile(MP.."/oil/reboiler.lua")
 dofile(MP.."/ta3_power/tiny_generator.lua")
 dofile(MP.."/ta3_power/akkubox.lua")
 
+-- Digtron
+if minetest.global_exists("digtron") then
+	dofile(MP.."/digtron/battery.lua")
+end
+
 -- Logic
 dofile(MP.."/logic/lib.lua")
 dofile(MP.."/logic/terminal.lua")
