@@ -211,8 +211,8 @@ local function write_row(pos, payload, cycle_time)
 	local mem = techage.get_mem(pos)
 	nvm.text = nvm.text or {}
 	mem.ticks = mem.ticks or 0
-	local str = tostring(payload.str) or "oops"
-	local row = tonumber(payload.row) or 1
+	local str = tostring(payload.get("str")) or "oops"
+	local row = tonumber(payload.get("row")) or 1
 	
 	if mem.ticks == 0 then
 		mem.ticks = cycle_time
