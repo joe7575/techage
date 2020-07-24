@@ -75,6 +75,10 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2020-07-24  V0.19**
+- Pull request #19: Refactor ICTA to use functions instead of loadstring (from Thomas-S)
+- State command added for cart-, node-, and player detectors
+
 **2020-07-21  V0.18**
 - Pull request #13: Use Monospace Font for Code-Related Formspecs (from Thomas-S)
 - Pull request #14: Don't allow to put items with meta or wear information into the 8x2000 chest (from Thomas-S)
