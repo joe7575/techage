@@ -136,6 +136,13 @@ techage.register_node({"techage:ta3_cartdetector_off", "techage:ta3_cartdetector
 			local node = minetest.get_node(pos)
 			local dir = minetest.facedir_to_dir(node.param2)
 			minecart.punch_cart(pos, nil, 1.5, dir)
+		elseif topic == "state" then
+			local node = techage.get_node_lvm(pos)
+			if node.name == "techage:ta3_cartdetector_on" then
+				return "on"
+			else
+				return "off"
+			end
 		else
 			return "unsupported"
 		end

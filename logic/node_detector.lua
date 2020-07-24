@@ -187,6 +187,21 @@ minetest.register_craft({
 })
 
 techage.register_node({"techage:ta3_nodedetector_off", "techage:ta3_nodedetector_on"}, {
+	on_recv_message = function(pos, src, topic, payload)
+		if topic == "name" then
+			local nvm = techage.get_nvm(pos)
+			return nvm.player_name or ""
+		elseif topic == "state" then
+			local node = techage.get_node_lvm(pos)
+			if node.name == "techage:ta3_nodedetector_off" then
+				return "on"
+			else
+				return "off"
+			end
+		else
+			return "unsupported"
+		end
+	end,
 	on_node_load = function(pos)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
