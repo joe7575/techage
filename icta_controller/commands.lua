@@ -16,31 +16,18 @@
 local M = minetest.get_meta
 local S = techage.S
 local logic = techage.logic
-	
-local function send_single_string(environ, number, topic, payload)
-	payload = payload or "nil"
-	local s = 'techage.send_single("%s", "%s", "%s", %s)'
-	return string.format(s, environ.number, number, topic, payload)
-end
-	
-local function send_multi_string(environ, numbers, topic, payload)	
-	payload = payload or "nil"
-	local s = 'techage.send_multi("%s", "%s", "%s", %s)'
-	return string.format(s, environ.number, numbers, topic, payload)
-end
 
-function techage.operand(s)
-	if s == "is" then
-		return "== "
-	elseif s == "is not" then
-		return "~= "
-	elseif s == "greater" then
-		return "> "
-	elseif s == "less" then
-		return "< "
+function techage.compare(op1, op2, method)
+	if method == "is" then
+		return op1 == op2
+	elseif method == "is not" then
+		return op1 ~= op2
+	elseif method == "greater" then
+		return op1 > op2
+	elseif method == "less" then
+		return op1 < op2
 	end
 end
-
 
 function techage.fmt_number(num)
 	local mtch = num:match('^(%d+).*')
@@ -48,13 +35,6 @@ function techage.fmt_number(num)
 		return mtch.."..."
 	end
 	return num
-end
-
--- '#' is used as placeholder for rule numbers and has to be escaped
-function techage.icta_escape(s)
-	s = tostring(s)
-	s  = s:gsub('"', '\\"') -- to prevent code injection!!!
-	return s:gsub("#", '"..string.char(35).."')
 end
 
 
@@ -69,8 +49,14 @@ techage.icta_register_condition("initial", {
 	},
 	-- Return two chunks of executable Lua code for the controller, according:
 	--    return <read condition>, <expected result>
-	code = function(data, environ) 
-		return 'env.ticks', '== 1'
+	code = function(data, environ)
+		local condition = function(env, idx)
+			return env.ticks
+		end
+		local result = function(val)
+			return val == 1
+		end
+		return condition, result
 	end,
 	button = function(data, environ) return "Initial after start" end,
 })
@@ -84,8 +70,14 @@ techage.icta_register_condition("true", {
 			label = "Condition is always true.", 
 		},
 	},
-	code = function(data, environ) 
-		return '"true"', '== "true"'
+	code = function(data, environ)
+		local condition = function(env, idx)
+			return true
+		end
+		local result = function(val)
+			return val == true
+		end
+		return condition, result
 	end,
 	button = function(data, environ) return "true" end,
 })
@@ -113,13 +105,15 @@ techage.icta_register_condition("condition", {
 			label = "Used to execute two or more\nactions based on one condition.", 
 		},
 	},
-	code = function(data, environ) 
-		local idx = data.condition:byte(-1) - 0x30
-		local expected_result = "== false"
-		if data.operand == "was true" then
-			expected_result = "== true"
+	code = function(data, environ)
+		local condition = function(env, idx)
+			local index = data.condition:byte(-1) - 0x30
+			return env.condition[index]
 		end
-		return "env.condition["..idx.."]", expected_result
+		local result = function(val)
+			return val == (data.operand == "was true")
+		end
+		return condition, result
 	end,
 	button = function(data, environ) return "cond("..data.condition:sub(-1,-1)..","..data.operand..")" end,
 })
@@ -154,9 +148,14 @@ techage.icta_register_condition("input", {
 	button = function(data, environ)  -- default button label
 		return 'inp('..techage.fmt_number(data.number)..','..data.operand.." "..data.value..')'
 	end,
-	code = function(data, environ)  
-		return 'env.input["'..data.number..'"]',
-			techage.operand(data.operand)..'"'..data.value..'"'
+	code = function(data, environ)
+		local condition = function(env, idx)
+			return env.input[data.number]
+		end
+		local result = function(val)
+			return techage.compare(val, data.value, data.operand)
+		end
+		return condition, result
 	end,
 })
 
@@ -192,9 +191,14 @@ techage.icta_register_condition("state", {
 	button = function(data, environ)  -- default button label
 		return 'sts('..techage.fmt_number(data.number)..","..data.operand..' '..data.value..')'
 	end,
-	code = function(data, environ) 
-		return send_single_string(environ, data.number, "state"),
-			techage.operand(data.operand)..'"'..data.value..'"'
+	code = function(data, environ)
+		local condition = function(env, idx)
+			return techage.send_single(environ.number, data.number, "state")
+		end
+		local result = function(val)
+			return techage.compare(val, data.value, data.operand)
+		end
+		return condition, result
 	end,
 })
 
@@ -229,9 +233,14 @@ techage.icta_register_condition("fuel", {
 	button = function(data, environ) 
 		return 'fuel('..techage.fmt_number(data.number)..","..data.operand..' '..data.value..')'
 	end,
-	code = function(data, environ) 
-		return send_single_string(environ, data.number, "fuel"),
-			techage.operand(data.operand)..tonumber(data.value)
+	code = function(data, environ)
+		local condition = function(env, idx)
+			return techage.send_single(environ.number, data.number, "fuel")
+		end
+		local result = function(val)
+			return techage.compare(val, tonumber(data.value), data.operand)
+		end
+		return condition, result
 	end,
 })
 
@@ -266,9 +275,14 @@ techage.icta_register_condition("load", {
 	button = function(data, environ) 
 		return 'load('..techage.fmt_number(data.number)..","..data.operand..' '..data.value..')'
 	end,
-	code = function(data, environ) 
-		return send_single_string(environ, data.number, "load"),
-			techage.operand(data.operand)..tonumber(data.value)
+	code = function(data, environ)
+		local condition = function(env, idx)
+			return techage.send_single(environ.number, data.number, "load")
+		end
+		local result = function(val)
+			return techage.compare(val, tonumber(data.value), data.operand)
+		end
+		return condition, result
 	end,
 })
 
@@ -303,9 +317,14 @@ techage.icta_register_condition("depth", {
 	button = function(data, environ) 
 		return 'depth('..techage.fmt_number(data.number)..","..data.operand..' '..data.value..')'
 	end,
-	code = function(data, environ) 
-		return send_single_string(environ, data.number, "depth"),
-			techage.operand(data.operand)..tonumber(data.value)
+	code = function(data, environ)
+		local condition = function(env, idx)
+			return techage.send_single(environ.number, data.number, "depth")
+		end
+		local result = function(val)
+			return techage.compare(val, tonumber(data.value), data.operand)
+		end
+		return condition, result
 	end,
 })
 
@@ -340,9 +359,14 @@ techage.icta_register_condition("delivered", {
 	button = function(data, environ) 
 		return 'deliv('..techage.fmt_number(data.number)..","..data.operand..' '..data.value..')'
 	end,
-	code = function(data, environ) 
-		return send_single_string(environ, data.number, "delivered"),
-			techage.operand(data.operand)..tonumber(data.value)
+	code = function(data, environ)
+		local condition = function(env, idx)
+			return techage.send_single(environ.number, data.number, "delivered")
+		end
+		local result = function(val)
+			return techage.compare(val, tonumber(data.value), data.operand)
+		end
+		return condition, result
 	end,
 })
 
@@ -379,9 +403,14 @@ techage.icta_register_condition("chest", {
 	button = function(data, environ)  -- default button label
 		return 'chest('..techage.fmt_number(data.number)..","..data.operand..' '..data.value..')'
 	end,
-	code = function(data, environ) 
-		return send_single_string(environ, data.number, "state"),
-			techage.operand(data.operand)..'"'..data.value..'"'
+	code = function(data, environ)
+		local condition = function(env, idx)
+			return techage.send_single(environ.number, data.number, "state")
+		end
+		local result = function(val)
+			return techage.compare(val, data.value, data.operand)
+		end
+		return condition, result
 	end,
 })
 
@@ -415,9 +444,14 @@ techage.icta_register_condition("signaltower", {
 	button = function(data, environ)  -- default button label
 		return 'tower('..techage.fmt_number(data.number)..","..data.operand..' '..data.value..')'
 	end,
-	code = function(data, environ) 
-		return send_single_string(environ, data.number, "state"),
-			techage.operand(data.operand)..'"'..data.value..'"'
+	code = function(data, environ)
+		local condition = function(env, idx)
+			return techage.send_single(environ.number, data.number, "state")
+		end
+		local result = function(val)
+			return techage.compare(val, data.value, data.operand)
+		end
+		return condition, result
 	end,
 })
 
@@ -447,7 +481,9 @@ techage.icta_register_action("signaltower", {
 		return 'tower('..techage.fmt_number(data.number)..","..data.value..')'
 	end,
 	code = function(data, environ)
-		return send_multi_string(environ, data.number, data.value)
+		return function(env, output, idx)
+			techage.send_multi(environ.number, data.number, data.value)
+		end
 	end,
 })
 
@@ -477,7 +513,9 @@ techage.icta_register_action("switch", {
 		return 'turn('..techage.fmt_number(data.number)..","..data.value..')'
 	end,
 	code = function(data, environ)
-		return send_multi_string(environ, data.number, data.value)
+		return function(env, output, idx)
+			techage.send_multi(environ.number, data.number, data.value)
+		end
 	end,
 })
 
@@ -509,11 +547,14 @@ techage.icta_register_action("display", {
 			label = "Use a '*' character as reference\nto any condition result", 
 		},
 	},
-	code = function(data, environ) 
-		local s1 = string.format('local text = string.gsub("%s", "*", tostring(env.result[#]))', techage.icta_escape(data.text))
-		local s2 = string.format('local payload = {row = %s, str = text}', data.row)
-		local s3 = send_multi_string(environ, data.number, "set", "payload")
-		return s1.."\n\t"..s2.."\n\t"..s3
+	code = function(data, environ)
+		return function(env, output, idx)
+			local text = string.gsub(data.text, "*", tostring(env.result[idx]))
+			local payload = safer_lua.Store()
+			payload.set("row", data.row)
+			payload.set("str", text)
+			techage.send_multi(environ.number, data.number, "set", payload)
+		end
 	end,
 	button = function(data, environ) 
 		return "lcd("..techage.fmt_number(data.number)..","..data.row..',"'..data.text..'")'
@@ -530,8 +571,10 @@ techage.icta_register_action("cleardisplay", {
 			default = "",
 		},
 	},
-	code = function(data, environ) 
-		return send_multi_string(environ, data.number, "clear")
+	code = function(data, environ)
+		return function(env, output, idx)
+			techage.send_multi(environ.number, data.number, "clear")
+		end
 	end,
 	button = function(data, environ) 
 		return "clear lcd("..techage.fmt_number(data.number)..")"
@@ -553,8 +596,10 @@ techage.icta_register_action("chat", {
 			label = "The chat message is send to the\nController owner, only.", 
 		},
 	},
-	code = function(data, environ) 
-		return 'minetest.chat_send_player("'..environ.owner..'", "[TA4 ICTA Controller] '..techage.icta_escape(data.text)..'    ")'
+	code = function(data, environ)
+		return function(env, output, idx)
+			minetest.chat_send_player(environ.owner, "[TA4 ICTA Controller] "..data.text)
+		end
 	end,
 	button = function(data, environ) 
 		return 'chat("'..data.text:sub(1,12)..'")'
@@ -602,8 +647,10 @@ techage.icta_register_action("door", {
 				"Use the Techage Info Tool to\neasily determine a door position.", 
 		},
 	},
-	code = function(data, environ) 
-		return 'techage.icta_door_toggle("'..data.pos..'", "'..environ.owner..'", "'..data.door_state..'")'
+	code = function(data, environ)
+		return function(env, output, idx)
+			techage.icta_door_toggle(data.pos, environ.owner, data.door_state)
+		end
 	end,
 	button = function(data, environ) 
 		return 'door("'..data.pos..'",'..data.door_state..")"
@@ -644,8 +691,14 @@ techage.icta_register_condition("playerdetector", {
 		},
 	},
 	
-	code = function(data, environ) 
-		return 'techage.icta_player_detect("'..environ.number..'", "'..data.number..'", "'..techage.icta_escape(data.name)..'")', "~= nil"
+	code = function(data, environ)
+		local condition = function(env, idx)
+			return techage.icta_player_detect(environ.number, data.number, data.name)
+		end
+		local result = function(val)
+			return val ~= nil
+		end
+		return condition, result
 	end,
 	button = function(data, environ) 
 		return "detector("..techage.fmt_number(data.number)..","..data.name:sub(1,8)..")"
@@ -685,7 +738,9 @@ techage.icta_register_action("set_filter", {
 		return 'turn('..techage.fmt_number(data.number)..","..data.color..","..data.value..')'
 	end,
 	code = function(data, environ)
-		local payload = '{slot = "'..data.color..'", val = "'..data.value..'"}'
-		return send_single_string(environ, data.number, "filter", payload)
+		return function(env, output, idx)
+			local payload = data.color.."="..data.value
+			techage.send_single(environ.number, data.number, "port", payload)
+		end
 	end,
 })

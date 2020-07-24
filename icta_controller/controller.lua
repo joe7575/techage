@@ -57,100 +57,51 @@ local function output(pos, text, flush_buffer)
 	meta:set_string("formspec", techage.formspecOutput(meta))
 end
 
------------------ template -------------------------------
---  -- Rule 1
---	if env.blocked[1] == false and env.ticks % <cycle> == 0 then
---		env.result[1] = <check condition>
---		env.blocked[1] = env.result[1] <expected result>
---		if env.blocked[1] then
---			env.timer[1] = env.ticks + <after>
---		end
---		env.conditions[1] = env.blocked[1]	
---	else
---		env.conditions[1] = false
---	end
---	if env.blocked[1] and env.timer[1] == env.ticks then
---		<action>
---		env.blocked[1] = false
---	end
-
---  -- Callback variant
---	if env.blocked[1] == false and env.ticks % <cycle> == 0 then
---		env.result[1], env.blocked[1] = <callback>
---		if env.blocked[1] then
---			env.timer[1] = env.ticks + <after>
---		end
---		env.conditions[1] = env.blocked[1]	
---	else
---		env.conditions[1] = false
---	end
---	if env.blocked[1] and env.timer[1] == env.ticks then
---		<action>
---		env.blocked[1] = false
---	end
-
-
 -- cyclic execution (cycle, cond, result, after, actn)
-local TemplCyc = [[
--- Rule #
-if env.blocked[#] == false and env.ticks %% %s == 0 then
-	env.result[#] = %s
-	env.blocked[#] = env.result[#] %s
-	if env.blocked[#] then
-		env.timer[#] = env.ticks + %s
+local function TemplCyc(cycle, cond, result, after, actn, idx)
+	return function(env, output)
+		if env.blocked[idx] == false and env.ticks % cycle == 0 then
+			env.result[idx] = cond(env, idx)
+			env.blocked[idx] = result(env.result[idx])
+			if env.blocked[idx] then
+				env.timer[idx] = env.ticks + after
+			end
+			env.condition[idx] = env.blocked[idx]
+		else
+			env.condition[idx] = false
+		end
+		if env.blocked[idx] and env.timer[idx] == env.ticks then
+			actn(env, output, idx)
+			env.blocked[idx] = false
+		end
 	end
-	env.condition[#] = env.blocked[#]	
-else
-	env.condition[#] = false
 end
-if env.blocked[#] and env.timer[#] == env.ticks then
-	%s
-	env.blocked[#] = false
-end
-]]
 
 -- event based execution
-local TemplEvt = [[
--- Rule #
-if env.blocked[#] == false and env.event then
-	env.result[#] = %s
-	env.blocked[#] = env.result[#] %s
-	if env.blocked[#] then
-		env.timer[#] = env.ticks + %s
+local function TemplEvt(cond, result, after, actn, idx)
+	return function(env, output)
+		if env.blocked[idx] == false and env.event then
+			env.result[idx] = cond(env, idx)
+			env.blocked[idx] = result(env.result[idx])
+			if env.blocked[idx] then
+				env.timer[idx] = env.ticks + after
+			end
+			env.condition[idx] = env.blocked[idx]
+		else
+			env.condition[idx] = false
+		end
+		if env.blocked[idx] and env.timer[idx] == env.ticks then
+			actn(env, output, idx)
+			env.blocked[idx] = false
+		end
 	end
-	env.condition[#] = env.blocked[#]	
-else
-	env.condition[#] = false
-end
-if env.blocked[#] and env.timer[#] == env.ticks then
-	%s
-	env.blocked[#] = false
-end
-]]
 
--- event based execution of callback function
-local TemplEvtClbk = [[
--- Rule #
-if env.blocked[#] == false and env.event then
-	env.result[#], env.blocked[#] = %s(env, %s)
-	if env.blocked[#] then
-		env.timer[#] = env.ticks + %s
-	end
-	env.condition[#] = env.blocked[#]	
-else
-	env.condition[#] = false
 end
-if env.blocked[#] and env.timer[#] == env.ticks then
-	%s
-	env.blocked[#] = false
-end
-]]
 
 -- generate the Lua code from the NUM_RULES rules
 local function generate(pos, meta, environ)
 	local fs_data = minetest.deserialize(meta:get_string("fs_data")) or FS_DATA
-	-- chunks are compiled as vararg functions. Parameters are available via: local a, b, c = ...
-	local tbl = {"local env, output = ...\n"}
+	local tbl = {}
 	for idx = 1,techage.NUM_RULES do
 		local cycle = integer(fs_data[idx].cycle, 0, 1000)
 		local cond, result = techage.code_condition(fs_data[idx].cond, environ)
@@ -159,26 +110,21 @@ local function generate(pos, meta, environ)
 		-- valid rule?
 		if cycle and cond and after and actn then
 			-- add rule number
-			local s
-			if cycle == 0 then  -- event?
-				if result then
-					s = string.format(TemplEvt, cond, result, after, actn)
-				else -- callback function
-					local data = dump(fs_data[idx].cond)
-					s = string.format(TemplEvtClbk, cond, data, after, actn)
-				end
+			local f
+			if cycle == 0 then  -- event
+				f = TemplEvt(cond, result, after, actn, idx)
 			else  -- cyclic
-				s = string.format(TemplCyc, cycle, cond, result, after, actn)
+				f = TemplCyc(cycle, cond, result, after, actn, idx)
 			end
 			-- add to list of rules
-			tbl[#tbl+1] = s:gsub("#", idx)
+			tbl[#tbl+1] = f
 		elseif cond ~= nil and actn == nil then
 			output(pos, "Error in action in rule "..idx)
 		elseif cond == nil and actn ~= nil then
 			output(pos, "Error in condition in rule "..idx)
 		end
 	end 
-	return table.concat(tbl)
+	return tbl
 end
 
 local function runtime_environ(pos)
@@ -200,21 +146,12 @@ local function compile(pos, meta, number)
 		number = number,
 		owner = meta:get_string("owner"),
 	}
-	local text = generate(pos, meta, gen_environ)
-	if text then
-		local code, err = loadstring(text)
-		if code then
-			Cache[number] = {
-				code = code,
-				env = runtime_environ(pos),
-			}
-			return true
-		else
-			output(pos, err)
-			return false
-		end
-	end
-	return false
+	local functions = generate(pos, meta, gen_environ)
+	Cache[number] = {
+		code = functions,
+		env = runtime_environ(pos),
+	}
+	return true
 end
 
 local function execute(pos, number, event)
@@ -226,10 +163,12 @@ local function execute(pos, number, event)
 		env.event = false
 		env.ticks = env.ticks + 1
 	end
-	local res, err = pcall(code, env, output)
-	if not res then
-		output(pos, err)
-		return false
+	for _,func in ipairs(code) do
+		local res, err = pcall(func, env, output)
+		if not res then
+			output(pos, err)
+			return false
+		end
 	end
 	return true
 end

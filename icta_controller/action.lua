@@ -99,9 +99,10 @@ techage.icta_register_action("print", {
 		return 'print("'..data.text:sub(1,12)..'")'
 	end,
 	code = function(data, environ)
-		local s1 = 'local text = string.gsub("'..(techage.icta_escape(data.text))..'", "*", env.result[#])'
-		local s2 = 'output(env.pos, text)'
-		return s1.."\n\t"..s2
+		return function(env, output, idx)
+			local text = string.gsub(data.text, "*", tostring(env.result[idx]))
+			output(env.pos, text)
+		end
 	end,
 })
 

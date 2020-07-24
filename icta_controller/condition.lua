@@ -71,7 +71,15 @@ end
 techage.icta_register_condition("default", {
 	title = "",
 	formspec = {},
-	code = function(data, environ) return false, false end,
+	code = function(data, environ)
+		local condition = function(env, idx)
+			return false
+		end
+		local result = function(val)
+			return false
+		end
+		return condition, result
+	end,
 	button = function(data, environ) return "..." end,
 })
 

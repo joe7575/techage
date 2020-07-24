@@ -39,16 +39,17 @@ techage.lua_ctlr.register_function("get_input", {
 })
 
 techage.lua_ctlr.register_function("read_data", {
-	cmnd = function(self, num, ident, add_data) 
+	cmnd = function(self, num, cmnd, data)
 		num = tostring(num or "")
-		return techage.send_single(self.meta.number, num, ident, add_data)
+		cmnd = tostring(cmnd or "")
+		if not_protected(self.meta.owner, num) then
+			return techage.send_single(self.meta.number, num, cmnd, data)
+		end
 	end,
-	help = " $read_data(num, ident, add_data)\n"..
-		" Read any kind of data from another block.\n"..
-		' "num" is the block number\n'..
-		' "ident" specifies the data to be read\n'..
-		' "add_data" is additional data (optional)\n'..
-		' example: sts = $read_data("1234", "state")'
+	help = " $read_data(num, cmnd, add_data)\n"..
+		" This function is deprecated.\n"..
+		" It will be removed in future releases.\n"..
+		" Use $send_cmnd(num, cmnd, add_data) instead."
 })
 
 techage.lua_ctlr.register_function("time_as_str", {
