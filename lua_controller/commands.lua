@@ -97,7 +97,7 @@ techage.lua_ctlr.register_action("set_filter", {
 		slot = tostring(slot or "red")
 		val = tostring(val or "on")
 		if not_protected(self.meta.owner, num) then
-			techage.send_single(self.meta.number, num, "filter", {slot=slot, val=val})
+			techage.send_single(self.meta.number, num, "port", slot.."="..val)
 		end
 	end,
 	help = " $set_filter(num, slot, val)\n"..
@@ -120,7 +120,10 @@ techage.lua_ctlr.register_action("display", {
 			if row == 0 then -- add line?
 				techage.send_single(self.meta.number, num, "add", text)
 			else
-				techage.send_single(self.meta.number, num, "set", {row = row, str = text})
+				local payload = safer_lua.Store()
+				payload.set("row", row)
+				payload.set("str", text)
+				techage.send_single(self.meta.number, num, "set", payload)
 			end
 		end
 	end,
