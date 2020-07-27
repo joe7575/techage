@@ -185,6 +185,19 @@ techage.lua_ctlr.register_action("door", {
 		" Hint: Use the Techage Programmer to\ndetermine the door position."
 })
 
+techage.lua_ctlr.register_function("item_description", {
+	cmnd = function(self, itemstring)
+		local item_def = minetest.registered_items[itemstring]
+		if item_def and item_def.description then
+			return item_def.description
+		end
+		return ""
+	end,
+	help = " $item_description(itemstring)\n"..
+			" Get the description for a specified itemstring.\n"..
+			' example: desc = $itemstring("default:apple")'
+})
+
 
 -- function not_protected(owner, number(s))
 techage.lua_ctlr.not_protected = not_protected
