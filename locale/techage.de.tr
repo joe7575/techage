@@ -385,6 +385,7 @@ Type=Typ
 Unlock=Entsperren
 Unlock connected chest@nif all slots are below 2000=Nachfolgende Kiste entsperren,@nsofern alle Speicherplätze <= 2000
 Update=Update
+Use a trowel to remove the node.=Verwende eine Kelle, um den Block zu entfernen.
 Usmium Nuggets=Usmium Nuggets
 Usmium Powder=Usmium Pulver
 WLAN Chip=WLAN Chip

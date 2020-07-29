@@ -116,3 +116,35 @@ minetest.register_craft({
 		{"", "", "default:stick"},
 	},
 })
+
+local function get_new_can_dig(old_can_dig)
+	return function(pos, player, ...)
+		if M(pos):get_string("techage_hidden_nodename") ~= "" then
+			if player and player.get_player_name then
+				minetest.chat_send_player(player:get_player_name(), S("Use a trowel to remove the node."))
+			end
+			return false
+		end
+		if old_can_dig then
+			return old_can_dig(pos, player, ...)
+		else
+			return true
+		end
+	end
+end
+
+-- Change can_dig for already registered nodes.
+for _, ndef in pairs(minetest.registered_nodes) do
+	local old_can_dig = ndef.can_dig
+	minetest.override_item(ndef.name, {
+		can_dig = get_new_can_dig(old_can_dig)
+	})
+end
+
+-- Change can_dig for all nodes that are going to be registered in the future.
+local old_register_node = minetest.register_node
+minetest.register_node = function(name, def)
+	local old_can_dig = def.can_dig
+	def.can_dig = get_new_can_dig(old_can_dig)
+	return old_register_node(name, def)
+end
