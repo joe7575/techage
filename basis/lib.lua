@@ -164,6 +164,7 @@ end
 function techage.dropped_node(node, ndef)
 	if node.name == "air" then return end
 	--if ndef.buildable_to == true then return end
+	if not ndef.diggable then return end
 	if ndef.drop == "" then return end
 	if type(ndef.drop) == "table" then
 		return handle_drop(ndef.drop)

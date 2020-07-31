@@ -31,6 +31,8 @@ Copyright (C) 2019-2020 Joachim Stolberg
 Code: Licensed under the GNU GPL version 3 or later. See LICENSE.txt  
 Textures: CC BY-SA 3.0
 
+Many thanks to Thomas-S for his contributions
+
 
 ### Dependencies  
 Required: default, doors, bucket, stairs, screwdriver, basic_materials, tubelib2, minecart, lcdlib, safer_lua  
@@ -74,6 +76,12 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 
 ### History
+
+**2020-07-31  V0.20**
+- Pull request #21: Lua Controller: Allow to get itemstring and description of 8x2000 chest contents (from Thomas-S)
+- Pull request #22: Trowel: Prevent hidden nodes from being dug (from Thomas-S)
+- Improvement: TA3 Power Terminal: Outputs max needed power in addition
+- Bugfix: Quarry: Shall not dig Techage Light Blocks
 
 **2020-07-24  V0.19**
 - Pull request #19: Refactor ICTA to use functions instead of loadstring (from Thomas-S)

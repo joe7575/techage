@@ -39,6 +39,7 @@ minetest.register_node("techage:lightblock", {
 	floodable = true,
 	is_ground_content = false,
 	groups = {not_in_creative_inventory=1},
+	drop = "",
 })
 
 function techage.light_ring(center_pos, on, large)

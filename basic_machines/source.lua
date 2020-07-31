@@ -26,7 +26,7 @@ local networks = techage.networks
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 2
-local PWR_CAPA = 20
+local PWR_CAPA = 100
 
 local function formspec(self, pos, nvm)
 	return "size[4,4]"..

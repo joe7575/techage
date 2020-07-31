@@ -147,3 +147,16 @@ function techage.power.power_distribution(network, tlib_type, netID, cycle_time)
 		set_taken_values(network.con2, 0, tlib_type)
 	end
 end
+
+-- determine the maxiumum needed power of all con1 consumers
+function techage.power.get_con1_sum(network, tlib_type)
+	local sum = 0
+	for _,v in ipairs(network.con1 or {}) do
+		local nvm = techage.get_nvm(v.pos)
+		local def = nvm[tlib_type] -- power related network data
+		if def and def["cstate"] ~= STOPPED then
+			sum = sum + v.nominal
+		end
+	end
+	return sum
+end
