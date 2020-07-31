@@ -65,6 +65,16 @@ local function get_count(nvm, idx)
 	end
 end
 
+local function get_itemstring(nvm, idx)
+	if idx and idx > 0 then
+		nvm.inventory = nvm.inventory or {}
+		if nvm.inventory[idx] then
+			return nvm.inventory[idx].name or ""
+		end
+	end
+	return ""
+end
+
 local function inv_empty(nvm)
 	for _,item in ipairs(nvm.inventory or {}) do
 		if item.count and item.count > 0 then
@@ -552,6 +562,9 @@ techage.register_node({"techage:ta4_chest"}, {
 		if topic == "count" then
 			local nvm = techage.get_nvm(pos)
 			return get_count(nvm, tonumber(payload) or 0)
+		elseif topic == "itemstring" then
+			local nvm = techage.get_nvm(pos)
+			return get_itemstring(nvm, tonumber(payload) or 0)
 		elseif topic == "state" then
 			local nvm = techage.get_nvm(pos)
 			return inv_state(nvm)
