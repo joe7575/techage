@@ -383,6 +383,7 @@ Type=
 Unlock=
 Unlock connected chest@nif all slots are below 2000=
 Update=
+Use a trowel to remove the node.=
 Usmium Nuggets=
 Usmium Powder=
 WLAN Chip=
