@@ -350,19 +350,20 @@ In addition to Lua standard function the Lua Controller provides the following f
   _add_data_ is for additional data and normally not needed.
   The result is block dependent (see table below):
 
-| ident       | returned data                                                | comment                                                      |
-| ----------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| "state"     | one of: "running", "stopped", "blocked", "standby", "fault", or "unloaded" | Techage machine state, used by many machines   |
-| "state"     | one of: "red", "amber", "green", "off"                       | Signal Tower state                                           |
-| "state"     | one of: "empty", "loaded", "full"                            | State of a chest or Sensor Chest                             |
-| "fuel"      | number                                                       | fuel value of a fuel consuming block                         |
-| "depth"     | number                                                       | Read the current depth value of a quarry block (1..80)       |
-| "load"      | number                                                       | Read the load value in percent  (0..100) of a tank/storage block, an accu block, of of the Signs Bot Box. |
-| "delivered" | number                                                       | Read the current delivered power value of a generator block. A power consuming block (accu) provides a negative value |
-| "action"    | player-name, action-string                                   | only for Sensor Chests                                       |
-| "stacks"    | Array with up to 4 Stores with the inventory content (see example) | only for Sensor Chests                                       |
-| "count"     | number                                                       | Read the item counter of the TA4 Item Detector block         |
-| "count"     | number of items                                              | Read the total amount of TA4 chest items. An optional  number as `add_data` is used to address only on inventory slot (1..8, from left to right). |
+| ident        | returned data                                                | comment                                                      |
+| ------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| "state"      | one of: "running", "stopped", "blocked", "standby", "fault", or "unloaded" | Techage machine state, used by many machines                 |
+| "state"      | one of: "red", "amber", "green", "off"                       | Signal Tower state                                           |
+| "state"      | one of: "empty", "loaded", "full"                            | State of a chest or Sensor Chest                             |
+| "fuel"       | number                                                       | fuel value of a fuel consuming block                         |
+| "depth"      | number                                                       | Read the current depth value of a quarry block (1..80)       |
+| "load"       | number                                                       | Read the load value in percent  (0..100) of a tank/storage block, an accu block, of of the Signs Bot Box. |
+| "delivered"  | number                                                       | Read the current delivered power value of a generator block. A power consuming block (accu) provides a negative value |
+| "action"     | player-name, action-string                                   | only for Sensor Chests                                       |
+| "stacks"     | Array with up to 4 Stores with the inventory content (see example) | only for Sensor Chests                                       |
+| "count"      | number                                                       | Read the item counter of the TA4 Item Detector block         |
+| "count"      | number of items                                              | Read the total amount of TA4 chest items. An optional  number as `add_data` is used to address only on inventory slot (1..8, from left to right). |
+| "itemstring" | item string of the given slot                                | Specific command for the TA4 8x2000 Chest to read the item type (technical name) of one chest slot, specified via `add_data` (1..8).<br />Example: s = $read_data("223", "itemstring", 1) |
 
 
 
@@ -410,11 +411,17 @@ Messages are used to transport data between Controllers. Messages are text strin
 
 
 * `$chat(text)` - Send yourself a chat message. _text_ is a text string.
+
 * `$door(pos, text)` - Open/Close a door at position "pos".    
   Example: `$door("123,7,-1200", "close")`.    
   Hint: Use the Techage Info Tool to determine the door position.
+  
+* `$item_description("default:apple")`
+  Get the description (item name) for a specified itemstring, e. g. determined via the TA4 8x2000 Chest command `itemstring`:
+  `str = $read_data("223", "itemstring", 1)`
+  `descr = $item_description(str)`
 
-
+  
 
 ## Example Scripts
 

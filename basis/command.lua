@@ -219,7 +219,7 @@ end
 function techage.remove_node(pos, oldnode, oldmetadata)
 	local number = oldmetadata and oldmetadata.fields and oldmetadata.fields.node_number
 	number = number or get_number(pos)
-	if number then
+	if number and tonumber(number) then
 		local key = minetest.hash_node_position(pos)
 		NumbersToBeRecycled[key] = number
 		local ninfo = NodeInfoCache[number] or update_nodeinfo(number)
