@@ -55,6 +55,14 @@ techage.S = minetest.get_translator("techage")
 -- Load mod storage
 techage.storage = minetest.get_mod_storage()
 
+-- Ensure compatibility with older Minetest versions by providing
+-- a dummy implementation of `minetest.get_translated_string`.
+if not minetest.get_translated_string then
+	minetest.get_translated_string = function(lang_code, string)
+		return string
+	end
+end
+
 -- Basis features
 local MP = minetest.get_modpath("techage")
 dofile(MP.."/basis/lib.lua")  -- helper functions
