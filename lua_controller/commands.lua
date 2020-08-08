@@ -189,13 +189,13 @@ techage.lua_ctlr.register_function("item_description", {
 	cmnd = function(self, itemstring)
 		local item_def = minetest.registered_items[itemstring]
 		if item_def and item_def.description then
-			return item_def.description
+			return minetest.get_translated_string("en", item_def.description)
 		end
 		return ""
 	end,
 	help = " $item_description(itemstring)\n"..
 			" Get the description for a specified itemstring.\n"..
-			' example: desc = $itemstring("default:apple")'
+			' example: desc = $item_description("default:apple")'
 })
 
 
