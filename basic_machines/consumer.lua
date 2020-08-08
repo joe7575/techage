@@ -176,6 +176,10 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				local node = minetest.get_node(pos)
 				meta:set_int("push_dir", techage.side_to_indir("L", node.param2))
 				meta:set_int("pull_dir", techage.side_to_indir("R", node.param2))
+				-- Delete existing node number. Needed for Digtron compatibility.
+				if (meta:contains("node_number")) then
+					meta:set_string("node_number", "")
+				end
 				local number = "-"
 				if stage > 2 then
 					number = techage.add_node(pos, name_pas)
@@ -240,6 +244,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 
 				paramtype = tNode.paramtype,
 				paramtype2 = "facedir",
+				drop = tNode.drop,
 				groups = table.copy(tNode.groups),
 				is_ground_content = false,
 				sounds = tNode.sounds,
