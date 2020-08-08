@@ -156,6 +156,7 @@ if minetest.global_exists("wielded_light") then
 			damage_groups = {fleshy=4},
 		},
 		sound = {breaks = "default_tool_breaks"},
+		light_source = 12,
 		after_use = function(itemstack, user, node, digparams)
 			minetest.after(0.01, handler, user:get_player_name(), node)
 			itemstack:add_wear(digparams.wear)

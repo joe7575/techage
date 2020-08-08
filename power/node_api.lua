@@ -144,7 +144,8 @@ function techage.power.power_available(pos, Cable)
 	local nvm = techage.get_nvm(pos)
 	local tlib_type = Cable.tube_type
 	local netID = nvm[Cable.tube_type] and nvm[Cable.tube_type]["netID"]
-	return networks.has_network(tlib_type, netID)
+	local netw = networks.has_network(tlib_type, netID)
+	return netw and netw.on and netw.alive and netw.alive > 0
 end
 
 -- this is more a try to start, the start will be performed by on_power()
