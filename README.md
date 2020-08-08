@@ -77,6 +77,13 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2020-08-08  V0.21**
+- Pull request #18: Add a simple Digtron battery (from Thomas-S)
+- Pull request #23: Lua Controller: Fix $item_description() documentation and translation (from Thomas-S)
+- Pull request #24: Distributor: improve fairness by using random spread (from realmicu)
+- Bugfix: TA1 meridian hammer did not glow (from realmicu)
+- Bugfix: power.power_available() did not check the network state
+
 **2020-07-31  V0.20**
 - Pull request #21: Lua Controller: Allow to get itemstring and description of 8x2000 chest contents (from Thomas-S)
 - Pull request #22: Trowel: Prevent hidden nodes from being dug (from Thomas-S)
