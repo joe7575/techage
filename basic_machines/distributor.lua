@@ -35,6 +35,19 @@ local SlotColors = {"red", "green", "blue", "yellow"}
 local Num2Ascii = {"B", "L", "F", "R"} 
 local FilterCache = {} -- local cache for filter settings
 
+-- Permutation table to improve distribution between ports (number of ports: 1-4)
+-- Usage: permIdx[num_ports][math.random(1, #permIdx[num_ports])][idx]
+local permIdx = {
+	{ { 1 } },
+	{ { 1, 2 }, { 2, 1 } },
+	{ { 1, 2, 3 }, { 1, 3, 2 }, { 2, 1, 3 }, { 2, 3, 1 }, { 3, 1, 2 }, { 3, 2, 1 } },
+	{ { 1, 2, 3, 4 }, { 1, 2, 4, 3 }, { 1, 3, 2, 4 }, { 1, 3, 4, 2 }, { 1, 4, 2, 3 },
+	  { 1, 4, 3, 2 }, { 2, 1, 3, 4 }, { 2, 1, 4, 3 }, { 2, 3, 1, 4 }, { 2, 3, 4, 1 },
+	  { 2, 4, 1, 3 }, { 2, 4, 3, 1 }, { 3, 1, 2, 4 }, { 3, 1, 4, 2 }, { 3, 2, 1, 4 },
+	  { 3, 2, 4, 1 }, { 3, 4, 1, 2 }, { 3, 4, 2, 1 }, { 4, 1, 2, 3 }, { 4, 1, 3, 2 },
+	  { 4, 2, 1, 3 }, { 4, 2, 3, 1 }, { 4, 3, 1, 2 }, { 4, 3, 2, 1 }, }
+}
+
 local function filter_settings(pos)
 	local meta = M(pos)
 	local param2 = techage.get_node_lvm(pos).param2
@@ -206,11 +219,12 @@ local function push_item(pos, filter, item_name, num_items, nvm)
 	local idx = 1
 	local num_pushed = 0
 	local num_ports = #filter
+	local randidx = permIdx[num_ports][math.random(1, #permIdx[num_ports])]
 	local amount = math.floor(math.max((num_items + 1) / num_ports, 1))
 	local num_of_trials = 0
 	while num_pushed < num_items and num_of_trials <= 8 do
 		num_of_trials = num_of_trials + 1
-		local push_dir = filter[idx]
+		local push_dir = filter[randidx[idx]]
 		local num_to_push = math.min(amount, num_items - num_pushed)
 		if techage.push_items(pos, push_dir, ItemStack(item_name.." "..num_to_push)) then
 			num_pushed = num_pushed + num_to_push
