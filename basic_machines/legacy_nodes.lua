@@ -1,16 +1,14 @@
 --[[
 
-	Tube Library
-	============
+	TechAge
+	=======
 
-	Copyright (C) 2017 Joachim Stolberg
+	Copyright (C) 2019-2020 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
-
-	legacy_nodes.lua:
 	
-	Tubelib support for chests and furnace
+	Tube support for default chests and furnace
 	
 ]]--
 

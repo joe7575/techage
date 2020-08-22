@@ -144,6 +144,7 @@ dofile(MP.."/basic_machines/consumer.lua")  -- consumer base model
 dofile(MP.."/basic_machines/source.lua")
 dofile(MP.."/basic_machines/pusher.lua")
 dofile(MP.."/basic_machines/legacy_nodes.lua")
+dofile(MP.."/basic_machines/mods_support.lua")
 dofile(MP.."/basic_machines/grinder.lua")
 dofile(MP.."/basic_machines/distributor.lua")
 dofile(MP.."/basic_machines/gravelsieve.lua")
