@@ -77,6 +77,10 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2020-08-08  V0.22**
+- Pull request #25: Growlight: Improve flower registration (from Thomas-S)
+- Add tube support for digtron chests and protector:chest
+
 **2020-08-08  V0.21**
 - Pull request #18: Add a simple Digtron battery (from Thomas-S)
 - Pull request #23: Lua Controller: Fix $item_description() documentation and translation (from Thomas-S)
