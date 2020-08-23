@@ -233,6 +233,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				on_rightclick = tNode.on_rightclick,
 				after_place_node = after_place_node,
 				after_dig_node = after_dig_node,
+				preserve_metadata = tNode.preserve_metadata,
 				tubelib2_on_update2 = tubelib2_on_update2,
 				allow_metadata_inventory_put = tNode.allow_metadata_inventory_put,
 				allow_metadata_inventory_move = tNode.allow_metadata_inventory_move,
