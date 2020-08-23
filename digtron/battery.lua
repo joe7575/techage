@@ -140,19 +140,14 @@ techage.register_consumer("digtron_battery", S("Digtron Battery"), { act = tiles
 			end
 		end
 	end,
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		local node = ItemStack(oldnode.name)
-		if oldmetadata.inventory then
-			local total = count_coal(oldmetadata)
-			local meta = node:get_meta()
+	preserve_metadata = function(pos, oldnode, oldmetadata, drops)
+		metadata = M(pos):to_table()
+		if metadata.inventory then
+			local total = count_coal(metadata)
+			local meta = drops[1]:get_meta()
 			meta:set_int("coal", total)
 			local text = S("Digtron Battery").." ("..math.floor(total/TOTAL_MAX * 100).." %)"
 			meta:set_string("description", text)
-		end
-		local inv = minetest.get_inventory({type="player", name=digger:get_player_name()})
-		local left_over = inv:add_item("main", node)
-		if left_over:get_count() > 0 then
-			minetest.add_item(pos, node)
 		end
 	end,
 	on_rightclick = function(pos, node, clicker)
@@ -160,7 +155,6 @@ techage.register_consumer("digtron_battery", S("Digtron Battery"), { act = tiles
 		local nvm = techage.get_nvm(pos)
 		M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
 	end,
-	drop = "",
 	node_timer = keep_running,
 	on_receive_fields = on_receive_fields,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
