@@ -193,7 +193,7 @@ local function get_state(netw)
 	if #(netw.gen1 or {}) + #(netw.gen2 or {}) == 0 then
 		state = S("No power grid or running generator!")
 	elseif needed > (netw.available1 or 0) then
-		state = S("Probably too many consumers (")..needed..S(" ku is needed!)")
+		state = S("Probably too many consumers (")..needed.." "..S("ku is needed").."!)"
 	elseif (netw.num_nodes or 0) < techage.networks.MAX_NUM_NODES then
 		state = S("Number of power grid blocks")..": "..(netw.num_nodes or 0)..",  "..S("Max. needed power")..": "..needed.. " ku"
 	else

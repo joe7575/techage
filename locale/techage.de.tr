@@ -1,6 +1,5 @@
 # textdomain: techage
 
- ku is needed!)=
 #### TA3 Terminal ####@n@nSend commands to your machines@nand output text messages from your@nmachines to the Terminal.@n@nCommand syntax:@n  cmd <num> <cmnd>@n@nexample: cmd 181 on@n<num> is the number of the node to which the command is sent@n'on' is the command to turn machines/nodes on@nFurther commands can be retrieved by clicking on@nmachines/nodes with the Techage Info Tool.@n@nLocal commands:@n- clear    @= clear screen@n- help     @= this message@n- pub      @= switch to public use@n- priv      @= switch to private use@nTo program a user button with a command:@n  set <button-num> <button-text> <command>@ne.g. 'set 1 ON cmd 123 on'@n=
 Accu Box=Akkublock
 Active:=Aktiv:
@@ -430,6 +429,7 @@ inlet/pipe error=Einlass/Röhrenfehler
 inventory full=Inventar ist voll
 item output blocked=Ausgang blockiert
 keep assignment=Zuordnung beibehalten
+ku is needed=ku wird benötigt
 light=Licht
 loaded=geladen
 needs power=benötigt Strom
@@ -454,4 +454,4 @@ water temperature=Wassertemperatur
 wrong catalyst=falscher Katalysator
 wrong storage diameter=Falscher Wärmespeicher-Durchmesser
 ##### not used anymore #####
-ku is needed!)= ku wird benötigt!)
+
