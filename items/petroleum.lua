@@ -18,26 +18,31 @@ local S = techage.S
 minetest.register_craftitem("techage:bitumen", {
 	description = S("TA3 Bitumen"),
 	inventory_image = "techage_liquid2_inv.png^[colorize:#000000",
+	groups = {ta_liquid = 1},
 })
 
 minetest.register_craftitem("techage:fueloil", {
 	description = S("TA3 Fuel Oil"),
 	inventory_image = "techage_liquid2_inv.png^[colorize:#7E5D0A:180^techage_liquid1_inv.png",
+	groups = {ta_liquid = 1},
 })
 
 minetest.register_craftitem("techage:naphtha", {
 	description = S("TA3 Naphtha"),
 	inventory_image = "techage_liquid2_inv.png^[colorize:#AAA820:180^techage_liquid1_inv.png",
+	groups = {ta_liquid = 1},
 })
 
 minetest.register_craftitem("techage:gasoline", {
 	description = S("TA3 Gasoline"),
 	inventory_image = "techage_liquid2_inv.png^[colorize:#EEFC52:180^techage_liquid1_inv.png",
+	groups = {ta_liquid = 1},
 })
 
 minetest.register_craftitem("techage:gas", {
 	description = S("TA3 Propane"),
 	inventory_image = "techage_gas_inv.png",
+	groups = {ta_liquid = 1},
 })
 
 minetest.register_craftitem("techage:ta3_cylinder_small_gas", {

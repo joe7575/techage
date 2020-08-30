@@ -1331,7 +1331,16 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The TA4 sensor box is used to set up automatic warehouses or vending machines. It has additional commands for remote control.\n"..
+  "The TA4 sensor box is used to set up automatic warehouses or vending machines in conjunction with the Lua controller.\n"..
+  "If something is put into the box or removed\\, or one of the \"F1\" / \"F2\" keys is pressed\\, an event signal is sent to the Lua controller.\n"..
+  "The sensor box supports the following commands:\n"..
+  "\n"..
+  "  - The status of the box can be queried via 'state = $read_data(<num>\\, \"state\")'. Possible answers are: \"empty\"\\, \"loaded\"\\, \"full\"\n"..
+  "  - The last player action can be queried via 'name\\, action = $read_data(<num>\\, \"action\")'. 'name' is the player name. One of the following is returned as 'action': \"put\"\\, \"take\"\\, \"f1\"\\, \"f2\".\n"..
+  "  - The contents of the box can be read out via 'stacks = $read_data(<num>\\, \"stacks\")'. See: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest\n"..
+  "  - Via '$send_cmnd(<num>\\, \"text\"\\, \"press both buttons andnput something into the chest\")' the text can be set in the menu of the sensor box.\n"..
+  "\n"..
+  "The checkbox \"Allow public chest access\" can be used to set whether the box can be used by everyone or only by players who have access/protection rights here.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1417,8 +1426,8 @@ techage.manual_EN.aText = {
   "\n"..
   "The TA4 pusher has two additional commands for the Lua controller:\n"..
   "\n"..
-  "  - 'config' is used to configure the pusher\\, analogous to manual configuration via the menu.\nExample: '$ send_cmnd(1234\\, \"config\"\\, \"default: dirt\")'\n"..
-  "  - 'pull' is used to send an order to the pusher:\nExample: '$ send_cmnd(1234\\, \"pull\"\\, \"default: dirt 8\")'\nValues ​​from 1 to 12 are permitted as numbers. Then the pusher goes back to 'stopped' mode and sends an\" off \"command back to the transmitter of the\" pull \"command.\n"..
+  "  - 'config' is used to configure the pusher\\, analogous to manual configuration via the menu.\nExample: '$send_cmnd(1234\\, \"config\"\\, \"default: dirt\")'\n"..
+  "  - 'pull' is used to send an order to the pusher:\nExample: '$send_cmnd(1234\\, \"pull\"\\, \"default: dirt 8\")'\nValues ​​from 1 to 12 are permitted as numbers. Then the pusher goes back to 'stopped' mode and sends an\" off \"command back to the transmitter of the\" pull \"command.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1449,7 +1458,7 @@ techage.manual_EN.aText = {
   "\n"..
   "The chest has an additional command for the Lua controller:\n"..
   "\n"..
-  "  - 'count' is used to request how many items are in the chest.\nExample 1: '$ read_data(CHEST\\, \"count\")' -> Sum of items across all 8 stores\nExample 2: '$ read_data(CHEST\\, \"count\"\\, 2)' -> number of items in store 2 (second from left)\n"..
+  "  - 'count' is used to request how many items are in the chest.\nExample 1: '$read_data(CHEST\\, \"count\")' -> Sum of items across all 8 stores\nExample 2: '$read_data(CHEST\\, \"count\"\\, 2)' -> number of items in store 2 (second from left)\n"..
   "\n"..
   "\n"..
   "\n",

@@ -58,7 +58,7 @@ minetest.register_node("techage:oil_source", {
     liquid_range = 10,
 	liquid_renewable = false,
 	post_effect_color = {a = 200, r = 1, g = 1, b = 1},
-	groups = {liquid = 5},
+	groups = {liquid = 5, ta_liquid = 1},
 })
 
 minetest.register_node("techage:oil_flowing", {

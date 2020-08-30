@@ -17,6 +17,7 @@ local S = techage.S
 minetest.register_craftitem("techage:lye", {
 	description = S("Lye"),
 	inventory_image = "techage_liquid2_inv.png^[colorize:#7fd44c:120^techage_liquid1_inv.png",
+	groups = {ta_liquid = 1},
 })
 
 minetest.register_craftitem("techage:barrel_lye", {

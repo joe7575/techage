@@ -63,7 +63,7 @@ local function get_stacks(pos)
 end
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
+	if M(pos):get_string("public") ~= "true" and minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
 	store_action(pos, player, "put")
@@ -72,7 +72,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 end
 
 local function allow_metadata_inventory_take(pos, listname, index, stack, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
+	if M(pos):get_string("public") ~= "true" and minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
 	store_action(pos, player, "take")
@@ -93,12 +93,13 @@ local function after_dig_node(pos, oldnode, oldmetadata, digger)
 end
 
 local function formspec1()
-	return "size[6,4]"..
+	return "size[5.5,4]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
 	"field[0.5,1;5,1;number;TA4 Lua Controller number:;]" ..
-	"button_exit[1.5,2.5;2,1;exit;Save]"
+	"checkbox[0.5,1.8;public;"..S("Allow public chest access")..";false]"..
+	"button_exit[1.7,2.8;2,1;exit;Save]"
 end
 
 local function formspec2(pos)
@@ -147,7 +148,15 @@ minetest.register_node("techage:ta4_sensor_chest", {
 	on_receive_fields = function(pos, formname, fields, player)
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
-		if fields.number and fields.number ~= "" then
+		
+		if meta:get_string("public") ~= "true" and minetest.is_protected(pos, player:get_player_name()) then
+			return 0
+		end
+		
+		if fields.public then
+			meta:set_string("public", fields.public)
+		end
+		if fields.quit == "true" and fields.number and fields.number ~= "" then
 			local owner = meta:get_string("owner")
 			if techage.check_numbers(fields.number, owner) then
 				meta:set_string("number", fields.number)

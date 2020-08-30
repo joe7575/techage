@@ -386,7 +386,17 @@ Der Server dient zur zentralen Speicherung von Daten von mehreren Lua Controller
 
 ### TA4 Sensor Kiste/Chest
 
-Die TA4 Sensor Kiste dient zum Aufbau von Automatischen Lagern oder Verkaufsautomaten. Sie hat erweitere Kommandos zur Fernsteuerung.
+Die TA4 Sensor Kiste dient zum Aufbau von Automatischen Lagern oder Verkaufsautomaten in Verbindung mit dem Lua Controller.
+Wird etwas in die Kiste gelegt, oder entnommen, oder eine der Tasten "F1"/"F2" gedrückt, so wird ein Event-Signal an den Lua Controller gesendet.
+Die Sensor Kiste unterstützt folgende Kommandos:
+
+- Über `state = $read_data(<num>, "state")` kann der Status der Kiste abgefragt werden. Mögliche Antworten sind: "empty", "loaded", "full"
+- Über `name, action = $read_data(<num>, "action")` kann die letzte Spieleraktion abgefragt werden. `name` ist der Spielername, Als `action` wird zurückgeliefert: "put", "take", "f1", "f2".
+- Über `stacks = $read_data(<num>, "stacks")` kann der Inhalt der Kiste ausgelesen werden. Siehe dazu: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest
+- Über `$send_cmnd(<num>, "text", "press both buttons and\nput something into the chest")` kann der Text im Menü der Sensor Kiste gesetzt werden.
+
+Über die Checkbox "Erlaube öffentlichen Zugriff" kann eingestellt werden, ob die Kiste von jedem genutzt werden darf, oder nur von Spielern die hier Zugriffsrechte haben.
+
 
 [ta4_sensor_chest|image]
 

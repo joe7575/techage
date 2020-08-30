@@ -3,6 +3,7 @@
 Accu Box=
 Active:=
 All nodes:=
+Allow public chest access=
 Allow to dig/place Techage power lines nearby power poles=
 Aluminum=
 Area already loaded or max. number of Forceload Blocks reached!=

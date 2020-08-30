@@ -388,7 +388,16 @@ The server is used for the central storage of data from several Lua controllers.
 
 ### TA4 Sensor Box / Chest
 
-The TA4 sensor box is used to set up automatic warehouses or vending machines. It has additional commands for remote control.
+The TA4 sensor box is used to set up automatic warehouses or vending machines in conjunction with the Lua controller.
+If something is put into the box or removed, or one of the "F1" / "F2" keys is pressed, an event signal is sent to the Lua controller.
+The sensor box supports the following commands:
+
+- The status of the box can be queried via `state = $read_data(<num>, "state")`. Possible answers are: "empty", "loaded", "full"
+- The last player action can be queried via `name, action = $read_data(<num>, "action")`. `name` is the player name. One of the following is returned as `action`: "put", "take", "f1", "f2".
+- The contents of the box can be read out via `stacks = $read_data(<num>, "stacks")`. See: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest
+- Via `$send_cmnd(<num>, "text", "press both buttons and\nput something into the chest")` the text can be set in the menu of the sensor box.
+
+The checkbox "Allow public chest access" can be used to set whether the box can be used by everyone or only by players who have access/protection rights here.
 
 [ta4_sensor_chest|image]
 
@@ -513,9 +522,9 @@ The processing power is 12 items every 2 s, if TA4 tubes are used on both sides.
 The TA4 pusher has two additional commands for the Lua controller:
 
 - `config` is used to configure the pusher, analogous to manual configuration via the menu.
-  Example: `$ send_cmnd(1234, "config", "default: dirt")`
+  Example: `$send_cmnd(1234, "config", "default: dirt")`
 - `pull` is used to send an order to the pusher:
-  Example: `$ send_cmnd(1234, "pull", "default: dirt 8")`
+  Example: `$send_cmnd(1234, "pull", "default: dirt 8")`
   Values ​​from 1 to 12 are permitted as numbers. Then the pusher goes back to `stopped` mode and sends an" off "command back to the transmitter of the" pull "command.
 
 [ta4_pusher|image]
@@ -552,8 +561,8 @@ The chest can only be used by players who can build at this location, i.e. who h
 The chest has an additional command for the Lua controller:
 
 - `count` is used to request how many items are in the chest.
-  Example 1: `$ read_data(CHEST, "count")` -> Sum of items across all 8 stores
-  Example 2: `$ read_data(CHEST, "count", 2)` -> number of items in store 2 (second from left)
+  Example 1: `$read_data(CHEST, "count")` -> Sum of items across all 8 stores
+  Example 2: `$read_data(CHEST, "count", 2)` -> number of items in store 2 (second from left)
 
 [ta4_8x2000_chest|image]
 

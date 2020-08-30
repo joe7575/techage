@@ -1340,7 +1340,16 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Die TA4 Sensor Kiste dient zum Aufbau von Automatischen Lagern oder Verkaufsautomaten. Sie hat erweitere Kommandos zur Fernsteuerung.\n"..
+  "Die TA4 Sensor Kiste dient zum Aufbau von Automatischen Lagern oder Verkaufsautomaten in Verbindung mit dem Lua Controller.\n"..
+  "Wird etwas in die Kiste gelegt\\, oder entnommen\\, oder eine der Tasten \"F1\"/\"F2\" gedrückt\\, so wird ein Event-Signal an den Lua Controller gesendet.\n"..
+  "Die Sensor Kiste unterstützt folgende Kommandos:\n"..
+  "\n"..
+  "  - Über 'state = $read_data(<num>\\, \"state\")' kann der Status der Kiste abgefragt werden. Mögliche Antworten sind: \"empty\"\\, \"loaded\"\\, \"full\"\n"..
+  "  - Über 'name\\, action = $read_data(<num>\\, \"action\")' kann die letzte Spieleraktion abgefragt werden. 'name' ist der Spielername\\, Als 'action' wird zurückgeliefert: \"put\"\\, \"take\"\\, \"f1\"\\, \"f2\".\n"..
+  "  - Über 'stacks = $read_data(<num>\\, \"stacks\")' kann der Inhalt der Kiste ausgelesen werden. Siehe dazu: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest\n"..
+  "  - Über '$send_cmnd(<num>\\, \"text\"\\, \"press both buttons andnput something into the chest\")' kann der Text im Menü der Sensor Kiste gesetzt werden.\n"..
+  "\n"..
+  "Über die Checkbox \"Erlaube öffentlichen Zugriff\" kann eingestellt werden\\, ob die Kiste von jedem genutzt werden darf\\, oder nur vom Spielern die hier Zugriffsrechte haben.\n"..
   "\n"..
   "\n"..
   "\n",
