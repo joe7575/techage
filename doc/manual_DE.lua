@@ -1349,7 +1349,7 @@ techage.manual_DE.aText = {
   "  - Über 'stacks = $read_data(<num>\\, \"stacks\")' kann der Inhalt der Kiste ausgelesen werden. Siehe dazu: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest\n"..
   "  - Über '$send_cmnd(<num>\\, \"text\"\\, \"press both buttons andnput something into the chest\")' kann der Text im Menü der Sensor Kiste gesetzt werden.\n"..
   "\n"..
-  "Über die Checkbox \"Erlaube öffentlichen Zugriff\" kann eingestellt werden\\, ob die Kiste von jedem genutzt werden darf\\, oder nur vom Spielern die hier Zugriffsrechte haben.\n"..
+  "Über die Checkbox \"Erlaube öffentlichen Zugriff\" kann eingestellt werden\\, ob die Kiste von jedem genutzt werden darf\\, oder nur von Spielern die hier Zugriffsrechte haben.\n"..
   "\n"..
   "\n"..
   "\n",

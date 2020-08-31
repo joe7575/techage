@@ -330,7 +330,8 @@ In addition to Lua standard function the Lua Controller provides the following f
   E.g.: `$print("Hello "..name)`
 - `$loopcycle(seconds)` - This function allows to change the call frequency of the controller loop() function, witch is per default one second. For more info, see "Cyclic Task"
 - `$events(bool)` - Enable/disable event handling. For more info, see "Events"
-- `$get_ms_time()` - Returns time with millisecond precision
+- `$get_ms_time()` - Returns the time with millisecond precision
+- `get_gametime()` - Returns the time, in seconds, since the world was created
 - `$time_as_str()` - Read the time of day (ingame) as text string in 24h format, like "18:45"
 - `$time_as_num()` - Read the time of day (ingame) as integer number in 24h format, like 1845
 - `$get_input(num)` - Read an input value provided by an external block with the given number _num_. The block has to be configured with the number of the controller to be able to send status messages (on/off commands) to the controller.  _num_ is the number of the remote block, like "1234".

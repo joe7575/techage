@@ -120,8 +120,16 @@ techage.lua_ctlr.register_function("get_ms_time", {
 	cmnd = function(self)
 		return math.floor(minetest.get_us_time() / 1000)
 	end,
-	help = "$get_ms_time()\n"..
+	help = " ms = $get_ms_time()\n"..
 		" returns time with millisecond precision."
+})
+
+techage.lua_ctlr.register_function("get_gametime", {
+	cmnd = function(self)
+		return minetest.get_gametime()
+	end,
+	help = " t = $get_gametime()\n"..
+		" returns the time, in seconds, since the world was created."
 })
 
 techage.lua_ctlr.register_function("position", {
@@ -132,7 +140,7 @@ techage.lua_ctlr.register_function("position", {
 		end
 		return "(-,-,-)"
 	end,
-	help = "$position(number)\n"..
+	help = " pos = $position(number)\n"..
 		" returns the position '(x,y,z)' of the device\n with given number."
 })
 
@@ -144,7 +152,7 @@ techage.lua_ctlr.register_action("battery", {
 		local val = (BATTERY_CAPA - math.min(batmeta:get_int("content") or 0, BATTERY_CAPA))
 		return 100 - math.floor((val * 100.0 / BATTERY_CAPA))
 	end,
-	help =  " $battery()\n"..
+	help =  " lvl = $battery()\n"..
 		" Get charge level of battery connected to Controller.\n"..
 		" Function returns percent number (0-100) where 100 means full.\n"..
 		" example: battery_percent = $battery()"
