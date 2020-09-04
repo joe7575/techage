@@ -118,3 +118,34 @@ function techage.firebox.has_fuel(pos)
 	local items = inv:get_stack("fuel", 1)
 	return items:get_count() > 0
 end
+
+function techage.firebox.is_free_position(pos, player_name)
+	local pos2 = techage.get_pos(pos, 'F')
+	if minetest.is_protected(pos2, player_name) then
+		minetest.chat_send_player(player_name, S("[TA] Area is protected!"))
+		return false
+	end
+	local node = techage.get_node_lvm(pos2)
+	local ndef = minetest.registered_nodes[node.name]
+	if not ndef or not ndef.buildable_to then
+		minetest.chat_send_player(player_name, S("[TA] Not enough space!"))
+		return false
+	end
+	return true
+end
+
+function techage.firebox.set_firehole(pos, on)
+	local param2 = techage.get_node_lvm(pos).param2
+	local pos2 = techage.get_pos(pos, 'F')
+	if on == true then
+		minetest.swap_node(pos2, {name="techage:coalfirehole_on", param2 = param2})
+	elseif on == false then
+		minetest.swap_node(pos2, {name="techage:coalfirehole", param2 = param2})
+	else
+		local node = techage.get_node_lvm(pos2)
+		if node.name == "techage:coalfirehole" or node.name == "techage:coalfirehole_on" then
+			minetest.swap_node(pos2, {name="air"})
+		end
+	end
+end	
+

@@ -57,7 +57,7 @@ minetest.register_node("techage:ta4_tubeS", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {choppy=2, cracky=3, stone=1},
+	groups = {choppy=2, cracky=3},
 	sounds = default.node_sound_wood_defaults(),
 })
 
@@ -97,7 +97,7 @@ minetest.register_node("techage:ta4_tubeA", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {choppy=2, cracky=3, stone=1, not_in_creative_inventory=1},
+	groups = {choppy=2, cracky=3, not_in_creative_inventory=1},
 	sounds = default.node_sound_wood_defaults(),
 	drop = "techage:ta4_tubeS",
 })

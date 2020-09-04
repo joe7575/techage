@@ -25,18 +25,6 @@ local liquid = techage.liquid
 local CYCLE_TIME = 2
 local BURN_CYCLE_FACTOR = 0.5
 
-local function firehole(pos, on)
-	local param2 = techage.get_node_lvm(pos).param2
-	local pos2 = techage.get_pos(pos, 'F')
-	if on == true then
-		minetest.swap_node(pos2, {name="techage:coalfirehole_on", param2 = param2})
-	elseif on == false then
-		minetest.swap_node(pos2, {name="techage:coalfirehole", param2 = param2})
-	else
-		minetest.swap_node(pos2, {name="air"})
-	end
-end	
-
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	local power = techage.transfer(
@@ -55,7 +43,7 @@ local function node_timer(pos, elapsed)
 			nvm.burn_cycles_total = nvm.burn_cycles
 		else
 			nvm.running = false
-			firehole(pos, false)
+			firebox.set_firehole(pos, false)
 			M(pos):set_string("formspec", fuel.formspec(nvm))
 			return false
 		end
@@ -70,7 +58,7 @@ local function start_firebox(pos, nvm)
 	if not nvm.running and fuel.has_fuel(nvm) then
 		nvm.running = true
 		node_timer(pos, 0)
-		firehole(pos, true)
+		firebox.set_firehole(pos, true)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end
 end
@@ -98,21 +86,26 @@ minetest.register_node("techage:oilfirebox", {
 	on_rightclick = fuel.on_rightclick,
 	on_receive_fields = fuel.on_receive_fields,
 	
-	on_construct = function(pos)
-		techage.add_node(pos, "techage:oilfirebox")
-		local nvm = techage.get_nvm(pos)
-		nvm.running = false
-		nvm.burn_cycles = 0
-		nvm.liquid = {}
-		nvm.liquid.amount =  0
-		local meta = M(pos)
-		meta:set_string("formspec", fuel.formspec(nvm))
-		local inv = meta:get_inventory()
-		firehole(pos, false)
+	after_place_node = function(pos, placer)
+		if firebox.is_free_position(pos, placer:get_player_name()) then
+			techage.add_node(pos, "techage:oilfirebox")
+			local nvm = techage.get_nvm(pos)
+			nvm.running = false
+			nvm.burn_cycles = 0
+			nvm.liquid = {}
+			nvm.liquid.amount =  0
+			local meta = M(pos)
+			meta:set_string("formspec", fuel.formspec(nvm))
+			local inv = meta:get_inventory()
+			firebox.set_firehole(pos, false)
+		else
+			minetest.remove_node(pos)
+			return true
+		end
 	end,
-
+	
 	on_destruct = function(pos)
-		firehole(pos, nil)
+		firebox.set_firehole(pos, nil)
 	end,
 
 	on_punch = function(pos, node, puncher, pointed_thing)
