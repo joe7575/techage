@@ -203,6 +203,10 @@ local function empty_on_punch(pos, nvm, full_container, item_count)
 end
 
 function techage.liquid.on_punch(pos, node, puncher, pointed_thing)
+	if minetest.is_protected(pos, puncher:get_player_name()) then
+		return
+	end
+
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
 	mem.blocking_time = mem.blocking_time or 0
