@@ -70,7 +70,7 @@ local function pumping(pos, nvm, state, capa)
 	if taken > 0 then
 		local leftover = liquid.put(pos, outdir, name, taken, starter)
 		if leftover and leftover == taken then
-			liquid.put(pos, Flip[outdir], name, leftover)
+			liquid.untake(pos, Flip[outdir], name, leftover)
 			state:blocked(pos, nvm)
 			return
 		end

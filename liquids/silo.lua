@@ -126,6 +126,15 @@ local tLiquid = {
 		end
 		return 0
 	end,
+	untake = function(pos, indir, name, amount)
+		local inv = M(pos):get_inventory()
+		local stack = ItemStack(name.." "..amount)
+		if inv:room_for_item("main", stack) then
+			inv:add_item("main", stack)
+			return 0
+		end
+		return amount
+	end,
 }
 
 local tNetworks = {

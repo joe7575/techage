@@ -67,6 +67,15 @@ local function put_liquid(pos, indir, name, amount)
 	return amount
 end
 
+local function untake_liquid(pos, indir, name, amount)
+	local leftover = liquid.srv_put(pos, indir, name, amount)
+	if techage.is_activeformspec(pos) then
+		local nvm = techage.get_nvm(pos)
+		M(pos):set_string("formspec", liquid.formspec(pos, nvm))
+	end
+	return leftover
+end
+
 local networks_def = {
 	pipe2 = {
 		sides = techage.networks.AllSides, -- Pipe connection sides
@@ -110,6 +119,7 @@ minetest.register_node("techage:ta3_tank", {
 		peek = liquid.srv_peek,
 		put = put_liquid,
 		take = take_liquid,
+		untake = untake_liquid,
 	},
 	networks = networks_def,
 	on_rightclick = on_rightclick,
@@ -168,6 +178,7 @@ minetest.register_node("techage:oiltank", {
 		peek = liquid.srv_peek,
 		put = put_liquid,
 		take = take_liquid,
+		untake = untake_liquid,
 	},
 	networks = networks_def,
 	on_rightclick = on_rightclick,
@@ -216,6 +227,7 @@ minetest.register_node("techage:ta4_tank", {
 		peek = liquid.srv_peek,
 		put = put_liquid,
 		take = take_liquid,
+		untake = untake_liquid,
 	},
 	networks = networks_def,
 	on_rightclick = on_rightclick,
