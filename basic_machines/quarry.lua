@@ -157,23 +157,6 @@ local function mark_area(pos1, pos2, owner)
 	pos1.y = pos1.y - 0.2
 end
 
-local function peek_node(qpos)
-	local node = techage.get_node_lvm(qpos)
-	local ndef = minetest.registered_nodes[node.name]
-	if techage.can_node_dig(node, ndef) then
-		return techage.dropped_node(node, ndef)
-	end
-end
-
-local function add_to_inv(pos, item_name)
-	local inv = M(pos):get_inventory()
-	if inv:room_for_item("main", item_name) then
-		inv:add_item("main", item_name)
-		return true
-	end
-	return false
-end
-
 local function quarry_task(pos, crd, nvm)
 	nvm.start_level = nvm.start_level or 0
 	nvm.quarry_depth = nvm.quarry_depth or 1
@@ -182,6 +165,30 @@ local function quarry_task(pos, crd, nvm)
 	local y_last  = y_first - nvm.quarry_depth + 1
 	local facedir = minetest.get_node(pos).param2
 	local owner = M(pos):get_string("owner")
+	local fake_player = techage.Fake_player:new()
+	fake_player.get_pos = function (...)
+		return pos
+	end
+	fake_player.get_inventory = function(...)
+		return M(pos):get_inventory()
+	end
+
+	local add_to_inv = function(itemstacks)
+		local at_least_one_added = false
+		local inv = M(pos):get_inventory()
+		if #itemstacks == 0 then
+			return true
+		end
+		for _,stack in ipairs(itemstacks) do
+			if inv:room_for_item("main", stack) then
+				inv:add_item("main", stack)
+				at_least_one_added = true
+			elseif at_least_one_added then
+				minetest.add_item({x=pos.x,y=pos.y+1,z=pos.z}, stack)
+			end
+		end
+		return at_least_one_added
+	end
 	
 	local pos1, pos2 = get_corner_positions(pos, facedir, nvm.hole_diameter)
 	nvm.level = 1
@@ -203,14 +210,13 @@ local function quarry_task(pos, crd, nvm)
 			for zoffs = 1, nvm.hole_diameter do
 				for xoffs = 1, nvm.hole_diameter do
 					local qpos = get_quarry_pos(pos1, xoffs, zoffs)
-					local item_name = peek_node(qpos)
-					if item_name then
-						if add_to_inv(pos, item_name) then
-							minetest.remove_node(qpos)
-							crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-						else
-							crd.State:blocked(pos, nvm, S("inventory full"))
-						end
+					local dig_state = techage.dig_like_player(qpos, fake_player, add_to_inv)
+
+					if dig_state == techage.dig_states.INV_FULL then
+						crd.State:blocked(pos, nvm, S("inventory full"))
+						coroutine.yield()
+					elseif dig_state == techage.dig_states.DUG then
+						crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 						coroutine.yield()
 					end
 				end
@@ -229,7 +235,10 @@ local function keep_running(pos, elapsed)
 	
 	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
-	coroutine.resume(mem.co, pos, crd, nvm)
+	local _, err = coroutine.resume(mem.co, pos, crd, nvm)
+	if err then
+		minetest.log("error", "[TA4 Quarry Coroutine Error]" .. err)
+	end
 		
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(crd.State, pos, nvm))

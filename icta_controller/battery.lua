@@ -15,7 +15,6 @@
  -- for lazy programmers
 local M = minetest.get_meta
 local S = techage.S
-local logic = techage.logic
 local BATTERY_CAPACITY = 10000000
 
 local function calc_percent(content)
@@ -36,73 +35,69 @@ local function on_timer(pos, elapsed)
 	return true
 end
 
-local function register_battery(ext, percent, nici)
-	minetest.register_node("techage:ta4_battery"..ext, {
-		description = S("Battery").." "..ext,
-		inventory_image = 'techage_battery_inventory.png',
-		wield_image = 'techage_battery_inventory.png',
-		tiles = {
-			-- up, down, right, left, back, front
-			"techage_smartline.png",
-			"techage_smartline.png",
-			"techage_smartline.png",
-			"techage_smartline.png",
-			"techage_smartline.png",
-			"techage_smartline.png^techage_battery_green.png",
-		},
+minetest.register_alias("techage:ta4_battery75", "techage:ta4_battery")
+minetest.register_alias("techage:ta4_battery50", "techage:ta4_battery")
+minetest.register_alias("techage:ta4_battery25", "techage:ta4_battery")
 
-		drawtype = "nodebox",
-		node_box = {
-			type = "fixed",
-			fixed = {
-				{ -6/32, -6/32, 14/32,  6/32,  6/32, 16/32},
-			},
+minetest.register_node("techage:ta4_battery", {
+	description = S("Battery"),
+	inventory_image = 'techage_battery_inventory.png',
+	wield_image = 'techage_battery_inventory.png',
+	tiles = {
+		-- up, down, right, left, back, front
+		"techage_smartline.png",
+		"techage_smartline.png",
+		"techage_smartline.png",
+		"techage_smartline.png",
+		"techage_smartline.png",
+		"techage_smartline.png^techage_battery_green.png",
+	},
+
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{ -6/32, -6/32, 14/32,  6/32,  6/32, 16/32},
 		},
-		
-		after_place_node = function(pos, placer)
-			local meta = minetest.get_meta(pos)
-			meta:set_int("content", BATTERY_CAPACITY * percent)
-			local node = minetest.get_node(pos)
-			node.name = "techage:ta4_battery"
-			minetest.swap_node(pos, node)
-			on_timer(pos, 1)
-			minetest.get_node_timer(pos):start(30)
-		end,
-		
-		on_timer = on_timer,
-		
-		after_dig_node = function(pos, oldnode, oldmetadata, digger)
-			local percent = calc_percent(tonumber(oldmetadata.fields.content))
-			local stack
-			if percent > 95 then
-				stack = ItemStack("techage:ta4_battery")
-			elseif percent > 75 then
-				stack = ItemStack("techage:ta4_battery75")
-			elseif percent > 50 then
-				stack = ItemStack("techage:ta4_battery50")
-			elseif percent > 25 then
-				stack = ItemStack("techage:ta4_battery25")
-			else
-				return
+	},
+
+	after_place_node = function(pos, placer, itemstack)
+		local content = BATTERY_CAPACITY
+		if itemstack then
+			local stack_meta = itemstack:get_meta()
+			if stack_meta then
+				-- This ensures that dug batteries of the old system are considered full.
+				local string_content = stack_meta:get_string("content")
+				if string_content ~= "" then
+					-- Batteries dug in the new system are handled correctly.
+					content = techage.in_range(stack_meta:get_int("content"), 0, BATTERY_CAPACITY)
+				end
 			end
-			local inv = minetest.get_inventory({type="player", name=digger:get_player_name()})
-			inv:add_item("main", stack)
-		end,
+		end
+		M(pos):set_int("content", content)
+		on_timer(pos, 1)
+		minetest.get_node_timer(pos):start(30)
+	end,
 
-		paramtype = "light",
-		sunlight_propagates = true,
-		paramtype2 = "facedir",
-		groups = {choppy=1, cracky=1, crumbly=1, not_in_creative_inventory=nici},
-		drop = "",
-		is_ground_content = false,
-		sounds = default.node_sound_stone_defaults(),
-	})
-end
+	on_timer = on_timer,
 
-register_battery("", 1.0, 0)
-register_battery("75", 0.75, 1)
-register_battery("50", 0.5, 1)
-register_battery("25", 0.25, 1)
+	preserve_metadata = function(pos, oldnode, oldmetadata, drops)
+		local content = M(pos):get_int("content")
+
+		local meta = drops[1]:get_meta()
+		meta:set_int("content", content)
+		local percent = calc_percent(content)
+		local text = S("Digtron Battery").." ("..percent.." %)"
+		meta:set_string("description", text)
+	end,
+
+	paramtype = "light",
+	sunlight_propagates = true,
+	paramtype2 = "facedir",
+	groups = {choppy=1, cracky=1, crumbly=1, not_in_creative_inventory=nici},
+	is_ground_content = false,
+	sounds = default.node_sound_stone_defaults(),
+})
 
 minetest.register_node("techage:ta4_battery_empty", {
 	description = S("Battery"),
@@ -159,8 +154,7 @@ else
 	})
 end
 
-techage.register_node({"techage:ta4_battery", "techage:ta4_battery25", 
-		"techage:ta4_battery50", "techage:ta4_battery75"}, 
+techage.register_node({"techage:ta4_battery"},
 	{
 		on_node_load = function(pos)
 			minetest.get_node_timer(pos):start(30)

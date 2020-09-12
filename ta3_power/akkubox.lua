@@ -120,19 +120,15 @@ local function get_capa(itemstack)
 	return 0
 end
 
-local function set_capa(pos, oldnode, digger, capa)
-	local node = ItemStack(oldnode.name)
-	local meta = node:get_meta()
+local function set_capa(pos, oldnode, oldmetadata, drops)
+	local nvm = techage.get_nvm(pos)
+	local capa = nvm.capa
+	local meta = drops[1]:get_meta()
 	capa = techage.power.percent(PWR_CAPA, capa)
 	capa = (math.floor((capa or 0) / 5)) * 5
 	meta:set_int("capa", capa)
 	local text = S("TA3 Accu Box").." ("..capa.." %)"
 	meta:set_string("description", text)
-	local inv = minetest.get_inventory({type="player", name=digger:get_player_name()})
-	local left_over = inv:add_item("main", node)
-	if left_over:get_count() > 0 then
-		minetest.add_item(pos, node)
-	end
 end
 
 local function after_place_node(pos, placer, itemstack)
@@ -149,9 +145,7 @@ local function after_place_node(pos, placer, itemstack)
 end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
-	local nvm = techage.get_nvm(pos)
 	Cable:after_dig_node(pos)
-	set_capa(pos, oldnode, digger, nvm.capa)
 	techage.del_mem(pos)
 end
 
@@ -188,13 +182,12 @@ minetest.register_node("techage:ta3_akku", {
 	after_dig_node = after_dig_node,
 	tubelib2_on_update2 = tubelib2_on_update2,
 	networks = net_def,
-
-	drop = "", -- don't remove, item will be added via 'set_capa'
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
+	preserve_metadata = set_capa,
 })
 
 Cable:add_secondary_node_names({"techage:ta3_akku"})
