@@ -215,7 +215,7 @@ local function tubelib2_on_update2(pos, outdir, tlib2, node)
 	end
 end
 
-local function push_item(pos, filter, item_name, num_items, nvm)
+local function push_item(pos, filter, itemstack, num_items, nvm)
 	local idx = 1
 	local num_pushed = 0
 	local num_ports = #filter
@@ -226,7 +226,7 @@ local function push_item(pos, filter, item_name, num_items, nvm)
 		num_of_trials = num_of_trials + 1
 		local push_dir = filter[randidx[idx]]
 		local num_to_push = math.min(amount, num_items - num_pushed)
-		if techage.push_items(pos, push_dir, ItemStack(item_name.." "..num_to_push)) then
+		if techage.push_items(pos, push_dir, itemstack:peek_item(num_to_push)) then
 			num_pushed = num_pushed + num_to_push
 			nvm.port_counter[push_dir] = (nvm.port_counter[push_dir] or 0) + num_to_push
 		end
@@ -255,18 +255,19 @@ local function distributing(pos, inv, crd, nvm)
 		local item_name = stack:get_name()
 		local num_items = stack:get_count()
 		local num_to_push = math.min((nvm.num_items or crd.num_items) - sum_num_pushed, num_items)
+		local stack_to_push = stack:peek_item(num_to_push)
 		num_pushed = 0
 		
 		if item_filter[item_name] then
 			-- Push items based on filter
-			num_pushed = push_item(pos, item_filter[item_name], item_name, num_to_push, nvm)
+			num_pushed = push_item(pos, item_filter[item_name], stack_to_push, num_to_push, nvm)
 		elseif blocking_mode and #open_ports > 0 then
 			-- Push items based on open ports
-			num_pushed = push_item(pos, open_ports, item_name, num_to_push, nvm)
+			num_pushed = push_item(pos, open_ports, stack_to_push, num_to_push, nvm)
 		end
 		if not blocking_mode and num_pushed == 0 and #open_ports > 0 then
 			-- Push items based on open ports
-			num_pushed = push_item(pos, open_ports, item_name, num_to_push, nvm)
+			num_pushed = push_item(pos, open_ports, stack_to_push, num_to_push, nvm)
 		end
 			
 		sum_num_pushed = sum_num_pushed + num_pushed
