@@ -77,6 +77,17 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2020-09-13  V0.23**
+- Pull request #26: Digtron Battery: Fix duplication bug (from Thomas-S)
+- Improve ta4 sensor box
+- Firebox: Add check for free space when placing the node
+- Lua controller: Add 'get_gametime' function
+- Pull request #27: Liquid Tanks: Add protection support  (from Thomas-S)
+- Fix pump issue (silo source items can disappear)
+- Pull request #28: Quarry: Improve digging behaviour (from Thomas-S)
+- Pull request #28: Battery: Store battery load as metadata (from Thomas-S)
+- Pull request #29: Distributor: Keep item metadata (from Thomas-S)
+
 **2020-08-08  V0.22**
 - Pull request #25: Growlight: Improve flower registration (from Thomas-S)
 - Add tube support for digtron chests and protector:chest

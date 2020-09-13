@@ -94,7 +94,7 @@ minetest.register_node("techage:ta4_battery", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
-	groups = {choppy=1, cracky=1, crumbly=1, not_in_creative_inventory=nici},
+	groups = {choppy=1, cracky=1, crumbly=1},
 	is_ground_content = false,
 	sounds = default.node_sound_stone_defaults(),
 })
