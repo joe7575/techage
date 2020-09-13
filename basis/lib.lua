@@ -140,7 +140,44 @@ function techage.can_node_dig(node, ndef)
 	-- add it to the white list
 	RegisteredNodesToBeDug[node.name] = true
 	return true
-end	
+end
+
+techage.dig_states = {
+	NOT_DIGGABLE = 1,
+	INV_FULL = 2,
+	DUG = 3
+}
+
+-- Digs a node like a player would by utilizing a fake player object.
+-- add_to_inv(itemstacks) is a method that should try to add the dropped stacks to an appropriate inventory.
+-- The node will only be dug, if add_to_inv(itemstacks) returns true.
+function techage.dig_like_player(pos, fake_player, add_to_inv)
+	local node = techage.get_node_lvm(pos)
+	local ndef = minetest.registered_nodes[node.name]
+	if not ndef or ndef.diggable == false or (ndef.can_dig and not ndef.can_dig(pos, fake_player)) then
+		return techage.dig_states.NOT_DIGGABLE
+	end
+	local drop_as_strings = minetest.get_node_drops(node)
+	local drop_as_stacks = {}
+	for _,itemstring in ipairs(drop_as_strings) do
+		drop_as_stacks[#drop_as_stacks+1] = ItemStack(itemstring)
+	end
+	local meta = M(pos)
+	if ndef.preserve_metadata then
+		ndef.preserve_metadata(pos, node, meta, drop_as_stacks)
+	end
+
+	if add_to_inv(drop_as_stacks) then
+		local oldmeta = meta:to_table()
+		minetest.remove_node(pos)
+
+		if ndef.after_dig_node then
+			ndef.after_dig_node(pos, node, oldmeta, fake_player)
+		end
+		return techage.dig_states.DUG
+	end
+	return techage.dig_states.INV_FULL
+end
 
 local function handle_drop(drop)
 	-- To keep it simple, return only the item with the lowest rarity

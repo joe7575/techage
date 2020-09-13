@@ -141,7 +141,7 @@ techage.register_consumer("digtron_battery", S("Digtron Battery"), { act = tiles
 		end
 	end,
 	preserve_metadata = function(pos, oldnode, oldmetadata, drops)
-		metadata = M(pos):to_table()
+		local metadata = M(pos):to_table()
 		if metadata.inventory then
 			local total = count_coal(metadata)
 			local meta = drops[1]:get_meta()
