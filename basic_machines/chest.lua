@@ -307,7 +307,7 @@ techage.register_node({"techage:chest_ta4"}, {
 		if not mem.filter or not mem.filter["unconfigured"] then 
 			mem.filter = mConf.item_filter(pos, 50) 
 		end
-		mem.chest_configured = mem.chest_configured or #mem.filter["unconfigured"] < 50
+		mem.chest_configured = mem.chest_configured or #(mem.filter["unconfigured"] or {}) < 50
 		
 		if inv:is_empty("main") then
 			return nil
@@ -340,7 +340,7 @@ techage.register_node({"techage:chest_ta4"}, {
 		if not mem.filter or not mem.filter["unconfigured"] then 
 			mem.filter = mConf.item_filter(pos, 50) 
 		end
-		mem.chest_configured = mem.chest_configured or #mem.filter["unconfigured"] < 50
+		mem.chest_configured = mem.chest_configured or #(mem.filter["unconfigured"] or {}) < 50
 		
 		if mem.chest_configured then
 			local name = item:get_name()
@@ -357,7 +357,7 @@ techage.register_node({"techage:chest_ta4"}, {
 		if not mem.filter or not mem.filter["unconfigured"] then 
 			mem.filter = mConf.item_filter(pos, 50) 
 		end
-		mem.chest_configured = mem.chest_configured or #mem.filter["unconfigured"] < 50
+		mem.chest_configured = mem.chest_configured or #(mem.filter["unconfigured"] or {}) < 50
 		
 		if mem.chest_configured then
 			local name = item:get_name()
