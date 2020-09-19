@@ -474,6 +474,42 @@ Die Lampe benötigt 1 ku Strom.
 
 
 
+## TA4 Flüssigkeitsfilter
+
+Im Flüssigkeitsfilter wird Rotschlamm gefiltert.
+Dabei entsteht entweder Lauge, welche unten in einem Tank gesammelt werden kann oder Wüstenkopfsteinpflaster, welches sich im Filter absetzt.
+Wenn der Filter zu sehr verstopft ist, muss er geleert und neu befüllt werden.
+Der Filter besteht aus einer Fundament-Ebene, auf der 7 identische Filterschichten platziert werden. 
+Ganz oben befindet sich die Einfüllebene.
+
+[ta4_liquid_filter|image]
+
+### Fundament-Ebene
+
+Der Aufbau dieser Ebene kann dem Plan entnommen werden.
+
+Im Tank wird die Lauge gesammelt.
+
+[ta4_liquid_filter_base|plan]
+
+### Schotter-Ebene
+
+Diese Ebene muss so wie im Plan gezeigt mit Schotter befüllt werden.
+Insgesamt müssen sieben Lagen Schotter übereinander liegen.
+Dabei wird mit der Zeit der Filter verunreinigt, sodass das Füllmaterial erneuert werden muss.
+
+[ta4_liquid_filter_gravel|plan]
+
+### Einfüll-Ebene
+
+Diese Ebene dient zum Befüllen des Filters mit Rotschlamm.
+In den Einfüllstutzen muss Rotschlamm mittels einer Pumpe geleitet werden.
+
+[ta4_liquid_filter_top|plan]
+
+
+
+
 ## Weitere TA4 Blöcke
 
 ### TA4 Tank / TA4 Tank

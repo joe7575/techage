@@ -69,10 +69,12 @@ local function pumping(pos, nvm, state, capa)
 	local taken, name = liquid.take(pos, Flip[outdir], nil, capa, starter)
 	if taken > 0 then
 		local leftover = liquid.put(pos, outdir, name, taken, starter)
-		if leftover and leftover == taken then
+		if leftover then
 			liquid.untake(pos, Flip[outdir], name, leftover)
-			state:blocked(pos, nvm)
-			return
+			if leftover == taken then
+				state:blocked(pos, nvm)
+				return
+			end
 		end
 		state:keep_running(pos, nvm, COUNTDOWN_TICKS)
 		return

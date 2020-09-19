@@ -475,6 +475,42 @@ The lamp requires 1 ku of electricity.
 
 
 
+## TA4 Liquid Filter
+
+The liquid filter filters red mud.
+A part of the red mud becomes lye, which can be collected at the bottom in a tank.
+The other part becomes desert cobblestone and clutters the filter material.
+If the filter is too clogged, it has to be cleaned and re-filled.
+The filter consists of a base layer, 7 identical filter layers and a filling layer at the top.
+
+[ta4_liquid_filter|image]
+
+### Base Layer
+
+You can see the structure of this layer in the plan.
+
+The lye is collected in the tank.
+
+[ta4_liquid_filter_base|plan]
+
+### Gravel Layer
+
+This layer has to be filled with gravel as shown in the plan.
+In total, there must be seven layers of gravel.
+The filter will become cluttered over time, so that it has to be cleaned and re-filled.
+
+[ta4_liquid_filter_gravel|plan]
+
+### Filling Layer
+
+This layer is used to fill the filter with red mud.
+The red mud must be pumped into the filler pipe.
+
+[ta4_liquid_filter_top|plan]
+
+
+
+
 ## More TA4 Blocks
 
 ### TA4 Tank

@@ -23,6 +23,7 @@ local IMG_4 = {"", "techage_ta4.png"}
 local IMG41 = {"", "techage_ta4_tes.png"}
 local IMG42 = {"", "techage_ta4_solar.png"}
 local IMG43 = {"", "techage_reactor_inv.png"}
+local IMG44 = {"", "techage_ta4_filter.png"}
 
 --
 -- TA1: Coal Pile
@@ -172,7 +173,7 @@ techage.ConstructionPlans["ta3_furnace"] = {
 -- TA3 Tank Pump Pusher
 --
 local Pump = {"techage_filling_ta3.png^techage_appl_pump.png^techage_frame_ta3.png", "techage:t3_pump"}
-local Tank = {"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_tank.png", "techage:ta3_tank"}
+local TANK3 = {"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_tank.png", "techage:ta3_tank"}
 local Fillr = {"techage_filling_ta3.png^techage_appl_liquid_hopper.png^techage_frame_ta3.png", "techage:filler"}
 local PIPEH = {"techage_gaspipe.png", "techage:ta4_pipeS"}
 local PIPEV = {"techage_gaspipe.png^[transformR90", "techage:ta4_pipeS"}
@@ -184,7 +185,7 @@ local PN270 = {"techage_gaspipe_knee.png^[transformR270", "techage:ta4_pipeS"}  
 techage.ConstructionPlans["ta3_tank"] = {
 	{false, false, false, false, false, false, false, false, false, false},
 	{false, Tubes, PushR, Tubes, Fillr, Tubes, PushR, Tubes, false, false},
-	{false, false, false, false, Tank,  PIPEH, PIPEH, Pump,  PIPEH, Tank},
+	{false, false, false, false, TANK3, PIPEH, PIPEH, Pump,  PIPEH, Tank},
 	{false, false, false, false, false, false, false, false, false, false},
 }
 
@@ -205,7 +206,7 @@ local BUFFR = {"default_junglewood.png^minecart_buffer.png", "minecart:buffer"}
 techage.ConstructionPlans["ta3_loading"] = {
 	{false, false, PIPEH, Pump,  PIPEH, PN270, false, false, false, false, false},
 	{false, false, false, false, false, PIPEV, false, false, false, false, false},
-	{false, MCART, false, false, false, PN090, Tank,  false, false, false, false},
+	{false, MCART, false, false, false, PN090, TANK3, false, false, false, false},
 	{false, HOPPR, CHEST, Tubes, PushR, Tubes, Fillr, PushR, Tubes, MCART, false},
 	{false, false, false, false, false, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false, false},
@@ -226,16 +227,16 @@ local DBASE = {"techage_concrete.png", "techage:ta3_distiller_base"}
 local REBIO = {"techage_filling_ta3.png^techage_appl_reboiler.png^techage_frame_ta3.png", "techage:ta3_reboiler"}
 
 techage.ConstructionPlans["ta3_distiller"] = {
-	{false, false, false, false, false, false, false, PN000, PIPEH, Tank,  false},
+	{false, false, false, false, false, false, false, PN000, PIPEH, TANK3, false},
 	{false, IMG31, false, false, false, false, false, DIST4, false, false, false},
-	{false, false, false, false, false, false, false, DIST3, PIPEH, Tank,  false},
+	{false, false, false, false, false, false, false, DIST3, PIPEH, TANK3, false},
 	{false, false, false, false, false, false, false, DIST2, false, false, false},
-	{false, false, false, false, false, false, false, DIST3, PIPEH, Tank,  false},
+	{false, false, false, false, false, false, false, DIST3, PIPEH, TANK3, false},
 	{false, false, false, false, false, false, false, DIST2, false, false, false},
-	{false, false, false, false, false, false, false, DIST3, PIPEH, Tank,  false},
+	{false, false, false, false, false, false, false, DIST3, PIPEH, TANK3, false},
 	{false, false, false, false, false, false, false, DIST2, false, false, false},
-	{false, Tank,  PIPEH, Pump,  PIPEH, REBIO, PIPEH, DIST1, false, false, false},
-	{false, false, false, false, false, false, false, DBASE, PIPEH, Tank,  false},
+	{false, TANK3, PIPEH, Pump,  PIPEH, REBIO, PIPEH, DIST1, false, false, false},
+	{false, false, false, false, false, false, false, DBASE, PIPEH, TANK3, false},
 }
 
 --
@@ -255,7 +256,7 @@ techage.ConstructionPlans["ta4_reactor"] = {
 	{false, false, false, false, PIPEV, false, false, FILLR, false, false, false},
 	{false, false, false, false, PIPEV, false, false, REACT, false, false, false},
 	{false, false, false, false, PIPEV, false, false, STAND, PIPEH, PIPEH, SILO},
-	{false, Tank,  PIPEH, PIPEH, DOSER, PN270, false, RBASE, PIPEH, PIPEH, Tank},
+	{false, TANK3, PIPEH, PIPEH, DOSER, PN270, false, RBASE, PIPEH, PIPEH, Tank},
 	{false, SILO,  PIPEH, PIPEH, PIPEH, PN180, false, false, false, false, false},
 }
 
@@ -322,4 +323,44 @@ techage.ConstructionPlans["ta4_solarplant"] = {
 }
 
 
+--
+-- Liquid Filter
+--
 
+local LFSNK = {"basic_materials_concrete_block.png^techage_appl_arrow.png", "techage:ta4_liquid_filter_sink"}
+local PWETR = {"basic_materials_concrete_block.png^techage_gaspipe.png", "techage:ta3_pipe_wall_entry"}
+local TANK4 = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_tank.png", "techage:ta4_tank"}
+local LFFIL = {"basic_materials_concrete_block.png^techage_gaspipe_hole.png", "techage:ta4_liquid_filter_filler"}
+
+techage.ConstructionPlans["ta4_liquid_filter_base"] = {
+	{false, false, false, false, false, false, false, false, IMG44, false},
+	{false, false, false, false, false, false, false, false, false, false},
+	{false, false, false, false, false, false, false, false, false, false},
+	{false, CONCR, CONCR, CONCR, CONCR, CONCR},
+	{false, CONCR, CONCR, CONCR, CONCR, CONCR},
+	{false, CONCR, CONCR, LFSNK, PWETR, PWETR, PIPEH, PIPEH, TANK4},
+	{false, CONCR, CONCR, CONCR, CONCR, CONCR},
+	{false, CONCR, CONCR, CONCR, CONCR, CONCR},
+}
+
+techage.ConstructionPlans["ta4_liquid_filter_gravel"] = {
+	{false, false, false, false, false, false, false, false, IMG44, false},
+	{false, false, false, false, false, false, false, false, false, false},
+	{false, false, false, false, false, false, false, false, false, false},
+	{false, CONCR, OGLAS, OGLAS, OGLAS, CONCR},
+	{false, OGLAS, GRAVL, GRAVL, GRAVL, OGLAS},
+	{false, OGLAS, GRAVL, GRAVL, GRAVL, OGLAS},
+	{false, OGLAS, GRAVL, GRAVL, GRAVL, OGLAS},
+	{false, CONCR, OGLAS, OGLAS, OGLAS, CONCR},
+}
+
+techage.ConstructionPlans["ta4_liquid_filter_top"] = {
+	{false, false, false, false, false, false, false, false, IMG44, false},
+	{false, false, false, false, false, false, false, false, false, false},
+	{false, false, false, false, false, false, false, false, false, false},
+	{false, CONCR, CONCR, CONCR, CONCR, CONCR},
+	{false, CONCR, false, false, false, CONCR},
+	{false, CONCR, false, LFFIL, false, CONCR},
+	{false, CONCR, false, false, false, CONCR},
+	{false, CONCR, CONCR, CONCR, CONCR, CONCR},
+}

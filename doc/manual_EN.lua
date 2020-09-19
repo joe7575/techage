@@ -170,6 +170,10 @@ techage.manual_EN.aTitel = {
   "3,TA4 LED Grow Light",
   "3,TA4 Street Lamp",
   "3,TA4 LED Industrial Lamp",
+  "2,TA4 Liquid Filter",
+  "3,Base Layer",
+  "3,Gravel Layer",
+  "3,Filling Layer",
   "2,More TA4 Blocks",
   "3,TA4 Tank",
   "3,TA4 Pump",
@@ -1393,6 +1397,31 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The liquid filter filters red mud.\n"..
+  "A part of the red mud becomes lye\\, which can be collected at the bottom in a tank.\n"..
+  "The other part becomes desert cobblestone and clutters the filter material.\n"..
+  "If the filter is too clogged\\, it has to be cleaned and re-filled.\n"..
+  "The filter consists of a base layer\\, 7 identical filter layers and a filling layer at the top.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "You can see the structure of this layer in the plan.\n"..
+  "\n"..
+  "The lye is collected in the tank.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "This layer has to be filled with gravel as shown in the plan.\n"..
+  "In total\\, there must be seven layers of gravel.\n"..
+  "The filter will become cluttered over time\\, so that it has to be cleaned and re-filled.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "This layer is used to fill the filter with red mud.\n"..
+  "The red mud must be pumped into the filler pipe.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "",
   "See TA3 tank.\n"..
   "\n"..
@@ -1669,6 +1698,10 @@ techage.manual_EN.aItemName = {
   "ta4_growlight",
   "ta4_streetlamp",
   "ta4_industriallamp",
+  "ta4_liquid_filter",
+  "",
+  "",
+  "",
   "",
   "ta4_tank",
   "ta4_pump",
@@ -1856,6 +1889,10 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
+  "",
+  "ta4_liquid_filter_base",
+  "ta4_liquid_filter_gravel",
+  "ta4_liquid_filter_top",
   "",
   "",
   "",
