@@ -131,9 +131,6 @@ minetest.register_node("techage:furnace_firebox", {
 
 	on_timer = node_timer,
 	can_dig = fuel.can_dig,
-	allow_metadata_inventory_take = fuel.allow_metadata_inventory_take,
-	allow_metadata_inventory_put = fuel.allow_metadata_inventory_put,
-	on_metadata_inventory_put = fuel.on_metadata_inventory_put,
 	on_punch = fuel.on_punch,
 	on_receive_fields = fuel.on_receive_fields,
 	on_rightclick = fuel.on_rightclick,
@@ -185,21 +182,11 @@ minetest.register_node("techage:furnace_firebox_on", {
 	
 	on_timer = node_timer,
 	can_dig = fuel.can_dig,
-	allow_metadata_inventory_put = fuel.allow_metadata_inventory_put,
-	allow_metadata_inventory_take = fuel.allow_metadata_inventory_take,
 	on_receive_fields = fuel.on_receive_fields,
 	on_punch = fuel.on_punch,
 	on_rightclick = fuel.on_rightclick,
 	liquid = _liquid,
 	networks = _networks,
-	
-	on_metadata_inventory_put = function(pos, listname, index, stack, player)
-		local nvm = techage.get_nvm(pos)
-		nvm.liquid = nvm.liquid or {}
-		nvm.liquid.amount = nvm.liquid.amount or 0
-		start_firebox(pos, nvm)
-		fuel.on_metadata_inventory_put(pos, listname, index, stack, player)
-	end,
 })
 
 minetest.register_craft({

@@ -16,7 +16,6 @@ local S2P = minetest.string_to_pos
 local P2S = minetest.pos_to_string
 local M = minetest.get_meta
 local S = techage.S
-local LQD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).liquid end
 local Pipe = techage.LiquidPipe
 local liquid = techage.liquid
 local ValidOilFuels = techage.firebox.ValidOilFuels
@@ -120,11 +119,14 @@ function techage.fuel.on_punch(pos, node, puncher, pointed_thing)
 		
 	local ldef = liquid.get_liquid_def(wielded_item)
 	if ldef and ValidOilFuels[ldef.inv_item] then
-		local new_item = liquid.empty_on_punch(pos, nvm, wielded_item, item_count)
-		if new_item then
-			puncher:set_wielded_item(new_item)
-			M(pos):set_string("formspec", techage.fuel.formspec(pos, nvm))
-			mem.blocking_time = techage.SystemTime + BLOCKING_TIME
+		local lqd = (minetest.registered_nodes[node.name] or {}).liquid
+		if not lqd.fuel_cat or ValidOilFuels[ldef.inv_item] <= lqd.fuel_cat then
+			local new_item = liquid.empty_on_punch(pos, nvm, wielded_item, item_count)
+			if new_item then
+				puncher:set_wielded_item(new_item)
+				M(pos):set_string("formspec", techage.fuel.formspec(pos, nvm))
+				mem.blocking_time = techage.SystemTime + BLOCKING_TIME
+			end
 		end
 	end
 end
