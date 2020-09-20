@@ -25,7 +25,7 @@ function inv_lib.preassigned_stacks(pos, xsize, ysize)
 		local item_name = inv:get_stack("conf", idx):get_name()
 		if item_name ~= "" then
 			local x = (idx - 1) % xsize
-			local y = math.floor(idx / xsize)
+			local y = math.floor((idx - 1) / xsize)
 			tbl[#tbl+1] = "item_image["..x..","..y..";1,1;"..item_name.."]"
 		end
 	end
@@ -76,7 +76,7 @@ function inv_lib.allow_conf_inv_move(pos, from_list, from_index, to_list, to_ind
 end
 
 function inv_lib.put_items(pos, inv, listname, item, stacks, idx)
-	for _, i in ipairs(stacks) do
+	for _, i in ipairs(stacks or {}) do
 		if not idx or idx == i then
 			local stack = inv:get_stack(listname, i)
 			if stack:item_fits(item) then
