@@ -190,7 +190,7 @@ class MyRenderer(mistune.Renderer):
         return "\\n"
 
     def inline_html(self, text):
-        print text
+        print(text)
     # ~ 
     # ~ double_emphasis(text)
     # ~ image(src, title, alt_text)
@@ -207,7 +207,7 @@ def parse_md_file(src_name, mod, manual):
     inline.enable_wiki_link()
     md = mistune.Markdown(renderer=renderer, inline=inline)
     md.renderer.src_name = src_name
-    md.render(file(src_name).read())
+    md.render(open(src_name, 'r').read())
     md.renderer.add_last_paragraph()
 
 def gen_lua_file(dest_name):
@@ -217,7 +217,7 @@ def gen_lua_file(dest_name):
     lOut.append(lua_text_table("%s.%s.aText" % (mod, manual), lText))
     lOut.append(lua_table("%s.%s.aItemName" % (mod, manual), lItemName))
     lOut.append(lua_table("%s.%s.aPlanTable" % (mod, manual), lPlanTable))
-    file(dest_name, "w").write("".join(lOut))
+    open(dest_name, "w").write("".join(lOut))
     
 def gen_toc_md_file(dest_name, titel, level_range=[1,6]):
     print("Write MD file '%s'" % dest_name)
@@ -228,7 +228,7 @@ def gen_toc_md_file(dest_name, titel, level_range=[1,6]):
             list_item = "    " * (item["level"] - level_range[0]) + "-"
             link = "%s#%s" % (item["link"], header_escsape(item["header"]))
             lOut.append("%s [%s](%s)" % (list_item, item["header"], link))
-    file(dest_name, "w").write("\n".join(lOut))
+    open(dest_name, "w").write("\n".join(lOut))
     
 def gen_file_local_toc(dest_name, level_range=[1,6]):
     lOut = []
@@ -237,7 +237,7 @@ def gen_file_local_toc(dest_name, level_range=[1,6]):
             list_item = "    " * (item["level"] - level_range[0]) + "-"
             link = "#%s" % (item["header"].replace(" ", "-").replace("\\", ""))
             lOut.append("%s [%s](%s)" % (list_item, item["header"].replace("\\", ""), link))
-    file(dest_name, "w").write("\n".join(lOut))
+    open(dest_name, "w").write("\n".join(lOut))
 
 ########################### German #########################
 mod = "techage"

@@ -271,6 +271,7 @@ dofile(MP.."/energy_storage/nodes.lua")
 dofile(MP.."/chemistry/ta4_reactor.lua")
 dofile(MP.."/chemistry/ta4_stand.lua")
 dofile(MP.."/chemistry/ta4_doser.lua")
+dofile(MP.."/chemistry/ta4_liquid_filter.lua")
 
 -- Hydrogen
 dofile(MP.."/hydrogen/fuelcellstack.lua")

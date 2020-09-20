@@ -170,6 +170,10 @@ techage.manual_DE.aTitel = {
   "3,TA4 LED Pflanzenlampe / TA4 LED Grow Light",
   "3,TA4 LED Straßenlampe / TA4 LED Street Lamp",
   "3,TA4 LED Industrielampe / TA4 LED Industrial Lamp",
+  "2,TA4 Flüssigkeitsfilter",
+  "3,Fundament-Ebene",
+  "3,Schotter-Ebene",
+  "3,Einfüll-Ebene",
   "2,Weitere TA4 Blöcke",
   "3,TA4 Tank / TA4 Tank",
   "3,TA4 Pumpe / TA4 Pump",
@@ -1402,6 +1406,31 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Im Flüssigkeitsfilter wird Rotschlamm gefiltert.\n"..
+  "Dabei entsteht entweder Lauge\\, welche unten in einem Tank gesammelt werden kann oder Wüstenkopfsteinpflaster\\, welches sich im Filter absetzt.\n"..
+  "Wenn der Filter zu sehr verstopft ist\\, muss er geleert und neu befüllt werden.\n"..
+  "Der Filter besteht aus einer Fundament-Ebene\\, auf der 7 identische Filterschichten platziert werden. \n"..
+  "Ganz oben befindet sich die Einfüllebene.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Aufbau dieser Ebene kann dem Plan entnommen werden.\n"..
+  "\n"..
+  "Im Tank wird die Lauge gesammelt.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Diese Ebene muss so wie im Plan gezeigt mit Schotter befüllt werden.\n"..
+  "Insgesamt müssen sieben Lagen Schotter übereinander liegen.\n"..
+  "Dabei wird mit der Zeit der Filter verunreinigt\\, sodass das Füllmaterial erneuert werden muss.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Diese Ebene dient zum Befüllen des Filters mit Rotschlamm.\n"..
+  "In den Einfüllstutzen muss Rotschlamm mittels einer Pumpe geleitet werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "",
   "Siehe TA3 Tank.\n"..
   "\n"..
@@ -1678,6 +1707,10 @@ techage.manual_DE.aItemName = {
   "ta4_growlight",
   "ta4_streetlamp",
   "ta4_industriallamp",
+  "ta4_liquid_filter",
+  "",
+  "",
+  "",
   "",
   "ta4_tank",
   "ta4_pump",
@@ -1865,6 +1898,10 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
+  "ta4_liquid_filter_base",
+  "ta4_liquid_filter_gravel",
+  "ta4_liquid_filter_top",
   "",
   "",
   "",
