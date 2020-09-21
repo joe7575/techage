@@ -219,7 +219,8 @@ local function push_item(pos, filter, itemstack, num_items, nvm)
 	local idx = 1
 	local num_pushed = 0
 	local num_ports = #filter
-	local randidx = permIdx[num_ports][math.random(1, #(permIdx[num_ports] or {0}))]
+	num_ports = techage.in_range(num_ports, 1, 4)
+	local randidx = permIdx[num_ports][math.random(1, #permIdx[num_ports])]
 	local amount = math.floor(math.max((num_items + 1) / num_ports, 1))
 	local num_of_trials = 0
 	while num_pushed < num_items and num_of_trials <= 8 do
