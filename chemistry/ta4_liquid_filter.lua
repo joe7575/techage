@@ -17,6 +17,7 @@
 -- If necessary, this can be adjusted later.
 
 local M = minetest.get_meta
+local networks = techage.networks
 local S = techage.S
 local Pipe = techage.LiquidPipe
 local liquid = techage.liquid
@@ -129,7 +130,8 @@ minetest.register_node("techage:ta4_liquid_filter_filler", {
 				return amount
 			end
 			if math.random() < 0.5 then
-				local leftover = liquid.put({x=pos.x,y=pos.y-8,z=pos.z}, 2, "techage:lye", 1)
+				local out_pos = {x=pos.x,y=pos.y-8,z=pos.z}
+				local leftover = liquid.put(out_pos, networks.side_to_outdir(out_pos, "R"), "techage:lye", 1)
 				if leftover > 0 then
 					return amount
 				end
