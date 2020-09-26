@@ -294,14 +294,14 @@ minetest.register_tool("techage:end_wrench", {
 	stack_max = 1,
 })
 
-minetest.register_craft({
-	output = "techage:repairkit",
-	recipe = {
-		{"", "basic_materials:gear_steel", ""},
-		{"", "techage:end_wrench", ""},
-		{"", "basic_materials:oil_extract", ""},
-	},
-})
+--minetest.register_craft({
+--	output = "techage:repairkit",
+--	recipe = {
+--		{"", "basic_materials:gear_steel", ""},
+--		{"", "techage:end_wrench", ""},
+--		{"", "basic_materials:oil_extract", ""},
+--	},
+--})
 
 minetest.register_craft({
 	output = "techage:end_wrench",
