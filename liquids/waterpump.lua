@@ -126,6 +126,7 @@ end
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	Pipe:after_dig_node(pos)
 	Cable:after_dig_node(pos)
+	liquid.after_dig_pump(pos)
 	techage.del_mem(pos)
 end
 

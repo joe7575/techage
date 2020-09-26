@@ -105,6 +105,8 @@ minetest.register_node("techage:ta4_liquid_filter_filler", {
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
+		liquid.after_dig_pump(pos)
+		techage.del_mem(pos)
 	end,
 
 	paramtype = "light",

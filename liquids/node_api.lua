@@ -235,3 +235,14 @@ function liquid.update_network(pos, outdir)
 	networks.node_connections(pos, Pipe)
 	delete_netID(pos, outdir)
 end
+
+-- To be called from each pump in 'after_dig_node'
+-- before calling 'techage.del_mem(pos)'
+function liquid.after_dig_pump(pos)
+	local nvm = techage.get_nvm(pos)
+	if nvm.pipe2 and nvm.pipe2.netIDs then
+		for outdir, netID in pairs(nvm.pipe2.netIDs) do
+			networks.delete_network("pipe2", netID)
+		end
+	end
+end

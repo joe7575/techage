@@ -292,6 +292,7 @@ minetest.register_node("techage:ta4_doser", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		Pipe:after_dig_node(pos)
+		liquid.after_dig_pump(pos)
 		techage.del_mem(pos)
 	end,
 	on_receive_fields = on_receive_fields,
