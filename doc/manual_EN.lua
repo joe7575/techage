@@ -184,6 +184,7 @@ techage.manual_EN.aTitel = {
   "3,TA4 Chest",
   "3,TA4 8x2000 Chest",
   "3,TA4 Distributor",
+  "3,TA4 High Performance Distributor",
   "3,TA4 Gravel Sieve",
   "3,TA4 Grinder",
   "3,TA4 Quarry",
@@ -1496,6 +1497,12 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The function corresponds to that of the normal TA4 distributor\\, with two differences:\n"..
+  "The processing power is 36 items every 4 s\\, provided TA4 tubes are used on all sides. Otherwise there are only 18 items every 4 s.\n"..
+  "Furthermore\\, up to 8 items can be configured per direction.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "The function corresponds to that of TA2.\n"..
   "The processing power is 4 items every 4 s. The block requires 5 ku of electricity.\n"..
   "\n"..
@@ -1712,6 +1719,7 @@ techage.manual_EN.aItemName = {
   "ta4_chest",
   "ta4_8x2000_chest",
   "ta4_distributor",
+  "ta4_high_performance_distributor",
   "ta4_gravelsieve",
   "ta4_grinder",
   "ta4_quarry",
@@ -1893,6 +1901,7 @@ techage.manual_EN.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
+  "",
   "",
   "",
   "",

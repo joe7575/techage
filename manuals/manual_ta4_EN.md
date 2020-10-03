@@ -611,6 +611,14 @@ The processing power is 24 items every 4 s, provided TA4 tubes are used on all s
 
 [ta4_distributor|image]
 
+### TA4 High Performance Distributor
+
+The function corresponds to that of the normal TA4 distributor, with two differences:
+The processing power is 36 items every 4 s, provided TA4 tubes are used on all sides. Otherwise there are only 18 items every 4 s.
+Furthermore, up to 8 items can be configured per direction.
+
+[ta4_high_performance_distributor|image]
+
 ### TA4 Gravel Sieve
 
 The function corresponds to that of TA2.
