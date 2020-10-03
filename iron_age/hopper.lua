@@ -42,7 +42,8 @@ minecart.register_inventory(
 		"techage:ta2_distributor_pas", "techage:ta2_distributor_act",
 		"techage:ta3_distributor_pas", "techage:ta3_distributor_act",
 		"techage:ta4_distributor_pas", "techage:ta4_distributor_act",
-	}, 
+		"techage:ta4_high_performance_distributor_pas", "techage:ta4_high_performance_distributor_act",
+	},
 	{
 		put = {
 			allow_inventory_put = function(pos, stack, player_name)
