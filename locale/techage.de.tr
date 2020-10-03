@@ -85,11 +85,13 @@ Grinder=Mühle
 Grinding=Mahlen
 Heat=Hitze
 Heat Exchanger=Wärmetauscher
+High Performance Distributor=Hochleistungs-Verteiler
 Hole size=Lochgröße
 Hydrogen Cylinder Large=Wasserstoffflasche groß
 Hydrogen Cylinder Small=Wasserstoffflasche klein
 In use:=In Benutzung:
 Injector=Injektor
+Input=Einspeisung
 Insert destination node number(s)=Gebe Zielnummer(n) ein
 Insert door/gate block number(s)=Gebe Tür-/Tornummer(n) ein
 Intake=Stromaufnahme
@@ -456,4 +458,3 @@ water temperature=Wassertemperatur
 wrong catalyst=falscher Katalysator
 wrong storage diameter=Falscher Wärmespeicher-Durchmesser
 ##### not used anymore #####
-

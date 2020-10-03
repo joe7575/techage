@@ -99,17 +99,17 @@ local function get_filter_settings(pos)
 	return FilterCache[hash].ItemFilter, FilterCache[hash].OpenPorts
 end
 
-local function blocking_checkbox(pos, filter)
+local function blocking_checkbox(pos, filter, is_hp)
 	local cnt = 0
 	local _, open_ports = get_filter_settings(pos)
-	
+	local fs_pos = is_hp and "0.25,5" or "3,3.9"
 	for _,val in ipairs(filter) do
 		if val then cnt = cnt + 1 end
 	end
 	if cnt > 1 and #open_ports > 0 then
 		local blocking = M(pos):get_int("blocking") == 1 and "true" or "false"
-		return "checkbox[3,3.9;blocking;"..S("blocking mode")..";"..blocking.."]"..
-			"tooltip[3,3.9;1,1;"..S("Block configured items for open ports")..";#0C3D32;#FFFFFF]"
+		return "checkbox["..fs_pos..";blocking;"..S("blocking mode")..";"..blocking.."]"..
+			"tooltip["..fs_pos..";1,1;"..S("Block configured items for open ports")..";#0C3D32;#FFFFFF]"
 	else
 		M(pos):set_int("blocking", 0) -- disable blocking
 	end
@@ -118,32 +118,57 @@ end
 		
 local function formspec(self, pos, nvm)
 	local filter = minetest.deserialize(M(pos):get_string("filter")) or {false,false,false,false}
-	local blocking = blocking_checkbox(pos, filter)
-	return "size[10.5,8.5]"..
-	default.gui_bg..
-	default.gui_bg_img..
-	default.gui_slots..
-	"list[context;src;0,0;2,4;]"..
-	blocking..
-	"image[2,1.5;1,1;techage_form_arrow.png]"..
-	"image_button[0,4.8;1,1;"..self:get_state_button_image(nvm)..";state_button;]"..
-	"tooltip[0,4.8;1,1;"..self:get_state_tooltip(nvm).."]"..
-	"checkbox[3,0;filter1;On;"..dump(filter[1]).."]"..
-	"checkbox[3,1;filter2;On;"..dump(filter[2]).."]"..
-	"checkbox[3,2;filter3;On;"..dump(filter[3]).."]"..
-	"checkbox[3,3;filter4;On;"..dump(filter[4]).."]"..
-	"image[4,0;0.3,1;techage_inv_red.png]"..
-	"image[4,1;0.3,1;techage_inv_green.png]"..
-	"image[4,2;0.3,1;techage_inv_blue.png]"..
-	"image[4,3;0.3,1;techage_inv_yellow.png]"..
-	"list[context;red;4.5,0;6,1;]"..
-	"list[context;green;4.5,1;6,1;]"..
-	"list[context;blue;4.5,2;6,1;]"..
-	"list[context;yellow;4.5,3;6,1;]"..
-	"list[current_player;main;1.25,4.8;8,4;]"..
-	"listring[context;src]"..
-	"listring[current_player;main]"..
-	default.get_hotbar_bg(1.25,4.8)
+	local is_hp = nvm.high_performance == true
+	local blocking = blocking_checkbox(pos, filter, is_hp)
+
+	if is_hp then
+		return "size[10.5,9.5]"..
+		"box[0.25,-0.1;9.6,1.1;#005500]"..
+		"label[0.6,0.2;"..S("Input").."]"..
+		"list[context;src;1.75,0;8,1;]"..
+		blocking..
+		"image_button[0.25,5.8;1,1;"..self:get_state_button_image(nvm)..";state_button;]"..
+		"tooltip[0.25,5.8;1,1;"..self:get_state_tooltip(nvm).."]"..
+		"checkbox[0.25,1.2;filter1;On;"..dump(filter[1]).."]"..
+		"checkbox[0.25,2.2;filter2;On;"..dump(filter[2]).."]"..
+		"checkbox[0.25,3.2;filter3;On;"..dump(filter[3]).."]"..
+		"checkbox[0.25,4.2;filter4;On;"..dump(filter[4]).."]"..
+		"image[1.25,1.2;0.3,1;techage_inv_red.png]"..
+		"image[1.25,2.2;0.3,1;techage_inv_green.png]"..
+		"image[1.25,3.2;0.3,1;techage_inv_blue.png]"..
+		"image[1.25,4.2;0.3,1;techage_inv_yellow.png]"..
+		"list[context;red;1.75,1.2;8,1;]"..
+		"list[context;green;1.75,2.2;8,1;]"..
+		"list[context;blue;1.75,3.2;8,1;]"..
+		"list[context;yellow;1.75,4.2;8,1;]"..
+		"list[current_player;main;1.75,5.8;8,4;]"..
+		"listring[context;src]"..
+		"listring[current_player;main]"..
+		default.get_hotbar_bg(1.75,5.8)
+	else
+		return "size[10.5,8.5]"..
+		"list[context;src;0,0;2,4;]"..
+		blocking..
+		"image[2,1.5;1,1;techage_form_arrow.png]"..
+		"image_button[0,4.8;1,1;"..self:get_state_button_image(nvm)..";state_button;]"..
+		"tooltip[0,4.8;1,1;"..self:get_state_tooltip(nvm).."]"..
+		"checkbox[3,0;filter1;On;"..dump(filter[1]).."]"..
+		"checkbox[3,1;filter2;On;"..dump(filter[2]).."]"..
+		"checkbox[3,2;filter3;On;"..dump(filter[3]).."]"..
+		"checkbox[3,3;filter4;On;"..dump(filter[4]).."]"..
+		"image[4,0;0.3,1;techage_inv_red.png]"..
+		"image[4,1;0.3,1;techage_inv_green.png]"..
+		"image[4,2;0.3,1;techage_inv_blue.png]"..
+		"image[4,3;0.3,1;techage_inv_yellow.png]"..
+		"list[context;red;4.5,0;6,1;]"..
+		"list[context;green;4.5,1;6,1;]"..
+		"list[context;blue;4.5,2;6,1;]"..
+		"list[context;yellow;4.5,3;6,1;]"..
+		"list[current_player;main;1.25,4.8;8,4;]"..
+		"listring[context;src]"..
+		"listring[current_player;main]"..
+		default.get_hotbar_bg(1.25,4.8)
+	end
 end
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
@@ -357,36 +382,40 @@ local function can_dig(pos, player)
 	return inv:is_empty("src")
 end
 
-local tiles = {}
--- '#' will be replaced by the stage number
--- '{power}' will be replaced by the power PNG
-tiles.pas = {
-	-- up, down, right, left, back, front
-	"techage_filling_ta#.png^techage_appl_distri.png^techage_frame_ta#_top.png^techage_appl_color_top.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_yellow.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_green.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_red.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_blue.png",
-}
-tiles.act = {
-	-- up, down, right, left, back, front
-	{
-		image = "techage_filling4_ta#.png^techage_appl_distri4.png^techage_frame4_ta#_top.png^techage_appl_color_top4.png",
-		backface_culling = false,
-		animation = {
-			type = "vertical_frames",
-			aspect_w = 32,
-			aspect_h = 32,
-			length = 1.0,
+local get_tiles = function(is_hp)
+	local variant = is_hp and "_hp" or ""
+	local tiles = {}
+	-- '#' will be replaced by the stage number
+	-- '{power}' will be replaced by the power PNG
+	tiles.pas = {
+		-- up, down, right, left, back, front
+		"techage_filling_ta#.png^techage_appl_distri.png^techage_frame_ta#_top"..variant..".png^techage_appl_color_top.png",
+		"techage_filling_ta#.png^techage_frame_ta#_top"..variant..".png^(techage_appl_color_top.png^[transformFY)",
+		"techage_filling_ta#.png^techage_frame_ta#"..variant..".png^techage_appl_distri_yellow.png",
+		"techage_filling_ta#.png^techage_frame_ta#"..variant..".png^techage_appl_distri_green.png",
+		"techage_filling_ta#.png^techage_frame_ta#"..variant..".png^techage_appl_distri_red.png",
+		"techage_filling_ta#.png^techage_frame_ta#"..variant..".png^techage_appl_distri_blue.png",
+	}
+	tiles.act = {
+		-- up, down, right, left, back, front
+		{
+			image = "techage_filling4_ta#.png^techage_appl_distri4.png^techage_frame4_ta#_top"..variant..".png^techage_appl_color_top4.png",
+			backface_culling = false,
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 32,
+				aspect_h = 32,
+				length = 1.0,
+			},
 		},
-	},
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_color_top.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_yellow.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_green.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_red.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_distri_blue.png",
-}
+		"techage_filling_ta#.png^techage_frame_ta#_top"..variant..".png^(techage_appl_color_top.png^[transformFY)",
+		"techage_filling_ta#.png^techage_frame_ta#"..variant..".png^techage_appl_distri_yellow.png",
+		"techage_filling_ta#.png^techage_frame_ta#"..variant..".png^techage_appl_distri_green.png",
+		"techage_filling_ta#.png^techage_frame_ta#"..variant..".png^techage_appl_distri_red.png",
+		"techage_filling_ta#.png^techage_frame_ta#"..variant..".png^techage_appl_distri_blue.png",
+	}
+	return tiles
+end
 
 local tubing = {
 	on_pull_item = function(pos, in_dir, num)
@@ -419,57 +448,87 @@ local tubing = {
 	end,
 }
 
-local node_name_ta2, node_name_ta3, node_name_ta4 = 
-	techage.register_consumer("distributor", S("Distributor"), tiles, {
-		cycle_time = CYCLE_TIME,
-		standby_ticks = STANDBY_TICKS,
-		formspec = formspec,
-		tubing = tubing,
-		after_place_node = function(pos, placer)
-			local meta = M(pos)
-			local filter = {false,false,false,false}
-			meta:set_string("filter", minetest.serialize(filter))
-			local inv = meta:get_inventory()
-			inv:set_size('src', 8)
-			inv:set_size('yellow', 6)
-			inv:set_size('green', 6)
-			inv:set_size('red', 6)
-			inv:set_size('blue', 6)
-		end,
-		can_dig = can_dig,
-		node_timer = keep_running,
-		on_receive_fields = on_receive_fields,
-		allow_metadata_inventory_put = allow_metadata_inventory_put,
-		allow_metadata_inventory_move = allow_metadata_inventory_move,
-		allow_metadata_inventory_take = allow_metadata_inventory_take,
-		tubelib2_on_update2 = tubelib2_on_update2,
-		
-		on_metadata_inventory_move = function(pos, from_list, from_index, to_list)
-			if from_list ~= "src" or to_list ~= "src" then
-				filter_settings(pos)
-				local nvm = techage.get_nvm(pos)
-				M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
-			end
-		end,
-		on_metadata_inventory_put = function(pos, listname)
-			if listname ~= "src" then
-				filter_settings(pos)
-				local nvm = techage.get_nvm(pos)
-				M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
-			end
-		end,
-		on_metadata_inventory_take = function(pos, listname)
-			if listname ~= "src" then
-				filter_settings(pos)
-				local nvm = techage.get_nvm(pos)
-				M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
-			end
-		end,
-		
-		groups = {choppy=2, cracky=2, crumbly=2},
-		sounds = default.node_sound_wood_defaults(),
-		num_items = {0,4,12,24},
-	})
+local def = {
+	cycle_time = CYCLE_TIME,
+	standby_ticks = STANDBY_TICKS,
+	formspec = formspec,
+	tubing = tubing,
+	after_place_node = function(pos, placer)
+		local meta = M(pos)
+		local filter = {false,false,false,false}
+		meta:set_string("filter", minetest.serialize(filter))
+		local inv = meta:get_inventory()
+		inv:set_size('src', 8)
+		inv:set_size('yellow', 6)
+		inv:set_size('green', 6)
+		inv:set_size('red', 6)
+		inv:set_size('blue', 6)
+	end,
+	can_dig = can_dig,
+	node_timer = keep_running,
+	on_receive_fields = on_receive_fields,
+	allow_metadata_inventory_put = allow_metadata_inventory_put,
+	allow_metadata_inventory_move = allow_metadata_inventory_move,
+	allow_metadata_inventory_take = allow_metadata_inventory_take,
+	tubelib2_on_update2 = tubelib2_on_update2,
+
+	on_metadata_inventory_move = function(pos, from_list, from_index, to_list)
+		if from_list ~= "src" or to_list ~= "src" then
+			filter_settings(pos)
+			local nvm = techage.get_nvm(pos)
+			M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
+		end
+	end,
+	on_metadata_inventory_put = function(pos, listname)
+		if listname ~= "src" then
+			filter_settings(pos)
+			local nvm = techage.get_nvm(pos)
+			M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
+		end
+	end,
+	on_metadata_inventory_take = function(pos, listname)
+		if listname ~= "src" then
+			filter_settings(pos)
+			local nvm = techage.get_nvm(pos)
+			M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
+		end
+	end,
+
+	groups = {choppy=2, cracky=2, crumbly=2},
+	sounds = default.node_sound_wood_defaults(),
+	num_items = {0,4,12,24},
+}
+
+local node_name_ta2, node_name_ta3, node_name_ta4 = techage.register_consumer(
+	"distributor",
+	S("Distributor"),
+	get_tiles(false),
+	def
+)
+
+local hp_def = table.copy(def)
+
+hp_def.after_place_node = function(pos, placer)
+	local meta = M(pos)
+	local nvm = techage.get_nvm(pos)
+	nvm.high_performance = true
+	local filter = {false,false,false,false}
+	meta:set_string("filter", minetest.serialize(filter))
+	local inv = meta:get_inventory()
+	inv:set_size('src', 8)
+	inv:set_size('yellow', 8)
+	inv:set_size('green', 8)
+	inv:set_size('red', 8)
+	inv:set_size('blue', 8)
+end
+hp_def.num_items = {0,0,0,36}
+
+local _, _, node_name_ta4_hp = techage.register_consumer(
+	"high_performance_distributor", S("High Performance Distributor"),
+	get_tiles(true),
+	hp_def,
+	{false, false, false, true}
+)
 
 minetest.register_craft({
 	output = node_name_ta2.." 2",
@@ -495,5 +554,14 @@ minetest.register_craft({
 		{"", "techage:iron_ingot", ""},
 		{"", node_name_ta3, ""},
 		{"", "techage:ta4_wlanchip", ""},
+	},
+})
+
+
+minetest.register_craft({
+	output = node_name_ta4_hp,
+	recipe = {
+		{node_name_ta4, "default:copper_ingot"},
+		{"default:mese_crystal_fragment", node_name_ta4},
 	},
 })

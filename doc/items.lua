@@ -161,6 +161,7 @@ techage.Items = {
 	ta4_collector = "techage:ta4_collector",
 	ta4_pusher = "techage:ta4_pusher_pas",
 	ta4_distributor = "techage:ta4_distributor_pas",
+	ta4_high_performance_distributor = "techage:ta4_high_performance_distributor_pas",
 	ta4_gravelsieve = "techage:ta4_gravelsieve_pas",
 	ta4_grinder = "techage:ta4_grinder_pas",
 	ta4_detector = "techage:ta4_detector_off",

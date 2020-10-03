@@ -610,6 +610,14 @@ Die Verarbeitungsleistung beträgt 24 Items alle 4 s, sofern auf allen Seiten TA
 
 [ta4_distributor|image]
 
+### TA4 Hochleistungs-Verteiler / High Performance Distributor
+
+Die Funktion entspricht dem normalen TA4 Verteiler, mit zwei Unterschieden:
+Die Verarbeitungsleistung beträgt 36 Items alle 4 s, sofern auf allen Seiten TA4 Röhren verwendet werden. Anderenfalls sind es nur 18 Items alle 4 s.
+Außerdem können pro Ausgang bis zu 8 Items konfiguriert werden.
+
+[ta4_high_performance_distributor|image]
+
 ### TA4 Kiessieb / Gravel Sieve
 
 Die Funktion entspricht der von TA2.  

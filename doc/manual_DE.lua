@@ -184,6 +184,7 @@ techage.manual_DE.aTitel = {
   "3,TA4 Kiste / TA4 Chest",
   "3,TA4 8x2000 Kiste / TA4 8x2000 Chest",
   "3,TA4 Verteiler / Distributor",
+  "3,TA4 Hochleistungs-Verteiler / High Performance Distributor",
   "3,TA4 Kiessieb / Gravel Sieve",
   "3,TA4 Mühle / Grinder",
   "3,TA4 Steinbrecher / Quarry",
@@ -1505,6 +1506,12 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Die Funktion entspricht dem normalen TA4 Verteiler\\, mit zwei Unterschieden:\n"..
+  "Die Verarbeitungsleistung beträgt 36 Items alle 4 s\\, sofern auf allen Seiten TA4 Röhren verwendet werden. Anderenfalls sind es nur 18 Items alle 4 s.\n"..
+  "Außerdem können pro Ausgang bis zu 8 Items konfiguriert werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Die Funktion entspricht der von TA2.\n"..
   "Die Verarbeitungsleistung beträgt 4 Items alle 4 s. Der Block benötigt 5 ku Strom.\n"..
   "\n"..
@@ -1721,6 +1728,7 @@ techage.manual_DE.aItemName = {
   "ta4_chest",
   "ta4_8x2000_chest",
   "ta4_distributor",
+  "ta4_high_performance_distributor",
   "ta4_gravelsieve",
   "ta4_grinder",
   "ta4_quarry",
@@ -1902,6 +1910,7 @@ techage.manual_DE.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
+  "",
   "",
   "",
   "",

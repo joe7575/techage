@@ -183,6 +183,7 @@
         - [TA4 Chest](./manual_ta4_EN.md#ta4-chest)
         - [TA4 8x2000 Chest](./manual_ta4_EN.md#ta4-8x2000-chest)
         - [TA4 Distributor](./manual_ta4_EN.md#ta4-distributor)
+        - [TA4 High Performance Distributor](./manual_ta4_EN.md#ta4-high-performance-distributor)
         - [TA4 Gravel Sieve](./manual_ta4_EN.md#ta4-gravel-sieve)
         - [TA4 Grinder](./manual_ta4_EN.md#ta4-grinder)
         - [TA4 Quarry](./manual_ta4_EN.md#ta4-quarry)
