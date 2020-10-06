@@ -358,7 +358,7 @@ In addition to Lua standard function the Lua Controller provides the following f
 | "state"      | one of: "empty", "loaded", "full"                            | State of a chest or Sensor Chest                             |
 | "fuel"       | number                                                       | fuel value of a fuel consuming block                         |
 | "depth"      | number                                                       | Read the current depth value of a quarry block (1..80)       |
-| "load"       | number                                                       | Read the load value in percent  (0..100) of a tank/storage block, an accu block, of of the Signs Bot Box. |
+| "load"       | number                                                       | Read the load value in percent  (0..100) of a tank/storage block, a silo block, an accu block, or of the Signs Bot Box. |
 | "delivered"  | number                                                       | Read the current delivered power value of a generator block. A power consuming block (accu) provides a negative value |
 | "action"     | player-name, action-string                                   | only for Sensor Chests                                       |
 | "stacks"     | Array with up to 4 Stores with the inventory content (see example) | only for Sensor Chests                                       |

@@ -21,6 +21,7 @@ local Pipe = techage.LiquidPipe
 local liquid = techage.liquid
 
 local INV_SIZE = 8
+local STACKMAX = 99
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
@@ -32,6 +33,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if ndef.groups and (ndef.groups.powder == 1 or ndef.groups.ta_liquid == 1) then
 		local nvm = techage.get_nvm(pos)
 		nvm.item_name = nil
+		nvm.item_count = nil
 		local inv = minetest.get_meta(pos):get_inventory()
 		if inv:is_empty(listname) then
 			return stack:get_count()
@@ -49,6 +51,7 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	end
 	local nvm = techage.get_nvm(pos)
 	nvm.item_name = nil
+	nvm.item_count = nil
 	return stack:get_count()
 end
 
@@ -68,6 +71,27 @@ local function get_item_name(nvm, inv)
 			return nvm.item_name
 		end
 	end
+end	
+
+local function get_item_count(pos)
+	local inv = M(pos):get_inventory()
+	local count = 0
+	for idx = 1, inv:get_size("main") do
+		local stack = inv:get_stack("main", idx)
+		count = count + stack:get_count()
+	end
+	return count
+end	
+
+local function get_silo_capa(pos)
+	local inv = M(pos):get_inventory()
+	for idx = 1, inv:get_size("main") do
+		local stack = inv:get_stack("main", idx)
+		if stack:get_count() > 0 then
+			return inv:get_size("main") * stack:get_stack_max()
+		end
+	end
+	return inv:get_size("main") * STACKMAX
 end	
 
 local function formspec3()
@@ -103,12 +127,15 @@ local tLiquid = {
 	end,
 	put = function(pos, indir, name, amount)
 		-- check if it is powder
+		local nvm = techage.get_nvm(pos)
 		local ndef = minetest.registered_craftitems[name] or {}
 		if ndef.groups and ndef.groups.powder == 1 then
 			local inv = M(pos):get_inventory()
 			local stack = ItemStack(name.." "..amount)
 			if inv:room_for_item("main", stack) then
+				nvm.item_count = nvm.item_count or get_item_count(pos)
 				inv:add_item("main", stack)
+				nvm.item_count = nvm.item_count + stack:get_count()
 				return 0
 			end
 		end
@@ -122,15 +149,21 @@ local tLiquid = {
 		end
 		if name then
 			local stack = ItemStack(name.." "..amount)
-			return inv:remove_item("main", stack):get_count(), name
+			nvm.item_count = nvm.item_count or get_item_count(pos)
+			local count = inv:remove_item("main", stack):get_count()
+			nvm.item_count = nvm.item_count - count
+			return count, name
 		end
 		return 0
 	end,
 	untake = function(pos, indir, name, amount)
+		local nvm = techage.get_nvm(pos)
 		local inv = M(pos):get_inventory()
 		local stack = ItemStack(name.." "..amount)
 		if inv:room_for_item("main", stack) then
+			nvm.item_count = nvm.item_count or get_item_count(pos)
 			inv:add_item("main", stack)
+			nvm.item_count = nvm.item_count + stack:get_count()
 			return 0
 		end
 		return amount
@@ -271,6 +304,12 @@ techage.register_node({"techage:ta3_silo", "techage:ta4_silo"}, {
 			local meta = M(pos)
 			local inv = meta:get_inventory()
 			return techage.get_inv_state(inv, "main")
+		elseif topic == "load" then
+			local inv = M(pos):get_inventory()
+			local nvm = techage.get_nvm(pos)
+			nvm.item_count = nvm.item_count or get_item_count(pos)
+			nvm.capa = nvm.capa or get_silo_capa(pos)
+			return techage.power.percent(nvm.capa, nvm.item_count)
 		else
 			return "unsupported"
 		end
