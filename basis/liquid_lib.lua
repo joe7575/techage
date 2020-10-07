@@ -55,7 +55,9 @@ techage.liquid.recv_message = {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "load" then
 			local nvm = techage.get_nvm(pos)
-			return techage.power.percent(LQD(pos).capa, (nvm.liquid and nvm.liquid.amount) or 0)
+			nvm.liquid = nvm.liquid or {}
+			nvm.liquid.amount = nvm.liquid.amount or 0
+			return techage.power.percent(LQD(pos).capa, nvm.liquid.amount), nvm.liquid.amount
 		elseif topic == "size" then
 			return LQD(pos).capa
 		else

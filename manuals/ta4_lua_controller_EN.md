@@ -358,12 +358,12 @@ In addition to Lua standard function the Lua Controller provides the following f
 | "state"      | one of: "empty", "loaded", "full"                            | State of a chest or Sensor Chest                             |
 | "fuel"       | number                                                       | fuel value of a fuel consuming block                         |
 | "depth"      | number                                                       | Read the current depth value of a quarry block (1..80)       |
-| "load"       | number                                                       | Read the load value in percent  (0..100) of a tank/storage block, a silo block, an accu block, or of the Signs Bot Box. |
+| "load"       | number                                                       | Read the load value in percent  (0..100) of a tank/storage block, a silo block, an accu block, or of the Signs Bot Box. Silo and tank return two values: The percentage value and the absolute value in units.<br /> Example: percent, absolute = $read_data("223", "load") |
 | "delivered"  | number                                                       | Read the current delivered power value of a generator block. A power consuming block (accu) provides a negative value |
 | "action"     | player-name, action-string                                   | only for Sensor Chests                                       |
 | "stacks"     | Array with up to 4 Stores with the inventory content (see example) | only for Sensor Chests                                       |
 | "count"      | number                                                       | Read the item counter of the TA4 Item Detector block         |
-| "count"      | number of items                                              | Read the total amount of TA4 chest items. An optional  number as `add_data` is used to address only on inventory slot (1..8, from left to right). |
+| "count"      | number of items                                              | Read the total amount of TA4 chest items. An optional  number as `add_data` is used to address only one inventory slot (1..8, from left to right). |
 | "itemstring" | item string of the given slot                                | Specific command for the TA4 8x2000 Chest to read the item type (technical name) of one chest slot, specified via `add_data` (1..8).<br />Example: s = $read_data("223", "itemstring", 1) |
 
 

@@ -309,7 +309,7 @@ techage.register_node({"techage:ta3_silo", "techage:ta4_silo"}, {
 			local nvm = techage.get_nvm(pos)
 			nvm.item_count = nvm.item_count or get_item_count(pos)
 			nvm.capa = nvm.capa or get_silo_capa(pos)
-			return techage.power.percent(nvm.capa, nvm.item_count)
+			return techage.power.percent(nvm.capa, nvm.item_count), nvm.item_count
 		else
 			return "unsupported"
 		end
