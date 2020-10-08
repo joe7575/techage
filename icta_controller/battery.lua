@@ -24,8 +24,9 @@ end
 
 local function on_timer(pos, elapsed)
 	local meta = minetest.get_meta(pos)
+	local number = meta:get_string("node_number")
 	local percent = calc_percent(meta:get_int("content"))
-	meta:set_string("infotext", S("Battery").." ("..percent.."%)")
+	meta:set_string("infotext", S("Battery").." "..number..": "..percent.." %")
 	if percent == 0 then
 		local node = minetest.get_node(pos)
 		node.name = "techage:ta4_battery_empty"
@@ -75,10 +76,16 @@ minetest.register_node("techage:ta4_battery", {
 			end
 		end
 		M(pos):set_int("content", content)
+		local number = techage.add_node(pos, "techage:ta4_battery")
+		M(pos):set_string("node_number", number)
 		on_timer(pos, 1)
 		minetest.get_node_timer(pos):start(30)
 	end,
 
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		techage.remove_node(pos, oldnode, oldmetadata)
+	end,
+	
 	on_timer = on_timer,
 
 	preserve_metadata = function(pos, oldnode, oldmetadata, drops)
@@ -154,9 +161,17 @@ else
 	})
 end
 
-techage.register_node({"techage:ta4_battery"},
-	{
-		on_node_load = function(pos)
-			minetest.get_node_timer(pos):start(30)
-		end,
+techage.register_node({"techage:ta4_battery"}, {
+	on_node_load = function(pos)
+		minetest.get_node_timer(pos):start(30)
+	end,
+	
+	on_recv_message = function(pos, src, topic, payload)
+		if topic == "load" then
+			local meta = minetest.get_meta(pos)
+			return calc_percent(meta:get_int("content"))
+		else
+			return "unsupported"
+		end
+	end,
 })

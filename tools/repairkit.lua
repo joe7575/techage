@@ -237,10 +237,10 @@ local function read_state(itemstack, user, pointed_thing)
 					fuel = dump(fuel)
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": fuel = "..fuel.."    ")
 				end
-				local load = techage.send_single("0", number, "load", nil)
+				local load, abs = techage.send_single("0", number, "load", nil)
 				if load and load ~= "" and load ~= "unsupported" then
-					load = dump(load)
-					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": load = "..load.." %    ")
+					load, abs = dump(load), abs and dump(abs) or "--"
+					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": load = "..load.." % / "..abs.." units    ")
 				end
 				local delivered = techage.send_single("0", number, "delivered", nil)
 				if delivered and delivered ~= "" and delivered ~= "unsupported" then
