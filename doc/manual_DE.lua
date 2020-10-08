@@ -752,7 +752,7 @@ techage.manual_DE.aText = {
   "Wird auf den Button der Ölbohrkiste geklickt\\, wird über der Kiste ein Bohrturm errichtet. Dies dauert einige Sekunden.\n"..
   "Die Ölbohrkiste hat 4 Seiten\\, bei IN muss das Bohrgestänge über Schieber angeliefert und bei OUT muss das Bohrmaterial abtransportiert werden. Über eine der anderen zwei Seiten muss die Ölbohrkiste mit Strom versorgt werden.\n"..
   "\n"..
-  "Die Ölbohrkiste bohrt bis zum Ölfeld (1 Meter in 16 s) und benötigt dazu 10 ku Strom.\n"..
+  "Die Ölbohrkiste bohrt bis zum Ölfeld (1 Meter in 16 s) und benötigt dazu 16 ku Strom.\n"..
   "Wurde das Ölfeld erreicht\\, kann der Bohrturm abgebaut und die Kiste entfernt werden.\n"..
   "\n"..
   "\n"..

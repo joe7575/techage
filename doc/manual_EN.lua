@@ -750,7 +750,7 @@ techage.manual_EN.aText = {
   "If the button on the oil drilling box is clicked\\, the derrick is erected above the box. This takes a few seconds.\n"..
   "The oil drilling box has 4 sides\\, at IN the drill pipe has to be delivered via pusher and at OUT the drilling material has to be removed. The oil drilling box must be supplied with power via one of the other two sides.\n"..
   "\n"..
-  "The oil drilling box drills to the oil field (1 meter in 16 s) and requires 10 ku of electricity.\n"..
+  "The oil drilling box drills to the oil field (1 meter in 16 s) and requires 16 ku of electricity.\n"..
   "Once the oil field has been reached\\, the derrick can be dismantled and the box removed.\n"..
   "\n"..
   "\n"..

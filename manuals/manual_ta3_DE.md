@@ -339,7 +339,7 @@ Die Ölbohrkiste muss an die Stelle gesetzt werden, die vom Ölexplorer angezeig
 Wird auf den Button der Ölbohrkiste geklickt, wird über der Kiste ein Bohrturm errichtet. Dies dauert einige Sekunden.  
 Die Ölbohrkiste hat 4 Seiten, bei IN muss das Bohrgestänge über Schieber angeliefert und bei OUT muss das Bohrmaterial abtransportiert werden. Über eine der anderen zwei Seiten muss die Ölbohrkiste mit Strom versorgt werden.
 
-Die Ölbohrkiste bohrt bis zum Ölfeld (1 Meter in 16 s) und benötigt dazu 10 ku Strom.
+Die Ölbohrkiste bohrt bis zum Ölfeld (1 Meter in 16 s) und benötigt dazu 16 ku Strom.
 Wurde das Ölfeld erreicht, kann der Bohrturm abgebaut und die Kiste entfernt werden.
 
 [ta3_drillbox|image]
