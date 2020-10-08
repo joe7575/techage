@@ -69,3 +69,33 @@ Since the levels build on each other, all ages have to be run through one after 
 4. Build a Hyperloop network as passenger transportation system
 5. Use the Signs Bot for further automation tasks
 6. Use Controller, Displays and further logic to fully automate all machines...
+
+
+
+## Power Consumption
+
+| TechAge Machine                | TA2 [ku] | TA3 [ku] | TA4 [ku]  |
+| ------------------------------ | -------- | -------- | --------- |
+| Autocrafter                    | 4        | 6        | (9)       |
+| Electronic Fab                 | 8        | 12       | 12        |
+| Gravel Rinser                  | 3        | 3        | -         |
+| Gravel Sieve                   | 3        | 4        | 5         |
+| Grinder                        | 4        | 6        | 9         |
+| Liquid Sampler                 | 3        | 5        | -         |
+| Quarry                         | 10       | 12       | 14        |
+| TA3 Industrial Furnace Booster |          | 3        |           |
+| TA4 Industrial Furnace Heater  |          |          | 14        |
+| Oil Drill Box                  |          | 16       |           |
+| Oil Pumpjack                   |          | 16       |           |
+| TA3 Oil Reboiler               |          | 14       |           |
+| TA4 Electrolyzer               |          |          | 30        |
+| TA4 Fuel Cell                  |          |          | 25        |
+| TA4 Reactor                    | -        | -        | 8         |
+| Steam Engine                   | 25       |          |           |
+| Coal Power Station             |          | 80       |           |
+| TA3 Accu Box                   |          | 10       |           |
+| TA3 Tiny Power Generator       |          | 12       |           |
+| TA4 Energy Storage Generator   |          |          | 60        |
+| TA4 Solar Inverter             |          |          | up to 100 |
+| TA4 Wind Turbine               |          |          | 70        |
+
