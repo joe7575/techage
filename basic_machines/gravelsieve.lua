@@ -75,20 +75,22 @@ end
 
 local function sieving(pos, crd, nvm, inv)
 	local src, dst
-	if inv:contains_item("src", ItemStack("techage:basalt_gravel")) then
-		dst, src = get_random_basalt_ore(), ItemStack("techage:basalt_gravel")
-	elseif inv:contains_item("src", ItemStack("default:gravel")) then
-		dst, src = get_random_gravel_ore(), ItemStack("default:gravel")
-	else
-		crd.State:idle(pos, nvm)
-		return
+	for i = 1, crd.num_items do
+		if inv:contains_item("src", ItemStack("techage:basalt_gravel")) then
+			dst, src = get_random_basalt_ore(), ItemStack("techage:basalt_gravel")
+		elseif inv:contains_item("src", ItemStack("default:gravel")) then
+			dst, src = get_random_gravel_ore(), ItemStack("default:gravel")
+		else
+			crd.State:idle(pos, nvm)
+			return
+		end
+		if not inv:room_for_item("dst", dst) then
+			crd.State:idle(pos, nvm)
+			return
+		end
+		inv:add_item("dst", dst)
+		inv:remove_item("src", src)
 	end
-	if not inv:room_for_item("dst", dst) then
-		crd.State:idle(pos, nvm)
-		return
-	end
-	inv:add_item("dst", dst)
-	inv:remove_item("src", src)
 	crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 end
 
