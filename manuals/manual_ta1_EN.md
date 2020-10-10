@@ -22,9 +22,9 @@ Building instructions (see also plan):
 - Build a 5x5 area of ​​dirt
 - Place a lighter in the middle
 - Build a 3x3x3 cube above it out of wood
-- Cover everything with a layer of earth to form a 5x5x5 cube
+- Cover everything with a layer of dirt to form a 5x5x5 cube
 - Leave a hole to the lighter
-- Light the lighter and immediately close the hole with a block of wood and earth
+- Light the lighter and immediately close the hole with a block of wood and dirt
 - If you have done everything correctly, the coal burner will start smoking after a few seconds
 - Only open the charcoal burner when the smoke has disappeared (approx. 20 min)
 
@@ -46,7 +46,7 @@ Building instructions (see also plan):
 * Light the lighter through the hole
 * Place the melting pot in the flame over the tower
   (one block above the flame)
-* To stop the burner, temporarily close the hole with an earth block, for example.
+* To stop the burner, temporarily close the hole with an dirt block, for example.
 
 The melting pot has its own menu of recipes and an inventory where you have to put the ores in.
 

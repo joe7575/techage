@@ -290,9 +290,9 @@ techage.manual_EN.aText = {
   "  - Build a 5x5 area of ​​dirt\n"..
   "  - Place a lighter in the middle\n"..
   "  - Build a 3x3x3 cube above it out of wood\n"..
-  "  - Cover everything with a layer of earth to form a 5x5x5 cube\n"..
+  "  - Cover everything with a layer of dirt to form a 5x5x5 cube\n"..
   "  - Leave a hole to the lighter\n"..
-  "  - Light the lighter and immediately close the hole with a block of wood and earth\n"..
+  "  - Light the lighter and immediately close the hole with a block of wood and dirt\n"..
   "  - If you have done everything correctly\\, the coal burner will start smoking after a few seconds\n"..
   "  - Only open the charcoal burner when the smoke has disappeared (approx. 20 min)\n"..
   "\n"..
@@ -310,7 +310,7 @@ techage.manual_EN.aText = {
   "  - Fill the tower with charcoal from the top to the top\n"..
   "  - Light the lighter through the hole\n"..
   "  - Place the melting pot in the flame over the tower\n(one block above the flame)\n"..
-  "  - To stop the burner\\, temporarily close the hole with an earth block\\, for example.\n"..
+  "  - To stop the burner\\, temporarily close the hole with an dirt block\\, for example.\n"..
   "\n"..
   "The melting pot has its own menu of recipes and an inventory where you have to put the ores in.\n"..
   "\n"..

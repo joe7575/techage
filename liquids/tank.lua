@@ -153,6 +153,7 @@ minetest.register_node("techage:oiltank", {
 		type = "fixed",
 		fixed = {-6/8, -4/8, -6/8, 6/8, 6/8, 6/8},
 	},
+	wield_scale = {x = 0.8, y = 0.8, z = 0.8},
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
