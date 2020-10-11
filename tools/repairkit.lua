@@ -199,15 +199,23 @@ local function read_state(itemstack, user, pointed_thing)
 		local hours = math.floor(time / 6)
 		local mins = (time % 6) * 10
 		if mins < 10 then mins = "00" end
+		
+		local number = techage.get_node_number(pos)
+		local node = minetest.get_node(pos)
+		local ndef = minetest.registered_nodes[node.name]
+		
+		if node.name == "default:water_source" then
+			local player_name = user:get_player_name()
+			techage.valid_place_for_windturbine(pos, player_name, 0)
+			return itemstack
+		end
+		
 		minetest.chat_send_player(user:get_player_name(), S("Time")..": "..hours..":"..mins.."    ")
 		local data = minetest.get_biome_data(pos)
 		if data then
 			local name = minetest.get_biome_name(data.biome)
 			minetest.chat_send_player(user:get_player_name(), S("Biome")..": "..name..", "..S("Position temperature")..": "..math.floor(data.heat).."    ")
 		end
-		local number = techage.get_node_number(pos)
-		local node = minetest.get_node(pos)
-		local ndef = minetest.registered_nodes[node.name]
 		
 		if ndef and ndef.networks then
 			local player_name = user:get_player_name()
@@ -291,6 +299,7 @@ minetest.register_tool("techage:end_wrench", {
 	on_use = read_state,
 	on_place = read_state,
 	node_placement_prediction = "",
+	liquids_pointable = true,
 	stack_max = 1,
 })
 

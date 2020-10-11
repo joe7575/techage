@@ -84,6 +84,7 @@ dofile(MP.."/basis/assemble.lua")
 dofile(MP.."/basis/networks.lua")
 dofile(MP.."/basis/recipe_lib.lua")
 dofile(MP.."/basis/formspec_update.lua")
+dofile(MP.."/basis/windturbine_lib.lua")
 
 -- Main doc
 dofile(MP.."/doc/manual_DE.lua")
