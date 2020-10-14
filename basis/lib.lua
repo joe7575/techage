@@ -126,6 +126,14 @@ function techage.is_primary_node(pos, dir)
 	return param2 ~= 0
 end
 
+function techage.is_air_like(name)
+	local ndef = minetest.registered_nodes[name]
+	if ndef and ndef.buildable_to then
+		return true
+	end
+	return false
+end
+
 -- returns true, if node can be dug, otherwise false
 function techage.can_node_dig(node, ndef)
 	if RegisteredNodesToBeDug[node.name] then 

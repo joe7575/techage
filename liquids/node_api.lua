@@ -162,7 +162,7 @@ function liquid.take(pos, outdir, name, amount, player_name)
 	return taken, item_name
 end
 
-function liquid.untake(pos, outdir, name, amount, player_name)
+function liquid.untake(pos, outdir, name, amount)
 	for _,item in ipairs(get_network_table(pos, outdir, "tank")) do
 		local liquid = LQD(item.pos)
 		if liquid and liquid.untake then

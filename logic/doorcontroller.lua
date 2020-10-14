@@ -49,13 +49,12 @@ local function swap_door_nodes(pos, open)
 				if open then
 					if node.name == item.name then
 						minetest.remove_node(item.pos)
+						item.removed = true
 					else
-						item.name = nil
+						item.removed = false
 					end
-				elseif node.name == "air" then
+				elseif techage.is_air_like(node.name) and item.removed then
 					minetest.add_node(item.pos, {name = item.name, param2 = item.param2})			
-				else
-					minetest.add_item(pos, item.pos, {name = item.name})
 				end
 			end
 		end
