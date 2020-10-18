@@ -25,11 +25,19 @@ local function num_wood(pos)
 	return #nodes
 end
 
--- determine the number of nodes nodes (around wood)
+-- determine the number of dirt nodes (around wood)
 local function num_dirt(pos)
 	local pos1 = {x=pos.x-2, y=pos.y-1, z=pos.z-2}
 	local pos2 = {x=pos.x+2, y=pos.y+3, z=pos.z+2}
 	local nodes = minetest.find_nodes_in_area(pos1, pos2, techage.aAnyKindOfDirtBlocks)
+	return #nodes
+end
+
+-- determine the number of ignore nodes
+local function num_ignore(pos)
+	local pos1 = {x=pos.x-2, y=pos.y-1, z=pos.z-2}
+	local pos2 = {x=pos.x+2, y=pos.y+3, z=pos.z+2}
+	local nodes = minetest.find_nodes_in_area(pos1, pos2, "ignore")
 	return #nodes
 end
 
@@ -137,7 +145,7 @@ function techage.keep_running_pile(pos)
 			return false
 		end
 	else
-		if num_wood(pos) ~= 26 or num_dirt(pos) ~= 98 then
+		if num_ignore(pos) == 0 and (num_wood(pos) ~= 26 or num_dirt(pos) ~= 98) then
 			collapse_pile(pos)
 			minetest.remove_node(pos)
 			return false
