@@ -62,16 +62,41 @@ local function count_index(invlist)
 end
 
 -- caches some recipe data
-local autocrafterCache = {}  
+local autocrafterCache = {}
+
+-- fake player for on_craft callback
+local fake_player = techage.Fake_player:new()
 
 local function get_craft(pos, inventory, hash)
 	hash = hash or minetest.hash_node_position(pos)
 	local craft = autocrafterCache[hash]
 	if not craft then
 		local recipe = inventory:get_list("recipe")
+		local old_recipe = table.copy(recipe)
 		local output, decremented_input = minetest.get_craft_result(
 				{method = "normal", width = 3, items = recipe})
-		craft = {recipe = recipe, consumption = count_index(recipe), 
+		for _,func in ipairs(minetest.registered_on_crafts) do
+			-- Reminder for future: If this should cause problems in future because some mods don't check the arguments
+			-- properly, use pcall to catch errors, so that at least "valid" callbacks can be executed.
+			local new_output = func(output.item, fake_player, old_recipe, inventory)
+			if new_output then
+				output.item = new_output
+			end
+		end
+		local di = decremented_input.items
+		for _,stack in ipairs(inventory:get_list("craft") or {}) do
+			if not stack:is_empty() then
+				di[#di + 1] = stack
+			end
+		end
+		for _,stack in ipairs(inventory:get_list("main") or {}) do
+			if not stack:is_empty() then
+				di[#di + 1] = stack
+			end
+		end
+		inventory:set_list("craft", {})
+		inventory:set_list("main", {})
+		craft = {recipe = recipe, consumption = count_index(recipe),
 				output = output, decremented_input = decremented_input}
 		autocrafterCache[hash] = craft
 	end
@@ -113,8 +138,8 @@ local function autocraft(pos, crd, nvm, inv)
 
 	-- craft the result into the dst inventory and add any "replacements" as well
 	inv:add_item("dst", output_item)
-	for i = 1, 9 do
-		inv:add_item("dst", craft.decremented_input.items[i])
+	for _,stack in ipairs(craft.decremented_input.items) do
+		inv:add_item("dst", stack)
 	end
 	
 	crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
@@ -204,6 +229,9 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
+	if listname == "craft" or listname == "main" then
+		return 0 -- No manual placement allowed
+	end
 	local inv = M(pos):get_inventory()
 	if listname == "recipe" then
 		stack:set_count(1)
@@ -223,6 +251,9 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
+	if listname == "craft" or listname == "main" then
+		return 0 -- No manual placement allowed
+	end
 --		upgrade_autocrafter(pos)
 	local inv = minetest.get_meta(pos):get_inventory()
 	if listname == "recipe" then
@@ -239,6 +270,9 @@ end
 local function allow_metadata_inventory_move(pos, from_list, from_index, to_list, to_index, count, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
+	end
+	if from_list == "craft" or to_list == "craft" or from_list == "main" or to_list == "main" then
+		return 0 -- No manual placement allowed
 	end
 	local inv = minetest.get_meta(pos):get_inventory()
 	local stack = inv:get_stack(from_list, from_index)
@@ -374,6 +408,8 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 			inv:set_size("recipe", 3*3)
 			inv:set_size("dst", 3*3)
 			inv:set_size("output", 1)
+			inv:set_size("craft", 3*3) -- For compatibility with callbacks; contents will be moved to dst
+			inv:set_size("main", 8*4) -- For compatibility with callbacks; contents will be moved to dst
 		end,
 		can_dig = can_dig,
 		node_timer = keep_running,
@@ -406,3 +442,14 @@ minetest.register_craft({
 	},
 })
 
+-- For backwards compatibility with already placed autocrafters
+minetest.register_lbm({
+	label = "Update Inventory of autocrafters",
+	name = "techage:autocrafters_inv_callback",
+	nodenames = {node_name_ta2, node_name_ta3},
+	action = function(pos, node)
+		local inv = M(pos):get_inventory()
+		inv:set_size("craft", 3*3) -- For compatibility with callbacks; contents will be moved to dst
+		inv:set_size("main", 8*4) -- For compatibility with callbacks; contents will be moved to dst
+	end
+})
