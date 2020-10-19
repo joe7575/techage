@@ -28,7 +28,7 @@ In contrast to TechPack, the resources are more limited and it is much more diff
 
 ### License
 Copyright (C) 2019-2020 Joachim Stolberg  
-Code: Licensed under the GNU GPL version 3 or later. See LICENSE.txt  
+Code: Licensed under the GNU AGPL version 3 or later. See LICENSE.txt  
 Textures: CC BY-SA 3.0
 
 Many thanks to Thomas-S for his contributions
@@ -76,6 +76,9 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 
 ### History
+
+**2020-10-17  V0.24**
+- Switched to AGPL license
 
 **2020-09-13  V0.23**
 - Pull request #26: Digtron Battery: Fix duplication bug (from Thomas-S)

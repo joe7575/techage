@@ -5,7 +5,7 @@
 
 	Copyright (C) 2020 Joachim Stolberg
 
-	GPL v3
+	AGPL v3
 	See LICENSE.txt for more information
 	
 	Tubes in TA4 design based on tubelib2

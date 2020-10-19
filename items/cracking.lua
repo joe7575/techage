@@ -5,7 +5,7 @@
 
 	Copyright (C) 2019-2020 Joachim Stolberg
 
-	GPL v3
+	AGPL v3
 	See LICENSE.txt for more information
 	
 	Cracking breaks long chains of hydrocarbons into short chains using a catalyst.

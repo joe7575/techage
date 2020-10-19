@@ -5,7 +5,7 @@
 
 	Copyright (C) 2019 Joachim Stolberg
 
-	GPL v3
+	AGPL v3
 	See LICENSE.txt for more information
 	
 	TA2/TA3/TA4 Grinder, grinding Cobble/Basalt to Gravel
