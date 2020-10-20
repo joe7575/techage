@@ -77,8 +77,30 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
-**2020-10-17  V0.24**
+**2020-10-20  V0.24**
+- Pull request #27: Liquid Tanks: Add protection support (from Thomas-S)
+- Pull request #28: Quarry: Improve digging behaviour (from Thomas-S)
+- Pull request #29: Distributor: Keep metadata (from Thomas-S)
+- Pull request #30: TA4: Add Liquid Filter (from Thomas-S)
+- Pull request #31: Fix chest crash (from Thomas-S)
+- Pull request #32: Fix Filter Sink Bug (from Thomas-S)
+- Pull request #33: Add TA4 High Performance Distributor (from Thomas-S)
+- Pull request #34: Add TA4 High Performance Distributor to Hopper (from Thomas-S)
+- Pull request #35: Fixed Gravel Sieve bug (from CosmicConveyor)
+- Fix doorcontroller and ta4 doser bugs
+- Add check for wind turbine areas
+- Fix translation errors
+- QSG: Add power consumptions and fix manual bug
+- Add load command to the controller battery
+- TA4 silo: Add load command
+- silo/tank: Add second return value for load command
+- Liquid Pumps: Fix issue with undetected pipe connection gaps
+- Shrink PGN files
+- Fix ta4 chest bugs
+- Fix ta4 chest and ta3 firebox issues
+- Remove repairkit recipe
 - Switched to AGPL license
+- API added for ingame manual
 
 **2020-09-13  V0.23**
 - Pull request #26: Digtron Battery: Fix duplication bug (from Thomas-S)
