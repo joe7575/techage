@@ -176,3 +176,9 @@ techage.Items = {
 	ta4_liquid_filter = "techage_ta4_filter.png",
 	--ta4_ "", 
 }
+
+function techage.add_manual_items(table_with_items)
+	for name, tbl in pairs(table_with_items) do
+		techage.Items[name] = tbl
+	end
+end

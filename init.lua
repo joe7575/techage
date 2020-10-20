@@ -92,6 +92,7 @@ dofile(MP.."/doc/manual_EN.lua")
 dofile(MP.."/doc/plans.lua")
 dofile(MP.."/doc/items.lua")
 dofile(MP.."/doc/guide.lua")  -- construction guides
+dofile(MP.."/doc/manual_api.lua")  -- external API
 
 -- Power networks
 dofile(MP.."/power/node_api.lua")

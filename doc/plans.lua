@@ -364,3 +364,9 @@ techage.ConstructionPlans["ta4_liquid_filter_top"] = {
 	{false, CONCR, false, false, false, CONCR},
 	{false, CONCR, CONCR, CONCR, CONCR, CONCR},
 }
+
+function techage.add_manual_plans(table_with_plans)
+	for name, tbl in pairs(table_with_plans) do
+		techage.ConstructionPlans[name] = tbl
+	end
+end
