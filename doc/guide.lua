@@ -72,7 +72,6 @@ local function formspec_help(meta, manual)
 	else
 		bttn = box
 	end
-	print(">>>>>>>>>>>", bttn, "<<<<<<<<<<<<<")
 	return "size[11,10]"..
 	default.gui_bg..
 	default.gui_bg_img..
