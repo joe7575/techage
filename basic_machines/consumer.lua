@@ -180,10 +180,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				if (meta:contains("node_number")) then
 					meta:set_string("node_number", "")
 				end
-				local number = "-"
-				if stage > 2 then
-					number = techage.add_node(pos, name_pas)
-				end
+				local number = techage.add_node(pos, name_pas, stage == 2)
 				if crd.power_netw then
 					crd.power_netw:after_place_node(pos)
 				end

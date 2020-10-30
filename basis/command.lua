@@ -207,9 +207,14 @@ end
 -- Add node to the techage lists.
 -- Function determines and returns the node position number,
 -- needed for message communication.
-function techage.add_node(pos, name)
+-- If TA2 node, return '-' instead of a real number, because
+-- TA2 nodes should not support number based commands.
+function techage.add_node(pos, name, is_ta2)
 	if item_handling_node(name) then
 		Tube:after_place_node(pos)
+	end
+	if is_ta2 then 
+		return "-"
 	end
 	local key = minetest.hash_node_position(pos)
 	return NumbersToBeRecycled[key] or get_number(pos, true)
@@ -222,13 +227,10 @@ function techage.remove_node(pos, oldnode, oldmetadata)
 	if number and tonumber(number) then
 		local key = minetest.hash_node_position(pos)
 		NumbersToBeRecycled[key] = number
-		local ninfo = NodeInfoCache[number] or update_nodeinfo(number)
-		if ninfo then
-			NodeInfoCache[number] = nil
-			if item_handling_node(ninfo.name) then
-				Tube:after_dig_node(pos)
-			end
-		end
+		NodeInfoCache[number] = nil
+	end
+	if oldnode and item_handling_node(oldnode.name) then
+		Tube:after_dig_node(pos)
 	end
 end
 
