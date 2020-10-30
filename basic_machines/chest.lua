@@ -178,7 +178,7 @@ techage.register_node({"techage:chest_ta2", "techage:chest_ta3"}, {
 
 local function formspec4(pos)
 	return "size[10,9]"..
-	"tabheader[0,0;tab;"..S("Inventory,Configuration")..";1;;true]"..
+	"tabheader[0,0;tab;"..S("Inventory,Pre-Assignment,Config")..";1;;true]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
@@ -189,9 +189,9 @@ local function formspec4(pos)
 	"listring[current_player;main]"
 end
 
-local function formspec4_cfg(pos)
+local function formspec4_pre(pos)
 	return "size[10,9]"..
-	"tabheader[0,0;tab;"..S("Inventory,Configuration")..";2;;true]"..
+	"tabheader[0,0;tab;"..S("Inventory,Pre-Assignment,Config")..";2;;true]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
@@ -201,8 +201,23 @@ local function formspec4_cfg(pos)
 	"listring[current_player;main]"
 end
 
+local function formspec4_cfg(pos)
+	local meta = minetest.get_meta(pos)
+	local label = meta:get_string("label") or ""
+	local public = dump((meta:get_int("public") or 0) == 1)
+	return "size[10,5]"..
+	"tabheader[0,0;tab;"..S("Inventory,Pre-Assignment,Config")..";3;;true]"..
+	default.gui_bg..
+	default.gui_bg_img..
+	default.gui_slots..
+	"field[0.5,1;9,1;label;"..S("Node label:")..";"..label.."]" ..
+	"checkbox[1,2;public;"..S("Allow public access to the chest")..";"..public.."]"..
+	"button_exit[3.5,4;3,1;exit;"..S("Save").."]"
+end
+
 local function ta4_allow_metadata_inventory_put(pos, listname, index, stack, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
+	local public = M(pos):get_int("public") == 1
+	if not public and minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
 	
@@ -214,7 +229,8 @@ local function ta4_allow_metadata_inventory_put(pos, listname, index, stack, pla
 end
 
 local function ta4_allow_metadata_inventory_take(pos, listname, index, stack, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
+	local public = M(pos):get_int("public") == 1
+	if not public and minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
 	
@@ -226,7 +242,8 @@ local function ta4_allow_metadata_inventory_take(pos, listname, index, stack, pl
 end
 
 local function ta4_allow_metadata_inventory_move(pos, from_list, from_index, to_list, to_index, count, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
+	local public = M(pos):get_int("public") == 1
+	if not public and minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
 	
@@ -276,9 +293,24 @@ minetest.register_node("techage:chest_ta4", {
 			mem.filter = nil
 			meta:set_string("formspec", formspec4(pos))
 		elseif fields.tab == "2" then
+			meta:set_string("formspec", formspec4_pre(pos))
+		elseif fields.tab == "3" then
 			meta:set_string("formspec", formspec4_cfg(pos))
 		elseif fields.quit == "true" then
 			mem.filter = nil
+		end
+		if fields.public then
+			meta:set_int("public", fields.public == "true" and 1 or 0)
+		end
+		if fields.exit then
+			local number = meta:get_string("node_number")
+			if fields.label ~= "" then
+				meta:set_string("infotext", minetest.formspec_escape(fields.label).." #"..number)
+			else
+				meta:set_string("infotext", S("TA4 Protected Chest").." "..number)
+			end
+			meta:set_string("label", fields.label)
+			meta:set_string("formspec", formspec4_cfg(pos))
 		end
 	end,
 	

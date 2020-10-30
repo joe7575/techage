@@ -36,14 +36,28 @@ function techage.liquid.formspec(pos, nvm)
 	if nvm.liquid and nvm.liquid.amount and nvm.liquid.amount > 0 and nvm.liquid.name then
 		itemname = nvm.liquid.name.." "..nvm.liquid.amount
 	end
-	return "size[4,2]"..
-		default.gui_bg..
-		default.gui_bg_img..
-		default.gui_slots..
-		"box[0,-0.1;3.8,0.5;#c6e8ff]"..
-		"label[1,-0.1;"..minetest.colorize("#000000", title).."]"..
-		help(3.4, -0.1)..
-		techage.item_image(1.5, 1, itemname)
+	local name = minetest.get_node(pos).name
+	if name == "techage:ta4_tank" then
+		local public = dump((M(pos):get_int("public") or 0) == 1)
+		return "size[5,3]"..
+			default.gui_bg..
+			default.gui_bg_img..
+			default.gui_slots..
+			"box[0,-0.1;4.8,0.5;#c6e8ff]"..
+			"label[1.5,-0.1;"..minetest.colorize("#000000", title).."]"..
+			help(4.4, -0.1)..
+			techage.item_image(2, 1, itemname)..
+			"checkbox[0.1,2.5;public;"..S("Allow public access to the tank")..";"..public.."]"
+	else
+		return "size[4,2]"..
+			default.gui_bg..
+			default.gui_bg_img..
+			default.gui_slots..
+			"box[0,-0.1;3.8,0.5;#c6e8ff]"..
+			"label[1,-0.1;"..minetest.colorize("#000000", title).."]"..
+			help(3.4, -0.1)..
+			techage.item_image(1.5, 1, itemname)
+	end
 end	
 
 function techage.liquid.is_empty(pos)
@@ -205,7 +219,8 @@ local function empty_on_punch(pos, nvm, full_container, item_count)
 end
 
 function techage.liquid.on_punch(pos, node, puncher, pointed_thing)
-	if minetest.is_protected(pos, puncher:get_player_name()) then
+	local public = M(pos):get_int("public") == 1
+	if not public and minetest.is_protected(pos, puncher:get_player_name()) then
 		return
 	end
 

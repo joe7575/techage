@@ -579,7 +579,7 @@ The TA4 8x2000 chest does not have a normal inventory like other chest, but has 
 
 If the chest is filled with a pusher, all stores fill from left to right. If all 8 stores are full and no further items can be added, further items are rejected.
 
-** Row function **
+**Row function**
 
 Several TA4 8x2000 chests can be connected to a large chest with more content. To do this, the chests must be placed in a row one after the other.
 

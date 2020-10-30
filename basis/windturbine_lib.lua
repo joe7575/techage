@@ -41,7 +41,7 @@ function techage.valid_place_for_windturbine(pos, player_name, num_turbines)
 	if data then
 		local name = minetest.get_biome_name(data.biome)
 		if not string.find(name, "ocean") then
-			chat_message(player_name, S("This is a "..name.." biome and no ocean!"))
+			chat_message(player_name, S("This is a").." "..name.." "..S("biome and no ocean!"))
 			return false
 		end
 	end

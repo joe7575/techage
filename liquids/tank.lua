@@ -217,6 +217,14 @@ minetest.register_node("techage:ta4_tank", {
 	tubelib2_on_update2 = function(pos, outdir, tlib2, node)
 		liquid.update_network(pos, outdir)
 	end,
+	on_receive_fields = function(pos, formname, fields, player)
+		if minetest.is_protected(pos, player:get_player_name()) then
+			return
+		end
+		if fields.public then
+			M(pos):set_int("public", fields.public == "true" and 1 or 0)
+		end
+	end,
 	on_timer = node_timer,
 	on_punch = liquid.on_punch,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
