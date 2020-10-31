@@ -20,11 +20,16 @@ local S = techage.S
 local DESCRIPTION = S("TA4 8x2000 Chest")
 local STACK_SIZE = 2000
 
+local function gen_stack(inv, idx)
+	inv[idx] = {name = "", count = 0}
+end
+
 local function gen_inv(nvm)
 	nvm.inventory = {}
 	for i = 1,8 do
-		nvm.inventory[i] = {name = "", count = 0}
+		gen_stack(nvm.inventory, i)
 	end
+	return nvm.inventory
 end
 
 local function repair_inv(nvm)
@@ -32,33 +37,26 @@ local function repair_inv(nvm)
 	for i = 1,8 do
 		local item = nvm.inventory[i]
 		if not item or type(item) ~= "table" 
-		or not item.name  or type(item.name)  ~= "string" 
-		or not item.count or type(item.count) ~= "number" then
-			nvm.inventory[i] = {name = "", count = 0}
+			or not item.name  or type(item.name)  ~= "string" or item.name == ""
+			or not item.count or type(item.count) ~= "number" or item.count < 1
+		then
+			gen_stack(nvm.inventory, i)
 		end
 	end
 end
 
 local function get_stack(nvm, idx)
 	nvm.inventory = nvm.inventory or {}
-	if nvm.inventory[idx] then
-		return nvm.inventory[idx]
-	end
-	nvm.inventory[idx] = {name = "", count = 0}
-	return nvm.inventory[idx]
+	return nvm.inventory[idx] or gen_stack(nvm.inventory, idx)
 end
 
 local function get_count(nvm, idx)
+	nvm.inventory = nvm.inventory or {}
 	if idx and idx > 0 then
-		nvm.inventory = nvm.inventory or {}
-		if nvm.inventory[idx] then
-			return nvm.inventory[idx].count or 0
-		else
-			return 0
-		end
+		return nvm.inventory[idx] and nvm.inventory[idx].count or 0
 	else
 		local count = 0
-		for _,item in ipairs(nvm.inventory or {}) do
+		for _,item in ipairs(nvm.inventory) do
 			count = count + item.count or 0
 		end
 		return count
@@ -68,9 +66,7 @@ end
 local function get_itemstring(nvm, idx)
 	if idx and idx > 0 then
 		nvm.inventory = nvm.inventory or {}
-		if nvm.inventory[idx] then
-			return nvm.inventory[idx].name or ""
-		end
+		return nvm.inventory[idx] and nvm.inventory[idx].name or ""
 	end
 	return ""
 end
@@ -97,11 +93,11 @@ local function inv_state(nvm)
 end
 
 local function max_stacksize(item_name)
-	local ndef = minetest.registered_nodes[item_name] or minetest.registered_items[item_name] or minetest.registered_craftitems[item_name]
-	if ndef then 
-		return ndef.stack_max
-	end
-	return 0
+	-- It is sufficient to use minetest.registered_items as all registration
+	-- functions (node, craftitems, tools) add the definitions there.
+	local ndef = minetest.registered_items[item_name]
+	-- Return 1 as fallback so that slots with unknown item scan be emptied.
+	return ndef and ndef.stack_max or 1
 end
 
 local function get_stacksize(pos)
@@ -112,102 +108,159 @@ local function get_stacksize(pos)
 	return size
 end
 
--- Sort the items into the nvm inventory
-local function sort_in(pos, nvm, stack)
-	local old_counts = {}
-	local orig_count = stack:get_count()
-	for idx,item in ipairs(nvm.inventory or {}) do
-		if item.name and (item.name == "" or item.name == stack:get_name()) then
-			local count = math.min(stack:get_count(), get_stacksize(pos) - item.count)
-			old_counts[idx] = item.count -- store old value
-			item.count = item.count + count
-			item.name = stack:get_name()
-			stack:set_count(stack:get_count() - count)
-			if stack:get_count() == 0 then
-				return true
-			end
-		end
+-- Returns a boolean that indicates if an itemstack and nvmstack can be combined.
+-- The second return value is a string describing the reason.
+-- This function guarantees not to modify any of both stacks.
+local function doesItemStackMatchNvmStack(itemstack, nvmstack)
+	if itemstack:get_count() == 0 or nvmstack.count == 0 then
+		return true, "Empty stack"
 	end
-	-- restore old values
-	for idx,cnt in pairs(old_counts) do
-		nvm.inventory[idx].count = cnt
+	if nvmstack.name and nvmstack.name ~= "" and nvmstack.name ~= itemstack:get_name() then
+		return false, "Mismatching names"
 	end
-	stack:set_count(orig_count)
-	return false
+
+	-- The following seems to be the most reliable approach to compare meta.
+	local nvm_meta = ItemStack():get_meta()
+	nvm_meta:from_table(minetest.deserialize(nvmstack.meta))
+	if not nvm_meta:equals(itemstack:get_meta()) then
+		return false, "Mismatching meta"
+	end
+	if (nvmstack.wear or 0) ~= itemstack:get_wear() then
+		return false, "Mismatching wear"
+	end
+	return true, "Stacks match"
 end
 
-local function move_items_to_stack(item, stack, num)
-	item.count = item.count - num
-	stack.count = stack.count + num
-	if stack.count > 0 then
-		stack.name = item.name
-	end
-	if item.count == 0 then
-		item.name = "" -- empty
-	end
-	return stack
-end	
 
-local function get_item(pos, nvm, item_name, count)
-	local stack = {count = 0}
-	nvm.inventory = nvm.inventory or {}
-	
-	if item_name then
-		-- Take specified items from the chest
-		for _,item in ipairs(nvm.inventory) do
-			if item.name == item_name then
-				local num = math.min(item.count, count - stack.count, max_stacksize(item.name))
-				if M(pos):get_int("assignment") == 1 and num == item.count then
-					-- never take the last item
-					num = num - 1
-				end
-				stack = move_items_to_stack(item, stack, num)
-				if stack.count == count then
-					return ItemStack(stack)
-				end
-			end
-		end
-	elseif M(pos):get_int("priority") == 1 then
-		-- Take any items. The position within the inventory is from right to left
-		for idx = 8,1,-1 do
-			local item = nvm.inventory[idx]
-			if item.name ~= "" and (stack.name == nil or stack.name == item.name) then
-				local num = math.min(item.count, count - stack.count, max_stacksize(item.name))
-				if M(pos):get_int("assignment") == 1 and num == item.count then
-					-- never take the last item
-					num = num - 1
-				end
-				stack = move_items_to_stack(item, stack, num)
-				if stack.count == count then
-					return ItemStack(stack)
-				end
-			end
-		end
-	else
-		-- Take any items. The position within the inventory
-		-- is incremented each time so that different item stacks will be considered.
-		local mem = techage.get_mem(pos)
-		mem.startpos = mem.startpos or 1
-		for idx = mem.startpos, mem.startpos + 8 do
-			idx = (idx % 8) + 1
-			local item = nvm.inventory[idx]
-			if item.name ~= "" and (stack.name == nil or stack.name == item.name) then
-				local num = math.min(item.count, count - stack.count, max_stacksize(item.name))
-				if M(pos):get_int("assignment") == 1 and num == item.count then
-					-- never take the last item
-					num = num - 1
-				end
-				stack = move_items_to_stack(item, stack, num)
-				if stack.count == count then
-					mem.startpos = idx
-					return ItemStack(stack)
-				end
-			end
-			mem.startpos = idx
-		end
+-- Generic function for adding items to the 8x2000 Chest
+-- This function guarantees not to modify the itemstack.
+-- The number of items that were added to the chest is returned.
+local function add_to_chest(pos, input_stack, idx)
+	local nvm = techage.get_nvm(pos)
+	local nvm_stack = get_stack(nvm, idx)
+	if input_stack:get_count() == 0 then
+		return 0
 	end
-	if stack.count > 0 then
-		return ItemStack(stack)
+	if not doesItemStackMatchNvmStack(input_stack, nvm_stack) then
+		return 0
+	end
+	local count = math.min(input_stack:get_count(), get_stacksize(pos) - (nvm_stack.count or 0))
+	if nvm_stack.count == 0 then
+		nvm_stack.name = input_stack:get_name()
+		nvm_stack.meta = minetest.serialize(input_stack:get_meta():to_table())
+		nvm_stack.wear = input_stack:get_wear()
+	end
+	nvm_stack.count = nvm_stack.count + count
+	return count
+end
+
+local function stackOrNil(stack)
+	if stack and stack.get_count and stack:get_count() > 0 then
+		return stack
+	end
+	return nil
+end
+
+-- Generic function for taking items from the 8x2000 Chest
+-- output_stack is directly modified; but nil can also be supplied.
+-- The resulting output_stack is returned from the function.
+-- keep_assignment indicates if the meta information for this function should be considered (manual vs. tubes).
+local function take_from_chest(pos, idx, output_stack, max_total_count, keep_assignment)
+	local nvm = techage.get_nvm(pos)
+	local nvm_stack = get_stack(nvm, idx)
+	output_stack = output_stack or ItemStack()
+	local assignment_count = keep_assignment and M(pos):get_int("assignment") == 1 and 1 or 0
+	local count = math.min(nvm_stack.count - assignment_count, max_stacksize(nvm_stack.name))
+	if max_total_count then
+		count = math.min(count, max_total_count - output_stack:get_count())
+	end
+	if count < 1 then
+		return stackOrNil(output_stack)
+	end
+	if not doesItemStackMatchNvmStack(output_stack, nvm_stack) then
+		return stackOrNil(output_stack)
+	end
+	output_stack:add_item(ItemStack({
+		name = nvm_stack.name,
+		count = count,
+		wear = nvm_stack.wear,
+	}))
+	output_stack:get_meta():from_table(minetest.deserialize(nvm_stack.meta))
+	nvm_stack.count = nvm_stack.count - count
+	if nvm_stack.count == 0 then
+		gen_stack(nvm.inventory or {}, idx)
+	end
+	return stackOrNil(output_stack)
+end
+
+-- Function for adding items to the 8x2000 Chest via automation, e.g. pushers
+local function tube_add_to_chest(pos, input_stack)
+	local nvm = techage.get_nvm(pos)
+	nvm.inventory = nvm.inventory or {}
+
+	-- Backup some values needed for restoring the old
+	-- state if items can't fully be added to chest.
+	local orig_count = input_stack:get_count()
+	local backup = table.copy(nvm.inventory)
+
+	for idx = 1,8 do
+		input_stack:take_item(add_to_chest(pos, input_stack, idx))
+	end
+
+	if input_stack:get_count() > 0 then
+		nvm.inventory = backup -- Restore old nvm inventory
+		input_stack:set_count(orig_count) -- Restore input_stack
+		return false -- No items were added to chest
+	else
+		return true -- Items were added successfully
+	end
+end
+
+-- Function for taking items from the 8x2000 Chest via automation, e.g. pushers
+local function tube_take_from_chest(pos, item_name, count)
+	local nvm = techage.get_nvm(pos)
+	local mem = techage.get_mem(pos)
+	nvm.inventory = nvm.inventory or {}
+	mem.startpos = mem.startpos or 1
+	local prio = M(pos):get_int("priority") == 1
+	local startpos = prio and 8 or mem.startpos
+	local endpos = prio and 1 or mem.startpos + 8
+	local step = prio and -1 or 1
+	local itemstack = ItemStack()
+	for idx = startpos,endpos,step do
+		idx = ((idx - 1) % 8) + 1
+		local nvmstack = get_stack(nvm, idx)
+		if not item_name or item_name == nvmstack.name then
+			take_from_chest(pos, idx, itemstack, count - itemstack:get_count(), true)
+			if itemstack:get_count() == count then
+				mem.startpos = idx + 1
+				return itemstack
+			end
+		end
+		mem.startpos = idx + 1
+	end
+	return stackOrNil(itemstack)
+end
+
+-- Function for manually adding items to the 8x2000 Chest via the formspec
+local function inv_add_to_chest(pos, idx)
+	local inv = M(pos):get_inventory()
+	local inv_stack = inv:get_stack("main", idx)
+	local count = add_to_chest(pos, inv_stack, idx)
+	inv_stack:set_count(inv_stack:get_count() - count)
+	inv:set_stack("main", idx, inv_stack)
+end
+
+-- Function for manually taking items from the 8x2000 Chest via the formspec
+local function inv_take_from_chest(pos, idx)
+	local inv = M(pos):get_inventory()
+	local inv_stack = inv:get_stack("main", idx)
+	if inv_stack:get_count() > 0 then
+		return
+	end
+	local output_stack = take_from_chest(pos, idx)
+	if output_stack then
+		inv:set_stack("main", idx, output_stack)
 	end
 end
 
@@ -218,9 +271,15 @@ local function formspec_container(x, y, nvm, inv)
 		tbl[#tbl+1] = "box["..(xpos - 0.03)..",0;0.86,0.9;#808080]"
 		local stack = get_stack(nvm, i)
 		if stack.name ~= "" then
-			local itemname = stack.name.." "..stack.count
+			local itemstack = ItemStack({
+				name = stack.name,
+				count = stack.count,
+				wear = stack.wear,
+			})
+			itemstack:get_meta():from_table(minetest.deserialize(stack.meta))
+			local itemname = itemstack:to_string()
 			--tbl[#tbl+1] = "item_image["..xpos..",1;1,1;"..itemname.."]"
-			tbl[#tbl+1] = techage.item_image(xpos, 0, itemname)
+			tbl[#tbl+1] = techage.item_image(xpos, 0, itemname, stack.count)
 		end
 		if inv:get_stack("main", i):get_count() == 0 then
 			tbl[#tbl+1] = "image_button["..xpos..",1;1,1;techage_form_get_arrow.png;get"..i..";]"
@@ -366,47 +425,6 @@ local function on_rightclick(pos, node, clicker)
 	end
 end
 
--- take items from chest
-local function move_from_nvm_to_inv(pos, idx)
-	local nvm = techage.get_nvm(pos)
-	local inv = M(pos):get_inventory()
-	local inv_stack = inv:get_stack("main", idx)
-	local nvm_stack = get_stack(nvm, idx)
-	
-	if nvm_stack.count > 0 and inv_stack:get_count() == 0 then
-		local count = math.min(nvm_stack.count, max_stacksize(nvm_stack.name))
-		nvm_stack.count = nvm_stack.count - count
-		inv:set_stack("main", idx, {name = nvm_stack.name, count = count})
-		if nvm_stack.count == 0 then
-			nvm_stack.name = ""
-		end
-	end
-end
-
--- add items to chest
-local function move_from_inv_to_nvm(pos, idx)
-	local nvm = techage.get_nvm(pos)
-	local inv = M(pos):get_inventory()
-	local inv_stack = inv:get_stack("main", idx)
-	local nvm_stack = get_stack(nvm, idx)
-
-	if inv_stack:get_count() > 0 then
-		-- Don't handle items with meta or wear information because it would get lost.
-		local meta_table = inv_stack:get_meta():to_table()
-		if meta_table ~= nil and next(meta_table.fields) ~= nil or inv_stack:get_wear() ~= 0 then
-			return
-		end
-
-		if nvm_stack.count == 0 or nvm_stack.name == inv_stack:get_name() then
-			local count = math.min(inv_stack:get_count(), get_stacksize(pos) - nvm_stack.count)
-			nvm_stack.count = nvm_stack.count + count
-			nvm_stack.name = inv_stack:get_name()
-			inv_stack:set_count(inv_stack:get_count() - count)
-			inv:set_stack("main", idx, inv_stack)
-		end
-	end
-end
-
 local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
@@ -414,10 +432,10 @@ local function on_receive_fields(pos, formname, fields, player)
 	
 	for i = 1,8 do
 		if fields["get"..i] ~= nil then
-			move_from_nvm_to_inv(pos, i)
+			inv_take_from_chest(pos, i)
 			break
 		elseif fields["add"..i] ~= nil then
-			move_from_inv_to_nvm(pos, i)
+			inv_add_to_chest(pos, i)
 			break
 		end
 	end
@@ -534,24 +552,21 @@ minetest.register_node("techage:ta4_chest_dummy", {
 
 techage.register_node({"techage:ta4_chest"}, {
 	on_pull_item = function(pos, in_dir, num, item_name)
-		local nvm = techage.get_nvm(pos)
-		local res = get_item(pos, nvm, item_name, num)
+		local res = tube_take_from_chest(pos, item_name, num)
 		if techage.is_activeformspec(pos) then
 			M(pos):set_string("formspec", formspec(pos))
 		end
 		return res
 	end,
 	on_push_item = function(pos, in_dir, stack)
-		local nvm = techage.get_nvm(pos)
-		local res = sort_in(pos, nvm, stack)
+		local res = tube_add_to_chest(pos, stack)
 		if techage.is_activeformspec(pos) then
 			M(pos):set_string("formspec", formspec(pos))
 		end
 		return res
 	end,
 	on_unpull_item = function(pos, in_dir, stack)
-		local nvm = techage.get_nvm(pos)
-		local res = sort_in(pos, nvm, stack)
+		local res = tube_add_to_chest(pos, stack)
 		if techage.is_activeformspec(pos) then
 			M(pos):set_string("formspec", formspec(pos))
 		end
