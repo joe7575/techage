@@ -97,6 +97,7 @@ end
 
 local function flame(pos, height, heat, first_time)
 	local idx
+	local playername = minetest.get_meta(pos):get_string("playername")
 	pos = {x=pos.x, y=pos.y+height, z=pos.z}
 	for idx=heat,1,-1 do
 		pos = {x=pos.x, y=pos.y+1, z=pos.z}
@@ -111,6 +112,9 @@ local function flame(pos, height, heat, first_time)
 			else
 				techage.update_heat(pos)
 			end
+			return
+		end
+		if minetest.is_protected(pos, playername) then
 			return
 		end
 		minetest.add_node(pos, {name = "techage:flame"..math.min(idx,7)})
