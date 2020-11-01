@@ -243,7 +243,7 @@ local function collect_network_nodes(pos, outdir, tlib2)
 		end
 		for _,ntype in ipairs(ntypes) do
 			if not netw[ntype] then netw[ntype] = {} end
-			netw[ntype][#netw[ntype] + 1] = {pos = pos, indir = indir, nominal = ndef.nominal or 0}
+			netw[ntype][#netw[ntype] + 1] = {pos = pos, indir = indir, nominal = ndef.nominal}
 		end
 	end)
 	netw.best_before = minetest.get_gametime() + BEST_BEFORE

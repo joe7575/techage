@@ -28,6 +28,7 @@ techage.manual_DE.aTitel = {
   "3,TA2 Schwungrad / Flywheel",
   "3,TA2 Dampfleitungen / Steam Pipe",
   "3,TA2 Antriebsachsen / TA2 Drive Axle",
+  "3,TA2 Stromgenerator / TA2 Power Generator",
   "2,Items schieben und sortieren",
   "3,Röhren / TechAge Tube",
   "3,TA2 Schieber / Pusher",
@@ -65,6 +66,8 @@ techage.manual_DE.aTitel = {
   "3,TA Stromschalterbox / Power Switch Box",
   "3,TA3 Kleiner Stromgenerator / Tiny Power Generator",
   "3,TA3 Akku Block /  Akku Box",
+  "3,TA3 Strom Terminal / Power Terminal",
+  "3,TA3 Elektromotor / TA3 Electric Motor",
   "3,TA3 Strom Terminal / Power Terminal",
   "2,TA3 Industrieofen",
   "3,TA3 Ofen-Ölbrenner / Furnace Oil Burner",
@@ -399,6 +402,14 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Um Lampen oder andere Stromverbraucher an einer Dampfmaschine betreiben zu können\\, wird der TA2 Stromgenerator benötigt. Der TA2 Stromgenerator muss auf einer Seite mit Antriebsachsen verbunden werden und liefert dann auf der anderen Seite elektrischen Strom.\n"..
+  "\n"..
+  "Wird der Stromgenerator nicht mit ausreichend Kraft versorgt\\, geht er in einen Fehlerzustand und muss über einen Rechtsklick wieder aktiviert werden.\n"..
+  "\n"..
+  "Das Stromgenerator nimmt primär max. 25 ku an Achsenkraft auf und gibt sekundär max. 24 ku als Strom wieder ab. Er verbraucht also ein ku für die Umwandlung.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Um Gegenstände (Items) von einer Verarbeitungsstation zur nächsten weiter zu transportieren\\, werden Schieber und Röhren verwendet. Siehe Plan.\n"..
   "\n"..
   "\n"..
@@ -638,6 +649,21 @@ techage.manual_DE.aText = {
   "Der Akku Block ist eine sekundäre Stromquelle. Das bedeutet\\, bei Strombedarf werden zuerst die Generatoren genutzt. Nur wenn der Strom im Netz nicht ausreicht\\, springt der Akku Block ein. Das Gleiche gilt auch für die Stromaufnahme. Daher kann auch kein Akku mit einem anderen Akku geladen werden.\n"..
   "Der Akku liefert 10 ku bzw. nimmt 10 ku auf.\n"..
   "Bei Volllast kann ein Akku 400 s lang Strom aufnehmen und wenn er voll ist\\, auch wieder abgeben. Dies entspricht 8 h Spielzeit bei einem normalen Spieltag von 20 min.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Das Strom-Terminal muss mit dem Stromnetz verbunden werden. Es zeigt Daten aus dem Stromnetz an.\n"..
+  "\n"..
+  "In der oberen Hälfte werden nur die Daten eines ausgewählten Typs ausgegeben. Wird als Typ bspw. \"Kraftwerk\" gewählt\\, so werden nur die Daten von Öl- und Kohlekraftwerken gesammelt und ausgegeben. Links werden die Daten von Generatoren (Stromabgabe) und rechts die Daten von Energiespeichern (Stromaufnahme) ausgegeben. Beim Akkublocks bspw. wird beides ausgegeben\\, da der Akku Strom aufnehmen und abgeben kann.\n"..
+  "\n"..
+  "In der unteren Hälfte werden die Daten aller Generatoren und Speichersystemen des ganzen Stromnetzen zusammengefasst ausgegeben.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Um TA2 Maschinen über das Stromnetz betreiben zu können\\, wird der TA3 Elektromotor benötigt. Dieser wandelt Strom in Achsenkraft um.\n"..
+  "Wird der Elektromotor nicht mit ausreichend Strom versorgt\\, geht er in einen Fehlerzustand und muss über einen Rechtsklick wieder aktiviert werden.\n"..
+  "\n"..
+  "Das Elektromotor nimmt primär max. 40 ku an Strom auf und gibt sekundär max. 39 ku als Achsenkraft wieder ab. Er verbraucht also ein ku für die Umwandlung.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1160,7 +1186,7 @@ techage.manual_DE.aText = {
   "  - Hülle mit 7x7x7 Concrete Blocks\\, gefüllt mit 125 Gravel\\, Speicherkapazität: 2\\,5 Tage bei 60 ku\n"..
   "  - Hülle mit 9x9x9 Concrete Blocks\\, gefüllt mit 343 Gravel\\, Speicherkapazität: 6\\,5 Tage bei 60 ku\n"..
   "\n"..
-  "In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man\\, ob der Speicher mehr als 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken\\, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung achten (der Pfeil bei Block 1 muss zur Turbine zeigen).\n"..
+  "In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man\\, ob der Speicher mehr als 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken\\, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung zu achten (der Pfeil bei Block 1 muss zur Turbine zeigen).\n"..
   "\n"..
   "Entgegen dem Plan rechts müssen die Anschlüsse am Speicherblock auf gleicher Ebene sein (horizontal angeordnet\\, also nicht unten und oben). Die Rohrzuläufe (TA4 Pipe Inlet) müssen genau in der Mitte der Wand sein und stehen sich damit gegenüber. Als Röhren kommen die gelbel TA4 Röhren zum Einsatz. Die TA3 Dampfrohre können hier nicht verwendet werden.\n"..
   "Sowohl der Generator als auch der Wärmetauscher haben einen Stromanschluss und müssen mit dem Stromnetz verbunden werden.\n"..
@@ -1572,6 +1598,7 @@ techage.manual_DE.aItemName = {
   "ta2_flywheel",
   "ta2_steampipe",
   "ta2_driveaxle",
+  "ta2_generator",
   "",
   "tube",
   "ta2_pusher",
@@ -1609,6 +1636,8 @@ techage.manual_DE.aItemName = {
   "ta3_powerswitchbox",
   "ta3_tinygenerator",
   "ta3_akkublock",
+  "ta3_powerterminal",
+  "ta3_motor",
   "ta3_powerterminal",
   "",
   "ta3_furnacefirebox",
@@ -1764,6 +1793,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
   "itemtransport",
   "",
   "",
@@ -1783,6 +1813,8 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "coalpowerstation",
+  "",
+  "",
   "",
   "",
   "",

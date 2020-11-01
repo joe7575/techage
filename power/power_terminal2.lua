@@ -37,6 +37,7 @@ local Generators = {
 	S("Energy storage"),
 	S("Fuel cell"),
 	S("Electrolyzer"),
+	S("TA2 Generator"),
 }
 
 local Storage = {
@@ -55,6 +56,7 @@ local GeneratorPerformances = {
 	60,   -- S("Energy storage")
 	25,   -- S("Fuel cell")
 	30,   -- S("Electrolyzer")
+	24,   -- S("TA2 Generator")
 }
 
 --

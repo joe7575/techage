@@ -48,6 +48,7 @@ techage.Items = {
 	ta2_chest = "techage:chest_ta2",
 	ta2_forceload = "techage:forceload",
 	ta2_driveaxle = "techage:axle",
+        ta2_generator = "techage:ta2_generator_off",
 	---------------------
 	techage_ta3 = "techage_ta3.png",
 	techage_ta31 = "techage_ta3b.png",
@@ -114,6 +115,7 @@ techage.Items = {
 	ta3_pipe_wall_entry = "techage:ta3_pipe_wall_entry",
 	ta3_mesecons_converter = "techage:ta3_mesecons_converter",
 	ta3_valve = "techage:ta3_valve_closed",
+        ta3_motor = "techage:ta3_motor_off",
 	----------------------------
 	techage_ta4 = "techage_ta4.png",
 	ta4_windturbine = "techage:ta4_wind_turbine",

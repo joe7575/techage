@@ -198,6 +198,27 @@ In der unteren Hälfte werden die Daten aller Generatoren und Speichersystemen d
 [ta3_powerterminal|image]
 
 
+### TA3 Elektromotor / TA3 Electric Motor
+
+Um TA2 Maschinen über das Stromnetz betreiben zu können, wird der TA3 Elektromotor benötigt. Dieser wandelt Strom in Achsenkraft um.
+Wird der Elektromotor nicht mit ausreichend Strom versorgt, geht er in einen Fehlerzustand und muss über einen Rechtsklick wieder aktiviert werden.
+
+Das Elektromotor nimmt primär max. 40 ku an Strom auf und gibt sekundär max. 39 ku als Achsenkraft wieder ab. Er verbraucht also ein ku für die Umwandlung.
+
+[ta3_motor|image]
+
+
+### TA3 Strom Terminal / Power Terminal
+
+Das Strom-Terminal muss mit dem Stromnetz verbunden werden. Es zeigt Daten aus dem Stromnetz an.
+
+In der oberen Hälfte werden nur die Daten eines ausgewählten Typs ausgegeben. Wird als Typ bspw. "Kraftwerk" gewählt, so werden nur die Daten von Öl- und Kohlekraftwerken gesammelt und ausgegeben. Links werden die Daten von Generatoren (Stromabgabe) und rechts die Daten von Energiespeichern (Stromaufnahme) ausgegeben. Beim Akkublocks bspw. wird beides ausgegeben, da der Akku Strom aufnehmen und abgeben kann.
+
+In der unteren Hälfte werden die Daten aller Generatoren und Speichersystemen des ganzen Stromnetzen zusammengefasst ausgegeben.
+
+[ta3_powerterminal|image]
+
+
 ## TA3 Industrieofen
 
 Der TA3 Industrieofen dient als Ergänzung zu normalen Ofen (furnace). Damit können alle Waren mit "Koch" Rezepten, auch im Industrieofen hergestellt werden. Es gibt aber auch spezielle Rezepte, die nur im Industrieofen hergestellt werden können.

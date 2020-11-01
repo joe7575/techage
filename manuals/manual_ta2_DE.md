@@ -70,6 +70,17 @@ Die Antriebsachsen dienen zur Kraftübertragung von der Dampfmaschine zu anderen
 
 [ta2_driveaxle|image]
 
+### TA2 Stromgenerator / TA2 Power Generator
+
+Um Lampen oder andere Stromverbraucher an einer Dampfmaschine betreiben zu können, wird der TA2 Stromgenerator benötigt. Der TA2 Stromgenerator muss auf einer Seite mit Antriebsachsen verbunden werden und liefert dann auf der anderen Seite elektrischen Strom.
+
+Wird der Stromgenerator nicht mit ausreichend Kraft versorgt, geht er in einen Fehlerzustand und muss über einen Rechtsklick wieder aktiviert werden.
+
+Das Stromgenerator nimmt primär max. 25 ku an Achsenkraft auf und gibt sekundär max. 24 ku als Strom wieder ab. Er verbraucht also ein ku für die Umwandlung.
+
+[ta2_generator|image]
+
+
 
 ## Items schieben und sortieren
 

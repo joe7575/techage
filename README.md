@@ -77,6 +77,14 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2020-11-01  V0.25**
+- Pull request #37: Trowel: Add protection support (from Thomas-S)
+- Pull request #38: Charcoal Pile: Ignore "ignore" nodes (from Thomas-S)
+- Autocrafter: Add register function for uncraftable items
+- Fix bug: Tubes do not recognize when TA2 nodes are added/removed
+- TA4 chest/tank: Add 'public' checkbox to allow public access
+- Add nodes TA2 Power Generator and TA3 Electric Motor
+
 **2020-10-20  V0.24**
 - Pull request #27: Liquid Tanks: Add protection support (from Thomas-S)
 - Pull request #28: Quarry: Improve digging behaviour (from Thomas-S)

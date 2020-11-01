@@ -71,6 +71,18 @@ The drive axles are used to transmit power from the steam engine to other machin
 
 [ta2_driveaxle|image]
 
+
+### TA2 Power Generator
+
+The TA2 Power Generator is required to operate lamps or other power consumers on a steam engine. The TA2 Power Generator has to be connected to drive axles on one side and then supplies electricity on the other side.
+
+If the Power Generator is not supplied with sufficient power, it goes into an error state and must be reactivated with a right-click.
+
+The Power Generator takes max. 25 ku of axle power and provides on the other side max. 24 ku as electricity. So he consumes one ku for the conversion.
+
+[ta2_generator|image]
+
+
 ## Push and sort items
 
 In order to transport objects from one processing station to the next, pushers and tubes are used. See plan.

@@ -27,7 +27,7 @@ local function start_consumer(tbl, tlib_type)
 		if def and def["cstate"] == NOPOWER and (def["calive"] or 0) > 0 then
 			local ndef = net_def(v.pos, tlib_type)
 			def["cstate"] = RUNNING
-			def["taken"] = v.nominal or 0
+			def["taken"] = v.nominal or def.curr_power or 0
 			if ndef.on_power then
 				ndef.on_power(v.pos, tlib_type)
 			end
@@ -73,10 +73,10 @@ local function get_consumer_sum(tbl, tlib_type, cycle_time)
 		if def and def["cstate"] ~= STOPPED then
 			def["calive"] = (def["calive"] or 1) - cycle_time/2
 			if def["calive"] >= 0 then
-				sum = sum + v.nominal
+				sum = sum + (v.nominal or def.curr_power or 0)
 			end
 		end
-		--print(N(v.pos), P2S(v.pos), def["cstate"], def["calive"])
+		--print(N(v.pos), P2S(v.pos), def["cstate"], def["calive"], sum)
 	end
 	return sum
 end
@@ -155,7 +155,7 @@ function techage.power.get_con1_sum(network, tlib_type)
 		local nvm = techage.get_nvm(v.pos)
 		local def = nvm[tlib_type] -- power related network data
 		if def and def["cstate"] ~= STOPPED then
-			sum = sum + v.nominal
+			sum = sum + (v.nominal or def.curr_power or 0)
 		end
 	end
 	return sum

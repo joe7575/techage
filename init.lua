@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 0.23
+techage.version = 0.25
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -217,6 +217,8 @@ dofile(MP.."/oil/reboiler.lua")
 -- TA3 power based
 dofile(MP.."/ta3_power/tiny_generator.lua")
 dofile(MP.."/ta3_power/akkubox.lua")
+dofile(MP.."/ta3_power/axle2power.lua")
+dofile(MP.."/ta3_power/power2axle.lua")
 
 -- Digtron
 if minetest.global_exists("digtron") then

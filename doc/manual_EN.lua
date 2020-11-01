@@ -28,6 +28,7 @@ techage.manual_EN.aTitel = {
   "3,TA2 Flywheel",
   "3,TA2 Steam Pipes",
   "3,TA2 Drive Axle / TA2 Gearbox",
+  "3,TA2 Power Generator",
   "2,Push and sort items",
   "3,TechAge Tube",
   "3,TA2 Pusher",
@@ -66,6 +67,7 @@ techage.manual_EN.aTitel = {
   "3,TA3 Small Power Generator",
   "3,TA3 Battery Block",
   "3,TA3 Power Terminal",
+  "3,TA3 Electric Motor",
   "2,TA3 Industrial Furnace",
   "3,TA3 Furnace Oil Burner",
   "3,TA3 Furnace Top",
@@ -399,6 +401,14 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The TA2 Power Generator is required to operate lamps or other power consumers on a steam engine. The TA2 Power Generator has to be connected to drive axles on one side and then supplies electricity on the other side.\n"..
+  "\n"..
+  "If the Power Generator is not supplied with sufficient power\\, it goes into an error state and must be reactivated with a right-click.\n"..
+  "\n"..
+  "The Power Generator takes max. 25 ku of axle power and provides on the other side max. 24 ku as electricity. So he consumes one ku for the conversion.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "In order to transport objects from one processing station to the next\\, pushers and tubes are used. See plan.\n"..
   "\n"..
   "\n"..
@@ -646,6 +656,13 @@ techage.manual_EN.aText = {
   "Only the data of a selected type are output in the upper half. If\\, for example\\, \"Power station\" is selected as the type\\, only the data from oil and coal-fired power stations are collected and output. The data from generators (power delivery) and the data from energy storage devices (power consumption) are output on the left. In the case of the battery blocl\\, for example\\, both are output because the battery can draw and deliver power.\n"..
   "\n"..
   "In the lower half\\, the data of all generators and storage systems of the entire electricity network are summarized.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The TA3 Electric Motor is required in order to be able to operate TA2 machines via the power grid. The TA3 Electric Motor converts electricity into axle power.\n"..
+  "If the electric motor is not supplied with sufficient power\\, it goes into an fault state and must be reactivated with a right-click.\n"..
+  "\n"..
+  "The electric motor takes max. 40 ku of electricity and provides on the other side max. 39 ku as axle power. So he consumes one ku for the conversion.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1471,7 +1488,7 @@ techage.manual_EN.aText = {
   "\n"..
   "If the chest is filled with a pusher\\, all stores fill from left to right. If all 8 stores are full and no further items can be added\\, further items are rejected.\n"..
   "\n"..
-  "* Row function *\n"..
+  "*Row function*\n"..
   "\n"..
   "Several TA4 8x2000 chests can be connected to a large chest with more content. To do this\\, the chests must be placed in a row one after the other.\n"..
   "\n"..
@@ -1563,6 +1580,7 @@ techage.manual_EN.aItemName = {
   "ta2_flywheel",
   "ta2_steampipe",
   "ta2_driveaxle",
+  "ta2_generator",
   "",
   "tube",
   "ta2_pusher",
@@ -1601,6 +1619,7 @@ techage.manual_EN.aItemName = {
   "ta3_tinygenerator",
   "ta3_akkublock",
   "ta3_powerterminal",
+  "ta3_motor",
   "",
   "ta3_furnacefirebox",
   "ta3_furnace",
@@ -1755,6 +1774,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
+  "",
   "itemtransport",
   "",
   "",
@@ -1774,6 +1794,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "coalpowerstation",
+  "",
   "",
   "",
   "",

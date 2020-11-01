@@ -198,6 +198,18 @@ In the lower half, the data of all generators and storage systems of the entire 
 [ta3_powerterminal|image]
 
 
+### TA3 Electric Motor
+
+The TA3 Electric Motor is required in order to be able to operate TA2 machines via the power grid. The TA3 Electric Motor converts electricity into axle power.
+If the electric motor is not supplied with sufficient power, it goes into an fault state and must be reactivated with a right-click.
+
+The electric motor takes max. 40 ku of electricity and provides on the other side max. 39 ku as axle power. So he consumes one ku for the conversion.
+
+[ta3_motor|image]
+
+
+
+
 ## TA3 Industrial Furnace
 
 The TA3 industrial furnace serves as a supplement to normal furnaces. This means that all goods can be produced with "cooking" recipes, even in an industrial furnace. But there are also special recipes that can only be made in an industrial furnace.
