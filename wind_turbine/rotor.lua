@@ -53,7 +53,7 @@ local function add_rotor(pos, nvm, player_name)
 	
 	if not techage.valid_place_for_windturbine(pos, nil, 1) then
 		nvm.error = true
-		M(pos):set_string("infotext", S("TA4 Wind Turbine")..": "..S("Invalid position!"))
+		M(pos):set_string("infotext", S("TA4 Wind Turbine")..": "..S("Not suitable position!"))
 		return
 	end
 	
