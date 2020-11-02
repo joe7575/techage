@@ -26,6 +26,8 @@ end
 
 function techage.mark_region(name, pos1, pos2, owner, secs)
 
+	if not name or not pos1 or not pos2 then return end
+	
 	techage.unmark_region(name)
 	
 	local thickness = 0.2

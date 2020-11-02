@@ -96,7 +96,7 @@ local function max_stacksize(item_name)
 	-- It is sufficient to use minetest.registered_items as all registration
 	-- functions (node, craftitems, tools) add the definitions there.
 	local ndef = minetest.registered_items[item_name]
-	-- Return 1 as fallback so that slots with unknown item scan be emptied.
+	-- Return 1 as fallback so that slots with unknown items can be emptied.
 	return ndef and ndef.stack_max or 1
 end
 

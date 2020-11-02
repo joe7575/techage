@@ -7,10 +7,11 @@ Renewable energy sources such as wind, sun and biofuels help you to leave the oi
 
 ## Wind Turbine
 
-A wind turbine always delivers electricity when there is wind. There is no wind in the game, but the mod simulates this by only turning the wind turbines in the morning (5:00 a.m. - 9:00 a.m.) and in the evening (5:00 p.m. - 9:00 p.m.) and thus supplying electricity, provided they are positioned appropriately.
+A wind turbine always supplies electricity when there is wind. There is no wind in the game, but the mod simulates this by turning the wind turbines only in the morning (5:00 - 9:00) and in the evening (17:00 - 21:00). A wind turbine only supplies electricity if it is set up in a suitable location.
 
-The TA wind turbines are pure offshore plants, which means that they have to be installed in the sea (water). This means that there must be in the minimum 20 blocks of water around the mast and at least 2 blocks deep.
-The rotor must be placed at a height (Y coordinate) of 12 to a maximum of 20 m. The distance to other wind turbines must be at least 14 m.
+The TA wind power plants are pure offshore plants, which means that they have to be built in the sea. This means that wind turbines can only be build in a sea (occean) biome and that there must be sufficient water and a clear view around the mast.
+
+To find a suitable spot, click on the water with the wrench (TechAge Info Tool). A chat message will show you whether this position is suitable for the mast of the wind turbine.
 
 The current must be led from the rotor block down through the mast. First pull the power line up and then "plaster" the power cable with TA4 pillar blocks. A work platform can be built below. The plan on the right shows the structure in the upper part.
 

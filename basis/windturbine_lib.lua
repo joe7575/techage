@@ -60,7 +60,7 @@ function techage.valid_place_for_windturbine(pos, player_name, num_turbines)
 	pos2 = {x=pos.x+20, y=1, z=pos.z+20}
 	num = #minetest.find_nodes_in_area(pos1, pos2, 
 			{"default:water_source", "default:water_flowing", "ignore"})
-	print(num, (41 * 41 * 0.9))
+	
 	if num < (41*41 * 0.8) then
 		techage.mark_region(player_name, pos1, pos2, "")
 		chat_message(player_name, S("Here is not enough water (41x41 m)!"))
@@ -69,6 +69,7 @@ function techage.valid_place_for_windturbine(pos, player_name, num_turbines)
 	-- Check for next wind turbine
 	pos1 = {x=pos.x-13, y=2, z=pos.z-13}
 	pos2 = {x=pos.x+13, y=22, z=pos.z+13}
+
 	num = #minetest.find_nodes_in_area(pos1, pos2, {"techage:ta4_wind_turbine"})
 	if num > num_turbines then
 		techage.mark_region(player_name, pos1, pos2, "")

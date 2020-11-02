@@ -7,10 +7,11 @@ Regenerative Energiequellen wie Wind, Sonne und Biokraft helfen dir, das Ölzeit
 
 ## Windkraftanlage
 
-Eine Windkraftanlagen liefern immer dann Strom, wenn Wind vorhanden ist. Im Spiel gibt es keinen Wind, aber die Mod simuliert dies dadurch, dass sich nur morgens (5:00 - 9:00) und abends (17:00 - 21:00) die Windräder drehen und damit Strom liefern, sofern diese an geeigneten Stellen errichtet werden.
+Eine Windkraftanlage liefern immer dann Strom, wenn Wind vorhanden ist. Im Spiel gibt es keinen Wind, aber die Mod simuliert dies dadurch, dass sich nur morgens (5:00 - 9:00) und abends (17:00 - 21:00) die Windräder drehen. Eine Windkraftanlage liefert nur dann Strom, wenn sie an einer geeigneten Stelle aufgestellt ist.
 
-Die TA Windkraftanlagen sind reine Offshore Anlagen, das heißt, die müssen im Meer (Wasser) errichtet werden. Dies bedeutet, dass um den Mast herum mit einem Abstand von 20 Blöcken nur Wasser sein darf und das mindestens 2 Blöcke tief.
-Der Rotor muss in einer Höhe (Y-Koordinate) von 12 bis maximal 20 m platziert werden. Der Abstand zu weiteren Windkraftanlagen muss mindestens 14 m betragen.
+Die TA Windkraftanlagen sind reine Offshore Anlagen, das heißt, die müssen im Meer errichtet werden. Dies bedeutet, dass Windkraftanlagen nur in einem Meer (occean) Biom errichtet werden können und dass um den Mast herum ausreichend Wasser und freie Sicht vorhanden sein müssen.
+
+Um eine geeignete Stelle zu finden, musst du mit dem Schraubenschlüssel (TechAge Info Werkzeug)  auf das Wasser klicken. Ob diese Stelle für den Mast der Windkraftanlage geeignet ist, wird dir als Chat Nachricht angezeigt.
 
 Der Strom muss vom Rotor-Block durch den Mast nach unten geführt werden. Dazu zuerst die Stromleitung nach oben ziehen und das Stromkabel dann mit TA4 Säulenblöcke "verputzen". Unten kann eine Arbeitsplattform errichtet werden. Der Plan rechts zeigt den Aufbau im oberen Teil.
 
