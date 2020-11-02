@@ -240,19 +240,15 @@ function techage.is_ocean(pos)
 	return true
 end
 
-function techage.item_image(x, y, itemname)
+function techage.item_image(x, y, itemname, count)
 	local name, size = unpack(string.split(itemname, " "))
+	size = count and count or size
+	size = tonumber(size) or 1
 	local label = ""
-	local tooltip = ""
-	local ndef = minetest.registered_nodes[name] or minetest.registered_items[name] or minetest.registered_craftitems[name]
-	
-	if ndef and ndef.description then
-		local text = minetest.formspec_escape(ndef.description)
-		tooltip = "tooltip["..x..","..y..";1,1;"..text..";#0C3D32;#FFFFFF]"
-	end
-	
-	if ndef and ndef.stack_max == 1 then
-		size = tonumber(size)
+	local text = minetest.formspec_escape(ItemStack(itemname):get_description())
+	local tooltip = "tooltip["..x..","..y..";1,1;"..text..";#0C3D32;#FFFFFF]"
+
+	if minetest.registered_tools[name] and size > 1 then
 		local offs = 0
 		if size < 10 then
 			offs = 0.65
