@@ -119,6 +119,8 @@ The distributor is able to transport the items from his inventory sorted in up t
 
 The distributor has a menu with 4 filters with different colors, corresponding to the 4 outputs. If an output is to be used, the corresponding filter must be activated via the "on" checkbox. All items that are configured for this filter are output via the assigned output. If a filter is activated without items being configured, we are talking about an "unconfigured", open output.
 
+**Attention: The distributor is also a pusher at its output sides. Therefore, never pull items out of the distributor with a pusher!**
+
 There are two operating modes for a non-configured output:
 
 1) Output all items that cannot be output to any other exit, even if they are blocked.

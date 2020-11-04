@@ -118,6 +118,8 @@ Der Verteiler ist in der Lage, die Items aus seinem Inventar sortiert in bis zu 
 
 Der Verteiler besitzt dazu ein Menü mit 4 Filter mit unterschiedlichen Farben, entsprechend den 4 Ausgängen. Soll ein Ausgang genutzt werden, so muss der entsprechende Filter über die "on" Checkbox aktiviert werden. Alle Items, die für diesen Filter konfiguriert sind, werden über den zugeordneten Ausgang ausgegeben. Wird ein Filter aktiviert, ohne das Items konfiguriert werden, so sprechen wir hier von einem "nicht-konfigurierten", offenen Ausgang.
 
+**Achtung: Der Verteiler ist an seinen Ausgängen gleichzeitig ein Schieber. Daher niemals die Gegenstände mit einem Schieber aus dem Verteiler ziehen!**
+
 Für einen nicht-konfigurierten Ausgang gibt es zwei Betriebsarten:
 
 1) Alle Items ausgeben, die an keine anderen Ausgängen ausgegeben werden können, auch wenn diese blockiert sind.
