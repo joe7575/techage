@@ -413,14 +413,9 @@ In contrast the Controller can send text strings to the terminal.
 
 ### Further Functions
 
-Messages are used to transport data between Controllers. Messages are always converted to text strings. Incoming messages are stored in order (up to 10) and can be read one after the other.
-* `$get_msg()` - Read a received message. The function returns the sender number and the message. (see example "Emails")
+Messages are used to transport data between Controllers. Messages can contain arbitrary data. Incoming messages are stored in order (up to 10) and can be read one after the other.
+* `$get_msg([raw])` - Read a received message. The function returns the sender number and the message. (see example "Emails"). If the _raw_ parameter is not set or false, the message is guaranteed to be a string.
 * `$send_msg(num, msg)` - Send a message to another Controller.  _num_ is the destination number. (see example "Emails")
-
-Similiar to the concept above you can also exchange arbitrary data. Please note that external devices might also send such data.
-* `$get_data()` - Read received data. The function returns the sender number and the data.
-* `$send_data(num, data)` - Send data to another Controller. _num_ is the destination number.
-
 
 * `$chat(text)` - Send yourself a chat message. _text_ is a text string.
 
