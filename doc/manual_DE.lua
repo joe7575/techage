@@ -1160,7 +1160,7 @@ techage.manual_DE.aText = {
   "  - Hülle mit 7x7x7 Concrete Blocks\\, gefüllt mit 125 Gravel\\, Speicherkapazität: 2\\,5 Tage bei 60 ku\n"..
   "  - Hülle mit 9x9x9 Concrete Blocks\\, gefüllt mit 343 Gravel\\, Speicherkapazität: 6\\,5 Tage bei 60 ku\n"..
   "\n"..
-  "In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man\\, ob der Speicher mehr als 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken\\, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung achten (der Pfeil bei Block 1 muss zur Turbine zeigen).\n"..
+  "In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man\\, ob der Speicher mehr als 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken\\, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung zu achten (der Pfeil bei Block 1 muss zur Turbine zeigen).\n"..
   "\n"..
   "Entgegen dem Plan rechts müssen die Anschlüsse am Speicherblock auf gleicher Ebene sein (horizontal angeordnet\\, also nicht unten und oben). Die Rohrzuläufe (TA4 Pipe Inlet) müssen genau in der Mitte der Wand sein und stehen sich damit gegenüber. Als Röhren kommen die gelbel TA4 Röhren zum Einsatz. Die TA3 Dampfrohre können hier nicht verwendet werden.\n"..
   "Sowohl der Generator als auch der Wärmetauscher haben einen Stromanschluss und müssen mit dem Stromnetz verbunden werden.\n"..
@@ -1349,9 +1349,9 @@ techage.manual_DE.aText = {
   "Wird etwas in die Kiste gelegt\\, oder entnommen\\, oder eine der Tasten \"F1\"/\"F2\" gedrückt\\, so wird ein Event-Signal an den Lua Controller gesendet.\n"..
   "Die Sensor Kiste unterstützt folgende Kommandos:\n"..
   "\n"..
-  "  - Über 'state = $read_data(<num>\\, \"state\")' kann der Status der Kiste abgefragt werden. Mögliche Antworten sind: \"empty\"\\, \"loaded\"\\, \"full\"\n"..
-  "  - Über 'name\\, action = $read_data(<num>\\, \"action\")' kann die letzte Spieleraktion abgefragt werden. 'name' ist der Spielername\\, Als 'action' wird zurückgeliefert: \"put\"\\, \"take\"\\, \"f1\"\\, \"f2\".\n"..
-  "  - Über 'stacks = $read_data(<num>\\, \"stacks\")' kann der Inhalt der Kiste ausgelesen werden. Siehe dazu: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest\n"..
+  "  - Über 'state = $send_cmnd(<num>\\, \"state\")' kann der Status der Kiste abgefragt werden. Mögliche Antworten sind: \"empty\"\\, \"loaded\"\\, \"full\"\n"..
+  "  - Über 'name\\, action = $send_cmnd(<num>\\, \"action\")' kann die letzte Spieleraktion abgefragt werden. 'name' ist der Spielername\\, Als 'action' wird zurückgeliefert: \"put\"\\, \"take\"\\, \"f1\"\\, \"f2\".\n"..
+  "  - Über 'stacks = $send_cmnd(<num>\\, \"stacks\")' kann der Inhalt der Kiste ausgelesen werden. Siehe dazu: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest\n"..
   "  - Über '$send_cmnd(<num>\\, \"text\"\\, \"press both buttons andnput something into the chest\")' kann der Text im Menü der Sensor Kiste gesetzt werden.\n"..
   "\n"..
   "Über die Checkbox \"Erlaube öffentlichen Zugriff\" kann eingestellt werden\\, ob die Kiste von jedem genutzt werden darf\\, oder nur von Spielern die hier Zugriffsrechte haben.\n"..
@@ -1497,7 +1497,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Der Kiste besitzt ein zusätzliches Kommandos für den Lua Controller:\n"..
   "\n"..
-  "  - 'count' dient zur Anfrage\\, wie viele Items in der Kiste sind.\nBeispiel 1:  '$read_data(CHEST\\, \"count\")'  --> Summe der Items über alle 8 Speicher\nBeispiel 2:  '$read_data(CHEST\\, \"count\"\\, 2)'  --> Anzahl der Items in Speicher 2 (zweiter von links)\n"..
+  "  - 'count' dient zur Anfrage\\, wie viele Items in der Kiste sind.\nBeispiel 1:  '$send_cmnd(CHEST\\, \"count\")'  --> Summe der Items über alle 8 Speicher\nBeispiel 2:  '$send_cmnd(CHEST\\, \"count\"\\, 2)'  --> Anzahl der Items in Speicher 2 (zweiter von links)\n"..
   "\n"..
   "\n"..
   "\n",

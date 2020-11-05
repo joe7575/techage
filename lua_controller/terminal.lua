@@ -108,7 +108,7 @@ local function command(pos, cmnd, player)
 				if techage.lua_ctlr.not_protected(owner, num) then
 					--output(pos, player..":$ msg "..num.." "..text)
 					output(pos, "> msg "..num.." "..text)
-					techage.send_single(own_number, num, "msg", {src=own_number, text=text})
+					techage.send_single(own_number, num, "msg", text)
 					return
 				end
 			end
@@ -230,26 +230,31 @@ techage.lua_ctlr.register_action("put_term", {
 })
 
 techage.lua_ctlr.register_function("get_msg", {
-	cmnd = function(self)
+	cmnd = function(self, raw)
 		local msg = techage.lua_ctlr.get_msg(self.meta.number)
 		if msg then
-			return msg.src, msg.text
+			local data = msg.data
+			if not raw then
+				data = tostring(data or "")
+			end
+			return msg.src, data
 		end
 	end,
-	help = ' $get_msg()  --> number and text string or nil\n'..
+	help = ' $get_msg([raw])  --> any value or nil\n'..
+	    ' If the optional `raw` parameter is not set or false,\n'..
+	    ' the return value is guaranteed to be a string.\n'..
 		' Read a received messages. Number is the node\n'..
 		' number of the sender.\n'..
 		' example: num,msg = $get_msg().'
 })
 
 techage.lua_ctlr.register_action("send_msg", {
-	cmnd = function(self, num, text)
-		local msg = {src = self.meta.number, text = tostring(text or "")}
+	cmnd = function(self, num, data)
 		if techage.lua_ctlr.not_protected(self.meta.owner, num) then
-			techage.send_single(self.meta.number, num, "msg", msg)
+			techage.send_single(self.meta.number, num, "msg", data)
 		end
 	end,
-	help = " $send_msg(num, text)\n"..
+	help = " $send_msg(num, data)\n"..
 		' Send a message to the controller with number "num".\n'..
 		' example: $send_msg("0123", "test")'
 })

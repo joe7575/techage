@@ -14,6 +14,8 @@
  
 local S = techage.S
 
+techage.display = {}
+
 local NUM_ROWS = 5 
 local RADIUS = 6
 local Param2ToFacedir = {[0] = 0, 0, 3, 1, 2, 0}
@@ -33,7 +35,7 @@ local function lcdlib_bugfix(text_tbl)
 	return ""
 end
  
-local function display_update(pos, objref) 
+function techage.display.display_update(pos, objref)
 	pos = vector.round(pos)
 	local nvm = techage.get_nvm(pos)
 	local text = lcdlib_bugfix(nvm.text) 
@@ -44,7 +46,7 @@ local function display_update(pos, objref)
 							visual_size = {x=0.94, y=0.94} })
 end
 
-local function display_updateXL(pos, objref) 
+function techage.display.display_updateXL(pos, objref)
 	pos = vector.round(pos)
 	local nvm = techage.get_nvm(pos)
 	local text = lcdlib_bugfix(nvm.text) 
@@ -55,7 +57,7 @@ local function display_updateXL(pos, objref)
 							visual_size = {x=0.94*1.9, y=0.94} })
 end
 
-local function on_timer(pos)
+function techage.display.on_timer(pos)
 	local mem = techage.get_mem(pos)
 	mem.ticks = mem.ticks or 0
 	
@@ -77,7 +79,7 @@ local function on_timer(pos)
 	return true
 end
 
-local lcd_box = {
+techage.display.lcd_box = {
 	type = "wallmounted",
 	wall_top = {-8/16, 15/32, -8/16, 8/16, 8/16, 8/16}
 }
@@ -90,13 +92,13 @@ minetest.register_node("techage:ta4_display", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	paramtype2 = "wallmounted",
-	node_box = lcd_box,
-	selection_box = lcd_box,
+	node_box = techage.display.lcd_box,
+	selection_box = techage.display.lcd_box,
 	light_source = 6,
 	
 	display_entities = {
 		["techage:display_entity"] = { depth = 0.42,
-			on_display_update = display_update},
+			on_display_update = techage.display.display_update},
 	},
 
 	after_place_node = function(pos, placer)
@@ -114,7 +116,7 @@ minetest.register_node("techage:ta4_display", {
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 
-	on_timer = on_timer,
+	on_timer = techage.display.on_timer,
 	on_place = lcdlib.on_place,
 	on_construct = lcdlib.on_construct,
 	on_destruct = lcdlib.on_destruct,
@@ -124,7 +126,7 @@ minetest.register_node("techage:ta4_display", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
-local lcd_boxXL = {
+techage.display.lcd_boxXL = {
 	type = "fixed",
 	fixed = {-0.9, -8/16, -8/16, 0.9, -15/32, 8/16}
 }
@@ -137,13 +139,13 @@ minetest.register_node("techage:ta4_displayXL", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	paramtype2 = "wallmounted",
-	node_box = lcd_boxXL,
-	selection_box = lcd_boxXL,
+	node_box = techage.display.lcd_boxXL,
+	selection_box = techage.display.lcd_boxXL,
 	light_source = 6,
 	
 	display_entities = {
 		["techage:display_entityXL"] = { depth = 0.42,
-			on_display_update = display_updateXL},
+			on_display_update = techage.display.display_updateXL},
 	},
 
 	after_place_node = function(pos, placer)
@@ -161,7 +163,7 @@ minetest.register_node("techage:ta4_displayXL", {
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 
-	on_timer = on_timer,
+	on_timer = techage.display.on_timer,
 	on_place = lcdlib.on_place,
 	on_construct = lcdlib.on_construct,
 	on_destruct = lcdlib.on_destruct,
@@ -189,7 +191,7 @@ minetest.register_craft({
 	},
 })
 
-local function add_line(pos, payload, cycle_time)
+function techage.display.add_line(pos, payload, cycle_time)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
 	nvm.text = nvm.text or {}
@@ -206,7 +208,7 @@ local function add_line(pos, payload, cycle_time)
 	table.insert(nvm.text, payload)
 end
 
-local function write_row(pos, payload, cycle_time)
+function techage.display.write_row(pos, payload, cycle_time)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
 	nvm.text = nvm.text or {}
@@ -227,7 +229,7 @@ local function write_row(pos, payload, cycle_time)
 	nvm.text[row] = str
 end
 
-local function clear_screen(pos, cycle_time)
+function techage.display.clear_screen(pos, cycle_time)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
 	mem.ticks = mem.ticks or 0
@@ -242,11 +244,11 @@ end
 techage.register_node({"techage:ta4_display"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "add" then  -- add one line and scroll if necessary
-			add_line(pos, payload, 1)
+			techage.display.add_line(pos, payload, 1)
 		elseif topic == "set" then  -- overwrite the given row
-			write_row(pos, payload, 1)
+			techage.display.write_row(pos, payload, 1)
 		elseif topic == "clear" then  -- clear the screen
-			clear_screen(pos, 1)
+			techage.display.clear_screen(pos, 1)
 		end
 	end,
 })		
@@ -254,14 +256,14 @@ techage.register_node({"techage:ta4_display"}, {
 techage.register_node({"techage:ta4_displayXL"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "add" then  -- add one line and scroll if necessary
-			add_line(pos, payload, 2)
+			techage.display.add_line(pos, payload, 2)
 		elseif topic == "set" then  -- overwrite the given row
-			write_row(pos, payload, 2)
+			techage.display.write_row(pos, payload, 2)
 		elseif topic == "clear" then  -- clear the screen
-			clear_screen(pos, 2)
+			techage.display.clear_screen(pos, 2)
 		end
 	end,
-})		
+})
 
 lcdlib.register_display_entity("techage:display_entity")
 lcdlib.register_display_entity("techage:display_entityXL")

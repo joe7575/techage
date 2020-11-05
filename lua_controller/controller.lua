@@ -631,7 +631,7 @@ techage.register_node({"techage:ta4_lua_controller"}, {
 		elseif topic == "term" then
 			set_input(pos, number, "term", payload)
 		elseif topic == "msg" then
-			set_input(pos, number, "msg", payload)
+			set_input(pos, number, "msg", {src = src, data = payload})
 		elseif topic == "state" then
 			local running = meta:get_int("running") or STATE_STOPPED
 			return techage.StateStrings[running] or "stopped"
