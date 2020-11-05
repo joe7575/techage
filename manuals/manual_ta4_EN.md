@@ -393,9 +393,9 @@ The TA4 sensor box is used to set up automatic warehouses or vending machines in
 If something is put into the box or removed, or one of the "F1" / "F2" keys is pressed, an event signal is sent to the Lua controller.
 The sensor box supports the following commands:
 
-- The status of the box can be queried via `state = $read_data(<num>, "state")`. Possible answers are: "empty", "loaded", "full"
-- The last player action can be queried via `name, action = $read_data(<num>, "action")`. `name` is the player name. One of the following is returned as `action`: "put", "take", "f1", "f2".
-- The contents of the box can be read out via `stacks = $read_data(<num>, "stacks")`. See: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest
+- The status of the box can be queried via `state = $send_cmnd(<num>, "state")`. Possible answers are: "empty", "loaded", "full"
+- The last player action can be queried via `name, action = $send_cmnd(<num>, "action")`. `name` is the player name. One of the following is returned as `action`: "put", "take", "f1", "f2".
+- The contents of the box can be read out via `stacks = $send_cmnd(<num>, "stacks")`. See: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest
 - Via `$send_cmnd(<num>, "text", "press both buttons and\nput something into the chest")` the text can be set in the menu of the sensor box.
 
 The checkbox "Allow public chest access" can be used to set whether the box can be used by everyone or only by players who have access/protection rights here.
@@ -598,8 +598,8 @@ The chest can only be used by players who can build at this location, i.e. who h
 The chest has an additional command for the Lua controller:
 
 - `count` is used to request how many items are in the chest.
-  Example 1: `$read_data(CHEST, "count")` -> Sum of items across all 8 stores
-  Example 2: `$read_data(CHEST, "count", 2)` -> number of items in store 2 (second from left)
+  Example 1: `$send_cmnd(CHEST, "count")` -> Sum of items across all 8 stores
+  Example 2: `$send_cmnd(CHEST, "count", 2)` -> number of items in store 2 (second from left)
 
 [ta4_8x2000_chest|image]
 

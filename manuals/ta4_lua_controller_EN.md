@@ -346,9 +346,13 @@ In addition to Lua standard function the Lua Controller provides the following f
 
 ### Techage Command Functions
 
-* `$read_data(num, ident, add_data)` - Read any kind of data from another block with the given number _num_. 
-  _ident_ specifies the data to be read. 
-  _add_data_ is for additional data and normally not needed.
+With the `$send_cmnd(num, ident, add_data)` function, you can send commands to and retrieve data from another block with the given number _num_.
+The possible commands can be classified in two groups: Commands for reading data and commands for causing an action.
+Please note, that this is not a technical distinction, only a logical.
+
+* Reading data  
+  _ident_ specifies the data to be read.  
+  _add_data_ is for additional data and normally not needed.  
   The result is block dependent (see table below):
 
 | ident        | returned data                                                | comment                                                      |
@@ -358,18 +362,21 @@ In addition to Lua standard function the Lua Controller provides the following f
 | "state"      | one of: "empty", "loaded", "full"                            | State of a chest or Sensor Chest                             |
 | "fuel"       | number                                                       | fuel value of a fuel consuming block                         |
 | "depth"      | number                                                       | Read the current depth value of a quarry block (1..80)       |
-| "load"       | number                                                       | Read the load value in percent  (0..100) of a tank, silo, accu, or battery block, or from the Signs Bot Box. Silo and tank return two values: The percentage value and the absolute value in units.<br /> Example: percent, absolute = $read_data("223", "load") |
+| "load"       | number                                                       | Read the load value in percent  (0..100) of a tank, silo, accu, or battery block, or from the Signs Bot Box. Silo and tank return two values: The percentage value and the absolute value in units.<br /> Example: percent, absolute = $send_cmnd("223", "load") |
 | "delivered"  | number                                                       | Read the current delivered power value of a generator block. A power consuming block (accu) provides a negative value |
 | "action"     | player-name, action-string                                   | only for Sensor Chests                                       |
 | "stacks"     | Array with up to 4 Stores with the inventory content (see example) | only for Sensor Chests                                       |
 | "count"      | number                                                       | Read the item counter of the TA4 Item Detector block         |
 | "count"      | number of items                                              | Read the total amount of TA4 chest items. An optional  number as `add_data` is used to address only one inventory slot (1..8, from left to right). |
-| "itemstring" | item string of the given slot                                | Specific command for the TA4 8x2000 Chest to read the item type (technical name) of one chest slot, specified via `add_data` (1..8).<br />Example: s = $read_data("223", "itemstring", 1) |
+| "itemstring" | item string of the given slot                                | Specific command for the TA4 8x2000 Chest to read the item type (technical name) of one chest slot, specified via `add_data` (1..8).<br />Example: s = $send_cmnd("223", "itemstring", 1) |
 
 
 
 
-* `$send_cmnd(num, cmnd, data)` - Send a command to another block. _num_ is the number of the remote block, like "1234". _cmnd_ is the command, _data_ is additional data (see table below):
+* Causing an action  
+   _num_ is the number of the remote block, like "1234".  
+   _cmnd_ is the command,  
+   _data_ is additional data (see table below):
 
 | cmnd                             | data         | comment                                                      |
 | -------------------------------- | ------------ | ------------------------------------------------------------ |
@@ -406,9 +413,13 @@ In contrast the Controller can send text strings to the terminal.
 
 ### Further Functions
 
-Messages are used to transport data between Controllers. Messages are text strings or any other data. Incoming messages are stored in order (up to 10) and can be read one after the other.
+Messages are used to transport data between Controllers. Messages are always converted to text strings. Incoming messages are stored in order (up to 10) and can be read one after the other.
 * `$get_msg()` - Read a received message. The function returns the sender number and the message. (see example "Emails")
 * `$send_msg(num, msg)` - Send a message to another Controller.  _num_ is the destination number. (see example "Emails")
+
+Similiar to the concept above you can also exchange arbitrary data. Please note that external devices might also send such data.
+* `$get_data()` - Read received data. The function returns the sender number and the data.
+* `$send_data(num, data)` - Send data to another Controller. _num_ is the destination number.
 
 
 * `$chat(text)` - Send yourself a chat message. _text_ is a text string.
@@ -419,7 +430,7 @@ Messages are used to transport data between Controllers. Messages are text strin
   
 * `$item_description("default:apple")`
   Get the description (item name) for a specified itemstring, e. g. determined via the TA4 8x2000 Chest command `itemstring`:
-  `str = $read_data("223", "itemstring", 1)`
+  `str = $send_cmnd("223", "itemstring", 1)`
   `descr = $item_description(str)`
 
   
@@ -504,15 +515,15 @@ if ticks % 60 == 0 then
     $display(DISPLAY, 1, min.." min")
 
     -- Cactus chest overrun
-    sts = $read_data("1034", "state") -- read pusher status
+    sts = $send_cmnd("1034", "state") -- read pusher status
     if sts == "blocked" then $display(DISPLAY, 2, "Cactus full") end
 
     -- Tree chest overrun
-    sts = $read_data("1065", "state")  -- read pusher status
+    sts = $send_cmnd("1065", "state")  -- read pusher status
     if sts == "blocked" then $display(DISPLAY, 3, "Tree full") end
 
     -- Furnace fuel empty
-    sts = $read_data("1544", "state")  -- read pusher status
+    sts = $send_cmnd("1544", "state")  -- read pusher status
     if sts == "standby" then $display(DISPLAY, 4, "Furnace fuel") end
 end
 ```
@@ -570,7 +581,7 @@ loop() code:
 
 ```lua
 if event then
-    name = $read_data(SENSOR, "name")
+    name = $send_cmnd(SENSOR, "name")
     if name == "" then -- no player arround
         $clear_screen(DISPLAY)
     else
@@ -602,13 +613,13 @@ loop() code:
 ```lua
 if event and $get_input(SENSOR) == "on" then
     -- read inventory state
-    state = $read_data(SENSOR, "state")
+    state = $send_cmnd(SENSOR, "state")
     $print("state: "..state)
     -- read player name and action
-    name, action = $read_data(SENSOR, "action")
+    name, action = $send_cmnd(SENSOR, "action")
     $print("action"..": "..name.." "..action)
     -- read inventory content
-    stacks = $read_data(SENSOR, "stacks")
+    stacks = $send_cmnd(SENSOR, "stacks")
     for i,stack in stacks.next() do
         $print("stack: "..stack.get("name").."  "..stack.get("count"))
     end

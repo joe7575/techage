@@ -391,9 +391,9 @@ Die TA4 Sensor Kiste dient zum Aufbau von Automatischen Lagern oder Verkaufsauto
 Wird etwas in die Kiste gelegt, oder entnommen, oder eine der Tasten "F1"/"F2" gedrückt, so wird ein Event-Signal an den Lua Controller gesendet.
 Die Sensor Kiste unterstützt folgende Kommandos:
 
-- Über `state = $read_data(<num>, "state")` kann der Status der Kiste abgefragt werden. Mögliche Antworten sind: "empty", "loaded", "full"
-- Über `name, action = $read_data(<num>, "action")` kann die letzte Spieleraktion abgefragt werden. `name` ist der Spielername, Als `action` wird zurückgeliefert: "put", "take", "f1", "f2".
-- Über `stacks = $read_data(<num>, "stacks")` kann der Inhalt der Kiste ausgelesen werden. Siehe dazu: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest
+- Über `state = $send_cmnd(<num>, "state")` kann der Status der Kiste abgefragt werden. Mögliche Antworten sind: "empty", "loaded", "full"
+- Über `name, action = $send_cmnd(<num>, "action")` kann die letzte Spieleraktion abgefragt werden. `name` ist der Spielername, Als `action` wird zurückgeliefert: "put", "take", "f1", "f2".
+- Über `stacks = $send_cmnd(<num>, "stacks")` kann der Inhalt der Kiste ausgelesen werden. Siehe dazu: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest
 - Über `$send_cmnd(<num>, "text", "press both buttons and\nput something into the chest")` kann der Text im Menü der Sensor Kiste gesetzt werden.
 
 Über die Checkbox "Erlaube öffentlichen Zugriff" kann eingestellt werden, ob die Kiste von jedem genutzt werden darf, oder nur von Spielern die hier Zugriffsrechte haben.
@@ -597,8 +597,8 @@ Die Kiste kann nur von den Spielern genutzt werden, die an diesem Ort auch bauen
 Der Kiste besitzt ein zusätzliches Kommandos für den Lua Controller:
 
 - `count` dient zur Anfrage, wie viele Items in der Kiste sind.
-  Beispiel 1:  `$read_data(CHEST, "count")`  --> Summe der Items über alle 8 Speicher
-  Beispiel 2:  `$read_data(CHEST, "count", 2)`  --> Anzahl der Items in Speicher 2 (zweiter von links)
+  Beispiel 1:  `$send_cmnd(CHEST, "count")`  --> Summe der Items über alle 8 Speicher
+  Beispiel 2:  `$send_cmnd(CHEST, "count", 2)`  --> Anzahl der Items in Speicher 2 (zweiter von links)
 
 [ta4_8x2000_chest|image]
 

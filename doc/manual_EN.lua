@@ -1358,9 +1358,9 @@ techage.manual_EN.aText = {
   "If something is put into the box or removed\\, or one of the \"F1\" / \"F2\" keys is pressed\\, an event signal is sent to the Lua controller.\n"..
   "The sensor box supports the following commands:\n"..
   "\n"..
-  "  - The status of the box can be queried via 'state = $read_data(<num>\\, \"state\")'. Possible answers are: \"empty\"\\, \"loaded\"\\, \"full\"\n"..
-  "  - The last player action can be queried via 'name\\, action = $read_data(<num>\\, \"action\")'. 'name' is the player name. One of the following is returned as 'action': \"put\"\\, \"take\"\\, \"f1\"\\, \"f2\".\n"..
-  "  - The contents of the box can be read out via 'stacks = $read_data(<num>\\, \"stacks\")'. See: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest\n"..
+  "  - The status of the box can be queried via 'state = $send_cmnd(<num>\\, \"state\")'. Possible answers are: \"empty\"\\, \"loaded\"\\, \"full\"\n"..
+  "  - The last player action can be queried via 'name\\, action = $send_cmnd(<num>\\, \"action\")'. 'name' is the player name. One of the following is returned as 'action': \"put\"\\, \"take\"\\, \"f1\"\\, \"f2\".\n"..
+  "  - The contents of the box can be read out via 'stacks = $send_cmnd(<num>\\, \"stacks\")'. See: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest\n"..
   "  - Via '$send_cmnd(<num>\\, \"text\"\\, \"press both buttons andnput something into the chest\")' the text can be set in the menu of the sensor box.\n"..
   "\n"..
   "The checkbox \"Allow public chest access\" can be used to set whether the box can be used by everyone or only by players who have access/protection rights here.\n"..
@@ -1506,7 +1506,7 @@ techage.manual_EN.aText = {
   "\n"..
   "The chest has an additional command for the Lua controller:\n"..
   "\n"..
-  "  - 'count' is used to request how many items are in the chest.\nExample 1: '$read_data(CHEST\\, \"count\")' -> Sum of items across all 8 stores\nExample 2: '$read_data(CHEST\\, \"count\"\\, 2)' -> number of items in store 2 (second from left)\n"..
+  "  - 'count' is used to request how many items are in the chest.\nExample 1: '$send_cmnd(CHEST\\, \"count\")' -> Sum of items across all 8 stores\nExample 2: '$send_cmnd(CHEST\\, \"count\"\\, 2)' -> number of items in store 2 (second from left)\n"..
   "\n"..
   "\n"..
   "\n",
