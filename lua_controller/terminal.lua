@@ -240,9 +240,9 @@ techage.lua_ctlr.register_function("get_msg", {
 			return msg.src, data
 		end
 	end,
-	help = ' $get_msg([raw])  --> any value or nil\n'..
-	    ' If the optional `raw` parameter is not set or false,\n'..
-	    ' the return value is guaranteed to be a string.\n'..
+	help = ' $get_msg([raw])  --> number and any value or nil\n'..
+		' If the optional `raw` parameter is not set or false,\n'..
+		' the second return value is guaranteed to be a string.\n'..
 		' Read a received messages. Number is the node\n'..
 		' number of the sender.\n'..
 		' example: num,msg = $get_msg().'
