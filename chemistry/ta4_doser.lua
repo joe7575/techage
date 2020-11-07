@@ -157,7 +157,9 @@ local function untake(recipe, pos, liquids)
 	for _,item in pairs(recipe.input) do
 		if item.name ~= "" then
 			local outdir = liquids[item.name] or reload_liquids(pos)[item.name]
-			liquid.untake(pos, outdir, item.name, item.num)
+			if outdir then
+				liquid.untake(pos, outdir, item.name, item.num)
+			end
 		end
 	end
 end	
