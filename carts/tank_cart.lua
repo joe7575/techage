@@ -59,6 +59,15 @@ local function take_liquid(pos, indir, name, amount)
 	return amount, name
 end
 	
+local function untake_liquid(pos, indir, name, amount)
+	local leftover = liquid.srv_put(pos, indir, name, amount)
+	if techage.is_activeformspec(pos) then
+		local nvm = techage.get_nvm(pos)
+		M(pos):set_string("formspec", liquid.formspec(pos, nvm))
+	end
+	return leftover
+end
+
 local function put_liquid(pos, indir, name, amount)
 	-- check if it is not powder
 	local ndef = minetest.registered_craftitems[name] or {}
@@ -153,6 +162,7 @@ minetest.register_node("techage:tank_cart", {
 		peek = liquid.srv_peek,
 		put = put_liquid,
 		take = take_liquid,
+		untake = untake_liquid,
 	},
 	networks = networks_def,
 	on_rightclick = on_rightclick,
