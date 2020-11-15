@@ -46,7 +46,7 @@ techage.recipes.add("ta4_doser", {
 
 -- Hydrogenate
 techage.recipes.add("ta4_doser", {
-	output = "techage:bitumen 2",
+	output = "techage:bitumen 1",
 	input = {
 		"techage:fueloil 1",
 		"techage:hydrogen 1",
@@ -55,7 +55,7 @@ techage.recipes.add("ta4_doser", {
 })
 
 techage.recipes.add("ta4_doser", {
-	output = "techage:fueloil 2",
+	output = "techage:fueloil 1",
 	input = {
 		"techage:naphtha 1",
 		"techage:hydrogen 1",
@@ -64,7 +64,7 @@ techage.recipes.add("ta4_doser", {
 })
 
 techage.recipes.add("ta4_doser", {
-	output = "techage:naphtha 2",
+	output = "techage:naphtha 1",
 	input = {
 		"techage:gasoline 1",
 		"techage:hydrogen 1",
