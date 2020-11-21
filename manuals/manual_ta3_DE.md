@@ -590,7 +590,7 @@ Das Terminal besitzt folgende, lokalen Kommandos:
 - `pub` schalte in den öffentlichen Modus um
 - `priv` schalte in den privaten Modus um
 
-Im privaten Modul kann nur der Besitzer selbst Kommandos eingeben oder Tasten nutzen.
+Im privaten Modus (private) kann das Terminal nur von Spielern verwendet werden, die an diesem Ort bauen können, also Protection Rechte besitzen. Im öffentlichen Modus (public) können alle Spieler die vorkonfigurierten Tasten verwenden.
 
 [ta3_terminal|image]
 

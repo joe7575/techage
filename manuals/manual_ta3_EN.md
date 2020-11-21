@@ -579,7 +579,9 @@ The terminal has the following local commands:
 - `pub` switch to public mode
 - `priv` switch to private mode
 
-In the private mode, only the owner can enter commands himself or use keys.
+In private mode, the terminal can only be used by players who can build at this location, i.e. who have protection rights.
+
+In public mode, all players can use the preconfigured keys.
 
 [ta3_terminal|image]
 

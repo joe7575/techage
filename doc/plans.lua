@@ -185,7 +185,7 @@ local PN270 = {"techage_gaspipe_knee.png^[transformR270", "techage:ta4_pipeS"}  
 techage.ConstructionPlans["ta3_tank"] = {
 	{false, false, false, false, false, false, false, false, false, false},
 	{false, Tubes, PushR, Tubes, Fillr, Tubes, PushR, Tubes, false, false},
-	{false, false, false, false, TANK3, PIPEH, PIPEH, Pump,  PIPEH, Tank},
+	{false, false, false, false, TANK3, PIPEH, PIPEH, Pump,  PIPEH, false},
 	{false, false, false, false, false, false, false, false, false, false},
 }
 

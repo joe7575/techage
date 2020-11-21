@@ -15,40 +15,22 @@
 local M = minetest.get_meta
 local S = techage.S
 
-local HELP_TA3 = S("#### TA3 Terminal ####@n"..
-"@n"..
-"Send commands to your machines@n"..
-"and output text messages from your@n"..
-"machines to the Terminal.@n"..
-"@n"..
-"Command syntax:@n"..
-"  cmd <num> <cmnd>@n"..
-"@n"..
-"example: cmd 181 on@n"..
-"<num> is the number of the node to which the command is sent@n"..
-"'on' is the command to turn machines/nodes on@n"..
-"Further commands can be retrieved by clicking on@n"..
-"machines/nodes with the Techage Info Tool.@n"..
-"@n"..
-"Local commands:@n"..
-"- clear    = clear screen@n"..
-"- help     = this message@n"..
-"- pub      = switch to public use@n"..
-"- priv      = switch to private use@n"..
-"To program a user button with a command:@n"..
-"  set <button-num> <button-text> <command>@n"..
-"e.g. 'set 1 ON cmd 123 on'@n")
+local HELP_TA3 = "Syntax:\n"..
+"  cmd <num> <cmnd>\n"..
+"\n"..
+"like:  cmd 181 on\n"..
+"or:    cmd 4573 state\n"..
+"\n"..
+"Local commands:\n"..
+"- clear  = clear screen\n"..
+"- help   = this message\n"..
+"- pub    = switch to public use of buttons\n"..
+"- priv   = switch to private use of buttons\n"..
+"To program a user button with a command:\n"..
+"  set <button-num> <button-text> <command>\n"..
+"e.g.:  set 1 ON cmd 123 on"
 
 local CMNDS_TA3 = S("Syntax error, try help")
-
---local function formspec1()
---	return "size[6,4]"..
---	default.gui_bg..
---	default.gui_bg_img..
---	default.gui_slots..
---	"field[0.5,1;5,1;number;Techage Controller number:;]" ..
---	"button_exit[1.5,2.5;2,1;exit;Save]"
---end
 
 local function get_string(meta, num, default)
 	local s = meta:get_string("bttn_text"..num)
@@ -106,6 +88,7 @@ end
 local function command(pos, command, player)
 	local meta = minetest.get_meta(pos)
 	local owner = meta:get_string("owner") or ""
+	
 	if command then
 		command = command:sub(1,80)
 		command = string.trim(command)
@@ -117,16 +100,15 @@ local function command(pos, command, player)
 			local meta = minetest.get_meta(pos)
 			meta:set_string("output", HELP_TA3)
 			meta:set_string("formspec", formspec2(meta))
-		elseif command == "pub" and owner == player then
+		elseif command == "pub" then
 			meta:set_int("public", 1)
 			output(pos, player..":$ "..command)
 			output(pos, S("Switched to public use!"))
-		elseif command == "priv" and owner == player then
+		elseif command == "priv" then
 			meta:set_int("public", 0)
 			output(pos, player..":$ "..command)
 			output(pos, S("Switched to private use!"))
-		elseif meta:get_int("public") == 1 or owner == player or 
-				minetest.check_player_privs(player, "server") then
+		else
 			output(pos, "$ "..command)
 			local own_num = meta:get_string("node_number")
 			local num, cmnd, payload = command:match('^cmd%s+([0-9]+)%s+(%w+)%s*(.*)$')
@@ -206,24 +188,34 @@ local function register_terminal(num, tiles, node_box, selection_box)
 
 		on_receive_fields = function(pos, formname, fields, player)
 			local meta = minetest.get_meta(pos)
-			local evt = minetest.explode_table_event(fields.output)
-			if evt.type == "DCL" then
-				local s = get_line_text(pos, evt.row)
-				meta:set_string("command", s)
-				meta:set_string("formspec", formspec2(meta))
-			elseif (fields.key_enter == "true" or fields.ok) and fields.cmnd ~= "" then
-				command(pos, fields.cmnd, player:get_player_name())
-				meta:set_string("command", "")
-				meta:set_string("formspec", formspec2(meta))
-			elseif fields.bttn1 then send_cmnd(pos, meta, 1)
-			elseif fields.bttn2 then send_cmnd(pos, meta, 2)
-			elseif fields.bttn3 then send_cmnd(pos, meta, 3)
-			elseif fields.bttn4 then send_cmnd(pos, meta, 4)
-			elseif fields.bttn5 then send_cmnd(pos, meta, 5)
-			elseif fields.bttn6 then send_cmnd(pos, meta, 6)
-			elseif fields.bttn7 then send_cmnd(pos, meta, 7)
-			elseif fields.bttn8 then send_cmnd(pos, meta, 8)
-			elseif fields.bttn9 then send_cmnd(pos, meta, 9)
+			local public = meta:get_int("public") == 1 
+			local protected = minetest.is_protected(pos, player:get_player_name())
+		
+			if not protected then
+				local evt = minetest.explode_table_event(fields.output)
+				if evt.type == "DCL" then
+					local s = get_line_text(pos, evt.row)
+					meta:set_string("command", s)
+					meta:set_string("formspec", formspec2(meta))
+					return
+				elseif (fields.key_enter == "true" or fields.ok) and fields.cmnd ~= "" then
+					command(pos, fields.cmnd, player:get_player_name())
+					meta:set_string("command", "")
+					meta:set_string("formspec", formspec2(meta))
+					return
+				end
+			end
+			if public or not protected then
+				if fields.bttn1 then send_cmnd(pos, meta, 1)
+				elseif fields.bttn2 then send_cmnd(pos, meta, 2)
+				elseif fields.bttn3 then send_cmnd(pos, meta, 3)
+				elseif fields.bttn4 then send_cmnd(pos, meta, 4)
+				elseif fields.bttn5 then send_cmnd(pos, meta, 5)
+				elseif fields.bttn6 then send_cmnd(pos, meta, 6)
+				elseif fields.bttn7 then send_cmnd(pos, meta, 7)
+				elseif fields.bttn8 then send_cmnd(pos, meta, 8)
+				elseif fields.bttn9 then send_cmnd(pos, meta, 9)
+				end
 			end
 		end,
 		

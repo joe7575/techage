@@ -84,6 +84,7 @@ minetest.register_entity(":techage:region_cube", {
 		textures = {"techage_cube_mark.png"},
 		use_texture_alpha = true,
 		physical = false,
+		glow = 12,
 	},
 	on_step = function(self, dtime)
 		if marker_region[self.player_name] == nil then

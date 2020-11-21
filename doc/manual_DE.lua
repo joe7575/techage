@@ -435,6 +435,8 @@ techage.manual_DE.aText = {
   "\n"..
   "Der Verteiler besitzt dazu ein Menü mit 4 Filter mit unterschiedlichen Farben\\, entsprechend den 4 Ausgängen. Soll ein Ausgang genutzt werden\\, so muss der entsprechende Filter über die \"on\" Checkbox aktiviert werden. Alle Items\\, die für diesen Filter konfiguriert sind\\, werden über den zugeordneten Ausgang ausgegeben. Wird ein Filter aktiviert\\, ohne das Items konfiguriert werden\\, so sprechen wir hier von einem \"nicht-konfigurierten\"\\, offenen Ausgang.\n"..
   "\n"..
+  "*Achtung: Der Verteiler ist an seinen Ausgängen gleichzeitig ein Schieber. Daher niemals die Gegenstände mit einem Schieber aus dem Verteiler ziehen!*\n"..
+  "\n"..
   "Für einen nicht-konfigurierten Ausgang gibt es zwei Betriebsarten:\n"..
   "\n"..
   "1) Alle Items ausgeben\\, die an keine anderen Ausgängen ausgegeben werden können\\, auch wenn diese blockiert sind.\n"..
@@ -961,7 +963,7 @@ techage.manual_DE.aText = {
   "  - 'pub' schalte in den öffentlichen Modus um\n"..
   "  - 'priv' schalte in den privaten Modus um\n"..
   "\n"..
-  "Im privaten Modul kann nur der Besitzer selbst Kommandos eingeben oder Tasten nutzen.\n"..
+  "Im privaten Modus (private) kann das Terminal nur von Spielern verwendet werden\\, die an diesem Ort bauen können\\, also Protection Rechte besitzen. Im öffentlichen Modus (public) können alle Spieler die vorkonfigurierten Tasten verwenden.\n"..
   "\n"..
   "\n"..
   "\n",

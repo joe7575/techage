@@ -114,7 +114,7 @@ minetest.register_entity(":techage:position_side", {
 		physical = false,
 		visual_size = {x = 1.1, y = 1.1, z = 1.1},
 		collisionbox = {-0.55,-0.55,-0.55, 0.55,0.55,0.55},
-		glow = 8,
+		glow = 12,
 	},
 	on_step = function(self, dtime)
 		if marker_region[self.player_name] == nil then

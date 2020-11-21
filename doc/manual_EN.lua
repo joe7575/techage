@@ -434,6 +434,8 @@ techage.manual_EN.aText = {
   "\n"..
   "The distributor has a menu with 4 filters with different colors\\, corresponding to the 4 outputs. If an output is to be used\\, the corresponding filter must be activated via the \"on\" checkbox. All items that are configured for this filter are output via the assigned output. If a filter is activated without items being configured\\, we are talking about an \"unconfigured\"\\, open output.\n"..
   "\n"..
+  "*Attention: The distributor is also a pusher at its output sides. Therefore\\, never pull items out of the distributor with a pusher!*\n"..
+  "\n"..
   "There are two operating modes for a non-configured output:\n"..
   "\n"..
   "1) Output all items that cannot be output to any other exit\\, even if they are blocked.\n"..
@@ -950,7 +952,9 @@ techage.manual_EN.aText = {
   "  - 'pub' switch to public mode\n"..
   "  - 'priv' switch to private mode\n"..
   "\n"..
-  "In the private mode\\, only the owner can enter commands himself or use keys.\n"..
+  "In private mode\\, the terminal can only be used by players who can build at this location\\, i.e. who have protection rights.\n"..
+  "\n"..
+  "In public mode\\, all players can use the preconfigured keys.\n"..
   "\n"..
   "\n"..
   "\n",
