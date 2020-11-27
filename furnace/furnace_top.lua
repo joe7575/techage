@@ -242,7 +242,12 @@ local tubing = {
 		end
 	end,
 	on_recv_message = function(pos, src, topic, payload)
-		return CRD(pos).State:on_receive_message(pos, topic, payload)
+		if topic == "output" then
+			local nvm = techage.get_nvm(pos)
+			return string.split(nvm.output or "unknown", " ")[1]
+		else
+			return CRD(pos).State:on_receive_message(pos, topic, payload)
+		end
 	end,
 }
 

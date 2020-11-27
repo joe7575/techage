@@ -364,11 +364,12 @@ Please note, that this is not a technical distinction, only a logical.
 | "depth"      | number                                                       | Read the current depth value of a quarry block (1..80)       |
 | "load"       | number                                                       | Read the load value in percent  (0..100) of a tank, silo, accu, or battery block, or from the Signs Bot Box. Silo and tank return two values: The percentage value and the absolute value in units.<br /> Example: percent, absolute = $send_cmnd("223", "load") |
 | "delivered"  | number                                                       | Read the current delivered power value of a generator block. A power consuming block (accu) provides a negative value |
-| "action"     | player-name, action-string                                   | only for Sensor Chests                                       |
-| "stacks"     | Array with up to 4 Stores with the inventory content (see example) | only for Sensor Chests                                       |
+| "action"     | player-name, action-string                                   | Only for Sensor Chests                                       |
+| "stacks"     | Array with up to 4 Stores with the inventory content (see example) | Only for Sensor Chests                                       |
 | "count"      | number                                                       | Read the item counter of the TA4 Item Detector block         |
 | "count"      | number of items                                              | Read the total amount of TA4 chest items. An optional  number as `add_data` is used to address only one inventory slot (1..8, from left to right). |
 | "itemstring" | item string of the given slot                                | Specific command for the TA4 8x2000 Chest to read the item type (technical name) of one chest slot, specified via `add_data` (1..8).<br />Example: s = $send_cmnd("223", "itemstring", 1) |
+| "output"     | recipe output string, <br />e.g.: "default:glass"            | Only for the Industrial Furnace. If no recipe is active, the command returns "unknown" |
 
 
 
