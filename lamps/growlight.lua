@@ -20,6 +20,7 @@ local Cable = techage.ElectricCable
 local power = techage.power
 local Flowers = {}
 local Plants = {}
+local Ignore = { ["flowers:waterlily_waving"] = true }
 -- 9 plant positions below the light
 local Positions = { 
 	{x = 0, y =-1, z = 0},
@@ -143,7 +144,9 @@ minetest.after(1, function()
 		if name and type(name) == "string" then
 			local mod = string.split(name, ":")[1]
 			if mod == "flowers" or mod == "bakedclay" then -- Bakedclay also registers flowers as decoration.
-				techage.register_flower(name)
+				if not Ignore[name] then
+					techage.register_flower(name)
+				end
 			end
 		end
 	end
@@ -151,7 +154,9 @@ minetest.after(1, function()
 		if type(name) == "string" then
 			local mod = string.split(name, ":")[1]
 			if mod == "farming" and ndef.on_timer then -- probably a plant that still needs to grow
-				techage.register_plant(name)
+				if not Ignore[name] then
+					techage.register_plant(name)
+				end
 			end
 		end
 	end
