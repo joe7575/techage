@@ -156,6 +156,15 @@ local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	Cable:after_dig_node(pos)
 end
 
+local function put(pos, indir, name, amount)
+	local leftover = liquid.srv_put(pos, indir, name, amount)
+	if techage.is_activeformspec(pos) then
+		local nvm = techage.get_nvm(pos)
+		M(pos):set_string("formspec", formspec(State, pos, nvm))
+	end
+	return leftover
+end
+
 local function tubelib2_on_update2(pos, outdir, tlib2, node) 
 	if tlib2.tube_type == "pipe2" then
 		liquid.update_network(pos, outdir, tlib2)
@@ -182,14 +191,8 @@ local netw_def = {
 local liquid_def = {
 	capa = CAPACITY,
 	peek = liquid.srv_peek,
-	put = function(pos, indir, name, amount)
-		local leftover = liquid.srv_put(pos, indir, name, amount)
-		if techage.is_activeformspec(pos) then
-			local nvm = techage.get_nvm(pos)
-			M(pos):set_string("formspec", formspec(State, pos, nvm))
-		end
-		return leftover
-	end,
+	put = put,
+	untake = put,
 	take = function(pos, indir, name, amount)
 		amount, name = liquid.srv_take(pos, indir, name, amount)
 		if techage.is_activeformspec(pos) then
