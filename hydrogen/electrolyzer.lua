@@ -44,7 +44,7 @@ local function formspec(self, pos, nvm)
 		default.gui_slots..
 		"box[0,-0.1;5.8,0.5;#c6e8ff]"..
 		"label[2.5,-0.1;"..minetest.colorize( "#000000", S("Electrolyzer")).."]"..
-		techage.power.formspec_label_bar(0.1, 0.8, S("Electricity"), PWR_NEEDED, nvm.taken)..
+		techage.power.formspec_label_bar(pos, 0.1, 0.8, S("Electricity"), PWR_NEEDED, nvm.taken)..
 		arrow..
 		"image_button[3,2.5;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 		"tooltip[3,2.5;1,1;"..self:get_state_tooltip(nvm).."]"..

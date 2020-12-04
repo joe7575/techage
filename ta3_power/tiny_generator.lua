@@ -39,7 +39,7 @@ local function formspec(self, pos, nvm)
 		"image[1.4,1.6;1,1;techage_form_arrow_bg.png^[transformR270]"..
 		"image_button[1.4,3.2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 		"tooltip[1.5,3;1,1;"..self:get_state_tooltip(nvm).."]"..
-		power.formspec_label_bar(2.5, 0.8, S("Electricity"), PWR_CAPA, nvm.provided)
+		power.formspec_label_bar(pos, 2.5, 0.8, S("Electricity"), PWR_CAPA, nvm.provided)
 end
 
 local function play_sound(pos)

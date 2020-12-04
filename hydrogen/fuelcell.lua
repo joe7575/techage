@@ -48,7 +48,7 @@ local function formspec(self, pos, nvm)
 		arrow..
 		"image_button[2,2.5;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 		"tooltip[2,2.5;1,1;"..self:get_state_tooltip(nvm).."]"..
-		techage.power.formspec_label_bar(3.5, 0.8, S("Electricity"), PWR_CAPA, nvm.given)
+		techage.power.formspec_label_bar(pos, 3.5, 0.8, S("Electricity"), PWR_CAPA, nvm.given)
 end
 
 local function start_node(pos, nvm, state)

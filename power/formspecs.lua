@@ -48,11 +48,24 @@ function techage.power.formspec_power_bar(max_power, current_power)
 	return "techage_form_level_bg.png^[lowpart:"..percent..":techage_form_level_fg.png"
 end
 
-function techage.power.formspec_label_bar(x, y, label, max_power, current_power, unit)
+function techage.power.formspec_label_bar(pos, x, y, label, max_power, current_power, unit)
 	local percent, ypos
-	current_power = current_power or 0
+	
 	max_power = max_power or 1
 	unit = unit or "ku"
+	
+	if current_power == 0 then
+		-- check if power network is overloaded
+		 if techage.power.network_overloaded(pos, techage.ElectricCable) then
+			return "container["..x..","..y.."]"..
+				"box[0,0;2.3,3.3;#395c74]"..
+				"label[0.2,0;"..label.."]"..
+				"label[0.7,0.4;"..max_power.." "..unit.."]"..
+				"image[0,0.5;1,3;techage_form_level_red_fg.png]"..
+				"container_end[]"
+		end 
+	end
+	current_power = current_power or 0
 	if current_power == 0 then
 		percent = 0
 		ypos = 2.8

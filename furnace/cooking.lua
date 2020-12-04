@@ -111,7 +111,7 @@ local function process(inv, recipe, output)
 	if recipe.waste then
 		local leftover = inv:add_item("dst", ItemStack(recipe.waste))
 		if leftover:get_count() > 0 then
-			inv:set_list("src", leftover)
+			inv:add_item("src", leftover)
 			return techage.BLOCKED
 		end
 	end

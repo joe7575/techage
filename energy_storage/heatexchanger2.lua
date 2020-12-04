@@ -44,8 +44,8 @@ local function formspec(self, pos, nvm)
 		default.gui_slots..
 		"box[0,-0.1;5.8,0.5;#c6e8ff]"..
 		"label[2,-0.1;"..minetest.colorize( "#000000", S("Heat Exchanger")).."]"..
-		power.formspec_label_bar(0,   0.8, S("Electricity"), needed_max, needed)..
-		power.formspec_label_bar(3.5, 0.8, S("Thermal"), capa_max, capa, "")..
+		power.formspec_label_bar(pos, 0,   0.8, S("Electricity"), needed_max, needed)..
+		power.formspec_label_bar(pos, 3.5, 0.8, S("Thermal"), capa_max, capa, "")..
 		arrow..
 		"image_button[2.5,3;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 		"tooltip[2.5,3;1,1;"..self:get_state_tooltip(nvm).."]"

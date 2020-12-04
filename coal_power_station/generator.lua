@@ -32,7 +32,7 @@ local function formspec(self, pos, nvm)
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
-		power.formspec_label_bar(0, 0.8, S("power"), PWR_CAPA, nvm.provided)..
+		power.formspec_label_bar(pos, 0, 0.8, S("power"), PWR_CAPA, nvm.provided)..
 		"image_button[2.8,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 		"tooltip[2.8,2;1,1;"..self:get_state_tooltip(nvm).."]"
 end

@@ -49,7 +49,7 @@ local function formspec(self, pos, nvm)
 			default.gui_slots..
 			"box[0,-0.1;4.8,0.5;#c6e8ff]"..
 			"label[1,-0.1;"..minetest.colorize("#000000", S("Digtron Battery")).."]"..
-			power.formspec_label_bar(0, 0.8, S("Load"), TOTAL_MAX, total, S("Coal Equivalents"))..
+			power.formspec_label_bar(pos, 0, 0.8, S("Load"), TOTAL_MAX, total, S("Coal Equivalents"))..
 			"image_button[2.6,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 			"tooltip[2.6,2;1,1;"..self:get_state_tooltip(nvm).."]"..
 			"image[3.75,2;1,1;"..techage.get_power_image(pos, nvm).."]"

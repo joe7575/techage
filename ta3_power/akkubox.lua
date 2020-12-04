@@ -36,7 +36,7 @@ local function formspec(self, pos, nvm)
 		default.gui_slots..
 		"box[0,-0.1;4.8,0.5;#c6e8ff]"..
 		"label[1,-0.1;"..minetest.colorize( "#000000", S("TA3 Akku Box")).."]"..
-		power.formspec_label_bar(0, 0.8, S("Load"), PWR_CAPA, capa)..
+		power.formspec_label_bar(pos, 0, 0.8, S("Load"), PWR_CAPA, capa)..
 		"image_button[2.6,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 		"tooltip[3,2;1,1;"..self:get_state_tooltip(nvm).."]"..
 		"label[3.7,1.2;"..S("Electricity").."]"..

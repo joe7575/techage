@@ -148,6 +148,17 @@ function techage.power.power_available(pos, Cable)
 	return netw and netw.on and netw.alive and netw.alive > 0
 end
 
+function techage.power.network_overloaded(pos, Cable)
+	local nvm = techage.get_nvm(pos)
+	local tlib_type = Cable.tube_type
+	local netID = nvm[Cable.tube_type] and nvm[Cable.tube_type]["netID"]
+	local netw = networks.has_network(tlib_type, netID)
+	if netw then
+		local sum = (netw.available1 or 0) + (netw.available2 or 0)
+		return sum > 0 and sum < (netw.needed1 or 0)
+	end
+end
+
 -- this is more a try to start, the start will be performed by on_power()
 function techage.power.consumer_start(pos, Cable, cycle_time)
 	local nvm = techage.get_nvm(pos)

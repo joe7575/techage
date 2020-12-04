@@ -129,10 +129,10 @@ local function formspec(pos, nvm)
 		"box[0,-0.1;9.8,0.5;#c6e8ff]"..
 		"label[4,-0.1;"..minetest.colorize( "#000000", S("Network Data")).."]"..
 		"label[9.5,-0.1;"..minetest.colorize( "#000000", star).."]"..
-		power.formspec_label_bar(0,   0.7, S("Genera. 1"), gen1.pow_act, gen1.pow_used)..
-		power.formspec_label_bar(2.5, 0.7, S("Genera. 2"), gen2.pow_act, gen2.pow_used)..
-		power.formspec_label_bar(5,   0.7, S("Consum. 2"), con2.pow_act, con2.pow_used)..
-		power.formspec_label_bar(7.5, 0.7, S("Consum. 1"), con1.pow_act, con1.pow_used)..
+		power.formspec_label_bar(pos, 0,   0.7, S("Genera. 1"), gen1.pow_act, gen1.pow_used)..
+		power.formspec_label_bar(pos, 2.5, 0.7, S("Genera. 2"), gen2.pow_act, gen2.pow_used)..
+		power.formspec_label_bar(pos, 5,   0.7, S("Consum. 2"), con2.pow_act, con2.pow_used)..
+		power.formspec_label_bar(pos, 7.5, 0.7, S("Consum. 1"), con1.pow_act, con1.pow_used)..
 		"box[0,4.3;9.8,0.4;#c6e8ff]"..
 		"box[0,4.85;9.8,0.4;#395c74]"..
 		"box[0,5.35;9.8,0.4;#395c74]"..
