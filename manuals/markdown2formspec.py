@@ -106,7 +106,7 @@ class MyRenderer(mistune.Renderer):
     ##
     def block_code(self, code, lang):
         text = formspec_escape(code.strip())
-        lines = text.split("\n")
+        lines = text.split("\\n")
         lines = ["    " + item for item in lines]
         self.TextChunck.extend(lines)
         self.TextChunck.append("")

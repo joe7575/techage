@@ -217,17 +217,26 @@ function techage.add_node(pos, name, is_ta2)
 		return "-"
 	end
 	local key = minetest.hash_node_position(pos)
-	return NumbersToBeRecycled[key] or get_number(pos, true)
+	local num = NumbersToBeRecycled[key]
+	if num then
+		backend.set_nodepos(num, pos)
+		NumbersToBeRecycled[key] = nil
+		return num
+	end
+	return get_number(pos, true)
 end
 
 -- Function removes the node from the techage lists.
 function techage.remove_node(pos, oldnode, oldmetadata)
-	local number = oldmetadata and oldmetadata.fields and oldmetadata.fields.node_number
+	local number = oldmetadata and oldmetadata.fields and oldmetadata.fields.node_number or oldmetadata.fields.number
+	print("number1", dump(oldmetadata))
 	number = number or get_number(pos)
+	print("number2", number)
 	if number and tonumber(number) then
 		local key = minetest.hash_node_position(pos)
 		NumbersToBeRecycled[key] = number
 		NodeInfoCache[number] = nil
+		print("number3", number)
 	end
 	if oldnode and item_handling_node(oldnode.name) then
 		Tube:after_dig_node(pos)

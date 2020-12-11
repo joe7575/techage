@@ -222,16 +222,17 @@ minetest.register_node("techage:ta3_sequencer", {
 
 	on_receive_fields = on_receive_fields,
 	
-	on_dig = function(pos, node, puncher, pointed_thing)
+	can_dig = function(pos, puncher)
 		if minetest.is_protected(pos, puncher:get_player_name()) then
-			return
+			return false
 		end
 		local nvm = techage.get_nvm(pos)
-		if not nvm.running then
-			techage.remove_node(pos)
-			minetest.node_dig(pos, node, puncher, pointed_thing)
-			techage.del_mem(pos)
-		end
+		return not nvm.running
+	end,
+		
+	after_dig_node = function(pos, oldnode, oldmetadata)
+		techage.remove_node(pos, oldnode, oldmetadata)
+		techage.del_mem(pos)
 	end,
 	
 	on_timer = check_rules,

@@ -86,11 +86,14 @@ minetest.register_node("techage:ta4_server", {
 			return
 		end
 		techage.del_mem(pos)
-		techage.remove_node(pos)
 		minetest.node_dig(pos, node, puncher, pointed_thing)
 	end,
 		
-	on_timer = function(pos, elasped)
+	after_dig_node = function(pos, oldnode, oldmetadata)
+		techage.remove_node(pos, oldnode, oldmetadata)
+	end,
+
+on_timer = function(pos, elasped)
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
 		nvm.size = nvm.size or 0

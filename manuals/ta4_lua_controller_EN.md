@@ -347,13 +347,15 @@ In addition to Lua standard function the Lua Controller provides the following f
 ### Techage Command Functions
 
 With the `$send_cmnd(num, ident, add_data)` function, you can send commands to and retrieve data from another block with the given number _num_.
-The possible commands can be classified in two groups: Commands for reading data and commands for causing an action.
+The possible commands can be classified in two groups: Commands for reading data and commands for triggering an action.
 Please note, that this is not a technical distinction, only a logical.
 
-* Reading data  
-  _ident_ specifies the data to be read.  
-  _add_data_ is for additional data and normally not needed.  
-  The result is block dependent (see table below):
+**Reading data**
+
+- _ident_ specifies the data to be read. 
+-  _add_data_ is for additional data and normally not needed. 
+-  The result is block dependent (see table below)
+
 
 | ident        | returned data                                                | comment                                                      |
 | ------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -373,11 +375,11 @@ Please note, that this is not a technical distinction, only a logical.
 
 
 
+**Trigger an action**
 
-* Causing an action  
-   _num_ is the number of the remote block, like "1234".  
-   _cmnd_ is the command,  
-   _data_ is additional data (see table below):
+- _num_ is the number of the remote block, like "1234"
+- _cmnd_ is the command
+- _data_ is additional data (see table below)
 
 | cmnd                             | data         | comment                                                      |
 | -------------------------------- | ------------ | ------------------------------------------------------------ |

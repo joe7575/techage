@@ -385,13 +385,9 @@ minetest.register_node("techage:ta4_icta_controller", {
 
 	on_receive_fields = on_receive_fields,
 	
-	on_dig = function(pos, node, puncher, pointed_thing)
-		if minetest.is_protected(pos, puncher:get_player_name()) then
-			return
-		end
-		
-		techage.remove_node(pos)
-		minetest.node_dig(pos, node, puncher, pointed_thing)
+	after_dig_node = function(pos, oldnode, oldmetadata)
+		techage.remove_node(pos, oldnode, oldmetadata)
+		techage.del_mem(pos)
 	end,
 	
 	on_timer = on_timer,
