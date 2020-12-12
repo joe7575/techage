@@ -627,6 +627,8 @@ Dazu müssen eine oder mehrere Knotennummern eingegeben und der Konverter mit Me
 über Mesecons Leitungen verbunden werden. Den Mesecons Umsetzer kann man auch mit dem Programmer konfigurieren.
 Der Mesecons Umsetzer akzeptiert bis zu 5 Kommandos pro Sekunde, bei höherer Belastung schaltet er sich ab.
 
+**Dieser Block existiert aber nur, wenn die Mod mesecons aktiv ist!**
+
 [ta3_mesecons_converter|image]
 
 

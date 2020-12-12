@@ -619,6 +619,8 @@ To do this, one or more node numbers must be entered and the converter with Mese
 has to be connected via Mesecons cables. The Mesecons converter can also be configured with the programmer.
 The Mesecons converter accepts up to 5 commands per second; it switches itself off at higher loads.
 
+**This node only exists if the mod mesecons is active!**
+
 [ta3_mesecons_converter|image]
 
 

@@ -228,15 +228,12 @@ end
 
 -- Function removes the node from the techage lists.
 function techage.remove_node(pos, oldnode, oldmetadata)
-	local number = oldmetadata and oldmetadata.fields and oldmetadata.fields.node_number or oldmetadata.fields.number
-	print("number1", dump(oldmetadata))
+	local number = oldmetadata and oldmetadata.fields and (oldmetadata.fields.node_number or oldmetadata.fields.number)
 	number = number or get_number(pos)
-	print("number2", number)
 	if number and tonumber(number) then
 		local key = minetest.hash_node_position(pos)
 		NumbersToBeRecycled[key] = number
 		NodeInfoCache[number] = nil
-		print("number3", number)
 	end
 	if oldnode and item_handling_node(oldnode.name) then
 		Tube:after_dig_node(pos)
