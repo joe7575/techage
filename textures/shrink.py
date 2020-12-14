@@ -1,13 +1,13 @@
 import os, fnmatch
 
 
-print ">>> Convert"
+print(">>> Convert")
 for filename in os.listdir("./"):
     if fnmatch.fnmatch(filename, "*.png"):
         print(filename)
-        os.system("pngquant --skip-if-larger --quality=8-32 --output ./%s.new  ./%s" % (filename, filename))
+        os.system("pngquant --skip-if-larger --quality=20-40 --strip --output ./%s.new  ./%s" % (filename, filename))
 
-print "\n>>> Copy"
+print("\n>>> Copy")
 for filename in os.listdir("./"):
     if fnmatch.fnmatch(filename, "*.new"):
         print(filename)

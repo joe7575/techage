@@ -128,11 +128,11 @@ for idx = 0,3 do
 
 	minetest.register_node("techage:sieve"..idx, {
 		description =  S("TA1 Gravel Sieve"),
-		tiles = tiles_data,
+		tiles = table.copy(tiles_data),
 		drawtype = "nodebox",
 		node_box = {
 			type = "fixed",
-			fixed = nodebox_data,
+			fixed = table.copy(nodebox_data),
 		},
 		selection_box = {
 			type = "fixed",
