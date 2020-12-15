@@ -99,12 +99,14 @@ function techage.get_node_lvm(pos)
 	local data = vm:get_data()
 	local param2_data = vm:get_param2_data()
 	local area = VoxelArea:new({MinEdge = MinEdge, MaxEdge = MaxEdge})
-	local idx = area:index(pos.x, pos.y, pos.z)
-	node = {
-		name = minetest.get_name_from_content_id(data[idx]),
-		param2 = param2_data[idx]
-	}
-	return node
+	local idx = area:indexp(pos)
+	if data[idx] and param2_data[idx] then
+		return {
+			name = minetest.get_name_from_content_id(data[idx]),
+			param2 = param2_data[idx]
+		}
+	end
+	return {name="ignore", param2=0}
 end
 
 --
