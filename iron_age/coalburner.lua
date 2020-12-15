@@ -17,24 +17,6 @@ local S = techage.S
 local COAL_BURN_TIME = 1200
 local CYCLE_TIME = 5
 
-local function get_node_lvm(pos)
-	local node = minetest.get_node_or_nil(pos)
-	if node then
-		return node
-	end
-	local vm = minetest.get_voxel_manip()
-	local MinEdge, MaxEdge = vm:read_from_map(pos, pos)
-	local data = vm:get_data()
-	local param2_data = vm:get_param2_data()
-	local area = VoxelArea:new({MinEdge = MinEdge, MaxEdge = MaxEdge})
-	local idx = area:indexp(pos)
-	node = {
-		name = minetest.get_name_from_content_id(data[idx]),
-		param2 = param2_data[idx]
-	}
-	return node
-end
-
 local function num_coal(pos)
 	local pos1 = {x=pos.x, y=pos.y+1, z=pos.z}
 	local pos2 = {x=pos.x, y=pos.y+32, z=pos.z}
@@ -77,7 +59,7 @@ local function remove_flame(pos, height)
 	pos = {x=pos.x, y=pos.y+height, z=pos.z}
 	for idx=height,1,-1 do
 		pos = {x=pos.x, y=pos.y+1, z=pos.z}
-		local node = get_node_lvm(pos)
+		local node = techage.get_node_lvm(pos)
 		if string.find(node.name, "techage:flame") then
 			minetest.remove_node(pos)
 		elseif node.name == "techage:meltingpot" then
@@ -102,7 +84,7 @@ local function flame(pos, height, heat, first_time)
 	for idx=heat,1,-1 do
 		pos = {x=pos.x, y=pos.y+1, z=pos.z}
 		idx = math.min(idx, 12)
-		local node = get_node_lvm(pos)
+		local node = techage.get_node_lvm(pos)
 		if node.name == "techage:meltingpot_active" or node.name == "ignore" then
 			return
 		end
@@ -144,7 +126,7 @@ for idx,ratio in ipairs(lRatio) do
 		
 		after_destruct = function(pos, oldnode)
 			pos.y = pos.y + 1
-			local node = get_node_lvm(pos)
+			local node = techage.get_node_lvm(pos)
 			if minetest.get_item_group(node.name, "techage_flame") > 0 then
 				minetest.remove_node(pos)
 			end
