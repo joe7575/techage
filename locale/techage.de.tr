@@ -242,24 +242,22 @@ TechAge Door Block=TechAge Türblock
 ### doorcontroller.lua ###
 
 Insert door/gate block number(s)=Gebe Tür-/Tornummer(n) ein
-
-### doorcontroller.lua ###
-### doorcontroller2.lua ###
-
 TA3 Door Controller=TA3 Tür Controller
 
 ### doorcontroller2.lua ###
 
-Click on all the blocks that are part of the door/gate=
-Ctrl,Inv=
-Done=
-Done.=
-Hide=
-Record=
-Recording...=
-Show=
-TA3 Door Controller 2=
-marked=
+Blocks are back=Blöcke sind wieder da
+Blocks are disappeared=Blöcke sind verschwunden
+Click on all the blocks that are part of the door/gate=Klicke auf alle Blöcke, die Teil des Tores sind
+Ctrl,Inv=Ctrl,Inv
+Done=Fertig
+Error: Inventory already in use=Fehler: Inventar wird bereits genutzt
+Record=Aufzeichnen
+Recording...=Aufzeichnung...
+Remove=Entfernen
+Set=Setzen
+TA3 Door Controller II=TA3 Tür Controller II
+block positions are stored.=Block Positionen gespeichert.
 
 ### drillbox.lua ###
 

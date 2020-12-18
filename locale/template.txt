@@ -242,24 +242,22 @@ TechAge Door Block=
 ### doorcontroller.lua ###
 
 Insert door/gate block number(s)=
-
-### doorcontroller.lua ###
-### doorcontroller2.lua ###
-
 TA3 Door Controller=
 
 ### doorcontroller2.lua ###
 
+Blocks are back=
+Blocks are disappeared=
 Click on all the blocks that are part of the door/gate=
 Ctrl,Inv=
 Done=
-Done.=
-Hide=
+Error: Inventory already in use=
 Record=
 Recording...=
-Show=
-TA3 Door Controller 2=
-marked=
+Remove=
+Set=
+TA3 Door Controller II=
+block positions are stored.=
 
 ### drillbox.lua ###
 
