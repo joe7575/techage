@@ -34,7 +34,11 @@ local function plan(images)
 			if item ~= false then
 				local img, tooltip = tooltip(item)
 				local x_offs, y_offs = (x-1) * 0.9, (y-1) * 0.9 + 0.8
-				if img == "" then
+				if img == "top_view" then
+					tbl[#tbl+1] = "label["..x_offs..","..y_offs..";"..S("Top view").."]"
+				elseif img == "side_view" then
+					tbl[#tbl+1] = "label["..x_offs..","..y_offs..";"..S("Side view").."]"
+				elseif img == "" then
 					img = tooltip -- use tooltip for bigger image
 					tbl[#tbl+1] = "image["..x_offs..","..y_offs..";2.2,2.2;"..img.."]"
 				elseif string.find(img, ":") then

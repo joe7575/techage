@@ -419,6 +419,8 @@ TA4 LED Grow Light=
 
 No plan available=
 Plan=
+Side view=
+Top view=
 
 ### hammer.lua ###
 

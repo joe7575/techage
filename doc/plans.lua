@@ -25,6 +25,9 @@ local IMG42 = {"", "techage_ta4_solar.png"}
 local IMG43 = {"", "techage_reactor_inv.png"}
 local IMG44 = {"", "techage_ta4_filter.png"}
 
+local TOP_V = {"top_view", ""}
+local SIDEV = {"side_view", ""}
+
 --
 -- TA1: Coal Pile
 --
@@ -33,11 +36,14 @@ local DWOOD = {"default_wood.png" , "default:wood"}
 local LIGTR = {"techage_lighter.png", "techage:lighter"}
 
 techage.ConstructionPlans["coalpile"] = {
-	{DDIRT, DDIRT, DDIRT, DDIRT, DDIRT},
-	{DDIRT, DWOOD, DWOOD, DWOOD, DDIRT},
-	{DDIRT, DWOOD, DWOOD, DWOOD, DDIRT},
-	{DDIRT, DWOOD, LIGTR, DWOOD, DDIRT},
-	{DDIRT, DDIRT, DDIRT, DDIRT, DDIRT},
+	{false, false, SIDEV, false, false, false, false, false, TOP_V, false, false},
+	{false, false, false, false, false, false, false, false, false, false, false},
+	{DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, false, DDIRT, DDIRT, DDIRT, DDIRT, DDIRT},
+	{DDIRT, DWOOD, DWOOD, DWOOD, DDIRT, false, DDIRT, DWOOD, DWOOD, DWOOD, DDIRT},
+	{DDIRT, DWOOD, DWOOD, DWOOD, DDIRT, false, DDIRT, DWOOD, LIGTR, DWOOD, DDIRT},
+	{DDIRT, DWOOD, LIGTR, DWOOD, DDIRT, false, DDIRT, DWOOD, DWOOD, DWOOD, DDIRT},
+	{DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, false, DDIRT, DDIRT, DDIRT, DDIRT, DDIRT},
+	{false, false, false, false, false, false, false, false, false, false, false},
 }
 
 --
@@ -49,6 +55,7 @@ local MEPOT = {"default_cobble.png^techage_meltingpot.png", "techage:meltingpot"
 local FLAME = {"techage_flame.png", nil}
 
 techage.ConstructionPlans["coalburner"] = {
+	{false, false, SIDEV, false, false, false, false},
 	{false, false, MEPOT, false, false, IMG_1, false},
 	{false, false, FLAME, false},
 	{false, COBBL, CCOAL, COBBL},
@@ -119,15 +126,21 @@ techage.ConstructionPlans["itemtransport"] = {
 local RINSR = {"techage_filling_ta2.png^techage_appl_rinser.png^techage_frame_ta2.png", "techage:ta2_rinser_pas"}
 local GLASS = {"default_glass.png", "default:glass"}
 local WATER = {"default_water.png^default_glass.png", "default:water_source"}
+local WATR2 = {"default_water.png", "default:water_source"}
 local TK000 = {"techage_tube_knee.png", "techage:tubeS"} -- like 'r'
 local TK090 = {"techage_tube_knee.png^[transformR90", "techage:tubeS"} -- '7'
 local TK180 = {"techage_tube_knee.png^[transformR180", "techage:tubeS"}
 local TK270 = {"techage_tube_knee.png^[transformR270", "techage:tubeS"}
 
 techage.ConstructionPlans["gravelrinser"] = {	
-	{false, false, false, false, false, false, false, false},
+	{false, false, false, SIDEV, false, false, false, false},
 	{false, GLASS, WATER, GLASS, GLASS, GLASS, GLASS, GLASS},
 	{false, DDIRT, DDIRT, TK000, RINSR, TK270, HOPPR, CHEST},
+	{false, false, false, false, false, false, false, false},
+	{false, false, false, TOP_V, false, false, false, false},
+	{false, GLASS, GLASS, GLASS, GLASS, GLASS, GLASS, GLASS},
+	{false, GLASS, WATR2, TK000, RINSR, TK270, HOPPR, GLASS},
+	{false, GLASS, GLASS, GLASS, GLASS, GLASS, GLASS, GLASS},
 }
 
 --
@@ -183,6 +196,7 @@ local PN180 = {"techage_gaspipe_knee.png^[transformR180", "techage:ta4_pipeS"}  
 local PN270 = {"techage_gaspipe_knee.png^[transformR270", "techage:ta4_pipeS"}  -- 7
 
 techage.ConstructionPlans["ta3_tank"] = {
+	{false, false, false, false, SIDEV, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false},
 	{false, Tubes, PushR, Tubes, Fillr, Tubes, PushR, Tubes, false, false},
 	{false, false, false, false, TANK3, PIPEH, PIPEH, Pump,  PIPEH, false},
@@ -204,13 +218,13 @@ local CRAIL = {"carts_rail_curved.png^[transformR90", "carts:rail"}
 local BUFFR = {"default_junglewood.png^minecart_buffer.png", "minecart:buffer"}
 
 techage.ConstructionPlans["ta3_loading"] = {
-	{false, false, PIPEH, Pump,  PIPEH, PN270, false, false, false, false, false},
+	{false, false, PIPEH, Pump,  PIPEH, PN270, SIDEV, false, false, false, false},
 	{false, false, false, false, false, PIPEV, false, false, false, false, false},
 	{false, MCART, false, false, false, PN090, TANK3, false, false, false, false},
 	{false, HOPPR, CHEST, Tubes, PushR, Tubes, Fillr, PushR, Tubes, MCART, false},
 	{false, false, false, false, false, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false, false},
-	{false, BUFFR, false, false, false, false, false, false, false, BUFFR, false},
+	{false, BUFFR, false, false, false, TOP_V, false, false, false, BUFFR, false},
 	{false, PRAIL, false, false, false, false, false, false, false, PRAIL, false},
 	{false, CRAIL, RAILH, PRAIH, RAILH, RAILH, PRAIH, RAILH, RAILH, TRAIL, RAILH},
 }
@@ -227,7 +241,7 @@ local DBASE = {"techage_concrete.png", "techage:ta3_distiller_base"}
 local REBIO = {"techage_filling_ta3.png^techage_appl_reboiler.png^techage_frame_ta3.png", "techage:ta3_reboiler"}
 
 techage.ConstructionPlans["ta3_distiller"] = {
-	{false, false, false, false, false, false, false, PN000, PIPEH, TANK3, false},
+	{false, false, false, false, false, SIDEV, false, PN000, PIPEH, TANK3, false},
 	{false, IMG31, false, false, false, false, false, DIST4, false, false, false},
 	{false, false, false, false, false, false, false, DIST3, PIPEH, TANK3, false},
 	{false, false, false, false, false, false, false, DIST2, false, false, false},
@@ -250,13 +264,13 @@ local DOSER = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_pump_
 local SILO  = {"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_silo.png", "techage:ta3_silo"}
 
 techage.ConstructionPlans["ta4_reactor"] = {
-	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, false, false, false, false, false, SIDEV, false, false, false, false},
 	{false, IMG43, false, false, false, false, false, false, false, false, false},
 	{false, false, false, false, PN000, PIPEH, PIPEH, PN270, false, false, false},
 	{false, false, false, false, PIPEV, false, false, FILLR, false, false, false},
 	{false, false, false, false, PIPEV, false, false, REACT, false, false, false},
 	{false, false, false, false, PIPEV, false, false, STAND, PIPEH, PIPEH, SILO},
-	{false, TANK3, PIPEH, PIPEH, DOSER, PN270, false, RBASE, PIPEH, PIPEH, Tank},
+	{false, TANK3, PIPEH, PIPEH, DOSER, PN270, false, RBASE, PIPEH, PIPEH, TANK3},
 	{false, SILO,  PIPEH, PIPEH, PIPEH, PN180, false, false, false, false, false},
 }
 
@@ -269,6 +283,7 @@ local PILLR = {"techage:pillar", "techage:pillar"}
 local SLAMP = {"techage:rotor_signal_lamp_off", "techage:rotor_signal_lamp_off"}
 
 techage.ConstructionPlans["ta4_windturbine"] = {
+	{false, false, false, SIDEV, false,  false, false},
 	{false, false, false, SLAMP, false,  false, IMG_4, false},
 	{false, false, false, ROTOR, NCLLE, false, false},
 	{false, false, false, PILLR, false,  false, false},
@@ -294,14 +309,14 @@ local INLET = {"basic_materials_concrete_block.png^techage_gaspipe.png^[transfor
 local OGLAS = {"default_obsidian_glass.png", "default:obsidian_glass"}
 
 techage.ConstructionPlans["ta4_storagesystem"] = {
-	{false, false, false, false, false, false, false, false, false, IMG41, false},
-	{false, false, false, PN000, PIPEH, PIPEH, PN270, false, false, false, false},
-	{false, CONCR, CONCR, INLET, CONCR, CONCR, PIPEV, false, false, false, false},
-	{false, CONCR, GRAVL, GRAVL, GRAVL, CONCR, PN090, HEXR1, PIPEH, PN270, false},
-	{false, OGLAS, GRAVL, GRAVL, GRAVL, CONCR, false, HEXR2, false, PIPEV, false},
-	{false, CONCR, GRAVL, GRAVL, GRAVL, CONCR, PN000, HEXR3, PIPEH, TURBN, GENER},
-	{false, CONCR, CONCR, INLET, CONCR, CONCR, PIPEV, false, false, false, false},
-	{false, false, false, PN090, PIPEH, PIPEH, PN180, false, false, false, false},
+	{false, false, TOP_V, false, false, false, false, SIDEV, false, IMG41, false},
+	{false, false, PN000, PIPEH, PIPEH, PIPEH, PN270, false, false, false, false},
+	{CONCR, CONCR, INLET, CONCR, CONCR, false, PIPEV, false, false, false, false},
+	{CONCR, GRAVL, GRAVL, GRAVL, CONCR, false, PN090, HEXR1, PIPEH, PN270, false},
+	{OGLAS, GRAVL, GRAVL, GRAVL, CONCR, false, false, HEXR2, false, PIPEV, false},
+	{CONCR, GRAVL, GRAVL, GRAVL, CONCR, false, PN000, HEXR3, PIPEH, TURBN, GENER},
+	{CONCR, CONCR, INLET, CONCR, CONCR, false, PIPEV, false, false, false, false},
+	{false, false, PN090, PIPEH, PIPEH, PIPEH, PN180, false, false, false, false},
 }
 
 --
@@ -315,7 +330,7 @@ local INVAC = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_inver
 
 techage.ConstructionPlans["ta4_solarplant"] = {
 	{false, false, false, false, false, false, false, false, false, IMG42, false},
-	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, false, TOP_V, false, false, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false, false},
     {false, SOLAR, SOLAR, SOLAR},
     {false, CARRI, CARRI, CARRI, RCBLE, RCBLE, RCBLE, INVAC, Cable},
@@ -334,7 +349,7 @@ local LFFIL = {"basic_materials_concrete_block.png^techage_gaspipe_hole.png", "t
 
 techage.ConstructionPlans["ta4_liquid_filter_base"] = {
 	{false, false, false, false, false, false, false, false, IMG44, false},
-	{false, false, false, false, false, false, false, false, false, false},
+	{false, false, false, TOP_V, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false},
 	{false, CONCR, CONCR, CONCR, CONCR, CONCR},
 	{false, CONCR, CONCR, CONCR, CONCR, CONCR},
@@ -345,7 +360,7 @@ techage.ConstructionPlans["ta4_liquid_filter_base"] = {
 
 techage.ConstructionPlans["ta4_liquid_filter_gravel"] = {
 	{false, false, false, false, false, false, false, false, IMG44, false},
-	{false, false, false, false, false, false, false, false, false, false},
+	{false, false, false, TOP_V, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false},
 	{false, CONCR, OGLAS, OGLAS, OGLAS, CONCR},
 	{false, OGLAS, GRAVL, GRAVL, GRAVL, OGLAS},
@@ -356,7 +371,7 @@ techage.ConstructionPlans["ta4_liquid_filter_gravel"] = {
 
 techage.ConstructionPlans["ta4_liquid_filter_top"] = {
 	{false, false, false, false, false, false, false, false, IMG44, false},
-	{false, false, false, false, false, false, false, false, false, false},
+	{false, false, false, TOP_V, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false},
 	{false, CONCR, CONCR, CONCR, CONCR, CONCR},
 	{false, CONCR, false, false, false, CONCR},
