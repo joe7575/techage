@@ -95,7 +95,7 @@ minetest.register_node("techage:ta3_doorcontroller", {
 	
 	techage_set_numbers = function(pos, numbers, player_name)
 		local meta = M(pos)
-		local res = logic.set_numbers(pos, numbers, player_name, S("TA3 Repeater"))
+		local res = logic.set_numbers(pos, numbers, player_name, S("TA3 Door Controller"))
 		if res then
 			swap_door_nodes(pos, false)
 			meta:set_string("formspec", formspec(meta))

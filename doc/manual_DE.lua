@@ -104,6 +104,7 @@ techage.manual_DE.aTitel = {
   "3,TechAge Signallampe / Signal Lamp",
   "3,Tür/Tor Blöcke / Door/Gate Blocks",
   "3,TA3 Tür Controller / Door Controller",
+  "3,TA3 Tür Controller II / Door Controller II",
   "3,TA3 Mesecons Umsetzer / TA3 Mesecons Converter",
   "2,Detektoren",
   "3,TA3 Detektor / Detector",
@@ -983,10 +984,18 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der Tür Controller II kann alle Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen\\, muss der \"Aufzeichnen\" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden\\, die Teil der Tür / des Tores sein sollen. Danach muss der \"Fertig\" Button gedrückt werden.  Es können bis zu 16 Blöcke ausgewählt werden. Die entfernten Blöcke werden im Inventar des Controllers gespeichert. Über die Tasten \"Entfernen\" bzw. \"Setzen\" kann die Funktion des Controllers von Hand getestet werden.\n"..
+  "\n"..
+  "Wird ein  'on' / 'off' Kommando an den Tür Controller II gesendet\\, entfernt bzw. setzt er die Blöcke ebenfalls.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Der Mesecons Umsetzer dient zur Umwandlung von Techage on/off Kommandos in Mesecons Signale und umgekehrt.\n"..
   "Dazu müssen eine oder mehrere Knotennummern eingegeben und der Konverter mit Mesecons Blöcken \n"..
   "über Mesecons Leitungen verbunden werden. Den Mesecons Umsetzer kann man auch mit dem Programmer konfigurieren.\n"..
   "Der Mesecons Umsetzer akzeptiert bis zu 5 Kommandos pro Sekunde\\, bei höherer Belastung schaltet er sich ab.\n"..
+  "\n"..
+  "*Dieser Block existiert aber nur\\, wenn die Mod mesecons aktiv ist!*\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1677,6 +1686,7 @@ techage.manual_DE.aItemName = {
   "ta3_signallamp",
   "ta3_doorblock",
   "ta3_doorcontroller",
+  "ta3_doorcontroller",
   "ta3_mesecons_converter",
   "ta3_nodedetector",
   "ta3_detector",
@@ -1861,6 +1871,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta3_distiller",
+  "",
   "",
   "",
   "",

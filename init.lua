@@ -242,6 +242,7 @@ dofile(MP.."/logic/cart_detector.lua")
 dofile(MP.."/logic/gateblock.lua")
 dofile(MP.."/logic/doorblock.lua")
 dofile(MP.."/logic/doorcontroller.lua")
+dofile(MP.."/logic/doorcontroller2.lua")
 dofile(MP.."/logic/collector.lua")
 if minetest.global_exists("mesecon") then
 	dofile(MP.."/logic/mesecons_converter.lua")

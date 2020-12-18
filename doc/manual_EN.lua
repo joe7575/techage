@@ -103,6 +103,7 @@ techage.manual_EN.aTitel = {
   "3,TechAge Signal Lamp",
   "3,Door/Gate Blocks",
   "3,TA3 Door Controller",
+  "3,TA3 Door Controller II",
   "3,TA3 Mesecons Converter",
   "2,Detectors",
   "3,TA3 Detector",
@@ -974,10 +975,16 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The Door Controller II can remove and set all types of blocks. To teach in the Door Controller II\\, the \"Record\" button must be pressed. Then all blocks that should be part of the door / gate must be clicked. Then the \"Done\" button must be pressed. Up to 16 blocks can be selected. The removed blocks are saved in the controller's inventory. The function of the controller can be tested manually using the \"Remove\" or \"Set\" buttons. If an 'on' /'off' command is sent to the Door Controller II\\, it removes or sets the blocks as well.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "The Mesecons converter is used to convert Techage on/off commands into Mesecons signals and vice versa.\n"..
   "To do this\\, one or more node numbers must be entered and the converter with Mesecons blocks\n"..
   "has to be connected via Mesecons cables. The Mesecons converter can also be configured with the programmer.\n"..
   "The Mesecons converter accepts up to 5 commands per second\\; it switches itself off at higher loads.\n"..
+  "\n"..
+  "*This node only exists if the mod mesecons is active!*\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1660,6 +1667,7 @@ techage.manual_EN.aItemName = {
   "ta3_signallamp",
   "ta3_doorblock",
   "ta3_doorcontroller",
+  "ta3_doorcontroller",
   "ta3_mesecons_converter",
   "ta3_nodedetector",
   "ta3_detector",
@@ -1843,6 +1851,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "ta3_distiller",
+  "",
   "",
   "",
   "",

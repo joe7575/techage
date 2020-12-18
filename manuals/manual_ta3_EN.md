@@ -603,11 +603,15 @@ This makes it possible to realize secret doors that only open for certain player
 
 [ta3_doorblock|image]
 
-
-
 ### TA3 Door Controller
 
 The door controller is used to control the TA3 door/gate blocks. With the door controller, the numbers of the door/gate blocks must be entered. If an `on` / `off` command is sent to the door controller, this opens/closes the door or gate.
+
+[ta3_doorcontroller|image]
+
+### TA3 Door Controller II
+
+The Door Controller II can remove and set all types of blocks. To teach in the Door Controller II, the "Record" button must be pressed. Then all blocks that should be part of the door / gate must be clicked. Then the "Done" button must be pressed. Up to 16 blocks can be selected. The removed blocks are saved in the controller's inventory. The function of the controller can be tested manually using the "Remove" or "Set" buttons. If an `on` /` off` command is sent to the Door Controller II, it removes or sets the blocks as well.
 
 [ta3_doorcontroller|image]
 

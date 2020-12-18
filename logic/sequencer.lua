@@ -93,6 +93,7 @@ local function restart_timer(pos, time)
 		timer:stop()
 	end
 	if type(time) == "number" then
+		time = math.max(time, 0.5)
 		timer:start(time)
 	end
 end	
@@ -115,6 +116,7 @@ local function check_rules(pos, elapsed)
 				offs = 1
 			end
 			if offs > 0 then
+				-- we can't restart the timer within the function om_timer
 				minetest.after(0, restart_timer, pos, offs)
 				return false
 			end

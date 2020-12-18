@@ -242,12 +242,24 @@ TechAge Door Block=
 ### doorcontroller.lua ###
 
 Insert door/gate block number(s)=
-TA3 Door Controller=
 
 ### doorcontroller.lua ###
-### repeater.lua ###
+### doorcontroller2.lua ###
 
-TA3 Repeater=
+TA3 Door Controller=
+
+### doorcontroller2.lua ###
+
+Click on all the blocks that are part of the door/gate=
+Ctrl,Inv=
+Done=
+Done.=
+Hide=
+Record=
+Recording...=
+Show=
+TA3 Door Controller 2=
+marked=
 
 ### drillbox.lua ###
 
@@ -794,6 +806,10 @@ Position temperature=
 TechAge Info Tool (use @= read status info)=
 TechAge Repair Kit=
 repaired=
+
+### repeater.lua ###
+
+TA3 Repeater=
 
 ### rotor.lua ###
 
