@@ -240,8 +240,8 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 				meta:set_string("status", S("Error: Inventory already in use"))
 			else
 				meta:set_string("status", S("Recording..."))
-				minetest.chat_send_all(S("Click on all the blocks that are part of the door/gate"))
 				local name = player:get_player_name()
+				minetest.chat_send_player(name, S("Click on all the blocks that are part of the door/gate"))
 				MarkedNodes[name] = {}
 			end
 			meta:set_string("formspec", formspec1(meta))
