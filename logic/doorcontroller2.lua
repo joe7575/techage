@@ -143,7 +143,8 @@ local function show_nodes(pos)
 			local param2 = param2_list[idx]
 			if pos and param2 and name ~= "" then
 				if not minetest.is_protected(pos, owner) then
-					if name ~= "air" then
+					local node = minetest.get_node(pos)
+					if node.name == "air" then
 						minetest.add_node(pos, {name = name, param2 = param2})
 					end
 					res = true
@@ -174,12 +175,15 @@ local function hide_nodes(pos)
 			if pos then
 				if not minetest.is_protected(pos, owner) then
 					local node = minetest.get_node_or_nil(pos)
-					if node then
+					local meta = minetest.get_meta(pos)
+					if node and (not meta or not next((meta:to_table()).fields)) then
 						minetest.remove_node(pos)
-						item_list[idx] = ItemStack({name = node.name, count = 1})
-						param2_list[idx] = node.param2
+						if node.name ~= "air" then
+							item_list[idx] = ItemStack({name = node.name, count = 1})
+							param2_list[idx] = node.param2
+						end
 					else
-						item_list[idx] = ItemStack({name = "air", count = 1})
+						item_list[idx] = nil
 						param2_list[idx] = 0
 					end
 					res = true
@@ -256,7 +260,7 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 				meta:set_string("status", S("Blocks are back"))
 				meta:set_string("formspec", formspec1(meta))
 				local name = player:get_player_name()
-				MarkedNodes[name] = {}
+				MarkedNodes[name] = nil
 			end
 		elseif fields.hide then
 			if hide_nodes(pos) then
@@ -264,7 +268,7 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 				meta:set_string("status", S("Blocks are disappeared"))
 				meta:set_string("formspec", formspec1(meta))
 				local name = player:get_player_name()
-				MarkedNodes[name] = {}
+				MarkedNodes[name] = nil
 			end
 		end
 	end,

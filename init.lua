@@ -159,6 +159,7 @@ dofile(MP.."/basic_machines/liquidsampler.lua")
 dofile(MP.."/basic_machines/quarry.lua")
 dofile(MP.."/basic_machines/ta4_chest.lua")
 dofile(MP.."/basic_machines/ta4_injector.lua")
+dofile(MP.."/basic_machines/itemsource.lua")
 
 -- Liquids II
 dofile(MP.."/liquids/tank.lua")

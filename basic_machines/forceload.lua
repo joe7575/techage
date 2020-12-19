@@ -54,6 +54,7 @@ local function chat(player, text)
 end
 
 local function postload_area(pos)
+	minetest.log("warning", "[FLB] area "..P2S(pos).." not loaded!")
 	if not minetest.forceload_block(pos, true) then
 		minetest.after(60, postload_area, pos)
 	end
