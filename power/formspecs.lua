@@ -19,7 +19,7 @@
 local in_range = techage.in_range
 
 function techage.power.percent(max_val, curr_val)
-	return math.min(math.ceil(((curr_val or 0) * 100.0) / (max_val or 1.0)), 100)
+	return math.min(math.ceil(((curr_val or 0) * 100) / (max_val or 1.0)), 100)
 end
 
 function techage.power.formspec_load_bar(charging, max_val)

@@ -209,6 +209,7 @@ minetest.register_node("techage:ta3_silo", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 		techage.remove_node(pos, oldnode, oldmetadata)
+		techage.del_mem(pos)
 	end,
 	liquid = tLiquid,
 	networks = tNetworks,
@@ -254,6 +255,7 @@ minetest.register_node("techage:ta4_silo", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 		techage.remove_node(pos, oldnode, oldmetadata)
+		techage.del_mem(pos)
 	end,
 	liquid = tLiquid,
 	networks = tNetworks,
@@ -272,7 +274,11 @@ techage.register_node({"techage:ta3_silo", "techage:ta4_silo"}, {
 	on_pull_item = function(pos, in_dir, num)
 		local inv = M(pos):get_inventory()
 		if not inv:is_empty("main") then
-			return techage.get_items(pos, inv, "main", num) 
+			local taken = techage.get_items(pos, inv, "main", num) 
+			local nvm = techage.get_nvm(pos)
+			nvm.item_count = nvm.item_count or get_item_count(pos)
+			nvm.item_count = nvm.item_count - taken:get_count()
+			return taken
 		end
 	end,
 	on_push_item = function(pos, in_dir, stack)
@@ -284,11 +290,17 @@ techage.register_node({"techage:ta3_silo", "techage:ta4_silo"}, {
 				
 			if inv:is_empty("main")  then
 				inv:add_item("main", stack)
+				local nvm = techage.get_nvm(pos)
+				nvm.item_count = nvm.item_count or get_item_count(pos)
+				nvm.item_count = nvm.item_count + stack:get_count()
 				return true
 			end
 			
 			if inv:contains_item("main", name) and inv:room_for_item("main", stack) then
 				inv:add_item("main", stack)
+				local nvm = techage.get_nvm(pos)
+				nvm.item_count = nvm.item_count or get_item_count(pos)
+				nvm.item_count = nvm.item_count + stack:get_count()
 				return true
 			end
 		end
@@ -297,6 +309,9 @@ techage.register_node({"techage:ta3_silo", "techage:ta4_silo"}, {
 	on_unpull_item = function(pos, in_dir, stack)
 		local meta = M(pos)
 		local inv = meta:get_inventory()
+		local nvm = techage.get_nvm(pos)
+		nvm.item_count = nvm.item_count or get_item_count(pos)
+		nvm.item_count = nvm.item_count + stack:get_count()
 		return techage.put_items(inv, "main", stack)
 	end,
 	on_recv_message = function(pos, src, topic, payload)
@@ -313,6 +328,10 @@ techage.register_node({"techage:ta3_silo", "techage:ta4_silo"}, {
 		else
 			return "unsupported"
 		end
+	end,
+	on_node_load = function(pos)
+		local nvm = techage.get_nvm(pos)
+		nvm.item_count = nil
 	end,
 })	
 
