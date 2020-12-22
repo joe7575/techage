@@ -5,7 +5,7 @@ print(">>> Convert")
 for filename in os.listdir("./"):
     if fnmatch.fnmatch(filename, "*.png"):
         print(filename)
-        os.system("pngquant --skip-if-larger --quality=20-40 --strip --output ./%s.new  ./%s" % (filename, filename))
+        os.system("pngquant --skip-if-larger --quality=60-80 --strip --output ./%s.new  ./%s" % (filename, filename))
 
 print("\n>>> Copy")
 for filename in os.listdir("./"):
