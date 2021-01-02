@@ -64,7 +64,7 @@ function techage.display.on_timer(pos)
 	if mem.ticks > 0 then
 		local node = minetest.get_node(pos) 
 		-- check if display is loaded and a player in front of the display
-		if node.name == "techage:ta4_display" or node.name == "techage:ta4_displayXL" then 
+		if node.name ~= "ignore" then
 			local dir = minetest.facedir_to_dir(Param2ToFacedir[node.param2 % 6])
 			local pos2 = vector.add(pos, vector.multiply(dir, RADIUS))
 			for _, obj in pairs(minetest.get_objects_inside_radius(pos2, RADIUS)) do
@@ -205,7 +205,7 @@ function techage.display.add_line(pos, payload, cycle_time)
 	while #nvm.text >= NUM_ROWS do
 		table.remove(nvm.text, 1)
 	end
-	table.insert(nvm.text, payload)
+	table.insert(nvm.text, str)
 end
 
 function techage.display.write_row(pos, payload, cycle_time)
