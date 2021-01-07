@@ -201,7 +201,7 @@ techage.register_node({"techage:ta4_terminal"}, {
 			output(pos, payload)
 			return true
 		elseif topic == "msg" then
-			output(pos, payload.src..": "..payload.text)
+			output(pos, tostring(payload.src)..": "..tostring(payload.text))
 			return true
 		end
 	end,
