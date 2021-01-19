@@ -69,7 +69,7 @@ function Cable:get_secondary_node(pos, dir)
 	local node = self:get_node_lvm(npos)
 	if self.secondary_node_names[node.name] or 
 			self.secondary_node_names[M(npos):get_string("techage_hidden_nodename")] then
-		return node, npos
+		return node, npos, true
 	end
 end
 

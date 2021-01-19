@@ -672,7 +672,7 @@ techage.manual_EN.aText = {
   "The TA3 industrial furnace serves as a supplement to normal furnaces. This means that all goods can be produced with \"cooking\" recipes\\, even in an industrial furnace. But there are also special recipes that can only be made in an industrial furnace.\n"..
   "The industrial furnace has its own menu for recipe selection. Depending on the goods in the industrial furnace inventory on the left\\, the output product can be selected on the right.\n"..
   "\n"..
-  "The industrial furnace requires electricity (for the fan) and oil / gasoline for the burner. The industrial furnace and must be assembled as shown in the plan on the right.\n"..
+  "The industrial furnace requires electricity (for the fan) and fuel oil / gasoline for the burner. The industrial furnace and must be assembled as shown in the plan on the right.\n"..
   "\n"..
   "See also TA4 heater.\n"..
   "\n"..

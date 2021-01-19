@@ -24,8 +24,8 @@ elseif minetest.global_exists("ironage") then
 elseif minetest.global_exists("techpack") then
 	minetest.log("error", "[techage] Techage can't be used together with the modpack techpack!")
 	return
-elseif minetest.global_exists("tubelib2") and tubelib2.version < 1.9 then
-	minetest.log("error", "[techage] Techage requires tubelib2 version 1.9 or newer!")
+elseif minetest.global_exists("tubelib2") and tubelib2.version < 2.0 then
+	minetest.log("error", "[techage] Techage requires tubelib2 version 2.0 or newer!")
 	return
 elseif minetest.global_exists("minecart") and minecart.version < 1.08 then
 	minetest.log("error", "[techage] Techage requires minecart version 1.08 or newer!")
