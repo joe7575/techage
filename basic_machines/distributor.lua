@@ -27,7 +27,7 @@ local STANDBY_TICKS = 3
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 4
 
-local INFO = [[Turn port on/off: command = 'port', payload = red/green/blue/yellow=on/off]]
+local INFO = [[Turn port on/off or read its state: command = 'port', payload = red/green/blue/yellow{=on/off}]]
 
 
 --local Side2Color = {B="red", L="green", F="blue", R="yellow"}
@@ -374,6 +374,13 @@ local function change_filter_settings(pos, slot, val)
 	return true
 end
 
+-- techage command to read filter channel status (on/off)
+local function read_filter_settings(pos, slot)
+	local slots = {["red"] = 1, ["green"] = 2, ["blue"] = 3, ["yellow"] = 4}
+	local filter = minetest.deserialize(M(pos):get_string("filter"))
+	return filter[slots[slot]] and "on" or "off"
+end
+
 local function can_dig(pos, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return false
@@ -437,7 +444,11 @@ local tubing = {
 		elseif topic == "port" then
 			-- "red"/"green"/"blue"/"yellow" = "on"/"off"
 			local slot, val = techage.ident_value(payload)
-			return change_filter_settings(pos, slot, val)
+			if val == "" then
+				return read_filter_settings(pos, slot)
+			else
+				return change_filter_settings(pos, slot, val)
+			end
 		else		
 			return CRD(pos).State:on_receive_message(pos, topic, payload)
 		end
