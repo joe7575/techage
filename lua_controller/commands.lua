@@ -105,6 +105,19 @@ techage.lua_ctlr.register_action("set_filter", {
 		' example: $set_filter("1234", "red", "off")'
 })
 
+techage.lua_ctlr.register_action("get_filter", {
+	cmnd = function(self, num, slot)
+		num = tostring(num or "")
+		slot = tostring(slot or "red")
+		if not_protected(self.meta.owner, num) then
+			return techage.send_single(self.meta.number, num, "port", slot)
+		end
+	end,
+	help = " $get_filter(num, slot)\n"..
+		' Read state of a Distributor filter slot.\n'..
+		' Return value is "on" or "off".\n'..
+		' example: state = $get_filter("1234", "red")'
+})
 
 techage.lua_ctlr.register_action("display", {
 	cmnd = function(self, num, row, text)

@@ -744,3 +744,52 @@ techage.icta_register_action("set_filter", {
 		end
 	end,
 })
+
+techage.icta_register_condition("get_filter", {
+	title = "read state of a Distributor filter slot",
+	formspec = {
+		{
+			type = "number",
+			name = "number",
+			label = "distri number",
+			default = "",
+		},
+		{
+			type = "textlist",
+			name = "color",
+			label = "filter port",
+			choices = "red,green,blue,yellow",
+			default = "red",
+		},
+		{
+			type = "textlist",
+			name = "operand",
+			choices = "is,is not",
+			default = "is",
+		},
+		{
+			type = "textlist",
+			name = "value",
+			label = "state",
+			choices = "on,off",
+			default = "off",
+		},
+		{
+			type = "label",
+			name = "lbl",
+			label = "Read state of a Distributor filter slot.\n",
+		},
+	},
+	button = function(data, environ)  -- default button label
+		return 'fltr('..techage.fmt_number(data.number)..","..data.color..' '..data.operand..' '..data.value..')'
+	end,
+	code = function(data, environ)
+		local condition = function(env, idx)
+			return techage.send_single(environ.number, data.number, "port", data.color)
+		end
+		local result = function(val)
+			return techage.compare(val, data.value, data.operand)
+		end
+		return condition, result
+	end,
+})
