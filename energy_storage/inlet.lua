@@ -73,21 +73,46 @@ local function chat(owner, text)
 	return text
 end
 
-local function get_radius(pos, in_dir)
+local function get_diameter(pos, in_dir)
 	local dir = tubelib2.Dir6dToVector[in_dir]
-	local pos2 = vector.add(pos, vector.multiply(dir, 8))
-	local poses = minetest.find_nodes_in_area(pos, pos2, {"techage:ta4_pipe_inlet"})
-	if #poses == 2 then
-		local radius = vector.distance(poses[1], poses[2]) / 2
-		if radius == 2 or radius == 3 or radius == 4 then
-			return radius
-		end
+	local pos2, node
+	
+	pos2 = vector.add(pos, vector.multiply(dir, 4))
+	node = minetest.get_node(pos2)
+	if node.name == "techage:ta3_pipe_wall_entry" then
+		return
 	end
-	return 1
+	if node.name == "techage:ta4_pipe_inlet" then
+		return 5
+	end
+	
+	pos2 = vector.add(pos, vector.multiply(dir, 6))
+	node = minetest.get_node(pos2)
+	if node.name == "techage:ta3_pipe_wall_entry" then
+		return
+	end
+	if node.name == "techage:ta4_pipe_inlet" then
+		return 7
+	end
+	
+	pos2 = vector.add(pos, vector.multiply(dir, 8))
+	node = minetest.get_node(pos2)
+	if node.name == "techage:ta3_pipe_wall_entry" then
+		return
+	end
+	if node.name == "techage:ta4_pipe_inlet" then
+		return 9
+	end
+
+	pos2 = vector.add(pos, vector.multiply(dir, 10))
+	local poses = minetest.find_nodes_in_area(pos, pos2, {"techage:ta4_pipe_inlet"})
+	if #poses > 1 then
+		return vector.distance(pos, poses[2]) + 1
+	end
 end
 
 local function check_volume(pos, in_dir, owner)
-	local radius = get_radius(pos, in_dir)
+	local radius = (get_diameter(pos, in_dir) - 1) / 2
 	if radius then
 		local dir = tubelib2.Dir6dToVector[in_dir]
 		local cpos = vector.add(pos, vector.multiply(dir, radius))
@@ -113,7 +138,7 @@ end
 
 -- provide position behind the obsidian_glass
 local function check_window(pos, in_dir)
-	local radius = get_radius(pos, in_dir)
+	local radius = (get_diameter(pos, in_dir) - 1) / 2
 	if radius then
 		local dir = tubelib2.Dir6dToVector[in_dir]
 		local cpos = vector.add(pos, vector.multiply(dir, radius))
@@ -134,7 +159,7 @@ end
 techage.register_node({"techage:ta4_pipe_inlet"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		if topic == "diameter" then
-			return get_radius(pos, in_dir) * 2 - 1
+			return get_diameter(pos, in_dir)
 		elseif topic == "integrity" then
 			return check_volume(pos, in_dir, payload)
 		elseif topic == "volume" then

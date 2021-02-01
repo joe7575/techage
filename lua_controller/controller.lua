@@ -180,9 +180,10 @@ local function formspec1(meta)
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	"style_type[textarea;font=mono]"..
+	"style_type[textarea;font=mono;textcolor=#FFFFFF;border=false]"..
 	"tabheader[0,0;tab;init,func,loop,outp,notes,help;1;;true]"..
 	"textarea[0.3,0.2;10,8.3;init;function init();"..init.."]"..
+	"background[0.1,0.3;9.8,7.0;techage_form_mask.png]"..
 	"label[0,7.3;end]"..
 	"button_exit[4.4,7.5;1.8,1;cancel;Cancel]"..
 	"button[6.3,7.5;1.8,1;save;Save]"..
@@ -198,9 +199,10 @@ local function formspec2(meta)
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	"style_type[textarea;font=mono]"..
+	"style_type[textarea;font=mono;textcolor=#FFFFFF;border=false]"..
 	"tabheader[0,0;tab;init,func,loop,outp,notes,help;2;;true]"..
 	"textarea[0.3,0.2;10,8.3;func;functions:;"..func.."]"..
+	"background[0.1,0.3;9.8,7.0;techage_form_mask.png]"..
 	"button_exit[4.4,7.5;1.8,1;cancel;Cancel]"..
 	"button[6.3,7.5;1.8,1;save;Save]"..
 	"button[8.2,7.5;1.8,1;"..cmnd.."]"
@@ -215,9 +217,10 @@ local function formspec3(meta)
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	"style_type[textarea;font=mono]"..
+	"style_type[textarea;font=mono;textcolor=#FFFFFF;border=false]"..
 	"tabheader[0,0;tab;init,func,loop,outp,notes,help;3;;true]"..
 	"textarea[0.3,0.2;10,8.3;loop;function loop(ticks, elapsed);"..loop.."]"..
+	"background[0.1,0.3;9.8,7.0;techage_form_mask.png]"..
 	"label[0,7.3;end]"..
 	"button_exit[4.4,7.5;1.8,1;cancel;Cancel]"..
 	"button[6.3,7.5;1.8,1;save;Save]"..
@@ -248,9 +251,10 @@ local function formspec5(meta)
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	"style_type[textarea;font=mono]"..
+	"style_type[textarea;font=mono;textcolor=#FFFFFF;border=false]"..
 	"tabheader[0,0;tab;init,func,loop,outp,notes,help;5;;true]"..
 	"textarea[0.3,0.2;10,8.3;notes;Notepad:;"..notes.."]"..
+	"background[0.1,0.3;9.8,7.0;techage_form_mask.png]"..
 	"button_exit[6.3,7.5;1.8,1;cancel;Cancel]"..
 	"button[8.2,7.5;1.8,1;save;Save]"
 end
@@ -261,7 +265,7 @@ local function formspec6(items, pos, text)
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
-	"style_type[textarea;font=mono]"..
+	"style_type[textarea;font=mono;textcolor=#FFFFFF]"..
 	"tabheader[0,0;tab;init,func,loop,outp,notes,help;6;;true]"..
 	"label[0,-0.2;Functions:]"..
 	"dropdown[0.3,0.2;10,8.3;functions;"..items..";"..pos.."]"..
