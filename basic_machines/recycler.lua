@@ -127,9 +127,7 @@ end
 local function get_recipe(stack)
 	local name = stack:get_name()
 	local recipe = Recipes[name]
-	print("get_recipe", name, dump(recipe))
 	if recipe then
-		print("get_recipe", stack:get_count(), ItemStack(recipe.output):get_count())
 		if stack:get_count() >= ItemStack(recipe.output):get_count() then
 			return recipe
 		end
@@ -331,7 +329,7 @@ local function collect_recipes()
 		and recipe.output 
 		and next(items) then
 			local s = table.concat(items, ", ")
-			print(string.format("%-36s {%s}", recipe.output, s))
+			--print(string.format("%-36s {%s}", recipe.output, s))
 			Recipes[name] = {output = recipe.output, items = items}
 		end
 	end
