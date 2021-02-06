@@ -658,3 +658,17 @@ Beim Weitergeben wird in der Zielmaschine pro Item nur eine Position im Inventar
 Die Verarbeitungsleistung beträgt bis zu 8 Items alle 3 Sekunden.
 
 [ta4_injector|image]
+
+### TA4 Recycler
+
+Der Recycler ist eine Maschine, die alle Techage Rezepte rückwärts abarbeitet, also Maschinen und Blöcke wieder in die Bestandteile zerlegen kann. Die Maschine kann so ziemlich alle Techage und Hyperloop Blöcke zerlegen.
+Aber nicht alle Materialen lassen sich recyclen:
+
+- Holz wird zu Sticks
+- Stein wird zu Sand oder Kies
+- Halbleiter/Chips können nicht recycelt werden
+- Werkzeuge können nicht recycelt werden
+
+Die Verarbeitungsleistung beträgt ein Item alle 8 s. Der Block benötigt hierfür 16 ku Strom.
+
+[ta4_recycler|image]

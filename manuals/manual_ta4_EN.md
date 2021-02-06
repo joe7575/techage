@@ -659,3 +659,19 @@ When passing on, only one position in the inventory is used in the target machin
 The processing power is up to 8 items every 3 seconds.
 
 [ta4_injector|image]
+
+### TA4 recycler
+
+The recycler is a machine that processes all Techage recipes backwards, i.e. it can dismantle machines and blocks back into their components. 
+
+The machine can disassemble pretty much any Techage and Hyperloop blocks. But not all materials can be recycled:
+
+- Wood turns into sticks
+- Stone turns into sand or gravel
+- Semiconductors / chips cannot be recycled 
+- Tools cannot be recycled
+
+The processing power is one item every 8 s.  The block requires 16 ku of electricity for this.
+
+[ta4_recycler|image] 
+

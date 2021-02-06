@@ -192,3 +192,4 @@
         - [TA4 Quarry](./manual_ta4_EN.md#ta4-quarry)
         - [TA4 Electronic Fab](./manual_ta4_EN.md#ta4-electronic-fab)
         - [TA4 Injector](./manual_ta4_EN.md#ta4-injector)
+        - [TA4 recycler](./manual_ta4_EN.md#ta4-recycler)

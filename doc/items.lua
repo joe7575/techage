@@ -176,6 +176,8 @@ techage.Items = {
 	ta4_electronicfab = "techage:ta4_electronic_fab_pas",
 	ta4_injector = "techage:ta4_injector_pas",
 	ta4_liquid_filter = "techage_ta4_filter.png",
+	ta4_recycler = "techage:ta4_recycler_pas",
+	
 	--ta4_ "", 
 }
 

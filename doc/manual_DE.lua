@@ -194,6 +194,7 @@ techage.manual_DE.aTitel = {
   "3,TA4 Steinbrecher / Quarry",
   "3,TA4 Elektronikfabrik / Electronic Fab",
   "3,TA4 Injektor / Injector",
+  "3,TA4 Recycler",
 }
 
 techage.manual_DE.aText = {
@@ -1580,6 +1581,18 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der Recycler ist eine Maschine\\, die alle Techage Rezepte rückwärts abarbeitet\\, also Maschinen und Blöcke wieder in die Bestandteile zerlegen kann. Die Maschine kann so ziemlich alle Techage und Hyperloop Blöcke zerlegen.\n"..
+  "Aber nicht alle Materialen lassen sich recyclen:\n"..
+  "\n"..
+  "  - Holz wird zu Sticks\n"..
+  "  - Stein wird zu Sand oder Kies\n"..
+  "  - Halbleiter/Chips können nicht recycelt werden\n"..
+  "  - Werkzeuge können nicht recycelt werden\n"..
+  "\n"..
+  "Die Verarbeitungsleistung beträgt ein Item alle 8 s. Der Block benötigt hierfür 16 ku Strom.\n"..
+  "\n"..
+  "\n"..
+  "\n",
 }
 
 techage.manual_DE.aItemName = {
@@ -1776,6 +1789,7 @@ techage.manual_DE.aItemName = {
   "ta4_quarry",
   "ta4_electronicfab",
   "ta4_injector",
+  "ta4_recycler",
 }
 
 techage.manual_DE.aPlanTable = {
@@ -1956,6 +1970,7 @@ techage.manual_DE.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
+  "",
   "",
   "",
   "",

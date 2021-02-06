@@ -15,7 +15,8 @@
 local S = techage.S
 local M = minetest.get_meta
 
-local Recipes = {}     -- {rtype = {ouput = {....},...}}
+local Recipes = {}  -- {rtype = {ouput = {....},...}}
+local NormalizedRecipes = {}  -- {output = "", items = {...}}
 
 local range = techage.in_range
 
@@ -63,12 +64,13 @@ function techage.recipes.add(rtype, recipe)
 		Recipes[rtype] = {}
 	end
 	
-	local name, num
+	local name, num, output
 	local item = {input = {}}
 	for idx = 1,4 do
 		local inp = recipe.input[idx] or ""
 		name, num = unpack(string.split(inp, " "))
 		item.input[idx] = {name = name or "", num = tonumber(num) or 0}
+		name2 = name
 	end
 	if recipe.waste then 
 		name, num = unpack(string.split(recipe.waste, " "))
@@ -80,6 +82,7 @@ function techage.recipes.add(rtype, recipe)
 	item.output = {name = name or "", num = tonumber(num) or 0}
 	item.catalyst = recipe.catalyst
 	Recipes[rtype][#Recipes[rtype]+1] = item
+	output = name
 
 	if minetest.global_exists("unified_inventory") then
 		unified_inventory.register_craft({
@@ -88,6 +91,10 @@ function techage.recipes.add(rtype, recipe)
 			type = rtype,
 		})
 	end
+	NormalizedRecipes[output] = {
+			output = recipe.output, 
+			items = recipe.input,
+	}
 end
 
 function techage.recipes.formspec(x, y, rtype, nvm)
@@ -126,3 +133,8 @@ function techage.recipes.on_receive_fields(pos, formname, fields, player)
 		end
 	end
 end
+
+function techage.recipes.get_recipe(name)
+	return NormalizedRecipes[name]
+end
+	

@@ -248,7 +248,7 @@ function techage.power.needed_power(pos, Cable, outdir)
 			local nvm = techage.get_nvm(pos)
 			local def = nvm[Cable.tube_type] -- power related data
 		
-			if def and def["cstate"] ~= STOPPED then
+			if def and def["cstate"] and def["cstate"] ~= STOPPED then
 				if def["calive"] >= 0 then
 					sum = sum + (net.nominal or def.curr_power or 0)
 				end
