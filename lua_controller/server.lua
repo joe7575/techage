@@ -122,6 +122,8 @@ minetest.register_craft({
 local function calc_size(v)
 	if type(v) == "number" then
 		return 1
+	elseif type(v) == "boolean" then
+		return 1
 	elseif v == nil then
 		return 0
 	elseif type(v) == "string" then
