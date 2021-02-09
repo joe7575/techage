@@ -791,6 +791,10 @@ Flint and Iron=Flint and Iron
 TA1 Iron Ingot=TA1 Eisenbarren
 [Bucket] Lava can only be placed below sea level!=Lava kann nur unterhalb der Meerehöhe platziert werden!
 
+### recycler.lua ###
+
+Recycler=Recycler
+
 ### redstone.lua ###
 
 Red Stone=Rotstein
@@ -1003,6 +1007,13 @@ Usmium Powder=Usmium Pulver
 TA Valve=TA Ventil
 TA3 Valve closed=TA3 Ventil zu
 TA3 Valve open=TA3 Ventil offen
+
+### waterinlet.lua ###
+
+Error: No natural water!=Fehler: Kein natürliches Wasser!
+Error: No water available!=Fehler: Kein Wasser verfügbar!
+Error: Not on sea level!=Fehler: Nicht auf Meereshöhe!
+TA4 Water Inlet=
 
 ### waterpump.lua ###
 

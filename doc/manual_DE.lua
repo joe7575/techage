@@ -120,7 +120,6 @@ techage.manual_DE.aTitel = {
   "3,TA3 Kiessieb / Gravel Sieve",
   "3,TA3 Kieswaschanlage / Gravel Rinser",
   "3,TA3 Mühle / Grinder",
-  "3,TA3 Flüssigkeitensammler / Liquid Sampler",
   "2,Werkzeuge",
   "3,Techage Info Tool",
   "3,TechAge Programmer",
@@ -182,7 +181,8 @@ techage.manual_DE.aTitel = {
   "3,TA4 Tank / TA4 Tank",
   "3,TA4 Pumpe / TA4 Pump",
   "3,TA4 Ofenheizung / furnace heater",
-  "3,TA4 Wasserpumpe / Water Pump",
+  "3,TA4 Wasserpumpe / Water Pump (veraltet)",
+  "3,TA4 Wassereinlass / TA4 Water Inlet",
   "3,TA4 Röhren / TA4 Tube",
   "3,TA4 Schieber / Pusher",
   "3,TA4 Kiste / TA4 Chest",
@@ -1079,11 +1079,6 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Die Funktion entspricht der von TA2.\n"..
-  "Die Verarbeitungsleistung ist 2 Items alle 8 s. Der Block benötigt 5 ku Strom.\n"..
-  "\n"..
-  "\n"..
-  "\n",
   "",
   "Das Techage Info Tool (Schraubenschlüssel) hat verschiedene Funktionen. Er zeigt die Uhrzeit\\, die Position\\, die Temperatur und das Biome an\\, wenn auf einen unbekannten Block geklickt wird.\n"..
   "Wird auf einen TechAge Block mit Kommandoschnittstelle geklickt\\, werden alle verfügbaren Daten abgerufen (siehe auch \"Logik-/Schalt-Blöcke\").\n"..
@@ -1490,7 +1485,11 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Mit der Wasserpumpe kann Wasser über Flüssigkeitsleitungen in Tanks gepumpt und so für Rezepte genutzt werden. Die Wasserpumpe muss dazu ins Meer gesetzt werden Ein \"Pool\" aus ein paar Wasserblöcken geht nicht!\n"..
+  "Dieser Block kann nicht mehr gecraftet werden und wird durch den TA4 Wassereinlass Block ersetzt.\n"..
+  "\n",
+  "Für manche Rezepte wird Wasser benötigt. Das Wasser muss mit einer Pumpe aus dem Meer (Wasser auf y = 1) gepumpt werden. Ein \"Pool\" aus ein paar Wasserblöcken ist dafür nicht ausreichend!\n"..
+  "\n"..
+  "Dazu muss der Wassereinlass-Block ins Wasser gesetzt und über Röhren mit der Pumpe verbunden werden. Wird der Block ins Wasser gesetzt\\, so muss darauf geachtet werden\\, dass sich unter dem Block Wasser befindet (Wasser muss mindestens 2 Blöcke tief sein). \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1715,7 +1714,6 @@ techage.manual_DE.aItemName = {
   "ta3_gravelsieve",
   "ta3_gravelrinser",
   "ta3_grinder",
-  "ta3_liquidsampler",
   "",
   "ta3_end_wrench",
   "ta3_programmer",
@@ -1777,7 +1775,8 @@ techage.manual_DE.aItemName = {
   "ta4_tank",
   "ta4_pump",
   "ta4_furnaceheater",
-  "ta4_waterpump",
+  "",
+  "ta4_waterinlet",
   "ta4_tube",
   "ta4_pusher",
   "ta4_chest",
@@ -1918,7 +1917,6 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
-  "",
   "ta4_windturbine",
   "",
   "",
@@ -1970,6 +1968,7 @@ techage.manual_DE.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
+  "",
   "",
   "",
   "",

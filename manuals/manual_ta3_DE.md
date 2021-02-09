@@ -327,6 +327,7 @@ Das Ventil kann auch über on/off Kommandos angesteuert werden.
 [ta3_valve|image]
 
 
+
 ## Öl-Förderung
 
 Um deine Generatoren und Öfen mit Öl betreiben zu können, muss du zuerst nach Öl suchen und einen Bohrturm errichten und danach das Öl fördern.
@@ -760,14 +761,6 @@ Die Funktion entspricht der von TA2.
 Die Verarbeitungsleistung beträgt 2 Items alle 4 s. Der Block benötigt 6 ku Strom.
 
 [ta3_grinder|image]
-
-
-### TA3 Flüssigkeitensammler / Liquid Sampler
-
-Die Funktion entspricht der von TA2.  
-Die Verarbeitungsleistung ist 2 Items alle 8 s. Der Block benötigt 5 ku Strom.
-
-[ta3_liquidsampler|image]
 
 
 ## Werkzeuge

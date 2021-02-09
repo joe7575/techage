@@ -186,12 +186,12 @@ techage.register_node({"techage:t4_waterpump"}, {
 	end,
 })	
 
-minetest.register_craft({
-	output = "techage:t4_waterpump",
-	recipe = {
-		{"", "default:mese_crystal", ""},
-		{"", "techage:ta3_liquidsampler_pas", ""},
-		{"", "techage:ta4_wlanchip", ""},
-	},
-})
+--minetest.register_craft({
+--	output = "techage:t4_waterpump",
+--	recipe = {
+--		{"", "default:mese_crystal", ""},
+--		{"", "techage:ta3_liquidsampler_pas", ""},
+--		{"", "techage:ta4_wlanchip", ""},
+--	},
+--})
 

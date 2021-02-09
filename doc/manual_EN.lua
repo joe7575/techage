@@ -119,7 +119,6 @@ techage.manual_EN.aTitel = {
   "3,TA3 Gravel Sieve",
   "3,TA3 Gravel Rinser",
   "3,TA3 Grinder",
-  "3,TA3 Liquid Sampler",
   "2,Tools",
   "3,Techage Info Tool",
   "3,TechAge Programmer",
@@ -181,7 +180,8 @@ techage.manual_EN.aTitel = {
   "3,TA4 Tank",
   "3,TA4 Pump",
   "3,TA4 Furnace Heater",
-  "3,TA4 water Pump",
+  "3,TA4 Water Pump (deprecated)",
+  "3,TA4 Water Inlet",
   "3,TA4 Tube",
   "3,TA4 Pusher",
   "3,TA4 Chest",
@@ -1060,11 +1060,6 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The function corresponds to that of TA2.\n"..
-  "The processing power is 2 items every 8 s. The block requires 5 ku of electricity.\n"..
-  "\n"..
-  "\n"..
-  "\n",
   "",
   "The Techage Info Tool (wrench) has several functions. It shows the time\\, position\\, temperature and biome when an unknown block is clicked on.\n"..
   "If you click on a TechAge block with command interface\\, all available data will be shown (see also \"Logic / switching blocks\").\n"..
@@ -1472,7 +1467,11 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "With the water pump\\, water can be pumped through liquid lines in tanks and thus used for recipes. The water pump has to be placed in the sea. A \"pool\" consisting of a few blocks of water is not possible!\n"..
+  "This block can no longer be crafted and will be replaced by the TA4 water inlet block. \n"..
+  "\n",
+  "Some recipes require water. The water must be pumped from the sea with a pump (water at y = 1). A \"pool\" made up of a few water blocks is not sufficient for this! \n"..
+  "\n"..
+  "To do this\\, the water inlet block must be placed in the water and connected to the pump via pipes. If the block is placed in the water\\, it must be ensured that there is water under the block (water must be at least 2 blocks deep). \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1697,7 +1696,6 @@ techage.manual_EN.aItemName = {
   "ta3_gravelsieve",
   "ta3_gravelrinser",
   "ta3_grinder",
-  "ta3_liquidsampler",
   "",
   "ta3_end_wrench",
   "ta3_programmer",
@@ -1759,7 +1757,8 @@ techage.manual_EN.aItemName = {
   "ta4_tank",
   "ta4_pump",
   "ta4_furnaceheater",
-  "ta4_waterpump",
+  "",
+  "ta4_waterinlet",
   "ta4_tube",
   "ta4_pusher",
   "ta4_chest",
@@ -1899,7 +1898,6 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
-  "",
   "ta4_windturbine",
   "",
   "",
@@ -1951,6 +1949,7 @@ techage.manual_EN.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
+  "",
   "",
   "",
   "",

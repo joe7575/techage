@@ -168,6 +168,7 @@ dofile(MP.."/liquids/filler.lua")
 dofile(MP.."/liquids/silo.lua")
 dofile(MP.."/liquids/pump.lua")
 dofile(MP.."/liquids/waterpump.lua")
+dofile(MP.."/liquids/waterinlet.lua")
 
 -- Coal power station
 dofile(MP.."/coal_power_station/firebox.lua")

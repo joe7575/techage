@@ -308,7 +308,6 @@ The blocks serve as wall openings for tubes, so that no holes remain open.
 
 [ta3_pipe_wall_entry|image]
 
-
 ### TA Valve
 
 There is a valve for the yellow pipes, which can be opened and closed with a click of the mouse.
@@ -741,14 +740,6 @@ The function corresponds to that of TA2.
 The processing power is 2 items every 4 s. The block requires 6 ku of electricity.
 
 [ta3_grinder|image]
-
-
-### TA3 Liquid Sampler
-
-The function corresponds to that of TA2.
-The processing power is 2 items every 8 s. The block requires 5 ku of electricity.
-
-[ta3_liquidsampler|image]
 
 
 ## Tools

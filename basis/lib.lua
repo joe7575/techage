@@ -235,7 +235,7 @@ determine_ocean_ids()
 
 -- check if natural water is on given position (water placed by player has param2 = 1)
 function techage.is_ocean(pos)
-	if pos.y ~= 1 then return false end
+	if pos.y > 1 then return false end
 	local node = techage.get_node_lvm(pos)
 	if node.name ~= "default:water_source" then return false end
 	if node.param2 == 1 then return false end

@@ -537,11 +537,17 @@ Die Ofenheizung benötigt 14 ku Strom.
 
 [ta4_furnaceheater|image]
 
-### TA4 Wasserpumpe / Water Pump
+### TA4 Wasserpumpe / Water Pump (veraltet)
 
-Mit der Wasserpumpe kann Wasser über Flüssigkeitsleitungen in Tanks gepumpt und so für Rezepte genutzt werden. Die Wasserpumpe muss dazu ins Meer gesetzt werden Ein "Pool" aus ein paar Wasserblöcken geht nicht!
+Dieser Block kann nicht mehr gecraftet werden und wird durch den TA4 Wassereinlass Block ersetzt.
 
-[ta4_waterpump|image]
+### TA4 Wassereinlass / TA4 Water Inlet
+
+Für manche Rezepte wird Wasser benötigt. Das Wasser muss mit einer Pumpe aus dem Meer (Wasser auf y = 1) gepumpt werden. Ein "Pool" aus ein paar Wasserblöcken ist dafür nicht ausreichend!
+
+Dazu muss der Wassereinlass-Block ins Wasser gesetzt und über Röhren mit der Pumpe verbunden werden. Wird der Block ins Wasser gesetzt, so muss darauf geachtet werden, dass sich unter dem Block Wasser befindet (Wasser muss mindestens 2 Blöcke tief sein). 
+
+[ta4_waterinlet|image]
 
 ### TA4 Röhren / TA4 Tube
 

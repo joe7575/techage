@@ -538,11 +538,17 @@ The heater requires 14 ku of electricity.
 
 [ta4_furnaceheater|image]
 
-### TA4 water Pump
+### TA4 Water Pump (deprecated)
 
-With the water pump, water can be pumped through liquid lines in tanks and thus used for recipes. The water pump has to be placed in the sea. A "pool" consisting of a few blocks of water is not possible!
+This block can no longer be crafted and will be replaced by the TA4 water inlet block. 
 
-[ta4_waterpump|image]
+### TA4 Water Inlet
+
+Some recipes require water. The water must be pumped from the sea with a pump (water at y = 1). A "pool" made up of a few water blocks is not sufficient for this! 
+
+To do this, the water inlet block must be placed in the water and connected to the pump via pipes. If the block is placed in the water, it must be ensured that there is water under the block (water must be at least 2 blocks deep). 
+
+[ta4_waterinlet|image]
 
 ### TA4 Tube
 

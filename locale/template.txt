@@ -791,6 +791,10 @@ Flint and Iron=
 TA1 Iron Ingot=
 [Bucket] Lava can only be placed below sea level!=
 
+### recycler.lua ###
+
+Recycler=
+
 ### redstone.lua ###
 
 Red Stone=
@@ -1003,6 +1007,13 @@ Usmium Powder=
 TA Valve=
 TA3 Valve closed=
 TA3 Valve open=
+
+### waterinlet.lua ###
+
+Error: No natural water!=
+Error: No water available!=
+Error: Not on sea level!=
+TA4 Water Inlet=
 
 ### waterpump.lua ###
 
