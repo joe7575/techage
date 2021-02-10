@@ -690,7 +690,7 @@ techage.manual_DE.aText = {
   "\n",
   "Ist Teil des TA3 Industrieofen.\n"..
   "\n"..
-  "Der Ölbrenner kann mit Schweröl\\, Naphtha oder Benzin betrieben werden. Die Brennzeit beträgt für Schweröl 80 s\\, Naphtha 90 s und Benzin 100 s.\n"..
+  "Der Ölbrenner kann mit Erdöl\\, Schweröl\\, Naphtha oder Benzin betrieben werden. Die Brennzeit beträgt für Erdöl 65 s\\, Schweröl 80 s\\, Naphtha 90 s und Benzin 100 s.\n"..
   "\n"..
   "Der Ölbrenner kann nur 50 Einheiten Kraftstoff aufnehmen. Ein zusätzlicher Tank und eine Pumpe sind daher ratsam.\n"..
   "\n"..

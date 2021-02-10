@@ -681,7 +681,7 @@ techage.manual_EN.aText = {
   "\n",
   "Is part of the TA3 industrial furnace.\n"..
   "\n"..
-  "The oil burner can be operated with fuel oil\\, naphtha or gasoline. The burning time is 80 s for fuel oil\\, 90 s for naphtha and 100 s for gasoline.\n"..
+  "The oil burner can be operated with crude oil\\, fuel oil\\, naphtha or gasoline. The burning time is 64 s for crude oil\\, 80 s for fuel oil\\, 90 s for naphtha and 100 s for gasoline.\n"..
   "\n"..
   "The oil burner can only hold 50 units of fuel. An additional tank and a pump are therefore advisable.\n"..
   "\n"..
