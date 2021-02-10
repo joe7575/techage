@@ -1013,7 +1013,7 @@ TA3 Valve open=TA3 Ventil offen
 Error: No natural water!=Fehler: Kein natürliches Wasser!
 Error: No water available!=Fehler: Kein Wasser verfügbar!
 Error: Not on sea level!=Fehler: Nicht auf Meereshöhe!
-TA4 Water Inlet=
+TA4 Water Inlet=TA4 Wasssereinlass
 
 ### waterpump.lua ###
 
