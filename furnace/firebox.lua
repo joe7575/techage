@@ -82,10 +82,10 @@ end
 
 local _liquid = {
 	capa = fuel.CAPACITY,
-	fuel_cat = fuel.BT_OIL,
+	fuel_cat = fuel.BT_BITUMEN,
 	peek = liquid.srv_peek,
 	put = function(pos, indir, name, amount)
-		if fuel.valid_fuel(name, fuel.BT_OIL) then
+		if fuel.valid_fuel(name, fuel.BT_BITUMEN) then
 			local res = liquid.srv_put(pos, indir, name, amount)
 			if techage.is_activeformspec(pos) then
 				local nvm = techage.get_nvm(pos)
