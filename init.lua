@@ -85,6 +85,7 @@ dofile(MP.."/basis/networks.lua")
 dofile(MP.."/basis/recipe_lib.lua")
 dofile(MP.."/basis/formspec_update.lua")
 dofile(MP.."/basis/windturbine_lib.lua")
+dofile(MP.."/basis/laser_lib.lua")
 
 -- Main doc
 dofile(MP.."/doc/manual_DE.lua")
@@ -112,6 +113,7 @@ dofile(MP.."/power/powerswitch.lua")
 dofile(MP.."/power/protection.lua")
 dofile(MP.."/power/power_line.lua")
 dofile(MP.."/power/ta4_cable.lua")
+dofile(MP.."/power/laser.lua")
 
 -- Iron Age
 dofile(MP.."/iron_age/main.lua")
@@ -215,7 +217,7 @@ dofile(MP.."/oil/drillbox.lua")
 dofile(MP.."/oil/pumpjack.lua")
 dofile(MP.."/oil/distiller.lua")
 dofile(MP.."/oil/reboiler.lua")
---	dofile(MP.."/oil/gasflare.lua")
+--  dofile(MP.."/oil/gasflare.lua")
 
 -- TA3 power based
 dofile(MP.."/ta3_power/tiny_generator.lua")

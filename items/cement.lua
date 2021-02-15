@@ -16,7 +16,7 @@
 local S = techage.S
 
 
-if not minetest.global_exists("bakedclay") then
+if not  minetest.get_modpath("bakedclay") then
 	minetest.register_node("techage:cement_block", {
 		description = S("Cement Block"),
 		tiles = {"default_clay.png^[colorize:#FFFFFF:160"},
@@ -33,6 +33,17 @@ if not minetest.global_exists("bakedclay") then
 
 	techage.add_grinder_recipe({input="techage:cement_block", output="techage:cement_powder"})
 else
+	-- The block should not exist when the mod baked clay is loaded. 
+	-- But this block was active due to an error and can therefore no longer be deleted.
+	minetest.register_node("techage:cement_block", {
+		description = S("Cement Block"),
+		tiles = {"default_clay.png^[colorize:#FFFFFF:160"},
+		is_ground_content = false,
+		groups = {cracky = 2, stone = 1},
+		sounds = default.node_sound_stone_defaults(),
+	})
+	
+	techage.add_grinder_recipe({input="techage:cement_block", output="techage:cement_powder"})
 	techage.add_grinder_recipe({input="bakedclay:white", output="techage:cement_powder"})
 end
 
