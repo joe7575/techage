@@ -195,6 +195,7 @@ techage.manual_DE.aTitel = {
   "3,TA4 Elektronikfabrik / Electronic Fab",
   "3,TA4 Injektor / Injector",
   "3,TA4 Recycler",
+  "3,TA4 Laser",
 }
 
 techage.manual_DE.aText = {
@@ -1592,6 +1593,16 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der TA4 Laser dient zur kabellosen Stromübertagung. Dazu sind zwei Blöcke notwendig: TA4 Laserstrahl Sender und TA4 Laserstrahl Empfänger. Zwischen beiden Blöcken muss sich eine Luftstrecke befinden\\, so dass der Laserstrahl vom Sender bis zum Empfänger aufgebaut werden kann.\n"..
+  "\n"..
+  "Zuerst muss der Sender platziert werden. Dieser schaltet sofort den Laserstahls ein und zeigt damit mögliche Positionen des Empfängers an. Mögliche Positionen für den Empfänger werden auch über eine Chat-Nachricht ausgegeben. Mit dem Laser lassen sich Strecken bis 96 Blöcke überbrücken.\n"..
+  "\n"..
+  "Ist die Verbindung aufgebaut (es muss dazu noch kein Strom fließen)\\, wird dies über den Info-Text des Senders und auch des Empfängers angezeigt.\n"..
+  "\n"..
+  "Die Laserblöcke selbst benötigen keinen Strom.\n"..
+  "\n"..
+  "\n"..
+  "\n",
 }
 
 techage.manual_DE.aItemName = {
@@ -1789,6 +1800,7 @@ techage.manual_DE.aItemName = {
   "ta4_electronicfab",
   "ta4_injector",
   "ta4_recycler",
+  "ta4_laser",
 }
 
 techage.manual_DE.aPlanTable = {
@@ -1968,6 +1980,7 @@ techage.manual_DE.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
+  "",
   "",
   "",
   "",

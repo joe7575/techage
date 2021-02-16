@@ -678,3 +678,15 @@ Aber nicht alle Materialen lassen sich recyclen:
 Die Verarbeitungsleistung beträgt ein Item alle 8 s. Der Block benötigt hierfür 16 ku Strom.
 
 [ta4_recycler|image]
+
+### TA4 Laser
+
+Der TA4 Laser dient zur kabellosen Stromübertagung. Dazu sind zwei Blöcke notwendig: TA4 Laserstrahl Sender und TA4 Laserstrahl Empfänger. Zwischen beiden Blöcken muss sich eine Luftstrecke befinden, so dass der Laserstrahl vom Sender bis zum Empfänger aufgebaut werden kann.
+
+Zuerst muss der Sender platziert werden. Dieser schaltet sofort den Laserstahls ein und zeigt damit mögliche Positionen des Empfängers an. Mögliche Positionen für den Empfänger werden auch über eine Chat-Nachricht ausgegeben. Mit dem Laser lassen sich Strecken bis 96 Blöcke überbrücken.
+
+Ist die Verbindung aufgebaut (es muss dazu noch kein Strom fließen), wird dies über den Info-Text des Senders und auch des Empfängers angezeigt.
+
+Die Laserblöcke selbst benötigen keinen Strom.
+
+[ta4_laser|image]

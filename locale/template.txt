@@ -503,6 +503,14 @@ TA Lamp Holder Copper=
 TA Lamp Holder Gold=
 TA Lamp Holder White=
 
+### laser.lua ###
+
+Laser beam error!=
+TA4 Laser Beam Emitter=
+TA4 Laser Beam Receiver=
+Valid destination positions:=
+to=
+
 ### lib.lua ###
 ### sensorchest.lua ###
 

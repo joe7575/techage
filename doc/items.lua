@@ -178,7 +178,8 @@ techage.Items = {
 	ta4_liquid_filter = "techage_ta4_filter.png",
 	ta4_recycler = "techage:ta4_recycler_pas",
 	ta4_waterinlet = "techage:ta4_waterinlet",
-	
+	ta4_laser = "techage:ta4_laser_emitter",
+
 	--ta4_ "", 
 }
 

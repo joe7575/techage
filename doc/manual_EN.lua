@@ -193,7 +193,8 @@ techage.manual_EN.aTitel = {
   "3,TA4 Quarry",
   "3,TA4 Electronic Fab",
   "3,TA4 Injector",
-  "3,TA4 recycler",
+  "3,TA4 Recycler",
+  "3,TA4 Laser",
 }
 
 techage.manual_EN.aText = {
@@ -1575,6 +1576,14 @@ techage.manual_EN.aText = {
   "\n"..
   " \n"..
   "\n",
+  "The TA4 laser is used for wireless power transmission. Two blocks are required for this: TA4 Laser Beam Emitter and TA4 Laser Beam Receiver. There must be an air gap between the two blocks so that the laser beam can be built up from the emitter to the receiver. First the emitter must be placed. This immediately switches on the laser beam and shows possible positions of the receiver. Possible positions for the receiver are also output via a chat message. \n"..
+  "\n"..
+  "With the laser\\, distances of up to 96 blocks can be bridged. Once the connection has been established (no current has to flow)\\, this is indicated via the info text of the emitter and also of the receiver. \n"..
+  "\n"..
+  "The laser blocks themselves do not require any electricity.\n"..
+  "\n"..
+  "\n"..
+  "\n",
 }
 
 techage.manual_EN.aItemName = {
@@ -1771,6 +1780,7 @@ techage.manual_EN.aItemName = {
   "ta4_electronicfab",
   "ta4_injector",
   "ta4_recycler",
+  "ta4_laser",
 }
 
 techage.manual_EN.aPlanTable = {
@@ -1949,6 +1959,7 @@ techage.manual_EN.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
+  "",
   "",
   "",
   "",

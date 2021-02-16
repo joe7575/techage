@@ -22,7 +22,7 @@ local Cable = techage.ElectricCable
 local power = techage.power
 local networks = techage.networks
 
-minetest.register_node("techage:laser_emitter", {
+minetest.register_node("techage:ta4_laser_emitter", {
 	description = S("TA4 Laser Beam Emitter"),
 	tiles = {
 		-- up, down, right, left, back, front
@@ -42,14 +42,16 @@ minetest.register_node("techage:laser_emitter", {
 		local pos1, pos2 = techage.renew_laser(pos, true)
 		if pos1 then
 			local node = techage.get_node_lvm(pos2)
-			if node.name == "techage:laser_receiver" then
+			if node.name == "techage:ta4_laser_receiver" then
 				Cable:pairing(pos2, "laser")
 				Cable:pairing(pos, "laser")
 			else
-				minetest.chat_send_player(placer:get_player_name(), S("Valid destination positions:") .. " " .. P2S(pos1) .. " " .. S("to") .. " " .. P2S(pos2))
+				minetest.chat_send_player(placer:get_player_name(), 
+					S("Valid destination positions:") .. " " .. 
+					P2S(pos1) .. " " .. S("to") .. " " .. P2S(pos2))
 			end
 		else
-			minetest.chat_send_player(placer:get_player_name(), S("The line of sight is blocked"))
+			minetest.chat_send_player(placer:get_player_name(), S("Laser beam error!"))
 		end
 		minetest.get_node_timer(pos):start(2)
 	end,
@@ -58,7 +60,7 @@ minetest.register_node("techage:laser_emitter", {
 		local pos1, pos2 = techage.renew_laser(pos)
 		if pos1 then
 			local node = techage.get_node_lvm(pos2)
-			if node.name == "techage:laser_receiver" then
+			if node.name == "techage:ta4_laser_receiver" then
 				Cable:pairing(pos2, "laser")
 				Cable:pairing(pos, "laser")
 			end
@@ -79,7 +81,7 @@ minetest.register_node("techage:laser_emitter", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-minetest.register_node("techage:laser_receiver", {
+minetest.register_node("techage:ta4_laser_receiver", {
 	description = S("TA4 Laser Beam Receiver"),
 	tiles = {
 		-- up, down, right, left, back, front
@@ -109,7 +111,25 @@ minetest.register_node("techage:laser_receiver", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-Cable:add_secondary_node_names({"techage:laser_emitter", "techage:laser_receiver"})
-Cable:set_valid_sides("techage:laser_emitter", {"F"})
-Cable:set_valid_sides("techage:laser_receiver", {"F"})
+Cable:add_secondary_node_names({"techage:ta4_laser_emitter", "techage:ta4_laser_receiver"})
+Cable:set_valid_sides("techage:ta4_laser_emitter", {"F"})
+Cable:set_valid_sides("techage:ta4_laser_receiver", {"F"})
+
+minetest.register_craft({
+	output = "techage:ta4_laser_emitter",
+	recipe = {
+		{"techage:ta4_carbon_fiber", "dye:blue", "techage:ta4_carbon_fiber"},
+		{"techage:electric_cableS", "basic_materials:energy_crystal_simple", "techage:ta4_leds"},
+		{"default:steel_ingot", "techage:ta4_wlanchip", "default:steel_ingot"},
+	},
+})
+
+minetest.register_craft({
+	output = "techage:ta4_laser_receiver",
+	recipe = {
+		{"techage:ta4_carbon_fiber", "dye:blue", "techage:ta4_carbon_fiber"},
+		{"techage:electric_cableS", "basic_materials:gold_wire", "default:obsidian_glass"},
+		{"default:steel_ingot", "techage:ta4_wlanchip", "default:steel_ingot"},
+	},
+})
 

@@ -194,3 +194,4 @@
         - [TA4 Elektronikfabrik / Electronic Fab](./manual_ta4_DE.md#ta4-elektronikfabrik--electronic-fab)
         - [TA4 Injektor / Injector](./manual_ta4_DE.md#ta4-injektor--injector)
         - [TA4 Recycler](./manual_ta4_DE.md#ta4-recycler)
+        - [TA4 Laser](./manual_ta4_DE.md#ta4-laser)

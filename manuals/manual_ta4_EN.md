@@ -666,7 +666,7 @@ The processing power is up to 8 items every 3 seconds.
 
 [ta4_injector|image]
 
-### TA4 recycler
+### TA4 Recycler
 
 The recycler is a machine that processes all Techage recipes backwards, i.e. it can dismantle machines and blocks back into their components. 
 
@@ -681,3 +681,12 @@ The processing power is one item every 8 s.  The block requires 16 ku of electri
 
 [ta4_recycler|image] 
 
+### TA4 Laser
+
+The TA4 laser is used for wireless power transmission. Two blocks are required for this: TA4 Laser Beam Emitter and TA4 Laser Beam Receiver. There must be an air gap between the two blocks so that the laser beam can be built up from the emitter to the receiver. First the emitter must be placed. This immediately switches on the laser beam and shows possible positions of the receiver. Possible positions for the receiver are also output via a chat message. 
+
+With the laser, distances of up to 96 blocks can be bridged. Once the connection has been established (no current has to flow), this is indicated via the info text of the emitter and also of the receiver. 
+
+The laser blocks themselves do not require any electricity.
+
+[ta4_laser|image]
