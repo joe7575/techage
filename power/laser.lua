@@ -39,7 +39,7 @@ minetest.register_node("techage:ta4_laser_emitter", {
 		Cable:prepare_pairing(pos, tube_dir, "")
 		Cable:after_place_node(pos, {tube_dir})
 		
-		local pos1, pos2 = techage.renew_laser(pos, true)
+		local res, pos1, pos2 = techage.renew_laser(pos, true)
 		if pos1 then
 			local node = techage.get_node_lvm(pos2)
 			if node.name == "techage:ta4_laser_receiver" then
@@ -57,13 +57,24 @@ minetest.register_node("techage:ta4_laser_emitter", {
 	end,
 
 	on_timer = function(pos, elapsed)
-		local pos1, pos2 = techage.renew_laser(pos)
+		local res, pos1, pos2 = techage.renew_laser(pos)
 		if pos1 then
 			local node = techage.get_node_lvm(pos2)
 			if node.name == "techage:ta4_laser_receiver" then
 				Cable:pairing(pos2, "laser")
 				Cable:pairing(pos, "laser")
+			else
+				local metadata = M(pos):to_table()
+				Cable:stop_pairing(pos, metadata, "")
+				local tube_dir = tonumber(metadata.fields.tube_dir or 0)
+				Cable:after_dig_node(pos, {tube_dir})
 			end
+		elseif not res then
+			techage.del_laser(pos)
+			local metadata = M(pos):to_table()
+			Cable:stop_pairing(pos, metadata, "")
+			local tube_dir = tonumber(metadata.fields.tube_dir or 0)
+			Cable:after_dig_node(pos, {tube_dir})
 		end
 		return true
 	end,

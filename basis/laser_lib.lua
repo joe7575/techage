@@ -34,9 +34,12 @@ local function get_positions(pos, mem, dir)
 		mem.peer_node_pos = pos3
 		local dist = vector.distance(pos1, pos3)
 		if dist > GAP_MIN and dist <= GAP_MAX then
-			return pos1, pos3
+			return true, pos1, pos3  -- new values
+		else
+			return false -- invalid values
 		end
 	end
+	return true  -- no new values
 end
 
 -- return both both laser entities the pos and length
@@ -119,15 +122,15 @@ function techage.renew_laser(pos, force)
 	end
 	mem.param2 = mem.param2 or minetest.get_node(pos).param2
 	local dir = minetest.facedir_to_dir(mem.param2)
-	local pos1, pos2 = get_positions(pos, mem, dir)
+	local res, pos1, pos2 = get_positions(pos, mem, dir)
 	if pos1 then
 		local size, pos3, pos4 = get_laser_length_and_pos(pos1, pos2, dir)
 		if size then
 			add_laser(pos, pos3, pos4, size, mem.param2)
-			return pos1, pos2
+			return res, pos1, pos2
 		end
 	end
-
+	return res
 end
 
 -- techage.del_laser(pos)
