@@ -896,32 +896,41 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The TA3 logic block can be programmed so that one or more input signals are linked to one output signal and sent. This block can therefore replace various logic elements such as AND\\, OR\\, NOT\\, XOR etc.\n"..
-  "Input signals for the logic block are 'on' / 'off' commands. An 'on' is a logical 'true'\\, an 'off' corresponds to the 'false'.\n"..
-  "Input signals are referenced by the number\\, e.g. 'n123' for the signal from the transmitter with the number 123.\n"..
+  "The TA3 logic block can be programmed in such a way that one or more input commands are linked to one output command and sent. This block can therefore replace various logic elements such as AND\\, OR\\, NOT\\, XOR etc. \n"..
+  "Input commands for the logic block are 'on' /'off' commands. An 'on' is a logical 'true'\\, an 'off' corresponds to the'false'. \n"..
+  "Input commands are referenced via the number\\, e.g. '1234' for the command from the sender with the number 1234. \n"..
+  "The same applies to output commands.\n"..
   "\n"..
-  "* Examples for the IF expression *\n"..
+  "A rule is structured as follows: \n"..
+  "\n"..
+  "    <output> = true/false if <input-expression> is true\n"..
+  "\n"..
+  "'<output>' is the block number to which the command should be sent.\n"..
+  "\n"..
+  "'<input-expression>' is a boolean expression where input numbers are evaluated.\n"..
+  "\n"..
+  "  - \n"..
+  "  - \n"..
+  "\n"..
+  "*Examples for the input expression*\n"..
   "\n"..
   "Negate signal (NOT):\n"..
   "\n"..
-  "    not n123\n"..
+  "    1234 == false\n"..
   "\n"..
   "Logical AND:\n"..
   "\n"..
-  "    n123 and n345\n"..
+  "    1234 == true and 2345 == true\n"..
   "\n"..
   "Logical OR:\n"..
   "\n"..
-  "    n123 or n345\n"..
+  "    1234 == true or 2345 == true\n"..
   "\n"..
-  "If the 'if' expression is true\\, the 'then' branch is executed\\, otherwise the 'else' branch.\n"..
-  "With 'then' and 'else' you can either enter 'true'\\, 'false'\\, or nothing:\n"..
+  "The following operators are allowed:  'and'   'or'   'true'   'false'   '=='   '~='   '('   ')'\n"..
   "\n"..
-  "  - 'true' will lead to a 'on' command\n"..
-  "  - 'false' will lead to a 'off' command\n"..
-  "  - if nothing is entered\\, nothing is sent\n"..
-  "\n"..
-  "The target block or blocks for the output signal must be entered in the target number field.\n"..
+  "If the expression is true\\, a command is sent to the block with the '<output>' number. \n"..
+  "Up to four rules can be defined\\, whereby all rules are always checked when a command is received. \n"..
+  "The internal processing time for all commands is 100 ms. \n"..
   "\n"..
   "\n"..
   "\n",

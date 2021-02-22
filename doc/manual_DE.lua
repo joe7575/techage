@@ -907,32 +907,43 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Den TA3 Logikblock kann man so programmieren\\, dass ein oder mehrere Eingangssignale zu einem Ausgangssignal verknüpft und gesendet werden. Dieser Block kann daher diverse Logik-Elemente wie AND\\, OR\\, NOT\\, XOR usw. ersetzen.\n"..
-  "Eingangssignale für den Logikblock sind 'on'/'off' Kommandos. Ein 'on' ist ein logisches 'true'\\, ein 'off' entspricht dem 'false'.\n"..
-  "Eingangssignale werden über die Nummer referenziert\\, also bspw. 'n123' für das Signal vom Sender mit der Nummer 123.\n"..
+  "Den TA3 Logikblock kann man so programmieren\\, dass ein oder mehrere Eingangskommandos zu einem Ausgangskommando verknüpft und gesendet werden. Dieser Block kann daher diverse Logik-Elemente wie AND\\, OR\\, NOT\\, XOR usw. ersetzen.\n"..
+  "Eingangkommandos für den Logikblock sind 'on'/'off' Kommandos. Ein 'on' ist ein logisches 'true'\\, ein 'off' entspricht dem 'false'.\n"..
+  "Eingangskommandos werden über die Nummer referenziert\\, also bspw. '1234' für das Kommando vom Sender mit der Nummer 1234.\n"..
+  "Das gleiche gilt für Ausgangskommandos.\n"..
   "\n"..
-  "*Beispiele für den IF Ausdruck*\n"..
+  "Eine Regel ist wie folgt aufgebaut:\n"..
+  "\n"..
+  "    <output> = true/false if <input-expression> is true\n"..
+  "\n"..
+  "'<output>' ist die Nummer des Blocks\\, zu dem das Kommando gesendet werden soll.\n"..
+  "\n"..
+  "'<input-expression>' ist ein boolescher Ausdruck\\, bei dem Eingabenummern ausgewertet werden. \n"..
+  "\n"..
+  "  - \n"..
+  "  - \n"..
+  "\n"..
+  "*Beispiele für den Input Ausdruck*\n"..
   "\n"..
   "Signal negieren (NOT):\n"..
   "\n"..
-  "    not n123\n"..
+  "    1234 == false\n"..
   "\n"..
   "Logisches UND (AND):\n"..
   "\n"..
-  "    n123 and n345\n"..
+  "    1234 == true and 2345 == true\n"..
   "\n"..
   "Logisches ODER (OR):\n"..
   "\n"..
-  "    n123 or n345\n"..
+  "    1234 == true or 2345 == true\n"..
   "\n"..
-  "Ist der 'if'-Ausdruck wahr (true)\\, wird der 'then' Zweig ausgeführt\\, anderenfalls der 'else' Zweig.\n"..
-  "Bei 'then' und 'else' kann entweder 'true'\\, 'false'\\, oder nichts eingegeben werden:\n"..
+  "Folgende Operatoren sind zulässig:  'and'   'or'   'true'   'false'   '=='   '~='   '('   ')'\n"..
   "\n"..
-  "  - bei 'true' wird 'on' gesendet\n"..
-  "  - bei 'false' wird 'off' gesendet\n"..
-  "  - wird nichts eingegeben\\, wird auch nichts gesendet\n"..
+  "Ist der Ausdruck wahr (true)\\, wird ein Kommando an den Block mit der '<output>' Nummer gesendet.\n"..
   "\n"..
-  "Den oder die Ziel-Blöcke für das Ausgangssignal muss man im Zielnummern-Feld eingeben.\n"..
+  "Es können bis zu vier Regeln definiert werden\\, wobei immer alle Regeln geprüft werden\\, wenn ein Kommando empfangen wird.\n"..
+  "\n"..
+  "Die interne Durchlaufzeit aller Kommandos beträgt 100 ms.\n"..
   "\n"..
   "\n"..
   "\n",

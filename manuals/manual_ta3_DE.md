@@ -522,31 +522,44 @@ Hinweis: Mit dem Programmer können Blocknummern sehr einfach eingesammelt und k
 
 ### TA3 Logikblock / Logic Block
 
-Den TA3 Logikblock kann man so programmieren, dass ein oder mehrere Eingangssignale zu einem Ausgangssignal verknüpft und gesendet werden. Dieser Block kann daher diverse Logik-Elemente wie AND, OR, NOT, XOR usw. ersetzen.
-Eingangssignale für den Logikblock sind `on`/`off` Kommandos. Ein `on` ist ein logisches `true`, ein `off` entspricht dem `false`.
-Eingangssignale werden über die Nummer referenziert, also bspw. `n123` für das Signal vom Sender mit der Nummer 123.
+Den TA3 Logikblock kann man so programmieren, dass ein oder mehrere Eingangskommandos zu einem Ausgangskommando verknüpft und gesendet werden. Dieser Block kann daher diverse Logik-Elemente wie AND, OR, NOT, XOR usw. ersetzen.
+Eingangkommandos für den Logikblock sind `on`/`off` Kommandos. Ein `on` ist ein logisches `true`, ein `off` entspricht dem `false`.
+Eingangskommandos werden über die Nummer referenziert, also bspw. `1234` für das Kommando vom Sender mit der Nummer 1234.
+Das gleiche gilt für Ausgangskommandos.
 
-**Beispiele für den IF Ausdruck**
+Eine Regel ist wie folgt aufgebaut:
+
+```
+<output> = true/false if <input-expression> is true
+```
+
+- `<output>` ist die Nummer des Blocks, zu dem das Kommando gesendet werden soll.
+
+- `<input-expression>` ist ein boolescher Ausdruck, bei dem Eingabenummern ausgewertet werden. 
+
+
+
+**Beispiele für den Input Ausdruck**
 
 Signal negieren (NOT):
 
-    not n123
+    1234 == false
 
 Logisches UND (AND):
 
-    n123 and n345
+    1234 == true and 2345 == true
 
 Logisches ODER (OR):
 
-    n123 or n345
+    1234 == true or 2345 == true
 
-Ist der `if`-Ausdruck wahr (true), wird der `then` Zweig ausgeführt, anderenfalls der `else` Zweig.
-Bei `then` und `else` kann entweder `true`, `false`, oder nichts eingegeben werden:
-- bei `true` wird `on` gesendet
-- bei `false` wird `off` gesendet
-- wird nichts eingegeben, wird auch nichts gesendet
+Folgende Operatoren sind zulässig:  `and`   `or`   `true`   `false`   `==`   `~=`   `(`   `)`
 
-Den oder die Ziel-Blöcke für das Ausgangssignal muss man im Zielnummern-Feld eingeben.
+Ist der Ausdruck wahr (true), wird ein Kommando an den Block mit der `<output>` Nummer gesendet.
+
+Es können bis zu vier Regeln definiert werden, wobei immer alle Regeln geprüft werden, wenn ein Kommando empfangen wird.
+
+Die interne Durchlaufzeit aller Kommandos beträgt 100 ms.
 
 [ta3_logic|image]
 

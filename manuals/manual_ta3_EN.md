@@ -509,31 +509,42 @@ Note: With the programmer, block numbers can be easily collected and configured.
 
 ### TA3 Logic Block
 
-The TA3 logic block can be programmed so that one or more input signals are linked to one output signal and sent. This block can therefore replace various logic elements such as AND, OR, NOT, XOR etc.
-Input signals for the logic block are `on` / `off` commands. An `on` is a logical `true`, an `off` corresponds to the `false`.
-Input signals are referenced by the number, e.g. `n123` for the signal from the transmitter with the number 123.
+The TA3 logic block can be programmed in such a way that one or more input commands are linked to one output command and sent. This block can therefore replace various logic elements such as AND, OR, NOT, XOR etc. 
+Input commands for the logic block are `on` /` off` commands. An `on` is a logical ` true`, an `off` corresponds to the` false`. 
+Input commands are referenced via the number, e.g. `1234` for the command from the sender with the number 1234. 
+The same applies to output commands.
 
-** Examples for the IF expression **
+A rule is structured as follows: 
+
+```
+<output> = true/false if <input-expression> is true
+```
+
+- `<output>` is the block number to which the command should be sent.
+
+- `<input-expression>` is a boolean expression where input numbers are evaluated.
+
+
+
+**Examples for the input expression**
 
 Negate signal (NOT):
 
-    not n123
+    1234 == false
 
 Logical AND:
 
-    n123 and n345
+    1234 == true and 2345 == true
 
 Logical OR:
 
-    n123 or n345
+    1234 == true or 2345 == true
 
-If the `if` expression is true, the `then` branch is executed, otherwise the `else` branch.
-With `then` and `else` you can either enter `true`, `false`, or nothing:
-- `true` will lead to a `on` command
-- `false` will lead to a `off` command
-- if nothing is entered, nothing is sent
+The following operators are allowed:  `and`   `or`   `true`   `false`   `==`   `~=`   `(`   `)`
 
-The target block or blocks for the output signal must be entered in the target number field.
+If the expression is true, a command is sent to the block with the `<output>` number. 
+Up to four rules can be defined, whereby all rules are always checked when a command is received. 
+The internal processing time for all commands is 100 ms. 
 
 [ta3_logic|image]
 

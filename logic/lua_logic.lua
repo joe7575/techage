@@ -215,18 +215,20 @@ minetest.register_node("techage:ta3_logic", {
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
+	drop = "techage:ta3_logic2",
 	sounds = default.node_sound_wood_defaults(),
 })
 
 
-minetest.register_craft({
-	output = "techage:ta3_logic",
-	recipe = {
-		{"", "group:wood", ""},
-		{"", "default:copper_ingot", "techage:vacuum_tube"},
-		{"", "group:wood", ""},
-	},
-})
+-- Deprecated and replaced by "techage:ta3_logic2"
+--minetest.register_craft({
+--	output = "techage:ta3_logic",
+--	recipe = {
+--		{"", "group:wood", ""},
+--		{"", "default:copper_ingot", "techage:vacuum_tube"},
+--		{"", "group:wood", ""},
+--	},
+--})
 
 techage.register_node({"techage:ta3_logic"}, {
 	on_recv_message = function(pos, src, topic, payload)

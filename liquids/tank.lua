@@ -289,7 +289,7 @@ minetest.register_lbm({
 		if mem.liquid and mem.liquid.amount then
 			local nvm = techage.get_nvm(pos)
 			nvm.liquid = nvm.liquid or {}
-			nvm.liquid.amount = mem.liquid.amount
+			nvm.liquid.amount = math.max(mem.liquid.amount, 0)
 			nvm.liquid.name = mem.liquid.name
 			--tubelib2.del_mem(pos)
 		end

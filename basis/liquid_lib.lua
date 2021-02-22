@@ -62,7 +62,7 @@ end
 
 function techage.liquid.is_empty(pos)
 	local nvm = techage.get_nvm(pos)
-	return not nvm.liquid or (nvm.liquid.amount or 0) == 0
+	return not nvm.liquid or (nvm.liquid.amount or 0) <= 0
 end
 
 techage.liquid.recv_message = {

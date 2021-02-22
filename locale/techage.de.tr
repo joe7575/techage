@@ -540,11 +540,42 @@ Liquid Sampler=Flüssigkeitensammler
 
 no usable water=Kein brauchbares Wasser
 
+### logic_block.lua ###
+
+'~@=' means: not equal@n='~@=' bedeutet: ungleich@n
+
+@n<input-expression> is a boolean expression@nwhere input numbers are evaluated.@n=@n<input-expression> ist ein boolescher Ausdruck,@nbei dem Eingabenummern ausgewertet werden.@n
+
+@n<output> is the block number to which the@ncommand should be sent.@n=@n<output> ist die Blocknummer, an die der Befehl@ngesendet werden soll.@n
+
+@nAll rules are checked with each received@ncommand.=@nAlle Regeln werden mit jedem empfangenen@nBefehl überprüft. 
+
+@nExamples:@n1234 @=@= true@n1234 @=@= false@n1234 @=@= true and 2345 @=@= false@n2345 ~@= 3456@n=@nBeispiele:@n1234 @=@= true@n1234 @=@= false@n1234 @=@= true and 2345 @=@= false@n2345 ~@= 3456@n
+
+@nRule:@n<output> @= true/false if <input-expression> is true@n=@nRegel:@n<output> @= true/false if <input-expression> is true@n
+
+@nThe following applies to inputs/outputs:@ntrue is 'on' and false is 'off'@n=@nFür alle Eingänge/Ausgänge gilt:@ntrue ist 'on' und false ist 'off'@n
+
+@nThe internal processing time for all@ncommands is 100 ms.=@nDie interne Durchlaufzeit für alle@nKommandos beträgt 100 ms.
+
+@nValid operators:@nand   or   true   false   @=@=   ~@=   (   )@n=@nGültige Operatoren:@nand   or   true   false   @=@=   ~@=   (   )@n
+
+Help= Hilfe
+Inputs=Eingänge
+Outputs=Ausgänge
+Rules=Regeln
+
+Send an 'on'/'off' command if the@nexpression becomes true.@n=Sende ein 'on'/'off' Kommando, wenn der @nAusdruck wahr wird.@n
+
+Syntax=Syntax
+
+### logic_block.lua ###
 ### lua_logic.lua ###
 
 TA3 Logic Block=TA3 Logikblock
 Update=Update
 
+### logic_block.lua ###
 ### lua_logic.lua ###
 ### power_terminal2.lua ###
 
@@ -1041,3 +1072,6 @@ This is not the surface of the ocean!=Das ist nicht die Meeresoberfläche!
 [TA4 Wind Turbine]=[TA4 Windkraftanlage]
 biome and no ocean!=Biom und keine Meer (ocean)!
 is a suitable place for a wind turbine!=ist ein geeigneter Ort für eine Windkraftanlage!
+
+
+##### not used anymore #####

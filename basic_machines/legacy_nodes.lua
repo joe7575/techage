@@ -89,3 +89,17 @@ techage.register_node({"default:furnace", "default:furnace_active"}, {
 		return techage.put_items(inv, "dst", stack)
 	end,
 })	
+
+techage.register_node({"mobs:beehive"}, {
+	on_pull_item = function(pos, in_dir, num)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.get_items(pos, inv, "beehive", num)
+	end,
+	on_unpull_item = function(pos, in_dir, stack)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.put_items(inv, "beehive", stack)
+	end,
+})	
+
