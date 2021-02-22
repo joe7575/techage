@@ -103,3 +103,15 @@ techage.register_node({"mobs:beehive"}, {
 	end,
 })	
 
+techage.register_node({"xdecor:hive"}, {
+	on_pull_item = function(pos, in_dir, num)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.get_items(pos, inv, "honey", num)
+	end,
+	on_unpull_item = function(pos, in_dir, stack)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.put_items(inv, "honey", stack)
+	end,
+})	
