@@ -126,82 +126,58 @@ local function play_sound(pos)
 		max_hear_distance = 15})
 end
 
-local function show_nodes(pos)
+local function exchange_node(pos, item, param2)
+	local node = minetest.get_node_or_nil(pos)
+	local meta = minetest.get_meta(pos)
+	if node and (not meta or not next((meta:to_table()).fields)) then
+		if item and item:get_name() ~= "" and param2 then
+			minetest.swap_node(pos, {name = item:get_name(), param2 = param2})
+		else
+			minetest.remove_node(pos)
+		end
+		if node.name ~= "air" then
+			return ItemStack(node.name), node.param2
+		end
+	end
+	return ItemStack(), nil
+end
+
+local function exchange_nodes(pos, nvm)
 	local meta = M(pos)
 	local inv = meta:get_inventory()
 	
-	if not inv:is_empty("main") then
-		local item_list = inv:get_list("main")
-		local pos_list = minetest.deserialize(meta:get_string("pos_list")) or {}
-		local param2_list = minetest.deserialize(meta:get_string("param2_list")) or {}
-		local owner = meta:get_string("owner")
-		local res = false
-	
-		for idx = 1, 16 do
-			local pos = pos_list[idx]
-			local name = item_list[idx]:get_name()
-			local param2 = param2_list[idx]
-			if pos and param2 and name ~= "" then
-				if not minetest.is_protected(pos, owner) then
-					local node = minetest.get_node(pos)
-					if node.name == "air" then
-						minetest.add_node(pos, {name = name, param2 = param2})
-					end
-					res = true
-					item_list[idx]:set_count(0)
-				end
-			end
+	local item_list = inv:get_list("main")
+	local owner = meta:get_string("owner")
+	local res = false
+	nvm.pos_list = nvm.pos_list or {}
+	nvm.param2_list = nvm.param2_list or {}
+
+	for idx = 1, 16 do
+		local pos = nvm.pos_list[idx]
+		if pos and not minetest.is_protected(pos, owner) then
+			item_list[idx], nvm.param2_list[idx] = exchange_node(pos, item_list[idx], nvm.param2_list[idx])
+			res = true
 		end
-		
-		inv:set_list("main", item_list)
-		return res
 	end
-	return false
+	
+	inv:set_list("main", item_list)
+	return res
+end
+
+local function show_nodes(pos)
+	local nvm = techage.get_nvm(pos)
+	if not nvm.is_on then
+		nvm.is_on = true
+		return exchange_nodes(pos, nvm)
+	end
 end
 
 local function hide_nodes(pos)
-	local meta = M(pos)
-	local inv = meta:get_inventory()
-	
-	if inv:is_empty("main") then
-		local item_list = inv:get_list("main")
-		local pos_list = minetest.deserialize(meta:get_string("pos_list")) or {}
-		local param2_list = minetest.deserialize(meta:get_string("param2_list")) or {}
-		local owner = meta:get_string("owner")
-		local res = false
-		
-		for idx = 1, 16 do
-			local pos = pos_list[idx]
-			if pos then
-				if not minetest.is_protected(pos, owner) then
-					local node = minetest.get_node_or_nil(pos)
-					local meta = minetest.get_meta(pos)
-					if node and (not meta or not next((meta:to_table()).fields)) then
-						minetest.remove_node(pos)
-						if node.name ~= "air" then
-							item_list[idx] = ItemStack({name = node.name, count = 1})
-							param2_list[idx] = node.param2
-						end
-					else
-						item_list[idx] = nil
-						param2_list[idx] = 0
-					end
-					res = true
-				else
-					item_list[idx] = nil
-					param2_list[idx] = 0
-				end
-			else
-				item_list[idx] = nil
-				param2_list[idx] = 0
-			end
-		end
-		
-		meta:set_string("param2_list", minetest.serialize(param2_list))
-		inv:set_list("main", item_list)
-		return res
+	local nvm = techage.get_nvm(pos)
+	if nvm.is_on then
+		nvm.is_on = false
+		return exchange_nodes(pos, nvm)
 	end
-	return false
 end
 
 minetest.register_node("techage:ta3_doorcontroller2", {
@@ -239,6 +215,9 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 			if not inv:is_empty("main") then			
 				meta:set_string("status", S("Error: Inventory already in use"))
 			else
+				local nvm = techage.get_nvm(pos)
+				nvm.pos_list = nil
+				nvm.is_on = false
 				meta:set_string("status", S("Recording..."))
 				local name = player:get_player_name()
 				minetest.chat_send_player(name, S("Click on all the blocks that are part of the door/gate"))
@@ -246,12 +225,13 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 			end
 			meta:set_string("formspec", formspec1(meta))
 		elseif fields.ready then
+			local nvm = techage.get_nvm(pos)
 			local name = player:get_player_name()
 			local pos_list = table_to_poslist(name)
 			local text = #pos_list.." "..S("block positions are stored.")
 			meta:set_string("status", text)
-			local s = minetest.serialize(pos_list)
-			meta:set_string("pos_list", s)
+			nvm.pos_list = pos_list
+			nvm.is_on = true
 			unmark_all(name)
 			meta:set_string("formspec", formspec1(meta))
 		elseif fields.show then
@@ -328,8 +308,23 @@ techage.register_node({"techage:ta3_doorcontroller2"}, {
 	end,
 	on_node_load = function(pos)
 		local meta = M(pos)
+		local nvm = techage.get_nvm(pos)
 		meta:set_string("status", "")
-		meta:set_string("formspec", formspec1(meta))		
+		meta:set_string("formspec", formspec1(meta))
+		local pos_list = minetest.deserialize(meta:get_string("pos_list"))
+		if pos_list then
+			nvm.pos_list = pos_list
+			meta:set_string("pos_list", "")
+			local inv = meta:get_inventory()
+			if inv:is_empty("main") then
+				nvm.is_on = true
+			end
+		end
+		local param2_list = minetest.deserialize(meta:get_string("param2_list"))
+		if param2_list then
+			nvm.param2_list = param2_list
+			meta:set_string("param2_list", "")
+		end
 	end,
 })		
 
