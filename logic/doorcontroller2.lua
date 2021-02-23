@@ -129,7 +129,8 @@ end
 local function exchange_node(pos, item, param2)
 	local node = minetest.get_node_or_nil(pos)
 	local meta = minetest.get_meta(pos)
-	if node and (not meta or not next((meta:to_table()).fields)) then
+	if node and (not meta or not next((meta:to_table()).fields)) or
+			minetest.get_item_group(node.name, "techage_door") then
 		if item and item:get_name() ~= "" and param2 then
 			minetest.swap_node(pos, {name = item:get_name(), param2 = param2})
 		else
