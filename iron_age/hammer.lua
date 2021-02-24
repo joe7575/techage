@@ -29,7 +29,7 @@ local function handler(player_name, node, itemstack, digparams)
 		if ndef then
 			local item = ItemStack(ndef.drop or node.name)
 			local inv = minetest.get_inventory({type="player", name=player_name})
-			if inv:room_for_item("main", item) then
+			if inv and inv:room_for_item("main", item) then
 				local taken = inv:remove_item("main", item)
 			else
 				for _,obj in ipairs(minetest.get_objects_inside_radius(pos, 1)) do
