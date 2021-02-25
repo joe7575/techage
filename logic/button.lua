@@ -124,7 +124,8 @@ end
 local function on_rightclick_off(pos, node, clicker)
 	local meta = M(pos)
 	local numbers = meta:get_string("numbers")
-	if numbers ~= "" and numbers ~= nil then
+	local cycle_time = meta:get_int("cycle_time") or 0
+	if numbers ~= "" and numbers ~= nil and cycle_time == 0 then
 		if meta:get_string("public") == "true" or 
 				clicker:get_player_name() == meta:get_string("owner") then
 			switch_off(pos)

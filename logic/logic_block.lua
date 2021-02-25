@@ -32,10 +32,11 @@ local HELP = S("Send an 'on'/'off' command if the\nexpression becomes true.\n") 
 --  mem.io_tbl = {
 --    i123 = true,   -- "on" received
 --    i124 = false,  -- "off" received
---	  o456 = false,  -- last output val
+--    o456 = false,  -- last output val
 --  }
 
 local ValidSymbols = {
+	["me"] = true,
 	["and"] = true,
 	["or"] = true,
 	["true"] = true,
@@ -74,17 +75,17 @@ local function check_expr(expr)
 end
 
 local function check_num(num, player_name)
-	if not techage.check_numbers(num, player_name) then
+	if num ~= "me" and not techage.check_numbers(num, player_name) then
 		return "Invalid node number '"..num.."'"
 	end
 end
 
 local function send(pos, num, val)
-	local own_num = M(pos):get_string("node_number")
 	local nvm = techage.get_nvm(pos)
+	nvm.own_num = nvm.own_num or M(pos):get_string("node_number")
 	nvm.io_tbl = nvm.io_tbl or {}
 	nvm.io_tbl["o" .. num] = val == "on" and true or false
-	techage.send_single(own_num, num, val)
+	techage.send_single(nvm.own_num, num, val)
 end
 
 local function check_syntax(line, owner, outp, expr)
@@ -115,6 +116,9 @@ local function get_code(pos, nvm)
 	local mem = techage.get_mem(pos)
 	local tbl = {}
 	local owner = M(pos):get_string("owner")
+	nvm.own_num = nvm.own_num or M(pos):get_string("node_number")
+	nvm.io_tbl.send = send
+	nvm.io_tbl.pos = pos
 	
 	for i = 1,NUM_RULES do
 		local outp = meta:get_string("outp" .. i)
@@ -127,6 +131,8 @@ local function get_code(pos, nvm)
 				val = val == "true" and "on" or "off"
 				-- add prefix 'i' to all numbers
 				expr = string.gsub(expr, '([0-9]+)', "i%1")
+				expr = string.gsub(expr, 'me', "i" .. nvm.own_num)
+				outp = string.gsub(outp, 'me', nvm.own_num)
 				tbl[#tbl + 1]  = "if "..expr.." then send(pos, "..outp..", '"..val.."') end"
 			else
 				nvm.error = err
@@ -138,17 +144,17 @@ local function get_code(pos, nvm)
 	
 	local str = table.concat(tbl, "\n")
 	local code = compile(nvm, str)
-	nvm.io_tbl.send = send
-	nvm.io_tbl.pos = pos
-	setfenv(code, nvm.io_tbl)
 	return code
 end
 
 local function execute(pos)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
+	nvm.own_num = nvm.own_num or M(pos):get_string("node_number")
+	nvm.io_tbl["i" .. nvm.own_num] = nvm.from_myself or false
 	mem.code = mem.code or get_code(pos, nvm)
 	if mem.code then
+		setfenv(mem.code, nvm.io_tbl)
 		local res, _ = pcall(mem.code)
 		if not res then
 			nvm.error = "Unknown runtime error"
@@ -162,9 +168,13 @@ local function data(nvm)
 	for k,v in pairs(nvm.io_tbl) do
 		if k ~= "send" and k ~= "pos" then
 			if k:byte(1) == 105 then -- 'i'
-				inp[#inp+1] = k:sub(2) .. " = " .. dump(v)
+				local num = k:sub(2)
+				if num == nvm.own_num then num = "me" end
+				inp[#inp+1] = num .. " = " .. dump(v)
 			else
-				outp[#outp+1] = k:sub(2) .. " = " .. dump(v)
+				local num = k:sub(2)
+				if num == nvm.own_num then num = "me" end
+				outp[#outp+1] = num .. " = " .. dump(v)
 			end
 		end
 	end
@@ -194,7 +204,7 @@ local function rules(meta)
 		tbl[#tbl + 1] = "label[1.4," .. y2 .. ";=]"
 		tbl[#tbl + 1] = "dropdown[1.8," .. y3 .. ";1.6,1;val" .. i ..";,true,false;" .. val .. "]"
 		tbl[#tbl + 1] = "label[3.5," .. y2 .. ";if]"
-		tbl[#tbl + 1] = "field[4.2," .. y1 .. ";5,1;expr" .. i ..";;" .. expr .. "]"
+		tbl[#tbl + 1] = "field[4.2," .. y1 .. ";5.6,1;expr" .. i ..";;" .. expr .. "]"
 	end
 	return table.concat(tbl, "")
 end
@@ -205,7 +215,7 @@ local function formspec(pos, meta)
 	err = minetest.formspec_escape(err)
 	nvm.io_tbl = nvm.io_tbl or {}
 	local inputs, outputs = data(nvm)
-	return "size[9.4,7.7]" ..
+	return "size[10,7.7]" ..
 		"tabheader[0,0;tab;"..S("Rules") .. "," .. S("Help")..";1;;true]" ..
 		"container[0.4,0.1]" ..
 		rules(meta) ..
@@ -217,13 +227,13 @@ local function formspec(pos, meta)
 		"label[0,5.7;" .. S("Syntax") .. ":]" ..
 		"label[2,5.7;" .. err .. "]" ..
 		"button[1.5,7.0;3,1;update;" .. S("Update") .. "]" ..
-		"button[5,7.0;3,1;store;" .. S("Store") .. "]"
+		"button[5.6,7.0;3,1;store;" .. S("Store") .. "]"
 end
 
 local function formspec_help()
-	return "size[9.4,7.7]" ..
+	return "size[10,7.7]" ..
 		"tabheader[0,0;tab;"..S("Rules") .. "," .. S("Help")..";2;;true]" ..
-		"textarea[0.3,0.3;9.3,8;;;"..minetest.formspec_escape(HELP).."]"
+		"textarea[0.3,0.3;9.9,8;;;"..minetest.formspec_escape(HELP).."]"
 end
 
 minetest.register_node("techage:ta3_logic2", {
@@ -258,6 +268,9 @@ minetest.register_node("techage:ta3_logic2", {
 				meta:set_string("val"  .. i, fields["val"  .. i] or "")
 				meta:set_string("expr" .. i, fields["expr" .. i] or "")
 			end
+			local nvm = techage.get_nvm(pos)
+			nvm.own_num = nvm.own_num or M(pos):get_string("node_number")
+			nvm.io_tbl = {["i" .. nvm.own_num] = false}
 		end
 		
 		if fields.tab == "2" then
@@ -309,16 +322,21 @@ minetest.register_craft({
 techage.register_node({"techage:ta3_logic2"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
+		nvm.own_num = nvm.own_num or M(pos):get_string("node_number")
 		nvm.io_tbl = nvm.io_tbl or {}
 		
-		if topic == "on" then
-			nvm.io_tbl["i" .. src] = true
-		elseif topic == "off" then
-			nvm.io_tbl["i" .. src] = false
+		if src ~= nvm.own_num then -- from other node
+			if topic == "on" then
+				nvm.io_tbl["i" .. src] = true
+			elseif topic == "off" then
+				nvm.io_tbl["i" .. src] = false
+			else
+				return "unsupported"
+			end
+			minetest.get_node_timer(pos):start(0.1)
 		else
-			return "unsupported"
+			nvm.from_myself = (topic == "on") and true or false
 		end
-		minetest.get_node_timer(pos):start(0.1)
 	end,
 })		
 
