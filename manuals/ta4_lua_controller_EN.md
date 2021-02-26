@@ -390,6 +390,7 @@ Please note, that this is not a technical distinction, only a logical.
 | "reset"                          | nil          | Reset the item counter of the TA4 Item Detector block        |
 | "pull"                           | item  string | Start the TA4 pusher to pull/push items.<br /> Example: `default:dirt 8` |
 | "config"                         | item  string | Configure the TA4 pusher.<br />Example: `wool:blue`          |
+| "exchange" | inventory slot number | place/remove/exchange an block by means of the TA3 Door Controller II (techage:ta3_doorcontroller2) |
 
 
 

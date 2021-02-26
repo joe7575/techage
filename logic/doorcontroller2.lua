@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2020 Joachim Stolberg
+	Copyright (C) 2020-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -19,23 +19,43 @@ local S = techage.S
 
 local logic = techage.logic
 
-local MarkedNodes = {} -- t[player][hash] = entity 
+local MarkedNodes = {} -- t[player] = {{entity, pos},...} 
 local CurrentPos  -- to mark punched entities
+local RegisteredNodes = {}  -- to be checked before removed/placed
+
+local function is_simple_node(name)
+	-- special handling
+	if RegisteredNodes[name] ~= nil then 
+		return RegisteredNodes[name] 
+	end
+	
+	local ndef = minetest.registered_nodes[name]
+	if not ndef or name == "air" then return true end
+	if ndef.groups and ndef.groups.techage_door == 1 then return true end
+	
+	-- don't remove nodes with some intelligence or undiggable nodes
+	if ndef.drop == "" then return false end
+	if ndef.diggable == false then return false end
+	if ndef.after_dig_node then return false end
+	
+	return true
+end	
 
 local function unmark_position(name, pos)
-	MarkedNodes[name] = MarkedNodes[name] or {}
 	pos = vector.round(pos)
-	local hash = minetest.hash_node_position(pos)
-	if MarkedNodes[name][hash] then
-		MarkedNodes[name][hash]:remove()
-		MarkedNodes[name][hash] = nil
-		CurrentPos = hash
+	for idx,item in ipairs(MarkedNodes[name] or {}) do
+		if vector.equals(pos, item.pos) then
+			item.entity:remove()
+			table.remove(MarkedNodes[name], idx)
+			CurrentPos = pos
+			return
+		end
 	end
 end
 
 local function unmark_all(name)
-	for _,entity in pairs(MarkedNodes[name] or {}) do
-		entity:remove()
+	for _,item in ipairs(MarkedNodes[name] or {}) do
+		item.entity:remove()
 	end
 	MarkedNodes[name] = nil
 end
@@ -43,12 +63,11 @@ end
 local function mark_position(name, pos)
 	MarkedNodes[name] = MarkedNodes[name] or {}
 	pos = vector.round(pos)
-	local hash = minetest.hash_node_position(pos)
-	if hash ~= CurrentPos then -- entity not punched?
+	if not CurrentPos or not vector.equals(pos, CurrentPos) then -- entity not punched?
 		local entity = minetest.add_entity(pos, "techage:marker")
 		if entity ~= nil then
 			entity:get_luaentity().player_name = name
-			MarkedNodes[name][hash] = entity
+			table.insert(MarkedNodes[name], {pos = pos, entity = entity})
 		end
 		CurrentPos = nil
 		return true
@@ -56,11 +75,10 @@ local function mark_position(name, pos)
 	CurrentPos = nil
 end
 
-local function table_to_poslist(name)
+local function get_poslist(name)
 	local lst = {}
-	for hash,_ in pairs(MarkedNodes[name] or {}) do
-		local pos = minetest.get_position_from_hash(hash)
-		table.insert(lst, pos)
+	for _,item in ipairs(MarkedNodes[name] or {}) do
+		table.insert(lst, item.pos)
 	end
 	return lst
 end
@@ -100,21 +118,25 @@ minetest.register_entity(":techage:marker", {
 
 local function formspec1(meta)
 	local status = meta:get_string("status")
-	return "size[8,6.5]"..
+	return "size[8,7]"..
 		"tabheader[0,0;tab;"..S("Ctrl,Inv")..";1;;true]"..
-		"button[0.7,0;3,1;record;"..S("Record").."]"..
-		"button[4.3,0;3,1;ready;"..S("Done").."]"..
-		"button[0.7,1;3,1;show;"..S("Set").."]"..
-		"button[4.3,1;3,1;hide;"..S("Remove").."]"..
-		"label[0.5,2;"..status.."]"..
-		"list[current_player;main;0,2.8;8,4;]"
+		"button[0.7,0.5;3,1;record;"..S("Record").."]"..
+		"button[4.3,0.5;3,1;ready;"..S("Done").."]"..
+		"button[0.7,1.5;3,1;show;"..S("Set").."]"..
+		"button[4.3,1.5;3,1;hide;"..S("Remove").."]"..
+		"label[0.5,2.5;"..status.."]"..
+		"list[current_player;main;0,3.3;8,4;]"
 end
 
 local function formspec2()
-	return "size[8,6.5]"..
+	return "size[8,7]"..
 		"tabheader[0,0;tab;"..S("Ctrl,Inv")..";2;;true]"..
-		"list[context;main;0,0;8,2;]"..
-		"list[current_player;main;0,2.8;8,4;]"..
+		"label[0.3,0.0;1]"..
+		"label[7.3,0.0;8]"..
+		"label[0.3,2.4;9]"..
+		"label[7.3,2.4;16]"..
+		"list[context;main;0,0.5;8,2;]"..
+		"list[current_player;main;0,3.3;8,4;]"..
 		"listring[context;main]"..
 		"listring[current_player;main]"
 end
@@ -128,22 +150,22 @@ end
 
 local function exchange_node(pos, item, param2)
 	local node = minetest.get_node_or_nil(pos)
-	local meta = minetest.get_meta(pos)
-	if node and (not meta or not next((meta:to_table()).fields)) or
-			minetest.get_item_group(node.name, "techage_door") then
-		if item and item:get_name() ~= "" and param2 then
+	if node and is_simple_node(node.name) then
+		if item and item:get_name() ~= "" then
 			minetest.swap_node(pos, {name = item:get_name(), param2 = param2})
 		else
 			minetest.remove_node(pos)
 		end
 		if node.name ~= "air" then
 			return ItemStack(node.name), node.param2
+		else
+			return ItemStack(), nil
 		end
 	end
-	return ItemStack(), nil
+	return item, param2
 end
 
-local function exchange_nodes(pos, nvm)
+local function exchange_nodes(pos, nvm, slot)
 	local meta = M(pos)
 	local inv = meta:get_inventory()
 	
@@ -153,7 +175,7 @@ local function exchange_nodes(pos, nvm)
 	nvm.pos_list = nvm.pos_list or {}
 	nvm.param2_list = nvm.param2_list or {}
 
-	for idx = 1, 16 do
+	for idx = (slot or 1), (slot or 16) do
 		local pos = nvm.pos_list[idx]
 		if pos and not minetest.is_protected(pos, owner) then
 			item_list[idx], nvm.param2_list[idx] = exchange_node(pos, item_list[idx], nvm.param2_list[idx])
@@ -213,22 +235,18 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 			return
 		elseif fields.record then
 			local inv = meta:get_inventory()
-			if not inv:is_empty("main") then			
-				meta:set_string("status", S("Error: Inventory already in use"))
-			else
-				local nvm = techage.get_nvm(pos)
-				nvm.pos_list = nil
-				nvm.is_on = false
-				meta:set_string("status", S("Recording..."))
-				local name = player:get_player_name()
-				minetest.chat_send_player(name, S("Click on all the blocks that are part of the door/gate"))
-				MarkedNodes[name] = {}
-			end
+			local nvm = techage.get_nvm(pos)
+			nvm.pos_list = nil
+			nvm.is_on = false
+			meta:set_string("status", S("Recording..."))
+			local name = player:get_player_name()
+			minetest.chat_send_player(name, S("Click on all the blocks that are part of the door/gate"))
+			MarkedNodes[name] = {}
 			meta:set_string("formspec", formspec1(meta))
 		elseif fields.ready then
 			local nvm = techage.get_nvm(pos)
 			local name = player:get_player_name()
-			local pos_list = table_to_poslist(name)
+			local pos_list = get_poslist(name)
 			local text = #pos_list.." "..S("block positions are stored.")
 			meta:set_string("status", text)
 			nvm.pos_list = pos_list
@@ -258,7 +276,7 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return 0
 		end
-		return 0
+		return 1
 	end,
 	allow_metadata_inventory_take = function(pos, listname, index, stack, player)
 		if minetest.is_protected(pos, player:get_player_name()) then
@@ -270,10 +288,7 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return 0
 		end
-		
-		local inv = minetest.get_inventory({type="node", pos=pos})
-		local pos_list = minetest.deserialize(M(pos):get_string("pos_list")) or {}
-		if pos_list[index] and inv:get_stack(listname, index):get_count() == 0 then
+		if is_simple_node(stack:get_name()) then
 			return 1
 		end
 		return 0
@@ -301,9 +316,12 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 techage.register_node({"techage:ta3_doorcontroller2"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "on" then
-			return hide_nodes(pos, nil)
+			return hide_nodes(pos)
 		elseif topic == "off" then
 			return show_nodes(pos)
+		elseif topic == "exchange" then
+			local nvm = techage.get_nvm(pos)
+			return exchange_nodes(pos, nvm, tonumber(payload))
 		end
 		return false
 	end,

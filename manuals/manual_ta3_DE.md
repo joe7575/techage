@@ -636,9 +636,19 @@ Der Tür Controller dient zur Ansteuerung der TA3 Tür/Tor Blöcke. Beim Tür Co
 
 ### TA3 Tür Controller II / Door Controller II
 
-Der Tür Controller II kann alle Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen, muss der "Aufzeichnen" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden, die Teil der Tür / des Tores sein sollen. Danach muss der "Fertig" Button gedrückt werden.  Es können bis zu 16 Blöcke ausgewählt werden. Die entfernten Blöcke werden im Inventar des Controllers gespeichert. Über die Tasten "Entfernen" bzw. "Setzen" kann die Funktion des Controllers von Hand getestet werden.
+Der Tür Controller II kann alle Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen, muss der "Aufzeichnen" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden, die Teil der Tür / des Tores sein sollen. Danach muss der "Fertig" Button gedrückt werden.  Es können bis zu 16 Blöcke ausgewählt werden. Die entfernten Blöcke werden im Inventar des Controllers gespeichert.
+
+ Über die Tasten "Entfernen" bzw. "Setzen" kann die Funktion des Controllers von Hand getestet werden.
 
 Wird ein  `on` / `off` Kommando an den Tür Controller II gesendet, entfernt bzw. setzt er die Blöcke ebenfalls.
+
+Über ein `exchange` Kommando können einzelne Böcke gesetzt, entfernt, bzw. durch andere Blöcke ersetzt werden. Die Slot-Nummer des Inventars (1 .. 16) muss als payload übergeben werden, also:
+
+```
+$send_cmnd(node_number, "exchange", 2)
+```
+
+Damit lassen sich auch ausfahrbare Treppen und ähnliches simulieren.
 
 [ta3_doorcontroller|image]
 

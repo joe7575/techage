@@ -997,9 +997,17 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der Tür Controller II kann alle Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen\\, muss der \"Aufzeichnen\" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden\\, die Teil der Tür / des Tores sein sollen. Danach muss der \"Fertig\" Button gedrückt werden.  Es können bis zu 16 Blöcke ausgewählt werden. Die entfernten Blöcke werden im Inventar des Controllers gespeichert. Über die Tasten \"Entfernen\" bzw. \"Setzen\" kann die Funktion des Controllers von Hand getestet werden.\n"..
+  "Der Tür Controller II kann alle Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen\\, muss der \"Aufzeichnen\" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden\\, die Teil der Tür / des Tores sein sollen. Danach muss der \"Fertig\" Button gedrückt werden.  Es können bis zu 16 Blöcke ausgewählt werden. Die entfernten Blöcke werden im Inventar des Controllers gespeichert.\n"..
+  "\n"..
+  " Über die Tasten \"Entfernen\" bzw. \"Setzen\" kann die Funktion des Controllers von Hand getestet werden.\n"..
   "\n"..
   "Wird ein  'on' / 'off' Kommando an den Tür Controller II gesendet\\, entfernt bzw. setzt er die Blöcke ebenfalls.\n"..
+  "\n"..
+  "Über ein 'exchange' Kommando können einzelne Böcke gesetzt\\, entfernt\\, bzw. durch andere Blöcke ersetzt werden. Die Slot-Nummer des Inventars (1 .. 16) muss als payload übergeben werden\\, also:\n"..
+  "\n"..
+  "    $send_cmnd(node_number\\, \"exchange\"\\, 2)\n"..
+  "\n"..
+  "Damit lassen sich auch ausfahrbare Treppen und ähnliches simulieren.\n"..
   "\n"..
   "\n"..
   "\n",

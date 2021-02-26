@@ -988,6 +988,12 @@ techage.manual_EN.aText = {
   "\n",
   "The Door Controller II can remove and set all types of blocks. To teach in the Door Controller II\\, the \"Record\" button must be pressed. Then all blocks that should be part of the door / gate must be clicked. Then the \"Done\" button must be pressed. Up to 16 blocks can be selected. The removed blocks are saved in the controller's inventory. The function of the controller can be tested manually using the \"Remove\" or \"Set\" buttons. If an 'on' /'off' command is sent to the Door Controller II\\, it removes or sets the blocks as well.\n"..
   "\n"..
+  "Individual blocks can be set\\, removed or replaced by other blocks via an 'exchange' command. The slot number of the inventory (1 .. 16) must be transferred as payload\\, i.e.:\n"..
+  "\n"..
+  "    $send_cmnd(node_number\\, \"exchange\"\\, 2)\n"..
+  "\n"..
+  "This can also be used to simulate extendable stairs and the like. \n"..
+  "\n"..
   "\n"..
   "\n",
   "The Mesecons converter is used to convert Techage on/off commands into Mesecons signals and vice versa.\n"..
