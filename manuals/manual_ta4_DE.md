@@ -143,7 +143,7 @@ Sowohl der Generator als auch der Wärmetauscher haben einen Stromanschluss und 
 Im Prinzip arbeitet das das Wärmespeichersystem genau gleich wie die Akkus, nur mit viel mehr Speicherkapazität. 
 Der Wärmespeicher kann 60 ku aufnehmen und abgeben.
 
-Damit das Wärmespeichersystem funktioniert, müssen alle Blöcke (außer Betonhülle und Gravel) mit Hilfe eines Forceloadblockes geladen sein.
+Damit das Wärmespeichersystem funktioniert, müssen alle Blöcke (auch Betonhülle und Gravel) mit Hilfe eines Forceloadblockes geladen sein.
 
 [ta4_storagesystem|plan]
 

@@ -908,42 +908,43 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Den TA3 Logikblock kann man so programmieren\\, dass ein oder mehrere Eingangskommandos zu einem Ausgangskommando verknüpft und gesendet werden. Dieser Block kann daher diverse Logik-Elemente wie AND\\, OR\\, NOT\\, XOR usw. ersetzen.\n"..
-  "Eingangkommandos für den Logikblock sind 'on'/'off' Kommandos. Ein 'on' ist ein logisches 'true'\\, ein 'off' entspricht dem 'false'.\n"..
+  "Eingangkommandos für den Logikblock sind 'on'/'off' Kommandos.\n"..
   "Eingangskommandos werden über die Nummer referenziert\\, also bspw. '1234' für das Kommando vom Sender mit der Nummer 1234.\n"..
   "Das gleiche gilt für Ausgangskommandos.\n"..
   "\n"..
   "Eine Regel ist wie folgt aufgebaut:\n"..
   "\n"..
-  "    <output> = true/false if <input-expression> is true\n"..
+  "    <output> = on/off if <input-expression> is true\n"..
   "\n"..
   "'<output>' ist die Nummer des Blocks\\, zu dem das Kommando gesendet werden soll.\n"..
   "\n"..
   "'<input-expression>' ist ein boolescher Ausdruck\\, bei dem Eingabenummern ausgewertet werden. \n"..
   "\n"..
-  "  - \n"..
-  "  - \n"..
-  "\n"..
   "*Beispiele für den Input Ausdruck*\n"..
   "\n"..
   "Signal negieren (NOT):\n"..
   "\n"..
-  "    1234 == false\n"..
+  "    1234 == off\n"..
   "\n"..
   "Logisches UND (AND):\n"..
   "\n"..
-  "    1234 == true and 2345 == true\n"..
+  "    1234 == on and 2345 == on\n"..
   "\n"..
   "Logisches ODER (OR):\n"..
   "\n"..
-  "    1234 == true or 2345 == true\n"..
+  "    1234 == on or 2345 == on\n"..
   "\n"..
-  "Folgende Operatoren sind zulässig:  'and'   'or'   'true'   'false'   '=='   '~='   '('   ')'\n"..
+  "Folgende Operatoren sind zulässig:  'and'   'or'   'on'   'off'   'me'   '=='   '~='   '('   ')'\n"..
   "\n"..
   "Ist der Ausdruck wahr (true)\\, wird ein Kommando an den Block mit der '<output>' Nummer gesendet.\n"..
   "\n"..
   "Es können bis zu vier Regeln definiert werden\\, wobei immer alle Regeln geprüft werden\\, wenn ein Kommando empfangen wird.\n"..
   "\n"..
   "Die interne Durchlaufzeit aller Kommandos beträgt 100 ms.\n"..
+  "\n"..
+  "Über das Schlüsselwort 'me' kann die eigene Knotennummer referenziert werden. Damit ist es möglich\\, dass sich der Block selbst ein Kommando sendet (Flip-Flop Funktion).\n"..
+  "\n"..
+  "Die Sperrzeit definiert eine Pause nach einem Kommando\\, in der der Logikblock kein weiteres Kommando von extern annimmt.  Empfangene Kommandos in der Sperrzeit werden damit verworfen. Die Sperrzeit kann in Sekunden definiert werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1222,7 +1223,7 @@ techage.manual_DE.aText = {
   "Im Prinzip arbeitet das das Wärmespeichersystem genau gleich wie die Akkus\\, nur mit viel mehr Speicherkapazität. \n"..
   "Der Wärmespeicher kann 60 ku aufnehmen und abgeben.\n"..
   "\n"..
-  "Damit das Wärmespeichersystem funktioniert\\, müssen alle Blöcke (außer Betonhülle und Gravel) mit Hilfe eines Forceloadblockes geladen sein.\n"..
+  "Damit das Wärmespeichersystem funktioniert\\, müssen alle Blöcke (auch Betonhülle und Gravel) mit Hilfe eines Forceloadblockes geladen sein.\n"..
   "\n"..
   "\n"..
   "\n",

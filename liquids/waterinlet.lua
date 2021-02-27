@@ -39,7 +39,7 @@ end
 local function srv_peek(pos)
 	local nvm = techage.get_nvm(pos)
 	if is_ocean(pos) then
-		nvm.liquid.name = "default:water_source"
+		nvm.liquid.name = "techage:water"
 		nvm.liquid.amount = 1
 	else
 		nvm.liquid.name = nil

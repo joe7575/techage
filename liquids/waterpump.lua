@@ -172,7 +172,7 @@ minetest.register_node("techage:t4_waterpump", {
 	on_timer = node_timer,
 	
 	paramtype2 = "facedir",
-	groups = {cracky=2, crumbly=2, choppy=2},
+	groups = {cracky=2, crumbly=2, choppy=2, not_in_creative_inventory = 1},
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 })

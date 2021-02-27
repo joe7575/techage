@@ -251,7 +251,6 @@ Blocks are disappeared=
 Click on all the blocks that are part of the door/gate=
 Ctrl,Inv=
 Done=
-Error: Inventory already in use=
 Record=
 Recording...=
 Remove=
@@ -542,6 +541,7 @@ no usable water=
 
 ### logic_block.lua ###
 
+'me' has to be used for the own block number.@n=
 '~@=' means: not equal@n=
 
 @n<input-expression> is a boolean expression@nwhere input numbers are evaluated.@n=
@@ -550,16 +550,14 @@ no usable water=
 
 @nAll rules are checked with each received@ncommand.=
 
-@nExamples:@n1234 @=@= true@n1234 @=@= false@n1234 @=@= true and 2345 @=@= false@n2345 ~@= 3456@n=
+@nExamples:@n1234 @=@= on@n1234 @=@= off@n1234 @=@= on and 2345 @=@= off@n2345 ~@= 3456@n=
 
-@nRule:@n<output> @= true/false if <input-expression> is true@n=
-
-@nThe following applies to inputs/outputs:@ntrue is 'on' and false is 'off'@n=
-
+@nRule:@n<output> @= on/off if <input-expression> is true@n=
 @nThe internal processing time for all@ncommands is 100 ms.=
 
-@nValid operators:@nand   or   true   false   @=@=   ~@=   (   )@n=
+@nValid operators:@nand   or   on   off   me   @=@=   ~@=   (   )@n=
 
+Blocking Time=
 Help=
 Inputs=
 Outputs=

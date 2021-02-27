@@ -510,19 +510,18 @@ Note: With the programmer, block numbers can be easily collected and configured.
 ### TA3 Logic Block
 
 The TA3 logic block can be programmed in such a way that one or more input commands are linked to one output command and sent. This block can therefore replace various logic elements such as AND, OR, NOT, XOR etc. 
-Input commands for the logic block are `on` /` off` commands. An `on` is a logical ` true`, an `off` corresponds to the` false`. 
+Input commands for the logic block are `on` /` off` commands.
 Input commands are referenced via the number, e.g. `1234` for the command from the sender with the number 1234. 
 The same applies to output commands.
 
 A rule is structured as follows: 
 
 ```
-<output> = true/false if <input-expression> is true
+<output> = on/off if <input-expression> is true
 ```
 
-- `<output>` is the block number to which the command should be sent.
-
-- `<input-expression>` is a boolean expression where input numbers are evaluated.
+`<output>` is the block number to which the command should be sent.
+`<input-expression>` is a boolean expression where input numbers are evaluated.
 
 
 
@@ -530,21 +529,25 @@ A rule is structured as follows:
 
 Negate signal (NOT):
 
-    1234 == false
+    1234 == off
 
 Logical AND:
 
-    1234 == true and 2345 == true
+    1234 == on and 2345 == on
 
 Logical OR:
 
-    1234 == true or 2345 == true
+    1234 == on or 2345 == on
 
-The following operators are allowed:  `and`   `or`   `true`   `false`   `==`   `~=`   `(`   `)`
+The following operators are allowed:  `and`   `or`   `on`   `off`   `me`   `==`   `~=`   `(`   `)`
 
 If the expression is true, a command is sent to the block with the `<output>` number. 
 Up to four rules can be defined, whereby all rules are always checked when a command is received. 
 The internal processing time for all commands is 100 ms. 
+
+Your own node number can be referenced using the keyword `me`. This makes it possible for the block to send itself a command (flip-flop function). 
+
+The blocking time defines a pause after a command, during which the logic block does not accept any further external commands. Commands received during the blocking period are thus discarded. The blocking time can be defined in seconds. 
 
 [ta3_logic|image]
 
@@ -627,7 +630,7 @@ Individual blocks can be set, removed or replaced by other blocks via an `exchan
 
 ```
 $send_cmnd(node_number, "exchange", 2)
-``` 
+```
 
 This can also be used to simulate extendable stairs and the like. 
 

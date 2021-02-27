@@ -251,7 +251,6 @@ Blocks are disappeared=Blöcke sind verschwunden
 Click on all the blocks that are part of the door/gate=Klicke auf alle Blöcke, die Teil des Tores sind
 Ctrl,Inv=Ctrl,Inv
 Done=Fertig
-Error: Inventory already in use=Fehler: Inventar wird bereits genutzt
 Record=Aufzeichnen
 Recording...=Aufzeichnung...
 Remove=Entfernen
@@ -542,6 +541,7 @@ no usable water=Kein brauchbares Wasser
 
 ### logic_block.lua ###
 
+'me' has to be used for the own block number.@n='me' wird für die eigene Blocknummer verwendet.@n
 '~@=' means: not equal@n='~@=' bedeutet: ungleich@n
 
 @n<input-expression> is a boolean expression@nwhere input numbers are evaluated.@n=@n<input-expression> ist ein boolescher Ausdruck,@nbei dem Eingabenummern ausgewertet werden.@n
@@ -550,17 +550,15 @@ no usable water=Kein brauchbares Wasser
 
 @nAll rules are checked with each received@ncommand.=@nAlle Regeln werden mit jedem empfangenen@nBefehl überprüft. 
 
-@nExamples:@n1234 @=@= true@n1234 @=@= false@n1234 @=@= true and 2345 @=@= false@n2345 ~@= 3456@n=@nBeispiele:@n1234 @=@= true@n1234 @=@= false@n1234 @=@= true and 2345 @=@= false@n2345 ~@= 3456@n
+@nExamples:@n1234 @=@= on@n1234 @=@= off@n1234 @=@= on and 2345 @=@= off@n2345 ~@= 3456@n=@nBeispiele:@n1234 @=@= on@n1234 @=@= off@n1234 @=@= on and 2345 @=@= off@n2345 ~@= 3456@n
 
-@nRule:@n<output> @= true/false if <input-expression> is true@n=@nRegel:@n<output> @= true/false if <input-expression> is true@n
-
-@nThe following applies to inputs/outputs:@ntrue is 'on' and false is 'off'@n=@nFür alle Eingänge/Ausgänge gilt:@ntrue ist 'on' und false ist 'off'@n
-
+@nRule:@n<output> @= on/off if <input-expression> is true@n=@nRegel:@n<output> @= on/off if <input-expression> is true@n
 @nThe internal processing time for all@ncommands is 100 ms.=@nDie interne Durchlaufzeit für alle@nKommandos beträgt 100 ms.
 
-@nValid operators:@nand   or   true   false   @=@=   ~@=   (   )@n=@nGültige Operatoren:@nand   or   true   false   @=@=   ~@=   (   )@n
+@nValid operators:@nand   or   on   off   me   @=@=   ~@=   (   )@n=@nGültige Operatoren:@nand   or   on   off   @=@=   ~@=   (   )@n
 
-Help= Hilfe
+Blocking Time=Sperrzeit
+Help=Hilfe
 Inputs=Eingänge
 Outputs=Ausgänge
 Rules=Regeln
@@ -1075,3 +1073,4 @@ is a suitable place for a wind turbine!=ist ein geeigneter Ort für eine Windkra
 
 
 ##### not used anymore #####
+

@@ -523,19 +523,18 @@ Hinweis: Mit dem Programmer können Blocknummern sehr einfach eingesammelt und k
 ### TA3 Logikblock / Logic Block
 
 Den TA3 Logikblock kann man so programmieren, dass ein oder mehrere Eingangskommandos zu einem Ausgangskommando verknüpft und gesendet werden. Dieser Block kann daher diverse Logik-Elemente wie AND, OR, NOT, XOR usw. ersetzen.
-Eingangkommandos für den Logikblock sind `on`/`off` Kommandos. Ein `on` ist ein logisches `true`, ein `off` entspricht dem `false`.
+Eingangkommandos für den Logikblock sind `on`/`off` Kommandos.
 Eingangskommandos werden über die Nummer referenziert, also bspw. `1234` für das Kommando vom Sender mit der Nummer 1234.
 Das gleiche gilt für Ausgangskommandos.
 
 Eine Regel ist wie folgt aufgebaut:
 
 ```
-<output> = true/false if <input-expression> is true
+<output> = on/off if <input-expression> is true
 ```
 
-- `<output>` ist die Nummer des Blocks, zu dem das Kommando gesendet werden soll.
-
-- `<input-expression>` ist ein boolescher Ausdruck, bei dem Eingabenummern ausgewertet werden. 
+`<output>` ist die Nummer des Blocks, zu dem das Kommando gesendet werden soll.
+`<input-expression>` ist ein boolescher Ausdruck, bei dem Eingabenummern ausgewertet werden. 
 
 
 
@@ -543,23 +542,27 @@ Eine Regel ist wie folgt aufgebaut:
 
 Signal negieren (NOT):
 
-    1234 == false
+    1234 == off
 
 Logisches UND (AND):
 
-    1234 == true and 2345 == true
+    1234 == on and 2345 == on
 
 Logisches ODER (OR):
 
-    1234 == true or 2345 == true
+    1234 == on or 2345 == on
 
-Folgende Operatoren sind zulässig:  `and`   `or`   `true`   `false`   `==`   `~=`   `(`   `)`
+Folgende Operatoren sind zulässig:  `and`   `or`   `on`   `off`   `me`   `==`   `~=`   `(`   `)`
 
 Ist der Ausdruck wahr (true), wird ein Kommando an den Block mit der `<output>` Nummer gesendet.
 
 Es können bis zu vier Regeln definiert werden, wobei immer alle Regeln geprüft werden, wenn ein Kommando empfangen wird.
 
 Die interne Durchlaufzeit aller Kommandos beträgt 100 ms.
+
+Über das Schlüsselwort `me` kann die eigene Knotennummer referenziert werden. Damit ist es möglich, dass sich der Block selbst ein Kommando sendet (Flip-Flop Funktion).
+
+Die Sperrzeit definiert eine Pause nach einem Kommando, in der der Logikblock kein weiteres Kommando von extern annimmt.  Empfangene Kommandos in der Sperrzeit werden damit verworfen. Die Sperrzeit kann in Sekunden definiert werden.
 
 [ta3_logic|image]
 

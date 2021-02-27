@@ -897,40 +897,40 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "The TA3 logic block can be programmed in such a way that one or more input commands are linked to one output command and sent. This block can therefore replace various logic elements such as AND\\, OR\\, NOT\\, XOR etc. \n"..
-  "Input commands for the logic block are 'on' /'off' commands. An 'on' is a logical 'true'\\, an 'off' corresponds to the'false'. \n"..
+  "Input commands for the logic block are 'on' /'off' commands.\n"..
   "Input commands are referenced via the number\\, e.g. '1234' for the command from the sender with the number 1234. \n"..
   "The same applies to output commands.\n"..
   "\n"..
   "A rule is structured as follows: \n"..
   "\n"..
-  "    <output> = true/false if <input-expression> is true\n"..
+  "    <output> = on/off if <input-expression> is true\n"..
   "\n"..
   "'<output>' is the block number to which the command should be sent.\n"..
-  "\n"..
   "'<input-expression>' is a boolean expression where input numbers are evaluated.\n"..
-  "\n"..
-  "  - \n"..
-  "  - \n"..
   "\n"..
   "*Examples for the input expression*\n"..
   "\n"..
   "Negate signal (NOT):\n"..
   "\n"..
-  "    1234 == false\n"..
+  "    1234 == off\n"..
   "\n"..
   "Logical AND:\n"..
   "\n"..
-  "    1234 == true and 2345 == true\n"..
+  "    1234 == on and 2345 == on\n"..
   "\n"..
   "Logical OR:\n"..
   "\n"..
-  "    1234 == true or 2345 == true\n"..
+  "    1234 == on or 2345 == on\n"..
   "\n"..
-  "The following operators are allowed:  'and'   'or'   'true'   'false'   '=='   '~='   '('   ')'\n"..
+  "The following operators are allowed:  'and'   'or'   'on'   'off'   'me'   '=='   '~='   '('   ')'\n"..
   "\n"..
   "If the expression is true\\, a command is sent to the block with the '<output>' number. \n"..
   "Up to four rules can be defined\\, whereby all rules are always checked when a command is received. \n"..
   "The internal processing time for all commands is 100 ms. \n"..
+  "\n"..
+  "Your own node number can be referenced using the keyword 'me'. This makes it possible for the block to send itself a command (flip-flop function). \n"..
+  "\n"..
+  "The blocking time defines a pause after a command\\, during which the logic block does not accept any further external commands. Commands received during the blocking period are thus discarded. The blocking time can be defined in seconds. \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1199,7 +1199,7 @@ techage.manual_EN.aText = {
   "In principle\\, the heat storage system works exactly the same as the batteries\\, only with much more storage capacity.\n"..
   "The heat accumulator can hold and deliver 60 ku.\n"..
   "\n"..
-  "In order for the heat storage system to work\\, all blocks (except the concrete shell and gravel) must be loaded using a forceload block.\n"..
+  "In order for the heat storage system to work\\, all blocks (also the concrete shell and gravel) must be loaded using a forceload block.\n"..
   "\n"..
   "\n"..
   "\n",

@@ -143,7 +143,7 @@ Both the generator and the heat exchanger have a power connection and must be co
 In principle, the heat storage system works exactly the same as the batteries, only with much more storage capacity.
 The heat accumulator can hold and deliver 60 ku.
 
-In order for the heat storage system to work, all blocks (except the concrete shell and gravel) must be loaded using a forceload block.
+In order for the heat storage system to work, all blocks (also the concrete shell and gravel) must be loaded using a forceload block.
 
 [ta4_storagesystem|plan]
 
