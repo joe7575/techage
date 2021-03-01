@@ -71,7 +71,7 @@ function techage.fuel.formspec(nvm)
 end
 
 function techage.fuel.can_dig(pos, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
+	if not player or minetest.is_protected(pos, player:get_player_name()) then
 		return false
 	end
 	local nvm = techage.get_nvm(pos)

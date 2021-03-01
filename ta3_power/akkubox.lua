@@ -167,7 +167,7 @@ minetest.register_node("techage:ta3_akku", {
 	description = S("TA3 Accu Box"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta3.png^techage_frame_ta3_top.png",
+		"techage_filling_ta3.png^techage_frame_ta3_top.png^techage_appl_arrow.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_hole_electric.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_source.png",
