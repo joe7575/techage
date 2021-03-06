@@ -364,3 +364,43 @@ minetest.register_on_punchnode(function(pos, node, puncher, pointed_thing)
 		mark_position(name, pointed_thing.under)
 	end
 end)
+
+function logic.register_doorcontroller_nodes(node_names)
+	for _,name in ipairs(node_names or {}) do
+		RegisteredNodes[name] = true
+	end
+end
+
+local Doors = {
+	"doors:door_steel",
+	"doors:prison_door",
+	"doors:rusty_prison_door",
+	"doors:trapdoor_steel",
+	"doors:door_glass",	"doors:door_obsidian_glass",
+	"doors:japanese_door",
+	"doors:screen_door",
+	"doors:slide_door",
+	"doors:trapdoor",
+	"doors:woodglass_door",
+	"xpanes:door_steel_bar",
+	"xpanes:trapdoor_steel_bar",
+}
+
+for _, name in ipairs(Doors) do
+	for _, postfix in ipairs({"a", "b", "c", "d"}) do
+		logic.register_doorcontroller_nodes({name .. "_" .. postfix})
+	end
+end
+
+local ProtectorDoors = {
+	"protector:door_steel",
+	"protector:door_wood",
+	"protector:trapdoor",
+	"protector:trapdoor_steel",
+}
+
+for _, name in ipairs(ProtectorDoors) do
+	for _, postfix in ipairs({"b_1", "b_2", "t_1", "t_2"}) do
+		logic.register_doorcontroller_nodes({name .. "_" .. postfix})
+	end
+end
