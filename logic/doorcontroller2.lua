@@ -116,14 +116,16 @@ minetest.register_entity(":techage:marker", {
 	end,
 })
 
-local function formspec1(meta)
+local function formspec1(nvm, meta)
 	local status = meta:get_string("status")
+	local play_sound = dump(nvm.play_sound or false)
 	return "size[8,7]"..
 		"tabheader[0,0;tab;"..S("Ctrl,Inv")..";1;;true]"..
-		"button[0.7,0.5;3,1;record;"..S("Record").."]"..
-		"button[4.3,0.5;3,1;ready;"..S("Done").."]"..
-		"button[0.7,1.5;3,1;show;"..S("Set").."]"..
-		"button[4.3,1.5;3,1;hide;"..S("Remove").."]"..
+		"button[0.7,0.2;3,1;record;"..S("Record").."]"..
+		"button[4.3,0.2;3,1;ready;"..S("Done").."]"..
+		"button[0.7,1.2;3,1;show;"..S("Set").."]"..
+		"button[4.3,1.2;3,1;hide;"..S("Remove").."]"..
+		"checkbox[0.7,2.2;play_sound;"..S("play door sound")..";"..play_sound.."]"..
 		"label[0.5,2.5;"..status.."]"..
 		"list[current_player;main;0,3.3;8,4;]"
 end
@@ -191,6 +193,12 @@ local function show_nodes(pos)
 	local nvm = techage.get_nvm(pos)
 	if not nvm.is_on then
 		nvm.is_on = true
+		if nvm.play_sound then
+			minetest.sound_play("doors_door_close", {
+				pos = pos, 
+				gain = 1,
+				max_hear_distance = 15})
+		end
 		return exchange_nodes(pos, nvm)
 	end
 end
@@ -199,6 +207,12 @@ local function hide_nodes(pos)
 	local nvm = techage.get_nvm(pos)
 	if nvm.is_on then
 		nvm.is_on = false
+		if nvm.play_sound then
+			minetest.sound_play("doors_door_open", {
+				pos = pos, 
+				gain = 1,
+				max_hear_distance = 15})
+		end
 		return exchange_nodes(pos, nvm)
 	end
 end
@@ -218,7 +232,8 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 		inv:set_size('main', 16)
 		logic.after_place_node(pos, placer, "techage:ta3_doorcontroller", S("TA3 Door Controller II"))
 		logic.infotext(meta, S("TA3 Door Controller II"))
-		meta:set_string("formspec", formspec1(meta))
+		local nvm = techage.get_nvm(pos)
+		meta:set_string("formspec", formspec1(nvm, meta))
 	end,
 
 	on_receive_fields = function(pos, formname, fields, player)
@@ -227,24 +242,24 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 		end
 
 		local meta = M(pos)
+		local nvm = techage.get_nvm(pos)
+		
 		if fields.tab == "2" then
 			meta:set_string("formspec", formspec2(meta))
 			return
 		elseif fields.tab == "1" then
-			meta:set_string("formspec", formspec1(meta))
+			meta:set_string("formspec", formspec1(nvm, meta))
 			return
 		elseif fields.record then
 			local inv = meta:get_inventory()
-			local nvm = techage.get_nvm(pos)
 			nvm.pos_list = nil
 			nvm.is_on = false
 			meta:set_string("status", S("Recording..."))
 			local name = player:get_player_name()
 			minetest.chat_send_player(name, S("Click on all the blocks that are part of the door/gate"))
 			MarkedNodes[name] = {}
-			meta:set_string("formspec", formspec1(meta))
+			meta:set_string("formspec", formspec1(nvm, meta))
 		elseif fields.ready then
-			local nvm = techage.get_nvm(pos)
 			local name = player:get_player_name()
 			local pos_list = get_poslist(name)
 			local text = #pos_list.." "..S("block positions are stored.")
@@ -252,12 +267,12 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 			nvm.pos_list = pos_list
 			nvm.is_on = true
 			unmark_all(name)
-			meta:set_string("formspec", formspec1(meta))
+			meta:set_string("formspec", formspec1(nvm, meta))
 		elseif fields.show then
 			if show_nodes(pos) then
 				play_sound(pos)
 				meta:set_string("status", S("Blocks are back"))
-				meta:set_string("formspec", formspec1(meta))
+				meta:set_string("formspec", formspec1(nvm, meta))
 				local name = player:get_player_name()
 				MarkedNodes[name] = nil
 			end
@@ -265,10 +280,13 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 			if hide_nodes(pos) then
 				play_sound(pos)
 				meta:set_string("status", S("Blocks are disappeared"))
-				meta:set_string("formspec", formspec1(meta))
+				meta:set_string("formspec", formspec1(nvm, meta))
 				local name = player:get_player_name()
 				MarkedNodes[name] = nil
 			end
+		elseif fields.play_sound then
+			nvm.play_sound = fields.play_sound == "true"
+			meta:set_string("formspec", formspec1(nvm, meta))
 		end
 	end,
 	
@@ -329,7 +347,7 @@ techage.register_node({"techage:ta3_doorcontroller2"}, {
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
 		meta:set_string("status", "")
-		meta:set_string("formspec", formspec1(meta))
+		meta:set_string("formspec", formspec1(nvm, meta))
 		local pos_list = minetest.deserialize(meta:get_string("pos_list"))
 		if pos_list then
 			nvm.pos_list = pos_list
