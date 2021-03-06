@@ -436,7 +436,7 @@ function techage.get_items(pos, inv, listname, num)
 	end
 	local size = inv:get_size(listname)
 	local mem = techage.get_mem(pos)
-	mem.ta_startpos = mem.ta_startpos or 1
+	mem.ta_startpos = mem.ta_startpos or 0
 	for idx = mem.ta_startpos, mem.ta_startpos+size do
 		idx = (idx % size) + 1
 		local items = inv:get_stack(listname, idx)
