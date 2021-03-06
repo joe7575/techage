@@ -101,7 +101,7 @@ minetest.register_entity(":techage:marker", {
 		glow = 8,
 	},
 	on_step = function(self, dtime)
-		self.ttl = (self.ttl or 600) - 1
+		self.ttl = (self.ttl or 2400) - 1
 		if self.ttl <= 0 then
 			local pos = self.object:get_pos()
 			unmark_position(self.player_name, pos)
@@ -125,8 +125,8 @@ local function formspec1(nvm, meta)
 		"button[4.3,0.2;3,1;ready;"..S("Done").."]"..
 		"button[0.7,1.2;3,1;show;"..S("Set").."]"..
 		"button[4.3,1.2;3,1;hide;"..S("Remove").."]"..
-		"checkbox[0.7,2.2;play_sound;"..S("with door sound")..";"..play_sound.."]"..
-		"label[0.5,2.5;"..status.."]"..
+		"checkbox[4.3,2.1;play_sound;"..S("with door sound")..";"..play_sound.."]"..
+		"label[0.5,2.3;"..status.."]"..
 		"list[current_player;main;0,3.3;8,4;]"
 end
 
@@ -394,7 +394,8 @@ local Doors = {
 	"doors:prison_door",
 	"doors:rusty_prison_door",
 	"doors:trapdoor_steel",
-	"doors:door_glass",	"doors:door_obsidian_glass",
+	"doors:door_glass",
+	"doors:door_obsidian_glass",
 	"doors:japanese_door",
 	"doors:screen_door",
 	"doors:slide_door",

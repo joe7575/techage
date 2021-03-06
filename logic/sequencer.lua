@@ -94,7 +94,7 @@ local function restart_timer(pos, time)
 		timer:stop()
 	end
 	if type(time) == "number" then
-		time = math.max(time, 0.5)
+		time = math.max(time, 0.2)
 		timer:start(time)
 	end
 end	
