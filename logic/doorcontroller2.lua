@@ -125,7 +125,7 @@ local function formspec1(nvm, meta)
 		"button[4.3,0.2;3,1;ready;"..S("Done").."]"..
 		"button[0.7,1.2;3,1;show;"..S("Set").."]"..
 		"button[4.3,1.2;3,1;hide;"..S("Remove").."]"..
-		"checkbox[0.7,2.2;play_sound;"..S("play door sound")..";"..play_sound.."]"..
+		"checkbox[0.7,2.2;play_sound;"..S("with door sound")..";"..play_sound.."]"..
 		"label[0.5,2.5;"..status.."]"..
 		"list[current_player;main;0,3.3;8,4;]"
 end

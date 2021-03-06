@@ -257,6 +257,7 @@ Remove=Entfernen
 Set=Setzen
 TA3 Door Controller II=TA3 Tür Controller II
 block positions are stored.=Block Positionen gespeichert.
+with door sound=mit Türgeräusch
 
 ### drillbox.lua ###
 
@@ -1070,7 +1071,3 @@ This is not the surface of the ocean!=Das ist nicht die Meeresoberfläche!
 [TA4 Wind Turbine]=[TA4 Windkraftanlage]
 biome and no ocean!=Biom und keine Meer (ocean)!
 is a suitable place for a wind turbine!=ist ein geeigneter Ort für eine Windkraftanlage!
-
-
-##### not used anymore #####
-

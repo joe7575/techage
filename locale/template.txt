@@ -257,6 +257,7 @@ Remove=
 Set=
 TA3 Door Controller II=
 block positions are stored.=
+with door sound=
 
 ### drillbox.lua ###
 
