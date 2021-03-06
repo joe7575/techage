@@ -88,7 +88,6 @@ local function check_num(pos, num, player_name)
 end
 
 local function send(pos, num, val)
-	print("send", num, val)
 	local nvm = techage.get_nvm(pos)
 	
 	if num == "me" then
@@ -176,7 +175,6 @@ local function get_code(pos, nvm)
 	end
 	
 	local str = table.concat(tbl, "\n")
-	print(str)
 	local code = compile(nvm, str)
 	if code then
 		local env = {}	
@@ -192,17 +190,14 @@ end
 local function execute(pos)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
-	print("execute1", dump(nvm.inp_tbl))
 	mem.code = mem.code or get_code(pos, nvm)
 	if mem.code then
 		local res, _ = pcall(mem.code)
 		if not res then
 			nvm.error = "Unknown runtime error"
 			mem.code = nil
-			print("Unknown runtime error")
 		end
 	end
-	print("execute2", dump(nvm.outp_tbl))
 end
 
 local function rules(meta)
