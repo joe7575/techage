@@ -179,7 +179,7 @@ techage.icta_register_condition("state", {
 			type = "textlist",
 			name = "value",
 			label = "",
-			choices = "stopped,running,standby,blocked,nopower,fault,unloaded,invalid,on,off",
+			choices = "stopped,running,standby,blocked,nopower,fault,unloaded,invalid,on,off,empty,loaded,loading,full",
 			default = "stopped",
 		},
 		{
@@ -793,3 +793,36 @@ techage.icta_register_condition("get_filter", {
 		return condition, result
 	end,
 })
+
+techage.icta_register_action("exchange", {
+	title = "place/remove a block via the Door Controller II",
+	formspec = {
+		{
+			type = "number", 
+			name = "number", 
+			label = "number", 
+			default = "",
+		},
+		{
+			type = "number", 
+			name = "slot", 
+			label = "slot no", 
+			default = "1",
+		},
+		{
+			type = "label", 
+			name = "lbl", 
+			label = "place/remove a block via\nthe Door Controller II\n", 
+		},
+	},
+	button = function(data, environ) 
+		return 'exch('..techage.fmt_number(data.number)..","..data.slot..')'
+	end,
+	code = function(data, environ)
+		return function(env, output, idx)
+			local payload = data.slot
+			techage.send_single(environ.number, data.number, "exchange", payload)
+		end
+	end,
+})
+

@@ -351,7 +351,7 @@ techage.register_node({"techage:ta3_logic2"}, {
 		nvm.blocking_time = nvm.blocking_time or M(pos):get_float("blocking_time")
 		nvm.inp_tbl = nvm.inp_tbl or {}
 		
-		if src ~= nvm.own_num and techage.SystemTime > (mem.ttl or 0) then
+		if src ~= nvm.own_num then
 			if topic == "on" then
 				nvm.inp_tbl[src] = "on"
 			elseif topic == "off" then
@@ -360,8 +360,9 @@ techage.register_node({"techage:ta3_logic2"}, {
 				return "unsupported"
 			end
 			
+			local t = math.max((mem.ttl or 0) - techage.SystemTime, 0.1)
+			minetest.get_node_timer(pos):start(t)
 			mem.ttl = techage.SystemTime + (nvm.blocking_time or 0)
-			minetest.get_node_timer(pos):start(0.1)
 		end
 	end,
 })		
