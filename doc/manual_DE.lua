@@ -120,6 +120,7 @@ techage.manual_DE.aTitel = {
   "3,TA3 Kiessieb / Gravel Sieve",
   "3,TA3 Kieswaschanlage / Gravel Rinser",
   "3,TA3 Mühle / Grinder",
+  "3,TA3 Injektor / Injector",
   "2,Werkzeuge",
   "3,Techage Info Tool",
   "3,TechAge Programmer",
@@ -917,7 +918,6 @@ techage.manual_DE.aText = {
   "    <output> = on/off if <input-expression> is true\n"..
   "\n"..
   "'<output>' ist die Nummer des Blocks\\, zu dem das Kommando gesendet werden soll.\n"..
-  "\n"..
   "'<input-expression>' ist ein boolescher Ausdruck\\, bei dem Eingabenummern ausgewertet werden. \n"..
   "\n"..
   "*Beispiele für den Input Ausdruck*\n"..
@@ -1097,6 +1097,16 @@ techage.manual_DE.aText = {
   "\n",
   "Die Funktion entspricht der von TA2.\n"..
   "Die Verarbeitungsleistung beträgt 2 Items alle 4 s. Der Block benötigt 6 ku Strom.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Injektor ist ein TA3 Schieber mit speziellen Eigenschaften. Er besitzt ein Menü zur Konfiguration. Hier können bis zu 8 Items konfiguriert werden. Er entnimmt nur diese Items einer Kiste um sie an Maschinen mit Rezepturen weiterzugeben (Autocrafter\\, Industrieofen und Elektronikfabrik).\n"..
+  "\n"..
+  "Beim Weitergeben wird in der Zielmaschine pro Item nur eine Position im Inventar genutzt. Sind bspw. nur die ersten drei Einträge im Injektor konfiguriert\\, so werden auch nur die ersten drei Speicherplätze im Inventar der Maschine belegt. Damit wir ein Überlauf im Inventar der Maschine verhindert.\n"..
+  "\n"..
+  "Der Injektor kann auch auf \"Ziehe-Modus\" umgeschaltet werden. Dann zieht er nur Items von den Positionen aus der Kiste\\, die in der Konfiguration des Injektors definiert sind. Hier müssen also Item-Typ und Position überein stimmen. Damit können geziehlt Speicherplätze im Inventar einer Kiste geleert werden.\n"..
+  "\n"..
+  "Die Verarbeitungsleistung beträgt bis zu 8 mal ein Item alle 4 Sekunden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1593,11 +1603,9 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der Injektor ist ein TA4 Schieber mit speziellen Eigenschaften. Er besitzt ein Menü zur Konfiguration. Hier können bis zu 8 Items konfiguriert werden. Er entnimmt nur diese Items einer Kiste (TA4 Kiste oder TA4 8x2000 Kiste) um sie an Maschinen mit Rezepturen weiterzugeben (Autocrafter\\, Industrieofen und Elektronikfabrik). \n"..
+  "Die Funktion entspricht der von TA3.  \n"..
   "\n"..
-  "Beim Weitergeben wird in der Zielmaschine pro Item nur eine Position im Inventar genutzt. Sind bspw. nur die ersten drei Einträge im Injektor konfiguriert\\, so werden auch nur die ersten drei Speicherplätze im Inventar der Maschine belegt. Damit wir ein Überlauf im Inventar der Maschine verhindert. \n"..
-  "\n"..
-  "Die Verarbeitungsleistung beträgt bis zu 8 Items alle 3 Sekunden.\n"..
+  "Die Verarbeitungsleistung beträgt bis zu 8 mal vier Items alle 4 Sekunden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1745,6 +1753,7 @@ techage.manual_DE.aItemName = {
   "ta3_gravelsieve",
   "ta3_gravelrinser",
   "ta3_grinder",
+  "ta3_injector",
   "",
   "ta3_end_wrench",
   "ta3_programmer",
@@ -1916,6 +1925,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta3_distiller",
+  "",
   "",
   "",
   "",

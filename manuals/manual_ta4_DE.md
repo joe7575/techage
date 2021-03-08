@@ -657,11 +657,9 @@ Die Verarbeitungsleistung beträgt ein Chip alle 6 s. Der Block benötigt hierf�
 
 ### TA4 Injektor / Injector
 
-Der Injektor ist ein TA4 Schieber mit speziellen Eigenschaften. Er besitzt ein Menü zur Konfiguration. Hier können bis zu 8 Items konfiguriert werden. Er entnimmt nur diese Items einer Kiste (TA4 Kiste oder TA4 8x2000 Kiste) um sie an Maschinen mit Rezepturen weiterzugeben (Autocrafter, Industrieofen und Elektronikfabrik). 
+Die Funktion entspricht der von TA3.  
 
-Beim Weitergeben wird in der Zielmaschine pro Item nur eine Position im Inventar genutzt. Sind bspw. nur die ersten drei Einträge im Injektor konfiguriert, so werden auch nur die ersten drei Speicherplätze im Inventar der Maschine belegt. Damit wir ein Überlauf im Inventar der Maschine verhindert. 
-
-Die Verarbeitungsleistung beträgt bis zu 8 Items alle 3 Sekunden.
+Die Verarbeitungsleistung beträgt bis zu 8 mal vier Items alle 4 Sekunden.
 
 [ta4_injector|image]
 

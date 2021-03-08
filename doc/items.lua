@@ -116,6 +116,7 @@ techage.Items = {
 	ta3_mesecons_converter = "techage:ta3_mesecons_converter",
 	ta3_valve = "techage:ta3_valve_closed",
 	ta3_motor = "techage:ta3_motor_off",
+	ta3_injector = "techage:ta3_injector_pas",
 	----------------------------
 	techage_ta4 = "techage_ta4.png",
 	ta4_windturbine = "techage:ta4_wind_turbine",

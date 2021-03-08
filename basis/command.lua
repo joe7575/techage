@@ -250,6 +250,7 @@ end
 -- Param names: List of node names like {"techage:pusher_off", "techage:pusher_on"}
 -- Param node_definition: A table according to:
 --    {
+--        on_inv_request = func(pos, in_dir, access_type)
 --        on_pull_item = func(pos, in_dir, num, (opt.) item_name),
 --        on_push_item = func(pos, in_dir, item),
 --        on_unpull_item = func(pos, in_dir, item),
@@ -365,6 +366,13 @@ end
 -------------------------------------------------------------------
 -- Client side Push/Pull item functions
 -------------------------------------------------------------------
+
+function techage.get_inv_access(pos, out_dir, access_type)
+	local npos, in_dir, name = get_dest_node(pos, out_dir)
+	if npos and NodeDef[name] and NodeDef[name].on_inv_request then
+		return NodeDef[name].on_inv_request(npos, in_dir, access_type)
+	end
+end
 
 function techage.pull_items(pos, out_dir, num, item_name)
 	local npos, in_dir, name = get_dest_node(pos, out_dir)

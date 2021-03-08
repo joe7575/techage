@@ -763,6 +763,20 @@ The processing power is 2 items every 4 s. The block requires 6 ku of electricit
 
 [ta3_grinder|image]
 
+### TA3 Injector
+
+The injector is a TA3 pusher with special properties. It has a menu for configuration. Up to 8 items can be configured here. He only takes these items from a chest to pass them on to machines with recipes (autocrafter, industrial furnace and electronic fab).
+
+When passing on, only one position in the inventory is used in the target machine. If, for example, only the first three entries are configured in the injector, only the first three storage locations in the machine's inventory are used. So that an overflow in the machine inventory is prevented.
+
+The injector can also be switched to "pull mode". Then he only pulls items out of the chest from the positions that are defined in the configuration of the injector. In this case, item type and position must match. This allows to empty specific inventory entries of a chest. 
+
+The processing power is up to 8 times one item every 4 seconds.
+
+[ta3_injector|image]
+
+
+
 
 ## Tools
 

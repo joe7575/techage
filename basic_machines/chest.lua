@@ -149,6 +149,10 @@ minetest.register_node("techage:chest_ta3", {
 })
 
 techage.register_node({"techage:chest_ta2", "techage:chest_ta3"}, {
+	on_inv_request = function(pos, in_dir, access_type)
+		local meta = minetest.get_meta(pos)
+		return meta:get_inventory(), "main"
+	end,
 	on_pull_item = function(pos, in_dir, num, item_name)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
@@ -332,6 +336,10 @@ minetest.register_node("techage:chest_ta4", {
 
 
 techage.register_node({"techage:chest_ta4"}, {
+	on_inv_request = function(pos, in_dir, access_type)
+		local meta = minetest.get_meta(pos)
+		return meta:get_inventory(), "main"
+	end,
 	on_pull_item = function(pos, in_dir, num, item_name)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()

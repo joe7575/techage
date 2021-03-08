@@ -963,6 +963,10 @@ TA4 Reactor=
 Configure up to 8 items @nto be pushed by the injector=
 Injector=
 
+Switch to pull mode @nto pull items out of inventory slots @naccording the injector configuration=
+
+pull mode=
+
 ### ta4_liquid_filter.lua ###
 
 TA4 Liquid Filter Filler=

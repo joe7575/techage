@@ -119,6 +119,7 @@ techage.manual_EN.aTitel = {
   "3,TA3 Gravel Sieve",
   "3,TA3 Gravel Rinser",
   "3,TA3 Grinder",
+  "3,TA3 Injector",
   "2,Tools",
   "3,Techage Info Tool",
   "3,TechAge Programmer",
@@ -1076,6 +1077,16 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The injector is a TA3 pusher with special properties. It has a menu for configuration. Up to 8 items can be configured here. He only takes these items from a chest to pass them on to machines with recipes (autocrafter\\, industrial furnace and electronic fab).\n"..
+  "\n"..
+  "When passing on\\, only one position in the inventory is used in the target machine. If\\, for example\\, only the first three entries are configured in the injector\\, only the first three storage locations in the machine's inventory are used. So that an overflow in the machine inventory is prevented.\n"..
+  "\n"..
+  "The injector can also be switched to \"pull mode\". Then he only pulls items out of the chest from the positions that are defined in the configuration of the injector. In this case\\, item type and position must match. This allows to empty specific inventory entries of a chest. \n"..
+  "\n"..
+  "The processing power is up to 8 times one item every 4 seconds.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "",
   "The Techage Info Tool (wrench) has several functions. It shows the time\\, position\\, temperature and biome when an unknown block is clicked on.\n"..
   "If you click on a TechAge block with command interface\\, all available data will be shown (see also \"Logic / switching blocks\").\n"..
@@ -1570,11 +1581,9 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The injector is a TA4 pusher with special properties. It has a menu for configuration. Up to 8 items can be configured here. He only takes these items from a chest (TA4 chest or TA4 8x2000 chest) to pass them on to machines with recipes (autocrafter\\, industrial furnace and electronic fab).\n"..
+  "The function corresponds to that of TA3.\n"..
   "\n"..
-  "When passing on\\, only one position in the inventory is used in the target machine. If\\, for example\\, only the first three entries are configured in the injector\\, only the first three storage locations in the machine's inventory are used. So that an overflow in the machine inventory is prevented.\n"..
-  "\n"..
-  "The processing power is up to 8 items every 3 seconds.\n"..
+  "The processing power is up to 8 times four items every 4 seconds.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1720,6 +1729,7 @@ techage.manual_EN.aItemName = {
   "ta3_gravelsieve",
   "ta3_gravelrinser",
   "ta3_grinder",
+  "ta3_injector",
   "",
   "ta3_end_wrench",
   "ta3_programmer",
@@ -1890,6 +1900,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "ta3_distiller",
+  "",
   "",
   "",
   "",

@@ -119,6 +119,7 @@
         - [TA3 Kiessieb / Gravel Sieve](./manual_ta3_DE.md#ta3-kiessieb--gravel-sieve)
         - [TA3 Kieswaschanlage / Gravel Rinser](./manual_ta3_DE.md#ta3-kieswaschanlage--gravel-rinser)
         - [TA3 Mühle / Grinder](./manual_ta3_DE.md#ta3-mühle--grinder)
+        - [TA3 Injektor / Injector](./manual_ta3_DE.md#ta3-injektor--injector)
     - [Werkzeuge](./manual_ta3_DE.md#werkzeuge)
         - [Techage Info Tool](./manual_ta3_DE.md#techage-info-tool)
         - [TechAge Programmer](./manual_ta3_DE.md#techage-programmer)

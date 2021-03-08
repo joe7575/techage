@@ -34,6 +34,10 @@ end
 ------------------------------------------------------------------------------
 
 techage.register_node({"digtron:inventory"}, {
+	on_inv_request = function(pos, in_dir, access_type)
+		local meta = minetest.get_meta(pos)
+		return meta:get_inventory(), "main"
+	end,
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
@@ -52,6 +56,10 @@ techage.register_node({"digtron:inventory"}, {
 })	
 
 techage.register_node({"digtron:fuelstore"}, {
+	on_inv_request = function(pos, in_dir, access_type)
+		local meta = minetest.get_meta(pos)
+		return meta:get_inventory(), "fuel"
+	end,
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
@@ -70,6 +78,10 @@ techage.register_node({"digtron:fuelstore"}, {
 })	
 
 techage.register_node({"digtron:combined_storage"}, {
+	on_inv_request = function(pos, in_dir, access_type)
+		local meta = minetest.get_meta(pos)
+		return meta:get_inventory(), "main"
+	end,
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
@@ -97,6 +109,10 @@ techage.register_node({"digtron:combined_storage"}, {
 ------------------------------------------------------------------------------
 
 techage.register_node({"protector:chest"}, {
+	on_inv_request = function(pos, in_dir, access_type)
+		local meta = minetest.get_meta(pos)
+		return meta:get_inventory(), "main"
+	end,
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()

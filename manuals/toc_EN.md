@@ -118,6 +118,7 @@
         - [TA3 Gravel Sieve](./manual_ta3_EN.md#ta3-gravel-sieve)
         - [TA3 Gravel Rinser](./manual_ta3_EN.md#ta3-gravel-rinser)
         - [TA3 Grinder](./manual_ta3_EN.md#ta3-grinder)
+        - [TA3 Injector](./manual_ta3_EN.md#ta3-injector)
     - [Tools](./manual_ta3_EN.md#tools)
         - [Techage Info Tool](./manual_ta3_EN.md#techage-info-tool)
         - [TechAge Programmer](./manual_ta3_EN.md#techage-programmer)

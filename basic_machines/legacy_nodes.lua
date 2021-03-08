@@ -30,6 +30,10 @@ end
 		
 
 techage.register_node({"default:chest", "default:chest_open"}, {
+	on_inv_request = function(pos, in_dir, access_type)
+		local meta = minetest.get_meta(pos)
+		return meta:get_inventory(), "main"
+	end,
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
@@ -48,6 +52,12 @@ techage.register_node({"default:chest", "default:chest_open"}, {
 })	
 
 techage.register_node({"default:chest_locked", "default:chest_locked_open"}, {
+	on_inv_request = function(pos, in_dir, access_type)
+		local meta = minetest.get_meta(pos)
+		if is_owner(pos, meta) then
+			return meta:get_inventory(), "main"
+		end
+	end,
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
 		if is_owner(pos, meta) then
