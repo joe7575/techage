@@ -1215,7 +1215,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "The heat exchanger consists of 3 parts that must be placed on top of each other\\, with the arrow of the first block pointing towards the turbine. The pipes must be built with the yellow TA4 pipes.\n"..
-  "The heat exchanger must be connected to the power grid. The heat exchanger can consume 60 ku.\n"..
+  "The heat exchanger must be connected to the power grid. The heat exchanger charges the energy store again when sufficient electricity is available and the energy storage is less than 95% charged. The heat exchanger takes up 60 ku. \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1589,7 +1589,7 @@ techage.manual_EN.aText = {
   "\n",
   "The recycler is a machine that processes all Techage recipes backwards\\, i.e. it can dismantle machines and blocks back into their components. \n"..
   "\n"..
-  "The machine can disassemble pretty much any Techage and Hyperloop blocks. But not all materials can be recycled:\n"..
+  "The machine can disassemble pretty much any Techage and Hyperloop blocks. But not all recipe items/materials can be recycled:\n"..
   "\n"..
   "  - Wood turns into sticks\n"..
   "  - Stone turns into sand or gravel\n"..

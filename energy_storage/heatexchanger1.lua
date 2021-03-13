@@ -171,7 +171,7 @@ local function node_timer(pos, elapsed)
 	local taken = 0
 	local given = 0
 	
-	if nvm.capa < (nvm.capa_max * 0.9) and not nvm.charging then
+	if nvm.capa < (nvm.capa_max * 0.95) and not nvm.charging then
 		taken = power.consumer_alive(pos, Cable, CYCLE_TIME)
 	elseif nvm.capa < nvm.capa_max and nvm.charging then
 		taken = power.consumer_alive(pos, Cable, CYCLE_TIME)

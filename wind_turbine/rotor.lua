@@ -51,7 +51,7 @@ end
 local function add_rotor(pos, nvm, player_name)
 	nvm.error = false
 	
-	if not techage.valid_place_for_windturbine(pos, nil, 1) then
+	if not techage.valid_place_for_windturbine(pos, player_name, 1) then
 		nvm.error = true
 		M(pos):set_string("infotext", S("TA4 Wind Turbine")..": "..S("Not suitable position!"))
 		return
@@ -167,6 +167,7 @@ minetest.register_node("techage:ta4_wind_turbine", {
 			sides = {D = 1},
 			ntype = "gen1",
 			nominal = PWR_PERF,
+			regenerative = true,
 		},
 	},
 	after_place_node = after_place_node,

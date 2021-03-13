@@ -65,6 +65,7 @@ function techage.register_junction(name, size, boxes, tlib2, node, index)
 		ndef.paramtype2 = "facedir"
 		ndef.on_rotate = screwdriver.disallow
 		ndef.paramtype = "light" 
+		ndef.use_texture_alpha = "clip"
 		ndef.sunlight_propagates = true 
 		ndef.is_ground_content = false 
 		ndef.drop = name..(index or "0")

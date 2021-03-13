@@ -151,7 +151,7 @@ In order for the heat storage system to work, all blocks (also the concrete shel
 ### TA4 Heat Exchanger
 
 The heat exchanger consists of 3 parts that must be placed on top of each other, with the arrow of the first block pointing towards the turbine. The pipes must be built with the yellow TA4 pipes.
-The heat exchanger must be connected to the power grid. The heat exchanger can consume 60 ku.
+The heat exchanger must be connected to the power grid. The heat exchanger charges the energy store again when sufficient electricity is available and the energy storage is less than 95% charged. The heat exchanger takes up 60 ku. 
 
 [ta4_heatexchanger|image]
 
@@ -668,7 +668,7 @@ The processing power is up to 8 times four items every 4 seconds.
 
 The recycler is a machine that processes all Techage recipes backwards, i.e. it can dismantle machines and blocks back into their components. 
 
-The machine can disassemble pretty much any Techage and Hyperloop blocks. But not all materials can be recycled:
+The machine can disassemble pretty much any Techage and Hyperloop blocks. But not all recipe items/materials can be recycled:
 
 - Wood turns into sticks
 - Stone turns into sand or gravel

@@ -228,6 +228,9 @@ techage.register_node({"techage:ta4_generator", "techage:ta4_generator_on"}, {
 		local nvm = techage.get_nvm(pos)
 		if topic == "delivered" then
 			return math.floor((nvm.provided or 0) + 0.5)
+		elseif topic == "load" then
+			local capa_max, capa = transfer_turbine(pos, "state")
+			return techage.power.percent(capa_max, capa)
 		else
 			return State:on_receive_message(pos, topic, payload)
 		end

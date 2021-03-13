@@ -23,6 +23,11 @@ local function transfer_heatexchanger3(pos, topic, payload)
 		{"techage:heatexchanger3"})
 end
 
+local function transfer_heatexchanger1(pos, topic, payload)
+	return techage.transfer(pos, "L", topic, payload, Pipe, 
+		{"techage:heatexchanger1"})
+end
+
 local function transfer_generator(pos, topic, payload)
 	return techage.transfer(pos, "R", topic, payload, nil, 
 		{"techage:ta4_generator", "techage:ta4_generator_on"})
@@ -156,6 +161,8 @@ techage.register_node({"techage:ta4_turbine", "techage:ta4_turbine_on"}, {
 			stop_sound(pos)
 			nvm.running = false
 			return true
+		elseif topic == "state" then
+			return transfer_heatexchanger1(pos, topic, payload)
 		end
 	end,
 	on_node_load = function(pos, node)

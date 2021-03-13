@@ -243,7 +243,7 @@ local function collect_network_nodes(pos, outdir, tlib2)
 		end
 		for _,ntype in ipairs(ntypes) do
 			if not netw[ntype] then netw[ntype] = {} end
-			netw[ntype][#netw[ntype] + 1] = {pos = pos, indir = indir, nominal = ndef.nominal}
+			netw[ntype][#netw[ntype] + 1] = {pos = pos, indir = indir, nominal = ndef.nominal, regenerative = ndef.regenerative}
 		end
 	end)
 	netw.best_before = minetest.get_gametime() + BEST_BEFORE
@@ -332,6 +332,10 @@ function techage.networks.build_network(pos, outdir, tlib2, netID)
 	Networks[tlib2.tube_type] = Networks[tlib2.tube_type] or {}
 	Networks[tlib2.tube_type][netID] = netw
 	netw.alive = 3
+	-- sort generating1 nodes, so that regenerative ones will be used first
+	if netw.gen1 then
+		table.sort(netw.gen1, function(a,b) return a.regenerative and not b.regenerative end)
+	end
 	techage.schedule.start(tlib2.tube_type, netID)
 end
 	

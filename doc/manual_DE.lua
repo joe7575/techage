@@ -1238,7 +1238,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Der Wärmetauscher besteht aus 3 Teilen\\, die aufeinander gesetzt werden müssen\\, wobei der Pfeil des ersten Blockes Richtung Turbine zeigen muss. Die Rohrleitungen müssen mit den gelben TA4 Röhren aufgebaut werden.\n"..
-  "Der Wärmetauscher muss am Stromnetz angeschlossen werden. Der Wärmetauscher kann 60 ku aufnehmen.\n"..
+  "Der Wärmetauscher muss am Stromnetz angeschlossen werden. Der Wärmetauscher lädt den Energiespeicher wieder auf\\, wenn ausreichend Strom zur Verfügung steht und der Energiespeicher weniger als 95 % geladen ist. Der Wärmetauscher nimmt dabei 60 ku auf.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1610,7 +1610,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Der Recycler ist eine Maschine\\, die alle Techage Rezepte rückwärts abarbeitet\\, also Maschinen und Blöcke wieder in die Bestandteile zerlegen kann. Die Maschine kann so ziemlich alle Techage und Hyperloop Blöcke zerlegen.\n"..
-  "Aber nicht alle Materialen lassen sich recyclen:\n"..
+  "Aber nicht alle Zutaten/Materialien der Rezepte lassen sich recyclen:\n"..
   "\n"..
   "  - Holz wird zu Sticks\n"..
   "  - Stein wird zu Sand oder Kies\n"..
@@ -1629,7 +1629,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Die Laserblöcke selbst benötigen keinen Strom.\n"..
   "\n"..
-  "\n"..
+  "t\n"..
   "\n",
 }
 

@@ -112,8 +112,9 @@ local function get_diameter(pos, in_dir)
 end
 
 local function check_volume(pos, in_dir, owner)
-	local radius = (get_diameter(pos, in_dir) - 1) / 2
-	if radius then
+	local diameter = get_diameter(pos, in_dir)
+	if diameter then
+		local radius = (diameter - 1) / 2
 		local dir = tubelib2.Dir6dToVector[in_dir]
 		local cpos = vector.add(pos, vector.multiply(dir, radius))
 		-- calculate size
@@ -138,8 +139,9 @@ end
 
 -- provide position behind the obsidian_glass
 local function check_window(pos, in_dir)
-	local radius = (get_diameter(pos, in_dir) - 1) / 2
-	if radius then
+	local diameter = get_diameter(pos, in_dir)
+	if diameter then
+		local radius = (diameter - 1) / 2
 		local dir = tubelib2.Dir6dToVector[in_dir]
 		local cpos = vector.add(pos, vector.multiply(dir, radius))
 		-- calculate size

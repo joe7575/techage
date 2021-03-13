@@ -171,7 +171,7 @@ end
 local function marker(player_name, pos)
 	local posC = {x = center(pos.x), y = pos.y, z = center(pos.z)}
 	local pos1 = {x = posC.x - 2, y = posC.y - 2, z = posC.z - 2}
-	local pos2 = {x = posC.x + 2, y = posC.y + 5, z = posC.z + 2}
+	local pos2 = {x = posC.x + 2, y = posC.y + 7, z = posC.z + 2}
 	techage.switch_region(player_name, pos1, pos2)
 end
 

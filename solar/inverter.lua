@@ -187,6 +187,7 @@ minetest.register_node("techage:ta4_solar_inverter", {
 			sides = {R = 1},
 			ntype = "gen1",
 			nominal = PWR_PERF,
+			regenerative = true,
 		},
 		ele2 = {
 			sides = {L = 1},

@@ -151,7 +151,7 @@ Damit das Wärmespeichersystem funktioniert, müssen alle Blöcke (auch Betonhü
 ### TA4 Wärmetauscher / Heat Exchanger
 
 Der Wärmetauscher besteht aus 3 Teilen, die aufeinander gesetzt werden müssen, wobei der Pfeil des ersten Blockes Richtung Turbine zeigen muss. Die Rohrleitungen müssen mit den gelben TA4 Röhren aufgebaut werden.
-Der Wärmetauscher muss am Stromnetz angeschlossen werden. Der Wärmetauscher kann 60 ku aufnehmen.
+Der Wärmetauscher muss am Stromnetz angeschlossen werden. Der Wärmetauscher lädt den Energiespeicher wieder auf, wenn ausreichend Strom zur Verfügung steht und der Energiespeicher weniger als 95 % geladen ist. Der Wärmetauscher nimmt dabei 60 ku auf.
 
 [ta4_heatexchanger|image]
 
@@ -666,7 +666,7 @@ Die Verarbeitungsleistung beträgt bis zu 8 mal vier Items alle 4 Sekunden.
 ### TA4 Recycler
 
 Der Recycler ist eine Maschine, die alle Techage Rezepte rückwärts abarbeitet, also Maschinen und Blöcke wieder in die Bestandteile zerlegen kann. Die Maschine kann so ziemlich alle Techage und Hyperloop Blöcke zerlegen.
-Aber nicht alle Materialen lassen sich recyclen:
+Aber nicht alle Zutaten/Materialien der Rezepte lassen sich recyclen:
 
 - Holz wird zu Sticks
 - Stein wird zu Sand oder Kies
@@ -687,4 +687,4 @@ Ist die Verbindung aufgebaut (es muss dazu noch kein Strom fließen), wird dies 
 
 Die Laserblöcke selbst benötigen keinen Strom.
 
-[ta4_laser|image]
+[ta4_laser|image]t
