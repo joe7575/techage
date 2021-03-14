@@ -29,8 +29,6 @@ local power = techage.power
 
 local Rotors = {}
 
-local MAX_NUM_FOREIGN_NODES = 50
-
 local Face2Dir = {[0]=
 	{x=0,  y=0,  z=1},
 	{x=1,  y=0,  z=0},
@@ -48,44 +46,51 @@ local function pos_and_yaw(pos, param2)
 	return pos, {x=0, y=yaw, z=0}
 end
 
-local function add_rotor(pos, nvm, player_name)
-	nvm.error = false
-	
-	if not techage.valid_place_for_windturbine(pos, player_name, 1) then
+local function check_rotor(pos, nvm)
+	local resp, err = techage.valid_place_for_windturbine(pos, nil, 1)
+	if not resp then
+		M(pos):set_string("infotext", S("TA4 Wind Turbine")..": "..err)
 		nvm.error = true
-		M(pos):set_string("infotext", S("TA4 Wind Turbine")..": "..S("Not suitable position!"))
-		return
+		return false
 	end
 	
-	local hash = minetest.hash_node_position(pos)
-	if not Rotors[hash] then
-		local node = minetest.get_node(pos)
-		local npos, yaw = pos_and_yaw(pos, node.param2)
-		local obj = minetest.add_entity(npos, "techage:rotor_ent")
-		obj:set_animation({x = 0, y = 119}, 0, 0, true)
-		obj:set_rotation(yaw)
-		Rotors[hash] = obj
-	end
-	
-	local own_num = M(pos):get_string("node_number") or ""
-	M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..own_num)
-end	
-
-local function start_rotor(pos, nvm)
 	local npos = techage.get_pos(pos, "F")
 	local node = techage.get_node_lvm(npos)
 	if node.name ~= "techage:ta4_wind_turbine_nacelle" then
 		M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..S("Nacelle is missing"))
 		nvm.error = true
-		return
+		return false
 	end
 	
-	nvm.providing = true
-	nvm.delivered = 0
-	power.generator_start(pos, Cable, CYCLE_TIME, 5)
-	local hash = minetest.hash_node_position(pos)
-	if Rotors[hash] then
-		Rotors[hash]:set_animation_frame_speed(50)
+	local own_num = M(pos):get_string("node_number") or ""
+	M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..own_num)
+	nvm.error = false
+	return true
+end
+	
+local function add_rotor(pos, nvm)
+	if check_rotor(pos, nvm) then
+		local hash = minetest.hash_node_position(pos)
+		if not Rotors[hash] then
+			local node = minetest.get_node(pos)
+			local npos, yaw = pos_and_yaw(pos, node.param2)
+			local obj = minetest.add_entity(npos, "techage:rotor_ent")
+			obj:set_animation({x = 0, y = 119}, 0, 0, true)
+			obj:set_rotation(yaw)
+			Rotors[hash] = obj
+		end
+	end
+end	
+
+local function start_rotor(pos, nvm)
+	if not nvm.error then
+		nvm.providing = true
+		nvm.delivered = 0
+		power.generator_start(pos, Cable, CYCLE_TIME, 5)
+		local hash = minetest.hash_node_position(pos)
+		if Rotors[hash] then
+			Rotors[hash]:set_animation_frame_speed(50)
+		end
 	end
 end
 
@@ -126,14 +131,22 @@ local function after_place_node(pos, placer)
 	local own_num = techage.add_node(pos, "techage:ta4_wind_turbine")
 	meta:set_string("node_number", own_num)
 	meta:set_string("owner", placer:get_player_name())
-	meta:set_string("infotext", S("TA4 Wind Turbine").." "..own_num)
 	nvm.providing = false
 	nvm.running = true
-	add_rotor(pos, nvm, placer:get_player_name())
+	add_rotor(pos, nvm)
 	minetest.get_node_timer(pos):start(CYCLE_TIME)
 	Cable:after_place_node(pos)
 end
 
+local function on_punch(pos, node, puncher, pointed_thing)
+	if minetest.is_protected(pos, puncher:get_player_name()) then
+		return
+	end
+	
+	local nvm = techage.get_nvm(pos)
+	add_rotor(pos, nvm)
+end
+	
 local function after_dig_node(pos, oldnode, oldmetadata)
 	local hash = minetest.hash_node_position(pos)
 	if Rotors[hash] and Rotors[hash]:get_luaentity() then
@@ -174,6 +187,7 @@ minetest.register_node("techage:ta4_wind_turbine", {
 	after_dig_node = after_dig_node,
 	tubelib2_on_update2 = tubelib2_on_update2,
 	on_timer = node_timer,
+	on_punch = on_punch,
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,

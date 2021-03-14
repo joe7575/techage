@@ -1124,7 +1124,9 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "The wind turbine block (rotor) is the heart of the wind turbine. This block must be placed on top of the mast. Ideally at Y = 15\\, then you just stay within a map / forceload block.\n"..
-  "If all conditions are met\\, the rotor blades appear automatically when this block is set. Otherwise you will see an error message.\n"..
+  "After the block has been set\\, a check is carried out to determine whether all conditions for the operation of the wind turbine have been met. If all conditions are met\\, the rotor blades (wings) appear automatically when this block is set. Otherwise you will get an error message.\n"..
+  "\n"..
+  "The check can be repeated by hitting the block. \n"..
   "\n"..
   "\n"..
   "\n",

@@ -23,7 +23,9 @@ Die Windkraftanlage liefert eine Leistung von 70 ku, aber dies nur 8 Stunden am 
 ### TA4 Windkraftanlage / Wind Turbine
 
 Der Windkraftanlagenblock (Rotor) ist das Herzstück der Windkraftanlage. Dieser Block muss oben auf den Mast gesetzt werden. Idealerweise auf Y = 15, dann bleibst du noch gerade innerhalb eines Map-/Forceload-Blocks.
-Sofern alle Bedingungen erfüllt sind, erscheinen beim Setzen dieses Blocks auch automatisch die Rotorblätter (Flügel). Anderenfalls wird dir eine Fehlermeldung angezeigt.
+Nach dem Setzen des Blocks wird ein Check durchgeführt, ob alle Bedingungen für den Betrieb der Windkraftanlage erfüllt sind. Sofern alle Bedingungen erfüllt sind, erscheinen beim Setzen dieses Blocks auch automatisch die Rotorblätter (Flügel). Anderenfalls wird dir eine Fehlermeldung angezeigt. 
+
+Durch Schlagen auf den Block kann der Check wiederholt werden.
 
 [ta4_windturbine|image]
 

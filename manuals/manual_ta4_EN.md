@@ -23,7 +23,9 @@ The wind turbine delivers 70 ku, but only 8 hours a day (see above).
 ### TA4 Wind Turbine
 
 The wind turbine block (rotor) is the heart of the wind turbine. This block must be placed on top of the mast. Ideally at Y = 15, then you just stay within a map / forceload block.
-If all conditions are met, the rotor blades appear automatically when this block is set. Otherwise you will see an error message.
+After the block has been set, a check is carried out to determine whether all conditions for the operation of the wind turbine have been met. If all conditions are met, the rotor blades (wings) appear automatically when this block is set. Otherwise you will get an error message.
+
+The check can be repeated by hitting the block. 
 
 [ta4_windturbine|image]
 

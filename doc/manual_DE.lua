@@ -1147,7 +1147,9 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Der Windkraftanlagenblock (Rotor) ist das Herzstück der Windkraftanlage. Dieser Block muss oben auf den Mast gesetzt werden. Idealerweise auf Y = 15\\, dann bleibst du noch gerade innerhalb eines Map-/Forceload-Blocks.\n"..
-  "Sofern alle Bedingungen erfüllt sind\\, erscheinen beim Setzen dieses Blocks auch automatisch die Rotorblätter (Flügel). Anderenfalls wird dir eine Fehlermeldung angezeigt.\n"..
+  "Nach dem Setzen des Blocks wird ein Check durchgeführt\\, ob alle Bedingungen für den Betrieb der Windkraftanlage erfüllt sind. Sofern alle Bedingungen erfüllt sind\\, erscheinen beim Setzen dieses Blocks auch automatisch die Rotorblätter (Flügel). Anderenfalls wird dir eine Fehlermeldung angezeigt. \n"..
+  "\n"..
+  "Durch Schlagen auf den Block kann der Check wiederholt werden.\n"..
   "\n"..
   "\n"..
   "\n",
