@@ -498,7 +498,12 @@ minetest.register_node("techage:ta3_power_terminal", {
 	end,
 	on_rightclick = function(pos, node, clicker)
 		local mem = techage.get_mem(pos)
-		M(pos):set_string("formspec", formspec2(pos, mem))
+		if mem.active_formspec == 2 then
+			M(pos):set_string("formspec", formspec2(pos, mem))
+		else
+			local nvm = techage.get_nvm(pos)
+			M(pos):set_string("formspec", formspec1(pos, nvm))
+		end
 	end,
 	on_timer = function(pos, elapsed)
 		local nvm = techage.get_nvm(pos)
@@ -531,9 +536,11 @@ minetest.register_node("techage:ta3_power_terminal", {
 		elseif fields.tab == "1" then
 			M(pos):set_string("formspec", formspec1(pos, nvm))
 			techage.set_activeformspec(pos, player)
+			mem.active_formspec = 1
 		elseif fields.tab == "2" then
 			M(pos):set_string("formspec", formspec2(pos, mem))
 			techage.reset_activeformspec(pos, player)
+			mem.active_formspec = 2
 		elseif fields.key_up and mem.cmnd then
 			M(pos):set_string("formspec", formspec2(pos, mem))
 		end
