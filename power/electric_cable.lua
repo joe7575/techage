@@ -117,6 +117,7 @@ minetest.register_node("techage:electric_cableS", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
@@ -153,6 +154,7 @@ minetest.register_node("techage:electric_cableA", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, 

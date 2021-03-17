@@ -122,6 +122,7 @@ minetest.register_node("techage:ta4_reactor_stand", {
 	end,
 	
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},

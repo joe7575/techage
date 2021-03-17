@@ -67,6 +67,7 @@ minetest.register_node("techage:axle", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly = 3, cracky = 3, snappy = 3},
@@ -160,6 +161,7 @@ minetest.register_node("techage:axle_on", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	diggable = false,

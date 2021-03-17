@@ -114,6 +114,7 @@ minetest.register_node("techage:powerswitch", {
 
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	paramtype2 = "wallmounted",
 	groups = {choppy=2, cracky=2, crumbly=2},
@@ -145,6 +146,7 @@ minetest.register_node("techage:powerswitch_on", {
 	drop = "techage:powerswitch",
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	paramtype2 = "wallmounted",
 	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory = 1},
@@ -184,6 +186,7 @@ minetest.register_node("techage:powerswitchsmall", {
 
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	paramtype2 = "wallmounted",
 	groups = {choppy=2, cracky=2, crumbly=2},
@@ -215,6 +218,7 @@ minetest.register_node("techage:powerswitchsmall_on", {
 	drop = "techage:powerswitchsmall",
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	paramtype2 = "wallmounted",
 	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory = 1},

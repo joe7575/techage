@@ -147,6 +147,7 @@ for idx = 0,3 do
 		minecart_hopper_untakeitem = minecart_hopper_untakeitem,
 
 		paramtype = "light",
+		use_texture_alpha = "clip",
 		sounds = default.node_sound_wood_defaults(),
 		paramtype2 = "facedir",
 		sunlight_propagates = true,

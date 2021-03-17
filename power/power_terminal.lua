@@ -209,6 +209,7 @@ minetest.register_node("techage:power_terminal", {
 	
 	paramtype2 = "facedir",
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	on_rotate = screwdriver.disallow,
 	sunlight_propagates = true,
 	is_ground_content = false,

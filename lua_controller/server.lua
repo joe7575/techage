@@ -104,6 +104,7 @@ on_timer = function(pos, elasped)
 	
 	paramtype = "light",
 	sunlight_propagates = true,
+	use_texture_alpha = "clip",
 	paramtype2 = "facedir",
 	groups = {choppy=1, cracky=1, crumbly=1},
 	is_ground_content = false,

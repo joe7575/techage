@@ -77,6 +77,7 @@ minetest.register_node("techage:ta3_pipeS", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly = 2, cracky = 2, snappy = 2},
@@ -111,6 +112,7 @@ minetest.register_node("techage:ta3_pipeA", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly = 2, cracky = 2, snappy = 2, not_in_creative_inventory=1},

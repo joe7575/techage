@@ -148,6 +148,7 @@ minetest.register_node("techage:construction_board", {
 	
 	paramtype2 = "wallmounted",
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
@@ -199,6 +200,7 @@ minetest.register_node("techage:construction_board_EN", {
 	
 	paramtype2 = "wallmounted",
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},

@@ -553,6 +553,7 @@ minetest.register_node("techage:ta4_lua_controller", {
 	on_timer = on_timer,
 	
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	groups = {choppy=1, cracky=1, crumbly=1},

@@ -70,7 +70,6 @@ function techage.recipes.add(rtype, recipe)
 		local inp = recipe.input[idx] or ""
 		name, num = unpack(string.split(inp, " "))
 		item.input[idx] = {name = name or "", num = tonumber(num) or 0}
-		name2 = name
 	end
 	if recipe.waste then 
 		name, num = unpack(string.split(recipe.waste, " "))

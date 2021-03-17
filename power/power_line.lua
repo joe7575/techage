@@ -64,6 +64,7 @@ minetest.register_node("techage:power_line", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	drop = "techage:power_lineS",
@@ -105,6 +106,7 @@ minetest.register_node("techage:power_lineS", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	drop = "techage:power_lineS",
@@ -168,6 +170,7 @@ minetest.register_node("techage:power_lineA", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	drop = "techage:power_lineS",
@@ -222,6 +225,7 @@ minetest.register_node("techage:power_pole2", {
 	
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -267,6 +271,7 @@ minetest.register_node("techage:power_pole", {
 	
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -317,6 +322,7 @@ minetest.register_node("techage:power_pole_conn", {
 	drop = "techage:power_pole",
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky=2, crumbly=2, choppy=2, not_in_creative_inventory = 1},
@@ -344,6 +350,7 @@ minetest.register_node("techage:power_pole3", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky=2, crumbly=2, choppy=2},

@@ -128,6 +128,7 @@ minetest.register_node("techage:ta3_valve_open", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly = 2, cracky = 2, snappy = 2},
@@ -167,6 +168,7 @@ minetest.register_node("techage:ta3_valve_closed", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly = 2, cracky = 2, snappy = 2, not_in_creative_inventory = 1},

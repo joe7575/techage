@@ -79,11 +79,13 @@ local function del_pos(pos, player)
 end
 
 local function get_pos_list(player)
-	return minetest.deserialize(player:get_attribute("techage_forceload_blocks")) or {}
+	local meta = player:get_meta()
+	return minetest.deserialize(meta:get_string("techage_forceload_blocks")) or {}
 end
 
 local function set_pos_list(player, lPos)
-	player:set_attribute("techage_forceload_blocks", minetest.serialize(lPos))
+	local meta = player:get_meta()
+	meta:set_string("techage_forceload_blocks", minetest.serialize(lPos))
 end
 
 local function shoe_flbs(pos, name, range)

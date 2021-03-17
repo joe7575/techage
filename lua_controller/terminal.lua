@@ -179,6 +179,7 @@ minetest.register_node("techage:ta4_terminal", {
 	end,
 	
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},

@@ -395,6 +395,7 @@ minetest.register_node("techage:ta4_icta_controller", {
 	paramtype = "light",
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
+	use_texture_alpha = "clip",
 	groups = {choppy=1, cracky=1, crumbly=1},
 	is_ground_content = false,
 	sounds = default.node_sound_stone_defaults(),

@@ -54,6 +54,7 @@ minetest.register_node("techage:powerswitch_box", {
 	end,
 	
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype2 = "facedir",

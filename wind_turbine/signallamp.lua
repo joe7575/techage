@@ -52,6 +52,7 @@ minetest.register_node("techage:rotor_signal_lamp_off", {
 	end,
 
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	paramtype2 = "glasslikeliquidlevel",
 	sunlight_propagates = true,
 	sounds = default.node_sound_glass_defaults(),
@@ -77,6 +78,7 @@ minetest.register_node("techage:rotor_signal_lamp_on", {
 	end,
 	
 	paramtype = "light",
+	use_texture_alpha = "clip",
 	light_source = 8,
 	paramtype2 = "glasslikeliquidlevel",
 	sunlight_propagates = true,
