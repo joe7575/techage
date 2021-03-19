@@ -63,7 +63,7 @@ minetest.register_node("techage:steam_pipeS", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
-	use_texture_alpha = "clip",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly=3, cracky=3, snappy=3},
@@ -96,7 +96,7 @@ minetest.register_node("techage:steam_pipeA", {
 	},
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
-	use_texture_alpha = "clip",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {crumbly=3, cracky=3, snappy=3, not_in_creative_inventory=1},

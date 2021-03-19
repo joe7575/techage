@@ -146,7 +146,7 @@ function techage.register_lamp(basename, ndef_off, ndef_on)
 	ndef_off.on_rotate = ndef_off.on_rotate or on_rotate
 	ndef_off.on_timer = node_timer
 	ndef_off.paramtype = "light"
-	ndef_off.use_texture_alpha = "clip"
+	ndef_off.use_texture_alpha = techage.CLIP
 	ndef_off.light_source = 0
 	ndef_off.sunlight_propagates = true
 	ndef_off.paramtype2 = "facedir"
@@ -166,7 +166,7 @@ function techage.register_lamp(basename, ndef_off, ndef_on)
 	ndef_on.on_rotate = ndef_on.on_rotate or on_rotate
 	ndef_on.on_timer = ndef_on.on_timer or node_timer
 	ndef_on.paramtype = "light"
-	ndef_on.use_texture_alpha = "clip"
+	ndef_on.use_texture_alpha = techage.CLIP
 	ndef_on.light_source = minetest.LIGHT_MAX
 	ndef_on.sunlight_propagates = true
 	ndef_on.paramtype2 = "facedir"

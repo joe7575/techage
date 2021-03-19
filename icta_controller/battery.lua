@@ -99,7 +99,7 @@ minetest.register_node("techage:ta4_battery", {
 	end,
 
 	paramtype = "light",
-	use_texture_alpha = "clip",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	groups = {choppy=1, cracky=1, crumbly=1},
@@ -133,7 +133,7 @@ minetest.register_node("techage:ta4_battery_empty", {
 	end,
 	
 	paramtype = "light",
-	use_texture_alpha = "clip",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	groups = {choppy=1, cracky=1, crumbly=1, not_in_creative_inventory=1},

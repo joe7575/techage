@@ -224,7 +224,7 @@ local function register_terminal(num, tiles, node_box, selection_box)
 		end,
 		
 		paramtype = "light",
-		use_texture_alpha = "clip",
+		use_texture_alpha = techage.CLIP,
 		sunlight_propagates = true,
 		paramtype2 = "facedir",
 		groups = {choppy=2, cracky=2, crumbly=2},

@@ -56,7 +56,7 @@ minetest.register_node("techage:ta4_reactor_fillerpipe", {
 	end,
 	
 	paramtype = "light",
-	use_texture_alpha = "clip",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,	
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -168,7 +168,7 @@ minetest.register_node("techage:ta4_reactor", {
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
 	
 	paramtype = "light",
-	use_texture_alpha = "clip",
+	use_texture_alpha = techage.CLIP,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},

@@ -133,7 +133,7 @@ minetest.register_node("techage:ta4_solar_module", {
 		return S("power").." = "..power..", "..S("light").." = "..light
 	end,
 	paramtype = "light",
-	use_texture_alpha = "clip",
+	use_texture_alpha = techage.CLIP,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -173,7 +173,7 @@ minetest.register_node("techage:ta4_solar_carrier", {
 	networks = net_def1,
 	
 	paramtype = "light",
-	use_texture_alpha = "clip",
+	use_texture_alpha = techage.CLIP,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -213,7 +213,7 @@ minetest.register_node("techage:ta4_solar_carrierB", {
 	networks = net_def2,
 	
 	paramtype = "light",
-	use_texture_alpha = "clip",
+	use_texture_alpha = techage.CLIP,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -242,7 +242,7 @@ minetest.register_node("techage:ta4_solar_carrierT", {
 	},
 	
 	paramtype = "light",
-	use_texture_alpha = "clip",
+	use_texture_alpha = techage.CLIP,
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,

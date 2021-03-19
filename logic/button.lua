@@ -238,7 +238,7 @@ minetest.register_node("techage:ta4_button_off", {
 	
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
-	use_texture_alpha = "clip",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
@@ -273,7 +273,7 @@ minetest.register_node("techage:ta4_button_on", {
 	techage_set_numbers = techage_set_numbers,
 
 	paramtype = "light",
-	use_texture_alpha = "clip",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},

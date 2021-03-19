@@ -61,7 +61,7 @@ minetest.register_node("techage:ta4_signaltower", {
 	end,
 
 	paramtype = "light",
-	use_texture_alpha = "clip",
+	use_texture_alpha = techage.CLIP,
 	light_source = 0,	
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
@@ -93,7 +93,7 @@ for _,color in ipairs({"green", "amber", "red"}) do
 		end,
 
 		paramtype = "light",
-		use_texture_alpha = "clip",
+		use_texture_alpha = techage.CLIP,
 		light_source = 10,	
 		sunlight_propagates = true,
 		paramtype2 = "facedir",

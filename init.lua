@@ -38,6 +38,9 @@ elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.0 then
 	return
 end
 
+-- Test MT 5.4 new string mode
+techage.CLIP = minetest.features.use_texture_alpha_string_modes and "clip" or true
+
 techage.NodeDef = {}		-- node registration info
 
 techage.max_num_forceload_blocks = tonumber(minetest.settings:get("techage_max_num_forceload_blocks")) or 24

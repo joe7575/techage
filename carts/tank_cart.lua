@@ -111,7 +111,7 @@ minetest.register_node("techage:tank_cart", {
 	},
 	paramtype2 = "facedir",
 	paramtype = "light",
-	use_texture_alpha = "clip",
+	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
 	groups = {cracky = 2, crumbly = 2, choppy = 2},

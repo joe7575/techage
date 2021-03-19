@@ -109,7 +109,7 @@ minetest.register_node("techage:ta4_solar_minicell", {
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
-	use_texture_alpha = "clip",
+	use_texture_alpha = techage.CLIP,
 	
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
