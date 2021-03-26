@@ -276,7 +276,12 @@ local function formspec_container(x, y, nvm, inv)
 				count = stack.count,
 				wear = stack.wear,
 			})
-			itemstack:get_meta():from_table(minetest.deserialize(stack.meta))
+			local stack_meta_table = (minetest.deserialize(stack.meta) or {}).fields or {}
+			for _, key in ipairs({"description", "short_description", "color", "palette_index"}) do
+				if stack_meta_table[key] then
+					itemstack:get_meta():set_string(key, stack_meta_table[key])
+				end
+			end
 			local itemname = itemstack:to_string()
 			--tbl[#tbl+1] = "item_image["..xpos..",1;1,1;"..itemname.."]"
 			tbl[#tbl+1] = techage.item_image(xpos, 0, itemname, stack.count)
