@@ -302,6 +302,8 @@ minetest.register_node("techage:ta3_logic2", {
 			meta:set_string("formspec", formspec_help())
 		else
 			local nvm = techage.get_nvm(pos)
+			local mem = techage.get_mem(pos)
+			mem.code = nil
 			get_code(pos, nvm)
 			meta:set_string("formspec", formspec(pos, meta))
 		end

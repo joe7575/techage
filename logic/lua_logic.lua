@@ -8,7 +8,7 @@
 	AGPL v3
 	See LICENSE.txt for more information
 
-	Lua Logic Block
+	Lua Logic Block (Deprecated and replaced by "techage:ta3_logic2")
 
 ]]--
 
