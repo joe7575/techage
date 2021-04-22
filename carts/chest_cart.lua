@@ -18,9 +18,6 @@ local S = techage.S
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local S2P = minetest.string_to_pos
 local MP = minetest.get_modpath("minecart")
-local cart = dofile(MP.."/cart_lib1.lua")
-
-cart:init(true)
 
 local function formspec()
 	return "size[8,6]"..
@@ -31,16 +28,6 @@ local function formspec()
 	"list[current_player;main;0,2.3;8,4;]"..
 	"listring[context;main]"..
 	"listring[current_player;main]"
-end
-
-local function can_dig(pos, player)
-	local owner = M(pos):get_string("owner")
-	if owner ~= "" and (owner ~= player:get_player_name() or
-			not minetest.check_player_privs(player:get_player_name(), "minecart")) then
-		return false
-	end
-	local inv = minetest.get_meta(pos):get_inventory()
-	return inv:is_empty("main")
 end
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
@@ -85,27 +72,24 @@ minetest.register_node("techage:chest_cart", {
 	is_ground_content = false,
 	groups = {cracky = 2, crumbly = 2, choppy = 2},
 	node_placement_prediction = "",
+	diggable = false,
 	
-	can_dig = can_dig,
+	on_place = minecart.on_nodecart_place,
+	on_punch = minecart.on_nodecart_punch,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
 	
-	after_place_node = function(pos)
+	after_place_node = function(pos, placer)
 		local inv = M(pos):get_inventory()
 		inv:set_size('main', 4)
-		M(pos):set_string("formspec", formspec())
-	end,
-	
-	on_place = function(itemstack, placer, pointed_thing)
-		return cart.add_cart(itemstack, placer, pointed_thing, "techage:chest_cart")
-	end,
-	
-	on_punch = function(pos, node, puncher, pointed_thing)
-		cart.node_on_punch(pos, node, puncher, pointed_thing, "techage:chest_cart_entity")
+		if placer and placer:is_player() then
+			minecart.show_formspec(pos, placer)
+		else
+			M(pos):set_string("formspec", formspec())
+		end
 	end,
 	
 	set_cargo = function(pos, data)
-		--print("set_cargo", P2S(pos), #data)
 		local inv = M(pos):get_inventory()
 		for idx, stack in ipairs(data) do
 			inv:set_stack("main", idx, stack)
@@ -119,17 +103,16 @@ minetest.register_node("techage:chest_cart", {
 			local stack = inv:get_stack("main", idx)
 			data[idx] = {name = stack:get_name(), count = stack:get_count()}
 		end
-		--print("get_cargo", P2S(pos), #data)
 		return data
 	end,
 
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		local name = oldmetadata.fields.removed_rail or "carts:rail"
-		minetest.add_node(pos, {name = name})
-	end,
+	has_cargo = function(pos)
+		local inv = minetest.get_meta(pos):get_inventory()
+		return not inv:is_empty("main")
+	end
 })
 
-minecart.register_cart_entity("techage:chest_cart_entity", "techage:chest_cart", {
+minecart.register_cart_entity("techage:chest_cart_entity", "techage:chest_cart", "chest", {
 	initial_properties = {
 		physical = false,
 		collisionbox = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
@@ -138,9 +121,6 @@ minecart.register_cart_entity("techage:chest_cart_entity", "techage:chest_cart",
 		visual_size = {x=0.66, y=0.66, z=0.66},
 		static_save = false,
 	},
-	on_activate = cart.on_activate,
-	on_punch = cart.on_punch,
-	on_step = cart.on_step,
 })
 
 techage.register_node({"techage:chest_cart"}, {

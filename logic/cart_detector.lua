@@ -32,7 +32,7 @@ local function switch_on(pos)
 end
 
 local function node_timer(pos)
-	if minecart.check_cart_for_pushing(pos, nil, 1.5) then
+	if minecart.is_cart_available(pos, nil, 1.5) then
 		switch_on(pos)
 	else
 		switch_off(pos)

@@ -26,7 +26,7 @@ local techage_use_sqlite = minetest.settings:get_bool('techage_use_sqlite', fals
 local string_split = string.split
 local NodeDef = techage.NodeDef
 local Tube = techage.Tube
-local check_cart_for_loading = minecart.check_cart_for_loading
+local is_cart_available = minecart.is_cart_available
 
 -------------------------------------------------------------------
 -- Database
@@ -385,7 +385,7 @@ function techage.push_items(pos, out_dir, stack, idx)
 	local npos, in_dir, name = get_dest_node(pos, out_dir)
 	if npos and NodeDef[name] and NodeDef[name].on_push_item then
 		return NodeDef[name].on_push_item(npos, in_dir, stack, idx)	
-	elseif is_air_like(name) or check_cart_for_loading(npos) then
+	elseif is_air_like(name) or is_cart_available(npos) then
 		minetest.add_item(npos, stack)
 		return true 
 	end

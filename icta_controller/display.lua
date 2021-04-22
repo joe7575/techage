@@ -66,6 +66,7 @@ function techage.display.on_timer(pos)
 		-- check if display is loaded and a player in front of the display
 		if node.name ~= "ignore" then
 			local dir = minetest.facedir_to_dir(Param2ToFacedir[node.param2 % 6])
+			dir.y = 0
 			local pos2 = vector.add(pos, vector.multiply(dir, RADIUS))
 			for _, obj in pairs(minetest.get_objects_inside_radius(pos2, RADIUS)) do
 				if obj:is_player() then

@@ -20,17 +20,20 @@ local S2P = minetest.string_to_pos
 local Pipe = techage.LiquidPipe
 local liquid = techage.liquid
 local MP = minetest.get_modpath("minecart")
-local cart = dofile(MP.."/cart_lib1.lua")
-
-cart:init(true)
 
 local CAPACITY = 100
 
 local function on_rightclick(pos, node, clicker)
-	local nvm = techage.get_nvm(pos)
-	techage.set_activeformspec(pos, clicker)
-	M(pos):set_string("formspec", liquid.formspec(pos, nvm))
-	minetest.get_node_timer(pos):start(2)
+	if clicker and clicker:is_player() then
+		if M(pos):get_int("userID") == 0 then
+			minecart.show_formspec(pos, clicker)
+		else
+			local nvm = techage.get_nvm(pos)
+			techage.set_activeformspec(pos, clicker)
+			M(pos):set_string("formspec", liquid.formspec(pos, nvm))
+			minetest.get_node_timer(pos):start(2)
+		end
+	end
 end
 
 local function node_timer(pos, elapsed)
@@ -40,14 +43,6 @@ local function node_timer(pos, elapsed)
 		return true
 	end	
 	return false
-end
-
-local function can_dig(pos, player)
-	local owner = M(pos):get_string("owner")
-	if owner ~= "" and owner ~= player:get_player_name() then
-		return false
-	end
-	return liquid.is_empty(pos)
 end
 
 local function take_liquid(pos, indir, name, amount)
@@ -116,30 +111,17 @@ minetest.register_node("techage:tank_cart", {
 	is_ground_content = false,
 	groups = {cracky = 2, crumbly = 2, choppy = 2},
 	node_placement_prediction = "",
+	diggable = false,
 	
+	on_place = minecart.on_nodecart_place,
+	on_punch = minecart.on_nodecart_punch,
+
 	after_place_node = function(pos)
 		local nvm = techage.get_nvm(pos)
-		nvm.liquid = {}
-		M(pos):set_string("formspec", liquid.formspec(pos, nvm))
-	end,
-	
-	on_place = function(itemstack, placer, pointed_thing)
-		return cart.add_cart(itemstack, placer, pointed_thing, "techage:tank_cart")
-	end,
-	
-	on_punch = function(pos, node, puncher, pointed_thing)
-		--print("on_punch")
-		local wielded_item = puncher:get_wielded_item():get_name()
-		
-		if techage.liquid.is_container_empty(wielded_item) then
-			liquid.on_punch(pos, node, puncher, pointed_thing)
-		else
-			cart.node_on_punch(pos, node, puncher, pointed_thing, "techage:tank_cart_entity")
-		end
+		nvm.liquid = nvm.liquid or {}
 	end,
 	
 	set_cargo = function(pos, data)
-		--print("set_cargo", P2S(pos), #data)
 		local nvm = techage.get_nvm(pos)
 		nvm.liquid = data
 	end,
@@ -148,15 +130,14 @@ minetest.register_node("techage:tank_cart", {
 		local nvm = techage.get_nvm(pos)
 		local data = nvm.liquid
 		nvm.liquid = {}
-		--print("get_cargo", P2S(pos), #data)
 		return data
 	end,
-	on_timer = node_timer,
 	
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		local name = oldmetadata.fields.removed_rail or "carts:rail"
-		minetest.add_node(pos, {name = name})
+	has_cargo = function(pos)
+		return not liquid.is_empty(pos)
 	end,
+	
+	on_timer = node_timer,
 	
 	liquid = {
 		capa = CAPACITY,
@@ -167,7 +148,6 @@ minetest.register_node("techage:tank_cart", {
 	},
 	networks = networks_def,
 	on_rightclick = on_rightclick,
-	can_dig = can_dig,
 })
 
 techage.register_node({"techage:tank_cart"}, liquid.recv_message)	
@@ -175,7 +155,7 @@ techage.register_node({"techage:tank_cart"}, liquid.recv_message)
 Pipe:add_secondary_node_names({"techage:tank_cart"})
 
 
-minecart.register_cart_entity("techage:tank_cart_entity", "techage:tank_cart", {
+minecart.register_cart_entity("techage:tank_cart_entity", "techage:tank_cart", "tank", {
 	initial_properties = {
 		physical = false,
 		collisionbox = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
@@ -184,9 +164,7 @@ minecart.register_cart_entity("techage:tank_cart_entity", "techage:tank_cart", {
 		visual_size = {x=0.66, y=0.66, z=0.66},
 		static_save = false,
 	},
-	on_activate = cart.on_activate,
-	on_punch = cart.on_punch,
-	on_step = cart.on_step,
+	only_dig_if_empty  = 1,
 })
 
 minetest.register_craft({
