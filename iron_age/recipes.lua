@@ -35,7 +35,7 @@ techage.ironage_register_recipe({
 minetest.register_craftitem("techage:iron_ingot", {
 	description = S("TA1 Iron Ingot"),
 	inventory_image = "techage_iron_ingot.png",
-	use_texture_alpha = true,
+	use_texture_alpha = techage.CLIP,
 })
 
 local function check_protection(pos, name, text)

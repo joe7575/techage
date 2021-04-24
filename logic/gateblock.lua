@@ -73,7 +73,7 @@ for idx,pgn in ipairs(tPgns) do
 
 		paramtype = "light",
 		paramtype2 = "facedir",
-		use_texture_alpha = true,
+		use_texture_alpha = techage.CLIP,
 		sunlight_propagates = true,
 		sounds = default.node_sound_stone_defaults(),
 		groups = {cracky=2, choppy=2, crumbly=2, techage_door = 1, 

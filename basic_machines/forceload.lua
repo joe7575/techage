@@ -61,21 +61,24 @@ local function postload_area(pos)
 end
 	
 local function add_pos(pos, player)
-	local lPos = minetest.deserialize(player:get_attribute("techage_forceload_blocks")) or {}
+	local meta = player:get_meta()
+	local lPos = minetest.deserialize(meta:get_string("techage_forceload_blocks")) or {}
 	if not in_list(lPos, pos) and (#lPos < techage.max_num_forceload_blocks or
 				creative and creative.is_enabled_for and 
 				creative.is_enabled_for(player:get_player_name())) then
 		lPos[#lPos+1] = pos
-		player:set_attribute("techage_forceload_blocks", minetest.serialize(lPos))
+		local meta = player:get_meta()
+		meta:set_string("techage_forceload_blocks", minetest.serialize(lPos))
 		return true
 	end
 	return false
 end
 	
 local function del_pos(pos, player)
-	local lPos = minetest.deserialize(player:get_attribute("techage_forceload_blocks")) or {}
+	local meta = player:get_meta()
+	local lPos = minetest.deserialize(meta:get_string("techage_forceload_blocks")) or {}
 	lPos = remove_list_elem(lPos, pos)
-	player:set_attribute("techage_forceload_blocks", minetest.serialize(lPos))
+	player:set_string("techage_forceload_blocks", minetest.serialize(lPos))
 end
 
 local function get_pos_list(player)
@@ -100,7 +103,8 @@ end
 
 local function get_data(pos, player)
 	local pos1, pos2 = calc_area(pos)
-	local num = #minetest.deserialize(player:get_attribute("techage_forceload_blocks")) or 0
+	local meta = player:get_meta()
+	local num = #minetest.deserialize(meta:get_string("techage_forceload_blocks")) or 0
 	local max = techage.max_num_forceload_blocks
 	return pos1, pos2, num, max
 end

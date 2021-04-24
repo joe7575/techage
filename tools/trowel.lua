@@ -89,7 +89,7 @@ minetest.register_tool("techage:trowel", {
 	description = S("TechAge Trowel"),
 	inventory_image = "techage_trowel.png",
 	wield_image = "techage_trowel.png",
-	use_texture_alpha = true,
+	use_texture_alpha = techage.CLIP,
 	groups = {cracky=1},
 	on_use = replace_node,
 	on_place = replace_node,

@@ -39,7 +39,8 @@ elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.0 then
 end
 
 -- Test MT 5.4 new string mode
-techage.CLIP = minetest.features.use_texture_alpha_string_modes and "clip" or true
+techage.CLIP  = minetest.features.use_texture_alpha_string_modes and "clip" or false
+techage.BLEND = minetest.features.use_texture_alpha_string_modes and "blend" or true
 
 techage.NodeDef = {}		-- node registration info
 

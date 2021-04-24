@@ -74,7 +74,7 @@ for idx,ratio in ipairs(lRatio) do
 			end
 		end,
 		
-		use_texture_alpha = true,
+		use_texture_alpha = techage.BLEND,
 		inventory_image = "techage_flame.png",
 		paramtype = "light",
 		light_source = 13,
