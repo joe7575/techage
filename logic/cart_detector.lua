@@ -21,8 +21,11 @@ local logic = techage.logic
 local CYCLE_TIME = 2
 
 local function switch_off(pos)
-	logic.swap_node(pos, "techage:ta3_cartdetector_off")
-	logic.send_off(pos, M(pos))
+	local node = minetest.get_node(pos)
+	if node.name == "techage:ta3_cartdetector_on" then
+		logic.swap_node(pos, "techage:ta3_cartdetector_off")
+		logic.send_off(pos, M(pos))
+	end
 end
 
 local function switch_on(pos)
