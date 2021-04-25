@@ -27,8 +27,9 @@ end
 
 local function switch_on(pos)
 	logic.swap_node(pos, "techage:ta3_cartdetector_on")
-	logic.send_on(pos, M(pos))
-	minetest.after(1, switch_off, pos)
+	if logic.send_on(pos, M(pos)) then
+		minetest.after(1, switch_off, pos)
+	end
 end
 
 local function node_timer(pos)
@@ -135,7 +136,7 @@ techage.register_node({"techage:ta3_cartdetector_off", "techage:ta3_cartdetector
 		if topic == "on" then
 			local node = minetest.get_node(pos)
 			local dir = minetest.facedir_to_dir(node.param2)
-			minecart.punch_cart(pos, nil, 1.5, dir)
+			minecart.punch_cart(pos, nil, 1.6, dir)
 		elseif topic == "state" then
 			local node = techage.get_node_lvm(pos)
 			if node.name == "techage:ta3_cartdetector_on" then
@@ -152,3 +153,5 @@ techage.register_node({"techage:ta3_cartdetector_off", "techage:ta3_cartdetector
 	end,
 })		
 
+-- Register default cart in addition
+minecart.tEntityNames["carts:cart"] = true

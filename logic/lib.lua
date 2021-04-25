@@ -64,6 +64,7 @@ function techage.logic.send_on(pos, meta, time)
 		minetest.get_node_timer(pos):start(time)
 	end
 	techage.send_multi(own_num, numbers, "on")
+	return own_num == numbers
 end
 
 function techage.logic.send_off(pos, meta)
