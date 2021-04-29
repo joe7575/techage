@@ -94,7 +94,7 @@ minetest.register_node("techage:ta4_battery", {
 		local meta = drops[1]:get_meta()
 		meta:set_int("content", content)
 		local percent = calc_percent(content)
-		local text = S("Digtron Battery").." ("..percent.." %)"
+		local text = S("Battery").." ("..percent.." %)"
 		meta:set_string("description", text)
 	end,
 
