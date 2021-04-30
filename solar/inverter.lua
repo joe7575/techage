@@ -119,6 +119,7 @@ local function node_timer(pos, elapsed)
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(State, pos, nvm))
 	end
+	State:trigger_state(pos, nvm)
 	return true
 end
 

@@ -78,7 +78,7 @@ local function del_pos(pos, player)
 	local meta = player:get_meta()
 	local lPos = minetest.deserialize(meta:get_string("techage_forceload_blocks")) or {}
 	lPos = remove_list_elem(lPos, pos)
-	player:set_string("techage_forceload_blocks", minetest.serialize(lPos))
+	meta:set_string("techage_forceload_blocks", minetest.serialize(lPos))
 end
 
 local function get_pos_list(player)

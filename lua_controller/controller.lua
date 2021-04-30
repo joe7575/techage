@@ -87,6 +87,7 @@ techage.lua_ctlr.register_action("print", {
 		local pos = self.meta.pos
 		text = tostring(text or "")
 		output(pos, text)
+		--print("Lua: "..text)
 	end,
 	help = " $print(text)\n"..
 		" Send a text line to the output window.\n"..

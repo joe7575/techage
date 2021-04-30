@@ -411,6 +411,10 @@ function NodeStates:keep_running(pos, nvm, val)
 	nvm.last_active = minetest.get_gametime()
 end
 
+function NodeStates:trigger_state(pos, nvm)
+	nvm.last_active = minetest.get_gametime()
+end
+
 -- Start/stop node based on button events.
 -- if function returns false, no button was pressed
 function NodeStates:state_button_event(pos, nvm, fields)
