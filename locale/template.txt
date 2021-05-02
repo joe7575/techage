@@ -111,6 +111,16 @@ TA4 Button/Switch=
 
 TA3 Cart Detector=
 
+### cart_detector.lua ###
+### node_detector.lua ###
+
+accept=
+
+### cart_detector.lua ###
+### player_detector.lua ###
+
+TA3 Player Detector=
+
 ### ceilinglamp.lua ###
 
 TA Ceiling Lamp=
@@ -119,6 +129,11 @@ TA Ceiling Lamp=
 
 Cement Block=
 Cement Powder=
+
+### ceramic.lua ###
+
+TA4 Ceramic Material=
+TA4 Furnace Ceramic=
 
 ### charcoalpile.lua ###
 
@@ -165,6 +180,26 @@ TA2 Cylinder=
 
 TA3 Detector=
 TA4 Detector=
+
+### detector.lua ###
+### doorcontroller.lua ###
+### button.lua ###
+### repeater.lua ###
+### chest.lua ###
+### mesecons_converter.lua ###
+
+Save=
+
+### detector.lua ###
+### lua_logic.lua ###
+### node_detector.lua ###
+### button.lua ###
+### cart_detector.lua ###
+### player_detector.lua ###
+### repeater.lua ###
+### mesecons_converter.lua ###
+
+Insert destination node number(s)=
 
 ### display.lua ###
 
@@ -342,22 +377,6 @@ storage empty?=
 TA4 Generator=
 TA3 Generator=
 
-### generator.lua ###
-### akkubox.lua ###
-### tiny_generator.lua ###
-### fuelcell.lua ###
-### electrolyzer.lua ###
-### heatexchanger2.lua ###
-
-Electricity=
-
-### generator.lua ###
-### source.lua ###
-### solarcell.lua ###
-### flywheel.lua ###
-
-power=
-
 ### gravelrinser.lua ###
 
 Gravel Rinser=
@@ -478,11 +497,6 @@ to=
 Laser beam error!=
 TA4 Laser Beam Receiver=
 
-### lib.lua ###
-### sensorchest.lua ###
-
-connected with=
-
 ### lighter.lua ###
 
 TA1 Lighter=
@@ -501,6 +515,11 @@ TA Junction Pipe=
 ### liquidsampler.lua ###
 
 Liquid Sampler=
+
+### liquidsampler.lua ###
+### waterpump.lua ###
+
+no usable water=
 
 ### logic_block.lua ###
 
@@ -575,22 +594,6 @@ added or removed=
 Send signal if nodes have been:=
 TA3 Node Detector=
 
-### node_detector.lua ###
-### cart_detector.lua ###
-
-accept=
-
-### node_detector.lua ###
-### player_detector.lua ###
-### repeater.lua ###
-### lua_logic.lua ###
-### detector.lua ###
-### button.lua ###
-### cart_detector.lua ###
-### mesecons_converter.lua ###
-
-Insert destination node number(s)=
-
 ### nodes.lua ###
 
 TechAge Gravel=
@@ -644,16 +647,14 @@ Plastic Granules=
 
 TA4 Player Detector=
 
-### player_detector.lua ###
-### cart_detector.lua ###
-
-TA3 Player Detector=
-
 ### powder.lua ###
 
 Leave Powder=
 Needle Powder=
 Iron Powder=
+Clay Powder=
+Aluminum Powder=
+Silver Sandstone Powder=
 
 ### power2axle.lua ###
 
@@ -820,19 +821,9 @@ Time=
 
 TA3 Repeater=
 
-### repeater.lua ###
-### chest.lua ###
-### detector.lua ###
-### button.lua ###
-### doorcontroller.lua ###
-### mesecons_converter.lua ###
-
-Save=
-
 ### rotor.lua ###
 
 TA4 Wind Turbine=
-Not suitable position!=
 Nacelle is missing=
 TA4 Wind Turbine Nacelle=
 TA4 Carbon Fiber=
@@ -843,6 +834,11 @@ TA4 Rotor Blade=
 Allow public chest access=
 TA4 Sensor Chest=
 not connected=
+
+### sensorchest.lua ###
+### lib.lua ###
+
+connected with=
 
 ### sequencer.lua ###
 
@@ -875,6 +871,13 @@ light=
 TA4 Solar Carrier Module=
 TA4 Solar Carrier Module B=
 TA4 Solar Carrier Module T=
+
+### solarcell.lua ###
+### source.lua ###
+### generator.lua ###
+### flywheel.lua ###
+
+power=
 
 ### source.lua ###
 
@@ -960,11 +963,6 @@ TA4 Reactor Stand=
 off=
 TA4 Reactor Base=
 
-### ta4_stand.lua ###
-### waterpump.lua ###
-
-no power=
-
 ### tank.lua ###
 
 TA3 Tank=
@@ -992,6 +990,15 @@ TA3 Timer=
 Tiny Generator=
 no fuel=
 TA3 Tiny Power Generator=
+
+### tiny_generator.lua ###
+### electrolyzer.lua ###
+### akkubox.lua ###
+### fuelcell.lua ###
+### generator.lua ###
+### heatexchanger2.lua ###
+
+Electricity=
 
 ### tower.lua ###
 
@@ -1039,9 +1046,9 @@ Water Pump=
 TA4 Water Pump=
 
 ### waterpump.lua ###
-### liquidsampler.lua ###
+### ta4_stand.lua ###
 
-no usable water=
+no power=
 
 ### windturbine_lib.lua ###
 
@@ -1050,7 +1057,7 @@ This is not the surface of the ocean!=
 This is no ocean water!=
 This is a=
 biome and no ocean!=
-Here is not enough wind (A free air space of 41x41x21 m is necessary)!=
+Here is not enough wind@n(A free air space of 41x41x21 m is necessary)!=
 Here is not enough water (41x41 m)!=
 The next wind turbines is too close!=
 is a suitable place for a wind turbine!=

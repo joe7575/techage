@@ -111,6 +111,16 @@ TA4 Button/Switch=TA4 Schalter/Taster
 
 TA3 Cart Detector=TA3 Wagen Detektor
 
+### cart_detector.lua ###
+### node_detector.lua ###
+
+accept=akzeptieren
+
+### cart_detector.lua ###
+### player_detector.lua ###
+
+TA3 Player Detector=TA3 Spieler Detektor
+
 ### ceilinglamp.lua ###
 
 TA Ceiling Lamp=TA Deckenlampe
@@ -119,6 +129,11 @@ TA Ceiling Lamp=TA Deckenlampe
 
 Cement Block=Zement Block
 Cement Powder=Zement Pulver
+
+### ceramic.lua ###
+
+TA4 Ceramic Material=TA4 Keramik Material
+TA4 Furnace Ceramic=TA4 Ofen Keramik
 
 ### charcoalpile.lua ###
 
@@ -165,6 +180,26 @@ TA2 Cylinder=TA2 Zylinder
 
 TA3 Detector=TA3 Detektor
 TA4 Detector=TA4 Detektor
+
+### detector.lua ###
+### doorcontroller.lua ###
+### button.lua ###
+### repeater.lua ###
+### chest.lua ###
+### mesecons_converter.lua ###
+
+Save=Speichern
+
+### detector.lua ###
+### lua_logic.lua ###
+### node_detector.lua ###
+### button.lua ###
+### cart_detector.lua ###
+### player_detector.lua ###
+### repeater.lua ###
+### mesecons_converter.lua ###
+
+Insert destination node number(s)=Gebe Zielnummer(n) ein
 
 ### display.lua ###
 
@@ -342,22 +377,6 @@ storage empty?=Speicher leer?
 TA4 Generator=TA4 Generator
 TA3 Generator=TA3 Generator
 
-### generator.lua ###
-### akkubox.lua ###
-### tiny_generator.lua ###
-### fuelcell.lua ###
-### electrolyzer.lua ###
-### heatexchanger2.lua ###
-
-Electricity=Strom
-
-### generator.lua ###
-### source.lua ###
-### solarcell.lua ###
-### flywheel.lua ###
-
-power=Energie
-
 ### gravelrinser.lua ###
 
 Gravel Rinser=Kiesspüler
@@ -478,11 +497,6 @@ to=bis
 Laser beam error!=Laserstrahl Fehler!
 TA4 Laser Beam Receiver=TA4 Laserstrahl Empfänger
 
-### lib.lua ###
-### sensorchest.lua ###
-
-connected with=verbunden mit
-
 ### lighter.lua ###
 
 TA1 Lighter=TA1 Anzünder
@@ -501,6 +515,11 @@ TA Junction Pipe=TA Leitungskupplung
 ### liquidsampler.lua ###
 
 Liquid Sampler=Flüssigkeitensammler
+
+### liquidsampler.lua ###
+### waterpump.lua ###
+
+no usable water=Kein brauchbares Wasser
 
 ### logic_block.lua ###
 
@@ -575,22 +594,6 @@ added or removed=hinzugefügt oder entfernt wird
 Send signal if nodes have been:=Sende ein Signal falls Blöcke:
 TA3 Node Detector=TA3 Block Detektor
 
-### node_detector.lua ###
-### cart_detector.lua ###
-
-accept=akzeptieren
-
-### node_detector.lua ###
-### player_detector.lua ###
-### repeater.lua ###
-### lua_logic.lua ###
-### detector.lua ###
-### button.lua ###
-### cart_detector.lua ###
-### mesecons_converter.lua ###
-
-Insert destination node number(s)=Gebe Zielnummer(n) ein
-
 ### nodes.lua ###
 
 TechAge Gravel=TechAge Kies
@@ -644,16 +647,14 @@ Plastic Granules=Plastikgranulat
 
 TA4 Player Detector=TA4 Spieler Detektor
 
-### player_detector.lua ###
-### cart_detector.lua ###
-
-TA3 Player Detector=TA3 Spieler Detektor
-
 ### powder.lua ###
 
 Leave Powder=Laub Pulver
 Needle Powder=Nadel Pulver
 Iron Powder=Eisen Pulver
+Clay Powder=Ton Pulver
+Aluminum Powder=Aluminium Pulver
+Silver Sandstone Powder=Silbersandstein Pulver
 
 ### power2axle.lua ###
 
@@ -820,19 +821,9 @@ Time=Zeit
 
 TA3 Repeater=TA3 Wiederholer
 
-### repeater.lua ###
-### chest.lua ###
-### detector.lua ###
-### button.lua ###
-### doorcontroller.lua ###
-### mesecons_converter.lua ###
-
-Save=Speichern
-
 ### rotor.lua ###
 
 TA4 Wind Turbine=TA4 Windkraftanlage
-Not suitable position!=Ungeeignete Position!
 Nacelle is missing=Die Gondel fehlt
 TA4 Wind Turbine Nacelle=TA4 Windkraftanlagengondel
 TA4 Carbon Fiber=TA4 Kohlefaser
@@ -843,6 +834,11 @@ TA4 Rotor Blade=TA4 Rotorblatt
 Allow public chest access=Erlaube öffentlichen Zugriff
 TA4 Sensor Chest=Sensorkiste
 not connected=nicht verbunden
+
+### sensorchest.lua ###
+### lib.lua ###
+
+connected with=verbunden mit
 
 ### sequencer.lua ###
 
@@ -875,6 +871,13 @@ light=Licht
 TA4 Solar Carrier Module=TA4 Solar Trägermodul
 TA4 Solar Carrier Module B=TA4 Solar Trägermodul U
 TA4 Solar Carrier Module T=TA4 Solar Trägermodul O
+
+### solarcell.lua ###
+### source.lua ###
+### generator.lua ###
+### flywheel.lua ###
+
+power=Energie
 
 ### source.lua ###
 
@@ -960,11 +963,6 @@ TA4 Reactor Stand=TA4 Reaktor Ständer
 off=aus
 TA4 Reactor Base=TA4 Reaktor Sockel
 
-### ta4_stand.lua ###
-### waterpump.lua ###
-
-no power=kein Strom
-
 ### tank.lua ###
 
 TA3 Tank=TA3 Tank
@@ -992,6 +990,15 @@ TA3 Timer=TA3 Timer
 Tiny Generator=Kleingenerator
 no fuel=kein Kraftstoff
 TA3 Tiny Power Generator=TA3 Kleiner Stromgenerator
+
+### tiny_generator.lua ###
+### electrolyzer.lua ###
+### akkubox.lua ###
+### fuelcell.lua ###
+### generator.lua ###
+### heatexchanger2.lua ###
+
+Electricity=Strom
 
 ### tower.lua ###
 
@@ -1039,9 +1046,9 @@ Water Pump=Wasserpumpe
 TA4 Water Pump=Wasserpumpe
 
 ### waterpump.lua ###
-### liquidsampler.lua ###
+### ta4_stand.lua ###
 
-no usable water=Kein brauchbares Wasser
+no power=kein Strom
 
 ### windturbine_lib.lua ###
 
@@ -1054,3 +1061,8 @@ Here is not enough wind@n(A free air space of 41x41x21 m is necessary)!=Hier ist
 Here is not enough water (41x41 m)!=Hier ist nicht genug Wasser (41x41 m)!
 The next wind turbines is too close!= Die nächste Windkraftanlagen iat zu nahe!
 is a suitable place for a wind turbine!=ist ein geeigneter Ort für eine Windkraftanlage!
+
+
+##### not used anymore #####
+
+Not suitable position!=Ungeeignete Position!

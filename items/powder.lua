@@ -32,6 +32,24 @@ minetest.register_craftitem("techage:iron_powder", {
 	groups = {powder = 1},
 })
 
+minetest.register_craftitem("techage:clay_powder", {
+	description = S("Clay Powder"),
+	inventory_image = "techage_powder_inv.png^[colorize:#F9DE80:160",
+	groups = {powder = 1},
+})
+
+minetest.register_craftitem("techage:aluminum_powder", {
+	description = S("Aluminum Powder"),
+	inventory_image = "techage_powder_inv.png^[colorize:#A1BDC4:160",
+	groups = {powder = 1},
+})
+
+minetest.register_craftitem("techage:silver_sandstone_powder", {
+	description = S("Silver Sandstone Powder"),
+	inventory_image = "techage_powder_inv.png^[colorize:#FFFFFF:160",
+	groups = {powder = 1},
+})
+
 techage.add_grinder_recipe({input="default:acacia_bush_leaves", output="techage:leave_powder"})
 techage.add_grinder_recipe({input="default:acacia_leaves", output="techage:leave_powder"})
 techage.add_grinder_recipe({input="default:aspen_leaves", output="techage:leave_powder"})
@@ -41,4 +59,9 @@ techage.add_grinder_recipe({input="default:jungleleaves", output="techage:leave_
 techage.add_grinder_recipe({input="default:leaves", output="techage:leave_powder"})
 techage.add_grinder_recipe({input="default:pine_needles", output="techage:needle_powder"})
 techage.add_grinder_recipe({input="default:iron_lump", output="techage:iron_powder"})
+techage.add_grinder_recipe({input="default:clay", output="techage:clay_powder"})
+techage.add_grinder_recipe({input="techage:aluminum", output="techage:aluminum_powder"})
+techage.add_grinder_recipe({input="default:silver_sandstone", output="techage:silver_sandstone_powder"})
+
+
 

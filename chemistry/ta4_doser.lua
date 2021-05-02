@@ -153,14 +153,9 @@ local State = techage.NodeStates:new({
 	stop_node = stop_node,
 })
 
-local function untake(recipe, pos, liquids)
-	for _,item in pairs(recipe.input) do
-		if item.name ~= "" then
-			local outdir = liquids[item.name] or reload_liquids(pos)[item.name]
-			if outdir then
-				liquid.untake(pos, outdir, item.name, item.num)
-			end
-		end
+local function untake(pos, taken)
+	for _,item in pairs(taken) do
+		liquid.untake(pos, item.outdir, item.name, item.num)
 	end
 end	
 
@@ -205,42 +200,49 @@ local function dosing(pos, nvm, elapsed)
 	end
 	-- inputs
 	local starter = get_starter_name(pos)
+	local taken = {}
 	for _,item in pairs(recipe.input) do
 		if item.name ~= "" then
 			local outdir = liquids[item.name] or reload_liquids(pos)[item.name]
 			if not outdir then
 				State:standby(pos, nvm)
 				reactor_cmnd(pos, "stop")
+				untake(pos, taken)
 				return
 			end
-			if liquid.take(pos, outdir, item.name, item.num, starter) < item.num then
+			local num = liquid.take(pos, outdir, item.name, item.num, starter)
+			if num < item.num then
+				taken[#taken + 1] = {outdir = outdir, name = item.name, num = num}
 				State:standby(pos, nvm)
 				reactor_cmnd(pos, "stop")
+				untake(pos, taken)
 				return
 			end
+			taken[#taken + 1] = {outdir = outdir, name = item.name, num = item.num}
 		end
 	end
-	-- output
+	-- waste
 	local leftover
-	leftover = reactor_cmnd(pos, "output", {
-			name = recipe.output.name, 
-			amount = recipe.output.num})
-	if not leftover or (tonumber(leftover) or 1) > 0 then
-		untake(recipe, pos, liquids)
-		State:blocked(pos, nvm)
-		reactor_cmnd(pos, "stop")
-		return
-	end
 	if recipe.waste.name ~= "" then
 		leftover = reactor_cmnd(pos, "waste", {
 				name = recipe.waste.name, 
 				amount = recipe.waste.num})
 		if not leftover or (tonumber(leftover) or 1) > 0 then
-			untake(recipe, pos, liquids)
+			untake(pos, taken)
 			State:blocked(pos, nvm)
 			reactor_cmnd(pos, "stop")
 			return
 		end
+	end
+	-- output
+	leftover = reactor_cmnd(pos, "output", {
+			name = recipe.output.name, 
+			amount = recipe.output.num})
+	if not leftover or (tonumber(leftover) or 1) > 0 then
+		untake(pos, taken)
+		State:blocked(pos, nvm)
+		reactor_cmnd(pos, "stop")
+		return
 	end
 	State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 end	

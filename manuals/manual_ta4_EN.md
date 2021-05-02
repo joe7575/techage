@@ -237,7 +237,7 @@ A reactor consists of:
 - The filler pipe that must be placed on the reactor vessel
 - The dosing device, which has to be connected to the tanks or silos and the filler pipe via pipes
 
-Note 1: Liquids are only stored in tanks, substances in powder form only in silos. This applies to ingredients and raw materials.
+Note 1: Liquids are only stored in tanks, solids and substances in powder form only in silos. This applies to ingredients and raw materials.
 
 Note 2: Tanks or silos with different contents must not be connected to a pipe system. In contrast, several tanks or silos with the same content may hang in parallel on one line.
 

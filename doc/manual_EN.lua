@@ -1279,7 +1279,7 @@ techage.manual_EN.aText = {
   "  - The filler pipe that must be placed on the reactor vessel\n"..
   "  - The dosing device\\, which has to be connected to the tanks or silos and the filler pipe via pipes\n"..
   "\n"..
-  "Note 1: Liquids are only stored in tanks\\, substances in powder form only in silos. This applies to ingredients and raw materials.\n"..
+  "Note 1: Liquids are only stored in tanks\\, solids and substances in powder form only in silos. This applies to ingredients and raw materials.\n"..
   "\n"..
   "Note 2: Tanks or silos with different contents must not be connected to a pipe system. In contrast\\, several tanks or silos with the same content may hang in parallel on one line.\n"..
   "\n"..

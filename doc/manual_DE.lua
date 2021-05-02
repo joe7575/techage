@@ -1301,7 +1301,7 @@ techage.manual_DE.aText = {
   "  - dem Einfüllstutzen der auf den Reaktorbehälter gesetzt werden muss\n"..
   "  - dem Dosierer\\, welcher über Leitungen mit den Tanks oder Silos sowie dem Einfüllstutzen verbunden werden muss\n"..
   "\n"..
-  "Hinweis 1: Flüssigkeiten werden nur in Tanks gelagert\\, Stoffe in Pulverform nur in Silos. Dies gilt für Zutaten und Ausgangsstoffe.\n"..
+  "Hinweis 1: Flüssigkeiten werden nur in Tanks gelagert\\, feste Stoffe und Stoffe in Pulverform nur in Silos. Dies gilt für Zutaten und Ausgangsstoffe.\n"..
   "\n"..
   "Hinweis 2: Tanks oder Silos mit verschiedenen Inhalten dürfen nicht zu einem Leitungssystem verbunden werden. Mehrere Tanks oder Silos mit gleichem Inhalt dürfen dagegen parallel an einer Leitung hängen.\n"..
   "\n"..

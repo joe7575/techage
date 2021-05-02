@@ -332,6 +332,7 @@ dofile(MP.."/items/electronic.lua")
 dofile(MP.."/items/redstone.lua")
 dofile(MP.."/items/cement.lua")
 dofile(MP.."/items/cracking.lua")
+dofile(MP.."/items/ceramic.lua")
 
 if techage.basalt_stone_enabled then
 	dofile(MP.."/items/basalt.lua")

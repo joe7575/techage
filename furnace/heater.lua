@@ -131,9 +131,9 @@ Cable:add_secondary_node_names({"techage:furnace_heater", "techage:furnace_heate
 minetest.register_craft({
 	output = "techage:furnace_heater",
 	recipe = {
-		{'techage:basalt_stone', 'default:steel_ingot', 'techage:basalt_stone'},
-		{'default:steel_ingot', 'basic_materials:heating_element', 'default:steel_ingot'},
-		{'techage:basalt_stone', 'techage:basalt_stone', 'techage:basalt_stone'},
+		{'techage:aluminum', 'default:steel_ingot', 'techage:aluminum'},
+		{'techage:basalt_stone', 'basic_materials:heating_element', 'techage:basalt_stone'},
+		{'techage:aluminum', 'techage:ta4_furnace_ceramic', 'techage:aluminum'},
 	},
 })
 
