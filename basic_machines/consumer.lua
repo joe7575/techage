@@ -89,23 +89,19 @@ end
 
 -- 'validStates' is optional and can be used to e.g. enable 
 -- only one TA2 node {false, true, false, false}
-function techage.register_consumer(base_name, inv_name, tiles, tNode, validStates)
+function techage.register_consumer(base_name, inv_name, tiles, tNode, validStates, node_name_prefix)
 	local names = {}
 	validStates = validStates or {true, true, true, true}
+	if not node_name_prefix then
+		node_name_prefix = "techage:ta"
+	end
 	for stage = 2,4 do
-		local name_pas = "techage:ta"..stage.."_"..base_name.."_pas"
-		local name_act = "techage:ta"..stage.."_"..base_name.."_act"
+		local name_pas = node_name_prefix..stage.."_"..base_name.."_pas"
+		local name_act = node_name_prefix..stage.."_"..base_name.."_act"
 		local name_inv = "TA"..stage.." "..inv_name
 		names[#names+1] = name_pas
 
 		if validStates[stage] then
-			local on_recv_message = tNode.tubing.on_recv_message
-			if stage > 2 then
-				on_recv_message = function(pos, src, topic, payload)
-					return "unsupported"
-				end
-			end
-
 			local power_network
 			local power_png = 'techage_axle_clutch.png'
 			local power_used = tNode.power_consumption ~= nil
@@ -215,7 +211,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 			
 			tNode.groups.not_in_creative_inventory = 0
 
-			minetest.register_node(name_pas, {
+			local def_pas = {
 				description = name_inv,
 				tiles = prepare_tiles(tiles.pas, stage, power_png),
 				consumer = tConsumer,
@@ -246,18 +242,27 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				groups = table.copy(tNode.groups),
 				is_ground_content = false,
 				sounds = tNode.sounds,
-			})
+			}
+
+			-- Copy custom properties (starting with an underscore)
+			for k,v in pairs(tNode) do
+				if string.sub(k, 1, 1) == "_" then
+					def_pas[k] = v
+				end
+			end
+
+			minetest.register_node(name_pas, def_pas)
 
 			tNode.groups.not_in_creative_inventory = 1
-			
-			minetest.register_node(name_act, {
+
+			local def_act = {
 				description = name_inv,
 				tiles = prepare_tiles(tiles.act, stage, power_png),
 				consumer = tConsumer,
 				drawtype = tNode.drawtype,
 				node_box = tNode.node_box,
 				selection_box = tNode.selection_box,
-				
+
 				on_rotate = tNode.on_rotate or screwdriver.disallow,
 				on_timer = node_timer,
 				on_receive_fields = tNode.on_receive_fields,
@@ -280,7 +285,16 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				groups = table.copy(tNode.groups),
 				is_ground_content = false,
 				sounds = tNode.sounds,
-			})
+			}
+
+			-- Copy custom properties (starting with an underscore)
+			for k,v in pairs(tNode) do
+				if string.sub(k, 1, 1) == "_" then
+					def_act[k] = v
+				end
+			end
+			
+			minetest.register_node(name_act, def_act)
 
 			if power_used then
 				power_network:add_secondary_node_names({name_pas, name_act})
