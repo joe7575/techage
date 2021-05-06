@@ -35,19 +35,6 @@ local SlotColors = {"red", "green", "blue", "yellow"}
 local Num2Ascii = {"B", "L", "F", "R"} 
 local FilterCache = {} -- local cache for filter settings
 
--- Permutation table to improve distribution between ports (number of ports: 1-4)
--- Usage: permIdx[num_ports][math.random(1, #permIdx[num_ports])][idx]
-local permIdx = {
-	{ { 1 } },
-	{ { 1, 2 }, { 2, 1 } },
-	{ { 1, 2, 3 }, { 1, 3, 2 }, { 2, 1, 3 }, { 2, 3, 1 }, { 3, 1, 2 }, { 3, 2, 1 } },
-	{ { 1, 2, 3, 4 }, { 1, 2, 4, 3 }, { 1, 3, 2, 4 }, { 1, 3, 4, 2 }, { 1, 4, 2, 3 },
-	  { 1, 4, 3, 2 }, { 2, 1, 3, 4 }, { 2, 1, 4, 3 }, { 2, 3, 1, 4 }, { 2, 3, 4, 1 },
-	  { 2, 4, 1, 3 }, { 2, 4, 3, 1 }, { 3, 1, 2, 4 }, { 3, 1, 4, 2 }, { 3, 2, 1, 4 },
-	  { 3, 2, 4, 1 }, { 3, 4, 1, 2 }, { 3, 4, 2, 1 }, { 4, 1, 2, 3 }, { 4, 1, 3, 2 },
-	  { 4, 2, 1, 3 }, { 4, 2, 3, 1 }, { 4, 3, 1, 2 }, { 4, 3, 2, 1 }, }
-}
-
 local function filter_settings(pos)
 	local meta = M(pos)
 	local param2 = techage.get_node_lvm(pos).param2
@@ -69,7 +56,9 @@ local function filter_settings(pos)
 						if not ItemFilter[name] then
 							ItemFilter[name] = {}
 						end
-						table.insert(ItemFilter[name], out_dir)
+						for _ = 1,stack:get_count() do
+							table.insert(ItemFilter[name], out_dir)
+						end
 					end
 				end
 			end
@@ -181,8 +170,8 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if listname == "src" then
 		CRD(pos).State:start_if_standby(pos)
 		return stack:get_count()
-	elseif list[index]:get_count() == 0 then
-		stack:set_count(1)
+	else
+		stack:add_item(list[index])
 		inv:set_stack(listname, index, stack)
 		return 0
 	end
@@ -197,7 +186,9 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 		return stack:get_count()
 	else
 		local inv = M(pos):get_inventory()
-		inv:set_stack(listname, index, nil)
+		local list = inv:get_list(listname)
+		list[index]:take_item(stack:get_count())
+		inv:set_stack(listname, index, list[index])
 		return 0
 	end
 end
@@ -209,17 +200,15 @@ local function allow_metadata_inventory_move(pos, from_list, from_index, to_list
 	local inv = minetest.get_meta(pos):get_inventory()
 	local stack = inv:get_stack(from_list, from_index)
 
-	if from_list == "src" and to_list ~= "src" and not inv:contains_item(to_list, {name = stack:get_name()}) then
-		stack:set_count(1)
+	if from_list == "src" and to_list ~= "src" then
+		stack:add_item(to_list[to_index])
 		inv:set_stack(to_list, to_index, stack)
 		return 0
 	elseif from_list ~= "src" and to_list == "src" then
 		inv:set_stack(from_list, from_index, nil)
 		return 0
-	elseif not inv:contains_item(to_list, {name = stack:get_name()}) then
-		return 1
 	else
-		return 0
+		return stack:get_count()
 	end
 end
 
@@ -240,17 +229,24 @@ local function tubelib2_on_update2(pos, outdir, tlib2, node)
 	end
 end
 
-local function push_item(pos, filter, itemstack, num_items, nvm)
+local function shuffle(list)
+	for i = #list, 2, -1 do
+		local j = math.random(i)
+		list[i], list[j] = list[j], list[i]
+	end
+	return list
+end
+
+local function push_item(pos, base_filter, itemstack, num_items, nvm)
+	local filter = shuffle(table.copy(base_filter))
 	local idx = 1
 	local num_pushed = 0
 	local num_ports = #filter
-	num_ports = techage.in_range(num_ports, 1, 4)
-	local randidx = permIdx[num_ports][math.random(1, #permIdx[num_ports])]
 	local amount = math.floor(math.max((num_items + 1) / num_ports, 1))
 	local num_of_trials = 0
 	while num_pushed < num_items and num_of_trials <= 8 do
 		num_of_trials = num_of_trials + 1
-		local push_dir = filter[randidx[idx]]
+		local push_dir = filter[idx]
 		local num_to_push = math.min(amount, num_items - num_pushed)
 		if techage.push_items(pos, push_dir, itemstack:peek_item(num_to_push)) then
 			num_pushed = num_pushed + num_to_push
@@ -282,11 +278,12 @@ local function distributing(pos, inv, crd, nvm)
 		local num_items = stack:get_count()
 		local num_to_push = math.min((nvm.num_items or crd.num_items) - sum_num_pushed, num_items)
 		local stack_to_push = stack:peek_item(num_to_push)
+		local filter = item_filter[item_name]
 		num_pushed = 0
 		
-		if item_filter[item_name] then
+		if filter and #filter > 0 then
 			-- Push items based on filter
-			num_pushed = push_item(pos, item_filter[item_name], stack_to_push, num_to_push, nvm)
+			num_pushed = push_item(pos, filter, stack_to_push, num_to_push, nvm)
 		elseif blocking_mode and #open_ports > 0 then
 			-- Push items based on open ports
 			num_pushed = push_item(pos, open_ports, stack_to_push, num_to_push, nvm)

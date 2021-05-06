@@ -453,6 +453,10 @@ techage.manual_DE.aText = {
   "\n"..
   "Der Verarbeitungsleistung eines TA2 Verteilers beträgt 4 Items alle 2 s\\, wobei der Verteiler dabei versucht\\, die 4 Items auf die offenen Ausgänge zu verteilen.\n"..
   "\n"..
+  "Wird dasselbe Item in einem Filter mehrfach hinterlegt\\, so beeinflusst dies das langfristige Verteilungsverhältnis entsprechend.\n"..
+  "\n"..
+  "Bitte beachte\\, dass die Verteilung ein probabilistischer Vorgang ist\\, d.h. die Verhältnisse werden nicht exakt\\, sondern nur langfristig eingehalten.\n"..
+  "\n"..
   "\n"..
   "\n",
   "Die Kieswaschanlage ist eine komplexere Maschine mit dem Ziel\\, Usmium Nuggets aus gesiebtem Kies auszuwaschen. Für den Aufbau wird ein TA2 Kiesspüler mit Achsenantrieb\\, ein Trichter\\, eine Kiste\\, sowie fließendes Wasser benötigt. \n"..
@@ -1056,15 +1060,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Die Funktion des TA3 Verteilers entspricht der von TA2 mit einer weiteren Betriebart.\n"..
-  "\n"..
-  "*1:1 Bestückungsfunktion*\n"..
-  "\n"..
-  "Wird nur ein Ausgang aktiviert und mit mehreren Items konfiguriert\\, so kann die 1:1 Checkbox angeklickt werden. In diesem Falle werden nur Items gemäß der Filtereinstellung angenommen und in der Reihenfolge\\, wie die Items im Filter eingetragen sind\\, in definierte Positionen im Ziel-Inventar abgelegt. Damit kann weder das Inventar des Verteilers noch des Zielblocks volllaufen. Dies funktioniert für Autocrafter\\, Industrieofen und Elektronikfabrik.\n"..
-  "Mit dieser Betriebsart lassen sich andere Maschinen wie bspw. der Autocrafter exakt gemäß dem eingestellten Rezept bestücken. \n"..
-  "\n"..
-  "Dies funktioniert nur nur\\, wenn die Inventare des Verteilers und des Zielblocks zuvor frei sind.\n"..
-  "\n"..
+  "Die Funktion des TA3 Verteilers entspricht der von TA2.\n"..
   "Die Verarbeitungsleistung beträgt 12 Items alle 4 s.\n"..
   "\n"..
   "\n"..

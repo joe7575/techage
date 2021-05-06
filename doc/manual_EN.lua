@@ -452,6 +452,10 @@ techage.manual_EN.aText = {
   "\n"..
   "The processing power of a TA2 distributor is 4 items every 2 s\\, whereby the distributor tries to distribute the 4 items to the open outputs.\n"..
   "\n"..
+  "If the same item is configured multiple times in one filter\\, the long term distribution ratio will be influenced accordingly.\n"..
+  "\n"..
+  "Please note that the distribution is a probabilistic process. This means that the distribution rations won't be matched exactly\\, but only in the long term.\n"..
+  "\n"..
   "\n"..
   "\n",
   "The gravel washer is a more complex machine with the goal of washing Usmium nuggets out of sieved gravel. A TA2 rinser with axis drive\\, a hopper\\, a chest and running water are required for the installation.\n"..
@@ -1041,7 +1045,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The function of the TA3 distributor corresponds to that of TA2 with another operating mode.\n"..
+  "The function of the TA3 distributor corresponds to that of TA2.\n"..
   "The processing power is 12 items every 4 s.\n"..
   "\n"..
   "\n"..

@@ -726,15 +726,7 @@ Die Verarbeitungsleistung beträgt 6 Items alle 2 s.
 
 ### TA3 Verteiler / Distributor
 
-Die Funktion des TA3 Verteilers entspricht der von TA2 mit einer weiteren Betriebart.
-
-**1:1 Bestückungsfunktion**
-
-Wird nur ein Ausgang aktiviert und mit mehreren Items konfiguriert, so kann die 1:1 Checkbox angeklickt werden. In diesem Falle werden nur Items gemäß der Filtereinstellung angenommen und in der Reihenfolge, wie die Items im Filter eingetragen sind, in definierte Positionen im Ziel-Inventar abgelegt. Damit kann weder das Inventar des Verteilers noch des Zielblocks volllaufen. Dies funktioniert für Autocrafter, Industrieofen und Elektronikfabrik.
-Mit dieser Betriebsart lassen sich andere Maschinen wie bspw. der Autocrafter exakt gemäß dem eingestellten Rezept bestücken. 
-
-Dies funktioniert nur nur, wenn die Inventare des Verteilers und des Zielblocks zuvor frei sind.
-
+Die Funktion des TA3 Verteilers entspricht der von TA2.
 Die Verarbeitungsleistung beträgt 12 Items alle 4 s.
 
 [ta3_distributor|image]
