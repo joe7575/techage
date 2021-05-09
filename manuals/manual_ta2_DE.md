@@ -136,6 +136,8 @@ Wird dasselbe Item in einem Filter mehrfach hinterlegt, so beeinflusst dies das 
 
 Bitte beachte, dass die Verteilung ein probabilistischer Vorgang ist, d.h. die Verhältnisse werden nicht exakt, sondern nur langfristig eingehalten.
 
+In den Filtern beträgt die maximale Stackgröße 12; insgesamt können höchstens 36 Items konfiguriert werden.
+
 [ta2_distributor|image]
 
 

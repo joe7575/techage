@@ -456,6 +456,8 @@ techage.manual_EN.aText = {
   "\n"..
   "Please note that the distribution is a probabilistic process. This means that the distribution rations won't be matched exactly\\, but only in the long term.\n"..
   "\n"..
+  "The maximum stack size in the filters is 12\\; in total\\, not more than 36 items can be configured.\n"..
+  "\n"..
   "\n"..
   "\n",
   "The gravel washer is a more complex machine with the goal of washing Usmium nuggets out of sieved gravel. A TA2 rinser with axis drive\\, a hopper\\, a chest and running water are required for the installation.\n"..

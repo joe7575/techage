@@ -457,6 +457,8 @@ techage.manual_DE.aText = {
   "\n"..
   "Bitte beachte\\, dass die Verteilung ein probabilistischer Vorgang ist\\, d.h. die Verhältnisse werden nicht exakt\\, sondern nur langfristig eingehalten.\n"..
   "\n"..
+  "In den Filtern beträgt die maximale Stackgröße 12\\; insgesamt können höchstens 36 Items konfiguriert werden.\n"..
+  "\n"..
   "\n"..
   "\n",
   "Die Kieswaschanlage ist eine komplexere Maschine mit dem Ziel\\, Usmium Nuggets aus gesiebtem Kies auszuwaschen. Für den Aufbau wird ein TA2 Kiesspüler mit Achsenantrieb\\, ein Trichter\\, eine Kiste\\, sowie fließendes Wasser benötigt. \n"..

@@ -26,6 +26,8 @@ local SRC_INV_SIZE = 8
 local STANDBY_TICKS = 3
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 4
+local FILTER_ITEM_LIMIT_PER_STACK = 12
+local FILTER_ITEM_LIMIT = 36
 
 local INFO = [[Turn port on/off or read its state: command = 'port', payload = red/green/blue/yellow{=on/off}]]
 
@@ -42,6 +44,8 @@ local function filter_settings(pos)
 	local filter = minetest.deserialize(meta:get_string("filter")) or {false,false,false,false}
 	local ItemFilter = {}  -- {<item:name> = {dir,...}]
 	local OpenPorts = {}  -- {dir, ...}
+	local counter = 0 -- counts total item number in filter configuration
+
 	-- collect all filter settings
 	for idx,slot in ipairs(SlotColors) do
 		if filter[idx] == true then
@@ -56,8 +60,12 @@ local function filter_settings(pos)
 						if not ItemFilter[name] then
 							ItemFilter[name] = {}
 						end
-						for _ = 1,stack:get_count() do
+						for _ = 1, math.min(FILTER_ITEM_LIMIT_PER_STACK, stack:get_count()) do
+							if counter > FILTER_ITEM_LIMIT then
+								break
+							end
 							table.insert(ItemFilter[name], out_dir)
+							counter = counter + 1
 						end
 					end
 				end
@@ -160,6 +168,20 @@ local function formspec(self, pos, nvm)
 	end
 end
 
+local function get_total_filter_items_number(pos, except_listname, except_index)
+	local inv = M(pos):get_inventory()
+	local total = 0
+	for _, listname in ipairs(SlotColors) do
+		local list = inv:get_list(listname)
+		for idx, stack in ipairs(list) do
+			if not (listname == except_listname and idx == except_index) then
+				total = total + stack:get_count()
+			end
+		end
+	end
+	return total
+end
+
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	local inv = M(pos):get_inventory()
 	local list = inv:get_list(listname)
@@ -172,6 +194,8 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 		return stack:get_count()
 	else
 		stack:add_item(list[index])
+		local max_items_to_limit = FILTER_ITEM_LIMIT - get_total_filter_items_number(pos, listname, index)
+		stack:set_count(math.min(FILTER_ITEM_LIMIT_PER_STACK, stack:get_count(), max_items_to_limit))
 		inv:set_stack(listname, index, stack)
 		return 0
 	end
@@ -201,12 +225,16 @@ local function allow_metadata_inventory_move(pos, from_list, from_index, to_list
 	local stack = inv:get_stack(from_list, from_index)
 
 	if from_list == "src" and to_list ~= "src" then
-		stack:add_item(to_list[to_index])
+		stack:add_item(inv:get_stack(to_list, to_index))
+		local max_items_to_limit = FILTER_ITEM_LIMIT - get_total_filter_items_number(pos, to_list, to_index)
+		stack:set_count(math.min(FILTER_ITEM_LIMIT_PER_STACK, stack:get_count(), max_items_to_limit))
 		inv:set_stack(to_list, to_index, stack)
 		return 0
 	elseif from_list ~= "src" and to_list == "src" then
 		inv:set_stack(from_list, from_index, nil)
 		return 0
+	elseif from_list ~= "src" and to_list ~= "src" then
+		return math.min(stack:get_count(), FILTER_ITEM_LIMIT_PER_STACK - inv:get_stack(to_list, to_index):get_count())
 	else
 		return stack:get_count()
 	end

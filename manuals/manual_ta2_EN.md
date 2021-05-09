@@ -137,6 +137,8 @@ If the same item is configured multiple times in one filter, the long term distr
 
 Please note that the distribution is a probabilistic process. This means that the distribution rations won't be matched exactly, but only in the long term.
 
+The maximum stack size in the filters is 12; in total, not more than 36 items can be configured.
+
 [ta2_distributor|image]
 
 
