@@ -605,6 +605,18 @@ function techage.lua_ctlr.get_input(number, input)
 	return "off"
 end	
 
+function techage.lua_ctlr.get_next_input(number)
+	if Cache[number] and Cache[number].inputs then
+		local num, state = next(Cache[number].inputs or {})
+		if num ~= "msg" and num ~= "term" then
+			if num then
+				Cache[number].inputs[num] = nil
+			end
+			return num, state
+		end
+	end
+end	
+
 -- used for Terminal commands
 function techage.lua_ctlr.get_command(number)
 	if Cache[number] and Cache[number].inputs then

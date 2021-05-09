@@ -38,6 +38,18 @@ techage.lua_ctlr.register_function("get_input", {
 		" The device has to be connected with the controller."
 })
 
+techage.lua_ctlr.register_function("get_next_input", {
+	cmnd = function(self)
+		return techage.lua_ctlr.get_next_input(self.meta.number)
+	end,
+	help = ' $get_next_input()  --> number and state\n'..
+		' Similar to $get_input(), but provides the\n'..
+		' input node number in addition.\n'..
+		' example: num, state = $get_next_input()\n'..
+		' This function deletes the input and returns\n'..
+		' nil if no further input value is available.'
+})
+
 techage.lua_ctlr.register_function("read_data", {
 	cmnd = function(self, num, cmnd, data)
 		num = tostring(num or "")

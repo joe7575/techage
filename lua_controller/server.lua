@@ -93,7 +93,7 @@ minetest.register_node("techage:ta4_server", {
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 
-on_timer = function(pos, elasped)
+	on_timer = function(pos, elasped)
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
 		nvm.size = nvm.size or 0
@@ -118,6 +118,111 @@ minetest.register_craft({
 		{"techage:ta4_ramchip", "default:copper_ingot", "techage:ta4_ramchip"},
 		{"techage:ta4_ramchip", "techage:ta4_wlanchip", "techage:ta4_ramchip"},
 	},
+})
+
+minetest.register_node("techage:ta4_server2", {
+	description = "TA4 Lua Rack Server",
+	tiles = {
+		-- up, down, right, left, back, front
+		"techage_server2_top.png",
+		"techage_server2_top.png",
+		"techage_server2_side.png",
+		"techage_server2_side.png^[transformFX",
+		"techage_server2_back.png",
+		{
+			image = "techage_server2_front.png",
+			backface_culling = false,
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 32,
+				aspect_h = 32,
+				length = 1,
+			},
+		},
+	},
+
+	drawtype = "nodebox",
+	node_box = {
+        type = "fixed",
+        fixed = {
+            {-0.5, -0.5, -0.5, -0.4375, -0.4375, 0.5},
+            {-0.5, 0.4375, -0.5, -0.4375, 0.5, 0.5},
+            {0.4375, -0.5, -0.5, 0.5, -0.4375, 0.5},
+            {0.4375, 0.4375, -0.5, 0.5, 0.5, 0.5},
+            {-0.5, -0.5, -0.375, -0.4375, 0.5, -0.3125},
+            {-0.5, -0.5, 0.3125, -0.4375, 0.5, 0.375},
+            {0.4375, -0.5, 0.3125, 0.5, 0.5, 0.375},
+            {0.4375, -0.5, -0.375, 0.5, 0.5, -0.3125},
+            {-0.4375, -0.3125, -0.4375, 0.4375, 0.3125, 0.4375},
+            {0.4375, -0.0625, -0.4375, 0.5, 0, 0.4375},
+            {-0.5, -0.0625, -0.4375, -0.4375, 0, 0.4375},
+        }
+    },
+	
+	after_place_node = function(pos, placer)
+		local meta = M(pos)
+		local nvm = techage.get_nvm(pos)
+		local number = techage.add_node(pos, "techage:ta4_server2")
+		meta:set_string("owner", placer:get_player_name())
+		meta:set_string("number", number)
+		meta:set_string("formspec", formspec(nvm))
+		nvm.size = 0
+		meta:set_string("infotext", "Server "..number..": ("..nvm.size.."/"..SERVER_CAPA..")")
+		minetest.get_node_timer(pos):start(20)
+	end,
+	
+	on_receive_fields = function(pos, formname, fields, player)
+		local meta = M(pos)
+		local nvm = techage.get_nvm(pos)
+		local owner = meta:get_string("owner")
+		if player:get_player_name() == owner then
+			if fields.names and fields.names ~= "" then
+				nvm.names = string.split(fields.names, " ")
+				meta:set_string("formspec", formspec(nvm))
+			end
+		end
+	end,
+	
+	on_dig = function(pos, node, puncher, pointed_thing)
+		if minetest.is_protected(pos, puncher:get_player_name()) then
+			return
+		end
+		techage.del_mem(pos)
+		minetest.node_dig(pos, node, puncher, pointed_thing)
+	end,
+		
+	after_dig_node = function(pos, oldnode, oldmetadata)
+		techage.remove_node(pos, oldnode, oldmetadata)
+	end,
+
+	on_timer = function(pos, elasped)
+		local meta = M(pos)
+		local nvm = techage.get_nvm(pos)
+		nvm.size = nvm.size or 0
+		local number = meta:get_string("number")
+		meta:set_string("infotext", "Server "..number..": ("..nvm.size.."/"..SERVER_CAPA..")")
+		return true
+	end,
+	
+	paramtype = "light",
+	sunlight_propagates = true,
+	use_texture_alpha = techage.CLIP,
+	paramtype2 = "facedir",
+	groups = {choppy=1, cracky=1, crumbly=1},
+	is_ground_content = false,
+	sounds = default.node_sound_stone_defaults(),
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "techage:ta4_server2",
+	recipe = {"techage:ta4_server"},
+})
+
+minetest.register_craft({
+	type = "shapeless",
+	output = "techage:ta4_server",
+	recipe = {"techage:ta4_server2"},
 })
 
 local function calc_size(v)
@@ -173,7 +278,7 @@ local function read_value(nvm, key)
 	return item
 end	
 
-techage.register_node({"techage:ta4_server"}, {
+techage.register_node({"techage:ta4_server", "techage:ta4_server2"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		return "unsupported"
 	end,

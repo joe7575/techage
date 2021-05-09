@@ -36,7 +36,8 @@ minetest.register_craft({
 		{"techage:clay_powder", "techage:aluminum_powder", ""},
 		{"techage:silver_sandstone_powder", "bucket:bucket_water", ""},
 		{"", "", ""},
-	}
+	},
+	replacements = {{"bucket:bucket_water", "bucket:bucket_empty"}},
 })
 
 minetest.register_craftitem("techage:ta4_furnace_ceramic", {

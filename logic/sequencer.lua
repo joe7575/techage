@@ -263,7 +263,11 @@ techage.register_node({"techage:ta3_sequencer"}, {
 		elseif topic == "off" then
 			-- do not stop immediately
 			local nvm = techage.get_nvm(pos)
-			nvm.endless = false
+			if not nvm.running then
+				nvm.endless = not (nvm.endless or false)
+			else
+				nvm.endless = false
+			end
 		else
 			return "unsupported"
 		end
