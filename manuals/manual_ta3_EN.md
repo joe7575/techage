@@ -709,7 +709,7 @@ The processing power is 6 items every 2 s.
 
 ### TA3 Distributor
 
-The function of the TA3 distributor corresponds to that of TA2 with another operating mode.
+The function of the TA3 distributor corresponds to that of TA2.
 The processing power is 12 items every 4 s.
 
 [ta3_distributor|image]

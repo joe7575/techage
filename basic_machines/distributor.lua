@@ -26,6 +26,8 @@ local SRC_INV_SIZE = 8
 local STANDBY_TICKS = 3
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 4
+local FILTER_ITEM_LIMIT_PER_STACK = 12
+local FILTER_ITEM_LIMIT = 36
 
 local INFO = [[Turn port on/off or read its state: command = 'port', payload = red/green/blue/yellow{=on/off}]]
 
@@ -35,19 +37,6 @@ local SlotColors = {"red", "green", "blue", "yellow"}
 local Num2Ascii = {"B", "L", "F", "R"} 
 local FilterCache = {} -- local cache for filter settings
 
--- Permutation table to improve distribution between ports (number of ports: 1-4)
--- Usage: permIdx[num_ports][math.random(1, #permIdx[num_ports])][idx]
-local permIdx = {
-	{ { 1 } },
-	{ { 1, 2 }, { 2, 1 } },
-	{ { 1, 2, 3 }, { 1, 3, 2 }, { 2, 1, 3 }, { 2, 3, 1 }, { 3, 1, 2 }, { 3, 2, 1 } },
-	{ { 1, 2, 3, 4 }, { 1, 2, 4, 3 }, { 1, 3, 2, 4 }, { 1, 3, 4, 2 }, { 1, 4, 2, 3 },
-	  { 1, 4, 3, 2 }, { 2, 1, 3, 4 }, { 2, 1, 4, 3 }, { 2, 3, 1, 4 }, { 2, 3, 4, 1 },
-	  { 2, 4, 1, 3 }, { 2, 4, 3, 1 }, { 3, 1, 2, 4 }, { 3, 1, 4, 2 }, { 3, 2, 1, 4 },
-	  { 3, 2, 4, 1 }, { 3, 4, 1, 2 }, { 3, 4, 2, 1 }, { 4, 1, 2, 3 }, { 4, 1, 3, 2 },
-	  { 4, 2, 1, 3 }, { 4, 2, 3, 1 }, { 4, 3, 1, 2 }, { 4, 3, 2, 1 }, }
-}
-
 local function filter_settings(pos)
 	local meta = M(pos)
 	local param2 = techage.get_node_lvm(pos).param2
@@ -55,6 +44,8 @@ local function filter_settings(pos)
 	local filter = minetest.deserialize(meta:get_string("filter")) or {false,false,false,false}
 	local ItemFilter = {}  -- {<item:name> = {dir,...}]
 	local OpenPorts = {}  -- {dir, ...}
+	local counter = 0 -- counts total item number in filter configuration
+
 	-- collect all filter settings
 	for idx,slot in ipairs(SlotColors) do
 		if filter[idx] == true then
@@ -69,7 +60,13 @@ local function filter_settings(pos)
 						if not ItemFilter[name] then
 							ItemFilter[name] = {}
 						end
-						table.insert(ItemFilter[name], out_dir)
+						for _ = 1, math.min(FILTER_ITEM_LIMIT_PER_STACK, stack:get_count()) do
+							if counter > FILTER_ITEM_LIMIT then
+								break
+							end
+							table.insert(ItemFilter[name], out_dir)
+							counter = counter + 1
+						end
 					end
 				end
 			end
@@ -171,6 +168,20 @@ local function formspec(self, pos, nvm)
 	end
 end
 
+local function get_total_filter_items_number(pos, except_listname, except_index)
+	local inv = M(pos):get_inventory()
+	local total = 0
+	for _, listname in ipairs(SlotColors) do
+		local list = inv:get_list(listname)
+		for idx, stack in ipairs(list) do
+			if not (listname == except_listname and idx == except_index) then
+				total = total + stack:get_count()
+			end
+		end
+	end
+	return total
+end
+
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	local inv = M(pos):get_inventory()
 	local list = inv:get_list(listname)
@@ -181,8 +192,10 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if listname == "src" then
 		CRD(pos).State:start_if_standby(pos)
 		return stack:get_count()
-	elseif list[index]:get_count() == 0 then
-		stack:set_count(1)
+	else
+		stack:add_item(list[index])
+		local max_items_to_limit = FILTER_ITEM_LIMIT - get_total_filter_items_number(pos, listname, index)
+		stack:set_count(math.min(FILTER_ITEM_LIMIT_PER_STACK, stack:get_count(), max_items_to_limit))
 		inv:set_stack(listname, index, stack)
 		return 0
 	end
@@ -197,7 +210,9 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 		return stack:get_count()
 	else
 		local inv = M(pos):get_inventory()
-		inv:set_stack(listname, index, nil)
+		local list = inv:get_list(listname)
+		list[index]:take_item(stack:get_count())
+		inv:set_stack(listname, index, list[index])
 		return 0
 	end
 end
@@ -209,17 +224,19 @@ local function allow_metadata_inventory_move(pos, from_list, from_index, to_list
 	local inv = minetest.get_meta(pos):get_inventory()
 	local stack = inv:get_stack(from_list, from_index)
 
-	if from_list == "src" and to_list ~= "src" and not inv:contains_item(to_list, {name = stack:get_name()}) then
-		stack:set_count(1)
+	if from_list == "src" and to_list ~= "src" then
+		stack:add_item(inv:get_stack(to_list, to_index))
+		local max_items_to_limit = FILTER_ITEM_LIMIT - get_total_filter_items_number(pos, to_list, to_index)
+		stack:set_count(math.min(FILTER_ITEM_LIMIT_PER_STACK, stack:get_count(), max_items_to_limit))
 		inv:set_stack(to_list, to_index, stack)
 		return 0
 	elseif from_list ~= "src" and to_list == "src" then
 		inv:set_stack(from_list, from_index, nil)
 		return 0
-	elseif not inv:contains_item(to_list, {name = stack:get_name()}) then
-		return 1
+	elseif from_list ~= "src" and to_list ~= "src" then
+		return math.min(stack:get_count(), FILTER_ITEM_LIMIT_PER_STACK - inv:get_stack(to_list, to_index):get_count())
 	else
-		return 0
+		return stack:get_count()
 	end
 end
 
@@ -240,17 +257,24 @@ local function tubelib2_on_update2(pos, outdir, tlib2, node)
 	end
 end
 
-local function push_item(pos, filter, itemstack, num_items, nvm)
+local function shuffle(list)
+	for i = #list, 2, -1 do
+		local j = math.random(i)
+		list[i], list[j] = list[j], list[i]
+	end
+	return list
+end
+
+local function push_item(pos, base_filter, itemstack, num_items, nvm)
+	local filter = shuffle(table.copy(base_filter))
 	local idx = 1
 	local num_pushed = 0
 	local num_ports = #filter
-	num_ports = techage.in_range(num_ports, 1, 4)
-	local randidx = permIdx[num_ports][math.random(1, #permIdx[num_ports])]
 	local amount = math.floor(math.max((num_items + 1) / num_ports, 1))
 	local num_of_trials = 0
 	while num_pushed < num_items and num_of_trials <= 8 do
 		num_of_trials = num_of_trials + 1
-		local push_dir = filter[randidx[idx]]
+		local push_dir = filter[idx]
 		local num_to_push = math.min(amount, num_items - num_pushed)
 		if techage.push_items(pos, push_dir, itemstack:peek_item(num_to_push)) then
 			num_pushed = num_pushed + num_to_push
@@ -282,11 +306,12 @@ local function distributing(pos, inv, crd, nvm)
 		local num_items = stack:get_count()
 		local num_to_push = math.min((nvm.num_items or crd.num_items) - sum_num_pushed, num_items)
 		local stack_to_push = stack:peek_item(num_to_push)
+		local filter = item_filter[item_name]
 		num_pushed = 0
 		
-		if item_filter[item_name] then
+		if filter and #filter > 0 then
 			-- Push items based on filter
-			num_pushed = push_item(pos, item_filter[item_name], stack_to_push, num_to_push, nvm)
+			num_pushed = push_item(pos, filter, stack_to_push, num_to_push, nvm)
 		elseif blocking_mode and #open_ports > 0 then
 			-- Push items based on open ports
 			num_pushed = push_item(pos, open_ports, stack_to_push, num_to_push, nvm)

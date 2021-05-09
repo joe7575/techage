@@ -132,6 +132,12 @@ Einstellbar ist die Betriebsart über die "blockiere" Checkbox.
 
 Der Verarbeitungsleistung eines TA2 Verteilers beträgt 4 Items alle 2 s, wobei der Verteiler dabei versucht, die 4 Items auf die offenen Ausgänge zu verteilen.
 
+Wird dasselbe Item in einem Filter mehrfach hinterlegt, so beeinflusst dies das langfristige Verteilungsverhältnis entsprechend.
+
+Bitte beachte, dass die Verteilung ein probabilistischer Vorgang ist, d.h. die Verhältnisse werden nicht exakt, sondern nur langfristig eingehalten.
+
+In den Filtern beträgt die maximale Stackgröße 12; insgesamt können höchstens 36 Items konfiguriert werden.
+
 [ta2_distributor|image]
 
 
