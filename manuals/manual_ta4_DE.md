@@ -196,9 +196,9 @@ Strom kann mittels Elektrolyse in Wasserstoff und Sauerstoff aufgespalten werden
 Damit können Stromspitzen oder ein Überangebot an Strom in Wasserstoff umgewandelt und so gespeichert werden.
 
 Im Spiel kann Strom mit Hilfe des Elektrolyseurs in Wasserstoff und Wasserstoff über die Brennstoffzelle wieder in Strom umgewandelt werden.
-Damit kann Strom (in Form von Wasserstoff) nicht nur in Tanks gelagert, sonder mit Hilfe von Gasflaschen auch mit Wagen (carts) transportiert werden.
+Damit kann Strom (in Form von Wasserstoff) nicht nur in Tanks gelagert, sonder mit dem Tankwagen auch transportiert werden.
 
-Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Von 100 Einheiten Strom kommen nach der Umwandlung in Wasserstoff und zurück nur 83 Einheiten Strom wieder raus.
+Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Von 100 Einheiten Strom kommen nach der Umwandlung in Wasserstoff und zurück nur 95 Einheiten Strom wieder raus.
 
 [ta4_hydrogen|image]
 
@@ -208,7 +208,7 @@ Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Vo
 Der Elektrolyseur wandelt Strom in Wasserstoff um.  
 Es muss von links mit Strom versorgt werden. Rechts kann Wasserstoff über Röhren und Pumpen entnommen werden.
 
-Der Elektrolyseur kann bis zu 30 ku an Strom aufnehmen und generiert dann alle 4 s ein Wasserstoff Item.
+Der Elektrolyseur kann bis zu 35 ku an Strom aufnehmen und generiert dann alle 4 s ein Wasserstoff Item.
 In den Elektrolyseur passen 200 Einheiten Wasserstoff.
 
 [ta4_electrolyzer|image]
@@ -219,7 +219,11 @@ In den Elektrolyseur passen 200 Einheiten Wasserstoff.
 Die Brennstoffzelle wandelt Wasserstoff in Strom um.  
 Sie muss von links per Pumpe mit Wasserstoff versorgt werden. Rechts ist der Stromanschluss.
 
-Die Brennstoffzelle kann bis zu 25 ku an Strom abgeben und benötigt dazu alle 4 s ein Wasserstoff Item.
+Die Brennstoffzelle kann bis zu 34 ku an Strom abgeben und benötigt dazu alle 4 s ein Wasserstoff Item.
+
+Normalerweise arbeitet die Brennstoffzelle als Generator der Kategorie 2 (wie auch anderen Speichersystemen).
+In diesem Fall können keine anderen Blöcke der Kategorie 2 wie der Akku-Block geladen werden.
+Über das Kontrollkästchen kann die Brennstoffzelle jedoch auch als Generator der Kategorie 1 eingesetzt werden.
 
 [ta4_fuelcell|image]
 

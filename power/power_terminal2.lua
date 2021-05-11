@@ -45,7 +45,8 @@ local Generators = {
 	S("Wind turbine"),
 	S("Accu Box"),
 	S("Energy storage"),
-	S("Fuel cell"),
+	S("Fuel cell cat. 1"),
+	S("Fuel cell cat. 2"),
 	S("Electrolyzer"),
 	S("TA2 Generator"),
 }
@@ -53,7 +54,8 @@ local Generators = {
 local Storage = {
 	[S("Accu Box")] = true,
 	[S("Energy storage")] = true,
-	[S("Fuel cell")] = true,
+	[S("Fuel cell cat. 1")] = true,
+	[S("Fuel cell cat. 2")] = true,
 	[S("Electrolyzer")] = true,
 }
 
@@ -64,8 +66,9 @@ local GeneratorPerformances = {
 	70,   -- S("Wind turbine")
 	10,   -- S("Accu Box")
 	60,   -- S("Energy storage")
-	25,   -- S("Fuel cell")
-	30,   -- S("Electrolyzer")
+	33,   -- S("Fuel cell cat. 1")
+	34,   -- S("Fuel cell cat. 2")
+	35,   -- S("Electrolyzer")
 	24,   -- S("TA2 Generator")
 }
 
@@ -202,10 +205,15 @@ local function calc_network_data_type(pos, nvm, gentype)
 		pow_max2, pow_curr2, num_nodes2 = consumer_data(netw.con2, nominal)
 		pow_stored1 = storage_load(netw.con2, Gentype2Maxvalue[gentype]).." %"
 		pow_stored2 = pow_stored1
-	elseif gentype == S("Fuel cell") then
+	elseif gentype == S("Fuel cell cat. 2") then
 		pow_max1, pow_curr1, num_nodes1 = generator_data(netw.gen2, nominal)
 		pow_max2, pow_curr2, num_nodes2 = 0, 0, 0
 		pow_stored1 = storage_load(netw.gen2, Gentype2Maxvalue[gentype]).." %"
+		pow_stored2 = "-"
+	elseif gentype == S("Fuel cell cat. 1") then
+		pow_max1, pow_curr1, num_nodes1 = generator_data(netw.gen1, nominal)
+		pow_max2, pow_curr2, num_nodes2 = 0, 0, 0
+		pow_stored1 = storage_load(netw.gen1, Gentype2Maxvalue[gentype]).." %"
 		pow_stored2 = "-"
 	elseif gentype == S("Electrolyzer") then
 		pow_max1, pow_curr1, num_nodes1 = 0, 0, 0
@@ -336,7 +344,7 @@ end
 local function formspec2(pos, mem)
 	local meta = M(pos)
 	local output = meta:get_string("output")
-	local command = mem.cmnd or ""
+	local command = mem.cmnd or "help"
 	output = minetest.formspec_escape(output)
 	output = output:gsub("\n", ",")
 	

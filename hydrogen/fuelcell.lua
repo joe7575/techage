@@ -24,9 +24,25 @@ local networks = techage.networks
 
 local CYCLE_TIME = 2
 local STANDBY_TICKS = 4
-local PWR_CAPA = 25
-local PWR_UNITS_PER_HYDROGEN_ITEM = 80
+local PWR_CAPA = 34
+local PWR_UNITS_PER_HYDROGEN_ITEM = 75
 local CAPACITY = 100
+
+local States = {}
+local STATE = function(pos) return States[techage.get_node_lvm(pos).name] end
+
+local function is_gen1(nvm)
+	if not nvm.running then
+		local is_gen1 = dump(nvm.is_gen1 or false)
+		return "checkbox[0.3,0.5;is_gen1;"..S("Cat. 1 generator")..";"..is_gen1.."]"..
+			"tooltip[0.3,0.5;1,1;"..S("If set, fuelcell will work\nas cat. 1 generator")..";#0C3D32;#FFFFFF]"
+	end
+	if nvm.is_gen1 then
+		return "label[0.5,0.7;"..S("Cat. 1 generator").."]"
+	else
+		return "label[0.5,0.7;"..S("Cat. 2 generator").."]"
+	end
+end
 
 local function formspec(self, pos, nvm)
 	local amount = (nvm.liquid and nvm.liquid.amount) or 0
@@ -46,6 +62,7 @@ local function formspec(self, pos, nvm)
 		"label[2.5,-0.1;"..minetest.colorize( "#000000", S("Fuel Cell")).."]"..
 		techage.item_image(0.5,2, lqd_name)..
 		arrow..
+		is_gen1(nvm)..
 		"image_button[2,2.5;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 		"tooltip[2,2.5;1,1;"..self:get_state_tooltip(nvm).."]"..
 		techage.power.formspec_label_bar(pos, 3.5, 0.8, S("Electricity"), PWR_CAPA, nvm.given)
@@ -71,7 +88,7 @@ local State = techage.NodeStates:new({
 	cycle_time = CYCLE_TIME,
 	standby_ticks = STANDBY_TICKS,
 	formspec_func = formspec,
-	infotext_name = S("TA4 Fuel Cell"),
+	infotext_name = S("TA4 Fuel Cell Gen2"),
 	start_node = start_node,
 	stop_node = stop_node,
 })
@@ -94,18 +111,19 @@ end
 -- converts hydrogen into power
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
+	local state = STATE(pos)
 	--print("fuelcell", nvm.running, nvm.given, nvm.num_pwr_units)
 	if has_hydrogen(nvm) then
 		local outdir = M(pos):get_int("outdir")
 		nvm.given = power.generator_alive(pos, Cable, CYCLE_TIME, outdir)
 		consuming(pos, nvm)
-		State:keep_running(pos, nvm, 1) -- TODO warum hier 1 und nicht COUNTDOWN_TICKS?
+		state:keep_running(pos, nvm, 1) -- TODO warum hier 1 und nicht COUNTDOWN_TICKS?
 	else
-		State:standby(pos, nvm)
+		state:standby(pos, nvm)
 		nvm.given = 0
 	end
 	if techage.is_activeformspec(pos) then
-		M(pos):set_string("formspec", formspec(State, pos, nvm))
+		M(pos):set_string("formspec", formspec(state, pos, nvm))
 	end
 	return true
 end
@@ -115,14 +133,26 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	local nvm = techage.get_nvm(pos)
-	State:state_button_event(pos, nvm, fields)
-	M(pos):set_string("formspec", formspec(State, pos, nvm))
+	if fields.is_gen1 then
+		nvm.is_gen1 = fields.is_gen1 == "true"
+		local node = minetest.get_node(pos)
+		if nvm.is_gen1 then
+			node.name = "techage:ta4_fuelcell2"
+		else
+			node.name = "techage:ta4_fuelcell"
+		end
+		minetest.swap_node(pos, node)
+		local outdir = M(pos):get_int("outdir")
+		techage.power.update_network(pos, outdir, Cable)
+	end
+	STATE(pos):state_button_event(pos, nvm, fields)
+	M(pos):set_string("formspec", formspec(STATE(pos), pos, nvm))
 end
 
 local function on_rightclick(pos, node, clicker)
 	local nvm = techage.get_nvm(pos)
 	techage.set_activeformspec(pos, clicker)
-	M(pos):set_string("formspec", formspec(State, pos, nvm))
+	M(pos):set_string("formspec", formspec(STATE(pos), pos, nvm))
 end
 
 local function after_place_node(pos)
@@ -130,7 +160,7 @@ local function after_place_node(pos)
 	nvm.running = false
 	nvm.num_pwr_units = 0
 	local number = techage.add_node(pos, "techage:ta4_fuelcell")
-	State:node_init(pos, nvm, number)
+	STATE(pos):node_init(pos, nvm, number)
 	local node = minetest.get_node(pos)
 	M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
 	Pipe:after_place_node(pos)
@@ -173,7 +203,7 @@ local liquid_def = {
 		local leftover = liquid.srv_put(pos, indir, name, amount)
 		if techage.is_activeformspec(pos) then
 			local nvm = techage.get_nvm(pos)
-			M(pos):set_string("formspec", formspec(State, pos, nvm))
+			M(pos):set_string("formspec", formspec(STATE(pos), pos, nvm))
 		end
 		return leftover
 	end,
@@ -181,7 +211,7 @@ local liquid_def = {
 		amount, name = liquid.srv_take(pos, indir, name, amount)
 		if techage.is_activeformspec(pos) then
 			local nvm = techage.get_nvm(pos)
-			M(pos):set_string("formspec", formspec(State, pos, nvm))
+			M(pos):set_string("formspec", formspec(STATE(pos), pos, nvm))
 		end
 		return amount, name
 	end
@@ -269,9 +299,126 @@ minetest.register_node("techage:ta4_fuelcell_on", {
 	light_source = 6,
 })
 
-Cable:add_secondary_node_names({"techage:ta4_fuelcell", "techage:ta4_fuelcell_on"})
-Pipe:add_secondary_node_names({"techage:ta4_fuelcell", "techage:ta4_fuelcell_on"})
-techage.register_node({"techage:ta4_fuelcell", "techage:ta4_fuelcell_on"}, {
+-------------------------------------------------------------------------------
+-- Gen1 fuellcell
+-------------------------------------------------------------------------------
+local State2 = techage.NodeStates:new({
+	node_name_passive = "techage:ta4_fuelcell2",
+	node_name_active = "techage:ta4_fuelcell2_on",
+	cycle_time = CYCLE_TIME,
+	standby_ticks = STANDBY_TICKS,
+	formspec_func = formspec,
+	infotext_name = S("TA4 Fuel Cell Gen1"),
+	start_node = start_node,
+	stop_node = stop_node,
+})
+
+local netw_def2 = {
+	pipe2 = {
+		sides = {L = 1}, -- Pipe connection sides
+		ntype = "tank",
+	},
+	ele1 = {
+		sides = {R = 1}, -- Cable connection sides
+		ntype = "gen1",
+		nominal = PWR_CAPA - 1, -- to be able to distiguish between cat1 and 2
+	},
+}
+
+minetest.register_node("techage:ta4_fuelcell2", {
+	description = S("TA4 Fuel Cell"),
+	tiles = {
+		-- up, down, right, left, back, front
+		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_arrow.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_hole_electric.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_hole_pipe.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_fuelcell.png^techage_appl_ctrl_unit.png^[transformFX",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_fuelcell.png^techage_appl_ctrl_unit.png",
+	},
+
+	can_dig = function(pos, player)
+		if minetest.is_protected(pos, player:get_player_name()) then
+			return false
+		end
+		return liquid.is_empty(pos)
+	end,
+	
+	after_place_node = after_place_node,
+	after_dig_node = after_dig_node,
+	tubelib2_on_update2 = tubelib2_on_update2,
+	on_punch = liquid.on_punch,
+	networks = netw_def2,
+	liquid = liquid_def,
+	on_receive_fields = on_receive_fields,
+	on_timer = node_timer,
+	on_rightclick = on_rightclick,
+	
+	paramtype2 = "facedir",
+	groups = {cracky=2, crumbly=2, choppy=2, not_in_creative_inventory=1},
+	on_rotate = screwdriver.disallow,
+	is_ground_content = false,
+	drop = "techage:ta4_fuelcell",
+})
+
+minetest.register_node("techage:ta4_fuelcell2_on", {
+	description = S("TA4 Fuel Cell"),
+	tiles = {
+		-- up, down, right, left, back, front
+		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_arrow.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_hole_electric.png",
+		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_hole_pipe.png",
+		{
+			image = "techage_filling4_ta4.png^techage_frame4_ta4.png^techage_appl_fuelcell4.png^techage_appl_ctrl_unit4.png^[transformFX",
+			backface_culling = false,
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 32,
+				aspect_h = 32,
+				length = 0.8,
+			},
+		},
+		{
+			image = "techage_filling4_ta4.png^techage_frame4_ta4.png^techage_appl_fuelcell4.png^techage_appl_ctrl_unit4.png",
+			backface_culling = false,
+			animation = {
+				type = "vertical_frames",
+				aspect_w = 32,
+				aspect_h = 32,
+				length = 0.8,
+			},
+		},
+	},
+
+	tubelib2_on_update2 = tubelib2_on_update2,
+	networks = netw_def2,
+	liquid = liquid_def,
+	on_receive_fields = on_receive_fields,
+	on_punch = liquid.on_punch,
+	on_timer = node_timer,
+	on_rightclick = on_rightclick,
+
+	paramtype2 = "facedir",
+	groups = {not_in_creative_inventory=1},
+	on_rotate = screwdriver.disallow,
+	is_ground_content = false,
+	diggable = false,
+	paramtype = "light",
+	light_source = 6,
+})
+
+States["techage:ta4_fuelcell"] = State
+States["techage:ta4_fuelcell_on"] = State
+States["techage:ta4_fuelcell2"] = State2
+States["techage:ta4_fuelcell2_on"] = State2
+
+Cable:add_secondary_node_names({"techage:ta4_fuelcell", "techage:ta4_fuelcell_on", 
+		"techage:ta4_fuelcell2", "techage:ta4_fuelcell2_on"})
+Pipe:add_secondary_node_names({"techage:ta4_fuelcell", "techage:ta4_fuelcell_on", 
+		"techage:ta4_fuelcell2", "techage:ta4_fuelcell2_on"})
+techage.register_node({"techage:ta4_fuelcell", "techage:ta4_fuelcell_on", 
+		"techage:ta4_fuelcell2", "techage:ta4_fuelcell2_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		if topic == "load" then
@@ -279,7 +426,7 @@ techage.register_node({"techage:ta4_fuelcell", "techage:ta4_fuelcell_on"}, {
 		elseif topic == "delivered" then
 			return math.floor((nvm.given or 0) + 0.5)
 		else
-			return State:on_receive_message(pos, topic, payload)
+			return STATE(pos):on_receive_message(pos, topic, payload)
 		end
 	end,
 })	
@@ -292,4 +439,3 @@ minetest.register_craft({
 		{'default:steel_ingot', "techage:ta4_wlanchip", 'default:steel_ingot'},
 	},
 })
-

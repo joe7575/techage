@@ -4,16 +4,36 @@
 
 ### akkubox.lua ###
 
-TA3 Akku Box=
 TA3 Accu Box=
+TA3 Akku Box=
+
+### akkubox.lua ###
+### battery.lua ###
+
+Load=
+
+### akkubox.lua ###
+### electrolyzer.lua ###
+### fuelcell.lua ###
+### generator.lua ###
+### heatexchanger2.lua ###
+### tiny_generator.lua ###
+
+Electricity=
 
 ### aluminium.lua ###
 
-Gibbsite Powder=
 Aluminum=
+Gibbsite Powder=
 Red Mud=
 Red Mud Barrel=
 Red Mud Canister=
+
+### assemble.lua ###
+### firebox_lib.lua ###
+
+[TA] Area is protected!=
+[TA] Not enough space!=
 
 ### autocrafter.lua ###
 
@@ -26,53 +46,48 @@ TA2 Power Generator: Overload fault?@n(restart with right-click)=
 
 ### baborium.lua ###
 
-Baborium Ore=
-Baborium Lump=
 Baborium Ingot=
+Baborium Lump=
+Baborium Ore=
 
 ### barrel.lua ###
 
-Water=
-Water Barrel=
+Gas Cylinder Large=
+Gas Cylinder Small=
 River Water Barrel=
-empty=
 TA Empty Barrel=
 TA3 Canister=
-Gas Cylinder Small=
-Gas Cylinder Large=
+Water=
+Water Barrel=
+empty=
 
 ### basalt.lua ###
 
-Basalt Stone=
 Basalt Cobble=
-Basalt Stone Brick=
-Basalt Stone Block=
-Basalt Gravel=
-Sieved Basalt Gravel=
 Basalt Glass=
 Basalt Glass 2=
 Basalt Glass Thin=
 Basalt Glass Thin 2=
 Basalt Glass Thin XL=
 Basalt Glass Thin XL 2=
+Basalt Gravel=
+Basalt Stone=
+Basalt Stone Block=
+Basalt Stone Brick=
+Sieved Basalt Gravel=
 
 ### battery.lua ###
 
-Digtron Battery=
-Coal Equivalents=
 Battery=
-
-### battery.lua ###
-### akkubox.lua ###
-
-Load=
+Coal Equivalents=
+Digtron Battery=
 
 ### bauxit.lua ###
 
-Bauxite Stone=
 Bauxite Cobblestone=
 Bauxite Gravel=
 Bauxite Powder=
+Bauxite Stone=
 
 ### blackhole.lua ###
 
@@ -81,8 +96,8 @@ TechAge Black Hole (let items and liquids disappear)=
 
 ### boiler.lua ###
 
-TA2 Boiler Top=
 TA2 Boiler Base=
+TA2 Boiler Top=
 
 ### boiler_base.lua ###
 
@@ -90,8 +105,8 @@ TA3 Boiler Base=
 
 ### boiler_lib.lua ###
 
-Water Boiler=
 To add water punch@nthe boiler@nwith a water bucket=
+Water Boiler=
 water temperature=
 
 ### boiler_top.lua ###
@@ -106,6 +121,26 @@ TA3 Booster=
 
 TA3 Button/Switch=
 TA4 Button/Switch=
+
+### button.lua ###
+### cart_detector.lua ###
+### detector.lua ###
+### lua_logic.lua ###
+### mesecons_converter.lua ###
+### node_detector.lua ###
+### player_detector.lua ###
+### repeater.lua ###
+
+Insert destination node number(s)=
+
+### button.lua ###
+### chest.lua ###
+### detector.lua ###
+### doorcontroller.lua ###
+### mesecons_converter.lua ###
+### repeater.lua ###
+
+Save=
 
 ### cart_detector.lua ###
 
@@ -142,11 +177,11 @@ TA1 Charcoal=
 
 ### chest.lua ###
 
-TA2 Protected Chest=
-TA3 Protected Chest=
+Allow public access to the chest=
 Inventory,Pre-Assignment,Config=
 Node label:=
-Allow public access to the chest=
+TA2 Protected Chest=
+TA3 Protected Chest=
 TA4 Protected Chest=
 
 ### chest_cart.lua ###
@@ -159,8 +194,8 @@ Ash=
 
 ### collector.lua ###
 
-Node numbers to read the states from=
 Node number to send the events to=
+Node numbers to read the states from=
 Send an event if state is equal or larger than=
 TA4 State Collector=
 
@@ -181,47 +216,27 @@ TA2 Cylinder=
 TA3 Detector=
 TA4 Detector=
 
-### detector.lua ###
-### doorcontroller.lua ###
-### button.lua ###
-### repeater.lua ###
-### chest.lua ###
-### mesecons_converter.lua ###
-
-Save=
-
-### detector.lua ###
-### lua_logic.lua ###
-### node_detector.lua ###
-### button.lua ###
-### cart_detector.lua ###
-### player_detector.lua ###
-### repeater.lua ###
-### mesecons_converter.lua ###
-
-Insert destination node number(s)=
-
 ### display.lua ###
 
-TA4 Display=
 Display no: =
+TA4 Display=
 TA4 Display XL=
 
 ### distiller.lua ###
 
-TA3 Distillation Tower Base=
 TA3 Distillation Tower 1=
 TA3 Distillation Tower 2=
 TA3 Distillation Tower 3=
 TA3 Distillation Tower 4=
+TA3 Distillation Tower Base=
 
 ### distributor.lua ###
 
-blocking mode=
 Block configured items for open ports=
-Input=
 Distributor=
 High Performance Distributor=
+Input=
+blocking mode=
 
 ### doorblock.lua ###
 
@@ -234,29 +249,29 @@ TA3 Door Controller=
 
 ### doorcontroller2.lua ###
 
-Ctrl,Inv=
-Record=
-Done=
-Set=
-Remove=
-with door sound=
-TA3 Door Controller II=
-Recording...=
-Click on all the blocks that are part of the door/gate=
-block positions are stored.=
 Blocks are back=
 Blocks are disappeared=
+Click on all the blocks that are part of the door/gate=
+Ctrl,Inv=
+Done=
+Record=
+Recording...=
+Remove=
+Set=
+TA3 Door Controller II=
+block positions are stored.=
+with door sound=
 
 ### drillbox.lua ###
 
 Build derrick=
-Drill Bit=
 Depth=
-Remove derrick=
-Drill bits missing=
+Drill Bit=
 Drill area is protected=
-item output blocked=
+Drill bits missing=
 Oil Drill Box=
+Remove derrick=
+item output blocked=
 
 ### drive_axle.lua ###
 
@@ -279,10 +294,10 @@ Electrolyzer=
 ### electronic.lua ###
 
 TA3 Vacuum Tube=
+TA4 LEDs=
+TA4 RAM Chip=
 TA4 WLAN Chip=
 WLAN Chip=
-TA4 RAM Chip=
-TA4 LEDs=
 
 ### electronic_fab.lua ###
 
@@ -299,10 +314,10 @@ Epoxide Resin Canister=
 
 ### explore.lua ###
 
-depth=
 Oil=
-TA3 Oil Storage=
 TA3 Oil Explorer=
+TA3 Oil Storage=
+depth=
 
 ### filler.lua ###
 
@@ -312,45 +327,51 @@ TA Liquid Filler=
 ### firebox.lua ###
 
 TA2 Firebox=
+TA3 Coal Power Station Firebox=
 TA3 Furnace Oil Burner=
 TA3 Power Station Firebox=
-TA3 Coal Power Station Firebox=
 
 ### firebox_lib.lua ###
 
 Firebox=
-
-### firebox_lib.lua ###
-### assemble.lua ###
-
-[TA] Area is protected!=
-[TA] Not enough space!=
 
 ### flywheel.lua ###
 
 Flywheel=
 TA2 Flywheel=
 
+### flywheel.lua ###
+### generator.lua ###
+### solarcell.lua ###
+### source.lua ###
+
+power=
+
 ### forceload.lua ###
 
-List of your Forceload Blocks:=
-loaded=
-Punch the block to make the area visible.=
 Area already loaded or max. number of Forceload Blocks reached!=
+List of your Forceload Blocks:=
+Priv missing=
+Punch the block to make the area visible.=
+Show all forceload blocks in a 64x64x64 range=
 Techage Forceload Block=
 Techage Forceload Tile=
-Show all forceload blocks in a 64x64x64 range=
-Priv missing=
+loaded=
 
 ### fuel_lib.lua ###
 
-To add fuel punch@nthis block@nwith a fuel container=
 Fuel Menu=
+To add fuel punch@nthis block@nwith a fuel container=
 
 ### fuelcell.lua ###
 
+Cat. 1 generator=
+Cat. 2 generator=
 Fuel Cell=
+If set, fuelcell will work@nas cat. 1 generator=
 TA4 Fuel Cell=
+TA4 Fuel Cell Gen1=
+TA4 Fuel Cell Gen2=
 
 ### fuelcellstack.lua ###
 
@@ -358,9 +379,9 @@ TA4 Fuel Cell Stack=
 
 ### furnace_top.lua ###
 
+Furnace Top=
 Outp=
 no fuel or no power=
-Furnace Top=
 
 ### gateblock.lua ###
 
@@ -373,9 +394,9 @@ TA2 Gearbox=
 ### generator.lua ###
 
 Generator=
-storage empty?=
-TA4 Generator=
 TA3 Generator=
+TA4 Generator=
+storage empty?=
 
 ### gravelrinser.lua ###
 
@@ -384,10 +405,10 @@ Rinsing=
 
 ### gravelsieve.lua ###
 
-TA1 Gravel Sieve=
-Sieved Gravel=
 Compressed Gravel=
 Gravel Sieve=
+Sieved Gravel=
+TA1 Gravel Sieve=
 TA2 Gravel Sieve=
 TA3 Gravel Sieve=
 TA4 Gravel Sieve=
@@ -404,18 +425,18 @@ TA4 LED Grow Light=
 ### guide.lua ###
 
 No plan available=
-Top view=
-Side view=
 Plan=
+Side view=
+Top view=
 
 ### hammer.lua ###
 
-TA1 Stone Hammer (smash stone to gravel)=
 TA1 Bronze Hammer (smash stone to gravel)=
-TA1 Steel Hammer (smash stone to gravel)=
-TA1 Mese Hammer (smash stone to gravel)=
 TA1 Diamond Hammer (smash stone to gravel)=
 TA1 Meridium Hammer (smash stone to gravel)=
+TA1 Mese Hammer (smash stone to gravel)=
+TA1 Steel Hammer (smash stone to gravel)=
+TA1 Stone Hammer (smash stone to gravel)=
 
 ### heater.lua ###
 
@@ -424,20 +445,20 @@ TA4 Furnace Heater=
 ### heatexchanger1.lua ###
 
 TA4 Heat Exchanger 1=
-wrong storage diameter=
 inlet/pipe error=
+wrong storage diameter=
+
+### heatexchanger1.lua ###
+### heatexchanger2.lua ###
+
+did you check the plan?=
 
 ### heatexchanger2.lua ###
 
 Heat Exchanger=
-Thermal=
 TA4 Heat Exchanger=
 TA4 Heat Exchanger 2=
-
-### heatexchanger2.lua ###
-### heatexchanger1.lua ###
-
-did you check the plan?=
+Thermal=
 
 ### heatexchanger3.lua ###
 
@@ -445,9 +466,9 @@ TA4 Heat Exchanger 3=
 
 ### hydrogen.lua ###
 
-TA4 Hydrogen=
-Hydrogen Cylinder Small=
 Hydrogen Cylinder Large=
+Hydrogen Cylinder Small=
+TA4 Hydrogen=
 
 ### industriallamp1.lua ###
 
@@ -472,8 +493,8 @@ TA4 Pipe Inlet=
 ### inverter.lua ###
 
 Inverter=
-Power DC=
 Power AC=
+Power DC=
 TA4 Solar Inverter=
 
 ### junctionbox.lua ###
@@ -482,20 +503,25 @@ TA Electric Junction Box=
 
 ### lampholder.lua ###
 
-TA Lamp Holder White=
-TA Lamp Holder Aspen=
 TA Lamp Holder Acacia=
 TA Lamp Holder Apple=
+TA Lamp Holder Aspen=
 TA Lamp Holder Copper=
 TA Lamp Holder Gold=
+TA Lamp Holder White=
 
 ### laser.lua ###
 
+Laser beam error!=
 TA4 Laser Beam Emitter=
+TA4 Laser Beam Receiver=
 Valid destination positions:=
 to=
-Laser beam error!=
-TA4 Laser Beam Receiver=
+
+### lib.lua ###
+### sensorchest.lua ###
+
+connected with=
 
 ### lighter.lua ###
 
@@ -503,14 +529,14 @@ TA1 Lighter=
 
 ### liquid_lib.lua ###
 
-To add liquids punch@nthe tank@nwith a liquid container=
-Liquid Tank=
 Allow public access to the tank=
+Liquid Tank=
+To add liquids punch@nthe tank@nwith a liquid container=
 
 ### liquid_pipe.lua ###
 
-TA Pipe=
 TA Junction Pipe=
+TA Pipe=
 
 ### liquidsampler.lua ###
 
@@ -523,32 +549,32 @@ no usable water=
 
 ### logic_block.lua ###
 
-Send an 'on'/'off' command if the@nexpression becomes true.@n=
-@nRule:@n<output> @= on/off if <input-expression> is true@n=
-@n<output> is the block number to which the@ncommand should be sent.@n=
-@n<input-expression> is a boolean expression@nwhere input numbers are evaluated.@n=
-@nExamples:@n1234 @=@= on@n1234 @=@= off@n1234 @=@= on and 2345 @=@= off@n2345 ~@= 3456@n=
-@nValid operators:@nand   or   on   off   me   @=@=   ~@=   (   )@n=
-'~@=' means: not equal@n=
 'me' has to be used for the own block number.@n=
+'~@=' means: not equal@n=
+@n<input-expression> is a boolean expression@nwhere input numbers are evaluated.@n=
+@n<output> is the block number to which the@ncommand should be sent.@n=
 @nAll rules are checked with each received@ncommand.=
+@nExamples:@n1234 @=@= on@n1234 @=@= off@n1234 @=@= on and 2345 @=@= off@n2345 ~@= 3456@n=
+@nRule:@n<output> @= on/off if <input-expression> is true@n=
 @nThe internal processing time for all@ncommands is 100 ms.=
-Rules=
-Help=
+@nValid operators:@nand   or   on   off   me   @=@=   ~@=   (   )@n=
 Blocking Time=
+Help=
 Inputs=
 Outputs=
+Rules=
+Send an 'on'/'off' command if the@nexpression becomes true.@n=
 Syntax=
 
 ### logic_block.lua ###
 ### lua_logic.lua ###
 
-Update=
 TA3 Logic Block=
+Update=
 
 ### logic_block.lua ###
-### power_terminal2.lua ###
 ### lua_logic.lua ###
+### power_terminal2.lua ###
 
 Store=
 
@@ -560,22 +586,27 @@ Lye Canister=
 
 ### meltingpot.lua ###
 
-Menu,Recipes=
-Menu=
-Melting Guide=
 Heat=
+Melting Guide=
 Melting Pot active (heat@==
 Melting Pot inactive (heat@==
-TA1 Melting Pot=
 Melting Pot inactive (heat@=0)=
-TA1 Melting=
+Menu=
+Menu,Recipes=
 TA1 Burning=
+TA1 Melting=
+TA1 Melting Pot=
+
+### meltingpot.lua ###
+### repairkit.lua ###
+
+Time=
 
 ### meridium.lua ###
 
+Meridium Axe=
 Meridium Pickaxe=
 Meridium Shovel=
-Meridium Axe=
 Meridium Sword=
 
 ### mesecons_converter.lua ###
@@ -588,11 +619,11 @@ TA4 Streetlamp Solar Cell=
 
 ### node_detector.lua ###
 
-added=
-removed=
-added or removed=
 Send signal if nodes have been:=
 TA3 Node Detector=
+added=
+added or removed=
+removed=
 
 ### nodes.lua ###
 
@@ -600,8 +631,8 @@ TechAge Gravel=
 
 ### oil.lua ###
 
-Oil Source=
 Flowing Oil=
+Oil Source=
 TA3 Oil Barrel=
 TA3 Oil Canister=
 
@@ -611,21 +642,21 @@ TA3 Power Station Oil Burner=
 
 ### petroleum.lua ###
 
-TA3 Bitumen=
-TA3 Fuel Oil=
-TA3 Naphtha=
-TA3 Gasoline=
-TA3 Propane=
-Propane Cylinder Small=
 Propane Cylinder Large=
+Propane Cylinder Small=
+TA3 Bitumen=
 TA3 Bitumen Barrel=
-TA3 Fuel Oil Barrel=
-TA3 Naphtha Barrel=
-TA3 Gasoline Barrel=
 TA3 Bitumen Canister=
+TA3 Fuel Oil=
+TA3 Fuel Oil Barrel=
 TA3 Fuel Oil Canister=
-TA3 Naphtha Canister=
+TA3 Gasoline=
+TA3 Gasoline Barrel=
 TA3 Gasoline Canister=
+TA3 Naphtha=
+TA3 Naphtha Barrel=
+TA3 Naphtha Canister=
+TA3 Propane=
 
 ### pillar.lua ###
 
@@ -649,11 +680,11 @@ TA4 Player Detector=
 
 ### powder.lua ###
 
+Aluminum Powder=
+Clay Powder=
+Iron Powder=
 Leave Powder=
 Needle Powder=
-Iron Powder=
-Clay Powder=
-Aluminum Powder=
 Silver Sandstone Powder=
 
 ### power2axle.lua ###
@@ -664,60 +695,61 @@ TA3 Electric Motor: Overload fault?@n(restart with right-click)=
 ### power_line.lua ###
 
 TA Power Line=
-TA Power Pole Top 2 (for landlines)=
-TA Power Pole Top (for up to 6 connections)=
 TA Power Pole=
+TA Power Pole Top (for up to 6 connections)=
+TA Power Pole Top 2 (for landlines)=
 
 ### power_terminal.lua ###
 
-Number of all nodes=
-No network or active generator available!=
-With %u of a maximum of %u blocks you are almost at the limit!=
-The network is overloaded!=
-The network load is almost at the limit!=
+Active:=
+All nodes:=
+Consum. 1=
+Consum. 2=
 Genera. 1=
 Genera. 2=
-Consum. 2=
-Consum. 1=
-All nodes:=
-Turned on:=
-Active:=
 In use:=
+No network or active generator available!=
+Number of all nodes=
 TA3 Power Terminal Old=
+The network is overloaded!=
+The network load is almost at the limit!=
+Turned on:=
+With %u of a maximum of %u blocks you are almost at the limit!=
 
-### power_terminal2.lua ###
-
-Power station=
-Tiny generator=
-Solar system=
-Wind turbine=
-Accu Box=
-Energy storage=
-Fuel cell=
-TA2 Generator=
-No power grid or running generator!=
-Probably too many consumers (=
-ku is needed=
-Number of power grid blocks=
-Max. needed power=
-To many blocks in the power grid!=
-Select type=
-Type=
-Output=
-Intake=
-Number blocks:=
-Maximum power:=
-Current power:=
-Energy stored:=
-Power grid total=
-Generators=
-Storage systems=
-TA3 Power Terminal=
-
-### power_terminal2.lua ###
 ### power_terminal.lua ###
+### power_terminal2.lua ###
 
 Network Data=
+
+### power_terminal2.lua ###
+
+Accu Box=
+Current power:=
+Energy storage=
+Energy stored:=
+Fuel cell cat. 1=
+Fuel cell cat. 2=
+Generators=
+Intake=
+Max. needed power=
+Maximum power:=
+No power grid or running generator!=
+Number blocks:=
+Number of power grid blocks=
+Output=
+Power grid total=
+Power station=
+Probably too many consumers (=
+Select type=
+Solar system=
+Storage systems=
+TA2 Generator=
+TA3 Power Terminal=
+Tiny generator=
+To many blocks in the power grid!=
+Type=
+Wind turbine=
+ku is needed=
 
 ### power_terminal2.lua ###
 ### terminal.lua ###
@@ -735,14 +767,14 @@ TA Power Switch Box=
 
 ### programmer.lua ###
 
-[TechAge Programmer] programmer reset=
-[TechAge Programmer] number=
+TechAge Programmer (right @= read number, left @= write numbers)=
+[TechAge Programmer] Error: invalid numbers!=
+[TechAge Programmer] Error: programmer not supported!=
 [TechAge Programmer] Unknown node on=
 [TechAge Programmer] foreign or unknown node!=
 [TechAge Programmer] node programmed!=
-[TechAge Programmer] Error: invalid numbers!=
-[TechAge Programmer] Error: programmer not supported!=
-TechAge Programmer (right @= read number, left @= write numbers)=
+[TechAge Programmer] number=
+[TechAge Programmer] programmer reset=
 
 ### protection.lua ###
 
@@ -755,42 +787,47 @@ TA4 Pump=
 
 ### pumpjack.lua ###
 
+Oil Pumpjack=
+Oil amount=
 Pumpjack=
 needs power=
-Oil amount=
 no oil=
-Oil Pumpjack=
 
 ### pusher.lua ###
 
-Pusher=
 Optionally configure@nthe pusher with one item=
+Pusher=
 
 ### quarry.lua ###
 
-Start level @= 0@nmeans the same level@nas the quarry is placed=
-Quarry=
-Start level=
 Digging depth=
 Hole size=
+Quarry=
+Start level=
+Start level @= 0@nmeans the same level@nas the quarry is placed=
 area is protected=
-inventory full=
 finished=
+inventory full=
 
 ### reboiler.lua ###
 
-TA3 Oil Reboiler: blocked=
 TA3 Oil Reboiler=
+TA3 Oil Reboiler: blocked=
 
 ### recipe_lib.lua ###
 
 Recipe=
 
+### recipe_lib.lua ###
+### ta4_reactor.lua ###
+
+Catalyst=
+
 ### recipes.lua ###
 
+Flint and Iron=
 TA1 Iron Ingot=
 [Bucket] Lava can only be placed below sea level!=
-Flint and Iron=
 
 ### recycler.lua ###
 
@@ -799,23 +836,18 @@ Recycler=
 ### redstone.lua ###
 
 Red Stone=
-Red Stone Brick=
 Red Stone Block=
+Red Stone Brick=
 
 ### repairkit.lua ###
 
-repaired=
 Biome=
-Position temperature=
 Node owner=
 Position=
-TechAge Repair Kit=
+Position temperature=
 TechAge Info Tool (use @= read status info)=
-
-### repairkit.lua ###
-### meltingpot.lua ###
-
-Time=
+TechAge Repair Kit=
+repaired=
 
 ### repeater.lua ###
 
@@ -823,22 +855,17 @@ TA3 Repeater=
 
 ### rotor.lua ###
 
-TA4 Wind Turbine=
 Nacelle is missing=
-TA4 Wind Turbine Nacelle=
 TA4 Carbon Fiber=
 TA4 Rotor Blade=
+TA4 Wind Turbine=
+TA4 Wind Turbine Nacelle=
 
 ### sensorchest.lua ###
 
 Allow public chest access=
 TA4 Sensor Chest=
 not connected=
-
-### sensorchest.lua ###
-### lib.lua ###
-
-connected with=
 
 ### sequencer.lua ###
 
@@ -848,8 +875,8 @@ stopped=
 ### signallamp.lua ###
 
 TA4 Wind Turbine Signal Lamp=
-TechAge Signal Lamp (can be colored)=
 TechAge Signal Lamp=
+TechAge Signal Lamp (can be colored)=
 
 ### silicon.lua ###
 
@@ -866,25 +893,18 @@ TA Lamp=
 
 ### solarcell.lua ###
 
-TA4 Solar Module=
-light=
 TA4 Solar Carrier Module=
 TA4 Solar Carrier Module B=
 TA4 Solar Carrier Module T=
-
-### solarcell.lua ###
-### source.lua ###
-### generator.lua ###
-### flywheel.lua ###
-
-power=
+TA4 Solar Module=
+light=
 
 ### source.lua ###
 
-Power Source=
 Axle Power Source=
-Steam Power Source=
 Ele Power Source=
+Power Source=
+Steam Power Source=
 
 ### steam_pipe.lua ###
 
@@ -901,34 +921,34 @@ TA Street Lamp=
 ### streetlamp2.lua ###
 
 TA4 LED Street Lamp=
-TA4 LED Street Lamp Pole=
 TA4 LED Street Lamp Arm=
+TA4 LED Street Lamp Pole=
 
 ### ta4_cable.lua ###
 
-TA4 Low Power Cable=
 TA4 Low Power Box=
+TA4 Low Power Cable=
 
 ### ta4_chest.lua ###
 
+Empty the slots always @nfrom right to left=
+Never completely empty the slots@nwith the pusher to keep the item assignment=
+Size=
 TA4 8x2000 Chest=
 Unlock=
 Unlock connected chest@nif all slots are below 2000=
-Size=
 keep assignment=
-Never completely empty the slots@nwith the pusher to keep the item assignment=
 right to left=
-Empty the slots always @nfrom right to left=
 
 ### ta4_doser.lua ###
 
 Doser=
+TA4 Doser=
+catalyst missing=
 reactor defect=
 reactor defect or no power=
-catalyst missing=
-wrong catalyst=
 reactor has no power=
-TA4 Doser=
+wrong catalyst=
 
 ### ta4_doser.lua ###
 ### ta4_reactor.lua ###
@@ -937,9 +957,9 @@ TA4 Reactor=
 
 ### ta4_injector.lua ###
 
-Switch to pull mode @nto pull items out of inventory slots @naccording the injector configuration=
-Injector=
 Configure up to 8 items @nto be pushed by the injector=
+Injector=
+Switch to pull mode @nto pull items out of inventory slots @naccording the injector configuration=
 pull mode=
 
 ### ta4_liquid_filter.lua ###
@@ -951,22 +971,22 @@ TA4 Liquid Filter Sink=
 
 TA4 Reactor Filler Pipe=
 
-### ta4_reactor.lua ###
-### recipe_lib.lua ###
-
-Catalyst=
-
 ### ta4_stand.lua ###
 
-on=
+TA4 Reactor Base=
 TA4 Reactor Stand=
 off=
-TA4 Reactor Base=
+on=
+
+### ta4_stand.lua ###
+### waterpump.lua ###
+
+no power=
 
 ### tank.lua ###
 
-TA3 Tank=
 Oil Tank=
+TA3 Tank=
 TA4 Tank=
 
 ### tank_cart.lua ###
@@ -975,9 +995,9 @@ TA Tank Cart=
 
 ### terminal.lua ###
 
-Syntax error, try help=
-Switched to public use!=
 Switched to private use!=
+Switched to public use!=
+Syntax error, try help=
 TA3 Terminal=
 commands like: help=
 
@@ -987,24 +1007,15 @@ TA3 Timer=
 
 ### tiny_generator.lua ###
 
+TA3 Tiny Power Generator=
 Tiny Generator=
 no fuel=
-TA3 Tiny Power Generator=
-
-### tiny_generator.lua ###
-### electrolyzer.lua ###
-### akkubox.lua ###
-### fuelcell.lua ###
-### generator.lua ###
-### heatexchanger2.lua ###
-
-Electricity=
 
 ### tower.lua ###
 
 TA3 Derrick=
-TA4 Derrick=
 TA3 Drill Pipe=
+TA4 Derrick=
 [TA] Derrick is being built!=
 [TA] Derrick is being removed!=
 
@@ -1019,8 +1030,8 @@ Tube Wall Entry=
 
 ### turbine.lua ###
 
-TA4 Turbine=
 TA3 Turbine=
+TA4 Turbine=
 
 ### usmium.lua ###
 
@@ -1029,35 +1040,30 @@ Usmium Powder=
 
 ### valve.lua ###
 
+TA Valve=
 TA3 Valve closed=
 TA3 Valve open=
-TA Valve=
 
 ### waterinlet.lua ###
 
-Error: Not on sea level!=
-Error: No water available!=
 Error: No natural water!=
+Error: No water available!=
+Error: Not on sea level!=
 TA4 Water Inlet=
 
 ### waterpump.lua ###
 
-Water Pump=
 TA4 Water Pump=
-
-### waterpump.lua ###
-### ta4_stand.lua ###
-
-no power=
+Water Pump=
 
 ### windturbine_lib.lua ###
 
-[TA4 Wind Turbine]=
-This is not the surface of the ocean!=
-This is no ocean water!=
-This is a=
-biome and no ocean!=
-Here is not enough wind@n(A free air space of 41x41x21 m is necessary)!=
 Here is not enough water (41x41 m)!=
+Here is not enough wind@n(A free air space of 41x41x21 m is necessary)!=
 The next wind turbines is too close!=
+This is a=
+This is no ocean water!=
+This is not the surface of the ocean!=
+[TA4 Wind Turbine]=
+biome and no ocean!=
 is a suitable place for a wind turbine!=

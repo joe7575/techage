@@ -1267,16 +1267,16 @@ techage.manual_DE.aText = {
   "Damit können Stromspitzen oder ein Überangebot an Strom in Wasserstoff umgewandelt und so gespeichert werden.\n"..
   "\n"..
   "Im Spiel kann Strom mit Hilfe des Elektrolyseurs in Wasserstoff und Wasserstoff über die Brennstoffzelle wieder in Strom umgewandelt werden.\n"..
-  "Damit kann Strom (in Form von Wasserstoff) nicht nur in Tanks gelagert\\, sonder mit Hilfe von Gasflaschen auch mit Wagen (carts) transportiert werden.\n"..
+  "Damit kann Strom (in Form von Wasserstoff) nicht nur in Tanks gelagert\\, sonder mit dem Tankwagen auch transportiert werden.\n"..
   "\n"..
-  "Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Von 100 Einheiten Strom kommen nach der Umwandlung in Wasserstoff und zurück nur 83 Einheiten Strom wieder raus.\n"..
+  "Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Von 100 Einheiten Strom kommen nach der Umwandlung in Wasserstoff und zurück nur 95 Einheiten Strom wieder raus.\n"..
   "\n"..
   "\n"..
   "\n",
   "Der Elektrolyseur wandelt Strom in Wasserstoff um.\n"..
   "Es muss von links mit Strom versorgt werden. Rechts kann Wasserstoff über Röhren und Pumpen entnommen werden.\n"..
   "\n"..
-  "Der Elektrolyseur kann bis zu 30 ku an Strom aufnehmen und generiert dann alle 4 s ein Wasserstoff Item.\n"..
+  "Der Elektrolyseur kann bis zu 35 ku an Strom aufnehmen und generiert dann alle 4 s ein Wasserstoff Item.\n"..
   "In den Elektrolyseur passen 200 Einheiten Wasserstoff.\n"..
   "\n"..
   "\n"..
@@ -1284,7 +1284,11 @@ techage.manual_DE.aText = {
   "Die Brennstoffzelle wandelt Wasserstoff in Strom um.\n"..
   "Sie muss von links per Pumpe mit Wasserstoff versorgt werden. Rechts ist der Stromanschluss.\n"..
   "\n"..
-  "Die Brennstoffzelle kann bis zu 25 ku an Strom abgeben und benötigt dazu alle 4 s ein Wasserstoff Item.\n"..
+  "Die Brennstoffzelle kann bis zu 34 ku an Strom abgeben und benötigt dazu alle 4 s ein Wasserstoff Item.\n"..
+  "\n"..
+  "Normalerweise arbeitet die Brennstoffzelle als Generator der Kategorie 2 (wie auch anderen Speichersystemen).\n"..
+  "In diesem Fall können keine anderen Blöcke der Kategorie 2 wie der Akku-Block geladen werden.\n"..
+  "Über das Kontrollkästchen kann die Brennstoffzelle jedoch auch als Generator der Kategorie 1 eingesetzt werden.\n"..
   "\n"..
   "\n"..
   "\n",

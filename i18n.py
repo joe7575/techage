@@ -455,4 +455,5 @@ def run_all_subfolders(folder):
         update_folder(modfolder + "/")
 
 
+_argv.append("--sort")
 main()

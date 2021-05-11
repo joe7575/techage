@@ -196,9 +196,9 @@ Electrolysis can be used to split electricity into hydrogen and oxygen. On the o
 This enables current peaks or an excess supply of electricity to be converted into hydrogen and thus stored.
 
 In the game, electricity can be converted back into electricity via the fuel cell using the electrolyzer in hydrogen and hydrogen.
-This means that electricity (in the form of hydrogen) can not only be stored in tanks, but can also be transported with carts using gas cylinders.
+This means that electricity (in the form of hydrogen) can not only be stored in tanks, but also transported by means of the tank cart.
 
-However, the conversion of electricity into hydrogen and back is lossy. Out of 100 units of electricity, only 83 units of electricity come out after the conversion to hydrogen and back.
+However, the conversion of electricity into hydrogen and back is lossy. Out of 100 units of electricity, only 95 units of electricity come out after the conversion to hydrogen and back.
 
 [ta4_hydrogen|image]
 
@@ -208,7 +208,7 @@ However, the conversion of electricity into hydrogen and back is lossy. Out of 1
 The electrolyzer converts electricity into hydrogen.
 It must be powered from the left. On the right, hydrogen can be extracted via pipes and pumps.
 
-The electrolyzer can draw up to 30 ku of electricity and then generates a hydrogen item every 4 s.
+The electrolyzer can draw up to 35 ku of electricity and then generates a hydrogen item every 4 s.
 200 units of hydrogen fit into the electrolyzer.
 
 [ta4_electrolyzer|image]
@@ -219,7 +219,10 @@ The electrolyzer can draw up to 30 ku of electricity and then generates a hydrog
 The fuel cell converts hydrogen into electricity.
 It must be supplied with hydrogen from the left by a pump. The power connection is on the right.
 
-The fuel cell can deliver up to 25 ku of electricity and needs a hydrogen item every 4 s.
+The fuel cell can deliver up to 34 ku of electricity and needs a hydrogen item every 4 s.
+
+Usually the fuel cell works as a category 2 generator (like other storage systems). 
+In this case, no other category 2 blocks such as the battery block can be charged. However, the fuel cell can also be used as a category 1 generator via the check box.
 
 [ta4_fuelcell|image]
 

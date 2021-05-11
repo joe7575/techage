@@ -88,8 +88,8 @@ Since the levels build on each other, all ages have to be run through one after 
 | Oil Drill Box                  |          | 16       |           |
 | Oil Pumpjack                   |          | 16       |           |
 | TA3 Oil Reboiler               |          | 14       |           |
-| TA4 Electrolyzer               |          |          | 30        |
-| TA4 Fuel Cell                  |          |          | 25        |
+| TA4 Electrolyzer               |          |          | 35        |
+| TA4 Fuel Cell                  |          |          | 34        |
 | TA4 Reactor                    | -        | -        | 8         |
 | Steam Engine                   | 25       |          |           |
 | Coal Power Station             |          | 80       |           |
