@@ -435,7 +435,7 @@ minetest.register_craft({
 	output = "techage:ta4_fuelcell",
 	recipe = {
 		{'default:steel_ingot', 'dye:blue', 'default:steel_ingot'},
-		{'techage:tubeS', 'techage:ta4_fuelcellstack', 'techage:electric_cableS'},
+		{'techage:ta3_pipeS', 'techage:ta4_fuelcellstack', 'techage:electric_cableS'},
 		{'default:steel_ingot', "techage:ta4_wlanchip", 'default:steel_ingot'},
 	},
 })

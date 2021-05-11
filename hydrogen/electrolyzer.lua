@@ -304,7 +304,7 @@ minetest.register_craft({
 	output = "techage:ta4_electrolyzer",
 	recipe = {
 		{'default:steel_ingot', 'dye:blue', 'default:steel_ingot'},
-		{'techage:electric_cableS', 'default:glass', 'techage:tubeS'},
+		{'techage:electric_cableS', 'default:glass', 'techage:ta3_pipeS'},
 		{'default:steel_ingot', "techage:ta4_wlanchip", 'default:steel_ingot'},
 	},
 })
