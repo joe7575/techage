@@ -141,7 +141,9 @@ minetest.register_node("techage:ta4_power_box", {
 		connect_back  = {{-1/16, -1/16,    0, 1/16, 1/16, 1/2}},
 		connect_front = {{-1/16, -1/16, -1/2, 1/16, 1/16,   0}},
 	},
-	connects_to = {"techage:ta4_power_cableA", "techage:ta4_power_cableS", "techage:ta4_solar_inverter"},
+	connects_to = {"techage:ta4_power_cableA", "techage:ta4_power_cableS", 
+		"techage:ta4_solar_inverter", "techage:ta4_solar_carrier",
+		"techage:ta4_solar_carrierB"},
 
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		Cable:after_place_node(pos)

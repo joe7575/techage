@@ -112,9 +112,9 @@ end
 -- remote inventory.
 function liquid.peek(pos, outdir)
 	for _,item in ipairs(get_network_table(pos, outdir, "tank")) do
-		local liquid = LQD(item.pos)
-		if liquid and liquid.peek then
-			return liquid.peek(item.pos, item.indir)
+		local liq = LQD(item.pos)
+		if liq and liq.peek then
+			return liq.peek(item.pos, item.indir)
 		end
 	end
 end
@@ -123,16 +123,16 @@ end
 -- return leftover amount
 function liquid.put(pos, outdir, name, amount, player_name)
 	for _,item in ipairs(get_network_table(pos, outdir, "tank")) do
-		local liquid = LQD(item.pos)
-		if liquid and liquid.put and liquid.peek then
+		local liq = LQD(item.pos)
+		if liq and liq.put and liq.peek then
 			-- wrong items?
-			local peek = liquid.peek(item.pos, item.indir)
+			local peek = liq.peek(item.pos, item.indir)
 			if peek and peek ~= name then return amount or 0 end
 			if player_name then
 				local num = techage.get_node_number(pos) or "000"
 				techage.mark_position(player_name, item.pos, "("..num..") put", "", 1)
 			end
-			amount = liquid.put(item.pos, item.indir, name, amount)
+			amount = liq.put(item.pos, item.indir, name, amount)
 			if not amount or amount == 0 then break end
 		end
 	end
@@ -143,30 +143,27 @@ end
 -- return taken amount and item name
 function liquid.take(pos, outdir, name, amount, player_name)
 	local taken = 0
-	local item_name = nil
 	for _,item in ipairs(get_network_table(pos, outdir, "tank")) do
-		local liquid = LQD(item.pos)
-		if liquid and liquid.take then
+		local liq = LQD(item.pos)
+		if liq and liq.take then
 			if player_name then
 				local num = techage.get_node_number(pos)
 				techage.mark_position(player_name, item.pos, "("..num..") take", "", 1)
 			end
-			local val, name = liquid.take(item.pos, item.indir, name, amount - taken)
-			if val and name then
-				taken = taken + val
-				item_name = name
-				if amount - taken == 0 then break end
+			taken, name = liq.take(item.pos, item.indir, name, amount)
+			if taken and name and taken > 0 then
+				break 
 			end
 		end
 	end
-	return taken, item_name
+	return taken, name
 end
 
 function liquid.untake(pos, outdir, name, amount)
 	for _,item in ipairs(get_network_table(pos, outdir, "tank")) do
-		local liquid = LQD(item.pos)
-		if liquid and liquid.untake then
-			amount = liquid.untake(item.pos, item.indir, name, amount)
+		local liq = LQD(item.pos)
+		if liq and liq.untake then
+			amount = liq.untake(item.pos, item.indir, name, amount)
 			if not amount or amount == 0 then break end
 		end
 	end
