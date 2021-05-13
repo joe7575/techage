@@ -299,3 +299,16 @@ techage.add_grinder_recipe({input="default:jungletree", output="default:junglele
 techage.add_grinder_recipe({input="default:pine_tree", output="default:pine_needles 8"})
 techage.add_grinder_recipe({input="default:acacia_tree", output="default:acacia_leaves 8"})
 techage.add_grinder_recipe({input="default:aspen_tree", output="default:aspen_leaves 8"})
+
+if minetest.global_exists("farming") then
+	techage.add_grinder_recipe({input="farming:wheat 3", output="farming:flour"})
+	techage.add_grinder_recipe({input="farming:seed_wheat 6", output="farming:flour"})
+	techage.add_grinder_recipe({input="farming:barley 3", output="farming:flour"})
+	techage.add_grinder_recipe({input="farming:seed_barley 6", output="farming:flour"})
+	techage.add_grinder_recipe({input="farming:rye 3", output="farming:flour"})
+	techage.add_grinder_recipe({input="farming:seed_rye 6", output="farming:flour"})
+	techage.add_grinder_recipe({input="farming:rice 3", output="farming:rice_flour"})
+	techage.add_grinder_recipe({input="farming:seed_rice 6", output="farming:rice_flour"})
+	techage.add_grinder_recipe({input="farming:oat 3", output="farming:flour"})
+	techage.add_grinder_recipe({input="farming:seed_oat 6", output="farming:flour"})
+end

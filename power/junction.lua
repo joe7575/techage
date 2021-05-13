@@ -52,6 +52,7 @@ end
 -- 'node' is the node definition with tiles, callback functions, and so on
 -- 'index' number for the inventory node (default 0)
 function techage.register_junction(name, size, boxes, tlib2, node, index)
+	local names = {}
 	for idx = 0,63 do
 		local ndef = table.copy(node)
 		if idx == (index or 0) then
@@ -73,21 +74,41 @@ function techage.register_junction(name, size, boxes, tlib2, node, index)
 		tlib2:add_secondary_node_names({name..idx})
 		-- for the case that 'tlib2.force_to_use_tubes' is set
 		tlib2:add_special_node_names({name..idx}) 
+		names[#names + 1] = name..idx
 	end
+	return names
 end
 
-function techage.junction_type(pos, network)
+local SideToDir = {B=1, R=2, F=3, L=4}
+local function dir_to_dir2(dir, param2)
+	if param2 == 0 then
+		return dir
+	elseif param2 == 1 then
+		return ({4,1,2,3,5,6})[dir]
+	elseif param2 == 2 then
+		return ({3,4,1,2,5,6})[dir]
+	elseif param2 == 3 then
+		return ({2,3,4,1,5,6})[dir]
+	end
+	return dir
+end
+
+function techage.junction_type(pos, network, default_side, param2)
 	local val = 0
+	if default_side then
+		val = setbit(val, bit(SideToDir[default_side]))
+	end
 	for dir = 1,6 do
+		local dir2 = dir_to_dir2(dir, param2)
 		if network.force_to_use_tubes then
 			if network:friendly_primary_node(pos, dir) then
-				val = setbit(val, bit(dir))
+				val = setbit(val, bit(dir2))
 			elseif network:is_special_node(pos, dir) then
-				val = setbit(val, bit(dir))
+				val = setbit(val, bit(dir2))
 			end
 		else
 			if network:connected(pos, dir) then
-				val = setbit(val, bit(dir))
+				val = setbit(val, bit(dir2))
 			end
 		end
 	end
