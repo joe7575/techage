@@ -30,6 +30,7 @@
         - [TA2 Stromgenerator / TA2 Power Generator](./manual_ta2_DE.md#ta2-stromgenerator--ta2-power-generator)
     - [Items schieben und sortieren](./manual_ta2_DE.md#items-schieben-und-sortieren)
         - [Röhren / TechAge Tube](./manual_ta2_DE.md#röhren--techage-tube)
+        - [Röhren Konzentrator / Tube Concentrator](./manual_ta2_DE.md#röhren-konzentrator--tube-concentrator)
         - [TA2 Schieber / Pusher](./manual_ta2_DE.md#ta2-schieber--pusher)
         - [TA2 Verteiler / Distributor](./manual_ta2_DE.md#ta2-verteiler--distributor)
     - [Kieswaschanlage](./manual_ta2_DE.md#kieswaschanlage)

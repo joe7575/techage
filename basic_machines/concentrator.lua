@@ -57,7 +57,7 @@ local names = techage.register_junction("techage:concentrator", 2/8, Boxes, Tube
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Tube:after_dig_node(pos)
 	end,
-}, 2)
+}, 27)
 
 techage.register_node(names, {
 	on_push_item = function(pos, in_dir, stack)
@@ -68,7 +68,7 @@ techage.register_node(names, {
 })	
 
 names = techage.register_junction("techage:ta4_concentrator", 2/8, Boxes, Tube, {
-	description = S("Tube Concentrator"),
+	description = S("TA4 Tube Concentrator"),
 	tiles = {
 		"techage_tubeta4_junction.png^techage_appl_arrow2.png^[transformR270",
 		"techage_tubeta4_junction.png^techage_appl_arrow2.png^[transformR270",
@@ -95,7 +95,7 @@ names = techage.register_junction("techage:ta4_concentrator", 2/8, Boxes, Tube, 
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Tube:after_dig_node(pos)
 	end,
-}, 2)
+}, 27)
 
 techage.register_node(names, {
 	on_push_item = function(pos, in_dir, stack)
@@ -107,7 +107,7 @@ techage.register_node(names, {
 
 
 minetest.register_craft({
-	output = "techage:electric_concentrator2",
+	output = "techage:concentrator27",
 	recipe = {
 		{"", "techage:tubeS", ""},
 		{"techage:tubeS", "", "techage:tubeS"},
@@ -116,10 +116,10 @@ minetest.register_craft({
 })
 
 minetest.register_craft({
-	output = "techage:electric_ta4_concentrator2",
+	output = "techage:ta4_concentrator27",
 	recipe = {
 		{"", "techage:ta4_tubeS", ""},
-		{"ta4_techage:tubeS", "", "ta4_techage:tubeS"},
-		{"", "ta4_techage:tubeS", ""},
+		{"techage:ta4_tubeS", "", "techage:ta4_tubeS"},
+		{"", "techage:ta4_tubeS", ""},
 	},
 })

@@ -31,6 +31,7 @@ techage.manual_DE.aTitel = {
   "3,TA2 Stromgenerator / TA2 Power Generator",
   "2,Items schieben und sortieren",
   "3,Röhren / TechAge Tube",
+  "3,Röhren Konzentrator / Tube Concentrator",
   "3,TA2 Schieber / Pusher",
   "3,TA2 Verteiler / Distributor",
   "2,Kieswaschanlage",
@@ -423,6 +424,10 @@ techage.manual_DE.aText = {
   "Röhren können alternativ mit Hilfe der Shift-Taste platziert werden. Dies erlaubt bspw. Röhren parallel zu verlegen\\, ohne dass diese sich unbeabsichtigt verbinden.\n"..
   "\n"..
   "Die Transportkapazität einer Röhre ist unbegrenzt und nur durch die Schieber begrenzt.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Über den Konzentrator können mehrere Röhren zu einer Röhre zusammengeführt werden. Die Richtung\\, in der alle Items weitergegeben werden\\, ist mit einem Pfeil markiert.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1668,6 +1673,7 @@ techage.manual_DE.aItemName = {
   "ta2_generator",
   "",
   "tube",
+  "concentrator",
   "ta2_pusher",
   "ta2_distributor",
   "",
@@ -1866,6 +1872,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "itemtransport",
+  "",
   "",
   "",
   "",

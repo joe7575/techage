@@ -30,6 +30,7 @@
         - [TA2 Power Generator](./manual_ta2_EN.md#ta2-power-generator)
     - [Push and sort items](./manual_ta2_EN.md#push-and-sort-items)
         - [TechAge Tube](./manual_ta2_EN.md#techage-tube)
+        - [Tube Concentrator](./manual_ta2_EN.md#tube-concentrator)
         - [TA2 Pusher](./manual_ta2_EN.md#ta2-pusher)
         - [TA2 Distributor](./manual_ta2_EN.md#ta2-distributor)
     - [Gravel washer](./manual_ta2_EN.md#gravel-washer)

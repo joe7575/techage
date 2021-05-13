@@ -31,6 +31,7 @@ techage.manual_EN.aTitel = {
   "3,TA2 Power Generator",
   "2,Push and sort items",
   "3,TechAge Tube",
+  "3,Tube Concentrator",
   "3,TA2 Pusher",
   "3,TA2 Distributor",
   "2,Gravel washer",
@@ -422,6 +423,10 @@ techage.manual_EN.aText = {
   "Alternatively\\, tubes can be placed using the Shift key. This allows\\, for example\\, tubes to be laid in parallel without them accidentally connecting.\n"..
   "\n"..
   "The transport capacity of a tube is unlimited and only limited by the pusher.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Several tubes can be combined into one tube via the concentrator. The direction in which all items are passed on is marked with an arrow. \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1652,6 +1657,7 @@ techage.manual_EN.aItemName = {
   "ta2_generator",
   "",
   "tube",
+  "concentrator",
   "ta2_pusher",
   "ta2_distributor",
   "",
@@ -1849,6 +1855,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "itemtransport",
+  "",
   "",
   "",
   "",

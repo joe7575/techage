@@ -199,6 +199,11 @@ Node numbers to read the states from=Knotennummern zum Lesen der Zustände
 Send an event if state is equal or larger than=Senden ein Event wenn Status größer oder gleich als
 TA4 State Collector=TA4 Zuständesammler
 
+### concentrator.lua ###
+
+TA4 Tube Concentrator=TA4 Röhren Konzentrator
+Tube Concentrator=Röhren Konzentrator
+
 ### cooking.lua ###
 
 TA3 Melting=TA3 Schmelzen
@@ -1027,6 +1032,14 @@ Use a trowel to remove the node.=Verwende eine Kelle, um den Block zu entfernen.
 ### tube_wall_entry.lua ###
 
 Tube Wall Entry=Tube Wanddurchbruch
+
+### tubes.lua ###
+
+TechAge Tube=TechAge Röhre
+
+### tubes_ta4.lua ###
+
+TA4 Tube=TA4 Röhre
 
 ### turbine.lua ###
 

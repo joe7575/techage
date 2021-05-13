@@ -99,6 +99,12 @@ Die Transportkapazität einer Röhre ist unbegrenzt und nur durch die Schieber b
 
 [tube|image]
 
+### Röhren Konzentrator / Tube Concentrator
+
+Über den Konzentrator können mehrere Röhren zu einer Röhre zusammengeführt werden. Die Richtung, in der alle Items weitergegeben werden, ist mit einem Pfeil markiert.
+
+[concentrator|image]
+
 
 ### TA2 Schieber / Pusher
 

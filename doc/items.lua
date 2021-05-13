@@ -28,6 +28,7 @@ techage.Items = {
 	ta1_hopper = "techage:hopper_ta1",
 	wlanchip = "techage:ta4_wlanchip",
 	tube = "techage:tubeS",
+	concentrator = "techage:concentrator27",
 	----------------
 	techage_ta2 = "techage_ta2.png",
 	ta2_firebox = "techage:firebox",
@@ -180,6 +181,7 @@ techage.Items = {
 	ta4_recycler = "techage:ta4_recycler_pas",
 	ta4_waterinlet = "techage:ta4_waterinlet",
 	ta4_laser = "techage:ta4_laser_emitter",
+	ta4_concentrator = "techage:ta4_concentrator27",
 
 	--ta4_ "", 
 }

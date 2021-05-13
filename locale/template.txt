@@ -199,6 +199,11 @@ Node numbers to read the states from=
 Send an event if state is equal or larger than=
 TA4 State Collector=
 
+### concentrator.lua ###
+
+TA4 Tube Concentrator=
+Tube Concentrator=
+
 ### cooking.lua ###
 
 TA3 Melting=
@@ -1027,6 +1032,14 @@ Use a trowel to remove the node.=
 ### tube_wall_entry.lua ###
 
 Tube Wall Entry=
+
+### tubes.lua ###
+
+TechAge Tube=
+
+### tubes_ta4.lua ###
+
+TA4 Tube=
 
 ### turbine.lua ###
 

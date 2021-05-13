@@ -100,6 +100,11 @@ The transport capacity of a tube is unlimited and only limited by the pusher.
 
 [tube|image]
 
+### Tube Concentrator
+
+Several tubes can be combined into one tube via the concentrator. The direction in which all items are passed on is marked with an arrow. 
+
+[concentrator|image]
 
 ### TA2 Pusher
 

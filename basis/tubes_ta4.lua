@@ -13,9 +13,10 @@
 ]]--
 
 local Tube = techage.Tube
+local S = techage.S
 
 minetest.register_node("techage:ta4_tubeS", {
-	description = "TA4 Tube",
+	description = S("TA4 Tube"),
 	tiles = { -- Top, base, right, left, front, back
 		"techage_tubeta4_tube.png^[transformR90",
 		"techage_tubeta4_tube.png^[transformR90",
@@ -63,7 +64,7 @@ minetest.register_node("techage:ta4_tubeS", {
 })
 
 minetest.register_node("techage:ta4_tubeA", {
-	description = "TA4 Tube",
+	description = S("TA4 Tube"),
 	tiles = { -- Top, base, right, left, front, back
 		"techage_tubeta4_knee2.png",
 		"techage_tubeta4_hole2.png^[transformR180",
