@@ -934,6 +934,10 @@ TA4 LED Street Lamp Pole=
 TA4 Low Power Box=
 TA4 Low Power Cable=
 
+### ta4_cable_wall_entry.lua ###
+
+TA4 Cable Wall Entry=
+
 ### ta4_chest.lua ###
 
 Empty the slots always @nfrom right to left=
