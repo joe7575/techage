@@ -27,10 +27,16 @@ local Cable = tubelib2.Tube:new({
 	max_tube_length = ELE2_MAX_CABLE_LENGHT, 
 	show_infotext = false,
 	tube_type = "ele2",
-	primary_node_names = {"techage:ta4_power_cableS", "techage:ta4_power_cableA"},
+	primary_node_names = {"techage:ta4_power_cableS", "techage:ta4_power_cableA",
+		"techage:ta4_cable_wall_entry"},
 	secondary_node_names = {},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
-		minetest.swap_node(pos, {name = "techage:ta4_power_cable"..tube_type, param2 = param2})
+		local name = minetest.get_node(pos).name
+		if name == "techage:ta4_cable_wall_entry" then
+			minetest.swap_node(pos, {name = "techage:ta4_cable_wall_entry", param2 = param2})
+		else
+			minetest.swap_node(pos, {name = "techage:ta4_power_cable"..tube_type, param2 = param2})
+		end
 	end,
 })
 
@@ -143,7 +149,7 @@ minetest.register_node("techage:ta4_power_box", {
 	},
 	connects_to = {"techage:ta4_power_cableA", "techage:ta4_power_cableS", 
 		"techage:ta4_solar_inverter", "techage:ta4_solar_carrier",
-		"techage:ta4_solar_carrierB"},
+		"techage:ta4_solar_carrierB", "techage:ta4_cable_wall_entry"},
 
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		Cable:after_place_node(pos)

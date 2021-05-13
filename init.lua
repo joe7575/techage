@@ -117,6 +117,7 @@ dofile(MP.."/power/powerswitch.lua")
 dofile(MP.."/power/protection.lua")
 dofile(MP.."/power/power_line.lua")
 dofile(MP.."/power/ta4_cable.lua")
+dofile(MP.."/power/ta4_cable_wall_entry.lua")
 dofile(MP.."/power/laser.lua")
 
 -- Iron Age
