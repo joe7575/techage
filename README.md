@@ -27,7 +27,7 @@ In contrast to TechPack, the resources are more limited and it is much more diff
 
 
 ### License
-Copyright (C) 2019-2020 Joachim Stolberg  
+Copyright (C) 2019-2021 Joachim Stolberg
 Code: Licensed under the GNU AGPL version 3 or later. See LICENSE.txt  
 Textures: CC BY-SA 3.0
 
@@ -76,6 +76,16 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 
 ### History
+
+**2021-05-14  V0.25**
+- Add concentrator tubes
+- Add ta4 cable wall entry
+- Pull request #57: Distributor improvements (from Thomas-S)
+- Add new power terminal commands
+- Add new door controller
+- Add laser beam nodes for energy transfer
+- Add TA4 recycle machine
+- Many improvements and bug fixes
 
 **2020-11-01  V0.25**
 - Pull request #37: Trowel: Add protection support (from Thomas-S)
