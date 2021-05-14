@@ -471,9 +471,15 @@ function NodeStates:on_receive_message(pos, topic, payload)
 	end
 end
 	
--- repair corrupt node data
+-- restart timer
 function NodeStates:on_node_load(pos)
-	-- tbd
+	local nvm = techage.get_nvm(pos)
+	local state = nvm.techage_state or STOPPED
+	if state == RUNNING then
+		minetest.get_node_timer(pos):start(self.cycle_time)
+	elseif state < FAULT then
+		minetest.get_node_timer(pos):start(self.cycle_time * self.standby_ticks)
+	end
 end
 
 minetest.register_node("techage:defect_dummy", {

@@ -129,6 +129,15 @@ local function get_random_gravel_ore()
 	end
 end
 
+local function remove_objects(pos)
+	for _, object in pairs(minetest.get_objects_inside_radius(pos, 1)) do
+		local lua_entity = object:get_luaentity()
+		if not object:is_player() and lua_entity and lua_entity.name == "__builtin:item" then
+			object:remove()
+		end
+	end
+end
+
 local function washing(pos, crd, nvm, inv)
 	-- for testing purposes
 	if inv:contains_item("src", ItemStack("default:stick")) then
@@ -163,7 +172,6 @@ local function keep_running(pos, elapsed)
 	local crd = CRD(pos)
 	local inv = M(pos):get_inventory()
 	washing(pos, crd, nvm, inv)
-	return crd.State:is_active(nvm)
 end
 
 local function on_receive_fields(pos, formname, fields, player)
@@ -239,6 +247,10 @@ local tubing = {
 	end,
 	on_recv_message = function(pos, src, topic, payload)
 		return CRD(pos).State:on_receive_message(pos, topic, payload)
+	end,
+	on_node_load = function(pos)
+		remove_objects({x=pos.x, y=pos.y+1, z=pos.z})
+		CRD(pos).State:on_node_load(pos)
 	end,
 }
 
@@ -320,26 +332,6 @@ function techage.add_rinser_recipe(recipe)
 		unified_inventory.register_craft(recipe)
 	end
 end	
-
-local function remove_objects(pos)
-	for _, object in pairs(minetest.get_objects_inside_radius(pos, 1)) do
-		local lua_entity = object:get_luaentity()
-		if not object:is_player() and lua_entity and lua_entity.name == "__builtin:item" then
-			object:remove()
-		end
-	end
-end
-
-minetest.register_lbm({
-	label = "[techage] Rinser update",
-	name = "techage:rinser_update",
-	nodenames = {"techage:ta2_rinser_act", "techage:ta3_rinser_act"},
-	run_at_every_load = true,
-	action = function(pos, node)
-		remove_objects({x=pos.x, y=pos.y+1, z=pos.z})
-	end
-})
-
 
 techage.add_rinser_recipe({input="techage:sieved_gravel", output="techage:usmium_nuggets", probability=30})
 techage.add_rinser_recipe({input="techage:sieved_gravel", output="default:copper_lump", probability=15})

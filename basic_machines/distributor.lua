@@ -478,7 +478,6 @@ local tubing = {
 			return CRD(pos).State:on_receive_message(pos, topic, payload)
 		end
 	end,
-	
 	on_node_load = function(pos)
 		CRD(pos).State:on_node_load(pos)
 	end,

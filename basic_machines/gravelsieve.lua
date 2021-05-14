@@ -175,6 +175,9 @@ local tubing = {
 	on_recv_message = function(pos, src, topic, payload)
 		return CRD(pos).State:on_receive_message(pos, topic, payload)
 	end,
+	on_node_load = function(pos)
+		CRD(pos).State:on_node_load(pos)
+	end,
 }
 
 local node_name_ta2, node_name_ta3, node_name_ta4 = 

@@ -368,13 +368,8 @@ local tubing = {
 			return CRD(pos).State:on_receive_message(pos, topic, payload)
 		end
 	end,
-	on_node_load = function(pos, node)
-		local nvm = techage.get_nvm(pos)
-		if nvm.techage_state == techage.RUNNING then
-			play_sound(pos)
-		else
-			stop_sound(pos)
-		end
+	on_node_load = function(pos)
+		CRD(pos).State:on_node_load(pos)
 	end,
 }
 

@@ -73,10 +73,22 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return stack:get_count()
 end
 
-local function src_to_dst(src_stack, idx, num_items, inv, dst_name) 
-	local taken = src_stack:take_item(num_items)
-	local output = ItemStack(dst_name)
-	output:set_count(output:get_count() * taken:get_count())
+-- Grinder normaly handles 'num_items' per cycle. 'num_items' is node stage dependent.
+-- But if 'inp_num' > 1 (wheat recipes), use 'inp_num'  and produce one output item.
+local function src_to_dst(src_stack, idx, num_items, inp_num, inv, dst_name, num_input)
+	local taken, output
+	if inp_num > 1 then
+		if src_stack:get_count() >= inp_num then
+			taken = src_stack:take_item(inp_num)
+			output = ItemStack(dst_name)
+		else
+			return false
+		end
+	else
+		taken = src_stack:take_item(num_items)
+		output = ItemStack(dst_name)
+		output:set_count(output:get_count() * taken:get_count())
+	end
 	if inv:room_for_item("dst", output) then
 		inv:set_stack("src", idx, src_stack)
 		inv:add_item("dst", output)
@@ -91,7 +103,8 @@ local function grinding(pos, crd, nvm, inv)
 		if not stack:is_empty() then
 			local name = stack:get_name()
 			if Recipes[name] then
-				if src_to_dst(stack, idx, crd.num_items, inv, Recipes[name]) then
+				local recipe = Recipes[name]
+				if src_to_dst(stack, idx, crd.num_items, recipe.inp_num, inv, recipe.output) then
 					crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 				else
 					crd.State:blocked(pos, nvm)
@@ -186,6 +199,9 @@ local tubing = {
 	on_recv_message = function(pos, src, topic, payload)
 		return CRD(pos).State:on_receive_message(pos, topic, payload)
 	end,
+	on_node_load = function(pos)
+		CRD(pos).State:on_node_load(pos)
+	end,
 }
 
 local node_name_ta2, node_name_ta3, node_name_ta4 = 
@@ -264,7 +280,9 @@ if minetest.global_exists("unified_inventory") then
 end
 
 function techage.add_grinder_recipe(recipe)
-	Recipes[recipe.input] =  recipe.output
+	local name, num = unpack(string.split(recipe.input, " ", false, 1))
+	Recipes[name] = {input = name,inp_num = tonumber(num) or 1, output = recipe.output}
+	
 	if minetest.global_exists("unified_inventory") then
 		recipe.items = {recipe.input}
 		recipe.type = "grinding"
