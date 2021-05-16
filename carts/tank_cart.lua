@@ -119,6 +119,7 @@ minetest.register_node("techage:tank_cart", {
 	after_place_node = function(pos)
 		local nvm = techage.get_nvm(pos)
 		nvm.liquid = nvm.liquid or {}
+		M(pos):set_string("formspec", liquid.formspec(pos, nvm))
 	end,
 	
 	set_cargo = function(pos, data)
