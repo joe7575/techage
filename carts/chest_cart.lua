@@ -19,6 +19,14 @@ local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local S2P = minetest.string_to_pos
 local MP = minetest.get_modpath("minecart")
 
+local function on_rightclick(pos, node, clicker)
+	if clicker and clicker:is_player() then
+		if M(pos):get_int("userID") == 0 then
+			minecart.show_formspec(pos, clicker)
+		end
+	end
+end
+
 local function formspec()
 	return "size[8,6]"..
 	default.gui_bg..
@@ -78,6 +86,7 @@ minetest.register_node("techage:chest_cart", {
 	on_punch = minecart.on_nodecart_punch,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
+	on_rightclick = on_rightclick,
 	
 	after_place_node = function(pos, placer)
 		local inv = M(pos):get_inventory()
