@@ -354,24 +354,17 @@ techage.register_node({"techage:chest_ta4"}, {
 			return nil
 		end
 		
-print(1)		
 		if item_name then
-print(2)		
 			if mem.filter[item_name] or not mem.chest_configured then
-print(3)		
 				local taken = inv:remove_item("main", {name = item_name, count = num})
 				if taken:get_count() > 0 then
-print(4)		
 					return taken
 				end
 			end
 		else -- no item given
-print(5)		
 			if mem.chest_configured then
-print(6)		
 				return mConf.take_item(pos, inv, "main", num, mem.filter["unconfigured"])
 			else
-print(7)		
 				return techage.get_items(pos, inv, "main", num)
 			end
 		end
