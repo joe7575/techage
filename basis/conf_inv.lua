@@ -91,15 +91,15 @@ end
 
 function inv_lib.take_item(pos, inv, listname, num, stacks)
 	local mem = techage.get_mem(pos)
-	local size = #stacks
 	mem.ta_startpos = mem.ta_startpos or 1
-	for idx = mem.ta_startpos, mem.ta_startpos + size do
-		idx = (idx % size) + 1
+	local size = #stacks
+	for i = 1, size do
+		local idx = stacks[((i + mem.ta_startpos) % size) + 1]
 		local stack = inv:get_stack(listname, idx)
 		local taken = stack:take_item(num)
 		if taken:get_count() > 0 then
 			inv:set_stack(listname, idx, stack)
-			mem.ta_startpos = idx
+			mem.ta_startpos = mem.ta_startpos + i
 			return taken
 		end
 	end
