@@ -94,6 +94,17 @@ local function dir_to_dir2(dir, param2)
 end
 
 function techage.junction_type(pos, network, default_side, param2)
+	local connected = function(self, pos, dir)
+		if network:is_primary_node(pos, dir) then
+			local param2, npos = self:get_primary_node_param2(pos, dir)
+			if param2 then
+				local d1, d2, num = self:decode_param2(npos, param2)
+				dir = tubelib2.Turn180Deg[dir]
+				return d1 == dir or dir == d2
+		    end
+		end
+	end
+
 	local val = 0
 	if default_side then
 		val = setbit(val, bit(SideToDir[default_side]))
@@ -101,13 +112,15 @@ function techage.junction_type(pos, network, default_side, param2)
 	for dir = 1,6 do
 		local dir2 = dir_to_dir2(dir, param2)
 		if network.force_to_use_tubes then
-			if network:friendly_primary_node(pos, dir) then
+			if connected(network, pos, dir) then
 				val = setbit(val, bit(dir2))
 			elseif network:is_special_node(pos, dir) then
 				val = setbit(val, bit(dir2))
 			end
 		else
-			if network:connected(pos, dir) then
+			if connected(network, pos, dir) then
+				val = setbit(val, bit(dir2))
+			elseif network:is_secondary_node(pos, dir) then
 				val = setbit(val, bit(dir2))
 			end
 		end
