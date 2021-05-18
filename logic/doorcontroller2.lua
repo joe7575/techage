@@ -153,7 +153,7 @@ end
 local function exchange_node(pos, item, param2)
 	local node = minetest.get_node_or_nil(pos)
 	if node and is_simple_node(node.name) then
-		if item and item:get_name() ~= "" then
+		if item and item:get_name() ~= "" and minetest.registered_nodes[item:get_name()] then
 			minetest.swap_node(pos, {name = item:get_name(), param2 = param2})
 		else
 			minetest.remove_node(pos)
