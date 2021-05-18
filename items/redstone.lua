@@ -22,17 +22,6 @@ minetest.register_node("techage:red_stone", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-stairs.register_stair_and_slab(
-	"red_stone",
-	"techage:red_stone",
-	{cracky = 3, stone = 1},
-	{"default_stone.png^[colorize:#ff4538:110"},
-	"Red Stone Stair",
-	"Red Stone Slab",
-	default.node_sound_stone_defaults(),
-	false
-)
-
 minetest.register_node("techage:red_stone_brick", {
 	description = S("Red Stone Brick"),
 	paramtype2 = "facedir",
@@ -43,17 +32,6 @@ minetest.register_node("techage:red_stone_brick", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-stairs.register_stair_and_slab(
-	"red_stone_brick",
-	"techage:red_stone_brick",
-	{cracky = 2, stone = 1},
-	{"default_stone_brick.png^[colorize:#ff4538:110"},
-	"Red Brick Stair",
-	"Red Brick Slab",
-	default.node_sound_stone_defaults(),
-	false
-)
-
 minetest.register_node("techage:red_stone_block", {
 	description = S("Red Stone Block"),
 	tiles = {"default_stone_block.png^[colorize:#ff4538:110"},
@@ -61,18 +39,6 @@ minetest.register_node("techage:red_stone_block", {
 	groups = {cracky = 2, stone = 1},
 	sounds = default.node_sound_stone_defaults(),
 })
-
-stairs.register_stair_and_slab(
-	"red_stone_block",
-	"techage:red_stone_block",
-	{cracky = 2, stone = 1},
-	{"default_stone_block.png^[colorize:#ff4538:110"},
-	"Red Stone Block Stair",
-	"Red Stone Block Slab",
-	default.node_sound_stone_defaults(),
-	false
-)
-
 
 minetest.register_craft({
 	output = "techage:red_stone_brick 4",

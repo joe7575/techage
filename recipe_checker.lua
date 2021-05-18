@@ -22,8 +22,10 @@ minetest.after(1, function()
 						--print(dump(recipe.items))
 						local key = recipe_key(recipe.items)
 						if Recipes[key] then
-							local text = Recipes[key].." and "..name.." have the same incredients"
-							minetest.log("error", text)
+							if not string.find(name, "slab") and not string.find(name, "stair") then
+								local text = Recipes[key].." and "..name.." have the same incredients"
+								minetest.log("error", text)
+							end
 						end
 						Recipes[key] = name
 					end
