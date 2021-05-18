@@ -39,7 +39,7 @@ local Face2Dir = {[0]=
 }
 
 local function pos_and_yaw(pos, param2)
-	local dir = Face2Dir[param2]
+	local dir = Face2Dir[param2] or 0
 	local yaw = minetest.dir_to_yaw(dir)
 	dir = vector.multiply(dir, 1.1)
 	pos = vector.add(pos, dir)
