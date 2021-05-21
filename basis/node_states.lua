@@ -155,11 +155,14 @@ end
 -- consumes power
 function techage.needs_power(nvm)
 	local state = nvm.techage_state or STOPPED
-	return state == RUNNING or state == NOPOWER
+	-- "blocked" must need power, otherwise it could happen, that the node 
+	-- is not in the power network anymore and gets not started if
+	-- power is turned off and on again.
+	return state < STANDBY or state == NOPOWER
 end
 
 function techage.needs_power2(state)
-	return state == RUNNING or state == NOPOWER
+	return state < STANDBY or state == NOPOWER
 end
 
 function techage.get_state_string(nvm)
