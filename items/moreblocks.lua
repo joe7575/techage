@@ -40,6 +40,7 @@ local function register_alias(name)
 end
 
 local NodeNames = {
+	"techage:compressed_gravel",
 	"techage:red_stone",
 	"techage:red_stone_block",
 	"techage:red_stone_brick",
