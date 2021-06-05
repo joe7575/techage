@@ -32,17 +32,16 @@ local Cable = tubelib2.Tube:new({
 		"techage:power_pole2", "techage:powerswitch_box", "techage:powerswitch_box_on"},
 	secondary_node_names = {},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
-		if networks.node_to_be_replaced(pos, param2, tube_type, num_tubes) then
-			-- Handle "power line" nodes
-			local name = minetest.get_node(pos).name
-			if name == "techage:powerswitch_box" or name == "techage:powerswitch_box_on" or name == "techage:powerswitch_box_off" then
-				minetest.swap_node(pos, {name = name, param2 = param2 % 32})
-			elseif name == "techage:power_line" or name == "techage:power_lineS" or name == "techage:power_lineA" then
-				minetest.swap_node(pos, {name = "techage:power_line"..tube_type, param2 = param2 % 32})
-			else
-				minetest.swap_node(pos, {name = "techage:electric_cable"..tube_type, param2 = param2 % 32})
-			end
+		local name = minetest.get_node(pos).name
+		if name == "techage:powerswitch_box" or name == "techage:powerswitch_box_on" or name == "techage:powerswitch_box_off" then
+			minetest.swap_node(pos, {name = name, param2 = param2 % 32})
+		elseif name == "techage:power_line" or name == "techage:power_lineS" or name == "techage:power_lineA" then
+			minetest.swap_node(pos, {name = "techage:power_line"..tube_type, param2 = param2 % 32})
+		elseif not networks.hidden_name(pos) then
+			minetest.swap_node(pos, {name = "techage:electric_cable"..tube_type, param2 = param2 % 32})
 		end
+		print("param2", name, param2)
+		M(pos):set_int("netw_param2", param2)
 	end,
 })
 
@@ -77,10 +76,7 @@ minetest.register_node("techage:electric_cableS", {
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
-			oldnode.param2 = oldmetadata.fields.tl2_param2
-			Cable:after_dig_tube(pos, oldnode)
-		end
+		Cable:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
 	
 	paramtype2 = "facedir", -- important!
@@ -113,10 +109,7 @@ minetest.register_node("techage:electric_cableA", {
 	},
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
-			oldnode.param2 = oldmetadata.fields.tl2_param2
-			Cable:after_dig_tube(pos, oldnode)
-		end
+		Cable:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
 	
 	paramtype2 = "facedir", -- important!
