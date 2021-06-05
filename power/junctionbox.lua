@@ -16,9 +16,8 @@
 local M = minetest.get_meta
 local S = techage.S
 
-local networks = techage.networks
 local Cable = techage.ElectricCable
-local power = techage.power
+local power = networks.power
 
 local size = 3/32
 local Boxes = {
@@ -30,32 +29,30 @@ local Boxes = {
 	{{-size, -size, -size, size,  0.5,  size}}, -- y+
 }
 
-techage.register_junction("techage:electric_junction", 2/8, Boxes, Cable, {
+local names = networks.register_junction("techage:electric_junction", 2/8, Boxes, Cable, {
 	description = S("TA Electric Junction Box"),
 	tiles = {"techage_electric_junction.png"},
+	use_texture_alpha = "clip",
+	is_ground_content = false,
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
 	sounds = default.node_sound_defaults(),
 
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
-		local name = "techage:electric_junction"..techage.junction_type(pos, Cable)
+		local name = "techage:electric_junction" .. networks.junction_type(pos, Cable)
 		minetest.swap_node(pos, {name = name, param2 = 0})
 		Cable:after_place_node(pos)
 	end,
 	tubelib2_on_update2 = function(pos, dir1, tlib2, node)
-		local name = "techage:electric_junction"..techage.junction_type(pos, Cable)
+		local name = "techage:electric_junction" .. networks.junction_type(pos, Cable)
 		minetest.swap_node(pos, {name = name, param2 = 0})
-		power.update_network(pos, nil, tlib2)
+		power.update_network(pos, 0, tlib2, node)
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Cable:after_dig_node(pos)
 	end,
-	networks = {
-		ele1 = {
-			sides = networks.AllSides, -- connection sides for cables
-			ntype = "junc",
-		},
-	},
 })
+
+power.register_nodes(names, Cable, "junc")
 
 minetest.register_craft({
 	output = "techage:electric_junction0 2",

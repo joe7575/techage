@@ -16,9 +16,8 @@ local P = minetest.string_to_pos
 local M = minetest.get_meta
 local S = techage.S
 
-local networks = techage.networks
 local Cable = techage.ElectricCable
-local power = techage.power
+local power = networks.power
 
 local function can_dig(pos, digger)
 	if M(pos):get_string("owner") == digger:get_player_name() then

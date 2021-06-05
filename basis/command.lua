@@ -164,6 +164,11 @@ local function is_air_like(name)
 	return false
 end
 
+techage.SystemTime = 0
+minetest.register_globalstep(function(dtime)
+	techage.SystemTime = techage.SystemTime + dtime
+end)
+
 -------------------------------------------------------------------
 -- API helper functions
 -------------------------------------------------------------------

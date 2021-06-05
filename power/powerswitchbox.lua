@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -19,28 +19,29 @@ local N = function(pos) return minetest.get_node(pos).name end
 local S = techage.S
 
 local Cable = techage.ElectricCable
+local power = networks.power
 
--- primary power node
-minetest.register_node("techage:powerswitch_box", {
+local node_box = {
+	type = "fixed",
+	fixed = {
+		{ -1/4, -1/4, -2/4,  1/4, 1/4, 2/4},
+	},
+}
+
+-- The on-switch is a "primary node" like cables
+minetest.register_node("techage:powerswitch_box_on", {
 	description = S("TA Power Switch Box"),
-	tiles = {
-		-- up, down, right, left, back, front
-		'techage_electric_switch.png^[transformR90',
-		'techage_electric_switch.png^[transformR90',
-		'techage_electric_switch.png',
-		'techage_electric_switch.png',
-		'techage_electric_junction.png',
-		'techage_electric_junction.png',
-	},
-
+	paramtype = "light",
 	drawtype = "nodebox",
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{ -1/4, -1/4, -2/4,  1/4, 1/4, 2/4},
-		},
+	node_box = node_box,
+	tiles = {
+		"techage_electric_switch.png^[transformR90",
+		"techage_electric_switch.png^[transformR90",
+		"techage_electric_switch.png",
+		"techage_electric_switch.png",
+		"techage_electric_junction.png",
+		"techage_electric_junction.png",
 	},
-	
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		if not Cable:after_place_tube(pos, placer, pointed_thing) then
 			minetest.remove_node(pos)
@@ -48,23 +49,65 @@ minetest.register_node("techage:powerswitch_box", {
 		end
 		return false
 	end,
-	
+	on_rightclick = function(pos, node, clicker)
+		if power.turn_switch_off(pos, Cable, "techage:powerswitch_box_off", "techage:powerswitch_box_on") then
+			minetest.sound_play("doors_glass_door_open", {
+				pos = pos, 
+				gain = 1,
+				max_hear_distance = 5})
+		end
+	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Cable:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
-	paramtype = "light",
-	use_texture_alpha = techage.CLIP,
-	sunlight_propagates = true,
-	on_rotate = screwdriver.disallow, -- important!
 	paramtype2 = "facedir",
-	groups = {choppy=2, cracky=2, crumbly=2, techage_trowel = 1},
+	on_rotate = screwdriver.disallow,
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
 	is_ground_content = false,
-	sounds = default.node_sound_wood_defaults(),
+	groups = {choppy=2, cracky=2, crumbly=2, techage_trowel = 1},
+	sounds = default.node_sound_defaults(),
 })
 
+-- The off-switch is a "secondary node" without connection sides
+minetest.register_node("techage:powerswitch_box_off", {
+	description = S("TA Power Switch Box"),
+	paramtype = "light",
+	drawtype = "nodebox",
+	node_box = node_box,
+	tiles = {
+		"techage_electric_switch_off.png^[transformR90",
+		"techage_electric_switch_off.png^[transformR90",
+		"techage_electric_switch_off.png",
+		"techage_electric_switch_off.png",
+		"techage_electric_junction.png",
+		"techage_electric_junction.png",
+	},
+	on_rightclick = function(pos, node, clicker)
+		if power.turn_switch_on(pos, Cable, "techage:powerswitch_box_off", "techage:powerswitch_box_on") then
+			minetest.sound_play("doors_glass_door_open", {
+				pos = pos, 
+				gain = 1,
+				max_hear_distance = 5})
+		end
+	end,
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		Cable:after_dig_node(pos)
+	end,
+	paramtype2 = "facedir",
+	on_rotate = screwdriver.disallow,
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	is_ground_content = false,
+	drop = "techage:powerswitch_box_on",
+	groups = {choppy=2, cracky=2, crumbly=2, techage_trowel = 1, not_in_creative_inventory = 1},
+	sounds = default.node_sound_defaults(),
+})
+
+power.register_nodes({"techage:powerswitch_box_off"}, Cable, "con", {})
+
 minetest.register_craft({
-	output = "techage:powerswitch_box",
+	output = "techage:powerswitch_box_on",
 	recipe = {
 		{"", "basic_materials:plastic_sheet", ""},
 		{"techage:electric_cableS", "basic_materials:copper_wire", "techage:electric_cableS"},

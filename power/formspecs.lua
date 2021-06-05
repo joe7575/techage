@@ -17,6 +17,12 @@
 --local N = function(pos) return minetest.get_node(pos).name end
 --local S = techage.S
 local in_range = techage.in_range
+local power = networks.power
+techage.power = {}
+
+local function round(val)
+	return math.floor((val * 10) + 0.5) / 10
+end
 
 function techage.power.percent(max_val, curr_val)
 	return math.min(math.ceil(((curr_val or 0) * 100) / (max_val or 1.0)), 100)
@@ -48,15 +54,16 @@ function techage.power.formspec_power_bar(max_power, current_power)
 	return "techage_form_level_bg.png^[lowpart:"..percent..":techage_form_level_fg.png"
 end
 
-function techage.power.formspec_label_bar(pos, x, y, label, max_power, current_power, unit)
+function techage.power.formspec_label_bar(pos, x, y, tlib2, label, max_power, current_power, unit)
 	local percent, ypos
 	
 	max_power = max_power or 1
+	current_power = round(current_power or 0)
 	unit = unit or "ku"
 	
-	if current_power == 0 then
+	if current_power > 0 then
 		-- check if power network is overloaded
-		 if techage.power.network_overloaded(pos, techage.ElectricCable) then
+		 if not power.power_available(pos, tlib2) then
 			return "container["..x..","..y.."]"..
 				"box[0,0;2.3,3.3;#395c74]"..
 				"label[0.2,0;"..label.."]"..
@@ -65,7 +72,7 @@ function techage.power.formspec_label_bar(pos, x, y, label, max_power, current_p
 				"container_end[]"
 		end 
 	end
-	current_power = current_power or 0
+	
 	if current_power == 0 then
 		percent = 0
 		ypos = 2.8
