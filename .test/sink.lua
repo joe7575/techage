@@ -61,7 +61,7 @@ end
 
 minetest.register_node("techage:sink", {
 	description = "Sink",
-	tiles = {'techage_electric_button.png'},
+	tiles = {'techage_electric_button.png^[colorize:#000000:50'},
 	
 	on_timer = function(pos, elapsed)
 		local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)

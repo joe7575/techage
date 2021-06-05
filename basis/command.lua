@@ -169,6 +169,14 @@ minetest.register_globalstep(function(dtime)
 	techage.SystemTime = techage.SystemTime + dtime
 end)
 
+-- used by TA1 hammer: dug_node[player_name] = pos
+techage.dug_node = {}
+minetest.register_on_dignode(function(pos, oldnode, digger)
+	if not digger then return end
+	-- store pos for tools without own 'register_on_dignode'
+	techage.dug_node[digger:get_player_name()] = pos
+end)
+
 -------------------------------------------------------------------
 -- API helper functions
 -------------------------------------------------------------------

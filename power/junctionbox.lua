@@ -43,8 +43,10 @@ local names = networks.register_junction("techage:electric_junction", 2/8, Boxes
 		Cable:after_place_node(pos)
 	end,
 	tubelib2_on_update2 = function(pos, dir1, tlib2, node)
-		local name = "techage:electric_junction" .. networks.junction_type(pos, Cable)
-		minetest.swap_node(pos, {name = name, param2 = 0})
+		if not networks.hidden_name(pos) then
+			local name = "techage:electric_junction" .. networks.junction_type(pos, Cable)
+			minetest.swap_node(pos, {name = name, param2 = 0})
+		end
 		power.update_network(pos, 0, tlib2, node)
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)

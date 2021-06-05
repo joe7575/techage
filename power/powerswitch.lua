@@ -18,6 +18,7 @@ local M = minetest.get_meta
 local S = techage.S
 
 local Cable = techage.ElectricCable
+local power = networks.power
 
 local Param2ToDir = {
 	[0] = 6,
@@ -28,9 +29,17 @@ local Param2ToDir = {
 	[5] = 3,
 }
 
-local function is_switchbox(pos)
-	return techage.get_node_lvm(pos).name == "techage:powerswitch_box" or 
-			M(pos):get_string("techage_hidden_nodename") == "techage:powerswitch_box"
+local function legacy_switchbox(pos)
+	local name = networks.hidden_name(pos)
+	if name == "techage:powerswitch_box" then
+		local meta = M(pos)
+		meta:set_int("networks_param2_copy", meta:get_int("tl2_param2_copy"))
+		if meta:get_int("networks_param2_copy") == 0 then
+			meta:set_string("networks_nodename", "techage:powerswitch_box_off")
+		else
+			meta:set_string("networks_nodename", "techage:powerswitch_box_on")
+		end
+	end
 end
 
 local function switch_on(pos, node, clicker, name)
@@ -47,14 +56,8 @@ local function switch_on(pos, node, clicker, name)
 	local dir = Param2ToDir[node.param2]
 	local pos2 = tubelib2.get_pos(pos, dir)
 	
-	if is_switchbox(pos2) then
-		if M(pos2):get_int("tl2_param2_copy") == 0 then
-			M(pos2):set_int("tl2_param2", techage.get_node_lvm(pos2).param2)
-		else
-			M(pos2):set_int("tl2_param2", M(pos2):get_int("tl2_param2_copy"))
-		end
-		Cable:after_place_tube(pos2, clicker)
-	end
+	legacy_switchbox(pos2)
+	power.turn_switch_on(pos2, Cable, "techage:powerswitch_box_off", "techage:powerswitch_box_on")
 end
 
 local function switch_off(pos, node, clicker, name)
@@ -72,13 +75,9 @@ local function switch_off(pos, node, clicker, name)
 	local dir = Param2ToDir[node.param2]
 	local pos2 = tubelib2.get_pos(pos, dir)
 	
-	if is_switchbox(pos2) then
-		local node2 = techage.get_node_lvm(pos2)
-		node2.param2 = M(pos2):get_int("tl2_param2")
-		M(pos2):set_int("tl2_param2_copy", M(pos2):get_int("tl2_param2"))
-		M(pos2):set_int("tl2_param2", 0)
-		Cable:after_dig_tube(pos2, node2)
-	end
+	legacy_switchbox(pos2)
+	power.turn_switch_off(pos2, Cable, "techage:powerswitch_box_off", "techage:powerswitch_box_on")
+
 end
 
 

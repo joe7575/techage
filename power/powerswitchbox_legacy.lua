@@ -73,9 +73,9 @@ minetest.register_lbm({
 	label = "[techage] legacy Power Switch Box",
 	name = "techage:powerswitch_box",
 	nodenames = {"techage:powerswitch_box"},
-	run_at_every_load = false,
+	run_at_every_load = true,
 	action = function(pos, node)
-		if M(pos):get_int("tl2_param2" == 0 then
+		if M(pos):get_int("tl2_param2") == 0 then
 			minetest.swap_node(pos, {name = "techage:powerswitch_box_off", param2 = node.param2})
 			M(pos):set_int("networks_param2", 0)
 		else
