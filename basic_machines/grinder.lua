@@ -99,7 +99,7 @@ local function src_to_dst(src_stack, idx, src_name, num_items, inp_num, inv, dst
 end
 			
 local function grinding(pos, crd, nvm, inv)
-	local num_items = 0
+	local blocked = false 	-- idle
 	for idx,stack in ipairs(inv:get_list("src")) do
 		if not stack:is_empty() then
 			local name = stack:get_name()
@@ -107,16 +107,21 @@ local function grinding(pos, crd, nvm, inv)
 				local recipe = Recipes[name]
 				if src_to_dst(stack, idx, name, crd.num_items, recipe.inp_num, inv, recipe.output) then
 					crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+					return
 				else
-					crd.State:blocked(pos, nvm)
+					blocked = true
 				end
 			else
 				crd.State:fault(pos, nvm)
+				return
 			end
-			return
 		end
 	end
-	crd.State:idle(pos, nvm)
+	if blocked then
+		crd.State:blocked(pos, nvm)
+	else
+		crd.State:idle(pos, nvm)
+	end
 end
 
 local function keep_running(pos, elapsed)
