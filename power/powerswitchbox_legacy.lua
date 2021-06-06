@@ -45,12 +45,13 @@ minetest.register_node("techage:powerswitch_box", {
 	node_box = node_box,
 	
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		local node = minetest.get_node(pos)
+		minetest.swap_node(pos, {name = "techage:powerswitch_box_on", param2 = node.param2})
+		
 		if not Cable:after_place_tube(pos, placer, pointed_thing) then
 			minetest.remove_node(pos)
 			return true
 		end
-		local node = minetest.get_node(pos)
-		minetest.swap_node(pos, {name = "techage:powerswitch_box_on", param2 = node.param2})
 		return false
 	end,
 	
@@ -67,20 +68,4 @@ minetest.register_node("techage:powerswitch_box", {
 	groups = {choppy=2, cracky=2, crumbly=2, techage_trowel = 1, not_in_creative_inventory = 1},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
-})
-
-minetest.register_lbm({
-	label = "[techage] legacy Power Switch Box",
-	name = "techage:powerswitch_box",
-	nodenames = {"techage:powerswitch_box"},
-	run_at_every_load = true,
-	action = function(pos, node)
-		if M(pos):get_int("tl2_param2") == 0 then
-			minetest.swap_node(pos, {name = "techage:powerswitch_box_off", param2 = node.param2})
-			M(pos):set_int("networks_param2", 0)
-		else
-			minetest.swap_node(pos, {name = "techage:powerswitch_box_on", param2 = node.param2})
-			M(pos):set_int("networks_param2",  M(pos):get_int("tl2_param2"))
-		end
-	end
 })

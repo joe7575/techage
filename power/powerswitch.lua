@@ -29,15 +29,36 @@ local Param2ToDir = {
 	[5] = 3,
 }
 
+local function get_param2(meta)
+	if meta:get_int("tl2_param2") then
+		meta:set_int("netw_param2", meta:get_int("tl2_param2"))
+		meta:set_string("tl2_param2", "")
+	end
+	if meta:get_int("tl2_param2_copy") then
+		meta:set_int("netw_param2_copy", meta:get_int("tl2_param2_copy"))
+		meta:set_string("tl2_param2_copy", "")
+	end
+	return meta:get_int("netw_param2")
+end
+
+-- The switchbox can be open or hidden
 local function legacy_switchbox(pos)
+	local meta = M(pos)
 	local name = networks.hidden_name(pos)
+	local node = techage.get_node_lvm(pos)
 	if name == "techage:powerswitch_box" then
-		local meta = M(pos)
-		meta:set_int("networks_param2_copy", meta:get_int("tl2_param2_copy"))
-		if meta:get_int("networks_param2_copy") == 0 then
-			meta:set_string("networks_nodename", "techage:powerswitch_box_off")
+		local param2 = get_param2(meta)
+		if param2 == 0 then
+			meta:set_string("netw_name", "techage:powerswitch_box_off")
 		else
-			meta:set_string("networks_nodename", "techage:powerswitch_box_on")
+			meta:set_string("netw_node", "techage:powerswitch_box_on")
+		end
+	elseif node.name == "techage:powerswitch_box" then
+		local param2 = get_param2(meta)
+		if param2 == 0 then
+			minetest.swap_node(pos, {name = "techage:powerswitch_box_off", param2 = node.param2})
+		else
+			minetest.swap_node(pos, {name = "techage:powerswitch_box_on", param2 = node.param2})
 		end
 	end
 end

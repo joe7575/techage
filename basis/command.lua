@@ -26,7 +26,7 @@ local techage_use_sqlite = minetest.settings:get_bool('techage_use_sqlite', fals
 local string_split = string.split
 local NodeDef = techage.NodeDef
 local Tube = techage.Tube
-local is_cart_available = minecart.is_cart_available
+local is_cart_available = minecart.is_nodecart_available
 
 -------------------------------------------------------------------
 -- Database
