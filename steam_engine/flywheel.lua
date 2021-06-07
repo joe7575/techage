@@ -31,15 +31,15 @@ local function switch_axles(pos, on)
 end
 
 local function formspec(self, pos, nvm)
-	return "size[4,4]"..
-		"box[0,-0.1;3.8,0.5;#c6e8ff]"..
-		"label[1,-0.1;"..minetest.colorize( "#000000", S("Flywheel")).."]"..
-		default.gui_bg..
-		default.gui_bg_img..
-		default.gui_slots..
-		techage.power.formspec_label_bar(pos, 0, 0.8, Axle, S("power"), PWR_PERF, nvm.provided)..
-		"image_button[2.8,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
-		"tooltip[2.8,2;1,1;"..self:get_state_tooltip(nvm).."]"
+	return "size[4,4]" ..
+		"box[0,-0.1;3.8,0.5;#c6e8ff]" ..
+		"label[1,-0.1;" .. minetest.colorize( "#000000", S("Flywheel")) .. "]" ..
+		default.gui_bg ..
+		default.gui_bg_img ..
+		default.gui_slots ..
+		techage.formspec_power_bar(pos, 0, 0.8, S("power"), nvm.provided, PWR_PERF) ..
+		"image_button[2.8,2;1,1;" .. self:get_state_button_image(nvm) .. ";state_button;]" ..
+		"tooltip[2.8,2;1,1; " .. self:get_state_tooltip(nvm) .. "]"
 end
 
 local function transfer_cylinder(pos, topic, payload)
@@ -131,9 +131,9 @@ end
 local function get_generator_data(pos, tlib2)
 	local nvm = techage.get_nvm(pos)
 	if nvm.running then
-		return {level = (nvm.load or 0) / PWR_PERF, capa = PWR_PERF * 4}
+		return {level = (nvm.load or 0) / PWR_PERF, perf = PWR_PERF, capa = PWR_PERF * 4}
 	else
-		return {level = 0, capa = PWR_PERF * 4}
+		return {level = 0, perf = PWR_PERF, capa = PWR_PERF * 4}
 	end
 end
 

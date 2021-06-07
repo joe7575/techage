@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -161,7 +161,6 @@ local tubing = {
 		local meta = minetest.get_meta(pos)
 		if meta:get_int("push_dir") == in_dir or in_dir == 5 then
 			local inv = M(pos):get_inventory()
-			--CRD(pos).State:start_if_standby(pos) -- would need power!
 			return techage.put_items(inv, "src", stack)
 		end
 	end,
@@ -217,6 +216,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		sounds = default.node_sound_wood_defaults(),
 		num_items = {0,1,2,4},
 		power_consumption = {0,3,4,5},
+		tube_sides = {L=1, R=1, U=1},
 	})
 
 minetest.register_craft({

@@ -27,6 +27,7 @@ local M = minetest.get_meta
 local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).consumer end
 
+local Tube = techage.Tube
 local power = networks.power
 local liquid = networks.liquid
 local CYCLE_TIME = 2
@@ -59,6 +60,15 @@ local function node_timer_pas(pos, elapsed)
 		local consumed = power.consume_power(pos, crd.power_netw, nil, crd.power_consumption)
 		if consumed == crd.power_consumption then
 			crd.State:start(pos, nvm)
+		end
+	end
+	
+		-- call the node timer routine
+	if techage.is_operational(nvm) then
+		nvm.node_timer_call_cyle = (nvm.node_timer_call_cyle or 0) + 1
+		if nvm.node_timer_call_cyle >= crd.call_cycle then
+			crd.node_timer(pos, crd.cycle_time)
+			nvm.node_timer_call_cyle = 0
 		end
 	end
 	return crd.State:is_active(nvm)
@@ -280,6 +290,11 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				power.register_nodes({name_pas, name_act}, power_network, "con", sides)
 			end
 			techage.register_node({name_pas, name_act}, tNode.tubing)
+			
+			if tNode.tube_sides then
+				Tube:set_valid_sides(name_pas, get_keys(tNode.tube_sides))
+				Tube:set_valid_sides(name_act, get_keys(tNode.tube_sides))
+			end
 		end
 	end
 	return names[1], names[2], names[3]

@@ -242,6 +242,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		sounds = default.node_sound_wood_defaults(),
 		num_items = {0,1,2,4},
 		power_consumption = {0,4,6,9},
+		tube_sides = {L=1, R=1, U=1},
 	})
 
 minetest.register_craft({

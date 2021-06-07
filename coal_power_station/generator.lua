@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -22,19 +22,12 @@ local CYCLE_TIME = 2
 local PWR_CAPA = 80
 
 local Cable = techage.ElectricCable
-local power = techage.power
-local networks = techage.networks
+local power = networks.power
+local control = networks.control
 
 local function formspec(self, pos, nvm)
-	return "size[4,4]"..
-		"box[0,-0.1;3.8,0.5;#c6e8ff]"..
-		"label[1,-0.1;"..minetest.colorize( "#000000", S("Generator")).."]"..
-		default.gui_bg..
-		default.gui_bg_img..
-		default.gui_slots..
-		power.formspec_label_bar(pos, 0, 0.8, S("power"), PWR_CAPA, nvm.provided)..
-		"image_button[2.8,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
-		"tooltip[2.8,2;1,1;"..self:get_state_tooltip(nvm).."]"
+	return techage.generator_formspec(self, pos, nvm, S("Generator"), 
+		nvm.provided, PWR_CAPA, nvm.running)
 end
 
 local function transfer_turbine(pos, topic, payload)
@@ -48,14 +41,14 @@ end
 
 local function start_node(pos, nvm, state)
 	local outdir = M(pos):get_int("outdir")
-	power.generator_start(pos, Cable, CYCLE_TIME, outdir)
+	power.start_storage_calc(pos, Cable, outdir)
 	transfer_turbine(pos, "start")
 	nvm.running = true
 end
 
 local function stop_node(pos, nvm, state)
 	local outdir = M(pos):get_int("outdir")
-	power.generator_stop(pos, Cable, outdir)
+	power.start_storage_calc(pos, Cable, outdir)
 	nvm.provided = 0
 	transfer_turbine(pos, "stop")
 	nvm.running = false
@@ -82,7 +75,8 @@ local function node_timer(pos, elapsed)
 		transfer_turbine(pos, "stop")	
 	else
 		local outdir = M(pos):get_int("outdir")
-		nvm.provided = power.generator_alive(pos, Cable, CYCLE_TIME, outdir)
+		nvm.provided = power.provide_power(pos, Cable, outdir, PWR_CAPA, nvm.termpoint1, nvm.termpoint2)
+		nvm.load = power.get_storage_load(pos, Cable, outdir, PWR_CAPA)
 		State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 	end
 	if techage.is_activeformspec(pos) then
@@ -97,6 +91,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 	local nvm = techage.get_nvm(pos)
 	State:state_button_event(pos, nvm, fields)
+	techage.evaluate_charge_termination(nvm, fields)
 end
 
 local function on_rightclick(pos, node, clicker)
@@ -119,17 +114,12 @@ local function after_dig_node(pos, oldnode)
 	techage.del_mem(pos)
 end
 
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
-	power.update_network(pos, outdir, tlib2)
+local function get_generator_data(pos, tlib2)
+	local nvm = techage.get_nvm(pos)
+	if nvm.running then
+		return {level = (nvm.load or 0) / PWR_CAPA, perf = PWR_CAPA, capa = PWR_CAPA * 2}
+	end
 end
-
-local net_def = {
-	ele1 = {
-		sides = {R = 1},
-		ntype = "gen1",
-		nominal = PWR_CAPA,
-	},
-}
 
 minetest.register_node("techage:generator", {
 	description = S("TA3 Generator"),
@@ -148,8 +138,7 @@ minetest.register_node("techage:generator", {
 	on_timer = node_timer,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	tubelib2_on_update2 = tubelib2_on_update2,
-	networks = net_def,
+	get_generator_data = get_generator_data,
 
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -193,8 +182,7 @@ minetest.register_node("techage:generator_on", {
 	on_timer = node_timer,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	tubelib2_on_update2 = tubelib2_on_update2,
-	networks = net_def,
+	get_generator_data = get_generator_data,
 
 	drop = "",
 	paramtype2 = "facedir",
@@ -205,7 +193,7 @@ minetest.register_node("techage:generator_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-Cable:add_secondary_node_names({"techage:generator", "techage:generator_on"})
+power.register_nodes({"techage:generator", "techage:generator_on"}, Cable, "gen", {"R"})
 
 -- controlled by the turbine
 techage.register_node({"techage:generator", "techage:generator_on"}, {
@@ -229,6 +217,27 @@ techage.register_node({"techage:generator", "techage:generator_on"}, {
 		end
 	end,
 })
+
+-- used by power terminal
+control.register_nodes({"techage:generator", "techage:generator_on"}, {
+		on_receive = function(pos, tlib2, topic, payload)
+		end,
+		on_request = function(pos, tlib2, topic)
+			if topic == "info" then
+				local nvm = techage.get_nvm(pos)
+				return {
+					type = S("TA3 Generator"),
+					number = M(pos):get_string("node_number") or "",
+					running = nvm.running or false,
+					available = PWR_CAPA,
+					provided = nvm.provided or 0,
+					termpoint = nvm.termpoint or "unknown", 
+				}
+			end
+			return false
+		end,
+	}
+)
 
 minetest.register_craft({
 	output = "techage:generator",

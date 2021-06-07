@@ -116,40 +116,40 @@ minetest.register_node("techage:oilfirebox", {
 		end
 	end,
 	
-	liquid = {
-		capa = fuel.CAPACITY,
-		fuel_cat = fuel.BT_BITUMEN,
-		peek = liquid.srv_peek,
-		put = function(pos, indir, name, amount)
-			if fuel.valid_fuel(name, fuel.BT_BITUMEN) then
-				local leftover = liquid.srv_put(pos, indir, name, amount)
-				local nvm = techage.get_nvm(pos)
-				nvm.liquid = nvm.liquid or {}
-				nvm.liquid.amount = nvm.liquid.amount or 0
-				start_firebox(pos, nvm)
-				if techage.is_activeformspec(pos) then
-					local nvm = techage.get_nvm(pos)
-					M(pos):set_string("formspec", fuel.formspec(nvm))
-				end
-				return leftover
-			end
-			return amount
-		end,
-		take = function(pos, indir, name, amount)
-			amount, name = liquid.srv_take(pos, indir, name, amount)
-			if techage.is_activeformspec(pos) then
-				local nvm = techage.get_nvm(pos)
-				M(pos):set_string("formspec", fuel.formspec(nvm))
-			end
-			return amount, name
-		end
-	},
-	networks = {
-		pipe2 = {
-			sides = techage.networks.AllSides, -- Pipe connection sides
-			ntype = "tank",
-		},
-	},
+--	liquid = {   TODO
+--		capa = fuel.CAPACITY,
+--		fuel_cat = fuel.BT_BITUMEN,
+--		peek = liquid.srv_peek,
+--		put = function(pos, indir, name, amount)
+--			if fuel.valid_fuel(name, fuel.BT_BITUMEN) then
+--				local leftover = liquid.srv_put(pos, indir, name, amount)
+--				local nvm = techage.get_nvm(pos)
+--				nvm.liquid = nvm.liquid or {}
+--				nvm.liquid.amount = nvm.liquid.amount or 0
+--				start_firebox(pos, nvm)
+--				if techage.is_activeformspec(pos) then
+--					local nvm = techage.get_nvm(pos)
+--					M(pos):set_string("formspec", fuel.formspec(nvm))
+--				end
+--				return leftover
+--			end
+--			return amount
+--		end,
+--		take = function(pos, indir, name, amount)
+--			amount, name = liquid.srv_take(pos, indir, name, amount)
+--			if techage.is_activeformspec(pos) then
+--				local nvm = techage.get_nvm(pos)
+--				M(pos):set_string("formspec", fuel.formspec(nvm))
+--			end
+--			return amount, name
+--		end
+--	},
+--	networks = {
+--		pipe2 = {
+--			sides = techage.networks.AllSides, -- Pipe connection sides
+--			ntype = "tank",
+--		},
+--	},
 })
 
 Pipe:add_secondary_node_names({"techage:oilfirebox"})
