@@ -37,6 +37,8 @@ local Cable = tubelib2.Tube:new({
 			minetest.swap_node(pos, {name = name, param2 = param2 % 32})
 		elseif name == "techage:power_line" or name == "techage:power_lineS" or name == "techage:power_lineA" then
 			minetest.swap_node(pos, {name = "techage:power_line"..tube_type, param2 = param2 % 32})
+		elseif name == "techage:power_pole2" then
+			-- nothing
 		elseif not networks.hidden_name(pos) then
 			minetest.swap_node(pos, {name = "techage:electric_cable"..tube_type, param2 = param2 % 32})
 		end
@@ -47,7 +49,7 @@ local Cable = tubelib2.Tube:new({
 
 -- Enable hidden cables
 networks.use_metadata(Cable)
-networks.register_hidden_message("Use the tool to remove the node.")
+networks.register_hidden_message("Use the trowel tool to remove the node.")
 networks.register_filling_items(techage.FILLING_ITEMS)
 
 -- Use global callback instead of node related functions

@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -17,8 +17,7 @@ local P2S = minetest.pos_to_string
 local M = minetest.get_meta
 local S = techage.S
 local Pipe = techage.LiquidPipe
-local networks = techage.networks
-local liquid = techage.liquid
+local liquid = networks.liquid
 
 
 local function orientation(pos, names)
@@ -38,10 +37,6 @@ end
 
 local function after_place_node(pos, placer)
 	Pipe:after_place_node(pos)
-end
-
-local function tubelib2_on_update2(pos, dir, tlib2, node)
-	liquid.update_network(pos, dir, tlib2)
 end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
@@ -73,9 +68,7 @@ minetest.register_node("techage:ta3_distiller_base", {
 		type = "fixed",
 		fixed = {-1/2, -1/2, -1/2, 1/2, 1/2, 1/2},
 	},
-	
 	after_place_node = after_place_node,
-	tubelib2_on_update2 = tubelib2_on_update2,
 	after_dig_node = after_dig_node,
 	
 	paramtype2 = "facedir",
@@ -83,14 +76,9 @@ minetest.register_node("techage:ta3_distiller_base", {
 	groups = {cracky=2},
 	is_ground_content = false,
 	sounds = default.node_sound_stone_defaults(),
-
-	networks = {
-		pipe2 = {
-			sides = {B=1}, -- Pipe connection sides
-			ntype = "pump",
-		},
-	},
 })
+
+liquid.register_nodes({"techage:ta3_distiller_base"}, Pipe, "pump", {"B"}, {})
 
 minetest.register_node("techage:ta3_distiller1", {
 	description = S("TA3 Distillation Tower 1"),
@@ -112,8 +100,6 @@ minetest.register_node("techage:ta3_distiller1", {
 		after_place_node(pos, placer)
 		return res
 	end,
-	
-	tubelib2_on_update2 = tubelib2_on_update2,
 	after_dig_node = after_dig_node,
 
 	paramtype = "light",
@@ -122,14 +108,9 @@ minetest.register_node("techage:ta3_distiller1", {
 	groups = {cracky=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
-
-	networks = {
-		pipe2 = {
-			sides = {F=1}, -- Pipe connection sides
-			ntype = "tank",
-		},
-	},
 })
+
+liquid.register_nodes({"techage:ta3_distiller1"}, Pipe, "pump", {"F"}, {})
 
 minetest.register_node("techage:ta3_distiller2", {
 	description = S("TA3 Distillation Tower 2"),
@@ -175,8 +156,6 @@ minetest.register_node("techage:ta3_distiller3", {
 		local res = orientation(pos, {"techage:ta3_distiller2"})
 		return res
 	end,
-	
-	tubelib2_on_update2 = tubelib2_on_update2,
 	after_dig_node = after_dig_node,
 	
 	paramtype = "light",
@@ -185,14 +164,9 @@ minetest.register_node("techage:ta3_distiller3", {
 	groups = {cracky=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
-
-	networks = {
-		pipe2 = {
-			sides = {B=1}, -- Pipe connection sides
-			ntype = "pump",
-		},
-	},
 })
+
+liquid.register_nodes({"techage:ta3_distiller3"}, Pipe, "pump", {"B"}, {})
 
 minetest.register_node("techage:ta3_distiller4", {
 	description = S("TA3 Distillation Tower 4"),
@@ -213,8 +187,6 @@ minetest.register_node("techage:ta3_distiller4", {
 		after_place_node(pos, placer)
 		return res
 	end,
-	
-	tubelib2_on_update2 = tubelib2_on_update2,
 	after_dig_node = after_dig_node,
 	
 	paramtype = "light",
@@ -223,40 +195,28 @@ minetest.register_node("techage:ta3_distiller4", {
 	groups = {cracky=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
-
-	networks = {
-		pipe2 = {
-			sides = {U=1}, -- Pipe connection sides
-			ntype = "pump",
-		},
-	},
 })
 
+liquid.register_nodes({"techage:ta3_distiller4"}, Pipe, "pump", {"U"}, {})
 
-Pipe:add_secondary_node_names({
-		"techage:ta3_distiller_base", "techage:ta3_distiller1",
-		"techage:ta3_distiller3", "techage:ta3_distiller4",
-})
-
-local Liquids = {
-	[-1] = "techage:bitumen",
-	[2] = "techage:fueloil",
-	[4] = "techage:naphtha",
-	[6] = "techage:gasoline",
-	[7] = "techage:gas",
-}
+local Liquids = {"techage:bitumen", "techage:fueloil", "techage:naphtha", "techage:gasoline", "techage:gas"}
+local YPos = {-1, 2, 4, 6, 7}
 
 techage.register_node({"techage:ta3_distiller1"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		if topic == "put" then
-			local leftover = 0
-			local outdir = M(pos):get_int("outdir")
-			for _,y in ipairs({-1, 2, 4, 6, 7}) do
-				local pos2 = {x = pos.x, y = pos.y + y, z = pos.z}
-				if y == 7 then
-					outdir = 6
-				end
-				leftover = leftover + liquid.put(pos2, outdir, Liquids[y], 1)
+			local nvm = techage.get_nvm(pos)
+			nvm.idx = nvm.idx or 1
+			local outdir
+			if nvm.idx == 5 then 
+				outdir = 6 -- up
+			else
+				outdir = M(pos):get_int("outdir")
+			end
+			local pos2 = {x = pos.x, y = pos.y + YPos[nvm.idx], z = pos.z}
+			local leftover = liquid.put(pos2, Pipe, outdir, Liquids[nvm.idx], 1)
+			if leftover == 0 then
+				nvm.idx = (nvm.idx % 5) + 1
 			end
 			return leftover
 		end

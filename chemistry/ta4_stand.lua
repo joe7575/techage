@@ -117,7 +117,6 @@ minetest.register_node("techage:ta4_reactor_stand", {
 	after_dig_node = function(pos, oldnode)
 		Pipe:after_dig_node(pos)
 		Cable:after_dig_node(pos)
-		liquid.after_dig_pump(pos)
 		techage.del_mem(pos)
 	end,
 	
@@ -153,7 +152,7 @@ techage.register_node({"techage:ta4_reactor_stand"}, {
 			return nvm.has_power or power.power_available(pos, Cable)
 		elseif topic == "output" then
 			local outdir = M(pos):get_int("outdir")
-			return liquid.put(pos, outdir, payload.name, payload.amount, payload.player_name)
+			return liquid.put(pos, Pipe, outdir, payload.name, payload.amount, payload.player_name)
 		elseif topic == "can_start" then
 			return power.power_available(pos, Cable)
 		elseif topic == "start" then

@@ -18,7 +18,7 @@ local P2S = minetest.pos_to_string
 local M = minetest.get_meta
 local S = techage.S
 
-local power = techage.power
+local power = networks.power
 
 local ELE2_MAX_CABLE_LENGHT = 200
 
@@ -40,13 +40,10 @@ local Cable = tubelib2.Tube:new({
 	end,
 })
 
---Cable:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir)
---	local ndef = minetest.registered_nodes[node.name]
---	if ndef and ndef.after_tube_update then
---		minetest.registered_nodes[node.name].after_tube_update(node, pos, out_dir, peer_pos, peer_in_dir)
---	end
---end)
-
+-- Use global callback instead of node related functions
+Cable:register_on_tube_update2(function(pos, outdir, tlib2, node)
+	power.update_network(pos, outdir, tlib2, node)
+end)
 
 minetest.register_node("techage:ta4_power_cableS", {
 	description = S("TA4 Low Power Cable"),
@@ -155,17 +152,11 @@ minetest.register_node("techage:ta4_power_box", {
 		Cable:after_place_node(pos)
 	end,
 	tubelib2_on_update2 = function(pos, dir1, tlib2, node)
-		power.update_network(pos, nil, tlib2)
+		power.update_network(pos, 0, tlib2, node)
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Cable:after_dig_node(pos)
 	end,
-	networks = {
-		ele2 = {
-			sides = {L=1, R=1, F=1, B=1},
-			ntype = "junc",
-		},
-	},
 	
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
@@ -176,7 +167,7 @@ minetest.register_node("techage:ta4_power_box", {
 	sounds = default.node_sound_defaults(),
 })
 
-Cable:add_secondary_node_names({"techage:ta4_power_box"})
+power.register_nodes({"techage:ta4_power_box"}, Cable, "junc", {"L", "R", "F", "B"})
 
 minetest.register_craft({
 	output = "techage:ta4_power_cableS 8",

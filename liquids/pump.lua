@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -17,34 +17,13 @@ local P2S = minetest.pos_to_string
 local M = minetest.get_meta
 local S = techage.S
 local Pipe = techage.LiquidPipe
-local networks = techage.networks
-local liquid = techage.liquid
-local Flip = techage.networks.Flip
+local liquid = networks.liquid
+local Flip = networks.Flip
 
 local STANDBY_TICKS = 3
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 2
 local CAPA = 4
-
--- to mark the pump source and destinstion node
-local DebugCache = {}
-
-local function set_starter_name(pos, clicker)
-	local key = minetest.hash_node_position(pos)
-	DebugCache[key] = {starter = clicker:get_player_name(), count = 10}
-end
-
-local function get_starter_name(pos)
-	local key = minetest.hash_node_position(pos)
-	local def = DebugCache[key]
-	if def then
-		def.count = (def.count or 0) - 1
-		if def.count > 0 then
-			return def.starter
-		end
-		DebugCache[key] = nil
-	end
-end
 
 local State3 = techage.NodeStates:new({
 	node_name_passive = "techage:t3_pump",
@@ -63,14 +42,15 @@ local State4 = techage.NodeStates:new({
 })
 
 local function pumping(pos, nvm, state, capa)
+	local mem = techage.get_mem(pos)
+	mem.dbg_cycles = (mem.dbg_cycles or 0) - 1
 	local outdir = M(pos):get_int("outdir")
-	local starter = get_starter_name(pos)
 	--print("pumping", outdir, Flip[outdir])
-	local taken, name = liquid.take(pos, Flip[outdir], nil, capa, starter)
+	local taken, name = liquid.take(pos, Pipe, Flip[outdir], nil, capa, mem.dbg_cycles > 0)
 	if taken > 0 then
-		local leftover = liquid.put(pos, outdir, name, taken, starter)
-		if leftover then
-			liquid.untake(pos, Flip[outdir], name, leftover)
+		local leftover = liquid.put(pos, Pipe, outdir, name, taken, mem.dbg_cycles > 0)
+		if leftover and leftover > 0 then
+			liquid.untake(pos, Pipe, Flip[outdir], name, leftover)
 			if leftover == taken then
 				state:blocked(pos, nvm)
 				return
@@ -117,25 +97,22 @@ local function on_rightclick(pos, node, clicker)
 	
 	local nvm = techage.get_nvm(pos)
 	if node.name == "techage:t3_pump" then
-		set_starter_name(pos, clicker)
+		local mem = techage.get_mem(pos)
+		mem.dbg_cycles = 5
 		State3:start(pos, nvm)
 	elseif node.name == "techage:t3_pump_on" then
 		State3:stop(pos, nvm)
 	elseif node.name == "techage:t4_pump" then
-		set_starter_name(pos, clicker)
+		local mem = techage.get_mem(pos)
+		mem.dbg_cycles = 5
 		State4:start(pos, nvm)
 	elseif node.name == "techage:t4_pump_on" then
 		State4:stop(pos, nvm)
 	end
 end
 
-local function tubelib2_on_update2(pos, outdir, tlib2, node)
-	liquid.update_network(pos, outdir)
-end
-
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	Pipe:after_dig_node(pos)
-	liquid.after_dig_pump(pos)
 	techage.del_mem(pos)
 end
 
@@ -215,23 +192,14 @@ local ta4_tiles_act = {
 	},
 }
 
-local nworks = {
-	pipe2 = {
-		sides = {L = 1, R = 1}, -- Pipe connection side
-		ntype = "pump",
-	},
-}
-
 minetest.register_node("techage:t3_pump", {
 	description = S("TA3 Pump"),
 	tiles = ta3_tiles_pas,
 	after_place_node = after_place_node3,
 	on_rightclick = on_rightclick,
-	tubelib2_on_update2 = tubelib2_on_update2,
 	on_timer = node_timer3,
 	after_dig_node = after_dig_node,
 	on_rotate = screwdriver.disallow,
-	networks = nworks,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},
@@ -244,11 +212,9 @@ minetest.register_node("techage:t3_pump_on", {
 	tiles = ta3_tiles_act,
 	--after_place_node = after_place_node3,
 	on_rightclick = on_rightclick,
-	tubelib2_on_update2 = tubelib2_on_update2,
 	on_timer = node_timer3,
 	after_dig_node = after_dig_node,
 	on_rotate = screwdriver.disallow,
-	networks = nworks,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	diggable = false,
@@ -262,11 +228,9 @@ minetest.register_node("techage:t4_pump", {
 	tiles = ta4_tiles_pas,
 	after_place_node = after_place_node4,
 	on_rightclick = on_rightclick,
-	tubelib2_on_update2 = tubelib2_on_update2,
 	on_timer = node_timer4,
 	after_dig_node = after_dig_node,
 	on_rotate = screwdriver.disallow,
-	networks = nworks,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},
@@ -279,11 +243,9 @@ minetest.register_node("techage:t4_pump_on", {
 	tiles = ta4_tiles_act,
 	--after_place_node = after_place_node4,
 	on_rightclick = on_rightclick,
-	tubelib2_on_update2 = tubelib2_on_update2,
 	on_timer = node_timer4,
 	after_dig_node = after_dig_node,
 	on_rotate = screwdriver.disallow,
-	networks = nworks,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	diggable = false,
@@ -304,11 +266,12 @@ techage.register_node({"techage:t4_pump", "techage:t4_pump_on"}, {
 	end,
 })
 
-Pipe:add_secondary_node_names({
+-- Pumps have to provide one output and one input side
+liquid.register_nodes({
 	"techage:t3_pump", "techage:t3_pump_on",
 	"techage:t4_pump", "techage:t4_pump_on",
-})
- 
+}, Pipe, "pump", {"L", "R"}, {})
+
 minetest.register_craft({
 	output = "techage:t3_pump 2",
 	recipe = {

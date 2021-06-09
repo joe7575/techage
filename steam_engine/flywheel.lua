@@ -31,15 +31,7 @@ local function switch_axles(pos, on)
 end
 
 local function formspec(self, pos, nvm)
-	return "size[4,4]" ..
-		"box[0,-0.1;3.8,0.5;#c6e8ff]" ..
-		"label[1,-0.1;" .. minetest.colorize( "#000000", S("Flywheel")) .. "]" ..
-		default.gui_bg ..
-		default.gui_bg_img ..
-		default.gui_slots ..
-		techage.formspec_power_bar(pos, 0, 0.8, S("power"), nvm.provided, PWR_PERF) ..
-		"image_button[2.8,2;1,1;" .. self:get_state_button_image(nvm) .. ";state_button;]" ..
-		"tooltip[2.8,2;1,1; " .. self:get_state_tooltip(nvm) .. "]"
+	return techage.generator_formspec(self, pos, nvm, S("Flywheel"), nvm.provided, PWR_PERF)
 end
 
 local function transfer_cylinder(pos, topic, payload)
@@ -54,18 +46,18 @@ end
 local function start_node(pos, nvm, state)
 	switch_axles(pos, true)
 	local outdir = M(pos):get_int("outdir")
-	power.start_storage_calc(pos, Axle, outdir)
 	transfer_cylinder(pos, "start")
 	nvm.running = true
+	power.start_storage_calc(pos, Axle, outdir)
 end
 
 local function stop_node(pos, nvm, state)
 	switch_axles(pos, false)
 	local outdir = M(pos):get_int("outdir")
-	power.start_storage_calc(pos, Axle, outdir)
 	nvm.provided = 0
 	transfer_cylinder(pos, "stop")
 	nvm.running = false
+	power.start_storage_calc(pos, Axle, outdir)
 end
 
 local State = techage.NodeStates:new({

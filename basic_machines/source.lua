@@ -28,8 +28,7 @@ local CYCLE_TIME = 2
 local PWR_PERF = 100
 
 local function formspec(self, pos, nvm)
-	return  techage.generator_formspec(self, pos, nvm, S("Power Source"), 
-		nvm.provided, PWR_PERF, nvm.generating)
+	return techage.generator_formspec(self, pos, nvm, S("Power Source"), nvm.provided, PWR_PERF)
 end
 
 -- Axles texture animation
@@ -39,7 +38,7 @@ local function switch_axles(pos, on)
 end
 
 local function start_node2(pos, nvm, state)
-	nvm.generating = true
+	nvm.running = true
 	nvm.provided = 0
 	local outdir = M(pos):get_int("outdir")
 	switch_axles(pos, true)
@@ -47,7 +46,7 @@ local function start_node2(pos, nvm, state)
 end
 
 local function stop_node2(pos, nvm, state)
-	nvm.generating = false
+	nvm.running = false
 	nvm.provided = 0
 	nvm.load = 0
 	local outdir = M(pos):get_int("outdir")
@@ -56,14 +55,16 @@ local function stop_node2(pos, nvm, state)
 end
 
 local function start_node3(pos, nvm, state)
-	nvm.generating = true
+	local meta = M(pos) 
+	nvm.running = true
 	nvm.provided = 0
-	local outdir = M(pos):get_int("outdir")
+	techage.evaluate_charge_termination(nvm, meta)
+	local outdir = meta:get_int("outdir")
 	power.start_storage_calc(pos, Cable, outdir)
 end
 
 local function stop_node3(pos, nvm, state)
-	nvm.generating = false
+	nvm.running = false
 	nvm.provided = 0
 	local outdir = M(pos):get_int("outdir")
 	power.start_storage_calc(pos, Cable, outdir)
@@ -89,24 +90,30 @@ local State3 = techage.NodeStates:new({
 
 local function node_timer2(pos, elapsed)
 	--print("node_timer2")
+	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
-	local outdir = M(pos):get_int("outdir")
-	nvm.provided = power.provide_power(pos, Axle, outdir, PWR_PERF, nvm.termpoint1, nvm.termpoint2)
+	local outdir = meta:get_int("outdir")
+	local tp1 = tonumber(meta:get_string("termpoint1"))
+	local tp2 = tonumber(meta:get_string("termpoint2"))
+	nvm.provided = power.provide_power(pos, Axle, outdir, PWR_PERF, tp1, tp2)
 	nvm.load = power.get_storage_load(pos, Axle, outdir, PWR_PERF)
 	if techage.is_activeformspec(pos) then
-		M(pos):set_string("formspec", formspec(State2, pos, nvm))
+		meta:set_string("formspec", formspec(State2, pos, nvm))
 	end
 	return true
 end
 
 local function node_timer3(pos, elapsed)
 	--print("node_timer4")
+	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
 	local outdir = M(pos):get_int("outdir")
-	nvm.provided = power.provide_power(pos, Cable, outdir, PWR_PERF, nvm.termpoint1, nvm.termpoint2)
+	local tp1 = tonumber(meta:get_string("termpoint1"))
+	local tp2 = tonumber(meta:get_string("termpoint2"))
+	nvm.provided = power.provide_power(pos, Cable, outdir, PWR_PERF, tp1, tp2)
 	nvm.load = power.get_storage_load(pos, Cable, outdir, PWR_PERF)
 	if techage.is_activeformspec(pos) then
-		M(pos):set_string("formspec", formspec(State3, pos, nvm))
+		meta:set_string("formspec", formspec(State3, pos, nvm))
 	end
 	return true
 end
@@ -117,7 +124,6 @@ local function on_receive_fields2(pos, formname, fields, player)
 	end
 	local nvm = techage.get_nvm(pos)
 	State2:state_button_event(pos, nvm, fields)
-	techage.evaluate_charge_termination(nvm, fields)
 	M(pos):set_string("formspec", formspec(State2, pos, nvm))
 end
 
@@ -127,7 +133,6 @@ local function on_receive_fields3(pos, formname, fields, player)
 	end
 	local nvm = techage.get_nvm(pos)
 	State3:state_button_event(pos, nvm, fields)
-	techage.evaluate_charge_termination(nvm, fields)
 	M(pos):set_string("formspec", formspec(State3, pos, nvm))
 end
 
@@ -172,7 +177,7 @@ end
 
 local function get_generator_data(pos, tlib2)
 	local nvm = techage.get_nvm(pos)
-	if nvm.generating then
+	if nvm.running then
 		return {level = (nvm.load or 0) / PWR_PERF, perf = PWR_PERF, capa = PWR_PERF * 2}
 	end
 end
@@ -221,6 +226,7 @@ minetest.register_node("techage:t4_source", {
 	after_place_node = after_place_node3,
 	after_dig_node = after_dig_node3,
 	get_generator_data = get_generator_data,
+	ta3_formspec = techage.generator_settings("ta3", PWR_PERF),
 })
 
 power.register_nodes({"techage:t2_source"}, Axle, "gen", {"R"})
@@ -231,10 +237,8 @@ techage.register_node({"techage:t4_source"}, {
 		local nvm = techage.get_nvm(pos)
 		if topic == "delivered" then
 			return nvm.provided or 0
-		elseif topic == "info" then
-			
 		else
-			return State:on_receive_message(pos, topic, payload)
+			return State3:on_receive_message(pos, topic, payload)
 		end
 	end,
 })	
@@ -245,13 +249,14 @@ control.register_nodes({"techage:t4_source"}, {
 		on_request = function(pos, tlib2, topic)
 			if topic == "info" then
 				local nvm = techage.get_nvm(pos)
+				local meta = M(pos)
 				return {
 					type = S("Ele Power Source"),
-					number = M(pos):get_string("node_number") or "",
-					running = nvm.generating or false,
+					number = meta:get_string("node_number") or "",
+					running = nvm.running or false,
 					available = PWR_PERF,
 					provided = nvm.provided or 0,
-					termpoint = nvm.termpoint or "unknown", 
+					termpoint = meta:get_string("termpoint"), 
 				}
 			end
 			return false

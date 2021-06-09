@@ -16,7 +16,6 @@
 local M = minetest.get_meta
 local S = techage.S
 
-local networks = techage.networks
 local Tube = techage.Tube
 
 local size = 2/8
@@ -29,7 +28,7 @@ local Boxes = {
 	{{-size, -size, -size, size, 0.5,  size}}, -- y+
 }
 
-local names = techage.register_junction("techage:concentrator", 2/8, Boxes, Tube, {
+local names = networks.register_junction("techage:concentrator", 2/8, Boxes, Tube, {
 	description = S("Tube Concentrator"),
 	tiles = {
 		"techage_tube_junction.png^techage_appl_arrow2.png^[transformR270",
@@ -45,13 +44,13 @@ local names = techage.register_junction("techage:concentrator", 2/8, Boxes, Tube
 
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		local node = minetest.get_node(pos)
-		local name = "techage:concentrator"..techage.junction_type(pos, Tube, "R", node.param2)
+		local name = "techage:concentrator"..networks.junction_type(pos, Tube, "R", node.param2)
 		minetest.swap_node(pos, {name = name, param2 = node.param2})
 		M(pos):set_int("push_dir", techage.side_to_outdir("R", node.param2))
 		Tube:after_place_node(pos)
 	end,
 	tubelib2_on_update2 = function(pos, dir1, tlib2, node)
-		local name = "techage:concentrator"..techage.junction_type(pos, Tube, "R", node.param2)
+		local name = "techage:concentrator"..networks.junction_type(pos, Tube, "R", node.param2)
 		minetest.swap_node(pos, {name = name, param2 = node.param2})
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
@@ -67,7 +66,7 @@ techage.register_node(names, {
 	is_pusher = true,  -- is a pulling/pushing node
 })	
 
-names = techage.register_junction("techage:ta4_concentrator", 2/8, Boxes, Tube, {
+names = networks.register_junction("techage:ta4_concentrator", 2/8, Boxes, Tube, {
 	description = S("TA4 Tube Concentrator"),
 	tiles = {
 		"techage_tubeta4_junction.png^techage_appl_arrow2.png^[transformR270",
@@ -83,13 +82,13 @@ names = techage.register_junction("techage:ta4_concentrator", 2/8, Boxes, Tube, 
 
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		local node = minetest.get_node(pos)
-		local name = "techage:ta4_concentrator"..techage.junction_type(pos, Tube, "R", node.param2)
+		local name = "techage:ta4_concentrator"..networks.junction_type(pos, Tube, "R", node.param2)
 		minetest.swap_node(pos, {name = name, param2 = node.param2})
 		M(pos):set_int("push_dir", techage.side_to_outdir("R", node.param2))
 		Tube:after_place_node(pos)
 	end,
 	tubelib2_on_update2 = function(pos, dir1, tlib2, node)
-		local name = "techage:ta4_concentrator"..techage.junction_type(pos, Tube, "R", node.param2)
+		local name = "techage:ta4_concentrator"..networks.junction_type(pos, Tube, "R", node.param2)
 		minetest.swap_node(pos, {name = name, param2 = node.param2})
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)

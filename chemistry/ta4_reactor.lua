@@ -85,7 +85,7 @@ end
 local function base_waste(pos, payload)
 	local pos2 = {x = pos.x, y = pos.y-3, z = pos.z}
 	local outdir = M(pos2):get_int("outdir")
-	return liquid.put(pos2, outdir, payload.name, payload.amount, payload.player_name)
+	return liquid.put(pos2, Pipe, outdir, payload.name, payload.amount, payload.player_name)
 end
 
 -- controlled by the doser

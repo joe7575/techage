@@ -238,7 +238,7 @@ local tubing = {
 		local nvm = techage.get_nvm(pos)
 		if not nvm.assemble_locked then
 			local meta = minetest.get_meta(pos)
-			if meta:get_int("push_dir") == in_dir  or in_dir == 5 then
+			if meta:get_int("push_dir") == in_dir then
 				local inv = M(pos):get_inventory()
 				CRD(pos).State:start_if_standby(pos)
 				return techage.put_items(inv, "src", stack)
@@ -299,6 +299,7 @@ local _, node_name_ta3, _ =
 		sounds = default.node_sound_wood_defaults(),
 		num_items = {0,1,1,1},
 		power_consumption = {0,10,16,24},
+		tube_sides = {L=1, R=1},
 	},
 	{false, false, true, false})  -- TA3 only
 

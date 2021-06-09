@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -20,8 +20,8 @@ local S2P = minetest.string_to_pos
 
 local Cable = techage.ElectricCable
 local Solar = techage.TA4_Cable
-local power = techage.power
-local networks = techage.networks
+local power = networks.power
+local control = networks.control
 
 local CYCLE_TIME = 2
 local PWR_PERF = 100
@@ -29,13 +29,19 @@ local PWR_PERF = 100
 local function determine_power(pos, nvm)
 	-- determine DC node position
 	local outdir = M(pos):get_int("leftdir")
-	local max_power, num_inverter = power.get_power(pos, outdir, Solar, "techage:ta4_solar_inverter")
-	if num_inverter == 1 then
+	local netw = networks.get_network_table(pos, Solar, outdir) or {}
+	local num_inv = #(netw.con or {})
+	local max_power = 0
+	for _, power in ipairs(control.request(pos, Solar, outdir, "junc", "power")) do
+		max_power = max_power + power
+	end
+	
+	if num_inv == 1 then  -- only one inverter is allowed
 		nvm.max_power = math.min(PWR_PERF, max_power)
 	else
 		nvm.max_power = 0
 	end
-	return max_power, num_inverter
+	return max_power, num_inv
 end
 
 local function determine_power_from_time_to_time(pos, nvm)
@@ -46,7 +52,7 @@ local function determine_power_from_time_to_time(pos, nvm)
 		return
 	end
 	nvm.ticks = nvm.ticks or 0
-	if (nvm.ticks % 10) == 0 then -- calculate max_power not to often
+	if (nvm.ticks % 30) == 0 then -- calculate max_power not to often
 		determine_power(pos, nvm)
 	else
 		nvm.max_power = nvm.max_power or 0
@@ -56,7 +62,7 @@ end
 
 local function formspec(self, pos, nvm)
 	local max_power = nvm.max_power or 0
-	local delivered = nvm.delivered or 0
+	local provided = nvm.provided or 0
 	local arrow = "image[2.5,1.5;1,1;techage_form_arrow_bg.png^[transformR270]"
 	if nvm.running then
 		arrow = "image[2.5,1.5;1,1;techage_form_arrow_fg.png^[transformR270]"
@@ -67,8 +73,8 @@ local function formspec(self, pos, nvm)
 		default.gui_slots..
 		"box[0,-0.1;5.8,0.5;#c6e8ff]"..
 		"label[2.5,-0.1;"..minetest.colorize( "#000000", S("Inverter")).."]"..
-		power.formspec_label_bar(pos, 0,   0.8, S("Power DC"), PWR_PERF, max_power)..
-		power.formspec_label_bar(pos, 3.5, 0.8, S("Power AC"), max_power, delivered)..
+		techage.formspec_power_bar(pos, 0,   0.8, S("Power DC"), max_power, PWR_PERF)..
+		techage.formspec_power_bar(pos, 3.5, 0.8, S("Power AC"), provided, max_power)..
 		arrow..
 		"image_button[2.5,3;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 		"tooltip[2.5,3;1,1;"..self:get_state_tooltip(nvm).."]"
@@ -82,18 +88,20 @@ local function can_start(pos, nvm, state)
 end
 
 local function start_node(pos, nvm, state)
+	local meta = M(pos)
 	nvm.running = true
-	nvm.delivered = 0
+	nvm.provided = 0
 	nvm.ticks = 0
-	local outdir = M(pos):get_int("outdir")
-	power.generator_start(pos, Cable, CYCLE_TIME, outdir, nvm.max_power)
+	local outdir = meta:get_int("outdir")
+	techage.evaluate_charge_termination(nvm, meta)
+	power.start_storage_calc(pos, Cable, outdir)
 end
 
 local function stop_node(pos, nvm, state)
 	nvm.running = false
-	nvm.delivered = 0
+	nvm.provided = 0
 	local outdir = M(pos):get_int("outdir")
-	power.generator_stop(pos, Cable, outdir)
+	power.start_storage_calc(pos, Cable, outdir)
 end
 
 local State = techage.NodeStates:new({
@@ -108,16 +116,18 @@ local State = techage.NodeStates:new({
 })
 
 local function node_timer(pos, elapsed)
+	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
 	determine_power_from_time_to_time(pos, nvm)
-	--if nvm.max_power > 0 then
-		local outdir = M(pos):get_int("outdir")
-		nvm.delivered = power.generator_alive(pos, Cable, CYCLE_TIME, outdir, nvm.max_power)
-	--else
-		--nvm.delivered = 0
-	--end
+	local outdir = M(pos):get_int("outdir")
+	local tp1 = tonumber(meta:get_string("termpoint1"))
+	local tp2 = tonumber(meta:get_string("termpoint2"))
+	if nvm.max_power and nvm.max_power > 0 then
+		nvm.provided = power.provide_power(pos, Cable, outdir, nvm.max_power, tp1, tp2)
+		nvm.load = power.get_storage_load(pos, Cable, outdir, nvm.max_power)
+	end
 	if techage.is_activeformspec(pos) then
-		M(pos):set_string("formspec", formspec(State, pos, nvm))
+		meta:set_string("formspec", formspec(State, pos, nvm))
 	end
 	State:trigger_state(pos, nvm)
 	return true
@@ -142,8 +152,11 @@ local function on_rightclick(pos, node, clicker)
 	M(pos):set_string("formspec", formspec(State, pos, nvm))
 end
 
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
-	power.update_network(pos, outdir, tlib2)
+local function get_generator_data(pos, tlib2)
+	local nvm = techage.get_nvm(pos)
+	if nvm.running then
+		return {level = (nvm.load or 0) / nvm.max_power, perf = nvm.max_power, capa = nvm.max_power * 2}
+	end
 end
 
 minetest.register_node("techage:ta4_solar_inverter", {
@@ -179,37 +192,47 @@ minetest.register_node("techage:ta4_solar_inverter", {
 		techage.del_mem(pos)
 	end,
 
-	tubelib2_on_update2 = tubelib2_on_update2,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
-	networks = {
-		ele1 = {
-			sides = {R = 1},
-			ntype = "gen1",
-			nominal = PWR_PERF,
-			regenerative = true,
-		},
-		ele2 = {
-			sides = {L = 1},
-			ntype = "con1",
-		},
-	}
+	get_generator_data = get_generator_data,
+	ta3_formspec = techage.generator_settings("ta4", PWR_PERF)
 })
 
-Cable:add_secondary_node_names({"techage:ta4_solar_inverter"})
-Solar:add_secondary_node_names({"techage:ta4_solar_inverter"})
+power.register_nodes({"techage:ta4_solar_inverter"}, Cable, "gen", {"R"})
+power.register_nodes({"techage:ta4_solar_inverter"}, Solar, "con", {"L"})
 
 techage.register_node({"techage:ta4_solar_inverter"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		if topic == "delivered" then
-			return math.floor((nvm.delivered or 0) + 0.5)
+			return math.floor((nvm.provided or 0) + 0.5)
 		else
 			return State:on_receive_message(pos, topic, payload)
 		end
 	end,
 })	
+
+control.register_nodes({"techage:ta4_solar_inverter"}, {
+		on_receive = function(pos, tlib2, topic, payload)
+		end,
+		on_request = function(pos, tlib2, topic)
+			if topic == "info" then
+				local nvm = techage.get_nvm(pos)
+				local meta = M(pos)
+				return {
+					type = S("TA4 Solar Inverter"),
+					number = meta:get_string("node_number") or "",
+					running = nvm.running or false,
+					available = nvm.max_power or 0,
+					provided = nvm.provided or 0,
+					termpoint = meta:get_string("termpoint"), 
+				}
+			end
+			return false
+		end,
+	}
+)
 
 minetest.register_craft({
 	output = "techage:ta4_solar_inverter",

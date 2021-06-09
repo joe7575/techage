@@ -87,7 +87,7 @@ local function pumping(pos, nvm)
 		power.consumer_alive(pos, Cable, CYCLE_TIME)
 	end
 	if nvm.running then
-		local leftover = liquid.put(pos, 6, "techage:water", 1)
+		local leftover = liquid.put(pos, Pipe, 6, "techage:water", 1)
 		if leftover and leftover > 0 then
 			State:blocked(pos, nvm)
 			return
@@ -126,7 +126,6 @@ end
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	Pipe:after_dig_node(pos)
 	Cable:after_dig_node(pos)
-	liquid.after_dig_pump(pos)
 	techage.del_mem(pos)
 end
 

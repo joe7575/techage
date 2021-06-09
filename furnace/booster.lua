@@ -20,8 +20,7 @@ local PWR_NEEDED = 3
 local CYCLE_TIME = 2
 
 local Cable = techage.ElectricCable
-local power = techage.power
---local networks = techage.networks
+local power = networks.power
 
 local function infotext(pos, state)
 	M(pos):set_string("infotext", S("TA3 Booster")..": "..state)
@@ -58,23 +57,6 @@ local function stop_sound(pos)
 	end
 end
 
-local function on_power(pos)
-	swap_node(pos, "techage:ta3_booster_on")
-	infotext(pos, "running")
-	play_sound(pos)
-end
-
-local function on_nopower(pos)
-	swap_node(pos, "techage:ta3_booster")
-	infotext(pos, "no power")
-	stop_sound(pos)
-end
-
-local function node_timer(pos, elapsed)
-	power.consumer_alive(pos, Cable, CYCLE_TIME)
-	return true
-end
-
 local function after_place_node(pos)
 	local nvm = techage.get_nvm(pos)
 	Cable:after_place_node(pos)
@@ -89,10 +71,6 @@ local function after_dig_node(pos, oldnode)
 	techage.del_mem(pos)
 end
 
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
-	power.update_network(pos, outdir, tlib2)
-end
-
 minetest.register_node("techage:ta3_booster", {
 	description = S("TA3 Booster"),
 	tiles = {
@@ -105,19 +83,17 @@ minetest.register_node("techage:ta3_booster", {
 		"techage_filling_ta3.png^techage_appl_compressor.png^[transformFX^techage_frame_ta3.png",
 	},
 	
-	on_timer = node_timer,
+	on_timer = function(pos, elapsed)
+		local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
+		if consumed == PWR_NEEDED then
+			swap_node(pos, "techage:ta3_booster_on")
+			infotext(pos, "running")
+			play_sound(pos)
+		end
+		return true
+	end,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	tubelib2_on_update2 = tubelib2_on_update2,
-	networks = {
-		ele1 = {
-			sides = {B = true, F = true, L = true, D = true, U = true},
-			ntype = "con1",
-			on_power = on_power,
-			on_nopower = on_nopower,
-			nominal = PWR_NEEDED,
-		},
-	},
 	
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -125,7 +101,6 @@ minetest.register_node("techage:ta3_booster", {
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
 })
-
 
 minetest.register_node("techage:ta3_booster_on", {
 	tiles = {
@@ -156,20 +131,17 @@ minetest.register_node("techage:ta3_booster_on", {
 		},
 	},
 	
-	on_timer = node_timer,
+	on_timer = function(pos, elapsed)
+		local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
+		if consumed < PWR_NEEDED then
+			swap_node(pos, "techage:ta3_booster")
+			infotext(pos, "no power")
+			stop_sound(pos)
+		end
+		return true
+	end,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	tubelib2_on_update2 = tubelib2_on_update2,
-	networks = {
-		ele1 = {
-			sides = {B = true, F = true, L = true, D = true, U = true},
-			ntype = "con1",
-			on_power = on_power,
-			on_nopower = on_nopower,
-			nominal = PWR_NEEDED,
-			is_running = function() return true end,
-		},
-	},
 	
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory = 1},
@@ -179,7 +151,7 @@ minetest.register_node("techage:ta3_booster_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-Cable:add_secondary_node_names({"techage:ta3_booster", "techage:ta3_booster_on"})
+power.register_nodes({"techage:ta3_booster", "techage:ta3_booster_on"}, Cable, "con", {"B", "F", "L", "D", "U"})
 
 -- for intra machine communication
 techage.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
@@ -194,15 +166,16 @@ techage.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 			elseif topic == "start" and not nvm.running then
 				if power.power_available(pos, Cable) then
 					nvm.running = true
-					power.consumer_start(pos, Cable, CYCLE_TIME)
 					minetest.get_node_timer(pos):start(CYCLE_TIME)
+					swap_node(pos, "techage:ta3_booster_on")
+					infotext(pos, "running")
+					play_sound(pos)
 				else
 					infotext(pos, "no power")
 				end
 			elseif topic == "stop" then
 				nvm.running = false
 				swap_node(pos, "techage:ta3_booster")
-				power.consumer_stop(pos, Cable)
 				minetest.get_node_timer(pos):stop()
 				infotext(pos, "stopped")
 				stop_sound(pos)

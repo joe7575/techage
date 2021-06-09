@@ -67,7 +67,7 @@ local function get_liquids(pos)
 	-- determine the available input liquids
 	local tbl = {}
 	for outdir = 1,4 do
-		local name, num = liquid.peek(pos, outdir)
+		local name, num = liquid.peek(pos, Pipe, outdir)
 		if name then
 			tbl[name] = outdir
 		end
@@ -87,7 +87,7 @@ local function reload_liquids(pos)
 	-- determine the available input liquids
 	local tbl = {}
 	for outdir = 1,4 do
-		local name, num = liquid.peek(pos, outdir)
+		local name, num = liquid.peek(pos, Pipe, outdir)
 		if name then
 			tbl[name] = outdir
 		end
@@ -155,7 +155,7 @@ local State = techage.NodeStates:new({
 
 local function untake(pos, taken)
 	for _,item in pairs(taken) do
-		liquid.untake(pos, item.outdir, item.name, item.num)
+		liquid.untake(pos, Pipe, item.outdir, item.name, item.num)
 	end
 end	
 
@@ -210,7 +210,7 @@ local function dosing(pos, nvm, elapsed)
 				untake(pos, taken)
 				return
 			end
-			local num = liquid.take(pos, outdir, item.name, item.num, starter)
+			local num = liquid.take(pos, Pipe, outdir, item.name, item.num, starter)
 			if num < item.num then
 				taken[#taken + 1] = {outdir = outdir, name = item.name, num = num}
 				State:standby(pos, nvm)
@@ -307,7 +307,6 @@ minetest.register_node("techage:ta4_doser", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		Pipe:after_dig_node(pos)
-		liquid.after_dig_pump(pos)
 		techage.del_mem(pos)
 	end,
 	on_receive_fields = on_receive_fields,

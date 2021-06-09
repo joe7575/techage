@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -19,7 +19,7 @@ local S = techage.S
 local firebox = techage.firebox
 local fuel = techage.fuel
 local Pipe = techage.LiquidPipe
-local liquid = techage.liquid
+local liquid = networks.liquid
 
 local CYCLE_TIME = 2
 local EFFICIENCY = 2 -- burn cycles
@@ -80,38 +80,6 @@ local function booster_cmnd(pos, cmnd)
 		{"techage:ta3_booster", "techage:ta3_booster_on"})
 end
 
-local _liquid = {
-	capa = fuel.CAPACITY,
-	fuel_cat = fuel.BT_BITUMEN,
-	peek = liquid.srv_peek,
-	put = function(pos, indir, name, amount)
-		if fuel.valid_fuel(name, fuel.BT_BITUMEN) then
-			local res = liquid.srv_put(pos, indir, name, amount)
-			if techage.is_activeformspec(pos) then
-				local nvm = techage.get_nvm(pos)
-				M(pos):set_string("formspec", fuel.formspec(nvm))
-			end
-			return res
-		end
-		return amount
-	end,
-	take = function(pos, indir, name, amount)
-		amount, name = liquid.srv_take(pos, indir, name, amount)
-		if techage.is_activeformspec(pos) then
-			local nvm = techage.get_nvm(pos)
-			M(pos):set_string("formspec", fuel.formspec(nvm))
-		end
-		return amount, name
-	end
-}
-
-local _networks = {
-	pipe2 = {
-		sides = techage.networks.AllSides, -- Pipe connection sides
-		ntype = "tank",
-	},
-}
-
 minetest.register_node("techage:furnace_firebox", {
 	description = S("TA3 Furnace Oil Burner"),
 	tiles = {
@@ -134,8 +102,6 @@ minetest.register_node("techage:furnace_firebox", {
 	on_punch = fuel.on_punch,
 	on_receive_fields = fuel.on_receive_fields,
 	on_rightclick = fuel.on_rightclick,
-	liquid = _liquid,
-	networks = _networks,
 	
 	on_construct = function(pos)
 		local nvm = techage.get_nvm(pos)
@@ -185,8 +151,6 @@ minetest.register_node("techage:furnace_firebox_on", {
 	on_receive_fields = fuel.on_receive_fields,
 	on_punch = fuel.on_punch,
 	on_rightclick = fuel.on_rightclick,
-	liquid = _liquid,
-	networks = _networks,
 })
 
 minetest.register_craft({
@@ -204,7 +168,7 @@ techage.register_node({"techage:furnace_firebox", "techage:furnace_firebox_on"},
 		if topic == "state" then
 			return nvm.running and "running" or "stopped"
 		elseif topic == "fuel" then
-			return techage.fuel.get_fuel_amount(nvm)
+			return fuel.get_fuel_amount(nvm)
 		else
 			return "unsupported"
 		end
@@ -237,4 +201,5 @@ techage.register_node({"techage:furnace_firebox", "techage:furnace_firebox_on"},
 	end,
 })	
 
-Pipe:add_secondary_node_names({"techage:furnace_firebox", "techage:furnace_firebox_on"})
+liquid.register_nodes({"techage:furnace_firebox", "techage:furnace_firebox_on"},
+	Pipe, "tank", nil, fuel.get_liquid_table(fuel.BT_OIL, fuel.CAPACITY, start_firebox))

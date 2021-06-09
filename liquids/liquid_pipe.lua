@@ -165,12 +165,12 @@ local names = networks.register_junction("techage:ta3_junctionpipe", 1/8, Boxes,
 	sounds = default.node_sound_metal_defaults(),
 
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
-		local name = "techage:ta3_junctionpipe"..techage.junction_type(pos, Pipe)
+		local name = "techage:ta3_junctionpipe" .. networks.junction_type(pos, Pipe)
 		minetest.swap_node(pos, {name = name, param2 = 0})
 		Pipe:after_place_node(pos)
 	end,
 	tubelib2_on_update2 = function(pos, dir1, tlib2, node)
-		local name = "techage:ta3_junctionpipe"..techage.junction_type(pos, Pipe)
+		local name = "techage:ta3_junctionpipe" .. networks.junction_type(pos, Pipe)
 		minetest.swap_node(pos, {name = name, param2 = 0})
 		power.update_network(pos, 0, tlib2, node)
 	end,

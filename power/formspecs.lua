@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -23,10 +23,6 @@ local CYCLES_PER_DAY = 20 * 60 / CYCLE_TIME
 local in_range = techage.in_range
 local power = networks.power
 techage.power = {}
-
--- Charge termination areas
-local Cp2Idx = {["40% - 60%"] = 1, ["60% - 80%"] = 2, ["80% - 100%"] = 3}
-
 
 -------------------------------------------------------------------------------
 -- Helper function
@@ -131,8 +127,8 @@ function techage.formspec_charging_bar(pos, x, y, label, data)
 	
 	if data then
 		charging = data.provided - data.consumed
-		consumed = data.consumed
-		available = data.available
+		consumed = round(data.consumed)
+		available = round(data.available)
 		if charging > 0 then
 			percent = 50 + (charging / data.available * 50)
 		elseif charging < 0 then
@@ -159,26 +155,6 @@ function techage.formspec_storage_bar(pos, x, y, label, curr_load, max_load)
 		"container_end[]"
 end
 
-function techage.formspec_charge_termination(pos, x, y, label, value, running)
-	local idx = Cp2Idx[value] or 2
-	value = value or 0
-	
-	if running then
-		return "container[" .. x .. "," .. y .. "]" ..
-			"box[0,0;3.2,1.5;#395c74]" ..
-			"label[0.2,0;" .. label .. "]" ..
-			"box[0.2,0.6;2.7,0.7;#000000]" ..
-			"label[0.3,0.75;" .. value .. "]" ..
-			"container_end[]"
-	else
-		return "container[" .. x .. "," .. y .. "]" ..
-			"box[0,0;3.2,1.5;#395c74]" ..
-			"label[0.2,0;" .. label .. "]" ..
-			"dropdown[0.2,0.6;3.0;termpoint;40% - 60%,60% - 80%,80% - 100%;" .. idx .. "]" ..
-			"container_end[]"
-	end
-end
-
 -------------------------------------------------------------------------------
 -- API formspec functions
 -------------------------------------------------------------------------------
@@ -195,36 +171,86 @@ function techage.storage_formspec(self, pos, nvm, label, netw_data, curr_load, m
 		"tooltip[2.7,2;1,1;" .. self:get_state_tooltip(nvm) .. "]"
 end
 
-function techage.generator_formspec(self, pos, nvm, label, provided, max_available, running)
-	return "size[6,4]" ..
+function techage.generator_formspec(self, pos, nvm, label, provided, max_available)
+	return "size[5,4]" ..
 		default.gui_bg ..
 		default.gui_bg_img ..
 		default.gui_slots ..
-		"box[0,-0.1;5.8,0.5;#c6e8ff]" ..
+		"box[0,-0.1;4.8,0.5;#c6e8ff]" ..
 		"label[0.2,-0.1;" .. minetest.colorize( "#000000", label) .. "]" ..
 		techage.formspec_power_bar(pos, 0, 0.8, S("power"), provided, max_available) ..
-		"image_button[3.8,2.9;1,1;" .. self:get_state_button_image(nvm) .. ";state_button;]" ..
-		"tooltip[3.8,2.9;1,1;" .. self:get_state_tooltip(nvm) .. "]" ..
-		techage.formspec_charge_termination(pos, 2.6, 0.8, S("Charge termination"), nvm.termpoint, running)
+		"image_button[3.2,2.0;1,1;" .. self:get_state_button_image(nvm) .. ";state_button;]" ..
+		"tooltip[3.2,2.0;1,1;" .. self:get_state_tooltip(nvm) .. "]"
 end
 
-function techage.evaluate_charge_termination(nvm, fields)
-	if fields.termpoint and not nvm.running then 
-		nvm.termpoint = fields.termpoint
-		if fields.termpoint == "40% - 60%" then 
-			nvm.termpoint1 = 0.4
-			nvm.termpoint2 = 0.6
-		elseif fields.termpoint == "60% - 80%" then 
-			nvm.termpoint1 = 0.6
-			nvm.termpoint2 = 0.8
-		elseif fields.termpoint == "80% - 100%" then 
-			nvm.termpoint1 = 0.8
-			nvm.termpoint2 = 1.0
-		end
-		return true
+function techage.generator_settings(tier, available)
+	if tier == "ta3" then
+		return {
+			{
+				type = "const",
+				name = "available",
+				label = S("Maximum output [ku]"),      
+				tooltip = S("The maximum power the generator can provide"),
+				value = available,
+			},
+			{
+				type = "output",
+				name = "provided",
+				label = S("Current output [ku]"),      
+				tooltip = S("The current power the generator provides"),
+			},
+			{
+				type = "dropdown",
+				choices = "40% - 60%,60% - 80%,80% - 100%",
+				name = "termpoint",
+				label = S("Charge termination"),      
+				tooltip = S("Range in which the generator reduces its power"),
+			},
+		}
+	else
+		return {
+			{
+				type = "const",
+				name = "available",
+				label = S("Maximum output [ku]"),      
+				tooltip = S("The maximum power the generator can provide"),
+				value = available,
+			},
+			{
+				type = "output",
+				name = "provided",
+				label = S("Current output [ku]"),      
+				tooltip = S("The current power the generator provides"),
+			},
+			{
+				type = "dropdown",
+				choices = "40% - 60%,60% - 80%,80% - 100%",
+				name = "termpoint",
+				label = S("Charge termination"),      
+				tooltip = S("Range in which the generator reduces its power"),
+			},
+		}
 	end
 end
-	
+
+function techage.evaluate_charge_termination(nvm, meta)
+	local termpoint = meta:get_string("termpoint")
+	if termpoint == "40% - 60%" then 
+		meta:set_string("termpoint1", 0.4)
+		meta:set_string("termpoint2", 0.6)
+	elseif termpoint == "60% - 80%" then 
+		meta:set_string("termpoint1", 0.6)
+		meta:set_string("termpoint2", 0.8)
+	elseif termpoint == "80% - 100%" then 
+		meta:set_string("termpoint1", 0.8)
+		meta:set_string("termpoint2", 1.0)
+	else
+		meta:set_string("termpoint", "80% - 100%")
+		meta:set_string("termpoint1", 0.8)
+		meta:set_string("termpoint2", 1.0)
+	end
+end
+
 techage.power.percent =  calc_percent
 techage.CYCLES_PER_DAY = CYCLES_PER_DAY
 techage.round = round

@@ -67,7 +67,7 @@ local N = techage.get_node_lvm
 --
 
 techage.RUNNING = 1	-- in normal operation/turned on
-techage.BLOCKED = 2 -- a pushing node is blocked due to a full destination inventory
+techage.BLOCKED = 2     -- a pushing node is blocked due to a full destination inventory
 techage.STANDBY = 3	-- nothing to do (e.g. no input items), or node (world) not loaded
 techage.NOPOWER = 4	-- only for power consuming nodes, no operation
 techage.FAULT   = 5	-- any fault state (e.g. wrong source items), which can be fixed by the player
@@ -155,6 +155,12 @@ end
 -- consumes power
 function techage.needs_power(nvm)
 	local state = nvm.techage_state or STOPPED
+	return state == RUNNING or state == NOPOWER
+end
+
+-- consumes power
+function techage.needs_power2(state)
+	state = state or STOPPED
 	return state == RUNNING or state == NOPOWER
 end
 

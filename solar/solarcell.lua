@@ -20,7 +20,8 @@ local S = techage.S
 local PWR_PERF = 3
 
 local Cable = techage.TA4_Cable
-local power = techage.power
+local power = networks.power
+local control = networks.control
 
 local function temperature(pos)
 	local data = minetest.get_biome_data(pos)
@@ -32,7 +33,7 @@ end
 
 -- return the required param2 for solar modules
 local function get_param2(pos, side)
-	local dir = techage.networks.side_to_outdir(pos, side)
+	local dir = networks.side_to_outdir(pos, side)
 	return (dir + 1) % 4
 end
 
@@ -89,24 +90,8 @@ local function after_dig_node(pos, oldnode)
 end
 
 local function tubelib2_on_update2(pos, outdir, tlib2, node) 
-	power.update_network(pos, nil, tlib2)
+	power.update_network(pos, 0, tlib2, node)
 end
-
-local net_def1 = {
-	ele2 = {
-		sides = {F=1, B=1},
-		ntype = "junc",
-		on_getpower = on_getpower1,
-	},
-}
-
-local net_def2 = {
-	ele2 = {
-		sides = {F=1, B=1},
-		ntype = "junc",
-		on_getpower = on_getpower2,
-	},
-}
 
 minetest.register_node("techage:ta4_solar_module", {
 	description = S("TA4 Solar Module"),
@@ -170,7 +155,6 @@ minetest.register_node("techage:ta4_solar_carrier", {
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	tubelib2_on_update2 = tubelib2_on_update2,
-	networks = net_def1,
 	
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
@@ -210,7 +194,6 @@ minetest.register_node("techage:ta4_solar_carrierB", {
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	tubelib2_on_update2 = tubelib2_on_update2,
-	networks = net_def2,
 	
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
@@ -249,8 +232,29 @@ minetest.register_node("techage:ta4_solar_carrierT", {
 	sounds = default.node_sound_stone_defaults(),
 })
 
-Cable:add_secondary_node_names({"techage:ta4_solar_carrier", "techage:ta4_solar_carrierB"})
+power.register_nodes({"techage:ta4_solar_carrier", "techage:ta4_solar_carrierB"}, Cable, "junc", {"F", "B"})
 
+control.register_nodes({"techage:ta4_solar_carrier"}, {
+		on_receive = function(pos, tlib2, topic, payload)
+		end,
+		on_request = function(pos, tlib2, topic)
+			if topic == "power" then
+				return on_getpower1(pos)
+			end
+		end,
+	}
+)
+
+control.register_nodes({"techage:ta4_solar_carrierB"}, {
+		on_receive = function(pos, tlib2, topic, payload)
+		end,
+		on_request = function(pos, tlib2, topic)
+			if topic == "power" then
+				return on_getpower2(pos)
+			end
+		end,
+	}
+)
 
 minetest.register_craft({
 	output = "techage:ta4_solar_module",
@@ -288,13 +292,3 @@ minetest.register_craft({
 	},
 })
 
---minetest.register_lbm({
---	label = "Repair Carrier Module",
---	name = "techage:ta4_solar_carrier",
---	nodenames = {"techage:ta4_solar_carrier", "techage:ta4_solar_carrierB"},
---	run_at_every_load = false,
---	action = function(pos, node)
---		local ndef = minetest.registered_nodes[node.name]
---		ndef.after_place_node(pos)
---	end,
---})

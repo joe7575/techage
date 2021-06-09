@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -18,11 +18,10 @@ local S = techage.S
 
 local Cable = techage.ElectricCable
 local firebox = techage.firebox
-local power = techage.power
 local fuel = techage.fuel
 local Pipe = techage.LiquidPipe
-local liquid = techage.liquid
-local networks = techage.networks
+local power = networks.power
+local liquid = networks.liquid
 
 local CYCLE_TIME = 2
 local PWR_CAPA = 12
@@ -34,12 +33,12 @@ local function formspec(self, pos, nvm)
 		default.gui_bg_img..
 		default.gui_slots..
 		"box[0,-0.1;4.8,0.5;#c6e8ff]"..
-		"label[1.5,-0.1;"..minetest.colorize( "#000000", S("Tiny Generator")).."]"..
+		"label[0.2,-0.1;"..minetest.colorize( "#000000", S("Tiny Generator")).."]"..
 		fuel.fuel_container(0, 0.9, nvm)..
 		"image[1.4,1.6;1,1;techage_form_arrow_bg.png^[transformR270]"..
 		"image_button[1.4,3.2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 		"tooltip[1.5,3;1,1;"..self:get_state_tooltip(nvm).."]"..
-		power.formspec_label_bar(pos, 2.5, 0.8, S("Electricity"), PWR_CAPA, nvm.provided)
+		techage.formspec_power_bar(pos, 2.5, 0.8, S("Electricity"), nvm.provided, PWR_CAPA)
 end
 
 local function play_sound(pos)
@@ -74,7 +73,7 @@ end
 local function start_node(pos, nvm, state)
 	nvm.running = true -- needed by fuel_lib
 	local outdir = M(pos):get_int("outdir")
-	power.generator_start(pos, Cable, CYCLE_TIME, outdir)
+	power.start_storage_calc(pos, Cable, outdir)
 	play_sound(pos)
 end
 
@@ -82,7 +81,7 @@ local function stop_node(pos, nvm, state)
 	nvm.running = false
 	nvm.provided = 0
 	local outdir = M(pos):get_int("outdir")
-	power.generator_stop(pos, Cable, outdir)
+	power.start_storage_calc(pos, Cable, outdir)
 	stop_sound(pos)
 end
 
@@ -122,15 +121,19 @@ local function burning(pos, nvm)
 end
 
 local function node_timer(pos, elapsed)
+	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
-	local outdir = M(pos):get_int("outdir")
+	local outdir = meta:get_int("outdir")
+	local tp1 = tonumber(meta:get_string("termpoint1"))
+	local tp2 = tonumber(meta:get_string("termpoint2"))
 	if nvm.running and burning(pos, nvm) then
-		nvm.provided = power.generator_alive(pos, Cable, CYCLE_TIME, outdir)
+		nvm.provided = power.provide_power(pos, Cable, outdir, PWR_CAPA, tp1, tp2)
+		nvm.load = power.get_storage_load(pos, Cable, outdir, PWR_CAPA)
 	else
 		nvm.provided = 0
 	end
 	if techage.is_activeformspec(pos) then
-		M(pos):set_string("formspec", formspec(State, pos, nvm))
+		meta:set_string("formspec", formspec(State, pos, nvm))
 	end
 	return State:is_active(nvm)
 end
@@ -150,42 +153,12 @@ local function on_rightclick(pos, node, clicker)
 	M(pos):set_string("formspec", formspec(State, pos, nvm))
 end
 
-local liquid_def = {
-	fuel_cat = fuel.BT_NAPHTHA,
-	capa = fuel.CAPACITY,
-	peek = liquid.srv_peek,
-	put = function(pos, indir, name, amount)
-		if fuel.valid_fuel(name, fuel.BT_OIL) then
-			local res = liquid.srv_put(pos, indir, name, amount)
-			if techage.is_activeformspec(pos) then
-				local nvm = techage.get_nvm(pos)
-				M(pos):set_string("formspec", formspec(State, pos, nvm))
-			end
-			return res
-		end
-		return amount
-	end,
-	take = function(pos, indir, name, amount)
-		amount, name = liquid.srv_take(pos, indir, name, amount)
-		if techage.is_activeformspec(pos) then
-			local nvm = techage.get_nvm(pos)
-			M(pos):set_string("formspec", formspec(State, pos, nvm))
-		end
-		return amount, name
+local function get_generator_data(pos, tlib2)
+	local nvm = techage.get_nvm(pos)
+	if nvm.running then
+		return {level = (nvm.load or 0) / PWR_CAPA, perf = PWR_CAPA, capa = PWR_CAPA * 2}
 	end
-}
-
-local net_def = {
-	pipe2 = {
-		sides = techage.networks.AllSides, -- Pipe connection sides
-		ntype = "tank",
-	},
-	ele1 = {
-		sides = {R = 1},
-		ntype = "gen1",
-		nominal = PWR_CAPA,
-	},
-}
+end
 
 minetest.register_node("techage:tiny_generator", {
 	description = S("TA3 Tiny Power Generator"),
@@ -221,13 +194,13 @@ minetest.register_node("techage:tiny_generator", {
 		techage.del_mem(pos)
 	end,
 
+	get_generator_data = get_generator_data,
+	ta3_formspec = techage.generator_settings("ta3", PWR_CAPA), 
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_punch = fuel.on_punch,
 	on_timer = node_timer,
 	can_dig = fuel.can_dig,
-	liquid = liquid_def,
-	networks = net_def,
 })
 
 minetest.register_node("techage:tiny_generator_on", {
@@ -268,17 +241,56 @@ minetest.register_node("techage:tiny_generator_on", {
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 
+	get_generator_data = get_generator_data,
+	ta3_formspec = techage.generator_settings("ta3", PWR_CAPA), 
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_punch = fuel.on_punch,
 	on_timer = node_timer,
 	can_dig = fuel.can_dig,
-	liquid = liquid_def,
-	networks = net_def,
 })
 
-Pipe:add_secondary_node_names({"techage:tiny_generator", "techage:tiny_generator_on"})
-Cable:add_secondary_node_names({"techage:tiny_generator", "techage:tiny_generator_on"})
+local liquid_def = {
+	fuel_cat = fuel.BT_GASOLINE,
+	capa = fuel.CAPACITY,
+	peek = function(pos)
+		local nvm = techage.get_nvm(pos)
+		return liquid.srv_peek(nvm)
+	end,
+	put = function(pos, indir, name, amount)
+		if techage.fuel.valid_fuel(name, fuel.BT_GASOLINE) then
+			local nvm = techage.get_nvm(pos)
+			local leftover = liquid.srv_put(nvm, name, amount, fuel.CAPACITY)
+			if techage.is_activeformspec(pos) then
+				local nvm = techage.get_nvm(pos)
+				M(pos):set_string("formspec", formspec(State, pos, nvm))
+			end
+			return leftover
+		end
+		return amount
+	end,
+	take = function(pos, indir, name, amount)
+		local nvm = techage.get_nvm(pos)
+		local taken = liquid.srv_take(nvm, name, amount)
+		if techage.is_activeformspec(pos) then
+			local nvm = techage.get_nvm(pos)
+			M(pos):set_string("formspec", formspec(State, pos, nvm))
+		end
+		return taken
+	end,
+	untake = function(pos, indir, name, amount)
+		local nvm = techage.get_nvm(pos)
+		local leftover = liquid.srv_put(nvm, name, amount, fuel.CAPACITY)
+		if techage.is_activeformspec(pos) then
+			local nvm = techage.get_nvm(pos)
+			M(pos):set_string("formspec", formspec(State, pos, nvm))
+		end
+		return leftover
+	end,
+}
+
+power.register_nodes({"techage:tiny_generator", "techage:tiny_generator_on"}, Cable, "gen", {"R"})
+liquid.register_nodes({"techage:tiny_generator", "techage:tiny_generator_on"}, Pipe, "tank", nil, liquid_def)
 
 techage.register_node({"techage:tiny_generator", "techage:tiny_generator_on"}, {
 	on_recv_message = function(pos, src, topic, payload)

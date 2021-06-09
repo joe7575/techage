@@ -105,7 +105,6 @@ minetest.register_node("techage:ta4_liquid_filter_filler", {
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
-		liquid.after_dig_pump(pos)
 		techage.del_mem(pos)
 	end,
 
@@ -134,7 +133,7 @@ minetest.register_node("techage:ta4_liquid_filter_filler", {
 			end
 			if math.random() < 0.5 then
 				local out_pos = {x=pos.x,y=pos.y-8,z=pos.z}
-				local leftover = liquid.put(out_pos, networks.side_to_outdir(out_pos, "R"), "techage:lye", 1)
+				local leftover = liquid.put(out_pos, Pipe, networks.side_to_outdir(out_pos, "R"), "techage:lye", 1)
 				if leftover > 0 then
 					return amount
 				end

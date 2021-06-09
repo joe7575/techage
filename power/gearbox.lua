@@ -130,6 +130,12 @@ minetest.register_node("techage:gearbox_on", {
 
 power.register_nodes({"techage:gearbox", "techage:gearbox_on"}, Axle, "junc")
 	
+techage.register_node({"techage:gearbox", "techage:gearbox_on"}, {
+	on_node_load = function(pos, node)
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
+	end,
+})
+
 minetest.register_craft({
 	output = "techage:gearbox 2",
 	recipe = {

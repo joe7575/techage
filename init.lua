@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 0.26
+techage.version = 1.00
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -113,10 +113,10 @@ dofile(MP.."/power/powerswitchbox_legacy.lua")
 dofile(MP.."/power/powerswitchbox.lua")
 dofile(MP.."/power/powerswitch.lua")
 dofile(MP.."/power/protection.lua")
---dofile(MP.."/power/power_line.lua")
---dofile(MP.."/power/ta4_cable.lua")
---dofile(MP.."/power/ta4_cable_wall_entry.lua")
---dofile(MP.."/power/laser.lua")
+dofile(MP.."/power/power_line.lua")
+dofile(MP.."/power/ta4_cable.lua")
+dofile(MP.."/power/ta4_cable_wall_entry.lua")
+dofile(MP.."/power/laser.lua")
 
 -- Iron Age
 dofile(MP.."/iron_age/main.lua")
@@ -143,8 +143,8 @@ dofile(MP.."/steam_engine/flywheel.lua")
 
 -- Liquids I
 dofile(MP.."/liquids/liquid_pipe.lua")
---dofile(MP.."/liquids/valve.lua")
---dofile(MP.."/liquids/pipe_wall_entry.lua")
+dofile(MP.."/liquids/valve.lua")
+dofile(MP.."/liquids/pipe_wall_entry.lua")
 
 -- Basic Machines
 dofile(MP.."/basic_machines/consumer.lua")  -- consumer base model
@@ -165,15 +165,15 @@ dofile(MP.."/basic_machines/ta4_chest.lua")
 dofile(MP.."/basic_machines/ta4_injector.lua")
 dofile(MP.."/basic_machines/itemsource.lua")
 dofile(MP.."/basic_machines/recycler.lua")
---dofile(MP.."/basic_machines/concentrator.lua")
+dofile(MP.."/basic_machines/concentrator.lua")
 
 -- Liquids II
---dofile(MP.."/liquids/tank.lua")
---dofile(MP.."/liquids/filler.lua")
---dofile(MP.."/liquids/silo.lua")
---dofile(MP.."/liquids/pump.lua")
---dofile(MP.."/liquids/waterpump.lua")
---dofile(MP.."/liquids/waterinlet.lua")
+dofile(MP.."/liquids/tank.lua")
+dofile(MP.."/liquids/filler.lua")
+dofile(MP.."/liquids/silo.lua")
+dofile(MP.."/liquids/pump.lua")
+dofile(MP.."/liquids/waterpump.lua")
+dofile(MP.."/liquids/waterinlet.lua")
 
 -- Coal power station
 dofile(MP.."/coal_power_station/firebox.lua")
@@ -185,19 +185,19 @@ dofile(MP.."/coal_power_station/cooler.lua")
 dofile(MP.."/coal_power_station/oilfirebox.lua")
 
 -- Industrial Furnace
---dofile(MP.."/furnace/firebox.lua")
---dofile(MP.."/furnace/cooking.lua")
---dofile(MP.."/furnace/furnace_top.lua")
---dofile(MP.."/furnace/booster.lua")
---dofile(MP.."/furnace/heater.lua")
---dofile(MP.."/furnace/recipes.lua")
+dofile(MP.."/furnace/firebox.lua")
+dofile(MP.."/furnace/cooking.lua")
+dofile(MP.."/furnace/furnace_top.lua")
+dofile(MP.."/furnace/booster.lua")
+dofile(MP.."/furnace/heater.lua")
+dofile(MP.."/furnace/recipes.lua")
 
 -- Tools
 dofile(MP.."/tools/trowel.lua")
---dofile(MP.."/tools/repairkit.lua")
---dofile(MP.."/tools/pipe_wrench.lua")
---dofile(MP.."/basic_machines/blackhole.lua")
---dofile(MP.."/basic_machines/forceload.lua")
+dofile(MP.."/tools/repairkit.lua")
+dofile(MP.."/tools/pipe_wrench.lua")
+dofile(MP.."/basic_machines/blackhole.lua")
+dofile(MP.."/basic_machines/forceload.lua")
 
 -- Lamps
 dofile(MP.."/lamps/lib.lua")
@@ -214,19 +214,19 @@ dofile(MP.."/lamps/growlight.lua")
 dofile(MP.."/lamps/lampholder.lua")
 
 -- Oil
---dofile(MP.."/oil/explore.lua")
---dofile(MP.."/oil/tower.lua")
---dofile(MP.."/oil/drillbox.lua")
---dofile(MP.."/oil/pumpjack.lua")
---dofile(MP.."/oil/distiller.lua")
---dofile(MP.."/oil/reboiler.lua")
---  --  dofile(MP.."/oil/gasflare.lua")
+dofile(MP.."/oil/explore.lua")
+dofile(MP.."/oil/tower.lua")
+dofile(MP.."/oil/drillbox.lua")
+dofile(MP.."/oil/pumpjack.lua")
+dofile(MP.."/oil/distiller.lua")
+dofile(MP.."/oil/reboiler.lua")
+--  dofile(MP.."/oil/gasflare.lua")
 
 -- TA3 power based
---dofile(MP.."/ta3_power/tiny_generator.lua")
+dofile(MP.."/ta3_power/tiny_generator.lua")
 dofile(MP.."/ta3_power/akkubox.lua")
---dofile(MP.."/ta3_power/axle2power.lua")
---dofile(MP.."/ta3_power/power2axle.lua")
+dofile(MP.."/ta3_power/axle2power.lua")
+dofile(MP.."/ta3_power/power2axle.lua")
 
 -- Digtron
 --if minetest.global_exists("digtron") then
@@ -262,9 +262,9 @@ dofile(MP.."/recipe_checker.lua")
 dofile(MP.."/.test/sink.lua")
 
 -- Solar
---dofile(MP.."/solar/minicell.lua")
---dofile(MP.."/solar/solarcell.lua")
---dofile(MP.."/solar/inverter.lua")
+dofile(MP.."/solar/minicell.lua")
+dofile(MP.."/solar/solarcell.lua")
+dofile(MP.."/solar/inverter.lua")
 
 -- Wind
 --dofile(MP.."/wind_turbine/rotor.lua")
@@ -311,14 +311,14 @@ dofile(MP.."/lua_controller/controller.lua")
 --dofile(MP.."/lua_controller/terminal.lua")
 
 -- Items
---dofile(MP.."/items/registered_nodes.lua")
---dofile(MP.."/items/barrel.lua")
---dofile(MP.."/items/baborium.lua")
---dofile(MP.."/items/usmium.lua")
---dofile(MP.."/items/lye.lua")
---dofile(MP.."/items/oil.lua")
---dofile(MP.."/items/petroleum.lua")
---dofile(MP.."/items/bauxit.lua")
+dofile(MP.."/items/registered_nodes.lua")
+dofile(MP.."/items/barrel.lua")
+dofile(MP.."/items/baborium.lua")
+dofile(MP.."/items/usmium.lua")
+dofile(MP.."/items/lye.lua")
+dofile(MP.."/items/oil.lua")
+dofile(MP.."/items/petroleum.lua")
+dofile(MP.."/items/bauxit.lua")
 --dofile(MP.."/items/silicon.lua")
 --dofile(MP.."/items/steelmat.lua")
 --dofile(MP.."/items/powder.lua")

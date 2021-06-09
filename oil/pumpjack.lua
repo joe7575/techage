@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -18,7 +18,7 @@ local M = minetest.get_meta
 local P = minetest.string_to_pos
 local S = techage.S
 local Pipe = techage.LiquidPipe
-local liquid = techage.liquid
+local liquid = networks.liquid
 
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
@@ -103,7 +103,7 @@ end
 
 local function pumping(pos, crd, meta, nvm)
 	if has_oil(pos, meta) then
-		local leftover = liquid.put(pos, 6, "techage:oil_source", 1)
+		local leftover = liquid.put(pos, Pipe, 6, "techage:oil_source", 1)
 		if leftover and leftover > 0 then
 			crd.State:blocked(pos, nvm)
 			stop_sound(pos)
@@ -211,12 +211,6 @@ local _, node_name_ta3, _ =
 			end
 			Pipe:after_place_node(pos)
 		end,
-		networks = {
-			pipe2 = {
-				sides = {U = 1}, -- Pipe connection side
-				ntype = "pump",
-			},
-		},
 		power_sides = {F=1, B=1, L=1, R=1, D=1},
 		on_rightclick = on_rightclick,
 		on_receive_fields = on_receive_fields,
@@ -244,5 +238,5 @@ minetest.register_craft({
 	},
 })
 
-Pipe:add_secondary_node_names({"techage:ta3_pumpjack_pas", "techage:ta3_pumpjack_act"})
+liquid.register_nodes({"techage:ta3_pumpjack_pas", "techage:ta3_pumpjack_act"}, Pipe, "pump", {"U"}, {})
 
