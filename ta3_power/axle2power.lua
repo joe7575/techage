@@ -42,7 +42,6 @@ local function node_timer_on(pos, elapsed)
 	
 	local amount = math.min(PWR_PERF * 2 - nvm.buffer, PWR_PERF)
 	local taken = power.consume_power(pos, Axle, networks.Flip[outdir], amount)
-	print("node_timer_on", amount, taken, nvm.buffer)
 	nvm.buffer = nvm.buffer + taken - 1  -- some loss
 	
 	if nvm.buffer >= PWR_PERF then
@@ -51,7 +50,6 @@ local function node_timer_on(pos, elapsed)
 		nvm.provided = power.provide_power(pos, Cable, outdir, PWR_PERF, tp1, tp2)
 		nvm.load = power.get_storage_load(pos, Cable, outdir, PWR_PERF)
 		nvm.buffer = nvm.buffer - nvm.provided
-		print("provided", nvm.provided, nvm.load, nvm.buffer)
 	end
 	if amount > 0 and taken == 0 then
 		swap_node(pos, "techage:ta2_generator_off")

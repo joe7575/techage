@@ -21,7 +21,7 @@ local power = networks.power
 
 local Axle = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
-	max_tube_length = 8, 
+	max_tube_length = 10,
 	show_infotext = false,
 	tube_type = "axle",
 	primary_node_names = {"techage:axle", "techage:axle_on"}, 
