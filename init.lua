@@ -89,7 +89,6 @@ dofile(MP.."/basis/recipe_lib.lua")
 dofile(MP.."/basis/formspec_update.lua")
 dofile(MP.."/basis/windturbine_lib.lua")
 dofile(MP.."/basis/laser_lib.lua")
-dofile(MP.."/basis/rope_lib.lua")
 
 -- Main doc
 dofile(MP.."/doc/manual_DE.lua")
@@ -115,7 +114,6 @@ dofile(MP.."/power/powerswitchbox.lua")
 dofile(MP.."/power/powerswitch.lua")
 dofile(MP.."/power/protection.lua")
 dofile(MP.."/power/power_line.lua")
-dofile(MP.."/power/ta2_winch.lua")
 dofile(MP.."/power/ta4_cable.lua")
 dofile(MP.."/power/ta4_cable_wall_entry.lua")
 dofile(MP.."/power/laser.lua")
@@ -142,6 +140,11 @@ dofile(MP.."/steam_engine/firebox.lua")
 dofile(MP.."/steam_engine/boiler.lua")
 dofile(MP.."/steam_engine/cylinder.lua")
 dofile(MP.."/steam_engine/flywheel.lua")
+
+-- TA2 gravity-based energy storage
+dofile(MP.."/ta2_energy_storage/ta2_rope.lua")
+dofile(MP.."/ta2_energy_storage/ta2_winch.lua")
+dofile(MP.."/ta2_energy_storage/ta2_weight_chest.lua")
 
 -- Liquids I
 dofile(MP.."/liquids/liquid_pipe.lua")

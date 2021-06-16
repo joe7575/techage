@@ -25,7 +25,7 @@ local control = networks.control
 
 local STANDBY_TICKS = 4
 local CYCLE_TIME = 2
-local PWR_PERF = 100
+local PWR_PERF = 25
 
 local function formspec(self, pos, nvm)
 	return techage.generator_formspec(self, pos, nvm, S("Power Source"), nvm.provided, PWR_PERF)

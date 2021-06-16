@@ -61,14 +61,14 @@ minetest.register_node("techage:basalt_stone_block", {
 minetest.register_node("techage:basalt_gravel", {
 	description = S("Basalt Gravel"),
 	tiles = {"default_gravel.png^[brighten"},
-	groups = {crumbly = 2, falling_node = 1},
+	groups = {crumbly = 2, falling_node = 1, gravel = 1},
 	sounds = default.node_sound_gravel_defaults(),
 })
 
 minetest.register_node("techage:sieved_basalt_gravel", {
 	description = S("Sieved Basalt Gravel"),
 	tiles = {"default_gravel.png^[brighten"},
-	groups = {crumbly = 2, falling_node = 1, not_in_creative_inventory=1},
+	groups = {crumbly = 2, falling_node = 1, gravel = 1, not_in_creative_inventory=1},
 	sounds = default.node_sound_gravel_defaults(),
 })
 

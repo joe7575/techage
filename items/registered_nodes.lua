@@ -37,3 +37,4 @@ minetest.register_on_mods_loaded(function()
 	end
 end)
 
+minetest.override_item("default:gravel", {groups = {crumbly = 2, gravel = 1, falling_node = 1}})
