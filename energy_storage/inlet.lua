@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -44,6 +44,9 @@ minetest.register_node("techage:ta4_pipe_inlet", {
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	
+	networks = {
+		pipe2 = {},
+	},
 	paramtype2 = "facedir", -- important!
 	on_rotate = screwdriver.disallow, -- important!
 	groups = {crumbly = 2, cracky = 2, snappy = 2},
@@ -65,13 +68,6 @@ local Numbers = {
 		[4] = 343, -- 7x7x7
 	}
 }
-
-local function chat(owner, text)
-	if owner ~= nil then
-		minetest.chat_send_player(owner, string.char(0x1b).."(c@#ff0000)".."[Techage] Error: "..text.."!")
-	end
-	return text
-end
 
 local function get_diameter(pos, in_dir)
 	local dir = tubelib2.Dir6dToVector[in_dir]
@@ -125,14 +121,14 @@ local function check_volume(pos, in_dir, owner)
 				"basic_materials:concrete_block", "default:obsidian_glass",
 				"techage:glow_gravel"})
 		if node_tbl["default:obsidian_glass"] > 1 then 
-			return chat(owner, "one window maximum")
+			return S("one window maximum")
 		elseif node_tbl["default:obsidian_glass"] + node_tbl["basic_materials:concrete_block"] ~= Numbers.shell[radius] then
-			return chat(owner, "wrong number of shell nodes")
+			return S("wrong number of shell nodes")
 		elseif node_tbl["default:gravel"] + node_tbl["techage:glow_gravel"] ~= Numbers.filling[radius] then
-			return chat(owner, "wrong number of gravel nodes")
+			return S("wrong number of gravel nodes")
 		end
 	else
-		return chat(owner, "wrong diameter (should be 5, 7, or 9)")
+		return S("wrong diameter (should be 5, 7, or 9)")
 	end
 	return true
 end
@@ -162,8 +158,6 @@ techage.register_node({"techage:ta4_pipe_inlet"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		if topic == "diameter" then
 			return get_diameter(pos, in_dir)
-		elseif topic == "integrity" then
-			return check_volume(pos, in_dir, payload)
 		elseif topic == "volume" then
 			return check_volume(pos, in_dir, payload)
 		elseif topic == "window" then

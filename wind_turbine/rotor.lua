@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 DS-Minetest, Joachim Stolberg
+	Copyright (C) 2019-2021 DS-Minetest, Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -21,11 +21,13 @@
 local M = minetest.get_meta
 local S = techage.S
 
+local STANDBY_TICKS = 4
 local CYCLE_TIME = 2
 local PWR_PERF = 70
 
 local Cable = techage.ElectricCable
-local power = techage.power
+local power = networks.power
+local control = networks.control 
 
 local Rotors = {}
 
@@ -46,28 +48,35 @@ local function pos_and_yaw(pos, param2)
 	return pos, {x=0, y=yaw, z=0}
 end
 
+local function is_wind()
+	local time = minetest.get_timeofday() or 0
+	return (time >= 5.00/24.00 and time <= 9.00/24.00) or (time >= 17.00/24.00 and time <= 21.00/24.00)
+end
+
 local function check_rotor(pos, nvm)
 	local resp, err = techage.valid_place_for_windturbine(pos, nil, 1)
 	if not resp then
-		M(pos):set_string("infotext", S("TA4 Wind Turbine")..": "..err)
-		nvm.error = true
+		nvm.error = err
 		return false
 	end
 	
 	local npos = techage.get_pos(pos, "F")
 	local node = techage.get_node_lvm(npos)
 	if node.name ~= "techage:ta4_wind_turbine_nacelle" then
-		M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..S("Nacelle is missing"))
-		nvm.error = true
+		nvm.error = S("Nacelle is missing")
 		return false
 	end
 	
 	local own_num = M(pos):get_string("node_number") or ""
-	M(pos):set_string("infotext", S("TA4 Wind Turbine").." "..own_num)
+	M(pos):set_string("infotext", S("TA4 Wind Turbine")..": "..own_num)
 	nvm.error = false
 	return true
 end
 	
+local function formspec(self, pos, nvm)
+	return techage.generator_formspec(self, pos, nvm, S("TA4 Wind Turbine"), nvm.provided, PWR_PERF)
+end
+
 local function add_rotor(pos, nvm)
 	if check_rotor(pos, nvm) then
 		local hash = minetest.hash_node_position(pos)
@@ -82,71 +91,119 @@ local function add_rotor(pos, nvm)
 	end
 end	
 
-local function start_rotor(pos, nvm)
+local function start_rotor(pos, nvm, state)
 	if not nvm.error then
-		nvm.providing = true
+		local meta = M(pos)
+		nvm.running = true
 		nvm.delivered = 0
-		power.generator_start(pos, Cable, CYCLE_TIME, 5)
+		techage.evaluate_charge_termination(nvm, meta)
+		power.start_storage_calc(pos, Cable, 5)
 		local hash = minetest.hash_node_position(pos)
-		if Rotors[hash] then
+		if Rotors[hash] and is_wind() then
 			Rotors[hash]:set_animation_frame_speed(50)
 		end
 	end
 end
 
-local function stop_rotor(pos, nvm)
-	nvm.providing = false
+local function stop_rotor(pos, nvm, state)
+	nvm.running = false
 	nvm.delivered = 0
-	power.generator_stop(pos, Cable, 5)
+	nvm.load = 0
+	power.start_storage_calc(pos, Cable, 5)
 	local hash = minetest.hash_node_position(pos)
 	if Rotors[hash] then
 		Rotors[hash]:set_animation_frame_speed(0)
 	end
 end
 
+local function can_start(pos, nvm)
+	if nvm.error then
+		return nvm.error
+	end
+	return true
+end
+
+local State = techage.NodeStates:new({
+	node_name_passive = "techage:ta4_wind_turbine",
+	cycle_time = CYCLE_TIME,
+	standby_ticks = STANDBY_TICKS,
+	formspec_func = formspec,
+	start_node = start_rotor,
+	stop_node = stop_rotor,
+	can_start = can_start,
+})
+
+local function generating(pos, nvm)
+	if is_wind() then
+		if not nvm.running then
+			start_rotor(pos, nvm)
+		end
+		return true
+	else
+		if nvm.running then
+			stop_rotor(pos, nvm)
+		end
+		return false
+	end
+end
+
 local function node_timer(pos, elapsed)
+	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
 	
-	if not nvm.running or nvm.error then
+	if nvm.error then
 		return false
 	end
 	
-	local time = minetest.get_timeofday() or 0
-	if (time >= 5.00/24.00 and time <= 9.00/24.00) or (time >= 17.00/24.00 and time <= 21.00/24.00) then
-		if not nvm.providing then
-			start_rotor(pos, nvm)
-		end
+	if generating(pos, nvm) then
+		local tp1 = tonumber(meta:get_string("termpoint1"))
+		local tp2 = tonumber(meta:get_string("termpoint2"))
+		nvm.provided = power.provide_power(pos, Cable, 5, PWR_PERF, tp1, tp2)
+		State:keep_running(pos, nvm, 2)
 	else
-		if nvm.providing then
-			stop_rotor(pos, nvm)
-		end
+		State:idle(pos, nvm)
 	end
-	nvm.delivered = power.generator_alive(pos, Cable, CYCLE_TIME, 5, (nvm.providing and PWR_PERF) or 0)
+	nvm.load = power.get_storage_load(pos, Cable, 5, PWR_PERF)
+	if techage.is_activeformspec(pos) then
+		meta:set_string("formspec", formspec(State, pos, nvm))
+	end
 	return true
+end
+
+local function on_rightclick(pos, node, clicker)
+	techage.set_activeformspec(pos, clicker)
+	local nvm = techage.get_nvm(pos)
+	M(pos):set_string("formspec", formspec(State, pos, nvm))
+end
+
+local function on_receive_fields(pos, formname, fields, player)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return
+	end
+	local nvm = techage.get_nvm(pos)
+	State:state_button_event(pos, nvm, fields)
+	M(pos):set_string("formspec", formspec(State, pos, nvm))
+end
+
+local function get_generator_data(pos, tlib2)
+	local nvm = techage.get_nvm(pos)
+	if nvm.running then
+		return {level = (nvm.load or 0) / PWR_PERF, perf = PWR_PERF, capa = PWR_PERF * 2}
+	end
 end
 
 local function after_place_node(pos, placer)
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
-	local own_num = techage.add_node(pos, "techage:ta4_wind_turbine")
-	meta:set_string("node_number", own_num)
+	local number = techage.add_node(pos, "techage:ta4_wind_turbine")
+	State:node_init(pos, nvm, number)
 	meta:set_string("owner", placer:get_player_name())
-	nvm.providing = false
+	M(pos):set_string("formspec", formspec(State, pos, nvm))
 	nvm.running = true
 	add_rotor(pos, nvm)
-	minetest.get_node_timer(pos):start(CYCLE_TIME)
 	Cable:after_place_node(pos)
 end
 
-local function on_punch(pos, node, puncher, pointed_thing)
-	if minetest.is_protected(pos, puncher:get_player_name()) then
-		return
-	end
-	
-	local nvm = techage.get_nvm(pos)
-	add_rotor(pos, nvm)
-end
-	
 local function after_dig_node(pos, oldnode, oldmetadata)
 	local hash = minetest.hash_node_position(pos)
 	if Rotors[hash] and Rotors[hash]:get_luaentity() then
@@ -156,10 +213,6 @@ local function after_dig_node(pos, oldnode, oldmetadata)
 	Cable:after_dig_node(pos)
 	techage.remove_node(pos, oldnode, oldmetadata)
 	techage.del_mem(pos)
-end
-
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
-	power.update_network(pos, outdir, tlib2)
 end
 
 minetest.register_node("techage:ta4_wind_turbine", {
@@ -185,15 +238,39 @@ minetest.register_node("techage:ta4_wind_turbine", {
 	},
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	tubelib2_on_update2 = tubelib2_on_update2,
+	get_generator_data = get_generator_data,
 	on_timer = node_timer,
-	on_punch = on_punch,
+	on_rightclick = on_rightclick,
+	on_receive_fields = on_receive_fields,
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
+	ta4_formspec = techage.generator_settings("ta4", PWR_PERF),
 })
 
+power.register_nodes({"techage:ta4_wind_turbine"}, Cable, "gen", {"D"})
+
+control.register_nodes({"techage:ta4_wind_turbine"}, {
+		on_receive = function(pos, tlib2, topic, payload)
+		end,
+		on_request = function(pos, tlib2, topic)
+			if topic == "info" then
+				local nvm = techage.get_nvm(pos)
+				local meta = M(pos)
+				return {
+					type = S("TA4 Wind Turbine"),
+					number = meta:get_string("node_number") or "",
+					running = nvm.running or false,
+					available = PWR_PERF,
+					provided = nvm.provided or 0,
+					termpoint = meta:get_string("termpoint"), 
+				}
+			end
+			return false
+		end,
+	}
+)
 
 minetest.register_node("techage:ta4_wind_turbine_nacelle", {
 	description = S("TA4 Wind Turbine Nacelle"),
@@ -222,8 +299,6 @@ minetest.register_entity("techage:rotor_ent", {initial_properties = {
 	static_save = false,
 }})
 
-Cable:add_secondary_node_names({"techage:ta4_wind_turbine"})
-
 techage.register_node({"techage:ta4_wind_turbine"}, {	
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
@@ -234,7 +309,7 @@ techage.register_node({"techage:ta4_wind_turbine"}, {
 			end
 			if nvm.error then
 				return "error"
-			elseif nvm.running and nvm.providing then
+			elseif nvm.running then
 				return "running"
 			else
 				return "stopped"
@@ -252,7 +327,7 @@ techage.register_node({"techage:ta4_wind_turbine"}, {
 	on_node_load = function(pos)
 		local nvm = techage.get_nvm(pos)
 		add_rotor(pos, nvm)
-		nvm.providing = false  -- to force the rotor start
+		nvm.running = false  -- to force the rotor start
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
 })

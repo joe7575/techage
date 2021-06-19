@@ -27,4 +27,5 @@ techage.FILLING_ITEMS = {
 	"default:mese",
 	"default:diamondblock",
         "techage:power_pole3",
+        "techage:pillar",
 }

@@ -233,6 +233,41 @@ function techage.generator_settings(tier, available)
 	end
 end
 
+-------------------------------------------------------------------------------
+-- Still used legacy functions
+-------------------------------------------------------------------------------
+function techage.formspec_label_bar(pos, x, y, label, max_power, current_power, unit)
+	local percent, ypos
+	
+	max_power = max_power or 1
+	unit = unit or "ku"
+	current_power = current_power or 0
+	
+	if current_power == 0 then
+		percent = 0
+		ypos = 2.8
+	else
+		percent = techage.power.percent(max_power, current_power)
+		-- 0.4 to 2.8 = 2.4
+		local offs = 2.4 - (current_power / max_power) * 2.4
+		ypos = 0.4 + in_range(offs, 0.4, 2.4)
+	end
+	if current_power >= 100 then
+		current_power = math.floor(current_power)
+	end
+	percent = (percent + 5) / 1.1  -- texture correction
+	return "container["..x..","..y.."]"..
+		"box[0,0;2.3,3.3;#395c74]"..
+		"label[0.2,0;"..label.."]"..
+		"label[0.7,0.4;"..max_power.." "..unit.."]"..
+		"image[0,0.5;1,3;"..
+		"techage_form_level_bg.png^[lowpart:"..percent..
+		":techage_form_level_fg.png]"..
+		"label[0.7,"..ypos..";"..current_power.." "..unit.."]"..
+		"container_end[]"
+
+end
+
 function techage.evaluate_charge_termination(nvm, meta)
 	local termpoint = meta:get_string("termpoint")
 	if termpoint == "40% - 60%" then 

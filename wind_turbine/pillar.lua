@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -23,6 +23,8 @@ minetest.register_node("techage:pillar", {
 		type = "fixed",
 		fixed = {-8/32, -16/32, -8/32, 8/32, 16/32, 8/32},
 	},
+	climbable = true,
+	walkable = false,
 	paramtype = "light",
 	backface_culling = true,
 	groups = {cracky=1},

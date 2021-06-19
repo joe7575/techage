@@ -57,6 +57,9 @@ minetest.register_node("techage:heatexchanger3", {
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	
+	networks = {
+		pipe2 = {},
+	},
 	paramtype2 = "facedir",
 	groups = {crumbly = 2, cracky = 2, snappy = 2},
 	on_rotate = screwdriver.disallow,

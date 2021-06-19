@@ -234,33 +234,33 @@ dofile(MP.."/ta3_power/axle2power.lua")
 dofile(MP.."/ta3_power/power2axle.lua")
 
 -- Digtron
---if minetest.global_exists("digtron") then
---	dofile(MP.."/digtron/battery.lua")
---end
+if minetest.global_exists("digtron") then
+	dofile(MP.."/digtron/battery.lua")
+end
 
 -- Logic
---dofile(MP.."/logic/lib.lua")
---dofile(MP.."/logic/terminal.lua")
---dofile(MP.."/logic/button.lua")
---dofile(MP.."/logic/detector.lua")
---dofile(MP.."/logic/repeater.lua")
---dofile(MP.."/logic/programmer.lua")
---dofile(MP.."/logic/signallamp.lua")
---dofile(MP.."/logic/sequencer.lua")
---dofile(MP.."/logic/timer.lua")
---dofile(MP.."/logic/lua_logic.lua")  -- old
---dofile(MP.."/logic/logic_block.lua")  -- new
---dofile(MP.."/logic/node_detector.lua")
---dofile(MP.."/logic/player_detector.lua")
---dofile(MP.."/logic/cart_detector.lua")
---dofile(MP.."/logic/gateblock.lua")
---dofile(MP.."/logic/doorblock.lua")
---dofile(MP.."/logic/doorcontroller.lua")  -- old
---dofile(MP.."/logic/doorcontroller2.lua")  -- new
---dofile(MP.."/logic/collector.lua")
---if minetest.global_exists("mesecon") then
---	dofile(MP.."/logic/mesecons_converter.lua")
---end
+dofile(MP.."/logic/lib.lua")
+dofile(MP.."/logic/terminal.lua")
+dofile(MP.."/logic/button.lua")
+dofile(MP.."/logic/detector.lua")
+dofile(MP.."/logic/repeater.lua")
+dofile(MP.."/logic/programmer.lua")
+dofile(MP.."/logic/signallamp.lua")
+dofile(MP.."/logic/sequencer.lua")
+dofile(MP.."/logic/timer.lua")
+dofile(MP.."/logic/lua_logic.lua")  -- old
+dofile(MP.."/logic/logic_block.lua")  -- new
+dofile(MP.."/logic/node_detector.lua")
+dofile(MP.."/logic/player_detector.lua")
+dofile(MP.."/logic/cart_detector.lua")
+dofile(MP.."/logic/gateblock.lua")
+dofile(MP.."/logic/doorblock.lua")
+dofile(MP.."/logic/doorcontroller.lua")  -- old
+dofile(MP.."/logic/doorcontroller2.lua")  -- new
+dofile(MP.."/logic/collector.lua")
+if minetest.global_exists("mesecon") then
+	dofile(MP.."/logic/mesecons_converter.lua")
+end
 
 -- Test
 dofile(MP.."/recipe_checker.lua")
@@ -272,18 +272,18 @@ dofile(MP.."/solar/solarcell.lua")
 dofile(MP.."/solar/inverter.lua")
 
 -- Wind
---dofile(MP.."/wind_turbine/rotor.lua")
---dofile(MP.."/wind_turbine/pillar.lua")
---dofile(MP.."/wind_turbine/signallamp.lua")
+dofile(MP.."/wind_turbine/rotor.lua")
+dofile(MP.."/wind_turbine/pillar.lua")
+dofile(MP.."/wind_turbine/signallamp.lua")
 
 -- TA4 Energy Storage
---dofile(MP.."/energy_storage/heatexchanger3.lua")
---dofile(MP.."/energy_storage/heatexchanger2.lua")
---dofile(MP.."/energy_storage/heatexchanger1.lua")
---dofile(MP.."/energy_storage/generator.lua")
---dofile(MP.."/energy_storage/turbine.lua")
---dofile(MP.."/energy_storage/inlet.lua")
---dofile(MP.."/energy_storage/nodes.lua")
+dofile(MP.."/energy_storage/heatexchanger3.lua")
+dofile(MP.."/energy_storage/heatexchanger2.lua")
+dofile(MP.."/energy_storage/heatexchanger1.lua")
+dofile(MP.."/energy_storage/generator.lua")
+dofile(MP.."/energy_storage/turbine.lua")
+dofile(MP.."/energy_storage/inlet.lua")
+dofile(MP.."/energy_storage/nodes.lua")
 
 -- Chemistry
 --dofile(MP.."/chemistry/ta4_reactor.lua")
