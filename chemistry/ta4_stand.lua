@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -15,13 +15,12 @@
 local S = techage.S
 local M = minetest.get_meta
 local Cable = techage.ElectricCable
-local power = techage.power
 local Pipe = techage.LiquidPipe
-local networks = techage.networks
-local liquid = techage.liquid
+local power = networks.power
+local liquid = networks.liquid
 
 local PWR_NEEDED = 8
-local CYCLE_TIME = 4
+local CYCLE_TIME = 2
 
 local function play_sound(pos)
 	local mem = techage.get_mem(pos)
@@ -49,18 +48,18 @@ local function on_power(pos)
 	M(pos):set_string("infotext", S("on"))
 	play_sound(pos)
 	local nvm = techage.get_nvm(pos)
-	nvm.has_power = true
+	nvm.running = true
 end
 
 local function on_nopower(pos)
 	M(pos):set_string("infotext", S("no power"))
 	stop_sound(pos)
 	local nvm = techage.get_nvm(pos)
-	nvm.has_power = false
+	nvm.running = false
 end
 
 local function is_running(pos, nvm) 
-	return nvm.has_power 
+	return nvm.running 
 end
 
 minetest.register_node("techage:ta4_reactor_stand", {
@@ -103,15 +102,21 @@ minetest.register_node("techage:ta4_reactor_stand", {
 		Pipe:after_place_node(pos)
 		Cable:after_place_node(pos)
 	end,
-	tubelib2_on_update2 = function(pos, dir, tlib2, node)
-		if tlib2.tube_type == "ele1" then
-			power.update_network(pos, dir, tlib2)
-		else
-			liquid.update_network(pos, dir, tlib2)
-		end
-	end,
+--	tubelib2_on_update2 = function(pos, dir, tlib2, node)
+--		if tlib2.tube_type == "ele1" then
+--			power.update_network(pos, dir, tlib2, node)
+--		else
+--			liquid.update_network(pos, dir, tlib2, node)
+--		end
+--	end,
 	on_timer = function(pos, elapsed)
-		power.consumer_alive(pos, Cable, CYCLE_TIME)
+		local nvm = techage.get_nvm(pos)
+		local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
+		if not nvm.running and consumed == PWR_NEEDED then
+			on_power(pos)
+		elseif nvm.running and consumed < PWR_NEEDED then
+			on_nopower(pos)
+		end
 		return true
 	end,
 	after_dig_node = function(pos, oldnode)
@@ -127,21 +132,6 @@ minetest.register_node("techage:ta4_reactor_stand", {
 	groups = {cracky=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
-
-	networks = {
-		pipe2 = {
-			sides = {R=1}, 
-			ntype = "pump",
-		},
-		ele1 = {
-			sides = {L=1},
-			ntype = "con1",
-			on_power = on_power,
-			on_nopower = on_nopower,
-			nominal = PWR_NEEDED,
-			is_running = is_running,
-		},
-	},
 })
 
 -- controlled by the fillerpipe
@@ -149,21 +139,19 @@ techage.register_node({"techage:ta4_reactor_stand"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		if topic == "power" then
-			return nvm.has_power or power.power_available(pos, Cable)
+			return nvm.running or power.power_available(pos, Cable)
 		elseif topic == "output" then
 			local outdir = M(pos):get_int("outdir")
 			return liquid.put(pos, Pipe, outdir, payload.name, payload.amount, payload.player_name)
 		elseif topic == "can_start" then
 			return power.power_available(pos, Cable)
 		elseif topic == "start" then
-			nvm.has_power = false
-			power.consumer_start(pos, Cable, CYCLE_TIME)
+			nvm.running = false
 			minetest.get_node_timer(pos):start(CYCLE_TIME)
 			M(pos):set_string("infotext", "...")
 			return true
 		elseif topic == "stop" then
 			nvm.has_power = false
-			power.consumer_stop(pos, Cable)
 			stop_sound(pos)
 			minetest.get_node_timer(pos):stop()
 			M(pos):set_string("infotext", S("off"))
@@ -194,9 +182,9 @@ minetest.register_node("techage:ta4_reactor_base", {
 		M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
 		Pipe:after_place_node(pos)
 	end,
-	tubelib2_on_update2 = function(pos, dir, tlib2, node)
-		liquid.update_network(pos, dir, tlib2)
-	end,
+--	tubelib2_on_update2 = function(pos, dir, tlib2, node)
+--		liquid.update_network(pos, dir, tlib2, node)
+--	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 	end,
@@ -206,21 +194,11 @@ minetest.register_node("techage:ta4_reactor_base", {
 	groups = {cracky=2},
 	is_ground_content = false,
 	sounds = default.node_sound_stone_defaults(),
-
-	networks = {
-		pipe2 = {
-			sides = {R=1}, -- Pipe connection sides
-			ntype = "pump",
-		},
-	},
 })
 
-Pipe:add_secondary_node_names({
-		"techage:ta4_reactor_base", 
-		"techage:ta4_reactor_stand",
-})
-
-Cable:add_secondary_node_names({"techage:ta4_reactor_stand"})
+liquid.register_nodes({"techage:ta4_reactor_base"}, Pipe, "pump", {"R"}, {})
+liquid.register_nodes({"techage:ta4_reactor_stand"}, Pipe, "pump", {"R"}, {})
+power.register_nodes({"techage:ta4_reactor_stand"}, Cable, "con", {"L"})
 
 minetest.register_craft({
 	output = 'techage:ta4_reactor_stand',

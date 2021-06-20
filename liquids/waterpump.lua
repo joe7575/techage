@@ -129,13 +129,13 @@ local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	techage.del_mem(pos)
 end
 
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
-	if tlib2.tube_type == "pipe2" then
-		liquid.update_network(pos, outdir, tlib2)
-	else
-		power.update_network(pos, outdir, tlib2)
-	end
-end
+--local function tubelib2_on_update2(pos, outdir, tlib2, node) 
+--	if tlib2.tube_type == "pipe2" then
+--		liquid.update_network(pos, outdir, tlib2)
+--	else
+--		power.update_network(pos, outdir, tlib2)
+--	end
+--end
 
 local netw_def = {
 	pipe2 = {
@@ -165,7 +165,7 @@ minetest.register_node("techage:t4_waterpump", {
 
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	tubelib2_on_update2 = tubelib2_on_update2,
+	--tubelib2_on_update2 = tubelib2_on_update2,
 	networks = netw_def,
 	on_receive_fields = on_receive_fields,
 	on_timer = node_timer,

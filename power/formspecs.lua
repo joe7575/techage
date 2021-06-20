@@ -233,6 +233,29 @@ function techage.generator_settings(tier, available)
 	end
 end
 
+
+function techage.evaluate_charge_termination(nvm, meta)
+	local termpoint = meta:get_string("termpoint")
+	if termpoint == "40% - 60%" then 
+		meta:set_string("termpoint1", 0.4)
+		meta:set_string("termpoint2", 0.6)
+	elseif termpoint == "60% - 80%" then 
+		meta:set_string("termpoint1", 0.6)
+		meta:set_string("termpoint2", 0.8)
+	elseif termpoint == "80% - 100%" then 
+		meta:set_string("termpoint1", 0.8)
+		meta:set_string("termpoint2", 1.0)
+	else
+		meta:set_string("termpoint", "80% - 100%")
+		meta:set_string("termpoint1", 0.8)
+		meta:set_string("termpoint2", 1.0)
+	end
+end
+
+techage.power.percent =  calc_percent
+techage.CYCLES_PER_DAY = CYCLES_PER_DAY
+techage.round = round
+
 -------------------------------------------------------------------------------
 -- Still used legacy functions
 -------------------------------------------------------------------------------
@@ -268,24 +291,3 @@ function techage.formspec_label_bar(pos, x, y, label, max_power, current_power, 
 
 end
 
-function techage.evaluate_charge_termination(nvm, meta)
-	local termpoint = meta:get_string("termpoint")
-	if termpoint == "40% - 60%" then 
-		meta:set_string("termpoint1", 0.4)
-		meta:set_string("termpoint2", 0.6)
-	elseif termpoint == "60% - 80%" then 
-		meta:set_string("termpoint1", 0.6)
-		meta:set_string("termpoint2", 0.8)
-	elseif termpoint == "80% - 100%" then 
-		meta:set_string("termpoint1", 0.8)
-		meta:set_string("termpoint2", 1.0)
-	else
-		meta:set_string("termpoint", "80% - 100%")
-		meta:set_string("termpoint1", 0.8)
-		meta:set_string("termpoint2", 1.0)
-	end
-end
-
-techage.power.percent =  calc_percent
-techage.CYCLES_PER_DAY = CYCLES_PER_DAY
-techage.round = round

@@ -15,8 +15,8 @@
 local S = techage.S
 local M = minetest.get_meta
 local Pipe = techage.LiquidPipe
-local networks = techage.networks
-local liquid = techage.liquid
+local Cable = techage.ElectricCable
+local liquid = networks.liquid
 
 minetest.register_node("techage:ta4_reactor_fillerpipe", {
 	description = S("TA4 Reactor Filler Pipe"),
@@ -48,9 +48,9 @@ minetest.register_node("techage:ta4_reactor_fillerpipe", {
 			Pipe:after_place_node(pos1)
 		end
 	end,
-	tubelib2_on_update2 = function(pos, dir, tlib2, node)
-		liquid.update_network(pos)
-	end,
+--	tubelib2_on_update2 = function(pos, dir, tlib2, node)
+--		liquid.update_network(pos, dir, tlib2, node)
+--	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 	end,
@@ -63,13 +63,6 @@ minetest.register_node("techage:ta4_reactor_fillerpipe", {
 	groups = {cracky=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
-
-	networks = {
-		pipe2 = {
-			sides = {U = 1}, -- Pipe connection sides
-			ntype = "tank",
-		},
-	},
 })
 
 local function stand_cmnd(pos, cmnd, payload)
@@ -116,6 +109,8 @@ techage.register_node({"techage:ta4_reactor_fillerpipe"}, {
 		end
 	end,
 })
+
+liquid.register_nodes({"techage:ta4_reactor_fillerpipe"}, Pipe, "tank", {"U"}, {})
 
 local function formspec()
 	local title = S("TA4 Reactor")
@@ -175,8 +170,6 @@ minetest.register_node("techage:ta4_reactor", {
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
 })
-
-Pipe:add_secondary_node_names({"techage:ta4_reactor_fillerpipe"})
 
 minetest.register_craft({
 	output = 'techage:ta4_reactor',
