@@ -24,6 +24,7 @@ local control = networks.control
 
 local CYCLE_TIME = 2
 local STANDBY_TICKS = 4
+local COUNTDOWN_TICKS = 2
 local PWR_PERF = 34
 local PWR_UNITS_PER_HYDROGEN_ITEM = 75
 local CAPACITY = 100
@@ -32,7 +33,7 @@ local function formspec(self, pos, nvm)
 	local amount = (nvm.liquid and nvm.liquid.amount) or 0
 	local lqd_name = (nvm.liquid and nvm.liquid.name) or "techage:liquid"
 	local arrow = "image[2,1.5;1,1;techage_form_arrow_bg.png^[transformR270]"
-	if nvm.running then
+	if techage.is_running(nvm) then
 		arrow = "image[2,1.5;1,1;techage_form_arrow_fg.png^[transformR270]"
 	end
 	if amount > 0 then
@@ -51,20 +52,6 @@ local function formspec(self, pos, nvm)
 		techage.formspec_power_bar(pos, 3.5, 0.8, S("Electricity"), nvm.provided, PWR_PERF)
 end
 
-local function start_node(pos, nvm, state)
-	nvm.running = true
-	nvm.provided = 0
-	local outdir = M(pos):get_int("outdir")
-	power.start_storage_calc(pos, Cable, outdir)
-end
-
-local function stop_node(pos, nvm, state)
-	nvm.running = false
-	nvm.provided = 0
-	local outdir = M(pos):get_int("outdir")
-	power.start_storage_calc(pos, Cable, outdir)
-end
-
 local function has_hydrogen(nvm)
 	nvm.liquid = nvm.liquid or {}
 	nvm.liquid.amount = nvm.liquid.amount or 0
@@ -79,6 +66,29 @@ local function can_start(pos, nvm, state)
 	return S("no hydrogen")
 end
 
+
+local function consuming(pos, nvm)	
+	if nvm.num_pwr_units <= 0 then
+		nvm.num_pwr_units = nvm.num_pwr_units + PWR_UNITS_PER_HYDROGEN_ITEM
+		nvm.liquid.amount = nvm.liquid.amount - 1
+	end
+	nvm.num_pwr_units = nvm.num_pwr_units - nvm.provided
+end
+
+local function start_node(pos, nvm, state)
+	local meta = M(pos)
+	nvm.provided = 0
+	local outdir = meta:get_int("outdir")
+	power.start_storage_calc(pos, Cable, outdir)
+	techage.evaluate_charge_termination(nvm, meta)
+end
+
+local function stop_node(pos, nvm, state)
+	nvm.provided = 0
+	local outdir = M(pos):get_int("outdir")
+	power.start_storage_calc(pos, Cable, outdir)
+end
+
 local State = techage.NodeStates:new({
 	node_name_passive = "techage:ta4_fuelcell",
 	node_name_active = "techage:ta4_fuelcell_on",
@@ -91,36 +101,33 @@ local State = techage.NodeStates:new({
 	stop_node = stop_node,
 })
 
-
-local function consuming(pos, nvm)	
-	if nvm.num_pwr_units <= 0 then
-		nvm.num_pwr_units = nvm.num_pwr_units + PWR_UNITS_PER_HYDROGEN_ITEM
-		nvm.liquid.amount = nvm.liquid.amount - 1
-	end
-	nvm.num_pwr_units = nvm.num_pwr_units - nvm.provided
-end
-
--- converts hydrogen into power
 local function node_timer(pos, elapsed)
-	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
-	--print("fuelcell", nvm.running, nvm.provided, nvm.num_pwr_units)
-	if has_hydrogen(nvm) then
-		local outdir = M(pos):get_int("outdir")
+	local running = techage.is_running(nvm)
+	local hydro = has_hydrogen(nvm)
+	if running and not hydro then
+		State:standby(pos, nvm, S("no hydrogen"))
+		stop_node(pos, nvm, State)
+	elseif not running and hydro then
+		State:start(pos, nvm)
+		-- start_node() is called implicit
+	elseif running then
+		local meta = M(pos)
+		local outdir = meta:get_int("outdir")
 		local tp1 = tonumber(meta:get_string("termpoint1"))
 		local tp2 = tonumber(meta:get_string("termpoint2"))
 		nvm.provided = power.provide_power(pos, Cable, outdir, PWR_PERF, tp1, tp2)
-		nvm.load = power.get_storage_load(pos, Cable, outdir, PWR_PERF)
+		local val = power.get_storage_load(pos, Cable, outdir, PWR_PERF)
+		if val > 0 then
+			nvm.load = val
+		end
 		consuming(pos, nvm)
-		State:keep_running(pos, nvm, 1) -- TODO warum hier 1 und nicht COUNTDOWN_TICKS?
-	else
-		State:standby(pos, nvm)
-		nvm.provided = 0
+		State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 	end
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(State, pos, nvm))
 	end
-	return true
+	return State:is_active(nvm)
 end
 
 local function on_receive_fields(pos, formname, fields, player)
@@ -129,7 +136,6 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 	local nvm = techage.get_nvm(pos)
 	State:state_button_event(pos, nvm, fields)
-	M(pos):set_string("formspec", formspec(State, pos, nvm))
 end
 
 local function on_rightclick(pos, node, clicker)
@@ -140,12 +146,11 @@ end
 
 local function after_place_node(pos)
 	local nvm = techage.get_nvm(pos)
-	nvm.running = false
 	nvm.num_pwr_units = 0
 	local number = techage.add_node(pos, "techage:ta4_fuelcell")
 	State:node_init(pos, nvm, number)
-	local node = minetest.get_node(pos)
 	M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
+	M(pos):set_string("formspec", formspec(State, pos, nvm))
 	Pipe:after_place_node(pos)
 	Cable:after_place_node(pos)
 	local inv = M(pos):get_inventory()
@@ -161,7 +166,7 @@ end
 
 local function get_generator_data(pos, tlib2)
 	local nvm = techage.get_nvm(pos)
-	if nvm.running then
+	if techage.is_running(nvm) then
 		return {level = (nvm.load or 0) / PWR_PERF, perf = PWR_PERF, capa = PWR_PERF * 2}
 	end
 end
@@ -310,7 +315,7 @@ control.register_nodes({"techage:ta4_fuelcell", "techage:ta4_fuelcell_on"}, {
 				return {
 					type = S("TA4 Fuel Cell"),
 					number = meta:get_string("node_number") or "",
-					running = nvm.running or false,
+					running = techage.is_running(nvm) or false,
 					available = PWR_PERF,
 					provided = nvm.provided or 0,
 					termpoint = meta:get_string("termpoint"), 

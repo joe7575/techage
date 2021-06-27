@@ -24,7 +24,9 @@ local power = networks.power
 local liquid = networks.liquid
 
 local CYCLE_TIME = 2
-local PWR_CAPA = 12
+local STANDBY_TICKS = 1
+local COUNTDOWN_TICKS = 2
+local PWR_PERF = 12
 local EFFICIENCY = 2.5
 
 local function formspec(self, pos, nvm)
@@ -38,7 +40,7 @@ local function formspec(self, pos, nvm)
 		"image[1.4,1.6;1,1;techage_form_arrow_bg.png^[transformR270]"..
 		"image_button[1.4,3.2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 		"tooltip[1.5,3;1,1;"..self:get_state_tooltip(nvm).."]"..
-		techage.formspec_power_bar(pos, 2.5, 0.8, S("Electricity"), nvm.provided, PWR_CAPA)
+		techage.formspec_power_bar(pos, 2.5, 0.8, S("Electricity"), nvm.provided, PWR_PERF)
 end
 
 local function play_sound(pos)
@@ -63,33 +65,38 @@ local function stop_sound(pos)
 	end
 end
 
+local function has_fuel(pos, nvm)
+	return (nvm.burn_cycles or 0) > 0 or (nvm.liquid and nvm.liquid.amount and nvm.liquid.amount > 0)
+end
+
 local function can_start(pos, nvm, state)
-	if (nvm.burn_cycles or 0) > 0 or (nvm.liquid and nvm.liquid.amount and nvm.liquid.amount > 0) then 
+	if has_fuel(pos, nvm) then 
 		return true 
 	end
 	return S("no fuel")
 end
 
 local function start_node(pos, nvm, state)
-	nvm.running = true -- needed by fuel_lib
-	local outdir = M(pos):get_int("outdir")
-	power.start_storage_calc(pos, Cable, outdir)
+	local meta = M(pos)
+	nvm.provided = 0
+	local outdir = meta:get_int("outdir")
 	play_sound(pos)
+	power.start_storage_calc(pos, Cable, outdir)
+	techage.evaluate_charge_termination(nvm, meta)
 end
 
 local function stop_node(pos, nvm, state)
-	nvm.running = false
 	nvm.provided = 0
 	local outdir = M(pos):get_int("outdir")
-	power.start_storage_calc(pos, Cable, outdir)
 	stop_sound(pos)
+	power.start_storage_calc(pos, Cable, outdir)
 end
 
 local State = techage.NodeStates:new({
 	node_name_passive = "techage:tiny_generator",
 	node_name_active = "techage:tiny_generator_on",
 	cycle_time = CYCLE_TIME,
-	standby_ticks = 0,
+	standby_ticks = STANDBY_TICKS,
 	formspec_func = formspec,
 	infotext_name = S("TA3 Tiny Power Generator"),
 	can_start = can_start,
@@ -98,7 +105,7 @@ local State = techage.NodeStates:new({
 })
 
 local function burning(pos, nvm)
-	local ratio = math.max((nvm.provided or PWR_CAPA) / PWR_CAPA, 0.02)
+	local ratio = math.max((nvm.provided or PWR_PERF) / PWR_PERF, 0.02)
 	
 	nvm.liquid = nvm.liquid or {}
 	nvm.liquid.amount = nvm.liquid.amount or 0
@@ -108,32 +115,37 @@ local function burning(pos, nvm)
 			nvm.liquid.amount = nvm.liquid.amount - 1
 			nvm.burn_cycles = fuel.burntime(nvm.liquid.name) * EFFICIENCY / CYCLE_TIME
 			nvm.burn_cycles_total = nvm.burn_cycles
-			return true
 		else
 			nvm.liquid.name = nil 
-			State:fault(pos, nvm, S("no fuel"))
-			stop_sound(pos)
-			return false
 		end
-	else
-		return true
 	end
 end
 
 local function node_timer(pos, elapsed)
-	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
-	local outdir = meta:get_int("outdir")
-	local tp1 = tonumber(meta:get_string("termpoint1"))
-	local tp2 = tonumber(meta:get_string("termpoint2"))
-	if nvm.running and burning(pos, nvm) then
-		nvm.provided = power.provide_power(pos, Cable, outdir, PWR_CAPA, tp1, tp2)
-		nvm.load = power.get_storage_load(pos, Cable, outdir, PWR_CAPA)
-	else
-		nvm.provided = 0
+	local running = techage.is_running(nvm)
+	local fuel = has_fuel(pos, nvm)
+	if running and not fuel then
+		State:standby(pos, nvm, S("no fuel"))
+        stop_node(pos, nvm, State)
+	elseif not running and fuel then
+		State:start(pos, nvm)
+        -- start_node() is called implicit
+	elseif running then
+		local meta = M(pos)
+		local outdir = meta:get_int("outdir")
+		local tp1 = tonumber(meta:get_string("termpoint1"))
+		local tp2 = tonumber(meta:get_string("termpoint2"))
+		nvm.provided = power.provide_power(pos, Cable, outdir, PWR_PERF, tp1, tp2)
+		local val = power.get_storage_load(pos, Cable, outdir, PWR_PERF)
+		if val > 0 then
+			nvm.load = val
+		end
+		burning(pos, nvm)
+		State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 	end
 	if techage.is_activeformspec(pos) then
-		meta:set_string("formspec", formspec(State, pos, nvm))
+		M(pos):set_string("formspec", formspec(State, pos, nvm))
 	end
 	return State:is_active(nvm)
 end
@@ -144,19 +156,18 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 	local nvm = techage.get_nvm(pos)
 	State:state_button_event(pos, nvm, fields)
-	M(pos):set_string("formspec", formspec(State, pos, nvm))
 end
 
 local function on_rightclick(pos, node, clicker)
-	techage.set_activeformspec(pos, clicker)
 	local nvm = techage.get_nvm(pos)
+	techage.set_activeformspec(pos, clicker)
 	M(pos):set_string("formspec", formspec(State, pos, nvm))
 end
 
 local function get_generator_data(pos, tlib2)
 	local nvm = techage.get_nvm(pos)
-	if nvm.running then
-		return {level = (nvm.load or 0) / PWR_CAPA, perf = PWR_CAPA, capa = PWR_CAPA * 2}
+	if nvm.running and techage.is_running(nvm) then
+		return {level = (nvm.load or 0) / PWR_PERF, perf = PWR_PERF, capa = PWR_PERF * 2}
 	end
 end
 
@@ -195,7 +206,7 @@ minetest.register_node("techage:tiny_generator", {
 	end,
 
 	get_generator_data = get_generator_data,
-	ta3_formspec = techage.generator_settings("ta3", PWR_CAPA), 
+	ta3_formspec = techage.generator_settings("ta3", PWR_PERF), 
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_punch = fuel.on_punch,
@@ -242,7 +253,7 @@ minetest.register_node("techage:tiny_generator_on", {
 	is_ground_content = false,
 
 	get_generator_data = get_generator_data,
-	ta3_formspec = techage.generator_settings("ta3", PWR_CAPA), 
+	ta3_formspec = techage.generator_settings("ta3", PWR_PERF), 
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_punch = fuel.on_punch,

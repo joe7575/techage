@@ -297,23 +297,23 @@ dofile(MP.."/hydrogen/electrolyzer.lua")
 dofile(MP.."/hydrogen/fuelcell.lua")
 
 -- ICTA Controller
---dofile(MP.."/icta_controller/submenu.lua")
---dofile(MP.."/icta_controller/condition.lua")
---dofile(MP.."/icta_controller/action.lua")
---dofile(MP.."/icta_controller/formspec.lua")
---dofile(MP.."/icta_controller/controller.lua")
---dofile(MP.."/icta_controller/commands.lua")
---dofile(MP.."/icta_controller/edit.lua")
---dofile(MP.."/icta_controller/battery.lua")
---dofile(MP.."/icta_controller/display.lua")
---dofile(MP.."/icta_controller/signaltower.lua")
+dofile(MP.."/icta_controller/submenu.lua")
+dofile(MP.."/icta_controller/condition.lua")
+dofile(MP.."/icta_controller/action.lua")
+dofile(MP.."/icta_controller/formspec.lua")
+dofile(MP.."/icta_controller/controller.lua")
+dofile(MP.."/icta_controller/commands.lua")
+dofile(MP.."/icta_controller/edit.lua")
+dofile(MP.."/icta_controller/battery.lua")
+dofile(MP.."/icta_controller/display.lua")
+dofile(MP.."/icta_controller/signaltower.lua")
 
 -- Lua Controller
 dofile(MP.."/lua_controller/controller.lua")
---dofile(MP.."/lua_controller/commands.lua")
---dofile(MP.."/lua_controller/server.lua")
---dofile(MP.."/lua_controller/sensorchest.lua")
---dofile(MP.."/lua_controller/terminal.lua")
+dofile(MP.."/lua_controller/commands.lua")
+dofile(MP.."/lua_controller/server.lua")
+dofile(MP.."/lua_controller/sensorchest.lua")
+dofile(MP.."/lua_controller/terminal.lua")
 
 -- Items
 dofile(MP.."/items/registered_nodes.lua")
@@ -340,8 +340,8 @@ dofile(MP.."/items/basalt.lua")
 dofile(MP.."/items/moreblocks.lua")
 
 -- Carts
---dofile(MP.."/carts/tank_cart.lua")
---dofile(MP.."/carts/chest_cart.lua")
+dofile(MP.."/carts/tank_cart.lua")
+dofile(MP.."/carts/chest_cart.lua")
 
 
 -- Prevent other mods from using IE

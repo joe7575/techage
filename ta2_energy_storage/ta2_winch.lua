@@ -20,6 +20,7 @@ local S = techage.S
 
 local MIN_LOAD = 99
 local MAX_ROPE_LEN = 10
+local CYCLE_TIME = 2
 
 local Axle = techage.Axle
 local power = networks.power
@@ -53,6 +54,17 @@ local function chest_full(pos)
 	end
 end
 	
+local function add_chest_entity(pos, nvm)
+	local mem = techage.get_mem(pos)
+	local length = (nvm.length or MAX_ROPE_LEN) * (1 - nvm.load/nvm.capa)
+	local y = pos.y - length - 1
+	techage.renew_rope(pos, length, true)
+	if mem.obj then
+		mem.obj:remove()
+	end
+	mem.obj = minetest.add_entity({x = pos.x, y = y, z = pos.z}, "techage:ta2_weight_chest_entity")
+end
+
 -- Add chest node, remove chest entity instead
 local function add_chest(pos)
 	local mem = techage.get_mem(pos)
@@ -108,38 +120,31 @@ minetest.register_node("techage:ta2_winch", {
 		local outdir = networks.side_to_outdir(pos, "R")
 		M(pos):set_int("outdir", outdir)
 		Axle:after_place_node(pos, {outdir})
-		minetest.get_node_timer(pos):start(2)
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		techage.renew_rope(pos, MAX_ROPE_LEN - 1)
 	end,
 
 	on_timer = function(pos, elapsed)
 		local nvm = techage.get_nvm(pos)
-		local mem = techage.get_mem(pos)
 		local outdir = M(pos):get_int("outdir")
 		nvm.capa = nvm.capa or 1
 		nvm.load = nvm.load or 0
-		nvm.length = nvm.length or 1
 		
 		if not nvm.running and power.power_available(pos, Axle, outdir) and chest_full(pos) then
 			remove_chest(pos)
-			power.start_storage_calc(pos, Axle, outdir)
 			nvm.running = true
+			power.start_storage_calc(pos, Axle, outdir)
 		elseif nvm.running and nvm.load == 0 and not power.power_available(pos, Axle, outdir) then
 			add_chest(pos)
-			power.start_storage_calc(pos, Axle, outdir)
 			nvm.running = false
+			power.start_storage_calc(pos, Axle, outdir)
 		end
 		
 		if nvm.running then
-			nvm.load = power.get_storage_load(pos, Axle, outdir, nvm.capa)
-			if nvm.load then
-				local length = nvm.length * (1 - nvm.load/nvm.capa)
-				local y = pos.y - length - 1
-				techage.renew_rope(pos, length, true)
-				if mem.obj then
-					mem.obj:remove()
-				end
-				mem.obj = minetest.add_entity({x = pos.x, y = y, z = pos.z}, "techage:ta2_weight_chest_entity")
+			local val = power.get_storage_load(pos, Axle, outdir, nvm.capa) or 0 
+			if val > 0 then
+				nvm.load = val
+				add_chest_entity(pos, nvm)
 			end
 		end
 		return true
@@ -155,10 +160,9 @@ minetest.register_node("techage:ta2_winch", {
 	
 	get_storage_data = function(pos, tlib2)
 		local nvm = techage.get_nvm(pos)
-		nvm.load = nvm.load or 0
 		nvm.capa = nvm.capa or 1
 		if nvm.running then
-			return {level = nvm.load / nvm.capa, capa = nvm.capa}
+			return {level = (nvm.load or 0) / nvm.capa, capa = nvm.capa}
 		end
 	end,
 	
@@ -169,6 +173,14 @@ minetest.register_node("techage:ta2_winch", {
 })
 
 power.register_nodes({"techage:ta2_winch"}, Axle, "sto", {"R"})
+
+techage.register_node({"techage:ta2_winch"}, {
+	on_node_load = function(pos, node)
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
+		local nvm = techage.get_nvm(pos)
+		add_chest_entity(pos, nvm)
+	end,
+})
 
 minetest.register_craft({
 	output = "techage:ta2_winch",

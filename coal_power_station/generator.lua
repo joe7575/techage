@@ -16,17 +16,17 @@
 local M = minetest.get_meta
 local S = techage.S
 
-local STANDBY_TICKS = 4
-local COUNTDOWN_TICKS = 4
-local CYCLE_TIME = 2
-local PWR_CAPA = 80
-
 local Cable = techage.ElectricCable
 local power = networks.power
 local control = networks.control
 
+local CYCLE_TIME = 2
+local STANDBY_TICKS = 4
+local COUNTDOWN_TICKS = 4
+local PWR_PERF = 80
+
 local function formspec(self, pos, nvm)
-	return techage.generator_formspec(self, pos, nvm, S("Generator"), nvm.provided, PWR_CAPA)
+	return techage.generator_formspec(self, pos, nvm, S("Generator"), nvm.provided, PWR_PERF)
 end
 
 local function transfer_turbine(pos, topic, payload)
@@ -38,19 +38,24 @@ local function can_start(pos, nvm, state)
 	return (nvm.firebox_trigger or 0) > 0 -- by means of firebox
 end
 
+local function has_fire(nvm)
+	nvm.firebox_trigger = (nvm.firebox_trigger or 0) - 1
+	return nvm.firebox_trigger > 0
+end
+
 local function start_node(pos, nvm, state)
-	local outdir = M(pos):get_int("outdir")
-	techage.evaluate_charge_termination(nvm, M(pos))
+	local meta = M(pos)
+	nvm.provided = 0
+	local outdir = meta:get_int("outdir")
 	transfer_turbine(pos, "start")
-	nvm.running = true
 	power.start_storage_calc(pos, Cable, outdir)
+	techage.evaluate_charge_termination(nvm, meta)
 end
 
 local function stop_node(pos, nvm, state)
-	local outdir = M(pos):get_int("outdir")
 	nvm.provided = 0
+	local outdir = M(pos):get_int("outdir")
 	transfer_turbine(pos, "stop")
-	nvm.running = false
 	power.start_storage_calc(pos, Cable, outdir)
 end
 
@@ -67,23 +72,29 @@ local State = techage.NodeStates:new({
 })
 
 local function node_timer(pos, elapsed)
-	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
-	nvm.firebox_trigger = (nvm.firebox_trigger or 0) - 1
-	if nvm.firebox_trigger <= 0 then
-		State:nopower(pos, nvm)
+	local running = techage.is_running(nvm)
+	local fire = has_fire(nvm)
+	if running and not fire then
+		State:standby(pos, nvm)
 		stop_node(pos, nvm, State)
-		transfer_turbine(pos, "stop")	
-	else
+	elseif not running and fire then
+		State:start(pos, nvm)
+		-- start_node() is called implicit
+	elseif running then
+		local meta = M(pos)
 		local outdir = meta:get_int("outdir")
 		local tp1 = tonumber(meta:get_string("termpoint1"))
 		local tp2 = tonumber(meta:get_string("termpoint2"))
-		nvm.provided = power.provide_power(pos, Cable, outdir, PWR_CAPA, tp1, tp2)
-		nvm.load = power.get_storage_load(pos, Cable, outdir, PWR_CAPA)
+		nvm.provided = power.provide_power(pos, Cable, outdir, PWR_PERF, tp1, tp2)
+		local val = power.get_storage_load(pos, Cable, outdir, PWR_PERF)
+		if val > 0 then
+			nvm.load = val
+		end
 		State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 	end
 	if techage.is_activeformspec(pos) then
-		meta:set_string("formspec", formspec(State, pos, nvm))
+		M(pos):set_string("formspec", formspec(State, pos, nvm))
 	end
 	return State:is_active(nvm)
 end
@@ -108,7 +119,6 @@ local function after_place_node(pos)
 	State:node_init(pos, nvm, number)
 	M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
 	M(pos):set_string("formspec", formspec(State, pos, nvm))
-	techage.evaluate_charge_termination(nvm, M(pos))
 	Cable:after_place_node(pos)
 end
 
@@ -119,8 +129,8 @@ end
 
 local function get_generator_data(pos, tlib2)
 	local nvm = techage.get_nvm(pos)
-	if nvm.running then
-		return {level = (nvm.load or 0) / PWR_CAPA, perf = PWR_CAPA, capa = PWR_CAPA * 2}
+	if techage.is_running(nvm) then
+		return {level = (nvm.load or 0) / PWR_PERF, perf = PWR_PERF, capa = PWR_PERF * 2}
 	end
 end
 
@@ -142,7 +152,7 @@ minetest.register_node("techage:generator", {
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	get_generator_data = get_generator_data,
-	ta3_formspec = techage.generator_settings("ta3", PWR_CAPA),
+	ta3_formspec = techage.generator_settings("ta3", PWR_PERF),
 
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -187,7 +197,7 @@ minetest.register_node("techage:generator_on", {
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	get_generator_data = get_generator_data,
-	ta3_formspec = techage.generator_settings("ta3", PWR_CAPA),
+	ta3_formspec = techage.generator_settings("ta3", PWR_PERF),
 
 	drop = "",
 	paramtype2 = "facedir",
@@ -206,8 +216,8 @@ techage.register_node({"techage:generator", "techage:generator_on"}, {
 		local nvm = techage.get_nvm(pos)
 		if topic == "trigger" then
 			nvm.firebox_trigger = 3
-			if nvm.running then
-				return math.max((nvm.provided or PWR_CAPA) / PWR_CAPA, 0.02)
+			if techage.is_running(nvm) then
+				return math.max((nvm.provided or PWR_PERF) / PWR_PERF, 0.02)
 			else
 				return 0
 			end
@@ -234,8 +244,8 @@ control.register_nodes({"techage:generator", "techage:generator_on"}, {
 				return {
 					type = S("TA3 Generator"),
 					number = meta:get_string("node_number") or "",
-					running = nvm.running or false,
-					available = PWR_CAPA,
+					running = techage.is_running(nvm) or false,
+					available = PWR_PERF,
 					provided = nvm.provided or 0,
 					termpoint = meta:get_string("termpoint"), 
 				}

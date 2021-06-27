@@ -60,13 +60,16 @@ local State = techage.NodeStates:new({
 
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
-	local outdir = M(pos):get_int("outdir")
-	nvm.capa = power.get_storage_load(pos, Cable, outdir, PWR_CAPA)
-	
+	if nvm.running then
+		local outdir = M(pos):get_int("outdir")
+		local capa = power.get_storage_load(pos, Cable, outdir, PWR_CAPA) or 0
+		if capa > 0 then
+			nvm.capa = capa
+		end
+	end
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(State, pos, nvm))
 	end
-	
 	return true		
 end
 

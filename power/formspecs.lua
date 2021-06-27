@@ -85,7 +85,7 @@ end
 
 local function storage_bar(current_power, max_power)
 	local percent, ypos
-	max_power = (max_power or 0) / CYCLES_PER_DAY
+	max_power = (max_power or 1) / CYCLES_PER_DAY
 	current_power = (current_power or 0) / CYCLES_PER_DAY
 		
 	if current_power == 0 then
@@ -121,7 +121,7 @@ end
 
 function techage.formspec_charging_bar(pos, x, y, label, data)
 	local charging = 0
-	local percent = 0
+	local percent = 50
 	local consumed = 0
 	local available = 0
 	
@@ -205,6 +205,7 @@ function techage.generator_settings(tier, available)
 				name = "termpoint",
 				label = S("Charge termination"),      
 				tooltip = S("Range in which the generator reduces its power"),
+				default = "80% - 100%",
 			},
 		}
 	else
@@ -228,6 +229,7 @@ function techage.generator_settings(tier, available)
 				name = "termpoint",
 				label = S("Charge termination"),      
 				tooltip = S("Range in which the generator reduces its power"),
+				default = "80% - 100%",
 			},
 		}
 	end

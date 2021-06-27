@@ -19,6 +19,8 @@ local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local S2P = minetest.string_to_pos
 local MP = minetest.get_modpath("minecart")
 
+local Tube = techage.Tube
+
 local function on_rightclick(pos, node, clicker)
 	if clicker and clicker:is_player() then
 		if M(pos):get_int("userID") == 0 then
@@ -158,6 +160,8 @@ techage.register_node({"techage:chest_cart"}, {
 		end
 	end,
 })	
+
+Tube:set_valid_sides("techage:chest_cart", {"L", "R", "F", "B"})
 
 minetest.register_craft({
 	output = "techage:chest_cart",

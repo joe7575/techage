@@ -34,29 +34,41 @@ local function generate_formspec_substring(pos, meta, form_def)
 			tbl[#tbl+1] = "label[0," .. offs .. ";" .. minetest.formspec_escape(elem.label) .. ":]"
 			tbl[#tbl+1] = "tooltip[0," .. offs .. ";4,1;" .. elem.tooltip .. "]"
 			if elem.type == "number" then
-				local val = meta:get_int(elem.name)
-				if nvm.running then
+				local val = elem.default
+				if meta:contains(elem.name) then
+					val = meta:get_int(elem.name)
+				end
+				if nvm.running or techage.is_running(nvm) then
 					tbl[#tbl+1] = "label[4.75," .. offs .. ";" .. val .. "]"
 				else
 					tbl[#tbl+1] = "field[5," .. (offs+0.2) .. ";5.3,1;" .. elem.name .. ";;" .. val .. "]"
 				end
 			elseif elem.type == "numbers" then
-				local val = meta:get_string(elem.name)
-				if nvm.running then
+				local val = elem.default
+				if meta:contains(elem.name) then
+					val = meta:get_string(elem.name)
+				end
+				if nvm.running or techage.is_running(nvm) then
 					tbl[#tbl+1] = "label[4.75," .. offs .. ";" .. val .. "]"
 				else
 					tbl[#tbl+1] = "field[5," .. (offs+0.2) .. ";5.3,1;" .. elem.name .. ";;" .. val .. "]"
 				end
 			elseif elem.type == "float" then
-				local val = tonumber(meta:get_string(elem.name)) or 0
-				if nvm.running then
+				local val = elem.default
+				if meta:contains(elem.name) then
+					val = tonumber(meta:get_string(elem.name)) or 0
+				end
+				if nvm.running or techage.is_running(nvm) then
 					tbl[#tbl+1] = "label[4.75," .. offs .. ";" .. val .. "]"
 				else
 					tbl[#tbl+1] = "field[5," .. (offs+0.2) .. ";5.3,1;" .. elem.name .. ";;" .. val .. "]"
 				end
 			elseif elem.type == "ascii" then
-				local val = meta:get_string(elem.name)
-				if nvm.running then
+				local val = elem.default
+				if meta:contains(elem.name) then
+					val = meta:get_string(elem.name)
+				end
+				if nvm.running or techage.is_running(nvm) then
 					tbl[#tbl+1] = "label[4.75," .. offs .. ";" .. minetest.formspec_escape(val) .. "]"
 				else
 					tbl[#tbl+1] = "field[5," .. (offs+0.2) .. ";5.3,1;" .. elem.name .. ";;" .. minetest.formspec_escape(val) .. "]"
@@ -71,11 +83,17 @@ local function generate_formspec_substring(pos, meta, form_def)
 				tbl[#tbl+1] = "label[4.75," .. offs .. ";" .. val .. "]"
 			elseif elem.type == "dropdown" then
 				local l = elem.choices:split(",")
-				if nvm.running then
-					local val = meta:get_string(elem.name) or ""
+				if nvm.running or techage.is_running(nvm) then
+					local val = elem.default
+					if meta:contains(elem.name) then
+						val = meta:get_string(elem.name) or ""
+					end
 					tbl[#tbl+1] = "label[4.75," .. offs .. ";" .. val .. "]"
 				else
-					local val = meta:get_string(elem.name) or ""
+					local val = elem.default
+					if meta:contains(elem.name) then
+						val = meta:get_string(elem.name) or ""
+					end
 					local idx = index(l, val) or 1
 					tbl[#tbl+1] = "dropdown[4.72," .. (offs) .. ";5.5,1.4;" .. elem.name .. ";" .. elem.choices .. ";" .. idx .. "]"
 				end
@@ -97,52 +115,52 @@ local function evaluate_data(pos, meta, form_def, fields)
 	
 	if meta and form_def then
 		local nvm = techage.get_nvm(pos)
-		if not nvm.running then
-		
-			for idx,elem in ipairs(form_def) do
-				if elem.type == "number" then	
-					if fields[elem.name] then
-						if fields[elem.name]:find("^[%d ]+$") then
-							local val = tonumber(fields[elem.name])
-							if value_check(elem, val) then 
-								meta:set_int(elem.name, val)
-								print("set_int", elem.name, val)
-							else
-								res = false
-							end
-						else
-							res = false
-						end
-					end
-				elseif elem.type == "numbers" then	
-					if fields[elem.name] then
-						if fields[elem.name]:find("^[%d ]+$") and value_check(elem, fields[elem.name]) then 
-							meta:set_string(elem.name, fields[elem.name])
-						else
-							res = false
-						end
-					end
-				elseif elem.type == "float" then
-					if fields[elem.name] then
+		if nvm.running or techage.is_running(nvm) then
+			return res
+		end
+		for idx,elem in ipairs(form_def) do
+			if elem.type == "number" then	
+				if fields[elem.name] then
+					if fields[elem.name]:find("^[%d ]+$") then
 						local val = tonumber(fields[elem.name])
-						if val and value_check(elem, val) then 
-							meta:set_string(elem.name, val)
+						if value_check(elem, val) then 
+							meta:set_int(elem.name, val)
+							--print("set_int", elem.name, val)
 						else
 							res = false
 						end
+					else
+						res = false
 					end
-				elseif elem.type == "ascii" then	
-					if fields[elem.name] then
-						if value_check(elem, fields[elem.name]) then
-							meta:set_string(elem.name, fields[elem.name])
-						else
-							res = false
-						end
-					end
-				elseif elem.type == "dropdown" then	
-					if fields[elem.name] ~= nil then
+				end
+			elseif elem.type == "numbers" then	
+				if fields[elem.name] then
+					if fields[elem.name]:find("^[%d ]+$") and value_check(elem, fields[elem.name]) then 
 						meta:set_string(elem.name, fields[elem.name])
+					else
+						res = false
 					end
+				end
+			elseif elem.type == "float" then
+				if fields[elem.name] then
+					local val = tonumber(fields[elem.name])
+					if val and value_check(elem, val) then 
+						meta:set_string(elem.name, val)
+					else
+						res = false
+					end
+				end
+			elseif elem.type == "ascii" then	
+				if fields[elem.name] then
+					if value_check(elem, fields[elem.name]) then
+						meta:set_string(elem.name, fields[elem.name])
+					else
+						res = false
+					end
+				end
+			elseif elem.type == "dropdown" then	
+				if fields[elem.name] ~= nil then
+					meta:set_string(elem.name, fields[elem.name])
 				end
 			end
 		end

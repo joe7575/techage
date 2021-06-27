@@ -28,10 +28,8 @@ local control = networks.control
 local HELP = S([[Commands
 help . . . print this text
 cls . . . . . clear screen
-gen . . . . output all generators
-sto . . . . . output all storage systems
-load . . . . output storage load values
-rst . . . . . . reset storage min/max values
+gen . . . . print all generators
+sto . . . . . print all storage systems
 ]])
 
 local function row(num, label, data)
@@ -51,11 +49,8 @@ local function formspec1(pos, data)
 	
 	mem.star = ((mem.star or 0) + 1) % 2
 	local star = mem.star == 1 and "*" or ""
-	--local state = get_state(netw, gen1, gen2, con1, con2)
-	local state = "tbd"
 	local storage_provided = math.max(data.consumed - data.available, 0)
 	local available = math.max(data.consumed, data.available)
-	print(data.provided, data.consumed, data.curr_load)
 	
 	return "size[10,8]"..
 		"tabheader[0,0;tab;status,console;1;;true]".. 
@@ -142,38 +137,6 @@ local function storages(pos)
 	return table.concat(tbl, "\n")
 end
 
-local function determine_min_max(pos)
-	local nvm = techage.get_nvm(pos)
-	local outdir = M(pos):get_int("outdir")
-	local data = power.get_network_data(pos, Cable, outdir)
-	if data then
-		nvm.min_load = math.min(nvm.min_load or 0, data.curr_load)
-		nvm.max_load = math.max(nvm.max_load or 0, data.curr_load)
-		return data
-	end
-end
-
-local function storage_load(pos)
-	local outdir = M(pos):get_int("outdir")
-	local data = power.get_network_data(pos, Cable, outdir)
-	local nvm = techage.get_nvm(pos)
-	nvm.min_load = nvm.min_load or data.curr_load
-	nvm.max_load = nvm.max_load or data.curr_load
-	
-	return string.format("load: %s/%s kud,  min: %s kud,  max: %s kud)", 
-		techage.round(data.curr_load / techage.CYCLES_PER_DAY),  
-		techage.round(data.max_capa / techage.CYCLES_PER_DAY), 
-		techage.round(nvm.min_load / techage.CYCLES_PER_DAY), 
-		techage.round(nvm.max_load / techage.CYCLES_PER_DAY))
-end
-	
-local function storage_reset(pos)
-	local nvm = techage.get_nvm(pos)
-	nvm.min_load = nil
-	nvm.max_load = nil
-	return "done."
-end
-
 local function output(pos, command, text)
 	local meta = M(pos)
 	text = meta:get_string("output") .. "\n$ " .. command .. "\n" .. (text or "")
@@ -197,10 +160,6 @@ local function command(pos, nvm, command)
 			output(pos, command, generators(pos))
 		elseif cmd == "sto" then
 			output(pos, command, storages(pos))
-		elseif cmd == "load" then
-			output(pos, command, storage_load(pos))
-		elseif cmd == "rst" then
-			output(pos, command, storage_reset(pos))
 		elseif command ~= "" then
 			output(pos, command, "")
 		end
@@ -247,8 +206,9 @@ minetest.register_node("techage:ta3_power_terminal", {
 		end
 	end,
 	on_timer = function(pos, elapsed)
-		local data = determine_min_max(pos)
 		if techage.is_activeformspec(pos) then
+			local outdir = M(pos):get_int("outdir")
+			local data = power.get_network_data(pos, Cable, outdir)
 			M(pos):set_string("formspec", formspec1(pos, data))
 			return true
 		end

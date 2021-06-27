@@ -47,7 +47,6 @@ local function start_node(pos, nvm, state)
 	switch_axles(pos, true)
 	local outdir = M(pos):get_int("outdir")
 	transfer_cylinder(pos, "start")
-	nvm.running = true
 	power.start_storage_calc(pos, Axle, outdir)
 end
 
@@ -56,7 +55,6 @@ local function stop_node(pos, nvm, state)
 	local outdir = M(pos):get_int("outdir")
 	nvm.provided = 0
 	transfer_cylinder(pos, "stop")
-	nvm.running = false
 	power.start_storage_calc(pos, Axle, outdir)
 end
 
@@ -74,18 +72,21 @@ local State = techage.NodeStates:new({
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	nvm.firebox_trigger = (nvm.firebox_trigger or 0) - 1
-	if nvm.firebox_trigger <= 0 then
-		State:nopower(pos, nvm)
+	local running = techage.is_running(nvm)
+	if running and nvm.firebox_trigger <= 0 then
+		State:standby(pos, nvm)
 		stop_node(pos, nvm, State)
-		transfer_cylinder(pos, "stop")	
-	else
+	elseif not running and nvm.firebox_trigger > 0 then
+		State:start(pos, nvm)
+		-- start_node() is called implicit
+	elseif running then
 		local outdir = M(pos):get_int("outdir")
 		nvm.provided = power.provide_power(pos, Axle, outdir, PWR_PERF)
-		State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-		local data = power.get_storage_data(pos, Axle, outdir)
-		if data then
-			nvm.load = data.level * PWR_PERF
+		local val = power.get_storage_load(pos, Axle, outdir, PWR_PERF)
+		if val > 0 then
+			nvm.load = val
 		end
+		State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 	end
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(State, pos, nvm))
@@ -122,10 +123,8 @@ end
 
 local function get_generator_data(pos, tlib2)
 	local nvm = techage.get_nvm(pos)
-	if nvm.running then
+	if techage.is_running(nvm) then
 		return {level = (nvm.load or 0) / PWR_PERF, perf = PWR_PERF, capa = PWR_PERF * 4}
-	else
-		return {level = 0, perf = PWR_PERF, capa = PWR_PERF * 4}
 	end
 end
 
@@ -217,7 +216,7 @@ techage.register_node({"techage:flywheel", "techage:flywheel_on"}, {
 		local nvm = techage.get_nvm(pos)
 		if topic == "trigger" then
 			nvm.firebox_trigger = 3
-			if nvm.running then
+			if techage.is_running(nvm) then
 				return math.max((nvm.provided or PWR_PERF) / PWR_PERF, 0.1)
 			else
 				return 0

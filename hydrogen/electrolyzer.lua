@@ -35,7 +35,7 @@ local function formspec(self, pos, nvm)
 	local amount = (nvm.liquid and nvm.liquid.amount) or 0
 	local lqd_name = (nvm.liquid and nvm.liquid.name) or "techage:liquid"
 	local arrow = "image[3,1.5;1,1;techage_form_arrow_bg.png^[transformR270]"
-	if nvm.running then
+	if techage.is_running(nvm) then
 		arrow = "image[3,1.5;1,1;techage_form_arrow_fg.png^[transformR270]"
 	end
 	if amount > 0 then
@@ -65,14 +65,12 @@ local function can_start(pos, nvm, state)
 end
 
 local function start_node(pos, nvm, state)
-	nvm.running = true
 	nvm.taken  = 0
 	nvm.reduction = evaluate_percent(M(pos):get_string("reduction"))
 	nvm.turnoff = evaluate_percent(M(pos):get_string("turnoff"))
 end
 
 local function stop_node(pos, nvm, state)
-	nvm.running = false
 	nvm.taken = 0
 end
 
@@ -91,7 +89,6 @@ local State = techage.NodeStates:new({
 local function generating(pos, nvm)
 	nvm.num_pwr_units = nvm.num_pwr_units or 0
 	nvm.countdown = nvm.countdown or 0
-	--print("electrolyzer", nvm.running, nvm.taken, nvm.num_pwr_units, nvm.liquid.amount)
 	if nvm.taken > 0 then
 		nvm.num_pwr_units = nvm.num_pwr_units + (nvm.taken or 0)
 		if nvm.num_pwr_units >= PWR_UNITS_PER_HYDROGEN_ITEM then
@@ -115,12 +112,13 @@ local function node_timer(pos, elapsed)
 		if curr_load > (nvm.turnoff or 0) then
 			local to_be_taken = PWR_NEEDED * (nvm.reduction or 1)
 			nvm.taken = power.consume_power(pos, Cable, in_dir, to_be_taken) or 0
-			generating(pos, nvm)
-			if not nvm.running and nvm.taken == to_be_taken then
+			local running = techage.is_running(nvm)
+			if not running and nvm.taken == to_be_taken then
 				State:start(pos, nvm)
-			elseif nvm.running and nvm.taken < to_be_taken then
+			elseif running and nvm.taken < to_be_taken then
 				State:nopower(pos, nvm)
-			else
+			elseif running then
+				generating(pos, nvm)
 				State:keep_running(pos, nvm, 1)
 			end
 		elseif curr_load == 0 then
@@ -130,7 +128,6 @@ local function node_timer(pos, elapsed)
 		end
 	else
 		State:blocked(pos, nvm, S("Storage full"))
-		power.consumer_stop(pos, Cable)
 	end
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(State, pos, nvm))
@@ -194,6 +191,7 @@ local tool_config = {
 		name = "reduction",
 		label = S("Power reduction"),      
 		tooltip = S("The reduced amount of power\nthe consumer should consume"),
+		default = "100%",
 	},
 	{
 		type = "dropdown",
@@ -201,6 +199,7 @@ local tool_config = {
 		name = "turnoff",
 		label = S("Turnoff point"),      
 		tooltip = S("If the load of the storage system\nreaches the configured value,\nthe consumer will be switched off"),
+		default = "0%",
 	},
 }
 	

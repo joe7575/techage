@@ -42,7 +42,7 @@ function techage.fuel.fuel_container(x, y, nvm)
 		itemname = nvm.liquid.name.." "..nvm.liquid.amount
 	end
 	local fuel_percent = 0
-	if nvm.running then
+	if nvm.running or techage.is_running(nvm) then
 		fuel_percent = ((nvm.burn_cycles or 1) * 100) / (nvm.burn_cycles_total or 1)
 	end
 	return "container["..x..","..y.."]"..

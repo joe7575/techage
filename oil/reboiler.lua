@@ -121,7 +121,7 @@ local function on_timer(pos)
 				new_state(pos, nvm, techage.RUNNING)
 			end
 		else
-			nvm.waiting_cycles = nvm.waiting_cycles - 1
+			nvm.waiting_cycles = (nvm.waiting_cycles or 0) - 1
 			if nvm.waiting_cycles <= 0 then
 				new_state(pos, nvm, techage.STANDBY)
 			end
@@ -267,6 +267,7 @@ techage.register_node({"techage:ta3_reboiler", "techage:ta3_reboiler_on"}, {
 		if node.name == "techage:ta3_reboiler_on" then
 			play_sound(pos)
 		end	
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
 })
 
