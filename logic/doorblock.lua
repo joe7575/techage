@@ -106,33 +106,3 @@ minetest.register_craft({
 		{"group:wood",       "", ""},
 	},
 })
-
-
-
-minetest.register_lbm({
-    label = "Upgrade doors and gates",
-    name = "techage:replace_legacy_doors_and_gates",
-
-    nodenames = {
-		"techage:doorblock19", 
-		"techage:doorblock20",
-		"techage:gateblock19",
-		"techage:gateblock20",
-	},
-
-    run_at_every_load = false,
-
-    action = function(pos, node)
-		if node.name == "techage:doorblock19" then
-			node.name = "techage:doorblock21"
-		elseif node.name == "techage:doorblock20" then
-			node.name = "techage:doorblock22"
-		elseif node.name == "techage:gateblock19" then
-			node.name = "techage:gateblock21"
-		elseif node.name == "techage:gateblock20" then
-			node.name = "techage:gateblock22"
-		end
-		minetest.swap_node(pos, node)
-	end,
-})
-

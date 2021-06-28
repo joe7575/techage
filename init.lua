@@ -116,7 +116,6 @@ dofile(MP.."/power/protection.lua")
 dofile(MP.."/power/power_line.lua")
 dofile(MP.."/power/ta4_cable.lua")
 dofile(MP.."/power/ta4_cable_wall_entry.lua")
-dofile(MP.."/power/laser.lua")
 
 -- Iron Age
 dofile(MP.."/iron_age/main.lua")
@@ -232,6 +231,10 @@ dofile(MP.."/ta3_power/tiny_generator.lua")
 dofile(MP.."/ta3_power/akkubox.lua")
 dofile(MP.."/ta3_power/axle2power.lua")
 dofile(MP.."/ta3_power/power2axle.lua")
+
+-- TA4 power based
+dofile(MP.."/ta4_power/laser.lua")
+dofile(MP.."/ta4_power/transformer.lua")
 
 -- Digtron
 if minetest.global_exists("digtron") then
