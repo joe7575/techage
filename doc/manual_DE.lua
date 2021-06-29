@@ -10,7 +10,6 @@ techage.manual_DE.aTitel = {
   "3,Erdöl",
   "3,Bauxit",
   "3,Basalt",
-  "2,History",
   "1,TA1: Eisenzeitalter",
   "2,Köhler / Coal Pile",
   "2,Kohlebrenner / Coal Burner",
@@ -29,6 +28,9 @@ techage.manual_DE.aTitel = {
   "3,TA2 Dampfleitungen / Steam Pipe",
   "3,TA2 Antriebsachsen / TA2 Drive Axle",
   "3,TA2 Stromgenerator / TA2 Power Generator",
+  "2,TA2 Energiespeicher",
+  "3,TA2  Seilwinde  / TA2 Winch",
+  "3,TA2  Gewichtekiste / TA2 Weight Chest",
   "2,Items schieben und sortieren",
   "3,Röhren / TechAge Tube",
   "3,Röhren Konzentrator / Tube Concentrator",
@@ -264,20 +266,12 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Basalt entsteht nur\\, wenn Lava und Wasser zusammenkommen.\n"..
+  "Basalt entsteht nur\\, wenn Lava und Wasser zusammen kommen.\n"..
   "Dazu sollte man am besten eine Anlage aufbauen\\, bei der eine Lava- und eine Wasserquelle zusammenfließen.\n"..
   "Dort wo sich beide Flüssigkeiten treffen\\, entsteht Basalt.\n"..
   "Einen automatisierten Basalt Generator kann man mit dem Sign Bot aufbauen.\n"..
   "\n"..
   "\n"..
-  "\n",
-  "  - 28.09.2019: Um Solaranlage erweitert\n"..
-  "  - 05.10.2019: Daten zur Solaranlage und Beschreibung zum Wechselrichter und zum Power-Terminal geändert\n"..
-  "  - 18.11.2019: Kapitel für Erze\\, Reaktor\\, Aluminium\\, Silo\\, Bauxit\\, Ofenheizung\\, Kieswaschanlage hinzugefügt\n"..
-  "  - 22.02.2020: Korrekturen und Kapitel zum Update\n"..
-  "  - 29.02.2020: ICTA Controller hinzugefügt und weitere Korrekturen\n"..
-  "  - 14.03.2020 Lua Controller hinzugefügt und weitere Korrekturen\n"..
-  "  - 22.03.2020 Weitere TA4 Blöcke hinzugefügt\n"..
   "\n",
   "In TA1 geht es darum\\, mit einfachen Werkzeugen und Gerätschaften ausreichend Erze zu schürfen und Holzkohle herzustellen\\, so dass damit TA2 Maschinen hergestellt und betrieben werden können.\n"..
   "\n"..
@@ -377,7 +371,7 @@ techage.manual_DE.aText = {
   "Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.\n"..
   "Wenn das Wasser heiß ist (Temperaturanzeige ganz oben)\\, kann die Dampfmaschine am Schwungrad gestartet werden.\n"..
   "\n"..
-  "Die Dampfmaschine leistet 25 ku\\, kann damit mehrere Maschinen gleichzeitig antreiben.\n"..
+  "Die Dampfmaschine leistet 25 ku und kann damit mehrere Maschinen gleichzeitig antreiben.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -403,7 +397,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Die Antriebsachsen dienen zur Kraftübertragung von der Dampfmaschine zu anderen Maschinen. Die maximale Länge einer Antriebsachse beträgt 8 Blöcke. Über Getriebeboxen können auch größere Strecken überbrückt\\, sowie Abzweigungen und Richtungswechsel realisiert werden.\n"..
+  "Die Antriebsachsen dienen zur Kraftübertragung von der Dampfmaschine zu anderen Maschinen. Die maximale Länge einer Antriebsachse beträgt 10 Blöcke. Über Getriebeboxen können auch größere Strecken überbrückt\\, sowie Abzweigungen und Richtungswechsel realisiert werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -412,6 +406,22 @@ techage.manual_DE.aText = {
   "Wird der Stromgenerator nicht mit ausreichend Kraft versorgt\\, geht er in einen Fehlerzustand und muss über einen Rechtsklick wieder aktiviert werden.\n"..
   "\n"..
   "Das Stromgenerator nimmt primär max. 25 ku an Achsenkraft auf und gibt sekundär max. 24 ku als Strom wieder ab. Er verbraucht also ein ku für die Umwandlung.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Bei größeren Anlagen mit mehreren Dampfmaschinen oder vielen angetriebenen Maschinen empfiehlt sich ein Energiespeicher. Der Energiespeicher bei TA2 arbeitet mit Lageenergie. Dazu wird Balast (Steine\\, Kies) in einer Kiste mit Hilfe einer Seilwinde in die Höhe gezogen. Ist überschüssige Energie im Achsen-Netzwerk vorhanden\\, so wird die Kiste nach oben gezogen. Wird kurzfristig mehr Energie benötigt\\, als die Dampfmaschine liefern kann\\, so gibt der Energiespeicher die gespeicherte Energie wieder ab\\, und die Balast-Kiste bewegt sich wieder nach unten.\n"..
+  "\n"..
+  "Der Energiespeicher besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden.\n"..
+  "\n"..
+  "Um die maximale Speicherkapazität zu erreichen\\, muss die Kiste mit Gewichten komplett gefüllt\\, und der Mast inklusive der zwei Getriebeboxen 12 Blöcke hoch sein. Kleinere Aufbauten sind aber auch möglich.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Seilwinde muss mit einer Getriebebox verbunden werden und kann so überschüssige Energie aufnehmen und damit eine Gewichtekiste nach oben ziehen. Die maximale Seillänge beträgt 10 Blöcke.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Diese Kiste muss mit bis zu 10 Blöcken Abstand unter die Seilwinde gesetzt und mit Pflastersteinen Kies oder Sand gefüllt werden. Ist das Mindestgewicht von einem Stack (99+ Items) erreicht und überschüssige Energie vorhanden\\, wird die Kiste automatisch über eine Seil mit der Seilwinde verbunden und in die Höhe gezogen.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1652,7 +1662,6 @@ techage.manual_DE.aItemName = {
   "oil",
   "bauxite",
   "basalt",
-  "",
   "techage_ta1",
   "",
   "",
@@ -1671,6 +1680,9 @@ techage.manual_DE.aItemName = {
   "ta2_steampipe",
   "ta2_driveaxle",
   "ta2_generator",
+  "",
+  "ta2_winch",
+  "ta2_weight_chest",
   "",
   "tube",
   "concentrator",
@@ -1853,7 +1865,6 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
-  "",
   "coalpile",
   "coalburner",
   "",
@@ -1869,6 +1880,9 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
+  "",
+  "ta2_storage",
   "",
   "",
   "itemtransport",

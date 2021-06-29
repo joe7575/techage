@@ -29,6 +29,9 @@ techage.manual_EN.aTitel = {
   "3,TA2 Steam Pipes",
   "3,TA2 Drive Axle / TA2 Gearbox",
   "3,TA2 Power Generator",
+  "2,TA2 energy storage",
+  "3,TA2 Winch",
+  "3,TA2 Weight Chest",
   "2,Push and sort items",
   "3,TechAge Tube",
   "3,Tube Concentrator",
@@ -402,7 +405,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The drive axles are used to transmit power from the steam engine to other machines. The maximum length of a drive axis is 8 blocks. With TA2 Gearboxes\\, larger distances can be bridged\\, and branches and changes of direction can be realized.\n"..
+  "The drive axles are used to transmit power from the steam engine to other machines. The maximum length of a drive axis is 10 blocks. With TA2 Gearboxes\\, larger distances can be bridged\\, and branches and changes of direction can be realized.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -411,6 +414,20 @@ techage.manual_EN.aText = {
   "If the Power Generator is not supplied with sufficient power\\, it goes into an error state and must be reactivated with a right-click.\n"..
   "\n"..
   "The Power Generator takes max. 25 ku of axle power and provides on the other side max. 24 ku as electricity. So he consumes one ku for the conversion.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "For larger systems with several steam engines or many driven machines\\, an energy storage system is recommended. The energy storage at TA2 works with position energy. For this purpose\\, ballast (stones\\, gravel\\, sand) is pulled up in a chest with the help of a cable winch. If there is excess energy in the axis network\\, the chest is pulled upwards. If more energy is required in the short term than the steam engine can supply\\, the energy store releases the stored energy again and the weight chest moves down again. \n"..
+  "The energy storage consists of several blocks and must be assembled as shown in the plan on the right. \n"..
+  "In order to achieve the maximum storage capacity\\, the chest must be completely filled with weights and the mast including the two gear boxes must be 12 blocks high. Smaller structures are also possible.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The cable winch must be connected to a gear box and can absorb excess energy and thus pull a weight chest upwards. The maximum rope length is 10 blocks. \n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "This chest must be placed under the winch with a distance of up to 10 blocks and filled with cobblestone\\, gravel or sand. If the minimum weight of a stack (99+ items) is reached and there is excess energy\\, the box is automatically connected to the winch via a rope and pulled up. \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1656,6 +1673,9 @@ techage.manual_EN.aItemName = {
   "ta2_driveaxle",
   "ta2_generator",
   "",
+  "ta2_winch",
+  "ta2_weight_chest",
+  "",
   "tube",
   "concentrator",
   "ta2_pusher",
@@ -1852,6 +1872,9 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
+  "",
+  "",
+  "ta2_storage",
   "",
   "",
   "itemtransport",

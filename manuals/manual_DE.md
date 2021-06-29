@@ -48,6 +48,7 @@ Techage fügt dem Spiel einige neue Items hinzu:
 - Bauxit - ein Aluminiumerz, was in TA4 zur Herstellung von Aluminium benötigt wird
 - Basalt - entsteht, wenn sich Wasser und Lave berühren
 
+
 ### Meridium
 
 Meridium ist eine Legierung aus Stahl und Mesekristallen. Meridium Ingots können mit dem Kohlebrenner aus Stahl und Mesesplitter hergestellt werden. Meridium leuchtet im Dunkeln. Auch Werkzeuge aus Meridium leuchten und sind daher im Untertagebau sehr hilfreich.
@@ -87,22 +88,10 @@ Es wird zur Herstellung von Aluminium benötigt, was vor allem in TA4 Verwendung
 
 ### Basalt
 
-Basalt entsteht nur, wenn Lava und Wasser zusammenkommen.
+Basalt entsteht nur, wenn Lava und Wasser zusammen kommen.
 Dazu sollte man am besten eine Anlage aufbauen, bei der eine Lava- und eine Wasserquelle zusammenfließen.
 Dort wo sich beide Flüssigkeiten treffen, entsteht Basalt.
 Einen automatisierten Basalt Generator kann man mit dem Sign Bot aufbauen.
 
 [basalt|image]
-
-
-
-## History
-
-- 28.09.2019: Um Solaranlage erweitert
-- 05.10.2019: Daten zur Solaranlage und Beschreibung zum Wechselrichter und zum Power-Terminal geändert
-- 18.11.2019: Kapitel für Erze, Reaktor, Aluminium, Silo, Bauxit, Ofenheizung, Kieswaschanlage hinzugefügt
-- 22.02.2020: Korrekturen und Kapitel zum Update
-- 29.02.2020: ICTA Controller hinzugefügt und weitere Korrekturen
-- 14.03.2020 Lua Controller hinzugefügt und weitere Korrekturen
-- 22.03.2020 Weitere TA4 Blöcke hinzugefügt
 

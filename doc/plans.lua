@@ -105,6 +105,29 @@ techage.ConstructionPlans["steamengine"] = {
 } 
 		
 --
+-- TA2 Storage
+--
+local GRBOX = {"techage_filling_ta2.png^techage_axle_gearbox.png^techage_frame_ta2.png", "techage:gearbox"}
+local AXL00 = {"techage_axle.png", "techage:axle"}
+local AXL90 = {"techage_axle.png^[transformR90", "techage:axle"}
+local WINCH = {"techage_filling_ta2.png^techage_appl_winch.png^techage_frame_ta2.png", "techage:ta2_winch"}
+local ROPE_ = {"techage_rope_inv.png", "techage:ta2_rope"}
+local WCHST = {"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_chest_back_ta3.png^techage_weight_side.png", "techage:ta2_weight_chest"}
+
+techage.ConstructionPlans["ta2_storage"] = {
+	{false, false, false, GRBOX, WINCH, false, SIDEV},
+	{false, false, false, AXL90, ROPE_, false, false},
+	{false, false, false, AXL90, ROPE_, false, false},
+	{false, false, false, AXL90, ROPE_, false, false},
+	{false, false, false, AXL90, ROPE_, false, false},
+	{false, false, false, AXL90, ROPE_, false, false},
+	{false, false, false, AXL90, ROPE_, false, false},
+	{false, false, false, AXL90, WCHST, false, false},
+	{false, false, false, AXL90, false, false, false},
+	{AXL00, AXL00, AXL00, GRBOX, false, false, false},
+} 
+
+--
 -- Item Transport
 --
 local PUSHR = {"techage_appl_pusher.png^techage_frame_ta2.png", "techage:ta2_pusher_pas"}

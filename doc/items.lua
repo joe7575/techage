@@ -50,6 +50,8 @@ techage.Items = {
 	ta2_forceload = "techage:forceload",
 	ta2_driveaxle = "techage:axle",
 	ta2_generator = "techage:ta2_generator_off",
+        ta2_winch = "techage:ta2_winch",
+        ta2_weight_chest = "techage:ta2_weight_chest",
 	---------------------
 	techage_ta3 = "techage_ta3.png",
 	techage_ta31 = "techage_ta3b.png",

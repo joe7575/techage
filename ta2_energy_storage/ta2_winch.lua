@@ -18,7 +18,7 @@ local S2P = minetest.string_to_pos
 local M = minetest.get_meta
 local S = techage.S
 
-local MIN_LOAD = 99
+local MIN_LOAD = 99  -- 1 stack
 local MAX_ROPE_LEN = 10
 local CYCLE_TIME = 2
 
