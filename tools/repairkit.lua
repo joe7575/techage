@@ -104,6 +104,11 @@ local function read_state(itemstack, user, pointed_thing)
 					delivered = dump(delivered)
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": delivered = "..delivered.." ku    ")
 				end
+				local consumption = techage.send_single("0", number, "consumption", nil)
+				if consumption and consumption ~= "" and consumption ~= "unsupported" then
+					consumption = dump(consumption)
+					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": consumption = "..consumption.." kud    ")
+				end
 				local owner = M(pos):get_string("owner") or ""
 				if owner ~= "" then
 					minetest.chat_send_player(user:get_player_name(), S("Node owner")..": "..owner.."    ")

@@ -155,6 +155,14 @@ function techage.formspec_storage_bar(pos, x, y, label, curr_load, max_load)
 		"container_end[]"
 end
 
+function techage.formspec_meter(pos, x, y, label, value, unit)
+	return "container[" .. x .. "," .. y .. "]" ..
+		"box[0,0;2.3,1.2;#395c74]" ..
+		"label[0.2,0.0;" .. label .. ":]" ..
+		"label[0.2,0.5;" .. round(value) .. " " .. unit .. "]" ..
+		"container_end[]"
+end
+
 -------------------------------------------------------------------------------
 -- API formspec functions
 -------------------------------------------------------------------------------
@@ -178,7 +186,7 @@ function techage.generator_formspec(self, pos, nvm, label, provided, max_availab
 		default.gui_slots ..
 		"box[0,-0.1;4.8,0.5;#c6e8ff]" ..
 		"label[0.2,-0.1;" .. minetest.colorize( "#000000", label) .. "]" ..
-		techage.formspec_power_bar(pos, 0, 0.8, S("power"), provided, max_available) ..
+		techage.formspec_power_bar(pos, 0, 0.8, S("Power"), provided, max_available) ..
 		"image_button[3.2,2.0;1,1;" .. self:get_state_button_image(nvm) .. ";state_button;]" ..
 		"tooltip[3.2,2.0;1,1;" .. self:get_state_tooltip(nvm) .. "]"
 end

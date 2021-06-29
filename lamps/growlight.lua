@@ -53,6 +53,12 @@ local function on_nopower(pos)
 	nvm.turned_on = false
 end
 
+local function on_power(pos)
+	swap_node(pos, "on")
+	local nvm = techage.get_nvm(pos)
+	nvm.turned_on = true
+end
+
 local function grow_flowers(pos)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
@@ -92,6 +98,14 @@ local function node_timer_on(pos, elapsed)
 	local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
 	if consumed < PWR_NEEDED then
 		on_nopower(pos)
+	end
+	return true
+end
+
+local function node_timer_off(pos, elapsed)
+	local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
+	if consumed == PWR_NEEDED then
+		on_power(pos)
 	end
 	return true
 end

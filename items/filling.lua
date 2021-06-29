@@ -1,31 +1,11 @@
 -- Needed for the trowel
-techage.FILLING_ITEMS = {
-	"default:stone",
-	"default:stonebrick",
-	"default:stone_block",
-	"default:clay",
-	"default:snowblock",
-	"default:ice",
-	"default:glass",
-	"default:obsidian_glass",
-	"default:brick",
-	"default:tree",
-	"default:wood",
-	"default:jungletree",
-	"default:junglewood",
-	"default:pine_tree",
-	"default:pine_wood",
-	"default:acacia_tree",
-	"default:acacia_wood",
-	"default:aspen_tree",
-	"default:aspen_wood",
-	"default:steelblock",
-	"default:copperblock",
-	"default:tinblock",
-	"default:bronzeblock",
-	"default:goldblock",
-	"default:mese",
-	"default:diamondblock",
-        "techage:power_pole3",
-        "techage:pillar",
-}
+
+techage.FILLING_ITEMS = {}
+
+for name, ndef in pairs(minetest.registered_nodes) do
+	-- test if it is a simple node without logic
+	if ndef	and not ndef.groups.soil and name ~= "default:cobble" and
+	not ndef.after_place_node and not ndef.on_construct then
+		table.insert(techage.FILLING_ITEMS, name)
+	end
+end

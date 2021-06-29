@@ -235,6 +235,7 @@ dofile(MP.."/ta3_power/power2axle.lua")
 -- TA4 power based
 dofile(MP.."/ta4_power/laser.lua")
 dofile(MP.."/ta4_power/transformer.lua")
+dofile(MP.."/ta4_power/electricmeter.lua")
 
 -- Digtron
 if minetest.global_exists("digtron") then

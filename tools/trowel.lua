@@ -28,7 +28,7 @@ local function replace_node(itemstack, placer, pointed_thing)
 		local res = false
 		if minetest.get_item_group(node.name, "techage_trowel") == 1 then
 			res = networks.hide_node(pos, node, placer)
-		elseif networks.hidden_name(pos) then
+		elseif networks.hidden_name(pos) or M(pos):get_string("techage_hidden_nodename") ~= "" then
 			res = networks.open_node(pos, node, placer)
 		else
 			minetest.chat_send_player(placer:get_player_name(), "Invalid/unsuported block!")
