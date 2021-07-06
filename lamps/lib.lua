@@ -177,5 +177,8 @@ function techage.register_lamp(basename, ndef_off, ndef_on)
 	minetest.register_node(basename.."_on", ndef_on)
 	
 	power.register_nodes({basename.."_off", basename.."_on"}, Cable, "con")
+	techage.register_node_for_v1_transition({basename.."_off", basename.."_on"}, function(pos, node)
+		power.update_network(pos, nil, Cable)
+	end)
 end
 

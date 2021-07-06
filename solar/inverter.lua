@@ -248,3 +248,7 @@ minetest.register_craft({
 		{'default:steel_ingot', "techage:baborium_ingot", 'default:steel_ingot'},
 	},
 })
+
+techage.register_node_for_v1_transition({"techage:ta4_solar_inverter"}, function(pos, node)
+	power.update_network(pos, nil, Solar)
+end)

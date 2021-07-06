@@ -89,6 +89,7 @@ dofile(MP.."/basis/recipe_lib.lua")
 dofile(MP.."/basis/formspec_update.lua")
 dofile(MP.."/basis/windturbine_lib.lua")
 dofile(MP.."/basis/laser_lib.lua")
+dofile(MP.."/basis/legacy.lua")
 
 -- Main doc
 dofile(MP.."/doc/manual_DE.lua")
@@ -154,7 +155,7 @@ dofile(MP.."/liquids/pipe_wall_entry.lua")
 dofile(MP.."/basic_machines/consumer.lua")  -- consumer base model
 dofile(MP.."/basic_machines/source.lua")
 dofile(MP.."/basic_machines/pusher.lua")
-dofile(MP.."/basic_machines/legacy_nodes.lua")
+dofile(MP.."/basic_machines/foreign_nodes.lua")
 dofile(MP.."/basic_machines/mods_support.lua")
 dofile(MP.."/basic_machines/grinder.lua")
 dofile(MP.."/basic_machines/distributor.lua")
