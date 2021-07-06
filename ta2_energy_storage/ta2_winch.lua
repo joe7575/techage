@@ -158,7 +158,7 @@ minetest.register_node("techage:ta2_winch", {
 		techage.del_mem(pos)
 	end,
 	
-	get_storage_data = function(pos, tlib2)
+	get_storage_data = function(pos, outdir, tlib2)
 		local nvm = techage.get_nvm(pos)
 		nvm.capa = nvm.capa or 1
 		if nvm.running then

@@ -127,7 +127,7 @@ local function after_dig_node(pos, oldnode)
 	techage.del_mem(pos)
 end
 
-local function get_generator_data(pos, tlib2)
+local function get_generator_data(pos, outdir, tlib2)
 	local nvm = techage.get_nvm(pos)
 	if techage.is_running(nvm) then
 		return {level = (nvm.load or 0) / PWR_PERF, perf = PWR_PERF, capa = PWR_PERF * 2}
