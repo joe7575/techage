@@ -33,7 +33,7 @@ end
 	
 local function hide_node(pos, node, meta, placer)
 	local inv = placer:get_inventory()
-	local stack = inv:get_stack("main", 1)
+	local stack = inv:get_stack("main", placer:get_wield_index()+1)
 	local taken = stack:take_item(1)
 	local ndef = minetest.registered_nodes[taken:get_name()]
 	-- test if it is a simple node without logic
