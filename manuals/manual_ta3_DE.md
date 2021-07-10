@@ -15,7 +15,7 @@ Das Kohlekraftwerk besteht aus mehreren Blöcken und muss wie im Plan rechts abg
 
 Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.
 Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.
-Wenn das Wasser heiß ist, kann das Ventil am Boiler geöffnet und anschließend die Generator gestartet werden.
+Wenn das Wasser heiß ist, kann der Generator gestartet werden.
 
 Das Kraftwerk kann alternativ auch mit einem Ölbrenner ausgestattet und dann mit Öl betrieben werden.
 Das Öl kann über eine Pumpe und Ölleitung nachgefüllt werden.
@@ -77,13 +77,13 @@ Dient zur Abkühlung des heißen Dampfs aus der Turbine.  Muss über Dampfleitun
 
 ## Elektrischer Strom
 
-In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen und Generatoren mit Stromkabel verbunden werden.  
+In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen, Speichersysteme und Generatoren mit Stromkabel verbunden werden.  
 TA3 besitzt 2 Arten von Stromkabel:
 
 - Isolierte Kabel (TA Stromkabel) für die lokale Verkabelung im Boden oder in Gebäuden. Diese Kabel lassen sich in der Wand oder im Boden verstecken (können mit der Kelle "verputzt" werden).
 - Überlandleitungen (TA Stromleitung) für Freiluftverkabelung über große Strecken. Diese Kabel sind geschützt, können also von anderen Spielern nicht entfernt werden.
 
-Mehrere Verbraucher und Generatoren können in einem Stromnetzwerk zusammen betrieben werden. Mit Hilfe der Verteilerdosen können so große Netzwerke aufgebaut werden.
+Mehrere Verbraucher, Speichersysteme und Generatoren können in einem Stromnetzwerk zusammen betrieben werden. Mit Hilfe der Verteilerdosen können so Netzwerke aufgebaut werden.
 Wird zu wenig Strom bereitgestellt, gehen die Verbraucher aus.
 In diesem Zusammenhang ist auch wichtig, dass die Funktionsweise von Forceload Blöcken verstanden wurde, denn bspw. Generatoren liefern nur Strom, wenn der entsprechende Map-Block geladen ist. Dies kann mit einen Forceload Block erzwungen werden.
 
@@ -96,7 +96,7 @@ In TA4 kommt noch ein Kabel für die Solaranlage hinzu.
 ### TA Stromkabel / Electric Cable
 
 Für die lokale Verkabelung im Boden oder in Gebäuden.  
-Abzweigungen können mit Hilfe von Verteilerdosen realisiert werden. Die maximale Kabellänge zwischen Maschinen oder Verteilerdosen beträgt 1000 m. Es können maximale 1000 Knoten in einem Strom-Netzwerk verbunden werden. Als Knoten zählen alle Generatoren, Akkus, Verteilerdosen und Maschinen.
+Abzweigungen können mit Hilfe von Verteilerdosen realisiert werden. Die maximale Kabellänge zwischen Maschinen oder Verteilerdosen beträgt 1000 m. Es können maximale 1000 Knoten in einem Strom-Netzwerk verbunden werden. Als Knoten zählen alle Blöcke mit Stromanschluss, also auch Verteilerdosen.
 
 Da die Stromkabel nicht automatisch geschützt sind, wird für längere Strecken die Überlandleitungen (TA Stromleitung) empfohlen.
 
@@ -113,7 +113,6 @@ Außer Kabel können auch die TA Verteilerdose und die TA Stromschalterbox verpu
 ### TA Verteilerdose / Electric Junction Box
 
 Mit der Verteilerdose kann Strom in bis zu 6 Richtungen verteilt werden. Verteilerdosen können auch mit der Kelle verputzt (versteckt) und wieder sichtbar gemacht werden.
-Wird mit dem TechAge Info Werkzeug (Schraubenschlüssel) auf die Verteilerdose geklickt, wird angezeigt, wie viel Leistung die Generatoren liefern bzw. die Verbraucher im Netzwerk beziehen.
 
 [ta3_powerjunction|image]
 
@@ -180,9 +179,9 @@ Der Stromgenerator kann nur 50 Einheiten Benzin aufnehmen. Ein zusätzlicher Tan
 ### TA3 Akku Block /  Akku Box
 
 Der Akku Block dient zur Speicherung von überschüssiger Energie und gibt bei Stromausfall automatisch Strom ab (soweit vorhanden).
-Der Akku Block ist eine sekundäre Stromquelle. Das bedeutet, bei Strombedarf werden zuerst die Generatoren genutzt. Nur wenn der Strom im Netz nicht ausreicht, springt der Akku Block ein. Das Gleiche gilt auch für die Stromaufnahme. Daher kann auch kein Akku mit einem anderen Akku geladen werden.
-Der Akku liefert 10 ku bzw. nimmt 10 ku auf.
-Bei Volllast kann ein Akku 400 s lang Strom aufnehmen und wenn er voll ist, auch wieder abgeben. Dies entspricht 8 h Spielzeit bei einem normalen Spieltag von 20 min.
+Mehrere Akku Blocks zusammen bilden ein TA3 Energiespeichersystem. Jeder Akku Block hat eine Anzeige für den Ladezustand und für die gespeicherte Ladung, wobei hier immer die Werte für das gesamte Netzwerk angezeigt werden. Die gespeicherte Ladung wird in "kud" also "ku-days" angezeigt (analog zu kWh)  5 kud entspricht damit bspw. 5 ku für einen Spieltag (20 min) oder 1 ku für 5 Spieltage.
+
+Ein Akku Block hat 3.33 kud.
 
 [ta3_akkublock|image]
 
@@ -191,9 +190,16 @@ Bei Volllast kann ein Akku 400 s lang Strom aufnehmen und wenn er voll ist, auch
 
 Das Strom-Terminal muss mit dem Stromnetz verbunden werden. Es zeigt Daten aus dem Stromnetz an.
 
-In der oberen Hälfte werden nur die Daten eines ausgewählten Typs ausgegeben. Wird als Typ bspw. "Kraftwerk" gewählt, so werden nur die Daten von Öl- und Kohlekraftwerken gesammelt und ausgegeben. Links werden die Daten von Generatoren (Stromabgabe) und rechts die Daten von Energiespeichern (Stromaufnahme) ausgegeben. Beim Akkublocks bspw. wird beides ausgegeben, da der Akku Strom aufnehmen und abgeben kann.
+In der oberen Hälfte werden die wichtigsten Größen ausgegeben:
 
-In der unteren Hälfte werden die Daten aller Generatoren und Speichersystemen des ganzen Stromnetzen zusammengefasst ausgegeben.
+- aktuelle/maximale Generatorleistung
+- aktueller Stromaufnahme aller Verbraucher
+- aktueller Ladestrom in/aus dem Speichersystems
+- aktuellen Ladezustand des Speichersystems in Prozent
+
+In der unteren Hälfte wird die Anzahl der Netzwerkblöcke ausgegeben.
+
+Über den Reiter "console" können weitere Daten zu den Generatoren und Speichersystemen abgefragt werden.
 
 [ta3_powerterminal|image]
 
@@ -207,16 +213,6 @@ Das Elektromotor nimmt primär max. 40 ku an Strom auf und gibt sekundär max. 3
 
 [ta3_motor|image]
 
-
-### TA3 Strom Terminal / Power Terminal
-
-Das Strom-Terminal muss mit dem Stromnetz verbunden werden. Es zeigt Daten aus dem Stromnetz an.
-
-In der oberen Hälfte werden nur die Daten eines ausgewählten Typs ausgegeben. Wird als Typ bspw. "Kraftwerk" gewählt, so werden nur die Daten von Öl- und Kohlekraftwerken gesammelt und ausgegeben. Links werden die Daten von Generatoren (Stromabgabe) und rechts die Daten von Energiespeichern (Stromaufnahme) ausgegeben. Beim Akkublocks bspw. wird beides ausgegeben, da der Akku Strom aufnehmen und abgeben kann.
-
-In der unteren Hälfte werden die Daten aller Generatoren und Speichersystemen des ganzen Stromnetzen zusammengefasst ausgegeben.
-
-[ta3_powerterminal|image]
 
 
 ## TA3 Industrieofen
@@ -801,9 +797,12 @@ Die Verarbeitungsleistung beträgt bis zu 8 mal ein Item alle 4 Sekunden.
 
 Das Techage Info Tool (Schraubenschlüssel) hat verschiedene Funktionen. Er zeigt die Uhrzeit, die Position, die Temperatur und das Biome an, wenn auf einen unbekannten Block geklickt wird.
 Wird auf einen TechAge Block mit Kommandoschnittstelle geklickt, werden alle verfügbaren Daten abgerufen (siehe auch "Logik-/Schalt-Blöcke").
-Bei Strom-Verteilerdosen werden die benachbarten Netzwerkteilnehmer (bis zu 50 Meter weit) mit einem blauen Käfig angezeigt.
+
+Mit Shift+Rechtsklick kann bei einigen Blöcken ein erweitertes Menü geöffnet werden. Hier lassen sich je nach Block weitere Daten abrufen oder spezielle Einstellungen vornehmen. Bei einem Generator kann bspw. die Ladekurve/abschaltung programmiert werden. 
 
 [ta3_end_wrench|image]
+
+
 
 
 ### TechAge Programmer

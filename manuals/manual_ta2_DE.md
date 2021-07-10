@@ -93,7 +93,7 @@ Um die maximale Speicherkapazität zu erreichen, muss die Kiste mit Gewichten ko
 
 
 
-### TA2  Seilwinde  / TA2 Winch
+### TA2 Seilwinde  / TA2 Winch
 
 Die Seilwinde muss mit einer Getriebebox verbunden werden und kann so überschüssige Energie aufnehmen und damit eine Gewichtekiste nach oben ziehen. Die maximale Seillänge beträgt 10 Blöcke.
 
@@ -101,7 +101,7 @@ Die Seilwinde muss mit einer Getriebebox verbunden werden und kann so überschü
 
 
 
-### TA2  Gewichtekiste / TA2 Weight Chest
+### TA2 Gewichtekiste / TA2 Weight Chest
 
 Diese Kiste muss mit bis zu 10 Blöcken Abstand unter die Seilwinde gesetzt und mit Pflastersteinen Kies oder Sand gefüllt werden. Ist das Mindestgewicht von einem Stack (99+ Items) erreicht und überschüssige Energie vorhanden, wird die Kiste automatisch über eine Seil mit der Seilwinde verbunden und in die Höhe gezogen.
 

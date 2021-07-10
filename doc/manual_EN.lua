@@ -609,13 +609,13 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "In TA3 (and TA4) the machines are powered by electricity. To do this\\, the machines and generators must be connected with power cables.\n"..
+  "In TA3 (and TA4) the machines are powered by electricity. To do this\\, machines\\, storage systems\\, and generators must be connected with power cables.\n"..
   "TA3 has 2 types of power cables:\n"..
   "\n"..
   "  - Insulated cables (TA power cables) for local wiring in the floor or in buildings. These cables can be hidden in the wall or in the floor (can be \"plastered\" with the trowel).\n"..
   "  - Overland lines (TA power line) for outdoor cabling over long distances. These cables are protected and cannot be removed by other players.\n"..
   "\n"..
-  "Several consumers and generators can be operated together in a power network. Large networks can be set up with the help of the junction boxes.\n"..
+  "Several consumers\\, storage systems\\, and generators can be operated together in a power network. Networks can be set up with the help of the junction boxes.\n"..
   "If too little electricity is provided\\, consumers run out.\n"..
   "In this context\\, it is also important that the functionality of Forceload blocks is understood\\, because generators\\, for example\\, only supply electricity when the corresponding map block is loaded. This can be enforced with a forceload block.\n"..
   "\n"..
@@ -624,7 +624,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "For local wiring in the floor or in buildings.\n"..
-  "Branches can be realized using junction boxes. The maximum cable length between machines or junction boxes is 1000 m. A maximum of 1000 nodes can be connected in a power network. All generators\\, batteries\\, junction boxes and machines count as nodes.\n"..
+  "Branches can be realized using junction boxes. The maximum cable length between machines or junction boxes is 1000 m. A maximum of 1000 nodes can be connected in a power network. All blocks with power connection\\, including junction boxes\\, count as nodes.\n"..
   "\n"..
   "Since the power cables are not automatically protected\\, the land lines (TA power line) are recommended for longer distances.\n"..
   "\n"..
@@ -638,7 +638,6 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "With the junction box\\, electricity can be distributed in up to 6 directions. Junction boxes can also be plastered (hidden) with a trowel and made visible again.\n"..
-  "If the TechAge Info tool (wrench) is clicked on the junction box\\, it is shown whether the power line is powered or not.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -679,17 +678,25 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "The battery block is used to store excess energy and automatically delivers power in the event of a power failure (if available).\n"..
-  "The battery block is a secondary power source. This means that the generators are used first when electricity is required. The battery block will only provide power if there is insufficient electricity in the network. The same applies to the current consumption. Therefore\\, no battery can be charged with another battery.\n"..
-  "The battery delivers 10 ku or takes up 10 ku.\n"..
-  "At full load\\, a battery can take up to 400 s of current and\\, when it is full\\, also release it again. This corresponds to 8 hours of playing time on a normal game day of 20 minutes.\n"..
+  "Several battery blocks together form a TA3 energy storage system. Each battery block has a display for the charging state and for the stored load.\n"..
+  "The values for the entire network are always displayed here. The stored load is displayed in \"kud\" or \"ku-days\" (analogous to kWh) 5 kud thus corresponds\\, for example\\, to 5 ku for a game day (20 min) or 1 ku for 5 game days.\n"..
+  "\n"..
+  "A battery block has 3.33 kud\n"..
   "\n"..
   "\n"..
   "\n",
   "The power terminal must be connected to the power grid. It shows data from the power grid.\n"..
   "\n"..
-  "Only the data of a selected type are output in the upper half. If\\, for example\\, \"Power station\" is selected as the type\\, only the data from oil and coal-fired power stations are collected and output. The data from generators (power delivery) and the data from energy storage devices (power consumption) are output on the left. In the case of the battery blocl\\, for example\\, both are output because the battery can draw and deliver power.\n"..
+  "The most important figures are displayed in the upper half:\n"..
   "\n"..
-  "In the lower half\\, the data of all generators and storage systems of the entire electricity network are summarized.\n"..
+  "  - current/maximum generator power\n"..
+  "  - current power consumption of all consumers\n"..
+  "  - current charging current in/from the storage system\n"..
+  "  - Current state of charge of the storage system in percent\n"..
+  "\n"..
+  "The number of network blocks is output in the lower half.\n"..
+  "\n"..
+  "Additional data on the generators and storage systems can be queried via the \"console\" tab.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1118,7 +1125,8 @@ techage.manual_EN.aText = {
   "",
   "The Techage Info Tool (wrench) has several functions. It shows the time\\, position\\, temperature and biome when an unknown block is clicked on.\n"..
   "If you click on a TechAge block with command interface\\, all available data will be shown (see also \"Logic / switching blocks\").\n"..
-  "In the case of power junction boxes\\, the neighboring network participants (up to 50 meters away) are displayed with a blue cage.\n"..
+  "\n"..
+  "With Shift + right click an extended menu can be opened for some blocks. Depending on the block\\, further data can be called up or special settings can be made here. In the case of a generator\\, for example\\, the charging curve/switch-off can be programmed. \n"..
   "\n"..
   "\n"..
   "\n",

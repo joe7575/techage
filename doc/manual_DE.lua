@@ -29,8 +29,8 @@ techage.manual_DE.aTitel = {
   "3,TA2 Antriebsachsen / TA2 Drive Axle",
   "3,TA2 Stromgenerator / TA2 Power Generator",
   "2,TA2 Energiespeicher",
-  "3,TA2  Seilwinde  / TA2 Winch",
-  "3,TA2  Gewichtekiste / TA2 Weight Chest",
+  "3,TA2 Seilwinde  / TA2 Winch",
+  "3,TA2 Gewichtekiste / TA2 Weight Chest",
   "2,Items schieben und sortieren",
   "3,Röhren / TechAge Tube",
   "3,Röhren Konzentrator / Tube Concentrator",
@@ -71,7 +71,6 @@ techage.manual_DE.aTitel = {
   "3,TA3 Akku Block /  Akku Box",
   "3,TA3 Strom Terminal / Power Terminal",
   "3,TA3 Elektromotor / TA3 Electric Motor",
-  "3,TA3 Strom Terminal / Power Terminal",
   "2,TA3 Industrieofen",
   "3,TA3 Ofen-Ölbrenner / Furnace Oil Burner",
   "3,TA3 Ofenoberteil / Furnace Top",
@@ -563,7 +562,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.\n"..
   "Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.\n"..
-  "Wenn das Wasser heiß ist\\, kann das Ventil am Boiler geöffnet und anschließend die Generator gestartet werden.\n"..
+  "Wenn das Wasser heiß ist\\, kann der Generator gestartet werden.\n"..
   "\n"..
   "Das Kraftwerk kann alternativ auch mit einem Ölbrenner ausgestattet und dann mit Öl betrieben werden.\n"..
   "Das Öl kann über eine Pumpe und Ölleitung nachgefüllt werden.\n"..
@@ -603,13 +602,13 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen und Generatoren mit Stromkabel verbunden werden.\n"..
+  "In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen\\, Speichersysteme und Generatoren mit Stromkabel verbunden werden.\n"..
   "TA3 besitzt 2 Arten von Stromkabel:\n"..
   "\n"..
   "  - Isolierte Kabel (TA Stromkabel) für die lokale Verkabelung im Boden oder in Gebäuden. Diese Kabel lassen sich in der Wand oder im Boden verstecken (können mit der Kelle \"verputzt\" werden).\n"..
   "  - Überlandleitungen (TA Stromleitung) für Freiluftverkabelung über große Strecken. Diese Kabel sind geschützt\\, können also von anderen Spielern nicht entfernt werden.\n"..
   "\n"..
-  "Mehrere Verbraucher und Generatoren können in einem Stromnetzwerk zusammen betrieben werden. Mit Hilfe der Verteilerdosen können so große Netzwerke aufgebaut werden.\n"..
+  "Mehrere Verbraucher\\, Speichersysteme und Generatoren können in einem Stromnetzwerk zusammen betrieben werden. Mit Hilfe der Verteilerdosen können so Netzwerke aufgebaut werden.\n"..
   "Wird zu wenig Strom bereitgestellt\\, gehen die Verbraucher aus.\n"..
   "In diesem Zusammenhang ist auch wichtig\\, dass die Funktionsweise von Forceload Blöcken verstanden wurde\\, denn bspw. Generatoren liefern nur Strom\\, wenn der entsprechende Map-Block geladen ist. Dies kann mit einen Forceload Block erzwungen werden.\n"..
   "\n"..
@@ -618,7 +617,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Für die lokale Verkabelung im Boden oder in Gebäuden.\n"..
-  "Abzweigungen können mit Hilfe von Verteilerdosen realisiert werden. Die maximale Kabellänge zwischen Maschinen oder Verteilerdosen beträgt 1000 m. Es können maximale 1000 Knoten in einem Strom-Netzwerk verbunden werden. Als Knoten zählen alle Generatoren\\, Akkus\\, Verteilerdosen und Maschinen.\n"..
+  "Abzweigungen können mit Hilfe von Verteilerdosen realisiert werden. Die maximale Kabellänge zwischen Maschinen oder Verteilerdosen beträgt 1000 m. Es können maximale 1000 Knoten in einem Strom-Netzwerk verbunden werden. Als Knoten zählen alle Blöcke mit Stromanschluss\\, also auch Verteilerdosen.\n"..
   "\n"..
   "Da die Stromkabel nicht automatisch geschützt sind\\, wird für längere Strecken die Überlandleitungen (TA Stromleitung) empfohlen.\n"..
   "\n"..
@@ -632,7 +631,6 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Mit der Verteilerdose kann Strom in bis zu 6 Richtungen verteilt werden. Verteilerdosen können auch mit der Kelle verputzt (versteckt) und wieder sichtbar gemacht werden.\n"..
-  "Wird mit dem TechAge Info Werkzeug (Schraubenschlüssel) auf die Verteilerdose geklickt\\, wird angezeigt\\, wie viel Leistung die Generatoren liefern bzw. die Verbraucher im Netzwerk beziehen.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -673,17 +671,24 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Der Akku Block dient zur Speicherung von überschüssiger Energie und gibt bei Stromausfall automatisch Strom ab (soweit vorhanden).\n"..
-  "Der Akku Block ist eine sekundäre Stromquelle. Das bedeutet\\, bei Strombedarf werden zuerst die Generatoren genutzt. Nur wenn der Strom im Netz nicht ausreicht\\, springt der Akku Block ein. Das Gleiche gilt auch für die Stromaufnahme. Daher kann auch kein Akku mit einem anderen Akku geladen werden.\n"..
-  "Der Akku liefert 10 ku bzw. nimmt 10 ku auf.\n"..
-  "Bei Volllast kann ein Akku 400 s lang Strom aufnehmen und wenn er voll ist\\, auch wieder abgeben. Dies entspricht 8 h Spielzeit bei einem normalen Spieltag von 20 min.\n"..
+  "Mehrere Akku Blocks zusammen bilden ein TA3 Energiespeichersystem. Jeder Akku Block hat eine Anzeige für den Ladezustand und für die gespeicherte Ladung\\, wobei hier immer die Werte für das gesamte Netzwerk angezeigt werden. Die gespeicherte Ladung wird in \"kud\" also \"ku-days\" angezeigt (analog zu kWh)  5 kud entspricht damit bspw. 5 ku für einen Spieltag (20 min) oder 1 ku für 5 Spieltage.\n"..
+  "\n"..
+  "Ein Akku Block hat 3.33 kud.\n"..
   "\n"..
   "\n"..
   "\n",
   "Das Strom-Terminal muss mit dem Stromnetz verbunden werden. Es zeigt Daten aus dem Stromnetz an.\n"..
   "\n"..
-  "In der oberen Hälfte werden nur die Daten eines ausgewählten Typs ausgegeben. Wird als Typ bspw. \"Kraftwerk\" gewählt\\, so werden nur die Daten von Öl- und Kohlekraftwerken gesammelt und ausgegeben. Links werden die Daten von Generatoren (Stromabgabe) und rechts die Daten von Energiespeichern (Stromaufnahme) ausgegeben. Beim Akkublocks bspw. wird beides ausgegeben\\, da der Akku Strom aufnehmen und abgeben kann.\n"..
+  "In der oberen Hälfte werden die wichtigsten Größen ausgegeben:\n"..
   "\n"..
-  "In der unteren Hälfte werden die Daten aller Generatoren und Speichersystemen des ganzen Stromnetzen zusammengefasst ausgegeben.\n"..
+  "  - aktuelle/maximale Generatorleistung\n"..
+  "  - aktueller Stromaufnahme aller Verbraucher\n"..
+  "  - aktueller Ladestrom in/aus dem Speichersystems\n"..
+  "  - aktuellen Ladezustand des Speichersystems in Prozent\n"..
+  "\n"..
+  "In der unteren Hälfte wird die Anzahl der Netzwerkblöcke ausgegeben.\n"..
+  "\n"..
+  "Über den Reiter \"console\" können weitere Daten zu den Generatoren und Speichersystemen abgefragt werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -691,14 +696,6 @@ techage.manual_DE.aText = {
   "Wird der Elektromotor nicht mit ausreichend Strom versorgt\\, geht er in einen Fehlerzustand und muss über einen Rechtsklick wieder aktiviert werden.\n"..
   "\n"..
   "Das Elektromotor nimmt primär max. 40 ku an Strom auf und gibt sekundär max. 39 ku als Achsenkraft wieder ab. Er verbraucht also ein ku für die Umwandlung.\n"..
-  "\n"..
-  "\n"..
-  "\n",
-  "Das Strom-Terminal muss mit dem Stromnetz verbunden werden. Es zeigt Daten aus dem Stromnetz an.\n"..
-  "\n"..
-  "In der oberen Hälfte werden nur die Daten eines ausgewählten Typs ausgegeben. Wird als Typ bspw. \"Kraftwerk\" gewählt\\, so werden nur die Daten von Öl- und Kohlekraftwerken gesammelt und ausgegeben. Links werden die Daten von Generatoren (Stromabgabe) und rechts die Daten von Energiespeichern (Stromaufnahme) ausgegeben. Beim Akkublocks bspw. wird beides ausgegeben\\, da der Akku Strom aufnehmen und abgeben kann.\n"..
-  "\n"..
-  "In der unteren Hälfte werden die Daten aller Generatoren und Speichersystemen des ganzen Stromnetzen zusammengefasst ausgegeben.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1126,7 +1123,8 @@ techage.manual_DE.aText = {
   "",
   "Das Techage Info Tool (Schraubenschlüssel) hat verschiedene Funktionen. Er zeigt die Uhrzeit\\, die Position\\, die Temperatur und das Biome an\\, wenn auf einen unbekannten Block geklickt wird.\n"..
   "Wird auf einen TechAge Block mit Kommandoschnittstelle geklickt\\, werden alle verfügbaren Daten abgerufen (siehe auch \"Logik-/Schalt-Blöcke\").\n"..
-  "Bei Strom-Verteilerdosen werden die benachbarten Netzwerkteilnehmer (bis zu 50 Meter weit) mit einem blauen Käfig angezeigt.\n"..
+  "\n"..
+  "Mit Shift+Rechtsklick kann bei einigen Blöcken ein erweitertes Menü geöffnet werden. Hier lassen sich je nach Block weitere Daten abrufen oder spezielle Einstellungen vornehmen. Bei einem Generator kann bspw. die Ladekurve/abschaltung programmiert werden. \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1723,7 +1721,6 @@ techage.manual_DE.aItemName = {
   "ta3_akkublock",
   "ta3_powerterminal",
   "ta3_motor",
-  "ta3_powerterminal",
   "",
   "ta3_furnacefirebox",
   "ta3_furnace",
@@ -1905,7 +1902,6 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "coalpowerstation",
-  "",
   "",
   "",
   "",
