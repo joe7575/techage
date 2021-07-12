@@ -55,11 +55,11 @@ local function is_windy()
 end
 
 local function check_rotor(pos, nvm)
---	local resp, err = techage.valid_place_for_windturbine(pos, nil, 1)
---	if not resp then
---		nvm.error = err
---		return false
---	end
+	local resp, err = techage.valid_place_for_windturbine(pos, nil, 1)
+	if not resp then
+		nvm.error = err
+		return false
+	end
 	
 	local npos = techage.get_pos(pos, "F")
 	local node = techage.get_node_lvm(npos)

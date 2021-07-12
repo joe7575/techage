@@ -1160,9 +1160,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "The wind turbine block (rotor) is the heart of the wind turbine. This block must be placed on top of the mast. Ideally at Y = 15\\, then you just stay within a map / forceload block.\n"..
-  "After the block has been set\\, a check is carried out to determine whether all conditions for the operation of the wind turbine have been met. If all conditions are met\\, the rotor blades (wings) appear automatically when this block is set. Otherwise you will get an error message.\n"..
-  "\n"..
-  "The check can be repeated by hitting the block. \n"..
+  "When you start the turbine\\, all conditions for the operation of the wind turbine are checked. If all conditions are met\\, the rotor blades (wings) appear automatically. Otherwise you will get an error message.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1234,11 +1232,13 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The thermal energy storage replaces the battery block from TA3.\n"..
+  "\n"..
   "The thermal energy store consists of a concrete shell (concrete blocks) filled with gravel. Three sizes of the storage are possible:\n"..
   "\n"..
-  "  - Cover with 5x5x5 concrete blocks\\, filled with 27 gravel\\, storage capacity: 1/2 day at 60 ku\n"..
-  "  - Cover with 7x7x7 concrete blocks\\, filled with 125 gravel\\, storage capacity: 2.5 days at 60 ku\n"..
-  "  - Cover with 9x9x9 concrete blocks\\, filled with 343 gravel\\, storage capacity: 6.5 days at 60 ku\n"..
+  "  - Cover with 5x5x5 concrete blocks\\, filled with 27 gravel\\, storage capacity: 22.5 kud\n"..
+  "  - Cover with 7x7x7 concrete blocks\\, filled with 125 gravel\\, storage capacity: 104 kud\n"..
+  "  - Cover with 9x9x9 concrete blocks\\, filled with 343 gravel\\, storage capacity: 286 kud\n"..
   "\n"..
   "A window made of an obsidian glass block may be in the concrete shell. This must be placed fairly in the middle of the wall. Through this window you can see whether the storage is loaded more than 80%. In the plan on the right you can see the structure of TA4 heat exchanger consisting of 3 blocks\\, the TA4 turbine and the TA4 generator. Pay attention to the alignment of the heat exchanger (the arrow at block 1 must point to the turbine).\n"..
   "\n"..
@@ -1246,14 +1246,13 @@ techage.manual_EN.aText = {
   "Both the generator and the heat exchanger have a power connection and must be connected to the power grid.\n"..
   "\n"..
   "In principle\\, the heat storage system works exactly the same as the batteries\\, only with much more storage capacity.\n"..
-  "The heat accumulator can hold and deliver 60 ku.\n"..
   "\n"..
   "In order for the heat storage system to work\\, all blocks (also the concrete shell and gravel) must be loaded using a forceload block.\n"..
   "\n"..
   "\n"..
   "\n",
   "The heat exchanger consists of 3 parts that must be placed on top of each other\\, with the arrow of the first block pointing towards the turbine. The pipes must be built with the yellow TA4 pipes.\n"..
-  "The heat exchanger must be connected to the power grid. The heat exchanger charges the energy store again when sufficient electricity is available and the energy storage is less than 95% charged. The heat exchanger takes up 60 ku. \n"..
+  "The heat exchanger must be connected to the power grid. The energy storage device is recharged via the heat exchanger\\, provided that sufficient electricity is available. \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1293,6 +1292,8 @@ techage.manual_EN.aText = {
   "\n"..
   "The electrolyzer can draw up to 35 ku of electricity and then generates a hydrogen item every 4 s.\n"..
   "200 units of hydrogen fit into the electrolyzer.\n"..
+  "\n"..
+  "The electrolyzer has a wrench menu for setting the current consumption and the switch-off point.\n"..
   "\n"..
   "\n"..
   "\n",

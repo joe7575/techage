@@ -31,7 +31,7 @@ local function switch_axles(pos, on)
 end
 
 local function formspec(self, pos, nvm)
-	return techage.generator_formspec(self, pos, nvm, S("Flywheel"), nvm.provided, PWR_PERF)
+	return techage.generator_formspec(self, pos, nvm, S("Flywheel"), nvm.provided, PWR_PERF, true)
 end
 
 local function transfer_cylinder(pos, topic, payload)

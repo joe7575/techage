@@ -179,13 +179,18 @@ function techage.storage_formspec(self, pos, nvm, label, netw_data, curr_load, m
 		"tooltip[2.7,2;1,1;" .. self:get_state_tooltip(nvm) .. "]"
 end
 
-function techage.generator_formspec(self, pos, nvm, label, provided, max_available)
+function techage.generator_formspec(self, pos, nvm, label, provided, max_available, ta2)
+	local tooltip = ""
+	if not ta2 then
+		tooltip = techage.wrench_tooltip(4.4, -0.1)
+	end
 	return "size[5,4]" ..
 		default.gui_bg ..
 		default.gui_bg_img ..
 		default.gui_slots ..
 		"box[0,-0.1;4.8,0.5;#c6e8ff]" ..
 		"label[0.2,-0.1;" .. minetest.colorize( "#000000", label) .. "]" ..
+		tooltip..
 		techage.formspec_power_bar(pos, 0, 0.8, S("Power"), provided, max_available) ..
 		"image_button[3.2,2.0;1,1;" .. self:get_state_button_image(nvm) .. ";state_button;]" ..
 		"tooltip[3.2,2.0;1,1;" .. self:get_state_tooltip(nvm) .. "]"

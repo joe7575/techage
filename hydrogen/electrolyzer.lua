@@ -47,6 +47,7 @@ local function formspec(self, pos, nvm)
 		default.gui_slots ..
 		"box[0,-0.1;5.8,0.5;#c6e8ff]" ..
 		"label[0.2,-0.1;" .. minetest.colorize( "#000000", S("Electrolyzer")) .. "]" ..
+		techage.wrench_tooltip(5.4, -0.1)..
 		techage.formspec_power_bar(pos, 0.1, 0.8, S("Electricity"), nvm.taken, PWR_NEEDED) ..
 		arrow ..
 		"image_button[3,2.5;1,1;" .. self:get_state_button_image(nvm) .. ";state_button;]" ..
@@ -72,6 +73,7 @@ end
 
 local function stop_node(pos, nvm, state)
 	nvm.taken = 0
+	nvm.running = nil -- legacy
 end
 
 local State = techage.NodeStates:new({
@@ -181,16 +183,16 @@ local tool_config = {
 	{
 		type = "const",
 		name = "needed",
-		label = S("Needed power [ku]"),      
-		tooltip = S("The maximum amount of power\nthe consumer can consume"),
+		label = S("Maximum power consumption [ku]"),      
+		tooltip = S("Maximum possible\ncurrent consumption"),
 		value = PWR_NEEDED,
 	},
 	{
 		type = "dropdown",
 		choices = "20%,40%,60%,80%,100%",
 		name = "reduction",
-		label = S("Power reduction"),      
-		tooltip = S("The reduced amount of power\nthe consumer should consume"),
+		label = S("Current limitation"),      
+		tooltip = S("Configurable value\nfor the current limit"),
 		default = "100%",
 	},
 	{
@@ -198,7 +200,7 @@ local tool_config = {
 		choices = "0%,20%,40%,60%,80%",
 		name = "turnoff",
 		label = S("Turnoff point"),      
-		tooltip = S("If the load of the storage system\nreaches the configured value,\nthe consumer will be switched off"),
+		tooltip = S("If the charge of the storage\nsystem exceeds the configured value,\nthe block switches off"),
 		default = "0%",
 	},
 }

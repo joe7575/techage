@@ -290,14 +290,14 @@ Power=
 
 ### electrolyzer.lua ###
 
+Configurable value@nfor the current limit=
+Current limitation=
 Electrolyzer=
-If the load of the storage system@nreaches the configured value,@nthe consumer will be switched off=
-Needed power [ku]=
-Power reduction=
+If the charge of the storage@nsystem exceeds the configured value,@nthe block switches off=
+Maximum possible@ncurrent consumption=
+Maximum power consumption [ku]=
 Storage full=
 TA4 Electrolyzer=
-The maximum amount of power@nthe consumer can consume=
-The reduced amount of power@nthe consumer should consume=
 Turnoff point=
 Turnoff point reached=
 
@@ -547,6 +547,10 @@ TA4 Laser Beam Emitter=
 TA4 Laser Beam Receiver=
 Valid destination positions:=
 to=
+
+### lib.lua ###
+
+Block has an@nadditional wrench menu=
 
 ### lib.lua ###
 ### sensorchest.lua ###
@@ -918,6 +922,7 @@ TA4 LED Street Lamp Pole=
 ### submenu.lua ###
 
 Cancel=
+Note: You can't change any values while the block is running!=
 Refresh=
 
 ### ta2_weight_chest.lua ###

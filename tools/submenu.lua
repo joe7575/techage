@@ -99,6 +99,10 @@ local function generate_formspec_substring(pos, meta, form_def)
 				end
 			end
 		end
+		if nvm.running or techage.is_running(nvm) then
+			local offs = #form_def * 0.9 - 0.2
+			tbl[#tbl+1] = "label[0," .. offs .. ";" .. S("Note: You can't change any values while the block is running!") .. "]"
+		end
 	end
 	return table.concat(tbl, "")
 end
@@ -203,6 +207,5 @@ function menu.eval_input(pos, ndef, form_def, fields)
 	end
 	return fields.refresh or fields.save
 end
-
 
 return menu

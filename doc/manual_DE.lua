@@ -1158,9 +1158,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Der Windkraftanlagenblock (Rotor) ist das Herzstück der Windkraftanlage. Dieser Block muss oben auf den Mast gesetzt werden. Idealerweise auf Y = 15\\, dann bleibst du noch gerade innerhalb eines Map-/Forceload-Blocks.\n"..
-  "Nach dem Setzen des Blocks wird ein Check durchgeführt\\, ob alle Bedingungen für den Betrieb der Windkraftanlage erfüllt sind. Sofern alle Bedingungen erfüllt sind\\, erscheinen beim Setzen dieses Blocks auch automatisch die Rotorblätter (Flügel). Anderenfalls wird dir eine Fehlermeldung angezeigt. \n"..
-  "\n"..
-  "Durch Schlagen auf den Block kann der Check wiederholt werden.\n"..
+  "Beim Starten der Windkraftanlage werden alle Bedingungen für den Betrieb der Windkraftanlage überprüft. Sofern alle Bedingungen erfüllt sind\\, erscheinen auch automatisch die Rotorblätter (Flügel). Anderenfalls wird eine Fehlermeldung angezeigt. \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1232,11 +1230,13 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der TA4 Energiespeicher ersetzt den Batterie Block aus TA3.\n"..
+  "\n"..
   "Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit Gravel. Es gibt 3 Größen vom Speicher:\n"..
   "\n"..
-  "  - Hülle mit 5x5x5 Concrete Blocks\\, gefüllt mit 27 Gravel\\, Speicherkapazität: 1/2 Tag bei 60 ku\n"..
-  "  - Hülle mit 7x7x7 Concrete Blocks\\, gefüllt mit 125 Gravel\\, Speicherkapazität: 2\\,5 Tage bei 60 ku\n"..
-  "  - Hülle mit 9x9x9 Concrete Blocks\\, gefüllt mit 343 Gravel\\, Speicherkapazität: 6\\,5 Tage bei 60 ku\n"..
+  "  - Hülle mit 5x5x5 Concrete Blocks\\, gefüllt mit 27 Gravel\\, Speicherkapazität: 22.5 kud\n"..
+  "  - dHülle mit 7x7x7 Concrete Blocks\\, gefüllt mit 125 Gravel\\, Speicherkapazität: 104 kud\n"..
+  "  - Hülle mit 9x9x9 Concrete Blocks\\, gefüllt mit 343 Gravel\\, Speicherkapazität: 286 kud\n"..
   "\n"..
   "In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man\\, ob der Speicher mehr als 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken\\, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung zu achten (der Pfeil bei Block 1 muss zur Turbine zeigen).\n"..
   "\n"..
@@ -1244,14 +1244,13 @@ techage.manual_DE.aText = {
   "Sowohl der Generator als auch der Wärmetauscher haben einen Stromanschluss und müssen mit dem Stromnetz verbunden werden.\n"..
   "\n"..
   "Im Prinzip arbeitet das das Wärmespeichersystem genau gleich wie die Akkus\\, nur mit viel mehr Speicherkapazität. \n"..
-  "Der Wärmespeicher kann 60 ku aufnehmen und abgeben.\n"..
   "\n"..
   "Damit das Wärmespeichersystem funktioniert\\, müssen alle Blöcke (auch Betonhülle und Gravel) mit Hilfe eines Forceloadblockes geladen sein.\n"..
   "\n"..
   "\n"..
   "\n",
   "Der Wärmetauscher besteht aus 3 Teilen\\, die aufeinander gesetzt werden müssen\\, wobei der Pfeil des ersten Blockes Richtung Turbine zeigen muss. Die Rohrleitungen müssen mit den gelben TA4 Röhren aufgebaut werden.\n"..
-  "Der Wärmetauscher muss am Stromnetz angeschlossen werden. Der Wärmetauscher lädt den Energiespeicher wieder auf\\, wenn ausreichend Strom zur Verfügung steht und der Energiespeicher weniger als 95 % geladen ist. Der Wärmetauscher nimmt dabei 60 ku auf.\n"..
+  "Der Wärmetauscher muss am Stromnetz angeschlossen werden. Über den Wärmetauscher wird der Energiespeicher wieder aufgeladen\\, sofern ausreichend Strom zur Verfügung steht.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1291,6 +1290,8 @@ techage.manual_DE.aText = {
   "\n"..
   "Der Elektrolyseur kann bis zu 35 ku an Strom aufnehmen und generiert dann alle 4 s ein Wasserstoff Item.\n"..
   "In den Elektrolyseur passen 200 Einheiten Wasserstoff.\n"..
+  "\n"..
+  "Der Elektrolyseur besitzt ein Schraubenschlüssel-Menü zur Einstellung der Stromaufnahme und des Abschaltpunkts.\n"..
   "\n"..
   "\n"..
   "\n",

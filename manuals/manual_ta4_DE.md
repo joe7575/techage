@@ -23,9 +23,7 @@ Die Windkraftanlage liefert eine Leistung von 70 ku, aber dies nur 8 Stunden am 
 ### TA4 Windkraftanlage / Wind Turbine
 
 Der Windkraftanlagenblock (Rotor) ist das Herzstück der Windkraftanlage. Dieser Block muss oben auf den Mast gesetzt werden. Idealerweise auf Y = 15, dann bleibst du noch gerade innerhalb eines Map-/Forceload-Blocks.
-Nach dem Setzen des Blocks wird ein Check durchgeführt, ob alle Bedingungen für den Betrieb der Windkraftanlage erfüllt sind. Sofern alle Bedingungen erfüllt sind, erscheinen beim Setzen dieses Blocks auch automatisch die Rotorblätter (Flügel). Anderenfalls wird dir eine Fehlermeldung angezeigt. 
-
-Durch Schlagen auf den Block kann der Check wiederholt werden.
+Beim Starten der Windkraftanlage werden alle Bedingungen für den Betrieb der Windkraftanlage überprüft. Sofern alle Bedingungen erfüllt sind, erscheinen auch automatisch die Rotorblätter (Flügel). Anderenfalls wird eine Fehlermeldung angezeigt. 
 
 [ta4_windturbine|image]
 
@@ -131,11 +129,13 @@ Diese Solarzelle kann nicht mit den anderen Solarmodulen kombiniert werden.
 
 ## Energiespeicher
 
+Der TA4 Energiespeicher ersetzt den Batterie Block aus TA3.
+
 Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit Gravel. Es gibt 3 Größen vom Speicher:
 
-- Hülle mit 5x5x5 Concrete Blocks, gefüllt mit 27 Gravel, Speicherkapazität: 1/2 Tag bei 60 ku
-- Hülle mit 7x7x7 Concrete Blocks, gefüllt mit 125 Gravel, Speicherkapazität: 2,5 Tage bei 60 ku
-- Hülle mit 9x9x9 Concrete Blocks, gefüllt mit 343 Gravel, Speicherkapazität: 6,5 Tage bei 60 ku 
+- Hülle mit 5x5x5 Concrete Blocks, gefüllt mit 27 Gravel, Speicherkapazität: 22.5 kud
+- dHülle mit 7x7x7 Concrete Blocks, gefüllt mit 125 Gravel, Speicherkapazität: 104 kud
+- Hülle mit 9x9x9 Concrete Blocks, gefüllt mit 343 Gravel, Speicherkapazität: 286 kud 
 
 In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man, ob der Speicher mehr als 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung zu achten (der Pfeil bei Block 1 muss zur Turbine zeigen).
 
@@ -143,7 +143,6 @@ Entgegen dem Plan rechts müssen die Anschlüsse am Speicherblock auf gleicher E
 Sowohl der Generator als auch der Wärmetauscher haben einen Stromanschluss und müssen mit dem Stromnetz verbunden werden.
 
 Im Prinzip arbeitet das das Wärmespeichersystem genau gleich wie die Akkus, nur mit viel mehr Speicherkapazität. 
-Der Wärmespeicher kann 60 ku aufnehmen und abgeben.
 
 Damit das Wärmespeichersystem funktioniert, müssen alle Blöcke (auch Betonhülle und Gravel) mit Hilfe eines Forceloadblockes geladen sein.
 
@@ -153,7 +152,7 @@ Damit das Wärmespeichersystem funktioniert, müssen alle Blöcke (auch Betonhü
 ### TA4 Wärmetauscher / Heat Exchanger
 
 Der Wärmetauscher besteht aus 3 Teilen, die aufeinander gesetzt werden müssen, wobei der Pfeil des ersten Blockes Richtung Turbine zeigen muss. Die Rohrleitungen müssen mit den gelben TA4 Röhren aufgebaut werden.
-Der Wärmetauscher muss am Stromnetz angeschlossen werden. Der Wärmetauscher lädt den Energiespeicher wieder auf, wenn ausreichend Strom zur Verfügung steht und der Energiespeicher weniger als 95 % geladen ist. Der Wärmetauscher nimmt dabei 60 ku auf.
+Der Wärmetauscher muss am Stromnetz angeschlossen werden. Über den Wärmetauscher wird der Energiespeicher wieder aufgeladen, sofern ausreichend Strom zur Verfügung steht.
 
 [ta4_heatexchanger|image]
 
@@ -210,6 +209,8 @@ Es muss von links mit Strom versorgt werden. Rechts kann Wasserstoff über Röhr
 
 Der Elektrolyseur kann bis zu 35 ku an Strom aufnehmen und generiert dann alle 4 s ein Wasserstoff Item.
 In den Elektrolyseur passen 200 Einheiten Wasserstoff.
+
+Der Elektrolyseur besitzt ein Schraubenschlüssel-Menü zur Einstellung der Stromaufnahme und des Abschaltpunkts.
 
 [ta4_electrolyzer|image]
 

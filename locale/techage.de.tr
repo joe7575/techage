@@ -290,14 +290,14 @@ Power=Strom
 
 ### electrolyzer.lua ###
 
+Configurable value@nfor the current limit=Konfigurierbarer Wert@nfür die Strombegrenzung
+Current limitation=Strombegrenzung
 Electrolyzer=Eletrolyseur
-If the load of the storage system@nreaches the configured value,@nthe consumer will be switched off=
-Needed power [ku]=Benötigter Strom
-Power reduction=Stromreduzierung
+If the charge of the storage@nsystem exceeds the configured value,@nthe block switches off=Überschreitet die Ladung des@nSpeichersystems den konfigurierten@nWert, schaltet sich der Block ab
+Maximum possible@ncurrent consumption=Maximal mögliche Stromaufnahme
+Maximum power consumption [ku]=maximale Stromaufnahme
 Storage full=Speicher voll
 TA4 Electrolyzer=TA4 Elektrolyseur
-The maximum amount of power@nthe consumer can consume=
-The reduced amount of power@nthe consumer should consume=
 Turnoff point=Abschaltpunkt
 Turnoff point reached=Abschaltpunkt erreicht
 
@@ -397,7 +397,7 @@ To add fuel punch@nthis block@nwith a fuel container=Um Brennstoff nachzufüllen
 
 Fuel Cell=Brennstoffzelle
 TA4 Fuel Cell=TA4 Brennstoffzelle
-no hydrogen=
+no hydrogen=kein Wasserstoff
 
 ### fuelcellstack.lua ###
 
@@ -477,7 +477,7 @@ TA4 Heat Exchanger 1=TA4 Wärmetauscher 1
 
 ### heatexchanger2.lua ###
 
-Power network connection error=
+Power network connection error=Stromnetz Verbindungsfehler
 TA4 Heat Exchanger=TA4 Wärmetauscher
 TA4 Heat Exchanger 2=TA4 Wärmetauscher 2
 did you check the plan?=hast du den Plan geprüft?
@@ -547,6 +547,10 @@ TA4 Laser Beam Emitter=TA4 Laserstrahl Sender
 TA4 Laser Beam Receiver=TA4 Laserstrahl Empfänger
 Valid destination positions:=Gültige Zielpositionen
 to=bis
+
+### lib.lua ###
+
+Block has an@nadditional wrench menu=Block besitzt ein@nzusätzliches@nSchraubenschlüssel-Menü
 
 ### lib.lua ###
 ### sensorchest.lua ###
@@ -918,6 +922,7 @@ TA4 LED Street Lamp Pole=TA4 LED Lampenmast
 ### submenu.lua ###
 
 Cancel=Abbruch
+Note: You can't change any values while the block is running!=Hinweis: Während der Block läuft, kann kein Wert geändert werden!
 Refresh=Aktualisieren
 
 ### ta2_weight_chest.lua ###
@@ -1086,65 +1091,3 @@ This is not the surface of the ocean!=Das ist nicht die Meeresoberfläche!
 biome and no ocean!=Biom und keine Meer (ocean)!
 is a suitable place for a wind turbine!=ist ein geeigneter Ort für eine Windkraftanlage!
 
-
-##### not used anymore #####
-
-TA2 Power Generator: Overload fault?@n(restart with right-click)=TA2 Stromgenerator: Überlastfehler?@n(Neustart mit Rechtsklick)
-full=voll
-Cat. 1 generator=Kat. 1 Generator
-Cat. 2 generator=Kat. 2 Generator
-If set, fuelcell will work@nas cat. 1 generator=Wenn gesetzt, Brennstoffzelle@narbeitet als  Kat. 1 Generator
-TA4 Fuel Cell Gen1=TA4 Brennstoffzelle Gen1
-TA4 Fuel Cell Gen2=TA4 Brennstoffzelle Gen2
-storage empty?=Speicher leer?
-Heat Exchanger=Wärmetauscher
-Thermal=Wärme
-TA3 Electric Motor: Overload fault?@n(restart with right-click)=TA3 Elektromotor: Überlastfehler?@n(Neustart mit Rechtsklick)
-Active:=Aktiv:
-All nodes:=Alle Blöcke:
-Consum. 1=Konsum. 1
-Consum. 2=Konsum. 2
-Genera. 1=Genera. 1
-Genera. 2=Genera. 2
-In use:=In Benutzung:
-No network or active generator available!=Kein Stromnetz oder aktiver Generator verfügbar
-Number of all nodes=Anzahl aller Blöcke
-TA3 Power Terminal Old=TA3 Strom Terminal Alt
-The network is overloaded!=Das Stromnetz ist überlastet!
-The network load is almost at the limit!=Das Stromnetz ist ziemlich am Limit!
-Turned on:=Eingeschaltet:
-With %u of a maximum of %u blocks you are almost at the limit!=Mit %u von maximal %u Blöcken bist du fast am Limit!
-Accu Box=Akkublock
-Current power:=Strom aktuell:
-Energy storage=Engergiespeicher
-Energy stored:=Energie gespeichert
-Fuel cell cat. 1=Brennstoffzelle Kat. 1
-Fuel cell cat. 2=Brennstoffzelle Kat. 2
-Generators=Generatoren
-Intake=Stromaufnahme
-Max. needed power=Max. benötigter Strom
-Maximum power:=Maximalstrom:
-No power grid or running generator!=Kein Stromnetz oder Generator verfügbar!
-Number blocks:=Anzahl Blöcke:
-Number of power grid blocks=Anzahl der Stromnetz Blöcke
-Output=Stromabgabe
-Power grid total=Stromnetz gesammt
-Power station=Kraftwerk
-Probably too many consumers (=Vermutlich zu viele Verbraucher (
-Select type=Wähle Typ
-Solar system=Solaranlage
-Storage systems=Speichersysteme
-TA2 Generator=TA2 Generator
-Tiny generator=Kleingenerator
-To many blocks in the power grid!=Zu viele Blöcke im Stromnetz!
-Type=Typ
-Wind turbine=Windkraftanlage
-ku is needed=ku wird benötigt
-TA3 Oil Reboiler: blocked=TA3 Aufkocher: blockiert
-repaired=repariert
-Steam Power Source=Dampfenergiequelle
-Use a trowel to remove the node.=Verwende eine Kelle, um den Block zu entfernen.
-TA3 Valve closed=TA3 Ventil zu
-TA3 Valve open=TA3 Ventil offen
-Fuel cell=Brennstoffzelle
-Not suitable position!=Ungeeignete Position!
