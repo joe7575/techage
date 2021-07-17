@@ -167,8 +167,9 @@ The turbine is part of the energy storage. It must be placed next to the generat
 ### TA4 Generator
 
 The generator is used to generate electricity. Therefore, the generator must also be connected to the power grid.
+The generator is part of the energy storage. It is used to generate electricity and thus releases the energy from the energy storage unit. Therefore, the generator must also be connected to the power grid.
 
-The generator can deliver 60 ku.
+Important: Both, heat exchanger and generator must be connected to the same power grid! 
 
 [ta4_generator|image]
 
@@ -188,6 +189,44 @@ With TA4, the yellow pipes are used for the transmission of gas and liquids.
 The maximum cable length is 100 m.
 
 [ta4_pipe|image]
+
+
+
+## Power Distribution
+
+With the help of power cables and junction boxes, power networks of up to 1000 blocks/nodes can be set up. However, it should be noted that distribution boxes must also be counted. This means that up to 500 generators/storage systems/machines/lamps can be connected to a power grid.
+
+With the help of an isolating transformer and electricity meter, networks can be connected to form even larger structures.
+
+[ta4_transformer|image]
+
+### TA4 Isolation Transformer
+
+With the help of an isolating transformer, two power grids can be connected to form a larger network. The isolation transformer can transmit electricity in both directions.
+
+The isolation transformer can transmit up to 100 ku. 
+
+[ta4_transformer|image]
+
+### TA4 Electric Meter
+
+With the help of an electricity meter, two electricity networks can be connected to form a larger network. The electricity meter only transmits electricity in one direction (note arrow). The amount of electricity (in kud) is measured and displayed. The amount of electricity can also be queried by a Lua controller using the `consumption` command.
+
+The electricity meter can pass up to 200 ku. 
+
+[ta4_electricmeter|image]
+
+### TA4 Laser
+
+The TA4 laser is used for wireless power transmission. Two blocks are required for this: TA4 Laser Beam Emitter and TA4 Laser Beam Receiver. There must be an air gap between the two blocks so that the laser beam can be built up from the emitter to the receiver. First the emitter must be placed. This immediately switches on the laser beam and shows possible positions of the receiver. Possible positions for the receiver are also output via a chat message. 
+
+With the laser, distances of up to 96 blocks can be bridged. Once the connection has been established (no current has to flow), this is indicated via the info text of the emitter and also of the receiver. 
+
+The laser blocks themselves do not require any electricity.
+
+[ta4_laser|image]
+
+
 
 ## Hydrogen
 
@@ -684,13 +723,3 @@ The machine can disassemble pretty much any Techage and Hyperloop blocks. But no
 The processing power is one item every 8 s.  The block requires 16 ku of electricity for this.
 
 [ta4_recycler|image] 
-
-### TA4 Laser
-
-The TA4 laser is used for wireless power transmission. Two blocks are required for this: TA4 Laser Beam Emitter and TA4 Laser Beam Receiver. There must be an air gap between the two blocks so that the laser beam can be built up from the emitter to the receiver. First the emitter must be placed. This immediately switches on the laser beam and shows possible positions of the receiver. Possible positions for the receiver are also output via a chat message. 
-
-With the laser, distances of up to 96 blocks can be bridged. Once the connection has been established (no current has to flow), this is indicated via the info text of the emitter and also of the receiver. 
-
-The laser blocks themselves do not require any electricity.
-
-[ta4_laser|image]

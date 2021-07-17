@@ -166,9 +166,9 @@ Die Turbine ist Teil des Energiespeichers. Sie muss neben den Generator gesetzt 
 
 ### TA4 Generator
 
-Der Generator dient zur Stromerzeugung. Daher muss auch der Generator am Stromnetz angeschlossen werden. 
+Der Generator  ist Teil des Energiespeichers. Er dient zur Stromerzeugung und gibt damt die Energie des Energiespeichers wieder ab. Daher muss auch der Generator am Stromnetz angeschlossen werden. 
 
-Der Generator kann 60 ku abgeben.
+Wichtig: Wärmetauscher und Generator müssen mit ein und demselben Stromnetz verbunden sein!
 
 [ta4_generator|image]
 
@@ -188,6 +188,52 @@ Die gelben Röhren dienen bei TA4 zur Weiterleitung von Gas und Flüssigkeiten.
 Die maximale Leitungslänge beträgt 100 m.
 
 [ta4_pipe|image]
+
+
+
+## Stromverteilung
+
+Mit Hilfe von Stromkabeln und Verteilerdosen können Stromnetze von bis zu 1000 Blöcke/Knoten aufgebaut werden. Hierbei ist aber zu beachten, dass Verteilerdosen auch mitgezählt werden müssen. Somit können bis zu 500 Generatoren/Speichersysteme/Maschinen/Lampen an einem Stromnetz hängen.
+
+Mit Hilfe von Trenntransformator und Stromzähler können Netzwerke zu noch größeren Strukturen verbunden werden.
+
+[ta4_transformer|image]
+
+
+
+### TA4 Trenntransformator / TA4 Isolation Transformer
+
+Mit Hilfe eines Trenntransformators können zwei Stromnetze zu einem größeren Netzwerk verbunden werden. Der Trenntransformator kann Strom in beide Richtungen übertragen.
+
+Der Trenntransformator kann bis zu 100 ku übertragen.
+
+[ta4_transformer|image]
+
+
+
+### TA4 Stromzähler / TA4 Electric Meter
+
+Mit Hilfe eines Stromzählers können zwei Stromnetze zu einem größeren Netzwerk verbunden werden. Der Stromzähler leitet  den Strom nur in eine  Richtungen weiter (Pfeil beachten). Die Menge an Strom (in kud) wird gemessen und angezeigt. Die Strommenge kann auch über das Kommando `consumption` durch einen Lua Controller abgefragt werden.
+
+Der Stromzähler kann bis zu 200 ku durchleiten.
+
+[ta4_electricmeter|image]
+
+
+
+### TA4 Laser
+
+Der TA4 Laser dient zur kabellosen Stromübertagung. Dazu sind zwei Blöcke notwendig: TA4 Laserstrahl Sender und TA4 Laserstrahl Empfänger. Zwischen beiden Blöcken muss sich eine Luftstrecke befinden, so dass der Laserstrahl vom Sender bis zum Empfänger aufgebaut werden kann.
+
+Zuerst muss der Sender platziert werden. Dieser schaltet sofort den Laserstahls ein und zeigt damit mögliche Positionen des Empfängers an. Mögliche Positionen für den Empfänger werden auch über eine Chat-Nachricht ausgegeben. Mit dem Laser lassen sich Strecken bis 96 Blöcke überbrücken.
+
+Ist die Verbindung aufgebaut (es muss dazu noch kein Strom fließen), wird dies über den Info-Text des Senders und auch des Empfängers angezeigt.
+
+Die Laserblöcke selbst benötigen keinen Strom.
+
+[ta4_laser|image]
+
+
 
 ## Wasserstoff
 
@@ -684,14 +730,3 @@ Die Verarbeitungsleistung beträgt ein Item alle 8 s. Der Block benötigt hierf�
 
 [ta4_recycler|image]
 
-### TA4 Laser
-
-Der TA4 Laser dient zur kabellosen Stromübertagung. Dazu sind zwei Blöcke notwendig: TA4 Laserstrahl Sender und TA4 Laserstrahl Empfänger. Zwischen beiden Blöcken muss sich eine Luftstrecke befinden, so dass der Laserstrahl vom Sender bis zum Empfänger aufgebaut werden kann.
-
-Zuerst muss der Sender platziert werden. Dieser schaltet sofort den Laserstahls ein und zeigt damit mögliche Positionen des Empfängers an. Mögliche Positionen für den Empfänger werden auch über eine Chat-Nachricht ausgegeben. Mit dem Laser lassen sich Strecken bis 96 Blöcke überbrücken.
-
-Ist die Verbindung aufgebaut (es muss dazu noch kein Strom fließen), wird dies über den Info-Text des Senders und auch des Empfängers angezeigt.
-
-Die Laserblöcke selbst benötigen keinen Strom.
-
-[ta4_laser|image]t

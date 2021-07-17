@@ -148,6 +148,10 @@ techage.manual_EN.aTitel = {
   "3,TA4 Generator",
   "3,TA4 Pipe Inlet",
   "3,TA4 Pipe",
+  "2,Power Distribution",
+  "3,TA4 Isolation Transformer",
+  "3,TA4 Electric Meter",
+  "3,TA4 Laser",
   "2,Hydrogen",
   "3,Electrolyzer",
   "3,Fuel Cell",
@@ -199,7 +203,6 @@ techage.manual_EN.aTitel = {
   "3,TA4 Electronic Fab",
   "3,TA4 Injector",
   "3,TA4 Recycler",
-  "3,TA4 Laser",
 }
 
 techage.manual_EN.aText = {
@@ -1261,8 +1264,9 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "The generator is used to generate electricity. Therefore\\, the generator must also be connected to the power grid.\n"..
+  "The generator is part of the energy storage. It is used to generate electricity and thus releases the energy from the energy storage unit. Therefore\\, the generator must also be connected to the power grid.\n"..
   "\n"..
-  "The generator can deliver 60 ku.\n"..
+  "Important: Both\\, heat exchanger and generator must be connected to the same power grid! \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1274,6 +1278,32 @@ techage.manual_EN.aText = {
   "\n",
   "With TA4\\, the yellow pipes are used for the transmission of gas and liquids.\n"..
   "The maximum cable length is 100 m.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "With the help of power cables and junction boxes\\, power networks of up to 1000 blocks/nodes can be set up. However\\, it should be noted that distribution boxes must also be counted. This means that up to 500 generators/storage systems/machines/lamps can be connected to a power grid.\n"..
+  "\n"..
+  "With the help of an isolating transformer and electricity meter\\, networks can be connected to form even larger structures.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "With the help of an isolating transformer\\, two power grids can be connected to form a larger network. The isolation transformer can transmit electricity in both directions.\n"..
+  "\n"..
+  "The isolation transformer can transmit up to 100 ku. \n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "With the help of an electricity meter\\, two electricity networks can be connected to form a larger network. The electricity meter only transmits electricity in one direction (note arrow). The amount of electricity (in kud) is measured and displayed. The amount of electricity can also be queried by a Lua controller using the 'consumption' command.\n"..
+  "\n"..
+  "The electricity meter can pass up to 200 ku. \n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The TA4 laser is used for wireless power transmission. Two blocks are required for this: TA4 Laser Beam Emitter and TA4 Laser Beam Receiver. There must be an air gap between the two blocks so that the laser beam can be built up from the emitter to the receiver. First the emitter must be placed. This immediately switches on the laser beam and shows possible positions of the receiver. Possible positions for the receiver are also output via a chat message. \n"..
+  "\n"..
+  "With the laser\\, distances of up to 96 blocks can be bridged. Once the connection has been established (no current has to flow)\\, this is indicated via the info text of the emitter and also of the receiver. \n"..
+  "\n"..
+  "The laser blocks themselves do not require any electricity.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1642,14 +1672,6 @@ techage.manual_EN.aText = {
   "\n"..
   " \n"..
   "\n",
-  "The TA4 laser is used for wireless power transmission. Two blocks are required for this: TA4 Laser Beam Emitter and TA4 Laser Beam Receiver. There must be an air gap between the two blocks so that the laser beam can be built up from the emitter to the receiver. First the emitter must be placed. This immediately switches on the laser beam and shows possible positions of the receiver. Possible positions for the receiver are also output via a chat message. \n"..
-  "\n"..
-  "With the laser\\, distances of up to 96 blocks can be bridged. Once the connection has been established (no current has to flow)\\, this is indicated via the info text of the emitter and also of the receiver. \n"..
-  "\n"..
-  "The laser blocks themselves do not require any electricity.\n"..
-  "\n"..
-  "\n"..
-  "\n",
 }
 
 techage.manual_EN.aItemName = {
@@ -1800,6 +1822,10 @@ techage.manual_EN.aItemName = {
   "ta4_generator",
   "ta4_pipeinlet",
   "ta4_pipe",
+  "ta4_transformer",
+  "ta4_transformer",
+  "ta4_electricmeter",
+  "ta4_laser",
   "ta4_hydrogen",
   "ta4_electrolyzer",
   "ta4_fuelcell",
@@ -1851,7 +1877,6 @@ techage.manual_EN.aItemName = {
   "ta4_electronicfab",
   "ta4_injector",
   "ta4_recycler",
-  "ta4_laser",
 }
 
 techage.manual_EN.aPlanTable = {
@@ -2005,6 +2030,10 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
+  "",
+  "",
+  "",
+  "",
   "ta4_reactor",
   "",
   "",
@@ -2035,7 +2064,6 @@ techage.manual_EN.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
-  "",
   "",
   "",
   "",

@@ -147,6 +147,10 @@ techage.manual_DE.aTitel = {
   "3,TA4 Generator",
   "3,TA4 Rohrzulauf / TA4 Pipe Inlet",
   "3,TA4 Röhre / Pipe",
+  "2,Stromverteilung",
+  "3,TA4 Trenntransformator / TA4 Isolation Transformer",
+  "3,TA4 Stromzähler / TA4 Electric Meter",
+  "3,TA4 Laser",
   "2,Wasserstoff",
   "3,Elektrolyseur",
   "3,Brennstoffzelle",
@@ -198,7 +202,6 @@ techage.manual_DE.aTitel = {
   "3,TA4 Elektronikfabrik / Electronic Fab",
   "3,TA4 Injektor / Injector",
   "3,TA4 Recycler",
-  "3,TA4 Laser",
 }
 
 techage.manual_DE.aText = {
@@ -1258,9 +1261,9 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der Generator dient zur Stromerzeugung. Daher muss auch der Generator am Stromnetz angeschlossen werden. \n"..
+  "Der Generator  ist Teil des Energiespeichers. Er dient zur Stromerzeugung und gibt damt die Energie des Energiespeichers wieder ab. Daher muss auch der Generator am Stromnetz angeschlossen werden. \n"..
   "\n"..
-  "Der Generator kann 60 ku abgeben.\n"..
+  "Wichtig: Wärmetauscher und Generator müssen mit ein und demselben Stromnetz verbunden sein!\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1272,6 +1275,34 @@ techage.manual_DE.aText = {
   "\n",
   "Die gelben Röhren dienen bei TA4 zur Weiterleitung von Gas und Flüssigkeiten. \n"..
   "Die maximale Leitungslänge beträgt 100 m.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Mit Hilfe von Stromkabeln und Verteilerdosen können Stromnetze von bis zu 1000 Blöcke/Knoten aufgebaut werden. Hierbei ist aber zu beachten\\, dass Verteilerdosen auch mitgezählt werden müssen. Somit können bis zu 500 Generatoren/Speichersysteme/Maschinen/Lampen an einem Stromnetz hängen.\n"..
+  "\n"..
+  "Mit Hilfe von Trenntransformator und Stromzähler können Netzwerke zu noch größeren Strukturen verbunden werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Mit Hilfe eines Trenntransformators können zwei Stromnetze zu einem größeren Netzwerk verbunden werden. Der Trenntransformator kann Strom in beide Richtungen übertragen.\n"..
+  "\n"..
+  "Der Trenntransformator kann bis zu 100 ku übertragen.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Mit Hilfe eines Stromzählers können zwei Stromnetze zu einem größeren Netzwerk verbunden werden. Der Stromzähler leitet  den Strom nur in eine  Richtungen weiter (Pfeil beachten). Die Menge an Strom (in kud) wird gemessen und angezeigt. Die Strommenge kann auch über das Kommando 'consumption' durch einen Lua Controller abgefragt werden.\n"..
+  "\n"..
+  "Der Stromzähler kann bis zu 200 ku durchleiten.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der TA4 Laser dient zur kabellosen Stromübertagung. Dazu sind zwei Blöcke notwendig: TA4 Laserstrahl Sender und TA4 Laserstrahl Empfänger. Zwischen beiden Blöcken muss sich eine Luftstrecke befinden\\, so dass der Laserstrahl vom Sender bis zum Empfänger aufgebaut werden kann.\n"..
+  "\n"..
+  "Zuerst muss der Sender platziert werden. Dieser schaltet sofort den Laserstahls ein und zeigt damit mögliche Positionen des Empfängers an. Mögliche Positionen für den Empfänger werden auch über eine Chat-Nachricht ausgegeben. Mit dem Laser lassen sich Strecken bis 96 Blöcke überbrücken.\n"..
+  "\n"..
+  "Ist die Verbindung aufgebaut (es muss dazu noch kein Strom fließen)\\, wird dies über den Info-Text des Senders und auch des Empfängers angezeigt.\n"..
+  "\n"..
+  "Die Laserblöcke selbst benötigen keinen Strom.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1639,16 +1670,6 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der TA4 Laser dient zur kabellosen Stromübertagung. Dazu sind zwei Blöcke notwendig: TA4 Laserstrahl Sender und TA4 Laserstrahl Empfänger. Zwischen beiden Blöcken muss sich eine Luftstrecke befinden\\, so dass der Laserstrahl vom Sender bis zum Empfänger aufgebaut werden kann.\n"..
-  "\n"..
-  "Zuerst muss der Sender platziert werden. Dieser schaltet sofort den Laserstahls ein und zeigt damit mögliche Positionen des Empfängers an. Mögliche Positionen für den Empfänger werden auch über eine Chat-Nachricht ausgegeben. Mit dem Laser lassen sich Strecken bis 96 Blöcke überbrücken.\n"..
-  "\n"..
-  "Ist die Verbindung aufgebaut (es muss dazu noch kein Strom fließen)\\, wird dies über den Info-Text des Senders und auch des Empfängers angezeigt.\n"..
-  "\n"..
-  "Die Laserblöcke selbst benötigen keinen Strom.\n"..
-  "\n"..
-  "t\n"..
-  "\n",
 }
 
 techage.manual_DE.aItemName = {
@@ -1798,6 +1819,10 @@ techage.manual_DE.aItemName = {
   "ta4_generator",
   "ta4_pipeinlet",
   "ta4_pipe",
+  "ta4_transformer",
+  "ta4_transformer",
+  "ta4_electricmeter",
+  "ta4_laser",
   "ta4_hydrogen",
   "ta4_electrolyzer",
   "ta4_fuelcell",
@@ -1849,7 +1874,6 @@ techage.manual_DE.aItemName = {
   "ta4_electronicfab",
   "ta4_injector",
   "ta4_recycler",
-  "ta4_laser",
 }
 
 techage.manual_DE.aPlanTable = {
@@ -2002,6 +2026,10 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
+  "",
+  "",
+  "",
   "ta4_reactor",
   "",
   "",
@@ -2032,7 +2060,6 @@ techage.manual_DE.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
-  "",
   "",
   "",
   "",
