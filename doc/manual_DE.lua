@@ -3,6 +3,8 @@ techage.manual_DE = {}
 techage.manual_DE.aTitel = {
   "1,Tech Age Mod",
   "2,Hinweise",
+  "2,Änderungen ab Version 1.0",
+  "3,Tipps zur Umstellung",
   "2,Erze und Mineralien",
   "3,Meridium",
   "3,Usmium",
@@ -236,6 +238,21 @@ techage.manual_DE.aText = {
   "Ab TA3 laufen die Maschinen mit Strom und besitzen eine Kommunikationsschnittstelle zur Fernsteuerung.\n"..
   "\n"..
   "Mit TA4 kommen weitere Stromquellen dazu\\, aber auch höhere logistische Herausforderungen (Stromtrassen\\, Item Transport).\n"..
+  "\n",
+  "Ab V1.0 (17.07.2021) hat sich folgendes geändert:\n"..
+  "\n"..
+  "  - Der Algorithmus zur Berechnung der Stromverteilung hat sich geändert. Energiespeichersystem werden dadurch wichtiger. Diese gleichen Schankungen aus\\, was bei größeren Netzen mit mehreren Generatoren wichtig wird.\n"..
+  "  - Aus diesem Grund hat TA2 seinen eigenen Energiespeicher erhalten.\n"..
+  "  - Die Akkublöcke aus TA3 dienen auch als Energiespeicher. Ihre Funktionsweise wurde entsprechend angepasst.\n"..
+  "  - Das TA4 Speichersystem wurde überarbeitet. Die Wärmetauscher (heatexchanger) haben eine neue Nummer bekommen\\,  da die Funktionalität vom unteren in den mittleren Block verschoben  wurde. Sofern diese ferngesteuert wurden\\, muss die Knotennummer angepasst  werden. Die Generatoren haben kein eigenes Menü mehr\\, sondern werden nur noch über den Wärmetauscher ein-/ausgeschaltet.  Wärmetauscher und Generator müssen jetzt am gleichen Netz hängen!\n"..
+  "  - Mehrere Stromnetze können jetzt über einen Transformator Blöcke gekoppelt werden.\n"..
+  "  - Neu ist auch ein Stromzähler Block für Unternetze.\n"..
+  "\n",
+  "Viele weitere Blöcke haben kleinere Änderungen bekommen. Daher kann es sein\\, dass Maschinen oder Anlagen nach der Umstellung  nicht gleich wieder anlaufen. Sollte es zu Störungen kommen\\, helfen folgende Tipps:\n"..
+  "\n"..
+  "  - Maschinen aus- und wieder eingeschalten\n"..
+  "  - ein Stromkabel-Block entfernen und wieder setzen\n"..
+  "  - den Block ganz entfernen und wieder setzen\n"..
   "\n",
   "Techage fügt dem Spiel einige neue Items hinzu:\n"..
   "\n"..
@@ -1676,6 +1693,8 @@ techage.manual_DE.aItemName = {
   "techage_ta4",
   "",
   "",
+  "",
+  "",
   "meridium",
   "usmium",
   "baborium",
@@ -1877,6 +1896,8 @@ techage.manual_DE.aItemName = {
 }
 
 techage.manual_DE.aPlanTable = {
+  "",
+  "",
   "",
   "",
   "",

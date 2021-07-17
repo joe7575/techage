@@ -3,6 +3,9 @@ techage.manual_EN = {}
 techage.manual_EN.aTitel = {
   "1,Tech Age Mod",
   "2,Hints",
+  "2,Changes from version 1.0",
+  "2,Changes from version 1.0",
+  "3,Tips on switching",
   "2,Ores and Minerals",
   "3,Meridium",
   "3,Usmium",
@@ -237,6 +240,22 @@ techage.manual_EN.aText = {
   "From TA3\\, the machines run on electricity and have a communication interface for remote control.\n"..
   "\n"..
   "TA4 adds more power sources\\, but also higher logistical challenges (power lines\\, item transport).\n"..
+  "\n",
+  "",
+  "From V1.0 (07/17/2021) the following has changed:\n"..
+  "\n"..
+  "  - The algorithm for calculating the power distribution has changed. This makes energy storage systems more important. These compensate for fluctuations\\, which is important in larger networks with several generators.\n"..
+  "  - For this reason TA2 got its own energy storage.\n"..
+  "  - The battery blocks from TA3 also serve as energy storage. Their functionality has been adapted accordingly.\n"..
+  "  - The TA4 storage system has been revised. The heat heat exchanger have been given a new number because the functionality has been moved from the lower to the middle block. If these were remotely controlled\\, the node number must be adapted. The generators no longer have their own menu\\, but are only switched on / off via the heat exchanger. The heat exchanger and generator must now be connected to the same network!\n"..
+  "  - Several power grids can now be coupled via a transformer blocks.\n"..
+  "  - An electricity meter block for sub-networks is also new.\n"..
+  "\n",
+  "Many more blocks have received minor changes. It is therefore possible that machines or systems do not start up again immediately after the changeover. In the event of malfunctions\\, the following tips will help:\n"..
+  "\n"..
+  "  - Switch machines off and on again\n"..
+  "  - remove a power cable block and put it back in place\n"..
+  "  - remove the block completely and put it back in place\n"..
   "\n",
   "Techage adds some new items to the game:\n"..
   "\n"..
@@ -1678,6 +1697,9 @@ techage.manual_EN.aItemName = {
   "techage_ta4",
   "",
   "",
+  "",
+  "",
+  "",
   "meridium",
   "usmium",
   "baborium",
@@ -1880,6 +1902,9 @@ techage.manual_EN.aItemName = {
 }
 
 techage.manual_EN.aPlanTable = {
+  "",
+  "",
+  "",
   "",
   "",
   "",

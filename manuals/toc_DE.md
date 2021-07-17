@@ -2,6 +2,8 @@
 
 - [Tech Age Mod](./manual_DE.md#tech-age-mod)
     - [Hinweise](./manual_DE.md#hinweise)
+    - [Änderungen ab Version 1.0](./manual_DE.md#änderungen-ab-version-1.0)
+        - [Tipps zur Umstellung](./manual_DE.md#tipps-zur-umstellung)
     - [Erze und Mineralien](./manual_DE.md#erze-und-mineralien)
         - [Meridium](./manual_DE.md#meridium)
         - [Usmium](./manual_DE.md#usmium)

@@ -2,6 +2,9 @@
 
 - [Tech Age Mod](./manual_EN.md#tech-age-mod)
     - [Hints](./manual_EN.md#hints)
+    - [Changes from version 1.0](./manual_EN.md#changes-from-version-1.0)
+    - [Changes from version 1.0](./manual_EN.md#changes-from-version-1.0)
+        - [Tips on switching](./manual_EN.md#tips-on-switching)
     - [Ores and Minerals](./manual_EN.md#ores-and-minerals)
         - [Meridium](./manual_EN.md#meridium)
         - [Usmium](./manual_EN.md#usmium)
