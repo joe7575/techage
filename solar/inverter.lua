@@ -107,7 +107,7 @@ end
 local State = techage.NodeStates:new({
 	node_name_passive = "techage:ta4_solar_inverter",
 	cycle_time = CYCLE_TIME,
-	standby_ticks = 0,
+	standby_ticks = 2,
 	formspec_func = formspec,
 	infotext_name = S("TA4 Solar Inverter"),
 	can_start = can_start,

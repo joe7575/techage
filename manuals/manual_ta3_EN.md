@@ -93,6 +93,27 @@ In TA4 there is also a cable for the solar system.
 [ta3_powerswitch|image]
 
 
+### Importance of storage systems 
+
+Storage systems in the power grid fulfill two tasks:
+
+- To cope with peaks in demand: All generators always deliver just as much power as is needed. However, if consumers are switched on/off or there are fluctuations in demand for other reasons, consumers can fail for a short time. To prevent this, there should always be at least one battery block in every network. This serves as a buffer and compensates for these fluctuations in the seconds range.
+- To store regenerative energy: Solar and wind are not available 24 hours a day. So that the power supply does not fail when no electricity is produced, one or more storage systems must be installed in the network. Alternatively, the gaps can also be bridged with oil/coal electricity. 
+
+A storage system indicates its capacity in kud, i.e. ku per day. For example, a storage system with 100 kud delivers 100 ku for one game day, or 10 ku for 10 game days.
+
+All TA3/TA4 energy sources have adjustable charging characteristics. By default this is set to "80% - 100%". This means that when the storage system is 80% full, the output is reduced further and further until it switches off completely at 100%. If electricity is required in the network, 100% will never be reached, since the power of the generator has at some point dropped to the electricity demand in the network and the storage system is no longer charged, but only the consumers are served.
+
+This has several advantages:
+
+- The charging characteristics are adjustable. This means, for example, that oil/coal energy sources can be reduced at 60% and regenerative energy sources only at 80%. This means that oil/coal is only burned if there are not enough renewable energy sources available.
+- Several energy sources can be operated in parallel and are loaded almost evenly, because all energy sources work, for example, up to 80% of the storage system's charging capacity at their full capacity and then reduce their capacity at the same time.
+- All storage systems in a network form a large buffer. The charging capacity and the filling level of the entire storage system can always be read in percent on every storage system, but also on the electricity terminal.
+
+[power_reduction|image] 
+
+
+
 ### TA Electric Cable
 
 For local wiring in the floor or in buildings.

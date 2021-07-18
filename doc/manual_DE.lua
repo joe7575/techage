@@ -60,6 +60,7 @@ techage.manual_DE.aTitel = {
   "3,TA3 Generator",
   "3,TA3 Kühler / Cooler",
   "2,Elektrischer Strom",
+  "3,Bedeutung von Speichersystemen",
   "3,TA Stromkabel / Electric Cable",
   "3,TA Verteilerdose / Electric Junction Box",
   "3,TA Stromleitung / Power Line",
@@ -245,14 +246,15 @@ techage.manual_DE.aText = {
   "  - Aus diesem Grund hat TA2 seinen eigenen Energiespeicher erhalten.\n"..
   "  - Die Akkublöcke aus TA3 dienen auch als Energiespeicher. Ihre Funktionsweise wurde entsprechend angepasst.\n"..
   "  - Das TA4 Speichersystem wurde überarbeitet. Die Wärmetauscher (heatexchanger) haben eine neue Nummer bekommen\\,  da die Funktionalität vom unteren in den mittleren Block verschoben  wurde. Sofern diese ferngesteuert wurden\\, muss die Knotennummer angepasst  werden. Die Generatoren haben kein eigenes Menü mehr\\, sondern werden nur noch über den Wärmetauscher ein-/ausgeschaltet.  Wärmetauscher und Generator müssen jetzt am gleichen Netz hängen!\n"..
-  "  - Mehrere Stromnetze können jetzt über einen Transformator Blöcke gekoppelt werden.\n"..
-  "  - Neu ist auch ein Stromzähler Block für Unternetze.\n"..
+  "  - Mehrere Stromnetze können jetzt über einen TA4 Transformator Blöcke gekoppelt werden.\n"..
+  "  - Neu ist auch ein TA4 Stromzähler Block für Unternetze.\n"..
   "\n",
   "Viele weitere Blöcke haben kleinere Änderungen bekommen. Daher kann es sein\\, dass Maschinen oder Anlagen nach der Umstellung  nicht gleich wieder anlaufen. Sollte es zu Störungen kommen\\, helfen folgende Tipps:\n"..
   "\n"..
   "  - Maschinen aus- und wieder eingeschalten\n"..
   "  - ein Stromkabel-Block entfernen und wieder setzen\n"..
   "  - den Block ganz entfernen und wieder setzen\n"..
+  "  - mindestens ein Akkublock oder Speichersystem in jedes Netzwerk\n"..
   "\n",
   "Techage fügt dem Spiel einige neue Items hinzu:\n"..
   "\n"..
@@ -633,6 +635,23 @@ techage.manual_DE.aText = {
   "In diesem Zusammenhang ist auch wichtig\\, dass die Funktionsweise von Forceload Blöcken verstanden wurde\\, denn bspw. Generatoren liefern nur Strom\\, wenn der entsprechende Map-Block geladen ist. Dies kann mit einen Forceload Block erzwungen werden.\n"..
   "\n"..
   "In TA4 kommt noch ein Kabel für die Solaranlage hinzu.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Speichersysteme im Stromnetz erfüllen zwei Aufgaben:\n"..
+  "\n"..
+  "  - Um Bedarfsspitzen abzufangen: Alle Generatoren liefern immer gerade soviel Leistung\\, wie benötigt wird. Werden aber Verbraucher ein/ausgeschaltet oder kommt es aus anderen Gründen zu Bedarfsschwankungen\\, so können Verbraucher kurzzeitig ausfallen. Um dies zu verhindern\\, sollte immer mindestens ein Akkublock in jedem Netzwerk vorhanden sein. Dieser dient aus Puffer und gleicht diese Schwankungen im Sekundenbereich aus.\n"..
+  "  - Um regenerative Energie zu speichern: Solar und Wind stehen nicht 24 Stunden am Tag zur Verfügung. Damit die Stromversorgung nicht ausfällt\\, wenn kein Strom produziert wird\\, müssen ein oder mehrere Speichersysteme im Netzwerk verbaut werden. Alternativ können die Lücken auch mit Öl/Kohle-Strom überbrückt werden.\n"..
+  "\n"..
+  "Ein Speichersystem gibt seine Kapazität in kud an\\, also ku pro day (Tag). Bspw. ein Speichersystem mit 100 kud liefert 100 ku einen Spieltag lang\\, oder auch 10 ku für 10 Spieltage.\n"..
+  "\n"..
+  "Alle TA3/TA4 Energiequellen besitzen eine einstellbare Ladecharakteristik. Standardmäßig ist diese auf \"80% - 100%\" eingestellt. Dies bedeutet\\, dass die Leistung ab 80% Füllung des Speichersystems immer weiter reduziert wird\\, bis sie bei 100 % komplett abschaltet. Sofern Strom im Netzwerk benötigt wird\\, werden die 100 % nie erreicht\\, da die Leistung des Generators irgendwann auf den Strombedarf im Netzwerk abgesunken ist und damit das Speichersystem nicht mehr geladen\\, sondern nur noch die Verbraucher bedient werden.\n"..
+  "\n"..
+  "Dies hat mehrere Vorteile:\n"..
+  "\n"..
+  "  - Die Ladecharakteristik ist einstellbar. Damit kann man bspw. Öl/Kohle Energiequellen bei 60% und die regenerativen Energiequellen erst bei 80% zurückfahren. Damit wird nur Öl/Kohle verbrannt\\, wenn nicht ausreichend regenerativen Energiequellen zur Verfügung stehen.\n"..
+  "  - Mehrere Energiequellen können parallel betrieben werden und werden dabei nahezu gleichmäßig belastet\\, denn alle Energiequellen arbeiten bspw. bis 80% Ladekapazität des Speichersystems mit ihrer vollen Leistung und fahren dann gleichzeitig ihre Leistung zurück.\n"..
+  "  - Alle Speichersysteme in einem Netzwerk bilden einen großen Puffer. An jedem Speichersystem aber auch am Strom Terminal kann immer die  Ladekapazität und der Füllungsgrad des gesamten Speichersystems in Prozent abgelesen werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1749,6 +1768,7 @@ techage.manual_DE.aItemName = {
   "ta3_generator",
   "ta3_cooler",
   "ta3_powerswitch",
+  "power_reduction",
   "ta3_powercable",
   "ta3_powerjunction",
   "ta3_powerline",
@@ -1948,6 +1968,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "coalpowerstation",
+  "",
   "",
   "",
   "",

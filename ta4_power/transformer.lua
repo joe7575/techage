@@ -56,6 +56,7 @@ end
 
 local State = techage.NodeStates:new({
 	node_name_passive = "techage:ta4_transformer",
+	infotext_name = S("TA4 Isolation Transformer"),
 	cycle_time = CYCLE_TIME,
 	standby_ticks = 0,
 	formspec_func = formspec,

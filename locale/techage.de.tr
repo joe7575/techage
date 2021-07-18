@@ -734,7 +734,7 @@ Consumer=Verbraucher
 Network Data=Netzwerkdaten
 Number of consumers:=Anzahl der Verbraucher
 Number of generators:=Anzahl der Generatoren
-Number of network nodes:=Anzahl von Netzwekblöcken
+Number of network nodes:=Anzahl von Netzwerkblöcken
 Number of storage systems:=Anzahl der Speichersysteme
 TA3 Power Terminal=TA3 Strom Terminal
 
@@ -1065,7 +1065,7 @@ Usmium Powder=Usmium Pulver
 ### valve.lua ###
 
 TA Valve=TA Ventil
-TA3 Valve=
+TA3 Valve=TA3 Ventil
 
 ### waterinlet.lua ###
 

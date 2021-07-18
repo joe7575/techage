@@ -46,8 +46,8 @@ Ab V1.0 (17.07.2021) hat sich folgendes geändert:
 - Aus diesem Grund hat TA2 seinen eigenen Energiespeicher erhalten.
 - Die Akkublöcke aus TA3 dienen auch als Energiespeicher. Ihre Funktionsweise wurde entsprechend angepasst.
 - Das TA4 Speichersystem wurde überarbeitet. Die Wärmetauscher (heatexchanger) haben eine neue Nummer bekommen,  da die Funktionalität vom unteren in den mittleren Block verschoben  wurde. Sofern diese ferngesteuert wurden, muss die Knotennummer angepasst  werden. Die Generatoren haben kein eigenes Menü mehr, sondern werden nur noch über den Wärmetauscher ein-/ausgeschaltet.  Wärmetauscher und Generator müssen jetzt am gleichen Netz hängen!
-- Mehrere Stromnetze können jetzt über einen Transformator Blöcke gekoppelt werden.
-- Neu ist auch ein Stromzähler Block für Unternetze.
+- Mehrere Stromnetze können jetzt über einen TA4 Transformator Blöcke gekoppelt werden.
+- Neu ist auch ein TA4 Stromzähler Block für Unternetze.
 
 ### Tipps zur Umstellung
 
@@ -56,6 +56,7 @@ Viele weitere Blöcke haben kleinere Änderungen bekommen. Daher kann es sein, d
 - Maschinen aus- und wieder eingeschalten
 - ein Stromkabel-Block entfernen und wieder setzen
 - den Block ganz entfernen und wieder setzen
+- mindestens ein Akkublock oder Speichersystem in jedes Netzwerk
 
 
 

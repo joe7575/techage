@@ -50,7 +50,6 @@ local Cable = tubelib2.Tube:new({
 -- Enable hidden cables
 networks.use_metadata(Cable)
 networks.register_hidden_message("Use the trowel tool to remove the node.")
-networks.register_filling_items(techage.FILLING_ITEMS)
 
 -- Use global callback instead of node related functions
 Cable:register_on_tube_update2(function(pos, outdir, tlib2, node)

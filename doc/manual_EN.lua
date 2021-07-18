@@ -4,7 +4,6 @@ techage.manual_EN.aTitel = {
   "1,Tech Age Mod",
   "2,Hints",
   "2,Changes from version 1.0",
-  "2,Changes from version 1.0",
   "3,Tips on switching",
   "2,Ores and Minerals",
   "3,Meridium",
@@ -62,6 +61,7 @@ techage.manual_EN.aTitel = {
   "3,TA3 generator",
   "3,TA3 cooler",
   "2,Electrical current",
+  "3,Importance of storage systems",
   "3,TA Electric Cable",
   "3,TA Electric Junction Box",
   "3,TA Power Line",
@@ -241,15 +241,15 @@ techage.manual_EN.aText = {
   "\n"..
   "TA4 adds more power sources\\, but also higher logistical challenges (power lines\\, item transport).\n"..
   "\n",
-  "",
   "From V1.0 (07/17/2021) the following has changed:\n"..
   "\n"..
   "  - The algorithm for calculating the power distribution has changed. This makes energy storage systems more important. These compensate for fluctuations\\, which is important in larger networks with several generators.\n"..
   "  - For this reason TA2 got its own energy storage.\n"..
   "  - The battery blocks from TA3 also serve as energy storage. Their functionality has been adapted accordingly.\n"..
   "  - The TA4 storage system has been revised. The heat heat exchanger have been given a new number because the functionality has been moved from the lower to the middle block. If these were remotely controlled\\, the node number must be adapted. The generators no longer have their own menu\\, but are only switched on / off via the heat exchanger. The heat exchanger and generator must now be connected to the same network!\n"..
-  "  - Several power grids can now be coupled via a transformer blocks.\n"..
-  "  - An electricity meter block for sub-networks is also new.\n"..
+  "  - Several power grids can now be coupled via a TA4 transformer blocks.\n"..
+  "  - A TA4 electricity meter block for sub-networks is also new.\n"..
+  "  - At least one battery block or a storage system in each network\n"..
   "\n",
   "Many more blocks have received minor changes. It is therefore possible that machines or systems do not start up again immediately after the changeover. In the event of malfunctions\\, the following tips will help:\n"..
   "\n"..
@@ -644,6 +644,23 @@ techage.manual_EN.aText = {
   "In TA4 there is also a cable for the solar system.\n"..
   "\n"..
   "\n"..
+  "\n",
+  "Storage systems in the power grid fulfill two tasks:\n"..
+  "\n"..
+  "  - To cope with peaks in demand: All generators always deliver just as much power as is needed. However\\, if consumers are switched on/off or there are fluctuations in demand for other reasons\\, consumers can fail for a short time. To prevent this\\, there should always be at least one battery block in every network. This serves as a buffer and compensates for these fluctuations in the seconds range.\n"..
+  "  - To store regenerative energy: Solar and wind are not available 24 hours a day. So that the power supply does not fail when no electricity is produced\\, one or more storage systems must be installed in the network. Alternatively\\, the gaps can also be bridged with oil/coal electricity.\n"..
+  "\n"..
+  "A storage system indicates its capacity in kud\\, i.e. ku per day. For example\\, a storage system with 100 kud delivers 100 ku for one game day\\, or 10 ku for 10 game days.\n"..
+  "\n"..
+  "All TA3/TA4 energy sources have adjustable charging characteristics. By default this is set to \"80% - 100%\". This means that when the storage system is 80% full\\, the output is reduced further and further until it switches off completely at 100%. If electricity is required in the network\\, 100% will never be reached\\, since the power of the generator has at some point dropped to the electricity demand in the network and the storage system is no longer charged\\, but only the consumers are served.\n"..
+  "\n"..
+  "This has several advantages:\n"..
+  "\n"..
+  "  - The charging characteristics are adjustable. This means\\, for example\\, that oil/coal energy sources can be reduced at 60% and regenerative energy sources only at 80%. This means that oil/coal is only burned if there are not enough renewable energy sources available.\n"..
+  "  - Several energy sources can be operated in parallel and are loaded almost evenly\\, because all energy sources work\\, for example\\, up to 80% of the storage system's charging capacity at their full capacity and then reduce their capacity at the same time.\n"..
+  "  - All storage systems in a network form a large buffer. The charging capacity and the filling level of the entire storage system can always be read in percent on every storage system\\, but also on the electricity terminal.\n"..
+  "\n"..
+  " \n"..
   "\n",
   "For local wiring in the floor or in buildings.\n"..
   "Branches can be realized using junction boxes. The maximum cable length between machines or junction boxes is 1000 m. A maximum of 1000 nodes can be connected in a power network. All blocks with power connection\\, including junction boxes\\, count as nodes.\n"..
@@ -1699,7 +1716,6 @@ techage.manual_EN.aItemName = {
   "",
   "",
   "",
-  "",
   "meridium",
   "usmium",
   "baborium",
@@ -1755,6 +1771,7 @@ techage.manual_EN.aItemName = {
   "ta3_generator",
   "ta3_cooler",
   "ta3_powerswitch",
+  "power_reduction",
   "ta3_powercable",
   "ta3_powerjunction",
   "ta3_powerline",
@@ -1915,7 +1932,6 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
-  "",
   "coalpile",
   "coalburner",
   "",
@@ -1956,6 +1972,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "coalpowerstation",
+  "",
   "",
   "",
   "",

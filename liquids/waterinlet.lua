@@ -17,7 +17,7 @@ local M = minetest.get_meta
 local S = techage.S
 
 local Pipe = techage.LiquidPipe
-local liquid = techage.liquid
+local liquid = networks.liquid
 
 local function is_ocean(pos)
 	if pos.y > 1 then 
@@ -33,36 +33,34 @@ local function is_ocean(pos)
 		M(pos):set_string("infotext", S("Error: No natural water!"))
 		return false
 	end
+	M(pos):set_string("infotext", S("Operational"))
 	return true
 end
 
-local function srv_peek(pos)
-	local nvm = techage.get_nvm(pos)
+local function peek_liquid(pos)
+	local mem = techage.get_mem(pos)
 	if is_ocean(pos) then
-		nvm.liquid.name = "techage:water"
-		nvm.liquid.amount = 1
+		mem.liquid_name = "techage:water"
+		mem.liquid_amount = 1
 	else
-		nvm.liquid.name = nil
-		nvm.liquid.amount = 0
+		mem.liquid_name = "techage:water"
+		mem.liquid_amount = 0
 	end
-	return nvm.liquid.name
+	return mem.liquid_name
 end
 
 local function take_liquid(pos, indir, name, amount)
-	local nvm = techage.get_nvm(pos)
-	return nvm.liquid.amount, nvm.liquid.name
+	local mem = techage.get_mem(pos)
+	if not mem.liquid_name then
+		peek_liquid(pos)
+	end
+	return mem.liquid_amount or 0, mem.liquid_name
 end
 	
+
 local function untake_liquid(pos, indir, name, amount)
 	return 0
 end
-
-local netw_def = {
-	pipe2 = {
-		sides = {U = 1}, -- Pipe connection sides
-		ntype = "tank",
-	},
-}
 
 minetest.register_node("techage:ta4_waterinlet", {
 	description = S("TA4 Water Inlet"),
@@ -78,29 +76,13 @@ minetest.register_node("techage:ta4_waterinlet", {
 
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
-		local nvm = techage.get_nvm(pos)
-		nvm.liquid = {}
 		Pipe:after_place_node(pos)
-		srv_peek(pos)
+		is_ocean(pos)
 	end,
-	tubelib2_on_update2 = function(pos, outdir, tlib2, node)
-		liquid.update_network(pos, outdir)
-	end,
-	--on_timer = node_timer,
-	--on_punch = liquid.on_punch,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
-	liquid = {
-		capa = 1,
-		peek = liquid.srv_peek,
-		take = take_liquid,
-		untake = untake_liquid, 
-	},
-	networks = netw_def,
-	--on_rightclick = on_rightclick,
-	--can_dig = can_dig,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},
@@ -108,7 +90,14 @@ minetest.register_node("techage:ta4_waterinlet", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
-Pipe:add_secondary_node_names({"techage:ta4_waterinlet"})
+liquid.register_nodes({"techage:ta4_waterinlet"},
+	Pipe, "tank", {"U"}, {
+		capa = 1,
+		peek = peek_liquid,
+		take = take_liquid,
+		untake = untake_liquid,
+	}
+)
 
 minetest.register_craft({
 	output = "techage:ta4_waterinlet",

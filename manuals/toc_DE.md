@@ -59,6 +59,7 @@
         - [TA3 Generator](./manual_ta3_DE.md#ta3-generator)
         - [TA3 Kühler / Cooler](./manual_ta3_DE.md#ta3-kühler--cooler)
     - [Elektrischer Strom](./manual_ta3_DE.md#elektrischer-strom)
+        - [Bedeutung von Speichersystemen](./manual_ta3_DE.md#bedeutung-von-speichersystemen)
         - [TA Stromkabel / Electric Cable](./manual_ta3_DE.md#ta-stromkabel--electric-cable)
         - [TA Verteilerdose / Electric Junction Box](./manual_ta3_DE.md#ta-verteilerdose--electric-junction-box)
         - [TA Stromleitung / Power Line](./manual_ta3_DE.md#ta-stromleitung--power-line)

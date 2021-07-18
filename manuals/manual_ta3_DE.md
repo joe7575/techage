@@ -89,8 +89,28 @@ In diesem Zusammenhang ist auch wichtig, dass die Funktionsweise von Forceload B
 
 In TA4 kommt noch ein Kabel für die Solaranlage hinzu.
 
-
 [ta3_powerswitch|image]
+
+### Bedeutung von Speichersystemen
+
+Speichersysteme im Stromnetz erfüllen zwei Aufgaben:
+
+- Um Bedarfsspitzen abzufangen: Alle Generatoren liefern immer gerade soviel Leistung, wie benötigt wird. Werden aber Verbraucher ein/ausgeschaltet oder kommt es aus anderen Gründen zu Bedarfsschwankungen, so können Verbraucher kurzzeitig ausfallen. Um dies zu verhindern, sollte immer mindestens ein Akkublock in jedem Netzwerk vorhanden sein. Dieser dient aus Puffer und gleicht diese Schwankungen im Sekundenbereich aus.
+- Um regenerative Energie zu speichern: Solar und Wind stehen nicht 24 Stunden am Tag zur Verfügung. Damit die Stromversorgung nicht ausfällt, wenn kein Strom produziert wird, müssen ein oder mehrere Speichersysteme im Netzwerk verbaut werden. Alternativ können die Lücken auch mit Öl/Kohle-Strom überbrückt werden. 
+
+Ein Speichersystem gibt seine Kapazität in kud an, also ku pro day (Tag). Bspw. ein Speichersystem mit 100 kud liefert 100 ku einen Spieltag lang, oder auch 10 ku für 10 Spieltage.
+
+Alle TA3/TA4 Energiequellen besitzen eine einstellbare Ladecharakteristik. Standardmäßig ist diese auf "80% - 100%" eingestellt. Dies bedeutet, dass die Leistung ab 80% Füllung des Speichersystems immer weiter reduziert wird, bis sie bei 100 % komplett abschaltet. Sofern Strom im Netzwerk benötigt wird, werden die 100 % nie erreicht, da die Leistung des Generators irgendwann auf den Strombedarf im Netzwerk abgesunken ist und damit das Speichersystem nicht mehr geladen, sondern nur noch die Verbraucher bedient werden.
+
+Dies hat mehrere Vorteile:
+
+- Die Ladecharakteristik ist einstellbar. Damit kann man bspw. Öl/Kohle Energiequellen bei 60% und die regenerativen Energiequellen erst bei 80% zurückfahren. Damit wird nur Öl/Kohle verbrannt, wenn nicht ausreichend regenerativen Energiequellen zur Verfügung stehen.
+- Mehrere Energiequellen können parallel betrieben werden und werden dabei nahezu gleichmäßig belastet, denn alle Energiequellen arbeiten bspw. bis 80% Ladekapazität des Speichersystems mit ihrer vollen Leistung und fahren dann gleichzeitig ihre Leistung zurück.
+- Alle Speichersysteme in einem Netzwerk bilden einen großen Puffer. An jedem Speichersystem aber auch am Strom Terminal kann immer die  Ladekapazität und der Füllungsgrad des gesamten Speichersystems in Prozent abgelesen werden. 
+
+[power_reduction|image]
+
+
 
 
 ### TA Stromkabel / Electric Cable

@@ -31,11 +31,11 @@ Copyright (C) 2019-2021 Joachim Stolberg
 Code: Licensed under the GNU AGPL version 3 or later. See LICENSE.txt  
 Textures: CC BY-SA 3.0
 
-Many thanks to Thomas-S for his contributions
+Many thanks to Thomas-S and others for their contributions
 
 
 ### Dependencies  
-Required: default, doors, bucket, stairs, screwdriver, basic_materials, tubelib2, minecart, lcdlib, safer_lua  
+Required: default, doors, bucket, stairs, screwdriver, basic_materials, tubelib2, networks, minecart, lcdlib, safer_lua  
 Recommended: signs_bot, hyperloop, compost, techpack_stairway, autobahn  
 Optional: unified_inventory, wielded_light, unifieddyes, lua-mashal, lsqlite3, moreores, ethereal, mesecon
 
@@ -46,6 +46,7 @@ The mods `default`, `doors`, `bucket`, `stairs`, and `screwdriver` are part of M
 
 The following mods in the newest version have to be downloaded directly from GitHub:
 * [tubelib2](https://github.com/joe7575/tubelib2)
+* [networks](https://github.com/joe7575/networks)
 * [minecart](https://github.com/joe7575/minecart)
 * [lcdlib](https://github.com/joe7575/lcdlib)
 * [safer_lua](https://github.com/joe7575/safer_lua)
@@ -76,6 +77,15 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 
 ### History
+
+**2021-07-18  V1.00**
+- Change the way, power distribution works
+- Add TA2 storage system
+- Add TA4 Isolation Transformer 
+- Add TA4 Electric Meter
+- Add new power terminal
+- Many improvements on power producing/consuming nodes
+- See Construction Board for some hints on moving to v1
 
 **2021-05-14  V0.25**
 - Add concentrator tubes

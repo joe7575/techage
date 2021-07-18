@@ -79,7 +79,7 @@ local function formspec(self, pos, nvm)
 end
 
 local function add_rotor(pos, nvm, force)
-	if (force and not nvm.err) or check_rotor(pos, nvm) then
+	if (force and not nvm.error) or check_rotor(pos, nvm) then
 		local hash = minetest.hash_node_position(pos)
 		if not Rotors[hash] then
 			local node = minetest.get_node(pos)
