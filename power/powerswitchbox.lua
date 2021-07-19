@@ -77,11 +77,13 @@ minetest.register_node("techage:powerswitch_box_on", {
 	end,
 	on_rightclick = function(pos, node, clicker)
 		techage.legacy_switches(pos)
-		if power.turn_switch_off(pos, Cable, "techage:powerswitch_box_off", "techage:powerswitch_box_on") then
-			minetest.sound_play("doors_glass_door_open", {
-				pos = pos, 
-				gain = 1,
-				max_hear_distance = 5})
+		if M(pos):get_int("switch_sign_in") ~= 1 then
+			if power.turn_switch_off(pos, Cable, "techage:powerswitch_box_off", "techage:powerswitch_box_on") then
+				minetest.sound_play("doors_glass_door_open", {
+					pos = pos, 
+					gain = 1,
+					max_hear_distance = 5})
+			end
 		end
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
@@ -112,11 +114,13 @@ minetest.register_node("techage:powerswitch_box_off", {
 	},
 	on_rightclick = function(pos, node, clicker)
 		techage.legacy_switches(pos)
-		if power.turn_switch_on(pos, Cable, "techage:powerswitch_box_off", "techage:powerswitch_box_on") then
-			minetest.sound_play("doors_glass_door_open", {
-				pos = pos, 
-				gain = 1,
-				max_hear_distance = 5})
+		if M(pos):get_int("switch_sign_in") ~= 1 then
+			if power.turn_switch_on(pos, Cable, "techage:powerswitch_box_off", "techage:powerswitch_box_on") then
+				minetest.sound_play("doors_glass_door_open", {
+					pos = pos, 
+					gain = 1,
+					max_hear_distance = 5})
+			end
 		end
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)

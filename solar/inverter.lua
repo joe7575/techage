@@ -30,7 +30,7 @@ local COUNTDOWN_TICKS = 1
 local function determine_power(pos, nvm)
 	-- determine DC node position
 	local outdir = M(pos):get_int("leftdir")
-	local netw = networks.get_network_table(pos, Solar, outdir) or {}
+	local netw = networks.get_network_table(pos, Solar, outdir, true) or {}
 	local num_inv = #(netw.con or {})
 	local max_power = 0
 	for _, power in ipairs(control.request(pos, Solar, outdir, "junc", "power")) do
@@ -124,7 +124,7 @@ local function node_timer(pos, elapsed)
 		stop_node(pos, nvm, State)
 	elseif not running and has_power then
 		State:start(pos, nvm)
-        	-- start_node() is called implicit
+        -- start_node() is called implicit
 	elseif running then
 		local meta = M(pos)
 		local outdir = meta:get_int("outdir")

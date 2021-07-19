@@ -29,6 +29,18 @@ local Param2ToDir = {
 	[5] = 3,
 }
 
+local function sign_in(pos, node)
+	local dir = Param2ToDir[node.param2]
+	local pos2 = tubelib2.get_pos(pos, dir)
+	M(pos2):set_int("switch_sign_in", 1)
+end
+
+local function sign_off(pos, node)
+	local dir = Param2ToDir[node.param2]
+	local pos2 = tubelib2.get_pos(pos, dir)
+	M(pos2):set_int("switch_sign_in", 0)
+end
+
 local function switch_on(pos, node, clicker, name)
 	if clicker and minetest.is_protected(pos, clicker:get_player_name()) then
 		return
@@ -64,7 +76,6 @@ local function switch_off(pos, node, clicker, name)
 	
 	techage.legacy_switches(pos2)
 	power.turn_switch_off(pos2, Cable, "techage:powerswitch_box_off", "techage:powerswitch_box_on")
-
 end
 
 
@@ -92,12 +103,14 @@ minetest.register_node("techage:powerswitch", {
 		meta:set_string("infotext", S("TA Power Switch").." "..number)
 		local node = minetest.get_node(pos)
 		switch_on(pos, node, placer, "techage:powerswitch_on")
+		sign_in(pos, node)
 	end,
 
 	on_rightclick = function(pos, node, clicker)
 		switch_on(pos, node, clicker, "techage:powerswitch_on")
 	end,
 
+	after_dig_node = sign_off,
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
@@ -129,6 +142,7 @@ minetest.register_node("techage:powerswitch_on", {
 		switch_off(pos, node, clicker, "techage:powerswitch")
 	end,
 
+	after_dig_node = sign_off,
 	drop = "techage:powerswitch",
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
@@ -164,12 +178,14 @@ minetest.register_node("techage:powerswitchsmall", {
 		meta:set_string("infotext", S("TA Power Switch Small").." "..number)
 		local node = minetest.get_node(pos)
 		switch_on(pos, node, placer, "techage:powerswitchsmall_on")
+		sign_in(pos, node)
 	end,
 
 	on_rightclick = function(pos, node, clicker)
 		switch_on(pos, node, clicker, "techage:powerswitchsmall_on")
 	end,
 
+	after_dig_node = sign_off,
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
@@ -201,6 +217,7 @@ minetest.register_node("techage:powerswitchsmall_on", {
 		switch_off(pos, node, clicker, "techage:powerswitchsmall")
 	end,
 
+	after_dig_node = sign_off,
 	drop = "techage:powerswitchsmall",
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",

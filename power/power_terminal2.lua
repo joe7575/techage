@@ -44,7 +44,7 @@ end
 local function formspec1(pos, data)
 	local mem = techage.get_mem(pos)
 	local outdir = M(pos):get_int("outdir")
-	local netw = networks.get_network_table(pos, Cable, outdir) or {}
+	local netw = networks.get_network_table(pos, Cable, outdir, true) or {}
 	data = data or power.get_network_data(pos, Cable, outdir)
 	
 	mem.star = ((mem.star or 0) + 1) % 2
