@@ -122,26 +122,25 @@ end
 function techage.formspec_charging_bar(pos, x, y, label, data)
 	local charging = 0
 	local percent = 50
-	local consumed = 0
-	local available = 0
+	local ypos = 1.6
 	
 	if data then
 		charging = data.provided - data.consumed
-		consumed = round(data.consumed)
-		available = round(data.available)
 		if charging > 0 then
 			percent = 50 + (charging / data.available * 50)
+			ypos = 1.6 - (charging / data.available * 1.2)
 		elseif charging < 0 then
 			percent = 50 + (charging / data.consumed * 50)
+			ypos = 1.6 - (charging / data.consumed * 1.2)
 		end
 	end
+	ypos = in_range(ypos, 0.4, 2.8)
 	
 	return "container[".. x .. "," .. y .. "]" ..
 		"box[0,0;2.3,3.3;#395c74]" ..
 		"label[0.2,0;" .. label .. "]" ..
-		"label[0.7,0.4;" .. available .. " ku]" ..
 		"image[0,0.5;1,3;" .. charging_bar(charging, percent) .. "]" ..
-		"label[0.7,2.8;" .. consumed .. " ku]" ..
+		"label[0.75," .. ypos .. ";" .. round(charging) .. " ku]" ..
 		"container_end[]"
 end
 

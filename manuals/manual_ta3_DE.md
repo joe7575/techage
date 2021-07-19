@@ -95,7 +95,7 @@ In TA4 kommt noch ein Kabel für die Solaranlage hinzu.
 
 Speichersysteme im Stromnetz erfüllen zwei Aufgaben:
 
-- Um Bedarfsspitzen abzufangen: Alle Generatoren liefern immer gerade soviel Leistung, wie benötigt wird. Werden aber Verbraucher ein/ausgeschaltet oder kommt es aus anderen Gründen zu Bedarfsschwankungen, so können Verbraucher kurzzeitig ausfallen. Um dies zu verhindern, sollte immer mindestens ein Akkublock in jedem Netzwerk vorhanden sein. Dieser dient aus Puffer und gleicht diese Schwankungen im Sekundenbereich aus.
+- Um Bedarfsspitzen abzufangen: Alle Generatoren liefern immer gerade soviel Leistung, wie benötigt wird. Werden aber Verbraucher ein/ausgeschaltet oder kommt es aus anderen Gründen zu Bedarfsschwankungen, so können Verbraucher kurzzeitig ausfallen. Um dies zu verhindern, sollte immer mindestens ein Akkublock in jedem Netzwerk vorhanden sein. Dieser dient als Puffer und gleicht diese Schwankungen im Sekundenbereich aus.
 - Um regenerative Energie zu speichern: Solar und Wind stehen nicht 24 Stunden am Tag zur Verfügung. Damit die Stromversorgung nicht ausfällt, wenn kein Strom produziert wird, müssen ein oder mehrere Speichersysteme im Netzwerk verbaut werden. Alternativ können die Lücken auch mit Öl/Kohle-Strom überbrückt werden. 
 
 Ein Speichersystem gibt seine Kapazität in kud an, also ku pro day (Tag). Bspw. ein Speichersystem mit 100 kud liefert 100 ku einen Spieltag lang, oder auch 10 ku für 10 Spieltage.
