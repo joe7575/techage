@@ -85,6 +85,7 @@ end
 
 local function stop_node(pos, nvm, state)
 	nvm.provided = 0
+	nvm.running = nil  -- legacy
 	local outdir = M(pos):get_int("outdir")
 	power.start_storage_calc(pos, Cable, outdir)
 end

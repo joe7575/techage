@@ -213,7 +213,7 @@ function techage.generator_settings(tier, available)
 			},
 			{
 				type = "dropdown",
-				choices = "40% - 60%,60% - 80%,80% - 100%",
+				choices = "0% - 20%,20% - 40%,40% - 60%,60% - 80%,80% - 100%,90% - 100%",
 				name = "termpoint",
 				label = S("Charge termination"),      
 				tooltip = S("Range in which the generator reduces its power"),
@@ -237,7 +237,7 @@ function techage.generator_settings(tier, available)
 			},
 			{
 				type = "dropdown",
-				choices = "40% - 60%,60% - 80%,80% - 100%",
+				choices = "0% - 20%,20% - 40%,40% - 60%,60% - 80%,80% - 100%,90% - 100%",
 				name = "termpoint",
 				label = S("Charge termination"),      
 				tooltip = S("Range in which the generator reduces its power"),
@@ -250,7 +250,13 @@ end
 
 function techage.evaluate_charge_termination(nvm, meta)
 	local termpoint = meta:get_string("termpoint")
-	if termpoint == "40% - 60%" then 
+	if termpoint == "0% - 20%" then 
+		meta:set_string("termpoint1", 0.0)
+		meta:set_string("termpoint2", 0.2)
+	elseif termpoint == "20% - 40%" then 
+		meta:set_string("termpoint1", 0.2)
+		meta:set_string("termpoint2", 0.4)
+	elseif termpoint == "40% - 60%" then 
 		meta:set_string("termpoint1", 0.4)
 		meta:set_string("termpoint2", 0.6)
 	elseif termpoint == "60% - 80%" then 
@@ -258,6 +264,9 @@ function techage.evaluate_charge_termination(nvm, meta)
 		meta:set_string("termpoint2", 0.8)
 	elseif termpoint == "80% - 100%" then 
 		meta:set_string("termpoint1", 0.8)
+		meta:set_string("termpoint2", 1.0)
+	elseif termpoint == "90% - 100%" then 
+		meta:set_string("termpoint1", 0.9)
 		meta:set_string("termpoint2", 1.0)
 	else
 		meta:set_string("termpoint", "80% - 100%")

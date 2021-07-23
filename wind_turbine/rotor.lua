@@ -81,14 +81,15 @@ end
 local function add_rotor(pos, nvm, force)
 	if (force and not nvm.error) or check_rotor(pos, nvm) then
 		local hash = minetest.hash_node_position(pos)
-		if not Rotors[hash] then
-			local node = minetest.get_node(pos)
-			local npos, yaw = pos_and_yaw(pos, node.param2)
-			local obj = minetest.add_entity(npos, "techage:rotor_ent")
-			obj:set_animation({x = 0, y = 119}, 0, 0, true)
-			obj:set_rotation(yaw)
-			Rotors[hash] = obj
+		if Rotors[hash] then
+			Rotors[hash]:remove()
 		end
+		local node = minetest.get_node(pos)
+		local npos, yaw = pos_and_yaw(pos, node.param2)
+		local obj = minetest.add_entity(npos, "techage:rotor_ent")
+		obj:set_animation({x = 0, y = 119}, 0, 0, true)
+		obj:set_rotation(yaw)
+		Rotors[hash] = obj
 	end
 end	
 

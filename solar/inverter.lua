@@ -30,7 +30,7 @@ local COUNTDOWN_TICKS = 1
 local function determine_power(pos, nvm)
 	-- determine DC node position
 	local outdir = M(pos):get_int("leftdir")
-	local netw = networks.get_network_table(pos, Solar, outdir, true) or {}
+	local netw = networks.get_network_table(pos, Solar, outdir) or {}
 	local num_inv = #(netw.con or {})
 	local max_power = 0
 	for _, power in ipairs(control.request(pos, Solar, outdir, "junc", "power")) do
@@ -100,6 +100,7 @@ end
 
 local function stop_node(pos, nvm, state)
 	nvm.provided = 0
+	nvm.running = nil  -- legacy
 	local outdir = M(pos):get_int("outdir")
 	power.start_storage_calc(pos, Cable, outdir)
 end

@@ -84,7 +84,7 @@ local function can_start(pos, nvm)
 	if diameter then
 		nvm.capa_max = PWR_CAPA[tonumber(diameter)] or 0
 		if nvm.capa_max ~= 0 then
-			nvm.capa = math.min(nvm.capa, nvm.capa_max)
+			nvm.capa = math.min(nvm.capa or 0, nvm.capa_max)
 			local owner = M(pos):get_string("owner") or ""
 			return heatexchanger1_cmnd(pos, "volume", owner)
 		else
