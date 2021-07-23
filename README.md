@@ -78,7 +78,7 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
-**2021-07-18  V1.00**
+**2021-07-23  V1.00**
 - Change the way, power distribution works
 - Add TA2 storage system
 - Add TA4 Isolation Transformer 
@@ -87,7 +87,7 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 - Many improvements on power producing/consuming nodes
 - See Construction Board for some hints on moving to v1
 
-**2021-05-14  V0.25**
+**2021-05-14  V0.26**
 - Add concentrator tubes
 - Add ta4 cable wall entry
 - Pull request #57: Distributor improvements (from Thomas-S)
