@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information

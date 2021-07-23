@@ -74,7 +74,7 @@ Since the levels build on each other, all ages have to be run through one after 
 
 ## Power Consumption
 
-| TechAge Machine                | TA2 [ku] | TA3 [ku] | TA4 [ku]  |
+t| TechAge Machine                | TA2 [ku] | TA3 [ku] | TA4 [ku]  |
 | ------------------------------ | -------- | -------- | --------- |
 | Autocrafter                    | 4        | 6        | (9)       |
 | Electronic Fab                 | 8        | 12       | 12        |
@@ -93,9 +93,7 @@ Since the levels build on each other, all ages have to be run through one after 
 | TA4 Reactor                    | -        | -        | 8         |
 | Steam Engine                   | 25       |          |           |
 | Coal Power Station             |          | 80       |           |
-| TA3 Accu Box                   |          | 10       |           |
 | TA3 Tiny Power Generator       |          | 12       |           |
-| TA4 Energy Storage Generator   |          |          | 60        |
 | TA4 Solar Inverter             |          |          | up to 100 |
 | TA4 Wind Turbine               |          |          | 70        |
 

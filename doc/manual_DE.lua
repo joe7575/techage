@@ -3,6 +3,8 @@ techage.manual_DE = {}
 techage.manual_DE.aTitel = {
   "1,Tech Age Mod",
   "2,Hinweise",
+  "2,Änderungen ab Version 1.0",
+  "3,Tipps zur Umstellung",
   "2,Erze und Mineralien",
   "3,Meridium",
   "3,Usmium",
@@ -10,7 +12,6 @@ techage.manual_DE.aTitel = {
   "3,Erdöl",
   "3,Bauxit",
   "3,Basalt",
-  "2,History",
   "1,TA1: Eisenzeitalter",
   "2,Köhler / Coal Pile",
   "2,Kohlebrenner / Coal Burner",
@@ -29,6 +30,9 @@ techage.manual_DE.aTitel = {
   "3,TA2 Dampfleitungen / Steam Pipe",
   "3,TA2 Antriebsachsen / TA2 Drive Axle",
   "3,TA2 Stromgenerator / TA2 Power Generator",
+  "2,TA2 Energiespeicher",
+  "3,TA2 Seilwinde  / TA2 Winch",
+  "3,TA2 Gewichtekiste / TA2 Weight Chest",
   "2,Items schieben und sortieren",
   "3,Röhren / TechAge Tube",
   "3,Röhren Konzentrator / Tube Concentrator",
@@ -56,6 +60,7 @@ techage.manual_DE.aTitel = {
   "3,TA3 Generator",
   "3,TA3 Kühler / Cooler",
   "2,Elektrischer Strom",
+  "3,Bedeutung von Speichersystemen",
   "3,TA Stromkabel / Electric Cable",
   "3,TA Verteilerdose / Electric Junction Box",
   "3,TA Stromleitung / Power Line",
@@ -69,7 +74,6 @@ techage.manual_DE.aTitel = {
   "3,TA3 Akku Block /  Akku Box",
   "3,TA3 Strom Terminal / Power Terminal",
   "3,TA3 Elektromotor / TA3 Electric Motor",
-  "3,TA3 Strom Terminal / Power Terminal",
   "2,TA3 Industrieofen",
   "3,TA3 Ofen-Ölbrenner / Furnace Oil Burner",
   "3,TA3 Ofenoberteil / Furnace Top",
@@ -146,6 +150,10 @@ techage.manual_DE.aTitel = {
   "3,TA4 Generator",
   "3,TA4 Rohrzulauf / TA4 Pipe Inlet",
   "3,TA4 Röhre / Pipe",
+  "2,Stromverteilung",
+  "3,TA4 Trenntransformator / TA4 Isolation Transformer",
+  "3,TA4 Stromzähler / TA4 Electric Meter",
+  "3,TA4 Laser",
   "2,Wasserstoff",
   "3,Elektrolyseur",
   "3,Brennstoffzelle",
@@ -197,7 +205,6 @@ techage.manual_DE.aTitel = {
   "3,TA4 Elektronikfabrik / Electronic Fab",
   "3,TA4 Injektor / Injector",
   "3,TA4 Recycler",
-  "3,TA4 Laser",
 }
 
 techage.manual_DE.aText = {
@@ -233,6 +240,22 @@ techage.manual_DE.aText = {
   "\n"..
   "Mit TA4 kommen weitere Stromquellen dazu\\, aber auch höhere logistische Herausforderungen (Stromtrassen\\, Item Transport).\n"..
   "\n",
+  "Ab V1.0 (17.07.2021) hat sich folgendes geändert:\n"..
+  "\n"..
+  "  - Der Algorithmus zur Berechnung der Stromverteilung hat sich geändert. Energiespeichersystem werden dadurch wichtiger. Diese gleichen Schankungen aus\\, was bei größeren Netzen mit mehreren Generatoren wichtig wird.\n"..
+  "  - Aus diesem Grund hat TA2 seinen eigenen Energiespeicher erhalten.\n"..
+  "  - Die Akkublöcke aus TA3 dienen auch als Energiespeicher. Ihre Funktionsweise wurde entsprechend angepasst.\n"..
+  "  - Das TA4 Speichersystem wurde überarbeitet. Die Wärmetauscher (heatexchanger) haben eine neue Nummer bekommen\\,  da die Funktionalität vom unteren in den mittleren Block verschoben  wurde. Sofern diese ferngesteuert wurden\\, muss die Knotennummer angepasst  werden. Die Generatoren haben kein eigenes Menü mehr\\, sondern werden nur noch über den Wärmetauscher ein-/ausgeschaltet.  Wärmetauscher und Generator müssen jetzt am gleichen Netz hängen!\n"..
+  "  - Mehrere Stromnetze können jetzt über einen TA4 Transformator Blöcke gekoppelt werden.\n"..
+  "  - Neu ist auch ein TA4 Stromzähler Block für Unternetze.\n"..
+  "\n",
+  "Viele weitere Blöcke haben kleinere Änderungen bekommen. Daher kann es sein\\, dass Maschinen oder Anlagen nach der Umstellung  nicht gleich wieder anlaufen. Sollte es zu Störungen kommen\\, helfen folgende Tipps:\n"..
+  "\n"..
+  "  - Maschinen aus- und wieder eingeschalten\n"..
+  "  - ein Stromkabel-Block entfernen und wieder setzen\n"..
+  "  - den Block ganz entfernen und wieder setzen\n"..
+  "  - mindestens ein Akkublock oder Speichersystem in jedes Netzwerk\n"..
+  "\n",
   "Techage fügt dem Spiel einige neue Items hinzu:\n"..
   "\n"..
   "  - Meridium - eine Legierung zur Herstellung von leuchtenden Werkzeugen in TA1\n"..
@@ -264,20 +287,12 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Basalt entsteht nur\\, wenn Lava und Wasser zusammenkommen.\n"..
+  "Basalt entsteht nur\\, wenn Lava und Wasser zusammen kommen.\n"..
   "Dazu sollte man am besten eine Anlage aufbauen\\, bei der eine Lava- und eine Wasserquelle zusammenfließen.\n"..
   "Dort wo sich beide Flüssigkeiten treffen\\, entsteht Basalt.\n"..
   "Einen automatisierten Basalt Generator kann man mit dem Sign Bot aufbauen.\n"..
   "\n"..
   "\n"..
-  "\n",
-  "  - 28.09.2019: Um Solaranlage erweitert\n"..
-  "  - 05.10.2019: Daten zur Solaranlage und Beschreibung zum Wechselrichter und zum Power-Terminal geändert\n"..
-  "  - 18.11.2019: Kapitel für Erze\\, Reaktor\\, Aluminium\\, Silo\\, Bauxit\\, Ofenheizung\\, Kieswaschanlage hinzugefügt\n"..
-  "  - 22.02.2020: Korrekturen und Kapitel zum Update\n"..
-  "  - 29.02.2020: ICTA Controller hinzugefügt und weitere Korrekturen\n"..
-  "  - 14.03.2020 Lua Controller hinzugefügt und weitere Korrekturen\n"..
-  "  - 22.03.2020 Weitere TA4 Blöcke hinzugefügt\n"..
   "\n",
   "In TA1 geht es darum\\, mit einfachen Werkzeugen und Gerätschaften ausreichend Erze zu schürfen und Holzkohle herzustellen\\, so dass damit TA2 Maschinen hergestellt und betrieben werden können.\n"..
   "\n"..
@@ -377,7 +392,7 @@ techage.manual_DE.aText = {
   "Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.\n"..
   "Wenn das Wasser heiß ist (Temperaturanzeige ganz oben)\\, kann die Dampfmaschine am Schwungrad gestartet werden.\n"..
   "\n"..
-  "Die Dampfmaschine leistet 25 ku\\, kann damit mehrere Maschinen gleichzeitig antreiben.\n"..
+  "Die Dampfmaschine leistet 25 ku und kann damit mehrere Maschinen gleichzeitig antreiben.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -403,7 +418,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Die Antriebsachsen dienen zur Kraftübertragung von der Dampfmaschine zu anderen Maschinen. Die maximale Länge einer Antriebsachse beträgt 8 Blöcke. Über Getriebeboxen können auch größere Strecken überbrückt\\, sowie Abzweigungen und Richtungswechsel realisiert werden.\n"..
+  "Die Antriebsachsen dienen zur Kraftübertragung von der Dampfmaschine zu anderen Maschinen. Die maximale Länge einer Antriebsachse beträgt 10 Blöcke. Über Getriebeboxen können auch größere Strecken überbrückt\\, sowie Abzweigungen und Richtungswechsel realisiert werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -412,6 +427,22 @@ techage.manual_DE.aText = {
   "Wird der Stromgenerator nicht mit ausreichend Kraft versorgt\\, geht er in einen Fehlerzustand und muss über einen Rechtsklick wieder aktiviert werden.\n"..
   "\n"..
   "Das Stromgenerator nimmt primär max. 25 ku an Achsenkraft auf und gibt sekundär max. 24 ku als Strom wieder ab. Er verbraucht also ein ku für die Umwandlung.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Bei größeren Anlagen mit mehreren Dampfmaschinen oder vielen angetriebenen Maschinen empfiehlt sich ein Energiespeicher. Der Energiespeicher bei TA2 arbeitet mit Lageenergie. Dazu wird Balast (Steine\\, Kies) in einer Kiste mit Hilfe einer Seilwinde in die Höhe gezogen. Ist überschüssige Energie im Achsen-Netzwerk vorhanden\\, so wird die Kiste nach oben gezogen. Wird kurzfristig mehr Energie benötigt\\, als die Dampfmaschine liefern kann\\, so gibt der Energiespeicher die gespeicherte Energie wieder ab\\, und die Balast-Kiste bewegt sich wieder nach unten.\n"..
+  "\n"..
+  "Der Energiespeicher besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden.\n"..
+  "\n"..
+  "Um die maximale Speicherkapazität zu erreichen\\, muss die Kiste mit Gewichten komplett gefüllt\\, und der Mast inklusive der zwei Getriebeboxen 12 Blöcke hoch sein. Kleinere Aufbauten sind aber auch möglich.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Seilwinde muss mit einer Getriebebox verbunden werden und kann so überschüssige Energie aufnehmen und damit eine Gewichtekiste nach oben ziehen. Die maximale Seillänge beträgt 10 Blöcke.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Diese Kiste muss mit bis zu 10 Blöcken Abstand unter die Seilwinde gesetzt und mit Pflastersteinen Kies oder Sand gefüllt werden. Ist das Mindestgewicht von einem Stack (99+ Items) erreicht und überschüssige Energie vorhanden\\, wird die Kiste automatisch über eine Seil mit der Seilwinde verbunden und in die Höhe gezogen.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -553,7 +584,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.\n"..
   "Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.\n"..
-  "Wenn das Wasser heiß ist\\, kann das Ventil am Boiler geöffnet und anschließend die Generator gestartet werden.\n"..
+  "Wenn das Wasser heiß ist\\, kann der Generator gestartet werden.\n"..
   "\n"..
   "Das Kraftwerk kann alternativ auch mit einem Ölbrenner ausgestattet und dann mit Öl betrieben werden.\n"..
   "Das Öl kann über eine Pumpe und Ölleitung nachgefüllt werden.\n"..
@@ -593,13 +624,13 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen und Generatoren mit Stromkabel verbunden werden.\n"..
+  "In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen\\, Speichersysteme und Generatoren mit Stromkabel verbunden werden.\n"..
   "TA3 besitzt 2 Arten von Stromkabel:\n"..
   "\n"..
   "  - Isolierte Kabel (TA Stromkabel) für die lokale Verkabelung im Boden oder in Gebäuden. Diese Kabel lassen sich in der Wand oder im Boden verstecken (können mit der Kelle \"verputzt\" werden).\n"..
   "  - Überlandleitungen (TA Stromleitung) für Freiluftverkabelung über große Strecken. Diese Kabel sind geschützt\\, können also von anderen Spielern nicht entfernt werden.\n"..
   "\n"..
-  "Mehrere Verbraucher und Generatoren können in einem Stromnetzwerk zusammen betrieben werden. Mit Hilfe der Verteilerdosen können so große Netzwerke aufgebaut werden.\n"..
+  "Mehrere Verbraucher\\, Speichersysteme und Generatoren können in einem Stromnetzwerk zusammen betrieben werden. Mit Hilfe der Verteilerdosen können so Netzwerke aufgebaut werden.\n"..
   "Wird zu wenig Strom bereitgestellt\\, gehen die Verbraucher aus.\n"..
   "In diesem Zusammenhang ist auch wichtig\\, dass die Funktionsweise von Forceload Blöcken verstanden wurde\\, denn bspw. Generatoren liefern nur Strom\\, wenn der entsprechende Map-Block geladen ist. Dies kann mit einen Forceload Block erzwungen werden.\n"..
   "\n"..
@@ -607,8 +638,25 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Speichersysteme im Stromnetz erfüllen zwei Aufgaben:\n"..
+  "\n"..
+  "  - Um Bedarfsspitzen abzufangen: Alle Generatoren liefern immer gerade soviel Leistung\\, wie benötigt wird. Werden aber Verbraucher ein/ausgeschaltet oder kommt es aus anderen Gründen zu Bedarfsschwankungen\\, so können Verbraucher kurzzeitig ausfallen. Um dies zu verhindern\\, sollte immer mindestens ein Akkublock in jedem Netzwerk vorhanden sein. Dieser dient aus Puffer und gleicht diese Schwankungen im Sekundenbereich aus.\n"..
+  "  - Um regenerative Energie zu speichern: Solar und Wind stehen nicht 24 Stunden am Tag zur Verfügung. Damit die Stromversorgung nicht ausfällt\\, wenn kein Strom produziert wird\\, müssen ein oder mehrere Speichersysteme im Netzwerk verbaut werden. Alternativ können die Lücken auch mit Öl/Kohle-Strom überbrückt werden.\n"..
+  "\n"..
+  "Ein Speichersystem gibt seine Kapazität in kud an\\, also ku pro day (Tag). Bspw. ein Speichersystem mit 100 kud liefert 100 ku einen Spieltag lang\\, oder auch 10 ku für 10 Spieltage.\n"..
+  "\n"..
+  "Alle TA3/TA4 Energiequellen besitzen eine einstellbare Ladecharakteristik. Standardmäßig ist diese auf \"80% - 100%\" eingestellt. Dies bedeutet\\, dass die Leistung ab 80% Füllung des Speichersystems immer weiter reduziert wird\\, bis sie bei 100 % komplett abschaltet. Sofern Strom im Netzwerk benötigt wird\\, werden die 100 % nie erreicht\\, da die Leistung des Generators irgendwann auf den Strombedarf im Netzwerk abgesunken ist und damit das Speichersystem nicht mehr geladen\\, sondern nur noch die Verbraucher bedient werden.\n"..
+  "\n"..
+  "Dies hat mehrere Vorteile:\n"..
+  "\n"..
+  "  - Die Ladecharakteristik ist einstellbar. Damit kann man bspw. Öl/Kohle Energiequellen bei 60% und die regenerativen Energiequellen erst bei 80% zurückfahren. Damit wird nur Öl/Kohle verbrannt\\, wenn nicht ausreichend regenerativen Energiequellen zur Verfügung stehen.\n"..
+  "  - Mehrere Energiequellen können parallel betrieben werden und werden dabei nahezu gleichmäßig belastet\\, denn alle Energiequellen arbeiten bspw. bis 80% Ladekapazität des Speichersystems mit ihrer vollen Leistung und fahren dann gleichzeitig ihre Leistung zurück.\n"..
+  "  - Alle Speichersysteme in einem Netzwerk bilden einen großen Puffer. An jedem Speichersystem aber auch am Strom Terminal kann immer die  Ladekapazität und der Füllungsgrad des gesamten Speichersystems in Prozent abgelesen werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Für die lokale Verkabelung im Boden oder in Gebäuden.\n"..
-  "Abzweigungen können mit Hilfe von Verteilerdosen realisiert werden. Die maximale Kabellänge zwischen Maschinen oder Verteilerdosen beträgt 1000 m. Es können maximale 1000 Knoten in einem Strom-Netzwerk verbunden werden. Als Knoten zählen alle Generatoren\\, Akkus\\, Verteilerdosen und Maschinen.\n"..
+  "Abzweigungen können mit Hilfe von Verteilerdosen realisiert werden. Die maximale Kabellänge zwischen Maschinen oder Verteilerdosen beträgt 1000 m. Es können maximale 1000 Knoten in einem Strom-Netzwerk verbunden werden. Als Knoten zählen alle Blöcke mit Stromanschluss\\, also auch Verteilerdosen.\n"..
   "\n"..
   "Da die Stromkabel nicht automatisch geschützt sind\\, wird für längere Strecken die Überlandleitungen (TA Stromleitung) empfohlen.\n"..
   "\n"..
@@ -622,7 +670,6 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Mit der Verteilerdose kann Strom in bis zu 6 Richtungen verteilt werden. Verteilerdosen können auch mit der Kelle verputzt (versteckt) und wieder sichtbar gemacht werden.\n"..
-  "Wird mit dem TechAge Info Werkzeug (Schraubenschlüssel) auf die Verteilerdose geklickt\\, wird angezeigt\\, wie viel Leistung die Generatoren liefern bzw. die Verbraucher im Netzwerk beziehen.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -663,17 +710,24 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Der Akku Block dient zur Speicherung von überschüssiger Energie und gibt bei Stromausfall automatisch Strom ab (soweit vorhanden).\n"..
-  "Der Akku Block ist eine sekundäre Stromquelle. Das bedeutet\\, bei Strombedarf werden zuerst die Generatoren genutzt. Nur wenn der Strom im Netz nicht ausreicht\\, springt der Akku Block ein. Das Gleiche gilt auch für die Stromaufnahme. Daher kann auch kein Akku mit einem anderen Akku geladen werden.\n"..
-  "Der Akku liefert 10 ku bzw. nimmt 10 ku auf.\n"..
-  "Bei Volllast kann ein Akku 400 s lang Strom aufnehmen und wenn er voll ist\\, auch wieder abgeben. Dies entspricht 8 h Spielzeit bei einem normalen Spieltag von 20 min.\n"..
+  "Mehrere Akku Blocks zusammen bilden ein TA3 Energiespeichersystem. Jeder Akku Block hat eine Anzeige für den Ladezustand und für die gespeicherte Ladung\\, wobei hier immer die Werte für das gesamte Netzwerk angezeigt werden. Die gespeicherte Ladung wird in \"kud\" also \"ku-days\" angezeigt (analog zu kWh)  5 kud entspricht damit bspw. 5 ku für einen Spieltag (20 min) oder 1 ku für 5 Spieltage.\n"..
+  "\n"..
+  "Ein Akku Block hat 3.33 kud.\n"..
   "\n"..
   "\n"..
   "\n",
   "Das Strom-Terminal muss mit dem Stromnetz verbunden werden. Es zeigt Daten aus dem Stromnetz an.\n"..
   "\n"..
-  "In der oberen Hälfte werden nur die Daten eines ausgewählten Typs ausgegeben. Wird als Typ bspw. \"Kraftwerk\" gewählt\\, so werden nur die Daten von Öl- und Kohlekraftwerken gesammelt und ausgegeben. Links werden die Daten von Generatoren (Stromabgabe) und rechts die Daten von Energiespeichern (Stromaufnahme) ausgegeben. Beim Akkublocks bspw. wird beides ausgegeben\\, da der Akku Strom aufnehmen und abgeben kann.\n"..
+  "In der oberen Hälfte werden die wichtigsten Größen ausgegeben:\n"..
   "\n"..
-  "In der unteren Hälfte werden die Daten aller Generatoren und Speichersystemen des ganzen Stromnetzen zusammengefasst ausgegeben.\n"..
+  "  - aktuelle/maximale Generatorleistung\n"..
+  "  - aktueller Stromaufnahme aller Verbraucher\n"..
+  "  - aktueller Ladestrom in/aus dem Speichersystems\n"..
+  "  - aktuellen Ladezustand des Speichersystems in Prozent\n"..
+  "\n"..
+  "In der unteren Hälfte wird die Anzahl der Netzwerkblöcke ausgegeben.\n"..
+  "\n"..
+  "Über den Reiter \"console\" können weitere Daten zu den Generatoren und Speichersystemen abgefragt werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -681,14 +735,6 @@ techage.manual_DE.aText = {
   "Wird der Elektromotor nicht mit ausreichend Strom versorgt\\, geht er in einen Fehlerzustand und muss über einen Rechtsklick wieder aktiviert werden.\n"..
   "\n"..
   "Das Elektromotor nimmt primär max. 40 ku an Strom auf und gibt sekundär max. 39 ku als Achsenkraft wieder ab. Er verbraucht also ein ku für die Umwandlung.\n"..
-  "\n"..
-  "\n"..
-  "\n",
-  "Das Strom-Terminal muss mit dem Stromnetz verbunden werden. Es zeigt Daten aus dem Stromnetz an.\n"..
-  "\n"..
-  "In der oberen Hälfte werden nur die Daten eines ausgewählten Typs ausgegeben. Wird als Typ bspw. \"Kraftwerk\" gewählt\\, so werden nur die Daten von Öl- und Kohlekraftwerken gesammelt und ausgegeben. Links werden die Daten von Generatoren (Stromabgabe) und rechts die Daten von Energiespeichern (Stromaufnahme) ausgegeben. Beim Akkublocks bspw. wird beides ausgegeben\\, da der Akku Strom aufnehmen und abgeben kann.\n"..
-  "\n"..
-  "In der unteren Hälfte werden die Daten aller Generatoren und Speichersystemen des ganzen Stromnetzen zusammengefasst ausgegeben.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1116,7 +1162,8 @@ techage.manual_DE.aText = {
   "",
   "Das Techage Info Tool (Schraubenschlüssel) hat verschiedene Funktionen. Er zeigt die Uhrzeit\\, die Position\\, die Temperatur und das Biome an\\, wenn auf einen unbekannten Block geklickt wird.\n"..
   "Wird auf einen TechAge Block mit Kommandoschnittstelle geklickt\\, werden alle verfügbaren Daten abgerufen (siehe auch \"Logik-/Schalt-Blöcke\").\n"..
-  "Bei Strom-Verteilerdosen werden die benachbarten Netzwerkteilnehmer (bis zu 50 Meter weit) mit einem blauen Käfig angezeigt.\n"..
+  "\n"..
+  "Mit Shift+Rechtsklick kann bei einigen Blöcken ein erweitertes Menü geöffnet werden. Hier lassen sich je nach Block weitere Daten abrufen oder spezielle Einstellungen vornehmen. Bei einem Generator kann bspw. die Ladekurve/abschaltung programmiert werden. \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1150,9 +1197,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Der Windkraftanlagenblock (Rotor) ist das Herzstück der Windkraftanlage. Dieser Block muss oben auf den Mast gesetzt werden. Idealerweise auf Y = 15\\, dann bleibst du noch gerade innerhalb eines Map-/Forceload-Blocks.\n"..
-  "Nach dem Setzen des Blocks wird ein Check durchgeführt\\, ob alle Bedingungen für den Betrieb der Windkraftanlage erfüllt sind. Sofern alle Bedingungen erfüllt sind\\, erscheinen beim Setzen dieses Blocks auch automatisch die Rotorblätter (Flügel). Anderenfalls wird dir eine Fehlermeldung angezeigt. \n"..
-  "\n"..
-  "Durch Schlagen auf den Block kann der Check wiederholt werden.\n"..
+  "Beim Starten der Windkraftanlage werden alle Bedingungen für den Betrieb der Windkraftanlage überprüft. Sofern alle Bedingungen erfüllt sind\\, erscheinen auch automatisch die Rotorblätter (Flügel). Anderenfalls wird eine Fehlermeldung angezeigt. \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1224,11 +1269,13 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der TA4 Energiespeicher ersetzt den Batterie Block aus TA3.\n"..
+  "\n"..
   "Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit Gravel. Es gibt 3 Größen vom Speicher:\n"..
   "\n"..
-  "  - Hülle mit 5x5x5 Concrete Blocks\\, gefüllt mit 27 Gravel\\, Speicherkapazität: 1/2 Tag bei 60 ku\n"..
-  "  - Hülle mit 7x7x7 Concrete Blocks\\, gefüllt mit 125 Gravel\\, Speicherkapazität: 2\\,5 Tage bei 60 ku\n"..
-  "  - Hülle mit 9x9x9 Concrete Blocks\\, gefüllt mit 343 Gravel\\, Speicherkapazität: 6\\,5 Tage bei 60 ku\n"..
+  "  - Hülle mit 5x5x5 Concrete Blocks\\, gefüllt mit 27 Gravel\\, Speicherkapazität: 22.5 kud\n"..
+  "  - dHülle mit 7x7x7 Concrete Blocks\\, gefüllt mit 125 Gravel\\, Speicherkapazität: 104 kud\n"..
+  "  - Hülle mit 9x9x9 Concrete Blocks\\, gefüllt mit 343 Gravel\\, Speicherkapazität: 286 kud\n"..
   "\n"..
   "In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man\\, ob der Speicher mehr als 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken\\, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung zu achten (der Pfeil bei Block 1 muss zur Turbine zeigen).\n"..
   "\n"..
@@ -1236,14 +1283,13 @@ techage.manual_DE.aText = {
   "Sowohl der Generator als auch der Wärmetauscher haben einen Stromanschluss und müssen mit dem Stromnetz verbunden werden.\n"..
   "\n"..
   "Im Prinzip arbeitet das das Wärmespeichersystem genau gleich wie die Akkus\\, nur mit viel mehr Speicherkapazität. \n"..
-  "Der Wärmespeicher kann 60 ku aufnehmen und abgeben.\n"..
   "\n"..
   "Damit das Wärmespeichersystem funktioniert\\, müssen alle Blöcke (auch Betonhülle und Gravel) mit Hilfe eines Forceloadblockes geladen sein.\n"..
   "\n"..
   "\n"..
   "\n",
   "Der Wärmetauscher besteht aus 3 Teilen\\, die aufeinander gesetzt werden müssen\\, wobei der Pfeil des ersten Blockes Richtung Turbine zeigen muss. Die Rohrleitungen müssen mit den gelben TA4 Röhren aufgebaut werden.\n"..
-  "Der Wärmetauscher muss am Stromnetz angeschlossen werden. Der Wärmetauscher lädt den Energiespeicher wieder auf\\, wenn ausreichend Strom zur Verfügung steht und der Energiespeicher weniger als 95 % geladen ist. Der Wärmetauscher nimmt dabei 60 ku auf.\n"..
+  "Der Wärmetauscher muss am Stromnetz angeschlossen werden. Über den Wärmetauscher wird der Energiespeicher wieder aufgeladen\\, sofern ausreichend Strom zur Verfügung steht.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1251,9 +1297,9 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der Generator dient zur Stromerzeugung. Daher muss auch der Generator am Stromnetz angeschlossen werden. \n"..
+  "Der Generator  ist Teil des Energiespeichers. Er dient zur Stromerzeugung und gibt damt die Energie des Energiespeichers wieder ab. Daher muss auch der Generator am Stromnetz angeschlossen werden. \n"..
   "\n"..
-  "Der Generator kann 60 ku abgeben.\n"..
+  "Wichtig: Wärmetauscher und Generator müssen mit ein und demselben Stromnetz verbunden sein!\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1265,6 +1311,34 @@ techage.manual_DE.aText = {
   "\n",
   "Die gelben Röhren dienen bei TA4 zur Weiterleitung von Gas und Flüssigkeiten. \n"..
   "Die maximale Leitungslänge beträgt 100 m.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Mit Hilfe von Stromkabeln und Verteilerdosen können Stromnetze von bis zu 1000 Blöcke/Knoten aufgebaut werden. Hierbei ist aber zu beachten\\, dass Verteilerdosen auch mitgezählt werden müssen. Somit können bis zu 500 Generatoren/Speichersysteme/Maschinen/Lampen an einem Stromnetz hängen.\n"..
+  "\n"..
+  "Mit Hilfe von Trenntransformator und Stromzähler können Netzwerke zu noch größeren Strukturen verbunden werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Mit Hilfe eines Trenntransformators können zwei Stromnetze zu einem größeren Netzwerk verbunden werden. Der Trenntransformator kann Strom in beide Richtungen übertragen.\n"..
+  "\n"..
+  "Der Trenntransformator kann bis zu 100 ku übertragen.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Mit Hilfe eines Stromzählers können zwei Stromnetze zu einem größeren Netzwerk verbunden werden. Der Stromzähler leitet  den Strom nur in eine  Richtungen weiter (Pfeil beachten). Die Menge an Strom (in kud) wird gemessen und angezeigt. Die Strommenge kann auch über das Kommando 'consumption' durch einen Lua Controller abgefragt werden.\n"..
+  "\n"..
+  "Der Stromzähler kann bis zu 200 ku durchleiten.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der TA4 Laser dient zur kabellosen Stromübertagung. Dazu sind zwei Blöcke notwendig: TA4 Laserstrahl Sender und TA4 Laserstrahl Empfänger. Zwischen beiden Blöcken muss sich eine Luftstrecke befinden\\, so dass der Laserstrahl vom Sender bis zum Empfänger aufgebaut werden kann.\n"..
+  "\n"..
+  "Zuerst muss der Sender platziert werden. Dieser schaltet sofort den Laserstahls ein und zeigt damit mögliche Positionen des Empfängers an. Mögliche Positionen für den Empfänger werden auch über eine Chat-Nachricht ausgegeben. Mit dem Laser lassen sich Strecken bis 96 Blöcke überbrücken.\n"..
+  "\n"..
+  "Ist die Verbindung aufgebaut (es muss dazu noch kein Strom fließen)\\, wird dies über den Info-Text des Senders und auch des Empfängers angezeigt.\n"..
+  "\n"..
+  "Die Laserblöcke selbst benötigen keinen Strom.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1283,6 +1357,8 @@ techage.manual_DE.aText = {
   "\n"..
   "Der Elektrolyseur kann bis zu 35 ku an Strom aufnehmen und generiert dann alle 4 s ein Wasserstoff Item.\n"..
   "In den Elektrolyseur passen 200 Einheiten Wasserstoff.\n"..
+  "\n"..
+  "Der Elektrolyseur besitzt ein Schraubenschlüssel-Menü zur Einstellung der Stromaufnahme und des Abschaltpunkts.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1630,20 +1706,12 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der TA4 Laser dient zur kabellosen Stromübertagung. Dazu sind zwei Blöcke notwendig: TA4 Laserstrahl Sender und TA4 Laserstrahl Empfänger. Zwischen beiden Blöcken muss sich eine Luftstrecke befinden\\, so dass der Laserstrahl vom Sender bis zum Empfänger aufgebaut werden kann.\n"..
-  "\n"..
-  "Zuerst muss der Sender platziert werden. Dieser schaltet sofort den Laserstahls ein und zeigt damit mögliche Positionen des Empfängers an. Mögliche Positionen für den Empfänger werden auch über eine Chat-Nachricht ausgegeben. Mit dem Laser lassen sich Strecken bis 96 Blöcke überbrücken.\n"..
-  "\n"..
-  "Ist die Verbindung aufgebaut (es muss dazu noch kein Strom fließen)\\, wird dies über den Info-Text des Senders und auch des Empfängers angezeigt.\n"..
-  "\n"..
-  "Die Laserblöcke selbst benötigen keinen Strom.\n"..
-  "\n"..
-  "t\n"..
-  "\n",
 }
 
 techage.manual_DE.aItemName = {
   "techage_ta4",
+  "",
+  "",
   "",
   "",
   "meridium",
@@ -1652,7 +1720,6 @@ techage.manual_DE.aItemName = {
   "oil",
   "bauxite",
   "basalt",
-  "",
   "techage_ta1",
   "",
   "",
@@ -1671,6 +1738,9 @@ techage.manual_DE.aItemName = {
   "ta2_steampipe",
   "ta2_driveaxle",
   "ta2_generator",
+  "",
+  "ta2_winch",
+  "ta2_weight_chest",
   "",
   "tube",
   "concentrator",
@@ -1698,6 +1768,7 @@ techage.manual_DE.aItemName = {
   "ta3_generator",
   "ta3_cooler",
   "ta3_powerswitch",
+  "power_reduction",
   "ta3_powercable",
   "ta3_powerjunction",
   "ta3_powerline",
@@ -1711,7 +1782,6 @@ techage.manual_DE.aItemName = {
   "ta3_akkublock",
   "ta3_powerterminal",
   "ta3_motor",
-  "ta3_powerterminal",
   "",
   "ta3_furnacefirebox",
   "ta3_furnace",
@@ -1788,6 +1858,10 @@ techage.manual_DE.aItemName = {
   "ta4_generator",
   "ta4_pipeinlet",
   "ta4_pipe",
+  "ta4_transformer",
+  "ta4_transformer",
+  "ta4_electricmeter",
+  "ta4_laser",
   "ta4_hydrogen",
   "ta4_electrolyzer",
   "ta4_fuelcell",
@@ -1839,10 +1913,10 @@ techage.manual_DE.aItemName = {
   "ta4_electronicfab",
   "ta4_injector",
   "ta4_recycler",
-  "ta4_laser",
 }
 
 techage.manual_DE.aPlanTable = {
+  "",
   "",
   "",
   "",
@@ -1869,6 +1943,9 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
+  "",
+  "ta2_storage",
   "",
   "",
   "itemtransport",
@@ -1991,6 +2068,10 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
+  "",
+  "",
+  "",
   "ta4_reactor",
   "",
   "",
@@ -2021,7 +2102,6 @@ techage.manual_DE.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
-  "",
   "",
   "",
   "",

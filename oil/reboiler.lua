@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -16,15 +16,14 @@ local S2P = minetest.string_to_pos
 local P2S = minetest.pos_to_string
 local M = minetest.get_meta
 local S = techage.S
+local Flip = networks.Flip
 local Pipe = techage.LiquidPipe
-local networks = techage.networks
-local liquid = techage.liquid
-local Flip = techage.networks.Flip
 local Cable = techage.ElectricCable
-local power = techage.power
+local liquid = networks.liquid
+local power = networks.power
 
-local CYCLE_TIME = 16
-local CAPA = 12
+local CYCLE_TIME = 2
+local WAITING_CYCLES = 5  -- in case BLOCKED
 local PWR_NEEDED = 14
 
 local function play_sound(pos)
@@ -51,90 +50,98 @@ end
 
 local function swap_node(pos, on)
 	local nvm = techage.get_nvm(pos)
-	if on then
-		local node = techage.get_node_lvm(pos)
+	local node = techage.get_node_lvm(pos)
+	if on and node.name == "techage:ta3_reboiler" then
 		node.name = "techage:ta3_reboiler_on"
 		minetest.swap_node(pos, node)
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		play_sound(pos)
-	elseif not on and nvm.running then
-		local node = techage.get_node_lvm(pos)
+	elseif not on and node.name == "techage:ta3_reboiler_on" then
 		node.name = "techage:ta3_reboiler"
 		minetest.swap_node(pos, node)
-		minetest.get_node_timer(pos):stop()
-		nvm.running = false
-		power.consumer_stop(pos, Cable)
 		stop_sound(pos)
 	end
 end
 
-local function on_power(pos)
-	swap_node(pos, true)
-end
-
-local function on_nopower(pos)
-	swap_node(pos, false)
-end
-
-local function is_running(pos, nvm) 
-	return nvm.running 
-end
-
-local function pump_cmnd(pos, cmnd, payload)
-	return techage.transfer(
+local function pump_cmnd(pos)
+	local leftover = techage.transfer(
 		pos, 
 		"R",  -- outdir
-		cmnd,  -- topic
-		payload,  -- payload
+		"put",  -- topic
+		nil,  -- payload
 		Pipe,  -- Pipe
 		{"techage:ta3_distiller1"})
+	
+	-- number of processed oil items
+	return  1 - (tonumber(leftover) or 1)
 end
 
-local function node_timer(pos, elapsed)
-	local nvm = techage.get_nvm(pos)
-	nvm.liquid = nvm.liquid or {}
-	nvm.liquid.amount = nvm.liquid.amount or 0
-	
-	if not nvm.error or nvm.error == 0 then
-		power.consumer_alive(pos, Cable, CYCLE_TIME)
+local function new_state(pos, nvm, state)
+	if nvm.state ~= state then
+		nvm.state = state
+		M(pos):set_string("infotext", S("TA3 Oil Reboiler") .. ": " .. techage.StateStrings[state])
+		swap_node(pos, state == techage.RUNNING)
 	end
-	
-	if nvm.liquid.amount >= 5 and nvm.liquid.name == "techage:oil_source" then
-		nvm.liquid.amount = nvm.liquid.amount - 5
-		local leftover = pump_cmnd(pos, "put")
-		if (tonumber(leftover) or 1) > 0 then
-			nvm.liquid.amount = nvm.liquid.amount + 5
-			nvm.error = 2 -- = 2 pump cycles
-			M(pos):set_string("infotext", S("TA3 Oil Reboiler: blocked"))
-			swap_node(pos, false)
-			return false
-		end
-		return true
-	end
-	swap_node(pos, false)
-	return false
-end	
+end
 
-local function start_node(pos)
+local function on_timer(pos)
 	local nvm = techage.get_nvm(pos)
-	if nvm.running then return end
+	nvm.oil_amount = nvm.oil_amount or 0
 	
-	nvm.liquid = nvm.liquid or {}
-	nvm.liquid.amount = nvm.liquid.amount or 0
-	if nvm.liquid.amount >= 5 and nvm.liquid.name == "techage:oil_source" then
-		if power.power_available(pos, Cable) then
-			if node_timer(pos, CYCLE_TIME) then
-				nvm.running = true
-				power.consumer_start(pos, Cable, CYCLE_TIME)
-				minetest.get_node_timer(pos):start(CYCLE_TIME)
+	-- Power handling
+	if nvm.state == techage.STOPPED then
+		local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
+		if consumed == PWR_NEEDED then
+			new_state(pos, nvm, techage.RUNNING)
+			return true
+		end
+	elseif nvm.state == techage.RUNNING then
+		local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
+		if consumed < PWR_NEEDED then
+			local nvm = techage.get_nvm(pos)
+			new_state(pos, nvm, techage.STOPPED)
+			return true
+		end
+	elseif nvm.state == techage.BLOCKED or nvm.state == techage.STANDBY then
+		if not power.power_available(pos, Cable) then
+			local nvm = techage.get_nvm(pos)
+			new_state(pos, nvm, techage.STOPPED)
+			return true
+		end
+	end
+	
+	-- Oil handling
+	if nvm.state == techage.RUNNING then
+		if nvm.oil_amount >= 1 then
+			local processed = pump_cmnd(pos)
+			nvm.oil_amount = nvm.oil_amount - processed
+			nvm.waiting_cycles = WAITING_CYCLES
+			if processed == 0 then
+				new_state(pos, nvm, techage.BLOCKED)
+			else
+				new_state(pos, nvm, techage.RUNNING)
+			end
+		else
+			nvm.waiting_cycles = (nvm.waiting_cycles or 0) - 1
+			if nvm.waiting_cycles <= 0 then
+				new_state(pos, nvm, techage.STANDBY)
 			end
 		end
+	elseif nvm.state == techage.BLOCKED then
+		nvm.waiting_cycles = nvm.waiting_cycles - 1
+		if nvm.waiting_cycles <= 0 then
+			new_state(pos, nvm, techage.RUNNING)
+		end
+	else
+		-- STANDBY: 'put' will trigger the state change
 	end
+	return true
 end
 	
 local function after_place_node(pos)
+	local nvm = techage.get_nvm(pos)
+	new_state(pos, nvm, techage.STOPPED)
 	Pipe:after_place_node(pos)
-	Cable:after_place_node(pos)
+	Cable.after_place_node(pos)
 end
 
 local function after_dig_node(pos, oldnode)
@@ -143,50 +150,12 @@ local function after_dig_node(pos, oldnode)
 	techage.del_mem(pos)
 end
 
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
-	if tlib2.tube_type == "pipe2" then
-		liquid.update_network(pos, outdir, tlib2)
-	else
-		power.update_network(pos, outdir, tlib2)
-	end
+local function on_rightclick(pos, node, clicker)
+	local nvm = techage.get_nvm(pos)
+	nvm.oil_amount = 0
+	new_state(pos, nvm, techage.STOPPED)
+	minetest.get_node_timer(pos):start(CYCLE_TIME)
 end
-
-local liquid_def = {
-	capa = CAPA,
-	peek = liquid.srv_peek,
-	put = function(pos, indir, name, amount)
-		local nvm = techage.get_nvm(pos)
-		if nvm.error and nvm.error > 0 then
-			nvm.error = nvm.error - 1
-			if nvm.error <= 0 then
-				M(pos):set_string("infotext", S("TA3 Oil Reboiler"))
-				start_node(pos)
-				return liquid.srv_put(pos, indir, name, amount)
-			else
-				return amount
-			end
-		else
-			start_node(pos)
-			return liquid.srv_put(pos, indir, name, amount)
-		end
-	end,
-	take = liquid.srv_take,
-}
-
-local net_def = {
-	pipe2 = {
-		sides = {L = true, R = true}, -- Pipe connection sides
-		ntype = "tank",
-	},
-	ele1 = {
-		sides = techage.networks.AllSides, -- Cable connection sides
-		ntype = "con1",
-		on_power = on_power,
-		on_nopower = on_nopower,
-		nominal = PWR_NEEDED,
-		is_running = is_running,
-	},
-}
 
 minetest.register_node("techage:ta3_reboiler", {
 	description = S("TA3 Oil Reboiler"),
@@ -200,26 +169,10 @@ minetest.register_node("techage:ta3_reboiler", {
 		"techage_filling_ta3.png^techage_appl_reboiler.png^techage_frame_ta3.png",
 	},
 
-	after_place_node = function(pos, placer)
-		local nvm = techage.get_nvm(pos)
-		nvm.liquid = {}
-		local meta = M(pos)
-		meta:set_string("infotext", S("TA3 Oil Reboiler"))
-		meta:set_int("outdir", networks.side_to_outdir(pos, "R"))
-		local number = techage.add_node(pos, "techage:ta3_reboiler")
-		meta:set_string("node_number", number)
-		meta:set_string("owner", placer:get_player_name())
-		Pipe:after_place_node(pos)
-		power.after_place_node(pos)
-	end,
-	
-	tubelib2_on_update2 = tubelib2_on_update2,
-	on_timer = node_timer,
+	on_timer = on_timer,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	after_dig_node = after_dig_node,
-	liquid = liquid_def,
-	networks = net_def,
+	on_rightclick = on_rightclick,
 	
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -258,10 +211,8 @@ minetest.register_node("techage:ta3_reboiler_on", {
 		},
 	},
 
-	tubelib2_on_update2 = tubelib2_on_update2,
-	on_timer = node_timer,
-	liquid = liquid_def,
-	networks = net_def,
+	on_timer = on_timer,
+	on_rightclick = on_rightclick,
 	
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -271,25 +222,43 @@ minetest.register_node("techage:ta3_reboiler_on", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
-Pipe:add_secondary_node_names({"techage:ta3_reboiler", "techage:ta3_reboiler_on"})
-Cable:add_secondary_node_names({"techage:ta3_reboiler", "techage:ta3_reboiler_on"})
+local liquid_def = {
+	peek = function(pos)
+		local nvm = techage.get_nvm(pos)
+		return liquid.srv_peek(nvm)
+	end,
+	put = function(pos, indir, name, amount)
+		local nvm = techage.get_nvm(pos)
+		nvm.oil_amount = nvm.oil_amount or 0
+	
+		if nvm.state == techage.STANDBY or nvm.state == techage.RUNNING then
+			if name == "techage:oil_source" and amount > 0 then
+				if nvm.state == techage.STANDBY then
+					new_state(pos, nvm, techage.RUNNING)
+				end
+				-- Take one oil item every 2 cycles
+				-- Hint: We have to take two items, because the pump will pause for 4 cycles,
+				-- if nothing is taken.
+				nvm.take = nvm.take ~= true
+				if nvm.take and nvm.oil_amount < 5 then
+					nvm.oil_amount = nvm.oil_amount + 2
+					return amount - 2
+				end
+			end
+		end
+		return amount
+	end
+}
+
+liquid.register_nodes({"techage:ta3_reboiler", "techage:ta3_reboiler_on"}, Pipe, "tank", {"L", "R"}, liquid_def)
+power.register_nodes({"techage:ta3_reboiler", "techage:ta3_reboiler_on"}, Cable, "con")
 
 techage.register_node({"techage:ta3_reboiler", "techage:ta3_reboiler_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		if topic == "on" then
-			start_node(pos)
-			return true
-		elseif topic == "off" then
-			swap_node(pos, false)
-			return true
-		elseif topic == "state" then
-			if nvm.error and nvm.error > 0 then
-				return "blocked"
-			elseif nvm.running then
-				return "running"
-			end
-			return "stopped"
+		if topic == "state" then
+			nvm.state = nvm.state or techage.STOPPED
+			return techage.StateStrings[nvm.state]
 		else
 			return "unsupported"
 		end
@@ -298,6 +267,7 @@ techage.register_node({"techage:ta3_reboiler", "techage:ta3_reboiler_on"}, {
 		if node.name == "techage:ta3_reboiler_on" then
 			play_sound(pos)
 		end	
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
 })
 

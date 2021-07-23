@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 0.26
+techage.version = 1.00
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -36,6 +36,9 @@ elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.0 then
 elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.0 then
 	minetest.log("error", "[techage] Techage requires safer_lua version 1.0 or newer!")
 	return
+elseif minetest.global_exists("networks") and networks.version < 0.08 then
+	minetest.log("error", "[techage] Techage requires networks version 0.08 or newer!")
+	return
 end
 
 -- Test MT 5.4 new string mode
@@ -45,7 +48,7 @@ techage.BLEND = minetest.features.use_texture_alpha_string_modes and "blend" or 
 techage.NodeDef = {}		-- node registration info
 
 techage.max_num_forceload_blocks = tonumber(minetest.settings:get("techage_max_num_forceload_blocks")) or 24
- 
+
 techage.basalt_stone_enabled = minetest.settings:get_bool("techage_basalt_stone_enabled") ~= false
 techage.ore_rarity = tonumber(minetest.settings:get("techage_ore_rarity")) or 1
 techage.modified_recipes_enabled = minetest.settings:get_bool("techage_modified_recipes_enabled") ~= false
@@ -85,11 +88,11 @@ dofile(MP.."/basis/fuel_lib.lua")  -- common fuel functions
 dofile(MP.."/basis/mark.lua")
 dofile(MP.."/basis/mark2.lua")
 dofile(MP.."/basis/assemble.lua")
-dofile(MP.."/basis/networks.lua")
 dofile(MP.."/basis/recipe_lib.lua")
 dofile(MP.."/basis/formspec_update.lua")
 dofile(MP.."/basis/windturbine_lib.lua")
 dofile(MP.."/basis/laser_lib.lua")
+dofile(MP.."/basis/legacy.lua")
 
 -- Main doc
 dofile(MP.."/doc/manual_DE.lua")
@@ -99,11 +102,9 @@ dofile(MP.."/doc/items.lua")
 dofile(MP.."/doc/guide.lua")  -- construction guides
 dofile(MP.."/doc/manual_api.lua")  -- external API
 
+dofile(MP.."/items/filling.lua")
+
 -- Power networks
-dofile(MP.."/power/node_api.lua")
-dofile(MP.."/power/junction.lua") 
-dofile(MP.."/power/distribution.lua")
-dofile(MP.."/power/schedule.lua")
 dofile(MP.."/power/formspecs.lua")
 dofile(MP.."/power/drive_axle.lua")
 dofile(MP.."/power/gearbox.lua")
@@ -112,13 +113,13 @@ dofile(MP.."/power/electric_cable.lua")
 dofile(MP.."/power/junctionbox.lua")
 dofile(MP.."/power/power_terminal.lua")
 dofile(MP.."/power/power_terminal2.lua")
+dofile(MP.."/power/powerswitchbox_legacy.lua")
 dofile(MP.."/power/powerswitchbox.lua")
 dofile(MP.."/power/powerswitch.lua")
 dofile(MP.."/power/protection.lua")
 dofile(MP.."/power/power_line.lua")
 dofile(MP.."/power/ta4_cable.lua")
 dofile(MP.."/power/ta4_cable_wall_entry.lua")
-dofile(MP.."/power/laser.lua")
 
 -- Iron Age
 dofile(MP.."/iron_age/main.lua")
@@ -143,17 +144,21 @@ dofile(MP.."/steam_engine/boiler.lua")
 dofile(MP.."/steam_engine/cylinder.lua")
 dofile(MP.."/steam_engine/flywheel.lua")
 
+-- TA2 gravity-based energy storage
+dofile(MP.."/ta2_energy_storage/ta2_rope.lua")
+dofile(MP.."/ta2_energy_storage/ta2_winch.lua")
+dofile(MP.."/ta2_energy_storage/ta2_weight_chest.lua")
+
 -- Liquids I
 dofile(MP.."/liquids/liquid_pipe.lua")
 dofile(MP.."/liquids/valve.lua")
-dofile(MP.."/liquids/node_api.lua")
 dofile(MP.."/liquids/pipe_wall_entry.lua")
 
 -- Basic Machines
 dofile(MP.."/basic_machines/consumer.lua")  -- consumer base model
 dofile(MP.."/basic_machines/source.lua")
 dofile(MP.."/basic_machines/pusher.lua")
-dofile(MP.."/basic_machines/legacy_nodes.lua")
+dofile(MP.."/basic_machines/foreign_nodes.lua")
 dofile(MP.."/basic_machines/mods_support.lua")
 dofile(MP.."/basic_machines/grinder.lua")
 dofile(MP.."/basic_machines/distributor.lua")
@@ -231,6 +236,11 @@ dofile(MP.."/ta3_power/akkubox.lua")
 dofile(MP.."/ta3_power/axle2power.lua")
 dofile(MP.."/ta3_power/power2axle.lua")
 
+-- TA4 power based
+dofile(MP.."/ta4_power/laser.lua")
+dofile(MP.."/ta4_power/transformer.lua")
+dofile(MP.."/ta4_power/electricmeter.lua")
+
 -- Digtron
 if minetest.global_exists("digtron") then
 	dofile(MP.."/digtron/battery.lua")
@@ -263,7 +273,6 @@ end
 -- Test
 dofile(MP.."/recipe_checker.lua")
 dofile(MP.."/.test/sink.lua")
---dofile(MP.."/.test/meta_node.lua")
 
 -- Solar
 dofile(MP.."/solar/minicell.lua")
@@ -345,3 +354,6 @@ dofile(MP.."/carts/chest_cart.lua")
 
 -- Prevent other mods from using IE
 techage.IE = nil
+
+
+function techage.icta_register_condition(key, tData) end

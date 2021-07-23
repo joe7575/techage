@@ -21,7 +21,7 @@ local PWR_NEEDED = 0.5
 local CYCLE_TIME = 2
 
 local Cable = techage.ElectricCable
-local power = techage.power
+local power = networks.power
 
 local function swap_node(pos, postfix)
 	local node = techage.get_node_lvm(pos)
@@ -53,8 +53,35 @@ local function is_running(pos, nvm)
 	return nvm.turned_on 
 end
 
-local function node_timer(pos, elapsed)
-	power.consumer_alive(pos, Cable, CYCLE_TIME)
+local function node_timer_off1(pos, elapsed)
+	local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
+	if consumed == PWR_NEEDED then
+		on_power(pos)
+	end
+	return true
+end
+
+local function node_timer_off2(pos, elapsed)
+	local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED * 2)
+	if consumed == PWR_NEEDED * 2 then
+		on_power(pos)
+	end
+	return true
+end
+
+local function node_timer_on1(pos, elapsed)
+	local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
+	if consumed < PWR_NEEDED then
+		on_nopower(pos)
+	end
+	return true
+end
+
+local function node_timer_on2(pos, elapsed)
+	local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED * 2)
+	if consumed < PWR_NEEDED * 2 then
+		on_nopower(pos)
+	end
 	return true
 end
 
@@ -66,12 +93,10 @@ local function lamp_on_rightclick(pos, node, clicker)
 	local nvm = techage.get_nvm(pos)
 	if not nvm.turned_on and power.power_available(pos, Cable) then
 		nvm.turned_on = true
-		power.consumer_start(pos, Cable, CYCLE_TIME)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		swap_node(pos, "on")
 	else
 		nvm.turned_on = false
-		power.consumer_stop(pos, Cable)
 		minetest.get_node_timer(pos):stop()
 		swap_node(pos, "off")
 	end
@@ -107,44 +132,19 @@ local function tubelib2_on_update2(pos, outdir, tlib2, node)
 	power.update_network(pos, outdir, tlib2)
 end
 
-local net_def = {
-	ele1 = {
-		sides = {U=1, D=1, L=1, R=1, F=1, B=1}, -- Cable connection sides
-		ntype = "con1",
-		on_power = on_power,
-		on_nopower = on_nopower,
-		nominal = PWR_NEEDED,
-		is_running = is_running,
-	},
-}
-
-local net_def2 = {
-	ele1 = {
-		sides = {U=1, D=1, L=1, R=1, F=1, B=1}, -- Cable connection sides
-		ntype = "con1",
-		on_power = on_power,
-		on_nopower = on_nopower,
-		nominal = PWR_NEEDED * 2,
-		is_running = is_running,
-	},
-}
-
-
 function techage.register_lamp(basename, ndef_off, ndef_on)
+	if ndef_off.high_power then
+		ndef_off.on_timer = ndef_off.on_timer or node_timer_off2
+	else
+		ndef_off.on_timer = ndef_off.on_timer or node_timer_off1
+	end
 	ndef_off.after_place_node = after_place_node
 	ndef_off.after_dig_node = after_dig_node
-	ndef_off.tubelib2_on_update2 = tubelib2_on_update2
-	if ndef_off.high_power then
-		ndef_off.networks = net_def2
-	else
-		ndef_off.networks = net_def
-	end
 	ndef_off.on_rightclick = lamp_on_rightclick
 	if not ndef_off.on_rotate then
 		ndef_off.on_place = on_place
 	end
 	ndef_off.on_rotate = ndef_off.on_rotate or on_rotate
-	ndef_off.on_timer = node_timer
 	ndef_off.paramtype = "light"
 	ndef_off.use_texture_alpha = techage.CLIP
 	ndef_off.light_source = 0
@@ -154,17 +154,15 @@ function techage.register_lamp(basename, ndef_off, ndef_on)
 	ndef_off.is_ground_content = false
 	ndef_off.sounds = default.node_sound_glass_defaults()
 	
+	if ndef_on.high_power then
+		ndef_on.on_timer = ndef_on.on_timer or node_timer_on2
+	else
+		ndef_on.on_timer = ndef_on.on_timer or node_timer_on1
+	end
 	ndef_on.after_place_node = after_place_node
 	ndef_on.after_dig_node = after_dig_node
-	ndef_on.tubelib2_on_update2 = tubelib2_on_update2
-	if ndef_on.high_power then
-		ndef_on.networks = net_def2
-	else
-		ndef_on.networks = net_def
-	end
 	ndef_on.on_rightclick = lamp_on_rightclick
 	ndef_on.on_rotate = ndef_on.on_rotate or on_rotate
-	ndef_on.on_timer = ndef_on.on_timer or node_timer
 	ndef_on.paramtype = "light"
 	ndef_on.use_texture_alpha = techage.CLIP
 	ndef_on.light_source = minetest.LIGHT_MAX
@@ -178,6 +176,9 @@ function techage.register_lamp(basename, ndef_off, ndef_on)
 	minetest.register_node(basename.."_off", ndef_off)
 	minetest.register_node(basename.."_on", ndef_on)
 	
-	Cable:add_secondary_node_names({basename.."_off", basename.."_on"})
+	power.register_nodes({basename.."_off", basename.."_on"}, Cable, "con")
+	techage.register_node_for_v1_transition({basename.."_off", basename.."_on"}, function(pos, node)
+		power.update_network(pos, nil, Cable)
+	end)
 end
 

@@ -19,8 +19,7 @@ local M = minetest.get_meta
 local S = techage.S
 
 local Cable = techage.ElectricCable
-local power = techage.power
-local networks = techage.networks
+local power = networks.power
 
 minetest.register_node("techage:ta4_laser_emitter", {
 	description = S("TA4 Laser Beam Emitter"),
@@ -122,9 +121,7 @@ minetest.register_node("techage:ta4_laser_receiver", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-Cable:add_secondary_node_names({"techage:ta4_laser_emitter", "techage:ta4_laser_receiver"})
-Cable:set_valid_sides("techage:ta4_laser_emitter", {"F"})
-Cable:set_valid_sides("techage:ta4_laser_receiver", {"F"})
+power.register_nodes({"techage:ta4_laser_emitter", "techage:ta4_laser_receiver"}, Cable, "special", {"F"})
 
 minetest.register_craft({
 	output = "techage:ta4_laser_emitter",

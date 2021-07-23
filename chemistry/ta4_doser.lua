@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -17,8 +17,7 @@ local P2S = minetest.pos_to_string
 local M = minetest.get_meta
 local S = techage.S
 local Pipe = techage.LiquidPipe
-local networks = techage.networks
-local liquid = techage.liquid
+local liquid = networks.liquid
 local recipes = techage.recipes
 
 local Liquids = {}  -- {hash(pos) = {name = outdir},...}
@@ -26,26 +25,6 @@ local Liquids = {}  -- {hash(pos) = {name = outdir},...}
 local STANDBY_TICKS = 2
 local COUNTDOWN_TICKS = 3
 local CYCLE_TIME = 10
-
--- to mark the pump source and destinstion node
-local DebugCache = {}
-
-local function set_starter_name(pos, clicker)
-	local key = minetest.hash_node_position(pos)
-	DebugCache[key] = {starter = clicker:get_player_name(), count = 10}
-end
-
-local function get_starter_name(pos)
-	local key = minetest.hash_node_position(pos)
-	local def = DebugCache[key]
-	if def then
-		def.count = (def.count or 0) - 1
-		if def.count > 0 then
-			return def.starter
-		end
-		DebugCache[key] = nil
-	end
-end
 
 local function formspec(self, pos, nvm)
 	return "size[6,3.6]"..
@@ -67,7 +46,7 @@ local function get_liquids(pos)
 	-- determine the available input liquids
 	local tbl = {}
 	for outdir = 1,4 do
-		local name, num = liquid.peek(pos, outdir)
+		local name, num = liquid.peek(pos, Pipe, outdir)
 		if name then
 			tbl[name] = outdir
 		end
@@ -87,7 +66,7 @@ local function reload_liquids(pos)
 	-- determine the available input liquids
 	local tbl = {}
 	for outdir = 1,4 do
-		local name, num = liquid.peek(pos, outdir)
+		local name, num = liquid.peek(pos, Pipe, outdir)
 		if name then
 			tbl[name] = outdir
 		end
@@ -155,7 +134,7 @@ local State = techage.NodeStates:new({
 
 local function untake(pos, taken)
 	for _,item in pairs(taken) do
-		liquid.untake(pos, item.outdir, item.name, item.num)
+		liquid.untake(pos, Pipe, item.outdir, item.name, item.num)
 	end
 end	
 
@@ -199,8 +178,10 @@ local function dosing(pos, nvm, elapsed)
 		end
 	end
 	-- inputs
-	local starter = get_starter_name(pos)
 	local taken = {}
+	local mem = techage.get_mem(pos)
+	mem.dbg_cycles = (mem.dbg_cycles or 0) - 1
+	
 	for _,item in pairs(recipe.input) do
 		if item.name ~= "" then
 			local outdir = liquids[item.name] or reload_liquids(pos)[item.name]
@@ -210,7 +191,7 @@ local function dosing(pos, nvm, elapsed)
 				untake(pos, taken)
 				return
 			end
-			local num = liquid.take(pos, outdir, item.name, item.num, starter)
+			local num = liquid.take(pos, Pipe, outdir, item.name, item.num, mem.dbg_cycles > 0)
 			if num < item.num then
 				taken[#taken + 1] = {outdir = outdir, name = item.name, num = num}
 				State:standby(pos, nvm)
@@ -267,18 +248,11 @@ local function on_receive_fields(pos, formname, fields, player)
 	if not nvm.running then	
 		recipes.on_receive_fields(pos, formname, fields, player)
 	end
-	set_starter_name(pos, player)
+	local mem = techage.get_mem(pos)
+	mem.dbg_cycles = 5
 	State:state_button_event(pos, nvm, fields)
 	M(pos):set_string("formspec", formspec(State, pos, nvm))
 end
-
-local nworks = {
-	pipe2 = {
-		sides = techage.networks.AllSides, -- Pipe connection sides
-		ntype = "pump",
-	},
-}
-
 
 minetest.register_node("techage:ta4_doser", {
 	description = S("TA4 Doser"),
@@ -301,19 +275,17 @@ minetest.register_node("techage:ta4_doser", {
 		Pipe:after_place_node(pos)
 	end,
 	tubelib2_on_update2 = function(pos, dir, tlib2, node)
-		liquid.update_network(pos, dir)
+		liquid.update_network(pos, dir, tlib2, node)
 		del_liquids(pos)
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		Pipe:after_dig_node(pos)
-		liquid.after_dig_pump(pos)
 		techage.del_mem(pos)
 	end,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
-	networks = nworks,
 
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -341,13 +313,12 @@ minetest.register_node("techage:ta4_doser_on", {
 	},
 
 	tubelib2_on_update2 = function(pos, dir, tlib2, node)
-		liquid.update_network(pos, dir)
+		liquid.update_network(pos, dir, tlib2, node)
 		del_liquids(pos)
 	end,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
-	networks = nworks,
 	
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -357,14 +328,13 @@ minetest.register_node("techage:ta4_doser_on", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
+liquid.register_nodes({"techage:ta4_doser", "techage:ta4_doser_on"}, Pipe, "pump", nil, {})
+
 techage.register_node({"techage:ta4_doser", "techage:ta4_doser_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		return State:on_receive_message(pos, topic, payload)
 	end,
 })
-
-Pipe:add_secondary_node_names({"techage:ta4_doser", "techage:ta4_doser_on"})
-
 
 if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("ta4_doser", {

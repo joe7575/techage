@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -20,8 +20,7 @@ local S2P = minetest.string_to_pos
 
 local Cable = techage.ElectricCable
 local Axle = techage.Axle
-local power = techage.power
-local networks = techage.networks
+local power = networks.power
 
 local CYCLE_TIME = 2
 local PWR_PERF = 24
@@ -35,63 +34,51 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function on_power(pos)
+local function node_timer_on(pos, elapsed)
+	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
-	nvm.axle = nvm.axle or {}
-	nvm.consumer_powered = true
-	M(pos):set_string("infotext", S("TA2 Power Generator"))
-	swap_node(pos, "techage:ta2_generator_on")
-	nvm.ticks = 0
-	local outdir = M(pos):get_int("outdir")
-	nvm.axle.curr_power = techage.power.needed_power(pos, Cable, outdir)
-end
-
-local function on_nopower(pos)
-	local nvm = techage.get_nvm(pos)
-	nvm.consumer_powered = false
-	if (nvm.ticks or 0) < 4 then
-		M(pos):set_string("infotext", S("TA2 Power Generator: Overload fault?\n(restart with right-click)"))
-	end
-	nvm.ticks = 0
-end
-
-local function node_timer(pos, elapsed)
-	local nvm = techage.get_nvm(pos)
-	nvm.axle = nvm.axle or {}
+	local outdir = meta:get_int("outdir")
+	nvm.buffer = nvm.buffer or 0
 	
-	-- trigger network on consumer side
-	nvm.ticks = (nvm.ticks or 0) + 1
-	if nvm.ticks % 2 then
-		power.consumer_alive(pos, Axle, CYCLE_TIME)
-	end
+	local amount = math.min(PWR_PERF * 2 - nvm.buffer, PWR_PERF)
+	local taken = power.consume_power(pos, Axle, networks.Flip[outdir], amount)
+	nvm.buffer = nvm.buffer + taken - 1  -- some loss
 	
-	-- handle generator side delayed
-	if nvm.ticks > 3 then
+	if nvm.buffer >= PWR_PERF then
+		local tp1 = tonumber(meta:get_string("termpoint1"))
+		local tp2 = tonumber(meta:get_string("termpoint2"))
+		nvm.provided = power.provide_power(pos, Cable, outdir, PWR_PERF, tp1, tp2)
+		nvm.load = power.get_storage_load(pos, Cable, outdir, PWR_PERF)
+		nvm.buffer = nvm.buffer - nvm.provided
+	end
+	if amount > 0 and taken == 0 then
+		swap_node(pos, "techage:ta2_generator_off")
 		local outdir = M(pos):get_int("outdir")
+		nvm.running = false
+		power.start_storage_calc(pos, Cable, outdir)
+	end
+	return true
+end
 		
-		if nvm.consumer_powered and not nvm.running_as_generator then
-			nvm.running_as_generator = true
-			power.generator_start(pos, Cable, CYCLE_TIME, outdir, nvm.max_power)
-		elseif not nvm.consumer_powered and nvm.running_as_generator then
-			nvm.running_as_generator = false
-			power.generator_stop(pos, Cable, outdir)
-		end
-		
-		if nvm.running_as_generator then
-			nvm.axle.curr_power = power.generator_alive(pos, Cable, CYCLE_TIME, outdir, PWR_PERF) + 1
-		else
-			swap_node(pos, "techage:ta2_generator_off")
-		end
+local function node_timer_off(pos, elapsed)
+	local nvm = techage.get_nvm(pos)
+	local outdir = M(pos):get_int("outdir")
+	
+	if power.power_available(pos, Axle, networks.Flip[outdir]) then
+		swap_node(pos, "techage:ta2_generator_on")
+		nvm.running = true
+		power.start_storage_calc(pos, Cable, outdir)
 	end
 	return true
 end
 
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
+local function get_generator_data(pos, outdir, tlib2)
 	local nvm = techage.get_nvm(pos)
-	nvm.axle = nvm.axle or {}
-	nvm.axle.curr_power = 1
-	power.update_network(pos, outdir, tlib2)
+	if nvm.running then
+		return {level = (nvm.load or 0) / PWR_PERF, perf = PWR_PERF, capa = PWR_PERF * 2}
+	end
 end
+
 
 minetest.register_node("techage:ta2_generator_off", {
 	description = S("TA2 Power Generator"),
@@ -110,24 +97,10 @@ minetest.register_node("techage:ta2_generator_off", {
 	is_ground_content = false,
 
 	after_place_node = function(pos)
-		local nvm = techage.get_nvm(pos)
-		nvm.axle = nvm.axle or {}
-		nvm.axle.curr_power = 1
-		nvm.consumer_powered = false
-		nvm.running_as_generator = false
 		M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
-		M(pos):set_int("leftdir", networks.side_to_outdir(pos, "L"))
 		Cable:after_place_node(pos)
 		Axle:after_place_node(pos)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)   
-		power.consumer_start(pos, Axle, CYCLE_TIME*2)
-		M(pos):set_string("infotext", S("TA2 Power Generator"))
-	end,
-	
-	on_rightclick = function(pos, node, clicker)
-		local nvm = techage.get_nvm(pos)
-		nvm.axle = nvm.axle or {}
-		nvm.axle.curr_power = 1
 		M(pos):set_string("infotext", S("TA2 Power Generator"))
 	end,
 	
@@ -137,21 +110,8 @@ minetest.register_node("techage:ta2_generator_off", {
 		techage.del_mem(pos)
 	end,
 	
-	tubelib2_on_update2 = tubelib2_on_update2,
-	on_timer = node_timer,
-	networks = {
-		ele1 = {
-			sides = {R = 1},
-			ntype = "gen1",
-			nominal = PWR_PERF,
-		},
-		axle = {
-			sides = {L = 1},
-			ntype = "con1",
-			on_power = on_power,
-			on_nopower = on_nopower,
-		},
-	}
+	on_timer = node_timer_off,
+	get_generator_data = get_generator_data,
 })
 
 minetest.register_node("techage:ta2_generator_on", {
@@ -199,21 +159,8 @@ minetest.register_node("techage:ta2_generator_on", {
 	groups = {not_in_creative_inventory=1},
 	diggable = false,
 
-	tubelib2_on_update2 = tubelib2_on_update2,
-	on_timer = node_timer,
-	networks = {
-		ele1 = {
-			sides = {R = 1},
-			ntype = "gen1",
-			nominal = PWR_PERF,
-		},
-		axle = {
-			sides = {L = 1},
-			ntype = "con1",
-			on_power = on_power,
-			on_nopower = on_nopower,
-		},
-	}
+	on_timer = node_timer_on,
+	get_generator_data = get_generator_data,
 })
 
 techage.register_node({"techage:ta2_generator_off", "techage:ta2_generator_on"}, {
@@ -222,8 +169,8 @@ techage.register_node({"techage:ta2_generator_off", "techage:ta2_generator_on"},
 	end,
 })
 
-Cable:add_secondary_node_names({"techage:ta2_generator_off", "techage:ta2_generator_on"})
-Axle:add_secondary_node_names({"techage:ta2_generator_off", "techage:ta2_generator_on"})
+power.register_nodes({"techage:ta2_generator_off", "techage:ta2_generator_on"}, Axle, "con", {"L"})
+power.register_nodes({"techage:ta2_generator_off", "techage:ta2_generator_on"}, Cable, "gen", {"R"})
 
 minetest.register_craft({
 	output = "techage:ta2_generator_off",

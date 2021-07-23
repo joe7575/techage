@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -22,7 +22,7 @@ local PWR_PERF = 1
 local PWR_CAPA = 2400 -- ticks (2s) with 1 ku ==> 80 min = 4 game days
 
 local Cable = techage.ElectricCable
-local power = techage.power
+local power = networks.power
 
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
@@ -34,7 +34,6 @@ local function node_timer(pos, elapsed)
 	
 	if t > 0.25 and t < 0.75 then
 		if nvm.providing then
-			power.generator_stop(pos, Cable, 5)
 			nvm.providing = false
 			nvm.provided = 0
 		end
@@ -44,14 +43,14 @@ local function node_timer(pos, elapsed)
 	else
 		if nvm.capa > 0 then
 			if not nvm.providing then
-				power.generator_start(pos, Cable, CYCLE_TIME, 5)
+				power.start_storage_calc(pos, Cable, 5)
 				nvm.providing = true
 			else
-				nvm.provided = power.generator_alive(pos, Cable, CYCLE_TIME, 5)
+				nvm.provided = power.provide_power(pos, Cable, 5, PWR_PERF)
 				nvm.capa = nvm.capa - nvm.provided
 			end
 		else
-			power.generator_stop(pos, Cable, 5)
+			power.start_storage_calc(pos, Cable, 5)
 			nvm.providing = false
 			nvm.provided = 0
 			nvm.capa = 0
@@ -78,18 +77,6 @@ local function after_dig_node(pos, oldnode, oldmetadata)
 	techage.del_mem(pos)
 end
 
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
-	power.update_network(pos, outdir, tlib2)
-end
-
-local net_def = {
-	ele1 = {
-		sides = {D = 1},
-		ntype = "gen1",
-		nominal = PWR_PERF,
-	},
-}
-
 minetest.register_node("techage:ta4_solar_minicell", {
 	description = S("TA4 Streetlamp Solar Cell"),
 	tiles = {
@@ -114,11 +101,9 @@ minetest.register_node("techage:ta4_solar_minicell", {
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	on_timer = node_timer,
-	tubelib2_on_update2 = tubelib2_on_update2,
-	networks = net_def,
 })
 
-Cable:add_secondary_node_names({"techage:ta4_solar_minicell"})
+power.register_nodes({"techage:ta4_solar_minicell"}, Cable, "gen", {"D"})
 
 techage.register_node({"techage:ta4_solar_minicell"}, {	
 	on_recv_message = function(pos, src, topic, payload)

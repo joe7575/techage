@@ -18,51 +18,34 @@ local M = minetest.get_meta
 local S = techage.S
 
 local CYCLE_TIME = 2
-local PWR_PERF = 10
 local PWR_CAPA = 2000
 
 local Cable = techage.ElectricCable
-local power = techage.power
-local networks = techage.networks
+local power = networks.power
+local control = networks.control
 local in_range = techage.in_range
 
 
 local function formspec(self, pos, nvm)
-	local needed = nvm.needed or 0
-	local capa = nvm.capa or 0
-	return "size[5,4]"..
-		default.gui_bg..
-		default.gui_bg_img..
-		default.gui_slots..
-		"box[0,-0.1;4.8,0.5;#c6e8ff]"..
-		"label[1,-0.1;"..minetest.colorize( "#000000", S("TA3 Akku Box")).."]"..
-		power.formspec_label_bar(pos, 0, 0.8, S("Load"), PWR_CAPA, capa)..
-		"image_button[2.6,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
-		"tooltip[3,2;1,1;"..self:get_state_tooltip(nvm).."]"..
-		"label[3.7,1.2;"..S("Electricity").."]"..
-		"image[3.8,1.7;1,2;"..techage.power.formspec_load_bar(needed, PWR_PERF).."]"
-end
-
-local function on_power(pos)
-end
-
-local function on_nopower(pos)
+	local data
+	
+	if nvm.running then
+		local outdir = M(pos):get_int("outdir")
+		data = power.get_network_data(pos, Cable, outdir)
+	end
+	return techage.storage_formspec(self, pos, nvm, S("TA3 Akku Box"), data, nvm.capa, PWR_CAPA)
 end
 
 local function start_node(pos, nvm, state)
 	nvm.running = true
-	nvm.needed = 0
 	local outdir = M(pos):get_int("outdir")
-	power.generator_start(pos, Cable, CYCLE_TIME, outdir)
-	power.consumer_start(pos, Cable, CYCLE_TIME)
+	power.start_storage_calc(pos, Cable, outdir)
 end
 
 local function stop_node(pos, nvm, state)
 	nvm.running = false
-	nvm.needed = 0
 	local outdir = M(pos):get_int("outdir")
-	power.generator_stop(pos, Cable, outdir)
-	power.consumer_stop(pos, Cable)
+	power.start_storage_calc(pos, Cable, outdir)
 end
 
 local State = techage.NodeStates:new({
@@ -76,24 +59,16 @@ local State = techage.NodeStates:new({
 
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
-	nvm.capa = nvm.capa or 0
-	local outdir = M(pos):get_int("outdir")
-	local taken = 0
-	local given = 0
-	if nvm.capa < PWR_CAPA then
-		taken = power.consumer_alive(pos, Cable, CYCLE_TIME)
+	if nvm.running then
+		local outdir = M(pos):get_int("outdir")
+		local capa = power.get_storage_load(pos, Cable, outdir, PWR_CAPA) or 0
+		if capa > 0 then
+			nvm.capa = capa
+		end
 	end
-	if nvm.capa > 0 then
-		given = power.generator_alive(pos, Cable, CYCLE_TIME, outdir)
-	end
-	nvm.needed = taken - given
-	nvm.capa = in_range(nvm.capa + nvm.needed, 0, PWR_CAPA)
-	--print("node_timer accu "..P2S(pos), nvm.needed, nvm.capa)
-	
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(State, pos, nvm))
 	end
-	
 	return true		
 end
 
@@ -110,6 +85,13 @@ local function on_receive_fields(pos, formname, fields, player)
 	local nvm = techage.get_nvm(pos)
 	State:state_button_event(pos, nvm, fields)
 	M(pos):set_string("formspec", formspec(State, pos, nvm))
+end
+
+local function get_storage_data(pos, outdir, tlib2)
+	local nvm = techage.get_nvm(pos)
+	if nvm.running then
+		return {level = (nvm.capa or 0) / PWR_CAPA, capa = PWR_CAPA}
+	end
 end
 
 local function get_capa(itemstack)
@@ -137,31 +119,19 @@ local function after_place_node(pos, placer, itemstack)
 	local own_num = techage.add_node(pos, "techage:ta3_akku")
 	meta:set_string("owner", placer:get_player_name())
 	meta:set_string("infotext", S("TA3 Accu Box").." "..own_num)
-	meta:set_int("outdir", networks.side_to_outdir(pos, "R"))
+	local outdir = networks.side_to_outdir(pos, "R")
+	meta:set_int("outdir", outdir)
 	meta:set_string("formspec", formspec(State, pos, nvm))
-	Cable:after_place_node(pos)
+	Cable:after_place_node(pos, {outdir})
 	State:node_init(pos, nvm, own_num)
 	nvm.capa = get_capa(itemstack)
 end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
-	Cable:after_dig_node(pos)
+	local outdir = tonumber(oldmetadata.fields.outdir or 0)
+	Cable:after_dig_node(pos, {outdir})        
 	techage.del_mem(pos)
 end
-
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
-	power.update_network(pos, outdir, tlib2)
-end
-
-local net_def = {
-	ele1 = {
-		sides = {R = 1},
-		ntype = {"gen2", "con2"},
-		nominal = PWR_PERF,
-		on_power = on_power,
-		on_nopower = on_nopower,
-	},
-}
 
 minetest.register_node("techage:ta3_akku", {
 	description = S("TA3 Accu Box"),
@@ -180,8 +150,7 @@ minetest.register_node("techage:ta3_akku", {
 	on_receive_fields = on_receive_fields,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	tubelib2_on_update2 = tubelib2_on_update2,
-	networks = net_def,
+	get_storage_data = get_storage_data,
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -190,7 +159,7 @@ minetest.register_node("techage:ta3_akku", {
 	preserve_metadata = set_capa,
 })
 
-Cable:add_secondary_node_names({"techage:ta3_akku"})
+power.register_nodes({"techage:ta3_akku"}, Cable, "sto", {"R"})
 
 -- for logical communication
 techage.register_node({"techage:ta3_akku"}, {
@@ -198,26 +167,30 @@ techage.register_node({"techage:ta3_akku"}, {
 		local nvm = techage.get_nvm(pos)
 		if topic == "load" then
 			return techage.power.percent(PWR_CAPA, nvm.capa)
-		elseif topic == "delivered" then
-			return -(nvm.needed or 0)
 		else
 			return State:on_receive_message(pos, topic, payload)
 		end
 	end,
-	on_node_load = function(pos)
-		local meta = M(pos)
-		meta:set_int("outdir", networks.side_to_outdir(pos, "R"))
-		if meta:get_string("node_number") == "" then
-			local own_num = techage.add_node(pos, "techage:ta3_akku")
-			meta:set_string("node_number", own_num)
-			meta:set_string("infotext", S("TA3 Accu Box").." "..own_num)
-		end
-		local mem = tubelib2.get_mem(pos)
-		local nvm = techage.get_nvm(pos)
-		nvm.capa = (nvm.capa or 0) + (mem.capa or 0)
-		tubelib2.del_mem(pos)
-	end,
 })
+
+control.register_nodes({"techage:ta3_akku"}, {
+		on_receive = function(pos, tlib2, topic, payload)
+		end,
+		on_request = function(pos, tlib2, topic)
+			if topic == "info" then
+				local nvm = techage.get_nvm(pos)
+				return {
+					type = S("TA3 Accu Box"),
+					number = M(pos):get_string("node_number") or "",
+					running = nvm.running or false,
+					capa = PWR_CAPA ,
+					load = nvm.capa or 0,
+				}
+			end
+			return false
+		end,
+	}
+)
 
 minetest.register_craft({
 	output = "techage:ta3_akku",

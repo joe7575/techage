@@ -23,7 +23,7 @@ local OIL_MAX = 20000
 local DEPTH_MIN = 16
 local DEPTH_MAX = 25*16
 local DEPTH_STEP = 16
-local YPOS_MAX = -6*16  -- oil can found below this level
+local YPOS_MAX = -6*16  -- oil can't found below this level
 local OIL_BUBBLE_SIZE = 4096
 
 local seed = tonumber(minetest.settings:get("techage_oil_exploration_seed")) or 1234  -- confidental!

@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -247,6 +247,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		sounds = default.node_sound_wood_defaults(),
 		num_items = {0,1,2,4},
 		power_consumption = {0,4,6,9},
+		tube_sides = {L=1, R=1, U=1},
 	})
 
 minetest.register_craft({
@@ -258,23 +259,23 @@ minetest.register_craft({
 	},
 })
 
-minetest.register_craft({
-	output = node_name_ta3,
-	recipe = {
-		{"", "default:mese_crystal", ""},
-		{"", node_name_ta2, ""},
-		{"", "techage:vacuum_tube", ""},
-	},
-})
+--minetest.register_craft({
+--	output = node_name_ta3,
+--	recipe = {
+--		{"", "default:mese_crystal", ""},
+--		{"", node_name_ta2, ""},
+--		{"", "techage:vacuum_tube", ""},
+--	},
+--})
 
-minetest.register_craft({
-	output = node_name_ta4,
-	recipe = {
-		{"", "default:mese_crystal", ""},
-		{"", node_name_ta3, ""},
-		{"", "techage:ta4_wlanchip", ""},
-	},
-})
+--minetest.register_craft({
+--	output = node_name_ta4,
+--	recipe = {
+--		{"", "default:mese_crystal", ""},
+--		{"", node_name_ta3, ""},
+--		{"", "techage:ta4_wlanchip", ""},
+--	},
+--})
 
 if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("grinding", {

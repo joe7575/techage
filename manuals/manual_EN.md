@@ -37,6 +37,30 @@ From TA3, the machines run on electricity and have a communication interface for
 TA4 adds more power sources, but also higher logistical challenges (power lines, item transport).
 
 
+
+## Changes from version 1.0
+
+From V1.0 (07/17/2021) the following has changed:
+
+- The algorithm for calculating the power distribution has changed. This makes energy storage systems more important. These compensate for fluctuations, which is important in larger networks with several generators.
+- For this reason TA2 got its own energy storage.
+- The battery blocks from TA3 also serve as energy storage. Their functionality has been adapted accordingly.
+- The TA4 storage system has been revised. The heat heat exchanger have been given a new number because the functionality has been moved from the lower to the middle block. If these were remotely controlled, the node number must be adapted. The generators no longer have their own menu, but are only switched on / off via the heat exchanger. The heat exchanger and generator must now be connected to the same network!
+- Several power grids can now be coupled via a TA4 transformer blocks.
+- A TA4 electricity meter block for sub-networks is also new.
+- At least one battery block or a storage system in each network
+
+
+### Tips on switching
+
+Many more blocks have received minor changes. It is therefore possible that machines or systems do not start up again immediately after the changeover. In the event of malfunctions, the following tips will help:
+
+- Switch machines off and on again
+- remove a power cable block and put it back in place
+- remove the block completely and put it back in place
+
+
+
 ## Ores and Minerals
 
 Techage adds some new items to the game:

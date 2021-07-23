@@ -16,11 +16,11 @@
 local M = minetest.get_meta
 local S = techage.S
 
-local CYCLE_TIME = 2
 local PWR_NEEDED = 14
+local CYCLE_TIME = 2
 
 local Cable = techage.ElectricCable
-local power = techage.power
+local power = networks.power
 
 local function swap_node(pos, name)
 	local node = techage.get_node_lvm(pos)
@@ -31,18 +31,6 @@ local function swap_node(pos, name)
 	minetest.swap_node(pos, node)
 end
 
-local function on_power(pos)
-	swap_node(pos, "techage:furnace_heater_on")
-end
-
-local function on_nopower(pos)
-	swap_node(pos, "techage:furnace_heater")
-end
-
-local function node_timer(pos, elapsed)
-	power.consumer_alive(pos, Cable, CYCLE_TIME)
-	return true
-end
 
 local function after_place_node(pos)
 	Cable:after_place_node(pos)
@@ -51,10 +39,6 @@ end
 local function after_dig_node(pos, oldnode)
 	Cable:after_dig_node(pos)
 	techage.del_mem(pos)
-end
-
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
-	power.update_network(pos, outdir, tlib2)
 end
 
 minetest.register_node("techage:furnace_heater", {
@@ -69,19 +53,15 @@ minetest.register_node("techage:furnace_heater", {
 		"techage_concrete.png^techage_appl_heater.png^techage_frame_ta3.png",
 	},
 	
-	on_timer = node_timer,
+	on_timer = function(pos, elapsed)
+		local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
+		if consumed == PWR_NEEDED then
+			swap_node(pos, "techage:furnace_heater_on")
+		end
+		return true
+	end,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	tubelib2_on_update2 = tubelib2_on_update2,
-	networks = {
-		ele1 = {
-			sides = {B = true, F = true, L = true, D = true, U = true},
-			ntype = "con1",
-			on_power = on_power,
-			on_nopower = on_nopower,
-			nominal = PWR_NEEDED,
-		},
-	},
 	
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -102,20 +82,15 @@ minetest.register_node("techage:furnace_heater_on", {
 		"techage_concrete.png^techage_appl_heater_on.png^techage_frame_ta3.png",
 	},
 	
-	on_timer = node_timer,
+	on_timer = function(pos, elapsed)
+		local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
+		if consumed < PWR_NEEDED then
+			swap_node(pos, "techage:furnace_heater")
+		end
+		return true
+	end,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	tubelib2_on_update2 = tubelib2_on_update2,
-	networks = {
-		ele1 = {
-			sides = {B = true, F = true, L = true, D = true, U = true},
-			ntype = "con1",
-			on_power = on_power,
-			on_nopower = on_nopower,
-			nominal = PWR_NEEDED,
-			is_running = function() return true end,
-		},
-	},
 	
 	light_source = 8,
 	paramtype2 = "facedir",
@@ -126,16 +101,7 @@ minetest.register_node("techage:furnace_heater_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-Cable:add_secondary_node_names({"techage:furnace_heater", "techage:furnace_heater_on"})
-
-minetest.register_craft({
-	output = "techage:furnace_heater",
-	recipe = {
-		{'techage:aluminum', 'default:steel_ingot', 'techage:aluminum'},
-		{'techage:basalt_stone', 'basic_materials:heating_element', 'techage:basalt_stone'},
-		{'techage:aluminum', 'techage:ta4_furnace_ceramic', 'techage:aluminum'},
-	},
-})
+power.register_nodes({"techage:furnace_heater", "techage:furnace_heater_on"}, Cable, "con", {"B", "F", "L", "D", "U"})
 
 techage.register_node({"techage:furnace_heater", "techage:furnace_heater_on"}, {
 	-- called from furnace_top
@@ -148,16 +114,23 @@ techage.register_node({"techage:furnace_heater", "techage:furnace_heater_on"}, {
 		elseif topic == "start" and not nvm.running then
 			if power.power_available(pos, Cable) then
 				nvm.running = true
-				power.consumer_start(pos, Cable, CYCLE_TIME)
 				minetest.get_node_timer(pos):start(CYCLE_TIME)
 				return true
 			end
 		elseif topic == "stop" and nvm.running then
 			nvm.running = false
 			swap_node(pos, "techage:furnace_heater")
-			power.consumer_stop(pos, Cable)
 			minetest.get_node_timer(pos):stop()
 			return true
 		end
 	end
 })	
+
+minetest.register_craft({
+	output = "techage:furnace_heater",
+	recipe = {
+		{'techage:aluminum', 'default:steel_ingot', 'techage:aluminum'},
+		{'techage:basalt_stone', 'basic_materials:heating_element', 'techage:basalt_stone'},
+		{'techage:aluminum', 'techage:ta4_furnace_ceramic', 'techage:aluminum'},
+	},
+})

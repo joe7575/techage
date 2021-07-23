@@ -26,7 +26,7 @@ local techage_use_sqlite = minetest.settings:get_bool('techage_use_sqlite', fals
 local string_split = string.split
 local NodeDef = techage.NodeDef
 local Tube = techage.Tube
-local is_cart_available = minecart.is_cart_available
+local is_cart_available = minecart.is_nodecart_available
 
 -------------------------------------------------------------------
 -- Database
@@ -163,6 +163,19 @@ local function is_air_like(name)
 	end
 	return false
 end
+
+techage.SystemTime = 0
+minetest.register_globalstep(function(dtime)
+	techage.SystemTime = techage.SystemTime + dtime
+end)
+
+-- used by TA1 hammer: dug_node[player_name] = pos
+techage.dug_node = {}
+minetest.register_on_dignode(function(pos, oldnode, digger)
+	if not digger then return end
+	-- store pos for tools without own 'register_on_dignode'
+	techage.dug_node[digger:get_player_name()] = pos
+end)
 
 -------------------------------------------------------------------
 -- API helper functions

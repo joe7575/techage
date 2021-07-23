@@ -290,6 +290,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		is_ground_content = false,
 		sounds = default.node_sound_wood_defaults(),
 		num_items = {0,2,6,12},
+		tube_sides = {L=1, R=1},
 	})
 
 minetest.register_craft({

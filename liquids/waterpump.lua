@@ -17,12 +17,11 @@ local M = minetest.get_meta
 local S = techage.S
 
 local Cable = techage.ElectricCable
-local power = techage.power
 local Pipe = techage.LiquidPipe
-local liquid = techage.liquid
-local networks = techage.networks
+local power = networks.power
+local liquid = networks.liquid
 
-local CYCLE_TIME = 4
+local CYCLE_TIME = 2
 local STANDBY_TICKS = 3
 local COUNTDOWN_TICKS = 3
 local PWR_NEEDED = 4
@@ -51,12 +50,11 @@ local function can_start(pos, nvm, state)
 end
 
 local function start_node(pos, nvm, state)
-	power.consumer_start(pos, Cable, CYCLE_TIME)
+	nvm.running = true
 end
 
 local function stop_node(pos, nvm, state)
 	nvm.running = false
-	power.consumer_stop(pos, Cable)
 end
 
 local State = techage.NodeStates:new({
@@ -70,30 +68,31 @@ local State = techage.NodeStates:new({
 	stop_node = stop_node,
 })
 
-local function on_power(pos)
-	local nvm = techage.get_nvm(pos)
-	State:start(pos, nvm)
-	nvm.running = true
-end
-
-local function on_nopower(pos)
-	local nvm = techage.get_nvm(pos)
-	State:nopower(pos, nvm)
-	nvm.running = false
+local function has_power(pos, nvm)
+    local outdir = networks.Flip[M(pos):get_int("waterdir")]
+    local taken = power.consume_power(pos, Cable, outdir, PWR_NEEDED)
+    if techage.is_running(nvm) then
+        if taken < PWR_NEEDED then
+            State:nopower(pos, nvm)
+        else
+            return true  -- keep running
+        end
+    elseif taken == PWR_NEEDED then
+        State:start(pos, nvm)
+    end
 end
 
 local function pumping(pos, nvm)
-	if techage.needs_power(nvm) then
-		power.consumer_alive(pos, Cable, CYCLE_TIME)
-	end
-	if nvm.running then
-		local leftover = liquid.put(pos, 6, "techage:water", 1)
-		if leftover and leftover > 0 then
-			State:blocked(pos, nvm)
-			return
+	if has_power(pos, nvm) then
+		nvm.ticks = (nvm.ticks or 0) + 1
+		if nvm.ticks % 4 == 0 then
+			local leftover = liquid.put(pos, Pipe, 6, "techage:water", 1)
+			if leftover and leftover > 0 then
+				State:blocked(pos, nvm)
+				return
+			end
 		end
-		State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-		return
+		State:keep_running(pos, nvm, 1)
 	end
 end
 
@@ -126,31 +125,8 @@ end
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	Pipe:after_dig_node(pos)
 	Cable:after_dig_node(pos)
-	liquid.after_dig_pump(pos)
 	techage.del_mem(pos)
 end
-
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
-	if tlib2.tube_type == "pipe2" then
-		liquid.update_network(pos, outdir, tlib2)
-	else
-		power.update_network(pos, outdir, tlib2)
-	end
-end
-
-local netw_def = {
-	pipe2 = {
-		sides = {U = 1}, -- Pipe connection sides
-		ntype = "pump",
-	},
-	ele1 = {
-		sides = {L = 1}, -- Cable connection sides
-		ntype = "con1",
-		on_power = on_power,
-		on_nopower = on_nopower,
-		nominal = PWR_NEEDED,
-	},
-}
 
 minetest.register_node("techage:t4_waterpump", {
 	description = S("TA4 Water Pump"),
@@ -166,8 +142,6 @@ minetest.register_node("techage:t4_waterpump", {
 
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	tubelib2_on_update2 = tubelib2_on_update2,
-	networks = netw_def,
 	on_receive_fields = on_receive_fields,
 	on_timer = node_timer,
 	
@@ -177,21 +151,11 @@ minetest.register_node("techage:t4_waterpump", {
 	is_ground_content = false,
 })
 
-Cable:add_secondary_node_names({"techage:t4_waterpump"})
-Pipe:add_secondary_node_names({"techage:t4_waterpump"})
+power.register_nodes({"techage:t4_waterpump"}, Cable, "con", {"L"})
+liquid.register_nodes({"techage:t4_waterpump"}, Pipe, "pump", {"U"}, {})
 
 techage.register_node({"techage:t4_waterpump"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		return State:on_receive_message(pos, topic, payload)
 	end,
 })	
-
---minetest.register_craft({
---	output = "techage:t4_waterpump",
---	recipe = {
---		{"", "default:mese_crystal", ""},
---		{"", "techage:ta3_liquidsampler_pas", ""},
---		{"", "techage:ta4_wlanchip", ""},
---	},
---})
-

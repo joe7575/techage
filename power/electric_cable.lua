@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -18,7 +18,7 @@ local P2S = minetest.pos_to_string
 local M = minetest.get_meta
 local S = techage.S
 
-local power = techage.power
+local power = networks.power
 
 local ELE1_MAX_CABLE_LENGHT = 1000
 
@@ -29,56 +29,32 @@ local Cable = tubelib2.Tube:new({
 	tube_type = "ele1",
 	primary_node_names = {"techage:electric_cableS", "techage:electric_cableA",
 		"techage:power_line", "techage:power_lineS", "techage:power_lineA", 
-		"techage:power_pole2", "techage:powerswitch_box"},
+		"techage:power_pole2", "techage:powerswitch_box", "techage:powerswitch_box_on"},
 	secondary_node_names = {},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
-		-- Handle "power line" nodes
 		local name = minetest.get_node(pos).name
-		if name == "techage:power_pole2" then
-			M(pos):set_int("tl2_param2", param2)
-			return
-		elseif name == "techage:powerswitch_box" then
-			minetest.swap_node(pos, {name = "techage:powerswitch_box", param2 = param2 % 32})
-			M(pos):set_int("tl2_param2", param2)
-			return
+		if name == "techage:powerswitch_box" or name == "techage:powerswitch_box_on" or name == "techage:powerswitch_box_off" then
+			minetest.swap_node(pos, {name = name, param2 = param2 % 32})
 		elseif name == "techage:power_line" or name == "techage:power_lineS" or name == "techage:power_lineA" then
 			minetest.swap_node(pos, {name = "techage:power_line"..tube_type, param2 = param2 % 32})
-			M(pos):set_int("tl2_param2", param2)
-			return
-		end
-		-- Don't replace "hidden" cable
-		if M(pos):get_string("techage_hidden_nodename") == "" then
+		elseif name == "techage:power_pole2" then
+			-- nothing
+		elseif not networks.hidden_name(pos) then
 			minetest.swap_node(pos, {name = "techage:electric_cable"..tube_type, param2 = param2 % 32})
 		end
-		M(pos):set_int("tl2_param2", param2)
+		print("param2", name, param2)
+		M(pos):set_int("netw_param2", param2)
 	end,
 })
 
+-- Enable hidden cables
+networks.use_metadata(Cable)
+networks.register_hidden_message("Use the trowel tool to remove the node.")
 
--- Overridden method of tubelib2!
-function Cable:get_primary_node_param2(pos, dir) 
-	return techage.get_primary_node_param2(pos, dir)
-end
-
-function Cable:is_primary_node(pos, dir)
-	return techage.is_primary_node(pos, dir)
-end
-
-function Cable:get_secondary_node(pos, dir)
-	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
-	local node = self:get_node_lvm(npos)
-	if self.secondary_node_names[node.name] or 
-			self.secondary_node_names[M(npos):get_string("techage_hidden_nodename")] then
-		return node, npos, true
-	end
-end
-
-function Cable:is_secondary_node(pos, dir)
-	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
-	local node = self:get_node_lvm(npos)
-	return self.secondary_node_names[node.name] or 
-			self.secondary_node_names[M(npos):get_string("techage_hidden_nodename")]
-end
+-- Use global callback instead of node related functions
+Cable:register_on_tube_update2(function(pos, outdir, tlib2, node)
+	power.update_network(pos, outdir, tlib2, node)
+end)
 
 minetest.register_node("techage:electric_cableS", {
 	description = S("TA Electric Cable"),
@@ -101,10 +77,7 @@ minetest.register_node("techage:electric_cableS", {
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
-			oldnode.param2 = oldmetadata.fields.tl2_param2
-			Cable:after_dig_tube(pos, oldnode)
-		end
+		Cable:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
 	
 	paramtype2 = "facedir", -- important!
@@ -137,10 +110,7 @@ minetest.register_node("techage:electric_cableA", {
 	},
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
-			oldnode.param2 = oldmetadata.fields.tl2_param2
-			Cable:after_dig_tube(pos, oldnode)
-		end
+		Cable:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
 	
 	paramtype2 = "facedir", -- important!
@@ -162,11 +132,6 @@ minetest.register_node("techage:electric_cableA", {
 	sounds = default.node_sound_defaults(),
 	drop = "techage:electric_cableS",
 })
-
--- only needed for hidden nodes, cause they don't have a tubelib2_on_update2 callback
-Cable:register_on_tube_update(function(node, pos, out_dir, peer_pos, peer_in_dir)
-	power.update_network(pos, nil, Cable)
-end)
 
 minetest.register_craft({
 	output = "techage:electric_cableS 6",

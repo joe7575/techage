@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -17,10 +17,9 @@ local M = minetest.get_meta
 local S = techage.S
 
 local Cable = techage.ElectricCable
-local power = techage.power
+local power = networks.power
 local Pipe = techage.LiquidPipe
-local liquid = techage.liquid
-local networks = techage.networks
+local liquid = networks.liquid
 
 local CYCLE_TIME = 2
 local STANDBY_TICKS = 3
@@ -28,39 +27,53 @@ local PWR_NEEDED = 35
 local PWR_UNITS_PER_HYDROGEN_ITEM = 80
 local CAPACITY = 200
 
+local function evaluate_percent(s)
+	return (tonumber(s:sub(1, -2)) or 0) / 100
+end
+
 local function formspec(self, pos, nvm)
 	local amount = (nvm.liquid and nvm.liquid.amount) or 0
 	local lqd_name = (nvm.liquid and nvm.liquid.name) or "techage:liquid"
 	local arrow = "image[3,1.5;1,1;techage_form_arrow_bg.png^[transformR270]"
-	if nvm.running then
+	if techage.is_running(nvm) then
 		arrow = "image[3,1.5;1,1;techage_form_arrow_fg.png^[transformR270]"
 	end
 	if amount > 0 then
-		lqd_name = lqd_name.." "..amount
+		lqd_name = lqd_name .. " " .. amount
 	end
-	return "size[6,4]"..
-		default.gui_bg..
-		default.gui_bg_img..
-		default.gui_slots..
-		"box[0,-0.1;5.8,0.5;#c6e8ff]"..
-		"label[2.5,-0.1;"..minetest.colorize( "#000000", S("Electrolyzer")).."]"..
-		techage.power.formspec_label_bar(pos, 0.1, 0.8, S("Electricity"), PWR_NEEDED, nvm.taken)..
-		arrow..
-		"image_button[3,2.5;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
-		"tooltip[3,2.5;1,1;"..self:get_state_tooltip(nvm).."]"..
+	return "size[6,4]" ..
+		default.gui_bg ..
+		default.gui_bg_img ..
+		default.gui_slots ..
+		"box[0,-0.1;5.8,0.5;#c6e8ff]" ..
+		"label[0.2,-0.1;" .. minetest.colorize( "#000000", S("Electrolyzer")) .. "]" ..
+		techage.wrench_tooltip(5.4, -0.1)..
+		techage.formspec_power_bar(pos, 0.1, 0.8, S("Electricity"), nvm.taken, PWR_NEEDED) ..
+		arrow ..
+		"image_button[3,2.5;1,1;" .. self:get_state_button_image(nvm) .. ";state_button;]" ..
+		"tooltip[3,2.5;1,1;" .. self:get_state_tooltip(nvm) .. "]" ..
 		techage.item_image(4.5,2, lqd_name)
 end
 
+local function can_start(pos, nvm, state)
+	nvm.liquid = nvm.liquid or {}
+	nvm.liquid.amount = nvm.liquid.amount or 0
+	
+	if nvm.liquid.amount < CAPACITY then
+		return true
+	end
+	return S("Storage full")
+end
+
 local function start_node(pos, nvm, state)
-	nvm.running = true
-	nvm.taken = 0
-	power.consumer_start(pos, Cable, CYCLE_TIME)
+	nvm.taken  = 0
+	nvm.reduction = evaluate_percent(M(pos):get_string("reduction"))
+	nvm.turnoff = evaluate_percent(M(pos):get_string("turnoff"))
 end
 
 local function stop_node(pos, nvm, state)
-	nvm.running = false
 	nvm.taken = 0
-	power.consumer_stop(pos, Cable)
+	nvm.running = nil -- legacy
 end
 
 local State = techage.NodeStates:new({
@@ -70,30 +83,14 @@ local State = techage.NodeStates:new({
 	standby_ticks = STANDBY_TICKS,
 	formspec_func = formspec,
 	infotext_name = S("TA4 Electrolyzer"),
+	can_start = can_start,
 	start_node = start_node,
 	stop_node = stop_node,
 })
 
-local function on_power(pos)
-	local nvm = techage.get_nvm(pos)
-	State:start(pos, nvm)
-	nvm.running = true
-end
-
-local function on_nopower(pos)
-	local nvm = techage.get_nvm(pos)
-	State:stop(pos, nvm)
-	nvm.running = false
-end
-
-local function is_running(pos, nvm) 
-	return nvm.running 
-end
-
 local function generating(pos, nvm)
 	nvm.num_pwr_units = nvm.num_pwr_units or 0
 	nvm.countdown = nvm.countdown or 0
-	--print("electrolyzer", nvm.running, nvm.taken, nvm.num_pwr_units, nvm.liquid.amount)
 	if nvm.taken > 0 then
 		nvm.num_pwr_units = nvm.num_pwr_units + (nvm.taken or 0)
 		if nvm.num_pwr_units >= PWR_UNITS_PER_HYDROGEN_ITEM then
@@ -106,17 +103,33 @@ end
 
 -- converts power into hydrogen
 local function node_timer(pos, elapsed)
+	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
 	nvm.liquid = nvm.liquid or {}
 	nvm.liquid.amount = nvm.liquid.amount or 0
 	
 	if nvm.liquid.amount < CAPACITY then
-		nvm.taken = power.consumer_alive(pos, Cable, CYCLE_TIME)
-		generating(pos, nvm)
-		State:keep_running(pos, nvm, 1) -- TODO warum hier 1 und nicht COUNTDOWN_TICKS?
+		local in_dir = meta:get_int("in_dir")
+		local curr_load = power.get_storage_load(pos, Cable, in_dir, 1)
+		if curr_load > (nvm.turnoff or 0) then
+			local to_be_taken = PWR_NEEDED * (nvm.reduction or 1)
+			nvm.taken = power.consume_power(pos, Cable, in_dir, to_be_taken) or 0
+			local running = techage.is_running(nvm)
+			if not running and nvm.taken == to_be_taken then
+				State:start(pos, nvm)
+			elseif running and nvm.taken < to_be_taken then
+				State:nopower(pos, nvm)
+			elseif running then
+				generating(pos, nvm)
+				State:keep_running(pos, nvm, 1)
+			end
+		elseif curr_load == 0 then
+			State:nopower(pos, nvm)
+		else
+			State:standby(pos, nvm, S("Turnoff point reached"))
+		end
 	else
-		State:blocked(pos, nvm, S("full"))
-		power.consumer_stop(pos, Cable)
+		State:blocked(pos, nvm, S("Storage full"))
 	end
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(State, pos, nvm))
@@ -129,6 +142,7 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	local nvm = techage.get_nvm(pos)
+	techage.set_activeformspec(pos, player)
 	State:state_button_event(pos, nvm, fields)
 	M(pos):set_string("formspec", formspec(State, pos, nvm))
 end
@@ -165,44 +179,32 @@ local function put(pos, indir, name, amount)
 	return leftover
 end
 
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
-	if tlib2.tube_type == "pipe2" then
-		liquid.update_network(pos, outdir, tlib2)
-	else
-		power.update_network(pos, outdir, tlib2)
-	end
-end
-
-local netw_def = {
-	pipe2 = {
-		sides = {R = 1}, -- Pipe connection sides
-		ntype = "tank",
+local tool_config = {
+	{
+		type = "const",
+		name = "needed",
+		label = S("Maximum power consumption [ku]"),      
+		tooltip = S("Maximum possible\ncurrent consumption"),
+		value = PWR_NEEDED,
 	},
-	ele1 = {
-		sides = {L = 1}, -- Cable connection sides
-		ntype = "con2",
-		on_power = on_power,
-		on_nopower = on_nopower,
-		nominal = PWR_NEEDED,
-		is_running = is_running,
+	{
+		type = "dropdown",
+		choices = "20%,40%,60%,80%,100%",
+		name = "reduction",
+		label = S("Current limitation"),      
+		tooltip = S("Configurable value\nfor the current limit"),
+		default = "100%",
+	},
+	{
+		type = "dropdown",
+		choices = "0%,20%,40%,60%,80%",
+		name = "turnoff",
+		label = S("Turnoff point"),      
+		tooltip = S("If the charge of the storage\nsystem exceeds the configured value,\nthe block switches off"),
+		default = "0%",
 	},
 }
-
-local liquid_def = {
-	capa = CAPACITY,
-	peek = liquid.srv_peek,
-	put = put,
-	untake = put,
-	take = function(pos, indir, name, amount)
-		amount, name = liquid.srv_take(pos, indir, name, amount)
-		if techage.is_activeformspec(pos) then
-			local nvm = techage.get_nvm(pos)
-			M(pos):set_string("formspec", formspec(State, pos, nvm))
-		end
-		return amount, name
-	end
-}
-
+	
 minetest.register_node("techage:ta4_electrolyzer", {
 	description = S("TA4 Electrolyzer"),
 	tiles = {
@@ -224,10 +226,7 @@ minetest.register_node("techage:ta4_electrolyzer", {
 	
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	tubelib2_on_update2 = tubelib2_on_update2,
 	on_punch = liquid.on_punch,
-	networks = netw_def,
-	liquid = liquid_def,
 	on_receive_fields = on_receive_fields,
 	on_timer = node_timer,
 	on_rightclick = on_rightclick,
@@ -236,6 +235,7 @@ minetest.register_node("techage:ta4_electrolyzer", {
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
+	ta3_formspec = tool_config,
 })
 
 minetest.register_node("techage:ta4_electrolyzer_on", {
@@ -268,9 +268,6 @@ minetest.register_node("techage:ta4_electrolyzer_on", {
 		},
 	},
 
-	tubelib2_on_update2 = tubelib2_on_update2,
-	networks = netw_def,
-	liquid = liquid_def,
 	on_receive_fields = on_receive_fields,
 	on_punch = liquid.on_punch,
 	on_timer = node_timer,
@@ -283,10 +280,47 @@ minetest.register_node("techage:ta4_electrolyzer_on", {
 	diggable = false,
 	paramtype = "light",
 	light_source = 6,
+	ta3_formspec = tool_config,
 })
 
-Cable:add_secondary_node_names({"techage:ta4_electrolyzer", "techage:ta4_electrolyzer_on"})
-Pipe:add_secondary_node_names({"techage:ta4_electrolyzer", "techage:ta4_electrolyzer_on"})
+local liquid_def = {
+	capa = CAPACITY,
+	peek = function(pos)
+		local nvm = techage.get_nvm(pos)
+		return liquid.srv_peek(nvm)
+	end,
+	put = function(pos, indir, name, amount)
+		local nvm = techage.get_nvm(pos)
+		local leftover = liquid.srv_put(nvm, name, amount, CAPACITY)
+		if techage.is_activeformspec(pos) then
+			local nvm = techage.get_nvm(pos)
+			M(pos):set_string("formspec", formspec(State, pos, nvm))
+		end
+		return leftover
+	end,
+	take = function(pos, indir, name, amount)
+		local nvm = techage.get_nvm(pos)
+		amount, name = liquid.srv_take(nvm, name, amount)
+		if techage.is_activeformspec(pos) then
+			local nvm = techage.get_nvm(pos)
+			M(pos):set_string("formspec", formspec(State, pos, nvm))
+		end
+		return amount, name
+	end,
+	untake = function(pos, indir, name, amount)
+		local nvm = techage.get_nvm(pos)
+		local leftover = liquid.srv_put(nvm, name, amount, CAPACITY)
+		if techage.is_activeformspec(pos) then
+			local nvm = techage.get_nvm(pos)
+			M(pos):set_string("formspec", formspec(State, pos, nvm))
+		end
+		return leftover
+	end,
+}
+
+liquid.register_nodes({"techage:ta4_electrolyzer", "techage:ta4_electrolyzer_on"}, Pipe, "tank", {"R"}, liquid_def)
+power.register_nodes({"techage:ta4_electrolyzer", "techage:ta4_electrolyzer_on"}, Cable, "con", {"L"})
+
 techage.register_node({"techage:ta4_electrolyzer", "techage:ta4_electrolyzer_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
@@ -296,6 +330,13 @@ techage.register_node({"techage:ta4_electrolyzer", "techage:ta4_electrolyzer_on"
 			return -math.floor((nvm.taken or 0) + 0.5)
 		else
 			return State:on_receive_message(pos, topic, payload)
+		end
+	end,
+	on_node_load = function(pos, node)
+		local meta = M(pos)
+		if not meta:contains("reduction") then
+			meta:set_string("reduction", "100%")
+			meta:set_string("turnoff", "0%")
 		end
 	end,
 })	

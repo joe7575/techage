@@ -16,9 +16,8 @@ local P = minetest.string_to_pos
 local M = minetest.get_meta
 local S = techage.S
 
-local networks = techage.networks
 local Cable = techage.ElectricCable
-local power = techage.power
+local power = networks.power
 
 local function can_dig(pos, digger)
 	if M(pos):get_string("owner") == digger:get_player_name() then
@@ -44,10 +43,7 @@ minetest.register_node("techage:power_line", {
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
-			oldnode.param2 = oldmetadata.fields.tl2_param2
-			Cable:after_dig_tube(pos, oldnode)
-		end
+		Cable:after_dig_tube(pos, oldnode)
 	end,
 	
 	paramtype2 = "facedir", -- important!
@@ -86,10 +82,7 @@ minetest.register_node("techage:power_lineS", {
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
-			oldnode.param2 = oldmetadata.fields.tl2_param2
-			Cable:after_dig_tube(pos, oldnode)
-		end
+		Cable:after_dig_tube(pos, oldnode)
 	end,
 	
 	paramtype2 = "facedir", -- important!
@@ -134,10 +127,7 @@ minetest.register_node("techage:power_lineA", {
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
-			oldnode.param2 = oldmetadata.fields.tl2_param2
-			Cable:after_dig_tube(pos, oldnode)
-		end
+		Cable:after_dig_tube(pos, oldnode)
 	end,
 	
 	paramtype2 = "facedir", -- important!
@@ -214,13 +204,7 @@ minetest.register_node("techage:power_pole2", {
 	end,
 	can_dig = can_dig,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		if oldmetadata and oldmetadata.fields and oldmetadata.fields.tl2_param2 then
-			oldnode.param2 = oldmetadata.fields.tl2_param2
-			Cable:after_dig_tube(pos, oldnode)
-		end
-	end,
-	tubelib2_on_update2 = function(pos, dir1, tlib2, node)
-		power.update_network(pos, nil, tlib2)
+		Cable:after_dig_tube(pos, oldnode)
 	end,
 	
 	on_rotate = screwdriver.disallow, -- important!
@@ -304,20 +288,10 @@ minetest.register_node("techage:power_pole_conn", {
 	},
 	connects_to = {"techage:power_line", "techage:power_lineS", "techage:power_lineA"},
 
-	-- after_place_node -- see techage:power_pole
-	tubelib2_on_update2 = function(pos, dir1, tlib2, node)
-		power.update_network(pos, nil, tlib2)
-	end,
+	can_dig = can_dig,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Cable:after_dig_node(pos)
 	end,
-	can_dig = can_dig,
-	networks = {
-		ele1 = {
-			sides = networks.AllSides, -- connection sides for cables
-			ntype = "junc",
-		},
-	},
 	
 	drop = "techage:power_pole",
 	on_rotate = screwdriver.disallow, -- important!
@@ -329,8 +303,7 @@ minetest.register_node("techage:power_pole_conn", {
 	sounds = default.node_sound_defaults(),
 })
 
-Cable:add_secondary_node_names({"techage:power_pole_conn"})
-
+power.register_nodes({"techage:power_pole_conn"}, Cable, "junc")
 
 minetest.register_node("techage:power_pole3", {
 	description = S("TA Power Pole"),

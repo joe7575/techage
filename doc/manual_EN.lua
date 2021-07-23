@@ -3,6 +3,8 @@ techage.manual_EN = {}
 techage.manual_EN.aTitel = {
   "1,Tech Age Mod",
   "2,Hints",
+  "2,Changes from version 1.0",
+  "3,Tips on switching",
   "2,Ores and Minerals",
   "3,Meridium",
   "3,Usmium",
@@ -29,6 +31,9 @@ techage.manual_EN.aTitel = {
   "3,TA2 Steam Pipes",
   "3,TA2 Drive Axle / TA2 Gearbox",
   "3,TA2 Power Generator",
+  "2,TA2 energy storage",
+  "3,TA2 Winch",
+  "3,TA2 Weight Chest",
   "2,Push and sort items",
   "3,TechAge Tube",
   "3,Tube Concentrator",
@@ -56,6 +61,7 @@ techage.manual_EN.aTitel = {
   "3,TA3 generator",
   "3,TA3 cooler",
   "2,Electrical current",
+  "3,Importance of storage systems",
   "3,TA Electric Cable",
   "3,TA Electric Junction Box",
   "3,TA Power Line",
@@ -145,6 +151,10 @@ techage.manual_EN.aTitel = {
   "3,TA4 Generator",
   "3,TA4 Pipe Inlet",
   "3,TA4 Pipe",
+  "2,Power Distribution",
+  "3,TA4 Isolation Transformer",
+  "3,TA4 Electric Meter",
+  "3,TA4 Laser",
   "2,Hydrogen",
   "3,Electrolyzer",
   "3,Fuel Cell",
@@ -196,7 +206,6 @@ techage.manual_EN.aTitel = {
   "3,TA4 Electronic Fab",
   "3,TA4 Injector",
   "3,TA4 Recycler",
-  "3,TA4 Laser",
 }
 
 techage.manual_EN.aText = {
@@ -231,6 +240,22 @@ techage.manual_EN.aText = {
   "From TA3\\, the machines run on electricity and have a communication interface for remote control.\n"..
   "\n"..
   "TA4 adds more power sources\\, but also higher logistical challenges (power lines\\, item transport).\n"..
+  "\n",
+  "From V1.0 (07/17/2021) the following has changed:\n"..
+  "\n"..
+  "  - The algorithm for calculating the power distribution has changed. This makes energy storage systems more important. These compensate for fluctuations\\, which is important in larger networks with several generators.\n"..
+  "  - For this reason TA2 got its own energy storage.\n"..
+  "  - The battery blocks from TA3 also serve as energy storage. Their functionality has been adapted accordingly.\n"..
+  "  - The TA4 storage system has been revised. The heat heat exchanger have been given a new number because the functionality has been moved from the lower to the middle block. If these were remotely controlled\\, the node number must be adapted. The generators no longer have their own menu\\, but are only switched on / off via the heat exchanger. The heat exchanger and generator must now be connected to the same network!\n"..
+  "  - Several power grids can now be coupled via a TA4 transformer blocks.\n"..
+  "  - A TA4 electricity meter block for sub-networks is also new.\n"..
+  "  - At least one battery block or a storage system in each network\n"..
+  "\n",
+  "Many more blocks have received minor changes. It is therefore possible that machines or systems do not start up again immediately after the changeover. In the event of malfunctions\\, the following tips will help:\n"..
+  "\n"..
+  "  - Switch machines off and on again\n"..
+  "  - remove a power cable block and put it back in place\n"..
+  "  - remove the block completely and put it back in place\n"..
   "\n",
   "Techage adds some new items to the game:\n"..
   "\n"..
@@ -402,7 +427,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The drive axles are used to transmit power from the steam engine to other machines. The maximum length of a drive axis is 8 blocks. With TA2 Gearboxes\\, larger distances can be bridged\\, and branches and changes of direction can be realized.\n"..
+  "The drive axles are used to transmit power from the steam engine to other machines. The maximum length of a drive axis is 10 blocks. With TA2 Gearboxes\\, larger distances can be bridged\\, and branches and changes of direction can be realized.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -411,6 +436,20 @@ techage.manual_EN.aText = {
   "If the Power Generator is not supplied with sufficient power\\, it goes into an error state and must be reactivated with a right-click.\n"..
   "\n"..
   "The Power Generator takes max. 25 ku of axle power and provides on the other side max. 24 ku as electricity. So he consumes one ku for the conversion.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "For larger systems with several steam engines or many driven machines\\, an energy storage system is recommended. The energy storage at TA2 works with position energy. For this purpose\\, ballast (stones\\, gravel\\, sand) is pulled up in a chest with the help of a cable winch. If there is excess energy in the axis network\\, the chest is pulled upwards. If more energy is required in the short term than the steam engine can supply\\, the energy store releases the stored energy again and the weight chest moves down again. \n"..
+  "The energy storage consists of several blocks and must be assembled as shown in the plan on the right. \n"..
+  "In order to achieve the maximum storage capacity\\, the chest must be completely filled with weights and the mast including the two gear boxes must be 12 blocks high. Smaller structures are also possible.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The cable winch must be connected to a gear box and can absorb excess energy and thus pull a weight chest upwards. The maximum rope length is 10 blocks. \n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "This chest must be placed under the winch with a distance of up to 10 blocks and filled with cobblestone\\, gravel or sand. If the minimum weight of a stack (99+ items) is reached and there is excess energy\\, the box is automatically connected to the winch via a rope and pulled up. \n"..
   "\n"..
   "\n"..
   "\n",
@@ -592,13 +631,13 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "In TA3 (and TA4) the machines are powered by electricity. To do this\\, the machines and generators must be connected with power cables.\n"..
+  "In TA3 (and TA4) the machines are powered by electricity. To do this\\, machines\\, storage systems\\, and generators must be connected with power cables.\n"..
   "TA3 has 2 types of power cables:\n"..
   "\n"..
   "  - Insulated cables (TA power cables) for local wiring in the floor or in buildings. These cables can be hidden in the wall or in the floor (can be \"plastered\" with the trowel).\n"..
   "  - Overland lines (TA power line) for outdoor cabling over long distances. These cables are protected and cannot be removed by other players.\n"..
   "\n"..
-  "Several consumers and generators can be operated together in a power network. Large networks can be set up with the help of the junction boxes.\n"..
+  "Several consumers\\, storage systems\\, and generators can be operated together in a power network. Networks can be set up with the help of the junction boxes.\n"..
   "If too little electricity is provided\\, consumers run out.\n"..
   "In this context\\, it is also important that the functionality of Forceload blocks is understood\\, because generators\\, for example\\, only supply electricity when the corresponding map block is loaded. This can be enforced with a forceload block.\n"..
   "\n"..
@@ -606,8 +645,25 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Storage systems in the power grid fulfill two tasks:\n"..
+  "\n"..
+  "  - To cope with peaks in demand: All generators always deliver just as much power as is needed. However\\, if consumers are switched on/off or there are fluctuations in demand for other reasons\\, consumers can fail for a short time. To prevent this\\, there should always be at least one battery block in every network. This serves as a buffer and compensates for these fluctuations in the seconds range.\n"..
+  "  - To store regenerative energy: Solar and wind are not available 24 hours a day. So that the power supply does not fail when no electricity is produced\\, one or more storage systems must be installed in the network. Alternatively\\, the gaps can also be bridged with oil/coal electricity.\n"..
+  "\n"..
+  "A storage system indicates its capacity in kud\\, i.e. ku per day. For example\\, a storage system with 100 kud delivers 100 ku for one game day\\, or 10 ku for 10 game days.\n"..
+  "\n"..
+  "All TA3/TA4 energy sources have adjustable charging characteristics. By default this is set to \"80% - 100%\". This means that when the storage system is 80% full\\, the output is reduced further and further until it switches off completely at 100%. If electricity is required in the network\\, 100% will never be reached\\, since the power of the generator has at some point dropped to the electricity demand in the network and the storage system is no longer charged\\, but only the consumers are served.\n"..
+  "\n"..
+  "This has several advantages:\n"..
+  "\n"..
+  "  - The charging characteristics are adjustable. This means\\, for example\\, that oil/coal energy sources can be reduced at 60% and regenerative energy sources only at 80%. This means that oil/coal is only burned if there are not enough renewable energy sources available.\n"..
+  "  - Several energy sources can be operated in parallel and are loaded almost evenly\\, because all energy sources work\\, for example\\, up to 80% of the storage system's charging capacity at their full capacity and then reduce their capacity at the same time.\n"..
+  "  - All storage systems in a network form a large buffer. The charging capacity and the filling level of the entire storage system can always be read in percent on every storage system\\, but also on the electricity terminal.\n"..
+  "\n"..
+  " \n"..
+  "\n",
   "For local wiring in the floor or in buildings.\n"..
-  "Branches can be realized using junction boxes. The maximum cable length between machines or junction boxes is 1000 m. A maximum of 1000 nodes can be connected in a power network. All generators\\, batteries\\, junction boxes and machines count as nodes.\n"..
+  "Branches can be realized using junction boxes. The maximum cable length between machines or junction boxes is 1000 m. A maximum of 1000 nodes can be connected in a power network. All blocks with power connection\\, including junction boxes\\, count as nodes.\n"..
   "\n"..
   "Since the power cables are not automatically protected\\, the land lines (TA power line) are recommended for longer distances.\n"..
   "\n"..
@@ -621,7 +677,6 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "With the junction box\\, electricity can be distributed in up to 6 directions. Junction boxes can also be plastered (hidden) with a trowel and made visible again.\n"..
-  "If the TechAge Info tool (wrench) is clicked on the junction box\\, it is shown whether the power line is powered or not.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -662,17 +717,25 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "The battery block is used to store excess energy and automatically delivers power in the event of a power failure (if available).\n"..
-  "The battery block is a secondary power source. This means that the generators are used first when electricity is required. The battery block will only provide power if there is insufficient electricity in the network. The same applies to the current consumption. Therefore\\, no battery can be charged with another battery.\n"..
-  "The battery delivers 10 ku or takes up 10 ku.\n"..
-  "At full load\\, a battery can take up to 400 s of current and\\, when it is full\\, also release it again. This corresponds to 8 hours of playing time on a normal game day of 20 minutes.\n"..
+  "Several battery blocks together form a TA3 energy storage system. Each battery block has a display for the charging state and for the stored load.\n"..
+  "The values for the entire network are always displayed here. The stored load is displayed in \"kud\" or \"ku-days\" (analogous to kWh) 5 kud thus corresponds\\, for example\\, to 5 ku for a game day (20 min) or 1 ku for 5 game days.\n"..
+  "\n"..
+  "A battery block has 3.33 kud\n"..
   "\n"..
   "\n"..
   "\n",
   "The power terminal must be connected to the power grid. It shows data from the power grid.\n"..
   "\n"..
-  "Only the data of a selected type are output in the upper half. If\\, for example\\, \"Power station\" is selected as the type\\, only the data from oil and coal-fired power stations are collected and output. The data from generators (power delivery) and the data from energy storage devices (power consumption) are output on the left. In the case of the battery blocl\\, for example\\, both are output because the battery can draw and deliver power.\n"..
+  "The most important figures are displayed in the upper half:\n"..
   "\n"..
-  "In the lower half\\, the data of all generators and storage systems of the entire electricity network are summarized.\n"..
+  "  - current/maximum generator power\n"..
+  "  - current power consumption of all consumers\n"..
+  "  - current charging current in/from the storage system\n"..
+  "  - Current state of charge of the storage system in percent\n"..
+  "\n"..
+  "The number of network blocks is output in the lower half.\n"..
+  "\n"..
+  "Additional data on the generators and storage systems can be queried via the \"console\" tab.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1101,7 +1164,8 @@ techage.manual_EN.aText = {
   "",
   "The Techage Info Tool (wrench) has several functions. It shows the time\\, position\\, temperature and biome when an unknown block is clicked on.\n"..
   "If you click on a TechAge block with command interface\\, all available data will be shown (see also \"Logic / switching blocks\").\n"..
-  "In the case of power junction boxes\\, the neighboring network participants (up to 50 meters away) are displayed with a blue cage.\n"..
+  "\n"..
+  "With Shift + right click an extended menu can be opened for some blocks. Depending on the block\\, further data can be called up or special settings can be made here. In the case of a generator\\, for example\\, the charging curve/switch-off can be programmed. \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1135,9 +1199,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "The wind turbine block (rotor) is the heart of the wind turbine. This block must be placed on top of the mast. Ideally at Y = 15\\, then you just stay within a map / forceload block.\n"..
-  "After the block has been set\\, a check is carried out to determine whether all conditions for the operation of the wind turbine have been met. If all conditions are met\\, the rotor blades (wings) appear automatically when this block is set. Otherwise you will get an error message.\n"..
-  "\n"..
-  "The check can be repeated by hitting the block. \n"..
+  "When you start the turbine\\, all conditions for the operation of the wind turbine are checked. If all conditions are met\\, the rotor blades (wings) appear automatically. Otherwise you will get an error message.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1209,11 +1271,13 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The thermal energy storage replaces the battery block from TA3.\n"..
+  "\n"..
   "The thermal energy store consists of a concrete shell (concrete blocks) filled with gravel. Three sizes of the storage are possible:\n"..
   "\n"..
-  "  - Cover with 5x5x5 concrete blocks\\, filled with 27 gravel\\, storage capacity: 1/2 day at 60 ku\n"..
-  "  - Cover with 7x7x7 concrete blocks\\, filled with 125 gravel\\, storage capacity: 2.5 days at 60 ku\n"..
-  "  - Cover with 9x9x9 concrete blocks\\, filled with 343 gravel\\, storage capacity: 6.5 days at 60 ku\n"..
+  "  - Cover with 5x5x5 concrete blocks\\, filled with 27 gravel\\, storage capacity: 22.5 kud\n"..
+  "  - Cover with 7x7x7 concrete blocks\\, filled with 125 gravel\\, storage capacity: 104 kud\n"..
+  "  - Cover with 9x9x9 concrete blocks\\, filled with 343 gravel\\, storage capacity: 286 kud\n"..
   "\n"..
   "A window made of an obsidian glass block may be in the concrete shell. This must be placed fairly in the middle of the wall. Through this window you can see whether the storage is loaded more than 80%. In the plan on the right you can see the structure of TA4 heat exchanger consisting of 3 blocks\\, the TA4 turbine and the TA4 generator. Pay attention to the alignment of the heat exchanger (the arrow at block 1 must point to the turbine).\n"..
   "\n"..
@@ -1221,14 +1285,13 @@ techage.manual_EN.aText = {
   "Both the generator and the heat exchanger have a power connection and must be connected to the power grid.\n"..
   "\n"..
   "In principle\\, the heat storage system works exactly the same as the batteries\\, only with much more storage capacity.\n"..
-  "The heat accumulator can hold and deliver 60 ku.\n"..
   "\n"..
   "In order for the heat storage system to work\\, all blocks (also the concrete shell and gravel) must be loaded using a forceload block.\n"..
   "\n"..
   "\n"..
   "\n",
   "The heat exchanger consists of 3 parts that must be placed on top of each other\\, with the arrow of the first block pointing towards the turbine. The pipes must be built with the yellow TA4 pipes.\n"..
-  "The heat exchanger must be connected to the power grid. The heat exchanger charges the energy store again when sufficient electricity is available and the energy storage is less than 95% charged. The heat exchanger takes up 60 ku. \n"..
+  "The heat exchanger must be connected to the power grid. The energy storage device is recharged via the heat exchanger\\, provided that sufficient electricity is available. \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1237,8 +1300,9 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "The generator is used to generate electricity. Therefore\\, the generator must also be connected to the power grid.\n"..
+  "The generator is part of the energy storage. It is used to generate electricity and thus releases the energy from the energy storage unit. Therefore\\, the generator must also be connected to the power grid.\n"..
   "\n"..
-  "The generator can deliver 60 ku.\n"..
+  "Important: Both\\, heat exchanger and generator must be connected to the same power grid! \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1250,6 +1314,32 @@ techage.manual_EN.aText = {
   "\n",
   "With TA4\\, the yellow pipes are used for the transmission of gas and liquids.\n"..
   "The maximum cable length is 100 m.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "With the help of power cables and junction boxes\\, power networks of up to 1000 blocks/nodes can be set up. However\\, it should be noted that distribution boxes must also be counted. This means that up to 500 generators/storage systems/machines/lamps can be connected to a power grid.\n"..
+  "\n"..
+  "With the help of an isolating transformer and electricity meter\\, networks can be connected to form even larger structures.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "With the help of an isolating transformer\\, two power grids can be connected to form a larger network. The isolation transformer can transmit electricity in both directions.\n"..
+  "\n"..
+  "The isolation transformer can transmit up to 100 ku. \n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "With the help of an electricity meter\\, two electricity networks can be connected to form a larger network. The electricity meter only transmits electricity in one direction (note arrow). The amount of electricity (in kud) is measured and displayed. The amount of electricity can also be queried by a Lua controller using the 'consumption' command.\n"..
+  "\n"..
+  "The electricity meter can pass up to 200 ku. \n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The TA4 laser is used for wireless power transmission. Two blocks are required for this: TA4 Laser Beam Emitter and TA4 Laser Beam Receiver. There must be an air gap between the two blocks so that the laser beam can be built up from the emitter to the receiver. First the emitter must be placed. This immediately switches on the laser beam and shows possible positions of the receiver. Possible positions for the receiver are also output via a chat message. \n"..
+  "\n"..
+  "With the laser\\, distances of up to 96 blocks can be bridged. Once the connection has been established (no current has to flow)\\, this is indicated via the info text of the emitter and also of the receiver. \n"..
+  "\n"..
+  "The laser blocks themselves do not require any electricity.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1268,6 +1358,8 @@ techage.manual_EN.aText = {
   "\n"..
   "The electrolyzer can draw up to 35 ku of electricity and then generates a hydrogen item every 4 s.\n"..
   "200 units of hydrogen fit into the electrolyzer.\n"..
+  "\n"..
+  "The electrolyzer has a wrench menu for setting the current consumption and the switch-off point.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1616,18 +1708,12 @@ techage.manual_EN.aText = {
   "\n"..
   " \n"..
   "\n",
-  "The TA4 laser is used for wireless power transmission. Two blocks are required for this: TA4 Laser Beam Emitter and TA4 Laser Beam Receiver. There must be an air gap between the two blocks so that the laser beam can be built up from the emitter to the receiver. First the emitter must be placed. This immediately switches on the laser beam and shows possible positions of the receiver. Possible positions for the receiver are also output via a chat message. \n"..
-  "\n"..
-  "With the laser\\, distances of up to 96 blocks can be bridged. Once the connection has been established (no current has to flow)\\, this is indicated via the info text of the emitter and also of the receiver. \n"..
-  "\n"..
-  "The laser blocks themselves do not require any electricity.\n"..
-  "\n"..
-  "\n"..
-  "\n",
 }
 
 techage.manual_EN.aItemName = {
   "techage_ta4",
+  "",
+  "",
   "",
   "",
   "meridium",
@@ -1656,6 +1742,9 @@ techage.manual_EN.aItemName = {
   "ta2_driveaxle",
   "ta2_generator",
   "",
+  "ta2_winch",
+  "ta2_weight_chest",
+  "",
   "tube",
   "concentrator",
   "ta2_pusher",
@@ -1682,6 +1771,7 @@ techage.manual_EN.aItemName = {
   "ta3_generator",
   "ta3_cooler",
   "ta3_powerswitch",
+  "power_reduction",
   "ta3_powercable",
   "ta3_powerjunction",
   "ta3_powerline",
@@ -1771,6 +1861,10 @@ techage.manual_EN.aItemName = {
   "ta4_generator",
   "ta4_pipeinlet",
   "ta4_pipe",
+  "ta4_transformer",
+  "ta4_transformer",
+  "ta4_electricmeter",
+  "ta4_laser",
   "ta4_hydrogen",
   "ta4_electrolyzer",
   "ta4_fuelcell",
@@ -1822,10 +1916,11 @@ techage.manual_EN.aItemName = {
   "ta4_electronicfab",
   "ta4_injector",
   "ta4_recycler",
-  "ta4_laser",
 }
 
 techage.manual_EN.aPlanTable = {
+  "",
+  "",
   "",
   "",
   "",
@@ -1854,6 +1949,9 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
+  "ta2_storage",
+  "",
+  "",
   "itemtransport",
   "",
   "",
@@ -1874,6 +1972,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "coalpowerstation",
+  "",
   "",
   "",
   "",
@@ -1973,6 +2072,10 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
+  "",
+  "",
+  "",
+  "",
   "ta4_reactor",
   "",
   "",
@@ -2003,7 +2106,6 @@ techage.manual_EN.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
-  "",
   "",
   "",
   "",

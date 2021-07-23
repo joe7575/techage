@@ -15,6 +15,7 @@
 -- for lazy programmers
 local P = minetest.string_to_pos
 local M = minetest.get_meta
+local S = techage.S
 
 -- Input data to generate the Param2ToDir table
 local Input = {
@@ -334,5 +335,11 @@ function techage.question_mark_help(width, tooltip)
 	local x = width- 0.6
 	return "label["..x..",-0.1;"..minetest.colorize("#000000", minetest.formspec_escape("[?]")).."]"..
 		"tooltip["..x..",-0.1;0.5,0.5;"..tooltip..";#0C3D32;#FFFFFF]"
+end
+
+function techage.wrench_tooltip(x, y)
+	local tooltip = S("Block has an\nadditional wrench menu")
+	return "label["..x..","..y..";"..minetest.colorize("#000000", minetest.formspec_escape("[?]")).."]"..
+		"tooltip["..x..","..y..";0.5,0.5;"..tooltip..";#0C3D32;#FFFFFF]"
 end
 

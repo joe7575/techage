@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -20,7 +20,7 @@ local S = techage.S
 local firebox = techage.firebox
 local fuel = techage.fuel
 local Pipe = techage.LiquidPipe
-local liquid = techage.liquid
+local liquid = networks.liquid
 
 local CYCLE_TIME = 2
 local BURN_CYCLE_FACTOR = 0.5
@@ -115,44 +115,10 @@ minetest.register_node("techage:oilfirebox", {
 			minetest.after(1, start_firebox, pos, nvm)
 		end
 	end,
-	
-	liquid = {
-		capa = fuel.CAPACITY,
-		fuel_cat = fuel.BT_BITUMEN,
-		peek = liquid.srv_peek,
-		put = function(pos, indir, name, amount)
-			if fuel.valid_fuel(name, fuel.BT_BITUMEN) then
-				local leftover = liquid.srv_put(pos, indir, name, amount)
-				local nvm = techage.get_nvm(pos)
-				nvm.liquid = nvm.liquid or {}
-				nvm.liquid.amount = nvm.liquid.amount or 0
-				start_firebox(pos, nvm)
-				if techage.is_activeformspec(pos) then
-					local nvm = techage.get_nvm(pos)
-					M(pos):set_string("formspec", fuel.formspec(nvm))
-				end
-				return leftover
-			end
-			return amount
-		end,
-		take = function(pos, indir, name, amount)
-			amount, name = liquid.srv_take(pos, indir, name, amount)
-			if techage.is_activeformspec(pos) then
-				local nvm = techage.get_nvm(pos)
-				M(pos):set_string("formspec", fuel.formspec(nvm))
-			end
-			return amount, name
-		end
-	},
-	networks = {
-		pipe2 = {
-			sides = techage.networks.AllSides, -- Pipe connection sides
-			ntype = "tank",
-		},
-	},
 })
 
-Pipe:add_secondary_node_names({"techage:oilfirebox"})
+liquid.register_nodes({"techage:oilfirebox"},
+	Pipe, "tank", nil, fuel.get_liquid_table(fuel.BT_OIL, fuel.CAPACITY, start_firebox))
 
 
 techage.register_node({"techage:oilfirebox"}, {
@@ -161,7 +127,7 @@ techage.register_node({"techage:oilfirebox"}, {
 		if topic == "state" then
 			return nvm.running and "running" or "stopped"
 		elseif topic == "fuel" then
-			return techage.fuel.get_fuel_amount(nvm)
+			return fuel.get_fuel_amount(nvm)
 		else
 			return "unsupported"
 		end

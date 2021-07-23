@@ -16,8 +16,10 @@ local S = techage.S
 
 local CYCLE_TIME = 2
 local RANDOM_VAL = 20
+local PWR_NEEDED = 1
+
 local Cable = techage.ElectricCable
-local power = techage.power
+local power = networks.power
 local Flowers = {}
 local Plants = {}
 local Ignore = { ["flowers:waterlily_waving"] = true }
@@ -34,8 +36,30 @@ local Positions = {
 	{x = 1, y =-1, z =-1},
 }
 
-local function node_timer(pos, elapsed)
-	power.consumer_alive(pos, Cable, CYCLE_TIME)
+local function swap_node(pos, postfix)
+	local node = techage.get_node_lvm(pos)
+	local parts = string.split(node.name, "_")
+	if postfix == parts[2] then
+		return
+	end
+	node.name = parts[1].."_"..postfix
+	minetest.swap_node(pos, node)
+	techage.light_ring(pos, postfix == "on")
+end
+
+local function on_nopower(pos)
+	swap_node(pos, "off")
+	local nvm = techage.get_nvm(pos)
+	nvm.turned_on = false
+end
+
+local function on_power(pos)
+	swap_node(pos, "on")
+	local nvm = techage.get_nvm(pos)
+	nvm.turned_on = true
+end
+
+local function grow_flowers(pos)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
 	mem.grow_pos = mem.grow_pos or {} -- keep the pos blank for some time
@@ -67,6 +91,22 @@ local function node_timer(pos, elapsed)
 			end
 		end
 	end
+end
+
+local function node_timer_on(pos, elapsed)
+	grow_flowers(pos)
+	local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
+	if consumed < PWR_NEEDED then
+		on_nopower(pos)
+	end
+	return true
+end
+
+local function node_timer_off(pos, elapsed)
+	local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
+	if consumed == PWR_NEEDED then
+		on_power(pos)
+	end
 	return true
 end
 
@@ -95,7 +135,6 @@ techage.register_lamp("techage:growlight", {
 			{-8/16,  -8/16, -8/16, 8/16,  -13/32,  8/16},
 		},
 	},
-	on_switch_lamp = on_switch_lamp,
 	high_power = true,
 },{
 	description = S("TA4 LED Grow Light"),
@@ -116,8 +155,7 @@ techage.register_lamp("techage:growlight", {
 			{-8/16,  -8/16, -8/16, 8/16,  -13/32,  8/16},
 		},
 	},
-	on_timer = node_timer,
-	on_switch_lamp = on_switch_lamp,
+	on_timer = node_timer_on,
 	high_power = true,
 })
 

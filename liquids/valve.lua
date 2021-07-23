@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -17,73 +17,7 @@ local P2S = minetest.pos_to_string
 local M = minetest.get_meta
 local S = techage.S
 local Pipe = techage.LiquidPipe
-local liquid = techage.liquid
-
-local function switch_node(pos, node)
-	if node.name == "techage:ta3_valve_open" then
-		node.name = "techage:ta3_valve_closed"
-		--node.name = "default:dirt"
-		minetest.swap_node(pos, node)
-		local number = M(pos):get_string("node_number")
-		M(pos):set_string("infotext", S("TA3 Valve closed")..": "..number)
-		Pipe:after_dig_tube(pos, {name = "techage:ta3_valve_open", param2 = node.param2})
-	elseif node.name == "techage:ta3_valve_closed" then
-		node.name = "techage:ta3_valve_open"
-		minetest.swap_node(pos, node)	
-		local number = M(pos):get_string("node_number")
-		M(pos):set_string("infotext", S("TA3 Valve open")..": "..number)
-		Pipe:after_place_tube(pos)
-	end
-	minetest.sound_play("techage_valve", {
-		pos = pos, 
-		gain = 1,
-		max_hear_distance = 10})
-end
-
-local function on_rightclick(pos, node, clicker)
-	if not minetest.is_protected(pos, clicker:get_player_name()) then
-		switch_node(pos, node)
-	end
-end
-
---local function node_timer(pos, elapsed)
---	if techage.is_activeformspec(pos) then
---		local nvm = techage.get_nvm(pos)
---		M(pos):set_string("formspec", liquid.formspec(pos, nvm))
---		return true
---	end	
---	return false
---end
-
---local function can_dig(pos, player)
---	if minetest.is_protected(pos, player:get_player_name()) then
---		return false
---	end
---	return liquid.is_empty(pos)
---end
-
---local function take_liquid(pos, indir, name, amount)
---	amount, name = liquid.srv_take(pos, indir, name, amount)
---	if techage.is_activeformspec(pos) then
---		local nvm = techage.get_nvm(pos)
---		M(pos):set_string("formspec", liquid.formspec(pos, nvm))
---	end
---	return amount, name
---end
-	
---local function put_liquid(pos, indir, name, amount)
---	-- check if it is not powder
---	local ndef = minetest.registered_craftitems[name] or {}
---	if not ndef.groups or ndef.groups.powder ~= 1 then
---		local leftover = liquid.srv_put(pos, indir, name, amount)
---		if techage.is_activeformspec(pos) then
---			local nvm = techage.get_nvm(pos)
---			M(pos):set_string("formspec", liquid.formspec(pos, nvm))
---		end
---		return leftover
---	end
---	return amount
---end
+local liquid = networks.liquid
 
 minetest.register_node("techage:ta3_valve_open", {
 	description = S("TA Valve"),
@@ -102,20 +36,23 @@ minetest.register_node("techage:ta3_valve_open", {
 			return true
 		end
 		local meta = M(pos)
-		local nvm = techage.get_nvm(pos)
-		nvm.liquid = {}
 		local number = techage.add_node(pos, "techage:ta3_valve_closed")
 		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
-		meta:set_string("infotext", S("TA3 Valve open")..": "..number)
+		meta:set_string("infotext", S("TA3 Valve")..": "..number)
 		return false
 	end,
-	
+	on_rightclick = function(pos, node, clicker)
+		if liquid.turn_valve_off(pos, Pipe, "techage:ta3_valve_closed", "techage:ta3_valve_open") then
+			minetest.sound_play("techage_valve", {
+				pos = pos, 
+				gain = 1,
+				max_hear_distance = 10})
+		end
+	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
-	on_rightclick = on_rightclick,
 	
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
@@ -146,16 +83,18 @@ minetest.register_node("techage:ta3_valve_closed", {
 		"techage_gaspipe_valve_hole.png",
 	},
 	
-	tubelib2_on_update2 = function(pos, outdir, tlib2, node)
-		liquid.update_network(pos, outdir)
+	on_rightclick = function(pos, node, clicker)
+		if liquid.turn_valve_on(pos, Pipe, "techage:ta3_valve_closed", "techage:ta3_valve_open") then
+			minetest.sound_play("techage_valve", {
+				pos = pos, 
+				gain = 1,
+				max_hear_distance = 10})
+		end
 	end,
-	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
-	
-	on_rightclick = on_rightclick,
 	
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
@@ -180,10 +119,10 @@ techage.register_node({"techage:ta3_valve_closed", "techage:ta3_valve_open"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local node = techage.get_node_lvm(pos)
 		if topic == "on" and node.name == "techage:ta3_valve_closed" then
-			switch_node(pos, node)
+			liquid.turn_valve_on(pos, Pipe, "techage:ta3_valve_closed", "techage:ta3_valve_open")
 			return true
 		elseif topic == "off" and node.name == "techage:ta3_valve_open" then
-			switch_node(pos, node)
+			liquid.turn_valve_off(pos, Pipe, "techage:ta3_valve_closed", "techage:ta3_valve_open")
 			return true
 		elseif topic == "state" then
 			if node.name == "techage:ta3_valve_open" then
@@ -195,6 +134,8 @@ techage.register_node({"techage:ta3_valve_closed", "techage:ta3_valve_open"}, {
 		end
 	end,
 })	
+
+liquid.register_nodes({"techage:ta3_valve_closed"}, Pipe, "special", {}, {}) 
 
 minetest.register_craft({
 	output = "techage:ta3_valve_open",

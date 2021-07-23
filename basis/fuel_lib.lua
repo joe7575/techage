@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -17,7 +17,7 @@ local P2S = minetest.pos_to_string
 local M = minetest.get_meta
 local S = techage.S
 local Pipe = techage.LiquidPipe
-local liquid = techage.liquid
+local liquid = networks.liquid
 local ValidOilFuels = techage.firebox.ValidOilFuels
 local Burntime = techage.firebox.Burntime
 
@@ -28,11 +28,12 @@ local BLOCKING_TIME = 0.3 -- 300ms
 
 techage.fuel.CAPACITY = CAPACITY
 
--- fuel burning categories (better than...)
-techage.fuel.BT_BITUMEN = 4
-techage.fuel.BT_OIL     = 3
-techage.fuel.BT_FUELOIL = 2
-techage.fuel.BT_NAPHTHA = 1
+-- fuel burning categories (equal or better than...)
+techage.fuel.BT_BITUMEN  = 5
+techage.fuel.BT_OIL      = 4
+techage.fuel.BT_FUELOIL  = 3
+techage.fuel.BT_NAPHTHA  = 2
+techage.fuel.BT_GASOLINE = 1
 
 
 function techage.fuel.fuel_container(x, y, nvm)
@@ -41,7 +42,7 @@ function techage.fuel.fuel_container(x, y, nvm)
 		itemname = nvm.liquid.name.." "..nvm.liquid.amount
 	end
 	local fuel_percent = 0
-	if nvm.running then
+	if nvm.running or techage.is_running(nvm) then
 		fuel_percent = ((nvm.burn_cycles or 1) * 100) / (nvm.burn_cycles_total or 1)
 	end
 	return "container["..x..","..y.."]"..
@@ -95,6 +96,7 @@ function techage.fuel.burntime(name)
 	return 0.01 -- not zero !
 end
 
+-- equal or better than the given category (see 'techage.fuel.BT_BITUMEN,...')
 function techage.fuel.valid_fuel(name, category)
 	return ValidOilFuels[name] and ValidOilFuels[name] <= category
 end
@@ -109,7 +111,7 @@ function techage.fuel.on_punch(pos, node, puncher, pointed_thing)
 	
 	local wielded_item = puncher:get_wielded_item():get_name()
 	local item_count = puncher:get_wielded_item():get_count()
-	local new_item = liquid.fill_on_punch(nvm, wielded_item, item_count, puncher) 
+	local new_item = techage.liquid.fill_on_punch(nvm, wielded_item, item_count, puncher) 
 	if new_item then
 		puncher:set_wielded_item(new_item)
 		M(pos):set_string("formspec", techage.fuel.formspec(pos, nvm))
@@ -117,11 +119,11 @@ function techage.fuel.on_punch(pos, node, puncher, pointed_thing)
 		return
 	end
 		
-	local ldef = liquid.get_liquid_def(wielded_item)
+	local ldef = techage.liquid.get_liquid_def(wielded_item)
 	if ldef and ValidOilFuels[ldef.inv_item] then
 		local lqd = (minetest.registered_nodes[node.name] or {}).liquid
 		if not lqd.fuel_cat or ValidOilFuels[ldef.inv_item] <= lqd.fuel_cat then
-			local new_item = liquid.empty_on_punch(pos, nvm, wielded_item, item_count)
+			local new_item = techage.liquid.empty_on_punch(pos, nvm, wielded_item, item_count)
 			if new_item then
 				puncher:set_wielded_item(new_item)
 				M(pos):set_string("formspec", techage.fuel.formspec(pos, nvm))
@@ -153,4 +155,43 @@ function techage.fuel.get_fuel_amount(nvm)
 		return nvm.liquid.amount
 	end
 	return 0
+end
+
+function techage.fuel.get_liquid_table(valid_fuel, capacity, start_firebox)
+	return {
+		capa = capacity,
+		fuel_cat = valid_fuel,
+		peek = function(pos)
+			local nvm = techage.get_nvm(pos)
+			return liquid.srv_peek(nvm)
+		end,
+		put = function(pos, indir, name, amount)
+			if techage.fuel.valid_fuel(name, valid_fuel) then
+				local nvm = techage.get_nvm(pos)
+				local res = liquid.srv_put(nvm, name, amount, capacity)
+				start_firebox(pos, nvm)
+				if techage.is_activeformspec(pos) then
+					M(pos):set_string("formspec", techage.fuel.formspec(nvm))
+				end
+				return res
+			end
+			return amount
+		end,
+		take = function(pos, indir, name, amount)
+			local nvm = techage.get_nvm(pos)
+			amount, name = liquid.srv_take(nvm, name, amount)
+			if techage.is_activeformspec(pos) then
+				M(pos):set_string("formspec", techage.fuel.formspec(nvm))
+			end
+			return amount, name
+		end,
+		untake = function(pos, indir, name, amount)
+			local nvm = techage.get_nvm(pos)
+			local leftover = liquid.srv_put(nvm, name, amount, capacity)
+			if techage.is_activeformspec(pos) then
+				M(pos):set_string("formspec", techage.fuel.formspec(nvm))
+			end
+			return leftover
+		end
+	}
 end

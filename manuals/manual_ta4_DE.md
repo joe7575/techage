@@ -23,9 +23,7 @@ Die Windkraftanlage liefert eine Leistung von 70 ku, aber dies nur 8 Stunden am 
 ### TA4 Windkraftanlage / Wind Turbine
 
 Der Windkraftanlagenblock (Rotor) ist das Herzstück der Windkraftanlage. Dieser Block muss oben auf den Mast gesetzt werden. Idealerweise auf Y = 15, dann bleibst du noch gerade innerhalb eines Map-/Forceload-Blocks.
-Nach dem Setzen des Blocks wird ein Check durchgeführt, ob alle Bedingungen für den Betrieb der Windkraftanlage erfüllt sind. Sofern alle Bedingungen erfüllt sind, erscheinen beim Setzen dieses Blocks auch automatisch die Rotorblätter (Flügel). Anderenfalls wird dir eine Fehlermeldung angezeigt. 
-
-Durch Schlagen auf den Block kann der Check wiederholt werden.
+Beim Starten der Windkraftanlage werden alle Bedingungen für den Betrieb der Windkraftanlage überprüft. Sofern alle Bedingungen erfüllt sind, erscheinen auch automatisch die Rotorblätter (Flügel). Anderenfalls wird eine Fehlermeldung angezeigt. 
 
 [ta4_windturbine|image]
 
@@ -131,11 +129,13 @@ Diese Solarzelle kann nicht mit den anderen Solarmodulen kombiniert werden.
 
 ## Energiespeicher
 
+Der TA4 Energiespeicher ersetzt den Batterie Block aus TA3.
+
 Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit Gravel. Es gibt 3 Größen vom Speicher:
 
-- Hülle mit 5x5x5 Concrete Blocks, gefüllt mit 27 Gravel, Speicherkapazität: 1/2 Tag bei 60 ku
-- Hülle mit 7x7x7 Concrete Blocks, gefüllt mit 125 Gravel, Speicherkapazität: 2,5 Tage bei 60 ku
-- Hülle mit 9x9x9 Concrete Blocks, gefüllt mit 343 Gravel, Speicherkapazität: 6,5 Tage bei 60 ku 
+- Hülle mit 5x5x5 Concrete Blocks, gefüllt mit 27 Gravel, Speicherkapazität: 22.5 kud
+- dHülle mit 7x7x7 Concrete Blocks, gefüllt mit 125 Gravel, Speicherkapazität: 104 kud
+- Hülle mit 9x9x9 Concrete Blocks, gefüllt mit 343 Gravel, Speicherkapazität: 286 kud 
 
 In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man, ob der Speicher mehr als 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung zu achten (der Pfeil bei Block 1 muss zur Turbine zeigen).
 
@@ -143,7 +143,6 @@ Entgegen dem Plan rechts müssen die Anschlüsse am Speicherblock auf gleicher E
 Sowohl der Generator als auch der Wärmetauscher haben einen Stromanschluss und müssen mit dem Stromnetz verbunden werden.
 
 Im Prinzip arbeitet das das Wärmespeichersystem genau gleich wie die Akkus, nur mit viel mehr Speicherkapazität. 
-Der Wärmespeicher kann 60 ku aufnehmen und abgeben.
 
 Damit das Wärmespeichersystem funktioniert, müssen alle Blöcke (auch Betonhülle und Gravel) mit Hilfe eines Forceloadblockes geladen sein.
 
@@ -153,7 +152,7 @@ Damit das Wärmespeichersystem funktioniert, müssen alle Blöcke (auch Betonhü
 ### TA4 Wärmetauscher / Heat Exchanger
 
 Der Wärmetauscher besteht aus 3 Teilen, die aufeinander gesetzt werden müssen, wobei der Pfeil des ersten Blockes Richtung Turbine zeigen muss. Die Rohrleitungen müssen mit den gelben TA4 Röhren aufgebaut werden.
-Der Wärmetauscher muss am Stromnetz angeschlossen werden. Der Wärmetauscher lädt den Energiespeicher wieder auf, wenn ausreichend Strom zur Verfügung steht und der Energiespeicher weniger als 95 % geladen ist. Der Wärmetauscher nimmt dabei 60 ku auf.
+Der Wärmetauscher muss am Stromnetz angeschlossen werden. Über den Wärmetauscher wird der Energiespeicher wieder aufgeladen, sofern ausreichend Strom zur Verfügung steht.
 
 [ta4_heatexchanger|image]
 
@@ -167,9 +166,9 @@ Die Turbine ist Teil des Energiespeichers. Sie muss neben den Generator gesetzt 
 
 ### TA4 Generator
 
-Der Generator dient zur Stromerzeugung. Daher muss auch der Generator am Stromnetz angeschlossen werden. 
+Der Generator  ist Teil des Energiespeichers. Er dient zur Stromerzeugung und gibt damt die Energie des Energiespeichers wieder ab. Daher muss auch der Generator am Stromnetz angeschlossen werden. 
 
-Der Generator kann 60 ku abgeben.
+Wichtig: Wärmetauscher und Generator müssen mit ein und demselben Stromnetz verbunden sein!
 
 [ta4_generator|image]
 
@@ -189,6 +188,52 @@ Die gelben Röhren dienen bei TA4 zur Weiterleitung von Gas und Flüssigkeiten.
 Die maximale Leitungslänge beträgt 100 m.
 
 [ta4_pipe|image]
+
+
+
+## Stromverteilung
+
+Mit Hilfe von Stromkabeln und Verteilerdosen können Stromnetze von bis zu 1000 Blöcke/Knoten aufgebaut werden. Hierbei ist aber zu beachten, dass Verteilerdosen auch mitgezählt werden müssen. Somit können bis zu 500 Generatoren/Speichersysteme/Maschinen/Lampen an einem Stromnetz hängen.
+
+Mit Hilfe von Trenntransformator und Stromzähler können Netzwerke zu noch größeren Strukturen verbunden werden.
+
+[ta4_transformer|image]
+
+
+
+### TA4 Trenntransformator / TA4 Isolation Transformer
+
+Mit Hilfe eines Trenntransformators können zwei Stromnetze zu einem größeren Netzwerk verbunden werden. Der Trenntransformator kann Strom in beide Richtungen übertragen.
+
+Der Trenntransformator kann bis zu 100 ku übertragen.
+
+[ta4_transformer|image]
+
+
+
+### TA4 Stromzähler / TA4 Electric Meter
+
+Mit Hilfe eines Stromzählers können zwei Stromnetze zu einem größeren Netzwerk verbunden werden. Der Stromzähler leitet  den Strom nur in eine  Richtungen weiter (Pfeil beachten). Die Menge an Strom (in kud) wird gemessen und angezeigt. Die Strommenge kann auch über das Kommando `consumption` durch einen Lua Controller abgefragt werden.
+
+Der Stromzähler kann bis zu 200 ku durchleiten.
+
+[ta4_electricmeter|image]
+
+
+
+### TA4 Laser
+
+Der TA4 Laser dient zur kabellosen Stromübertagung. Dazu sind zwei Blöcke notwendig: TA4 Laserstrahl Sender und TA4 Laserstrahl Empfänger. Zwischen beiden Blöcken muss sich eine Luftstrecke befinden, so dass der Laserstrahl vom Sender bis zum Empfänger aufgebaut werden kann.
+
+Zuerst muss der Sender platziert werden. Dieser schaltet sofort den Laserstahls ein und zeigt damit mögliche Positionen des Empfängers an. Mögliche Positionen für den Empfänger werden auch über eine Chat-Nachricht ausgegeben. Mit dem Laser lassen sich Strecken bis 96 Blöcke überbrücken.
+
+Ist die Verbindung aufgebaut (es muss dazu noch kein Strom fließen), wird dies über den Info-Text des Senders und auch des Empfängers angezeigt.
+
+Die Laserblöcke selbst benötigen keinen Strom.
+
+[ta4_laser|image]
+
+
 
 ## Wasserstoff
 
@@ -210,6 +255,8 @@ Es muss von links mit Strom versorgt werden. Rechts kann Wasserstoff über Röhr
 
 Der Elektrolyseur kann bis zu 35 ku an Strom aufnehmen und generiert dann alle 4 s ein Wasserstoff Item.
 In den Elektrolyseur passen 200 Einheiten Wasserstoff.
+
+Der Elektrolyseur besitzt ein Schraubenschlüssel-Menü zur Einstellung der Stromaufnahme und des Abschaltpunkts.
 
 [ta4_electrolyzer|image]
 
@@ -683,14 +730,3 @@ Die Verarbeitungsleistung beträgt ein Item alle 8 s. Der Block benötigt hierf�
 
 [ta4_recycler|image]
 
-### TA4 Laser
-
-Der TA4 Laser dient zur kabellosen Stromübertagung. Dazu sind zwei Blöcke notwendig: TA4 Laserstrahl Sender und TA4 Laserstrahl Empfänger. Zwischen beiden Blöcken muss sich eine Luftstrecke befinden, so dass der Laserstrahl vom Sender bis zum Empfänger aufgebaut werden kann.
-
-Zuerst muss der Sender platziert werden. Dieser schaltet sofort den Laserstahls ein und zeigt damit mögliche Positionen des Empfängers an. Mögliche Positionen für den Empfänger werden auch über eine Chat-Nachricht ausgegeben. Mit dem Laser lassen sich Strecken bis 96 Blöcke überbrücken.
-
-Ist die Verbindung aufgebaut (es muss dazu noch kein Strom fließen), wird dies über den Info-Text des Senders und auch des Empfängers angezeigt.
-
-Die Laserblöcke selbst benötigen keinen Strom.
-
-[ta4_laser|image]t

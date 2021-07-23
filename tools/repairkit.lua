@@ -3,12 +3,11 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2019 Joachim Stolberg
+	Copyright (C) 2017-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
 
-	repairkit.lua:
 ]]--
 
 -- for lazy programmers
@@ -18,178 +17,23 @@ local S = techage.S
 local Cable1 = techage.ElectricCable
 local Cable2 = techage.TA4_Cable
 local Pipe2 = techage.LiquidPipe
-local networks = techage.networks
+local menu = dofile(minetest.get_modpath("techage") .. "/tools/submenu.lua")   
 
-local ListOfNodes = {
-	["techage:generator"] = true, 
-	["techage:generator_on"] = true,
-	["techage:ta4_generator"] = true,
-	["techage:ta4_generator_on"] = true,
-	["techage:ta4_fuelcell"] = true,
-	["techage:ta4_fuelcell_on"] = true,
-	["techage:t3_pump"] = true,
-	["techage:t3_pump_on"] = true,
-	["techage:t4_pump"] = true,
-	["techage:t4_pump_on"] = true,
-	["techage:ta4_solar_inverter"] = true,
-	["techage:flywheel"] = true,
-	["techage:flywheel_on"] = true,
-	["techage:tiny_generator"] = true,
-	["techage:tiny_generator_on"] = true,
-	["techage:ta4_electrolyzer"] = true,
-	["techage:ta4_electrolyzer_on"] = true,
-	["techage:oilfirebox"] = true,
-}
-
-
-local function delete_data(pos)
-	local meta = minetest.get_meta(pos)
-	local owner = meta:get_string("owner")
-	local number = meta:get_string("number")
-	local node_number = meta:get_string("node_number")
-	tubelib2.del_mem(pos)
-	meta:from_table(nil)
-	meta:set_string("owner", owner)
-	meta:set_string("number", number)
-	meta:set_string("node_number", node_number)
-end
-
-local function inv_get_count(inv, listname, size)
-	local cnt = 0
-	for i = 1,size do
-		cnt = cnt + inv:get_stack(listname, i):get_count() 
-	end
-	return cnt
-end
-
-local function inv_get_name(inv, listname, size)
-	for i = 1,size do
-		local name = inv:get_stack(listname, i):get_name() 
-		if name ~= "" then 
-			return name
-		end
-	end
-	return ""
-end
-
-local function inv_clear(inv, listname, size)
-	for i = 1,size do
-		inv:set_stack(listname, i, nil)
-	end
-end
-
-local function restore_inv_content(pos, listname, size)
-	local inv = M(pos):get_inventory()
-	local count = inv_get_count(inv, listname, size)
-	if count > 0 then
-		local nvm = techage.get_nvm(pos)
-		nvm.liquid = nvm.liquid or {}
-		nvm.liquid.amount = count
-		nvm.liquid.name = inv_get_name(inv, listname, size)
-		inv:set_stack(listname, 1, nil)
-		inv_clear(inv, listname, size)
-		return true
-	end
-	return false
-end
-
-local function init_data(pos, netw)
-	local sides = netw.ele1 and netw.ele1.sides
-	if sides and sides["R"] then
-		M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
-		M(pos):set_string("infotext", "repaired")
-	end
-	
-	sides = netw.pipe2 and netw.pipe2.sides
-	if sides and sides["R"] then
-		M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
-		M(pos):set_string("infotext", "repaired")
-	end
-		
-	sides = netw.ele2 and netw.ele2.sides
-	if sides and sides["L"] then
-		M(pos):set_int("leftdir", networks.side_to_outdir(pos, "L"))
-	end
-	
-	sides = netw.axle and netw.axle.sides
-	if sides and sides["R"] then
-		M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
-	end
-	
-	Cable1:after_place_node(pos)
-	Cable2:after_place_node(pos)
-	Pipe2:after_place_node(pos)
-end
-
-
-local function repair(itemstack, user, pointed_thing)
-	local pos = pointed_thing.under
-	if pos and user then
-		if minetest.is_protected(pos, user:get_player_name()) then
-			return itemstack
-		end
-		
-		local number = techage.get_node_number(pos)
-		local node = minetest.get_node(pos)
-		local ndef = minetest.registered_nodes[node.name]
-		if ndef then
-			local netw = ndef.networks
-			if netw and ListOfNodes[node.name] then
-				if node.name == "techage:tiny_generator" or node.name == "techage:tiny_generator_on" then
-					restore_inv_content(pos, "fuel", 1)
-				elseif node.name == "techage:oilfirebox" then
-					restore_inv_content(pos, "fuel", 1)
-				elseif node.name == "techage:ta4_fuelcell" or node.name == "techage:ta4_fuelcell_on" then
-					restore_inv_content(pos, "src", 4)
-				elseif node.name == "techage:ta4_electrolyzer" or node.name == "techage:ta4_electrolyzer_on" then
-					restore_inv_content(pos, "dst", 1)
-				end
-				delete_data(pos)
-				init_data(pos, netw)
-				minetest.chat_send_player(user:get_player_name(), ndef.description.." "..S("repaired"))
-				itemstack:add_wear(65636/200)
-				return itemstack
-			end
-			
-			if netw and netw.ele1 and netw.ele1.ntype == "junc" then
-				if ndef.after_place_node and ndef.tubelib2_on_update2 then
-					ndef.after_place_node(pos)
-					ndef.tubelib2_on_update2(pos, 0, Cable1)
-					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..S("repaired"))
-					itemstack:add_wear(65636/200)
-					return itemstack
-				end
-			end
-		
-			if netw and netw.ele2 and netw.ele2.ntype == "junc" then
-				if ndef.after_place_node and ndef.tubelib2_on_update2 then
-					ndef.after_place_node(pos)
-					ndef.tubelib2_on_update2(pos, 0, Cable2)
-					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..S("repaired"))
-					itemstack:add_wear(65636/200)
-					return itemstack
-				end
-			end
-		end
-	end
-	return itemstack
-end	
-	
 local function network_check(start_pos, Cable, player_name)
-	local ndef = techage.networks.net_def(start_pos, Cable.tube_type)
-	local outdir = nil
-	local num = 0
-	if ndef and ndef.ntype ~= "junc" then
-		outdir = M(start_pos):get_int("outdir")
-	end
-	networks.connection_walk(start_pos, outdir, Cable, function(pos, indir, node)
-		local distance = vector.distance(start_pos, pos)
-		num = num + 1
-		if distance < 50 and num < 100 then
-			local state = techage.power.power_available(pos, Cable) and "power" or "no power"
-			techage.mark_position(player_name, pos, state, "#ff0000", 6)
-		end
-	end)
+--	local ndef = techage.networks.net_def(start_pos, Cable.tube_type)
+--	local outdir = nil
+--	local num = 0
+--	if ndef and ndef.ntype ~= "junc" then
+--		outdir = M(start_pos):get_int("outdir")
+--	end
+--	networks.connection_walk(start_pos, outdir, Cable, function(pos, indir, node)
+--		local distance = vector.distance(start_pos, pos)
+--		num = num + 1
+--		if distance < 50 and num < 100 then
+--			local state = techage.power.power_available(pos, Cable) and "power" or "no power"
+--			techage.mark_position(player_name, pos, state, "#ff0000", 6)
+--		end
+--	end)
 end	
 
 local function read_state(itemstack, user, pointed_thing)
@@ -233,7 +77,7 @@ local function read_state(itemstack, user, pointed_thing)
 				local info = techage.send_single("0", number, "info", nil)
 				if info and info ~= "" and info ~= "unsupported" then
 					info = dump(info)
-					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": Supported Commands:\n"..info.."    ")
+					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..":\n"..info.."    ")
 				end
 				local state = techage.send_single("0", number, "state", nil)
 				if state and state ~= "" and state ~= "unsupported" then
@@ -260,6 +104,11 @@ local function read_state(itemstack, user, pointed_thing)
 					delivered = dump(delivered)
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": delivered = "..delivered.." ku    ")
 				end
+				local consumption = techage.send_single("0", number, "consumption", nil)
+				if consumption and consumption ~= "" and consumption ~= "unsupported" then
+					consumption = dump(consumption)
+					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": consumption = "..consumption.." kud    ")
+				end
 				local owner = M(pos):get_string("owner") or ""
 				if owner ~= "" then
 					minetest.chat_send_player(user:get_player_name(), S("Node owner")..": "..owner.."    ")
@@ -284,13 +133,64 @@ local function read_state(itemstack, user, pointed_thing)
 	end
 end
 
+local context = {}
+
+local function settings_menu(pos, playername)
+	local number = techage.get_node_number(pos)
+	local node = minetest.get_node(pos)
+	local ndef = minetest.registered_nodes[node.name]
+	local form_def = ndef and (ndef.ta3_formspec or ndef.ta4_formspec)
+	
+	context[playername] = pos
+	if form_def then
+		minetest.show_formspec(playername, "techage:ta_formspec", menu.generate_formspec(pos, ndef, form_def))
+	end
+end
+
+minetest.register_on_player_receive_fields(function(player, formname, fields)
+    if formname ~= "techage:ta_formspec" then
+        return false
+    end
+
+	local playername = player:get_player_name()
+	local pos = context[playername]
+	if pos then
+		--context[playername] = nil
+		local number = techage.get_node_number(pos)
+		local node = minetest.get_node(pos)
+		local ndef = minetest.registered_nodes[node.name]
+		local form_def = ndef and (ndef.ta3_formspec or ndef.ta4_formspec)
+		
+		if form_def then
+			if menu.eval_input(pos, ndef, form_def, fields) then
+				--context[playername] = pos
+				minetest.after(0.2, function()
+					minetest.show_formspec(playername, "techage:ta_formspec", menu.generate_formspec(pos, ndef, form_def))
+				end)
+			end
+		end
+	end
+	return true
+end)
+
+
+local function on_place(itemstack, placer, pointed_thing)
+	if pointed_thing.type == "node" then
+		local pos = pointed_thing.under
+		local playername = placer:get_player_name()
+		if placer:get_player_control().sneak then
+			settings_menu(pos, playername)
+		end
+	end
+end
+
 minetest.register_tool("techage:repairkit", {
 	description = S("TechAge Repair Kit"),
 	inventory_image = "techage_repairkit.png",
 	wield_image = "techage_repairkit.png^[transformR270",
 	groups = {cracky=1, book=1},
-	on_use = repair,
-	on_place = repair,
+	--on_use = repair,
+	--on_place = repair,
 	node_placement_prediction = "",
 	stack_max = 1,
 })
@@ -302,20 +202,11 @@ minetest.register_tool("techage:end_wrench", {
 	wield_image = "techage_end_wrench.png",
 	groups = {cracky=1, book=1},
 	on_use = read_state,
-	on_place = read_state,
+	on_place = on_place,
 	node_placement_prediction = "",
 	liquids_pointable = true,
 	stack_max = 1,
 })
-
---minetest.register_craft({
---	output = "techage:repairkit",
---	recipe = {
---		{"", "basic_materials:gear_steel", ""},
---		{"", "techage:end_wrench", ""},
---		{"", "basic_materials:oil_extract", ""},
---	},
---})
 
 minetest.register_craft({
 	output = "techage:end_wrench",

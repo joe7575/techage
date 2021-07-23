@@ -37,6 +37,29 @@ Ab TA3 laufen die Maschinen mit Strom und besitzen eine Kommunikationsschnittste
 Mit TA4 kommen weitere Stromquellen dazu, aber auch höhere logistische Herausforderungen (Stromtrassen, Item Transport).
 
 
+
+## Änderungen ab Version 1.0
+
+Ab V1.0 (17.07.2021) hat sich folgendes geändert:
+
+- Der Algorithmus zur Berechnung der Stromverteilung hat sich geändert. Energiespeichersystem werden dadurch wichtiger. Diese gleichen Schankungen aus, was bei größeren Netzen mit mehreren Generatoren wichtig wird. 
+- Aus diesem Grund hat TA2 seinen eigenen Energiespeicher erhalten.
+- Die Akkublöcke aus TA3 dienen auch als Energiespeicher. Ihre Funktionsweise wurde entsprechend angepasst.
+- Das TA4 Speichersystem wurde überarbeitet. Die Wärmetauscher (heatexchanger) haben eine neue Nummer bekommen,  da die Funktionalität vom unteren in den mittleren Block verschoben  wurde. Sofern diese ferngesteuert wurden, muss die Knotennummer angepasst  werden. Die Generatoren haben kein eigenes Menü mehr, sondern werden nur noch über den Wärmetauscher ein-/ausgeschaltet.  Wärmetauscher und Generator müssen jetzt am gleichen Netz hängen!
+- Mehrere Stromnetze können jetzt über einen TA4 Transformator Blöcke gekoppelt werden.
+- Neu ist auch ein TA4 Stromzähler Block für Unternetze.
+
+### Tipps zur Umstellung
+
+Viele weitere Blöcke haben kleinere Änderungen bekommen. Daher kann es sein, dass Maschinen oder Anlagen nach der Umstellung  nicht gleich wieder anlaufen. Sollte es zu Störungen kommen, helfen folgende Tipps:
+
+- Maschinen aus- und wieder eingeschalten
+- ein Stromkabel-Block entfernen und wieder setzen
+- den Block ganz entfernen und wieder setzen
+- mindestens ein Akkublock oder Speichersystem in jedes Netzwerk
+
+
+
 ## Erze und Mineralien
 
 Techage fügt dem Spiel einige neue Items hinzu:
@@ -47,6 +70,7 @@ Techage fügt dem Spiel einige neue Items hinzu:
 - Erdöl - wird in TA3 benötigt
 - Bauxit - ein Aluminiumerz, was in TA4 zur Herstellung von Aluminium benötigt wird
 - Basalt - entsteht, wenn sich Wasser und Lave berühren
+
 
 ### Meridium
 
@@ -87,22 +111,10 @@ Es wird zur Herstellung von Aluminium benötigt, was vor allem in TA4 Verwendung
 
 ### Basalt
 
-Basalt entsteht nur, wenn Lava und Wasser zusammenkommen.
+Basalt entsteht nur, wenn Lava und Wasser zusammen kommen.
 Dazu sollte man am besten eine Anlage aufbauen, bei der eine Lava- und eine Wasserquelle zusammenfließen.
 Dort wo sich beide Flüssigkeiten treffen, entsteht Basalt.
 Einen automatisierten Basalt Generator kann man mit dem Sign Bot aufbauen.
 
 [basalt|image]
-
-
-
-## History
-
-- 28.09.2019: Um Solaranlage erweitert
-- 05.10.2019: Daten zur Solaranlage und Beschreibung zum Wechselrichter und zum Power-Terminal geändert
-- 18.11.2019: Kapitel für Erze, Reaktor, Aluminium, Silo, Bauxit, Ofenheizung, Kieswaschanlage hinzugefügt
-- 22.02.2020: Korrekturen und Kapitel zum Update
-- 29.02.2020: ICTA Controller hinzugefügt und weitere Korrekturen
-- 14.03.2020 Lua Controller hinzugefügt und weitere Korrekturen
-- 22.03.2020 Weitere TA4 Blöcke hinzugefügt
 

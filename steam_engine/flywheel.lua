@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -19,11 +19,10 @@ local S = techage.S
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 2
-local PWR_CAPA = 25
+local PWR_PERF = 25
 
 local Axle = techage.Axle
-local power = techage.power
-local networks = techage.networks
+local power = networks.power
 
 -- Axles texture animation
 local function switch_axles(pos, on)
@@ -32,15 +31,7 @@ local function switch_axles(pos, on)
 end
 
 local function formspec(self, pos, nvm)
-	return "size[4,4]"..
-		"box[0,-0.1;3.8,0.5;#c6e8ff]"..
-		"label[1,-0.1;"..minetest.colorize( "#000000", S("Flywheel")).."]"..
-		default.gui_bg..
-		default.gui_bg_img..
-		default.gui_slots..
-		power.formspec_label_bar(pos, 0, 0.8, S("power"), PWR_CAPA, nvm.provided)..
-		"image_button[2.8,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
-		"tooltip[2.8,2;1,1;"..self:get_state_tooltip(nvm).."]"
+	return techage.generator_formspec(self, pos, nvm, S("Flywheel"), nvm.provided, PWR_PERF, true)
 end
 
 local function transfer_cylinder(pos, topic, payload)
@@ -55,18 +46,16 @@ end
 local function start_node(pos, nvm, state)
 	switch_axles(pos, true)
 	local outdir = M(pos):get_int("outdir")
-	power.generator_start(pos, Axle, CYCLE_TIME, outdir)
 	transfer_cylinder(pos, "start")
-	nvm.running = true
+	power.start_storage_calc(pos, Axle, outdir)
 end
 
 local function stop_node(pos, nvm, state)
 	switch_axles(pos, false)
 	local outdir = M(pos):get_int("outdir")
-	power.generator_stop(pos, Axle, outdir)
 	nvm.provided = 0
 	transfer_cylinder(pos, "stop")
-	nvm.running = false
+	power.start_storage_calc(pos, Axle, outdir)
 end
 
 local State = techage.NodeStates:new({
@@ -83,13 +72,20 @@ local State = techage.NodeStates:new({
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	nvm.firebox_trigger = (nvm.firebox_trigger or 0) - 1
-	if nvm.firebox_trigger <= 0 then
-		State:nopower(pos, nvm)
+	local running = techage.is_running(nvm)
+	if running and nvm.firebox_trigger <= 0 then
+		State:standby(pos, nvm)
 		stop_node(pos, nvm, State)
-		transfer_cylinder(pos, "stop")	
-	else
+	elseif not running and nvm.firebox_trigger > 0 then
+		State:start(pos, nvm)
+		-- start_node() is called implicit
+	elseif running then
 		local outdir = M(pos):get_int("outdir")
-		nvm.provided = power.generator_alive(pos, Axle, CYCLE_TIME, outdir)
+		nvm.provided = power.provide_power(pos, Axle, outdir, PWR_PERF)
+		local val = power.get_storage_load(pos, Axle, outdir, PWR_PERF)
+		if val > 0 then
+			nvm.load = val
+		end
 		State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 	end
 	if techage.is_activeformspec(pos) then
@@ -125,17 +121,12 @@ local function after_dig_node(pos, oldnode)
 	techage.del_mem(pos)
 end
 
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
-	power.update_network(pos, outdir, tlib2)
+local function get_generator_data(pos, outdir, tlib2)
+	local nvm = techage.get_nvm(pos)
+	if techage.is_running(nvm) then
+		return {level = (nvm.load or 0) / PWR_PERF, perf = PWR_PERF, capa = PWR_PERF * 4}
+	end
 end
-
-local net_def = {
-	axle = {
-		sides = {R = 1},
-		ntype = "gen1",
-		nominal = PWR_CAPA,
-	},
-}
 
 minetest.register_node("techage:flywheel", {
 	description = S("TA2 Flywheel"),
@@ -154,8 +145,7 @@ minetest.register_node("techage:flywheel", {
 	on_timer = node_timer,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	tubelib2_on_update2 = tubelib2_on_update2,
-	networks = net_def,
+	get_generator_data = get_generator_data,
 
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -208,8 +198,7 @@ minetest.register_node("techage:flywheel_on", {
 	on_timer = node_timer,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	tubelib2_on_update2 = tubelib2_on_update2,
-	networks = net_def,
+	get_generator_data = get_generator_data,
 
 	drop = "",
 	paramtype2 = "facedir",
@@ -220,22 +209,21 @@ minetest.register_node("techage:flywheel_on", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-Axle:add_secondary_node_names({"techage:flywheel", "techage:flywheel_on"})
+power.register_nodes({"techage:flywheel", "techage:flywheel_on"}, Axle, "gen", {"R"})
 
 techage.register_node({"techage:flywheel", "techage:flywheel_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		if topic == "trigger" then
 			nvm.firebox_trigger = 3
-			if nvm.running then
-				return math.max((nvm.provided or PWR_CAPA) / PWR_CAPA, 0.1)
+			if techage.is_running(nvm) then
+				return math.max((nvm.provided or PWR_PERF) / PWR_PERF, 0.1)
 			else
 				return 0
 			end
 		end
 	end,
 	on_node_load = function(pos, node)
-		M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
 		State:on_node_load(pos)
 	end,
 })

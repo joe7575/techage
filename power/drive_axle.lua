@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -17,13 +17,15 @@ local P = minetest.string_to_pos
 local M = minetest.get_meta
 local S = techage.S
 
+local power = networks.power
+
 local Axle = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
-	max_tube_length = 8, 
+	max_tube_length = 10,
 	show_infotext = false,
 	tube_type = "axle",
 	primary_node_names = {"techage:axle", "techage:axle_on"}, 
-	secondary_node_names = {"techage:flywheel", "techage:flywheel_on", "techage:gearbox", "techage:gearbox_on"},
+	secondary_node_names = {},
 	after_place_tube = function(pos, param2, tube_type, num_tubes, state)
 		if state == "on" then
 			minetest.swap_node(pos, {name = "techage:axle_on", param2 = param2})
@@ -33,6 +35,10 @@ local Axle = tubelib2.Tube:new({
 	end,
 })
 
+-- Use global callback instead of node related functions
+Axle:register_on_tube_update2(function(pos, outdir, tlib2, node)
+	power.update_network(pos, outdir, tlib2, node)
+end)
 
 minetest.register_node("techage:axle", {
 	description = S("TA2 Drive Axle"),

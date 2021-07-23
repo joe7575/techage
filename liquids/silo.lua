@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -18,7 +18,7 @@ local M = minetest.get_meta
 local S = techage.S
 local LQD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).liquid end
 local Pipe = techage.LiquidPipe
-local liquid = techage.liquid
+local liquid = networks.liquid
 
 local INV_SIZE = 8
 local STACKMAX = 99
@@ -170,13 +170,6 @@ local tLiquid = {
 	end,
 }
 
-local tNetworks = {
-	pipe2 = {
-		sides = techage.networks.AllSides, -- Pipe connection sides
-		ntype = "tank",
-	},
-}
-
 minetest.register_node("techage:ta3_silo", {
 	description = S("TA3 Silo"),
 	tiles = {
@@ -203,16 +196,11 @@ minetest.register_node("techage:ta3_silo", {
 		meta:set_string("infotext", S("TA3 Silo").." "..number)
 		Pipe:after_place_node(pos)
 	end,
-	tubelib2_on_update2 = function(pos, outdir, tlib2, node)
-		liquid.update_network(pos, outdir)
-	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
 	end,
-	liquid = tLiquid,
-	networks = tNetworks,
 	can_dig = can_dig,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
@@ -249,16 +237,11 @@ minetest.register_node("techage:ta4_silo", {
 		meta:set_string("infotext", S("TA4 Silo").." "..number)
 		Pipe:after_place_node(pos)
 	end,
-	tubelib2_on_update2 = function(pos, outdir, tlib2, node)
-		liquid.update_network(pos, outdir)
-	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
 	end,
-	liquid = tLiquid,
-	networks = tNetworks,
 	can_dig = can_dig,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
@@ -335,7 +318,7 @@ techage.register_node({"techage:ta3_silo", "techage:ta4_silo"}, {
 	end,
 })	
 
-Pipe:add_secondary_node_names({"techage:ta3_silo", "techage:ta4_silo"})
+liquid.register_nodes({"techage:ta3_silo", "techage:ta4_silo"},	Pipe, "tank", nil, tLiquid)
 
 minetest.register_craft({
 	output = "techage:ta3_silo",

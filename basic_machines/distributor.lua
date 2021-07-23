@@ -357,7 +357,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 	local meta = M(pos)
 	local crd = CRD(pos)
-	local filter = minetest.deserialize(meta:get_string("filter"))
+	local filter = minetest.deserialize(meta:get_string("filter")) or {false,false,false,false}
 	if fields.filter1 ~= nil then
 		filter[1] = fields.filter1 == "true"
 	elseif fields.filter2 ~= nil then
@@ -385,7 +385,7 @@ end
 local function change_filter_settings(pos, slot, val)
 	local slots = {["red"] = 1, ["green"] = 2, ["blue"] = 3, ["yellow"] = 4}
 	local meta = M(pos)
-	local filter = minetest.deserialize(meta:get_string("filter"))
+	local filter = minetest.deserialize(meta:get_string("filter")) or {false,false,false,false}
 	local num = slots[slot] or 1
 	if num >= 1 and num <= 4 then
 		filter[num] = val == "on"
@@ -402,7 +402,7 @@ end
 -- techage command to read filter channel status (on/off)
 local function read_filter_settings(pos, slot)
 	local slots = {["red"] = 1, ["green"] = 2, ["blue"] = 3, ["yellow"] = 4}
-	local filter = minetest.deserialize(M(pos):get_string("filter"))
+	local filter = minetest.deserialize(M(pos):get_string("filter")) or {false,false,false,false}
 	return filter[slots[slot]] and "on" or "off"
 end
 

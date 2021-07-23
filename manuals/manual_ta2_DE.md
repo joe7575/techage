@@ -23,7 +23,7 @@ Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den B
 Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.  
 Wenn das Wasser heiß ist (Temperaturanzeige ganz oben), kann die Dampfmaschine am Schwungrad gestartet werden.
 
-Die Dampfmaschine leistet 25 ku, kann damit mehrere Maschinen gleichzeitig antreiben.
+Die Dampfmaschine leistet 25 ku und kann damit mehrere Maschinen gleichzeitig antreiben.
 
 [steamengine|plan]
 
@@ -66,7 +66,7 @@ Teil der Dampfmaschine. Der Boiler muss mit dem Zylinder über die Dampfleitunge
 
 ### TA2 Antriebsachsen / TA2 Drive Axle
 
-Die Antriebsachsen dienen zur Kraftübertragung von der Dampfmaschine zu anderen Maschinen. Die maximale Länge einer Antriebsachse beträgt 8 Blöcke. Über Getriebeboxen können auch größere Strecken überbrückt, sowie Abzweigungen und Richtungswechsel realisiert werden.
+Die Antriebsachsen dienen zur Kraftübertragung von der Dampfmaschine zu anderen Maschinen. Die maximale Länge einer Antriebsachse beträgt 10 Blöcke. Über Getriebeboxen können auch größere Strecken überbrückt, sowie Abzweigungen und Richtungswechsel realisiert werden.
 
 [ta2_driveaxle|image]
 
@@ -79,6 +79,33 @@ Wird der Stromgenerator nicht mit ausreichend Kraft versorgt, geht er in einen F
 Das Stromgenerator nimmt primär max. 25 ku an Achsenkraft auf und gibt sekundär max. 24 ku als Strom wieder ab. Er verbraucht also ein ku für die Umwandlung.
 
 [ta2_generator|image]
+
+
+## TA2 Energiespeicher
+
+Bei größeren Anlagen mit mehreren Dampfmaschinen oder vielen angetriebenen Maschinen empfiehlt sich ein Energiespeicher. Der Energiespeicher bei TA2 arbeitet mit Lageenergie. Dazu wird Balast (Steine, Kies) in einer Kiste mit Hilfe einer Seilwinde in die Höhe gezogen. Ist überschüssige Energie im Achsen-Netzwerk vorhanden, so wird die Kiste nach oben gezogen. Wird kurzfristig mehr Energie benötigt, als die Dampfmaschine liefern kann, so gibt der Energiespeicher die gespeicherte Energie wieder ab, und die Balast-Kiste bewegt sich wieder nach unten.
+
+Der Energiespeicher besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet, zusammen gebaut werden.
+
+Um die maximale Speicherkapazität zu erreichen, muss die Kiste mit Gewichten komplett gefüllt, und der Mast inklusive der zwei Getriebeboxen 12 Blöcke hoch sein. Kleinere Aufbauten sind aber auch möglich.
+
+[ta2_storage|plan]
+
+
+
+### TA2 Seilwinde  / TA2 Winch
+
+Die Seilwinde muss mit einer Getriebebox verbunden werden und kann so überschüssige Energie aufnehmen und damit eine Gewichtekiste nach oben ziehen. Die maximale Seillänge beträgt 10 Blöcke.
+
+[ta2_winch|image]
+
+
+
+### TA2 Gewichtekiste / TA2 Weight Chest
+
+Diese Kiste muss mit bis zu 10 Blöcken Abstand unter die Seilwinde gesetzt und mit Pflastersteinen Kies oder Sand gefüllt werden. Ist das Mindestgewicht von einem Stack (99+ Items) erreicht und überschüssige Energie vorhanden, wird die Kiste automatisch über eine Seil mit der Seilwinde verbunden und in die Höhe gezogen.
+
+[ta2_weight_chest|image]
 
 
 

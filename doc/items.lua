@@ -50,6 +50,8 @@ techage.Items = {
 	ta2_forceload = "techage:forceload",
 	ta2_driveaxle = "techage:axle",
 	ta2_generator = "techage:ta2_generator_off",
+        ta2_winch = "techage:ta2_winch",
+        ta2_weight_chest = "techage:ta2_weight_chest",
 	---------------------
 	techage_ta3 = "techage_ta3.png",
 	techage_ta31 = "techage_ta3b.png",
@@ -182,6 +184,9 @@ techage.Items = {
 	ta4_waterinlet = "techage:ta4_waterinlet",
 	ta4_laser = "techage:ta4_laser_emitter",
 	ta4_concentrator = "techage:ta4_concentrator27",
+	ta4_electricmeter = "techage:ta4_electricmeter",
+	ta4_transformer = "techage:ta4_transformer",
+	power_reduction = "techage_power_reduction.png",
 
 	--ta4_ "", 
 }

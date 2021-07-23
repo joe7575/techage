@@ -27,10 +27,18 @@ local M = minetest.get_meta
 local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 local CRDN = function(node) return (minetest.registered_nodes[node.name] or {}).consumer end
 
-local power = techage.power
-local networks = techage.networks
-local Pipe = techage.LiquidPipe
-local liquid = techage.liquid
+local Tube = techage.Tube
+local power = networks.power
+local liquid = networks.liquid
+local CYCLE_TIME = 2
+
+local function get_keys(tbl)
+	local keys = {}
+	for k,v in pairs(tbl) do
+		keys[#keys + 1] = k
+	end
+	return keys
+end
 
 local function has_power(pos, nvm, state)
 	local crd = CRD(pos)
@@ -38,37 +46,53 @@ local function has_power(pos, nvm, state)
 end
 
 local function start_node(pos, nvm, state)
-	local crd = CRD(pos)
-	power.consumer_start(pos, crd.power_netw, crd.cycle_time)
 end
 
 local function stop_node(pos, nvm, state)
-	local crd = CRD(pos)
-	power.consumer_stop(pos, crd.power_netw)
 end
 
-local function on_power(pos)
+local function node_timer_pas(pos, elapsed)
 	local crd = CRD(pos)
 	local nvm = techage.get_nvm(pos)
-	crd.State:start(pos, nvm)
-end
-
-local function on_nopower(pos)
-	local crd = CRD(pos)
-	local nvm = techage.get_nvm(pos)
-	crd.State:nopower(pos, nvm)
-end
-
-
-local function node_timer(pos, elapsed)
-	local crd = CRD(pos)
-	local nvm = techage.get_nvm(pos)
+	
+	-- handle power consumption
 	if crd.power_netw and techage.needs_power(nvm) then
-		power.consumer_alive(pos, crd.power_netw, crd.cycle_time)
+		local consumed = power.consume_power(pos, crd.power_netw, nil, crd.power_consumption)
+		if consumed == crd.power_consumption then
+			crd.State:start(pos, nvm)
+		end
 	end
+	
+		-- call the node timer routine
+	if techage.is_operational(nvm) then
+		nvm.node_timer_call_cyle = (nvm.node_timer_call_cyle or 0) + 1
+		if nvm.node_timer_call_cyle >= crd.call_cycle then
+			crd.node_timer(pos, crd.cycle_time)
+			nvm.node_timer_call_cyle = 0
+		end
+	end
+	return crd.State:is_active(nvm)
+end
+
+local function node_timer_act(pos, elapsed)
+	local crd = CRD(pos)
+	local nvm = techage.get_nvm(pos)
+	
+	-- handle power consumption
+	if crd.power_netw and techage.needs_power(nvm) then
+		local consumed = power.consume_power(pos, crd.power_netw, nil, crd.power_consumption)
+		if consumed < crd.power_consumption then
+			crd.State:nopower(pos, nvm)
+		end
+	end
+	
 	-- call the node timer routine
 	if techage.is_operational(nvm) then
-		crd.node_timer(pos, crd.cycle_time)
+		nvm.node_timer_call_cyle = (nvm.node_timer_call_cyle or 0) + 1
+		if nvm.node_timer_call_cyle >= crd.call_cycle then
+			crd.node_timer(pos, crd.cycle_time)
+			nvm.node_timer_call_cyle = 0
+		end
 	end
 	return crd.State:is_active(nvm)
 end
@@ -105,37 +129,17 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 			local power_network
 			local power_png = 'techage_axle_clutch.png'
 			local power_used = tNode.power_consumption ~= nil
-			local tNetworks
+			local sides
 			-- power needed?
 			if power_used then
 				if stage > 2 then
 					power_network = techage.ElectricCable
 					power_png = 'techage_appl_hole_electric.png'
-					tNetworks = {
-						ele1 = {
-							sides = tNode.power_sides or {F=1, B=1, U=1, D=1},
-							ntype = "con1",
-							nominal = tNode.power_consumption[stage],
-							on_power = on_power,
-							on_nopower = on_nopower,
-							is_running = function(pos, nvm) return techage.is_running(nvm) end,
-						},
-					}
-					if tNode.networks and tNode.networks.pipe2 then
-						tNetworks.pipe2 = tNode.networks.pipe2
-					end
+					sides = get_keys(tNode.power_sides or {F=1, B=1, U=1, D=1})
 				else
 					power_network = techage.Axle
 					power_png = 'techage_axle_clutch.png'
-					tNetworks = {
-						axle = {
-							sides = tNode.power_sides or {F=1, B=1, U=1, D=1},
-							ntype = "con1",
-							nominal = tNode.power_consumption[stage],
-							on_power = on_power,
-							on_nopower = on_nopower,
-						}
-					}
+					sides = get_keys(tNode.power_sides or {F=1, B=1, U=1, D=1})
 				end
 			end
 
@@ -143,7 +147,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				node_name_passive = name_pas,
 				node_name_active = name_act,
 				infotext_name = name_inv,
-				cycle_time = tNode.cycle_time,
+				cycle_time = CYCLE_TIME,
 				standby_ticks = tNode.standby_ticks,
 				formspec_func = tNode.formspec,
 				on_state_change = tNode.on_state_change,
@@ -162,6 +166,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				tNode.power_consumption[stage] or 0,
 				node_timer = tNode.node_timer,
 				cycle_time = tNode.cycle_time,
+				call_cycle = tNode.cycle_time / 2,
 				power_netw = power_network,
 			}
 
@@ -198,17 +203,6 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				techage.del_mem(pos)
 			end
 			
-			local tubelib2_on_update2 = function(pos, outdir, tlib2, node) 
-				if tNode.tubelib2_on_update2 then
-					tNode.tubelib2_on_update2(pos, outdir, tlib2, node)
-				end
-				if tlib2.tube_type == "pipe2" then
-					liquid.update_network(pos, outdir, tlib2)
-				else
-					power.update_network(pos, outdir, tlib2)
-				end
-			end
-			
 			tNode.groups.not_in_creative_inventory = 0
 
 			local def_pas = {
@@ -221,20 +215,18 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 
 				can_dig = tNode.can_dig,
 				on_rotate = tNode.on_rotate or screwdriver.disallow,
-				on_timer = node_timer,
+				on_timer = node_timer_pas,
 				on_receive_fields = tNode.on_receive_fields,
 				on_rightclick = tNode.on_rightclick,
 				after_place_node = after_place_node,
 				after_dig_node = after_dig_node,
 				preserve_metadata = tNode.preserve_metadata,
-				tubelib2_on_update2 = tubelib2_on_update2,
 				allow_metadata_inventory_put = tNode.allow_metadata_inventory_put,
 				allow_metadata_inventory_move = tNode.allow_metadata_inventory_move,
 				allow_metadata_inventory_take = tNode.allow_metadata_inventory_take,
 				on_metadata_inventory_move = tNode.on_metadata_inventory_move,
 				on_metadata_inventory_put = tNode.on_metadata_inventory_put,
 				on_metadata_inventory_take = tNode.on_metadata_inventory_take,
-				networks = tNetworks and table.copy(tNetworks),
 
 				paramtype = tNode.paramtype,
 				paramtype2 = "facedir",
@@ -264,19 +256,17 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				selection_box = tNode.selection_box,
 
 				on_rotate = tNode.on_rotate or screwdriver.disallow,
-				on_timer = node_timer,
+				on_timer = node_timer_act,
 				on_receive_fields = tNode.on_receive_fields,
 				on_rightclick = tNode.on_rightclick,
 				after_place_node = after_place_node,
 				after_dig_node = after_dig_node,
-				tubelib2_on_update2 = tubelib2_on_update2,
 				allow_metadata_inventory_put = tNode.allow_metadata_inventory_put,
 				allow_metadata_inventory_move = tNode.allow_metadata_inventory_move,
 				allow_metadata_inventory_take = tNode.allow_metadata_inventory_take,
 				on_metadata_inventory_move = tNode.on_metadata_inventory_move,
 				on_metadata_inventory_put = tNode.on_metadata_inventory_put,
 				on_metadata_inventory_take = tNode.on_metadata_inventory_take,
-				networks = tNetworks and table.copy(tNetworks),
 
 				paramtype = tNode.paramtype,
 				paramtype2 = "facedir",
@@ -297,9 +287,14 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 			minetest.register_node(name_act, def_act)
 
 			if power_used then
-				power_network:add_secondary_node_names({name_pas, name_act})
+				power.register_nodes({name_pas, name_act}, power_network, "con", sides)
 			end
 			techage.register_node({name_pas, name_act}, tNode.tubing)
+			
+			if tNode.tube_sides then
+				Tube:set_valid_sides(name_pas, get_keys(tNode.tube_sides))
+				Tube:set_valid_sides(name_act, get_keys(tNode.tube_sides))
+			end
 		end
 	end
 	return names[1], names[2], names[3]

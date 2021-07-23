@@ -77,13 +77,13 @@ Used to cool the hot steam from the turbine. Must be connected to the boiler and
 
 ## Electrical current
 
-In TA3 (and TA4) the machines are powered by electricity. To do this, the machines and generators must be connected with power cables.
+In TA3 (and TA4) the machines are powered by electricity. To do this, machines, storage systems, and generators must be connected with power cables.
 TA3 has 2 types of power cables:
 
 - Insulated cables (TA power cables) for local wiring in the floor or in buildings. These cables can be hidden in the wall or in the floor (can be "plastered" with the trowel).
 - Overland lines (TA power line) for outdoor cabling over long distances. These cables are protected and cannot be removed by other players.
 
-Several consumers and generators can be operated together in a power network. Large networks can be set up with the help of the junction boxes.
+Several consumers, storage systems, and generators can be operated together in a power network. Networks can be set up with the help of the junction boxes.
 If too little electricity is provided, consumers run out.
 In this context, it is also important that the functionality of Forceload blocks is understood, because generators, for example, only supply electricity when the corresponding map block is loaded. This can be enforced with a forceload block.
 
@@ -93,10 +93,31 @@ In TA4 there is also a cable for the solar system.
 [ta3_powerswitch|image]
 
 
+### Importance of storage systems 
+
+Storage systems in the power grid fulfill two tasks:
+
+- To cope with peaks in demand: All generators always deliver just as much power as is needed. However, if consumers are switched on/off or there are fluctuations in demand for other reasons, consumers can fail for a short time. To prevent this, there should always be at least one battery block in every network. This serves as a buffer and compensates for these fluctuations in the seconds range.
+- To store regenerative energy: Solar and wind are not available 24 hours a day. So that the power supply does not fail when no electricity is produced, one or more storage systems must be installed in the network. Alternatively, the gaps can also be bridged with oil/coal electricity. 
+
+A storage system indicates its capacity in kud, i.e. ku per day. For example, a storage system with 100 kud delivers 100 ku for one game day, or 10 ku for 10 game days.
+
+All TA3/TA4 energy sources have adjustable charging characteristics. By default this is set to "80% - 100%". This means that when the storage system is 80% full, the output is reduced further and further until it switches off completely at 100%. If electricity is required in the network, 100% will never be reached, since the power of the generator has at some point dropped to the electricity demand in the network and the storage system is no longer charged, but only the consumers are served.
+
+This has several advantages:
+
+- The charging characteristics are adjustable. This means, for example, that oil/coal energy sources can be reduced at 60% and regenerative energy sources only at 80%. This means that oil/coal is only burned if there are not enough renewable energy sources available.
+- Several energy sources can be operated in parallel and are loaded almost evenly, because all energy sources work, for example, up to 80% of the storage system's charging capacity at their full capacity and then reduce their capacity at the same time.
+- All storage systems in a network form a large buffer. The charging capacity and the filling level of the entire storage system can always be read in percent on every storage system, but also on the electricity terminal.
+
+[power_reduction|image] 
+
+
+
 ### TA Electric Cable
 
 For local wiring in the floor or in buildings.
-Branches can be realized using junction boxes. The maximum cable length between machines or junction boxes is 1000 m. A maximum of 1000 nodes can be connected in a power network. All generators, batteries, junction boxes and machines count as nodes.
+Branches can be realized using junction boxes. The maximum cable length between machines or junction boxes is 1000 m. A maximum of 1000 nodes can be connected in a power network. All blocks with power connection, including junction boxes, count as nodes.
 
 Since the power cables are not automatically protected, the land lines (TA power line) are recommended for longer distances.
 
@@ -113,7 +134,6 @@ In addition to cables, the TA junction box and the TA power switch box can also 
 ### TA Electric Junction Box
 
 With the junction box, electricity can be distributed in up to 6 directions. Junction boxes can also be plastered (hidden) with a trowel and made visible again.
-If the TechAge Info tool (wrench) is clicked on the junction box, it is shown whether the power line is powered or not.
 
 [ta3_powerjunction|image]
 
@@ -180,9 +200,10 @@ The power generator can only hold 50 units of gasoline. An additional tank and a
 ### TA3 Battery Block
 
 The battery block is used to store excess energy and automatically delivers power in the event of a power failure (if available).
-The battery block is a secondary power source. This means that the generators are used first when electricity is required. The battery block will only provide power if there is insufficient electricity in the network. The same applies to the current consumption. Therefore, no battery can be charged with another battery.
-The battery delivers 10 ku or takes up 10 ku.
-At full load, a battery can take up to 400 s of current and, when it is full, also release it again. This corresponds to 8 hours of playing time on a normal game day of 20 minutes.
+Several battery blocks together form a TA3 energy storage system. Each battery block has a display for the charging state and for the stored load.
+The values for the entire network are always displayed here. The stored load is displayed in "kud" or "ku-days" (analogous to kWh) 5 kud thus corresponds, for example, to 5 ku for a game day (20 min) or 1 ku for 5 game days.
+
+A battery block has 3.33 kud
 
 [ta3_akkublock|image]
 
@@ -191,9 +212,16 @@ At full load, a battery can take up to 400 s of current and, when it is full, al
 
 The power terminal must be connected to the power grid. It shows data from the power grid.
 
-Only the data of a selected type are output in the upper half. If, for example, "Power station" is selected as the type, only the data from oil and coal-fired power stations are collected and output. The data from generators (power delivery) and the data from energy storage devices (power consumption) are output on the left. In the case of the battery blocl, for example, both are output because the battery can draw and deliver power.
+The most important figures are displayed in the upper half:
 
-In the lower half, the data of all generators and storage systems of the entire electricity network are summarized.
+- current/maximum generator power
+- current power consumption of all consumers
+- current charging current in/from the storage system
+- Current state of charge of the storage system in percent
+
+The number of network blocks is output in the lower half.
+
+Additional data on the generators and storage systems can be queried via the "console" tab.
 
 [ta3_powerterminal|image]
 
@@ -784,7 +812,8 @@ The processing power is up to 8 times one item every 4 seconds.
 
 The Techage Info Tool (wrench) has several functions. It shows the time, position, temperature and biome when an unknown block is clicked on.
 If you click on a TechAge block with command interface, all available data will be shown (see also "Logic / switching blocks").
-In the case of power junction boxes, the neighboring network participants (up to 50 meters away) are displayed with a blue cage.
+
+With Shift + right click an extended menu can be opened for some blocks. Depending on the block, further data can be called up or special settings can be made here. In the case of a generator, for example, the charging curve/switch-off can be programmed. 
 
 [ta3_end_wrench|image]
 

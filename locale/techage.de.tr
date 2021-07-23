@@ -7,20 +7,6 @@
 TA3 Accu Box=Akkublock
 TA3 Akku Box=TA3 Akku Block
 
-### akkubox.lua ###
-### battery.lua ###
-
-Load=Ladung
-
-### akkubox.lua ###
-### electrolyzer.lua ###
-### fuelcell.lua ###
-### generator.lua ###
-### heatexchanger2.lua ###
-### tiny_generator.lua ###
-
-Electricity=Strom
-
 ### aluminium.lua ###
 
 Aluminum=Aluminium
@@ -42,7 +28,6 @@ Autocrafter=Autocrafter
 ### axle2power.lua ###
 
 TA2 Power Generator=TA2 Stromgenerator
-TA2 Power Generator: Overload fault?@n(restart with right-click)=TA2 Stromgenerator: Überlastfehler?@n(Neustart mit Rechtsklick)
 
 ### baborium.lua ###
 
@@ -81,6 +66,11 @@ Sieved Basalt Gravel=Basaltkies gesiebt
 Battery=Batterie
 Coal Equivalents=Kohleeinheiten
 Digtron Battery=Digtron Akku
+
+### battery.lua ###
+### storage.lua ###
+
+Load=Ladung
 
 ### bauxit.lua ###
 
@@ -139,6 +129,7 @@ Insert destination node number(s)=Gebe Zielnummer(n) ein
 ### doorcontroller.lua ###
 ### mesecons_converter.lua ###
 ### repeater.lua ###
+### submenu.lua ###
 
 Save=Speichern
 
@@ -286,15 +277,35 @@ TA2 Drive Axle=TA2 Antriebsachse
 
 TA Electric Cable=TA Stromkabel
 
+### electricmeter.lua ###
+
+Consumption=Verbrauch
+TA4 Electric Meter=TA4 Stromzähler
+
+### electricmeter.lua ###
+### formspecs.lua ###
+### transformer.lua ###
+
+Power=Strom
+
 ### electrolyzer.lua ###
 
-TA4 Electrolyzer=TA4 Elektrolyseur
-full=voll
-
-### electrolyzer.lua ###
-### power_terminal2.lua ###
-
+Configurable value@nfor the current limit=Konfigurierbarer Wert@nfür die Strombegrenzung
+Current limitation=Strombegrenzung
 Electrolyzer=Eletrolyseur
+If the charge of the storage@nsystem exceeds the configured value,@nthe block switches off=Überschreitet die Ladung des@nSpeichersystems den konfigurierten@nWert, schaltet sich der Block ab
+Maximum possible@ncurrent consumption=Maximal mögliche Stromaufnahme
+Maximum power consumption [ku]=maximale Stromaufnahme
+Storage full=Speicher voll
+TA4 Electrolyzer=TA4 Elektrolyseur
+Turnoff point=Abschaltpunkt
+Turnoff point reached=Abschaltpunkt erreicht
+
+### electrolyzer.lua ###
+### fuelcell.lua ###
+### tiny_generator.lua ###
+
+Electricity=Strom
 
 ### electronic.lua ###
 
@@ -345,13 +356,6 @@ Firebox=Feuerkasten
 Flywheel=Schwungrad
 TA2 Flywheel=TA2 Schwungrad
 
-### flywheel.lua ###
-### generator.lua ###
-### solarcell.lua ###
-### source.lua ###
-
-power=Energie
-
 ### forceload.lua ###
 
 Area already loaded or max. number of Forceload Blocks reached!=Bereich bereits geladen oder maximale Anzahl von Forceload Blöcken erreicht!
@@ -363,6 +367,27 @@ Techage Forceload Block=Techage Forceload Block
 Techage Forceload Tile=Techage Forceload Kachel
 loaded=geladen
 
+### formspecs.lua ###
+
+Charge termination=Ladebegrenzung
+Current output [ku]=Aktueller Ausgabewert
+Maximum output [ku]=Maximaler Ausgabewert
+Range in which the generator reduces its power=Bereich in dem der Generator die Leistung reduziert
+The current power the generator provides=Die aktuelle Leistung die der Generator liefert
+The maximum power the generator can provide=Die maximale Leistung die der Generator liefern kann
+
+### formspecs.lua ###
+### power_terminal2.lua ###
+
+Charging=Laden
+
+### formspecs.lua ###
+### power_terminal2.lua ###
+### storage.lua ###
+### transformer.lua ###
+
+Storage=Speicher
+
 ### fuel_lib.lua ###
 
 Fuel Menu=Brennstoff Menü
@@ -370,13 +395,9 @@ To add fuel punch@nthis block@nwith a fuel container=Um Brennstoff nachzufüllen
 
 ### fuelcell.lua ###
 
-Cat. 1 generator=Kat. 1 Generator
-Cat. 2 generator=Kat. 2 Generator
 Fuel Cell=Brennstoffzelle
-If set, fuelcell will work@nas cat. 1 generator=Wenn gesetzt, Brennstoffzelle@narbeitet als  Kat. 1 Generator
 TA4 Fuel Cell=TA4 Brennstoffzelle
-TA4 Fuel Cell Gen1=TA4 Brennstoffzelle Gen1
-TA4 Fuel Cell Gen2=TA4 Brennstoffzelle Gen2
+no hydrogen=kein Wasserstoff
 
 ### fuelcellstack.lua ###
 
@@ -398,10 +419,13 @@ TA2 Gearbox=TA2 Getriebeblock
 
 ### generator.lua ###
 
-Generator=Generator
 TA3 Generator=TA3 Generator
 TA4 Generator=TA4 Generator
-storage empty?=Speicher leer?
+
+### generator.lua ###
+### power_terminal2.lua ###
+
+Generator=Generator
 
 ### gravelrinser.lua ###
 
@@ -450,20 +474,15 @@ TA4 Furnace Heater=TA4 Ofenheizung
 ### heatexchanger1.lua ###
 
 TA4 Heat Exchanger 1=TA4 Wärmetauscher 1
-inlet/pipe error=Einlass/Röhrenfehler
-wrong storage diameter=Falscher Wärmespeicher-Durchmesser
-
-### heatexchanger1.lua ###
-### heatexchanger2.lua ###
-
-did you check the plan?=hast du den Plan geprüft?
 
 ### heatexchanger2.lua ###
 
-Heat Exchanger=Wärmetauscher
+Power network connection error=Stromnetz Verbindungsfehler
 TA4 Heat Exchanger=TA4 Wärmetauscher
 TA4 Heat Exchanger 2=TA4 Wärmetauscher 2
-Thermal=Wärme
+did you check the plan?=hast du den Plan geprüft?
+inlet/pipe error=Einlass/Röhrenfehler
+wrong storage diameter=Falscher Wärmespeicher-Durchmesser
 
 ### heatexchanger3.lua ###
 
@@ -494,6 +513,10 @@ TA4 LED Industrial Lamp=TA4 LED Industrielampe
 ### inlet.lua ###
 
 TA4 Pipe Inlet=TA4 Rohrzulauf
+one window maximum=maximal ein Fenster
+wrong diameter (should be 5, 7, or 9)=falscher Durchmesser (sollte 5, 7, oder 9 sein)
+wrong number of gravel nodes=falsche Anzahl von Kiesblöcken
+wrong number of shell nodes=falsche Anzahl von Blöcken bei der Hülle
 
 ### inverter.lua ###
 
@@ -501,6 +524,8 @@ Inverter=Wechselrichter
 Power AC=Wechselstrom
 Power DC=Gleichstrom
 TA4 Solar Inverter=TA4 Solar Wechselrichter
+no solar power=keine Solarleistung
+solar network error=Solar-Netzwerk Fehler
 
 ### junctionbox.lua ###
 
@@ -522,6 +547,10 @@ TA4 Laser Beam Emitter=TA4 Laserstrahl Sender
 TA4 Laser Beam Receiver=TA4 Laserstrahl Empfänger
 Valid destination positions:=Gültige Zielpositionen
 to=bis
+
+### lib.lua ###
+
+Block has an@nadditional wrench menu=Block besitzt ein@nzusätzliches@nSchraubenschlüssel-Menü
 
 ### lib.lua ###
 ### sensorchest.lua ###
@@ -574,14 +603,9 @@ Syntax=Syntax
 ### logic_block.lua ###
 ### lua_logic.lua ###
 
+Store=Speichern
 TA3 Logic Block=TA3 Logikblock
 Update=Update
-
-### logic_block.lua ###
-### lua_logic.lua ###
-### power_terminal2.lua ###
-
-Store=Speichern
 
 ### lye.lua ###
 
@@ -695,7 +719,6 @@ Silver Sandstone Powder=Silbersandstein Pulver
 ### power2axle.lua ###
 
 TA3 Electric Motor=TA3 Elektromotor
-TA3 Electric Motor: Overload fault?@n(restart with right-click)=TA3 Elektromotor: Überlastfehler?@n(Neustart mit Rechtsklick)
 
 ### power_line.lua ###
 
@@ -704,57 +727,16 @@ TA Power Pole=TA Strommast
 TA Power Pole Top (for up to 6 connections)=TA Strommastkopf (für bis zu 6 Verbindungen)
 TA Power Pole Top 2 (for landlines)=TA Strommastkopf 2 (für Überlandleitungen)
 
-### power_terminal.lua ###
-
-Active:=Aktiv:
-All nodes:=Alle Blöcke:
-Consum. 1=Konsum. 1
-Consum. 2=Konsum. 2
-Genera. 1=Genera. 1
-Genera. 2=Genera. 2
-In use:=In Benutzung:
-No network or active generator available!=Kein Stromnetz oder aktiver Generator verfügbar
-Number of all nodes=Anzahl aller Blöcke
-TA3 Power Terminal Old=TA3 Strom Terminal Alt
-The network is overloaded!=Das Stromnetz ist überlastet!
-The network load is almost at the limit!=Das Stromnetz ist ziemlich am Limit!
-Turned on:=Eingeschaltet:
-With %u of a maximum of %u blocks you are almost at the limit!=Mit %u von maximal %u Blöcken bist du fast am Limit!
-
-### power_terminal.lua ###
 ### power_terminal2.lua ###
 
+Commands@nhelp . . . print this text@ncls . . . . . clear screen@ngen . . . . print all generators@nsto . . . . . print all storage systems@n=Kommandos@nhelp . . . diesen Text ausgeben@ncls . . . . . Bildschirm löschen@ngen . . . . Alle Generatoren ausgeben@nsto . . . . . Alle Speichersysteme ausgeben@n
+Consumer=Verbraucher
 Network Data=Netzwerkdaten
-
-### power_terminal2.lua ###
-
-Accu Box=Akkublock
-Current power:=Strom aktuell:
-Energy storage=Engergiespeicher
-Energy stored:=Energie gespeichert
-Fuel cell cat. 1=Brennstoffzelle Kat. 1
-Fuel cell cat. 2=Brennstoffzelle Kat. 2
-Generators=Generatoren
-Intake=Stromaufnahme
-Max. needed power=Max. benötigter Strom
-Maximum power:=Maximalstrom:
-No power grid or running generator!=Kein Stromnetz oder Generator verfügbar!
-Number blocks:=Anzahl Blöcke:
-Number of power grid blocks=Anzahl der Stromnetz Blöcke
-Output=Stromabgabe
-Power grid total=Stromnetz gesammt
-Power station=Kraftwerk
-Probably too many consumers (=Vermutlich zu viele Verbraucher (
-Select type=Wähle Typ
-Solar system=Solaranlage
-Storage systems=Speichersysteme
-TA2 Generator=TA2 Generator
+Number of consumers:=Anzahl der Verbraucher
+Number of generators:=Anzahl der Generatoren
+Number of network nodes:=Anzahl von Netzwerkblöcken
+Number of storage systems:=Anzahl der Speichersysteme
 TA3 Power Terminal=TA3 Strom Terminal
-Tiny generator=Kleingenerator
-To many blocks in the power grid!=Zu viele Blöcke im Stromnetz!
-Type=Typ
-Wind turbine=Windkraftanlage
-ku is needed=ku wird benötigt
 
 ### power_terminal2.lua ###
 ### terminal.lua ###
@@ -767,6 +749,7 @@ TA Power Switch=TA Stromschalter
 TA Power Switch Small=TA Stromschalter klein
 
 ### powerswitchbox.lua ###
+### powerswitchbox_legacy.lua ###
 
 TA Power Switch Box=TA Stromschalterbox
 
@@ -817,7 +800,6 @@ inventory full=Inventar ist voll
 ### reboiler.lua ###
 
 TA3 Oil Reboiler=TA3 Aufkocher
-TA3 Oil Reboiler: blocked=TA3 Aufkocher: blockiert
 
 ### recipe_lib.lua ###
 
@@ -852,7 +834,6 @@ Position=Position
 Position temperature=Positionstemperatur
 TechAge Info Tool (use @= read status info)=TechAge Info Werkzeug
 TechAge Repair Kit=TechAge Reparaturset
-repaired=repariert
 
 ### repeater.lua ###
 
@@ -904,12 +885,17 @@ TA4 Solar Carrier Module T=TA4 Solar Trägermodul O
 TA4 Solar Module=TA4 Solarmodul
 light=Licht
 
+### solarcell.lua ###
+### source.lua ###
+
+power=Strom
+
 ### source.lua ###
 
 Axle Power Source=Achsenkraftquelle
 Ele Power Source=Ele Kraftquelle
 Power Source=Stromquelle
-Steam Power Source=Dampfenergiequelle
+Test Generator=Test Generator
 
 ### steam_pipe.lua ###
 
@@ -918,6 +904,10 @@ TA2 Steam Pipe=TA2 Dampfleitung
 ### steelmat.lua ###
 
 TechAge Steel Mat=TechAge Stahlmatte
+
+### storage.lua ###
+
+Test Storage=Test Speicher
 
 ### streetlamp.lua ###
 
@@ -928,6 +918,20 @@ TA Street Lamp=TA Straßenlampe
 TA4 LED Street Lamp=TA4 LED Straßenlampe
 TA4 LED Street Lamp Arm=TA4 LED Lampenarm
 TA4 LED Street Lamp Pole=TA4 LED Lampenmast
+
+### submenu.lua ###
+
+Cancel=Abbruch
+Note: You can't change any values while the block is running!=Hinweis: Während der Block läuft, kann kein Wert geändert werden!
+Refresh=Aktualisieren
+
+### ta2_weight_chest.lua ###
+
+TA2 Weight Chest=TA2 Gewichtekiste
+
+### ta2_winch.lua ###
+
+TA2 Winch=TA2 Seilwinde
 
 ### ta4_cable.lua ###
 
@@ -1028,10 +1032,13 @@ TA4 Derrick=TA4 Bohrturm
 [TA] Derrick is being built!=[TA] Bohrturm wird errichtet
 [TA] Derrick is being removed!=[TA] Bohrturm wird abgebaut
 
+### transformer.lua ###
+
+TA4 Isolation Transformer=TA4 Trenntransformator
+
 ### trowel.lua ###
 
 TechAge Trowel=TechAge Kelle
-Use a trowel to remove the node.=Verwende eine Kelle, um den Block zu entfernen.
 
 ### tube_wall_entry.lua ###
 
@@ -1058,8 +1065,7 @@ Usmium Powder=Usmium Pulver
 ### valve.lua ###
 
 TA Valve=TA Ventil
-TA3 Valve closed=TA3 Ventil zu
-TA3 Valve open=TA3 Ventil offen
+TA3 Valve=TA3 Ventil
 
 ### waterinlet.lua ###
 
@@ -1085,8 +1091,3 @@ This is not the surface of the ocean!=Das ist nicht die Meeresoberfläche!
 biome and no ocean!=Biom und keine Meer (ocean)!
 is a suitable place for a wind turbine!=ist ein geeigneter Ort für eine Windkraftanlage!
 
-
-##### not used anymore #####
-
-Fuel cell=Brennstoffzelle
-Not suitable position!=Ungeeignete Position!

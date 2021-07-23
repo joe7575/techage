@@ -42,6 +42,11 @@ local function after_dig_node(pos, oldnode)
 	Pipe:after_dig_node(pos)
 end
 
+local function inlet_cmnd(pos, topic, payload)
+	return techage.transfer(pos, "L", topic, payload, Pipe,
+		{"techage:ta4_pipe_inlet"})
+end
+
 minetest.register_node("techage:heatexchanger3", {
 	description = S("TA4 Heat Exchanger 3"),
 	tiles = {
@@ -57,6 +62,9 @@ minetest.register_node("techage:heatexchanger3", {
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	
+	networks = {
+		pipe2 = {},
+	},
 	paramtype2 = "facedir",
 	groups = {crumbly = 2, cracky = 2, snappy = 2},
 	on_rotate = screwdriver.disallow,
@@ -66,10 +74,11 @@ minetest.register_node("techage:heatexchanger3", {
 
 Pipe:add_secondary_node_names({"techage:heatexchanger3"})
 
+-- command interface, used by heatexchanger2
 techage.register_node({"techage:heatexchanger3"}, {
-	on_transfer = function(pos, in_dir, topic, payload)
-		return true
-	end
+	on_transfer = function(pos, indir, topic, payload)
+		return inlet_cmnd(pos, topic, payload)
+	end,
 })
 
 minetest.register_craft({
