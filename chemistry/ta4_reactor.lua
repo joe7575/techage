@@ -48,9 +48,6 @@ minetest.register_node("techage:ta4_reactor_fillerpipe", {
 			Pipe:after_place_node(pos1)
 		end
 	end,
---	tubelib2_on_update2 = function(pos, dir, tlib2, node)
---		liquid.update_network(pos, dir, tlib2, node)
---	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 	end,

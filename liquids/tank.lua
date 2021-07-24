@@ -46,7 +46,7 @@ local function can_dig(pos, player)
 	return techage.liquid.is_empty(pos)
 end
 
-local function peek_liquid(pos)
+local function peek_liquid(pos, indir)
 	local nvm = techage.get_nvm(pos)
 	return liquid.srv_peek(nvm)
 end

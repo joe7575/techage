@@ -17,10 +17,9 @@
 -- If necessary, this can be adjusted later.
 
 local M = minetest.get_meta
-local networks = techage.networks
 local S = techage.S
 local Pipe = techage.LiquidPipe
-local liquid = techage.liquid
+local liquid = networks.liquid
 
 -- Checks if the filter structure is ok and returns the amount of gravel
 local function checkStructure(pos)
@@ -100,9 +99,6 @@ minetest.register_node("techage:ta4_liquid_filter_filler", {
 	after_place_node = function(pos)
 		Pipe:after_place_node(pos)
 	end,
-	tubelib2_on_update2 = function(pos, dir, tlib2, node)
-		liquid.update_network(pos)
-	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 		techage.del_mem(pos)
@@ -115,9 +111,10 @@ minetest.register_node("techage:ta4_liquid_filter_filler", {
 	groups = {cracky=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
+})
 
-
-	liquid = {
+liquid.register_nodes({"techage:ta4_liquid_filter_filler"},
+	Pipe, "tank", {"U"}, {
 		capa = 1,
 		peek = function(...) return nil end,
 		put = function(pos, indir, name, amount)
@@ -146,15 +143,9 @@ minetest.register_node("techage:ta4_liquid_filter_filler", {
 		untake = function(pos, outdir, name, amount, player_name)
 			return amount
 		end,
-	},
+	}
+)
 
-	networks = {
-		pipe2 = {
-			sides = {U = 1}, -- Pipe connection sides
-			ntype = "tank",
-		},
-	},
-})
 
 minetest.register_node("techage:ta4_liquid_filter_sink", {
 	description = S("TA4 Liquid Filter Sink"),
@@ -181,9 +172,6 @@ minetest.register_node("techage:ta4_liquid_filter_sink", {
 	after_place_node = function(pos)
 		Pipe:after_place_node(pos)
 	end,
-	tubelib2_on_update2 = function(pos, dir, tlib2, node)
-		liquid.update_network(pos)
-	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 	end,
@@ -195,16 +183,12 @@ minetest.register_node("techage:ta4_liquid_filter_sink", {
 	groups = {cracky=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
-
-	networks = {
-		pipe2 = {
-			sides = {R = 1}, -- Pipe connection sides
-			ntype = "pump",
-		},
-	},
 })
 
-Pipe:add_secondary_node_names({"techage:ta4_liquid_filter_filler", "techage:ta4_liquid_filter_sink"})
+liquid.register_nodes({"techage:ta4_liquid_filter_sink"},
+	Pipe, "pump", {"R"}, {}
+)
+
 
 minetest.register_craft({
 	output = 'techage:ta4_liquid_filter_filler',

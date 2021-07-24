@@ -640,7 +640,7 @@ techage.manual_DE.aText = {
   "\n",
   "Speichersysteme im Stromnetz erfüllen zwei Aufgaben:\n"..
   "\n"..
-  "  - Um Bedarfsspitzen abzufangen: Alle Generatoren liefern immer gerade soviel Leistung\\, wie benötigt wird. Werden aber Verbraucher ein/ausgeschaltet oder kommt es aus anderen Gründen zu Bedarfsschwankungen\\, so können Verbraucher kurzzeitig ausfallen. Um dies zu verhindern\\, sollte immer mindestens ein Akkublock in jedem Netzwerk vorhanden sein. Dieser dient aus Puffer und gleicht diese Schwankungen im Sekundenbereich aus.\n"..
+  "  - Um Bedarfsspitzen abzufangen: Alle Generatoren liefern immer gerade soviel Leistung\\, wie benötigt wird. Werden aber Verbraucher ein/ausgeschaltet oder kommt es aus anderen Gründen zu Bedarfsschwankungen\\, so können Verbraucher kurzzeitig ausfallen. Um dies zu verhindern\\, sollte immer mindestens ein Akkublock in jedem Netzwerk vorhanden sein. Dieser dient als Puffer und gleicht diese Schwankungen im Sekundenbereich aus.\n"..
   "  - Um regenerative Energie zu speichern: Solar und Wind stehen nicht 24 Stunden am Tag zur Verfügung. Damit die Stromversorgung nicht ausfällt\\, wenn kein Strom produziert wird\\, müssen ein oder mehrere Speichersysteme im Netzwerk verbaut werden. Alternativ können die Lücken auch mit Öl/Kohle-Strom überbrückt werden.\n"..
   "\n"..
   "Ein Speichersystem gibt seine Kapazität in kud an\\, also ku pro day (Tag). Bspw. ein Speichersystem mit 100 kud liefert 100 ku einen Spieltag lang\\, oder auch 10 ku für 10 Spieltage.\n"..
@@ -1279,7 +1279,7 @@ techage.manual_DE.aText = {
   "\n"..
   "In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man\\, ob der Speicher mehr als 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken\\, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung zu achten (der Pfeil bei Block 1 muss zur Turbine zeigen).\n"..
   "\n"..
-  "Entgegen dem Plan rechts müssen die Anschlüsse am Speicherblock auf gleicher Ebene sein (horizontal angeordnet\\, also nicht unten und oben). Die Rohrzuläufe (TA4 Pipe Inlet) müssen genau in der Mitte der Wand sein und stehen sich damit gegenüber. Als Röhren kommen die gelbel TA4 Röhren zum Einsatz. Die TA3 Dampfrohre können hier nicht verwendet werden.\n"..
+  "Entgegen dem Plan rechts müssen die Anschlüsse am Speicherblock auf gleicher Ebene sein (horizontal angeordnet\\, also nicht unten und oben). Die Rohrzuläufe (TA4 Pipe Inlet) müssen genau in der Mitte der Wand sein und stehen sich damit gegenüber. Als Röhren kommen die gelben TA4 Röhren zum Einsatz. Die TA3 Dampfrohre können hier nicht verwendet werden.\n"..
   "Sowohl der Generator als auch der Wärmetauscher haben einen Stromanschluss und müssen mit dem Stromnetz verbunden werden.\n"..
   "\n"..
   "Im Prinzip arbeitet das das Wärmespeichersystem genau gleich wie die Akkus\\, nur mit viel mehr Speicherkapazität. \n"..

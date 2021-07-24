@@ -102,13 +102,6 @@ minetest.register_node("techage:ta4_reactor_stand", {
 		Pipe:after_place_node(pos)
 		Cable:after_place_node(pos)
 	end,
---	tubelib2_on_update2 = function(pos, dir, tlib2, node)
---		if tlib2.tube_type == "ele1" then
---			power.update_network(pos, dir, tlib2, node)
---		else
---			liquid.update_network(pos, dir, tlib2, node)
---		end
---	end,
 	on_timer = function(pos, elapsed)
 		local nvm = techage.get_nvm(pos)
 		local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
@@ -182,9 +175,6 @@ minetest.register_node("techage:ta4_reactor_base", {
 		M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
 		Pipe:after_place_node(pos)
 	end,
---	tubelib2_on_update2 = function(pos, dir, tlib2, node)
---		liquid.update_network(pos, dir, tlib2, node)
---	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 	end,

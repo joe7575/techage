@@ -14,7 +14,7 @@
 
 local S = techage.S
 local Pipe = techage.LiquidPipe
-local liquid = techage.liquid
+local liquid = networks.liquid
 
 local function take_liquid(pos, indir, name, amount)
 	return 0, name
@@ -27,13 +27,6 @@ end
 local function peek_liquid(pos, indir)
 	return nil
 end
-
-local networks_def = {
-	pipe2 = {
-		sides = {R=1}, -- Pipe connection sides
-		ntype = "tank",
-	},
-}
 
 minetest.register_node("techage:blackhole", {
 	description = S("TechAge Black Hole"),
@@ -57,22 +50,12 @@ minetest.register_node("techage:blackhole", {
 	after_dig_node = function(pos, oldnode)
 		Pipe:after_dig_node(pos)
 	end,
-	tubelib2_on_update2 = function(pos, outdir, tlib2, node)
-		liquid.update_network(pos, outdir)
-	end,
 
 	on_rotate = screwdriver.disallow,
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
-	liquid = {
-		capa = 999999,
-		peek = peek_liquid,
-		put = put_liquid,
-		take = take_liquid,
-	},
-	networks = networks_def,
 })
 
 minetest.register_craft({
@@ -96,4 +79,11 @@ techage.register_node({"techage:blackhole"}, {
 	end,
 })
 
-Pipe:add_secondary_node_names({"techage:blackhole"})
+liquid.register_nodes({"techage:blackhole"},
+	Pipe, "tank", {"R"}, {
+		capa = 9999999,
+		peek = peek_liquid,
+		put = put_liquid,
+		take = take_liquid,
+	}
+)
