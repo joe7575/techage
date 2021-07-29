@@ -141,7 +141,7 @@ local function after_place_node(pos)
 	local nvm = techage.get_nvm(pos)
 	new_state(pos, nvm, techage.STOPPED)
 	Pipe:after_place_node(pos)
-	Cable.after_place_node(pos)
+	Cable:after_place_node(pos)
 end
 
 local function after_dig_node(pos, oldnode)

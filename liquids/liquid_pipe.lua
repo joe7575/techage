@@ -159,7 +159,7 @@ local Boxes = {
 local names = networks.register_junction("techage:ta3_junctionpipe", 1/8, Boxes, Pipe, {
 	description = S("TA Junction Pipe"),
 	tiles = {"techage_gaspipe_junction.png"},
-	use_texture_alpha = "clip",
+	use_texture_alpha = techage.CLIP,
 	is_ground_content = false,
 	groups = {crumbly = 2, cracky = 2, snappy = 2, techage_trowel = 1},
 	sounds = default.node_sound_metal_defaults(),

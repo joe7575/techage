@@ -39,6 +39,7 @@ local names = networks.register_junction("techage:concentrator", 2/8, Boxes, Tub
 		"techage_tube_junction.png^techage_appl_arrow2.png^[transformR270",
 	},
 	paramtype2 = "facedir", -- important!
+	use_texture_alpha = techage.CLIP,
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
 	sounds = default.node_sound_defaults(),
 
@@ -77,6 +78,7 @@ names = networks.register_junction("techage:ta4_concentrator", 2/8, Boxes, Tube,
 		"techage_tubeta4_junction.png^techage_appl_arrow2.png^[transformR270",
 	},
 	paramtype2 = "facedir", -- important!
+	use_texture_alpha = techage.CLIP,
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
 	sounds = default.node_sound_defaults(),
 

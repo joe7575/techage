@@ -430,3 +430,9 @@ minetest.register_craft({
 	},
 })
 
+local Cable = techage.ElectricCable
+local power = networks.power
+
+techage.register_node_for_v1_transition({"techage:ta3_autocrafter_pas"}, function(pos, node)
+	power.update_network(pos, nil, Cable)
+end)

@@ -32,7 +32,7 @@ local Boxes = {
 local names = networks.register_junction("techage:electric_junction", 2/8, Boxes, Cable, {
 	description = S("TA Electric Junction Box"),
 	tiles = {"techage_electric_junction.png"},
-	use_texture_alpha = "clip",
+	use_texture_alpha = techage.CLIP,
 	is_ground_content = false,
 	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, techage_trowel = 1},
 	sounds = default.node_sound_defaults(),

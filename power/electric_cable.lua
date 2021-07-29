@@ -42,7 +42,6 @@ local Cable = tubelib2.Tube:new({
 		elseif not networks.hidden_name(pos) then
 			minetest.swap_node(pos, {name = "techage:electric_cable"..tube_type, param2 = param2 % 32})
 		end
-		print("param2", name, param2)
 		M(pos):set_int("netw_param2", param2)
 	end,
 })
