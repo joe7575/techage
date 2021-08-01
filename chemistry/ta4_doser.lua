@@ -177,9 +177,35 @@ local function dosing(pos, nvm, elapsed)
 			end
 		end
 	end
+	
+	-- check leftover
+	local leftover
+	local mem = techage.get_mem(pos)
+	if mem.waste_leftover then
+		leftover = reactor_cmnd(pos, "waste", {
+				name = mem.waste_leftover.name, 
+				amount = mem.waste_leftover.num}) or mem.waste_leftover.num
+		if leftover > 0 then
+			mem.waste_leftover.num = leftover
+			State:blocked(pos, nvm)
+			return
+		end
+		mem.waste_leftover = nil
+	end
+	if mem.output_leftover then
+		leftover = reactor_cmnd(pos, "output", {
+				name = mem.output_leftover.name, 
+				amount = mem.output_leftover.num}) or mem.output_leftover.num
+		if leftover > 0 then
+			mem.output_leftover.num = leftover
+			State:blocked(pos, nvm)
+			return
+		end
+		mem.output_leftover = nil
+	end
+	
 	-- inputs
 	local taken = {}
-	local mem = techage.get_mem(pos)
 	mem.dbg_cycles = (mem.dbg_cycles or 0) - 1
 	
 	for _,item in pairs(recipe.input) do
@@ -203,13 +229,13 @@ local function dosing(pos, nvm, elapsed)
 		end
 	end
 	-- waste
-	local leftover
 	if recipe.waste.name ~= "" then
 		leftover = reactor_cmnd(pos, "waste", {
 				name = recipe.waste.name, 
-				amount = recipe.waste.num})
-		if not leftover or (tonumber(leftover) or 1) > 0 then
-			untake(pos, taken)
+				amount = recipe.waste.num}) or recipe.waste.num
+		if leftover > 0 then
+			mem.waste_leftover = {name = recipe.waste.name, num = leftover}
+			mem.output_leftover = {name = recipe.output.name, num = recipe.output.num}
 			State:blocked(pos, nvm)
 			reactor_cmnd(pos, "stop")
 			return
@@ -218,9 +244,9 @@ local function dosing(pos, nvm, elapsed)
 	-- output
 	leftover = reactor_cmnd(pos, "output", {
 			name = recipe.output.name, 
-			amount = recipe.output.num})
-	if not leftover or (tonumber(leftover) or 1) > 0 then
-		untake(pos, taken)
+			amount = recipe.output.num}) or recipe.output.num
+	if leftover > 0 then
+		mem.output_leftover = {name = recipe.output.name, num = leftover}
 		State:blocked(pos, nvm)
 		reactor_cmnd(pos, "stop")
 		return
