@@ -152,6 +152,7 @@ minetest.register_node("techage:ta2_winch", {
 	
 	after_dig_node = function(pos, oldnode, oldmetadata)
 		add_chest(pos)
+		techage.del_rope(pos)
 		local outdir = tonumber(oldmetadata.fields.outdir or 0)
 		power.start_storage_calc(pos, Axle, outdir)
 		Axle:after_dig_node(pos, {outdir})
