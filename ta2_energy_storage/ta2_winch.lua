@@ -56,7 +56,7 @@ end
 	
 local function add_chest_entity(pos, nvm)
 	local mem = techage.get_mem(pos)
-	local length = (nvm.length or MAX_ROPE_LEN) * (1 - nvm.load/nvm.capa)
+	local length = (nvm.length or MAX_ROPE_LEN) * (1 - (nvm.load or 0) / (nvm.capa or 1))
 	local y = pos.y - length - 1
 	techage.renew_rope(pos, length, true)
 	if mem.obj then
