@@ -259,23 +259,23 @@ minetest.register_craft({
 	},
 })
 
---minetest.register_craft({
---	output = node_name_ta3,
---	recipe = {
---		{"", "default:mese_crystal", ""},
---		{"", node_name_ta2, ""},
---		{"", "techage:vacuum_tube", ""},
---	},
---})
+minetest.register_craft({
+	output = node_name_ta3,
+	recipe = {
+		{"", "default:mese_crystal", ""},
+		{"", node_name_ta2, ""},
+		{"", "techage:vacuum_tube", ""},
+	},
+})
 
---minetest.register_craft({
---	output = node_name_ta4,
---	recipe = {
---		{"", "default:mese_crystal", ""},
---		{"", node_name_ta3, ""},
---		{"", "techage:ta4_wlanchip", ""},
---	},
---})
+minetest.register_craft({
+	output = node_name_ta4,
+	recipe = {
+		{"", "default:mese_crystal", ""},
+		{"", node_name_ta3, ""},
+		{"", "techage:ta4_wlanchip", ""},
+	},
+})
 
 if minetest.global_exists("unified_inventory") then
 	unified_inventory.register_craft_type("grinding", {
