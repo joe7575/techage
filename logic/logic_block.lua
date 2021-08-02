@@ -106,8 +106,12 @@ end
 
 local function get_inputs(pos)
 	local nvm = techage.get_nvm(pos)
+	local mem = techage.get_mem(pos)
 	-- old data is needed for formspec 'input' values
 	nvm.old_inp_tbl = table.copy(nvm.inp_tbl or {})
+	for _, num in ipairs(mem.outp_num or {}) do
+		nvm.old_inp_tbl[num] = nvm.outp_tbl[num] or "off"
+	end
 	return nvm.old_inp_tbl
 end
 		
@@ -148,11 +152,12 @@ local function data(nvm)
 	return table.concat(inp, ",  "), table.concat(outp, ",  ")
 end
 
-local function get_code(pos, nvm)
+local function get_code(pos, nvm, mem)
 	local meta = M(pos)
 	local tbl = {"local inputs = get_inputs(pos) or {}"}
 	local owner = M(pos):get_string("owner")
 	nvm.own_num = nvm.own_num or M(pos):get_string("node_number")
+	mem.outp_num = {}
 	
 	for i = 1,NUM_RULES do
 		local outp = meta:get_string("outp" .. i)
@@ -167,6 +172,7 @@ local function get_code(pos, nvm)
 				expr = string.gsub(expr, 'on', '"on"')
 				expr = string.gsub(expr, 'off', '"off"')
 				tbl[#tbl + 1]  = "if "..expr.." then send(pos, '"..outp.."', '"..val.."') end"
+				table.insert(mem.outp_num, outp)
 			else
 				nvm.error = err
 				return
@@ -190,7 +196,7 @@ end
 local function execute(pos)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
-	mem.code = mem.code or get_code(pos, nvm)
+	mem.code = mem.code or get_code(pos, nvm, mem)
 	if mem.code then
 		local res, _ = pcall(mem.code)
 		if not res then
@@ -304,7 +310,7 @@ minetest.register_node("techage:ta3_logic2", {
 			local nvm = techage.get_nvm(pos)
 			local mem = techage.get_mem(pos)
 			mem.code = nil
-			get_code(pos, nvm)
+			get_code(pos, nvm, mem)
 			meta:set_string("formspec", formspec(pos, meta))
 		end
 	end,

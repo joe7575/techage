@@ -119,7 +119,7 @@ local function register_liquid(source, flowing, itemname, inventory_image, name,
 
 				-------------------------------- Start Modification
 --				minetest.set_node(lpos, {name = source})
-				if source == "default:lava_source" and lpos.y > 0 then
+				if source == "default:lava_source" and lpos.y > 0 and not minetest.is_singleplayer() then
 				   minetest.chat_send_player(user:get_player_name(), S("[Bucket] Lava can only be placed below sea level!"))
 				   return
 				else
