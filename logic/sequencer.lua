@@ -268,6 +268,8 @@ techage.register_node({"techage:ta3_sequencer"}, {
 			else
 				nvm.endless = false
 			end
+		elseif topic == "pause" then
+			stop_the_sequencer(pos)
 		else
 			return "unsupported"
 		end
