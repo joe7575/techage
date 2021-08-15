@@ -56,10 +56,12 @@ local function formspec(meta)
 	local numbers = meta:get_string("numbers") or ""
 	local idx = meta:get_int("cycle_idx") or 0
 	if idx == 0 then idx = 1 end
+	local access_idx = meta:get_string("public") == "true" and 3 or meta:get_string("protected") == "true" and 2 or 1
 	return "size[7.5,6]"..
 		"dropdown[0.2,0;3;type;switch,button 1s,button 2s,button 4s,button 8s,button 16s,button 32s;"..idx.."]".. 
 		"field[0.5,2;7,1;numbers;"..S("Insert destination node number(s)")..";"..numbers.."]" ..
-		"checkbox[1,3;public;public;false]"..
+		"label[0.2,3;"..S("Access:").."]"..
+		"dropdown[3,3;4;access;private,protected,public;"..access_idx.."]"..
 		"button_exit[2,4;3,1;exit;"..S("Save").."]"
 end
 
@@ -72,8 +74,17 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	meta:set_string("numbers", fields.numbers)
-	if fields.public then
-		meta:set_string("public", fields.public)
+	if fields.access == "protected" then
+		meta:set_string("protected", "true")
+		meta:set_string("public", "")
+	end
+	if fields.access == "public" then
+		meta:set_string("public", "true")
+		meta:set_string("protected", "")
+	end
+	if fields.access == "private" then
+		meta:set_string("public", "")
+		meta:set_string("protected", "")
 	end
 	local cycle_time = nil
 	if fields.type == "switch" then
@@ -110,12 +121,20 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 end
 
+local function can_access(pos, player)
+	local meta = M(pos)
+	local public = meta:get_string("public") == "true"
+	local protected = meta:get_string("protected") == "true"
+	local owner = meta:get_string("owner")
+	local name = player:get_player_name()
+	return public or protected and not minetest.is_protected(pos, name) or owner == name
+end
+
 local function on_rightclick_on(pos, node, clicker)
 	local meta = M(pos)
 	local fixed = meta:get_string("fixed")
 	if fixed == "true" then
-		if meta:get_string("public") == "true" or 
-				clicker:get_player_name() == meta:get_string("owner") then
+		if can_access(pos, clicker) then
 			switch_on(pos)
 		end
 	end
@@ -126,8 +145,7 @@ local function on_rightclick_off(pos, node, clicker)
 	local numbers = meta:get_string("numbers")
 	local cycle_time = meta:get_int("cycle_time") or 0
 	if numbers ~= "" and numbers ~= nil and cycle_time == 0 then
-		if meta:get_string("public") == "true" or 
-				clicker:get_player_name() == meta:get_string("owner") then
+		if can_access(pos, clicker) then
 			switch_off(pos)
 		end
 	end

@@ -109,6 +109,7 @@ TA3 Booster=TA3 Gebläse
 
 ### button.lua ###
 
+Access:=Zugriff:
 TA3 Button/Switch=TA3 Taster/Schalter
 TA4 Button/Switch=TA4 Schalter/Taster
 
