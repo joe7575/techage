@@ -187,11 +187,24 @@ minetest.register_node("techage:tiny_generator", {
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
 
-	after_place_node = function(pos)
+	after_place_node = function(pos, placer, itemstack)
 		local nvm = techage.get_nvm(pos)
 		local number = techage.add_node(pos, "techage:tiny_generator")
 		nvm.running = false
 		nvm.burn_cycles = 0
+		if itemstack then
+			local stack_meta = itemstack:get_meta()
+			if stack_meta then
+				local liquid_name = stack_meta:get_string("liquid_name")
+				local liquid_amount = stack_meta:get_int("liquid_amount")
+				if liquid_name ~= "" and fuel.burntime(liquid.name) and
+				   liquid_amount >= 0 and liquid_amount <= fuel.CAPACITY then
+					nvm.liquid = nvm.liquid or {}
+					nvm.liquid.name = liquid_name
+					nvm.liquid.amount = liquid_amount
+				end
+			end
+		end
 		State:node_init(pos, nvm, number)
 		M(pos):set_string("formspec", formspec(State, pos, nvm))
 		M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
@@ -205,13 +218,25 @@ minetest.register_node("techage:tiny_generator", {
 		techage.del_mem(pos)
 	end,
 
+	preserve_metadata = function(pos, oldnode, oldmetadata, drops)
+		local nvm = techage.get_nvm(pos)
+		if nvm.liquid and nvm.liquid.name and nvm.liquid.amount > 0 then
+			-- generator tank is not empty
+			local meta = drops[1]:get_meta()
+			meta:set_string("liquid_name", nvm.liquid.name)
+			meta:set_int("liquid_amount", nvm.liquid.amount)
+			meta:set_string("description", S("TA3 Tiny Power Generator") .. " (fuel: " ..
+			                tostring(nvm.liquid and nvm.liquid.amount or 0) .. "/" ..
+					tostring(fuel.CAPACITY) .. ")")
+		end
+	end,
+
 	get_generator_data = get_generator_data,
 	ta3_formspec = techage.generator_settings("ta3", PWR_PERF), 
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_punch = fuel.on_punch,
 	on_timer = node_timer,
-	can_dig = fuel.can_dig,
 })
 
 minetest.register_node("techage:tiny_generator_on", {
