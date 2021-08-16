@@ -53,6 +53,25 @@ The melting pot has its own menu of recipes and an inventory where you have to p
 [coalburner|plan]
 
 
+## Watermill
+
+The watermill can be used to grind wheat and other grains into flour and then bake them in the furnace to make bread. 
+The mill is powered by water power. To do this, a millrace must be led to the mill wheel via a canal. For the Mühlbach a pond must be created above the mill wheel. The pond and thus the amount of water must be at least 8x8 blocks large and 2 blocks deep. A sluice will be set at the edge of the pond. The water flow and thus the mill wheel can be controlled via the sluice. The sluice consists of the sluice lock and sluice handle.
+
+The picture on the right (click on "Plan") shows the structure of the watermill. 
+
+[watermill1|plan]
+
+
+### TA1 mill
+
+The watermill can be used to grind wheat and other grains into flour and then bake them in the oven to make bread. The mill must be connected to the mill wheel with a TA1 axle. The power of the mill wheel is only enough for one mill.
+
+The mill can be automated with the help of a Minecart Hopper, so that the flour, for example, is transported directly from the mill into an furnace in order to bake bread from it.
+
+[watermill2|plan]
+
+
 ## Ores and Tools
 
 TA1 has its own tools such as hammer and gravel sieve, but the Minecart Hopper can also be used.

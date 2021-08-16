@@ -15,6 +15,8 @@
 - [TA1: Iron Age](./manual_ta1_EN.md#ta1:-iron-age)
     - [Charcoal Pile (charcoal burner)](./manual_ta1_EN.md#charcoal-pile-(charcoal-burner))
     - [Melting Furnace](./manual_ta1_EN.md#melting-furnace)
+    - [Watermill](./manual_ta1_EN.md#watermill)
+        - [TA1 mill](./manual_ta1_EN.md#ta1-mill)
     - [Ores and Tools](./manual_ta1_EN.md#ores-and-tools)
         - [Hammer](./manual_ta1_EN.md#hammer)
         - [Gravel Sieve](./manual_ta1_EN.md#gravel-sieve)
