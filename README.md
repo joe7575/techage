@@ -81,6 +81,16 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2021-08-16  V1.01**
+- Allow singleplayer to place lava on y>0.
+- Logic block: allow to use output numbers for the expression
+- Pull request #60: Allow to pause the sequencer with a TechAge command (by Thomas-S)
+- Pull request #61: Allow sharing the button based on protection (by Thomas-S)
+- Pull request #62: Allow picking TA3 Tiny Generator with fuel (by realmicu)
+- Add TA1 watermill
+- Fix TA4 LED Grow Light bug
+- Fix grinder recipe bu
+
 **2021-07-23  V1.00**
 - Change the way, power distribution works
 - Add TA2 storage system
