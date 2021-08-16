@@ -135,6 +135,8 @@ techage.register_lamp("techage:growlight", {
 			{-8/16,  -8/16, -8/16, 8/16,  -13/32,  8/16},
 		},
 	},
+	on_timer = node_timer_off,
+	on_switch_lamp = on_switch_lamp,
 	high_power = true,
 },{
 	description = S("TA4 LED Grow Light"),
@@ -156,6 +158,7 @@ techage.register_lamp("techage:growlight", {
 		},
 	},
 	on_timer = node_timer_on,
+	on_switch_lamp = on_switch_lamp,
 	high_power = true,
 })
 

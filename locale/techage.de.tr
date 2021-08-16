@@ -446,6 +446,8 @@ TA4 Gravel Sieve=TA4 Kiessieb
 
 Grinder=Mühle
 Grinding=Mahlen
+Milling=Mahlen
+TA1 Mill Base=Mühlenunterteil
 
 ### growlight.lua ###
 
@@ -641,6 +643,24 @@ Meridium Sword=Meridium Schwert
 ### mesecons_converter.lua ###
 
 TA3 Mesecons Converter=TA3 Mesecons Konverter
+
+### mill.lua ###
+
+TA1 Mill=TA1 Mühle
+TA1 Mill Gear=TA1 Mühlengetriebe
+
+### millboard.lua ###
+
+TA1 Acacia Millrace Board=TA1 Akazie Mühlbachbrett
+TA1 Acacia Wood Board=TA1 Akazienholzbrett
+TA1 Apple Millrace Board=TA1 Apfel Mühlbachbrett
+TA1 Apple Wood Board=TA1 Apfelholzbrett
+TA1 Aspen Millrace Board=TA1 Espe Mühlbachbrett
+TA1 Aspen Wood Board=TA1 Espenholzbrett
+TA1 Jungle Millrace Board=TA1 Dschungel Mühlbachbrett
+TA1 Jungle Wood Board=TA1 Dschungelholzbrett
+TA1 Pine Millrace Board=TA1 Kiefer Mühlbachbrett
+TA1 Pine Wood Board=TA1 Kiefernholzbrett
 
 ### minicell.lua ###
 
@@ -877,6 +897,12 @@ TA4 Silo=Silo
 
 TA Lamp=TA Lampe
 
+### sluice.lua ###
+
+TA1 Sluice Gate=TA1 Schleusenschieber
+TA1 Sluice Handle=TA1 Schleusengriff
+Your pond is too small!=ein Teich ist zu klein!
+
 ### solarcell.lua ###
 
 TA4 Solar Carrier Module=TA4 Solar Trägermodul
@@ -924,6 +950,11 @@ TA4 LED Street Lamp Pole=TA4 LED Lampenmast
 Cancel=Abbruch
 Note: You can't change any values while the block is running!=Hinweis: Während der Block läuft, kann kein Wert geändert werden!
 Refresh=Aktualisieren
+
+### ta1_axle.lua ###
+
+TA1 Axle=TA1 Achse
+TA1 Axle Bearing=TA1 Achsenlager
 
 ### ta2_weight_chest.lua ###
 
@@ -1067,12 +1098,22 @@ Usmium Powder=Usmium Pulver
 TA Valve=TA Ventil
 TA3 Valve=TA3 Ventil
 
+### water.lua ###
+
+Flowing Water=Fließendes Wasser
+Water Source=Wasserquelle
+
 ### waterinlet.lua ###
 
 Error: No natural water!=Fehler: Kein natürliches Wasser!
 Error: No water available!=Fehler: Kein Wasser verfügbar!
 Error: Not on sea level!=Fehler: Nicht auf Meereshöhe!
+Operational=Betriebsbereit
 TA4 Water Inlet=TA4 Wasssereinlass
+
+### watermill.lua ###
+
+TA1 Watermill=TA1 Wasssermühle
 
 ### waterpump.lua ###
 
@@ -1090,4 +1131,3 @@ This is not the surface of the ocean!=Das ist nicht die Meeresoberfläche!
 [TA4 Wind Turbine]=[TA4 Windkraftanlage]
 biome and no ocean!=Biom und keine Meer (ocean)!
 is a suitable place for a wind turbine!=ist ein geeigneter Ort für eine Windkraftanlage!
-

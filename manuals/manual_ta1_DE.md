@@ -53,6 +53,23 @@ Der Schmelztiegel hat ein eigenes Menü mit Rezepten und ein Inventar, wo du die
 [coalburner|plan]
 
 
+## Wassermühle
+
+Mit der Wassermühle können Weizen und andere Getreide zu Mehl gemahlen und dann im Ofen zu Brot gebacken werden. Die Mühle wird mit
+Wasserkraft angetrieben. Dazu muss der Mühlbach über ein Kanal zum Wasserrad geführt werden. Für den Mühlbach muss oberhalb des Mühlerades
+ein Teich angelegt werden. Die Abbilding rechts (auf "Plan" klicken) zeigt den Aufbau.
+
+[watermill1|plan]
+
+### TA1 Mühle
+
+Mit der Wassermühle können Weizen und andere Getreide zu Mehl gemahlen und dann im Ofen zu Brot gebacken werden. Die Mühle wird mit
+Wasserkraft angetrieben. Dazu muss der Mühlbach über ein Kanal zum Wasserrad geführt werden. Für den Mühlbach muss oberhalb des Mühlerades
+ein Teich angelegt werden. Die Abbilding rechts (auf "Plan" klicken) zeigt den Aufbau.
+
+[watermill2|plan]
+
+
 ## Erze und Werkzeuge
 
 TA1 hat seine eigenen Werkzeuge wie Hammer und Kiessieb, aber auch der Minecart Hopper kann genutzt werden.

@@ -23,8 +23,9 @@ local STANDBY_TICKS = 3
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 4
 
-
--- Grinder recipes
+-- Grinder recipes TA1
+local RecipesTa1 = {}
+-- Grinder recipes TA2 - TA4
 local Recipes = {}
 
 local function formspec(self, pos, nvm)
@@ -250,6 +251,79 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		tube_sides = {L=1, R=1, U=1},
 	})
 
+-------------------------------------------------------------------------------
+-- TA1 Mill (watermill)
+-------------------------------------------------------------------------------
+local formspecStr = "size[8,8]"..
+	default.gui_bg..
+	default.gui_bg_img..
+	default.gui_slots..
+	"list[context;src;1,1;1,1;]"..
+	"item_image[1,1;1,1;farming:wheat]"..
+	"image[1,1;1,1;techage_form_mask.png]"..
+	"image[3.5,1;1,1;techage_form_arrow.png]"..
+	"list[context;dst;6,1;1,1;]"..
+	"item_image[6,1;1,1;farming:flour]"..
+	"image[6,1;1,1;techage_form_mask.png]"..
+	"list[current_player;main;0,4;8,4;]"..
+	"listring[context;dst]"..
+	"listring[current_player;main]"..
+	"listring[context;src]"..
+	"listring[current_player;main]"..
+	default.get_hotbar_bg(0, 4)
+
+local function node_timer(pos, elapsed)
+	if techage.ta1_mill_has_power(pos, 2) then
+		local inv = M(pos):get_inventory()
+		local stack = inv:get_stack("src", 1)
+		if not stack:is_empty() then
+			local name = stack:get_name()
+			if RecipesTa1[name] then
+				local recipe = RecipesTa1[name]
+				src_to_dst(stack, 1, name, 1, recipe.inp_num, inv, recipe.output)
+			end
+		end
+	end
+	return true
+end
+
+minetest.register_node("techage:ta1_mill_base", {
+	description = S("TA1 Mill Base"),
+	tiles = {
+		"techage_mill_base.png",
+		"default_stone_brick.png",
+	},
+	after_place_node = function(pos, placer)
+		M(pos):set_string("formspec", formspecStr)
+		local inv = M(pos):get_inventory()
+		inv:set_size('src', 1)
+		inv:set_size('dst', 1)
+		minetest.get_node_timer(pos):start(4)
+	end,
+	can_dig = can_dig,
+	on_timer = node_timer,
+	allow_metadata_inventory_put = allow_metadata_inventory_take,
+	allow_metadata_inventory_move = allow_metadata_inventory_move,
+	allow_metadata_inventory_take = allow_metadata_inventory_take,
+	is_ground_content = false,
+	groups = {cracky = 2, crumbly = 2, choppy = 2},
+})
+
+techage.register_node({"techage:ta1_mill_base"}, {
+	on_node_load = function(pos, node)
+		minetest.get_node_timer(pos):start(4)
+	end,
+})	
+
+minetest.register_craft({
+	output = "techage:ta1_mill_base",
+	recipe = {
+		{"default:stonebrick", "", "default:stonebrick"},
+		{"", "techage:iron_ingot", ""},
+		{"default:stonebrick", "", "default:stonebrick"},
+	},
+})
+
 minetest.register_craft({
 	output = node_name_ta2,
 	recipe = {
@@ -284,16 +358,34 @@ if minetest.global_exists("unified_inventory") then
 		width = 2,
 		height = 2,
 	})
+	unified_inventory.register_craft_type("milling", {
+		description = S("Milling"),
+		icon = 'techage_mill_inv.png',
+		width = 2,
+		height = 2,
+	})
 end
 
-function techage.add_grinder_recipe(recipe)
+function techage.add_grinder_recipe(recipe, ta1_permitted)
 	local name, num = unpack(string.split(recipe.input, " ", false, 1))
-	Recipes[name] = {input = name,inp_num = tonumber(num) or 1, output = recipe.output}
-	
-	if minetest.global_exists("unified_inventory") then
-		recipe.items = {recipe.input}
-		recipe.type = "grinding"
-		unified_inventory.register_craft(recipe)
+	if minetest.registered_items[name] then
+		if ta1_permitted then
+			RecipesTa1[name] = {input = name,inp_num = tonumber(num) or 1, output = recipe.output}
+			
+			if minetest.global_exists("unified_inventory") then
+				recipe.items = {recipe.input}
+				recipe.type = "milling"
+				unified_inventory.register_craft(table.copy(recipe))
+			end
+		end
+		
+		Recipes[name] = {input = name,inp_num = tonumber(num) or 1, output = recipe.output}
+		
+		if minetest.global_exists("unified_inventory") then
+			recipe.items = {recipe.input}
+			recipe.type = "grinding"
+			unified_inventory.register_craft(recipe)
+		end
 	end
 end	
 
@@ -326,14 +418,14 @@ techage.add_grinder_recipe({input="default:acacia_tree", output="default:acacia_
 techage.add_grinder_recipe({input="default:aspen_tree", output="default:aspen_leaves 8"})
 
 if minetest.global_exists("farming") then
-	techage.add_grinder_recipe({input="farming:wheat 3", output="farming:flour"})
-	techage.add_grinder_recipe({input="farming:seed_wheat 6", output="farming:flour"})
-	techage.add_grinder_recipe({input="farming:barley 3", output="farming:flour"})
-	techage.add_grinder_recipe({input="farming:seed_barley 6", output="farming:flour"})
-	techage.add_grinder_recipe({input="farming:rye 3", output="farming:flour"})
-	techage.add_grinder_recipe({input="farming:seed_rye 6", output="farming:flour"})
-	techage.add_grinder_recipe({input="farming:rice 3", output="farming:rice_flour"})
-	techage.add_grinder_recipe({input="farming:seed_rice 6", output="farming:rice_flour"})
-	techage.add_grinder_recipe({input="farming:oat 3", output="farming:flour"})
-	techage.add_grinder_recipe({input="farming:seed_oat 6", output="farming:flour"})
+	techage.add_grinder_recipe({input="farming:wheat 3", output="farming:flour"}, true)
+	techage.add_grinder_recipe({input="farming:seed_wheat 6", output="farming:flour"}, true)
+	techage.add_grinder_recipe({input="farming:barley 3", output="farming:flour"}, true)
+	techage.add_grinder_recipe({input="farming:seed_barley 6", output="farming:flour"}, true)
+	techage.add_grinder_recipe({input="farming:rye 3", output="farming:flour"}, true)
+	techage.add_grinder_recipe({input="farming:seed_rye 6", output="farming:flour"}, true)
+	techage.add_grinder_recipe({input="farming:rice 3", output="farming:rice_flour"}, true)
+	techage.add_grinder_recipe({input="farming:seed_rice 6", output="farming:rice_flour"}, true)
+	techage.add_grinder_recipe({input="farming:oat 3", output="farming:flour"}, true)
+	techage.add_grinder_recipe({input="farming:seed_oat 6", output="farming:flour"}, true)
 end

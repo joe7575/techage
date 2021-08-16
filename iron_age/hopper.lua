@@ -76,3 +76,17 @@ minecart.register_inventory(
 		},
 	}
 )
+
+minecart.register_inventory(
+	{
+		"techage:ta1_mill_base",
+	},
+	{
+		put = {
+			listname = "src",
+		},
+		take = {
+			listname = "dst",
+		},
+	}
+)

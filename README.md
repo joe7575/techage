@@ -31,6 +31,9 @@ Copyright (C) 2019-2021 Joachim Stolberg
 Code: Licensed under the GNU AGPL version 3 or later. See LICENSE.txt  
 Textures: CC BY-SA 3.0
 
+The TA1 mill sound is from https://freesound.org/people/JustinBW/sounds/70200/
+The TA1 watermill sound is from https://freesound.org/people/bmoreno/sounds/164182/
+
 Many thanks to Thomas-S and others for their contributions
 
 

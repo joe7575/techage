@@ -15,6 +15,8 @@ techage.manual_DE.aTitel = {
   "1,TA1: Eisenzeitalter",
   "2,Köhler / Coal Pile",
   "2,Kohlebrenner / Coal Burner",
+  "2,Wassermühle",
+  "3,TA1 Mühle",
   "2,Erze und Werkzeuge",
   "3,Hammer",
   "3,Kiessieb / Gravel Sieve",
@@ -336,6 +338,18 @@ techage.manual_DE.aText = {
   "  - Um den Brenner anzuhalten\\, schließe das Loch vorübergehend bspw. mit einem Erdblock.\n"..
   "\n"..
   "Der Schmelztiegel hat ein eigenes Menü mit Rezepten und ein Inventar\\, wo du die Erze hinein tun musst.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Mit der Wassermühle können Weizen und andere Getreide zu Mehl gemahlen und dann im Ofen zu Brot gebacken werden. Die Mühle wird mit\n"..
+  "Wasserkraft angetrieben. Dazu muss der Mühlbach über ein Kanal zum Wasserrad geführt werden. Für den Mühlbach muss oberhalb des Mühlerades\n"..
+  "ein Teich angelegt werden. Die Abbilding rechts (auf \"Plan\" klicken) zeigt den Aufbau.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Mit der Wassermühle können Weizen und andere Getreide zu Mehl gemahlen und dann im Ofen zu Brot gebacken werden. Die Mühle wird mit\n"..
+  "Wasserkraft angetrieben. Dazu muss der Mühlbach über ein Kanal zum Wasserrad geführt werden. Für den Mühlbach muss oberhalb des Mühlerades\n"..
+  "ein Teich angelegt werden. Die Abbilding rechts (auf \"Plan\" klicken) zeigt den Aufbau.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1723,6 +1737,8 @@ techage.manual_DE.aItemName = {
   "techage_ta1",
   "",
   "",
+  "",
+  "",
   "ta1_gravelsieve",
   "hammer",
   "ta1_gravelsieve",
@@ -1930,6 +1946,8 @@ techage.manual_DE.aPlanTable = {
   "",
   "coalpile",
   "coalburner",
+  "watermill1",
+  "watermill2",
   "",
   "",
   "",

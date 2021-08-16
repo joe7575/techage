@@ -150,21 +150,22 @@ local function washing(pos, crd, nvm, inv)
 	local src = ItemStack("techage:sieved_gravel")
 	local dst = ItemStack("default:sand")
 	if inv:contains_item("src", src) then
+		if not inv:room_for_item("dst", dst) then
+			crd.State:blocked(pos, nvm)
+			return
+		end
 		local ore = get_random_gravel_ore()
 		if ore then
 			add_object({x=pos.x, y=pos.y+1, z=pos.z}, ore)
 		end
+		inv:add_item("dst", dst)
+		inv:remove_item("src", src)
+		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+		return
 	else
 		crd.State:idle(pos, nvm)
 		return
 	end
-	if not inv:room_for_item("dst", dst) then
-		crd.State:idle(pos, nvm)
-		return
-	end
-	inv:add_item("dst", dst)
-	inv:remove_item("src", src)
-	crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 end
 
 local function keep_running(pos, elapsed)

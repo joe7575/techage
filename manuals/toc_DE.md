@@ -14,6 +14,8 @@
 - [TA1: Eisenzeitalter](./manual_ta1_DE.md#ta1:-eisenzeitalter)
     - [Köhler / Coal Pile](./manual_ta1_DE.md#köhler--coal-pile)
     - [Kohlebrenner / Coal Burner](./manual_ta1_DE.md#kohlebrenner--coal-burner)
+    - [Wassermühle](./manual_ta1_DE.md#wassermühle)
+        - [TA1 Mühle](./manual_ta1_DE.md#ta1-mühle)
     - [Erze und Werkzeuge](./manual_ta1_DE.md#erze-und-werkzeuge)
         - [Hammer](./manual_ta1_DE.md#hammer)
         - [Kiessieb / Gravel Sieve](./manual_ta1_DE.md#kiessieb--gravel-sieve)

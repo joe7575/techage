@@ -446,6 +446,8 @@ TA4 Gravel Sieve=
 
 Grinder=
 Grinding=
+Milling=
+TA1 Mill Base=
 
 ### growlight.lua ###
 
@@ -641,6 +643,24 @@ Meridium Sword=
 ### mesecons_converter.lua ###
 
 TA3 Mesecons Converter=
+
+### mill.lua ###
+
+TA1 Mill=
+TA1 Mill Gear=
+
+### millboard.lua ###
+
+TA1 Acacia Millrace Board=
+TA1 Acacia Wood Board=
+TA1 Apple Millrace Board=
+TA1 Apple Wood Board=
+TA1 Aspen Millrace Board=
+TA1 Aspen Wood Board=
+TA1 Jungle Millrace Board=
+TA1 Jungle Wood Board=
+TA1 Pine Millrace Board=
+TA1 Pine Wood Board=
 
 ### minicell.lua ###
 
@@ -877,6 +897,12 @@ TA4 Silo=
 
 TA Lamp=
 
+### sluice.lua ###
+
+TA1 Sluice Gate=
+TA1 Sluice Handle=
+Your pond is too small!=
+
 ### solarcell.lua ###
 
 TA4 Solar Carrier Module=
@@ -924,6 +950,11 @@ TA4 LED Street Lamp Pole=
 Cancel=
 Note: You can't change any values while the block is running!=
 Refresh=
+
+### ta1_axle.lua ###
+
+TA1 Axle=
+TA1 Axle Bearing=
 
 ### ta2_weight_chest.lua ###
 
@@ -1067,12 +1098,22 @@ Usmium Powder=
 TA Valve=
 TA3 Valve=
 
+### water.lua ###
+
+Flowing Water=
+Water Source=
+
 ### waterinlet.lua ###
 
 Error: No natural water!=
 Error: No water available!=
 Error: Not on sea level!=
+Operational=
 TA4 Water Inlet=
+
+### watermill.lua ###
+
+TA1 Watermill=
 
 ### waterpump.lua ###
 

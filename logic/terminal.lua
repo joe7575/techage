@@ -156,6 +156,23 @@ local function command(pos, command, player)
 				return
 			end
 			
+			local cmnd, payload = command:match('^axle%s+([%w_]+)%s*(.*)$')
+			if cmnd then
+				if not minetest.check_player_privs(player, "server") then
+					output(pos, "server privs missing")
+					return
+				end
+				local resp = techage.transfer(
+					pos, 
+					"B",  -- outdir
+					cmnd,  -- topic
+					payload,  -- payload
+					techage.TA1Axle,  -- network
+					nil)  -- valid nodes
+				output(pos, dump(resp))
+				return
+			end
+			
 			if command ~= "" then
 				output(pos, CMNDS_TA3)
 			end

@@ -82,6 +82,64 @@ techage.ConstructionPlans["hoppersieve"] = {
 }
 
 --
+-- TA1: Watermill
+--
+local WATR1 = {"default_water.png" , "techage:water_flowing"}
+local WATR3 = {"techage_water_flowing.png" , "techage:water_flowing"}
+local WMILL = {"default_wood.png" , "techage:ta1_board1_apple"}
+local SLUC1 = {"techage_sluice2_inv.png" , "techage:ta1_sluice_closed"}
+local SLUC2 = {"techage_sluice1_inv.png" , "techage:ta1_sluice_handle_closed"}
+local MIL11 = {"techage_watermill1_inv.png" , "techage:ta1_watermill"}
+local MIL12 = {"techage_watermill1_inv.png^[transformR90" , "techage:ta1_watermill"}
+local MIL13 = {"techage_watermill1_inv.png^[transformR180" , "techage:ta1_watermill"}
+local MIL14 = {"techage_watermill1_inv.png^[transformR270" , "techage:ta1_watermill"}
+local MIL21 = {"techage_watermill2_inv.png" , "techage:ta1_watermill"}
+local MIL22 = {"techage_watermill2_inv.png^[transformR90" , "techage:ta1_watermill"}
+local MIL23 = {"techage_watermill2_inv.png^[transformR180" , "techage:ta1_watermill"}
+local MIL24 = {"techage_watermill2_inv.png^[transformR270" , "techage:ta1_watermill"}
+local MIL31 = {"techage_watermill3_inv.png" , "techage:ta1_watermill"}
+local MIL32 = {"techage_watermill3_inv.png^[transformR90" , "techage:ta1_watermill"}
+local MIL33 = {"techage_watermill3_inv.png^[transformR180" , "techage:ta1_watermill"}
+local MIL34 = {"techage_watermill3_inv.png^[transformR270" , "techage:ta1_watermill"}
+local MIL40 = {"techage_watermill4_inv.png" , "techage:ta1_watermill"}
+local BEARG = {"default_stone_brick.png^techage_axle_bearing_front.png", "techage:ta1_axle_bearing2"}
+local BRICK = {"default_stone_brick.png", "default:stonebrick"}
+
+
+techage.ConstructionPlans["watermill1"] = {
+	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, SLUC2, false, false, false, false, false, false, false, false, false},
+	{WATR1, SLUC1, WMILL, WMILL, WMILL, WMILL, WMILL, WATR3, false, false, false},
+	{WATR1, DDIRT, false, false, MIL31, MIL21, MIL11, MIL21, MIL34, false, false},
+	{WATR1, DDIRT, false, false, MIL22, MIL40, MIL40, MIL40, MIL24, false, false},
+	{DDIRT, DDIRT, DDIRT, false, MIL12, MIL40, BEARG, MIL40, MIL14, false, false},
+	{DDIRT, DDIRT, DDIRT, false, MIL22, MIL40, BRICK, MIL40, MIL24, false, false},
+	{DDIRT, DDIRT, DDIRT, DDIRT, MIL32, MIL23, BRICK, MIL23, MIL33, false, false},
+	{DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, WATR1, WATR1, WATR1, WATR1},
+}
+
+
+local MILLF = {"default_wood.png" , "techage:ta1_watermill"}
+local AXLE1 = {"techage_axle_bearing.png", "techage:ta1_axle"}
+local MILLG = {"techage_wood50.png^techage_axle_bearing.png", "techage:ta1_mill_gear"}
+local MILL_ = {"techage_mill_side.png", "techage:ta1_mill"}
+local MILLB = {"default_stone_brick.png", "techage:ta1_mill_base"}
+local FURNE = {"default_furnace_front.png", "default:furnace"}
+local HOPER = {"techage_hopper.png", "minecart:hopper"}
+
+techage.ConstructionPlans["watermill2"] = {
+	{false, false, false, false, false, false, false, false, false, false, false, false},
+	{false, false, false, false, false, false, false, false, false, false, false, false},
+	{false, false, false, false, false, false, false, false, false, false, false, false},
+	{false, false, false, false, false, false, false, false, MILLF, false, false, false},
+	{false, false, false, false, false, false, false, false, MILLF, false, false, false},
+	{false, false, false, false, false, MILLG, AXLE1, BEARG, MILLF, BEARG, false, false},
+	{false, false, false, false, false, MILL_, false, BRICK, MILLF, BRICK, false, false},
+	{false, CHEST, HOPER, FURNE, HOPER, MILLB, false, BRICK, MILLF, BRICK, false, false},
+	{DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, WATR1, DDIRT, DDIRT, DDIRT},
+}
+
+--
 -- Steam Engine
 --
 local PK000 = {"techage_steam_knee.png", "techage:steam_pipeS"}

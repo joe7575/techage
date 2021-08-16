@@ -133,8 +133,17 @@ dofile(MP.."/iron_age/meltingpot.lua")
 if techage.modified_recipes_enabled then
 	dofile(MP.."/iron_age/tools.lua")
 end
+
+-- TA1 Watermill
+dofile(MP.."/ta1_watermill/ta1_axle.lua")
+dofile(MP.."/ta1_watermill/watermill.lua")
+dofile(MP.."/ta1_watermill/water.lua")
+dofile(MP.."/ta1_watermill/sluice.lua")
+dofile(MP.."/ta1_watermill/millboard.lua")
+dofile(MP.."/ta1_watermill/mill.lua")
+
 dofile(MP.."/iron_age/recipes.lua")
-if minetest.global_exists("wielded_light") then
+if minetest.global_exists("wielded_light") or minetest.global_exists("illumination") then
 	dofile(MP.."/iron_age/meridium.lua")
 end
 
