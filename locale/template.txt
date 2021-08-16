@@ -109,6 +109,7 @@ TA3 Booster=
 
 ### button.lua ###
 
+Access:=
 TA3 Button/Switch=
 TA4 Button/Switch=
 
