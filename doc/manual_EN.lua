@@ -18,6 +18,10 @@ techage.manual_EN.aTitel = {
   "2,Melting Furnace",
   "2,Watermill",
   "3,TA1 mill",
+  "3,TA1 sluice gate",
+  "3,TA1 sluice handle",
+  "3,TA1 Apple Wood Board",
+  "3,TA1 Apple Millrace Board",
   "2,Ores and Tools",
   "3,Hammer",
   "3,Gravel Sieve",
@@ -360,6 +364,25 @@ techage.manual_EN.aText = {
   "The watermill can be used to grind wheat and other grains into flour and then bake them in the oven to make bread. The mill must be connected to the mill wheel with a TA1 axle. The power of the mill wheel is only enough for one mill.\n"..
   "\n"..
   "The mill can be automated with the help of a Minecart Hopper\\, so that the flour\\, for example\\, is transported directly from the mill into an furnace in order to bake bread from it.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The sluice gate must be placed directly on the pond at the same height as the water surface. When the lock is opened\\, water flows through the slide. This water then has to be fed to the mill wheel\\, where it drives the mill.\n"..
+  "\n"..
+  "Technically\\, the sluice gate checks whether there is a pond of the required size. When the lock is opened\\, \"special water\" flows to the mill. The mill wheel can only be driven with this water. It therefore makes no sense to lead a \"normal\" stream to the mill wheel.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The TA1 sluice handle must be placed on the sluice gate. The gate can be opened with the aid of the sluice handle (right click).\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Block in different types of wood for building the millrace canal. However\\, any other material can also be used.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Block in different types of wood for building the millrace canal. This block is especially suitable in connection\n"..
+  "with posts of the wooden fence to build a support of the canal.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1743,6 +1766,10 @@ techage.manual_EN.aItemName = {
   "",
   "",
   "",
+  "ta1_sluice",
+  "ta1_sluice_handle",
+  "ta1_board1",
+  "ta1_board2",
   "ta1_gravelsieve",
   "hammer",
   "ta1_gravelsieve",
@@ -1953,6 +1980,10 @@ techage.manual_EN.aPlanTable = {
   "coalburner",
   "watermill1",
   "watermill2",
+  "",
+  "",
+  "",
+  "",
   "",
   "",
   "",

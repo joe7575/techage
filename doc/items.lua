@@ -29,6 +29,10 @@ techage.Items = {
 	wlanchip = "techage:ta4_wlanchip",
 	tube = "techage:tubeS",
 	concentrator = "techage:concentrator27",
+	ta1_sluice = "techage:ta1_sluice_closed",
+	ta1_sluice_handle = "techage:ta1_sluice_handle_closed",
+	ta1_board1 = "techage:ta1_board1_apple",
+	ta1_board2 = "techage:ta1_board2_apple",
 	----------------
 	techage_ta2 = "techage_ta2.png",
 	ta2_firebox = "techage:firebox",

@@ -53,6 +53,7 @@ Der Schmelztiegel hat ein eigenes Menü mit Rezepten und ein Inventar, wo du die
 [coalburner|plan]
 
 
+
 ## Wassermühle
 
 Mit der Wassermühle können Weizen und andere Getreide zu Mehl gemahlen und dann im Ofen zu Brot gebacken werden. Die Mühle wird mit
@@ -70,6 +71,39 @@ Mit der Wassermühle können Weizen und andere Getreide zu Mehl gemahlen und dan
 Die Mühle kann mit Hilfe eines Minecart Hoppers automatisiert werden, so dass das Mehl bspw. direkt von der Mühle in einen Ofen befördert wird, um daraus Brot zu backen.
 
 [watermill2|plan]
+
+### TA1 Schleusenschieber / TA1 Sluice Gate
+
+Der Schleusenschieber muss auf gleicher Höhe wir die Wasseroberfläche direkt an den Teich gesetzt werden. Wird die Schleuse geöffnet, so fließt Wasser durch den Schieber. Dieses Wasser muss dann zum Mühlrad geleitet werden und treibt dort die Mühle an.
+
+Technisch überprüft der Schleusenschieber, ob es einen Teich mit der notwendigen Größe gibt. Wird die Schleuse geöffnet, so fließt ein "spezielles Wasser" zur Mühle. Nur mit diesem Wasser kann das Mühlrad angetrieben werden. Es macht daher keinen Sinn, einen "normalen" Bach zum Mühlrad zu leiten. 
+
+[ta1_sluice|image]
+
+### TA1 Schleusengriff / TA1 Sluice Handle
+
+Der TA1 Schleusengriff  muss auf den Schleusenschieber gesetzt werden. Mit Hilfe des Schleusengriffs (Rechtsklick) kann der Schieber geöffnet werden.
+
+[ta1_sluice_handle|image]
+
+### TA1 Apfelholzbrett / TA1 Apple Wood Board
+
+Block in verschiedenen Holzsorten zum Bauen des Mühlbachkanals. Es kann aber auch jedes andere Material verwendet werden.
+
+[ta1_board1|image]
+
+### TA1 Apfel Mühlbachbrett / TA1 Apple Millrace Board
+
+Block in verschiedenen Holzsorten zum Bauen des Mühlbachkanals. Dieser Block eignet sich speziell in Verbindung mit Pfosten des Holzzauns um eine Stütze des Kanals zu bauen.
+
+[ta1_board2|image]
+
+
+
+
+## 
+
+
 
 
 ## Erze und Werkzeuge

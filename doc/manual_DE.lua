@@ -17,6 +17,11 @@ techage.manual_DE.aTitel = {
   "2,Kohlebrenner / Coal Burner",
   "2,Wassermühle",
   "3,TA1 Mühle",
+  "3,TA1 Schleusenschieber / TA1 Sluice Gate",
+  "3,TA1 Schleusengriff / TA1 Sluice Handle",
+  "3,TA1 Apfelholzbrett / TA1 Apple Wood Board",
+  "3,TA1 Apfel Mühlbachbrett / TA1 Apple Millrace Board",
+  "2, ",
   "2,Erze und Werkzeuge",
   "3,Hammer",
   "3,Kiessieb / Gravel Sieve",
@@ -355,6 +360,25 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der Schleusenschieber muss auf gleicher Höhe wir die Wasseroberfläche direkt an den Teich gesetzt werden. Wird die Schleuse geöffnet\\, so fließt Wasser durch den Schieber. Dieses Wasser muss dann zum Mühlrad geleitet werden und treibt dort die Mühle an.\n"..
+  "\n"..
+  "Technisch überprüft der Schleusenschieber\\, ob es einen Teich mit der notwendigen Größe gibt. Wird die Schleuse geöffnet\\, so fließt ein \"spezielles Wasser\" zur Mühle. Nur mit diesem Wasser kann das Mühlrad angetrieben werden. Es macht daher keinen Sinn\\, einen \"normalen\" Bach zum Mühlrad zu leiten. \n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der TA1 Schleusengriff  muss auf den Schleusenschieber gesetzt werden. Mit Hilfe des Schleusengriffs (Rechtsklick) kann der Schieber geöffnet werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Block in verschiedenen Holzsorten zum Bauen des Mühlbachkanals. Es kann aber auch jedes andere Material verwendet werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Block in verschiedenen Holzsorten zum Bauen des Mühlbachkanals. Dieser Block eignet sich speziell in Verbindung mit Pfosten des Holzzauns um eine Stütze des Kanals zu bauen.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "",
   "TA1 hat seine eigenen Werkzeuge wie Hammer und Kiessieb\\, aber auch der Minecart Hopper kann genutzt werden.\n"..
   "\n"..
   "\n"..
@@ -1741,6 +1765,11 @@ techage.manual_DE.aItemName = {
   "",
   "",
   "",
+  "ta1_sluice",
+  "ta1_sluice_handle",
+  "ta1_board1",
+  "ta1_board2",
+  "",
   "ta1_gravelsieve",
   "hammer",
   "ta1_gravelsieve",
@@ -1950,6 +1979,11 @@ techage.manual_DE.aPlanTable = {
   "coalburner",
   "watermill1",
   "watermill2",
+  "",
+  "",
+  "",
+  "",
+  "",
   "",
   "",
   "",

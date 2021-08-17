@@ -53,6 +53,7 @@ The melting pot has its own menu of recipes and an inventory where you have to p
 [coalburner|plan]
 
 
+
 ## Watermill
 
 The watermill can be used to grind wheat and other grains into flour and then bake them in the furnace to make bread. 
@@ -70,6 +71,34 @@ The watermill can be used to grind wheat and other grains into flour and then ba
 The mill can be automated with the help of a Minecart Hopper, so that the flour, for example, is transported directly from the mill into an furnace in order to bake bread from it.
 
 [watermill2|plan]
+
+### TA1 sluice gate
+
+The sluice gate must be placed directly on the pond at the same height as the water surface. When the lock is opened, water flows through the slide. This water then has to be fed to the mill wheel, where it drives the mill.
+
+Technically, the sluice gate checks whether there is a pond of the required size. When the lock is opened, "special water" flows to the mill. The mill wheel can only be driven with this water. It therefore makes no sense to lead a "normal" stream to the mill wheel.
+
+[ta1_sluice|image]
+
+### TA1 sluice handle
+
+The TA1 sluice handle must be placed on the sluice gate. The gate can be opened with the aid of the sluice handle (right click).
+
+[ta1_sluice_handle|image]
+
+### TA1 Apple Wood Board
+
+Block in different types of wood for building the millrace canal. However, any other material can also be used.
+
+[ta1_board1|image]
+
+### TA1 Apple Millrace Board
+
+Block in different types of wood for building the millrace canal. This block is especially suitable in connection
+with posts of the wooden fence to build a support of the canal.
+
+[ta1_board2|image]
+
 
 
 ## Ores and Tools

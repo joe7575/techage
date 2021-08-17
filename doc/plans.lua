@@ -86,6 +86,7 @@ techage.ConstructionPlans["hoppersieve"] = {
 --
 local WATR1 = {"default_water.png" , "techage:water_flowing"}
 local WATR3 = {"techage_water_flowing.png" , "techage:water_flowing"}
+local WATR4 = {"default_water.png" , "default:water_source"}
 local WMILL = {"default_wood.png" , "techage:ta1_board1_apple"}
 local SLUC1 = {"techage_sluice2_inv.png" , "techage:ta1_sluice_closed"}
 local SLUC2 = {"techage_sluice1_inv.png" , "techage:ta1_sluice_handle_closed"}
@@ -107,15 +108,15 @@ local BRICK = {"default_stone_brick.png", "default:stonebrick"}
 
 
 techage.ConstructionPlans["watermill1"] = {
-	{false, false, false, false, false, false, false, false, false, false, false},
-	{false, SLUC2, false, false, false, false, false, false, false, false, false},
-	{WATR1, SLUC1, WMILL, WMILL, WMILL, WMILL, WMILL, WATR3, false, false, false},
-	{WATR1, DDIRT, false, false, MIL31, MIL21, MIL11, MIL21, MIL34, false, false},
-	{WATR1, DDIRT, false, false, MIL22, MIL40, MIL40, MIL40, MIL24, false, false},
-	{DDIRT, DDIRT, DDIRT, false, MIL12, MIL40, BEARG, MIL40, MIL14, false, false},
-	{DDIRT, DDIRT, DDIRT, false, MIL22, MIL40, BRICK, MIL40, MIL24, false, false},
-	{DDIRT, DDIRT, DDIRT, DDIRT, MIL32, MIL23, BRICK, MIL23, MIL33, false, false},
-	{DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, WATR1, WATR1, WATR1, WATR1},
+	{false, false, false, false, false, false, false, false, false, false, false, false},
+	{false, false, SLUC2, false, false, false, false, false, false, false, false, false},
+	{WATR4, WATR4, SLUC1, WMILL, WMILL, WMILL, WMILL, WMILL, WATR3, false, false, false},
+	{WATR4, WATR4, DDIRT, false, false, MIL31, MIL21, MIL11, MIL21, MIL34, false, false},
+	{WATR4, DDIRT, DDIRT, false, false, MIL22, MIL40, MIL40, MIL40, MIL24, false, false},
+	{DDIRT, DDIRT, DDIRT, DDIRT, false, MIL12, MIL40, BEARG, MIL40, MIL14, false, false},
+	{DDIRT, DDIRT, DDIRT, DDIRT, false, MIL22, MIL40, BRICK, MIL40, MIL24, false, false},
+	{DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, MIL32, MIL23, BRICK, MIL23, MIL33, false, false},
+	{DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, WATR1, WATR1, WATR1, WATR1},
 }
 
 
