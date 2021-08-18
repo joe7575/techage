@@ -136,7 +136,7 @@ minetest.register_node("techage:ta1_sluice_open", {
 	is_ground_content = false,
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1, not_in_creative_inventory = 1},
 	sounds = default.node_sound_wood_defaults(),
-	drop = "techage:sluice_closed",
+	drop = "techage:ta1_sluice_closed",
 })
 
 minetest.register_node("techage:ta1_sluice_handle_closed", {
@@ -181,7 +181,7 @@ minetest.register_node("techage:ta1_sluice_handle_open", {
 	is_ground_content = false,
 	groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, wood = 1, not_in_creative_inventory = 1},
 	sounds = default.node_sound_wood_defaults(),
-	drop = "techage:sluice_handle_closed",
+	drop = "techage:ta1_sluice_handle_closed",
 })
 
 minetest.register_craft({
