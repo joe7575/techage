@@ -355,7 +355,8 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "The watermill can be used to grind wheat and other grains into flour and then bake them in the furnace to make bread. \n"..
-  "The mill is powered by water power. To do this\\, a millrace must be led to the mill wheel via a canal. For the Mühlbach a pond must be created above the mill wheel. The pond and thus the amount of water must be at least 8x8 blocks large and 2 blocks deep. A sluice will be set at the edge of the pond. The water flow and thus the mill wheel can be controlled via the sluice. The sluice consists of the sluice lock and sluice handle.\n"..
+  "The mill is powered by water power. To do this\\, a millrace must be led to the mill wheel via a canal.\n"..
+  "The water flow and thus the mill wheel can be controlled via a sluice. The sluice consists of the sluice lock and sluice handle.\n"..
   "\n"..
   "The picture on the right (click on \"Plan\") shows the structure of the watermill. \n"..
   "\n"..
@@ -367,9 +368,8 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The sluice gate must be placed directly on the pond at the same height as the water surface. When the lock is opened\\, water flows through the slide. This water then has to be fed to the mill wheel\\, where it drives the mill.\n"..
-  "\n"..
-  "Technically\\, the sluice gate checks whether there is a pond of the required size. When the lock is opened\\, \"special water\" flows to the mill. The mill wheel can only be driven with this water. It therefore makes no sense to lead a \"normal\" stream to the mill wheel.\n"..
+  "The sluice gate valve must be placed directly next to a pond or in a stream at the same height as the water surface.\n"..
+  "When the gate is opened\\, water flows through the slide. This water then has to be fed to the mill wheel\\, where it drives the mill.\n"..
   "\n"..
   "\n"..
   "\n",

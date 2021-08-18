@@ -902,7 +902,7 @@ TA Lamp=TA Lampe
 
 TA1 Sluice Gate=TA1 Schleusenschieber
 TA1 Sluice Handle=TA1 Schleusengriff
-Your pond is too small!=ein Teich ist zu klein!
+Your pond is too small!=Der Teich ist zu klein!
 
 ### solarcell.lua ###
 

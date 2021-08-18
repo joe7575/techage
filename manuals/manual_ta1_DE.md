@@ -57,8 +57,9 @@ Der Schmelztiegel hat ein eigenes Menü mit Rezepten und ein Inventar, wo du die
 ## Wassermühle
 
 Mit der Wassermühle können Weizen und andere Getreide zu Mehl gemahlen und dann im Ofen zu Brot gebacken werden. Die Mühle wird mit
-Wasserkraft angetrieben. Dazu muss ein Mühlbach über einen Kanal zum Mühlrad geführt werden. Für den Mühlbach muss oberhalb des Mühlrades
-ein Teich angelegt werden. Der Teich und damit die Wassermenge muss mindestens 8 x 8 Blöcke groß und 2 Blöcke tief sein.  An den Rand des Teiches wird eine Schleuse gesetzt. Über die Schleuse kann das Wasserfluss und damit das Mühlrad gesteuert werden. Die Schleuse bestehend aus Schleusenschieber und Schleusengriff.
+Wasserkraft angetrieben. Dazu muss ein Mühlbach über einen Kanal zum Mühlrad geführt werden.
+Über eine Schleuse kann das Wasserfluss und damit das Mühlrad gesteuert werden.
+Die Schleuse bestehend aus Schleusenschieber und Schleusengriff.
 
 Die Abbildung rechts (auf "Plan" klicken) zeigt den Aufbau der Wassermühle.
 
@@ -66,7 +67,8 @@ Die Abbildung rechts (auf "Plan" klicken) zeigt den Aufbau der Wassermühle.
 
 ### TA1 Mühle
 
-Mit der Wassermühle können Weizen und andere Getreide zu Mehl gemahlen und dann im Ofen zu Brot gebacken werden. Die Mühle muss mit einer TA1 Achse mit dem Mühlrad verbunden werden. Die Kraft des Mühlrades reicht nur für eine Mühle.
+Mit der Wassermühle können Weizen und andere Getreide zu Mehl gemahlen und dann im Ofen zu Brot gebacken werden.
+Die Mühle muss mit einer TA1 Achse mit dem Mühlrad verbunden werden. Die Kraft des Mühlrades reicht nur für eine Mühle.
 
 Die Mühle kann mit Hilfe eines Minecart Hoppers automatisiert werden, so dass das Mehl bspw. direkt von der Mühle in einen Ofen befördert wird, um daraus Brot zu backen.
 
@@ -74,9 +76,8 @@ Die Mühle kann mit Hilfe eines Minecart Hoppers automatisiert werden, so dass d
 
 ### TA1 Schleusenschieber / TA1 Sluice Gate
 
-Der Schleusenschieber muss auf gleicher Höhe wir die Wasseroberfläche direkt an den Teich gesetzt werden. Wird die Schleuse geöffnet, so fließt Wasser durch den Schieber. Dieses Wasser muss dann zum Mühlrad geleitet werden und treibt dort die Mühle an.
-
-Technisch überprüft der Schleusenschieber, ob es einen Teich mit der notwendigen Größe gibt. Wird die Schleuse geöffnet, so fließt ein "spezielles Wasser" zur Mühle. Nur mit diesem Wasser kann das Mühlrad angetrieben werden. Es macht daher keinen Sinn, einen "normalen" Bach zum Mühlrad zu leiten. 
+Der Schleusenschieber muss auf gleicher Höhe wie die Wasseroberfläche direkt an einen Teich oder in einen Bach gesetzt werden.
+Wird die Schleuse geöffnet, so fließt Wasser durch den Schieber. Dieses Wasser muss dann zum Mühlrad geleitet werden und treibt dort die Mühle an.
 
 [ta1_sluice|image]
 
