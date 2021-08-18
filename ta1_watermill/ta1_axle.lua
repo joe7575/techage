@@ -19,7 +19,7 @@ local S = techage.S
 
 local Axle = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
-	max_tube_length = 5,
+	max_tube_length = 10,
 	show_infotext = false,
 	tube_type = "axle1",
 	primary_node_names = {"techage:ta1_axle"}, 
