@@ -102,7 +102,7 @@ for _, size in ipairs(SIZES) do
 			physical = false,
 			collide_with_objects = false,
 			pointable = false,
-			static_save = false,
+			static_save = true,
 			visual_size = {x = size, y = 0.05, z = 0.05},
 			glow = 14,
 			shaded = true,

@@ -87,8 +87,19 @@ local function check_num(pos, num, player_name)
 	end
 end
 
+local function debug(mem, text)
+	mem.debug = mem.debug or {}
+	if #mem.debug > 20 then
+		table.remove(mem.debug, 1)
+	end
+	local s = string.format("%.3f", techage.SystemTime) .. " s: " .. text
+	table.insert(mem.debug, s)
+end	
+
 local function send(pos, num, val)
 	local nvm = techage.get_nvm(pos)
+	local mem = techage.get_mem(pos)
+	debug(mem, "(outp) " .. num .. " = " .. val)
 	
 	if num == "me" then
 		nvm.outp_tbl = nvm.outp_tbl or {}
@@ -242,7 +253,7 @@ local function formspec(pos, meta)
 	local inputs, outputs = data(nvm)
 	local bt = nvm.blocking_time or 1
 	return "size[10,8.2]" ..
-		"tabheader[0,0;tab;"..S("Rules") .. "," .. S("Help")..";1;;true]" ..
+		"tabheader[0,0;tab;"..S("Rules") .. "," .. S("Help") .. "," .. S("Debug") .. ";1;;true]" ..
 		"container[0.4,0.1]" ..
 		rules(meta) ..
 		"container_end[]" ..
@@ -263,8 +274,18 @@ end
 
 local function formspec_help()
 	return "size[10,8.2]" ..
-		"tabheader[0,0;tab;"..S("Rules") .. "," .. S("Help")..";2;;true]" ..
+		"tabheader[0,0;tab;"..S("Rules") .. "," .. S("Help") .. "," .. S("Debug") .. ";2;;true]" ..
 		"textarea[0.3,0.3;9.9,8.5;;;"..minetest.formspec_escape(HELP).."]"
+end
+
+local function formspec_debug(mem)
+	mem.debug = mem.debug or {}
+	local s = table.concat(mem.debug, "\n")
+	return "size[10,8.2]" ..
+		"tabheader[0,0;tab;"..S("Rules") .. "," .. S("Help") .. "," .. S("Debug") .. ";3;;true]" ..
+		"textarea[0.3,0.3;9.9,8.5;;;"..minetest.formspec_escape(s).."]" ..
+		"button[1.5,7.5;3,1;update2;" .. S("Update") .. "]" ..
+		"button[5.6,7.5;3,1;clear;" .. S("Clear") .. "]"
 end
 
 minetest.register_node("techage:ta3_logic2", {
@@ -302,10 +323,20 @@ minetest.register_node("techage:ta3_logic2", {
 			nvm.blocking_time = tonumber(fields.bt) or 0.1
 			nvm.inp_tbl = {me = "off"}
 			nvm.outp_tbl = {}
+		elseif fields.update2 then
+			local mem = techage.get_mem(pos)
+			meta:set_string("formspec", formspec_debug(mem))
+		elseif fields.clear then
+			local mem = techage.get_mem(pos)
+			mem.debug = {}
+			meta:set_string("formspec", formspec_debug(mem))
 		end
 		
 		if fields.tab == "2" then
 			meta:set_string("formspec", formspec_help())
+		elseif fields.tab == "3" then
+			local mem = techage.get_mem(pos)
+			meta:set_string("formspec", formspec_debug(mem))
 		else
 			local nvm = techage.get_nvm(pos)
 			local mem = techage.get_mem(pos)
@@ -361,10 +392,13 @@ techage.register_node({"techage:ta3_logic2"}, {
 		
 		if src ~= nvm.own_num then
 			if topic == "on" then
+				debug(mem, "(inp) " .. src .. " = on")
 				nvm.inp_tbl[src] = "on"
 			elseif topic == "off" then
+				debug(mem, "(inp) " .. src .. " = off")
 				nvm.inp_tbl[src] = "off"
 			else
+				debug(mem, "(inp) invalid command")
 				return "unsupported"
 			end
 			

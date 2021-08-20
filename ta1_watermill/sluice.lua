@@ -49,6 +49,10 @@ local function has_water(pos, facedir)
 end
 
 local function on_rightclick(pos, node, clicker, itemstack, pointed_thing)
+	if minetest.is_protected(pos, clicker:get_player_name()) then
+		return
+	end
+	
 	local pos2 = vector.add(pos, {x = 0, y = -1, z = 0})
 	local node2 = minetest.get_node(pos2)
 	local pos3, res = has_water(pos2, node2.param2)

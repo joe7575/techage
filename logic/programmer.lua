@@ -25,7 +25,7 @@ local function join_to_string(tbl)
 end
 
 local function reset_programmer(itemstack, user, pointed_thing)
-	user:set_attribute("techage_prog_numbers", nil)
+	user:get_meta():set_string("techage_prog_numbers", nil)
 	minetest.chat_send_player(user:get_player_name(), S("[TechAge Programmer] programmer reset"))
 	return itemstack
 end	
@@ -35,9 +35,9 @@ local function read_number(itemstack, user, pointed_thing)
 	if pos then
 		local number = techage.get_node_number(pos)
 		if number then
-			local numbers = minetest.deserialize(user:get_attribute("techage_prog_numbers")) or {}
+			local numbers = minetest.deserialize(user:get_meta():get_string("techage_prog_numbers")) or {}
 			techage.add_to_set(numbers, number)
-			user:set_attribute("techage_prog_numbers", minetest.serialize(numbers))
+			user:get_meta():set_string("techage_prog_numbers", minetest.serialize(numbers))
 			minetest.chat_send_player(user:get_player_name(), S("[TechAge Programmer] number").." "..number.." read")
 		else
 			minetest.chat_send_player(user:get_player_name(), S("[TechAge Programmer] Unknown node on").." "..minetest.pos_to_string(pos))
@@ -52,8 +52,8 @@ local function program_numbers(itemstack, placer, pointed_thing)
 	local pos = pointed_thing.under
 	if pos then
 		local meta = M(pos)
-		local numbers = minetest.deserialize(placer:get_attribute("techage_prog_numbers")) or {}
-		placer:set_attribute("techage_prog_numbers", nil)
+		local numbers = minetest.deserialize(placer:get_meta():get_string("techage_prog_numbers")) or {}
+		placer:get_meta():set_string("techage_prog_numbers", nil)
 		local player_name = placer:get_player_name()
 		if meta and meta:get_string("owner") ~= player_name then
 			minetest.chat_send_player(player_name, S("[TechAge Programmer] foreign or unknown node!"))
