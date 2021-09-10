@@ -30,6 +30,7 @@ help . . . print this text
 cls . . . . . clear screen
 gen . . . . print all generators
 sto . . . . . print all storage systems
+con . . . . . print main consumers
 ]])
 
 local function row(num, label, data)
@@ -137,6 +138,22 @@ local function storages(pos)
 	return table.concat(tbl, "\n")
 end
 
+local function consumers(pos)
+	local tbl = {}
+	local outdir = M(pos):get_int("outdir")
+	local netw = networks.get_network_table(pos, Cable, outdir) or {}
+	for _,item in ipairs(netw.con or {}) do
+		local number = techage.get_node_number(item.pos)
+		if number then
+			local name = techage.get_node_lvm(item.pos).name
+			name = (minetest.registered_nodes[name] or {}).description or "unknown"
+			tbl[#tbl + 1] = name .. " (" .. number .. ")"
+		end
+	end
+	table.sort(tbl)
+	return table.concat(tbl, "\n")
+end
+
 local function output(pos, command, text)
 	local meta = M(pos)
 	text = meta:get_string("output") .. "\n$ " .. command .. "\n" .. (text or "")
@@ -160,6 +177,8 @@ local function command(pos, nvm, command)
 			output(pos, command, generators(pos))
 		elseif cmd == "sto" then
 			output(pos, command, storages(pos))
+		elseif cmd == "con" then
+			output(pos, command, consumers(pos))
 		elseif command ~= "" then
 			output(pos, command, "")
 		end
