@@ -38,7 +38,7 @@ local function round(val)
 end
 
 local function calc_percent(max_val, curr_val)
-	return math.min(((curr_val or 0) * 100) / (max_val or 1.0), 100)
+	return round(math.min(((curr_val or 0) * 100) / (max_val or 1.0), 100))
 end
 
 -------------------------------------------------------------------------------

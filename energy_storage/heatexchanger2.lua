@@ -283,7 +283,8 @@ techage.register_node({"techage:heatexchanger2"}, {
 				return "stopped"
 			end
 		elseif topic == "delivered" then
-			return -math.max(nvm.needed or 0, 0)
+			local data = power.get_network_data(pos, Cable, DOWN)
+			return data.consumed - data.provided
 		elseif topic == "load" then
 			return techage.power.percent(nvm.capa_max, nvm.capa)
 		elseif topic == "on" then
