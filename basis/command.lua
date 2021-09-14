@@ -405,6 +405,31 @@ function techage.push_items(pos, out_dir, stack, idx)
 	return false
 end
 
+-- Check for recursion and too long distances
+local start_pos
+function techage.safe_push_items(pos, out_dir, stack, idx)
+	local mem = techage.get_mem(pos)
+	if not mem.pushing then
+		if not start_pos then
+			start_pos = pos
+			mem.pushing = true
+			local res = techage.push_items(pos, out_dir, stack, idx)
+			mem.pushing = nil
+			start_pos = nil
+			return res
+		else
+			local npos, in_dir, name = get_dest_node(pos, out_dir)
+			if vector.distance(start_pos, npos) < (Tube.max_tube_length or 100) then
+				mem.pushing = true
+				local res = techage.push_items(pos, out_dir, stack, idx)
+				mem.pushing = nil
+				return res
+			end
+		end
+	end
+	return false
+end
+
 function techage.unpull_items(pos, out_dir, stack)
 	local npos, in_dir, name = get_dest_node(pos, out_dir)
 	if npos and NodeDef[name] and NodeDef[name].on_unpull_item then

@@ -60,20 +60,21 @@ local function any_node_changed(pos)
 		nvm.num = #minetest.find_nodes_in_area(nvm.pos1, nvm.pos2, {"air"})
 		return false
 	end
-	local num = #minetest.find_nodes_in_area(nvm.pos1, nvm.pos2, {"air"})
+	local num1 = #minetest.find_nodes_in_area(nvm.pos1, nvm.pos2, {"air"})
+	local num2 = #minetest.find_nodes_in_area(nvm.pos1, nvm.pos2, {"ignore"})
 	
-	if nvm.num ~= num then
-		if nvm.mode == 1 and num < nvm.num then 
-			nvm.num = num
+	if num2 == 0 and nvm.num ~= num1 then
+		if nvm.mode == 1 and num1 < nvm.num then 
+			nvm.num = num1
 			return true
-		elseif nvm.mode == 2 and num > nvm.num then 
-			nvm.num = num
+		elseif nvm.mode == 2 and num1 > nvm.num then 
+			nvm.num = num1
 			return true
 		elseif nvm.mode == 3 then
-			nvm.num = num
+			nvm.num = num1
 			return true
 		end
-		nvm.num = num
+		nvm.num = num1
 	end
 	return false
 end

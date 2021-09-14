@@ -62,7 +62,7 @@ local names = networks.register_junction("techage:concentrator", 2/8, Boxes, Tub
 techage.register_node(names, {
 	on_push_item = function(pos, in_dir, stack)
 		local push_dir = M(pos):get_int("push_dir")
-		return techage.push_items(pos, push_dir, stack)
+		return techage.safe_push_items(pos, push_dir, stack)
 	end,
 	is_pusher = true,  -- is a pulling/pushing node
 })	
@@ -101,7 +101,7 @@ names = networks.register_junction("techage:ta4_concentrator", 2/8, Boxes, Tube,
 techage.register_node(names, {
 	on_push_item = function(pos, in_dir, stack)
 		local push_dir = M(pos):get_int("push_dir")
-		return techage.push_items(pos, push_dir, stack)
+		return techage.safe_push_items(pos, push_dir, stack)
 	end,
 	is_pusher = true,  -- is a pulling/pushing node
 })	
