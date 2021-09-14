@@ -170,7 +170,7 @@ local function take_from_chest(pos, idx, output_stack, max_total_count, keep_ass
 	local nvm_stack = get_stack(nvm, idx)
 	output_stack = output_stack or ItemStack()
 	local assignment_count = keep_assignment and M(pos):get_int("assignment") == 1 and 1 or 0
-	local count = math.min(nvm_stack.count - assignment_count, max_stacksize(nvm_stack.name))
+	local count = math.min(nvm_stack.count - assignment_count, max_stacksize(nvm_stack.name) - output_stack:get_count())
 	if max_total_count then
 		count = math.min(count, max_total_count - output_stack:get_count())
 	end
