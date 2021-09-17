@@ -203,7 +203,7 @@ minetest.register_craft({
 
 techage.register_node({"techage:ta3_detector_off", "techage:ta3_detector_on"}, {
 	on_push_item = function(pos, in_dir, stack)
-		if techage.push_items(pos, in_dir, stack) then
+		if techage.safe_push_items(pos, in_dir, stack) then
 			switch_on(pos)
 			return true
 		end
@@ -214,7 +214,7 @@ techage.register_node({"techage:ta3_detector_off", "techage:ta3_detector_on"}, {
 
 techage.register_node({"techage:ta4_detector_off", "techage:ta4_detector_on"}, {
 	on_push_item = function(pos, in_dir, stack)
-		if techage.push_items(pos, in_dir, stack) then
+		if techage.safe_push_items(pos, in_dir, stack) then
 			switch_on(pos)
 			local nvm = techage.get_nvm(pos)
 			nvm.counter = (nvm.counter or 0) + stack:get_count()
