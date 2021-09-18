@@ -81,6 +81,10 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2021-09-18  V1.02**
+-  TA4 Chest: Fix items disappearing (PR #64 by Thomas--S)
+-  Add support for colored cables (PR #63 by Thomas--S)
+
 **2021-08-16  V1.01**
 - Allow singleplayer to place lava on y>0.
 - Logic block: allow to use output numbers for the expression
