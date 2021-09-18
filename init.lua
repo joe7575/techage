@@ -36,8 +36,8 @@ elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.0 then
 elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.0 then
 	minetest.log("error", "[techage] Techage requires safer_lua version 1.0 or newer!")
 	return
-elseif minetest.global_exists("networks") and networks.version < 0.08 then
-	minetest.log("error", "[techage] Techage requires networks version 0.08 or newer!")
+elseif minetest.global_exists("networks") and networks.version < 0.10 then
+	minetest.log("error", "[techage] Techage requires networks version 0.10 or newer!")
 	return
 end
 
