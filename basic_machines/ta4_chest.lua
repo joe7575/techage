@@ -350,11 +350,27 @@ local function search_chest_in_front(pos, node)
 	end
 	if node.name == "techage:ta4_chest" then
 		minetest.after(1, count_number_of_chests, pos1)
+		local nvm = techage.get_nvm(pos)
+		nvm.front_chest_pos = pos1
 		return true
 	end
 	return false
 end
 
+local function get_front_chest_pos(pos)
+	local nvm = techage.get_nvm(pos)
+	if nvm.front_chest_pos then
+		return nvm.front_chest_pos
+	end
+	
+	local node = techage.get_node_lvm(pos)
+	if search_chest_in_front(pos, node) then
+		return nvm.front_chest_pos
+	end
+	
+	return pos
+end
+	
 local function convert_to_chest_again(pos, node, player)
 	local dir = techage.side_to_outdir("B", node.param2)
 	local pos1 = tubelib2.get_pos(pos, dir)
@@ -592,6 +608,33 @@ techage.register_node({"techage:ta4_chest"}, {
 			return "unsupported"
 		end
 	end,
+})	
+
+techage.register_node({"techage:ta4_chest_dummy"}, {
+	on_pull_item = function(pos, in_dir, num, item_name)
+		local fc_pos = get_front_chest_pos(pos)
+		local res = tube_take_from_chest(fc_pos, item_name, num)
+		if techage.is_activeformspec(fc_pos) then
+			M(fc_pos):set_string("formspec", formspec(fc_pos))
+		end
+		return res
+	end,
+	on_push_item = function(pos, in_dir, stack)
+		local fc_pos = get_front_chest_pos(pos)
+		local res = tube_add_to_chest(fc_pos, stack)
+		if techage.is_activeformspec(fc_pos) then
+			M(fc_pos):set_string("formspec", formspec(fc_pos))
+		end
+		return res
+	end,
+	on_unpull_item = function(pos, in_dir, stack)
+		local fc_pos = get_front_chest_pos(pos)
+		local res = tube_add_to_chest(fc_pos, stack)
+		if techage.is_activeformspec(fc_pos) then
+			M(fc_pos):set_string("formspec", formspec(fc_pos))
+		end
+		return res
+	end
 })	
 
 minetest.register_craft({
