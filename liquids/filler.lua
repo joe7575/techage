@@ -74,12 +74,12 @@ local function node_timer(pos, elapsed)
 	if not inv:is_empty("src") then
 		local taken = techage.get_items(pos, inv, "src", 1)
 		if liquid.is_container_empty(taken:get_name()) then
-			return liquid.fill_container({x = pos.x, y = pos.y+1, z = pos.z}, inv, taken:get_name())
+			liquid.fill_container({x = pos.x, y = pos.y+1, z = pos.z}, inv, taken:get_name())
 		else
-			return liquid.empty_container({x = pos.x, y = pos.y-1, z = pos.z}, inv, taken:get_name())
+			liquid.empty_container({x = pos.x, y = pos.y-1, z = pos.z}, inv, taken:get_name())
 		end
 	end
-	return false
+	return true
 end	
 
 minetest.register_node("techage:filler", {
@@ -124,7 +124,7 @@ minetest.register_node("techage:filler", {
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
 	sunlight_propagates = true,
-        use_texture_alpha = techage.CLIP,
+	use_texture_alpha = techage.CLIP,
 	is_ground_content = false,
 	groups = {cracky=2, crumbly=2, choppy=2},
 	sounds = default.node_sound_defaults(),

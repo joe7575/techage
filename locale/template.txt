@@ -210,8 +210,16 @@ TA2 Cylinder=
 
 ### detector.lua ###
 
+Configured Items=
+Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=
 TA3 Detector=
 TA4 Detector=
+Waiting time between two 'on' commands=
+
+### detector.lua ###
+### logic_block.lua ###
+
+Blocking Time=
 
 ### display.lua ###
 
@@ -370,6 +378,7 @@ loaded=
 
 ### formspecs.lua ###
 
+Block has a wrench menu=
 Charge termination=
 Current output [ku]=
 Maximum output [ku]=
@@ -595,7 +604,8 @@ no usable water=
 @nRule:@n<output> @= on/off if <input-expression> is true@n=
 @nThe internal processing time for all@ncommands is 100 ms.=
 @nValid operators:@nand   or   on   off   me   @=@=   ~@=   (   )@n=
-Blocking Time=
+Clear=
+Debug=
 Help=
 Inputs=
 Outputs=
@@ -750,7 +760,7 @@ TA Power Pole Top 2 (for landlines)=
 
 ### power_terminal2.lua ###
 
-Commands@nhelp . . . print this text@ncls . . . . . clear screen@ngen . . . . print all generators@nsto . . . . . print all storage systems@n=
+Commands@nhelp . . . print this text@ncls . . . . . clear screen@ngen . . . . print all generators@nsto . . . . . print all storage systems@ncon . . . . . print main consumers@n=
 Consumer=
 Network Data=
 Number of consumers:=
@@ -902,7 +912,6 @@ TA Lamp=
 
 TA1 Sluice Gate=
 TA1 Sluice Handle=
-Your pond is too small!=
 
 ### solarcell.lua ###
 
@@ -1098,11 +1107,6 @@ Usmium Powder=
 
 TA Valve=
 TA3 Valve=
-
-### water.lua ###
-
-Flowing Water=
-Water Source=
 
 ### waterinlet.lua ###
 

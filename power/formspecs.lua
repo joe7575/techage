@@ -165,6 +165,11 @@ end
 -------------------------------------------------------------------------------
 -- API formspec functions
 -------------------------------------------------------------------------------
+function techage.wrench_image(x, y)
+	return "image["..x.."," .. y .. ";0.5,0.5;techage_inv_wrench.png]" ..
+		"tooltip["..x.."," .. y .. ";0.5,0.5;" .. S("Block has a wrench menu") .. ";#0C3D32;#FFFFFF]"
+end
+
 function techage.storage_formspec(self, pos, nvm, label, netw_data, curr_load, max_load)
 	return "size[6.3,4]" ..
 		default.gui_bg ..

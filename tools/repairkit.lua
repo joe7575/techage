@@ -143,7 +143,8 @@ local function settings_menu(pos, playername)
 	
 	context[playername] = pos
 	if form_def then
-		minetest.show_formspec(playername, "techage:ta_formspec", menu.generate_formspec(pos, ndef, form_def))
+		minetest.show_formspec(playername, "techage:ta_formspec", 
+			menu.generate_formspec(pos, ndef, form_def, playername))
 	end
 end
 
@@ -162,10 +163,11 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		local form_def = ndef and (ndef.ta3_formspec or ndef.ta4_formspec)
 		
 		if form_def then
-			if menu.eval_input(pos, ndef, form_def, fields) then
+			if menu.eval_input(pos, ndef, form_def, fields, playername) then
 				--context[playername] = pos
 				minetest.after(0.2, function()
-					minetest.show_formspec(playername, "techage:ta_formspec", menu.generate_formspec(pos, ndef, form_def))
+					minetest.show_formspec(playername, "techage:ta_formspec", 
+						menu.generate_formspec(pos, ndef, form_def, playername))
 				end)
 			end
 		end

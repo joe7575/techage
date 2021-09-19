@@ -690,6 +690,7 @@ Detectors scan their surroundings and send an `on` command when the search is re
 The detector is a special tube block that detects when items are passed on through the tube. To do this, it must be connected to tubes on both sides. If items are pushed into the detector with a pusher, they are automatically passed on.
 It sends an `on` when an item is recognized, followed by an `off` a second later.
 Then further commands are blocked for 8 seconds.
+The waiting time and the items that should trigger a command can be configured using the open-ended wrench menu. 
 
 
 [ta3_detector|image]
@@ -810,7 +811,7 @@ The processing power is up to 8 times one item every 4 seconds.
 
 ### Techage Info Tool
 
-The Techage Info Tool (wrench) has several functions. It shows the time, position, temperature and biome when an unknown block is clicked on.
+The Techage Info Tool (open-ended wrench) has several functions. It shows the time, position, temperature and biome when an unknown block is clicked on.
 If you click on a TechAge block with command interface, all available data will be shown (see also "Logic / switching blocks").
 
 With Shift + right click an extended menu can be opened for some blocks. Depending on the block, further data can be called up or special settings can be made here. In the case of a generator, for example, the charging curve/switch-off can be programmed. 

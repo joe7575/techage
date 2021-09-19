@@ -210,8 +210,16 @@ TA2 Cylinder=TA2 Zylinder
 
 ### detector.lua ###
 
+Configured Items=Konfigurierte Gegenstände
+Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Items, die einen 'on'-Kommando generieren.@nWenn leer, generieren alle übergebenen Items einen 'on'-Befehl.
 TA3 Detector=TA3 Detektor
 TA4 Detector=TA4 Detektor
+Waiting time between two 'on' commands=Wartezeit zwischen zwei 'on'-Kommandos
+
+### detector.lua ###
+### logic_block.lua ###
+
+Blocking Time=Sperrzeit
 
 ### display.lua ###
 
@@ -370,6 +378,7 @@ loaded=geladen
 
 ### formspecs.lua ###
 
+Block has a wrench menu=Block hat ein Gabelschlüssel-Menü
 Charge termination=Ladebegrenzung
 Current output [ku]=Aktueller Ausgabewert
 Maximum output [ku]=Maximaler Ausgabewert
@@ -595,7 +604,8 @@ no usable water=Kein brauchbares Wasser
 @nRule:@n<output> @= on/off if <input-expression> is true@n=@nRegel:@n<output> @= on/off if <input-expression> is true@n
 @nThe internal processing time for all@ncommands is 100 ms.=@nDie interne Durchlaufzeit für alle@nKommandos beträgt 100 ms.
 @nValid operators:@nand   or   on   off   me   @=@=   ~@=   (   )@n=@nGültige Operatoren:@nand   or   on   off   @=@=   ~@=   (   )@n
-Blocking Time=Sperrzeit
+Clear=Löschen
+Debug=Debug
 Help=Hilfe
 Inputs=Eingänge
 Outputs=Ausgänge
@@ -750,7 +760,7 @@ TA Power Pole Top 2 (for landlines)=TA Strommastkopf 2 (für Überlandleitungen)
 
 ### power_terminal2.lua ###
 
-Commands@nhelp . . . print this text@ncls . . . . . clear screen@ngen . . . . print all generators@nsto . . . . . print all storage systems@n=Kommandos@nhelp . . . diesen Text ausgeben@ncls . . . . . Bildschirm löschen@ngen . . . . Alle Generatoren ausgeben@nsto . . . . . Alle Speichersysteme ausgeben@n
+Commands@nhelp . . . print this text@ncls . . . . . clear screen@ngen . . . . print all generators@nsto . . . . . print all storage systems@ncon . . . . . print main consumers@n=Kommandos@nhelp . . . diesen Text ausgeben@ncls . . . . . Bildschirm löschen@ngen . . . . Alle Generatoren ausgeben@nsto . . . . . Alle Speichersysteme ausgeben@ncon . . . . . Hauptverbraucher ausgeben@n
 Consumer=Verbraucher
 Network Data=Netzwerkdaten
 Number of consumers:=Anzahl der Verbraucher
@@ -902,7 +912,6 @@ TA Lamp=TA Lampe
 
 TA1 Sluice Gate=TA1 Schleusenschieber
 TA1 Sluice Handle=TA1 Schleusengriff
-Your pond is too small!=Der Teich ist zu klein!
 
 ### solarcell.lua ###
 
@@ -1099,11 +1108,6 @@ Usmium Powder=Usmium Pulver
 TA Valve=TA Ventil
 TA3 Valve=TA3 Ventil
 
-### water.lua ###
-
-Flowing Water=Fließendes Wasser
-Water Source=Wasserquelle
-
 ### waterinlet.lua ###
 
 Error: No natural water!=Fehler: Kein natürliches Wasser!
@@ -1132,3 +1136,8 @@ This is not the surface of the ocean!=Das ist nicht die Meeresoberfläche!
 [TA4 Wind Turbine]=[TA4 Windkraftanlage]
 biome and no ocean!=Biom und keine Meer (ocean)!
 is a suitable place for a wind turbine!=ist ein geeigneter Ort für eine Windkraftanlage!
+
+
+##### not used anymore #####
+
+Maximum command transmission frequency=Maximale Sendefrequenz für Kommandos

@@ -22,10 +22,25 @@ local function index(list, x)
 	return nil
 end
 
+local function allow_put(inv, listname, index, stack, player)
+	local list = inv:get_list(listname)
+	stack:set_count(1)
+	inv:set_stack(listname, index, stack)
+	return 0
+end
+
+local function allow_take(inv, listname, index, stack, player)
+	local list = inv:get_list(listname)
+	stack:set_count(0)
+	inv:set_stack(listname, index, stack)
+	return 0
+end
+
 
 -- generate the formspec string to be placed into a container frame
-local function generate_formspec_substring(pos, meta, form_def)
+local function generate_formspec_substring(pos, meta, form_def, player_name)
 	local tbl = {}
+	local player_inv_needed = false
 	if meta and form_def then
 		local nvm = techage.get_nvm(pos)
 		
@@ -97,6 +112,9 @@ local function generate_formspec_substring(pos, meta, form_def)
 					local idx = index(l, val) or 1
 					tbl[#tbl+1] = "dropdown[4.72," .. (offs) .. ";5.5,1.4;" .. elem.name .. ";" .. elem.choices .. ";" .. idx .. "]"
 				end
+			elseif elem.type == "items" then
+				tbl[#tbl+1] = "list[detached:" .. minetest.formspec_escape(player_name) .. "_techage_wrench_menu;cfg;4.75," .. offs .. ";" .. elem.size .. ",1;]"
+				player_inv_needed = true
 			end
 		end
 		if nvm.running or techage.is_running(nvm) then
@@ -104,7 +122,8 @@ local function generate_formspec_substring(pos, meta, form_def)
 			tbl[#tbl+1] = "label[0," .. offs .. ";" .. S("Note: You can't change any values while the block is running!") .. "]"
 		end
 	end
-	return table.concat(tbl, "")
+	
+	return player_inv_needed, table.concat(tbl, "")
 end
 
 local function value_check(elem, value)
@@ -114,7 +133,7 @@ local function value_check(elem, value)
 	return true
 end
 	
-local function evaluate_data(pos, meta, form_def, fields)
+local function evaluate_data(pos, meta, form_def, fields, player_name)
 	local res = true
 	
 	if meta and form_def then
@@ -166,22 +185,56 @@ local function evaluate_data(pos, meta, form_def, fields)
 				if fields[elem.name] ~= nil then
 					meta:set_string(elem.name, fields[elem.name])
 				end
+			elseif elem.type == "items" then	
+				local inv_name = minetest.formspec_escape(player_name) .. "_techage_wrench_menu"
+				local dinv = minetest.get_inventory({type = "detached", name = inv_name})
+				local ninv = minetest.get_inventory({type = "node", pos = pos})
+				if dinv and ninv then
+					for i = 1, ninv:get_size("cfg") do
+						ninv:set_stack("cfg", i, dinv:get_stack("cfg", i))
+					end
+				end
 			end
 		end
 	end
 	return res
 end
 
-function menu.generate_formspec(pos, ndef, form_def)
+function menu.generate_formspec(pos, ndef, form_def, player_name)
 	local meta = minetest.get_meta(pos)
 	local number = techage.get_node_number(pos)
 	local mem = techage.get_mem(pos)
 	mem.star = ((mem.star or 0) + 1) % 2
 	local star = mem.star == 1 and "*" or ""
+	local inv_name = minetest.formspec_escape(player_name) .. "_techage_wrench_menu"
+	minetest.create_detached_inventory(inv_name, {
+		allow_put = allow_put,
+		allow_take = allow_take})
+	local dinv = minetest.get_inventory({type = "detached", name = inv_name})
+	local ninv = minetest.get_inventory({type = "node", pos = pos})
+	if dinv and ninv then	
+		dinv:set_size('cfg', ninv:get_size("cfg"))
+		for i = 1, ninv:get_size("cfg") do
+			dinv:set_stack("cfg", i, ninv:get_stack("cfg", i))
+		end
+	end
 	
 	if meta and number and ndef and form_def then
 		local title = ndef.description .. " (" .. number .. ")"
-	
+		local player_inv_needed, text = generate_formspec_substring(pos, meta, form_def, player_name)
+		local buttons
+		
+		if player_inv_needed then
+			buttons = "button[0.5,6.2;3,1;refresh;" .. S("Refresh") .. "]" ..
+				"button_exit[3.5,6.2;3,1;cancel;" .. S("Cancel") .. "]" ..
+				"button[6.5,6.2;3,1;save;" .. S("Save") .. "]" ..
+				"list[current_player;main;1,7.2;8,2;]"
+		else
+			buttons = "button[0.5,8.4;3,1;refresh;" .. S("Refresh") .. "]" ..
+				"button_exit[3.5,8.4;3,1;cancel;" .. S("Cancel") .. "]" ..
+				"button[6.5,8.4;3,1;save;" .. S("Save") .. "]"
+		end
+		
 		return "size[10,9]" ..
 			default.gui_bg ..
 			default.gui_bg_img ..
@@ -190,20 +243,18 @@ function menu.generate_formspec(pos, ndef, form_def)
 			"label[0.2,-0.1;" .. minetest.colorize( "#000000", title) .. "]" ..
 		    "label[9.5,-0.1;" .. minetest.colorize( "#000000", star) .. "]" ..
 			"container[0,1]" ..
-			generate_formspec_substring(pos, meta, form_def) ..
+			text ..
 			"container_end[]" ..
-			"button[0.5,8.4;3,1;refresh;" .. S("Refresh") .. "]" ..
-			"button_exit[3.5,8.4;3,1;cancel;" .. S("Cancel") .. "]" ..
-			"button[6.5,8.4;3,1;save;" .. S("Save") .. "]"
+			buttons
 	end
 	return ""
 end
 
-function menu.eval_input(pos, ndef, form_def, fields)	
+function menu.eval_input(pos, ndef, form_def, fields, player_name)	
 	--print(dump(fields))
 	if fields.save then
 		local meta = minetest.get_meta(pos)
-		evaluate_data(pos, meta, form_def, fields)
+		evaluate_data(pos, meta, form_def, fields, player_name)
 	end
 	return fields.refresh or fields.save
 end
