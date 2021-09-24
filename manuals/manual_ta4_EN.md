@@ -463,6 +463,12 @@ Only the appearance of the TA4 button/switch has changed. The functionality is t
 
 [ta4_button|image]
 
+### TA4 4x Button
+
+This block has four buttons that can be individually configured using the wrench menu. The labeling and the target block address can be configured for each button. In addition, the command that is to be sent can be configured for each button. 
+
+[ta4_button_4x|image]
+
 ### TA4 Player Detector
 
 Only the appearance of the TA4 player detector has changed. The functionality is the same as with the TA3 player detector.

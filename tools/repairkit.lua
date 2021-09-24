@@ -136,6 +136,16 @@ end
 local context = {}
 
 local function settings_menu(pos, playername)
+	if minetest.is_protected(pos, playername) then
+		return
+	end
+	-- Check node settings in addition
+	local access = M(pos):get_string("access")
+	local owner = M(pos):get_string("owner")
+	if access == "private" and playername ~= owner then
+		return
+	end
+	
 	local number = techage.get_node_number(pos)
 	local node = minetest.get_node(pos)
 	local ndef = minetest.registered_nodes[node.name]
@@ -163,7 +173,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		local form_def = ndef and (ndef.ta3_formspec or ndef.ta4_formspec)
 		
 		if form_def then
-			if menu.eval_input(pos, ndef, form_def, fields, playername) then
+			if menu.eval_input(pos, form_def, fields, playername) then
 				--context[playername] = pos
 				minetest.after(0.2, function()
 					minetest.show_formspec(playername, "techage:ta_formspec", 

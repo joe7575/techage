@@ -201,6 +201,7 @@ local function register_terminal(num, tiles, node_box, selection_box)
 			meta:set_string("command", S("commands like: help"))
 			meta:set_string("formspec", formspec2(meta))
 			meta:set_string("owner", placer:get_player_name())
+			meta:set_string("infotext", S("TA3 Terminal") .. " " .. number)
 		end,
 
 		on_receive_fields = function(pos, formname, fields, player)

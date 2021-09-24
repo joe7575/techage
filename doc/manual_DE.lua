@@ -183,6 +183,7 @@ techage.manual_DE.aTitel = {
   "3,TA4 Lua Controller Terminal",
   "2,TA4 Logik-/Schalt-Module",
   "3,TA4 Taster/Schalter / Button/Switch",
+  "3,TA4 4x Taster / 4x Button",
   "3,TA4 Spieler Detektor / Player Detector",
   "3,TA4 Zustandssammler / State Collector",
   "3,TA4 Detektor / Detector",
@@ -1559,6 +1560,10 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Dieser Block hat vier Taster\\, die über das Schraubenschlüssel-Menü individuell konfiguriert werden können. Für jeden Taster kann die Beschriftung und die Zielblockadresse konfiguriert werden. Zusätzlich kann für jeden Taster das Kommando konfiguriert werden\\, welches gesendet werden soll.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Beim TA4 Spieler Detektor hat sich nur das Aussehen geändert. Die Funktionalität ist gleich wie beim TA3 Spieler Detektor.\n"..
   "\n"..
   "\n"..
@@ -1933,6 +1938,7 @@ techage.manual_DE.aItemName = {
   "ta4_terminal",
   "",
   "ta4_button",
+  "ta4_button_4x",
   "ta4_playerdetector",
   "ta4_collector",
   "ta4_detector",
@@ -2129,6 +2135,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
   "",
   "",
   "",

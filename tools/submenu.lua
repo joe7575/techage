@@ -235,22 +235,39 @@ function menu.generate_formspec(pos, ndef, form_def, player_name)
 				"button[6.5,8.4;3,1;save;" .. S("Save") .. "]"
 		end
 		
-		return "size[10,9]" ..
-			default.gui_bg ..
-			default.gui_bg_img ..
-			default.gui_slots ..
-			"box[0,-0.1;9.8,0.5;#c6e8ff]" ..
-			"label[0.2,-0.1;" .. minetest.colorize( "#000000", title) .. "]" ..
-		    "label[9.5,-0.1;" .. minetest.colorize( "#000000", star) .. "]" ..
-			"container[0,1]" ..
-			text ..
-			"container_end[]" ..
-			buttons
+		if #form_def > 8 then
+			local size = (#form_def * 10) - 60
+			return "size[10,9]" ..
+				default.gui_bg ..
+				default.gui_bg_img ..
+				default.gui_slots ..
+				"box[0,-0.1;9.8,0.5;#c6e8ff]" ..
+				"label[0.2,-0.1;" .. minetest.colorize( "#000000", title) .. "]" ..
+				"label[9.5,-0.1;" .. minetest.colorize( "#000000", star) .. "]" ..
+				"scrollbaroptions[max=" .. size .. "]" ..
+				"scrollbar[9.4,0.6;0.4,7.7;vertical;wrenchmenu;]" ..
+				"scroll_container[0,1;12,9;wrenchmenu;vertical;]" ..
+				text ..
+				"scroll_container_end[]" ..
+				buttons
+		else
+			return "size[10,9]" ..
+				default.gui_bg ..
+				default.gui_bg_img ..
+				default.gui_slots ..
+				"box[0,-0.1;9.8,0.5;#c6e8ff]" ..
+				"label[0.2,-0.1;" .. minetest.colorize( "#000000", title) .. "]" ..
+				"label[9.5,-0.1;" .. minetest.colorize( "#000000", star) .. "]" ..
+				"container[0,1]" ..
+				text ..
+				"container_end[]" ..
+				buttons
+		end
 	end
 	return ""
 end
 
-function menu.eval_input(pos, ndef, form_def, fields, player_name)	
+function menu.eval_input(pos, form_def, fields, player_name)	
 	--print(dump(fields))
 	if fields.save then
 		local meta = minetest.get_meta(pos)

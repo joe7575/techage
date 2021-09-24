@@ -182,6 +182,7 @@
         - [TA4 Lua Controller Terminal](./manual_ta4_EN.md#ta4-lua-controller-terminal)
     - [TA4 Logic/Switching Modules](./manual_ta4_EN.md#ta4-logicswitching-modules)
         - [TA4 Button/Switch](./manual_ta4_EN.md#ta4-buttonswitch)
+        - [TA4 4x Button](./manual_ta4_EN.md#ta4-4x-button)
         - [TA4 Player Detector](./manual_ta4_EN.md#ta4-player-detector)
         - [TA4 State Collector](./manual_ta4_EN.md#ta4-state-collector)
         - [TA4 Detector](./manual_ta4_EN.md#ta4-detector)

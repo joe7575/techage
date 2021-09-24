@@ -30,8 +30,8 @@ elseif minetest.global_exists("tubelib2") and tubelib2.version < 1.9 then
 elseif minetest.global_exists("minecart") and minecart.version < 1.08 then
 	minetest.log("error", "[techage] Techage requires minecart version 1.08 or newer!")
 	return
-elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.0 then
-	minetest.log("error", "[techage] Techage requires lcdlib version 1.0 or newer!")
+elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.01 then
+	minetest.log("error", "[techage] Techage requires lcdlib version 1.01 or newer!")
 	return
 elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.0 then
 	minetest.log("error", "[techage] Techage requires safer_lua version 1.0 or newer!")
@@ -274,6 +274,7 @@ dofile(MP.."/logic/doorblock.lua")
 dofile(MP.."/logic/doorcontroller.lua")  -- old
 dofile(MP.."/logic/doorcontroller2.lua")  -- new
 dofile(MP.."/logic/collector.lua")
+dofile(MP.."/logic/button_4x.lua")
 if minetest.global_exists("mesecon") then
 	dofile(MP.."/logic/mesecons_converter.lua")
 end

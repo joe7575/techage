@@ -134,6 +134,16 @@ Insert destination node number(s)=Gebe Zielnummer(n) ein
 
 Save=Speichern
 
+### button_4x.lua ###
+
+Access=Zugriff
+Button protection=Tastenschutz
+Command=Kommando
+Command to be sent=Zu sendender Befehl 
+Destination block number=Zielblocknummer 
+Number=Nummer
+TA4 4x Button=TA4 4x Taster
+
 ### cart_detector.lua ###
 
 TA3 Cart Detector=TA3 Wagen Detektor

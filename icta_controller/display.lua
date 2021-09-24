@@ -43,7 +43,7 @@ function techage.display.display_update(pos, objref)
 		"default", text,
 		70, 70, NUM_ROWS, "top", "#000")
 	objref:set_properties({ textures = {texture},
-							visual_size = {x=0.94, y=0.94} })
+		visual_size = {x=0.94, y=0.94} })
 end
 
 function techage.display.display_updateXL(pos, objref)
@@ -54,7 +54,7 @@ function techage.display.display_updateXL(pos, objref)
 		"default", text,
 		126, 70, NUM_ROWS, "top", "#000")
 	objref:set_properties({ textures = {texture},
-							visual_size = {x=0.94*1.9, y=0.94} })
+		visual_size = {x=0.94*1.9, y=0.94} })
 end
 
 function techage.display.on_timer(pos)

@@ -183,6 +183,7 @@ techage.manual_EN.aTitel = {
   "3,TA4 Lua Controller Terminal",
   "2,TA4 Logic/Switching Modules",
   "3,TA4 Button/Switch",
+  "3,TA4 4x Button",
   "3,TA4 Player Detector",
   "3,TA4 State Collector",
   "3,TA4 Detector",
@@ -1557,6 +1558,10 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "This block has four buttons that can be individually configured using the wrench menu. The labeling and the target block address can be configured for each button. In addition\\, the command that is to be sent can be configured for each button. \n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Only the appearance of the TA4 player detector has changed. The functionality is the same as with the TA3 player detector.\n"..
   "\n"..
   "\n"..
@@ -1932,6 +1937,7 @@ techage.manual_EN.aItemName = {
   "ta4_terminal",
   "",
   "ta4_button",
+  "ta4_button_4x",
   "ta4_playerdetector",
   "ta4_collector",
   "ta4_detector",
@@ -2128,6 +2134,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
   "",
   "",
   "",

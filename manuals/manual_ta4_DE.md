@@ -470,6 +470,12 @@ Beim TA4 Taster/Schalter hat sich nur das Aussehen geändert. Die Funktionalitä
 
 [ta4_button|image]
 
+### TA4 4x Taster / 4x Button
+
+Dieser Block hat vier Taster, die über das Schraubenschlüssel-Menü individuell konfiguriert werden können. Für jeden Taster kann die Beschriftung und die Zielblockadresse konfiguriert werden. Zusätzlich kann für jeden Taster das Kommando konfiguriert werden, welches gesendet werden soll.
+
+[ta4_button_4x|image]
+
 ### TA4 Spieler Detektor / Player Detector
 
 Beim TA4 Spieler Detektor hat sich nur das Aussehen geändert. Die Funktionalität ist gleich wie beim TA3 Spieler Detektor.

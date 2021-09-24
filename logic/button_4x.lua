@@ -1,0 +1,222 @@
+--[[
+
+	TechAge
+	=======
+
+	Copyright (C) 2017-2021 Joachim Stolberg
+
+	AGPL v3
+	See LICENSE.txt for more information
+
+	TA4 Logic fourfold button
+	
+]]--
+
+-- for lazy programmers
+local M = minetest.get_meta
+local S = techage.S
+			
+local function get_button_num(pos, clicker, pointed_thing)
+	-- use the node behind the button to get better results
+	local offs = vector.subtract(pointed_thing.under, pointed_thing.above)
+	pointed_thing.under = vector.add(pointed_thing.under, offs)
+	pointed_thing.above = vector.add(pointed_thing.above, offs)
+	local pos1 = minetest.pointed_thing_to_face_pos(clicker, pointed_thing)
+	local y = pos1.y - pos.y
+	
+	if y < -0.3 then
+		return 4
+	elseif y < -0.03 and y > -0.22 then
+		return 3
+	elseif y > 0.03 and y < 0.22 then
+		return 2
+	elseif y > 0.3 then
+		return 1
+	end
+end
+
+local WRENCH_MENU = {
+	{
+		type = "number",
+		name = "dest_number1",
+		label = S("Number") .. " 1",      
+		tooltip = S("Destination block number"),
+		default = "",
+	},
+	{
+		type = "ascii",
+		name = "command1",
+		label = S("Command") .. " 1",      
+		tooltip = S("Command to be sent"),
+		default = "1",
+	},
+	{
+		type = "number",
+		name = "dest_number2",
+		label = S("Number") .. " 2",      
+		tooltip = S("Destination block number"),
+		default = "",
+	},
+	{
+		type = "ascii",
+		name = "command2",
+		label = S("Command") .. " 2",      
+		tooltip = S("Command to be sent"),
+		default = "2",
+	},
+	{
+		type = "number",
+		name = "dest_number3",
+		label = S("Number") .. " 3",      
+		tooltip = S("Destination block number"),
+		default = "",
+	},
+	{
+		type = "ascii",
+		name = "command3",
+		label = S("Command") .. " 3",      
+		tooltip = S("Command to be sent"),
+		default = "3",
+	},
+	{
+		type = "number",
+		name = "dest_number4",
+		label = S("Number") .. " 4",      
+		tooltip = S("Destination block number"),
+		default = "",
+	},
+	{
+		type = "ascii",
+		name = "command4",
+		label = S("Command") .. " 4",      
+		tooltip = S("Command to be sent"),
+		default = "4",
+	},
+	{
+		type = "dropdown",
+		choices = "private,protected,public",
+		name = "access",
+		label = S("Access"),      
+		tooltip = S("Button protection"),
+		default = "8",
+	},
+}
+
+local function send_cmnd(pos, num)
+	local meta = M(pos)
+	local own_num = meta:get_string("node_number")
+	local dest = meta:get_string("dest_number" .. num)
+	local cmnd = meta:get_string("command" .. num)
+	techage.send_single(own_num, dest, cmnd)
+end
+
+local function button_update(pos, objref)
+	pos = vector.round(pos)
+	local nvm = techage.get_nvm(pos)
+	nvm.button = nvm.button or {}
+	local text = "<      " .. table.concat(nvm.text or {" "}, "\n<      ")
+	local texture = lcdlib.make_multiline_texture("default", text, 96, 96, 7, "top", "#000", 6)
+	
+	if nvm.button[1] then
+		texture = texture .. "^techage_smartline_button_4x_on1.png"
+	end
+	if nvm.button[2] then
+		texture = texture .. "^techage_smartline_button_4x_on2.png"
+	end
+	if nvm.button[3] then
+		texture = texture .. "^techage_smartline_button_4x_on3.png"
+	end
+	if nvm.button[4] then
+		texture = texture .. "^techage_smartline_button_4x_on4.png"
+	end
+	objref:set_properties({ textures = {texture}, visual_size = {x=1, y=1} })
+end
+
+local function switch_off(pos, num)
+	local nvm = techage.get_nvm(pos)
+	nvm.button[num] = nil
+	lcdlib.update_entities(pos)
+end
+
+local function switch_on(pos, num)
+	local nvm = techage.get_nvm(pos)
+	nvm.button = nvm.button or {}
+	nvm.button[num] = true
+	
+	send_cmnd(pos, num)
+	lcdlib.update_entities(pos)
+	minetest.after(0.5, switch_off, pos, num)
+	
+	minetest.sound_play("techage_button", {
+		pos = pos,
+		gain = 0.5,
+		max_hear_distance = 5,
+	})
+end
+
+local lcd_box = {-8/16, -8/16, 7.75/16, 8/16, 8/16, 8/16}
+
+minetest.register_node("techage:ta4_button_4x", {
+	description = S("TA4 4x Button"),
+	inventory_image = 'techage_smartline_button_4x.png',
+	tiles = {'techage_smartline_button_4x.png'},
+	drawtype = "nodebox",
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	paramtype2 = "facedir",
+	node_box = {
+		type = "fixed",
+		fixed = lcd_box,
+	},
+	light_source = 6,
+
+	display_entities = {
+		["techage:display_entity"] = { depth = 0.48,
+			on_display_update = button_update},
+	},
+
+	after_place_node = function(pos, placer)
+		local number = techage.add_node(pos, "techage:ta4_button_4x")
+		local meta = minetest.get_meta(pos)
+		meta:set_string("node_number", number)
+		meta:set_string("owner", placer:get_player_name())
+		meta:set_string("infotext", "TA4 4x Button " .. number)
+		local nvm = techage.get_nvm(pos)
+		nvm.text = {"1", "", "2", "", "3", "", "4"}
+		lcdlib.update_entities(pos)
+	end,
+
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+		if clicker and clicker:is_player() then
+			local playername = clicker:get_player_name()
+			if minetest.is_protected(pos, playername) then
+				return
+			end
+			-- Check node settings in addition
+			local access = M(pos):get_string("access")
+			local owner = M(pos):get_string("owner")
+			if access == "private" and playername ~= owner then
+				return
+			end
+			
+			local num = get_button_num(pos, clicker, pointed_thing)
+			if num then
+				switch_on(pos, num)
+			end
+		end
+	end,
+
+	after_dig_node = function(pos, oldnode, oldmetadata)
+		techage.remove_node(pos, oldnode, oldmetadata)
+	end,
+
+	ta3_formspec = WRENCH_MENU,
+	on_place = lcdlib.on_place,
+	on_construct = lcdlib.on_construct,
+	on_destruct = lcdlib.on_destruct,
+	on_rotate = lcdlib.on_rotate,
+	groups = {cracky=2, crumbly=2},
+	is_ground_content = false,
+	sounds = default.node_sound_glass_defaults(),
+})

@@ -134,6 +134,16 @@ Insert destination node number(s)=
 
 Save=
 
+### button_4x.lua ###
+
+Access=
+Button protection=
+Command=
+Command to be sent=
+Destination block number=
+Number=
+TA4 4x Button=
+
 ### cart_detector.lua ###
 
 TA3 Cart Detector=
