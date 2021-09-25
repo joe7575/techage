@@ -107,7 +107,10 @@ local function send_cmnd(pos, num)
 	local own_num = meta:get_string("node_number")
 	local dest = meta:get_string("dest_number" .. num)
 	local cmnd = meta:get_string("command" .. num)
-	techage.send_single(own_num, dest, cmnd)
+	local owner = meta:get_string("owner")
+	if techage.check_numbers(dest, owner) then
+		techage.send_single(own_num, dest, cmnd)
+	end
 end
 
 local function button_update(pos, objref)
@@ -219,4 +222,13 @@ minetest.register_node("techage:ta4_button_4x", {
 	groups = {cracky=2, crumbly=2},
 	is_ground_content = false,
 	sounds = default.node_sound_glass_defaults(),
+})
+
+minetest.register_craft({
+	output = "techage:ta4_button_4x",
+	recipe = {
+		{"", "techage:ta4_button_off", "techage:ta4_button_off"},
+		{"", "techage:ta4_button_off", "techage:ta4_button_off"},
+		{"", "", ""},
+	},
 })
