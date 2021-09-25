@@ -136,13 +136,19 @@ Save=Speichern
 
 ### button_4x.lua ###
 
+Label=Beschriftung
+Label for the button=Beschriftung für die Taste
+TA4 4x Button=TA4 4x Taster
+
+### button_4x.lua ###
+### signallamp_4x.lua ###
+
 Access=Zugriff
 Button protection=Tastenschutz
 Command=Kommando
 Command to be sent=Zu sendender Befehl 
 Destination block number=Zielblocknummer 
 Number=Nummer
-TA4 4x Button=TA4 4x Taster
 
 ### cart_detector.lua ###
 
@@ -904,6 +910,10 @@ stopped=gestoppt
 TA4 Wind Turbine Signal Lamp=TA4 Windkraftanlagenlampe
 TechAge Signal Lamp=TechAge Signallampe
 TechAge Signal Lamp (can be colored)=TechAge Signallampe (kann gefärbt werden)
+
+### signallamp_4x.lua ###
+
+TA4 4x Signal Lamp=
 
 ### silicon.lua ###
 
