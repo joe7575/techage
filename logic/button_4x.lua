@@ -37,6 +37,13 @@ end
 
 local WRENCH_MENU = {
 	{
+		type = "ascii",
+		name = "label1",
+		label = S("Label") .. " 1",      
+		tooltip = S("Label for the button"),
+		default = "1",
+	},
+	{
 		type = "number",
 		name = "dest_number1",
 		label = S("Number") .. " 1",      
@@ -48,6 +55,13 @@ local WRENCH_MENU = {
 		name = "command1",
 		label = S("Command") .. " 1",      
 		tooltip = S("Command to be sent"),
+		default = "1",
+	},
+	{
+		type = "ascii",
+		name = "label2",
+		label = S("Label") .. " 2",      
+		tooltip = S("Label for the button"),
 		default = "1",
 	},
 	{
@@ -65,6 +79,13 @@ local WRENCH_MENU = {
 		default = "2",
 	},
 	{
+		type = "ascii",
+		name = "label3",
+		label = S("Label") .. " 3",      
+		tooltip = S("Label for the button"),
+		default = "1",
+	},
+	{
 		type = "number",
 		name = "dest_number3",
 		label = S("Number") .. " 3",      
@@ -77,6 +98,13 @@ local WRENCH_MENU = {
 		label = S("Command") .. " 3",      
 		tooltip = S("Command to be sent"),
 		default = "3",
+	},
+	{
+		type = "ascii",
+		name = "label4",
+		label = S("Label") .. " 4",      
+		tooltip = S("Label for the button"),
+		default = "1",
 	},
 	{
 		type = "number",
@@ -114,10 +142,12 @@ local function send_cmnd(pos, num)
 end
 
 local function button_update(pos, objref)
+	local meta = M(pos)
 	pos = vector.round(pos)
 	local nvm = techage.get_nvm(pos)
 	nvm.button = nvm.button or {}
-	local text = "<      " .. table.concat(nvm.text or {" "}, "\n<      ")
+	local tbl = {meta:get_string("label1"), " ",  meta:get_string("label2"), " ", meta:get_string("label3"), " ", meta:get_string("label4")}
+	local text = "<      " .. table.concat(tbl, "\n<      ")
 	local texture = lcdlib.make_multiline_texture("default", text, 96, 96, 7, "top", "#000", 6)
 	
 	if nvm.button[1] then
@@ -185,8 +215,10 @@ minetest.register_node("techage:ta4_button_4x", {
 		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("infotext", "TA4 4x Button " .. number)
-		local nvm = techage.get_nvm(pos)
-		nvm.text = {"1", "", "2", "", "3", "", "4"}
+		meta:set_string("label1", "B1")
+		meta:set_string("label2", "B2")
+		meta:set_string("label3", "B3")
+		meta:set_string("label4", "B4")
 		lcdlib.update_entities(pos)
 	end,
 
@@ -208,6 +240,10 @@ minetest.register_node("techage:ta4_button_4x", {
 				switch_on(pos, num)
 			end
 		end
+	end,
+
+	ta_after_formspec = function(pos, fields, playername)
+		lcdlib.update_entities(pos)
 	end,
 
 	after_dig_node = function(pos, oldnode, oldmetadata)

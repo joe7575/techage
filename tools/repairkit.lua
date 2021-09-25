@@ -179,6 +179,9 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 					minetest.show_formspec(playername, "techage:ta_formspec", 
 						menu.generate_formspec(pos, ndef, form_def, playername))
 				end)
+				if ndef.ta_after_formspec then
+					ndef.ta_after_formspec(pos, fields, playername)
+				end
 			end
 		end
 	end
