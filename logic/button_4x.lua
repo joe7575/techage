@@ -44,7 +44,7 @@ local WRENCH_MENU = {
 		default = "1",
 	},
 	{
-		type = "number",
+		type = "numbers",
 		name = "dest_number1",
 		label = S("Number") .. " 1",      
 		tooltip = S("Destination block number"),
@@ -65,7 +65,7 @@ local WRENCH_MENU = {
 		default = "1",
 	},
 	{
-		type = "number",
+		type = "numbers",
 		name = "dest_number2",
 		label = S("Number") .. " 2",      
 		tooltip = S("Destination block number"),
@@ -86,7 +86,7 @@ local WRENCH_MENU = {
 		default = "1",
 	},
 	{
-		type = "number",
+		type = "numbers",
 		name = "dest_number3",
 		label = S("Number") .. " 3",      
 		tooltip = S("Destination block number"),
@@ -107,7 +107,7 @@ local WRENCH_MENU = {
 		default = "1",
 	},
 	{
-		type = "number",
+		type = "numbers",
 		name = "dest_number4",
 		label = S("Number") .. " 4",      
 		tooltip = S("Destination block number"),
@@ -137,7 +137,7 @@ local function send_cmnd(pos, num)
 	local cmnd = meta:get_string("command" .. num)
 	local owner = meta:get_string("owner")
 	if techage.check_numbers(dest, owner) then
-		techage.send_single(own_num, dest, cmnd)
+		techage.send_multi(own_num, dest, cmnd)
 	end
 end
 
