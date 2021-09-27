@@ -183,6 +183,7 @@ function NodeStates:new(attr)
 		stop_node = attr.stop_node,
 		formspec_func = attr.formspec_func,
 		on_state_change = attr.on_state_change,
+		quick_start = attr.quick_start,
 	}
 	setmetatable(o, self)
 	self.__index = self
@@ -272,6 +273,12 @@ function NodeStates:start(pos, nvm)
 			self.on_state_change(pos, state, RUNNING)
 		end
 		start_timer_delayed(pos, self.cycle_time)
+		
+		print("start", self.quick_start)
+		if self.quick_start then
+			print("quick_start")
+			self.quick_start(pos, 0)
+		end
 		return true
 	end
 	return false

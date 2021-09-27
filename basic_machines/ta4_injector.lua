@@ -175,7 +175,7 @@ local function pushing(pos, crd, meta, nvm)
 	end
 end
 
-local function keep_running(pos, elapsed)
+local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
 	pushing(pos, crd, M(pos), nvm)
@@ -253,6 +253,7 @@ local _, node_name_ta3, node_name_ta4 =
 		standby_ticks = STANDBY_TICKS,
 		formspec = formspec,
 		tubing = tubing,
+		quick_start = node_timer,
 		after_place_node = function(pos, placer)
 			local meta = M(pos)
 			local node = minetest.get_node(pos)
@@ -268,7 +269,7 @@ local _, node_name_ta3, node_name_ta4 =
 		allow_metadata_inventory_take = allow_metadata_inventory_take,
 		allow_metadata_inventory_move = function() return 0 end,
 		on_receive_fields = on_receive_fields,
-		node_timer = keep_running,
+		node_timer = node_timer,
 		on_rotate = screwdriver.disallow,
 		
 		groups = {choppy=2, cracky=2, crumbly=2},

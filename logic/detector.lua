@@ -19,14 +19,23 @@ local NDEF = function(pos) return (minetest.registered_nodes[techage.get_node_lv
 
 local logic = techage.logic
 local BLOCKING_TIME = 8 -- seconds
+local ON_TIME = 1
 
 local WRENCH_MENU = {
+	{
+		type = "dropdown",
+		choices = "1,2,4,6,8,12,16",
+		name = "ontime",
+		label = S("On Time") .. " [s]",      
+		tooltip = S("The time between the 'on' and 'off' commands."),
+		default = "1",
+	},
 	{
 		type = "dropdown",
 		choices = "2,4,6,8,12,16,20",
 		name = "blockingtime",
 		label = S("Blocking Time") .. " [s]",      
-		tooltip = S("Waiting time between two 'on' commands"),
+		tooltip = S("The time after the 'off' command\nuntil the next 'on' command is accepted."),
 		default = "8",
 	},
 	{
@@ -48,8 +57,11 @@ local function switch_on(pos)
 		else
 			logic.swap_node(pos, "techage:ta4_detector_on")
 		end
-		logic.send_on(pos, M(pos), 1)
-		mem.time = t + (tonumber(M(pos):get_string("blockingtime")) or BLOCKING_TIME)
+		local meta = M(pos)
+		local on_time = math.max(meta:get_int("ontime"), ON_TIME)
+		local blocking_time = tonumber(meta:get_string("blockingtime")) or BLOCKING_TIME
+		logic.send_on(pos, meta, on_time)
+		mem.time = t + blocking_time + on_time
 	end
 end
 

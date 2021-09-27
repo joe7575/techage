@@ -228,9 +228,11 @@ TA2 Cylinder=TA2 Zylinder
 
 Configured Items=Konfigurierte Gegenstände
 Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Items, die einen 'on'-Kommando generieren.@nWenn leer, generieren alle übergebenen Items einen 'on'-Befehl.
+On Time=ON Zeit
 TA3 Detector=TA3 Detektor
 TA4 Detector=TA4 Detektor
-Waiting time between two 'on' commands=Wartezeit zwischen zwei 'on'-Kommandos
+The time after the 'off' command@nuntil the next 'on' command is accepted.=Die Zeit nach dem 'off' Kommando,@nbis das nächste 'on' Kommando akzeptiert wird.
+The time between the 'on' and 'off' commands.=Die Zeit zwischen den 'on' und 'off' Kommandos.
 
 ### detector.lua ###
 ### logic_block.lua ###
@@ -1159,5 +1161,3 @@ is a suitable place for a wind turbine!=ist ein geeigneter Ort für eine Windkra
 
 
 ##### not used anymore #####
-
-Maximum command transmission frequency=Maximale Sendefrequenz für Kommandos

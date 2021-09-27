@@ -152,6 +152,7 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				formspec_func = tNode.formspec,
 				on_state_change = tNode.on_state_change,
 				can_start = tNode.can_start,
+				quick_start = tNode.quick_start,
 				has_power = tNode.has_power or power_used and has_power or nil,
 				start_node = power_used and start_node or nil,
 				stop_node = power_used and stop_node or nil,

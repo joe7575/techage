@@ -228,9 +228,11 @@ TA2 Cylinder=
 
 Configured Items=
 Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=
+On Time=
 TA3 Detector=
 TA4 Detector=
-Waiting time between two 'on' commands=
+The time after the 'off' command@nuntil the next 'on' command is accepted.=
+The time between the 'on' and 'off' commands.=
 
 ### detector.lua ###
 ### logic_block.lua ###
