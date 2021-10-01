@@ -274,7 +274,7 @@ function NodeStates:start(pos, nvm)
 		end
 		start_timer_delayed(pos, self.cycle_time)
 		
-		if self.quick_start then
+		if self.quick_start and state == STOPPED then
 			self.quick_start(pos, 0)
 		end
 		return true

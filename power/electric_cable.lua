@@ -178,7 +178,7 @@ minetest.register_craft({
 })
 
 techage.ElectricCable = Cable
-techage.ELE1_MAX_CABLE_LENGTH = ELE1_MAX_CABLE_LENGTH
+techage.ELE1_MAX_CABLE_LENGTH = ELE1_MAX_CABLE_LENGHT
 
 
 for idx, color in ipairs({ "white", "grey", "black", "brown", "yellow", "red", "dark_green", "blue" }) do
