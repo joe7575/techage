@@ -86,14 +86,14 @@ end
 
 
 -- Attach player/mob to given parent object (block)
-local function attach_single_object(parent, obj, dir)
+local function attach_single_object(parent, obj, dir, height)
 	local self = parent:get_luaentity()
 	local rot = obj:get_rotation() or {x=0, y=0, z=0}
 	local prop = obj:get_properties()
 	local res = obj:get_attach()
 	if not res and prop and prop.collisionbox then
 		dir = table.copy(dir)
-		dir.y = dir.y - 0.5 - prop.collisionbox[2]
+		dir.y = dir.y - 1 + height - prop.collisionbox[2]
 		dir = vector.multiply(dir, 29)
 		obj:set_attach(parent, "", dir, rot, true)
 		obj:set_properties({visual_size = {x = 2.9, y = 2.9}})
@@ -108,7 +108,8 @@ local function attach_single_object(parent, obj, dir)
 end
 
 -- Attach all entities around to the parent object (block).
-local function attach_objects(pos, parent, dir)
+-- height is the parrwent block height (-0.5 to 0.5)
+local function attach_objects(pos, parent, dir, height)
 	local pos1 = vector.add(pos, dir)
 	local self = parent:get_luaentity()
 	self.players = self.players or {}
@@ -120,7 +121,7 @@ local function attach_objects(pos, parent, dir)
 			if entity.name == "__builtin:item" then  -- dropped items
 				--obj:set_attach(objref, "", {x=0, y=0, z=0}, {x=0, y=0, z=0}, true) -- hier kracht es
 			elseif entity.name ~= "techage:move_item" then
-				attach_single_object(parent, obj, dir)
+				attach_single_object(parent, obj, dir, height)
 			end
 		elseif obj:is_player() then
 			attach_single_object(parent, obj, dir)
@@ -380,9 +381,12 @@ local function mark_position(name, pos)
 end
 
 local function get_poslist(name)
+	local idx = 0
 	local lst = {}
 	for _,item in ipairs(MarkedNodes[name] or {}) do
 		table.insert(lst, item.pos)
+		idx = idx + 1
+		if idx >= 16 then break end
 	end
 	return lst
 end
@@ -459,6 +463,13 @@ local WRENCH_MENU = {
 		tooltip = S("Number of the previous movecontroller."),
 		default = "",
 	},
+	{
+		type = "float",
+		name = "height",
+		label = S("Move block height"),      
+		tooltip = S("Value in the range of -0.5 to 0.5"),
+		default = "0.5",
+	},
 }
 
 local function formspec(nvm, meta)
@@ -480,15 +491,15 @@ local function formspec(nvm, meta)
 		"label[0.3,4.3;" .. status .. "]"
 end
 
-local function move_node(pos, pos1, pos2, max_speed, handover)
+local function move_node(pos, pos1, pos2, max_speed, handover, height)
 	local meta = M(pos)
 	local dir = determine_dir(pos1, pos2)
 	local obj = node_to_entity(pos1, handover)
 	
-	attach_objects(pos1, obj, {x=0, y=1, z=0})
+	attach_objects(pos1, obj, {x=0, y=1, z=0}, height)
 	if dir.y == 0 then
 		if (dir.x ~= 0 and dir.z == 0) or (dir.x == 0 and dir.z ~= 0) then
-			attach_objects(pos1, obj, dir)
+			attach_objects(pos1, obj, dir, height)
 		end
 	end
 	move_entity(obj, pos2, dir, max_speed)
@@ -498,6 +509,8 @@ local function move_nodes(pos, lpos1, lpos2, handover)
 	local meta = M(pos)
 	local owner = meta:get_string("owner")
 	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
+	local height = meta:contains("height") and meta:get_float("height") or 0.5
+	height = techage.in_range(height, -1, 1)
 	
 	if #lpos1 == #lpos2 then
 		for idx = 1, #lpos1 do
@@ -505,7 +518,7 @@ local function move_nodes(pos, lpos1, lpos2, handover)
 			local pos2 = lpos2[idx]
 			if not minetest.is_protected(pos1, owner) and not minetest.is_protected(pos2, owner) then
 				if is_simple_node(pos1) and is_air_like(pos2) then
-					move_node(pos, pos1, pos2, max_speed, handover)
+					move_node(pos, pos1, pos2, max_speed, handover, height)
 				else
 					if not is_simple_node(pos1) then
 						meta:set_string("status", S("No valid node at the start position"))
@@ -688,7 +701,10 @@ minetest.register_node("techage:ta4_movecontroller", {
 		end
 	end,
 	
-	after_dig_node = function(pos, oldnode, oldmetadata)
+	
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		local name = digger:get_player_name()
+		unmark_all(name)
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 

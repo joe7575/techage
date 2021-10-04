@@ -321,7 +321,9 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 		return inv:is_empty("main")
 	end,
 	
-	after_dig_node = function(pos, oldnode, oldmetadata)
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		local name = digger:get_player_name()
+		unmark_all(name)
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 
