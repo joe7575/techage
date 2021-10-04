@@ -230,7 +230,7 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 		local meta = M(pos)
 		local inv = meta:get_inventory()
 		inv:set_size('main', 16)
-		logic.after_place_node(pos, placer, "techage:ta3_doorcontroller", S("TA3 Door Controller II"))
+		logic.after_place_node(pos, placer, "techage:ta3_doorcontroller2", S("TA3 Door Controller II"))
 		logic.infotext(meta, S("TA3 Door Controller II"))
 		local nvm = techage.get_nvm(pos)
 		meta:set_string("formspec", formspec1(nvm, meta))

@@ -67,6 +67,15 @@ function techage.logic.send_on(pos, meta, time)
 	return own_num == numbers
 end
 
+function techage.logic.send_cmnd(pos, meta, cmnd, time)
+	local own_num = meta:get_string("node_number") or ""
+	local numbers = meta:get_string("numbers") or ""
+	if time and time > 0 then
+		minetest.get_node_timer(pos):start(time)
+	end
+	techage.send_multi(own_num, numbers, cmnd)
+end
+
 function techage.logic.send_off(pos, meta)
 	local own_num = meta:get_string("node_number") or ""
 	local numbers = meta:get_string("numbers") or ""

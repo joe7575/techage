@@ -19,6 +19,16 @@ local NDEF = function(pos) return (minetest.registered_nodes[techage.get_node_lv
 
 local logic = techage.logic
 
+local WRENCH_MENU = {
+	{
+		type = "ascii",
+		name = "command",
+		label = S("Command"),      
+		tooltip = S("Command to be sent"),
+		default = "on",
+	},
+}
+
 local function switch_on(pos)
 	local cycle_time = M(pos):get_int("cycle_time")
 	local name = techage.get_node_lvm(pos).name
@@ -27,7 +37,9 @@ local function switch_on(pos)
 	elseif name == "techage:ta4_button_off" then
 		logic.swap_node(pos, "techage:ta4_button_on")
 	end
-	logic.send_on(pos, M(pos), cycle_time)
+	local meta = M(pos)
+	local cmnd = meta:contains("command") and meta:get_string("command") or "on"
+	logic.send_cmnd(pos, M(pos), cmnd, cycle_time)
 	minetest.sound_play("techage_button", {
 			pos = pos,
 			gain = 0.5,
@@ -249,6 +261,7 @@ minetest.register_node("techage:ta4_button_off", {
 		meta:set_int("cycle_time", 0)
 	end,
 
+	ta4_formspec = WRENCH_MENU,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick_on,
 	techage_set_numbers = techage_set_numbers,
