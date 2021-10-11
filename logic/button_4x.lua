@@ -39,6 +39,14 @@ end
 
 local WRENCH_MENU = {
 	{
+		type = "dropdown",
+		choices = "button,switch",
+		name = "type",
+		label = S("Type"),
+		tooltip = S("Momentary button or on/off switch"),
+		default = "1",
+	},
+	{
 		type = "ascii",
 		name = "label1",
 		label = S("Label") .. " 1",      
@@ -56,7 +64,7 @@ local WRENCH_MENU = {
 		type = "ascii",
 		name = "command1",
 		label = S("Command") .. " 1",      
-		tooltip = S("Command to be sent"),
+		tooltip = S("Command to be sent (ignored for switches)"),
 		default = "1",
 	},
 	{
@@ -77,7 +85,7 @@ local WRENCH_MENU = {
 		type = "ascii",
 		name = "command2",
 		label = S("Command") .. " 2",      
-		tooltip = S("Command to be sent"),
+		tooltip = S("Command to be sent (ignored for switches)"),
 		default = "2",
 	},
 	{
@@ -98,7 +106,7 @@ local WRENCH_MENU = {
 		type = "ascii",
 		name = "command3",
 		label = S("Command") .. " 3",      
-		tooltip = S("Command to be sent"),
+		tooltip = S("Command to be sent (ignored for switches)"),
 		default = "3",
 	},
 	{
@@ -119,7 +127,7 @@ local WRENCH_MENU = {
 		type = "ascii",
 		name = "command4",
 		label = S("Command") .. " 4",      
-		tooltip = S("Command to be sent"),
+		tooltip = S("Command to be sent (ignored for switches)"),
 		default = "4",
 	},
 	{
@@ -132,12 +140,15 @@ local WRENCH_MENU = {
 	},
 }
 
-local function send_cmnd(pos, num)
+local function send_cmnd(pos, num, cmd)
 	local meta = M(pos)
 	local own_num = meta:get_string("node_number")
 	local dest = meta:get_string("dest_number" .. num)
-	local s = meta:get_string("command" .. num)
-	local command, payload = unpack(string.split(s, " ", false, 1))
+	local command, payload = cmd, nil
+	if not cmd then
+		local s = meta:get_string("command" .. num)
+		command, payload = unpack(string.split(s, " ", false, 1))
+	end
 	local owner = meta:get_string("owner")
 	if techage.check_numbers(dest, owner) then
 		techage.send_multi(own_num, dest, command, payload)
@@ -170,6 +181,7 @@ end
 
 local function switch_off(pos, num)
 	local nvm = techage.get_nvm(pos)
+	nvm.button = nvm.button or {}
 	nvm.button[num] = nil
 	lcdlib.update_entities(pos)
 end
@@ -178,16 +190,7 @@ local function switch_on(pos, num)
 	local nvm = techage.get_nvm(pos)
 	nvm.button = nvm.button or {}
 	nvm.button[num] = true
-	
-	send_cmnd(pos, num)
 	lcdlib.update_entities(pos)
-	minetest.after(0.5, switch_off, pos, num)
-	
-	minetest.sound_play("techage_button", {
-		pos = pos,
-		gain = 0.5,
-		max_hear_distance = 5,
-	})
 end
 
 local lcd_box = {-8/16, -8/16, 7.75/16, 8/16, 8/16, 8/16}
@@ -218,6 +221,7 @@ minetest.register_node("techage:ta4_button_4x", {
 		meta:set_string("node_number", number)
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("infotext", "TA4 4x Button " .. number)
+		meta:set_string("type", "button")
 		meta:set_string("label1", "B1")
 		meta:set_string("label2", "B2")
 		meta:set_string("label3", "B3")
@@ -240,7 +244,27 @@ minetest.register_node("techage:ta4_button_4x", {
 			
 			local num = get_button_num(pos, clicker, pointed_thing)
 			if num then
-				switch_on(pos, num)
+				local typ = M(pos):get_string("type")
+				if typ == "switch" then
+					local nvm = techage.get_nvm(pos)
+					nvm.button = nvm.button or {}
+					if nvm.button[num] then
+						switch_off(pos, num)
+						send_cmnd(pos, num, "off")
+					else
+						switch_on(pos, num)
+						send_cmnd(pos, num, "on")
+					end
+				else
+					switch_on(pos, num)
+					send_cmnd(pos, num)
+					minetest.after(0.5, switch_off, pos, num)
+				end
+				minetest.sound_play("techage_button", {
+					pos = pos,
+					gain = 0.5,
+					max_hear_distance = 5,
+				})
 			end
 		end
 	end,
