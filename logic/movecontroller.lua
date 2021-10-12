@@ -93,7 +93,7 @@ local function attach_single_object(parent, obj, dir, height)
 	local res = obj:get_attach()
 	if not res and prop and prop.collisionbox then
 		dir = table.copy(dir)
-		dir.y = dir.y - 1 + height - prop.collisionbox[2]
+		dir.y = dir.y - 1.5 + height - prop.collisionbox[2]
 		dir = vector.multiply(dir, 29)
 		obj:set_attach(parent, "", dir, rot, true)
 		obj:set_properties({visual_size = {x = 2.9, y = 2.9}})
@@ -467,8 +467,8 @@ local WRENCH_MENU = {
 		type = "float",
 		name = "height",
 		label = S("Move block height"),      
-		tooltip = S("Value in the range of -0.5 to 0.5"),
-		default = "0.5",
+		tooltip = S("Value in the range of 0.0 to 1.0"),
+		default = "1.0",
 	},
 }
 
@@ -509,8 +509,8 @@ local function move_nodes(pos, lpos1, lpos2, handover)
 	local meta = M(pos)
 	local owner = meta:get_string("owner")
 	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
-	local height = meta:contains("height") and meta:get_float("height") or 0.5
-	height = techage.in_range(height, -1, 1)
+	local height = meta:contains("height") and meta:get_float("height") or 1
+	height = techage.in_range(height, 0, 1)
 	
 	if #lpos1 == #lpos2 then
 		for idx = 1, #lpos1 do
@@ -738,14 +738,14 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 	end,
 })		
 
-minetest.register_craft({
-	output = "techage:ta4_movecontroller",
-	recipe = {
-		{"techage:aluminum", "group:wood","techage:aluminum"},
-		{"default:mese_crystal_fragment", "techage:ta4_wlanchip", "default:mese_crystal_fragment"},
-		{"group:wood", "basic_materials:gear_steel", "group:wood"},
-	},
-})
+--minetest.register_craft({
+--	output = "techage:ta4_movecontroller",
+--	recipe = {
+--		{"techage:aluminum", "group:wood","techage:aluminum"},
+--		{"default:mese_crystal_fragment", "techage:ta4_wlanchip", "default:mese_crystal_fragment"},
+--		{"group:wood", "basic_materials:gear_steel", "group:wood"},
+--	},
+--})
 
 minetest.register_on_joinplayer(function(player)
 	unlock_player(player)

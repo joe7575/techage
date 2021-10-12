@@ -159,10 +159,10 @@ local function settings_menu(pos, playername)
 end
 
 minetest.register_on_player_receive_fields(function(player, formname, fields)
-    if formname ~= "techage:ta_formspec" then
-        return false
-    end
-
+	if formname ~= "techage:ta_formspec" then
+		return false
+	end
+	
 	local playername = player:get_player_name()
 	local pos = context[playername]
 	if pos then

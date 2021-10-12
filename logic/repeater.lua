@@ -103,7 +103,9 @@ techage.register_node({"techage:ta3_repeater"}, {
 			return false
 		else
 			local numbers = M(pos):get_string("numbers") or ""
+			techage.counting_start(M(pos):get_string("owner"))
 			techage.send_multi(src, numbers, topic, payload)
+			techage.counting_stop()
 		end
 	end,
 	on_node_load = function(pos)

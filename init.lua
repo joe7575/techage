@@ -73,6 +73,7 @@ end
 -- Basis features
 local MP = minetest.get_modpath("techage")
 dofile(MP.."/basis/lib.lua")  -- helper functions
+dofile(MP.."/basis/counting.lua")  -- command counting
 dofile(MP.."/basis/fake_player.lua")  -- dummy player object
 dofile(MP.."/basis/node_store.lua")
 dofile(MP.."/basis/gravel_lib.lua")  -- ore probability
@@ -263,6 +264,7 @@ dofile(MP.."/logic/repeater.lua")
 dofile(MP.."/logic/programmer.lua")
 dofile(MP.."/logic/signallamp.lua")
 dofile(MP.."/logic/sequencer.lua")
+dofile(MP.."/logic/sequencer2.lua")
 dofile(MP.."/logic/timer.lua")
 dofile(MP.."/logic/lua_logic.lua")  -- old
 dofile(MP.."/logic/logic_block.lua")  -- new

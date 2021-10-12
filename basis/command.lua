@@ -27,6 +27,7 @@ local string_split = string.split
 local NodeDef = techage.NodeDef
 local Tube = techage.Tube
 local is_cart_available = minecart.is_nodecart_available
+local techage_counting_hit = techage.counting_hit
 
 -------------------------------------------------------------------
 -- Database
@@ -332,6 +333,7 @@ function techage.send_multi(src, numbers, topic, payload)
 		if ninfo and ninfo.name and ninfo.pos then
 			local ndef = NodeDef[ninfo.name]
 			if ndef and ndef.on_recv_message then
+				techage_counting_hit()
 				ndef.on_recv_message(ninfo.pos, src, topic, payload)
 			end
 		end
@@ -344,6 +346,7 @@ function techage.send_single(src, number, topic, payload)
 	if ninfo and ninfo.name and ninfo.pos then
 		local ndef = NodeDef[ninfo.name]
 		if ndef and ndef.on_recv_message then
+			techage_counting_hit()
 			return ndef.on_recv_message(ninfo.pos, src, topic, payload)
 		end
 	end

@@ -144,7 +144,9 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 		for idx,elem in ipairs(form_def) do
 			if elem.type == "number" then	
 				if fields[elem.name] then
-					if fields[elem.name]:find("^[%d ]+$") then
+					if fields[elem.name] == "" then 
+						meta:set_string(elem.name, "")
+					elseif fields[elem.name]:find("^[%d ]+$") then
 						local val = tonumber(fields[elem.name])
 						if value_check(elem, val) then 
 							meta:set_int(elem.name, val)
@@ -158,14 +160,18 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 				end
 			elseif elem.type == "numbers" then	
 				if fields[elem.name] then
-					if fields[elem.name]:find("^[%d ]+$") and value_check(elem, fields[elem.name]) then 
+					if fields[elem.name] == "" then 
+						meta:set_string(elem.name, "")
+					elseif fields[elem.name]:find("^[%d ]+$") and value_check(elem, fields[elem.name]) then 
 						meta:set_string(elem.name, fields[elem.name])
 					else
 						res = false
 					end
 				end
 			elseif elem.type == "float" then
-				if fields[elem.name] then
+				if fields[elem.name] == ""then
+					meta:set_string(elem.name, "")
+				elseif fields[elem.name] then
 					local val = tonumber(fields[elem.name])
 					if val and value_check(elem, val) then 
 						meta:set_string(elem.name, val)
@@ -174,7 +180,9 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 					end
 				end
 			elseif elem.type == "ascii" then	
-				if fields[elem.name] then
+				if fields[elem.name] == ""then
+					meta:set_string(elem.name, "")
+				elseif fields[elem.name] then
 					if value_check(elem, fields[elem.name]) then
 						meta:set_string(elem.name, fields[elem.name])
 					else

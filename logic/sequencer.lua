@@ -106,6 +106,7 @@ local function check_rules(pos, elapsed)
 	nvm.running = nvm.running or false
 	nvm.index = nvm.index or 1
 	nvm.endless = nvm.endless or false
+	techage.counting_start(M(pos):get_string("owner"))
 	while true do -- process all rules as long as offs == 0
 		local rule = nvm.rules[nvm.index]
 		local offs = tonumber(nvm.rules[nvm.index].offs or 1)
@@ -119,12 +120,15 @@ local function check_rules(pos, elapsed)
 			if offs > 0 then
 				-- we can't restart the timer within the function om_timer
 				minetest.after(0, restart_timer, pos, offs)
+				techage.counting_stop()
 				return false
 			end
 		else
+			techage.counting_stop()
 			return stop_the_sequencer(pos)
 		end
 	end
+	techage.counting_stop()
 	return false
 end
 

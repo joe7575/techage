@@ -130,6 +130,7 @@ end
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	local outdir = tonumber(oldmetadata.fields.outdir or 0)
 	Cable:after_dig_node(pos, {outdir})        
+	techage.remove_node(pos, oldnode, oldmetadata)
 	techage.del_mem(pos)
 end
 
