@@ -253,6 +253,14 @@ function techage.remove_node(pos, oldnode, oldmetadata)
 	end
 end
 
+-- Repairs the node number after it was erased by `backend.delete_invalid_entries`
+function techage.repair_number(pos)
+	local number = techage.get_node_number(pos)
+	if number then
+		backend.set_nodepos(number, pos)
+	end
+end
+
 
 -------------------------------------------------------------------
 -- Node register function
