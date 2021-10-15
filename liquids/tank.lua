@@ -53,6 +53,9 @@ end
 
 local function take_liquid(pos, indir, name, amount)
 	local nvm = techage.get_nvm(pos)
+	if (M(pos):get_int("keep_assignment") or 0) == 1 then
+		amount = math.max(math.min(amount, ((nvm.liquid or {}).amount or 0) - 1), 0)
+	end
 	amount, name = liquid.srv_take(nvm, name, amount)
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", techage.liquid.formspec(pos, nvm))
@@ -218,6 +221,9 @@ minetest.register_node("techage:ta4_tank", {
 		end
 		if fields.public then
 			M(pos):set_int("public", fields.public == "true" and 1 or 0)
+		end
+		if fields.keep_assignment then
+			M(pos):set_int("keep_assignment", fields.keep_assignment == "true" and 1 or 0)
 		end
 	end,
 	on_timer = node_timer,
