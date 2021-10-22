@@ -31,10 +31,8 @@ end
 local function command(s)
 	local num, cmd, pld = unpack(string.split(s, " ", false, 2))
 	if not num or not cmd then
-		print("error: Invalid command")
-		return
+		return "Invalid command!"
 	end
-	print(num, cmd, pld)
 	return {number = num, cmnd = cmd, payload = pld}
 end
 
@@ -62,14 +60,12 @@ local function compile(s, tRes)
 	local old_idx = 0
 	local start_idx
 	
-	print("Compile")
 	for i, line in ipairs(strsplit(s)) do
 		line = trim(line)
 		line = string.split(line, "--", true, 1)[1] or ""
 		if line ~= "" then
 			local idx, cmnd1, cmnd2 = unpack(string.split(line, " ", false, 2))
 			idx = tonumber(string.match(idx, "^%[(%d+)%]$"))
-			print(idx, old_idx)
 			if not idx then
 				return exception(tRes, i, "Syntax error!")
 			end
@@ -81,23 +77,29 @@ local function compile(s, tRes)
 				tCode[old_idx].next_idx = idx
 			end
 			if cmnd1 == "send" then
-				tCode[idx] = command(cmnd2)
+				local res = command(cmnd2)
+				if type(res) == "string" then
+					return exception(tRes, i, res)
+				end
+				tCode[idx] = res
 			elseif cmnd1 == "goto" then
 				tCode[idx] = {next_idx = tonumber(cmnd2) or 1}
+			elseif cmnd1 == "stop" then
+				tCode[idx] = false
 			elseif cmnd1 == nil then
 				tCode[idx] = {}
 			end
 			old_idx = idx
 		end
 	end
-	-- return {
+	-- Returns: 
+	-- {
 	--   start_idx = 1,
 	--   tCode = {
 	--     <idx> = {number = <number>, cmnd = <string>, payload = <data>, next_idx = <idx>},
 	--     ...
 	--   },
 	-- }
-	print(dump(tCode))
 	return {start_idx=start_idx, tCode=tCode}
 end
 
@@ -160,7 +162,6 @@ local function restart_timer(pos, time)
 end	
 
 local function node_timer(pos, elapsed)
-	print("node_timer")
 	local nvm = techage.get_nvm(pos)
 	if nvm.running then
 		local mem = techage.get_mem(pos)
@@ -169,7 +170,8 @@ local function node_timer(pos, elapsed)
 			mem.idx = mem.idx or mem.code.start_idx
 			local code = mem.code.tCode[mem.idx]
 			if code and code.cmnd then 
-				print(code.number, code.cmnd, code.payload, code.next_idx)
+				local src = M(pos):get_string("node_number") 
+				techage.send_single(src, code.number, code.cmnd, code.payload)
 			end
 			if code and code.next_idx then
 				local offs = code.next_idx - mem.idx
@@ -186,36 +188,37 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	
-	--print(dump(fields))
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
 	nvm.running = nvm.running or false
 	
-	if fields.help then
-		meta:set_string("formspec", formspec_help(nvm, meta))
-		return
-	elseif fields.edit then
-		meta:set_string("formspec", formspec(nvm, meta))
-		return
-	end
-	
-	if fields.save then
+	if fields.stop then
 		nvm.running = false
-		meta:set_string("text", fields.text or "")
-		mem.code = nil
-		mem.idx = nil
-	elseif fields.start then
-		if check_syntax(meta) then
-			nvm.running = true
+		minetest.get_node_timer(pos):stop()
+	elseif not nvm.running then
+		if fields.help then
+			meta:set_string("formspec", formspec_help(nvm, meta))
+			return
+		elseif fields.edit then
+			meta:set_string("formspec", formspec(nvm, meta))
+			return
+		end
+		
+		if fields.save then
+			nvm.running = false
 			meta:set_string("text", fields.text or "")
 			mem.code = nil
 			mem.idx = nil
-			minetest.get_node_timer(pos):start(0.5)
+		elseif fields.start then
+			if check_syntax(meta) then
+				nvm.running = true
+				meta:set_string("text", fields.text or "")
+				mem.code = nil
+				mem.idx = nil
+				minetest.get_node_timer(pos):start(0.5)
+			end
 		end
-	elseif fields.stop then
-		nvm.running = false
-		minetest.get_node_timer(pos):stop()
 	end
 	meta:set_string("formspec", formspec(nvm, meta))
 end
@@ -257,34 +260,30 @@ minetest.register_node("techage:ta4_sequencer", {
 minetest.register_craft({
 	output = "techage:ta4_sequencer",
 	recipe = {
-		{"group:wood", "group:wood", ""},
-		{"default:mese_crystal", "techage:wlanchip", ""},
-		{"group:wood", "group:wood", ""},
+		{"default:steel_ingot", "dye:blue", "default:steel_ingot"},
+		{"techage:ta4_ramchip", "default:mese_crystal", "techage:wlanchip"},
+		{"techage:aluminum", "group:wood","techage:aluminum"},
 	},
 })
 
+local INFO = [[Commands: 'goto <num>', 'stop']]
+
 techage.register_node({"techage:ta4_sequencer"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		if topic == "on" then
-			start_the_sequencer(pos)
-		elseif topic == "off" then
-			-- do not stop immediately
+		if topic == "goto" then
+			local mem = techage.get_mem(pos)
 			local nvm = techage.get_nvm(pos)
-			if not nvm.running then
-				nvm.endless = not (nvm.endless or false)
-			else
-				nvm.endless = false
-			end
-		elseif topic == "pause" then
-			stop_the_sequencer(pos)
+			nvm.running = true
+			mem.idx = tonumber(payload or 1) or 1
+			restart_timer(pos, 0.1)
+		elseif topic == "stop" then
+			local nvm = techage.get_nvm(pos)
+			nvm.running = false
+			minetest.get_node_timer(pos):stop()
+		elseif topic == "info" then
+			return INFO
 		else
 			return "unsupported"
-		end
-	end,
-	on_node_load = function(pos)
-		local nvm = techage.get_nvm(pos)
-		if nvm.running then
-			minetest.get_node_timer(pos):start(1)
 		end
 	end,
 })		

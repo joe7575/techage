@@ -425,3 +425,5 @@ for _, name in ipairs(ProtectorDoors) do
 		logic.register_doorcontroller_nodes({name .. "_" .. postfix})
 	end
 end
+
+logic.SimpleNodes = RegisteredNodes

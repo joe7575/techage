@@ -18,20 +18,22 @@ local S = techage.S
 			
 local function get_button_num(pos, clicker, pointed_thing)
 	-- use the node behind the button to get better results
-	local offs = vector.subtract(pointed_thing.under, pointed_thing.above)
-	pointed_thing.under = vector.add(pointed_thing.under, offs)
-	pointed_thing.above = vector.add(pointed_thing.above, offs)
-	local pos1 = minetest.pointed_thing_to_face_pos(clicker, pointed_thing)
-	local y = pos1.y - pos.y
-	
-	if y < -0.3 then
-		return 4
-	elseif y < -0.03 and y > -0.22 then
-		return 3
-	elseif y > 0.03 and y < 0.22 then
-		return 2
-	elseif y > 0.3 then
-		return 1
+	if clicker and pointed_thing then
+		local offs = vector.subtract(pointed_thing.under, pointed_thing.above)
+		pointed_thing.under = vector.add(pointed_thing.under, offs)
+		pointed_thing.above = vector.add(pointed_thing.above, offs)
+		local pos1 = minetest.pointed_thing_to_face_pos(clicker, pointed_thing)
+		local y = pos1.y - pos.y
+		
+		if y < -0.3 then
+			return 4
+		elseif y < -0.03 and y > -0.22 then
+			return 3
+		elseif y > 0.03 and y < 0.22 then
+			return 2
+		elseif y > 0.3 then
+			return 1
+		end
 	end
 end
 
@@ -134,10 +136,11 @@ local function send_cmnd(pos, num)
 	local meta = M(pos)
 	local own_num = meta:get_string("node_number")
 	local dest = meta:get_string("dest_number" .. num)
-	local cmnd = meta:get_string("command" .. num)
+	local s = meta:get_string("command" .. num)
+	local command, payload = unpack(string.split(s, " ", false, 1))
 	local owner = meta:get_string("owner")
 	if techage.check_numbers(dest, owner) then
-		techage.send_multi(own_num, dest, cmnd)
+		techage.send_multi(own_num, dest, command, payload)
 	end
 end
 

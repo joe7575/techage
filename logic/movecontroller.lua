@@ -88,12 +88,12 @@ end
 -- Attach player/mob to given parent object (block)
 local function attach_single_object(parent, obj, dir, height)
 	local self = parent:get_luaentity()
-	local rot = obj:get_rotation() or {x=0, y=0, z=0}
+	local rot = {x=0, y=0, z=0}
 	local prop = obj:get_properties()
 	local res = obj:get_attach()
 	if not res and prop and prop.collisionbox then
 		dir = table.copy(dir)
-		dir.y = dir.y - 1.5 + height - prop.collisionbox[2]
+		dir.y = dir.y - 1.5 + (height or 1) - prop.collisionbox[2]
 		dir = vector.multiply(dir, 29)
 		obj:set_attach(parent, "", dir, rot, true)
 		obj:set_properties({visual_size = {x = 2.9, y = 2.9}})
@@ -108,23 +108,25 @@ local function attach_single_object(parent, obj, dir, height)
 end
 
 -- Attach all entities around to the parent object (block).
--- height is the parrwent block height (-0.5 to 0.5)
+-- height is the parent block height (0.1 to 1.0)
 local function attach_objects(pos, parent, dir, height)
 	local pos1 = vector.add(pos, dir)
 	local self = parent:get_luaentity()
 	self.players = self.players or {}
 	self.entities = self.entities or {}
 
-	for _, obj in pairs(minetest.get_objects_inside_radius(pos1, 0.8)) do
+	print("pos1", P2S(pos1))
+	for _, obj in pairs(minetest.get_objects_inside_radius(pos1, 0.9)) do
 		local entity = obj:get_luaentity()
 		if entity then
 			if entity.name == "__builtin:item" then  -- dropped items
 				--obj:set_attach(objref, "", {x=0, y=0, z=0}, {x=0, y=0, z=0}, true) -- hier kracht es
 			elseif entity.name ~= "techage:move_item" then
-				attach_single_object(parent, obj, dir, height)
+				attach_single_object(parent, obj, dir, 1)
 			end
 		elseif obj:is_player() then
-			attach_single_object(parent, obj, dir)
+			print("is_player")
+			attach_single_object(parent, obj, dir, 1)
 		end
 	end
 end
@@ -158,7 +160,7 @@ local function detach_objects(pos, parent, dir)
 end
 
 local function entity_to_node(pos, obj)
-	local name = obj:get_luaentity().item or "air"
+	local name = (obj:get_luaentity() or {}).item or "air"
 	local rot = obj:get_rotation()
 	detach_objects(pos, obj)
 	obj:remove()
@@ -183,13 +185,16 @@ local function node_to_entity(pos, handover)
 	local dir = minetest.facedir_to_dir(node.param2)
 	local yaw = minetest.dir_to_yaw(dir)
 	local obj = minetest.add_entity(pos, "techage:move_item")
-	local self = obj:get_luaentity() 
-	obj:set_rotation({x=0, y=yaw, z=0})
-	obj:set_properties({wield_item = node.name})
-	obj:set_armor_groups({immortal=1})
-	self.item = node.name
-	self.handover = handover
-	return obj
+	if obj then
+		local self = obj:get_luaentity() 
+		obj:set_rotation({x=0, y=yaw, z=0})
+		obj:set_properties({wield_item = node.name})
+		obj:set_armor_groups({immortal=1})
+		self.item = node.name
+		self.handover = handover
+		self.start_pos = table.copy(pos)
+		return obj
+	end
 end
 
 local function capture_entity(pos)
@@ -219,12 +224,15 @@ local function move_entity(obj, pos2, dir, max_speed)
 end
 
 -- Handover the entity to the next movecontroller
-local function handover_to(self)
+local function handover_to(pos, self)
 	local info = techage.get_node_info(self.handover)
 	if info and info.name == "techage:ta4_movecontroller" then
 		local mem = techage.get_mem(info.pos)
 		if not mem.entities_are_there then
 			mem.entities_are_there = true
+			-- copy move direction
+			--print("techage.get_nvm(pos).pos_2to1", techage.get_nvm(pos).pos_2to1)
+			techage.get_nvm(info.pos).pos_2to1 = techage.get_nvm(pos).pos_2to1
 			minetest.after(0.2, techage.send_single, "0", self.handover, "handover")
 		end
 		return true
@@ -249,7 +257,9 @@ minetest.register_entity("techage:move_item", {
 			item = self.item,
 			max_speed = self.max_speed,
 			dest_pos = self.dest_pos,
+			start_pos = self.start_pos,
 			dir = self.dir,
+			respawn = true,
 		})
 	end,
 	
@@ -259,8 +269,12 @@ minetest.register_entity("techage:move_item", {
 			self.item = tbl.item or "air"
 			self.max_speed = tbl.max_speed or MAX_SPEED
 			self.dest_pos = tbl.dest_pos or self.object:get_pos()
+			self.start_pos = tbl.start_pos or self.object:get_pos()
 			self.dir = tbl.dir or {x=0, y=0, z=0}
 			self.object:set_properties({wield_item = self.item})
+			if tbl.respawn then
+				entity_to_node(self.start_pos, self.object)
+			end
 		end
 	end,
 	
@@ -277,7 +291,7 @@ minetest.register_entity("techage:move_item", {
 				obj:set_acceleration({x=0, y=0, z=0})
 				obj:set_velocity({x=0, y=0, z=0})
 				self.dest_pos = nil
-				if not self.handover or not	handover_to(self) then
+				if not self.handover or not handover_to(pos, self) then
 					minetest.after(0.5, entity_to_node, pos, obj)
 				end
 				self.ttl = 2
@@ -308,7 +322,7 @@ minetest.register_entity("techage:move_item", {
 -------------------------------------------------------------------------------
 local MarkedNodes = {} -- t[player] = {{entity, pos},...} 
 local CurrentPos  -- to mark punched entities
-local RegisteredNodes = {}  -- to be checked before removed/placed
+local SimpleNodes = techage.logic.SimpleNodes
 
 local function is_air_like(pos)
 	local node = minetest.get_node(pos)
@@ -322,8 +336,8 @@ end
 local function is_simple_node(pos)
 	-- special handling
 	local name = minetest.get_node(pos).name
-	if RegisteredNodes[name] ~= nil then 
-		return RegisteredNodes[name] 
+	if SimpleNodes[name] ~= nil then 
+		return SimpleNodes[name] 
 	end
 	
 	local ndef = minetest.registered_nodes[name]
@@ -496,13 +510,15 @@ local function move_node(pos, pos1, pos2, max_speed, handover, height)
 	local dir = determine_dir(pos1, pos2)
 	local obj = node_to_entity(pos1, handover)
 	
-	attach_objects(pos1, obj, {x=0, y=1, z=0}, height)
-	if dir.y == 0 then
-		if (dir.x ~= 0 and dir.z == 0) or (dir.x == 0 and dir.z ~= 0) then
-			attach_objects(pos1, obj, dir, height)
+	if obj then
+		attach_objects(pos1, obj, {x=0, y=height, z=0}, height)
+		if dir.y == 0 then
+			if (dir.x ~= 0 and dir.z == 0) or (dir.x == 0 and dir.z ~= 0) then
+				attach_objects(pos1, obj, dir, 1)
+			end
 		end
+		move_entity(obj, pos2, dir, max_speed)
 	end
-	move_entity(obj, pos2, dir, max_speed)
 end
 
 local function move_nodes(pos, lpos1, lpos2, handover)
@@ -596,16 +612,16 @@ local function move_to_other_pos(pos)
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
 	
-	if nvm.pos2 then
+	if nvm.pos_2to1 then
 		local lpos1 = nvm.lpos1 or {}
 		local lpos2 = nvm.lpos2 or {}
-		nvm.pos2 = false
+		nvm.pos_2to1 = false
 		local handover = meta:contains("handoverA") and meta:get_string("handoverA")
 		return move_nodes(pos, lpos2, lpos1, handover)
 	else
 		local lpos1 = nvm.lpos1 or {}
 		local lpos2 = nvm.lpos2 or {}
-		nvm.pos2 = true
+		nvm.pos_2to1 = true
 		local handover = meta:contains("handoverB") and meta:get_string("handoverB")
 		return move_nodes(pos, lpos1, lpos2, handover)
 	end
@@ -617,16 +633,16 @@ local function takeover(pos)
 	local mem = techage.get_mem(pos)
 	mem.entities_are_there = nil
 	
-	if nvm.pos2 then
+	if nvm.pos_2to1 then
 		local lpos1 = nvm.lpos1 or {}
 		local lpos2 = nvm.lpos2 or {}
-		nvm.pos2 = false
+		nvm.pos_2to1 = false
 		local handover = meta:contains("handoverA") and meta:get_string("handoverA")
 		return moveon_nodes(pos, lpos2, lpos1, handover)
 	else
 		local lpos1 = nvm.lpos1 or {}
 		local lpos2 = nvm.lpos2 or {}
-		nvm.pos2 = true
+		nvm.pos_2to1 = true
 		local handover = meta:contains("handoverB") and meta:get_string("handoverB")
 		return moveon_nodes(pos, lpos1, lpos2, handover)
 	end
@@ -660,7 +676,7 @@ minetest.register_node("techage:ta4_movecontroller", {
 		if fields.record then
 			nvm.lpos1 = nil
 			nvm.lpos2 = nil
-			nvm.pos2 = false
+			nvm.pos_2to1 = false
 			meta:set_string("status", S("Recording..."))
 			local name = player:get_player_name()
 			minetest.chat_send_player(name, S("Click on all blocks that shall be moved"))
@@ -674,17 +690,17 @@ minetest.register_node("techage:ta4_movecontroller", {
 			meta:set_string("distance", fields.distance)
 			nvm.lpos1 = pos_list
 			nvm.lpos2 = table_add(pos_list, to_vector(fields.distance))
-			nvm.pos2 = false
+			nvm.pos_2to1 = false
 			unmark_all(name)
 			meta:set_string("formspec", formspec(nvm, meta))
 		elseif fields.store then
 			meta:set_string("distance", fields.distance)
 			nvm.lpos2 = table_add(nvm.lpos1, to_vector(fields.distance))
-			nvm.pos2 = false
+			nvm.pos_2to1 = false
 			meta:set_string("formspec", formspec(nvm, meta))
 		elseif fields.moveAB then
 			meta:set_string("status", "")
-			nvm.pos2 = false
+			nvm.pos_2to1 = false
 			if move_to_other_pos(pos) then
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
@@ -692,7 +708,7 @@ minetest.register_node("techage:ta4_movecontroller", {
 			end
 		elseif fields.moveBA then
 			meta:set_string("status", "")
-			nvm.pos2 = true
+			nvm.pos_2to1 = true
 			if move_to_other_pos(pos) then
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
@@ -723,11 +739,11 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 			return INFO
 		elseif topic == "a2b" then
 			local nvm = techage.get_nvm(pos)
-			nvm.pos2 = false
+			nvm.pos_2to1 = false
 			return move_to_other_pos(pos)
 		elseif topic == "b2a" then
 			local nvm = techage.get_nvm(pos)
-			nvm.pos2 = true
+			nvm.pos_2to1 = true
 			return move_to_other_pos(pos)
 		elseif topic == "move" then
 			return move_to_other_pos(pos)
@@ -738,14 +754,14 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 	end,
 })		
 
---minetest.register_craft({
---	output = "techage:ta4_movecontroller",
---	recipe = {
---		{"techage:aluminum", "group:wood","techage:aluminum"},
---		{"default:mese_crystal_fragment", "techage:ta4_wlanchip", "default:mese_crystal_fragment"},
---		{"group:wood", "basic_materials:gear_steel", "group:wood"},
---	},
---})
+minetest.register_craft({
+	output = "techage:ta4_movecontroller",
+	recipe = {
+		{"default:steel_ingot", "dye:blue", "default:steel_ingot"},
+		{"default:mese_crystal_fragment", "techage:ta4_wlanchip", "default:mese_crystal_fragment"},
+		{"group:wood", "basic_materials:gear_steel", "group:wood"},
+	},
+})
 
 minetest.register_on_joinplayer(function(player)
 	unlock_player(player)

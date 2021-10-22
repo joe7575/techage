@@ -130,7 +130,7 @@ local function value_check(elem, value)
 	if elem.check then
 		return elem.check(value)
 	end
-	return true
+	return value ~= nil
 end
 	
 local function evaluate_data(pos, meta, form_def, fields, player_name)

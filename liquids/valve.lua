@@ -43,6 +43,9 @@ minetest.register_node("techage:ta3_valve_open", {
 		return false
 	end,
 	on_rightclick = function(pos, node, clicker)
+		if minetest.is_protected(pos, clicker:get_player_name()) then
+			return
+		end
 		if liquid.turn_valve_off(pos, Pipe, "techage:ta3_valve_closed", "techage:ta3_valve_open") then
 			minetest.sound_play("techage_valve", {
 				pos = pos, 
@@ -84,6 +87,9 @@ minetest.register_node("techage:ta3_valve_closed", {
 	},
 	
 	on_rightclick = function(pos, node, clicker)
+		if minetest.is_protected(pos, clicker:get_player_name()) then
+			return
+		end
 		if liquid.turn_valve_on(pos, Pipe, "techage:ta3_valve_closed", "techage:ta3_valve_open") then
 			minetest.sound_play("techage_valve", {
 				pos = pos, 

@@ -76,7 +76,7 @@ local function read_state(itemstack, user, pointed_thing)
 			if ndef and ndef.description then
 				local info = techage.send_single("0", number, "info", nil)
 				if info and info ~= "" and info ~= "unsupported" then
-					info = dump(info)
+					info = tostring(info)
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..":\n"..info.."    ")
 				end
 				local state = techage.send_single("0", number, "state", nil)

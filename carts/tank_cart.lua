@@ -118,6 +118,9 @@ minetest.register_node("techage:tank_cart", {
 		local nvm = techage.get_nvm(pos)
 		nvm.liquid = nvm.liquid or {}
 		M(pos):set_string("formspec", techage.liquid.formspec(pos, nvm))
+		-- Delete the network between pump and cart
+		Pipe:after_dig_node(pos) 
+		Pipe:after_place_node(pos)
 	end,
 	
 	set_cargo = function(pos, data)

@@ -45,7 +45,6 @@ local function pumping(pos, nvm, state, capa)
 	local mem = techage.get_mem(pos)
 	mem.dbg_cycles = (mem.dbg_cycles or 0) - 1
 	local outdir = M(pos):get_int("outdir")
-	--print("pumping", outdir, Flip[outdir])
 	local taken, name = liquid.take(pos, Pipe, Flip[outdir], nil, capa, mem.dbg_cycles > 0)
 	if taken > 0 then
 		local leftover = liquid.put(pos, Pipe, outdir, name, taken, mem.dbg_cycles > 0)
