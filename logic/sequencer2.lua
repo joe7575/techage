@@ -177,6 +177,11 @@ local function node_timer(pos, elapsed)
 				local offs = code.next_idx - mem.idx
 				minetest.after(0, restart_timer, pos, math.max(offs, 1))
 				mem.idx = code.next_idx
+			else
+				nvm.running = false
+				local meta = M(pos)
+				meta:set_string("formspec", formspec(nvm, meta))
+				logic.infotext(meta, S("TA4 Sequencer"), S("stopped"))
 			end
 		end
 	end
@@ -196,6 +201,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	if fields.stop then
 		nvm.running = false
 		minetest.get_node_timer(pos):stop()
+		logic.infotext(meta, S("TA4 Sequencer"), S("stopped"))
 	elseif not nvm.running then
 		if fields.help then
 			meta:set_string("formspec", formspec_help(nvm, meta))
@@ -217,6 +223,7 @@ local function on_receive_fields(pos, formname, fields, player)
 				mem.code = nil
 				mem.idx = nil
 				minetest.get_node_timer(pos):start(0.5)
+				logic.infotext(meta, S("TA4 Sequencer"), S("running"))
 			end
 		end
 	end
@@ -270,16 +277,17 @@ local INFO = [[Commands: 'goto <num>', 'stop']]
 
 techage.register_node({"techage:ta4_sequencer"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		if topic == "goto" then
+		local nvm = techage.get_nvm(pos)
+		if topic == "goto" and not nvm.running then
 			local mem = techage.get_mem(pos)
-			local nvm = techage.get_nvm(pos)
 			nvm.running = true
 			mem.idx = tonumber(payload or 1) or 1
 			restart_timer(pos, 0.1)
+			logic.infotext(M(pos), S("TA4 Sequencer"), S("running"))
 		elseif topic == "stop" then
-			local nvm = techage.get_nvm(pos)
 			nvm.running = false
 			minetest.get_node_timer(pos):stop()
+			logic.infotext(M(pos), S("TA4 Sequencer"), S("stopped"))
 		elseif topic == "info" then
 			return INFO
 		else
