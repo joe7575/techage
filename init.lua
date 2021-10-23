@@ -264,7 +264,7 @@ dofile(MP.."/logic/repeater.lua")
 dofile(MP.."/logic/programmer.lua")
 dofile(MP.."/logic/signallamp.lua")
 dofile(MP.."/logic/sequencer.lua")
---dofile(MP.."/logic/sequencer2.lua")   still under dev.
+dofile(MP.."/logic/sequencer2.lua")
 dofile(MP.."/logic/timer.lua")
 dofile(MP.."/logic/lua_logic.lua")  -- old
 dofile(MP.."/logic/logic_block.lua")  -- new
@@ -277,7 +277,7 @@ dofile(MP.."/logic/doorcontroller.lua")  -- old
 dofile(MP.."/logic/doorcontroller2.lua")  -- new
 dofile(MP.."/logic/collector.lua")
 dofile(MP.."/logic/button_4x.lua")
---dofile(MP.."/logic/movecontroller.lua")   still under dev.
+dofile(MP.."/logic/movecontroller.lua")
 if minetest.global_exists("mesecon") then
 	dofile(MP.."/logic/mesecons_converter.lua")
 end

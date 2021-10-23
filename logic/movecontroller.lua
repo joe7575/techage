@@ -22,15 +22,15 @@ local S = techage.S
 -- Entity / Move / Attach / Detach 
 -------------------------------------------------------------------------------
 local MIN_SPEED = 0.4
-local MAX_SPEED = 10
+local MAX_SPEED = 8
 
 local function to_vector(s)
 	local x,y,z = unpack(string.split(s, ","))
 	if x and y and z then
 		return {
-			x = tonumber(x) or 0, 
-			y = tonumber(y) or 0, 
-			z = tonumber(z) or 0, 
+			x=tonumber(x) or 0, 
+			y=tonumber(y) or 0, 
+			z=tonumber(z) or 0, 
 		}
 	end
 	return {x=0, y=0, z=0}
@@ -51,7 +51,6 @@ local function obj_pos(obj)
 	pos = vector.divide(pos, 29)
 	return vector.add(obj:get_pos(), pos)
 end
-
 
 -- Check access conflicts with other mods
 local function lock_player(player)
@@ -79,118 +78,134 @@ end
 local function detach_player(player)
 	local pos = obj_pos(player)
 	player:set_detach()
-	player:set_properties({visual_size = {x = 1, y = 1}})
+	player:set_properties({visual_size = {x=1, y=1}})
 	player:set_pos(pos)
 	-- TODO: move to save position
 end
 
 
 -- Attach player/mob to given parent object (block)
-local function attach_single_object(parent, obj, dir, height)
+local function attach_single_object(parent, obj, dir)
 	local self = parent:get_luaentity()
-	local rot = {x=0, y=0, z=0}
-	local prop = obj:get_properties()
+	local rot = obj:get_rotation()
 	local res = obj:get_attach()
-	if not res and prop and prop.collisionbox then
-		dir = table.copy(dir)
-		dir.y = dir.y - 1.5 + (height or 1) - prop.collisionbox[2]
+	if not res then
+		local offs = table.copy(dir)
 		dir = vector.multiply(dir, 29)
 		obj:set_attach(parent, "", dir, rot, true)
-		obj:set_properties({visual_size = {x = 2.9, y = 2.9}})
+		obj:set_properties({visual_size = {x=2.9, y=2.9}})
 		if obj:is_player() then
 			if lock_player(obj) then
-				table.insert(self.players, obj:get_player_name())
+				table.insert(self.players, {name = obj:get_player_name(), offs = offs})
 			end
 		else
-			table.insert(self.entities, get_object_id(obj))
+			table.insert(self.entities, {objID = get_object_id(obj), offs = offs})
 		end
 	end
 end
 
--- Attach all entities around to the parent object (block).
--- height is the parent block height (0.1 to 1.0)
-local function attach_objects(pos, parent, dir, height)
-	local pos1 = vector.add(pos, dir)
-	local self = parent:get_luaentity()
-	self.players = self.players or {}
-	self.entities = self.entities or {}
-
-	print("pos1", P2S(pos1))
+-- Attach all objects around to the parent object
+-- offs is the search/attach position offset
+local function attach_objects(pos, offs, parent)
+	local pos1 = vector.add(pos, offs)
 	for _, obj in pairs(minetest.get_objects_inside_radius(pos1, 0.9)) do
+		local dir = vector.subtract(obj:get_pos(), pos)
 		local entity = obj:get_luaentity()
 		if entity then
 			if entity.name == "__builtin:item" then  -- dropped items
 				--obj:set_attach(objref, "", {x=0, y=0, z=0}, {x=0, y=0, z=0}, true) -- hier kracht es
 			elseif entity.name ~= "techage:move_item" then
-				attach_single_object(parent, obj, dir, 1)
+				attach_single_object(parent, obj, dir)
 			end
 		elseif obj:is_player() then
-			print("is_player")
-			attach_single_object(parent, obj, dir, 1)
+			attach_single_object(parent, obj, dir)
 		end
 	end
 end
 
--- Detach all attached entities from the parent object (block)
-local function detach_objects(pos, parent, dir)
-	local self = parent:get_luaentity()
-	
-	for _, objID in ipairs(self.entities or {}) do
-		local entity = minetest.luaentities[objID]
+-- Detach all attached objects from the parent object
+local function detach_objects(pos, self)
+	for _, item in ipairs(self.entities or {}) do
+		local entity = minetest.luaentities[item.objID]
 		if entity then
 			local obj = entity.object
-			local pos1 = obj_pos(obj)
 			obj:set_detach()
-			obj:set_properties({visual_size = {x = 1, y = 1}})
+			obj:set_properties({visual_size = {x=1, y=1}})
+			local pos1 = vector.add(pos, item.offs)
 			obj:set_pos(pos1)
 		end
 	end
-	for _, name in ipairs(self.players or {}) do
-		local obj = minetest.get_player_by_name(name)
+	for _, item in ipairs(self.players or {}) do
+		local obj = minetest.get_player_by_name(item.name)
 		if obj then
-			local pos1 = obj_pos(obj)
 			obj:set_detach()
-			obj:set_properties({visual_size = {x = 1, y = 1}})
+			obj:set_properties({visual_size = {x=1, y=1}})
+			local pos1 = vector.add(pos, item.offs)
 			obj:set_pos(pos1)
 			unlock_player(obj)
 		end
 	end
-	self.entities = nil
-	self.players = nil
+	self.entities = {}
+	self.players = {}
 end
 
 local function entity_to_node(pos, obj)
-	local name = (obj:get_luaentity() or {}).item or "air"
-	local rot = obj:get_rotation()
-	detach_objects(pos, obj)
-	obj:remove()
-	
-	pos = vector.round(pos)
-	local dir = minetest.yaw_to_dir(rot.y or 0)
-	local param2 = minetest.dir_to_facedir(dir) or 0
-	local node =  minetest.get_node(pos)
-	local ndef1 = minetest.registered_nodes[name]
-	local ndef2 = minetest.registered_nodes[node.name]
-	if ndef1 and ndef2 and ndef2.buildable_to then
-		minetest.set_node(pos, {name = name, param2 = param2})
-	elseif ndef1 then
-		minetest.add_item(pos, ItemStack(name))
+	local self = obj:get_luaentity()
+	if self then
+		local name = self.item or "air"
+		local metadata = self.metadata or {}
+		local rot = obj:get_rotation()
+		detach_objects(pos, self)
+		obj:remove()
+		
+		pos = vector.round(pos)
+		local dir = minetest.yaw_to_dir(rot.y or 0)
+		local param2 = minetest.dir_to_facedir(dir) or 0
+		local node =  minetest.get_node(pos)
+		local ndef1 = minetest.registered_nodes[name]
+		local ndef2 = minetest.registered_nodes[node.name]
+		if ndef1 and ndef2 then
+			if ndef2.buildable_to then
+				local meta = M(pos)
+				minetest.set_node(pos, {name=name, param2=param2})
+				meta:from_table(metadata)
+				meta:set_string("ta_move_block", "")
+				return
+			end
+			local meta = M(pos)
+			if not meta:contains("ta_move_block") then
+				meta:set_string("ta_move_block", minetest.serialize({name=name, param2=param2}))
+			end
+		elseif ndef1 then
+			minetest.add_item(pos, ItemStack(name))
+		end
 	end
 end
 
 local function node_to_entity(pos, handover)
-	local node = minetest.get_node(pos)
-	minetest.remove_node(pos)
+	local meta = M(pos)
+	local node, metadata
 	
+	if meta:contains("ta_move_block") then
+		node = minetest.deserialize(meta:get_string("ta_move_block"))
+		metadata = {}
+		meta:set_string("ta_move_block", "")
+	else
+		node = minetest.get_node(pos)
+		meta:set_string("ta_move_block", "")
+		metadata = meta:to_table()
+		minetest.remove_node(pos)
+	end
 	local dir = minetest.facedir_to_dir(node.param2)
 	local yaw = minetest.dir_to_yaw(dir)
 	local obj = minetest.add_entity(pos, "techage:move_item")
 	if obj then
 		local self = obj:get_luaentity() 
 		obj:set_rotation({x=0, y=yaw, z=0})
-		obj:set_properties({wield_item = node.name})
+		obj:set_properties({wield_item=node.name})
 		obj:set_armor_groups({immortal=1})
 		self.item = node.name
+		self.metadata = metadata or {}
 		self.handover = handover
 		self.start_pos = table.copy(pos)
 		return obj
@@ -259,6 +274,7 @@ minetest.register_entity("techage:move_item", {
 			dest_pos = self.dest_pos,
 			start_pos = self.start_pos,
 			dir = self.dir,
+			metadata = self.metadata,
 			respawn = true,
 		})
 	end,
@@ -271,6 +287,7 @@ minetest.register_entity("techage:move_item", {
 			self.dest_pos = tbl.dest_pos or self.object:get_pos()
 			self.start_pos = tbl.start_pos or self.object:get_pos()
 			self.dir = tbl.dir or {x=0, y=0, z=0}
+			self.metadata = tbl.metadata or {}
 			self.object:set_properties({wield_item = self.item})
 			if tbl.respawn then
 				entity_to_node(self.start_pos, self.object)
@@ -324,10 +341,13 @@ local MarkedNodes = {} -- t[player] = {{entity, pos},...}
 local CurrentPos  -- to mark punched entities
 local SimpleNodes = techage.logic.SimpleNodes
 
-local function is_air_like(pos)
+local function is_valid_dest(pos)
 	local node = minetest.get_node(pos)
 	local ndef = minetest.registered_nodes[node.name]
 	if ndef and ndef.buildable_to then
+		return true
+	end
+	if not M(pos):contains("ta_move_block") then
 		return true
 	end
 	return false
@@ -431,7 +451,7 @@ minetest.register_entity(":techage:moveblock_marker", {
 		},
 		--use_texture_alpha = true,
 		physical = false,
-		visual_size = {x = 1.1, y = 1.1},
+		visual_size = {x=1.1, y=1.1},
 		collisionbox = {-0.55,-0.55,-0.55, 0.55,0.55,0.55},
 		glow = 8,
 	},
@@ -457,11 +477,11 @@ minetest.register_entity(":techage:moveblock_marker", {
 local WRENCH_MENU = {
 	{
 		type = "dropdown",
-		choices = "0.5,1,2,4,6,8,10",
+		choices = "0.5,1,2,4,6,8",
 		name = "max_speed",
 		label = S("Maximum Speed"),      
 		tooltip = S("Maximum speed for the moving block."),
-		default = "10",
+		default = "8",
 	},
 	{
 		type = "number",
@@ -509,12 +529,16 @@ local function move_node(pos, pos1, pos2, max_speed, handover, height)
 	local meta = M(pos)
 	local dir = determine_dir(pos1, pos2)
 	local obj = node_to_entity(pos1, handover)
+	local self = obj:get_luaentity()
+	self.players = {}
+	self.entities = {}
 	
 	if obj then
-		attach_objects(pos1, obj, {x=0, y=height, z=0}, height)
+		local offs = {x=0, y=height or 1, z=0}
+		attach_objects(pos1, offs, obj)
 		if dir.y == 0 then
 			if (dir.x ~= 0 and dir.z == 0) or (dir.x == 0 and dir.z ~= 0) then
-				attach_objects(pos1, obj, dir, 1)
+				attach_objects(pos1, dir, obj)
 			end
 		end
 		move_entity(obj, pos2, dir, max_speed)
@@ -533,7 +557,7 @@ local function move_nodes(pos, lpos1, lpos2, handover)
 			local pos1 = lpos1[idx]
 			local pos2 = lpos2[idx]
 			if not minetest.is_protected(pos1, owner) and not minetest.is_protected(pos2, owner) then
-				if is_simple_node(pos1) and is_air_like(pos2) then
+				if is_simple_node(pos1) and is_valid_dest(pos2) then
 					move_node(pos, pos1, pos2, max_speed, handover, height)
 				else
 					if not is_simple_node(pos1) then
@@ -573,7 +597,7 @@ local function moveon_nodes(pos, lpos1, lpos2, handover)
 			local pos1 = lpos1[idx]
 			local pos2 = lpos2[idx]
 			if not minetest.is_protected(pos1, owner) and not minetest.is_protected(pos2, owner) then
-				if is_air_like(pos2) then
+				if is_valid_dest(pos2) then
 					local dir = determine_dir(pos1, pos2)
 					local obj = capture_entity(pos1)
 					if obj then
@@ -584,7 +608,7 @@ local function moveon_nodes(pos, lpos1, lpos2, handover)
 					if not is_simple_node(pos1) then
 						meta:set_string("status", S("No valid node at the start position"))
 					else
-						meta:set_string("status", S("No air at the destination position"))
+						meta:set_string("status", S("No valid destination position"))
 					end
 				end
 			else
