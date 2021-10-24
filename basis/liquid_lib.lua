@@ -38,21 +38,18 @@ function techage.liquid.formspec(pos, nvm)
 	end
 	local name = minetest.get_node(pos).name
 	if name == "techage:ta4_tank" then
-		local public = dump((M(pos):get_int("public") or 0) == 1)
-		return "size[5,3]"..
-			default.gui_bg..
-			default.gui_bg_img..
-			default.gui_slots..
+		local meta = M(pos)
+		local public = dump((meta:get_int("public") or 0) == 1)
+		local keep_assignment = dump((meta:get_int("keep_assignment") or 0) == 1)
+		return "size[5,3.5]"..
 			"box[0,-0.1;4.8,0.5;#c6e8ff]"..
 			"label[1.5,-0.1;"..minetest.colorize("#000000", title).."]"..
 			help(4.4, -0.1)..
 			techage.item_image(2, 1, itemname)..
-			"checkbox[0.1,2.5;public;"..S("Allow public access to the tank")..";"..public.."]"
+			"checkbox[0.1,2.5;public;"..S("Allow public access to the tank")..";"..public.."]"..
+			"checkbox[0.1,3;keep_assignment;"..S("keep assignment")..";"..keep_assignment.."]"
 	else
 		return "size[4,2]"..
-			default.gui_bg..
-			default.gui_bg_img..
-			default.gui_slots..
 			"box[0,-0.1;3.8,0.5;#c6e8ff]"..
 			"label[1,-0.1;"..minetest.colorize("#000000", title).."]"..
 			help(3.4, -0.1)..
