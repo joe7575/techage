@@ -31,7 +31,7 @@ end
 local function command(s)
 	local num, cmd, pld = unpack(string.split(s, " ", false, 2))
 	if not num or not cmd then
-		return "Invalid command!"
+		return S("Invalid command!")
 	end
 	return {number = num, cmnd = cmd, payload = pld}
 end
@@ -171,7 +171,9 @@ local function node_timer(pos, elapsed)
 			local code = mem.code.tCode[mem.idx]
 			if code and code.cmnd then 
 				local src = M(pos):get_string("node_number") 
+				techage.counting_start(M(pos):get_string("owner"))
 				techage.send_single(src, code.number, code.cmnd, code.payload)
+				techage.counting_stop()
 			end
 			if code and code.next_idx then
 				local offs = code.next_idx - mem.idx

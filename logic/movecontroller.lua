@@ -175,7 +175,9 @@ local function entity_to_node(pos, obj)
 			local meta = M(pos)
 			if not meta:contains("ta_move_block") then
 				meta:set_string("ta_move_block", minetest.serialize({name=name, param2=param2}))
+				return
 			end
+			minetest.add_item(pos, ItemStack(name))
 		elseif ndef1 then
 			minetest.add_item(pos, ItemStack(name))
 		end
@@ -563,7 +565,7 @@ local function move_nodes(pos, lpos1, lpos2, handover)
 					if not is_simple_node(pos1) then
 						meta:set_string("status", S("No valid node at the start position"))
 					else
-						meta:set_string("status", S("No air at the destination position"))
+						meta:set_string("status", S("No valid destination position"))
 					end
 				end
 			else

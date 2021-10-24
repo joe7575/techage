@@ -26,3 +26,7 @@ techage_use_marshal (use lua-marshal as serialize/deserialize functions) bool fa
 # Use the external library 'lsqlite3' for for faster storing of data. 
 # See also 'README.md'.
 techage_use_sqlite (use sqlite database) bool false
+
+# To reduce the server CPU load, the number of sent techage commands
+# per player and minute can be limited.
+techage_command_limit (Max. number of commands sent per minute) int 1200

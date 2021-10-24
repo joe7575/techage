@@ -403,7 +403,8 @@ local function call_loop(pos, meta, elapsed)
 		local code = Cache[number].code
 		local res = safer_lua.run_loop(pos, elapsed, code, error)
 		if res then 
-			t = minetest.get_us_time() - t
+			-- Don't count thread changes
+			t = math.min(minetest.get_us_time() - t, 1000)
 			cpu = math.floor(((cpu * 20) + t) / 21)
 			meta:set_int("cpu", cpu)
 			meta:set_string("infotext", "Controller "..number..": running ("..cpu.."us)")

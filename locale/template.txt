@@ -114,6 +114,13 @@ TA3 Button/Switch=
 TA4 Button/Switch=
 
 ### button.lua ###
+### button_4x.lua ###
+### signallamp_4x.lua ###
+
+Command=
+Command to be sent=
+
+### button.lua ###
 ### cart_detector.lua ###
 ### detector.lua ###
 ### lua_logic.lua ###
@@ -130,6 +137,7 @@ Insert destination node number(s)=
 ### doorcontroller.lua ###
 ### mesecons_converter.lua ###
 ### repeater.lua ###
+### sequencer2.lua ###
 ### submenu.lua ###
 
 Save=
@@ -145,8 +153,6 @@ TA4 4x Button=
 
 Access=
 Button protection=
-Command=
-Command to be sent=
 Destination block number=
 Number=
 
@@ -220,6 +226,14 @@ TA3 Melting=
 
 TA3 Cooler=
 
+### counting.lua ###
+
+Your current value is=
+[techage] The limit for 'number of commands per minute' has been exceeded.=
+is allowed=
+is allowed. Current value is=
+per minute=
+
 ### cylinder.lua ###
 
 TA2 Cylinder=
@@ -276,14 +290,18 @@ Blocks are back=
 Blocks are disappeared=
 Click on all the blocks that are part of the door/gate=
 Ctrl,Inv=
-Done=
-Record=
-Recording...=
 Remove=
 Set=
 TA3 Door Controller II=
-block positions are stored.=
 with door sound=
+
+### doorcontroller2.lua ###
+### movecontroller.lua ###
+
+Done=
+Record=
+Recording...=
+block positions are stored.=
 
 ### drillbox.lua ###
 
@@ -634,9 +652,14 @@ Syntax=
 ### logic_block.lua ###
 ### lua_logic.lua ###
 
-Store=
 TA3 Logic Block=
 Update=
+
+### logic_block.lua ###
+### lua_logic.lua ###
+### movecontroller.lua ###
+
+Store=
 
 ### lye.lua ###
 
@@ -694,6 +717,27 @@ TA1 Pine Wood Board=
 ### minicell.lua ###
 
 TA4 Streetlamp Solar Cell=
+
+### movecontroller.lua ###
+
+Click on all blocks that shall be moved=
+Destination position is protected=
+Handover to A=
+Handover to B=
+Maximum Speed=
+Maximum speed for the moving block.=
+Move A-B=
+Move B-A=
+Move block height=
+Move distance (A to B)=
+No valid destination position=
+No valid node at the start position=
+Number of the next movecontroller.=
+Number of the previous movecontroller.=
+Position list error=
+Start position is protected=
+TA4 Move Controller=
+Value in the range of 0.0 to 1.0=
 
 ### node_detector.lua ###
 
@@ -905,7 +949,25 @@ not connected=
 ### sequencer.lua ###
 
 TA3 Sequencer=
+
+### sequencer.lua ###
+### sequencer2.lua ###
+
 stopped=
+
+### sequencer2.lua ###
+
+Commands=
+Invalid command!=
+Start=
+Stop=
+TA4 Sequencer=
+running=
+
+### sequencer2.lua ###
+### submenu.lua ###
+
+Cancel=
 
 ### signallamp.lua ###
 
@@ -979,7 +1041,6 @@ TA4 LED Street Lamp Pole=
 
 ### submenu.lua ###
 
-Cancel=
 Note: You can't change any values while the block is running!=
 Refresh=
 
