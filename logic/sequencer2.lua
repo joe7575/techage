@@ -270,8 +270,8 @@ minetest.register_craft({
 	output = "techage:ta4_sequencer",
 	recipe = {
 		{"default:steel_ingot", "dye:blue", "default:steel_ingot"},
-		{"techage:ta4_ramchip", "default:mese_crystal", "techage:wlanchip"},
-		{"techage:aluminum", "group:wood","techage:aluminum"},
+		{"techage:ta4_ramchip", "default:mese_crystal", "techage:ta4_wlanchip"},
+		{"techage:aluminum", "group:wood", "techage:aluminum"},
 	},
 })
 

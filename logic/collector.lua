@@ -86,8 +86,8 @@ local function on_timer(pos,elapsed)
 	
 	if nvm.idx > #nvm.poll_numbers then
 		nvm.idx = 1
-		send_event(nvm, meta)
 		if nvm.stored_state ~= nvm.common_state then
+			send_event(nvm, meta)
 			local own_number = meta:get_string("own_number")
 			meta:set_string("infotext", S("TA4 State Collector").." "..own_number..': "'..lStates[nvm.common_state]..'"')
 			nvm.stored_state = nvm.common_state

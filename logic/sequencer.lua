@@ -114,6 +114,9 @@ local function check_rules(pos, elapsed)
 		nvm.index = get_next_slot(nvm.index, nvm.rules, nvm.endless)
 		if nvm.index ~= nil and offs ~= nil and nvm.running then
 			-- after the last rule a pause with 1 or more sec is required
+			if nvm.index == 1 and offs < 1 then
+				offs = 1
+			end
 			if offs > 0 then
 				-- we can't restart the timer within the function om_timer
 				minetest.after(0, restart_timer, pos, offs)
