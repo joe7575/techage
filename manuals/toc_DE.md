@@ -186,6 +186,8 @@
         - [TA4 Spieler Detektor / Player Detector](./manual_ta4_DE.md#ta4-spieler-detektor--player-detector)
         - [TA4 Zustandssammler / State Collector](./manual_ta4_DE.md#ta4-zustandssammler--state-collector)
         - [TA4 Detektor / Detector](./manual_ta4_DE.md#ta4-detektor--detector)
+        - [TA4 Move Controller](./manual_ta4_DE.md#ta4-move-controller)
+        - [TA4 Sequenzer](./manual_ta4_DE.md#ta4-sequenzer)
     - [TA4 Lampen](./manual_ta4_DE.md#ta4-lampen)
         - [TA4 LED Pflanzenlampe / TA4 LED Grow Light](./manual_ta4_DE.md#ta4-led-pflanzenlampe--ta4-led-grow-light)
         - [TA4 LED Straßenlampe / TA4 LED Street Lamp](./manual_ta4_DE.md#ta4-led-straßenlampe--ta4-led-street-lamp)

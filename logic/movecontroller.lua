@@ -720,9 +720,15 @@ minetest.register_node("techage:ta4_movecontroller", {
 			unmark_all(name)
 			meta:set_string("formspec", formspec(nvm, meta))
 		elseif fields.store then
-			meta:set_string("distance", fields.distance)
-			nvm.lpos2 = table_add(nvm.lpos1, to_vector(fields.distance))
-			nvm.pos_2to1 = false
+			local dist = to_vector(fields.distance)
+			local l = math.hypot(dist.x, math.hypot(dist.y, dist.z)) 
+			if l <= 100 then 
+				meta:set_string("distance", fields.distance)
+				nvm.lpos2 = table_add(nvm.lpos1, to_vector(fields.distance))
+				nvm.pos_2to1 = false
+			else
+				meta:set_string("status", S("Error: Distance > 100 m !!"))
+			end
 			meta:set_string("formspec", formspec(nvm, meta))
 		elseif fields.moveAB then
 			meta:set_string("status", "")

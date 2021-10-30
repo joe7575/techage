@@ -18,6 +18,25 @@ local S = techage.S
 
 local logic = techage.logic
 
+local HELP = S("Syntax:\n") ..
+	S("'[<num>] <command>'\n") ..
+	S("\n") ..
+	S("<num> is a number from 1 to 50000 and is\n") ..
+	S("the timeslot when the command is executed.\n") ..
+	S(" - 1 corresponds to 100 ms\n") ..
+	S(" - 50000 corresponds to 4 game days\n") ..
+	S("\n") ..
+	S("<command> is one of the following:\n") ..
+	S(" - 'send <node num> <cmnd>' (techage command)\n") ..
+	S(" - 'goto <num>'  (jump to another line)\n") ..
+	S(" - 'stop' (stop the execution)\n") ..
+	S("\n") ..
+	S("Example:\n") ..
+	" -- move controller commands\n" ..
+	" [1] send 1234 a2b\n" ..
+	" [30] send 1234 b2a\n" ..
+	" [60] goto 1 -- keep going"
+
 local function strsplit(text)
 	text = text:gsub("\r\n", "\n")
 	text = text:gsub("\r", "\n")
@@ -68,6 +87,9 @@ local function compile(s, tRes)
 			idx = tonumber(string.match(idx, "^%[(%d+)%]$"))
 			if not idx then
 				return exception(tRes, i, "Syntax error!")
+			end
+			if idx > 50000 then
+				return exception(tRes, i, "Order error!")
 			end
 			if idx <= old_idx then
 				return exception(tRes, i, "Order error!")
@@ -126,9 +148,6 @@ local function formspec(nvm, meta)
 			"textarea[0.3,0.2;10,8.3;text;;"..text.."]"
 
 	return "size[10,8]" ..
-		default.gui_bg ..
-		default.gui_bg_img ..
-		default.gui_slots ..
 		style ..
 		"tabheader[0,0;tab;edit,help;1;;true]" ..
 		"label[0.1,-0.2;" .. S("Commands") .. ":]" ..
@@ -143,14 +162,10 @@ end
 local function formspec_help(meta)
 	local text = "" --minetest.formspec_escape("hepl")
 	return "size[10,8]"..
-		default.gui_bg..
-		default.gui_bg_img..
-		default.gui_slots..
-		"style_type[textarea;font=mono;textcolor=#FFFFFF]"..
+		"style_type[textarea;font=mono;textcolor=#FFFFFF;border=false]"..
 		"tabheader[0,0;tab;edit,help;2;;true]"..
-		"label[0,-0.2;Functions:]"..
-		--"dropdown[0.3,0.2;10,8.3;functions;"..items..";"..pos.."]"..
-		"textarea[0.3,1.3;10,8;help;Help:;"..text.."]"
+		"textarea[0.3,0.3;10,9;;" .. S("Help") .. ":;"..minetest.formspec_escape(HELP).."]" ..
+		"background[0.1,0.3;9.8,8.0;techage_form_mask.png]"
 end
 
 local function restart_timer(pos, time)
@@ -200,15 +215,18 @@ local function on_receive_fields(pos, formname, fields, player)
 	local mem = techage.get_mem(pos)
 	nvm.running = nvm.running or false
 	
+	print(1, dump(fields))
 	if fields.stop then
 		nvm.running = false
 		minetest.get_node_timer(pos):stop()
 		logic.infotext(meta, S("TA4 Sequencer"), S("stopped"))
 	elseif not nvm.running then
-		if fields.help then
-			meta:set_string("formspec", formspec_help(nvm, meta))
+		print(2)
+		if fields.tab == "2" then
+			print(3)
+			meta:set_string("formspec", formspec_help(meta))
 			return
-		elseif fields.edit then
+		elseif fields.tab == "1" then
 			meta:set_string("formspec", formspec(nvm, meta))
 			return
 		end

@@ -191,7 +191,9 @@ techage.Items = {
 	ta4_electricmeter = "techage:ta4_electricmeter",
 	ta4_transformer = "techage:ta4_transformer",
 	power_reduction = "techage_power_reduction.png",
-        ta4_button_4x = "techage:ta4_button_4x",
+	ta4_button_4x = "techage:ta4_button_4x",
+	ta4_sequencer = "techage:ta4_sequencer",
+	ta4_movecontroller = "techage:ta4_movecontroller",
 
 	--ta4_ "", 
 }

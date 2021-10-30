@@ -118,7 +118,6 @@ TA4 Button/Switch=TA4 Schalter/Taster
 ### signallamp_4x.lua ###
 
 Command=Kommando
-Command to be sent=Zu sendender Befehl 
 
 ### button.lua ###
 ### cart_detector.lua ###
@@ -142,11 +141,19 @@ Insert destination node number(s)=Gebe Zielnummer(n) ein
 
 Save=Speichern
 
+### button.lua ###
+### signallamp_4x.lua ###
+
+Command to be sent=Zu sendender Befehl 
+
 ### button_4x.lua ###
 
+Command to be sent (ignored for switches)=Zu sendender Befehl (wird für Schalter ignoriert)
 Label=Beschriftung
 Label for the button=Beschriftung für die Taste
+Momentary button or on/off switch=Taster oder Ein-/Ausschalter
 TA4 4x Button=TA4 4x Taster
+Type=Typ
 
 ### button_4x.lua ###
 ### signallamp_4x.lua ###
@@ -615,6 +622,11 @@ Allow public access to the tank=Erlaube öffentlichen Zugriff auf den Tank
 Liquid Tank=Flüssigkeitstank
 To add liquids punch@nthe tank@nwith a liquid container=Um Flüssigkeit nachzufüllen,@nschlage mit einem Flüssigkeitsbehälter@nauf den Block
 
+### liquid_lib.lua ###
+### ta4_chest.lua ###
+
+keep assignment=Zuordnung beibehalten
+
 ### liquid_pipe.lua ###
 
 TA Junction Pipe=TA Leitungskupplung
@@ -642,7 +654,6 @@ no usable water=Kein brauchbares Wasser
 @nValid operators:@nand   or   on   off   me   @=@=   ~@=   (   )@n=@nGültige Operatoren:@nand   or   on   off   @=@=   ~@=   (   )@n
 Clear=Löschen
 Debug=Debug
-Help=Hilfe
 Inputs=Eingänge
 Outputs=Ausgänge
 Rules=Regeln
@@ -660,6 +671,11 @@ Update=Update
 ### movecontroller.lua ###
 
 Store=Speichern
+
+### logic_block.lua ###
+### sequencer2.lua ###
+
+Help=Hilfe
 
 ### lye.lua ###
 
@@ -722,6 +738,7 @@ TA4 Streetlamp Solar Cell=TA4 Straßenlampen-Solarzelle
 
 Click on all blocks that shall be moved=Klicke auf alle Blöcke, die verschoben werden sollen
 Destination position is protected=Zielposition ist geschützt
+Error: Distance > 100 m !!=Fehler: Distanz > 100 m !!
 Handover to A=Übergabe an A
 Handover to B=Übergabe an B
 Maximum Speed=Maximalgeschwindigkeit
@@ -957,12 +974,24 @@ stopped=gestoppt
 
 ### sequencer2.lua ###
 
+ - 'goto <num>'  (jump to another line)@n= - 'goto <num>'  (springe zu einer anderen Zeile)@n
+ - 'send <node num> <cmnd>' (techage command)@n= - 'send <node num> <cmnd>' (techage Kommando)@n
+ - 'stop' (stop the execution)@n= - 'stop' (stoppe die Ausführung)@n
+ - 1 corresponds to 100 ms@n= - 1 entspricht 100 ms@n
+ - 50000 corresponds to 4 game days@n= - 50000 entspricht 4 Spieltagen@n
+'[<num>] <command>'@n='[<num>] <command>'@n
+<command> is one of the following:@n=<command> ist eines der folgenden:@n
+<num> is a number from 1 to 50000 and is@n=<num> ist eine Nummer von 1 bis 50000 und ist@n
+@n=@n
 Commands=Kommandos
+Example:@n=Beispiel:
 Invalid command!=Ungültiges Kommando!
 Start=Start
 Stop=Stopp
+Syntax:@n=Syntax:@n
 TA4 Sequencer=TA4 Sequenzer
 running=läuft
+the timeslot when the command is executed.@n=der Zeitpunkt, wenn der Befehl ausgeführt wird.@n
 
 ### sequencer2.lua ###
 ### submenu.lua ###
@@ -1074,7 +1103,6 @@ Size=Größe
 TA4 8x2000 Chest=TA4 8x2000 Kiste
 Unlock=Entsperren
 Unlock connected chest@nif all slots are below 2000=Nachfolgende Kiste entsperren,@nsofern alle Speicherplätze <= 2000
-keep assignment=Zuordnung beibehalten
 right to left=von rechts nach links
 
 ### ta4_doser.lua ###

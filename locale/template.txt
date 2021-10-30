@@ -118,7 +118,6 @@ TA4 Button/Switch=
 ### signallamp_4x.lua ###
 
 Command=
-Command to be sent=
 
 ### button.lua ###
 ### cart_detector.lua ###
@@ -142,11 +141,19 @@ Insert destination node number(s)=
 
 Save=
 
+### button.lua ###
+### signallamp_4x.lua ###
+
+Command to be sent=
+
 ### button_4x.lua ###
 
+Command to be sent (ignored for switches)=
 Label=
 Label for the button=
+Momentary button or on/off switch=
 TA4 4x Button=
+Type=
 
 ### button_4x.lua ###
 ### signallamp_4x.lua ###
@@ -615,6 +622,11 @@ Allow public access to the tank=
 Liquid Tank=
 To add liquids punch@nthe tank@nwith a liquid container=
 
+### liquid_lib.lua ###
+### ta4_chest.lua ###
+
+keep assignment=
+
 ### liquid_pipe.lua ###
 
 TA Junction Pipe=
@@ -642,7 +654,6 @@ no usable water=
 @nValid operators:@nand   or   on   off   me   @=@=   ~@=   (   )@n=
 Clear=
 Debug=
-Help=
 Inputs=
 Outputs=
 Rules=
@@ -660,6 +671,11 @@ Update=
 ### movecontroller.lua ###
 
 Store=
+
+### logic_block.lua ###
+### sequencer2.lua ###
+
+Help=
 
 ### lye.lua ###
 
@@ -722,6 +738,7 @@ TA4 Streetlamp Solar Cell=
 
 Click on all blocks that shall be moved=
 Destination position is protected=
+Error: Distance > 100 m !!=
 Handover to A=
 Handover to B=
 Maximum Speed=
@@ -957,12 +974,24 @@ stopped=
 
 ### sequencer2.lua ###
 
+ - 'goto <num>'  (jump to another line)@n=
+ - 'send <node num> <cmnd>' (techage command)@n=
+ - 'stop' (stop the execution)@n=
+ - 1 corresponds to 100 ms@n=
+ - 50000 corresponds to 4 game days@n=
+'[<num>] <command>'@n=
+<command> is one of the following:@n=
+<num> is a number from 1 to 50000 and is@n=
+@n=
 Commands=
+Example:@n=
 Invalid command!=
 Start=
 Stop=
+Syntax:@n=
 TA4 Sequencer=
 running=
+the timeslot when the command is executed.@n=
 
 ### sequencer2.lua ###
 ### submenu.lua ###
@@ -1074,7 +1103,6 @@ Size=
 TA4 8x2000 Chest=
 Unlock=
 Unlock connected chest@nif all slots are below 2000=
-keep assignment=
 right to left=
 
 ### ta4_doser.lua ###

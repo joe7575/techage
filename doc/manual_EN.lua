@@ -187,6 +187,8 @@ techage.manual_EN.aTitel = {
   "3,TA4 Player Detector",
   "3,TA4 State Collector",
   "3,TA4 Detector",
+  "3,TA4 Move Controller",
+  "3,TA4 Sequencer",
   "2,TA4 Lamps",
   "3,TA4 LED Grow Light",
   "3,TA4 Street Lamp",
@@ -1575,6 +1577,50 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The TA4 Move Controller is similar to \"Door Controller 2\"\\, but the selected blocks are not removed\\, but can be moved.\n"..
+  "Since the moving blocks can take players and mobs standing on the block with them\\, elevators and similar transport systems can be built with them.\n"..
+  "\n"..
+  "Instructions:\n"..
+  "\n"..
+  "  - Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)\n"..
+  "  - the \"flight route\" must be entered via an x\\, y\\, z specification (relative) (the maximum distance is 100 m)\n"..
+  "  - The movement can be tested with the menu buttons \"Move A-B\" and \"Move B-A\"\n"..
+  "  - you can also fly through walls or other blocks\n"..
+  "  - The target position for the blocks can also be occupied. In this case\\, the blocks are saved \"invisibly\". This is intended for sliding doors and the like\n"..
+  "  - A \"handover\" can also be programmed in the controller via the open-ended wrench menu. By entering a block number\\, the blocks are then transferred to the next move controller. In this way\\, connected movements can also be implemented using several Move Controllers.\n"..
+  "\n"..
+  "The Move Controller supports the following techage commands:\n"..
+  "\n"..
+  "  - 'a2b' Move block from A to B.\n"..
+  "  - 'b2a' Move block from B to A.\n"..
+  "  - 'move' Move block to the other side\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Entire processes can be programmed using the TA4 sequencer. Here's an example:\n"..
+  "\n"..
+  "    -- this is a comment\n"..
+  "    \\[1\\] send 1234 a2b\n"..
+  "    \\[30\\] send 1234 b2a\n"..
+  "    \\[60\\] goto 1\n"..
+  "\n"..
+  "  - Each line begins with a number which corresponds to a point in time '\\[<num>\\]'\n"..
+  "  - Values from 1 to 50000 are permitted for times\n"..
+  "  - 1 corresponds to 100 ms\\, 50000 corresponds to about 4 game days\n"..
+  "  - Empty lines or comments are allowed ('-- comment')\n"..
+  "  - With 'send <num> <command> <data>' you can send a command to a block\n"..
+  "  - With 'goto <num>' you can jump to another line / point in time\n"..
+  "  - With 'stop' you can stop the sequencer with a delay so that it does not receive a new command\naccepts from a button or other block (to complete a movement)\nWithout 'stop'\\, the sequencer goes into stopped mode immediately after the last command.\n"..
+  "\n"..
+  "The TA4 sequencer supports the following techage commands:\n"..
+  "\n"..
+  "  - 'goto <num>' Jump to a command line and start the sequencer\n"..
+  "  - 'stop' Stop the sequencer\n"..
+  "\n"..
+  "The 'goto' command is only accepted when the sequencer is stopped.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "TA4 contains a series of powerful lamps that enable better illumination or take on special tasks.\n"..
   "\n",
   "The TA4 LED grow light enables fast and vigorous growth of all plants from the 'farming' mod. The lamp illuminates a 3x3 field\\, so that plants can also be grown underground.\n"..
@@ -1941,6 +1987,8 @@ techage.manual_EN.aItemName = {
   "ta4_playerdetector",
   "ta4_collector",
   "ta4_detector",
+  "ta4_movecontroller",
+  "ta4_sequencer",
   "",
   "ta4_growlight",
   "ta4_streetlamp",
@@ -2134,6 +2182,8 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
+  "",
   "",
   "",
   "",
