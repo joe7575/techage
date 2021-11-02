@@ -21,6 +21,9 @@ local TA4_INV_SIZE = 50
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local mConf = dofile(MP.."/basis/conf_inv.lua")
 
+local hyperloop = techage.hyperloop
+local remote_pos = techage.hyperloop.remote_pos
+
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
@@ -195,6 +198,29 @@ local function formspec4(pos)
 	"listring[current_player;main]"
 end
 
+local function formspec4_client(pos)
+	local location = "nodemeta:" .. pos.x .. "," .. pos.y .. "," .. pos.z
+	return "size[10,9]"..
+	default.gui_bg..
+	default.gui_bg_img..
+	default.gui_slots..
+	"list[" .. location .. ";main;0,0;10,5;]"..
+	"list[current_player;main;1,5.3;8,4;]"..
+	"listring[" .. location .. ";main]"..
+	"listring[current_player;main]"
+end
+
+local function formspec4_server(pos)
+	return "size[10,9]"..
+	default.gui_bg..
+	default.gui_bg_img..
+	default.gui_slots..
+	"list[context;main;0,0;10,5;]"..
+	"list[current_player;main;1,5.3;8,4;]"..
+	"listring[context;main]"..
+	"listring[current_player;main]"
+end
+
 local function formspec4_pre(pos)
 	return "size[10,9]"..
 	"tabheader[0,0;tab;"..S("Inventory,Pre-Assignment,Config")..";2;;true]"..
@@ -286,6 +312,7 @@ minetest.register_node("techage:chest_ta4", {
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("formspec", formspec4(pos))
 		meta:set_string("infotext", S("TA4 Protected Chest").." "..number)
+		hyperloop.after_place_node(pos, placer, "chest")
 	end,
 
 	on_receive_fields = function(pos, formname, fields, player)
@@ -324,8 +351,22 @@ minetest.register_node("techage:chest_ta4", {
 		return techage.logic.set_numbers(pos, numbers, player_name, S("TA4 Protected Chest"))
 	end,
 	
+	on_rightclick = function(pos, node, clicker)
+		print("on_rightclick")
+		if hyperloop.is_client(pos) then
+			M(pos):set_string("formspec", formspec4_client(remote_pos(pos)))
+		elseif hyperloop.is_server(pos) then
+			M(pos):set_string("formspec", formspec4_server(pos))
+		end	
+	end,
+	
 	can_dig = can_dig,
-	after_dig_node = after_dig_node,
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
+		techage.remove_node(pos, oldnode, oldmetadata)
+		hyperloop.after_dig_node(pos, oldnode, oldmetadata, digger)
+	end,
+	ta4_formspec = hyperloop.WRENCH_MENU,
+	ta_after_formspec = hyperloop.after_formspec,
 	allow_metadata_inventory_put = ta4_allow_metadata_inventory_put,
 	allow_metadata_inventory_take = ta4_allow_metadata_inventory_take,
 	allow_metadata_inventory_move = ta4_allow_metadata_inventory_move,
@@ -339,10 +380,12 @@ minetest.register_node("techage:chest_ta4", {
 
 techage.register_node({"techage:chest_ta4"}, {
 	on_inv_request = function(pos, in_dir, access_type)
+		pos = remote_pos(pos)
 		local meta = minetest.get_meta(pos)
 		return meta:get_inventory(), "main"
 	end,
 	on_pull_item = function(pos, in_dir, num, item_name)
+		pos = remote_pos(pos)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		local mem = techage.get_mem(pos)
@@ -370,6 +413,7 @@ techage.register_node({"techage:chest_ta4"}, {
 		end
 	end,
 	on_push_item = function(pos, in_dir, item, idx)
+		pos = remote_pos(pos)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		local mem = techage.get_mem(pos)
@@ -386,6 +430,7 @@ techage.register_node({"techage:chest_ta4"}, {
 		end
 	end,
 	on_unpull_item = function(pos, in_dir, item)
+		pos = remote_pos(pos)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		local mem = techage.get_mem(pos)

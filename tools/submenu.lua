@@ -48,7 +48,9 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 			local offs = (i - 1) * 0.9 - 0.2
 			tbl[#tbl+1] = "label[0," .. offs .. ";" .. minetest.formspec_escape(elem.label) .. ":]"
 			tbl[#tbl+1] = "tooltip[0," .. offs .. ";4,1;" .. elem.tooltip .. "]"
-			if elem.type == "number" then
+			if elem.type == "label" then
+				-- none
+			elseif elem.type == "number" then
 				local val = elem.default
 				if meta:contains(elem.name) then
 					val = meta:get_int(elem.name)
@@ -104,6 +106,15 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 						val = meta:get_string(elem.name) or ""
 					end
 					tbl[#tbl+1] = "label[4.75," .. offs .. ";" .. val .. "]"
+				elseif elem.on_dropdown then -- block provides a specific list of choice elements
+					local val = elem.default
+					if meta:contains(elem.name) then
+						val = meta:get_string(elem.name) or ""
+					end
+					local choices = elem.on_dropdown(pos)
+					local l = choices:split(",")
+					local idx = index(l, val) or 1
+					tbl[#tbl+1] = "dropdown[4.72," .. (offs) .. ";5.5,1.4;" .. elem.name .. ";" .. choices .. ";" .. idx .. "]"
 				else
 					local val = elem.default
 					if meta:contains(elem.name) then
@@ -112,7 +123,7 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 					local idx = index(l, val) or 1
 					tbl[#tbl+1] = "dropdown[4.72," .. (offs) .. ";5.5,1.4;" .. elem.name .. ";" .. elem.choices .. ";" .. idx .. "]"
 				end
-			elseif elem.type == "items" then
+			elseif elem.type == "items" then  -- inventory
 				tbl[#tbl+1] = "list[detached:" .. minetest.formspec_escape(player_name) .. "_techage_wrench_menu;cfg;4.75," .. offs .. ";" .. elem.size .. ",1;]"
 				player_inv_needed = true
 			end

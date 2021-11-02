@@ -39,6 +39,9 @@ elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.0 then
 elseif minetest.global_exists("networks") and networks.version < 0.10 then
 	minetest.log("error", "[techage] Techage requires networks version 0.10 or newer!")
 	return
+elseif minetest.global_exists("hyperloop") and hyperloop.version < 2.07 then
+	minetest.log("error", "[techage] Techage requires hyperloop version 2.07 or newer!")
+	return
 end
 
 -- Test MT 5.4 new string mode
@@ -94,6 +97,7 @@ dofile(MP.."/basis/formspec_update.lua")
 dofile(MP.."/basis/windturbine_lib.lua")
 dofile(MP.."/basis/laser_lib.lua")
 dofile(MP.."/basis/legacy.lua")
+dofile(MP.."/basis/hyperloop.lua")
 
 -- Main doc
 dofile(MP.."/doc/manual_DE.lua")
