@@ -37,7 +37,8 @@ minetest.register_node("techage:ta4_laser_emitter", {
 		local tube_dir = networks.side_to_outdir(pos, "F")
 		Cable:prepare_pairing(pos, tube_dir, "")
 		Cable:after_place_node(pos, {tube_dir})
-		
+		local number = techage.add_node(pos, "techage:ta4_laser_emitter")
+		M(pos):set_string("node_number", number)
 		local res, pos1, pos2 = techage.renew_laser(pos, true)
 		if pos1 then
 			local node = techage.get_node_lvm(pos2)
@@ -56,17 +57,20 @@ minetest.register_node("techage:ta4_laser_emitter", {
 	end,
 
 	on_timer = function(pos, elapsed)
+		local nvm = techage.get_nvm(pos)
 		local res, pos1, pos2 = techage.renew_laser(pos)
 		if pos1 then
 			local node = techage.get_node_lvm(pos2)
 			if node.name == "techage:ta4_laser_receiver" then
 				Cable:pairing(pos2, "laser")
 				Cable:pairing(pos, "laser")
+				nvm.running = true
 			else
 				local metadata = M(pos):to_table()
 				Cable:stop_pairing(pos, metadata, "")
 				local tube_dir = tonumber(metadata.fields.tube_dir or 0)
 				Cable:after_dig_node(pos, {tube_dir})
+				nvm.running = false
 			end
 		elseif not res then
 			techage.del_laser(pos)
@@ -74,6 +78,7 @@ minetest.register_node("techage:ta4_laser_emitter", {
 			Cable:stop_pairing(pos, metadata, "")
 			local tube_dir = tonumber(metadata.fields.tube_dir or 0)
 			Cable:after_dig_node(pos, {tube_dir})
+			nvm.running = false
 		end
 		return true
 	end,
@@ -119,6 +124,17 @@ minetest.register_node("techage:ta4_laser_receiver", {
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
+})
+
+techage.register_node({"techage:ta4_laser_emitter"}, {
+	on_recv_message = function(pos, src, topic, payload)
+		if topic == "state" then
+			local nvm = techage.get_nvm(pos)
+			return nvm.running and "running" or "stopped"
+		else
+			return "unsupported"
+		end
+	end,
 })
 
 power.register_nodes({"techage:ta4_laser_emitter", "techage:ta4_laser_receiver"}, Cable, "special", {"F"})
