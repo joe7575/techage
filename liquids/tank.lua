@@ -26,8 +26,8 @@ local remote_pos = techage.hyperloop.remote_pos
 
 local CAPACITY = 1000
 
-local function on_rightclick(pos, node, clicker, rmt_pos)
-	rmt_pos = rmt_pos or pos
+local function on_rightclick(pos, node, clicker)
+	local rmt_pos = remote_pos(pos)
 	local nvm = techage.get_nvm(rmt_pos)
 	techage.set_activeformspec(pos, clicker)
 	M(pos):set_string("formspec", techage.liquid.formspec(rmt_pos, nvm))
@@ -241,9 +241,7 @@ minetest.register_node("techage:ta4_tank", {
 		hyperloop.after_dig_node(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
-	on_rightclick = function(pos, node, clicker)
-		return on_rightclick(pos, node, clicker, remote_pos(pos))
-	end,
+	on_rightclick = on_rightclick,
 	ta4_formspec = hyperloop.WRENCH_MENU,
 	ta_after_formspec = hyperloop.after_formspec,
 	can_dig = can_dig,
