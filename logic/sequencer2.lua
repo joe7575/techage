@@ -95,7 +95,7 @@ local function compile(s, tRes)
 				return exception(tRes, i, "Order error!")
 			end
 			start_idx = start_idx or idx
-			if old_idx ~= 0 and not tCode[old_idx].next_idx then
+			if old_idx ~= 0 and tCode[old_idx] and not tCode[old_idx].next_idx then
 				tCode[old_idx].next_idx = idx
 			end
 			if cmnd1 == "send" then
