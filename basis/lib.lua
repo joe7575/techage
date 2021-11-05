@@ -343,3 +343,32 @@ function techage.wrench_tooltip(x, y)
 		"tooltip["..x..","..y..";0.5,0.5;"..tooltip..";#0C3D32;#FFFFFF]"
 end
 
+-------------------------------------------------------------------------------
+-- Player TA5 Experience Points
+-------------------------------------------------------------------------------
+function techage.get_expoints(player)
+	if player and player.get_meta then
+		local meta = player:get_meta()
+		if meta then
+			return meta:get_int("techage_ex_points")
+		end
+	end
+end
+
+function techage.add_expoint(player)
+	if player and player.get_meta then
+		local meta = player:get_meta()
+		if meta then
+			meta:set_int("techage_ex_points", meta:get_int("techage_ex_points") + 1)
+		end
+	end
+end
+
+function techage.set_expoints(player, ex_points)
+	if player and player.get_meta then
+		local meta = player:get_meta()
+		if meta then
+			meta:set_int("techage_ex_points", ex_points)
+		end
+	end
+end

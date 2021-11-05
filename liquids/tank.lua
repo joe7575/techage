@@ -242,7 +242,7 @@ minetest.register_node("techage:ta4_tank", {
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 	on_rightclick = on_rightclick,
-	ta4_formspec = hyperloop.WRENCH_MENU,
+	ta5_formspec = {menu=hyperloop.WRENCH_MENU, ex_points=20},
 	ta_after_formspec = hyperloop.after_formspec,
 	can_dig = can_dig,
 	paramtype2 = "facedir",

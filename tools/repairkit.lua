@@ -149,7 +149,18 @@ local function settings_menu(pos, playername)
 	local number = techage.get_node_number(pos)
 	local node = minetest.get_node(pos)
 	local ndef = minetest.registered_nodes[node.name]
-	local form_def = ndef and (ndef.ta3_formspec or ndef.ta4_formspec)
+	local form_def
+	
+	if ndef then
+		if ndef.ta3_formspec or ndef.ta4_formspec then
+			form_def = ndef.ta3_formspec or ndef.ta4_formspec
+		elseif ndef.ta5_formspec then
+			local player = minetest.get_player_by_name(playername)
+			if techage.get_expoints(player) >= ndef.ta5_formspec.ex_points then
+				form_def = ndef.ta5_formspec.menu
+			end
+		end
+	end
 	
 	context[playername] = pos
 	if form_def then

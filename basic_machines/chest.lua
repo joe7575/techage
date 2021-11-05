@@ -365,7 +365,7 @@ minetest.register_node("techage:chest_ta4", {
 		techage.remove_node(pos, oldnode, oldmetadata)
 		hyperloop.after_dig_node(pos, oldnode, oldmetadata, digger)
 	end,
-	ta4_formspec = hyperloop.WRENCH_MENU,
+	ta5_formspec = {menu=hyperloop.WRENCH_MENU, ex_points=10},
 	ta_after_formspec = hyperloop.after_formspec,
 	allow_metadata_inventory_put = ta4_allow_metadata_inventory_put,
 	allow_metadata_inventory_take = ta4_allow_metadata_inventory_take,
