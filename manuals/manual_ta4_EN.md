@@ -481,11 +481,8 @@ This block has four buttons that can be individually configured using the wrench
 This block has two lamps that can be controlled individually. Each lamp can display the colors "red", "green" and "amber". The labeling for both lamps can be configured via the wrench menu. The lamps can be controlled using the following commands:
 
 - Switch lamp 1 to red: `$send_cmnd(1234, "red", 1)`
-
 - Switch lamp 2 to green: `$send_cmnd(1234, "green ", 2)`
-
 - Switch lamp 1 to orange: `$send_cmnd(1234, "amber", 1)`
-
 - Switch lamp 2 off: `$send_cmnd(1234, "off", 2)`
 
 [ta4_signallamp_2x|image]
@@ -495,11 +492,8 @@ This block has two lamps that can be controlled individually. Each lamp can disp
 This block has four lamps that can be controlled individually. Each lamp can display the colors "red", "green" and "amber". The labeling for all lamps can be configured via the wrench menu. The lamps can be controlled using the following commands:
 
 - Switch lamp 1 to red: `$send_cmnd(1234, "red", 1)`
-
 - Switch lamp 2 to green: `$send_cmnd(1234, "green ", 2)`
-
 - Switch lamp 3 to orange: `$send_cmnd(1234, "amber", 3)`
-
 - Switch lamp 4 off: `$send_cmnd(1234, "off", 4)`
 
 [ta4_signallamp_4x|image]

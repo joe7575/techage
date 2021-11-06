@@ -487,11 +487,8 @@ Dieser Block hat vier Taster, die über das Schraubenschlüssel-Menü individuel
 Dieser Block hat zwei Lampen, die individuell angesteuert werden können. Jede Lampe kann die Farben "rot", "grün" und "orange" anzeigen. Über das Schraubenschlüssel-Menü kann für beide Lampen die Beschriftung konfiguriert werden. Die Lampen können über folgende Kommandos angesteuert werden:
 
 - Lampe 1 auf rot schalten: `$send_cmnd(1234, "red", 1)`
-
 - Lampe 2 auf grün schalten: `$send_cmnd(1234, "green", 2)`
-
 - Lampe 1 auf orange schalten: `$send_cmnd(1234, "amber", 1)`
-
 - Lampe 2 aus schalten: `$send_cmnd(1234, "off", 2)`
 
 [ta4_signallamp_2x|image]
@@ -501,11 +498,8 @@ Dieser Block hat zwei Lampen, die individuell angesteuert werden können. Jede L
 Dieser Block hat vier Lampen, die individuell angesteuert werden können. Jede Lampe kann die Farben "rot", "grün" und "orange" anzeigen. Über das Schraubenschlüssel-Menü kann für alle Lampen die Beschriftung konfiguriert werden. Die Lampen können über folgende Kommandos angesteuert werden:
 
 - Lampe 1 auf rot schalten: `$send_cmnd(1234, "red", 1)`
-
 - Lampe 2 auf grün schalten: `$send_cmnd(1234, "green", 2)`
-
 - Lampe 3 auf orange schalten: `$send_cmnd(1234, "amber", 3)`
-
 - Lampe 4 aus schalten: `$send_cmnd(1234, "off", 4)`
 
 [ta4_signallamp_4x|image]

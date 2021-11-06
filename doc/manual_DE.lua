@@ -1575,35 +1575,19 @@ techage.manual_DE.aText = {
   "\n",
   "Dieser Block hat zwei Lampen\\, die individuell angesteuert werden können. Jede Lampe kann die Farben \"rot\"\\, \"grün\" und \"orange\" anzeigen. Über das Schraubenschlüssel-Menü kann für beide Lampen die Beschriftung konfiguriert werden. Die Lampen können über folgende Kommandos angesteuert werden:\n"..
   "\n"..
-  "Lampe 1 auf rot schalten: '$send_cmnd(1234\\, \"red\"\\, 1)'\n"..
-  "\n"..
-  "Lampe 2 auf grün schalten: '$send_cmnd(1234\\, \"green\"\\, 2)'\n"..
-  "\n"..
-  "Lampe 1 auf orange schalten: '$send_cmnd(1234\\, \"amber\"\\, 1)'\n"..
-  "\n"..
-  "Lampe 2 aus schalten: '$send_cmnd(1234\\, \"off\"\\, 2)'\n"..
-  "\n"..
-  "  - \n"..
-  "  - \n"..
-  "  - \n"..
-  "  - \n"..
+  "  - Lampe 1 auf rot schalten: '$send_cmnd(1234\\, \"red\"\\, 1)'\n"..
+  "  - Lampe 2 auf grün schalten: '$send_cmnd(1234\\, \"green\"\\, 2)'\n"..
+  "  - Lampe 1 auf orange schalten: '$send_cmnd(1234\\, \"amber\"\\, 1)'\n"..
+  "  - Lampe 2 aus schalten: '$send_cmnd(1234\\, \"off\"\\, 2)'\n"..
   "\n"..
   "\n"..
   "\n",
   "Dieser Block hat vier Lampen\\, die individuell angesteuert werden können. Jede Lampe kann die Farben \"rot\"\\, \"grün\" und \"orange\" anzeigen. Über das Schraubenschlüssel-Menü kann für alle Lampen die Beschriftung konfiguriert werden. Die Lampen können über folgende Kommandos angesteuert werden:\n"..
   "\n"..
-  "Lampe 1 auf rot schalten: '$send_cmnd(1234\\, \"red\"\\, 1)'\n"..
-  "\n"..
-  "Lampe 2 auf grün schalten: '$send_cmnd(1234\\, \"green\"\\, 2)'\n"..
-  "\n"..
-  "Lampe 3 auf orange schalten: '$send_cmnd(1234\\, \"amber\"\\, 3)'\n"..
-  "\n"..
-  "Lampe 4 aus schalten: '$send_cmnd(1234\\, \"off\"\\, 4)'\n"..
-  "\n"..
-  "  - \n"..
-  "  - \n"..
-  "  - \n"..
-  "  - \n"..
+  "  - Lampe 1 auf rot schalten: '$send_cmnd(1234\\, \"red\"\\, 1)'\n"..
+  "  - Lampe 2 auf grün schalten: '$send_cmnd(1234\\, \"green\"\\, 2)'\n"..
+  "  - Lampe 3 auf orange schalten: '$send_cmnd(1234\\, \"amber\"\\, 3)'\n"..
+  "  - Lampe 4 aus schalten: '$send_cmnd(1234\\, \"off\"\\, 4)'\n"..
   "\n"..
   "\n"..
   "\n",
