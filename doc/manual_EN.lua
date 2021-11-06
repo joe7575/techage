@@ -183,7 +183,10 @@ techage.manual_EN.aTitel = {
   "3,TA4 Lua Controller Terminal",
   "2,TA4 Logic/Switching Modules",
   "3,TA4 Button/Switch",
+  "3,TA4 2x Button",
   "3,TA4 4x Button",
+  "3,TA4 2x Signal Lamp",
+  "3,TA4 4x Signal Lamp",
   "3,TA4 Player Detector",
   "3,TA4 State Collector",
   "3,TA4 Detector",
@@ -1560,7 +1563,45 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "This block has two buttons that can be individually configured using the wrench menu. The labeling and the target block address can be configured for each button. In addition\\, the command that is to be sent can be configured for each button. \n"..
+  "\n"..
+  "\n"..
+  "\n",
   "This block has four buttons that can be individually configured using the wrench menu. The labeling and the target block address can be configured for each button. In addition\\, the command that is to be sent can be configured for each button. \n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "This block has two lamps that can be controlled individually. Each lamp can display the colors \"red\"\\, \"green\" and \"amber\". The labeling for both lamps can be configured via the wrench menu. The lamps can be controlled using the following commands:\n"..
+  "\n"..
+  "Switch lamp 1 to red: '$send_cmnd(1234\\, \"red\"\\, 1)'\n"..
+  "\n"..
+  "Switch lamp 2 to green: '$send_cmnd(1234\\, \"green \"\\, 2)'\n"..
+  "\n"..
+  "Switch lamp 1 to orange: '$send_cmnd(1234\\, \"amber\"\\, 1)'\n"..
+  "\n"..
+  "Switch lamp 2 off: '$send_cmnd(1234\\, \"off\"\\, 2)'\n"..
+  "\n"..
+  "  - \n"..
+  "  - \n"..
+  "  - \n"..
+  "  - \n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "This block has four lamps that can be controlled individually. Each lamp can display the colors \"red\"\\, \"green\" and \"amber\". The labeling for all lamps can be configured via the wrench menu. The lamps can be controlled using the following commands:\n"..
+  "\n"..
+  "Switch lamp 1 to red: '$send_cmnd(1234\\, \"red\"\\, 1)'\n"..
+  "\n"..
+  "Switch lamp 2 to green: '$send_cmnd(1234\\, \"green \"\\, 2)'\n"..
+  "\n"..
+  "Switch lamp 3 to orange: '$send_cmnd(1234\\, \"amber\"\\, 3)'\n"..
+  "\n"..
+  "Switch lamp 4 off: '$send_cmnd(1234\\, \"off\"\\, 4)'\n"..
+  "\n"..
+  "  - \n"..
+  "  - \n"..
+  "  - \n"..
+  "  - \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1983,7 +2024,10 @@ techage.manual_EN.aItemName = {
   "ta4_terminal",
   "",
   "ta4_button",
+  "ta4_button_2x",
   "ta4_button_4x",
+  "ta4_signallamp_2x",
+  "ta4_signallamp_4x",
   "ta4_playerdetector",
   "ta4_collector",
   "ta4_detector",
@@ -2182,6 +2226,9 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
+  "",
+  "",
   "",
   "",
   "",

@@ -110,12 +110,13 @@ TA3 Booster=
 ### button.lua ###
 
 Access:=
+Command to be sent=
 TA3 Button/Switch=
 TA4 Button/Switch=
 
 ### button.lua ###
+### button_2x.lua ###
 ### button_4x.lua ###
-### signallamp_4x.lua ###
 
 Command=
 
@@ -141,27 +142,32 @@ Insert destination node number(s)=
 
 Save=
 
-### button.lua ###
-### signallamp_4x.lua ###
+### button_2x.lua ###
 
-Command to be sent=
+TA4 2x Button=
 
+### button_2x.lua ###
 ### button_4x.lua ###
-
-Command to be sent (ignored for switches)=
-Label=
-Label for the button=
-Momentary button or on/off switch=
-TA4 4x Button=
-Type=
-
-### button_4x.lua ###
-### signallamp_4x.lua ###
 
 Access=
 Button protection=
+Command to be sent (ignored for switches)=
 Destination block number=
+Label for the button=
+Momentary button or on/off switch=
 Number=
+Type=
+
+### button_2x.lua ###
+### button_4x.lua ###
+### signallamp_2x.lua ###
+### signallamp_4x.lua ###
+
+Label=
+
+### button_4x.lua ###
+
+TA4 4x Button=
 
 ### cart_detector.lua ###
 
@@ -548,6 +554,21 @@ TA4 Heat Exchanger 3=
 Hydrogen Cylinder Large=
 Hydrogen Cylinder Small=
 TA4 Hydrogen=
+
+### hyperloop.lua ###
+
+Connected to=
+Connection name for this block=
+Connection name of the remote block=
+Connection status=
+Own name=
+Provide 'own name' or select a 'remote name' (not both)=
+Remote name=
+
+### hyperloop.lua ###
+### sensorchest.lua ###
+
+not connected=
 
 ### industriallamp1.lua ###
 
@@ -961,7 +982,6 @@ TA4 Wind Turbine Nacelle=
 
 Allow public chest access=
 TA4 Sensor Chest=
-not connected=
 
 ### sequencer.lua ###
 
@@ -1003,6 +1023,15 @@ Cancel=
 TA4 Wind Turbine Signal Lamp=
 TechAge Signal Lamp=
 TechAge Signal Lamp (can be colored)=
+
+### signallamp_2x.lua ###
+
+TA4 2x Signal Lamp=
+
+### signallamp_2x.lua ###
+### signallamp_4x.lua ###
+
+Label for the lamp=
 
 ### signallamp_4x.lua ###
 

@@ -463,11 +463,46 @@ Only the appearance of the TA4 button/switch has changed. The functionality is t
 
 [ta4_button|image]
 
+### TA4 2x Button
+
+This block has two buttons that can be individually configured using the wrench menu. The labeling and the target block address can be configured for each button. In addition, the command that is to be sent can be configured for each button. 
+
+[ta4_button_2x|image]
+
+
 ### TA4 4x Button
 
 This block has four buttons that can be individually configured using the wrench menu. The labeling and the target block address can be configured for each button. In addition, the command that is to be sent can be configured for each button. 
 
 [ta4_button_4x|image]
+
+### TA4 2x Signal Lamp
+
+This block has two lamps that can be controlled individually. Each lamp can display the colors "red", "green" and "amber". The labeling for both lamps can be configured via the wrench menu. The lamps can be controlled using the following commands:
+
+- Switch lamp 1 to red: `$send_cmnd(1234, "red", 1)`
+
+- Switch lamp 2 to green: `$send_cmnd(1234, "green ", 2)`
+
+- Switch lamp 1 to orange: `$send_cmnd(1234, "amber", 1)`
+
+- Switch lamp 2 off: `$send_cmnd(1234, "off", 2)`
+
+[ta4_signallamp_2x|image]
+
+### TA4 4x Signal Lamp
+
+This block has four lamps that can be controlled individually. Each lamp can display the colors "red", "green" and "amber". The labeling for all lamps can be configured via the wrench menu. The lamps can be controlled using the following commands:
+
+- Switch lamp 1 to red: `$send_cmnd(1234, "red", 1)`
+
+- Switch lamp 2 to green: `$send_cmnd(1234, "green ", 2)`
+
+- Switch lamp 3 to orange: `$send_cmnd(1234, "amber", 3)`
+
+- Switch lamp 4 off: `$send_cmnd(1234, "off", 4)`
+
+[ta4_signallamp_4x|image]
 
 ### TA4 Player Detector
 

@@ -470,11 +470,45 @@ Beim TA4 Taster/Schalter hat sich nur das Aussehen geändert. Die Funktionalitä
 
 [ta4_button|image]
 
+### TA4 2x Taster / 2x Button
+
+Dieser Block hat zwei Taster, die über das Schraubenschlüssel-Menü individuell konfiguriert werden können. Für beide Taster kann die Beschriftung und die Zielblockadresse konfiguriert werden. Zusätzlich kann für beide Taster das Kommando konfiguriert werden, welches gesendet werden soll.
+
+[ta4_button_2x|image]
+
 ### TA4 4x Taster / 4x Button
 
 Dieser Block hat vier Taster, die über das Schraubenschlüssel-Menü individuell konfiguriert werden können. Für jeden Taster kann die Beschriftung und die Zielblockadresse konfiguriert werden. Zusätzlich kann für jeden Taster das Kommando konfiguriert werden, welches gesendet werden soll.
 
 [ta4_button_4x|image]
+
+### TA4 2x Signallampe / 2x Signal Lamp
+
+Dieser Block hat zwei Lampen, die individuell angesteuert werden können. Jede Lampe kann die Farben "rot", "grün" und "orange" anzeigen. Über das Schraubenschlüssel-Menü kann für beide Lampen die Beschriftung konfiguriert werden. Die Lampen können über folgende Kommandos angesteuert werden:
+
+- Lampe 1 auf rot schalten: `$send_cmnd(1234, "red", 1)`
+
+- Lampe 2 auf grün schalten: `$send_cmnd(1234, "green", 2)`
+
+- Lampe 1 auf orange schalten: `$send_cmnd(1234, "amber", 1)`
+
+- Lampe 2 aus schalten: `$send_cmnd(1234, "off", 2)`
+
+[ta4_signallamp_2x|image]
+
+### TA4 4x Signallampe / 4x Signal Lamp
+
+Dieser Block hat vier Lampen, die individuell angesteuert werden können. Jede Lampe kann die Farben "rot", "grün" und "orange" anzeigen. Über das Schraubenschlüssel-Menü kann für alle Lampen die Beschriftung konfiguriert werden. Die Lampen können über folgende Kommandos angesteuert werden:
+
+- Lampe 1 auf rot schalten: `$send_cmnd(1234, "red", 1)`
+
+- Lampe 2 auf grün schalten: `$send_cmnd(1234, "green", 2)`
+
+- Lampe 3 auf orange schalten: `$send_cmnd(1234, "amber", 3)`
+
+- Lampe 4 aus schalten: `$send_cmnd(1234, "off", 4)`
+
+[ta4_signallamp_4x|image]
 
 ### TA4 Spieler Detektor / Player Detector
 

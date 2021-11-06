@@ -183,7 +183,10 @@ techage.manual_DE.aTitel = {
   "3,TA4 Lua Controller Terminal",
   "2,TA4 Logik-/Schalt-Module",
   "3,TA4 Taster/Schalter / Button/Switch",
+  "3,TA4 2x Taster / 2x Button",
   "3,TA4 4x Taster / 4x Button",
+  "3,TA4 2x Signallampe / 2x Signal Lamp",
+  "3,TA4 4x Signallampe / 4x Signal Lamp",
   "3,TA4 Spieler Detektor / Player Detector",
   "3,TA4 Zustandssammler / State Collector",
   "3,TA4 Detektor / Detector",
@@ -1562,7 +1565,45 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Dieser Block hat zwei Taster\\, die über das Schraubenschlüssel-Menü individuell konfiguriert werden können. Für beide Taster kann die Beschriftung und die Zielblockadresse konfiguriert werden. Zusätzlich kann für beide Taster das Kommando konfiguriert werden\\, welches gesendet werden soll.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Dieser Block hat vier Taster\\, die über das Schraubenschlüssel-Menü individuell konfiguriert werden können. Für jeden Taster kann die Beschriftung und die Zielblockadresse konfiguriert werden. Zusätzlich kann für jeden Taster das Kommando konfiguriert werden\\, welches gesendet werden soll.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Dieser Block hat zwei Lampen\\, die individuell angesteuert werden können. Jede Lampe kann die Farben \"rot\"\\, \"grün\" und \"orange\" anzeigen. Über das Schraubenschlüssel-Menü kann für beide Lampen die Beschriftung konfiguriert werden. Die Lampen können über folgende Kommandos angesteuert werden:\n"..
+  "\n"..
+  "Lampe 1 auf rot schalten: '$send_cmnd(1234\\, \"red\"\\, 1)'\n"..
+  "\n"..
+  "Lampe 2 auf grün schalten: '$send_cmnd(1234\\, \"green\"\\, 2)'\n"..
+  "\n"..
+  "Lampe 1 auf orange schalten: '$send_cmnd(1234\\, \"amber\"\\, 1)'\n"..
+  "\n"..
+  "Lampe 2 aus schalten: '$send_cmnd(1234\\, \"off\"\\, 2)'\n"..
+  "\n"..
+  "  - \n"..
+  "  - \n"..
+  "  - \n"..
+  "  - \n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Dieser Block hat vier Lampen\\, die individuell angesteuert werden können. Jede Lampe kann die Farben \"rot\"\\, \"grün\" und \"orange\" anzeigen. Über das Schraubenschlüssel-Menü kann für alle Lampen die Beschriftung konfiguriert werden. Die Lampen können über folgende Kommandos angesteuert werden:\n"..
+  "\n"..
+  "Lampe 1 auf rot schalten: '$send_cmnd(1234\\, \"red\"\\, 1)'\n"..
+  "\n"..
+  "Lampe 2 auf grün schalten: '$send_cmnd(1234\\, \"green\"\\, 2)'\n"..
+  "\n"..
+  "Lampe 3 auf orange schalten: '$send_cmnd(1234\\, \"amber\"\\, 3)'\n"..
+  "\n"..
+  "Lampe 4 aus schalten: '$send_cmnd(1234\\, \"off\"\\, 4)'\n"..
+  "\n"..
+  "  - \n"..
+  "  - \n"..
+  "  - \n"..
+  "  - \n"..
   "\n"..
   "\n"..
   "\n",
@@ -1984,7 +2025,10 @@ techage.manual_DE.aItemName = {
   "ta4_terminal",
   "",
   "ta4_button",
+  "ta4_button_2x",
   "ta4_button_4x",
+  "ta4_signallamp_2x",
+  "ta4_signallamp_4x",
   "ta4_playerdetector",
   "ta4_collector",
   "ta4_detector",
@@ -2183,6 +2227,9 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
+  "",
+  "",
   "",
   "",
   "",

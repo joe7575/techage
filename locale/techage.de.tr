@@ -110,12 +110,13 @@ TA3 Booster=TA3 Gebläse
 ### button.lua ###
 
 Access:=Zugriff:
+Command to be sent=Zu sendender Befehl 
 TA3 Button/Switch=TA3 Taster/Schalter
 TA4 Button/Switch=TA4 Schalter/Taster
 
 ### button.lua ###
+### button_2x.lua ###
 ### button_4x.lua ###
-### signallamp_4x.lua ###
 
 Command=Kommando
 
@@ -141,27 +142,32 @@ Insert destination node number(s)=Gebe Zielnummer(n) ein
 
 Save=Speichern
 
-### button.lua ###
-### signallamp_4x.lua ###
+### button_2x.lua ###
 
-Command to be sent=Zu sendender Befehl 
+TA4 2x Button=TA4 2x Taster
 
+### button_2x.lua ###
 ### button_4x.lua ###
-
-Command to be sent (ignored for switches)=Zu sendender Befehl (wird für Schalter ignoriert)
-Label=Beschriftung
-Label for the button=Beschriftung für die Taste
-Momentary button or on/off switch=Taster oder Ein-/Ausschalter
-TA4 4x Button=TA4 4x Taster
-Type=Typ
-
-### button_4x.lua ###
-### signallamp_4x.lua ###
 
 Access=Zugriff
 Button protection=Tastenschutz
+Command to be sent (ignored for switches)=Zu sendender Befehl (wird für Schalter ignoriert)
 Destination block number=Zielblocknummer 
+Label for the button=Beschriftung für die Taste
+Momentary button or on/off switch=Taster oder Ein-/Ausschalter
 Number=Nummer
+Type=Typ
+
+### button_2x.lua ###
+### button_4x.lua ###
+### signallamp_2x.lua ###
+### signallamp_4x.lua ###
+
+Label=Beschriftung
+
+### button_4x.lua ###
+
+TA4 4x Button=TA4 4x Taster
 
 ### cart_detector.lua ###
 
@@ -548,6 +554,21 @@ TA4 Heat Exchanger 3=TA4 Wärmetauscher 3
 Hydrogen Cylinder Large=Wasserstoffflasche groß
 Hydrogen Cylinder Small=Wasserstoffflasche klein
 TA4 Hydrogen=TA4 Wasserstoff
+
+### hyperloop.lua ###
+
+Connected to=Verbunden mit
+Connection name for this block=Verbindungsname für diesen Block
+Connection name of the remote block=Verbindungsname des entfernten Blocks
+Connection status=Verbindungsstatus
+Own name=Eigener Name
+Provide 'own name' or select a 'remote name' (not both)=Geben Sie nur einmal einen Namen (nicht beides angeben)
+Remote name=Name entfernter Block
+
+### hyperloop.lua ###
+### sensorchest.lua ###
+
+not connected=nicht verbunden
 
 ### industriallamp1.lua ###
 
@@ -961,7 +982,6 @@ TA4 Wind Turbine Nacelle=TA4 Windkraftanlagengondel
 
 Allow public chest access=Erlaube öffentlichen Zugriff
 TA4 Sensor Chest=Sensorkiste
-not connected=nicht verbunden
 
 ### sequencer.lua ###
 
@@ -1004,9 +1024,18 @@ TA4 Wind Turbine Signal Lamp=TA4 Windkraftanlagenlampe
 TechAge Signal Lamp=TechAge Signallampe
 TechAge Signal Lamp (can be colored)=TechAge Signallampe (kann gefärbt werden)
 
+### signallamp_2x.lua ###
+
+TA4 2x Signal Lamp=TA4 2x Signallampe
+
+### signallamp_2x.lua ###
 ### signallamp_4x.lua ###
 
-TA4 4x Signal Lamp=
+Label for the lamp=Bezeichner der Lampe
+
+### signallamp_4x.lua ###
+
+TA4 4x Signal Lamp=TA4 4x Signallampe
 
 ### silicon.lua ###
 

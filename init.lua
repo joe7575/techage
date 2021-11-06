@@ -280,7 +280,10 @@ dofile(MP.."/logic/doorblock.lua")
 dofile(MP.."/logic/doorcontroller.lua")  -- old
 dofile(MP.."/logic/doorcontroller2.lua")  -- new
 dofile(MP.."/logic/collector.lua")
+dofile(MP.."/logic/button_2x.lua")
 dofile(MP.."/logic/button_4x.lua")
+dofile(MP.."/logic/signallamp_2x.lua")
+dofile(MP.."/logic/signallamp_4x.lua")
 dofile(MP.."/logic/movecontroller.lua")
 if minetest.global_exists("mesecon") then
 	dofile(MP.."/logic/mesecons_converter.lua")
