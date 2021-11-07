@@ -215,15 +215,12 @@ local function on_receive_fields(pos, formname, fields, player)
 	local mem = techage.get_mem(pos)
 	nvm.running = nvm.running or false
 	
-	print(1, dump(fields))
 	if fields.stop then
 		nvm.running = false
 		minetest.get_node_timer(pos):stop()
 		logic.infotext(meta, S("TA4 Sequencer"), S("stopped"))
 	elseif not nvm.running then
-		print(2)
 		if fields.tab == "2" then
-			print(3)
 			meta:set_string("formspec", formspec_help(meta))
 			return
 		elseif fields.tab == "1" then
