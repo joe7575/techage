@@ -179,7 +179,7 @@ local function exchange_nodes(pos, nvm, slot)
 
 	for idx = (slot or 1), (slot or 16) do
 		local pos = nvm.pos_list[idx]
-		if pos and not minetest.is_protected(pos, owner) then
+		if pos then
 			item_list[idx], nvm.param2_list[idx] = exchange_node(pos, item_list[idx], nvm.param2_list[idx])
 			res = true
 		end
@@ -381,7 +381,9 @@ minetest.register_on_punchnode(function(pos, node, puncher, pointed_thing)
 			return
 		end
 		
-		mark_position(name, pointed_thing.under)
+		if not minetest.is_protected(pointed_thing.under, name) then
+			mark_position(name, pointed_thing.under)
+		end
 	end
 end)
 
