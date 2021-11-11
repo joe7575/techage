@@ -48,8 +48,10 @@ end
 -- determine exact position of attached entities
 local function obj_pos(obj)
 	local _, _, pos = obj:get_attach()
-	pos = vector.divide(pos, 29)
-	return vector.add(obj:get_pos(), pos)
+	if pos then
+		pos = vector.divide(pos, 29)
+		return vector.add(obj:get_pos(), pos)
+	end
 end
 
 -- Check access conflicts with other mods
@@ -77,9 +79,11 @@ end
 
 local function detach_player(player)
 	local pos = obj_pos(player)
-	player:set_detach()
-	player:set_properties({visual_size = {x=1, y=1}})
-	player:set_pos(pos)
+	if pos then
+		player:set_detach()
+		player:set_properties({visual_size = {x=1, y=1}})
+		player:set_pos(pos)
+	end
 	-- TODO: move to save position
 end
 
@@ -153,14 +157,13 @@ local function entity_to_node(pos, obj)
 	local self = obj:get_luaentity()
 	if self then
 		local name = self.item or "air"
+		local param2 = self.param2 or 0
 		local metadata = self.metadata or {}
 		local rot = obj:get_rotation()
 		detach_objects(pos, self)
 		obj:remove()
 		
 		pos = vector.round(pos)
-		local dir = minetest.yaw_to_dir(rot.y or 0)
-		local param2 = minetest.dir_to_facedir(dir) or 0
 		local node =  minetest.get_node(pos)
 		local ndef1 = minetest.registered_nodes[name]
 		local ndef2 = minetest.registered_nodes[node.name]
@@ -184,7 +187,7 @@ local function entity_to_node(pos, obj)
 	end
 end
 
-local function node_to_entity(pos, handover)
+local function node_to_entity(pos, handover, pos_2to1)
 	local meta = M(pos)
 	local node, metadata
 	
@@ -198,17 +201,18 @@ local function node_to_entity(pos, handover)
 		metadata = meta:to_table()
 		minetest.remove_node(pos)
 	end
-	local dir = minetest.facedir_to_dir(node.param2)
-	local yaw = minetest.dir_to_yaw(dir)
 	local obj = minetest.add_entity(pos, "techage:move_item")
 	if obj then
 		local self = obj:get_luaentity() 
-		obj:set_rotation({x=0, y=yaw, z=0})
+		local rot = techage.facedir_to_rotation(node.param2)
+		obj:set_rotation(rot)
 		obj:set_properties({wield_item=node.name})
 		obj:set_armor_groups({immortal=1})
 		self.item = node.name
+		self.param2 = node.param2
 		self.metadata = metadata or {}
 		self.handover = handover
+		self.pos_2to1 = pos_2to1
 		self.start_pos = table.copy(pos)
 		return obj
 	end
@@ -247,10 +251,7 @@ local function handover_to(pos, self)
 		local mem = techage.get_mem(info.pos)
 		if not mem.entities_are_there then
 			mem.entities_are_there = true
-			-- copy move direction
-			--print("techage.get_nvm(pos).pos_2to1", techage.get_nvm(pos).pos_2to1)
-			techage.get_nvm(info.pos).pos_2to1 = techage.get_nvm(pos).pos_2to1
-			minetest.after(0.2, techage.send_single, "0", self.handover, "handover")
+			minetest.after(0.2, techage.send_single, "0", self.handover, "handover", self.pos_2to1)
 		end
 		return true
 	end
@@ -303,19 +304,23 @@ minetest.register_entity("techage:move_item", {
 			local pos = obj:get_pos()
 			local dist = vector.distance(pos, self.dest_pos)
 			local speed = vector.length(obj:get_velocity())
+			self.old_dist = self.old_dist or dist
 			
 			-- Landing
-			if dist < 0.05 then
+			if dist < 0.05 or dist > self.old_dist then
 				obj:move_to(self.dest_pos, true)
 				obj:set_acceleration({x=0, y=0, z=0})
 				obj:set_velocity({x=0, y=0, z=0})
 				self.dest_pos = nil
+				self.old_dist = nil
 				if not self.handover or not handover_to(pos, self) then
 					minetest.after(0.5, entity_to_node, pos, obj)
 				end
 				self.ttl = 2
 				return
 			end
+			
+			self.old_dist = dist
 			
 			-- Braking or limit max speed 
 			if speed > (dist * 2) or speed > self.max_speed then
@@ -527,10 +532,9 @@ local function formspec(nvm, meta)
 		"label[0.3,4.3;" .. status .. "]"
 end
 
-local function move_node(pos, pos1, pos2, max_speed, handover, height)
-	local meta = M(pos)
+local function move_node(pos, pos1, pos2, max_speed, handover, height, pos_2to1)
 	local dir = determine_dir(pos1, pos2)
-	local obj = node_to_entity(pos1, handover)
+	local obj = node_to_entity(pos1, handover, pos_2to1)
 	local self = obj:get_luaentity()
 	self.players = {}
 	self.entities = {}
@@ -547,7 +551,7 @@ local function move_node(pos, pos1, pos2, max_speed, handover, height)
 	end
 end
 
-local function move_nodes(pos, lpos1, lpos2, handover)
+local function move_nodes(pos, lpos1, lpos2, handover, pos_2to1)
 	local meta = M(pos)
 	local owner = meta:get_string("owner")
 	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
@@ -560,7 +564,7 @@ local function move_nodes(pos, lpos1, lpos2, handover)
 			local pos2 = lpos2[idx]
 			if not minetest.is_protected(pos1, owner) and not minetest.is_protected(pos2, owner) then
 				if is_simple_node(pos1) and is_valid_dest(pos2) then
-					move_node(pos, pos1, pos2, max_speed, handover, height)
+					move_node(pos, pos1, pos2, max_speed, handover, height, pos_2to1)
 				else
 					if not is_simple_node(pos1) then
 						meta:set_string("status", S("No valid node at the start position"))
@@ -634,41 +638,37 @@ local function moveon_nodes(pos, lpos1, lpos2, handover)
 	return true
 end
 
-local function move_to_other_pos(pos)	
+local function move_to_other_pos(pos, pos_2to1)	
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
 	
-	if nvm.pos_2to1 then
+	if pos_2to1 then
 		local lpos1 = nvm.lpos1 or {}
 		local lpos2 = nvm.lpos2 or {}
-		nvm.pos_2to1 = false
 		local handover = meta:contains("handoverA") and meta:get_string("handoverA")
-		return move_nodes(pos, lpos2, lpos1, handover)
+		return move_nodes(pos, lpos2, lpos1, handover, pos_2to1)
 	else
 		local lpos1 = nvm.lpos1 or {}
 		local lpos2 = nvm.lpos2 or {}
-		nvm.pos_2to1 = true
 		local handover = meta:contains("handoverB") and meta:get_string("handoverB")
-		return move_nodes(pos, lpos1, lpos2, handover)
+		return move_nodes(pos, lpos1, lpos2, handover, pos_2to1)
 	end
 end
 	
-local function takeover(pos)	
+local function takeover(pos, pos_2to1)	
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
 	mem.entities_are_there = nil
 	
-	if nvm.pos_2to1 then
+	if pos_2to1 then
 		local lpos1 = nvm.lpos1 or {}
 		local lpos2 = nvm.lpos2 or {}
-		nvm.pos_2to1 = false
 		local handover = meta:contains("handoverA") and meta:get_string("handoverA")
 		return moveon_nodes(pos, lpos2, lpos1, handover)
 	else
 		local lpos1 = nvm.lpos1 or {}
 		local lpos2 = nvm.lpos2 or {}
-		nvm.pos_2to1 = true
 		local handover = meta:contains("handoverB") and meta:get_string("handoverB")
 		return moveon_nodes(pos, lpos1, lpos2, handover)
 	end
@@ -733,15 +733,14 @@ minetest.register_node("techage:ta4_movecontroller", {
 		elseif fields.moveAB then
 			meta:set_string("status", "")
 			nvm.pos_2to1 = false
-			if move_to_other_pos(pos) then
+			if move_to_other_pos(pos, false) then
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
 				MarkedNodes[name] = nil
 			end
 		elseif fields.moveBA then
 			meta:set_string("status", "")
-			nvm.pos_2to1 = true
-			if move_to_other_pos(pos) then
+			if move_to_other_pos(pos, true) then
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
 				MarkedNodes[name] = nil
@@ -763,24 +762,18 @@ minetest.register_node("techage:ta4_movecontroller", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-local INFO = [[Commands: 'a2b', 'b2a', 'move']]
+local INFO = [[Commands: 'a2b', 'b2a']]
 
 techage.register_node({"techage:ta4_movecontroller"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "info" then
 			return INFO
 		elseif topic == "a2b" then
-			local nvm = techage.get_nvm(pos)
-			nvm.pos_2to1 = false
-			return move_to_other_pos(pos)
+			return move_to_other_pos(pos, false)
 		elseif topic == "b2a" then
-			local nvm = techage.get_nvm(pos)
-			nvm.pos_2to1 = true
-			return move_to_other_pos(pos)
-		elseif topic == "move" then
-			return move_to_other_pos(pos)
+			return move_to_other_pos(pos, true)
 		elseif topic == "handover" then
-			return takeover(pos)
+			return takeover(pos, payload)
 		end
 		return false
 	end,

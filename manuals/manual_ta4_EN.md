@@ -535,7 +535,6 @@ The Move Controller supports the following techage commands:
 
 - `a2b` Move block from A to B.
 - `b2a` Move block from B to A.
-- `move` Move block to the other side
 
 [ta4_movecontroller|image]
 

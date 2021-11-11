@@ -541,7 +541,6 @@ Der Move Controller unterstützt folgende techage Kommandos:
 
 - `a2b`  Bewege Block von A nach B
 - `b2a`  Bewege Block von B nach A
-- `move` Bewege Block auf die andere Seite
 
 [ta4_movecontroller|image]
 

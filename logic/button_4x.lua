@@ -195,6 +195,21 @@ end
 
 local lcd_box = {-8/16, -8/16, 7.75/16, 8/16, 8/16, 8/16}
 
+local function can_access(pos, player)
+	local meta = M(pos)
+	local playername = player:get_player_name()
+	local access = meta:get_string("access")
+	local owner = meta:get_string("owner")
+	local protected = minetest.is_protected(pos, playername)
+
+	if access == "private" and playername ~= owner then
+		return false
+	elseif access == "protected" and protected then
+		return false
+	end
+	return true
+end
+
 minetest.register_node("techage:ta4_button_4x", {
 	description = S("TA4 4x Button"),
 	inventory_image = 'techage_smartline_button_4x.png',
@@ -231,17 +246,11 @@ minetest.register_node("techage:ta4_button_4x", {
 
 	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
 		if clicker and clicker:is_player() then
-			local playername = clicker:get_player_name()
-			if minetest.is_protected(pos, playername) then
+			-- Check access settings
+			if not can_access(pos, clicker) then
 				return
 			end
-			-- Check node settings in addition
-			local access = M(pos):get_string("access")
-			local owner = M(pos):get_string("owner")
-			if access == "private" and playername ~= owner then
-				return
-			end
-			
+
 			local num = get_button_num(pos, clicker, pointed_thing)
 			if num then
 				local typ = M(pos):get_string("type")

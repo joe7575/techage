@@ -27,6 +27,32 @@ local Input = {
 	20,21,22,23,  -- 6
 }
 
+-- Input data for facedir_to_rotation
+local PARAM2_TO_ROT = {[0] =
+	1,39,35,47,
+	49,38,32,48,
+	17,14,56,8,
+	2,50,12,28,
+	4,20,10,52,
+	3,7,11,15
+}
+
+local Rotations = {}
+
+for x = 0,3 do
+	for y = 0,3 do
+		for z = 0,3 do
+			Rotations[#Rotations + 1] = {x=x*math.pi/2, y=y*math.pi/2, z=z*math.pi/2}
+		end
+	end
+end
+
+function techage.facedir_to_rotation(facedir)
+	local idx = PARAM2_TO_ROT[facedir] or 0
+	return Rotations[idx]
+end
+
+
 -- allowed for digging
 local RegisteredNodesToBeDug = {}
 

@@ -1618,7 +1618,6 @@ techage.manual_EN.aText = {
   "\n"..
   "  - 'a2b' Move block from A to B.\n"..
   "  - 'b2a' Move block from B to A.\n"..
-  "  - 'move' Move block to the other side\n"..
   "\n"..
   "\n"..
   "\n",

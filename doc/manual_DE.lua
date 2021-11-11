@@ -1620,7 +1620,6 @@ techage.manual_DE.aText = {
   "\n"..
   "  - 'a2b'  Bewege Block von A nach B\n"..
   "  - 'b2a'  Bewege Block von B nach A\n"..
-  "  - 'move' Bewege Block auf die andere Seite\n"..
   "\n"..
   "\n"..
   "\n",
