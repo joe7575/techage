@@ -544,3 +544,25 @@ function techage.get_inv_state(inv, listname)
     end
     return state
 end
+
+minetest.register_chatcommand("ta_send", {
+	description = minetest.formspec_escape(
+			"Send a techage command to the block with the number given: /ta_send <number> <topic> [<data>]"),
+    func = function(name, param)
+		local num, cmnd, payload = param:match('^([0-9]+)%s+(%w+)%s*(.*)$')
+
+		if num and cmnd then
+			if techage.not_protected(num, name) then
+				local resp = techage.send_single("0", num, cmnd, payload)
+				if type(resp) == "string" then
+					return true, resp
+				else
+					return true, dump(resp)
+				end
+			else
+				return false, "Destination block is protected"
+			end
+		end
+		return false, "Syntax: /ta_send <number> <topic> [<data>]"
+    end
+})

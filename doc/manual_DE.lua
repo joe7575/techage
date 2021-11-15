@@ -1610,11 +1610,11 @@ techage.manual_DE.aText = {
   "Anleitung:\n"..
   "\n"..
   "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
-  "  - die \"Flugstrecke\" muss über eine x\\,y\\,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 100 m)\n"..
+  "  - die \"Flugstrecke\" muss über eine x\\,y\\,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 200 m)\n"..
   "  - mit den Menü-Tasten \"Bewege A-B\" sowie \"Bewege B-A\" kann die Bewegung getestet werden\n"..
   "  - man kann auch durch Wände oder andere Blöcke fliegen\n"..
   "  - auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle \"unsichtbar\" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht\n"..
-  "  - Über das Gabelschlüssel-Menü kann im Controller auch ein \"handover\" programmiert werden. Durch Eingabe einer Blocknummer werden die Blöcke dann an den nächsten Move Controller übergeben. So lassen sich auch zusammenhängende Bewegungen über mehrere Move Controller  realisieren.\n"..
+  "  - Über das Gabelschlüssel-Menü kann im Controller auch ein \"handover\" programmiert werden. Durch Eingabe einer Blocknummer werden die Blöcke dann an den nächsten Move Controller übergeben. So lassen sich auch zusammenhängende Bewegungen über mehrere Move Controller realisieren.\n"..
   "\n"..
   "Der Move Controller unterstützt folgende techage Kommandos:\n"..
   "\n"..

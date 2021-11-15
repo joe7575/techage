@@ -34,6 +34,10 @@ function techage.counting_hit()
 	end
 end
 
+function techage.counting_add(player_name, points)
+	PlayerPoints[player_name] = (PlayerPoints[player_name] or 0) + points
+end
+
 local function output()
 	for name, val in pairs(PlayerPoints) do
 		if val > MAX_POINTS then

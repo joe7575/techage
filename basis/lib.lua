@@ -37,21 +37,98 @@ local PARAM2_TO_ROT = {[0] =
 	3,7,11,15
 }
 
-local Rotations = {}
+local Idx_to_Rot = {}
 
 for x = 0,3 do
 	for y = 0,3 do
 		for z = 0,3 do
-			Rotations[#Rotations + 1] = {x=x*math.pi/2, y=y*math.pi/2, z=z*math.pi/2}
+			Idx_to_Rot[#Idx_to_Rot + 1] = {x=x*math.pi/2, y=y*math.pi/2, z=z*math.pi/2}
 		end
+	end
+end
+
+--  Input data to turn a "facedir" block to the right/left
+local ROTATION = {
+	{5,14,11,16},  -- x+
+	{7,12,9,18},   -- x-
+	{0,1,2,3},     -- y+
+	{22,21,20,23}, -- y-
+	{6,15,8,17},   -- z+
+	{4,13,10,19},  -- z-
+}
+
+local RotationViaYAxis = {}
+
+for _,row in ipairs(ROTATION) do
+	for i = 1,4 do
+		local val = row[i]
+		local left  = row[i == 1 and 4 or i - 1] 
+		local right = row[i == 4 and 1 or i + 1] 
+		RotationViaYAxis[val] = {left, right}
 	end
 end
 
 function techage.facedir_to_rotation(facedir)
 	local idx = PARAM2_TO_ROT[facedir] or 0
-	return Rotations[idx]
+	return Idx_to_Rot[idx]
 end
 
+function techage.param2_turn_left(param2)
+	return (RotationViaYAxis[param2] or RotationViaYAxis[0])[1]
+end
+
+function techage.param2_turn_right(param2)
+	return (RotationViaYAxis[param2] or RotationViaYAxis[0])[2]
+end
+
+-------------------------------------------------------------------------------
+-- Rotate nodes around the center
+-------------------------------------------------------------------------------
+local function center(nodes)
+	local c = {x=0, y=0, z=0}
+	for _,v in ipairs(nodes) do
+		c = vector.add(c, v)
+	end
+	c = vector.divide(c, #nodes)
+	c = vector.round(c)
+	c.y = 0
+	return c
+end
+
+local function rotate_around_axis(v, c, rot)
+	local dx, dz = v.x - c.x, v.z - c.z
+	if rot == "l" then
+		return {
+			x = c.x - dz,
+			y = v.y,
+			z = c.z + dx,
+		}
+	elseif rot == "r" then
+		return {
+			x = c.x + dz,
+			y = v.y,
+			z = c.z - dx,
+		}
+	else -- turn 180 degree
+		return {
+			x = c.x - dx,
+			y = v.y,
+			z = c.z - dz,
+		}
+	end
+end
+
+-- Function returns a list ẃith the new node positions
+-- rot is one of "l", "r", "2l", "2r"
+-- cpos is the center pos (optional)
+function techage.rotate_around_center(nodes1, rot, cpos)
+	cpos = cpos or center(nodes1)
+	local nodes2 = {}
+	for _,pos in ipairs(nodes1) do
+		nodes2[#nodes2 + 1] = rotate_around_axis(pos, cpos, rot)
+	end
+	return nodes2
+end
 
 -- allowed for digging
 local RegisteredNodesToBeDug = {}
@@ -354,6 +431,14 @@ function techage.mydump(o, indent, nested, level)
 				end_indent_str)
 	end
 	return "{"..table.concat(t, ", ").."}"
+end
+
+function techage.vector_dump(posses)
+	local t = {}
+	for _,pos in ipairs(posses) do
+		t[#t + 1] = minetest.pos_to_string(pos)
+	end
+	return table.concat(t, " ")
 end
 
 -- title bar help (width is the fornmspec width)

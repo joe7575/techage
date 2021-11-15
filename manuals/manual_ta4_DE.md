@@ -531,11 +531,11 @@ Da die bewegten Blöcke Spieler und Mobs mitnehmen können, die auf dem Block st
 Anleitung:
 
 - Controller setzen und die Blöcke, die bewegt werden sollen, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)
-- die "Flugstrecke" muss über eine x,y,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 100 m)
+- die "Flugstrecke" muss über eine x,y,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 200 m)
 - mit den Menü-Tasten "Bewege A-B" sowie "Bewege B-A" kann die Bewegung getestet werden
 - man kann auch durch Wände oder andere Blöcke fliegen
 - auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle "unsichtbar" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht
-- Über das Gabelschlüssel-Menü kann im Controller auch ein "handover" programmiert werden. Durch Eingabe einer Blocknummer werden die Blöcke dann an den nächsten Move Controller übergeben. So lassen sich auch zusammenhängende Bewegungen über mehrere Move Controller  realisieren.
+- Über das Gabelschlüssel-Menü kann im Controller auch ein "handover" programmiert werden. Durch Eingabe einer Blocknummer werden die Blöcke dann an den nächsten Move Controller übergeben. So lassen sich auch zusammenhängende Bewegungen über mehrere Move Controller realisieren.
 
 Der Move Controller unterstützt folgende techage Kommandos:
 
