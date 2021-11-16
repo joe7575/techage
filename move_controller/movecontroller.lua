@@ -25,28 +25,6 @@ local mark = dofile(MP .. "/basis/mark_lib.lua")
 local MAX_DIST = 100
 local MAX_BLOCKS = 16
 
--- Determine and store the path in the first and in the last block of the chain
-local function store_path(pos)
-	local lpath = {}
-	local pos2 = table.copy(pos)
-	while pos2 do
-		local meta = M(pos2)
-		lpath[#lpath + 1] = meta:get_string("distance")
-		local number = meta:get_string("handoverB")
-		local info = techage.get_node_info(number)
-		if info and info.name == "techage:ta4_movecontroller" then
-			pos2 = info.pos
-		else
-			local s = table.concat(lpath, "\n")
-			M(pos):set_string("path", s)   -- first block
-			M(pos2):set_string("path", s)  -- last block
-			techage.get_nvm(pos2).lpos1 = techage.get_nvm(pos).lpos2
-			pos2 = nil
-		end
-	end
-	return #lpath
-end
-	
 local WRENCH_MENU = {
 	{
 		type = "dropdown",
@@ -81,7 +59,7 @@ local WRENCH_MENU = {
 
 local function formspec(nvm, meta)
 	local status = meta:get_string("status")
-	local distance = meta:contains("distance") and meta:get_string("distance") or "0,3,0"
+	local path = meta:contains("path") and meta:get_string("path") or "0,3,0"
 	return "size[8,5]" ..
 		default.gui_bg ..
 		default.gui_bg_img ..
@@ -91,7 +69,7 @@ local function formspec(nvm, meta)
 		techage.wrench_image(7.4, -0.05) ..
 		"button[0.1,0.8;3.8,1;record;" .. S("Record") .. "]" ..
 		"button[4.1,0.8;3.8,1;done;" .. S("Done") .. "]" ..
-		"field[0.4,2.5;3.8,1;distance;" .. S("Move distance (A to B)") .. ";" .. distance .. "]" ..
+		"field[0.4,2.5;3.8,1;path;" .. S("Move distance (A to B)") .. ";" .. path .. "]" ..
 		"button[4.1,2.2;3.8,1;store;" .. S("Store") .. "]" ..
 		"button_exit[0.1,3.3;3.8,1;moveAB;" .. S("Move A-B") .. "]" ..
 		"button_exit[4.1,3.3;3.8,1;moveBA;" .. S("Move B-A") .. "]" ..
@@ -126,6 +104,8 @@ minetest.register_node("techage:ta4_movecontroller", {
 		if fields.record then
 			nvm.lpos1 = {}
 			nvm.lpos2 = {}
+			nvm.moveBA = false
+			nvm.running = true
 			meta:set_string("status", S("Recording..."))
 			local name = player:get_player_name()
 			minetest.chat_send_player(name, S("Click on all blocks that shall be moved"))
@@ -141,31 +121,35 @@ minetest.register_node("techage:ta4_movecontroller", {
 			mark.stop(name)
 			meta:set_string("formspec", formspec(nvm, meta))
 		elseif fields.store then
-			if fly.to_vector(fields.distance, MAX_DIST) then
-				meta:set_string("distance", fields.distance)
+			if fly.to_vector(fields.path or "", MAX_DIST) then
+				meta:set_string("path", fields.path)
 				meta:set_string("status", S("Stored"))
-				meta:set_string("path", "")
 			else
 				meta:set_string("status", S("Error: Invalid distance !!"))
 			end
 			meta:set_string("formspec", formspec(nvm, meta))
 			local name = player:get_player_name()
 			mark.stop(name)
+			nvm.moveBA = false
+			nvm.running = true
 		elseif fields.moveAB then
 			meta:set_string("status", "")
-			--store_path(pos)
 			if fly.move_to_other_pos(pos, false) then
+				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
 				mark.stop(name)
 			end
+			meta:set_string("formspec", formspec(nvm, meta))
 		elseif fields.moveBA then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, true) then
+				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
 				mark.stop(name)
 			end
+			meta:set_string("formspec", formspec(nvm, meta))
 		end
 	end,
 	
@@ -183,16 +167,27 @@ minetest.register_node("techage:ta4_movecontroller", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-local INFO = [[Commands: 'a2b', 'b2a']]
+local INFO = [[Commands: 'status', 'a2b', 'b2a', 'move']]
 
 techage.register_node({"techage:ta4_movecontroller"}, {
 	on_recv_message = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
 		if topic == "info" then
 			return INFO
+		elseif topic == "status" then
+			return nvm.running and "running" or "stopped"
 		elseif topic == "a2b" then
+			nvm.moveBA = true
+			nvm.running = true
 			return fly.move_to_other_pos(pos, false)
 		elseif topic == "b2a" then
+			nvm.moveBA = false
+			nvm.running = true
 			return fly.move_to_other_pos(pos, true)
+		elseif topic == "move" then
+			nvm.moveBA = nvm.moveBA == false
+			nvm.running = true
+			return fly.move_to_other_pos(pos, nvm.moveBA == false)
 		end
 		return false
 	end,

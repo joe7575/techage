@@ -224,6 +224,10 @@ local function entity_to_node(pos, obj)
 		local param2 = self.param2 or 0
 		local metadata = self.metadata or {}
 		detach_objects(pos, self)
+		if self.base_pos then
+			local nvm = techage.get_nvm(self.base_pos)
+			nvm.running = nil
+		end
 		obj:remove()
 		
 		local node =  minetest.get_node(pos)
@@ -281,7 +285,7 @@ local function node_to_entity(start_pos)
 		self.players = {}
 		self.entities = {}
 		-- Prepare for path walk
-		self.idx = 1
+		self.path_idx = 1
 		return obj
 	end
 end
@@ -306,9 +310,9 @@ local function move_entity(obj, dest_pos, dir, is_corner)
 end
 
 local function moveon_entity(obj, self, pos1)
-	local pos2 = next_path_pos(pos1, self.lpath, self.idx)
+	local pos2 = next_path_pos(pos1, self.lpath, self.path_idx)
 	if pos2 then
-		self.idx = self.idx + 1
+		self.path_idx = self.path_idx + 1
 		local dir = determine_dir(pos1, pos2)
 		move_entity(obj, pos2, dir, true)
 		return true
@@ -321,15 +325,31 @@ local function handover_to(obj, self, pos1)
 	if info and info.name == "techage:ta4_movecontroller" then
 		local meta = M(info.pos)
 		if self.move2to1 then
-			self.handover = meta:contains("handoverB") and meta:get_string("handoverB")
-		else
 			self.handover = meta:contains("handoverA") and meta:get_string("handoverA")
+		else
+			self.handover = meta:contains("handoverB") and meta:get_string("handoverB")
 		end
-		local offs = flylib.to_vector(meta:get_string("path"))
-		if pos1 and offs then
-			self.dest_pos = vector.add(pos1, offs)
-			local dir = determine_dir(pos1, info.pos)
-			move_entity(obj, info.pos, dir)
+
+		self.lpath = flylib.to_path(meta:get_string("path"))
+		if pos1 and self.lpath then
+			self.path_idx = 2
+			if self.move2to1 then
+				self.lpath[1] = vector.multiply(self.lpath[1], - 1)
+			end
+			local pos2 = next_path_pos(pos1, self.lpath, 1)
+			local dir = determine_dir(pos1, pos2)
+			--print("handover_to", P2S(pos1), P2S(pos2), P2S(dir), P2S(info.pos), meta:get_string("path"))
+			if not self.handover then
+				local nvm = techage.get_nvm(info.pos)
+				nvm.lpos1 = nvm.lpos1 or {}
+				if self.move2to1 then
+					nvm.lpos1[self.pos1_idx] = pos2
+					
+				else
+					nvm.lpos1[self.pos1_idx] = pos1
+				end
+			end
+			move_entity(obj, pos2, dir)
 			return true
 		end
 	end
@@ -355,9 +375,11 @@ minetest.register_entity("techage:move_item", {
 			metadata = self.metadata,
 			move2to1 = self.move2to1,
 			handover = self.handover,
-			idx = self.idx,
+			path_idx = self.path_idx,
+			pos1_idx = self.pos1_idx,
 			lpath = self.lpath,
 			start_pos = self.start_pos,
+			base_pos = self.base_pos,
 			max_speed = self.max_speed,
 			dest_pos = self.dest_pos,
 			dir = self.dir,
@@ -373,14 +395,16 @@ minetest.register_entity("techage:move_item", {
 			self.metadata = tbl.metadata or {}
 			self.move2to1 = tbl.move2to1 or false
 			self.handover = tbl.handover
-			self.idx = tbl.idx or 1
+			self.path_idx = tbl.path_idx or 1
+			self.pos1_idx = tbl.pos1_idx or 1
 			self.lpath = tbl.lpath or {}
 			self.max_speed = tbl.max_speed or MAX_SPEED
 			self.dest_pos = tbl.dest_pos or self.object:get_pos()
 			self.start_pos = tbl.start_pos or self.object:get_pos()
+			self.base_pos = tbl.base_pos
 			self.dir = tbl.dir or {x=0, y=0, z=0}
 			self.object:set_properties({wield_item = self.item})
-			print("tbl.respawn", tbl.respawn)
+			--print("tbl.respawn", tbl.respawn)
 			if tbl.respawn then
 				entity_to_node(self.start_pos, self.object)
 			end
@@ -405,7 +429,7 @@ minetest.register_entity("techage:move_item", {
 			self.old_dist = self.old_dist or dist
 			
 			-- Landing
-			if self.lpath and self.lpath[self.idx] then
+			if self.lpath and self.lpath[self.path_idx] then
 				if dist < 1 or dist > self.old_dist then
 					local dest_pos = self.dest_pos
 					stop_obj(obj, self)
@@ -415,12 +439,12 @@ minetest.register_entity("techage:move_item", {
 					return
 				end
 			elseif self.handover and dist < 0.2 or dist > self.old_dist then
-				if not handover_to(obj, self, self.dest_pos) then
-					local dest_pos = self.dest_pos
-					stop_obj(obj, self)
+				local dest_pos = self.dest_pos
+				stop_obj(obj, self)
+				if not handover_to(obj, self, dest_pos) then
 					minetest.after(0.5, entity_to_node, dest_pos, obj)
-					return
 				end
+				return
 			else
 				if dist < 0.05 or dist > self.old_dist then
 					local dest_pos = self.dest_pos
@@ -458,7 +482,6 @@ minetest.register_entity("techage:move_item", {
 			end
 		end
 	end,
-
 })
 
 local function is_valid_dest(pos)
@@ -500,9 +523,9 @@ local function table_add(tbl, offs)
 	return tbl2
 end
 
-local function move_node(pos, start_pos, lpath, max_speed, height, move2to1, handover)
+local function move_node(pos, pos1_idx, start_pos, lpath, max_speed, height, move2to1, handover)
 	local pos2 = next_path_pos(start_pos, lpath, 1)
-	print("move_node", P2S(pos), P2S(start_pos), lpath, max_speed, height, move2to1, P2S(pos2))
+	--print("move_node", P2S(pos), P2S(start_pos), lpath, max_speed, height, move2to1, P2S(pos2))
 	if pos2 then
 		local dir = determine_dir(start_pos, pos2)
 		local obj = node_to_entity(start_pos)
@@ -516,19 +539,22 @@ local function move_node(pos, start_pos, lpath, max_speed, height, move2to1, han
 				end
 			end
 			local self = obj:get_luaentity()
-			self.idx = 2
+			self.path_idx = 2
+			self.pos1_idx = pos1_idx
 			self.lpath = lpath
 			self.max_speed = max_speed
 			self.start_pos = start_pos
+			self.base_pos = pos
 			self.move2to1 = move2to1
 			self.handover = handover
+			print("move_node", P2S(start_pos), P2S(pos2), P2S(dir), P2S(pos))
 			move_entity(obj, pos2, dir)
 		end
 	end
 end
 
 local function move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, handover)
-	print("move_nodes", dump(nvm), dump(lpath), max_speed, height, move2to1, handover)
+	--print("move_nodes", dump(nvm), dump(lpath), max_speed, height, move2to1, handover)
 	local owner = meta:get_string("owner")
 	techage.counting_add(owner, #nvm.lpos1 * #lpath)
 	
@@ -540,10 +566,10 @@ local function move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, ha
 			pos1, pos2 = pos2, pos1
 		end
 
-		print("move_nodes", P2S(pos1), P2S(pos2))
+		--print("move_nodes", P2S(pos1), P2S(pos2))
 		if not minetest.is_protected(pos1, owner) and not minetest.is_protected(pos2, owner) then
 			if is_simple_node(pos1) and is_valid_dest(pos2) then
-				move_node(pos, pos1, lpath, max_speed, height, move2to1, handover)
+				move_node(pos, idx, pos1, lpath, max_speed, height, move2to1, handover)
 			else
 				if not is_simple_node(pos1) then
 					meta:set_string("status", S("No valid node at the start position"))

@@ -24,6 +24,7 @@ local mark = dofile(MP .. "/basis/mark_lib.lua")
 
 local MAX_DIST = 200
 local MAX_BLOCKS = 16
+local EX_PIONTS = 40
 
 local WRENCH_MENU = {
 	{
@@ -65,9 +66,9 @@ minetest.register_node("techage:ta5_flycontroller", {
 	description = S("TA5 Fly Controller"),
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta4.png^techage_frame_ta4_top.png",
-		"techage_filling_ta4.png^techage_frame_ta4_top.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_movecontroller.png",
+		"techage_filling_ta4.png^techage_frame_ta5_top.png",
+		"techage_filling_ta4.png^techage_frame_ta5_top.png",
+		"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_movecontroller.png",
 	},
 
 	after_place_node = function(pos, placer, itemstack)
@@ -82,13 +83,18 @@ minetest.register_node("techage:ta5_flycontroller", {
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return
 		end
-
+		if techage.get_expoints(player) < EX_PIONTS then
+			return
+		end
+		
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
 
 		if fields.record then
 			nvm.lpos1 = {}
 			nvm.lpos2 = {}
+			nvm.moveBA = false
+			nvm.running = true
 			meta:set_string("status", S("Recording..."))
 			local name = player:get_player_name()
 			minetest.chat_send_player(name, S("Click on all blocks that shall be moved"))
@@ -113,20 +119,26 @@ minetest.register_node("techage:ta5_flycontroller", {
 			meta:set_string("formspec", formspec(nvm, meta))
 			local name = player:get_player_name()
 			mark.stop(name)
+			nvm.moveBA = false
+			nvm.running = true
 		elseif fields.moveAB then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, false) then
+				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
 				mark.stop(name)
 			end
+			meta:set_string("formspec", formspec(nvm, meta))
 		elseif fields.moveBA then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, true) then
+				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
 				mark.stop(name)
 			end
+			meta:set_string("formspec", formspec(nvm, meta))
 		end
 	end,
 	
@@ -137,23 +149,34 @@ minetest.register_node("techage:ta5_flycontroller", {
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 
-	ta4_formspec = WRENCH_MENU,
+	ta5_formspec = {menu=WRENCH_MENU, ex_points=EX_PIONTS},
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
 })
 
-local INFO = [[Commands: 'a2b', 'b2a']]
+local INFO = [[Commands: 'status', 'a2b', 'b2a', 'move']]
 
 techage.register_node({"techage:ta5_flycontroller"}, {
 	on_recv_message = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
 		if topic == "info" then
 			return INFO
+		elseif topic == "status" then
+			return nvm.running and "running" or "stopped"
 		elseif topic == "a2b" then
+			nvm.moveBA = true
+			nvm.running = true
 			return fly.move_to_other_pos(pos, false)
 		elseif topic == "b2a" then
+			nvm.moveBA = false
+			nvm.running = true
 			return fly.move_to_other_pos(pos, true)
+		elseif topic == "move" then
+			nvm.moveBA = nvm.moveBA == false
+			nvm.running = true
+			return fly.move_to_other_pos(pos, nvm.moveBA == false)
 		end
 		return false
 	end,

@@ -99,6 +99,7 @@ minetest.register_node("techage:ta4_turncontroller", {
 				mark.stop(name)
 				print("new_posses", #new_posses)
 			end
+			meta:set_string("formspec", formspec(nvm, meta))
 		elseif fields.right then
 			meta:set_string("status", "")
 			local new_posses = fly.rotate_nodes(pos, nvm.lpos, "r")
@@ -108,6 +109,7 @@ minetest.register_node("techage:ta4_turncontroller", {
 				mark.stop(name)
 				print("new_posses", #new_posses)
 			end
+			meta:set_string("formspec", formspec(nvm, meta))
 		end
 	end,
 	
@@ -164,11 +166,11 @@ techage.register_node({"techage:ta4_turncontroller"}, {
 	end,
 })		
 
---minetest.register_craft({
---	output = "techage:ta5_flycontroller",
---	recipe = {
---		{"default:steel_ingot", "dye:blue", "default:steel_ingot"},
---		{"default:mese_crystal_fragment", "techage:ta4_wlanchip", "default:mese_crystal_fragment"},
---		{"group:wood", "basic_materials:gear_steel", "group:wood"},
---	},
---})
+minetest.register_craft({
+	output = "techage:ta4_turncontroller",
+	recipe = {
+		{"default:steel_ingot", "dye:blue", "default:steel_ingot"},
+		{"techage:aluminum", "techage:baborium_ingot", "techage:aluminum"},
+		{"group:wood", "basic_materials:gear_steel", "group:wood"},
+	},
+})

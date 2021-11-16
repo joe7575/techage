@@ -25,6 +25,7 @@ local hyperloop = techage.hyperloop
 local remote_pos = techage.hyperloop.remote_pos
 
 local CAPACITY = 1000
+local EX_PIONTS = 20
 
 local function on_rightclick(pos, node, clicker)
 	local rmt_pos = remote_pos(pos)
@@ -242,7 +243,7 @@ minetest.register_node("techage:ta4_tank", {
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 	on_rightclick = on_rightclick,
-	ta5_formspec = {menu=hyperloop.WRENCH_MENU, ex_points=20},
+	ta5_formspec = {menu=hyperloop.WRENCH_MENU, ex_points=EX_PIONTS},
 	ta_after_formspec = hyperloop.after_formspec,
 	can_dig = can_dig,
 	paramtype2 = "facedir",

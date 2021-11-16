@@ -17,6 +17,7 @@ local M = minetest.get_meta
 local S = techage.S
 
 local TA4_INV_SIZE = 50
+local EX_PIONTS = 10
 
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local mConf = dofile(MP.."/basis/conf_inv.lua")
@@ -365,7 +366,7 @@ minetest.register_node("techage:chest_ta4", {
 		techage.remove_node(pos, oldnode, oldmetadata)
 		hyperloop.after_dig_node(pos, oldnode, oldmetadata, digger)
 	end,
-	ta5_formspec = {menu=hyperloop.WRENCH_MENU, ex_points=10},
+	ta5_formspec = {menu=hyperloop.WRENCH_MENU, ex_points=EX_PIONTS},
 	ta_after_formspec = hyperloop.after_formspec,
 	allow_metadata_inventory_put = ta4_allow_metadata_inventory_put,
 	allow_metadata_inventory_take = ta4_allow_metadata_inventory_take,
