@@ -517,27 +517,6 @@ This counter can be queried with the 'count' command and reset with 'reset'.
 
 [ta4_detector|image]
 
-### TA4 Move Controller
-
-The TA4 Move Controller is similar to "Door Controller 2", but the selected blocks are not removed, but can be moved.
-Since the moving blocks can take players and mobs standing on the block with them, elevators and similar transport systems can be built with them.
-
-Instructions:
-
-- Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)
-- the "flight route" must be entered via an x, y, z specification (relative) (the maximum distance is 200 m)
-- The movement can be tested with the menu buttons "Move A-B" and "Move B-A"
-- you can also fly through walls or other blocks
-- The target position for the blocks can also be occupied. In this case, the blocks are saved "invisibly". This is intended for sliding doors and the like
-- A "handover" can also be programmed in the controller via the open-ended wrench menu. By entering a block number, the blocks are then transferred to the next move controller. In this way, connected movements can also be implemented using several Move Controllers.
-
-The Move Controller supports the following techage commands:
-
-- `a2b` Move block from A to B.
-- `b2a` Move block from B to A.
-
-[ta4_movecontroller|image]
-
 ### TA4 Sequencer
 
 Entire processes can be programmed using the TA4 sequencer. Here's an example:
@@ -567,6 +546,49 @@ The TA4 sequencer supports the following techage commands:
 The `goto` command is only accepted when the sequencer is stopped.
 
 [ta4_sequencer|image]
+
+
+
+## Move/Turn Controller
+
+### TA4 Move Controller
+
+The TA4 Move Controller is similar to "Door Controller 2", but the selected blocks are not removed, but can be moved.
+Since the moving blocks can take players and mobs standing on the block with them, elevators and similar transport systems can be built with them.
+
+Instructions:
+
+- Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)
+- the "flight route" must be entered via an x, y, z specification (relative) (the maximum distance is 100 m)
+- The movement can be tested with the menu buttons "Move A-B" and "Move B-A"
+- you can also fly through walls or other blocks
+- The target position for the blocks can also be occupied. In this case, the blocks are saved "invisibly". This is intended for sliding doors and the like
+- A "handover" can also be programmed in the controller via the open-ended wrench menu. By entering a block number, the blocks are then transferred to the next move controller. In this way, connected movements can also be implemented using several Move Controllers.
+
+The Move Controller supports the following techage commands:
+
+- `a2b` Move block from A to B.
+- `b2a` Move block from B to A.
+- `move` Move block to the other side
+
+[ta4_movecontroller|image]
+
+### TA4 Turn Controller
+
+The TA4 turn controller is similar to the "Move Controller", but the selected blocks are not moved, but rotated around their center to the right or left.
+
+Instructions:
+
+- Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)
+- The movement can be tested with the menu buttons "Turn left" and "Turn right"
+
+The turn controller supports the following techage commands:
+
+- `left` Turn left
+- `right` Turn right
+- `uturn` Turn 180 degrees 
+
+[ta4_turncontroller|image]
 
 
 

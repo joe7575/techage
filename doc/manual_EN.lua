@@ -190,8 +190,10 @@ techage.manual_EN.aTitel = {
   "3,TA4 Player Detector",
   "3,TA4 State Collector",
   "3,TA4 Detector",
-  "3,TA4 Move Controller",
   "3,TA4 Sequencer",
+  "2,Move/Turn Controller",
+  "3,TA4 Move Controller",
+  "3,TA4 Turn Controller",
   "2,TA4 Lamps",
   "3,TA4 LED Grow Light",
   "3,TA4 Street Lamp",
@@ -1602,25 +1604,6 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The TA4 Move Controller is similar to \"Door Controller 2\"\\, but the selected blocks are not removed\\, but can be moved.\n"..
-  "Since the moving blocks can take players and mobs standing on the block with them\\, elevators and similar transport systems can be built with them.\n"..
-  "\n"..
-  "Instructions:\n"..
-  "\n"..
-  "  - Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)\n"..
-  "  - the \"flight route\" must be entered via an x\\, y\\, z specification (relative) (the maximum distance is 200 m)\n"..
-  "  - The movement can be tested with the menu buttons \"Move A-B\" and \"Move B-A\"\n"..
-  "  - you can also fly through walls or other blocks\n"..
-  "  - The target position for the blocks can also be occupied. In this case\\, the blocks are saved \"invisibly\". This is intended for sliding doors and the like\n"..
-  "  - A \"handover\" can also be programmed in the controller via the open-ended wrench menu. By entering a block number\\, the blocks are then transferred to the next move controller. In this way\\, connected movements can also be implemented using several Move Controllers.\n"..
-  "\n"..
-  "The Move Controller supports the following techage commands:\n"..
-  "\n"..
-  "  - 'a2b' Move block from A to B.\n"..
-  "  - 'b2a' Move block from B to A.\n"..
-  "\n"..
-  "\n"..
-  "\n",
   "Entire processes can be programmed using the TA4 sequencer. Here's an example:\n"..
   "\n"..
   "    -- this is a comment\n"..
@@ -1642,6 +1625,42 @@ techage.manual_EN.aText = {
   "  - 'stop' Stop the sequencer\n"..
   "\n"..
   "The 'goto' command is only accepted when the sequencer is stopped.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "",
+  "The TA4 Move Controller is similar to \"Door Controller 2\"\\, but the selected blocks are not removed\\, but can be moved.\n"..
+  "Since the moving blocks can take players and mobs standing on the block with them\\, elevators and similar transport systems can be built with them.\n"..
+  "\n"..
+  "Instructions:\n"..
+  "\n"..
+  "  - Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)\n"..
+  "  - the \"flight route\" must be entered via an x\\, y\\, z specification (relative) (the maximum distance is 100 m)\n"..
+  "  - The movement can be tested with the menu buttons \"Move A-B\" and \"Move B-A\"\n"..
+  "  - you can also fly through walls or other blocks\n"..
+  "  - The target position for the blocks can also be occupied. In this case\\, the blocks are saved \"invisibly\". This is intended for sliding doors and the like\n"..
+  "  - A \"handover\" can also be programmed in the controller via the open-ended wrench menu. By entering a block number\\, the blocks are then transferred to the next move controller. In this way\\, connected movements can also be implemented using several Move Controllers.\n"..
+  "\n"..
+  "The Move Controller supports the following techage commands:\n"..
+  "\n"..
+  "  - 'a2b' Move block from A to B.\n"..
+  "  - 'b2a' Move block from B to A.\n"..
+  "  - 'move' Move block to the other side\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The TA4 turn controller is similar to the \"Move Controller\"\\, but the selected blocks are not moved\\, but rotated around their center to the right or left.\n"..
+  "\n"..
+  "Instructions:\n"..
+  "\n"..
+  "  - Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)\n"..
+  "  - The movement can be tested with the menu buttons \"Turn left\" and \"Turn right\"\n"..
+  "\n"..
+  "The turn controller supports the following techage commands:\n"..
+  "\n"..
+  "  - 'left' Turn left\n"..
+  "  - 'right' Turn right\n"..
+  "  - 'uturn' Turn 180 degrees\n"..
   "\n"..
   "\n"..
   "\n",
@@ -2014,8 +2033,10 @@ techage.manual_EN.aItemName = {
   "ta4_playerdetector",
   "ta4_collector",
   "ta4_detector",
-  "ta4_movecontroller",
   "ta4_sequencer",
+  "",
+  "ta4_movecontroller",
+  "ta4_turncontroller",
   "",
   "ta4_growlight",
   "ta4_streetlamp",
@@ -2209,6 +2230,8 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
+  "",
   "",
   "",
   "",

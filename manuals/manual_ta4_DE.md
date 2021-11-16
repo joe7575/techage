@@ -523,27 +523,6 @@ Diesen Zähler kann man über das Kommando 'count' abfragen und über 'reset' zu
 
 [ta4_detector|image]
 
-### TA4 Move Controller
-
-Der TA4 Move Controller ist ähnlich zum "Door Controller 2", aber die ausgewählten Blöcke werden nicht entfernt, sondern können bewegt werden.
-Da die bewegten Blöcke Spieler und Mobs mitnehmen können, die auf dem Block stehen, können damit Fahrstühle und ähnliche Transportsysteme gebaut werden.
-
-Anleitung:
-
-- Controller setzen und die Blöcke, die bewegt werden sollen, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)
-- die "Flugstrecke" muss über eine x,y,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 200 m)
-- mit den Menü-Tasten "Bewege A-B" sowie "Bewege B-A" kann die Bewegung getestet werden
-- man kann auch durch Wände oder andere Blöcke fliegen
-- auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle "unsichtbar" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht
-- Über das Gabelschlüssel-Menü kann im Controller auch ein "handover" programmiert werden. Durch Eingabe einer Blocknummer werden die Blöcke dann an den nächsten Move Controller übergeben. So lassen sich auch zusammenhängende Bewegungen über mehrere Move Controller realisieren.
-
-Der Move Controller unterstützt folgende techage Kommandos:
-
-- `a2b`  Bewege Block von A nach B
-- `b2a`  Bewege Block von B nach A
-
-[ta4_movecontroller|image]
-
 
 ### TA4 Sequenzer
 
@@ -576,6 +555,51 @@ Das `goto` Kommando wird nur angenommen, wenn der Sequenzer gestoppt ist.
 [ta4_sequencer|image]
 
 
+
+
+## Move/Dreh-Controller
+
+### TA4 Move Controller
+
+Der TA4 Move Controller ist ähnlich zum "Door Controller 2", aber die ausgewählten Blöcke werden nicht entfernt, sondern können bewegt werden.
+Da die bewegten Blöcke Spieler und Mobs mitnehmen können, die auf dem Block stehen, können damit Fahrstühle und ähnliche Transportsysteme gebaut werden.
+
+Anleitung:
+
+- Controller setzen und die Blöcke, die bewegt werden sollen, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)
+- die "Flugstrecke" muss über eine x,y,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 100 m)
+- mit den Menü-Tasten "Bewege A-B" sowie "Bewege B-A" kann die Bewegung getestet werden
+- man kann auch durch Wände oder andere Blöcke fliegen
+- auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle "unsichtbar" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht
+- Über das Gabelschlüssel-Menü kann im Controller auch ein "handover" programmiert werden. Durch Eingabe einer Blocknummer werden die Blöcke dann an den nächsten Move Controller übergeben. So lassen sich auch zusammenhängende Bewegungen über mehrere Move Controller realisieren.
+
+Der Move Controller unterstützt folgende techage Kommandos:
+
+- `a2b`  Bewege Block von A nach B
+- `b2a`  Bewege Block von B nach A
+- `move` Bewege Block auf die andere Seite
+
+[ta4_movecontroller|image]
+
+### TA4 Drehcontroller / Turn Controller
+
+Der TA4 Drehcontroller ist ähnlich zum Move Controller", aber die ausgewählten Blöcke werden nicht bewegt, sondern um ihr Zentrum nach rechts oder links gedreht.
+
+Anleitung:
+
+- Controller setzen und die Blöcke, die bewegt werden sollen, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)
+- mit den Menü-Tasten "Drehe links" sowie "Drehe rechts" kann die Bewegung getestet werden
+
+Der Drehcontroller unterstützt folgende techage Kommandos:
+
+- `left`  Drehe nach links
+- `right`  Drehe nach rechts
+- `uturn`  Drehe um 180 Grad
+
+[ta4_turncontroller|image]
+
+
+### 
 
 ## TA4 Lampen
 

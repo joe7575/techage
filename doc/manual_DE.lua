@@ -190,8 +190,11 @@ techage.manual_DE.aTitel = {
   "3,TA4 Spieler Detektor / Player Detector",
   "3,TA4 Zustandssammler / State Collector",
   "3,TA4 Detektor / Detector",
-  "3,TA4 Move Controller",
   "3,TA4 Sequenzer",
+  "2,Move/Dreh-Controller",
+  "3,TA4 Move Controller",
+  "3,TA4 Drehcontroller / Turn Controller",
+  "3, ",
   "2,TA4 Lampen",
   "3,TA4 LED Pflanzenlampe / TA4 LED Grow Light",
   "3,TA4 LED Straßenlampe / TA4 LED Street Lamp",
@@ -1604,25 +1607,6 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Der TA4 Move Controller ist ähnlich zum \"Door Controller 2\"\\, aber die ausgewählten Blöcke werden nicht entfernt\\, sondern können bewegt werden.\n"..
-  "Da die bewegten Blöcke Spieler und Mobs mitnehmen können\\, die auf dem Block stehen\\, können damit Fahrstühle und ähnliche Transportsysteme gebaut werden.\n"..
-  "\n"..
-  "Anleitung:\n"..
-  "\n"..
-  "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
-  "  - die \"Flugstrecke\" muss über eine x\\,y\\,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 200 m)\n"..
-  "  - mit den Menü-Tasten \"Bewege A-B\" sowie \"Bewege B-A\" kann die Bewegung getestet werden\n"..
-  "  - man kann auch durch Wände oder andere Blöcke fliegen\n"..
-  "  - auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle \"unsichtbar\" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht\n"..
-  "  - Über das Gabelschlüssel-Menü kann im Controller auch ein \"handover\" programmiert werden. Durch Eingabe einer Blocknummer werden die Blöcke dann an den nächsten Move Controller übergeben. So lassen sich auch zusammenhängende Bewegungen über mehrere Move Controller realisieren.\n"..
-  "\n"..
-  "Der Move Controller unterstützt folgende techage Kommandos:\n"..
-  "\n"..
-  "  - 'a2b'  Bewege Block von A nach B\n"..
-  "  - 'b2a'  Bewege Block von B nach A\n"..
-  "\n"..
-  "\n"..
-  "\n",
   "über den TA4 Sequenzer können ganze Abläufe programmiert werden. Hier ein Beispiel:\n"..
   "\n"..
   "    -- this is a comment\n"..
@@ -1647,6 +1631,43 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "",
+  "Der TA4 Move Controller ist ähnlich zum \"Door Controller 2\"\\, aber die ausgewählten Blöcke werden nicht entfernt\\, sondern können bewegt werden.\n"..
+  "Da die bewegten Blöcke Spieler und Mobs mitnehmen können\\, die auf dem Block stehen\\, können damit Fahrstühle und ähnliche Transportsysteme gebaut werden.\n"..
+  "\n"..
+  "Anleitung:\n"..
+  "\n"..
+  "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
+  "  - die \"Flugstrecke\" muss über eine x\\,y\\,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 100 m)\n"..
+  "  - mit den Menü-Tasten \"Bewege A-B\" sowie \"Bewege B-A\" kann die Bewegung getestet werden\n"..
+  "  - man kann auch durch Wände oder andere Blöcke fliegen\n"..
+  "  - auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle \"unsichtbar\" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht\n"..
+  "  - Über das Gabelschlüssel-Menü kann im Controller auch ein \"handover\" programmiert werden. Durch Eingabe einer Blocknummer werden die Blöcke dann an den nächsten Move Controller übergeben. So lassen sich auch zusammenhängende Bewegungen über mehrere Move Controller realisieren.\n"..
+  "\n"..
+  "Der Move Controller unterstützt folgende techage Kommandos:\n"..
+  "\n"..
+  "  - 'a2b'  Bewege Block von A nach B\n"..
+  "  - 'b2a'  Bewege Block von B nach A\n"..
+  "  - 'move' Bewege Block auf die andere Seite\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der TA4 Drehcontroller ist ähnlich zum Move Controller\"\\, aber die ausgewählten Blöcke werden nicht bewegt\\, sondern um ihr Zentrum nach rechts oder links gedreht.\n"..
+  "\n"..
+  "Anleitung:\n"..
+  "\n"..
+  "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
+  "  - mit den Menü-Tasten \"Drehe links\" sowie \"Drehe rechts\" kann die Bewegung getestet werden\n"..
+  "\n"..
+  "Der Drehcontroller unterstützt folgende techage Kommandos:\n"..
+  "\n"..
+  "  - 'left'  Drehe nach links\n"..
+  "  - 'right'  Drehe nach rechts\n"..
+  "  - 'uturn'  Drehe um 180 Grad\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "",
   "TA4 beinhaltet eine Reihe von leistungsstarken Lampen\\, die eine bessere Ausleuchtung ermöglichen oder Spezialaufgaben übernehmen.\n"..
   "\n",
   "Die TA4 LED Pflanzenlampe ermöglicht ein schnelles und kräftiges Wachstum aller Pflanzen aus der 'farming' Mod. Die Lampe beleuchtet ein 3x3 großes Feld\\, so dass sich damit auch Pflanzen unter Tage anbauen lassen.\n"..
@@ -2015,8 +2036,11 @@ techage.manual_DE.aItemName = {
   "ta4_playerdetector",
   "ta4_collector",
   "ta4_detector",
-  "ta4_movecontroller",
   "ta4_sequencer",
+  "",
+  "ta4_movecontroller",
+  "ta4_turncontroller",
+  "",
   "",
   "ta4_growlight",
   "ta4_streetlamp",
@@ -2210,6 +2234,9 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
+  "",
+  "",
   "",
   "",
   "",

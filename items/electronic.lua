@@ -39,6 +39,10 @@ minetest.register_craftitem("techage:ta4_leds", {
 	inventory_image = "techage_leds.png",
 })
 
+minetest.register_craftitem("techage:ta5_aichip", {
+	description = S("TA5 AI Chip"),
+	inventory_image = "techage_aichip.png",
+})
 
 techage.recipes.add("ta2_electronic_fab", {
 	output = "techage:vacuum_tube 2",

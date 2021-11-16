@@ -182,11 +182,11 @@ techage.register_node({"techage:ta5_flycontroller"}, {
 	end,
 })		
 
---minetest.register_craft({
---	output = "techage:ta5_flycontroller",
---	recipe = {
---		{"default:steel_ingot", "dye:blue", "default:steel_ingot"},
---		{"default:mese_crystal_fragment", "techage:ta4_wlanchip", "default:mese_crystal_fragment"},
---		{"group:wood", "basic_materials:gear_steel", "group:wood"},
---	},
---})
+minetest.register_craft({
+	output = "techage:ta5_flycontroller",
+	recipe = {
+		{"default:steel_ingot", "dye:blue", "default:steel_ingot"},
+		{"techage:aluminum", "techage:ta5_aichip", "techage:aluminum"},
+		{"group:wood", "basic_materials:gear_steel", "group:wood"},
+	},
+})
