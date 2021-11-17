@@ -167,14 +167,14 @@ minetest.register_node("techage:ta4_movecontroller", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-local INFO = [[Commands: 'status', 'a2b', 'b2a', 'move']]
+local INFO = [[Commands: 'state', 'a2b', 'b2a', 'move']]
 
 techage.register_node({"techage:ta4_movecontroller"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		if topic == "info" then
 			return INFO
-		elseif topic == "status" then
+		elseif topic == "state" then
 			return nvm.running and "running" or "stopped"
 		elseif topic == "a2b" then
 			nvm.moveBA = true
