@@ -134,7 +134,8 @@ SaferLua directly supports the following standard functions:
 - string.rep
 - string.sub
 - string.upper
-- string.split
+- string.split (result is an Array)
+- string.split2 (result are multiple returns like the Lua function unpack)
 - string.trim
 
 For own function definitions, the menu tab 'func' can be used. Here you write your functions like:
@@ -366,12 +367,14 @@ Please note, that this is not a technical distinction, only a logical.
 | "depth"      | number                                                       | Read the current depth value of a quarry block (1..80)       |
 | "load"       | number                                                       | Read the load value in percent  (0..100) of a tank, silo, accu, or battery block, or from the Signs Bot Box. Silo and tank return two values: The percentage value and the absolute value in units.<br /> Example: percent, absolute = $send_cmnd("223", "load") |
 | "delivered"  | number                                                       | Read the current delivered power value of a generator block. A power consuming block (accu) provides a negative value |
+| "flowrate"   | Total flow rate in liquid units                              | Only for TA4 Pumps                                           |
 | "action"     | player-name, action-string                                   | Only for Sensor Chests                                       |
 | "stacks"     | Array with up to 4 Stores with the inventory content (see example) | Only for Sensor Chests                                       |
 | "count"      | number                                                       | Read the item counter of the TA4 Item Detector block         |
 | "count"      | number of items                                              | Read the total amount of TA4 chest items. An optional  number as `add_data` is used to address only one inventory slot (1..8, from left to right). |
 | "itemstring" | item string of the given slot                                | Specific command for the TA4 8x2000 Chest to read the item type (technical name) of one chest slot, specified via `add_data` (1..8).<br />Example: s = $send_cmnd("223", "itemstring", 1) |
 | "output"     | recipe output string, <br />e.g.: "default:glass"            | Only for the Industrial Furnace. If no recipe is active, the command returns "unknown" |
+| "input"      | `<index>`                                                    | Read a recipe from the TA4 Recipe Block. `<index>` is the number of the recipe. The block return a list of recipe items. |
 
 
 
@@ -385,18 +388,23 @@ Please note, that this is not a technical distinction, only a logical.
 | -------------------------------- | ------------ | ------------------------------------------------------------ |
 | "on", "off"                      | nil          | turn a node on/off (machine, lamp,...)                       |
 | "red, "amber", "green", "off"    | nil          | set Signal Tower color                                       |
+| "red, "amber", "green", "off" | lamp number (1..4) | Set the signal lamp color. Valid for "TA4 2x Signal Lamp" and "TA4 4x Signal Lamp" |
 | "port"                          | `<color>=on/off` | Enable/disable a Distributor filter slot..<br />Example: `yellow=on`<br />colors: "red", "green", "blue", "yellow" |
 | "text"                           | text string  | Text to be used for the Sensor Chest menu                    |
 | "reset"                          | nil          | Reset the item counter of the TA4 Item Detector block        |
 | "pull"                           | item  string | Start the TA4 pusher to pull/push items.<br /> Example: `default:dirt 8` |
 | "config"                         | item  string | Configure the TA4 pusher.<br />Example: `wool:blue`          |
 | "exchange" | inventory slot number | place/remove/exchange an block by means of the TA3 Door Controller II (techage:ta3_doorcontroller2) |
-
-
-
-* `$display(num, row, text)` Send a text string to the display with number _num_. _row_ is the display row, a value from 1 to 5, or 0 to add the text string at the bottom (scroll screen mode).  _text_ is the string to be displayed.  If the first char of the string is a blank, the text will be horizontally centered.
-* `$clear_screen(num)` Clear the screen of the display with number _num_.
-* `$position(num)` Returns the position as string "'(x,y,z)" of the device with the given _num_.
+| "a2b" | nil | TA4 Move Controller command to move the block(s) from position A to B |
+| "b2a" | nil | TA4 Move Controller command to move the block(s) from position B to A |
+| "move" | nil | TA4 Move Controller command to move the block(s) to the opposite position |
+| "left" | nil | TA4 Turn Controller command to turn the block(s) to the left |
+| "right" | nil | TA4 Turn Controller command to turn the block(s) to the right |
+| "uturn" | nil | TA4 Turn Controller command to turn the block(s) 180 degrees |
+| "recipe" | `<item_name>,<item_name>,...` | Set the TA4 Autocrafter recipe. <br />Example for the torch recipe: `default:coal_lump,,,default:stick` <br />Hint: Empty fields may only be left out at the end of the item list! |
+| "recipe" | `<number>.<index>` | Set the TA4 Autocrafter recipe with a recipe from a TA4 Recipe Block.<br />`<number>` is the TA4 Recipe Block number<br />`<index>` is the number of the recipe in the TA4 Recipe Block |
+| "goto" | `<slot>` | Start command for the TA4 Sequencer. `<slot>` is the time slot like `[1]` where the execution starts. |
+| "stop" | nil | Stop command for the TA4 Sequencer. |
 
 
 ### Server and Terminal Functions
@@ -414,25 +422,27 @@ In contrast the Controller can send text strings to the terminal.
 - `$get_term()` - Read a text command received from the Terminal
 - `$put_term(num, text)` - Send a text string to the Terminal.  _num_ is the number of the Terminal.
 
-
-### Further Functions
+### Communication between Lua Controllers
 
 Messages are used to transport data between Controllers. Messages can contain arbitrary data. Incoming messages are stored in order (up to 10) and can be read one after the other.
+
 * `$get_msg([raw])` - Read a received message. The function returns the sender number and the message. (see example "Emails"). If the _raw_ parameter is not set or false, the message is guaranteed to be a string.
 * `$send_msg(num, msg)` - Send a message to another Controller.  _num_ is the destination number. (see example "Emails")
 
-* `$chat(text)` - Send yourself a chat message. _text_ is a text string.
+### Further Functions
 
+* `$chat(text)` - Send yourself a chat message. _text_ is a text string.
 * `$door(pos, text)` - Open/Close a door at position "pos".    
   Example: `$door("123,7,-1200", "close")`.    
   Hint: Use the Techage Info Tool to determine the door position.
-  
 * `$item_description("default:apple")`
   Get the description (item name) for a specified itemstring, e. g. determined via the TA4 8x2000 Chest command `itemstring`:
   `str = $send_cmnd("223", "itemstring", 1)`
   `descr = $item_description(str)`
 
-  
+* `$display(num, row, text)` Send a text string to the display with number _num_. _row_ is the display row, a value from 1 to 5, or 0 to add the text string at the bottom (scroll screen mode).  _text_ is the string to be displayed.  If the first char of the string is a blank, the text will be horizontally centered.
+* `$clear_screen(num)` Clear the screen of the display with number _num_.
+* `$position(num)` Returns the position as string "'(x,y,z)" of the device with the given _num_.
 
 ## Example Scripts
 
@@ -662,7 +672,7 @@ loop() code:
 -- read from Terminal and send the message
 s = $get_term()
 if s then
-    name,text = unpack(string.split(s, ":", false, 1))
+    name,text = string.split2(s, ":", false, 1)
     num = $server_read(SERVER, name)
     if num then
         $send_msg(num, text)

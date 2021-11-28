@@ -681,7 +681,7 @@ A TA4 tank can hold 2000 units or 200 barrels of liquid.
 
 See TA3 pump.
 
-The TA4 pump pumps 8 units of liquid every two seconds.
+The TA4 pump pumps 8 units of liquid every two seconds. The pump also supports the `flowrate` command. This means that the total flow rate through the pump can be queried. 
 
 [ta4_pump|image]
 

@@ -25,6 +25,13 @@ local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 2
 local CAPA = 4
 
+local WRENCH_MENU =	{{
+	type = "output",
+	name = "flowrate",
+	label = S("Total flow rate"),      
+	tooltip = S("Total flow rate in liquid units"),
+}}
+
 local State3 = techage.NodeStates:new({
 	node_name_passive = "techage:t3_pump",
 	node_name_active = "techage:t3_pump_on",
@@ -52,13 +59,15 @@ local function pumping(pos, nvm, state, capa)
 			liquid.untake(pos, Pipe, Flip[outdir], name, leftover)
 			if leftover == taken then
 				state:blocked(pos, nvm)
-				return
+				return 0
 			end
+			return taken - leftover
 		end
 		state:keep_running(pos, nvm, COUNTDOWN_TICKS)
-		return
+		return taken
 	end
 	state:idle(pos, nvm)
+	return 0
 end
 
 local function after_place_node3(pos, placer)
@@ -85,7 +94,7 @@ end
 
 local function node_timer4(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
-	pumping(pos, nvm, State4, CAPA * 2)
+	nvm.flowrate = (nvm.flowrate or 0) + pumping(pos, nvm, State4, CAPA * 2)
 	return State4:is_active(nvm)
 end	
 
@@ -235,6 +244,7 @@ minetest.register_node("techage:t4_pump", {
 	groups = {cracky=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
+	ta4_formspec = WRENCH_MENU,
 })
 
 minetest.register_node("techage:t4_pump_on", {
@@ -261,7 +271,12 @@ techage.register_node({"techage:t3_pump", "techage:t3_pump_on"}, {
 
 techage.register_node({"techage:t4_pump", "techage:t4_pump_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		return State4:on_receive_message(pos, topic, payload)
+		if topic == "flowrate" then
+			local nvm = techage.get_nvm(pos)
+			return nvm.flowrate or 0
+		else
+			return State4:on_receive_message(pos, topic, payload)
+		end
 	end,
 })
 

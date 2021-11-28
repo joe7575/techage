@@ -33,8 +33,8 @@ elseif minetest.global_exists("minecart") and minecart.version < 1.08 then
 elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.01 then
 	minetest.log("error", "[techage] Techage requires lcdlib version 1.01 or newer!")
 	return
-elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.0 then
-	minetest.log("error", "[techage] Techage requires safer_lua version 1.0 or newer!")
+elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.01 then
+	minetest.log("error", "[techage] Techage requires safer_lua version 1.01 or newer!")
 	return
 elseif minetest.global_exists("networks") and networks.version < 0.10 then
 	minetest.log("error", "[techage] Techage requires networks version 0.10 or newer!")
@@ -187,6 +187,7 @@ dofile(MP.."/basic_machines/ta4_injector.lua")
 dofile(MP.."/basic_machines/itemsource.lua")
 dofile(MP.."/basic_machines/recycler.lua")
 dofile(MP.."/basic_machines/concentrator.lua")
+dofile(MP.."/basic_machines/recipeblock.lua")
 
 -- Liquids II
 dofile(MP.."/liquids/tank.lua")
@@ -274,6 +275,7 @@ dofile(MP.."/logic/lua_logic.lua")  -- old
 dofile(MP.."/logic/logic_block.lua")  -- new
 dofile(MP.."/logic/node_detector.lua")
 dofile(MP.."/logic/player_detector.lua")
+dofile(MP.."/logic/mba_detector.lua")
 dofile(MP.."/logic/cart_detector.lua")
 dofile(MP.."/logic/collector.lua")
 dofile(MP.."/logic/button_2x.lua")

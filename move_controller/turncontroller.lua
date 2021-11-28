@@ -97,7 +97,6 @@ minetest.register_node("techage:ta4_turncontroller", {
 				nvm.lpos = new_posses 
 				local name = player:get_player_name()
 				mark.stop(name)
-				print("new_posses", #new_posses)
 			end
 			meta:set_string("formspec", formspec(nvm, meta))
 		elseif fields.right then
@@ -107,7 +106,6 @@ minetest.register_node("techage:ta4_turncontroller", {
 				nvm.lpos = new_posses 
 				local name = player:get_player_name()
 				mark.stop(name)
-				print("new_posses", #new_posses)
 			end
 			meta:set_string("formspec", formspec(nvm, meta))
 		end

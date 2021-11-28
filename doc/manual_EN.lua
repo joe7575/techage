@@ -1725,7 +1725,7 @@ techage.manual_EN.aText = {
   "\n",
   "See TA3 pump.\n"..
   "\n"..
-  "The TA4 pump pumps 8 units of liquid every two seconds.\n"..
+  "The TA4 pump pumps 8 units of liquid every two seconds. The pump also supports the 'flowrate' command. This means that the total flow rate through the pump can be queried. \n"..
   "\n"..
   "\n"..
   "\n",

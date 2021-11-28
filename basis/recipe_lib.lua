@@ -22,6 +22,19 @@ local range = techage.in_range
 
 techage.recipes = {}
 
+local GROUP_ITEMS = {
+	stone = "default:cobble",
+	wood = "default:wood",
+	book = "default:book",
+	sand = "default:sand",
+	leaves = "default:leaves",
+	stick = "default:stick",
+	tree = "default:tree",
+	vessel = "vessels:glass_bottle",
+	wool = "wool:white",
+}
+
+
 local RECIPE = {
      output = {name = "", num = 0},
      waste = {name = "", num = 0},
@@ -137,3 +150,17 @@ function techage.recipes.get_recipe(name)
 	return NormalizedRecipes[name]
 end
 	
+	
+function techage.recipes.get_default_group_item_name(item_name)
+	if item_name and item_name:sub(1, 6) == "group:" then
+		local default_name = GROUP_ITEMS[item_name:sub(7)]
+		if default_name then
+			return default_name
+		end
+	end
+	return item_name
+end
+
+function techage.recipes.add_group_item(group, default_item_name)
+	GROUP_ITEMS[group] = default_item_name
+end

@@ -1729,7 +1729,7 @@ techage.manual_DE.aText = {
   "\n",
   "Siehe TA3 Pumpe.\n"..
   "\n"..
-  "Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden.\n"..
+  "Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden. Zusätzlich unterstützt die Pumpe das Kommando 'flowrate'. Damit kann die Gesamtdurchflussmenge durch die Pumpe abgefragt werden.\n"..
   "\n"..
   "\n"..
   "\n",

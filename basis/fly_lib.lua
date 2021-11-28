@@ -20,6 +20,36 @@ local S = techage.S
 
 local flylib = {}
 
+local function lvect_add_vec(lvect1, offs)
+	if not lvect1 or not offs then return end
+	
+	local lvect2 = {}
+	for _, v in ipairs(lvect1) do
+		lvect2[#lvect2 + 1] = vector.add(v, offs)
+	end
+	return lvect2
+end
+
+local function lvect_add(lvect1, lvect2)
+	if not lvect1 or not lvect2 then return end
+	
+	local lvect3 = {}
+	for i, v in ipairs(lvect1) do
+		lvect3[#lvect3 + 1] = vector.add(v, lvect2[i])
+	end
+	return lvect3
+end
+
+local function lvect_subtract(lvect1, lvect2)
+	if not lvect1 or not lvect2 then return end
+	
+	local lvect3 = {}
+	for i, v in ipairs(lvect1) do
+		lvect3[#lvect3 + 1] = vector.subtract(v, lvect2[i])
+	end
+	return lvect3
+end
+
 -------------------------------------------------------------------------------
 -- to_path function for the fly/move path 
 -------------------------------------------------------------------------------
@@ -294,7 +324,10 @@ end
 local function determine_dir(pos1, pos2)
 	local vdist = vector.subtract(pos2, pos1)
 	local ndist = vector.length(vdist)
-	return vector.divide(vdist, ndist)
+	if ndist > 0 then
+		return vector.divide(vdist, ndist)
+	end
+	return {x=0, y=0, z=0}
 end
 
 local function move_entity(obj, dest_pos, dir, is_corner)
@@ -413,12 +446,14 @@ minetest.register_entity("techage:move_item", {
 	
 	on_step = function(self, dtime, moveresult)
 		local stop_obj = function(obj, self)
+			local dest_pos = self.dest_pos
 			obj:move_to(self.dest_pos, true)
 			obj:set_acceleration({x=0, y=0, z=0})
 			obj:set_velocity({x=0, y=0, z=0})
 			self.dest_pos = nil
 			self.old_dist = nil
 			self.ttl = 2
+			return dest_pos
 		end
 		
 		if self.dest_pos then
@@ -431,24 +466,21 @@ minetest.register_entity("techage:move_item", {
 			-- Landing
 			if self.lpath and self.lpath[self.path_idx] then
 				if dist < 1 or dist > self.old_dist then
-					local dest_pos = self.dest_pos
-					stop_obj(obj, self)
+					local dest_pos = stop_obj(obj, self)
 					if not moveon_entity(obj, self, dest_pos) then
 						minetest.after(0.5, entity_to_node, dest_pos, obj)
 					end
 					return
 				end
 			elseif self.handover and dist < 0.2 or dist > self.old_dist then
-				local dest_pos = self.dest_pos
-				stop_obj(obj, self)
+				local dest_pos = stop_obj(obj, self)
 				if not handover_to(obj, self, dest_pos) then
 					minetest.after(0.5, entity_to_node, dest_pos, obj)
 				end
 				return
 			else
 				if dist < 0.05 or dist > self.old_dist then
-					local dest_pos = self.dest_pos
-					stop_obj(obj, self)
+					local dest_pos = stop_obj(obj, self)
 					minetest.after(0.5, entity_to_node, dest_pos, obj)
 					return
 				end
@@ -513,17 +545,7 @@ local function is_simple_node(pos)
 	return true
 end	
 
-local function table_add(tbl, offs)
-	if not tbl or not offs then return end
-	
-	local tbl2 = {}
-	for _, v in ipairs(tbl) do
-		tbl2[#tbl2 + 1] = vector.add(v, offs)
-	end
-	return tbl2
-end
-
-local function move_node(pos, pos1_idx, start_pos, lpath, max_speed, height, move2to1, handover)
+local function move_node(pos, pos1_idx, start_pos, lpath, max_speed, height, move2to1, handover, cpos)
 	local pos2 = next_path_pos(start_pos, lpath, 1)
 	--print("move_node", P2S(pos), P2S(start_pos), lpath, max_speed, height, move2to1, P2S(pos2))
 	if pos2 then
@@ -547,7 +569,7 @@ local function move_node(pos, pos1_idx, start_pos, lpath, max_speed, height, mov
 			self.base_pos = pos
 			self.move2to1 = move2to1
 			self.handover = handover
-			print("move_node", P2S(start_pos), P2S(pos2), P2S(dir), P2S(pos))
+			--print("move_node", P2S(start_pos), P2S(pos2), P2S(dir), P2S(pos))
 			move_entity(obj, pos2, dir)
 		end
 	end
@@ -598,13 +620,14 @@ function flylib.move_to_other_pos(pos, move2to1)
 	local handover
 	height = techage.in_range(height, 0, 1)
 	max_speed = techage.in_range(max_speed, MIN_SPEED, MAX_SPEED)
+	nvm.lpos1 = nvm.lpos1 or {}
 	
 	local offs = dest_offset(lpath)
 	if move2to1 then
 		lpath = reverse_path(lpath)
 	end
-	nvm.lpos1 = nvm.lpos1 or {}
-	nvm.lpos2 = table_add(nvm.lpos1, offs)
+	-- calc destination positions
+	nvm.lpos2 = lvect_add_vec(nvm.lpos1, offs)
 	
 	if move2to1 then
 		handover = meta:contains("handoverA") and meta:get_string("handoverA")

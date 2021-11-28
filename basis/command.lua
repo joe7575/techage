@@ -547,7 +547,7 @@ end
 
 minetest.register_chatcommand("ta_send", {
 	description = minetest.formspec_escape(
-			"Send a techage command to the block with the number given: /ta_send <number> <topic> [<data>]"),
+			"Send a techage command to the block with the number given: /ta_send <number> <command> [<data>]"),
     func = function(name, param)
 		local num, cmnd, payload = param:match('^([0-9]+)%s+(%w+)%s*(.*)$')
 
@@ -563,6 +563,43 @@ minetest.register_chatcommand("ta_send", {
 				return false, "Destination block is protected"
 			end
 		end
-		return false, "Syntax: /ta_send <number> <topic> [<data>]"
+		return false, "Syntax: /ta_send <number> <command> [<data>]"
+    end
+})
+
+minetest.register_chatcommand("expoints", {
+    privs = {
+       server = true
+    },
+    func = function(name, param)
+		local player_name, points = param:match("^(%S+)%s*(%d*)$")
+		if player_name then
+			local player = minetest.get_player_by_name(player_name)
+			if player then
+				if points and points ~= "" then
+					if techage.set_expoints(player, tonumber(points)) then
+						return true, "The player "..player_name.." now has "..points.." experience points."
+					end
+				else
+					points = techage.get_expoints(player)
+					return true, "The player "..player_name.." has "..points.." experience points."
+				end
+			else
+				return false, "Unknown player "..player_name
+			end
+		end
+		return false, "Syntax error!  Syntax:  /expoints <name> [<points>]"
+    end
+})
+
+minetest.register_chatcommand("my_expoints", {
+    func = function(name, param)
+		local player = minetest.get_player_by_name(name)
+		if player then
+			local points = techage.get_expoints(player)
+			if points then
+				return true, "You have "..points.." experience points."
+			end
+		end
     end
 })

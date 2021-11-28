@@ -84,31 +84,33 @@ end
 -------------------------------------------------------------------------------
 -- Rotate nodes around the center
 -------------------------------------------------------------------------------
-local function center(nodes)
+function techage.positions_center(lpos)
 	local c = {x=0, y=0, z=0}
-	for _,v in ipairs(nodes) do
+	for _,v in ipairs(lpos) do
 		c = vector.add(c, v)
 	end
-	c = vector.divide(c, #nodes)
+	c = vector.divide(c, #lpos)
 	c = vector.round(c)
 	c.y = 0
 	return c
 end
 
-local function rotate_around_axis(v, c, rot)
+function techage.rotate_around_axis(v, c, turn)
 	local dx, dz = v.x - c.x, v.z - c.z
-	if rot == "l" then
+	if turn == "l" then
 		return {
 			x = c.x - dz,
 			y = v.y,
 			z = c.z + dx,
 		}
-	elseif rot == "r" then
+	elseif turn == "r" then
 		return {
 			x = c.x + dz,
 			y = v.y,
 			z = c.z - dx,
 		}
+	elseif turn == "" then
+		return v
 	else -- turn 180 degree
 		return {
 			x = c.x - dx,
@@ -119,13 +121,13 @@ local function rotate_around_axis(v, c, rot)
 end
 
 -- Function returns a list ẃith the new node positions
--- rot is one of "l", "r", "2l", "2r"
+-- turn is one of "l", "r", "2l", "2r"
 -- cpos is the center pos (optional)
-function techage.rotate_around_center(nodes1, rot, cpos)
-	cpos = cpos or center(nodes1)
+function techage.rotate_around_center(nodes1, turn, cpos)
+	cpos = cpos or techage.positions_center(nodes1)
 	local nodes2 = {}
 	for _,pos in ipairs(nodes1) do
-		nodes2[#nodes2 + 1] = rotate_around_axis(pos, cpos, rot)
+		nodes2[#nodes2 + 1] = techage.rotate_around_axis(pos, cpos, turn)
 	end
 	return nodes2
 end
@@ -471,6 +473,7 @@ function techage.add_expoint(player)
 		local meta = player:get_meta()
 		if meta then
 			meta:set_int("techage_ex_points", meta:get_int("techage_ex_points") + 1)
+			return true
 		end
 	end
 end
@@ -480,6 +483,7 @@ function techage.set_expoints(player, ex_points)
 		local meta = player:get_meta()
 		if meta then
 			meta:set_int("techage_ex_points", ex_points)
+			return true
 		end
 	end
 end

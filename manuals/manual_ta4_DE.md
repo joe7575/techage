@@ -689,7 +689,7 @@ In einen TA4 Tank passen 2000 Einheiten oder 200 Fässer einer Flüssigkeit.
 
 Siehe TA3 Pumpe.
 
-Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden.
+Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden. Zusätzlich unterstützt die Pumpe das Kommando `flowrate`. Damit kann die Gesamtdurchflussmenge durch die Pumpe abgefragt werden.
 
 [ta4_pump|image]
 
