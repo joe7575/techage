@@ -456,7 +456,7 @@ techage.icta_register_condition("signaltower", {
 })
 
 techage.icta_register_action("signaltower", {
-	title = "send Signal Tower command",
+	title = "TA4 Signal Tower",
 	formspec = {
 		{
 			type = "numbers", 
@@ -483,6 +483,45 @@ techage.icta_register_action("signaltower", {
 	code = function(data, environ)
 		return function(env, output, idx)
 			techage.send_multi(environ.number, data.number, data.value)
+		end
+	end,
+})
+
+techage.icta_register_action("signallamp", {
+	title = "TA4 Signal Lamp",
+	formspec = {
+		{
+			type = "numbers", 
+			name = "number", 
+			label = "Signal Tower number", 
+			default = "",
+		},
+		{
+			type = "textlist", 
+			name = "payload",
+			label = "lamp number",      
+			choices = "1,2,3,4", 
+			default = "1",
+		},
+		{
+			type = "textlist", 
+			name = "value",
+			label = "lamp color",      
+			choices = "off,green,amber,red", 
+			default = "red",
+		},
+		{
+			type = "label", 
+			name = "lbl", 
+			label = "Turn on/off a Signal Tower lamp.", 
+		},
+	},
+	button = function(data, environ) 
+		return 'tower('..techage.fmt_number(data.number)..","..data.payload..","..data.value..')'
+	end,
+	code = function(data, environ)
+		return function(env, output, idx)
+			techage.send_multi(environ.number, data.number, data.value, tonumber(data.payload))
 		end
 	end,
 })
@@ -654,6 +693,98 @@ techage.icta_register_action("door", {
 	end,
 	button = function(data, environ) 
 		return 'door("'..data.pos..'",'..data.door_state..")"
+	end,
+})
+
+techage.icta_register_action("move", {
+	title = "TA4 Move Controller",
+	formspec = {
+		{
+			type = "number", 
+			name = "number", 
+			label = "block number", 
+			default = "",
+		},
+		{
+			type = "textlist", 
+			name = "cmnd",
+			label = "command",      
+			choices = "a2b,b2a,move", 
+			default = "a2b",
+		},
+	},
+	button = function(data, environ)  -- default button label
+		return 'move('..techage.fmt_number(data.number)..","..data.cmnd..')'
+	end,
+	code = function(data, environ)
+		return function(env, output, idx)
+			return techage.send_single(environ.number, data.number, data.cmnd)
+		end
+	end,
+})
+
+techage.icta_register_action("turn", {
+	title = "TA4 Turn Controller",
+	formspec = {
+		{
+			type = "number", 
+			name = "number", 
+			label = "block number", 
+			default = "",
+		},
+		{
+			type = "textlist", 
+			name = "cmnd",
+			label = "command",      
+			choices = "left,right,uturn", 
+			default = "left",
+		},
+	},
+	button = function(data, environ)  -- default button label
+		return 'move('..techage.fmt_number(data.number)..","..data.cmnd..')'
+	end,
+	code = function(data, environ)
+		return function(env, output, idx)
+			return techage.send_single(environ.number, data.number, data.cmnd)
+		end
+	end,
+})
+
+techage.icta_register_action("goto", {
+	title = "TA4 Sequencer",
+	formspec = {
+		{
+			type = "number", 
+			name = "number", 
+			label = "block number", 
+			default = "",
+		},
+		{
+			type = "textlist", 
+			name = "cmnd",
+			label = "command",      
+			choices = "goto,stop", 
+			default = "left",
+		},
+		{
+			type = "number", 
+			name = "slot", 
+			label = "time slot", 
+			default = "1",
+		},
+		{
+			type = "label", 
+			name = "lbl", 
+			label = "The 'stop' command needs no time slot.", 
+		},
+	},
+	button = function(data, environ)  -- default button label
+		return data.cmnd..'('..techage.fmt_number(data.number)..","..data.slot..')'
+	end,
+	code = function(data, environ)
+		return function(env, output, idx)
+			return techage.send_single(environ.number, data.number, data.cmnd, tonumber(data.slot or "1") or 1)
+		end
 	end,
 })
 
