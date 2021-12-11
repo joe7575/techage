@@ -457,6 +457,42 @@ function techage.wrench_tooltip(x, y)
 end
 
 -------------------------------------------------------------------------------
+-- Terminal history buffer
+-------------------------------------------------------------------------------
+local BUFFER_DEPTH = 10
+
+function techage.historybuffer_add(pos, s)
+	local mem = techage.get_mem(pos)
+	mem.hisbuf = mem.hisbuf or {}
+	
+	if #s > 2 then
+		table.insert(mem.hisbuf, s)
+		if #mem.hisbuf > BUFFER_DEPTH then
+			table.remove(mem.hisbuf, 1)
+		end
+		mem.hisbuf_idx = #mem.hisbuf + 1
+	end
+end
+
+function techage.historybuffer_priv(pos)
+	local mem = techage.get_mem(pos)
+	mem.hisbuf = mem.hisbuf or {}
+	mem.hisbuf_idx = mem.hisbuf_idx or 1
+	
+	mem.hisbuf_idx = math.max(1, mem.hisbuf_idx - 1)
+	return mem.hisbuf[mem.hisbuf_idx]
+end
+
+function techage.historybuffer_next(pos)
+	local mem = techage.get_mem(pos)
+	mem.hisbuf = mem.hisbuf or {}
+	mem.hisbuf_idx = mem.hisbuf_idx or 1
+	
+	mem.hisbuf_idx = math.min(#mem.hisbuf, mem.hisbuf_idx + 1)
+	return mem.hisbuf[mem.hisbuf_idx]
+end
+
+-------------------------------------------------------------------------------
 -- Player TA5 Experience Points
 -------------------------------------------------------------------------------
 function techage.get_expoints(player)
@@ -468,12 +504,30 @@ function techage.get_expoints(player)
 	end
 end
 
-function techage.add_expoint(player)
+-- Can only be used from one collider
+function techage.add_expoint(player, number)
 	if player and player.get_meta then
 		local meta = player:get_meta()
 		if meta then
-			meta:set_int("techage_ex_points", meta:get_int("techage_ex_points") + 1)
-			return true
+			if not meta:contains("techage_collider_number") then
+				meta:set_string("techage_collider_number", number)
+			end
+			if meta:get_string("techage_collider_number") == number then
+				meta:set_int("techage_ex_points", meta:get_int("techage_ex_points") + 1)
+				return true
+			else
+				minetest.chat_send_player(player:get_player_name(), "[techage] More than one collider is not allowed!")
+				return false
+			end
+		end
+	end
+end
+
+function techage.on_remove_collider(player)
+	if player and player.get_meta then
+		local meta = player:get_meta()
+		if meta then
+			meta:set_string("techage_collider_number", "")
 		end
 	end
 end

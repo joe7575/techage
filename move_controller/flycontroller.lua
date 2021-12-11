@@ -47,18 +47,20 @@ local WRENCH_MENU = {
 local function formspec(nvm, meta)
 	local status = meta:get_string("status")
 	local path = meta:contains("path") and meta:get_string("path") or "0,3,0"
-	return "size[8,7]" ..
+	return "size[8,6.7]" ..
 		"style_type[textarea;font=mono;textcolor=#FFFFFF;border=true]" ..
 		"box[0,-0.1;7.2,0.5;#c6e8ff]" ..
 		"label[0.2,-0.1;" .. minetest.colorize( "#000000", S("TA5 Fly Controller")) .. "]" ..
 		techage.wrench_image(7.4, -0.05) ..
 		"button[0.1,0.7;3.8,1;record;" .. S("Record") .. "]" ..
 		"button[4.1,0.7;3.8,1;done;" .. S("Done") .. "]" ..
-		"textarea[0.4,2.1;3.8,3.8;path;" .. S("Move path (A to B)") .. ";"..path.."]" ..
-		"button[4.1,3.2;3.8,1;store;" .. S("Store") .. "]" ..
-		"button[0.1,5.5;3.8,1;moveAB;" .. S("Move A-B") .. "]" ..
-		"button[4.1,5.5;3.8,1;moveBA;" .. S("Move B-A") .. "]" ..
-		"label[0.3,6.5;" .. status .. "]"
+		"textarea[0.4,2.1;3.8,4.4;path;" .. S("Move path (A to B)") .. ";"..path.."]" ..
+		"button[4.1,1.8;3.8,1;store;" .. S("Store") .. "]" ..
+		"button[4.1,2.6;3.8,1;test;" .. S("Test") .. "]" ..
+		"button[4.1,3.4;3.8,1;moveAB;" .. S("Move A-B") .. "]" ..
+		"button[4.1,4.2;3.8,1;moveBA;" .. S("Move B-A") .. "]" ..
+		"button[4.1,5.0;3.8,1;move;" .. S("Move") .. "]" ..
+		"label[0.3,6.3;" .. status .. "]"
 end
 
 
@@ -110,17 +112,46 @@ minetest.register_node("techage:ta5_flycontroller", {
 			mark.stop(name)
 			meta:set_string("formspec", formspec(nvm, meta))
 		elseif fields.store then
-			if fly.to_path(fields.path, MAX_DIST) then
+			local _, err = fly.to_path(fields.path, MAX_DIST)
+			if not err then
 				meta:set_string("path", fields.path)
 				meta:set_string("status", S("Stored"))
 			else
-				meta:set_string("status", S("Error: Invalid path !!"))
+				meta:set_string("status", err)
 			end
 			meta:set_string("formspec", formspec(nvm, meta))
 			local name = player:get_player_name()
 			mark.stop(name)
 			nvm.moveBA = false
 			nvm.running = true
+		elseif fields.test then
+			local path, err = fly.to_path(fields.path, MAX_DIST)
+			if err then
+				meta:set_string("status", err)
+			elseif path and nvm.lpos1 then
+				local pos = table.copy(nvm.lpos1[1])
+				if pos then
+					for _, offs in ipairs(path) do
+						local pos2 = vector.add(pos, offs)
+						local s = string.format("[TA4 Fly Controller] %s + %s = %s", P2S(pos), P2S(offs), P2S(pos2))
+						minetest.chat_send_player(player:get_player_name(), s)
+						pos = pos2
+					end
+					meta:set_string("status", S("See chat output"))
+				else
+					minetest.chat_send_player(player:get_player_name(), S("[TA4 Fly Controller] Recording is missing!"))
+					meta:set_string("status", S("Error: Recording is missing !!"))
+				end
+			else
+				if nvm.lpos1 then
+					minetest.chat_send_player(player:get_player_name(), S("[TA4 Fly Controller] Invalid path!"))
+					meta:set_string("status", S("Error: Invalid path !!"))
+				else
+					minetest.chat_send_player(player:get_player_name(), S("[TA4 Fly Controller] Recording is missing!"))
+					meta:set_string("status", S("Error: Recording is missing !!"))
+				end
+			end
+			meta:set_string("formspec", formspec(nvm, meta))
 		elseif fields.moveAB then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, false) then
@@ -133,6 +164,16 @@ minetest.register_node("techage:ta5_flycontroller", {
 		elseif fields.moveBA then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, true) then
+				nvm.running = true
+				meta:set_string("formspec", formspec(nvm, meta))
+				local name = player:get_player_name()
+				mark.stop(name)
+			end
+			meta:set_string("formspec", formspec(nvm, meta))
+		elseif fields.move then
+			meta:set_string("status", "")
+			nvm.moveBA = nvm.moveBA == false
+			if fly.move_to_other_pos(pos, nvm.moveBA == false) then
 				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()

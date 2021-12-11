@@ -30,3 +30,7 @@ techage_use_sqlite (use sqlite database) bool false
 # To reduce the server CPU load, the number of sent techage commands
 # per player and minute can be limited.
 techage_command_limit (Max. number of commands sent per minute) int 1200
+
+# Colliders are huge systems and should not be built on the surface.
+# 'techage_collider_min_depth specifies' the min. depth (Y) to build a TA4 Collider
+techage_collider_min_depth (Min. depth to build a TA4 Collider) int -30

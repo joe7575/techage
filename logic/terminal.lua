@@ -3,7 +3,7 @@
 	Terminal
 	========
 
-	Copyright (C) 2018-2020 Joachim Stolberg
+	Copyright (C) 2018-2021 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -15,22 +15,36 @@
 local M = minetest.get_meta
 local S = techage.S
 
-local HELP_TA3 = "Syntax:\n"..
-"  cmd <num> <cmnd>\n"..
-"\n"..
-"like:  cmd 181 on\n"..
-"or:    cmd 4573 state\n"..
-"\n"..
-"Local commands:\n"..
-"- clear  = clear screen\n"..
-"- help   = this message\n"..
-"- pub    = switch to public use of buttons\n"..
-"- priv   = switch to private use of buttons\n"..
-"To program a user button with a command:\n"..
-"  set <button-num> <button-text> <command>\n"..
-"e.g.:  set 1 ON cmd 123 on"
+local HELP_TA3 = [[        #### TA3 Terminal ####
+Send commands to machines and output the results.
+Local commands:
+- Clear screen with 'clear'
+- Output this message with 'help'
+- Switch to public use of buttons with 'pub'
+- Switch to private use of buttons with 'priv'
+- Program a user button with 
+   'set <button-num> <button-text> <command>'
+   Example: 'set 1 ON cmd 1234 on'
+- send a command with 'cmd <num> <cmnd>'
+   Example: 'cmd 1234 on']]
 
-local CMNDS_TA3 = S("Syntax error, try help")
+local HELP_TA4 = [[        #### TA4 Terminal ####
+Send commands to machines and output the results.
+Local commands:
+- Clear screen with 'clear'
+- Output this message with 'help'
+- Switch to public use of buttons with 'pub'
+- Switch to private use of buttons with 'priv'
+- Program a user button with 
+   'set <button-num> <button-text> <command>'
+   Example: 'set 1 ON cmd 1234 on'
+- send a command with 'cmd <num> <cmnd>'
+   Example: 'cmd 1234 on'
+- Connect to a machine with 'connect <num>'
+If connected, compact commands like 'status'
+are possible.]]
+
+local SYNTAX_ERR = S("Syntax error, try help")
 
 local function get_string(meta, num, default)
 	local s = meta:get_string("bttn_text"..num)
@@ -54,24 +68,28 @@ local function formspec2(meta)
 	local bttn_text7 = get_string(meta, 7, "User7")
 	local bttn_text8 = get_string(meta, 8, "User8")
 	local bttn_text9 = get_string(meta, 9, "User9")
-	return "size[10,8]"..
-	default.gui_bg..
-	default.gui_bg_img..
-	default.gui_slots..
-	"style_type[table,field;font=mono]"..
-	"button[0,0;3.3,1;bttn1;"..bttn_text1.."]button[3.3,0;3.3,1;bttn2;"..bttn_text2.."]button[6.6,0;3.3,1;bttn3;"..bttn_text3.."]"..
-	"button[0,0.8;3.3,1;bttn4;"..bttn_text4.."]button[3.3,0.8;3.3,1;bttn5;"..bttn_text5.."]button[6.6,0.8;3.3,1;bttn6;"..bttn_text6.."]"..
-	"button[0,1.6;3.3,1;bttn7;"..bttn_text7.."]button[3.3,1.6;3.3,1;bttn8;"..bttn_text8.."]button[6.6,1.6;3.3,1;bttn9;"..bttn_text9.."]"..
-	"table[0,2.5;9.8,4.7;output;"..output..";200]"..
-	"field[0.4,7.7;7.6,1;cmnd;;"..command.."]" ..
+	return "size[10,8.5]"..
+	--"style_type[table,field;font=mono]"..
+	"button[0,-0.2;3.3,1;bttn1;"..bttn_text1.."]button[3.3,-0.2;3.3,1;bttn2;"..bttn_text2.."]button[6.6,-0.2;3.3,1;bttn3;"..bttn_text3.."]"..
+	"button[0,0.6;3.3,1;bttn4;"..bttn_text4.."]button[3.3,0.6;3.3,1;bttn5;"..bttn_text5.."]button[6.6,0.6;3.3,1;bttn6;"..bttn_text6.."]"..
+	"button[0,1.4;3.3,1;bttn7;"..bttn_text7.."]button[3.3,1.4;3.3,1;bttn8;"..bttn_text8.."]button[6.6,1.4;3.3,1;bttn9;"..bttn_text9.."]"..
+	"table[0,2.3;9.8,5.6;output;"..output..";200]"..
+	"field[0.4,8.2;7.6,1;cmnd;;"..command.."]" ..
 	"field_close_on_enter[cmnd;false]"..
-	"button[7.9,7.4;2,1;ok;"..S("Enter").."]"
+	"button[7.9,7.9;2,1;ok;"..S("Enter").."]"
 end
 
 local function output(pos, text)
 	local meta = minetest.get_meta(pos)
 	text = meta:get_string("output") .. "\n" .. (text or "")
-	text = text:sub(-500,-1)
+	text = text:sub(-1000,-1)
+	meta:set_string("output", text)
+	meta:set_string("formspec", formspec2(meta))
+end
+
+local function append(pos, text)
+	local meta = minetest.get_meta(pos)
+	text = meta:get_string("output") .. (text or "")
 	meta:set_string("output", text)
 	meta:set_string("formspec", formspec2(meta))
 end
@@ -84,37 +102,146 @@ local function get_line_text(pos, num)
 	return line:gsub("^[%s$]*(.-)%s*$", "%1")
 end
 
+local function server_debug(pos, command, player)
+	local cmnd, payload = command:match('^pipe%s+([%w_]+)%s*(.*)$')
+	if cmnd then
+		if not minetest.check_player_privs(player, "server") then
+			output(pos, "server privs missing")
+			return
+		end
+		local resp = techage.transfer(
+			pos, 
+			"B",  -- outdir
+			cmnd,  -- topic
+			payload,  -- payload
+			techage.LiquidPipe,  -- network
+			nil)  -- valid nodes
+		output(pos, dump(resp))
+		return true
+	end
+	
+	cmnd, payload = command:match('^axle%s+([%w_]+)%s*(.*)$')
+	if cmnd then
+		if not minetest.check_player_privs(player, "server") then
+			output(pos, "server privs missing")
+			return
+		end
+		local resp = techage.transfer(
+			pos, 
+			"B",  -- outdir
+			cmnd,  -- topic
+			payload,  -- payload
+			techage.TA1Axle,  -- network
+			nil)  -- valid nodes
+		output(pos, dump(resp))
+		return true
+	end
+	
+	cmnd, payload = command:match('^vtube%s+([%w_]+)%s*(.*)$')
+	if cmnd then
+		if not minetest.check_player_privs(player, "server") then
+			output(pos, "server privs missing")
+			return
+		end
+		local resp = techage.transfer(
+			pos, 
+			"B",  -- outdir
+			cmnd,  -- topic
+			payload,  -- payload
+			techage.VTube,  -- network
+			nil)  -- valid nodes
+		output(pos, dump(resp))
+		return true
+	end
+end
 
-local function command(pos, command, player)
+local function command(pos, command, player, is_ta4)
 	local meta = minetest.get_meta(pos)
 	local owner = meta:get_string("owner") or ""
 	
-	if command then
-		command = command:sub(1,80)
-		command = string.trim(command)
-		
-		if command == "clear" then
-			meta:set_string("output", "")
-			meta:set_string("formspec", formspec2(meta))
-		elseif command == "help" then
-			local meta = minetest.get_meta(pos)
-			meta:set_string("output", HELP_TA3)
-			meta:set_string("formspec", formspec2(meta))
-		elseif command == "pub" then
-			meta:set_int("public", 1)
-			output(pos, player..":$ "..command)
-			output(pos, S("Switched to public use!"))
-		elseif command == "priv" then
-			meta:set_int("public", 0)
-			output(pos, player..":$ "..command)
-			output(pos, S("Switched to private use!"))
+	command = command:sub(1,80)
+	command = string.trim(command)
+	local cmnd, data = command:match('^(%w+)%s*(.*)$')
+	
+	if cmnd == "clear" then
+		meta:set_string("output", "")
+		meta:set_string("formspec", formspec2(meta))
+	elseif cmnd == "" then
+		output(pos, "$")
+	elseif cmnd == "help" then
+		if is_ta4 then
+			output(pos, HELP_TA4)
 		else
-			output(pos, "$ "..command)
+			output(pos, HELP_TA3)
+		end
+	elseif cmnd == "pub" then
+		meta:set_int("public", 1)
+		output(pos, "$ "..command)
+		output(pos, "Switched to public buttons!")
+	elseif cmnd == "priv" then
+		meta:set_int("public", 0)
+		output(pos, "$ "..command)
+		output(pos, "Switched to private buttons!")
+	elseif cmnd == "connect" and data then
+		output(pos, "$ "..command)
+		if techage.not_protected(data, owner, owner) then
 			local own_num = meta:get_string("node_number")
-			local num, cmnd, payload = command:match('^cmd%s+([0-9]+)%s+(%w+)%s*(.*)$')
-			if num and cmnd then
-				if techage.not_protected(num, owner, owner) then
-					local resp = techage.send_single(own_num, num, cmnd, payload)
+			local resp = techage.send_single(own_num, data, cmnd)
+			if resp then
+				meta:set_string("connected_to", data)
+				output(pos, "Connected.")
+			else
+				meta:set_string("connected_to", "")
+				output(pos, "Not connected!")
+			end
+		else
+			output(pos, "Protection error!")
+		end
+	else
+		output(pos, "$ "..command)
+		local own_num = meta:get_string("node_number")
+		local connected_to = meta:contains("connected_to") and meta:get_string("connected_to")
+		local bttn_num, label, num, cmnd, payload
+		
+		num, cmnd, payload = command:match('^cmd%s+([0-9]+)%s+(%w+)%s*(.*)$')
+		if num and cmnd then
+			if techage.not_protected(num, owner, owner) then
+				local resp = techage.send_single(own_num, num, cmnd, payload)
+				if type(resp) == "string" then
+					output(pos, resp)
+				else
+					output(pos, dump(resp))
+				end
+			end
+			return
+		end
+		
+		num, cmnd = command:match('^turn%s+([0-9]+)%s+([onf]+)$')
+		if num and (cmnd == "on" or cmnd == "off") then
+			if techage.not_protected(num, owner, owner) then
+				local resp = techage.send_single(own_num, num, cmnd)
+				output(pos, dump(resp))
+			end
+			return
+		end
+		
+		bttn_num, label, cmnd = command:match('^set%s+([1-9])%s+([%w_]+)%s+(.+)$')
+		if bttn_num and label and cmnd then
+			meta:set_string("bttn_text"..bttn_num, label)
+			meta:set_string("bttn_cmnd"..bttn_num, cmnd)
+			meta:set_string("formspec", formspec2(meta))
+			return
+		end
+		
+		if server_debug(pos, command, player) then
+			return
+		end
+		
+		if connected_to then
+			local cmnd, payload = command:match('^(%w+)%s*(.*)$')
+			if cmnd then
+				local resp = techage.send_single(own_num, connected_to, cmnd, payload)
+				if resp ~= true then
 					if type(resp) == "string" then
 						output(pos, resp)
 					else
@@ -123,59 +250,10 @@ local function command(pos, command, player)
 				end
 				return
 			end
-			num, cmnd = command:match('^turn%s+([0-9]+)%s+([onf]+)$')
-			if num and (cmnd == "on" or cmnd == "off") then
-				if techage.not_protected(num, owner, owner) then
-					local resp = techage.send_single(own_num, num, cmnd)
-					output(pos, dump(resp))
-				end
-				return
-			end
-			local bttn_num, label, cmnd = command:match('^set%s+([1-9])%s+([%w_]+)%s+(.+)$')
-			if bttn_num and label and cmnd then
-				meta:set_string("bttn_text"..bttn_num, label)
-				meta:set_string("bttn_cmnd"..bttn_num, cmnd)
-				meta:set_string("formspec", formspec2(meta))
-				return
-			end
-			
-			local cmnd, payload = command:match('^pipe%s+([%w_]+)%s*(.*)$')
-			if cmnd then
-				if not minetest.check_player_privs(player, "server") then
-					output(pos, "server privs missing")
-					return
-				end
-				local resp = techage.transfer(
-					pos, 
-					"B",  -- outdir
-					cmnd,  -- topic
-					payload,  -- payload
-					techage.LiquidPipe,  -- network
-					nil)  -- valid nodes
-				output(pos, dump(resp))
-				return
-			end
-			
-			local cmnd, payload = command:match('^axle%s+([%w_]+)%s*(.*)$')
-			if cmnd then
-				if not minetest.check_player_privs(player, "server") then
-					output(pos, "server privs missing")
-					return
-				end
-				local resp = techage.transfer(
-					pos, 
-					"B",  -- outdir
-					cmnd,  -- topic
-					payload,  -- payload
-					techage.TA1Axle,  -- network
-					nil)  -- valid nodes
-				output(pos, dump(resp))
-				return
-			end
-			
-			if command ~= "" then
-				output(pos, CMNDS_TA3)
-			end
+		end
+		
+		if command ~= "" then
+			output(pos, SYNTAX_ERR)
 		end
 	end
 end	
@@ -186,9 +264,9 @@ local function send_cmnd(pos, meta, num)
 	command(pos, cmnd, owner)
 end
 
-local function register_terminal(num, tiles, node_box, selection_box)
-	minetest.register_node("techage:terminal"..num, {
-		description = S("TA3 Terminal"),
+local function register_terminal(name, description, tiles, node_box, selection_box)
+	minetest.register_node("techage:"..name, {
+		description = description,
 		tiles = tiles,
 		drawtype = "nodebox",
 		node_box = node_box,
@@ -201,7 +279,7 @@ local function register_terminal(num, tiles, node_box, selection_box)
 			meta:set_string("command", S("commands like: help"))
 			meta:set_string("formspec", formspec2(meta))
 			meta:set_string("owner", placer:get_player_name())
-			meta:set_string("infotext", S("TA3 Terminal") .. " " .. number)
+			meta:set_string("infotext", description .. " " .. number)
 		end,
 
 		on_receive_fields = function(pos, formname, fields, player)
@@ -216,9 +294,19 @@ local function register_terminal(num, tiles, node_box, selection_box)
 					meta:set_string("command", s)
 					meta:set_string("formspec", formspec2(meta))
 					return
-				elseif (fields.key_enter == "true" or fields.ok) and fields.cmnd ~= "" then
-					command(pos, fields.cmnd, player:get_player_name())
+				elseif (fields.ok or fields.key_enter_field) and fields.cmnd then
+					local is_ta4 = string.find(description, "TA4")
+					command(pos, fields.cmnd, player:get_player_name(), is_ta4)
+					techage.historybuffer_add(pos, fields.cmnd)
 					meta:set_string("command", "")
+					meta:set_string("formspec", formspec2(meta))
+					return
+				elseif fields.key_up then
+					meta:set_string("command", techage.historybuffer_priv(pos))
+					meta:set_string("formspec", formspec2(meta))
+					return
+				elseif fields.key_down then
+					meta:set_string("command", techage.historybuffer_next(pos))
 					meta:set_string("formspec", formspec2(meta))
 					return
 				end
@@ -251,7 +339,7 @@ local function register_terminal(num, tiles, node_box, selection_box)
 	})
 end
 
-register_terminal("2", {
+register_terminal("terminal2", S("TA3 Terminal"), {
 		-- up, down, right, left, back, front
 		'techage_terminal2_top.png',
 		'techage_terminal2_side.png',
@@ -277,7 +365,33 @@ register_terminal("2", {
 		fixed = {
 			{-12/32, -16/32, -4/32,  12/32, 6/32, 16/32},
 		},
-	})
+	}
+)
+
+register_terminal("terminal3", S("TA4 Terminal"), {
+		-- up, down, right, left, back, front
+		'techage_terminal1_top.png',
+		'techage_terminal1_bottom.png',
+		'techage_terminal1_side.png',
+		'techage_terminal1_side.png',
+		'techage_terminal1_bottom.png',
+		"techage_terminal1_front.png",
+	},
+	{
+		type = "fixed",
+		fixed = {
+			{-12/32, -16/32,  -8/32,  12/32, -14/32, 12/32},
+			{-12/32, -14/32,  12/32,  12/32,   6/32, 14/32},
+		},
+	},
+	{
+		type = "fixed",
+		fixed = {
+			{-12/32, -16/32,  -8/32,  12/32, -14/32, 12/32},
+			{-12/32, -14/32,  12/32,  12/32,   6/32, 14/32},
+		},
+	}
+)
 
 minetest.register_craft({
 	output = "techage:terminal2",
@@ -285,6 +399,15 @@ minetest.register_craft({
 		{"", "", ""},
 		{"techage:basalt_glass_thin", "techage:vacuum_tube", "default:copper_ingot"},
 		{"dye:grey", "default:steel_ingot", "techage:usmium_nuggets"},
+	},
+})
+
+minetest.register_craft({
+	output = "techage:terminal3",
+	recipe = {
+		{"techage:basalt_glass_thin", "", ""},
+		{"techage:ta4_leds", "", ""},
+		{"techage:aluminum", "techage:ta4_wlanchip", "techage:ta4_ramchip"},
 	},
 })
 
@@ -300,5 +423,18 @@ techage.register_node({"techage:terminal2"}, {
 			meta:set_string("node_number", number)
 			meta:set_string("number", nil)
 		end
+	end,
+})
+
+techage.register_node({"techage:terminal3"}, {
+	on_recv_message = function(pos, src, topic, payload)
+		if topic == "text" then
+			output(pos, payload)
+		elseif topic == "append" then
+			append(pos, payload)
+		else
+			output(pos, "src="..src..", cmd="..dump(topic)..", data="..dump(payload))
+		end
+		return true
 	end,
 })

@@ -55,6 +55,7 @@ techage.max_num_forceload_blocks = tonumber(minetest.settings:get("techage_max_n
 techage.basalt_stone_enabled = minetest.settings:get_bool("techage_basalt_stone_enabled") ~= false
 techage.ore_rarity = tonumber(minetest.settings:get("techage_ore_rarity")) or 1
 techage.modified_recipes_enabled = minetest.settings:get_bool("techage_modified_recipes_enabled") ~= false
+techage.collider_min_depth = tonumber(minetest.settings:get("techage_collider_min_depth")) or -30
 
 -- allow to load marshal and sqlite3
 techage.IE = minetest.request_insecure_environment()
@@ -98,6 +99,7 @@ dofile(MP.."/basis/windturbine_lib.lua")
 dofile(MP.."/basis/laser_lib.lua")
 dofile(MP.."/basis/legacy.lua")
 dofile(MP.."/basis/hyperloop.lua")
+dofile(MP.."/basis/oggfiles.lua")
 
 -- Main doc
 dofile(MP.."/doc/manual_DE.lua")
@@ -294,6 +296,7 @@ dofile(MP.."/move_controller/doorcontroller2.lua")  -- new
 dofile(MP.."/move_controller/movecontroller.lua")
 dofile(MP.."/move_controller/turncontroller.lua")
 dofile(MP.."/move_controller/flycontroller.lua")
+dofile(MP.."/move_controller/soundblock.lua")
 
 
 -- Test
@@ -376,6 +379,14 @@ dofile(MP.."/items/moreblocks.lua")
 -- Carts
 dofile(MP.."/carts/tank_cart.lua")
 dofile(MP.."/carts/chest_cart.lua")
+
+-- Collider
+dofile(MP.."/collider/vacuumtube.lua")
+dofile(MP.."/collider/magnet.lua")
+dofile(MP.."/collider/inlets.lua")
+dofile(MP.."/collider/cooler.lua")
+dofile(MP.."/collider/detector.lua")
+dofile(MP.."/collider/worker.lua")
 
 
 -- Prevent other mods from using IE

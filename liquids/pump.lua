@@ -56,6 +56,11 @@ local function pumping(pos, nvm, state, capa)
 	if taken > 0 then
 		local leftover = liquid.put(pos, Pipe, outdir, name, taken, mem.dbg_cycles > 0)
 		if leftover and leftover > 0 then
+			-- air needs no tank
+			if name == "air" then
+				state:keep_running(pos, nvm, COUNTDOWN_TICKS)
+				return 0
+			end
 			liquid.untake(pos, Pipe, Flip[outdir], name, leftover)
 			if leftover == taken then
 				state:blocked(pos, nvm)

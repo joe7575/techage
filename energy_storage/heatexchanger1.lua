@@ -25,12 +25,12 @@ local power = networks.power
 
 local function turbine_cmnd(pos, topic, payload)
 	return techage.transfer(pos, "R", topic, payload, Pipe,
-		{"techage:ta4_turbine", "techage:ta4_turbine_on"})
+		{"techage:ta4_turbine", "techage:ta4_turbine_on", "techage:ta4_collider_cooler"})
 end
 
 local function inlet_cmnd(pos, topic, payload)
 	return techage.transfer(pos, "L", topic, payload, Pipe,
-		{"techage:ta4_pipe_inlet"})
+		{"techage:ta4_pipe_inlet", "techage:ta4_collider_pipe_inlet"})
 end
 
 minetest.register_node("techage:heatexchanger1", {
@@ -83,7 +83,7 @@ techage.register_node({"techage:heatexchanger1"}, {
 	on_transfer = function(pos, indir, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		-- used by heatexchanger2
-		if topic == "diameter" or topic == "volume" or topic == "window" then
+		if topic == "diameter" or topic == "volume" or topic == "window" or topic == "detector" then
 			return inlet_cmnd(pos, topic, payload)
 		else
 			return turbine_cmnd(pos, topic, payload)

@@ -124,3 +124,118 @@ function techage.assemble.remove(pos, AssemblyPlan, player_name)
 	remove(pos, node.param2, AssemblyPlan, #AssemblyPlan)
 	nvm.assemble_build = false
 end
+
+--------------------------------------------------------------------------------
+-- Assembly functions based on nodes from node inventory
+--------------------------------------------------------------------------------
+local function play_sound(pos, sound)
+	minetest.sound_play(sound, {
+		pos = pos, 
+		gain = 1,
+		max_hear_distance = 10,
+	})
+end
+
+local function build_inv(pos, inv, param2, AssemblyPlan, player_name, idx)
+	local item = AssemblyPlan[idx]
+	if item ~= nil then
+		local y, path, fd_offs, node_name = item[1], item[2], item[3], item[4]
+		local pos1 = dest_pos(pos, param2, path, y)
+		if not minetest.is_protected(pos1, player_name) then
+			local node = minetest.get_node(pos1)
+			if techage.is_air_like(node.name) then
+				local stack = inv:remove_item("src", ItemStack(node_name))
+				if stack:get_count() == 1 then
+					minetest.add_node(pos1, {name=node_name, param2=(param2 + fd_offs) % 4})
+					play_sound(pos, "default_place_node_hard")
+					local ndef = minetest.registered_nodes[node_name]
+					if ndef and ndef.after_place_node then
+						local placer = minetest.get_player_by_name(player_name)
+						ndef.after_place_node(pos1, placer, ItemStack(node_name))
+					end
+				end
+			end
+		end
+		minetest.after(0.5, build_inv, pos, inv, param2, AssemblyPlan, player_name, idx + 1)
+	else
+		local nvm = techage.get_nvm(pos)
+		nvm.assemble_locked = false
+	end
+end
+
+local function remove_inv(pos, inv, param2, AssemblyPlan, player_name, idx)
+	local item = AssemblyPlan[idx]
+	if item ~= nil then
+		local y, path, fd_offs, node_name = item[1], item[2], item[3], item[4]
+		local pos1 = dest_pos(pos, param2, path, y)
+		if not minetest.is_protected(pos1, player_name) then
+			local stack = ItemStack(node_name)
+			if inv:room_for_item("src", stack) then
+				local node = minetest.get_node(pos1)
+				if node.name == node_name then
+					minetest.remove_node(pos1)
+					inv:add_item("src", stack)
+					play_sound(pos, "default_dig_cracky")
+					local ndef = minetest.registered_nodes[node_name]
+					if ndef and ndef.after_dig_node then
+						local digger = minetest.get_player_by_name(player_name)
+						ndef.after_dig_node(pos1, pos, ItemStack(node_name), {}, digger)
+					end
+				end
+			end
+		end
+		minetest.after(0.5, remove_inv, pos, inv, param2, AssemblyPlan, player_name, idx - 1)
+	else
+		local nvm = techage.get_nvm(pos)
+		nvm.assemble_locked = false
+	end
+end
+
+function techage.assemble.build_inv(pos, inv, AssemblyPlan, player_name)
+	-- check protection
+	if minetest.is_protected(pos, player_name) then
+		return
+	end
+	local nvm = techage.get_nvm(pos)
+	if nvm.assemble_locked then
+		return
+	end
+	local node = minetest.get_node(pos)
+	nvm.assemble_locked = true
+	build_inv(pos, inv, node.param2, AssemblyPlan, player_name, 1)
+end
+
+function techage.assemble.remove_inv(pos, inv, AssemblyPlan, player_name)
+	-- check protection
+	if minetest.is_protected(pos, player_name) then
+		return
+	end
+	local nvm = techage.get_nvm(pos)
+	if nvm.assemble_locked then
+		return
+	end
+	local node = minetest.get_node(pos)
+	nvm.assemble_locked = true
+	remove_inv(pos, inv, node.param2, AssemblyPlan, player_name, #AssemblyPlan)
+end
+
+function techage.assemble.count_items(AssemblyPlan)
+	local t = {}
+	for _, item in ipairs(AssemblyPlan) do
+		local node_name = item[4]
+		local ndef = minetest.registered_nodes[node_name]
+		local name = ndef.description
+		if not t[name] then
+			t[name] = 1
+		else
+			t[name] = t[name] + 1
+		end
+	end
+	return t
+end	
+
+-- Determine the destination position based on the given route
+-- param2, and a route table like : {0,3}
+-- 0 = forward, 1 = right, 2 = backward, 3 = left
+-- techage.assemble.get_pos(pos, param2, route, y_offs)
+techage.assemble.get_pos = dest_pos

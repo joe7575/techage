@@ -42,9 +42,14 @@ local function after_dig_node(pos, oldnode)
 	Pipe:after_dig_node(pos)
 end
 
+local function cooler_cmnd(pos, topic, payload)
+	return techage.transfer(pos, "R", topic, payload, Pipe,
+		{"techage:ta4_collider_cooler"})
+end
+
 local function inlet_cmnd(pos, topic, payload)
 	return techage.transfer(pos, "L", topic, payload, Pipe,
-		{"techage:ta4_pipe_inlet"})
+		{"techage:ta4_pipe_inlet", "techage:ta4_collider_pipe_inlet"})
 end
 
 minetest.register_node("techage:heatexchanger3", {
@@ -77,7 +82,11 @@ Pipe:add_secondary_node_names({"techage:heatexchanger3"})
 -- command interface, used by heatexchanger2
 techage.register_node({"techage:heatexchanger3"}, {
 	on_transfer = function(pos, indir, topic, payload)
-		return inlet_cmnd(pos, topic, payload)
+		if topic == "cooler" then
+			return cooler_cmnd(pos, topic, payload)
+		else
+			return inlet_cmnd(pos, topic, payload)
+		end
 	end,
 })
 

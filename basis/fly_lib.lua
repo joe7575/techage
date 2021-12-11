@@ -81,15 +81,23 @@ end
 
 function flylib.to_path(s, max_dist)
 	local tPath
+	local dist = 0
 	
 	for _, line in ipairs(strsplit(s)) do
 		line = trim(line)
 		line = string.split(line, "--", true, 1)[1] or ""
 		if line ~= "" then
 			local v = flylib.to_vector(line)
-			if v and (not max_dist or flylib.distance(v) <= max_dist) then
-				tPath = tPath or {}
-				tPath[#tPath + 1] = v
+			if v then
+				--dist = dist + flylib.distance(v)
+				--if not max_dist or dist <= max_dist then
+					tPath = tPath or {}
+					tPath[#tPath + 1] = v
+				--else
+				--	return tPath, S("Error: Max. length of the flight route exceeded !!")
+				--end
+			else
+				return tPath, S("Error: Invalid path !!")
 			end
 		end
 	end
@@ -614,10 +622,13 @@ end
 function flylib.move_to_other_pos(pos, move2to1)	
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
-	local lpath =  flylib.to_path(meta:get_string("path")) or {}
+	local lpath, err = flylib.to_path(meta:get_string("path")) or {}
 	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
 	local height = meta:contains("height") and meta:get_float("height") or 1
 	local handover
+	
+	if err then return false end
+	
 	height = techage.in_range(height, 0, 1)
 	max_speed = techage.in_range(max_speed, MIN_SPEED, MAX_SPEED)
 	nvm.lpos1 = nvm.lpos1 or {}

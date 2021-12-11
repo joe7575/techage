@@ -53,3 +53,17 @@ techage.furnace.register_recipe({
 	},
 	time = 16,
 })
+
+minetest.register_craftitem("techage:ta4_round_ceramic", {
+	description = S("TA4 Round Ceramic"),
+	inventory_image = "techage_round_ceramic.png",
+})
+
+techage.furnace.register_recipe({
+	output = "techage:ta4_round_ceramic 2",
+	recipe = {
+		"techage:ta4_ceramic_material", "techage:ta4_ceramic_material",
+		"techage:ta4_ceramic_material", "techage:ta4_ceramic_material",
+	},
+	time = 16,
+})

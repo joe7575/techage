@@ -271,7 +271,7 @@ minetest.register_entity("techage:ta1_watermill_entity", {
 				stop_wheel(pos, self)
 			end
 			trigger_consumer(pos, self.facedir)
-			minetest.sound_play("techage_watermill", {gain = 0.3, pos = pos,
+			minetest.sound_play("techage_watermill", {gain = 0.5, pos = pos,
 			max_hear_distance = 10}, true)
 		end
 	end,
