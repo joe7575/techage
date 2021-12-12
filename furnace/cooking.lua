@@ -192,14 +192,12 @@ function techage.furnace.reset_cooking(nvm)
 end
 
 
-if minetest.global_exists("unified_inventory") then
-	unified_inventory.register_craft_type("ta3_melting", {
-		description = S("TA3 Melting"),
-		icon = "techage_concrete.png^techage_appl_furnace.png^techage_frame_ta3.png",
-		width = 2,
-		height = 2,
-	})
-end
+techage.recipes.register_craft_type("ta3_melting", {
+	description = S("TA3 Melting"),
+	icon = "techage_concrete.png^techage_appl_furnace.png^techage_frame_ta3.png",
+	width = 2,
+	height = 2,
+})
 
 function techage.furnace.register_recipe(recipe)
 	local words = string.split(recipe.output, " ")
@@ -224,9 +222,7 @@ function techage.furnace.register_recipe(recipe)
 		end
 	end
 
-	if minetest.global_exists("unified_inventory") then
-		recipe.items = recipe.recipe
-		recipe.type = "ta3_melting"
-		unified_inventory.register_craft(recipe)
-	end
+	recipe.items = recipe.recipe
+	recipe.type = "ta3_melting"
+	techage.recipes.register_craft(recipe)
 end

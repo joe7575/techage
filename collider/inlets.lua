@@ -110,7 +110,7 @@ minetest.register_craft({
 	output = "techage:ta4_collider_tube_inlet",
 	recipe = {
 		{'', '', ''},
-		{'techage:ta4_vtubeS', 'default:steelblock', ''},
+		{'techage:ta4_vtubeS', 'techage:ta4_colliderblock', ''},
 		{'', '', ''},
 	},
 })
@@ -204,7 +204,7 @@ minetest.register_craft({
 	output = "techage:ta4_collider_pipe_inlet",
 	recipe = {
 		{'', '', ''},
-		{'techage:ta3_pipeS', 'default:steelblock', ''},
+		{'techage:ta3_pipeS', 'techage:ta4_colliderblock', ''},
 		{'', '', ''},
 	},
 })
@@ -292,7 +292,7 @@ minetest.register_craft({
 	output = "techage:ta4_collider_pipe_outlet",
 	recipe = {
 		{'', 'techage:ta3_pipeS', ''},
-		{'', 'default:steelblock', ''},
+		{'', 'techage:ta4_colliderblock', ''},
 		{'', '', ''},
 	},
 })
@@ -358,7 +358,7 @@ minetest.register_craft({
 	output = "techage:ta4_collider_cable_inlet",
 	recipe = {
 		{'', '', ''},
-		{'techage:electric_cableS', 'default:steelblock', ''},
+		{'techage:electric_cableS', 'techage:ta4_colliderblock', ''},
 		{'', '', ''},
 	},
 })

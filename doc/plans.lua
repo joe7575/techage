@@ -24,6 +24,7 @@ local IMG41 = {"", "techage_ta4_tes.png"}
 local IMG42 = {"", "techage_ta4_solar.png"}
 local IMG43 = {"", "techage_reactor_inv.png"}
 local IMG44 = {"", "techage_ta4_filter.png"}
+local IMG45 = {"10x10", "techage_collider_plan.png"}
 
 local TOP_V = {"top_view", ""}
 local SIDEV = {"side_view", ""}
@@ -460,6 +461,36 @@ techage.ConstructionPlans["ta4_liquid_filter_top"] = {
 	{false, CONCR, false, LFFIL, false, CONCR},
 	{false, CONCR, false, false, false, CONCR},
 	{false, CONCR, CONCR, CONCR, CONCR, CONCR},
+}
+
+--
+-- TA4 Collider
+--
+local STEEL = {"default_steel_block.png", "techage:ta4_colliderblock"}
+local COOL4 = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_cooler.png", "techage:ta4_collider_cooler"}
+
+techage.ConstructionPlans["techage_collider_plan"] = {
+	{IMG45, false, false, false},
+	{false, false, false, false},
+	{false, false, false, false},
+	{false, false, false, false},
+	{false, false, false, false},
+	{false, false, false, false},
+}
+
+--
+-- TA4 Detector Cooler
+--
+local STEEL = {"default_steel_block.png", "techage:ta4_colliderblock"}
+local COOL4 = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_cooler.png", "techage:ta4_collider_cooler"}
+
+techage.ConstructionPlans["ta4_cooler"] = {
+	{false, false, false, SIDEV, false, false, false, false, false},
+	{false, false, false, false, false, false, false, false, false},
+	{false, STEEL, PIPEH, HEXR1, PIPEH, COOL4, PN270, false, false},
+	{false, STEEL, false, HEXR2, false, false, PIPEV, false, false},
+	{false, STEEL, PIPEH, HEXR3, PIPEH, PIPEH, PN180, false, false},
+	{false, false, false, false, false, false, false, false, false},
 }
 
 function techage.add_manual_plans(table_with_plans)

@@ -138,7 +138,7 @@ techage.manual_EN.aTitel = {
   "3,TechAge Programmer",
   "3,TechAge Trowel / Trowel",
   "3,TA3 drill pipe wrench",
-  "1,TA4: Future",
+  "1,TA4: Now Age",
   "2,Wind Turbine",
   "3,TA4 Wind Turbine",
   "3,TA4 Wind Turbine Nacelle",
@@ -223,7 +223,7 @@ techage.manual_EN.aTitel = {
 }
 
 techage.manual_EN.aText = {
-  "Tech Age is a technology mod with 4 development stages:\n"..
+  "Tech Age is a technology mod with 5 development stages:\n"..
   "\n"..
   "TA1: Iron Age\n"..
   "Use tools and aids such as coal burners\\, coal burners\\, gravel sieves\\, hammers and hoppers to mine and process the necessary ores and metals.\n"..
@@ -234,8 +234,11 @@ techage.manual_EN.aText = {
   "TA3: Oil Age\n"..
   "Find and extract oil\\, built railways for oil transportation. A power plant provides the necessary electricity for your machines. Electric light illuminates your industrial plants.\n"..
   "\n"..
-  "TA4: Future Age\n"..
+  "TA4: Now Age\n"..
   "Renewable energy sources such as wind\\, sun and biofuels help you to leave the oil age. With modern technologies and intelligent machines you set out into the future.\n"..
+  "\n"..
+  "TA5: Future Age\n"..
+  "Machines to overcome space and time\\, new sources of energy and other achievements shape your life.\n"..
   "\n"..
   "Note: With a click on the plus sign you get into the subchapters of this manual.\n"..
   "\n"..

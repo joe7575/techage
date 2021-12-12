@@ -240,6 +240,7 @@ local function start_task(pos)
 		coroutine.yield()
 		local resp = techage.tube_inlet_command(pos2, "enumerate", 1)
 		if not check_expr(own_num, term_num, "- Check number of magnets", resp == TNO_MAGNETS) then
+			nvm.locked = false
 			return
 		end
 
@@ -248,23 +249,27 @@ local function start_task(pos)
 		resp = techage.tube_inlet_command(pos2, "distance")
 		if resp ~= true then
 			techage.send_single(own_num, term_num, "append", "#" .. resp .. " defect!!!")
+			nvm.locked = false
 			return
 		end
 		techage.send_single(own_num, term_num, "append", "ok")
 	
 		coroutine.yield()
 		techage.send_single(own_num, term_num, "text", "- Start magnets...")
+		local t = {}
 		for num = 1, TNO_MAGNETS do
 			local resp = techage.tube_inlet_command(pos2, "pos", num)
 			if not resp or type(resp) ~= "table" then
 				techage.send_single(own_num, term_num, "append", "#" .. num .. " defect!!!")
 				nvm.magnet_positions = nil
+				nvm.locked = false
 				return
 			else
-				nvm.magnet_positions[#nvm.magnet_positions + 1] = resp
+				t[#t + 1] = resp
 			end
 			coroutine.yield()
 		end
+		nvm.magnet_positions = t
 		techage.send_single(own_num, term_num, "append", "ok")
 	
 		coroutine.yield()
@@ -276,6 +281,7 @@ local function start_task(pos)
 		if nvm.magnet_positions then
 			techage.send_single(own_num, term_num, "append", "ok")
 		else
+			nvm.locked = false
 			return
 		end
 	
@@ -291,11 +297,13 @@ local function start_task(pos)
 				if not res then
 					techage.send_single(own_num, term_num, "append", err .. "!!!")
 					nvm.magnet_positions = nil
+					nvm.locked = false
 					return
 				end
 			else
 				techage.send_single(own_num, term_num, "append", "defect!!!")
 				nvm.magnet_positions = nil
+				nvm.locked = false
 				return
 			end
 			coroutine.yield()
@@ -303,7 +311,7 @@ local function start_task(pos)
 		techage.send_single(own_num, term_num, "append", "ok")
 		
 		coroutine.yield()
-		techage.send_single(own_num, term_num, "text", "Ready.")
+		techage.send_single(own_num, term_num, "text", "Collider started.")
 		nvm.ticks = 0
 		nvm.running = true
 	end
@@ -330,11 +338,14 @@ techage.register_node({"techage:ta4_detector_core"}, {
 			M(pos):set_string("term_num", src)
 			return true
 		elseif topic == "start" then
+			-- Worker block
+			nvm.locked = true  
 			create_task(pos, start_task)
 			return true
 		elseif topic == "stop" then
 			nvm.running = false
 			techage.del_laser(pos)
+			nvm.locked = false
 			return "Detector stopped."
 		elseif topic == "status" then
 			if nvm.running == true then

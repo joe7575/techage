@@ -126,6 +126,7 @@ techage.Items = {
 	ta3_injector = "techage:ta3_injector_pas",
 	----------------------------
 	techage_ta4 = "techage_ta4.png",
+	techage_ta4c = "techage_ta4c.png",
 	ta4_windturbine = "techage:ta4_wind_turbine",
 	ta4_pillar = "techage:pillar",
 	ta4_blinklamp = "techage:rotor_signal_lamp_off",
@@ -198,6 +199,7 @@ techage.Items = {
 	ta4_turncontroller = "techage:ta4_turncontroller",
 	ta4_signallamp_2x = "techage:ta4_signallamp_2x",
 	ta4_signallamp_4x = "techage:ta4_signallamp_4x",
+	ta4_terminal = "techage:terminal3",
 }
 
 function techage.add_manual_items(table_with_items)

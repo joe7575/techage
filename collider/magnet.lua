@@ -28,6 +28,17 @@ local VTube = techage.VTube
 local power = networks.power
 local liquid = networks.liquid
 
+minetest.register_node("techage:ta4_colliderblock", {
+	description = S("TA4 Collider Steel Block"),
+	tiles = {
+		"default_steel_block.png",
+	},
+	paramtype2 = "facedir",
+	groups = {cracky = 1},
+	is_ground_content = false,
+	sounds = default.node_sound_metal_defaults(),
+})
+
 minetest.register_node("techage:ta4_detector_magnet", {
 	description = S("TA4 Collider Detector Magnet"),
 	tiles = {
@@ -197,6 +208,7 @@ techage.register_node({"techage:ta4_magnet"}, {
 			return send_to_next(pos, in_dir, topic, payload + 1)
 		elseif topic == "pos" then
 			if payload and tonumber(payload) == nvm.number then
+				nvm.tube_damage = nil
 				return pos
 			else
 				return send_to_next(pos, in_dir, topic, payload)
@@ -240,6 +252,15 @@ minetest.register_node("techage:ta4_magnet_base", {
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
 	sounds = default.node_sound_metal_defaults(),
+})
+
+minetest.register_craft({
+	output = "techage:ta4_colliderblock",
+	recipe = {
+		{'techage:aluminum', '', 'default:steel_ingot'},
+		{'', '', ''},
+		{'default:steel_ingot', '', 'techage:aluminum'},
+	},
 })
 
 

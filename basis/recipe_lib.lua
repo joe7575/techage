@@ -164,3 +164,100 @@ end
 function techage.recipes.add_group_item(group, default_item_name)
 	GROUP_ITEMS[group] = default_item_name
 end
+
+-------------------------------------------------------------------------------
+-- Borrowed from ghaydn 
+-------------------------------------------------------------------------------
+local has_i3 = minetest.get_modpath("i3")
+local has_ui = minetest.get_modpath("unified_inventory")
+local has_cg = minetest.get_modpath("craftguide")
+
+local function format_i3(input)
+	local output = {}
+	for _, entry in ipairs(input) do
+		local secondput = ""
+		if type(entry) == "table" then
+			for _, secondtry in ipairs(entry) do
+				secondput = secondput..secondtry..","
+			end
+			table.insert(output, secondput)
+		else
+			table.insert(output, entry)
+		end
+	end
+	return output
+end
+
+techage.recipes.register_craft_type = function(name, def)
+	if has_cg then
+		local cg_def = {
+			description = def.description,
+			icon = def.icon,
+		}
+		craftguide.register_craft_type(name, cg_def)
+	end
+	if has_i3 then
+		local i3_def = {
+			description = def.description,
+			icon = def.icon,
+			width = def.width or 3,
+			height = def.height or 3,
+			dynamic_display_size = def.dynamic_display_size or nil,
+			uses_crafting_grid = def.uses_crafting_grid,
+		}
+		i3.register_craft_type(name, i3_def)
+	end
+	if has_ui then
+		local ui_def = {
+			description = def.description,
+			icon = def.icon,
+			width = def.width or 3,
+			height = def.height or 3,
+			dynamic_display_size = def.dynamic_display_size or nil,
+			uses_crafting_grid = def.uses_crafting_grid,
+		}
+		unified_inventory.register_craft_type(name, ui_def)
+	end
+end
+
+techage.recipes.register_craft = function(def)
+	if not def.items then
+		if def.input then
+			def.items = table.copy(def.input)
+		elseif def.recipe then
+			def.items = table.copy(def.recipe)
+		end
+	end
+	if not def.result then
+		if def.output then def.result = def.output end
+	end
+
+	if has_cg then
+		local cg_def = {
+			result = def.result,
+			type = def.type,
+			items = def.items,
+		}
+		craftguide.register_craft(cg_def)
+	end
+	if has_i3 then
+
+		local i3_def = {
+			result = def.result,
+			type = def.type,
+			items = format_i3(def.items),
+			width = def.width or 3,
+		}
+		i3.register_craft(i3_def)
+	end
+	if has_ui then
+		local ui_def = {
+			output = def.result,
+			type = def.type,
+			items = def.items,
+			width = def.width or 3,
+			height = def.height or 3,
+		}
+		unified_inventory.register_craft(ui_def)
+	end
+end

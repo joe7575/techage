@@ -22,28 +22,27 @@ local AssemblyPlan = {
 	
 	-- level 1
 	-- left/right
-	{ 1, {3,3,3,2}, 0, "default:steelblock"},
-	{ 1, {3,3,3},   0, "default:steelblock"},
-	{ 1, {3,3,3,0}, 0, "default:steelblock"},
-	{ 1, {1,1,1,2}, 0, "default:steelblock"},
-	{ 1, {1,1,1},   0, "default:steelblock"},
-	{ 1, {1,1,1,0}, 0, "default:steelblock"},
+	{ 1, {3,3,3,2}, 0, "techage:ta4_colliderblock"},
+	{ 1, {3,3,3},   0, "techage:ta4_colliderblock"},
+	{ 1, {3,3,3,0}, 0, "techage:ta4_colliderblock"},
+	{ 1, {1,1,1,2}, 0, "techage:ta4_colliderblock"},
+	{ 1, {1,1,1},   0, "techage:ta4_colliderblock"},
+	{ 1, {1,1,1,0}, 0, "techage:ta4_colliderblock"},
 	-- front
-	{ 1, {3,3,2}, 0, "default:steelblock"},
-	{ 1, {3,2},   0, "default:steelblock"},
-	{ 1, {2},     0, "default:steelblock"},
-	{ 1, {1,2},   0, "default:steelblock"},
-	{ 1, {1,1,2}, 0, "default:steelblock"},
+	{ 1, {3,3,2}, 0, "techage:ta4_colliderblock"},
+	{ 1, {3,2},   0, "techage:ta4_colliderblock"},
+	{ 1, {2},     0, "techage:ta4_colliderblock"},
+	{ 1, {1,2},   0, "techage:ta4_colliderblock"},
+	{ 1, {1,1,2}, 0, "techage:ta4_colliderblock"},
 	-- back
-	{ 1, {3,3,0}, 0, "default:steelblock"},
-	{ 1, {3,0},   0, "default:steelblock"},
+	{ 1, {3,3,0}, 0, "techage:ta4_colliderblock"},
+	{ 1, {3,0},   0, "techage:ta4_colliderblock"},
 	{ 1, {0},     2, "techage:ta4_collider_pipe_inlet"},
-	{ 1, {1,0},   0, "default:steelblock"},
-	{ 1, {1,1,0}, 0, "default:steelblock"},
+	{ 1, {1,0},   0, "techage:ta4_colliderblock"},
+	{ 1, {1,1,0}, 0, "techage:ta4_colliderblock"},
 	-- middle
 	{ 1, {3,3},   0, "techage:ta4_detector_magnet"},
 	{ 1, {3},     0, "techage:ta4_detector_magnet"},
-	{ 1, {},      0, "techage:ta4_detector_core"},
 	{ 1, {1},     0, "techage:ta4_detector_magnet"},
 	{ 1, {1,1},   0, "techage:ta4_detector_magnet"},
 	
@@ -51,10 +50,10 @@ local AssemblyPlan = {
 	-- left/right
 	{ 2, {3,3,3,2}, 1, "techage:ta4_collider_pipe_inlet"},
 	{ 2, {3,3,3},   1, "techage:ta4_collider_tube_inlet"},
-	{ 2, {3,3,3,0}, 0, "default:steelblock"},
+	{ 2, {3,3,3,0}, 0, "techage:ta4_colliderblock"},
 	{ 2, {1,1,1,2}, 3, "techage:ta4_collider_pipe_inlet"},
 	{ 2, {1,1,1},   3, "techage:ta4_collider_tube_inlet"},
-	{ 2, {1,1,1,0}, 0, "default:steelblock"},
+	{ 2, {1,1,1,0}, 0, "techage:ta4_colliderblock"},
 	-- front
 	{ 2, {3,3,2}, 0, "techage:ta4_detector_magnet"},
 	{ 2, {3,2},   0, "techage:ta4_detector_magnet"},
@@ -64,36 +63,39 @@ local AssemblyPlan = {
 	-- back
 	{ 2, {3,3,0}, 0, "techage:ta4_detector_magnet"},
 	{ 2, {3,0},   0, "techage:ta4_detector_magnet"},
-	{ 2, {0},     0, "default:steelblock"},
+	{ 2, {0},     0, "techage:ta4_colliderblock"},
 	{ 2, {1,0},   0, "techage:ta4_detector_magnet"},
 	{ 2, {1,1,0}, 0, "techage:ta4_detector_magnet"},
 
 	-- level 3
 	-- left/right
-	{ 3, {3,3,3,2}, 0, "default:steelblock"},
+	{ 3, {3,3,3,2}, 0, "techage:ta4_colliderblock"},
 	{ 3, {3,3,3},   1, "techage:ta4_collider_cable_inlet"},
-	{ 3, {3,3,3,0}, 0, "default:steelblock"},
-	{ 3, {1,1,1,2}, 0, "default:steelblock"},
+	{ 3, {3,3,3,0}, 0, "techage:ta4_colliderblock"},
+	{ 3, {1,1,1,2}, 0, "techage:ta4_colliderblock"},
 	{ 3, {1,1,1},   3, "techage:ta4_collider_cable_inlet"},
-	{ 3, {1,1,1,0}, 0, "default:steelblock"},
+	{ 3, {1,1,1,0}, 0, "techage:ta4_colliderblock"},
 	-- front
-	{ 3, {3,3,2}, 0, "default:steelblock"},
-	{ 3, {3,2},   0, "default:steelblock"},
-	{ 3, {2},     0, "default:steelblock"},
-	{ 3, {1,2},   0, "default:steelblock"},
-	{ 3, {1,1,2}, 0, "default:steelblock"},
+	{ 3, {3,3,2}, 0, "techage:ta4_colliderblock"},
+	{ 3, {3,2},   0, "techage:ta4_colliderblock"},
+	{ 3, {2},     0, "techage:ta4_colliderblock"},
+	{ 3, {1,2},   0, "techage:ta4_colliderblock"},
+	{ 3, {1,1,2}, 0, "techage:ta4_colliderblock"},
 	-- back
-	{ 3, {3,3,0}, 0, "default:steelblock"},
-	{ 3, {3,0},   0, "default:steelblock"},
+	{ 3, {3,3,0}, 0, "techage:ta4_colliderblock"},
+	{ 3, {3,0},   0, "techage:ta4_colliderblock"},
 	{ 3, {0},     2, "techage:ta4_collider_pipe_inlet"},
-	{ 3, {1,0},   0, "default:steelblock"},
-	{ 3, {1,1,0}, 0, "default:steelblock"},
+	{ 3, {1,0},   0, "techage:ta4_colliderblock"},
+	{ 3, {1,1,0}, 0, "techage:ta4_colliderblock"},
 	-- middle
 	{ 3, {3,3},   0, "techage:ta4_detector_magnet"},
 	{ 3, {3},     0, "techage:ta4_detector_magnet"},
 	{ 3, {},      0, "techage:ta4_collider_pipe_outlet"},
 	{ 3, {1},     0, "techage:ta4_detector_magnet"},
 	{ 3, {1,1},   0, "techage:ta4_detector_magnet"},
+    
+	-- Core block
+	{ 1, {},      0, "techage:ta4_detector_core"},
 }
 
 local t = {}
@@ -167,7 +169,10 @@ minetest.register_node("techage:ta4_collider_detector_worker", {
 			end
 		elseif fields.remove then
 			if not nvm.assemble_locked then
-				remove(pos, player:get_player_name())
+				local nvm = techage.get_nvm({x=pos.x, y=pos.y + 1, z=pos.z})
+				if not nvm.locked then
+					remove(pos, player:get_player_name())
+				end
 			end
 		end
 	end,

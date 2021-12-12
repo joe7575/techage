@@ -1,4 +1,4 @@
-# TA4: Zukunft
+# TA4: Jetzt-Zeitalter
 
 Regenerative Energiequellen wie Wind, Sonne und Biokraft helfen dir, das Ölzeitalter zu verlassen. Mit modernen Technologien und intelligenten Maschinen machst du dich auf in die Zukunft.
 
@@ -671,6 +671,87 @@ Diese Ebene dient zum Befüllen des Filters mit Rotschlamm.
 In den Einfüllstutzen muss Rotschlamm mittels einer Pumpe geleitet werden.
 
 [ta4_liquid_filter_top|plan]
+
+
+
+## TA4 Teilchenbeschleuniger / Collider
+
+Der Teilchenbeschleuniger ist eine Forschungsanlage, bei der Grundlagenforschung betrieben wird. Hier können Erfahrungspunkte (experience points) gesammelt werden, welche für TA5 (Future Age) benötigt werden.
+
+Der Teilchenbeschleuniger muss wie sein Original am CERN in Genf unterirdisch aufgebaut werden. Die Standardeinstellung ist hier Y <= -28. Der Wert kann aber per Konfiguration vom Server Personal geändert werden. Ab besten nachfragen, oder mit dem "TA4 Collider Detector Worker" Block ausprobieren.
+
+Pro Spieler kann nur ein Teilchenbeschleuniger betrieben werden. Es macht also keinen Sinn, zwei oder mehrere Teilchenbeschleuniger aufzubauen. Erfahrungspunkte werden dem Spieler gutgeschrieben, dem der Teilchenbeschleuniger gehört. Die Erfahrungspunkte können nicht übertragen werden.
+
+Ein Teilchenbeschleuniger besteht aus einem "Ring" aus Röhren und Magneten sowie dem Detektor mit Kühlanlage. 
+
+- Der Detektor ist das Herz der Anlage. Hier finden die wissenschaftlichen Experimente statt. Der Detektor ist 3x3x7 Blöcke groß.
+- Die TA4 Collider Detector Magnete (22 Stück) müssen über jeweils 5 Blöcken der TA4 Vakuumröhre miteinander verbunden werden. Jeder Magnet benötigt zusätzlich Strom und einen Gasanschluss für die Kühlung. Das ganze bildet (wie rechts im Plan abgebildet) ein Quadrat mit einer Kantenlänge von 37 Metern.
+- Zusätzlich wird eine Kühlung benötigt, welche zusätzlich beim Detektor aufgebaut werden muss. Für die Kühlung wird Wasserstoff benötigt.
+- Die Anlage benötigt einiges an Strom. Daher ist eine eigene Stromversorgung sinnvoll.
+
+Der Plan zeigt die Anlage von oben:
+
+- der graue Block ist der Detektor mit dem Worker-Block in der Mitte
+- die roten Blöcke sind die Magnete, das blaue die Vakuumröhren
+
+[techage_collider_plan|plan]
+
+### Detektor
+
+Der Detektor wird mit Hilfe des "TA4 Collider Detector Worker" Blocks automatisch aufgebaut (ähnlich wie beim Bohrturm). Alle dazu notwendigen Materialien müssen zuvor in den Worker-Block gelegt werden. Auf dem Worker-Block ist der Detektor symbolisch dargestellt. Der Detektor wird über dem Worker-Block in Querrichtung errichtet.
+
+Der Detektor kann mit Hilfe des Worker-Blocks auch wieder abgebaut werden.
+
+Auf den beiden Stirnseiten des Detektors befinden sich die Anschlüsse für Strom, Gas und Vakuumröhre. Oben muss eine TA4 Pumpe angeschlossen werden, um die Röhre leer zu saugen / das Vakuum zu erzeugen.
+
+Auf der Rückseite des Detektors muss das Kühlsystem angeschlossen werden. Im Plan rechts ist das Kühlsystem abgebildet. Hier wird neben dem TA4 Wärmetauscher des Energiespeichers (welcher hier zur Kühlung genutzt wird), auch ein TA4 Kühlerblock benötigt. 
+
+Hinweis: Der Pfeil des Wärmetauschers muss vom Detektor weg zeigen. Auch der Wärmetauscher muss mit Strom versorgt werden.
+
+[ta4_cooler|plan]
+
+### Steuerung / TA4 Terminal
+
+Der Teilchenbeschleuniger wird über ein TA4 Terminal gesteuert (nicht über das TA4 Lua Controller Terminal).
+
+Dieses Terminal muss mit dem Detektor verbunden werden. Die Nummer des Detektors wird als Infotext am Worker-Block angezeigt.
+
+Das Terminal unterstützt folgende Kommandos:
+
+- `connect <number>` (verbinden mit dem Detektor)
+- `start` (starten des Detektors)
+- `stop` (stoppen des Detektors)
+- `test <number>` (überprüfen eines Magneten)
+- `points` (abfragen der bereits erreichten Erfahrungspunkte)
+
+Tritt beim `start` an einem Magneten ein Fehler auf, so wird die Nummer des Magneten ausgegeben. Über das `test` Kommando können weitere Informationen zum Fehler des Magneten angefordert werden.
+
+[ta4_terminal|image]
+
+
+
+### Aufbau
+
+Für den Teilchenbeschleunigers wird außer den Blöcken für den Bau folgendes benötigt:
+
+- Strom (145 ku)
+- TA4 Tank mit mindestens 250 Einheiten Wasserstoff
+
+Beim Aufbau des Teilchenbeschleunigers empfiehlt sich folgende Reihenfolge:
+
+- Einen Forceload Block setzen. Nur der Detektor mit der Kühlanlage muss sich im Bereich des Forceload Blockes befinden. 
+- Den Worker-Block setzen, mit Items füllen und den Detektor über das Menü aufbauen
+- Den Ring mit Röhren und Magneten aufbauen
+- Alle Magneten und den Detektor mit Stromkabel verbinden
+- Alle Magneten und den Detektor mit den gelben Röhren verbinden und mit Wasserstoff füllen
+- Eine TA4 Pumpe als Vakuumpumpe auf dem Detektor installieren und einschalten (es wird kein zusätzlicher Tank benötigt). Geht die Pumpe in den "standby", ist das Vakuum hergestellt. Dies dauert einige Sekunden
+- den Kühler (Wärmetauscher) aufbauen und mit dem Stromkabel verbinden
+- Das TA4 Terminal vor den Detektor setzen und über `connect <nummer>`  mit dem Detektor verbinden
+- Die Stromversorgung einschalten/herstellen
+- den Kühler (Wärmetauscher) einschalten
+- den Detektor über `start` am TA4 Terminal einschalten. Der Detektor geht nach einigen Prüfschritten in den Normalbetrieb oder gibt einen Fehler aus.
+
+[techage_ta4c|image]
 
 
 

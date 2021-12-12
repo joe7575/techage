@@ -3,12 +3,13 @@
 The Techage Modpack is an extensive collection of technical mods with many machines and systems, which unfortunately cannot be set up intuitively. Therefore, there is this Quick Start Guide and further manuals for the different mods.
 
 
-Techage represents four technological ages:
+Techage represents five technological ages:
 
 - Iron Age (TA1) - Simple tools like coal pile, coal burner, gravel sieve, hammer for getting ores and making goods
 - Steam Age (TA2) - Simple machines that are powered by steam engines and drive axles
 - Oil Age (TA3) - More modern machines that are powered by electricity
-- Future Age (TA4) - Electricity from renewable energy sources such as sun and wind
+- Now Age (TA4) - Electricity from renewable energy sources such as sun and wind
+- Future Age (TA5)
 
 Since the levels build on each other, all ages have to be run through one after the other.
 
@@ -61,7 +62,7 @@ Since the levels build on each other, all ages have to be run through one after 
 
 
 
-## Future Age (TA4)
+## Now Age (TA4)
 
 1. Build solar and wind plants to get renewable energy
 2. Build a Thermal Energy Storage to store the energy
