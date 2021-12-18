@@ -196,6 +196,7 @@ Cement Powder=Zement Pulver
 
 TA4 Ceramic Material=TA4 Keramik Material
 TA4 Furnace Ceramic=TA4 Ofen Keramik
+TA4 Round Ceramic=TA4 Rund-Keramik
 
 ### charcoalpile.lua ###
 
@@ -238,6 +239,7 @@ TA3 Melting=TA3 Schmelzen
 ### cooler.lua ###
 
 TA3 Cooler=TA3 Kühler
+TA4 Collider Cooler=TA4 Collider Kühler
 
 ### counting.lua ###
 
@@ -257,6 +259,8 @@ Configured Items=Konfigurierte Gegenstände
 Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Items, die einen 'on'-Kommando generieren.@nWenn leer, generieren alle übergebenen Items einen 'on'-Befehl.
 On Time=ON Zeit
 TA3 Detector=TA3 Detektor
+TA4 Collider Detector=TA4 Collider Detektor
+TA4 Collider Detector Core=TA4 Collider Detektorkern
 TA4 Detector=TA4 Detektor
 The time after the 'off' command@nuntil the next 'on' command is accepted.=Die Zeit nach dem 'off' Kommando,@nbis das nächste 'on' Kommando akzeptiert wird.
 The time between the 'on' and 'off' commands.=Die Zeit zwischen den 'on' und 'off' Kommandos.
@@ -309,7 +313,9 @@ TA3 Door Controller II=TA3 Tür Controller II
 with door sound=mit Türgeräusch
 
 ### doorcontroller2.lua ###
+### flycontroller.lua ###
 ### movecontroller.lua ###
+### turncontroller.lua ###
 
 Done=Fertig
 Record=Aufzeichnen
@@ -371,6 +377,7 @@ TA3 Vacuum Tube=TA3 Vakuumröhre
 TA4 LEDs=TA4 LEDs
 TA4 RAM Chip=RAM Chip
 TA4 WLAN Chip=TA4 WLAN Chip
+TA5 AI Chip=TA5 KI Chip
 WLAN Chip=WLAN Chip
 
 ### electronic_fab.lua ###
@@ -408,6 +415,49 @@ TA3 Power Station Firebox=TA3 Kraftwerks-Feuerbox
 ### firebox_lib.lua ###
 
 Firebox=Feuerkasten
+
+### fly_lib.lua ###
+
+Destination position is protected=Zielposition ist geschützt
+Error: Max. length of the flight route exceeded !!=Fehler: Max. Flugstreckenlänge überschritten !!
+No valid destination position=Keine gültige Zielposition
+No valid node at the start position=Kein gültiger Block an der Startposition
+Start position is protected=Startposition ist geschützt
+
+### fly_lib.lua ###
+### flycontroller.lua ###
+
+Error: Invalid path !!=Fehler: Ungültiger Pfad !!
+
+### flycontroller.lua ###
+
+Error: Recording is missing !!=Fehler: Aufzeichnung fehlt !!
+Move=Bewege
+Move path (A to B)=Bewegungspfad (A nach B)
+See chat output=Siehe chat Ausgabe
+TA5 Fly Controller=TA5 Flug Controller
+Test=Test
+[TA4 Fly Controller] Invalid path!=[TA5 Flug Controller] Ungültiger Pfad!
+[TA4 Fly Controller] Recording is missing!=[TA5 Flug Controller] Aufzeichnung fehlt!
+
+### flycontroller.lua ###
+### logic_block.lua ###
+### lua_logic.lua ###
+### movecontroller.lua ###
+
+Store=Speichern
+
+### flycontroller.lua ###
+### movecontroller.lua ###
+
+Click on all blocks that shall be moved=Klicke auf alle Blöcke, die verschoben werden sollen
+Maximum Speed=Maximalgeschwindigkeit
+Maximum speed for moving blocks=Maximale Geschwindigkeit für bewegliche Blöcke
+Move A-B=Bewege A-B
+Move B-A=Bewege B-A
+Move block height=Move Block Höhe
+Stored=Gespeichert
+Value in the range of 0.0 to 1.0=Wert im Bereich von 0.0 bis 1.0
 
 ### flywheel.lua ###
 
@@ -538,6 +588,7 @@ TA4 Heat Exchanger 1=TA4 Wärmetauscher 1
 
 ### heatexchanger2.lua ###
 
+No power=Kein Strom
 Power network connection error=Stromnetz Verbindungsfehler
 TA4 Heat Exchanger=TA4 Wärmetauscher
 TA4 Heat Exchanger 2=TA4 Wärmetauscher 2
@@ -567,6 +618,7 @@ Remote name=Name entfernter Block
 
 ### hyperloop.lua ###
 ### sensorchest.lua ###
+### terminal.lua ###
 
 not connected=nicht verbunden
 
@@ -593,6 +645,13 @@ one window maximum=maximal ein Fenster
 wrong diameter (should be 5, 7, or 9)=falscher Durchmesser (sollte 5, 7, oder 9 sein)
 wrong number of gravel nodes=falsche Anzahl von Kiesblöcken
 wrong number of shell nodes=falsche Anzahl von Blöcken bei der Hülle
+
+### inlets.lua ###
+
+TA4 Collider Cable Input=TA4 Collider Kabelausgang
+TA4 Collider Pipe Input=TA4 Collider Leitungseingang
+TA4 Collider Pipe Output=TA4 Collider Leitungsausgang
+TA4 Collider Tube Input=TA4 Collider Rohreneingang 
 
 ### inverter.lua ###
 
@@ -630,6 +689,7 @@ Block has an@nadditional wrench menu=Block besitzt ein@nzusätzliches@nSchrauben
 
 ### lib.lua ###
 ### sensorchest.lua ###
+### terminal.lua ###
 
 connected with=verbunden mit
 
@@ -688,12 +748,6 @@ TA3 Logic Block=TA3 Logikblock
 Update=Update
 
 ### logic_block.lua ###
-### lua_logic.lua ###
-### movecontroller.lua ###
-
-Store=Speichern
-
-### logic_block.lua ###
 ### sequencer2.lua ###
 
 Help=Hilfe
@@ -703,6 +757,17 @@ Help=Hilfe
 Lye=Lauge
 Lye Barrel=Lauge Fass
 Lye Canister=Lauge Kanister
+
+### magnet.lua ###
+
+TA4 Collider Detector Magnet=TA4 Collider Detektormagnet
+TA4 Collider Magnet=TA4 Collider Magnet
+TA4 Collider Magnet Base=TA4 Collider Magnetfuß
+TA4 Collider Steel Block=TA4 Collider Stahlblock
+
+### mba_detector.lua ###
+
+TA4 Mapblock Active Detector=TA4 Aktiver Mapblock Detektor
 
 ### meltingpot.lua ###
 
@@ -757,25 +822,13 @@ TA4 Streetlamp Solar Cell=TA4 Straßenlampen-Solarzelle
 
 ### movecontroller.lua ###
 
-Click on all blocks that shall be moved=Klicke auf alle Blöcke, die verschoben werden sollen
-Destination position is protected=Zielposition ist geschützt
-Error: Distance > 100 m !!=Fehler: Distanz > 100 m !!
+Error: Invalid distance !!=Fehler: Ungültige Entfernung !!
 Handover to A=Übergabe an A
 Handover to B=Übergabe an B
-Maximum Speed=Maximalgeschwindigkeit
-Maximum speed for moving blocks=Maximale Geschwindigkeit für bewegliche Blöcke
-Move A-B=Bewege A-B
-Move B-A=Bewege B-A
-Move block height=Move Block Höhe
 Move distance (A to B)=Entfernung (A nach B)
-No valid destination position=Keine gültige Zielposition
-No valid node at the start position=Kein gültiger Block an der Startposition
-Number of the next movecontroller.=Nummer des nächsten Move Controllers.
-Number of the previous movecontroller.=Nummer des vorherigen Move Controllers.
-Position list error=Positionslistenfehler
-Start position is protected=Startposition ist geschützt
+Number of the next movecontroller=Nummer des nächsten Move Controllers
+Number of the previous movecontroller=Nummer des vorhergehenden Move Controllers
 TA4 Move Controller=TA4 Move Controller
-Value in the range of 0.0 to 1.0=Wert im Bereich von 0.0 bis 1.0
 
 ### node_detector.lua ###
 
@@ -903,6 +956,8 @@ Allow to dig/place Techage power lines nearby power poles=Erlaubt TODO
 
 TA3 Pump=TA3 Pumpe
 TA4 Pump=TA4 Pumpe
+Total flow rate=Gesamtdurchfluss
+Total flow rate in liquid units=Gesamtdurchfluss in Flüssigkeitseinheiten
 
 ### pumpjack.lua ###
 
@@ -933,6 +988,7 @@ inventory full=Inventar ist voll
 TA3 Oil Reboiler=TA3 Aufkocher
 
 ### recipe_lib.lua ###
+### recipeblock.lua ###
 
 Recipe=Rezept
 
@@ -940,6 +996,10 @@ Recipe=Rezept
 ### ta4_reactor.lua ###
 
 Catalyst=Katalysator
+
+### recipeblock.lua ###
+
+TA4 Recipe Block=TA4 Rezept Block
 
 ### recipes.lua ###
 
@@ -1068,6 +1128,11 @@ light=Licht
 
 power=Strom
 
+### soundblock.lua ###
+
+Play=Abspielen
+TA3 Sound Block=TA3 Sound Block
+
 ### source.lua ###
 
 Axle Power Source=Achsenkraftquelle
@@ -1189,10 +1254,10 @@ TA Tank Cart=TA Tankwagen
 
 ### terminal.lua ###
 
-Switched to private use!=Zur privaten Nutzung umgeschaltet
-Switched to public use!=Zur öffentlichen Nutzung umgeschaltet
 Syntax error, try help=Syntax Fehler, nutze help
 TA3 Terminal=TA3 Terminal
+TA4 Collider Terminal=TA4 Collider Terminal
+TA4 Terminal=TA4 Terminal
 commands like: help=Kommandos wie: help
 
 ### timer.lua ###
@@ -1238,10 +1303,21 @@ TA4 Tube=TA4 Röhre
 TA3 Turbine=TA3 Turbine
 TA4 Turbine=TA4 Turbine
 
+### turncontroller.lua ###
+
+Click on all blocks that shall be turned=Klicke auf all Blöcke, die gedreht werden sollen
+TA4 Turn Controller=TA4 Dreh Controller
+Turn left=Drehe links
+Turn right=Drehe rechts
+
 ### usmium.lua ###
 
 Usmium Nuggets=Usmium Nuggets
 Usmium Powder=Usmium Pulver
+
+### vacuumtube.lua ###
+
+TA4 Vacuum Tube=TA4 Vakuumröhre
 
 ### valve.lua ###
 
@@ -1277,7 +1353,22 @@ This is not the surface of the ocean!=Das ist nicht die Meeresoberfläche!
 biome and no ocean!=Biom und keine Meer (ocean)!
 is a suitable place for a wind turbine!=ist ein geeigneter Ort für eine Windkraftanlage!
 
+### worker.lua ###
+
+Build detector=Baue Detektor
+Item list=Teileliste
+Remove detector=Entferne Detektor
+TA4 Collider Detector Worker=TA4 Collider Detektor Worker
+[TA4] Detector is being built!=[TA4] Detektor wird gebaut! 
+[TA4] Detector is being removed!=[TA4] Detektor wird  entfernt!
+
 
 ##### not used anymore #####
 
+Error: Distance > 100 m !!=Fehler: Distanz > 100 m !!
+Number of the next movecontroller.=Nummer des nächsten Move Controllers.
+Number of the previous movecontroller.=Nummer des vorherigen Move Controllers.
+Position list error=Positionslistenfehler
+Switched to private use!=Zur privaten Nutzung umgeschaltet
+Switched to public use!=Zur öffentlichen Nutzung umgeschaltet
 [techage] The limit for commands per minute has been exceeded.=[techage] Das Limit für Befehle pro Minute wurde überschritten.

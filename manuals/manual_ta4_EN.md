@@ -669,6 +669,32 @@ The red mud must be pumped into the filler pipe.
 
 ## More TA4 Blocks
 
+### TA4 Recipe Block
+
+Up to 10 recipes can be saved in the recipe block. These recipes can then be called up via a TA4 Autocrafter command. This enables the autocrafter's recipe to be configured using a command. The recipes in the recipe block can also be queried directly using a command.
+
+`input <index>` reads a recipe from the TA4 recipe block. `<index>` is the number of the recipe. The block returns a list of recipe ingredients.
+
+Example: `$send_cmnd(1234, "input", 1)`
+
+[ta4_recipeblock|image] 
+
+### TA4 Autocrafter
+
+The function corresponds to that of TA3.
+
+The processing power is 4 items every 4 s. The autocrafter requires 9 ku of electricity for this.
+
+In addition, the TA4 Autocrafter supports the selection of different recipes using the following commands:
+
+`recipe <number>.<index>` switches the autocrafter to a recipe from the TA4 Recipe Block. `<number>` is the number of the recipe block, `<index>` the recipe number. Example: `$send_cmnd(1234, "recipe", 5467.1)`
+
+Alternatively, a recipe can also be selected via the list of ingredients, such as:
+`$send_cmnd(1234, "recipe", "default:coal_lump,,,default:stick")`
+All technical names of a recipe must be specified here, separated by commas. See also the command `input` in the TA4 recipe block.
+
+[ta4_autocrafter|image] 
+
 ### TA4 Tank
 
 See TA3 tank.

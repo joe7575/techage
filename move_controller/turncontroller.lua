@@ -23,23 +23,14 @@ local fly  = dofile(MP .. "/basis/fly_lib.lua")
 local mark = dofile(MP .. "/basis/mark_lib.lua")  
 
 local MAX_BLOCKS = 16
-local WRENCH_MENU = {
-	{
-		type = "ascii",
-		name = "center",
-		label = S("Center Pos"),      
-		tooltip = S("Center block position for the turn, e.g.: 237,6,-125"),
-		default = "",
-	},
-}
 
 local function formspec(nvm, meta)
 	local status = meta:get_string("status")
 	local path = meta:contains("path") and meta:get_string("path") or "0,3,0"
 	return "size[8,3]" ..
-		"box[0,-0.1;7.2,0.5;#c6e8ff]" ..
+		"box[0,-0.1;7.8,0.5;#c6e8ff]" ..
 		"label[0.2,-0.1;" .. minetest.colorize( "#000000", S("TA4 Turn Controller")) .. "]" ..
-		techage.wrench_image(7.4, -0.05) ..
+		--techage.wrench_image(7.4, -0.05) ..
 		"button[0.1,0.7;3.8,1;record;" .. S("Record") .. "]" ..
 		"button[4.1,0.7;3.8,1;done;" .. S("Done") .. "]" ..
 		"button[0.1,1.5;3.8,1;left;" .. S("Turn left") .. "]" ..
@@ -118,7 +109,6 @@ minetest.register_node("techage:ta4_turncontroller", {
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 
-	ta4_formspec = WRENCH_MENU,
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,

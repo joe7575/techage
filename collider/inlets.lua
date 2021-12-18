@@ -8,7 +8,7 @@
 	AGPL v3
 	See LICENSE.txt for more information
 	
-	TA4 Tube/Pipe Inlets as part of the Collider
+	TA4 Tube/Pipe Inputs/Outputs as part of the Collider
 
 ]]--
 
@@ -28,10 +28,10 @@ local power = networks.power
 local liquid = networks.liquid
 
 --------------------------------------------------------------------------------
--- Tube Inlet
+-- Tube Input
 --------------------------------------------------------------------------------
 minetest.register_node("techage:ta4_collider_tube_inlet", {
-	description = S("TA4 Collider Tube Inlet"),
+	description = S("TA4 Collider Tube Input"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"default_steel_block.png",
@@ -116,10 +116,10 @@ minetest.register_craft({
 })
 
 --------------------------------------------------------------------------------
--- Pipe Inlet (gas)
+-- Pipe Input (gas)
 --------------------------------------------------------------------------------
 minetest.register_node("techage:ta4_collider_pipe_inlet", {
-	description = S("TA4 Collider Pipe Inlet"),
+	description = S("TA4 Collider Pipe Input"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"default_steel_block.png",
@@ -211,7 +211,7 @@ minetest.register_craft({
 
 
 --------------------------------------------------------------------------------
--- Pipe Outlet (air)
+-- Pipe Output (air)
 --------------------------------------------------------------------------------
 local function init_air(nvm)
 	nvm.liquid = {
@@ -222,7 +222,7 @@ local function init_air(nvm)
 end
 
 minetest.register_node("techage:ta4_collider_pipe_outlet", {
-	description = S("TA4 Collider Pipe Outlet"),
+	description = S("TA4 Collider Pipe Output"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"default_steel_block.png^techage_appl_hole_pipe.png",
@@ -298,10 +298,10 @@ minetest.register_craft({
 })
 
 --------------------------------------------------------------------------------
--- Cable Inlet (power)
+-- Cable Input (power)
 --------------------------------------------------------------------------------
 minetest.register_node("techage:ta4_collider_cable_inlet", {
-	description = S("TA4 Collider Cable Inlet"),
+	description = S("TA4 Collider Cable Input"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"default_steel_block.png",

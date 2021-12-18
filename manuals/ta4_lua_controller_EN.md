@@ -405,7 +405,8 @@ Please note, that this is not a technical distinction, only a logical.
 | "recipe" | `<number>.<index>` | Set the TA4 Autocrafter recipe with a recipe from a TA4 Recipe Block.<br />`<number>` is the TA4 Recipe Block number<br />`<index>` is the number of the recipe in the TA4 Recipe Block |
 | "goto" | `<slot>` | Start command for the TA4 Sequencer. `<slot>` is the time slot like `[1]` where the execution starts. |
 | "stop" | nil | Stop command for the TA4 Sequencer. |
-
+| "gain" | volume | Set volume of the sound block (`volume` is a value between 0 and 1.0) |
+| "sound" | index | Select sound sample of the sound block |
 
 ### Server and Terminal Functions
 

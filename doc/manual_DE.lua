@@ -117,6 +117,7 @@ techage.manual_DE.aTitel = {
   "3,Tür/Tor Blöcke / Door/Gate Blocks",
   "3,TA3 Tür Controller / Door Controller",
   "3,TA3 Tür Controller II / Door Controller II",
+  "3,TA3 Sound Block",
   "3,TA3 Mesecons Umsetzer / TA3 Mesecons Converter",
   "2,Detektoren",
   "3,TA3 Detektor / Detector",
@@ -194,7 +195,6 @@ techage.manual_DE.aTitel = {
   "2,Move/Dreh-Controller",
   "3,TA4 Move Controller",
   "3,TA4 Drehcontroller / Turn Controller",
-  "3, ",
   "2,TA4 Lampen",
   "3,TA4 LED Pflanzenlampe / TA4 LED Grow Light",
   "3,TA4 LED Straßenlampe / TA4 LED Street Lamp",
@@ -208,6 +208,8 @@ techage.manual_DE.aTitel = {
   "3,Steuerung / TA4 Terminal",
   "3,Aufbau",
   "2,Weitere TA4 Blöcke",
+  "3,TA4 Rezept Block",
+  "3,TA4 Autocrafter",
   "3,TA4 Tank / TA4 Tank",
   "3,TA4 Pumpe / TA4 Pump",
   "3,TA4 Ofenheizung / furnace heater",
@@ -1126,6 +1128,16 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Mir dem Sound Block  können veschiedene Sounds/Laute abgespielt werden. Es sind alle Sounds der Mods Techage\\, Signs Bot\\, Hyperloop\\, Unified Inventory\\, TA4 Jetpack und Minetest Game verfügbar.\n"..
+  "\n"..
+  "Die Sounds können über das Menü und über ein Kommando ausgewählt und abgespielt werden.\n"..
+  "\n"..
+  "  - Kommando 'on' zum Abspielen eines Sounds\n"..
+  "  - Kommando 'sound <idx>' zur Auswahl eines Sounds über den Index\n"..
+  "  - Kommando 'gain <volume>' zum Einstellen der Lautstärke über den '<volume>'  Wert (0 bis 1.0).\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Der Mesecons Umsetzer dient zur Umwandlung von Techage on/off Kommandos in Mesecons Signale und umgekehrt.\n"..
   "Dazu müssen eine oder mehrere Knotennummern eingegeben und der Konverter mit Mesecons Blöcken \n"..
   "über Mesecons Leitungen verbunden werden. Den Mesecons Umsetzer kann man auch mit dem Programmer konfigurieren.\n"..
@@ -1674,7 +1686,6 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "",
   "TA4 beinhaltet eine Reihe von leistungsstarken Lampen\\, die eine bessere Ausleuchtung ermöglichen oder Spezialaufgaben übernehmen.\n"..
   "\n",
   "Die TA4 LED Pflanzenlampe ermöglicht ein schnelles und kräftiges Wachstum aller Pflanzen aus der 'farming' Mod. Die Lampe beleuchtet ein 3x3 großes Feld\\, so dass sich damit auch Pflanzen unter Tage anbauen lassen.\n"..
@@ -1797,6 +1808,28 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "",
+  "Im Rezept Block können bis zu 10 Rezepte gespeichert werden. Diese Rezepte können dann über ein TA4 Autocrafter Kommando abgerufen werden. Dies ermöglicht eine Rezept-Konfiguration des Autocrafters über ein Kommando. Die Rezepte des Rezept Blocks können auch direkt per Kommando abgefragt werden.\n"..
+  "\n"..
+  "'input <index>' liest ein Rezept aus dem TA4 Rezeptblock. '<index>' ist die Nummer des Rezepts. Der Block gibt eine Liste von Rezept-Zutaten zurück. \n"..
+  "\n"..
+  "Beispiel: '$send_cmnd(1234\\, \"input\"\\, 1)'\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Funktion entspricht der von TA3.  \n"..
+  "\n"..
+  "Die Verarbeitungsleistung beträgt 4 Items alle 4 s. Der Autocrafter benötigt hierfür 9 ku Strom.\n"..
+  "\n"..
+  "Zusätzlich unterstützt der TA4 Autocrafter die Auswahl unterschiedlicher Rezepte über folgende Kommandos:\n"..
+  "\n"..
+  "'recipe <number>.<index>'  schaltet den Autocrafter auf ein Rezept des TA4 Rezept Blocks um. '<number>' ist die Nummer des Rezept Blocks\\, '<index>' die Rezept-Nummer. Beispiel: '$send_cmnd(1234\\, \"recipe\"\\, 5467.1)'\n"..
+  "\n"..
+  "Alternativ  kann ein Rezept auch über die Zutatenliste ausgewählt werden\\, wie bspw.:\n"..
+  "'$send_cmnd(1234\\, \"recipe\"\\, \"default:coal_lump\\,\\,\\,default:stick\")'\n"..
+  "Hier müssen alle technische Namen eines Rezeptes durch Kommas getrennt angegeben werden. Siehe auch das Kommando 'input' beim TA4 Rezept Block.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Siehe TA3 Tank.\n"..
   "\n"..
   "In einen TA4 Tank passen 2000 Einheiten oder 200 Fässer einer Flüssigkeit.\n"..
@@ -2039,6 +2072,7 @@ techage.manual_DE.aItemName = {
   "ta3_doorblock",
   "ta3_doorcontroller",
   "ta3_doorcontroller",
+  "ta3_soundblock",
   "ta3_mesecons_converter",
   "ta3_nodedetector",
   "ta3_detector",
@@ -2117,7 +2151,6 @@ techage.manual_DE.aItemName = {
   "ta4_movecontroller",
   "ta4_turncontroller",
   "",
-  "",
   "ta4_growlight",
   "ta4_streetlamp",
   "ta4_industriallamp",
@@ -2130,6 +2163,8 @@ techage.manual_DE.aItemName = {
   "ta4_terminal",
   "techage_ta4c",
   "",
+  "ta4_recipeblock",
+  "ta4_autocrafter",
   "ta4_tank",
   "ta4_pump",
   "ta4_furnaceheater",
@@ -2288,6 +2323,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
   "ta4_windturbine",
   "",
   "",
@@ -2348,12 +2384,13 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
-  "",
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
   "techage_collider_plan",
   "ta4_cooler",
+  "",
+  "",
   "",
   "",
   "",

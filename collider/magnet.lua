@@ -215,7 +215,7 @@ techage.register_node({"techage:ta4_magnet"}, {
 			end
 		elseif topic == "test" then
 			if payload and tonumber(payload) == nvm.number then
-				if not nvm.liquid or nvm.liquid.amount < CAPACITY then
+				if not nvm.liquid or not nvm.liquid.amount or nvm.liquid.amount < CAPACITY then
 					return false, "no gas"
 				elseif nvm.liquid.name ~= "techage:hydrogen" then
 					return false, "wrong gas"

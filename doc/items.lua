@@ -200,6 +200,8 @@ techage.Items = {
 	ta4_signallamp_2x = "techage:ta4_signallamp_2x",
 	ta4_signallamp_4x = "techage:ta4_signallamp_4x",
 	ta4_terminal = "techage:terminal3",
+	ta4_autocrafter = "techage:ta4_autocrafter_pas",
+	ta4_recipeblock = "techage:ta4_recipeblock",
 }
 
 function techage.add_manual_items(table_with_items)

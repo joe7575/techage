@@ -117,6 +117,7 @@ techage.manual_EN.aTitel = {
   "3,Door/Gate Blocks",
   "3,TA3 Door Controller",
   "3,TA3 Door Controller II",
+  "3,TA3 sound block",
   "3,TA3 Mesecons Converter",
   "2,Detectors",
   "3,TA3 Detector",
@@ -203,6 +204,8 @@ techage.manual_EN.aTitel = {
   "3,Gravel Layer",
   "3,Filling Layer",
   "2,More TA4 Blocks",
+  "3,TA4 Recipe Block",
+  "3,TA4 Autocrafter",
   "3,TA4 Tank",
   "3,TA4 Pump",
   "3,TA4 Furnace Heater",
@@ -1120,6 +1123,16 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Different sounds can be played with the sound block. All sounds of the Mods Techage\\, Signs Bot\\, Hyperloop\\, Unified Inventory\\, TA4 Jetpack and Minetest Game are available.\n"..
+  "\n"..
+  "The sounds can be selected and played via the menu and via command.\n"..
+  "\n"..
+  "  - Command 'on' to play a sound\n"..
+  "  - Command 'sound <idx>' to select a sound via the index\n"..
+  "  - Command 'gain <volume>' to adjust the volume via the '<volume>' value (0 to 1.0).\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "The Mesecons converter is used to convert Techage on/off commands into Mesecons signals and vice versa.\n"..
   "To do this\\, one or more node numbers must be entered and the converter with Mesecons blocks\n"..
   "has to be connected via Mesecons cables. The Mesecons converter can also be configured with the programmer.\n"..
@@ -1720,6 +1733,28 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "",
+  "Up to 10 recipes can be saved in the recipe block. These recipes can then be called up via a TA4 Autocrafter command. This enables the autocrafter's recipe to be configured using a command. The recipes in the recipe block can also be queried directly using a command.\n"..
+  "\n"..
+  "'input <index>' reads a recipe from the TA4 recipe block. '<index>' is the number of the recipe. The block returns a list of recipe ingredients.\n"..
+  "\n"..
+  "Example: '$send_cmnd(1234\\, \"input\"\\, 1)'\n"..
+  "\n"..
+  " \n"..
+  "\n",
+  "The function corresponds to that of TA3.\n"..
+  "\n"..
+  "The processing power is 4 items every 4 s. The autocrafter requires 9 ku of electricity for this.\n"..
+  "\n"..
+  "In addition\\, the TA4 Autocrafter supports the selection of different recipes using the following commands:\n"..
+  "\n"..
+  "'recipe <number>.<index>' switches the autocrafter to a recipe from the TA4 Recipe Block. '<number>' is the number of the recipe block\\, '<index>' the recipe number. Example: '$send_cmnd(1234\\, \"recipe\"\\, 5467.1)'\n"..
+  "\n"..
+  "Alternatively\\, a recipe can also be selected via the list of ingredients\\, such as:\n"..
+  "'$send_cmnd(1234\\, \"recipe\"\\, \"default:coal_lump\\,\\,\\,default:stick\")'\n"..
+  "All technical names of a recipe must be specified here\\, separated by commas. See also the command 'input' in the TA4 recipe block.\n"..
+  "\n"..
+  " \n"..
+  "\n",
   "See TA3 tank.\n"..
   "\n"..
   "A TA4 tank can hold 2000 units or 200 barrels of liquid.\n"..
@@ -1963,6 +1998,7 @@ techage.manual_EN.aItemName = {
   "ta3_doorblock",
   "ta3_doorcontroller",
   "ta3_doorcontroller",
+  "ta3_soundblock",
   "ta3_mesecons_converter",
   "ta3_nodedetector",
   "ta3_detector",
@@ -2049,6 +2085,8 @@ techage.manual_EN.aItemName = {
   "",
   "",
   "",
+  "ta4_recipeblock",
+  "ta4_autocrafter",
   "ta4_tank",
   "ta4_pump",
   "ta4_furnaceheater",
@@ -2207,6 +2245,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
+  "",
   "ta4_windturbine",
   "",
   "",
@@ -2270,6 +2309,8 @@ techage.manual_EN.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
+  "",
+  "",
   "",
   "",
   "",

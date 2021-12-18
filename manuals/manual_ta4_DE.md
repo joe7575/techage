@@ -599,7 +599,7 @@ Der Drehcontroller unterstützt folgende techage Kommandos:
 [ta4_turncontroller|image]
 
 
-### 
+
 
 ## TA4 Lampen
 
@@ -757,6 +757,32 @@ Beim Aufbau des Teilchenbeschleunigers empfiehlt sich folgende Reihenfolge:
 
 
 ## Weitere TA4 Blöcke
+
+### TA4 Rezept Block
+
+Im Rezept Block können bis zu 10 Rezepte gespeichert werden. Diese Rezepte können dann über ein TA4 Autocrafter Kommando abgerufen werden. Dies ermöglicht eine Rezept-Konfiguration des Autocrafters über ein Kommando. Die Rezepte des Rezept Blocks können auch direkt per Kommando abgefragt werden.
+
+`input <index>` liest ein Rezept aus dem TA4 Rezeptblock. `<index>` ist die Nummer des Rezepts. Der Block gibt eine Liste von Rezept-Zutaten zurück. 
+
+Beispiel: `$send_cmnd(1234, "input", 1)`
+
+[ta4_recipeblock|image]
+
+### TA4 Autocrafter
+
+Die Funktion entspricht der von TA3.  
+
+Die Verarbeitungsleistung beträgt 4 Items alle 4 s. Der Autocrafter benötigt hierfür 9 ku Strom.
+
+Zusätzlich unterstützt der TA4 Autocrafter die Auswahl unterschiedlicher Rezepte über folgende Kommandos:
+
+`recipe <number>.<index>`  schaltet den Autocrafter auf ein Rezept des TA4 Rezept Blocks um. `<number>` ist die Nummer des Rezept Blocks, `<index>` die Rezept-Nummer. Beispiel: `$send_cmnd(1234, "recipe", 5467.1)`
+
+Alternativ  kann ein Rezept auch über die Zutatenliste ausgewählt werden, wie bspw.:
+`$send_cmnd(1234, "recipe", "default:coal_lump,,,default:stick")`
+Hier müssen alle technische Namen eines Rezeptes durch Kommas getrennt angegeben werden. Siehe auch das Kommando `input` beim TA4 Rezept Block.
+
+[ta4_autocrafter|image]
 
 ### TA4 Tank / TA4 Tank
 

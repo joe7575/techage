@@ -671,6 +671,18 @@ Damit lassen sich auch ausfahrbare Treppen und ähnliches simulieren.
 
 [ta3_doorcontroller|image]
 
+### TA3 Sound Block
+
+Mir dem Sound Block  können veschiedene Sounds/Laute abgespielt werden. Es sind alle Sounds der Mods Techage, Signs Bot, Hyperloop, Unified Inventory, TA4 Jetpack und Minetest Game verfügbar.
+
+Die Sounds können über das Menü und über ein Kommando ausgewählt und abgespielt werden.
+
+- Kommando `on` zum Abspielen eines Sounds
+- Kommando `sound <idx>` zur Auswahl eines Sounds über den Index
+- Kommando `gain <volume>` zum Einstellen der Lautstärke über den `<volume>`  Wert (0 bis 1.0). 
+
+[ta3_soundblock|image]
+
 ### TA3 Mesecons Umsetzer / TA3 Mesecons Converter
 
 Der Mesecons Umsetzer dient zur Umwandlung von Techage on/off Kommandos in Mesecons Signale und umgekehrt.

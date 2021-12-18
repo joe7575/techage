@@ -196,6 +196,7 @@ Cement Powder=
 
 TA4 Ceramic Material=
 TA4 Furnace Ceramic=
+TA4 Round Ceramic=
 
 ### charcoalpile.lua ###
 
@@ -238,6 +239,7 @@ TA3 Melting=
 ### cooler.lua ###
 
 TA3 Cooler=
+TA4 Collider Cooler=
 
 ### counting.lua ###
 
@@ -257,6 +259,8 @@ Configured Items=
 Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=
 On Time=
 TA3 Detector=
+TA4 Collider Detector=
+TA4 Collider Detector Core=
 TA4 Detector=
 The time after the 'off' command@nuntil the next 'on' command is accepted.=
 The time between the 'on' and 'off' commands.=
@@ -309,7 +313,9 @@ TA3 Door Controller II=
 with door sound=
 
 ### doorcontroller2.lua ###
+### flycontroller.lua ###
 ### movecontroller.lua ###
+### turncontroller.lua ###
 
 Done=
 Record=
@@ -371,6 +377,7 @@ TA3 Vacuum Tube=
 TA4 LEDs=
 TA4 RAM Chip=
 TA4 WLAN Chip=
+TA5 AI Chip=
 WLAN Chip=
 
 ### electronic_fab.lua ###
@@ -408,6 +415,49 @@ TA3 Power Station Firebox=
 ### firebox_lib.lua ###
 
 Firebox=
+
+### fly_lib.lua ###
+
+Destination position is protected=
+Error: Max. length of the flight route exceeded !!=
+No valid destination position=
+No valid node at the start position=
+Start position is protected=
+
+### fly_lib.lua ###
+### flycontroller.lua ###
+
+Error: Invalid path !!=
+
+### flycontroller.lua ###
+
+Error: Recording is missing !!=
+Move=
+Move path (A to B)=
+See chat output=
+TA5 Fly Controller=
+Test=
+[TA4 Fly Controller] Invalid path!=
+[TA4 Fly Controller] Recording is missing!=
+
+### flycontroller.lua ###
+### logic_block.lua ###
+### lua_logic.lua ###
+### movecontroller.lua ###
+
+Store=
+
+### flycontroller.lua ###
+### movecontroller.lua ###
+
+Click on all blocks that shall be moved=
+Maximum Speed=
+Maximum speed for moving blocks=
+Move A-B=
+Move B-A=
+Move block height=
+Stored=
+Value in the range of 0.0 to 1.0=
 
 ### flywheel.lua ###
 
@@ -538,6 +588,7 @@ TA4 Heat Exchanger 1=
 
 ### heatexchanger2.lua ###
 
+No power=
 Power network connection error=
 TA4 Heat Exchanger=
 TA4 Heat Exchanger 2=
@@ -567,6 +618,7 @@ Remote name=
 
 ### hyperloop.lua ###
 ### sensorchest.lua ###
+### terminal.lua ###
 
 not connected=
 
@@ -593,6 +645,13 @@ one window maximum=
 wrong diameter (should be 5, 7, or 9)=
 wrong number of gravel nodes=
 wrong number of shell nodes=
+
+### inlets.lua ###
+
+TA4 Collider Cable Input=
+TA4 Collider Pipe Input=
+TA4 Collider Pipe Output=
+TA4 Collider Tube Input=
 
 ### inverter.lua ###
 
@@ -630,6 +689,7 @@ Block has an@nadditional wrench menu=
 
 ### lib.lua ###
 ### sensorchest.lua ###
+### terminal.lua ###
 
 connected with=
 
@@ -688,12 +748,6 @@ TA3 Logic Block=
 Update=
 
 ### logic_block.lua ###
-### lua_logic.lua ###
-### movecontroller.lua ###
-
-Store=
-
-### logic_block.lua ###
 ### sequencer2.lua ###
 
 Help=
@@ -703,6 +757,17 @@ Help=
 Lye=
 Lye Barrel=
 Lye Canister=
+
+### magnet.lua ###
+
+TA4 Collider Detector Magnet=
+TA4 Collider Magnet=
+TA4 Collider Magnet Base=
+TA4 Collider Steel Block=
+
+### mba_detector.lua ###
+
+TA4 Mapblock Active Detector=
 
 ### meltingpot.lua ###
 
@@ -757,25 +822,13 @@ TA4 Streetlamp Solar Cell=
 
 ### movecontroller.lua ###
 
-Click on all blocks that shall be moved=
-Destination position is protected=
-Error: Distance > 100 m !!=
+Error: Invalid distance !!=
 Handover to A=
 Handover to B=
-Maximum Speed=
-Maximum speed for moving blocks=
-Move A-B=
-Move B-A=
-Move block height=
 Move distance (A to B)=
-No valid destination position=
-No valid node at the start position=
-Number of the next movecontroller.=
-Number of the previous movecontroller.=
-Position list error=
-Start position is protected=
+Number of the next movecontroller=
+Number of the previous movecontroller=
 TA4 Move Controller=
-Value in the range of 0.0 to 1.0=
 
 ### node_detector.lua ###
 
@@ -903,6 +956,8 @@ Allow to dig/place Techage power lines nearby power poles=
 
 TA3 Pump=
 TA4 Pump=
+Total flow rate=
+Total flow rate in liquid units=
 
 ### pumpjack.lua ###
 
@@ -933,6 +988,7 @@ inventory full=
 TA3 Oil Reboiler=
 
 ### recipe_lib.lua ###
+### recipeblock.lua ###
 
 Recipe=
 
@@ -940,6 +996,10 @@ Recipe=
 ### ta4_reactor.lua ###
 
 Catalyst=
+
+### recipeblock.lua ###
+
+TA4 Recipe Block=
 
 ### recipes.lua ###
 
@@ -1068,6 +1128,11 @@ light=
 
 power=
 
+### soundblock.lua ###
+
+Play=
+TA3 Sound Block=
+
 ### source.lua ###
 
 Axle Power Source=
@@ -1189,10 +1254,10 @@ TA Tank Cart=
 
 ### terminal.lua ###
 
-Switched to private use!=
-Switched to public use!=
 Syntax error, try help=
 TA3 Terminal=
+TA4 Collider Terminal=
+TA4 Terminal=
 commands like: help=
 
 ### timer.lua ###
@@ -1238,10 +1303,23 @@ TA4 Tube=
 TA3 Turbine=
 TA4 Turbine=
 
+### turncontroller.lua ###
+
+Center Pos=
+Center block position for the turn, e.g.: 237,6,-125=
+Click on all blocks that shall be turned=
+TA4 Turn Controller=
+Turn left=
+Turn right=
+
 ### usmium.lua ###
 
 Usmium Nuggets=
 Usmium Powder=
+
+### vacuumtube.lua ###
+
+TA4 Vacuum Tube=
 
 ### valve.lua ###
 
@@ -1276,3 +1354,12 @@ This is not the surface of the ocean!=
 [TA4 Wind Turbine]=
 biome and no ocean!=
 is a suitable place for a wind turbine!=
+
+### worker.lua ###
+
+Build detector=
+Item list=
+Remove detector=
+TA4 Collider Detector Worker=
+[TA4] Detector is being built!=
+[TA4] Detector is being removed!=

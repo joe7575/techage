@@ -21,17 +21,10 @@ local getpos = techage.assemble.get_pos
 
 local CYCLE_TIME = 2
 local TNO_MAGNETS = 22
-local PROBABILITY = 90  -- every 30 min.
+local PROBABILITY = 180  -- check every 20 s => 20 * 180 * 50% = 30 min
 
-local function tube_damage_check(pos, node, meta, nvm)		
-	local resp = techage.tube_inlet_command(pos, "check")
-	if resp then
-		return true
-	end
-	return false, "Tube defect"
-end
-
-local Schedule = {[0] = 
+local TIME_SLOTS = 10
+local Schedule = {[0] =
 	-- Route: 0 = forward, 1 = right, 2 = backward, 3 = left
 	-- Gas left/right
 	{name = "techage:ta4_collider_pipe_inlet",  yoffs = 1, route = {3,3,3,2}, check = techage.gas_inlet_check},
@@ -39,17 +32,14 @@ local Schedule = {[0] =
 	-- Power left/right
 	{name = "techage:ta4_collider_cable_inlet", yoffs = 2, route = {3,3,3}, check = techage.power_inlet_check},
 	{name = "techage:ta4_collider_cable_inlet", yoffs = 2, route = {1,1,1}, check = techage.power_inlet_check},
-	-- Tube left/right
-	--{name = "techage:ta4_collider_tube_inlet",  yoffs = 1, route = {3,3,3}, check = techage.tube_inlet_check, no_vacuum=true},
-	--{name = "techage:ta4_collider_tube_inlet",  yoffs = 1, route = {1,1,1}, check = techage.tube_inlet_check, no_vacuum=true},
 	-- Cooler
 	{name = "techage:ta4_collider_pipe_inlet",  yoffs = 0, route = {0}, check = techage.cooler_check},
 	{name = "techage:ta4_collider_pipe_inlet",  yoffs = 2, route = {0}, check = techage.cooler_check},
 	-- Air outlet
 	{name = "techage:ta4_collider_pipe_outlet", yoffs = 2, route = {}, check = techage.air_outlet_check},
+	-- All nodes
+	{name = "shell", yoffs = 0, route = {}, check = nil},
 }
-
-local TIME_SLOTS = #Schedule + 2
 
 local function play_sound(pos)
 	minetest.sound_play("techage_hum", {
@@ -81,6 +71,20 @@ local function experience_points(pos)
 	end
 end
 
+local function check_shell(pos, param2)
+	local pos1 = getpos(pos, param2, {3,3,3,2}, 0)
+	local pos2 = getpos(pos, param2, {1,1,1,0}, 2)
+	local _, tbl = minetest.find_nodes_in_area(pos1, pos2, {"techage:ta4_detector_magnet", "techage:ta4_colliderblock", "default:obsidian_glass"})
+	if tbl["techage:ta4_detector_magnet"] < 16 then
+		return false, "Magnet missing"
+	elseif tbl["techage:ta4_colliderblock"] < 31 then
+		return false, "Steel block missing"
+	elseif tbl["default:obsidian_glass"] < 1 then
+		return false, "Obsidian glass missing"
+	end
+	return true
+end
+
 local function check_state(pos)
 	-- Cyclically check all connections
 	local param2 = minetest.get_node(pos).param2
@@ -94,13 +98,8 @@ local function check_state(pos)
 	end
 	
 	if item then
-		local pos2 = getpos(pos, param2, item.route, item.yoffs)
-		local nvm2 = techage.get_nvm(pos2)
-		local meta2 = M(pos2)
-		local node2 = minetest.get_node(pos2)
-		if item.name == node2.name then
-			local res, err = item.check(pos2, node2, meta2, nvm2)
-			--print("check_state", idx, res, err)
+		if item.name == "shell" then
+			local res, err = check_shell(pos, param2)
 			if not res then
 				nvm.result = false
 				nvm.runnning = false
@@ -108,9 +107,24 @@ local function check_state(pos)
 				return nvm.result
 			end
 		else
-			nvm.result = false
-			nvm.runnning = false
-			terminal_message(pos, "Detector defect!!!")
+			local pos2 = getpos(pos, param2, item.route, item.yoffs)
+			local nvm2 = techage.get_nvm(pos2)
+			local meta2 = M(pos2)
+			local node2 = minetest.get_node(pos2)
+			if item.name == node2.name then
+				local res, err = item.check(pos2, node2, meta2, nvm2)
+				--print("check_state", idx, res, err)
+				if not res then
+					nvm.result = false
+					nvm.runnning = false
+					terminal_message(pos, (err or "unknown") .. "!!!")
+					return nvm.result
+				end
+			else
+				nvm.result = false
+				nvm.runnning = false
+				terminal_message(pos, "Detector defect!!!")
+			end
 		end
 	elseif idx == #Schedule + 1 then
 		return nvm.result
@@ -180,7 +194,7 @@ minetest.register_node("techage:ta4_detector_core", {
 		local own_num = techage.add_node(pos, "techage:ta4_detector_core")
 		meta:set_string("node_number", own_num)
 		meta:set_string("owner", placer:get_player_name())
-		M({x=pos.x, y=pos.y - 1, z=pos.z}):set_string("infotext", S("TA4 Collider Detector " .. own_num))
+		M({x=pos.x, y=pos.y - 1, z=pos.z}):set_string("infotext", S("TA4 Collider Detector") .. " " .. own_num)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
 
@@ -288,12 +302,8 @@ local function start_task(pos)
 		coroutine.yield()
 		techage.send_single(own_num, term_num, "text", "- Check detector...")
 		for _,item  in ipairs(Schedule)do
-			local pos2 = getpos(pos, param2, item.route, item.yoffs)
-			local nvm2 = techage.get_nvm(pos2)
-			local meta2 = M(pos2)
-			local node2 = minetest.get_node(pos2)
-			if item.name == node2.name then
-				local res, err = item.check(pos2, node2, meta2, nvm2)
+			if item.name == "shell" then
+				local res, err = check_shell(pos, param2)
 				if not res then
 					techage.send_single(own_num, term_num, "append", err .. "!!!")
 					nvm.magnet_positions = nil
@@ -301,12 +311,26 @@ local function start_task(pos)
 					return
 				end
 			else
-				techage.send_single(own_num, term_num, "append", "defect!!!")
-				nvm.magnet_positions = nil
-				nvm.locked = false
-				return
+				local pos2 = getpos(pos, param2, item.route, item.yoffs)
+				local nvm2 = techage.get_nvm(pos2)
+				local meta2 = M(pos2)
+				local node2 = minetest.get_node(pos2)
+				if item.name == node2.name then
+					local res, err = item.check(pos2, node2, meta2, nvm2)
+					if not res then
+						techage.send_single(own_num, term_num, "append", err .. "!!!")
+						nvm.magnet_positions = nil
+						nvm.locked = false
+						return
+					end
+				else
+					techage.send_single(own_num, term_num, "append", "defect!!!")
+					nvm.magnet_positions = nil
+					nvm.locked = false
+					return
+				end
+				coroutine.yield()
 			end
-			coroutine.yield()
 		end
 		techage.send_single(own_num, term_num, "append", "ok")
 		
