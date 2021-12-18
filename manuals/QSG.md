@@ -75,7 +75,7 @@ Since the levels build on each other, all ages have to be run through one after 
 
 ## Power Consumption
 
-t| TechAge Machine                | TA2 [ku] | TA3 [ku] | TA4 [ku]  |
+| TechAge Machine                | TA2 [ku] | TA3 [ku] | TA4 [ku]  |
 | ------------------------------ | -------- | -------- | --------- |
 | Autocrafter                    | 4        | 6        | (9)       |
 | Electronic Fab                 | 8        | 12       | 12        |
