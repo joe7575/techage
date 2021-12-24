@@ -1305,8 +1305,6 @@ TA4 Turbine=
 
 ### turncontroller.lua ###
 
-Center Pos=
-Center block position for the turn, e.g.: 237,6,-125=
 Click on all blocks that shall be turned=
 TA4 Turn Controller=
 Turn left=

@@ -664,7 +664,7 @@ This can also be used to simulate extendable stairs and the like.
 
 [ta3_doorcontroller|image]
 
-### TA3 sound block
+### TA3 Sound Block
 
 Different sounds can be played with the sound block. All sounds of the Mods Techage, Signs Bot, Hyperloop, Unified Inventory, TA4 Jetpack and Minetest Game are available.
 

@@ -579,6 +579,11 @@ Der Move Controller unterstützt folgende techage Kommandos:
 - `b2a`  Bewege Block von B nach A
 - `move` Bewege Block auf die andere Seite
 
+**Wichtige Hinweise:**
+
+- Sofern mehrere Blöcke bewegt werden sollen, muss der Block, der die Spieler/Mobs mitnehmen soll, beim Antrainieren als erstes angeklickt werden.
+- Hat der Block, der die Spieler/Mobs mitnehmen soll, eine reduzierte Höhe, so muss die Höhe im Controller über das Schraubenschlüsselmenü eingestellt werden (bspw. Höhe = 0.5). Ansonsten wird der Spieler/Mob nicht "gefunden" und damit nicht mitgenommen.
+
 [ta4_movecontroller|image]
 
 ### TA4 Drehcontroller / Turn Controller

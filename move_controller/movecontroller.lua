@@ -114,7 +114,11 @@ minetest.register_node("techage:ta4_movecontroller", {
 		elseif fields.done then
 			local name = player:get_player_name()
 			local pos_list = mark.get_poslist(name)
+			if fly.to_vector(fields.path or "", MAX_DIST) then
+				meta:set_string("path", fields.path)
+			end
 			local text = #pos_list.." "..S("block positions are stored.")
+			nvm.running = false
 			meta:set_string("status", text)
 			nvm.lpos1 = pos_list
 			mark.unmark_all(name)
@@ -135,6 +139,7 @@ minetest.register_node("techage:ta4_movecontroller", {
 		elseif fields.moveAB then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, false) then
+				nvm.moveBA = true
 				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
@@ -144,6 +149,7 @@ minetest.register_node("techage:ta4_movecontroller", {
 		elseif fields.moveBA then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, true) then
+				nvm.moveBA = false
 				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()

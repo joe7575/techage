@@ -571,6 +571,11 @@ The Move Controller supports the following techage commands:
 - `b2a` Move block from B to A.
 - `move` Move block to the other side
 
+**Important instructions:**
+
+- If several blocks are to be moved, the block that is to take the players/mobs must be clicked first when training.
+- If the block that is supposed to take the players/mobs has a reduced height, the height must be set in the controller using the open-ended wrench menu (e.g. height = 0.5). Otherwise the player/mob will not be "found" and will not be taken away.
+
 [ta4_movecontroller|image]
 
 ### TA4 Turn Controller

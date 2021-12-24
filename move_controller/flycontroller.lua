@@ -22,7 +22,7 @@ local MP = minetest.get_modpath("techage")
 local fly  = dofile(MP .. "/basis/fly_lib.lua")  
 local mark = dofile(MP .. "/basis/mark_lib.lua")  
 
-local MAX_DIST = 200
+local MAX_DIST = 500
 local MAX_BLOCKS = 16
 local EX_PIONTS = 40
 
@@ -54,7 +54,7 @@ local function formspec(nvm, meta)
 		techage.wrench_image(7.4, -0.05) ..
 		"button[0.1,0.7;3.8,1;record;" .. S("Record") .. "]" ..
 		"button[4.1,0.7;3.8,1;done;" .. S("Done") .. "]" ..
-		"textarea[0.4,2.1;3.8,4.4;path;" .. S("Move path (A to B)") .. ";"..path.."]" ..
+		"textarea[0.4,2.1;3.8,4.4;path;" .. S("Flight route (A to B)") .. ";"..path.."]" ..
 		"button[4.1,1.8;3.8,1;store;" .. S("Store") .. "]" ..
 		"button[4.1,2.6;3.8,1;test;" .. S("Test") .. "]" ..
 		"button[4.1,3.4;3.8,1;moveAB;" .. S("Move A-B") .. "]" ..
@@ -105,6 +105,11 @@ minetest.register_node("techage:ta5_flycontroller", {
 		elseif fields.done then
 			local name = player:get_player_name()
 			local pos_list = mark.get_poslist(name)
+			local _, err = fly.to_path(fields.path, MAX_DIST)
+			if not err then
+				meta:set_string("path", fields.path)
+			end
+			nvm.running = false
 			local text = #pos_list.." "..S("block positions are stored.")
 			meta:set_string("status", text)
 			nvm.lpos1 = pos_list
@@ -155,6 +160,7 @@ minetest.register_node("techage:ta5_flycontroller", {
 		elseif fields.moveAB then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, false) then
+				nvm.moveBA = true
 				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
@@ -164,6 +170,7 @@ minetest.register_node("techage:ta5_flycontroller", {
 		elseif fields.moveBA then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, true) then
+				nvm.moveBA = false
 				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
@@ -174,6 +181,7 @@ minetest.register_node("techage:ta5_flycontroller", {
 			meta:set_string("status", "")
 			nvm.moveBA = nvm.moveBA == false
 			if fly.move_to_other_pos(pos, nvm.moveBA == false) then
+				nvm.moveBA = nvm.moveBA == false
 				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
@@ -226,7 +234,7 @@ techage.register_node({"techage:ta5_flycontroller"}, {
 minetest.register_craft({
 	output = "techage:ta5_flycontroller",
 	recipe = {
-		{"default:steel_ingot", "dye:blue", "default:steel_ingot"},
+		{"default:steel_ingot", "dye:red", "default:steel_ingot"},
 		{"techage:aluminum", "techage:ta5_aichip", "techage:aluminum"},
 		{"group:wood", "basic_materials:gear_steel", "group:wood"},
 	},

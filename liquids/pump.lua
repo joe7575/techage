@@ -66,6 +66,7 @@ local function pumping(pos, nvm, state, capa)
 				state:blocked(pos, nvm)
 				return 0
 			end
+                        state:keep_running(pos, nvm, COUNTDOWN_TICKS)
 			return taken - leftover
 		end
 		state:keep_running(pos, nvm, COUNTDOWN_TICKS)

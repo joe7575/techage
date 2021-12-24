@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -27,26 +27,6 @@ local Input = {
 	20,21,22,23,  -- 6
 }
 
--- Input data for facedir_to_rotation
-local PARAM2_TO_ROT = {[0] =
-	1,39,35,47,
-	49,38,32,48,
-	17,14,56,8,
-	2,50,12,28,
-	4,20,10,52,
-	3,7,11,15
-}
-
-local Idx_to_Rot = {}
-
-for x = 0,3 do
-	for y = 0,3 do
-		for z = 0,3 do
-			Idx_to_Rot[#Idx_to_Rot + 1] = {x=x*math.pi/2, y=y*math.pi/2, z=z*math.pi/2}
-		end
-	end
-end
-
 --  Input data to turn a "facedir" block to the right/left
 local ROTATION = {
 	{5,14,11,16},  -- x+
@@ -55,6 +35,33 @@ local ROTATION = {
 	{22,21,20,23}, -- y-
 	{6,15,8,17},   -- z+
 	{4,13,10,19},  -- z-
+}
+
+local FACEDIR_TO_ROT = {[0] =
+	{x=0.000000, y=0.000000, z=0.000000},
+	{x=0.000000, y=4.712389, z=0.000000},
+	{x=0.000000, y=3.141593, z=0.000000},
+	{x=0.000000, y=1.570796, z=0.000000},
+	{x=4.712389, y=0.000000, z=0.000000},
+	{x=3.141593, y=1.570796, z=1.570796},
+	{x=1.570796, y=4.712389, z=4.712389},
+	{x=3.141593, y=4.712389, z=4.712389},
+	{x=1.570796, y=0.000000, z=0.000000},
+	{x=0.000000, y=4.712389, z=1.570796},
+	{x=4.712389, y=1.570796, z=4.712389},
+	{x=0.000000, y=1.570796, z=4.712389},
+	{x=0.000000, y=0.000000, z=1.570796},
+	{x=4.712389, y=0.000000, z=1.570796},
+	{x=0.000000, y=3.141593, z=4.712389},
+	{x=1.570796, y=3.141593, z=4.712389},
+	{x=0.000000, y=0.000000, z=4.712389},
+	{x=1.570796, y=0.000000, z=4.712389},
+	{x=0.000000, y=3.141593, z=1.570796},
+	{x=4.712389, y=0.000000, z=4.712389},
+	{x=0.000000, y=0.000000, z=3.141593},
+	{x=0.000000, y=1.570796, z=3.141593},
+	{x=0.000000, y=3.141593, z=3.141593},
+	{x=0.000000, y=4.712389, z=3.141593},
 }
 
 local RotationViaYAxis = {}
@@ -69,8 +76,7 @@ for _,row in ipairs(ROTATION) do
 end
 
 function techage.facedir_to_rotation(facedir)
-	local idx = PARAM2_TO_ROT[facedir] or 0
-	return Idx_to_Rot[idx]
+	return FACEDIR_TO_ROT[facedir]
 end
 
 function techage.param2_turn_left(param2)

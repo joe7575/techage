@@ -50,6 +50,13 @@ local function lvect_subtract(lvect1, lvect2)
 	return lvect3
 end
 
+-- yaw in radiant
+local function rotate(v, yaw)
+	local sinyaw = math.sin(2 * math.pi - yaw)
+	local cosyaw = math.cos(2 * math.pi - yaw)
+	return {x = v.x * cosyaw - v.z * sinyaw, y = v.y, z = v.x * sinyaw + v.z * cosyaw}
+end
+
 -------------------------------------------------------------------------------
 -- to_path function for the fly/move path 
 -------------------------------------------------------------------------------
@@ -89,13 +96,13 @@ function flylib.to_path(s, max_dist)
 		if line ~= "" then
 			local v = flylib.to_vector(line)
 			if v then
-				--dist = dist + flylib.distance(v)
-				--if not max_dist or dist <= max_dist then
+				dist = dist + flylib.distance(v)
+				if not max_dist or dist <= max_dist then
 					tPath = tPath or {}
 					tPath[#tPath + 1] = v
-				--else
-				--	return tPath, S("Error: Max. length of the flight route exceeded !!")
-				--end
+				else
+					return tPath, S("Error: Max. length of the flight route exceeded !!")
+				end
 			else
 				return tPath, S("Error: Invalid path !!")
 			end
@@ -193,12 +200,27 @@ end
 -- Attach player/mob to given parent object (block)
 local function attach_single_object(parent, obj, dir)
 	local self = parent:get_luaentity()
-	local rot = obj:get_rotation()
 	local res = obj:get_attach()
-	if not res then
+	if not res then -- not already attached
+		local yaw
+		if obj:is_player() then
+			yaw = obj:get_look_horizontal()
+		else
+			yaw = obj:get_rotation().y
+		end
+		-- store for later use
 		local offs = table.copy(dir)
+		-- Calc entity rotation, which is relative to the parent's rotation
+		local rot = parent:get_rotation()
+		dir = rotate(dir, rot.y)
+		if self.param2 >= 20 then
+			dir.y = -dir.y
+			rot.y = rot.y - yaw
+		elseif self.param2 < 4 then
+			rot.y = rot.y - yaw
+		end
 		dir = vector.multiply(dir, 29)
-		obj:set_attach(parent, "", dir, rot, true)
+		obj:set_attach(parent, "", dir, vector.multiply(rot, 180 / math.pi))
 		obj:set_properties({visual_size = {x=2.9, y=2.9}})
 		if obj:is_player() then
 			if lock_player(obj) then
@@ -247,6 +269,7 @@ local function detach_objects(pos, self)
 			obj:set_detach()
 			obj:set_properties({visual_size = {x=1, y=1}})
 			local pos1 = vector.add(pos, item.offs)
+			pos1.y = pos1.y + 0.1
 			obj:set_pos(pos1)
 			unlock_player(obj)
 		end
