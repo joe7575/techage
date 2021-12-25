@@ -240,5 +240,6 @@
         - [TA5 Container (geplant)](./manual_ta5_DE.md#ta5-container-(geplant))
         - [TA5-Teleport-Tubes (geplant)](./manual_ta5_DE.md#ta5-teleport-tubes-(geplant))
         - [TA5-Teleport-Pipes (geplant)](./manual_ta5_DE.md#ta5-teleport-pipes-(geplant))
+        - [TA5-Raumgleiter (geplant)](./manual_ta5_DE.md#ta5-raumgleiter-(geplant))
     - [Weitere TA5 Blöcke/Items](./manual_ta5_DE.md#weitere-ta5-blöckeitems)
         - [TA5 KI Chip / TA5 AI Chip](./manual_ta5_DE.md#ta5-ki-chip--ta5-ai-chip)

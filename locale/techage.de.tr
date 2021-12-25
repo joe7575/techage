@@ -432,8 +432,8 @@ Error: Invalid path !!=Fehler: Ungültiger Pfad !!
 ### flycontroller.lua ###
 
 Error: Recording is missing !!=Fehler: Aufzeichnung fehlt !!
+Flight route (A to B)=Flug Route (A nach B)
 Move=Bewege
-Move path (A to B)=Bewegungspfad (A nach B)
 See chat output=Siehe chat Ausgabe
 TA5 Fly Controller=TA5 Flug Controller
 Test=Test
@@ -828,7 +828,9 @@ Handover to B=Übergabe an B
 Move distance (A to B)=Entfernung (A nach B)
 Number of the next movecontroller=Nummer des nächsten Move Controllers
 Number of the previous movecontroller=Nummer des vorhergehenden Move Controllers
+Object offset=Objekt Offset
 TA4 Move Controller=TA4 Move Controller
+Y-offset for non-player objects like vehicles (-0.5 to 0.5)=Y-Offset für Nicht-Spieler Objekte wie Fahrzeuge (-0.5 bis 0.5)
 
 ### node_detector.lua ###
 
@@ -1364,11 +1366,3 @@ TA4 Collider Detector Worker=TA4 Collider Detektor Worker
 
 
 ##### not used anymore #####
-
-Error: Distance > 100 m !!=Fehler: Distanz > 100 m !!
-Number of the next movecontroller.=Nummer des nächsten Move Controllers.
-Number of the previous movecontroller.=Nummer des vorherigen Move Controllers.
-Position list error=Positionslistenfehler
-Switched to private use!=Zur privaten Nutzung umgeschaltet
-Switched to public use!=Zur öffentlichen Nutzung umgeschaltet
-[techage] The limit for commands per minute has been exceeded.=[techage] Das Limit für Befehle pro Minute wurde überschritten.

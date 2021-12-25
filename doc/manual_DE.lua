@@ -241,6 +241,7 @@ techage.manual_DE.aTitel = {
   "3,TA5 Container (geplant)",
   "3,TA5-Teleport-Tubes (geplant)",
   "3,TA5-Teleport-Pipes (geplant)",
+  "3,TA5-Raumgleiter (geplant)",
   "2,Weitere TA5 Blöcke/Items",
   "3,TA5 KI Chip / TA5 AI Chip",
 }
@@ -2032,6 +2033,8 @@ techage.manual_DE.aText = {
   "\n"..
   "Für die Nutzung der TA5 Teleport Pipes werden 60 Erfahrungspunkte benötigt.\n"..
   "\n",
+  "Dank einem Spezialantrieb für Lichtgeschwindigkeit können mit dem Raumgleiter auch große Entfernungen sehr schnell überwunden werden.\n"..
+  "\n",
   "",
   "Der TA5 KI Chip wird teilweise zur Herstellung von TA5 Blöcken benötigt. Der TA5 KI Chip kann nur auf der TA4 Elektronik Fab hergestellt werden. Dazu werden 10 Erfahrungspunkte benötigt.\n"..
   "\n"..
@@ -2281,6 +2284,7 @@ techage.manual_DE.aItemName = {
   "",
   "",
   "",
+  "",
   "ta5_aichip",
 }
 
@@ -2489,6 +2493,7 @@ techage.manual_DE.aPlanTable = {
   "ta4_liquid_filter_top",
   "techage_collider_plan",
   "ta4_cooler",
+  "",
   "",
   "",
   "",

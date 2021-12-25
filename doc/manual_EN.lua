@@ -203,6 +203,10 @@ techage.manual_EN.aTitel = {
   "3,Base Layer",
   "3,Gravel Layer",
   "3,Filling Layer",
+  "2,TA4 Collider (Particle Accelerator)",
+  "3,Detector",
+  "3,Control / TA4 Terminal",
+  "3,Construction",
   "2,More TA4 Blocks",
   "3,TA4 Recipe Block",
   "3,TA4 Autocrafter",
@@ -1753,6 +1757,75 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The Collider is a research facility that conducts basic research. Experience points can be collected here\\, which are required for TA5 (Future Age).\n"..
+  "\n"..
+  "Like its original at CERN in Geneva\\, the collider must be built underground. The standard setting here is Y <= -28. The value can\\, however\\, be changed by the server personnel via configuration. Please ask or try the \"TA4 Collider Detector Worker\" block.\n"..
+  "\n"..
+  "Only one collider can be operated per player. So it makes no sense to set up two or more colliders. Experience points are credited to the player who owns the collider. The experience points cannot be transferred.\n"..
+  "\n"..
+  "A collider consists of a \"ring\" made of tubes and magnets as well as a detector with a cooling system.\n"..
+  "\n"..
+  "  - The detector is the heart of the system. This is where the scientific experiments take place. The detector is 3x3x7 blocks in size.\n"..
+  "  - The TA4 Collider Detector magnets (22 pieces) must be connected to each other via 5 blocks of the TA4 vacuum tube. Each magnet also requires electricity and a gas connection for cooling. The whole thing forms (as shown in the plan on the right) a square with an edge length of 37 meters.\n"..
+  "  - In addition\\, cooling is required\\, which must also be installed at the detector. Hydrogen is required for cooling.\n"..
+  "  - The system requires quite a bit of electricity. Therefore\\, it makes sense to have your own power supply.\n"..
+  "\n"..
+  "The plan shows the facility from above:\n"..
+  "\n"..
+  "  - the gray block is the detector with the worker block in the middle\n"..
+  "  - the red blocks are the magnets\\, the blue the vacuum tubes\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The detector is set up automatically with the help of the \"TA4 Collider Detector Worker\" block (similar to the derrick). All of the materials required for this must first be placed in the worker block. The detector is shown symbolically on the worker block. The detector is set up across the worker block.\n"..
+  "\n"..
+  "The detector can also be dismantled again with the help of the worker block.\n"..
+  "\n"..
+  "The connections for electricity\\, gas and vacuum tubes are located on the two front sides of the detector. A TA4 pump must be connected at the top in order to suck the tube empty / to create the vacuum.\n"..
+  "\n"..
+  "The cooling system must be connected to the rear of the detector. The cooling system is shown in the plan on the right. In addition to the TA4 heat exchanger of the energy storage unit (which is used here for cooling)\\, a TA4 cooler block is also required.\n"..
+  "\n"..
+  "Note: The arrow on the heat exchanger must point away from the detector. The heat exchanger must also be supplied with electricity.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The collider is controlled via a TA4 terminal (not via the TA4 Lua controller terminal).\n"..
+  "\n"..
+  "This terminal must be connected to the detector. The number of the detector is displayed as info text on the worker block.\n"..
+  "\n"..
+  "The terminal supports the following commands:\n"..
+  "\n"..
+  "  - 'connect <number>' (connect to the detector)\n"..
+  "  - 'start' (starting the detector)\n"..
+  "  - 'stop' (stop the detector)\n"..
+  "  - 'test <number>' (checking a magnet)\n"..
+  "  - 'points' (query of the experience points already achieved)\n"..
+  "\n"..
+  "If an error occurs on a magnet during the 'start'\\, the number of the magnet is output. The 'test' command can be used to request further information on the magnet error.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "In addition to the building blocks\\, the following is required for the collider:\n"..
+  "\n"..
+  "  - electricity (145 ku)\n"..
+  "  - TA4 tank with at least 250 units of hydrogen\n"..
+  "\n"..
+  "The following sequence is recommended when setting up the collider:\n"..
+  "\n"..
+  "  - Put a forceload block. Only the detector with the cooling system has to be in the area of ​​the forceload block.\n"..
+  "  - Set the worker block\\, fill it with items and set up the detector via the menu\n"..
+  "  - Build the ring with tubes and magnets\n"..
+  "  - Connect all magnets and the detector with power cables\n"..
+  "  - Connect all magnets and the detector to the yellow tubes and fill with hydrogen\n"..
+  "  - Install a TA4 pump as a vacuum pump on the detector and switch it on (no additional tank is required). If the pump goes into \"standby\"\\, the vacuum is established. This will take a few seconds\n"..
+  "  - assemble the cooler (heat exchanger) and connect it to the power cable\n"..
+  "  - Place the TA4 terminal in front of the detector and connect it to the detector via 'connect <number>'\n"..
+  "  - Switch on / connect the power supply\n"..
+  "  - switch on the cooler (heat exchanger)\n"..
+  "  - Switch on the detector via 'start' on the TA4 terminal. After a few test steps\\, the detector goes into normal operation or outputs an error.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "",
   "Up to 10 recipes can be saved in the recipe block. These recipes can then be called up via a TA4 Autocrafter command. This enables the autocrafter's recipe to be configured using a command. The recipes in the recipe block can also be queried directly using a command.\n"..
   "\n"..
@@ -2169,6 +2242,10 @@ techage.manual_EN.aItemName = {
   "",
   "",
   "",
+  "",
+  "ta4_terminal",
+  "techage_ta4c",
+  "",
   "ta4_recipeblock",
   "ta4_autocrafter",
   "ta4_tank",
@@ -2409,6 +2486,10 @@ techage.manual_EN.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
+  "techage_collider_plan",
+  "ta4_cooler",
+  "",
+  "",
   "",
   "",
   "",

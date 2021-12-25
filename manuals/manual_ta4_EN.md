@@ -672,6 +672,88 @@ The red mud must be pumped into the filler pipe.
 
 
 
+## TA4 Collider (Particle Accelerator)
+
+The Collider is a research facility that conducts basic research. Experience points can be collected here, which are required for TA5 (Future Age).
+
+Like its original at CERN in Geneva, the collider must be built underground. The standard setting here is Y <= -28. The value can, however, be changed by the server personnel via configuration. Please ask or try the "TA4 Collider Detector Worker" block.
+
+Only one collider can be operated per player. So it makes no sense to set up two or more colliders. Experience points are credited to the player who owns the collider. The experience points cannot be transferred.
+
+A collider consists of a "ring" made of tubes and magnets as well as a detector with a cooling system.
+
+- The detector is the heart of the system. This is where the scientific experiments take place. The detector is 3x3x7 blocks in size.
+- The TA4 Collider Detector magnets (22 pieces) must be connected to each other via 5 blocks of the TA4 vacuum tube. Each magnet also requires electricity and a gas connection for cooling. The whole thing forms (as shown in the plan on the right) a square with an edge length of 37 meters.
+- In addition, cooling is required, which must also be installed at the detector. Hydrogen is required for cooling.
+- The system requires quite a bit of electricity. Therefore, it makes sense to have your own power supply.
+
+The plan shows the facility from above:
+
+- the gray block is the detector with the worker block in the middle
+- the red blocks are the magnets, the blue the vacuum tubes
+
+[techage_collider_plan|plan]
+
+### Detector
+
+The detector is set up automatically with the help of the "TA4 Collider Detector Worker" block (similar to the derrick). All of the materials required for this must first be placed in the worker block. The detector is shown symbolically on the worker block. The detector is set up across the worker block.
+
+The detector can also be dismantled again with the help of the worker block.
+
+The connections for electricity, gas and vacuum tubes are located on the two front sides of the detector. A TA4 pump must be connected at the top in order to suck the tube empty / to create the vacuum.
+
+The cooling system must be connected to the rear of the detector. The cooling system is shown in the plan on the right. In addition to the TA4 heat exchanger of the energy storage unit (which is used here for cooling), a TA4 cooler block is also required.
+
+Note: The arrow on the heat exchanger must point away from the detector. The heat exchanger must also be supplied with electricity.
+
+[ta4_cooler|plan]
+
+### Control / TA4 Terminal
+
+The collider is controlled via a TA4 terminal (not via the TA4 Lua controller terminal).
+
+This terminal must be connected to the detector. The number of the detector is displayed as info text on the worker block.
+
+The terminal supports the following commands:
+
+- `connect <number>` (connect to the detector)
+- `start` (starting the detector)
+- `stop` (stop the detector)
+- `test <number>` (checking a magnet)
+- `points` (query of the experience points already achieved)
+
+If an error occurs on a magnet during the `start`, the number of the magnet is output. The `test` command can be used to request further information on the magnet error.
+
+[ta4_terminal|image]
+
+
+
+### Construction
+
+In addition to the building blocks, the following is required for the collider:
+
+- electricity (145 ku)
+- TA4 tank with at least 250 units of hydrogen
+
+The following sequence is recommended when setting up the collider:
+
+- Put a forceload block. Only the detector with the cooling system has to be in the area of ​​the forceload block.
+- Set the worker block, fill it with items and set up the detector via the menu
+- Build the ring with tubes and magnets
+- Connect all magnets and the detector with power cables
+- Connect all magnets and the detector to the yellow tubes and fill with hydrogen
+- Install a TA4 pump as a vacuum pump on the detector and switch it on (no additional tank is required). If the pump goes into "standby", the vacuum is established. This will take a few seconds
+- assemble the cooler (heat exchanger) and connect it to the power cable
+- Place the TA4 terminal in front of the detector and connect it to the detector via `connect <number>`
+- Switch on / connect the power supply
+- switch on the cooler (heat exchanger)
+- Switch on the detector via `start` on the TA4 terminal. After a few test steps, the detector goes into normal operation or outputs an error.
+
+[techage_ta4c|image]
+
+
+
+
 ## More TA4 Blocks
 
 ### TA4 Recipe Block

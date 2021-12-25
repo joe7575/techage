@@ -432,8 +432,8 @@ Error: Invalid path !!=
 ### flycontroller.lua ###
 
 Error: Recording is missing !!=
+Flight route (A to B)=
 Move=
-Move path (A to B)=
 See chat output=
 TA5 Fly Controller=
 Test=
@@ -828,7 +828,9 @@ Handover to B=
 Move distance (A to B)=
 Number of the next movecontroller=
 Number of the previous movecontroller=
+Object offset=
 TA4 Move Controller=
+Y-offset for non-player objects like vehicles (-0.5 to 0.5)=
 
 ### node_detector.lua ###
 
