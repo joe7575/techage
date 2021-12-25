@@ -52,8 +52,8 @@ end
 
 -- yaw in radiant
 local function rotate(v, yaw)
-	local sinyaw = math.sin(2 * math.pi - yaw)
-	local cosyaw = math.cos(2 * math.pi - yaw)
+	local sinyaw = math.sin(yaw)
+	local cosyaw = math.cos(yaw)
 	return {x = v.x * cosyaw - v.z * sinyaw, y = v.y, z = v.x * sinyaw + v.z * cosyaw}
 end
 
@@ -212,11 +212,13 @@ local function attach_single_object(parent, obj, dir)
 		local offs = table.copy(dir)
 		-- Calc entity rotation, which is relative to the parent's rotation
 		local rot = parent:get_rotation()
-		dir = rotate(dir, rot.y)
 		if self.param2 >= 20 then
+			dir = rotate(dir, 2 * math.pi - rot.y)
 			dir.y = -dir.y
+			dir.x = -dir.x
 			rot.y = rot.y - yaw
 		elseif self.param2 < 4 then
+			dir = rotate(dir, 2 * math.pi - rot.y)
 			rot.y = rot.y - yaw
 		end
 		dir = vector.multiply(dir, 29)
@@ -234,7 +236,7 @@ end
 
 -- Attach all objects around to the parent object
 -- offs is the search/attach position offset
-local function attach_objects(pos, offs, parent)
+local function attach_objects(pos, offs, parent, yoffs)
 	local pos1 = vector.add(pos, offs)
 	for _, obj in pairs(minetest.get_objects_inside_radius(pos1, 0.9)) do
 		local dir = vector.subtract(obj:get_pos(), pos)
@@ -243,6 +245,7 @@ local function attach_objects(pos, offs, parent)
 			if entity.name == "__builtin:item" then  -- dropped items
 				--obj:set_attach(objref, "", {x=0, y=0, z=0}, {x=0, y=0, z=0}, true) -- hier kracht es
 			elseif entity.name ~= "techage:move_item" then
+				dir.y = dir.y + yoffs
 				attach_single_object(parent, obj, dir)
 			end
 		elseif obj:is_player() then
@@ -260,6 +263,7 @@ local function detach_objects(pos, self)
 			obj:set_detach()
 			obj:set_properties({visual_size = {x=1, y=1}})
 			local pos1 = vector.add(pos, item.offs)
+			pos1.y = pos1.y - (self.yoffs or 0)
 			obj:set_pos(pos1)
 		end
 	end
@@ -579,16 +583,19 @@ end
 local function move_node(pos, pos1_idx, start_pos, lpath, max_speed, height, move2to1, handover, cpos)
 	local pos2 = next_path_pos(start_pos, lpath, 1)
 	--print("move_node", P2S(pos), P2S(start_pos), lpath, max_speed, height, move2to1, P2S(pos2))
+	-- optional for non-player objects
+	local yoffs = M(pos):get_float("offset")
+
 	if pos2 then
 		local dir = determine_dir(start_pos, pos2)
 		local obj = node_to_entity(start_pos)
 
 		if obj then
 			local offs = {x=0, y=height or 1, z=0}
-			attach_objects(start_pos, offs, obj)
+			attach_objects(start_pos, offs, obj, yoffs)
 			if dir.y == 0 then
 				if (dir.x ~= 0 and dir.z == 0) or (dir.x == 0 and dir.z ~= 0) then
-					attach_objects(start_pos, dir, obj)
+					attach_objects(start_pos, dir, obj, yoffs)
 				end
 			end
 			local self = obj:get_luaentity()
@@ -600,6 +607,7 @@ local function move_node(pos, pos1_idx, start_pos, lpath, max_speed, height, mov
 			self.base_pos = pos
 			self.move2to1 = move2to1
 			self.handover = handover
+			self.yoffs = yoffs
 			--print("move_node", P2S(start_pos), P2S(pos2), P2S(dir), P2S(pos))
 			move_entity(obj, pos2, dir)
 		end

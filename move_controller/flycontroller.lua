@@ -24,7 +24,7 @@ local mark = dofile(MP .. "/basis/mark_lib.lua")
 
 local MAX_DIST = 500
 local MAX_BLOCKS = 16
-local EX_PIONTS = 40
+local EX_POINTS = 40
 
 local WRENCH_MENU = {
 	{
@@ -85,7 +85,7 @@ minetest.register_node("techage:ta5_flycontroller", {
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return
 		end
-		if techage.get_expoints(player) < EX_PIONTS then
+		if techage.get_expoints(player) < EX_POINTS then
 			return
 		end
 		
@@ -198,7 +198,7 @@ minetest.register_node("techage:ta5_flycontroller", {
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 
-	ta5_formspec = {menu=WRENCH_MENU, ex_points=EX_PIONTS},
+	ta5_formspec = {menu=WRENCH_MENU, ex_points=EX_POINTS},
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,

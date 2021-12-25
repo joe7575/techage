@@ -46,6 +46,22 @@ local RECIPE = {
      },
  }
 
+local function filter_recipes_based_on_points(recipes, owner)
+	local ex_points = 0
+	if owner then
+		local player = minetest.get_player_by_name(owner)
+		ex_points = techage.get_expoints(player) or 0
+	end
+	
+	local tbl = {}
+	for _,item in ipairs(recipes) do
+		if ex_points >= (item.ex_points or 0) then
+			tbl[#tbl + 1] = item
+		end
+	end
+	return tbl
+end
+
 
 -- Formspec
 local function input_string(recipe)
@@ -93,6 +109,7 @@ function techage.recipes.add(rtype, recipe)
 	name, num = unpack(string.split(recipe.output, " "))
 	item.output = {name = name or "", num = tonumber(num) or 0}
 	item.catalyst = recipe.catalyst
+	item.ex_points = recipe.ex_points or 0
 	Recipes[rtype][#Recipes[rtype]+1] = item
 	output = name
 
@@ -109,8 +126,9 @@ function techage.recipes.add(rtype, recipe)
 	}
 end
 
-function techage.recipes.formspec(x, y, rtype, nvm)
+function techage.recipes.formspec(x, y, rtype, nvm, owner)
 	local recipes = Recipes[rtype] or {}
+	recipes = filter_recipes_based_on_points(recipes, owner)
 	nvm.recipe_idx = range(nvm.recipe_idx or 1, 1, #recipes)
 	local idx = nvm.recipe_idx
 	local recipe = recipes[idx] or RECIPE

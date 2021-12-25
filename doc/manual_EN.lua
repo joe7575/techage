@@ -117,7 +117,7 @@ techage.manual_EN.aTitel = {
   "3,Door/Gate Blocks",
   "3,TA3 Door Controller",
   "3,TA3 Door Controller II",
-  "3,TA3 sound block",
+  "3,TA3 Sound Block",
   "3,TA3 Mesecons Converter",
   "2,Detectors",
   "3,TA3 Detector",
@@ -223,6 +223,22 @@ techage.manual_EN.aTitel = {
   "3,TA4 Electronic Fab",
   "3,TA4 Injector",
   "3,TA4 Recycler",
+  "1,TA5: Future",
+  "2,Energy Sources",
+  "3,TA5 Fusion Reactor (planned)",
+  "2,Energy Storage",
+  "3,TA5 Hybrid Storage (planned)",
+  "2,Logic blocks",
+  "2,Transport and Traffic",
+  "3,TA5 Flight Controller",
+  "3,TA5 Hyperloop Transport Chest",
+  "3,TA5 Hyperloop Transport Tank",
+  "3,Hyperloop Teleport Blocks (planned)",
+  "3,TA5 Container (planned)",
+  "3,TA5 Teleport Tubes (planned)",
+  "3,TA5 Teleport Pipes (planned)",
+  "2,More TA5 Blocks / Items",
+  "3,TA5 AI Chip",
 }
 
 techage.manual_EN.aText = {
@@ -1663,6 +1679,11 @@ techage.manual_EN.aText = {
   "  - 'b2a' Move block from B to A.\n"..
   "  - 'move' Move block to the other side\n"..
   "\n"..
+  "*Important instructions:*\n"..
+  "\n"..
+  "  - If several blocks are to be moved\\, the block that is to take the players/mobs must be clicked first when training.\n"..
+  "  - If the block that is supposed to take the players/mobs has a reduced height\\, the height must be set in the controller using the open-ended wrench menu (e.g. height = 0.5). Otherwise the player/mob will not be \"found\" and will not be taken away.\n"..
+  "\n"..
   "\n"..
   "\n",
   "The TA4 turn controller is similar to the \"Move Controller\"\\, but the selected blocks are not moved\\, but rotated around their center to the right or left.\n"..
@@ -1878,6 +1899,69 @@ techage.manual_EN.aText = {
   "The processing power is one item every 8 s.  The block requires 16 ku of electricity for this.\n"..
   "\n"..
   " \n"..
+  "\n",
+  "Machines to overcome space and time\\, new sources of energy and other achievements shape your life.\n"..
+  "\n"..
+  "Experience points are required for the manufacture and use of TA5 machines and blocks. These can only be worked out using the collider from TA4.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "The TA5 Flight Controller is similar to the TA4 Move Controller. In contrast to the TA4 Move Controller\\, several movements can be combined into one flight route. This flight route can be defined in the input field using several x\\,y\\,z entries (one movement per line). The flight route is checked and saved via \"Save\". In the event of an error\\, an error message is issued.\n"..
+  "\n"..
+  "With the \"Test\" button\\, the flight route with the absolute coordinates is output for checking in the chat.\n"..
+  "\n"..
+  "The maximum distance for the entire flight distance is 500 m.\n"..
+  "\n"..
+  "The use of the TA5 Flight Controller requires 40 experience points.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The TA5 Hyperloop Transport Chest allows objects to be transported over a Hyperloop network.\n"..
+  "\n"..
+  "A normal TA4 chest has to be placed on a Hyperloop Junction. The chest has an additional wrench menu with which you can pair two chests. Things that are in the chest are teleported to the remote station. The box can also be filled/emptied with a pusher.\n"..
+  "\n"..
+  "The use of the TA5 Hyperloop Transport Chest requires 20 experience points.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The TA5 Hyperloop Transport Tank allows liquids to be transported over a Hyperloop network.\n"..
+  "\n"..
+  "A TA4 Tank has to be placed on a Hyperloop Junction. This gives the tank an additional wrench menu that can be used to pair two tanks. Liquids in the tank will be teleported to the remote station. The tank can also be filled/emptied with a pump.\n"..
+  "\n"..
+  "The use of the TA5 Hyperloop Transport Tank requires 20 experience points.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The Hyperloop Teleport Blocks allow the construction of a Hyperloop network without Hyperloop tubes.\n"..
+  "\n"..
+  "The use of the Hyperloop Teleport Blocks requires 120 experience points.\n"..
+  "\n",
+  "The TA5 container allows Techage systems to be packed and unpacked at another location.\n"..
+  "\n"..
+  "80 experience points are required to use the TA5 container.\n"..
+  "\n",
+  "Teleport tubes allow items to be transported without tubes up to a distance of 200 blocks.\n"..
+  "\n"..
+  "The teleport tubes each require 5 ku of electricity.\n"..
+  "\n"..
+  "60 experience points are required to use the TA5 Teleport Tubes.\n"..
+  "\n",
+  "Teleport Pipes allow liquids to be transported without pipes up to a distance of 200 blocks.\n"..
+  "\n"..
+  "The teleport pipes each require 5 ku of electricity.\n"..
+  "\n"..
+  "60 experience points are required to use the TA5 Teleport Pipes.\n"..
+  "\n",
+  "",
+  "The TA5 AI Chip is partly required for the production of TA5 blocks. The TA5 AI Chip can only be manufactured at the TA4 Electronics Fab. This requires 10 experience points.\n"..
+  "\n"..
+  "\n"..
   "\n",
 }
 
@@ -2104,6 +2188,22 @@ techage.manual_EN.aItemName = {
   "ta4_electronicfab",
   "ta4_injector",
   "ta4_recycler",
+  "techage_ta5",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "ta5_flycontroller",
+  "ta4_chest",
+  "ta4_tank",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "ta5_aichip",
 }
 
 techage.manual_EN.aPlanTable = {
@@ -2309,6 +2409,22 @@ techage.manual_EN.aPlanTable = {
   "ta4_liquid_filter_base",
   "ta4_liquid_filter_gravel",
   "ta4_liquid_filter_top",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
   "",
   "",
   "",

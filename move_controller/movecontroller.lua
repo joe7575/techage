@@ -55,6 +55,13 @@ local WRENCH_MENU = {
 		tooltip = S("Value in the range of 0.0 to 1.0"),
 		default = "1.0",
 	},
+	{
+		type = "float",
+		name = "offset",
+		label = S("Object offset"),      
+		tooltip = S("Y-offset for non-player objects like vehicles (-0.5 to 0.5)"),
+		default = "0.0",
+	},
 }
 
 local function formspec(nvm, meta)

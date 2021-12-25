@@ -227,6 +227,22 @@ techage.manual_DE.aTitel = {
   "3,TA4 Elektronikfabrik / Electronic Fab",
   "3,TA4 Injektor / Injector",
   "3,TA4 Recycler",
+  "1,TA5: Zukunft",
+  "2,Energiequellen",
+  "3,TA5 Fusionsreaktor (geplant)",
+  "2,Energiespeicher",
+  "3,TA5 Hybrid-Speicher (geplant)",
+  "2,Logik Blöcke",
+  "2,Transport und Verkehr",
+  "3,TA5 Flug Controller",
+  "3,TA5 Hyperloop Transport Kiste",
+  "3,TA5 Hyperloop Transport Tank",
+  "3,Hyperloop Teleport Blöcke (geplant)",
+  "3,TA5 Container (geplant)",
+  "3,TA5-Teleport-Tubes (geplant)",
+  "3,TA5-Teleport-Pipes (geplant)",
+  "2,Weitere TA5 Blöcke/Items",
+  "3,TA5 KI Chip / TA5 AI Chip",
 }
 
 techage.manual_DE.aText = {
@@ -1669,6 +1685,11 @@ techage.manual_DE.aText = {
   "  - 'b2a'  Bewege Block von B nach A\n"..
   "  - 'move' Bewege Block auf die andere Seite\n"..
   "\n"..
+  "*Wichtige Hinweise:*\n"..
+  "\n"..
+  "  - Sofern mehrere Blöcke bewegt werden sollen\\, muss der Block\\, der die Spieler/Mobs mitnehmen soll\\, beim Antrainieren als erstes angeklickt werden.\n"..
+  "  - Hat der Block\\, der die Spieler/Mobs mitnehmen soll\\, eine reduzierte Höhe\\, so muss die Höhe im Controller über das Schraubenschlüsselmenü eingestellt werden (bspw. Höhe = 0.5). Ansonsten wird der Spieler/Mob nicht \"gefunden\" und damit nicht mitgenommen.\n"..
+  "\n"..
   "\n"..
   "\n",
   "Der TA4 Drehcontroller ist ähnlich zum Move Controller\"\\, aber die ausgewählten Blöcke werden nicht bewegt\\, sondern um ihr Zentrum nach rechts oder links gedreht.\n"..
@@ -1953,6 +1974,69 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Maschinen zur Überwindung von Raum und Zeit\\, neue Energiequellen und andere Errungenschaften prägen dein Leben. \n"..
+  "\n"..
+  "Für die Herstellung und Nutzung von TA5 Maschinen und Blöcken sind Erfahrungspunkte (experience points) notwendig. Diese können nur über den Teilchenbeschleuniger aus TA4 erarbeitet werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "Der TA5 Flug Controller ist ähnlich zum TA4 Move Controller. Im Gegensatz zum TA4 Move Controller können hier mehrere Bewegungen zu einer Flugstrecke kombiniert werden. Diese Flugstrecke kann im Eingabefeld über mehrere x\\,y\\,z Angaben definiert werden (eine Bewegung pro Zeile). Über \"Speichern\" wird die Flugstrecke geprüft und gespeichert. Bei einem Fehler wird eine Fehlermeldung ausgegeben.\n"..
+  "\n"..
+  "Mit der Taste \"Test\" wird die Flugstrecke mit den absoluten Koordinaten zur Überprüfung im Chat ausgegeben.\n"..
+  "\n"..
+  "Die maximale Distanz für die gesammte Flugstrecke beträgt 500 m.\n"..
+  "\n"..
+  "Die Nutzung des TA5 Flug Controllers benötigt 40 Erfahrungspunkte.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die TA5 Hyperloop Transport Kiste erlaubt den Transport von Gegenständen über ein Hyperloop Netzwerk.\n"..
+  "\n"..
+  "Eine normale TA4 Kiste muss man dazu auf eine Hyperloop Junction stellen. Die Kiste bekommt damit ein zusätzliches Schraubenschlüssel-Menü mit dem man das Pairing von zwei Kisten durchführen kann. Dinge\\, die in der Kiste sind\\, werden zur Gegenstelle teleportiert. Die Kiste kann auch mit einem  Schieber gefüllt/geleert werden.\n"..
+  "\n"..
+  "Die Nutzung der TA5 Hyperloop Transport Kiste benötigt 20 Erfahrungspunkte.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der TA5 Hyperloop Transport Tank erlaubt den Transport von Flüssigkeiten über ein Hyperloop Netzwerk.\n"..
+  "\n"..
+  "Ein TA4 Tank muss man dazu auf eine Hyperloop Junction stellen. Der Tank bekommt damit ein zusätzliches Schraubenschlüssel-Menü mit dem man das Pairing von zwei Tanks durchführen kann. Flüssigkeiten\\, die in dem Tank sind\\, werden zur Gegenstelle teleportiert. Der Tank kann auch mit einer Pumpe  gefüllt/geleert werden.\n"..
+  "\n"..
+  "Die Nutzung des TA5 Hyperloop Transport Tanks benötigt 20 Erfahrungspunkte.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Hyperloop Teleport Blöcke erlauben den Aufbau von Hyperloop Netzwerk ohne Hyperloop-Röhren.\n"..
+  "\n"..
+  "Die Nutzung der Hyperloop Teleport Blöcke benötigt 120 Erfahrungspunkte.\n"..
+  "\n",
+  "Der TA5 Container erlaubt Techage Anlagen ein- und an einer anderen Stelle wieder auszupacken.\n"..
+  "\n"..
+  "Für die Nutzung des TA5 Containers werden 80 Erfahrungspunkte benötigt.\n"..
+  "\n",
+  "Teleport Tubes erlauben den Item-Transport ohne Tubes bis zu einer Entfernung von 200 Blöcken.\n"..
+  "\n"..
+  "Die Teleport-Tubes benötigen jeweils 5 ku Strom.\n"..
+  "\n"..
+  "Für die Nutzung der TA5 Teleport Tubes werden 60 Erfahrungspunkte benötigt.\n"..
+  "\n",
+  "Teleport Pipes erlauben den Flüssigkeiten-Transport ohne Pipes bis zu einer Entfernung von 200 Blöcken.\n"..
+  "\n"..
+  "Die Teleport-Pipes benötigen jeweils 5 ku Strom.\n"..
+  "\n"..
+  "Für die Nutzung der TA5 Teleport Pipes werden 60 Erfahrungspunkte benötigt.\n"..
+  "\n",
+  "",
+  "Der TA5 KI Chip wird teilweise zur Herstellung von TA5 Blöcken benötigt. Der TA5 KI Chip kann nur auf der TA4 Elektronik Fab hergestellt werden. Dazu werden 10 Erfahrungspunkte benötigt.\n"..
+  "\n"..
+  "\n"..
+  "\n",
 }
 
 techage.manual_DE.aItemName = {
@@ -2182,6 +2266,22 @@ techage.manual_DE.aItemName = {
   "ta4_electronicfab",
   "ta4_injector",
   "ta4_recycler",
+  "techage_ta5",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "ta5_flycontroller",
+  "ta4_chest",
+  "ta4_tank",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "ta5_aichip",
 }
 
 techage.manual_DE.aPlanTable = {
@@ -2389,6 +2489,22 @@ techage.manual_DE.aPlanTable = {
   "ta4_liquid_filter_top",
   "techage_collider_plan",
   "ta4_cooler",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
+  "",
   "",
   "",
   "",

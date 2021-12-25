@@ -32,21 +32,19 @@ local RecipeType = {
 
 local function formspec(self, pos, nvm)
 	local rtype = RecipeType[CRD(pos).stage]
+	local owner = M(pos):get_string("owner")
 	return "size[8.4,8.4]"..
-	default.gui_bg..
-	default.gui_bg_img..
-	default.gui_slots..
-	"list[context;src;0,0;2,4;]"..
-	recipes.formspec(2.2, 0, rtype, nvm)..
-	"list[context;dst;6.4,0;2,4;]"..
-	"image_button[3.7,3.3;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
-	"tooltip[3.7,3.3;1,1;"..self:get_state_tooltip(nvm).."]"..
-	"list[current_player;main;0.2,4.5;8,4;]"..
-	"listring[context;dst]"..
-	"listring[current_player;main]"..
-	"listring[context;src]"..
-	"listring[current_player;main]"..
-	default.get_hotbar_bg(0.2, 4.5)
+		"list[context;src;0,0;2,4;]"..
+		recipes.formspec(2.2, 0, rtype, nvm, owner)..
+		"list[context;dst;6.4,0;2,4;]"..
+		"image_button[3.7,3.3;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
+		"tooltip[3.7,3.3;1,1;"..self:get_state_tooltip(nvm).."]"..
+		"list[current_player;main;0.2,4.5;8,4;]"..
+		"listring[context;dst]"..
+		"listring[current_player;main]"..
+		"listring[context;src]"..
+		"listring[current_player;main]"..
+		default.get_hotbar_bg(0.2, 4.5)
 end
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)

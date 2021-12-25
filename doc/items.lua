@@ -202,6 +202,9 @@ techage.Items = {
 	ta4_terminal = "techage:terminal3",
 	ta4_autocrafter = "techage:ta4_autocrafter_pas",
 	ta4_recipeblock = "techage:ta4_recipeblock",
+	----------------------------
+	ta5_flycontroller = "techage:ta5_flycontroller",
+        ta5_aichip = "techage:ta5_aichip",
 }
 
 function techage.add_manual_items(table_with_items)

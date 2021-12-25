@@ -78,3 +78,9 @@ techage.recipes.add("ta4_electronic_fab", {
 	output = "techage:ta4_leds 8",
 	input = {"basic_materials:plastic_sheet 4", "basic_materials:copper_wire 1", "techage:ta4_silicon_wafer 1"}
 })
+
+techage.recipes.add("ta4_electronic_fab", {
+	output = "techage:ta5_aichip 2",
+	input = {"techage:ta4_leds 8", "basic_materials:copper_wire 1", "basic_materials:gold_wire 1", "techage:ta4_silicon_wafer 1"},
+	ex_points = 10,
+})
