@@ -246,38 +246,36 @@ minetest.register_craft({
 	},
 })
 
-if minetest.global_exists("unified_inventory") then
-	unified_inventory.register_craft_type("ta2_gravelsieve", {
-		description = S("TA2 Gravel Sieve"),
-		icon = 'techage_sieve_sieve_ta1.png',
-		width = 1,
-		height = 1,
-	})
-	unified_inventory.register_craft_type("ta3_gravelsieve", {
-		description = S("TA3 Gravel Sieve"),
-		icon = 'techage_filling_ta3.png^techage_appl_sieve.png^techage_frame_ta3.png',
-		width = 1,
-		height = 1,
-	})
-	unified_inventory.register_craft_type("ta4_gravelsieve", {
-		description = S("TA4 Gravel Sieve"),
-		icon = 'techage_filling_ta4.png^techage_appl_sieve.png^techage_frame_ta4.png',
-		width = 1,
-		height = 1,
-	})
-	unified_inventory.register_craft({
-		output = "techage:sieved_basalt_gravel", 
-		items = {"techage:basalt_gravel"},
-		type = "ta2_gravelsieve",
-	})
-	unified_inventory.register_craft({
-		output = "techage:sieved_basalt_gravel", 
-		items = {"techage:basalt_gravel"},
-		type = "ta3_gravelsieve",
-	})
-	unified_inventory.register_craft({
-		output = "techage:sieved_basalt_gravel", 
-		items = {"techage:basalt_gravel"},
-		type = "ta4_gravelsieve",
-	})
-end
+techage.recipes.register_craft_type("ta2_gravelsieve", {
+	description = S("TA2 Gravel Sieve"),
+	icon = 'techage_sieve_sieve_ta1.png',
+	width = 1,
+	height = 1,
+})
+techage.recipes.register_craft_type("ta3_gravelsieve", {
+	description = S("TA3 Gravel Sieve"),
+	icon = 'techage_filling_ta3.png^techage_appl_sieve.png^techage_frame_ta3.png',
+	width = 1,
+	height = 1,
+})
+techage.recipes.register_craft_type("ta4_gravelsieve", {
+	description = S("TA4 Gravel Sieve"),
+	icon = 'techage_filling_ta4.png^techage_appl_sieve.png^techage_frame_ta4.png',
+	width = 1,
+	height = 1,
+})
+techage.recipes.register_craft({
+	output = "techage:sieved_basalt_gravel", 
+	items = {"techage:basalt_gravel"},
+	type = "ta2_gravelsieve",
+})
+techage.recipes.register_craft({
+	output = "techage:sieved_basalt_gravel", 
+	items = {"techage:basalt_gravel"},
+	type = "ta3_gravelsieve",
+})
+techage.recipes.register_craft({
+	output = "techage:sieved_basalt_gravel", 
+	items = {"techage:basalt_gravel"},
+	type = "ta4_gravelsieve",
+})

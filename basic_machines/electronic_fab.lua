@@ -259,24 +259,22 @@ minetest.register_craft({
 	},
 })
 
-if minetest.global_exists("unified_inventory") then
-	unified_inventory.register_craft_type("ta2_electronic_fab", {
-		description = S("TA2 Ele Fab"),
-		icon = 'techage_filling_ta2.png^techage_appl_electronic_fab.png^techage_frame_ta2.png',
-		width = 2,
-		height = 2,
-	})
-	unified_inventory.register_craft_type("ta3_electronic_fab", {
-		description = S("TA3 Ele Fab"),
-		icon = 'techage_filling_ta3.png^techage_appl_electronic_fab.png^techage_frame_ta3.png',
-		width = 2,
-		height = 2,
-	})
-	unified_inventory.register_craft_type("ta4_electronic_fab", {
-		description = S("TA4 Ele Fab"),
-		icon = 'techage_filling_ta4.png^techage_appl_electronic_fab.png^techage_frame_ta4.png',
-		width = 2,
-		height = 2,
-	})
-end
+techage.recipes.register_craft_type("ta2_electronic_fab", {
+	description = S("TA2 Ele Fab"),
+	icon = 'techage_filling_ta2.png^techage_appl_electronic_fab.png^techage_frame_ta2.png',
+	width = 2,
+	height = 2,
+})
+techage.recipes.register_craft_type("ta3_electronic_fab", {
+	description = S("TA3 Ele Fab"),
+	icon = 'techage_filling_ta3.png^techage_appl_electronic_fab.png^techage_frame_ta3.png',
+	width = 2,
+	height = 2,
+})
+techage.recipes.register_craft_type("ta4_electronic_fab", {
+	description = S("TA4 Ele Fab"),
+	icon = 'techage_filling_ta4.png^techage_appl_electronic_fab.png^techage_frame_ta4.png',
+	width = 2,
+	height = 2,
+})
 

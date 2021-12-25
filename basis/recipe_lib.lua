@@ -113,13 +113,11 @@ function techage.recipes.add(rtype, recipe)
 	Recipes[rtype][#Recipes[rtype]+1] = item
 	output = name
 
-	if minetest.global_exists("unified_inventory") then
-		unified_inventory.register_craft({
-			output = recipe.output, 
-			items = recipe.input,
-			type = rtype,
-		})
-	end
+	techage.recipes.register_craft({
+		output = recipe.output, 
+		items = recipe.input,
+		type = rtype,
+	})
 	NormalizedRecipes[output] = {
 			output = recipe.output, 
 			items = recipe.input,

@@ -317,22 +317,18 @@ minetest.register_craft({
 })
 
 
-if minetest.global_exists("unified_inventory") then
-	unified_inventory.register_craft_type("rinsing", {
-		description = S("Rinsing"),
-		icon = "techage_appl_rinser_top.png^techage_frame_ta2_top.png",
-		width = 2,
-		height = 2,
-	})
-end
+techage.recipes.register_craft_type("rinsing", {
+	description = S("Rinsing"),
+	icon = "techage_appl_rinser_top.png^techage_frame_ta2_top.png",
+	width = 2,
+	height = 2,
+})
 
 function techage.add_rinser_recipe(recipe)
 	Probability[recipe.output] = recipe.probability
-	if minetest.global_exists("unified_inventory") then
-		recipe.items = {recipe.input}
-		recipe.type = "rinsing"
-		unified_inventory.register_craft(recipe)
-	end
+	recipe.items = {recipe.input}
+	recipe.type = "rinsing"
+	techage.recipes.register_craft(recipe)
 end	
 
 techage.add_rinser_recipe({input="techage:sieved_gravel", output="techage:usmium_nuggets", probability=30})

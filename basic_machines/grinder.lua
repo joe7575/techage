@@ -351,20 +351,18 @@ minetest.register_craft({
 	},
 })
 
-if minetest.global_exists("unified_inventory") then
-	unified_inventory.register_craft_type("grinding", {
-		description = S("Grinding"),
-		icon = 'techage_appl_grinder.png',
-		width = 2,
-		height = 2,
-	})
-	unified_inventory.register_craft_type("milling", {
-		description = S("Milling"),
-		icon = 'techage_mill_inv.png',
-		width = 2,
-		height = 2,
-	})
-end
+techage.recipes.register_craft_type("grinding", {
+	description = S("Grinding"),
+	icon = 'techage_appl_grinder.png',
+	width = 2,
+	height = 2,
+})
+techage.recipes.register_craft_type("milling", {
+	description = S("Milling"),
+	icon = 'techage_mill_inv.png',
+	width = 2,
+	height = 2,
+})
 
 function techage.add_grinder_recipe(recipe, ta1_permitted)
 	local name, num = unpack(string.split(recipe.input, " ", false, 1))
@@ -372,20 +370,16 @@ function techage.add_grinder_recipe(recipe, ta1_permitted)
 		if ta1_permitted then
 			RecipesTa1[name] = {input = name,inp_num = tonumber(num) or 1, output = recipe.output}
 			
-			if minetest.global_exists("unified_inventory") then
-				recipe.items = {recipe.input}
-				recipe.type = "milling"
-				unified_inventory.register_craft(table.copy(recipe))
-			end
+			recipe.items = {recipe.input}
+			recipe.type = "milling"
+			techage.recipes.register_craft(table.copy(recipe))
 		end
 		
 		Recipes[name] = {input = name,inp_num = tonumber(num) or 1, output = recipe.output}
 		
-		if minetest.global_exists("unified_inventory") then
-			recipe.items = {recipe.input}
-			recipe.type = "grinding"
-			unified_inventory.register_craft(recipe)
-		end
+		recipe.items = {recipe.input}
+		recipe.type = "grinding"
+		techage.recipes.register_craft(recipe)
 	end
 end	
 

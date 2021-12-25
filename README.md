@@ -80,6 +80,11 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2021-12-25  V1.05**
+- Support for the mod i3 added (thanks to ghaydn)
+- TA5 enabled
+- Many improvements
+
 **2021-12-12  V1.04**
 - TA4 Collider added (experimental)
 - move, turn, sound, and fly blocks added

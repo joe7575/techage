@@ -475,25 +475,23 @@ minetest.register_craft({
 	},
 })
 
-if minetest.global_exists("unified_inventory") then
-	unified_inventory.register_craft_type("melting", {
-		description = S("TA1 Melting"),
-		icon = "default_cobble.png^techage_meltingpot.png",
-		width = 2,
-		height = 2,
-	})
-	unified_inventory.register_craft_type("burning", {
-		description = S("TA1 Burning"),
-		icon = "techage_smoke.png",
-		width = 1,
-		height = 1,
-	})
-	unified_inventory.register_craft({
-		output = "techage:charcoal",
-		items = {"group:wood"},
-		type = "burning",
-	})
-end
+techage.recipes.register_craft_type("melting", {
+	description = S("TA1 Melting"),
+	icon = "default_cobble.png^techage_meltingpot.png",
+	width = 2,
+	height = 2,
+})
+techage.recipes.register_craft_type("burning", {
+	description = S("TA1 Burning"),
+	icon = "techage_smoke.png",
+	width = 1,
+	height = 1,
+})
+techage.recipes.register_craft({
+	output = "techage:charcoal",
+	items = {"group:wood"},
+	type = "burning",
+})
 
 function techage.ironage_register_recipe(recipe)
 	local key = recipe_key(recipe.recipe)
@@ -509,10 +507,8 @@ function techage.ironage_register_recipe(recipe)
 	}
 	NumRecipes = NumRecipes + 1
 
-	if minetest.global_exists("unified_inventory") then
-		recipe.items = recipe.recipe
-		recipe.type = "melting"
-		unified_inventory.register_craft(recipe)
-	end
+	recipe.items = recipe.recipe
+	recipe.type = "melting"
+	techage.recipes.register_craft(recipe)
 end
 

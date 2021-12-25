@@ -362,14 +362,12 @@ techage.register_node({"techage:ta4_doser", "techage:ta4_doser_on"}, {
 	end,
 })
 
-if minetest.global_exists("unified_inventory") then
-	unified_inventory.register_craft_type("ta4_doser", {
-		description = S("TA4 Reactor"),
-		icon = 'techage_reactor_filler_plan.png',
-		width = 2,
-		height = 2,
-	})
-end
+techage.recipes.register_craft_type("ta4_doser", {
+	description = S("TA4 Reactor"),
+	icon = 'techage_reactor_filler_plan.png',
+	width = 2,
+	height = 2,
+})
 
 minetest.register_craft({
 	output = "techage:ta4_doser",
