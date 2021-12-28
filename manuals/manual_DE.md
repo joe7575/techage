@@ -11,10 +11,10 @@ Baue eine Dampfmaschine mit Antriebsachsen und betreibe damit deine ersten Masch
 TA3: Ölzeitalter (Oil Age)
 Suche und fördere Öl, baute Schienenwege zur Ölbeförderung. Ein Kraftwerk liefert den notwendigen Strom für deine Maschinen. Elektrisches Licht erhellt deine Industrieanlagen.
 
-TA4: Jetzt-Zeitalter (Now Age)
+TA4: Gegenwart (Present)
 Regenerative Energiequellen wie Wind, Sonne und Biokraft helfen dir, das Ölzeitalter zu verlassen. Mit modernen Technologien und intelligenten Maschinen machst du dich auf in die Zukunft.
 
-TA5: Zukunft (Future Age)
+TA5: Zukunft (Future)
 Maschinen zur Überwindung von Raum und Zeit, neue Energiequellen und andere Errungenschaften prägen dein Leben.
 
 

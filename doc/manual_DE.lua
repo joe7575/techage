@@ -139,7 +139,7 @@ techage.manual_DE.aTitel = {
   "3,TechAge Programmer",
   "3,TechAge Kelle / Trowel",
   "3,TA3 Bohrgestängezange / TA3 Drill Pipe Wrench",
-  "1,TA4: Jetzt-Zeitalter",
+  "1,TA4: Gegenwart",
   "2,Windkraftanlage",
   "3,TA4 Windkraftanlage / Wind Turbine",
   "3,TA4 Windkraftanlagengondel / Wind Turbine Nacelle",
@@ -258,10 +258,10 @@ techage.manual_DE.aText = {
   "TA3: Ölzeitalter (Oil Age)\n"..
   "Suche und fördere Öl\\, baute Schienenwege zur Ölbeförderung. Ein Kraftwerk liefert den notwendigen Strom für deine Maschinen. Elektrisches Licht erhellt deine Industrieanlagen.\n"..
   "\n"..
-  "TA4: Jetzt-Zeitalter (Now Age)\n"..
+  "TA4: Gegenwart (Present)\n"..
   "Regenerative Energiequellen wie Wind\\, Sonne und Biokraft helfen dir\\, das Ölzeitalter zu verlassen. Mit modernen Technologien und intelligenten Maschinen machst du dich auf in die Zukunft.\n"..
   "\n"..
-  "TA5: Zukunft (Future Age)\n"..
+  "TA5: Zukunft (Future)\n"..
   "Maschinen zur Überwindung von Raum und Zeit\\, neue Energiequellen und andere Errungenschaften prägen dein Leben.\n"..
   "\n"..
   "Hinweis: Mit Klicken auf die Pluszeichen kommst du in die Unterkapitel dieser Anleitung.\n"..
@@ -1478,7 +1478,8 @@ techage.manual_DE.aText = {
   "Beim Cracken werden lange Kette von Kohlenwasserstoffen unter Verwendung eines Katalysator in kurze Ketten gebrochen.\n"..
   "Als Katalysator dient Gibbsitpulver (wird nicht verbraucht). Damit kann Bitumen in Schweröl\\, Schweröl in Naphtha und Naphtha in Benzin umgewandelt werden.\n"..
   "\n"..
-  "Bei der Hydrierung werden einem Molekül Paare von Wasserstoffatomen hinzugefügt\\, um kurzkettige Kohlenwasserstoffe in lange umzuwandeln. Hier wird Eisenpulver als Katalysator benötigt (wird nicht verbraucht). Damit kann Benzin in Naphtha\\, \n"..
+  "Bei der Hydrierung werden einem Molekül Paare von Wasserstoffatomen hinzugefügt\\, um kurzkettige Kohlenwasserstoffe in lange umzuwandeln.\n"..
+  "Hier wird Eisenpulver als Katalysator benötigt (wird nicht verbraucht). Damit kann Propangas in Isobutan\\, Isobutan in Benzin\\, Benzin in Naphtha\\,\n"..
   "Naphtha in Schweröl und Schweröl in Bitumen umgewandelt werden.\n"..
   "\n"..
   "\n"..
@@ -1770,7 +1771,7 @@ techage.manual_DE.aText = {
   "\n"..
   "  - Der Detektor ist das Herz der Anlage. Hier finden die wissenschaftlichen Experimente statt. Der Detektor ist 3x3x7 Blöcke groß.\n"..
   "  - Die TA4 Collider Detector Magnete (22 Stück) müssen über jeweils 5 Blöcken der TA4 Vakuumröhre miteinander verbunden werden. Jeder Magnet benötigt zusätzlich Strom und einen Gasanschluss für die Kühlung. Das ganze bildet (wie rechts im Plan abgebildet) ein Quadrat mit einer Kantenlänge von 37 Metern.\n"..
-  "  - Zusätzlich wird eine Kühlung benötigt\\, welche zusätzlich beim Detektor aufgebaut werden muss. Für die Kühlung wird Wasserstoff benötigt.\n"..
+  "  - Zusätzlich wird eine Kühlung benötigt\\, welche zusätzlich beim Detektor aufgebaut werden muss. Für die Kühlung wird Isobutan benötigt.\n"..
   "  - Die Anlage benötigt einiges an Strom. Daher ist eine eigene Stromversorgung sinnvoll.\n"..
   "\n"..
   "Der Plan zeigt die Anlage von oben:\n"..
@@ -1811,21 +1812,22 @@ techage.manual_DE.aText = {
   "Für den Teilchenbeschleunigers wird außer den Blöcken für den Bau folgendes benötigt:\n"..
   "\n"..
   "  - Strom (145 ku)\n"..
-  "  - TA4 Tank mit mindestens 250 Einheiten Wasserstoff\n"..
+  "  - TA4 Tank mit mindestens 250 Einheiten Isobutan\n"..
   "\n"..
   "Beim Aufbau des Teilchenbeschleunigers empfiehlt sich folgende Reihenfolge:\n"..
   "\n"..
   "  - Einen Forceload Block setzen. Nur der Detektor mit der Kühlanlage muss sich im Bereich des Forceload Blockes befinden.\n"..
   "  - Den Worker-Block setzen\\, mit Items füllen und den Detektor über das Menü aufbauen\n"..
   "  - Den Ring mit Röhren und Magneten aufbauen\n"..
-  "  - Alle Magneten und den Detektor mit Stromkabel verbinden\n"..
-  "  - Alle Magneten und den Detektor mit den gelben Röhren verbinden und mit Wasserstoff füllen\n"..
+  "  - Alle Magnete und den Detektor mit Stromkabel verbinden\n"..
+  "  - Alle Magnete und den Detektor mit den gelben Röhren verbinden und das Isobutan mit einer Pumpe in das Röhrensystem pumpen.\n"..
   "  - Eine TA4 Pumpe als Vakuumpumpe auf dem Detektor installieren und einschalten (es wird kein zusätzlicher Tank benötigt). Geht die Pumpe in den \"standby\"\\, ist das Vakuum hergestellt. Dies dauert einige Sekunden\n"..
   "  - den Kühler (Wärmetauscher) aufbauen und mit dem Stromkabel verbinden\n"..
   "  - Das TA4 Terminal vor den Detektor setzen und über 'connect <nummer>'  mit dem Detektor verbinden\n"..
   "  - Die Stromversorgung einschalten/herstellen\n"..
   "  - den Kühler (Wärmetauscher) einschalten\n"..
   "  - den Detektor über 'start' am TA4 Terminal einschalten. Der Detektor geht nach einigen Prüfschritten in den Normalbetrieb oder gibt einen Fehler aus.\n"..
+  "  - Der Teilchenbeschleunigers muss im Dauerbetrieb laufen und liefert dann nach und nach Erfahrungspunkte. Für 10 Punkte muss der Teilchenbeschleuniger schon einige Stunden laufen.\n"..
   "\n"..
   "\n"..
   "\n",

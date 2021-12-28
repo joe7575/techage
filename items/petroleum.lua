@@ -8,7 +8,7 @@
 	AGPL v3
 	See LICENSE.txt for more information
 
-	TA3 Petroleum types: bitumen, fueloil, naphtha, gasoline, gas
+	TA3 Petroleum types: bitumen, fueloil, naphtha, gasoline, isobutane, gas (propan)
 	
 ]]--
 
@@ -39,6 +39,12 @@ minetest.register_craftitem("techage:gasoline", {
 	groups = {ta_liquid = 1},
 })
 
+minetest.register_craftitem("techage:isobutane", {
+	description = S("TA4 Isobutane"),
+	inventory_image = "techage_isobutane_inv.png",
+	groups = {ta_liquid = 1},
+})
+
 minetest.register_craftitem("techage:gas", {
 	description = S("TA3 Propane"),
 	inventory_image = "techage_gas_inv.png",
@@ -54,6 +60,18 @@ minetest.register_craftitem("techage:ta3_cylinder_small_gas", {
 minetest.register_craftitem("techage:ta3_cylinder_large_gas", {
 	description = S("Propane Cylinder Large"),
 	inventory_image = "techage_gas_cylinder_large.png^[colorize:#e51818:120",
+	stack_max = 1,
+})
+
+minetest.register_craftitem("techage:ta4_cylinder_small_isobutane", {
+	description = S("Isobutane Cylinder Small"),
+	inventory_image = "techage_gas_cylinder_small.png^[colorize:#18d618:120",
+	stack_max = 1,
+})
+
+minetest.register_craftitem("techage:ta4_cylinder_large_isobutane", {
+	description = S("Isobutane Cylinder Large"),
+	inventory_image = "techage_gas_cylinder_large.png^[colorize:#18d618:120",
 	stack_max = 1,
 })
 
@@ -115,6 +133,12 @@ minetest.register_craft({
 
 minetest.register_craft({
 	type = "fuel",
+	recipe = "techage:isobutane",
+	burntime = 40,
+})
+
+minetest.register_craft({
+	type = "fuel",
 	recipe = "techage:gasoline",
 	burntime = 50,
 })
@@ -138,6 +162,7 @@ techage.register_liquid("techage:ta3_barrel_fueloil", "techage:ta3_barrel_empty"
 techage.register_liquid("techage:ta3_barrel_naphtha", "techage:ta3_barrel_empty", 10, "techage:naphtha")
 techage.register_liquid("techage:ta3_barrel_gasoline", "techage:ta3_barrel_empty", 10, "techage:gasoline")
 techage.register_liquid("techage:ta3_cylinder_large_gas", "techage:ta3_cylinder_large", 6, "techage:gas")
+techage.register_liquid("techage:ta3_cylinder_large_isobutane", "techage:ta3_cylinder_large", 6, "techage:isobutane")
 
 techage.register_liquid("techage:ta3_canister_oil", "techage:ta3_canister_empty", 1, "techage:oil_source")
 techage.register_liquid("techage:ta3_canister_bitumen", "techage:ta3_canister_empty", 1, "techage:bitumen")
@@ -145,4 +170,5 @@ techage.register_liquid("techage:ta3_canister_fueloil", "techage:ta3_canister_em
 techage.register_liquid("techage:ta3_canister_naphtha", "techage:ta3_canister_empty", 1, "techage:naphtha")
 techage.register_liquid("techage:ta3_canister_gasoline", "techage:ta3_canister_empty", 1, "techage:gasoline")
 techage.register_liquid("techage:ta3_cylinder_small_gas", "techage:ta3_cylinder_small", 1, "techage:gas")
+techage.register_liquid("techage:ta3_cylinder_small_isobutane", "techage:ta3_cylinder_small", 1, "techage:isobutane")
 

@@ -15,7 +15,8 @@
 	In hydrogenation, pairs of hydrogen atoms are added to a molecule to convert short-chain 
 	hydrocarbons into long ones. 
 	Here iron powder is required as a catalyst (is not consumed). 
-	It can be used to convert gasoline into naphtha, naphtha into fueloil, and fueloil into bitumen.
+	It can be used to convert gas (propan) into isobutane, isobutane into gasoline, gasoline into naphtha, 
+	naphtha into fueloil, and fueloil into bitumen.
 
 ]]--
 
@@ -46,9 +47,27 @@ techage.recipes.add("ta4_doser", {
 
 -- Hydrogenate
 techage.recipes.add("ta4_doser", {
-	output = "techage:bitumen 1",
+	output = "techage:isobutane 1",
 	input = {
-		"techage:fueloil 1",
+		"techage:gas 1",
+		"techage:hydrogen 1",
+	},
+	catalyst = "techage:iron_powder",
+})
+
+techage.recipes.add("ta4_doser", {
+	output = "techage:gasoline 1",
+	input = {
+		"techage:isobutane 1",
+		"techage:hydrogen 1",
+	},
+	catalyst = "techage:iron_powder",
+})
+
+techage.recipes.add("ta4_doser", {
+	output = "techage:naphtha 1",
+	input = {
+		"techage:gasoline 1",
 		"techage:hydrogen 1",
 	},
 	catalyst = "techage:iron_powder",
@@ -64,9 +83,9 @@ techage.recipes.add("ta4_doser", {
 })
 
 techage.recipes.add("ta4_doser", {
-	output = "techage:naphtha 1",
+	output = "techage:bitumen 1",
 	input = {
-		"techage:gasoline 1",
+		"techage:fueloil 1",
 		"techage:hydrogen 1",
 	},
 	catalyst = "techage:iron_powder",

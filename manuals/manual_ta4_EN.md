@@ -1,4 +1,4 @@
-# TA4: Now Age
+# TA4: Present
 
 Renewable energy sources such as wind, sun and biofuels help you to leave the oil age. With modern technologies and intelligent machines you set out into the future.
 
@@ -287,9 +287,9 @@ Note 2: Tanks or silos with different contents must not be connected to a pipe s
 Cracking breaks long chains of hydrocarbons into short chains using a catalyst.
 Gibbsite powder serves as a catalyst (is not consumed). It can be used to convert bitumen into fueloil, fueloil into naphtha and naphtha into gasoline.
 
-In hydrogenation, pairs of hydrogen atoms are added to a molecule to convert short-chain hydrocarbons into long ones. 
-Here iron powder is required as a catalyst (is not consumed). It can be used to convert gasoline into naphtha,
-naphtha into fueloil, and fueloil into bitumen.
+In hydrogenation, pairs of hydrogen atoms are added to a molecule to convert short-chain hydrocarbons into long ones.
+Here iron powder is required as a catalyst (is not consumed). It can be used to convert gas (propane) into isobutane,
+isobutane into gasoline, gasoline into naphtha, naphtha into fueloil, and fueloil into bitumen.
 
 
 [ta4_reactor|plan]
@@ -684,7 +684,7 @@ A collider consists of a "ring" made of tubes and magnets as well as a detector 
 
 - The detector is the heart of the system. This is where the scientific experiments take place. The detector is 3x3x7 blocks in size.
 - The TA4 Collider Detector magnets (22 pieces) must be connected to each other via 5 blocks of the TA4 vacuum tube. Each magnet also requires electricity and a gas connection for cooling. The whole thing forms (as shown in the plan on the right) a square with an edge length of 37 meters.
-- In addition, cooling is required, which must also be installed at the detector. Hydrogen is required for cooling.
+- In addition, cooling is required, which must also be installed at the detector. Isobutane is required for cooling.
 - The system requires quite a bit of electricity. Therefore, it makes sense to have your own power supply.
 
 The plan shows the facility from above:
@@ -733,7 +733,7 @@ If an error occurs on a magnet during the `start`, the number of the magnet is o
 In addition to the building blocks, the following is required for the collider:
 
 - electricity (145 ku)
-- TA4 tank with at least 250 units of hydrogen
+- TA4 tank with at least 250 units of isobutane
 
 The following sequence is recommended when setting up the collider:
 
@@ -741,13 +741,14 @@ The following sequence is recommended when setting up the collider:
 - Set the worker block, fill it with items and set up the detector via the menu
 - Build the ring with tubes and magnets
 - Connect all magnets and the detector with power cables
-- Connect all magnets and the detector to the yellow tubes and fill with hydrogen
+- Connect all magnets and the detector with the yellow tubes and pump the isobutane into the tube system with a pump
 - Install a TA4 pump as a vacuum pump on the detector and switch it on (no additional tank is required). If the pump goes into "standby", the vacuum is established. This will take a few seconds
 - assemble the cooler (heat exchanger) and connect it to the power cable
 - Place the TA4 terminal in front of the detector and connect it to the detector via `connect <number>`
 - Switch on / connect the power supply
 - switch on the cooler (heat exchanger)
 - Switch on the detector via `start` on the TA4 terminal. After a few test steps, the detector goes into normal operation or outputs an error.
+- The collider has to run continuously and then gradually delivers experience points. For 10 points, the collider has to run for a few hours
 
 [techage_ta4c|image]
 

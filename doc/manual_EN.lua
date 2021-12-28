@@ -139,7 +139,7 @@ techage.manual_EN.aTitel = {
   "3,TechAge Programmer",
   "3,TechAge Trowel / Trowel",
   "3,TA3 drill pipe wrench",
-  "1,TA4: Now Age",
+  "1,TA4: Present",
   "2,Wind Turbine",
   "3,TA4 Wind Turbine",
   "3,TA4 Wind Turbine Nacelle",
@@ -257,10 +257,10 @@ techage.manual_EN.aText = {
   "TA3: Oil Age\n"..
   "Find and extract oil\\, built railways for oil transportation. A power plant provides the necessary electricity for your machines. Electric light illuminates your industrial plants.\n"..
   "\n"..
-  "TA4: Now Age\n"..
+  "TA4: Present\n"..
   "Renewable energy sources such as wind\\, sun and biofuels help you to leave the oil age. With modern technologies and intelligent machines you set out into the future.\n"..
   "\n"..
-  "TA5: Future Age\n"..
+  "TA5: Future\n"..
   "Machines to overcome space and time\\, new sources of energy and other achievements shape your life.\n"..
   "\n"..
   "Note: With a click on the plus sign you get into the subchapters of this manual.\n"..
@@ -1475,9 +1475,9 @@ techage.manual_EN.aText = {
   "Cracking breaks long chains of hydrocarbons into short chains using a catalyst.\n"..
   "Gibbsite powder serves as a catalyst (is not consumed). It can be used to convert bitumen into fueloil\\, fueloil into naphtha and naphtha into gasoline.\n"..
   "\n"..
-  "In hydrogenation\\, pairs of hydrogen atoms are added to a molecule to convert short-chain hydrocarbons into long ones. \n"..
-  "Here iron powder is required as a catalyst (is not consumed). It can be used to convert gasoline into naphtha\\,\n"..
-  "naphtha into fueloil\\, and fueloil into bitumen.\n"..
+  "In hydrogenation\\, pairs of hydrogen atoms are added to a molecule to convert short-chain hydrocarbons into long ones.\n"..
+  "Here iron powder is required as a catalyst (is not consumed). It can be used to convert gas (propane) into isobutane\\,\n"..
+  "isobutane into gasoline\\, gasoline into naphtha\\, naphtha into fueloil\\, and fueloil into bitumen.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1767,7 +1767,7 @@ techage.manual_EN.aText = {
   "\n"..
   "  - The detector is the heart of the system. This is where the scientific experiments take place. The detector is 3x3x7 blocks in size.\n"..
   "  - The TA4 Collider Detector magnets (22 pieces) must be connected to each other via 5 blocks of the TA4 vacuum tube. Each magnet also requires electricity and a gas connection for cooling. The whole thing forms (as shown in the plan on the right) a square with an edge length of 37 meters.\n"..
-  "  - In addition\\, cooling is required\\, which must also be installed at the detector. Hydrogen is required for cooling.\n"..
+  "  - In addition\\, cooling is required\\, which must also be installed at the detector. Isobutane is required for cooling.\n"..
   "  - The system requires quite a bit of electricity. Therefore\\, it makes sense to have your own power supply.\n"..
   "\n"..
   "The plan shows the facility from above:\n"..
@@ -1808,7 +1808,7 @@ techage.manual_EN.aText = {
   "In addition to the building blocks\\, the following is required for the collider:\n"..
   "\n"..
   "  - electricity (145 ku)\n"..
-  "  - TA4 tank with at least 250 units of hydrogen\n"..
+  "  - TA4 tank with at least 250 units of isobutane\n"..
   "\n"..
   "The following sequence is recommended when setting up the collider:\n"..
   "\n"..
@@ -1816,13 +1816,14 @@ techage.manual_EN.aText = {
   "  - Set the worker block\\, fill it with items and set up the detector via the menu\n"..
   "  - Build the ring with tubes and magnets\n"..
   "  - Connect all magnets and the detector with power cables\n"..
-  "  - Connect all magnets and the detector to the yellow tubes and fill with hydrogen\n"..
+  "  - Connect all magnets and the detector with the yellow tubes and pump the isobutane into the tube system with a pump\n"..
   "  - Install a TA4 pump as a vacuum pump on the detector and switch it on (no additional tank is required). If the pump goes into \"standby\"\\, the vacuum is established. This will take a few seconds\n"..
   "  - assemble the cooler (heat exchanger) and connect it to the power cable\n"..
   "  - Place the TA4 terminal in front of the detector and connect it to the detector via 'connect <number>'\n"..
   "  - Switch on / connect the power supply\n"..
   "  - switch on the cooler (heat exchanger)\n"..
   "  - Switch on the detector via 'start' on the TA4 terminal. After a few test steps\\, the detector goes into normal operation or outputs an error.\n"..
+  "  - The collider has to run continuously and then gradually delivers experience points. For 10 points\\, the collider has to run for a few hours\n"..
   "\n"..
   "\n"..
   "\n",

@@ -138,7 +138,7 @@
         - [TechAge Programmer](./manual_ta3_DE.md#techage-programmer)
         - [TechAge Kelle / Trowel](./manual_ta3_DE.md#techage-kelle--trowel)
         - [TA3 Bohrgestängezange / TA3 Drill Pipe Wrench](./manual_ta3_DE.md#ta3-bohrgestängezange--ta3-drill-pipe-wrench)
-- [TA4: Jetzt-Zeitalter](./manual_ta4_DE.md#ta4:-jetzt-zeitalter)
+- [TA4: Gegenwart](./manual_ta4_DE.md#ta4:-gegenwart)
     - [Windkraftanlage](./manual_ta4_DE.md#windkraftanlage)
         - [TA4 Windkraftanlage / Wind Turbine](./manual_ta4_DE.md#ta4-windkraftanlage--wind-turbine)
         - [TA4 Windkraftanlagengondel / Wind Turbine Nacelle](./manual_ta4_DE.md#ta4-windkraftanlagengondel--wind-turbine-nacelle)

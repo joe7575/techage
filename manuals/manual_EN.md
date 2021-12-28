@@ -11,10 +11,10 @@ Build a steam engine with drive axles and use it to operate your first ore proce
 TA3: Oil Age
 Find and extract oil, built railways for oil transportation. A power plant provides the necessary electricity for your machines. Electric light illuminates your industrial plants.
 
-TA4: Now Age
+TA4: Present
 Renewable energy sources such as wind, sun and biofuels help you to leave the oil age. With modern technologies and intelligent machines you set out into the future.
 
-TA5: Future Age
+TA5: Future
 Machines to overcome space and time, new sources of energy and other achievements shape your life.
 
 

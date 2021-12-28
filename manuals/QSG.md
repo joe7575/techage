@@ -8,8 +8,8 @@ Techage represents five technological ages:
 - Iron Age (TA1) - Simple tools like coal pile, coal burner, gravel sieve, hammer for getting ores and making goods
 - Steam Age (TA2) - Simple machines that are powered by steam engines and drive axles
 - Oil Age (TA3) - More modern machines that are powered by electricity
-- Now Age (TA4) - Electricity from renewable energy sources such as sun and wind
-- Future Age (TA5)
+- Present (TA4) - Electricity from renewable energy sources such as sun and wind
+- Future (TA5) - Machines to overcome space and time, new sources of energy and other achievements shape your life
 
 Since the levels build on each other, all ages have to be run through one after the other.
 
@@ -62,7 +62,7 @@ Since the levels build on each other, all ages have to be run through one after 
 
 
 
-## Now Age (TA4)
+## Present (TA4)
 
 1. Build solar and wind plants to get renewable energy
 2. Build a Thermal Energy Storage to store the energy
@@ -71,6 +71,11 @@ Since the levels build on each other, all ages have to be run through one after 
 5. Use the Signs Bot for further automation tasks
 6. Use Controller, Displays and further logic to fully automate all machines...
 
+
+
+## Future (TA5)
+
+tbd.
 
 
 ## Power Consumption

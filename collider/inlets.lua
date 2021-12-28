@@ -185,7 +185,7 @@ techage.register_node({"techage:ta4_collider_pipe_inlet"}, {
 -- Used by the detector to check for gas pressure
 function techage.gas_inlet_check(pos, node, meta, nvm) 
 	nvm.liquid = nvm.liquid or {}
-	if nvm.liquid.amount == GAS_CAPA and nvm.liquid.name == "techage:hydrogen" then
+	if nvm.liquid.amount == GAS_CAPA and nvm.liquid.name == "techage:isobutane" then
 		return true
 	end
 	return false, "no gas"

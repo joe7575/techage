@@ -121,7 +121,7 @@ minetest.register_node("techage:ta4_magnet", {
 			nvm.tube_damage = nil
 			return -1
 		elseif nvm.liquid.amount == CAPACITY and 
-				nvm.liquid.name == "techage:hydrogen" and 
+				nvm.liquid.name == "techage:isobutane" and 
 				nvm.consumed == PWR_NEEDED then
 			return 0
 		end
@@ -217,7 +217,7 @@ techage.register_node({"techage:ta4_magnet"}, {
 			if payload and tonumber(payload) == nvm.number then
 				if not nvm.liquid or not nvm.liquid.amount or nvm.liquid.amount < CAPACITY then
 					return false, "no gas"
-				elseif nvm.liquid.name ~= "techage:hydrogen" then
+				elseif nvm.liquid.name ~= "techage:isobutane" then
 					return false, "wrong gas"
 				elseif nvm.consumed ~= PWR_NEEDED then
 					return false, "no power"
@@ -289,4 +289,17 @@ minetest.register_craft({
 		{'techage:aluminum', 'default:steel_ingot', ''},
 		{'techage:aluminum', 'default:steel_ingot', ''},
 	},
+})
+
+minetest.register_lbm({
+	label = "Repair Magnets",
+	name = "techage:magnets",
+	nodenames = {"techage:ta4_magnet", "techage:ta4_collider_pipe_inlet"},
+	run_at_every_load = false,
+	action = function(pos, node)
+		local nvm = techage.get_nvm(pos)
+		if nvm.liquid and nvm.liquid.name == "techage:hydrogen" then
+			nvm.liquid.name = "techage:isobutane"
+		end
+	end,
 })

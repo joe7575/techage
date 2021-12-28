@@ -363,26 +363,10 @@ techage.register_node({"techage:heatexchanger2"}, {
 		else
 			stop_sound(pos)
 		end
-		-- convert to v1
-		if not nvm.capa_max then
-			local pos1 = {x = pos.x, y = pos.y - 1, z = pos.z}
-			local nvm1 = techage.get_nvm(pos1)
-			nvm.capa_max = nvm1.capa_max or 1
-			nvm.capa = nvm1.capa or 0
-			
-			local own_num = techage.add_node(pos, "techage:heatexchanger2")
-			State:node_init(pos, nvm, own_num)
-			if nvm1.running then
-				State:start(pos, nvm)
-			end
-			M(pos):set_string("owner", M(pos1):get_string("owner"))
-			M(pos):set_string("infotext", S("TA4 Heat Exchanger")..": "..own_num)
-			
-			M(pos1):set_string("node_number", "")
-			M(pos1):set_string("infotext", "")
-			techage.del_mem(pos1)
-			Cable:after_place_node(pos)
-			Cable:after_place_node(pos1)
+		-- Attempt to restart the system as the heat exchanger goes into error state
+		-- when parts of the storage block are unloaded.
+		if nvm.techage_state == techage.FAULT then
+			start_node(pos, nvm)
 		end
 	end,
 })

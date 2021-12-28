@@ -1,4 +1,4 @@
-# TA4: Jetzt-Zeitalter
+# TA4: Gegenwart
 
 Regenerative Energiequellen wie Wind, Sonne und Biokraft helfen dir, das Ölzeitalter zu verlassen. Mit modernen Technologien und intelligenten Maschinen machst du dich auf in die Zukunft.
 
@@ -294,7 +294,8 @@ Hinweis 2: Tanks oder Silos mit verschiedenen Inhalten dürfen nicht zu einem Le
 Beim Cracken werden lange Kette von Kohlenwasserstoffen unter Verwendung eines Katalysator in kurze Ketten gebrochen.
 Als Katalysator dient Gibbsitpulver (wird nicht verbraucht). Damit kann Bitumen in Schweröl, Schweröl in Naphtha und Naphtha in Benzin umgewandelt werden.
 
-Bei der Hydrierung werden einem Molekül Paare von Wasserstoffatomen hinzugefügt, um kurzkettige Kohlenwasserstoffe in lange umzuwandeln. Hier wird Eisenpulver als Katalysator benötigt (wird nicht verbraucht). Damit kann Benzin in Naphtha, 
+Bei der Hydrierung werden einem Molekül Paare von Wasserstoffatomen hinzugefügt, um kurzkettige Kohlenwasserstoffe in lange umzuwandeln.
+Hier wird Eisenpulver als Katalysator benötigt (wird nicht verbraucht). Damit kann Propangas in Isobutan, Isobutan in Benzin, Benzin in Naphtha,
 Naphtha in Schweröl und Schweröl in Bitumen umgewandelt werden.
 
 [ta4_reactor|plan]
@@ -691,7 +692,7 @@ Ein Teilchenbeschleuniger besteht aus einem "Ring" aus Röhren und Magneten sowi
 
 - Der Detektor ist das Herz der Anlage. Hier finden die wissenschaftlichen Experimente statt. Der Detektor ist 3x3x7 Blöcke groß.
 - Die TA4 Collider Detector Magnete (22 Stück) müssen über jeweils 5 Blöcken der TA4 Vakuumröhre miteinander verbunden werden. Jeder Magnet benötigt zusätzlich Strom und einen Gasanschluss für die Kühlung. Das ganze bildet (wie rechts im Plan abgebildet) ein Quadrat mit einer Kantenlänge von 37 Metern.
-- Zusätzlich wird eine Kühlung benötigt, welche zusätzlich beim Detektor aufgebaut werden muss. Für die Kühlung wird Wasserstoff benötigt.
+- Zusätzlich wird eine Kühlung benötigt, welche zusätzlich beim Detektor aufgebaut werden muss. Für die Kühlung wird Isobutan benötigt.
 - Die Anlage benötigt einiges an Strom. Daher ist eine eigene Stromversorgung sinnvoll.
 
 Der Plan zeigt die Anlage von oben:
@@ -740,21 +741,22 @@ Tritt beim `start` an einem Magneten ein Fehler auf, so wird die Nummer des Magn
 Für den Teilchenbeschleunigers wird außer den Blöcken für den Bau folgendes benötigt:
 
 - Strom (145 ku)
-- TA4 Tank mit mindestens 250 Einheiten Wasserstoff
+- TA4 Tank mit mindestens 250 Einheiten Isobutan
 
 Beim Aufbau des Teilchenbeschleunigers empfiehlt sich folgende Reihenfolge:
 
 - Einen Forceload Block setzen. Nur der Detektor mit der Kühlanlage muss sich im Bereich des Forceload Blockes befinden. 
 - Den Worker-Block setzen, mit Items füllen und den Detektor über das Menü aufbauen
 - Den Ring mit Röhren und Magneten aufbauen
-- Alle Magneten und den Detektor mit Stromkabel verbinden
-- Alle Magneten und den Detektor mit den gelben Röhren verbinden und mit Wasserstoff füllen
+- Alle Magnete und den Detektor mit Stromkabel verbinden
+- Alle Magnete und den Detektor mit den gelben Röhren verbinden und das Isobutan mit einer Pumpe in das Röhrensystem pumpen.
 - Eine TA4 Pumpe als Vakuumpumpe auf dem Detektor installieren und einschalten (es wird kein zusätzlicher Tank benötigt). Geht die Pumpe in den "standby", ist das Vakuum hergestellt. Dies dauert einige Sekunden
 - den Kühler (Wärmetauscher) aufbauen und mit dem Stromkabel verbinden
 - Das TA4 Terminal vor den Detektor setzen und über `connect <nummer>`  mit dem Detektor verbinden
 - Die Stromversorgung einschalten/herstellen
 - den Kühler (Wärmetauscher) einschalten
 - den Detektor über `start` am TA4 Terminal einschalten. Der Detektor geht nach einigen Prüfschritten in den Normalbetrieb oder gibt einen Fehler aus.
+- Der Teilchenbeschleunigers muss im Dauerbetrieb laufen und liefert dann nach und nach Erfahrungspunkte. Für 10 Punkte muss der Teilchenbeschleuniger schon einige Stunden laufen.
 
 [techage_ta4c|image]
 
