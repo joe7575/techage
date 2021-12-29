@@ -608,12 +608,12 @@ TA4 Hydrogen=TA4 Wasserstoff
 
 ### hyperloop.lua ###
 
+Block name=Blockname
 Connected to=Verbunden mit
 Connection name for this block=Verbindungsname für diesen Block
 Connection name of the remote block=Verbindungsname des entfernten Blocks
 Connection status=Verbindungsstatus
-Own name=Eigener Name
-Provide 'own name' or select a 'remote name' (not both)=Geben Sie nur einmal einen Namen (nicht beides angeben)
+Enter a block name or select an existing one=Gebe einen Blocknamen ein oder wähle einen vorhandenen aus
 Remote name=Name entfernter Block
 
 ### hyperloop.lua ###
@@ -857,6 +857,8 @@ TA3 Power Station Oil Burner=TA3 Kraftwerks-Ölbrenner
 
 ### petroleum.lua ###
 
+Isobutane Cylinder Large=Isobutangasflasche groß
+Isobutane Cylinder Small=Isobutangasflasche klein
 Propane Cylinder Large=Propangasflasche groß
 Propane Cylinder Small=Propangasflasche klein
 TA3 Bitumen=TA3 Bitumen
@@ -872,6 +874,7 @@ TA3 Naphtha=TA3 Naphtha
 TA3 Naphtha Barrel=TA3 Naphtha-Fass
 TA3 Naphtha Canister=TA3 Naphtha-Kanister
 TA3 Propane=TA3 Propan
+TA4 Isobutane=TA4 Isobutan
 
 ### pillar.lua ###
 
@@ -1366,3 +1369,6 @@ TA4 Collider Detector Worker=TA4 Collider Detektor Worker
 
 
 ##### not used anymore #####
+
+Enter a name for the block=Gebe einen Namen für den Block an
+Enter a name for the block or choose@nan existing name (not both)=Gebe einen Namen für den Block an@noder wähle einen vorhandenen Namen aus (nicht beides)

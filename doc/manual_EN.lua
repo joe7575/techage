@@ -2000,6 +2000,8 @@ techage.manual_EN.aText = {
   "\n"..
   "A normal TA4 chest has to be placed on a Hyperloop Junction. The chest has an additional wrench menu with which you can pair two chests. Things that are in the chest are teleported to the remote station. The box can also be filled/emptied with a pusher.\n"..
   "\n"..
+  "For pairing you first have to enter a name for the chest on one side\\, then you can select this name for the other chest and thus connect the two blocks.\n"..
+  "\n"..
   "The use of the TA5 Hyperloop Transport Chest requires 20 experience points.\n"..
   "\n"..
   "\n"..
@@ -2007,6 +2009,8 @@ techage.manual_EN.aText = {
   "The TA5 Hyperloop Transport Tank allows liquids to be transported over a Hyperloop network.\n"..
   "\n"..
   "A TA4 Tank has to be placed on a Hyperloop Junction. This gives the tank an additional wrench menu that can be used to pair two tanks. Liquids in the tank will be teleported to the remote station. The tank can also be filled/emptied with a pump.\n"..
+  "\n"..
+  "For pairing you first have to enter a name for the tank on one side\\, then you can select this name for the other tank and thus connect the two blocks.\n"..
   "\n"..
   "The use of the TA5 Hyperloop Transport Tank requires 20 experience points.\n"..
   "\n"..

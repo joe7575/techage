@@ -111,14 +111,14 @@ end
 techage.hyperloop.WRENCH_MENU = {
 	{
 		type = "label",
-		label = S("Provide 'own name' or select a 'remote name' (not both)"),
+		label = S("Enter a block name or select an existing one"),
 		tooltip = "",
 		name = "l1",
 	},
 	{
 		type = "ascii",
 		name = "conn_name",
-		label = S("Own name"),
+		label = S("Block name"),
 		tooltip = S("Connection name for this block"),
 		default = "",
 	},

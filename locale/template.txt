@@ -608,12 +608,12 @@ TA4 Hydrogen=
 
 ### hyperloop.lua ###
 
+Block name=
 Connected to=
 Connection name for this block=
 Connection name of the remote block=
 Connection status=
-Own name=
-Provide 'own name' or select a 'remote name' (not both)=
+Enter a block name or select an existing one=
 Remote name=
 
 ### hyperloop.lua ###
@@ -857,6 +857,8 @@ TA3 Power Station Oil Burner=
 
 ### petroleum.lua ###
 
+Isobutane Cylinder Large=
+Isobutane Cylinder Small=
 Propane Cylinder Large=
 Propane Cylinder Small=
 TA3 Bitumen=
@@ -872,6 +874,7 @@ TA3 Naphtha=
 TA3 Naphtha Barrel=
 TA3 Naphtha Canister=
 TA3 Propane=
+TA4 Isobutane=
 
 ### pillar.lua ###
 
