@@ -351,7 +351,7 @@ local function test_magnet(pos, payload)
 	if res then
 		techage.send_single(own_num, term_num, "text", "magnet #" .. magnet_num .. ": ok")
 	else
-		techage.send_single(own_num, term_num, "text", "magnet #" .. magnet_num .. ": " .. err .. "!!!")
+		techage.send_single(own_num, term_num, "text", "magnet #" .. magnet_num .. ": " .. (err or "unknown error") .. "!!!")
 	end
 end
 

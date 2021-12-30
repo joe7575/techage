@@ -49,6 +49,7 @@ end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	techage.remove_node(pos, oldnode, oldmetadata)
+	techage.del_mem(pos)
 end
 
 local function formspec2()
@@ -199,19 +200,7 @@ local function formspec4(pos)
 	"listring[current_player;main]"
 end
 
-local function formspec4_client(pos)
-	local location = "nodemeta:" .. pos.x .. "," .. pos.y .. "," .. pos.z
-	return "size[10,9]"..
-	default.gui_bg..
-	default.gui_bg_img..
-	default.gui_slots..
-	"list[" .. location .. ";main;0,0;10,5;]"..
-	"list[current_player;main;1,5.3;8,4;]"..
-	"listring[" .. location .. ";main]"..
-	"listring[current_player;main]"
-end
-
-local function formspec4_server(pos)
+local function formspec5(pos)
 	return "size[10,9]"..
 	default.gui_bg..
 	default.gui_bg_img..
@@ -254,6 +243,10 @@ local function ta4_allow_metadata_inventory_put(pos, listname, index, stack, pla
 		return 0
 	end
 	
+	if techage.hyperloop.is_client(pos) then
+		return 0
+	end
+	
 	if listname == "main" then
 		return stack:get_count()
 	else
@@ -267,6 +260,10 @@ local function ta4_allow_metadata_inventory_take(pos, listname, index, stack, pl
 		return 0
 	end
 	
+	if techage.hyperloop.is_client(pos) then
+		return 0
+	end
+	
 	if listname == "main" then
 		return stack:get_count()
 	else
@@ -277,6 +274,10 @@ end
 local function ta4_allow_metadata_inventory_move(pos, from_list, from_index, to_list, to_index, count, player)
 	local public = M(pos):get_int("public") == 1
 	if not public and minetest.is_protected(pos, player:get_player_name()) then
+		return 0
+	end
+	
+	if techage.hyperloop.is_client(pos) then
 		return 0
 	end
 	
@@ -353,11 +354,10 @@ minetest.register_node("techage:chest_ta4", {
 	end,
 	
 	on_rightclick = function(pos, node, clicker)
-		print("on_rightclick")
 		if hyperloop.is_client(pos) then
-			M(pos):set_string("formspec", formspec4_client(remote_pos(pos)))
+			M(pos):set_string("formspec", formspec5(pos))
 		elseif hyperloop.is_server(pos) then
-			M(pos):set_string("formspec", formspec4_server(pos))
+			M(pos):set_string("formspec", formspec5(pos))
 		end	
 	end,
 	
@@ -365,6 +365,7 @@ minetest.register_node("techage:chest_ta4", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		hyperloop.after_dig_node(pos, oldnode, oldmetadata, digger)
+		techage.del_mem(pos)
 	end,
 	ta5_formspec = {menu=hyperloop.WRENCH_MENU, ex_points=EX_POINTS},
 	ta_after_formspec = hyperloop.after_formspec,

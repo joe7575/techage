@@ -262,6 +262,28 @@ function techage.repair_number(pos)
 	end
 end
 
+-- Like techage.add_node, but use the old number again
+function techage.unpack_node(pos, name, number)
+	if item_handling_node(name) then
+		Tube:after_place_node(pos)
+	end
+	local key = minetest.hash_node_position(pos)
+	NumbersToBeRecycled[key] = nil
+	if number then
+		backend.set_nodepos(number, pos)
+	end
+end
+
+-- Like techage.remove_node but don't store the number for this position
+function techage.pack_node(pos, oldnode, number)
+	if number then
+		NodeInfoCache[number] = nil
+	end
+	if oldnode and item_handling_node(oldnode.name) then
+		Tube:after_dig_node(pos)
+	end
+end
+
 
 -------------------------------------------------------------------
 -- Node register function

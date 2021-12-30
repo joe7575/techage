@@ -43,10 +43,7 @@ minetest.register_on_mods_loaded(function()
 		Stations = hyperloop.Stations
 		Tube = hyperloop.Tube
 		HYPERLOOP = true
-		Tube:add_secondary_node_names({"techage:ta4_tank", "techage:chest_ta4"})
-	else
-		techage.hyperloop.WRENCH_MENU[2] = nil
-		techage.hyperloop.WRENCH_MENU[1] = nil
+		Tube:add_secondary_node_names({"techage:ta5_hl_chest", "techage:ta5_hl_tank"})
 	end
 end)
 
@@ -72,6 +69,14 @@ local function get_free_server_list(pos, owner)
 	return tbl
 end
 
+local function on_lose_connection(pos, node_type)
+	local name = techage.get_node_lvm(pos).name
+	local ndef = minetest.registered_nodes[name]
+	if ndef and ndef.on_lose_connection then
+		ndef.on_lose_connection(pos, node_type)
+	end
+end
+
 local function on_dropdown(pos)
     local owner = M(pos):get_string("owner")
 	return table.concat(get_free_server_list(pos, owner), ",")
@@ -83,32 +88,38 @@ local function update_node_data(pos, state, conn_name, remote_name, rmt_pos)
 	
 	if state == "server_connected" then
 		Stations:update(pos, {conn_name=conn_name, single="nil"})
+		meta:set_string("status", "server")
 		meta:set_string("conn_name", conn_name)
 		meta:set_string("remote_name", "")
-		nvm.conn_status = P2S(rmt_pos)
+		meta:set_string("conn_status", S("connected with") .. " " .. P2S(rmt_pos))
 		nvm.rmt_pos = rmt_pos
 	elseif state == "client_connected" then
 		Stations:update(pos, {conn_name="nil", single="nil"})
+		meta:set_string("status", "client")
 		meta:set_string("conn_name", "")
 		meta:set_string("remote_name", remote_name)
-		nvm.conn_status = P2S(rmt_pos)
+		meta:set_string("conn_status", S("connected with") .. " " .. P2S(rmt_pos))
 		nvm.rmt_pos = rmt_pos
 	elseif state == "server_not_connected" then
 		Stations:update(pos, {conn_name=conn_name, single=true})
+		meta:set_string("status", "server")
 		meta:set_string("conn_name", conn_name)
 		meta:set_string("remote_name", "")
-		nvm.conn_status = S("not connected")
+		meta:set_string("conn_status", S("not connected"))
 		nvm.rmt_pos = nil
+		on_lose_connection(pos, "server")
 	elseif state == "client_not_connected" then
 		Stations:update(pos, {conn_name="nil", single=nil})
+		meta:set_string("status", "not connected")
 		meta:set_string("conn_name", "")
 		meta:set_string("remote_name", "")
-		nvm.conn_status = S("not connected")
+		meta:set_string("conn_status", S("not connected"))
 		nvm.rmt_pos = nil
+		on_lose_connection(pos, "client")
 	end
 end
 
-techage.hyperloop.WRENCH_MENU = {
+techage.hyperloop.SUBMENU = {
 	{
 		type = "label",
 		label = S("Enter a block name or select an existing one"),
@@ -130,20 +141,14 @@ techage.hyperloop.WRENCH_MENU = {
 		label = S("Remote name"),      
 		tooltip = S("Connection name of the remote block"),
 	},
-	{
-		type = "output",
-		name = "conn_status",
-		label = S("Connected to"),
-		tooltip = S("Connection status"),
-		default = S("not connected"),
-	},
 }
 
 function techage.hyperloop.is_client(pos)
 	if HYPERLOOP then
 		local nvm = techage.get_nvm(pos)
 		if Stations:get(nvm.rmt_pos) then
-			if M(pos):contains("remote_name") then
+			if M(pos):get_string("status") == "client" then
+				print("is_client2", true)
 				return true
 			end
 		end
@@ -152,9 +157,17 @@ end
 	
 function techage.hyperloop.is_server(pos)
 	if HYPERLOOP then
+		if M(pos):get_string("status") == "server" then
+			return true
+		end
+	end
+end
+
+function techage.hyperloop.is_paired(pos)
+	if HYPERLOOP then
 		local nvm = techage.get_nvm(pos)
 		if Stations:get(nvm.rmt_pos) then
-			if M(pos):contains("conn_name") then
+			if M(pos):get_string("status") ~= "not connected" then
 				return true
 			end
 		end
@@ -188,9 +201,9 @@ function techage.hyperloop.after_dig_node(pos, oldnode, oldmetadata, digger)
 		local loc_pos, rmt_pos = pos, techage.get_nvm(pos).rmt_pos
 		
 		-- Close connections
-		if remote_name ~= "" and rmt_pos then -- Connected client
+		if remote_name and rmt_pos then -- Connected client
 			update_node_data(rmt_pos, "server_not_connected", remote_name, "")
-		elseif conn_name ~= "" and rmt_pos then -- Connected server
+		elseif conn_name and rmt_pos then -- Connected server
 			update_node_data(rmt_pos, "client_not_connected", "", conn_name)
 		end
 		
@@ -199,34 +212,24 @@ function techage.hyperloop.after_dig_node(pos, oldnode, oldmetadata, digger)
 	end
 end
 
-function techage.hyperloop.after_formspec(pos, fields, playername)
+function techage.hyperloop.after_formspec(pos, fields)
 	if HYPERLOOP and fields.save then
 		local meta = M(pos)
 		local conn_name = meta:get_string("conn_name")
 		local remote_name = meta:get_string("remote_name")
+		local status = meta:contains("status") and meta:get_string("status") or "not connected"
 		local loc_pos, rmt_pos = pos, techage.get_nvm(pos).rmt_pos
 		
-		-- Close connections
-		if remote_name ~= "" then -- Connected client
-			update_node_data(loc_pos, "client_not_connected", "", remote_name)
-			if rmt_pos then
-				update_node_data(rmt_pos, "server_not_connected", remote_name, "")
+		if status == "not connected" then
+			if fields.remote_name ~= "" then -- Client
+				local rmt_pos = get_remote_pos(pos, fields.remote_name)
+				if rmt_pos then
+					update_node_data(loc_pos, "client_connected", "", fields.remote_name, rmt_pos)
+					update_node_data(rmt_pos, "server_connected", fields.remote_name, "", loc_pos)
+				end
+			elseif fields.conn_name ~= "" then -- Server
+				update_node_data(loc_pos, "server_not_connected", fields.conn_name, "")
 			end
-		elseif conn_name ~= "" and conn_name ~= fields.conn_name  then -- Connected server
-			update_node_data(loc_pos, "server_not_connected", conn_name, "")
-			if rmt_pos then
-				update_node_data(rmt_pos, "client_not_connected", "", conn_name)
-			end
-		end
-		
-		if fields.remote_name ~= "" then -- Client
-			local rmt_pos = get_remote_pos(pos, fields.remote_name)
-			if rmt_pos then
-				update_node_data(loc_pos, "client_connected", "", fields.remote_name, rmt_pos)
-				update_node_data(rmt_pos, "server_connected", fields.remote_name, "", loc_pos)
-			end
-		elseif fields.conn_name ~= "" then -- Server
-			update_node_data(loc_pos, "server_not_connected", fields.conn_name, "")
 		end
 	end
 end

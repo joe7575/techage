@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -13,7 +13,7 @@
 
 local S = techage.S
 
-local menu = {}
+techage.menu = {}
 
 local function index(list, x)
 	for idx, v in ipairs(list) do
@@ -93,7 +93,7 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 			elseif elem.type == "const" then
 				tbl[#tbl+1] = "label[4.75," .. offs .. ";" .. elem.value .. "]"
 			elseif elem.type == "output" then
-				local val = nvm[elem.name] or ""
+				local val = nvm[elem.name] or meta:get_string(elem.name) or ""
 				if tonumber(val) then
 					val = techage.round(val)
 				end
@@ -114,6 +114,7 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 					local choices = elem.on_dropdown(pos)
 					local l = choices:split(",")
 					local idx = index(l, val) or 1
+					print("choices", dump(choices), idx, val)
 					tbl[#tbl+1] = "dropdown[4.72," .. (offs) .. ";5.5,1.4;" .. elem.name .. ";" .. choices .. ";" .. idx .. "]"
 				else
 					local val = elem.default
@@ -204,7 +205,7 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 				if fields[elem.name] ~= nil then
 					meta:set_string(elem.name, fields[elem.name])
 				end
-			elseif elem.type == "items" then	
+			elseif elem.type == "items" and player_name then	
 				local inv_name = minetest.formspec_escape(player_name) .. "_techage_wrench_menu"
 				local dinv = minetest.get_inventory({type = "detached", name = inv_name})
 				local ninv = minetest.get_inventory({type = "node", pos = pos})
@@ -219,25 +220,26 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 	return res
 end
 
-function menu.generate_formspec(pos, ndef, form_def, player_name)
+function techage.menu.generate_formspec(pos, ndef, form_def, player_name)
 	local meta = minetest.get_meta(pos)
 	local number = techage.get_node_number(pos)
 	local mem = techage.get_mem(pos)
 	mem.star = ((mem.star or 0) + 1) % 2
 	local star = mem.star == 1 and "*" or ""
-	local inv_name = minetest.formspec_escape(player_name) .. "_techage_wrench_menu"
-	minetest.create_detached_inventory(inv_name, {
-		allow_put = allow_put,
-		allow_take = allow_take})
-	local dinv = minetest.get_inventory({type = "detached", name = inv_name})
-	local ninv = minetest.get_inventory({type = "node", pos = pos})
-	if dinv and ninv then	
-		dinv:set_size('cfg', ninv:get_size("cfg"))
-		for i = 1, ninv:get_size("cfg") do
-			dinv:set_stack("cfg", i, ninv:get_stack("cfg", i))
+	if player_name then
+		local inv_name = minetest.formspec_escape(player_name) .. "_techage_wrench_menu"
+		minetest.create_detached_inventory(inv_name, {
+			allow_put = allow_put,
+			allow_take = allow_take})
+		local dinv = minetest.get_inventory({type = "detached", name = inv_name})
+		local ninv = minetest.get_inventory({type = "node", pos = pos})
+		if dinv and ninv then	
+			dinv:set_size('cfg', ninv:get_size("cfg"))
+			for i = 1, ninv:get_size("cfg") do
+				dinv:set_stack("cfg", i, ninv:get_stack("cfg", i))
+			end
 		end
 	end
-	
 	if meta and number and ndef and form_def then
 		local title = ndef.description .. " (" .. number .. ")"
 		local player_inv_needed, text = generate_formspec_substring(pos, meta, form_def, player_name)
@@ -286,13 +288,10 @@ function menu.generate_formspec(pos, ndef, form_def, player_name)
 	return ""
 end
 
-function menu.eval_input(pos, form_def, fields, player_name)	
-	--print(dump(fields))
+function techage.menu.eval_input(pos, form_def, fields, player_name)	
 	if fields.save then
 		local meta = minetest.get_meta(pos)
 		evaluate_data(pos, meta, form_def, fields, player_name)
 	end
 	return fields.refresh or fields.save
 end
-
-return menu

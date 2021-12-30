@@ -17,7 +17,7 @@ local S = techage.S
 local Cable1 = techage.ElectricCable
 local Cable2 = techage.TA4_Cable
 local Pipe2 = techage.LiquidPipe
-local menu = dofile(minetest.get_modpath("techage") .. "/tools/submenu.lua")   
+local menu = techage.menu
 
 local function network_check(start_pos, Cable, player_name)
 --	local ndef = techage.networks.net_def(start_pos, Cable.tube_type)

@@ -100,6 +100,8 @@ dofile(MP.."/basis/laser_lib.lua")
 dofile(MP.."/basis/legacy.lua")
 dofile(MP.."/basis/hyperloop.lua")
 dofile(MP.."/basis/oggfiles.lua")
+dofile(MP.."/basis/submenu.lua")
+dofile(MP.."/basis/shared_inv.lua")
 
 -- Main doc
 dofile(MP.."/doc/manual_DE.lua")
@@ -190,6 +192,7 @@ dofile(MP.."/basic_machines/itemsource.lua")
 dofile(MP.."/basic_machines/recycler.lua")
 dofile(MP.."/basic_machines/concentrator.lua")
 dofile(MP.."/basic_machines/recipeblock.lua")
+dofile(MP.."/basic_machines/ta5_chest.lua")
 
 -- Liquids II
 dofile(MP.."/liquids/tank.lua")
