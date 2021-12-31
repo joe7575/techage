@@ -235,8 +235,8 @@ techage.manual_DE.aTitel = {
   "2,Logik Blöcke",
   "2,Transport und Verkehr",
   "3,TA5 Flug Controller",
-  "3,TA5 Hyperloop Transport Kiste",
-  "3,TA5 Hyperloop Transport Tank",
+  "3,TA5 Hyperloop Kiste / TA5 Hyperloop Chest",
+  "3,TA5 Hyperloop Tank / TA5 Hyperloop Tank",
   "3,Hyperloop Teleport Blöcke (geplant)",
   "3,TA5 Container (geplant)",
   "3,TA5-Teleport-Tubes (geplant)",
@@ -1999,23 +1999,23 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Die TA5 Hyperloop Transport Kiste erlaubt den Transport von Gegenständen über ein Hyperloop Netzwerk.\n"..
+  "Die TA5 Hyperloop Kiste erlaubt den Transport von Gegenständen über ein Hyperloop Netzwerk.\n"..
   "\n"..
-  "Eine normale TA4 Kiste muss man dazu auf eine Hyperloop Junction stellen. Die Kiste bekommt damit ein zusätzliches Schraubenschlüssel-Menü mit dem man das Pairing von zwei Kisten durchführen kann. Dinge\\, die in der Kiste sind\\, werden zur Gegenstelle teleportiert. Die Kiste kann auch mit einem  Schieber gefüllt/geleert werden.\n"..
+  "Die TA5 Hyperloop Kiste muss man dazu auf eine Hyperloop Junction stellen. Die Kiste besitzt ein spezielles Menü\\, mit dem man das Pairing von zwei Kisten durchführen kann. Dinge\\, die in der Kiste sind\\, werden zur Gegenstelle teleportiert. Die Kiste kann auch mit einem  Schieber gefüllt/geleert werden.\n"..
   "\n"..
   "Für das Pairing musst du zuerst auf der einen Seite einen Namen für die Kiste eingeben\\, dann kannst du bei der anderen Kiste diesen Namen auswählen und so die beiden Blöcke verbinden.\n"..
   "\n"..
-  "Die Nutzung der TA5 Hyperloop Transport Kiste benötigt 20 Erfahrungspunkte.\n"..
+  "Die Nutzung der TA5 Hyperloop Kiste benötigt 20 Erfahrungspunkte.\n"..
   "\n"..
   "\n"..
   "\n",
-  "Der TA5 Hyperloop Transport Tank erlaubt den Transport von Flüssigkeiten über ein Hyperloop Netzwerk.\n"..
+  "Der TA5 Hyperloop Tank erlaubt den Transport von Flüssigkeiten über ein Hyperloop Netzwerk.\n"..
   "\n"..
-  "Ein TA4 Tank muss man dazu auf eine Hyperloop Junction stellen. Der Tank bekommt damit ein zusätzliches Schraubenschlüssel-Menü mit dem man das Pairing von zwei Tanks durchführen kann. Flüssigkeiten\\, die in dem Tank sind\\, werden zur Gegenstelle teleportiert. Der Tank kann auch mit einer Pumpe  gefüllt/geleert werden.\n"..
+  "Den TA5 Hyperloop Tank muss man dazu auf eine Hyperloop Junction stellen. Der Tank  besitzt ein spezielles Menü\\, mit dem man das Pairing von zwei Tanks durchführen kann. Flüssigkeiten\\, die in dem Tank sind\\, werden zur Gegenstelle teleportiert. Der Tank kann auch mit einer Pumpe  gefüllt/geleert werden.\n"..
   "\n"..
   "Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Tank eingeben\\, dann kannst du bei dem anderen Tank diesen Namen auswählen und so die beiden Blöcke verbinden.\n"..
   "\n"..
-  "Die Nutzung des TA5 Hyperloop Transport Tanks benötigt 20 Erfahrungspunkte.\n"..
+  "Die Nutzung des TA5 Hyperloop Tanks benötigt 20 Erfahrungspunkte.\n"..
   "\n"..
   "\n"..
   "\n",

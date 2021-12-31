@@ -235,8 +235,8 @@ techage.manual_EN.aTitel = {
   "2,Logic blocks",
   "2,Transport and Traffic",
   "3,TA5 Flight Controller",
-  "3,TA5 Hyperloop Transport Chest",
-  "3,TA5 Hyperloop Transport Tank",
+  "3,TA5 Hyperloop Chest",
+  "3,TA5 Hyperloop Tank",
   "3,Hyperloop Teleport Blocks (planned)",
   "3,TA5 Container (planned)",
   "3,TA5 Teleport Tubes (planned)",
@@ -1996,23 +1996,23 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The TA5 Hyperloop Transport Chest allows objects to be transported over a Hyperloop network.\n"..
+  "The TA5 Hyperloop Chest allows objects to be transported over a Hyperloop network.\n"..
   "\n"..
-  "A normal TA4 chest has to be placed on a Hyperloop Junction. The chest has an additional wrench menu with which you can pair two chests. Things that are in the chest are teleported to the remote station. The box can also be filled/emptied with a pusher.\n"..
+  "The TA5 Hyperloop Chest has to be placed on a Hyperloop Junction. The chest has a special menu\\, with which you can pair two chests. Things that are in the chest are teleported to the remote station. The chest can also be filled/emptied with a pusher.\n"..
   "\n"..
   "For pairing you first have to enter a name for the chest on one side\\, then you can select this name for the other chest and thus connect the two blocks.\n"..
   "\n"..
-  "The use of the TA5 Hyperloop Transport Chest requires 20 experience points.\n"..
+  "The use of the TA5 Hyperloop Chest requires 20 experience points.\n"..
   "\n"..
   "\n"..
   "\n",
-  "The TA5 Hyperloop Transport Tank allows liquids to be transported over a Hyperloop network.\n"..
+  "The TA5 Hyperloop Tank allows liquids to be transported over a Hyperloop network.\n"..
   "\n"..
-  "A TA4 Tank has to be placed on a Hyperloop Junction. This gives the tank an additional wrench menu that can be used to pair two tanks. Liquids in the tank will be teleported to the remote station. The tank can also be filled/emptied with a pump.\n"..
+  "The TA5 Hyperloop Tank has to be placed on a Hyperloop Junction.The tank has a special menu\\, with which you can pair two tanks. Liquids in the tank will be teleported to the remote station. The tank can also be filled/emptied with a pump.\n"..
   "\n"..
   "For pairing you first have to enter a name for the tank on one side\\, then you can select this name for the other tank and thus connect the two blocks.\n"..
   "\n"..
-  "The use of the TA5 Hyperloop Transport Tank requires 20 experience points.\n"..
+  "The use of the TA5 Hyperloop Tank requires 20 experience points.\n"..
   "\n"..
   "\n"..
   "\n",

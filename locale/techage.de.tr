@@ -609,12 +609,17 @@ TA4 Hydrogen=TA4 Wasserstoff
 ### hyperloop.lua ###
 
 Block name=Blockname
-Connected to=Verbunden mit
 Connection name for this block=Verbindungsname für diesen Block
 Connection name of the remote block=Verbindungsname des entfernten Blocks
-Connection status=Verbindungsstatus
 Enter a block name or select an existing one=Gebe einen Blocknamen ein oder wähle einen vorhandenen aus
 Remote name=Name entfernter Block
+
+### hyperloop.lua ###
+### lib.lua ###
+### sensorchest.lua ###
+### terminal.lua ###
+
+connected with=verbunden mit
 
 ### hyperloop.lua ###
 ### sensorchest.lua ###
@@ -686,12 +691,6 @@ to=bis
 ### lib.lua ###
 
 Block has an@nadditional wrench menu=Block besitzt ein@nzusätzliches@nSchraubenschlüssel-Menü
-
-### lib.lua ###
-### sensorchest.lua ###
-### terminal.lua ###
-
-connected with=verbunden mit
 
 ### lighter.lua ###
 
@@ -1247,6 +1246,14 @@ on=an
 
 no power=kein Strom
 
+### ta5_chest.lua ###
+
+TA5 Hyperloop Chest=TA5 Hyperloop Kiste
+
+### ta5_tank.lua ###
+
+TA5 Hyperloop Tank=TA5 Hyperloop Tank
+
 ### tank.lua ###
 
 Oil Tank=Öltank
@@ -1368,7 +1375,4 @@ TA4 Collider Detector Worker=TA4 Collider Detektor Worker
 [TA4] Detector is being removed!=[TA4] Detektor wird  entfernt!
 
 
-##### not used anymore #####
 
-Enter a name for the block=Gebe einen Namen für den Block an
-Enter a name for the block or choose@nan existing name (not both)=Gebe einen Namen für den Block an@noder wähle einen vorhandenen Namen aus (nicht beides)

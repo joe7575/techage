@@ -609,12 +609,17 @@ TA4 Hydrogen=
 ### hyperloop.lua ###
 
 Block name=
-Connected to=
 Connection name for this block=
 Connection name of the remote block=
-Connection status=
 Enter a block name or select an existing one=
 Remote name=
+
+### hyperloop.lua ###
+### lib.lua ###
+### sensorchest.lua ###
+### terminal.lua ###
+
+connected with=
 
 ### hyperloop.lua ###
 ### sensorchest.lua ###
@@ -686,12 +691,6 @@ to=
 ### lib.lua ###
 
 Block has an@nadditional wrench menu=
-
-### lib.lua ###
-### sensorchest.lua ###
-### terminal.lua ###
-
-connected with=
 
 ### lighter.lua ###
 
@@ -1246,6 +1245,14 @@ on=
 ### waterpump.lua ###
 
 no power=
+
+### ta5_chest.lua ###
+
+TA5 Hyperloop Chest=
+
+### ta5_tank.lua ###
+
+TA5 Hyperloop Tank=
 
 ### tank.lua ###
 
