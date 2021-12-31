@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -148,7 +148,6 @@ function techage.hyperloop.is_client(pos)
 		local nvm = techage.get_nvm(pos)
 		if Stations:get(nvm.rmt_pos) then
 			if M(pos):get_string("status") == "client" then
-				print("is_client2", true)
 				return true
 			end
 		end

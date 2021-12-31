@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -40,7 +40,6 @@ end
 
 -- Synchronize the client inventory with the server one
 function techage.shared_inv.before_inv_access(pos, listname)
-	print("before_inv_access", listname)
 	if hyperloop.is_client(pos) then
 		local rmt_pos = remote_pos(pos)
 		copy_inventory_list(rmt_pos, pos, listname)
@@ -51,7 +50,6 @@ end
 
 -- Synchronize the client inventory with the server one
 function techage.shared_inv.after_inv_access(pos, listname)
-	print("after_inv_access", listname)
 	if hyperloop.is_client(pos) then
 		local rmt_pos = remote_pos(pos)
 		copy_inventory_list(pos, rmt_pos, listname)
@@ -60,10 +58,12 @@ function techage.shared_inv.after_inv_access(pos, listname)
 	return false
 end
 
-function techage.shared_inv.on_rightclick(pos, node, clicker)
+function techage.shared_inv.on_rightclick(pos, clicker, listname)
 	if hyperloop.is_client(pos) then
-		copy_inventory_list(remote_pos(pos), pos, "main")
+		local rmt_pos = remote_pos(pos)
+		copy_inventory_list(rmt_pos, pos, listname)
 		techage.set_activeformspec(pos, clicker)
+		minetest.get_node_timer(pos):start(2)
 	end	
 end
 	

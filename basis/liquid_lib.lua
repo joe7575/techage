@@ -30,8 +30,8 @@ local function help(x, y)
 		"tooltip["..x..","..y..";0.5,0.5;"..tooltip..";#0C3D32;#FFFFFF]"
 end
 
-function techage.liquid.formspec(pos, nvm)
-	local title = S("Liquid Tank")
+function techage.liquid.formspec(pos, nvm, title)
+	title = title or S("Liquid Tank")
 	local itemname = "techage:liquid"
 	if nvm.liquid and nvm.liquid.amount and nvm.liquid.amount > 0 and nvm.liquid.name then
 		itemname = nvm.liquid.name.." "..nvm.liquid.amount
@@ -41,19 +41,19 @@ function techage.liquid.formspec(pos, nvm)
 		local meta = M(pos)
 		local public = dump((meta:get_int("public") or 0) == 1)
 		local keep_assignment = dump((meta:get_int("keep_assignment") or 0) == 1)
-		return "size[5,3.5]"..
-			"box[0,-0.1;4.8,0.5;#c6e8ff]"..
-			"label[1.5,-0.1;"..minetest.colorize("#000000", title).."]"..
-			help(4.4, -0.1)..
-			techage.item_image(2, 1, itemname)..
+		return "size[8,3.5]"..
+			"box[0,-0.1;7.8,0.5;#c6e8ff]"..
+			"label[0.2,-0.1;"..minetest.colorize("#000000", title).."]"..
+			help(7.4, -0.1)..
+			techage.item_image(3.5, 1, itemname)..
 			"checkbox[0.1,2.5;public;"..S("Allow public access to the tank")..";"..public.."]"..
 			"checkbox[0.1,3;keep_assignment;"..S("keep assignment")..";"..keep_assignment.."]"
 	else
-		return "size[4,2]"..
-			"box[0,-0.1;3.8,0.5;#c6e8ff]"..
-			"label[1,-0.1;"..minetest.colorize("#000000", title).."]"..
-			help(3.4, -0.1)..
-			techage.item_image(1.5, 1, itemname)
+		return "size[8,2]"..
+			"box[0,-0.1;7.8,0.5;#c6e8ff]"..
+			"label[0.2,-0.1;"..minetest.colorize("#000000", title).."]"..
+			help(7.4, -0.1)..
+			techage.item_image(3.5, 1, itemname)
 	end
 end	
 

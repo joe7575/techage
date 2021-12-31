@@ -8,7 +8,7 @@
 	AGPL v3
 	See LICENSE.txt for more information
 	
-	TA5 Hyperloop Chest/Tank
+	TA5 Hyperloop Chest
 	
 ]]--
 
@@ -16,7 +16,6 @@
 local S2P = minetest.string_to_pos
 local P2S = minetest.pos_to_string
 local M = minetest.get_meta
-local N = techage.get_node_lvm
 local S = techage.S
 
 local TA4_INV_SIZE = 32
@@ -26,20 +25,6 @@ local hyperloop = techage.hyperloop
 local remote_pos = techage.hyperloop.remote_pos
 local shared_inv = techage.shared_inv
 local menu = techage.menu
-
-local function can_dig(pos, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
-		return false
-	end
-	
-	shared_inv.before_inv_access(pos, "main")
-	local inv = minetest.get_meta(pos):get_inventory()
-	return inv:is_empty("main")
-end
-
-local function after_dig_node(pos, oldnode, oldmetadata, digger)
-	techage.remove_node(pos, oldnode, oldmetadata)
-end
 
 local function formspec(pos)
 	local ndef = minetest.registered_nodes["techage:ta5_hl_chest"]
@@ -118,16 +103,24 @@ minetest.register_node("techage:ta5_hl_chest", {
 		if techage.get_expoints(player) >= EX_POINTS then
 			if techage.menu.eval_input(pos, hyperloop.SUBMENU, fields) then
 				hyperloop.after_formspec(pos, fields)
+				shared_inv.on_rightclick(pos, player, "main")
 				M(pos):set_string("formspec", formspec(pos))
 			end
 		end
 	end,
 	on_timer = shared_inv.node_timer,
 	on_rightclick = function(pos, node, clicker)
-		shared_inv.on_rightclick(pos, node, clicker)
+		shared_inv.on_rightclick(pos, clicker, "main")
 		M(pos):set_string("formspec", formspec(pos))
 	end,
-	can_dig = can_dig,
+	can_dig = function(pos, player)
+		if minetest.is_protected(pos, player:get_player_name()) then
+			return false
+		end
+		shared_inv.before_inv_access(pos, "main")
+		local inv = minetest.get_meta(pos):get_inventory()
+		return inv:is_empty("main")
+	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		hyperloop.after_dig_node(pos, oldnode, oldmetadata, digger)
@@ -155,67 +148,26 @@ techage.register_node({"techage:ta5_hl_chest"}, {
 		pos = remote_pos(pos)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		local mem = techage.get_mem(pos)
-		
-		mem.filter = mem.filter or mConf.item_filter(pos, TA4_INV_SIZE)
-		mem.chest_configured = mem.chest_configured or not inv:is_empty("conf")
-		
-		if inv:is_empty("main") then
-			return nil
-		end
-		
-		if item_name then
-			if mem.filter[item_name] or not mem.chest_configured then
-				local taken = inv:remove_item("main", {name = item_name, count = num})
-				if taken:get_count() > 0 then
-					return taken
-				end
-			end
-		else -- no item given
-			if mem.chest_configured then
-				return mConf.take_item(pos, inv, "main", num, mem.filter["unconfigured"])
-			else
-				return techage.get_items(pos, inv, "main", num)
-			end
-		end
+		return techage.get_items(pos, inv, "main", num)
 	end,
-	on_push_item = function(pos, in_dir, item, idx)
+	on_push_item = function(pos, in_dir, stack)
+		if techage.hyperloop.is_paired(pos) then
+			pos = remote_pos(pos)
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			return techage.put_items(inv, "main", stack)
+		end
+		return false
+	end,
+	on_unpull_item = function(pos, in_dir, stack)
 		pos = remote_pos(pos)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
-		local mem = techage.get_mem(pos)
-		
-		mem.filter = mem.filter or mConf.item_filter(pos, TA4_INV_SIZE)
-		mem.chest_configured = mem.chest_configured or not inv:is_empty("conf")
-		
-		if mem.chest_configured then
-			local name = item:get_name()
-			local stacks = mem.filter[name] or mem.filter["unconfigured"]
-			return mConf.put_items(pos, inv, "main", item, stacks, idx)
-		else
-			return techage.put_items(inv, "main", item, idx)
-		end
+		return techage.put_items(inv, "main", stack)
 	end,
-	on_unpull_item = function(pos, in_dir, item)
-		pos = remote_pos(pos)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		local mem = techage.get_mem(pos)
-		
-		mem.filter = mem.filter or mConf.item_filter(pos, TA4_INV_SIZE)
-		mem.chest_configured = mem.chest_configured or not inv:is_empty("conf")
-		
-		if mem.chest_configured then
-			local name = item:get_name()
-			local stacks = mem.filter[name] or mem.filter["unconfigured"]
-			return mConf.put_items(pos, inv, "main", item, stacks)
-		else
-			return techage.put_items(inv, "main", item)
-		end
-	end,
-	
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "state" then
+			pos = remote_pos(pos)
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
 			return techage.get_inv_state(inv, "main")
@@ -225,8 +177,9 @@ techage.register_node({"techage:ta5_hl_chest"}, {
 	end,
 })	
 
+
 minetest.register_craft({
 	type = "shapeless",
 	output = "techage:ta5_hl_chest",
-	recipe = {"techage:chest_ta4", "techage:aichip"}
+	recipe = {"techage:chest_ta4", "techage:ta5_aichip"}
 })

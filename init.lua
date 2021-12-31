@@ -102,6 +102,7 @@ dofile(MP.."/basis/hyperloop.lua")
 dofile(MP.."/basis/oggfiles.lua")
 dofile(MP.."/basis/submenu.lua")
 dofile(MP.."/basis/shared_inv.lua")
+dofile(MP.."/basis/shared_tank.lua")
 
 -- Main doc
 dofile(MP.."/doc/manual_DE.lua")
@@ -201,6 +202,7 @@ dofile(MP.."/liquids/silo.lua")
 dofile(MP.."/liquids/pump.lua")
 dofile(MP.."/liquids/waterpump.lua")
 dofile(MP.."/liquids/waterinlet.lua")
+dofile(MP.."/liquids/ta5_tank.lua")
 
 -- Coal power station
 dofile(MP.."/coal_power_station/firebox.lua")

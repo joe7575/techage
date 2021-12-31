@@ -114,7 +114,6 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 					local choices = elem.on_dropdown(pos)
 					local l = choices:split(",")
 					local idx = index(l, val) or 1
-					print("choices", dump(choices), idx, val)
 					tbl[#tbl+1] = "dropdown[4.72," .. (offs) .. ";5.5,1.4;" .. elem.name .. ";" .. choices .. ";" .. idx .. "]"
 				else
 					local val = elem.default

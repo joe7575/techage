@@ -21,25 +21,19 @@ local S = techage.S
 local Pipe = techage.LiquidPipe
 local liquid = networks.liquid
 
-local hyperloop = techage.hyperloop
-local remote_pos = techage.hyperloop.remote_pos
-
 local CAPACITY = 1000
-local EX_POINTS = 20
 
 local function on_rightclick(pos, node, clicker)
-	local rmt_pos = remote_pos(pos)
-	local nvm = techage.get_nvm(rmt_pos)
+	local nvm = techage.get_nvm(pos)
 	techage.set_activeformspec(pos, clicker)
-	M(pos):set_string("formspec", techage.liquid.formspec(rmt_pos, nvm))
+	M(pos):set_string("formspec", techage.liquid.formspec(pos, nvm))
 	minetest.get_node_timer(pos):start(2)
 end
 
 local function node_timer(pos, elapsed)
-	local rmt_pos = remote_pos(pos)
 	if techage.is_activeformspec(pos) then
-		local nvm = techage.get_nvm(rmt_pos)
-		M(pos):set_string("formspec", techage.liquid.formspec(rmt_pos, nvm))
+		local nvm = techage.get_nvm(pos)
+		M(pos):set_string("formspec", techage.liquid.formspec(pos, nvm))
 		return true
 	end	
 	return false
@@ -220,7 +214,6 @@ minetest.register_node("techage:ta4_tank", {
 		meta:set_string("formspec", techage.liquid.formspec(pos, nvm))
 		meta:set_string("infotext", S("TA4 Tank").." "..number)
 		Pipe:after_place_node(pos)
-		hyperloop.after_place_node(pos, placer, "tank")
 	end,
 	on_receive_fields = function(pos, formname, fields, player)
 		if minetest.is_protected(pos, player:get_player_name()) then
@@ -234,17 +227,12 @@ minetest.register_node("techage:ta4_tank", {
 		end
 	end,
 	on_timer = node_timer,
-	on_punch = function(pos, node, puncher)
-		return techage.liquid.on_punch(remote_pos(pos), node, puncher)
-	end,
+	on_punch = techage.liquid.on_punch,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
-		hyperloop.after_dig_node(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 	on_rightclick = on_rightclick,
-	ta5_formspec = {menu=hyperloop.WRENCH_MENU, ex_points=EX_POINTS},
-	ta_after_formspec = hyperloop.after_formspec,
 	can_dig = can_dig,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -256,18 +244,10 @@ minetest.register_node("techage:ta4_tank", {
 liquid.register_nodes({"techage:ta4_tank"},
 	Pipe, "tank", nil, {
 		capa = CAPACITY * 2,
-		peek = function(pos, indir)
-			return peek_liquid(remote_pos(pos), indir)
-		end,
-		put = function(pos, indir, name, amount)
-			return put_liquid(remote_pos(pos), indir, name, amount)
-		end,
-		take = function(pos, indir, name, amount)
-			return take_liquid(remote_pos(pos), indir, name, amount)
-		end,
-		untake = function(pos, indir, name, amount)
-			return untake_liquid(remote_pos(pos), indir, name, amount)
-		end,
+		peek = peek_liquid,
+		put = put_liquid,
+		take = take_liquid,
+		untake = untake_liquid,
 	}
 )
 

@@ -30,27 +30,27 @@ Die Nutzung des TA5 Flug Controllers benötigt 40 Erfahrungspunkte.
 
 [ta5_flycontroller|image]
 
-### TA5 Hyperloop Transport Kiste
+### TA5 Hyperloop Kiste / TA5 Hyperloop Chest
 
-Die TA5 Hyperloop Transport Kiste erlaubt den Transport von Gegenständen über ein Hyperloop Netzwerk.
+Die TA5 Hyperloop Kiste erlaubt den Transport von Gegenständen über ein Hyperloop Netzwerk.
 
-Eine normale TA4 Kiste muss man dazu auf eine Hyperloop Junction stellen. Die Kiste bekommt damit ein zusätzliches Schraubenschlüssel-Menü mit dem man das Pairing von zwei Kisten durchführen kann. Dinge, die in der Kiste sind, werden zur Gegenstelle teleportiert. Die Kiste kann auch mit einem  Schieber gefüllt/geleert werden.
+Die TA5 Hyperloop Kiste muss man dazu auf eine Hyperloop Junction stellen. Die Kiste besitzt ein spezielles Menü, mit dem man das Pairing von zwei Kisten durchführen kann. Dinge, die in der Kiste sind, werden zur Gegenstelle teleportiert. Die Kiste kann auch mit einem  Schieber gefüllt/geleert werden.
 
 Für das Pairing musst du zuerst auf der einen Seite einen Namen für die Kiste eingeben, dann kannst du bei der anderen Kiste diesen Namen auswählen und so die beiden Blöcke verbinden.
 
-Die Nutzung der TA5 Hyperloop Transport Kiste benötigt 20 Erfahrungspunkte.
+Die Nutzung der TA5 Hyperloop Kiste benötigt 20 Erfahrungspunkte.
 
 [ta4_chest|image]
 
-### TA5 Hyperloop Transport Tank
+### TA5 Hyperloop Tank / TA5 Hyperloop Tank
 
-Der TA5 Hyperloop Transport Tank erlaubt den Transport von Flüssigkeiten über ein Hyperloop Netzwerk.
+Der TA5 Hyperloop Tank erlaubt den Transport von Flüssigkeiten über ein Hyperloop Netzwerk.
 
-Ein TA4 Tank muss man dazu auf eine Hyperloop Junction stellen. Der Tank bekommt damit ein zusätzliches Schraubenschlüssel-Menü mit dem man das Pairing von zwei Tanks durchführen kann. Flüssigkeiten, die in dem Tank sind, werden zur Gegenstelle teleportiert. Der Tank kann auch mit einer Pumpe  gefüllt/geleert werden.
+Den TA5 Hyperloop Tank muss man dazu auf eine Hyperloop Junction stellen. Der Tank  besitzt ein spezielles Menü, mit dem man das Pairing von zwei Tanks durchführen kann. Flüssigkeiten, die in dem Tank sind, werden zur Gegenstelle teleportiert. Der Tank kann auch mit einer Pumpe  gefüllt/geleert werden.
 
 Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Tank eingeben, dann kannst du bei dem anderen Tank diesen Namen auswählen und so die beiden Blöcke verbinden.
 
-Die Nutzung des TA5 Hyperloop Transport Tanks benötigt 20 Erfahrungspunkte.
+Die Nutzung des TA5 Hyperloop Tanks benötigt 20 Erfahrungspunkte.
 
 [ta4_tank|image]
 
