@@ -36,7 +36,6 @@ local function formspec(pos)
 end
 
 function techage.shared_tank.node_timer(pos)
-	print("node_timer", minetest.pos_to_string(pos))
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(pos))
 		return true
