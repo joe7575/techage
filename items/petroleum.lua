@@ -162,7 +162,7 @@ techage.register_liquid("techage:ta3_barrel_fueloil", "techage:ta3_barrel_empty"
 techage.register_liquid("techage:ta3_barrel_naphtha", "techage:ta3_barrel_empty", 10, "techage:naphtha")
 techage.register_liquid("techage:ta3_barrel_gasoline", "techage:ta3_barrel_empty", 10, "techage:gasoline")
 techage.register_liquid("techage:ta3_cylinder_large_gas", "techage:ta3_cylinder_large", 6, "techage:gas")
-techage.register_liquid("techage:ta3_cylinder_large_isobutane", "techage:ta3_cylinder_large", 6, "techage:isobutane")
+techage.register_liquid("techage:ta4_cylinder_large_isobutane", "techage:ta3_cylinder_large", 6, "techage:isobutane")
 
 techage.register_liquid("techage:ta3_canister_oil", "techage:ta3_canister_empty", 1, "techage:oil_source")
 techage.register_liquid("techage:ta3_canister_bitumen", "techage:ta3_canister_empty", 1, "techage:bitumen")
@@ -170,5 +170,5 @@ techage.register_liquid("techage:ta3_canister_fueloil", "techage:ta3_canister_em
 techage.register_liquid("techage:ta3_canister_naphtha", "techage:ta3_canister_empty", 1, "techage:naphtha")
 techage.register_liquid("techage:ta3_canister_gasoline", "techage:ta3_canister_empty", 1, "techage:gasoline")
 techage.register_liquid("techage:ta3_cylinder_small_gas", "techage:ta3_cylinder_small", 1, "techage:gas")
-techage.register_liquid("techage:ta3_cylinder_small_isobutane", "techage:ta3_cylinder_small", 1, "techage:isobutane")
+techage.register_liquid("techage:ta4_cylinder_small_isobutane", "techage:ta3_cylinder_small", 1, "techage:isobutane")
 
