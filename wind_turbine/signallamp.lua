@@ -8,28 +8,12 @@
 	AGPL v3
 	See LICENSE.txt for more information
 
-	Colored Signal Lamp (requires unifieddyes)
-	
+	Wind Turbine Signal Lamp
+
 ]]--
 
 -- for lazy programmers
-local M = minetest.get_meta
 local S = techage.S
-
-local logic = techage.logic
-
-local COLORED = minetest.get_modpath("unifieddyes") and minetest.global_exists("unifieddyes")
-
-
-local function switch_on(pos, node)
-	node.name = "techage:signal_lamp_on"
-	minetest.swap_node(pos, node)
-end	
-
-local function switch_off(pos, node)
-	node.name = "techage:signal_lamp_off"
-	minetest.swap_node(pos, node)
-end	
 
 minetest.register_node("techage:rotor_signal_lamp_off", {
 	description = S("TA4 Wind Turbine Signal Lamp"),
@@ -76,7 +60,7 @@ minetest.register_node("techage:rotor_signal_lamp_on", {
 		minetest.swap_node(pos, {name = "techage:rotor_signal_lamp_off"})
 		return true
 	end,
-	
+
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
 	light_source = 8,

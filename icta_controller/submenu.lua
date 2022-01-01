@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	ICTA Controller - Formspec
 
     A sub-menu control to generate a formspec sting for conditions and actions
@@ -22,7 +22,6 @@ end
 
 -- generate the choice dependent part of the form
 local function add_controls_to_table(tbl, kvDefinition, kvSelect)
-	local val = ""
 	local offs = 1.4
 	if kvDefinition[kvSelect.choice] then
 		local lControls = kvDefinition[kvSelect.choice].formspec
@@ -34,14 +33,14 @@ local function add_controls_to_table(tbl, kvDefinition, kvSelect)
 				tbl[#tbl+1] = "label[0,"..offs..";"..elem.label..":]"
 				offs = offs + 0.4
 			end
-			if elem.type == "numbers" or elem.type == "number" or elem.type == "digits" or elem.type == "letters" 
+			if elem.type == "numbers" or elem.type == "number" or elem.type == "digits" or elem.type == "letters"
 					or elem.type == "ascii" then
-				val = kvSelect[elem.name] or elem.default
+				local val = kvSelect[elem.name] or elem.default
 				tbl[#tbl+1] = "field[0.3,"..(offs+0.2)..";8,1;"..elem.name..";;"..val.."]"
 				offs = offs + 0.9
 			elseif elem.type == "textlist" then
 				local l = elem.choices:split(",")
-				val = index(l, kvSelect[elem.name]) or elem.default
+				local val = index(l, kvSelect[elem.name]) or elem.default
 				tbl[#tbl+1] = "dropdown[0.0,"..(offs)..";8.5,1.4;"..elem.name..";"..elem.choices..";"..val.."]"
 				offs = offs + 0.9
 			end
@@ -58,7 +57,7 @@ local function default_data(kvDefinition, kvSelect)
 	kvSelect.button = kvDefinition[kvSelect.choice].button(kvSelect)
 	return kvSelect
 end
-	
+
 -- Copy field/formspec data to the table kvSelect
 -- kvDefinition: submenu formspec definition
 -- kvSelect: form data
@@ -67,47 +66,47 @@ local function field_to_kvSelect(kvDefinition, kvSelect, fields)
 	local error = false
 	local lControls = kvDefinition[kvSelect.choice].formspec
 	for idx,elem in ipairs(lControls) do
-		if elem.type == "numbers" then	
+		if elem.type == "numbers" then
 			if fields[elem.name] then
-				if fields[elem.name]:find("^[%d ]+$") then 
+				if fields[elem.name]:find("^[%d ]+$") then
 					kvSelect[elem.name] = fields[elem.name]
 				else
 					kvSelect[elem.name] = elem.default
 					error = true
 				end
 			end
-		elseif elem.type == "number" then	
+		elseif elem.type == "number" then
 			if fields[elem.name] then
-				if fields[elem.name]:find("^[%d ]+$") then 
+				if fields[elem.name]:find("^[%d ]+$") then
 					kvSelect[elem.name] = fields[elem.name]
 				else
 					kvSelect[elem.name] = elem.default
 					error = true
 				end
 			end
-		elseif elem.type == "digits" then  -- including positions	
+		elseif elem.type == "digits" then  -- including positions
 			if fields[elem.name] then
-				if fields[elem.name]:find("^[+%%-,%d]+$") then 
+				if fields[elem.name]:find("^[+%%-,%d]+$") then
 					kvSelect[elem.name] = fields[elem.name]
 				else
 					kvSelect[elem.name] = elem.default
 					error = true
 				end
 			end
-		elseif elem.type == "letters" then	
+		elseif elem.type == "letters" then
 			if fields[elem.name] then
-				if fields[elem.name]:find("^[+-]?%a+$") then 
+				if fields[elem.name]:find("^[+-]?%a+$") then
 					kvSelect[elem.name] = fields[elem.name]
 				else
 					kvSelect[elem.name] = elem.default
 					error = true
 				end
 			end
-		elseif elem.type == "ascii" then	
+		elseif elem.type == "ascii" then
 			if fields[elem.name] then
 				kvSelect[elem.name] = fields[elem.name]
 			end
-		elseif elem.type == "textlist" then	
+		elseif elem.type == "textlist" then
 			if fields[elem.name] ~= nil then
 				kvSelect[elem.name] = fields[elem.name]
 			end
@@ -132,33 +131,33 @@ function techage.submenu_verify(owner, kvDefinition, kvSelect)
 	local error = false
 	local lControls = kvDefinition[kvSelect.choice].formspec
 	for idx,elem in ipairs(lControls) do
-		if elem.type == "numbers" then	
-			if not kvSelect[elem.name]:find("^[%d ]+$") then 
-				error = true
-			end 
-			if not techage.check_numbers(kvSelect[elem.name], owner) then
-				error = true
-			end 
-		elseif elem.type == "number" then	
-			if not kvSelect[elem.name]:find("^[%d]+$") then 
-				error = true
-			end 
-			if not techage.check_numbers(kvSelect[elem.name], owner) then
-				error = true
-			end 
-		elseif elem.type == "digits" then  -- including positions	
-			if not kvSelect[elem.name]:find("^[+%%-,%d]+$") then 
+		if elem.type == "numbers" then
+			if not kvSelect[elem.name]:find("^[%d ]+$") then
 				error = true
 			end
-		elseif elem.type == "letters" then	
-			if not kvSelect[elem.name]:find("^[+-]?%a+$") then 
+			if not techage.check_numbers(kvSelect[elem.name], owner) then
 				error = true
 			end
-		elseif elem.type == "ascii" then	
+		elseif elem.type == "number" then
+			if not kvSelect[elem.name]:find("^[%d]+$") then
+				error = true
+			end
+			if not techage.check_numbers(kvSelect[elem.name], owner) then
+				error = true
+			end
+		elseif elem.type == "digits" then  -- including positions
+			if not kvSelect[elem.name]:find("^[+%%-,%d]+$") then
+				error = true
+			end
+		elseif elem.type == "letters" then
+			if not kvSelect[elem.name]:find("^[+-]?%a+$") then
+				error = true
+			end
+		elseif elem.type == "ascii" then
 			if kvSelect[elem.name] == "" or kvSelect[elem.name] == nil then
 				error = true
 			end
-		elseif elem.type == "textlist" then	
+		elseif elem.type == "textlist" then
 			if kvSelect[elem.name] == "" or kvSelect[elem.name] == nil then
 				error = true
 			end
@@ -184,7 +183,7 @@ function techage.submenu_generate_formspec(row, col, title, lKeys, lChoice, kvDe
 		default.gui_slots..
 		"field[0,0;0,0;_row_;;"..row.."]"..
 		"field[0,0;0,0;_col_;;"..col.."]"}
-	
+
 	local sChoice = table.concat(lChoice, ",")
 	local idx = index(lKeys, kvSelect.choice) or 1
 	tbl[#tbl+1] = "label[0,0;"..title..":]"
@@ -195,10 +194,10 @@ function techage.submenu_generate_formspec(row, col, title, lKeys, lChoice, kvDe
 	tbl[#tbl+1] = "button[6,8.4;2,1;_exit_;ok]"
 	return table.concat(tbl)
 end
-	
+
 
 -- return the selected and configured menu item	based on user inputs (fields)
-function techage.submenu_eval_input(kvDefinition, lKeys, lChoice, kvSelect, fields)	
+function techage.submenu_eval_input(kvDefinition, lKeys, lChoice, kvSelect, fields)
 	-- determine selected choice
 	if fields.choice then
 		-- load with default values

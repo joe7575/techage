@@ -7,14 +7,13 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
-	TA4 Laser beam emitter and receiver 
-	
+
+	TA4 Laser beam emitter and receiver
+
 ]]--
 
 -- for lazy programmers
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
-local S2P = minetest.string_to_pos
 local M = minetest.get_meta
 local S = techage.S
 
@@ -39,15 +38,15 @@ minetest.register_node("techage:ta4_laser_emitter", {
 		Cable:after_place_node(pos, {tube_dir})
 		local number = techage.add_node(pos, "techage:ta4_laser_emitter")
 		M(pos):set_string("node_number", number)
-		local res, pos1, pos2 = techage.renew_laser(pos, true)
+		local _, pos1, pos2 = techage.renew_laser(pos, true)
 		if pos1 then
 			local node = techage.get_node_lvm(pos2)
 			if node.name == "techage:ta4_laser_receiver" then
 				Cable:pairing(pos2, "laser")
 				Cable:pairing(pos, "laser")
 			else
-				minetest.chat_send_player(placer:get_player_name(), 
-					S("Valid destination positions:") .. " " .. 
+				minetest.chat_send_player(placer:get_player_name(),
+					S("Valid destination positions:") .. " " ..
 					P2S(pos1) .. " " .. S("to") .. " " .. P2S(pos2))
 			end
 		else
@@ -82,14 +81,14 @@ minetest.register_node("techage:ta4_laser_emitter", {
 		end
 		return true
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.del_laser(pos)
 		Cable:stop_pairing(pos, oldmetadata, "")
 		local tube_dir = tonumber(oldmetadata.fields.tube_dir or 0)
 		Cable:after_dig_node(pos, {tube_dir})
 	end,
-	
+
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
@@ -119,7 +118,7 @@ minetest.register_node("techage:ta4_laser_receiver", {
 		local tube_dir = tonumber(oldmetadata.fields.tube_dir or 0)
 		Cable:after_dig_node(pos, {tube_dir})
 	end,
-	
+
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,

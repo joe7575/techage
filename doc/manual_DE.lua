@@ -2229,7 +2229,7 @@ techage.manual_DE.aItemName = {
   "ta4_lua_controller",
   "ta4_lua_server",
   "ta4_sensor_chest",
-  "ta4_terminal",
+  "ta4_terminal_luacontroller",
   "",
   "ta4_button",
   "ta4_button_2x",

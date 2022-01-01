@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Basalt as result from the lava/water generator
-	
+
 ]]--
 
 local S = techage.S
@@ -22,7 +22,7 @@ default.cool_lava = function(pos, node)
 		minetest.set_node(pos, {name = "techage:basalt_stone"})
 	end
 	minetest.sound_play("default_cool_lava",
-		{pos = pos, max_hear_distance = 16, gain = 0.25})
+		{pos = pos, max_hear_distance = 16, gain = 0.25}, true)
 end
 
 minetest.register_node("techage:basalt_stone", {

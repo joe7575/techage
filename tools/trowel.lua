@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Trowel tool to hide/open cable/pipe/tube nodes
 
 ]]--
@@ -25,7 +25,7 @@ local function replace_node(itemstack, placer, pointed_thing)
 			return
 		end
 		local node = minetest.get_node(pos)
-		local res = false
+		local res
 		if minetest.get_item_group(node.name, "techage_trowel") == 1 then
 			res = networks.hide_node(pos, node, placer)
 		elseif networks.hidden_name(pos) or M(pos):get_string("techage_hidden_nodename") ~= "" then
@@ -36,7 +36,7 @@ local function replace_node(itemstack, placer, pointed_thing)
 		end
 		if res then
 			minetest.sound_play("default_dig_snappy", {
-				pos = pos, 
+				pos = pos,
 				gain = 1,
 				max_hear_distance = 5})
 		elseif placer and placer.get_player_name then

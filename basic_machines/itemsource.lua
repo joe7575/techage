@@ -7,16 +7,15 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Item Source Block
 ]]--
 
 -- for lazy programmers
 local M = minetest.get_meta
-local S = techage.S
 
 local CYCLE_TIME = 30
-	
+
 local function formspec()
 	return "size[8,7.2]"..
 		default.gui_bg..
@@ -32,7 +31,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	
+
 	return stack:get_count()
 end
 
@@ -40,7 +39,7 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	
+
 	return stack:get_count()
 end
 
@@ -81,7 +80,7 @@ minetest.register_node("techage:itemsource", {
 		end
 		return true
 	end,
-	
+
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
 
@@ -97,4 +96,4 @@ techage.register_node({"techage:itemsource"}, {
 	on_node_load = function(pos)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
-})		
+})

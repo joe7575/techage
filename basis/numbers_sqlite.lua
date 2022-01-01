@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Storage backend for node number mapping via sqlite database
 
 ]]--
@@ -28,25 +28,22 @@ if not techage.IE then
 	error("Please add 'secure.trusted_mods = techage' to minetest.conf!")
 end
 
-local sqlite3 = techage.IE.require("lsqlite3")
+local lsqlite3 = techage.IE.require("lsqlite3")
 local marshal = techage.IE.require("marshal")
 
-if not sqlite3 then
+if not lsqlite3 then
 	error("Please install sqlite3 via 'luarocks install lsqlite3'")
 end
 if not marshal then
 	error("Please install marshal via 'luarocks install lua-marshal'")
 end
 
-local db = sqlite3.open(WP.."/techage_numbers.sqlite")
-local ROW = sqlite3.ROW
-
--- Prevent use of this db instance.
-if sqlite3 then sqlite3 = nil end
+local db = lsqlite3.open(WP.."/techage_numbers.sqlite")
+local ROW = lsqlite3.ROW
 
 db:exec[[
   CREATE TABLE numbers(id INTEGER PRIMARY KEY, number INTEGER, x INTEGER, y INTEGER, z INTEGER);
-  CREATE UNIQUE INDEX idx ON numbers(number);  
+  CREATE UNIQUE INDEX idx ON numbers(number);
 ]]
 
 local set = db:prepare("INSERT or REPLACE INTO numbers VALUES(NULL, ?, ?, ?, ?);")
@@ -58,7 +55,7 @@ local function set_block(number, pos)
 	set:bind(2, pos.x)
 	set:bind(3, pos.y)
 	set:bind(4, pos.z)
-	set:step()	
+	set:step()
 	return true
 end
 
@@ -77,14 +74,10 @@ end
 -------------------------------------------------------------------
 -- Migration from mod storage
 -------------------------------------------------------------------
-local Version = storage:get_int("Version") or 0
+local version_mod_storage = storage:get_int("Version") or 0
 local NextNumber = 0
 
-if Version == 0 then
-	Version = 4
-end
-if Version == 3 then
-	Version = 4
+if version_mod_storage == 3 then
 	NextNumber = storage:get_int("NextNumber")
 	for i = 1, NextNumber do
 		local number = tostring(i)
@@ -94,7 +87,7 @@ if Version == 3 then
 			storage:set_string(number, "")
 		end
 	end
-elseif Version == 4 then	
+elseif version_mod_storage == 0 or version_mod_storage == 4 then
 	NextNumber = storage:get_int("NextNumber")
 else
 	error("[] Invalid version number for 'number to pos mapping' table!")
@@ -108,28 +101,28 @@ local api = {}
 
 function api.get_nodepos(number)
 	return get_block(number)
-end	
-	
+end
+
 function api.set_nodepos(number, pos)
 	set_block(number, pos)
-end	
-	
+end
+
 function api.add_nodepos(pos)
 	local num = tostring(NextNumber)
 	NextNumber = NextNumber + 1
 	storage:set_int("NextNumber", NextNumber)
 	set_block(num, pos)
 	return num
-end	
-	
+end
+
 function api.del_nodepos(number)
 	del_block(number)
-end	
+end
 
 -- delete invalid entries
 function api.delete_invalid_entries(node_def)
 	minetest.log("info", "[TechAge] Data maintenance started")
-	for id, num, x, y, z in db:urows('SELECT * FROM numbers') do 
+	for id, num, x, y, z in db:urows('SELECT * FROM numbers') do
 		local pos = {x = x, y = y, z = z}
 		local name = techage.get_node_lvm(pos).name
 		if not node_def[name] then
@@ -137,6 +130,6 @@ function api.delete_invalid_entries(node_def)
 		end
 	end
 	minetest.log("info", "[TechAge] Data maintenance finished")
-end	
+end
 
 return api

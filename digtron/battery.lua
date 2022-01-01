@@ -96,11 +96,7 @@ local function on_receive_fields(pos, formname, fields, player)
 end
 
 
-local tiles = {}
--- '#' will be replaced by the stage number
--- '{power}' will be replaced by the power PNG
-
-tiles = {
+local tiles = {
 	-- up, down, right, left, back, front
 	"digtron_plate.png^digtron_core.png",
 	"digtron_plate.png^digtron_core.png",

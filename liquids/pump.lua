@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3/TA4 Pump
 
 ]]--
@@ -28,7 +28,7 @@ local CAPA = 4
 local WRENCH_MENU =	{{
 	type = "output",
 	name = "flowrate",
-	label = S("Total flow rate"),      
+	label = S("Total flow rate"),
 	tooltip = S("Total flow rate in liquid units"),
 }}
 
@@ -96,19 +96,19 @@ local function node_timer3(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	pumping(pos, nvm, State3, CAPA)
 	return State3:is_active(nvm)
-end	
+end
 
 local function node_timer4(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	nvm.flowrate = (nvm.flowrate or 0) + pumping(pos, nvm, State4, CAPA * 2)
 	return State4:is_active(nvm)
-end	
+end
 
 local function on_rightclick(pos, node, clicker)
 	if minetest.is_protected(pos, clicker:get_player_name()) then
 		return
 	end
-	
+
 	local nvm = techage.get_nvm(pos)
 	if node.name == "techage:t3_pump" then
 		local mem = techage.get_mem(pos)
@@ -215,7 +215,6 @@ minetest.register_node("techage:t3_pump", {
 	after_dig_node = after_dig_node,
 	on_rotate = screwdriver.disallow,
 	paramtype2 = "facedir",
-	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
@@ -230,7 +229,6 @@ minetest.register_node("techage:t3_pump_on", {
 	after_dig_node = after_dig_node,
 	on_rotate = screwdriver.disallow,
 	paramtype2 = "facedir",
-	on_rotate = screwdriver.disallow,
 	diggable = false,
 	groups = {not_in_creative_inventory=1},
 	is_ground_content = false,
@@ -246,7 +244,6 @@ minetest.register_node("techage:t4_pump", {
 	after_dig_node = after_dig_node,
 	on_rotate = screwdriver.disallow,
 	paramtype2 = "facedir",
-	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
@@ -262,7 +259,6 @@ minetest.register_node("techage:t4_pump_on", {
 	after_dig_node = after_dig_node,
 	on_rotate = screwdriver.disallow,
 	paramtype2 = "facedir",
-	on_rotate = screwdriver.disallow,
 	diggable = false,
 	groups = {not_in_creative_inventory=1},
 	is_ground_content = false,

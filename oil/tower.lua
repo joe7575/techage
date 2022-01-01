@@ -7,14 +7,12 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Oil Tower
 
 ]]--
 
 -- for lazy programmers
-local P = minetest.string_to_pos
-local M = minetest.get_meta
 local S = techage.S
 
 minetest.register_node("techage:oiltower1", {
@@ -198,7 +196,7 @@ minetest.register_node("techage:oil_drillbit2", {
 
 local AssemblyPlan = {
 	-- y-offs, path, facedir-offs, name
-	
+
 	-- level 0
 	{ 0, {0,1}, 0, "techage:oiltower1"},
 	{ 0, {0,3}, 0, "techage:oiltower1"},

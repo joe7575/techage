@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Helper functions
 
 ]]--
@@ -69,8 +69,8 @@ local RotationViaYAxis = {}
 for _,row in ipairs(ROTATION) do
 	for i = 1,4 do
 		local val = row[i]
-		local left  = row[i == 1 and 4 or i - 1] 
-		local right = row[i == 4 and 1 or i + 1] 
+		local left  = row[i == 1 and 4 or i - 1]
+		local right = row[i == 4 and 1 or i + 1]
 		RotationViaYAxis[val] = {left, right}
 	end
 end
@@ -250,8 +250,8 @@ end
 
 -- returns true, if node can be dug, otherwise false
 function techage.can_node_dig(node, ndef)
-	if RegisteredNodesToBeDug[node.name] then 
-		return true 
+	if RegisteredNodesToBeDug[node.name] then
+		return true
 	end
 	if not ndef then return false end
 	if node.name == "ignore" then return false end
@@ -329,7 +329,7 @@ function techage.dropped_node(node, ndef)
 		return handle_drop(ndef.drop)
 	end
 	return ndef.drop or node.name
-end	
+end
 
 -- needed for windmill plants
 local function determine_ocean_ids()
@@ -363,7 +363,7 @@ function techage.item_image(x, y, itemname, count)
 	local tooltip = "tooltip["..x..","..y..";1,1;"..text..";#0C3D32;#FFFFFF]"
 
 	if minetest.registered_tools[name] and size > 1 then
-		local offs = 0
+		local offs
 		if size < 10 then
 			offs = 0.65
 		elseif size < 100 then
@@ -375,7 +375,7 @@ function techage.item_image(x, y, itemname, count)
 		end
 		label = "label["..(x + offs)..","..(y + 0.45)..";"..tostring(size).."]"
 	end
-	
+
 	return "box["..x..","..y..";0.85,0.9;#808080]"..
 		"item_image["..x..","..y..";1,1;"..itemname.."]"..
 		tooltip..
@@ -386,15 +386,69 @@ function techage.item_image_small(x, y, itemname, tooltip_prefix)
 	local name = unpack(string.split(itemname, " "))
 	local tooltip = ""
 	local ndef = minetest.registered_nodes[name] or minetest.registered_items[name] or minetest.registered_craftitems[name]
-	
+
 	if ndef and ndef.description then
 		local text = minetest.formspec_escape(ndef.description)
 		tooltip = "tooltip["..x..","..y..";0.8,0.8;"..tooltip_prefix..": "..text..";#0C3D32;#FFFFFF]"
 	end
-	
+
 	return "box["..x..","..y..";0.65,0.7;#808080]"..
 		"item_image["..x..","..y..";0.8,0.8;"..name.."]"..
 		tooltip
+end
+
+-- Copied from Minetest's builtin/common/misc_helpers.lua
+local function basic_dump(o)
+	local tp = type(o)
+	if tp == "number" then
+		return tostring(o)
+	elseif tp == "string" then
+		return string.format("%q", o)
+	elseif tp == "boolean" then
+		return tostring(o)
+	elseif tp == "nil" then
+		return "nil"
+	-- Uncomment for full function dumping support.
+	-- Not currently enabled because bytecode isn't very human-readable and
+	-- dump's output is intended for humans.
+	--elseif tp == "function" then
+	--	return string.format("loadstring(%q)", string.dump(o))
+	elseif tp == "userdata" then
+		return tostring(o)
+	else
+		return string.format("<%s>", tp)
+	end
+end
+
+local keywords = {
+	["and"] = true,
+	["break"] = true,
+	["do"] = true,
+	["else"] = true,
+	["elseif"] = true,
+	["end"] = true,
+	["false"] = true,
+	["for"] = true,
+	["function"] = true,
+	["goto"] = true,  -- Lua 5.2
+	["if"] = true,
+	["in"] = true,
+	["local"] = true,
+	["nil"] = true,
+	["not"] = true,
+	["or"] = true,
+	["repeat"] = true,
+	["return"] = true,
+	["then"] = true,
+	["true"] = true,
+	["until"] = true,
+	["while"] = true,
+}
+local function is_valid_identifier(str)
+	if not str:find("^[a-zA-Z_][a-zA-Z0-9_]*$") or keywords[str] then
+		return false
+	end
+	return true
 end
 
 function techage.mydump(o, indent, nested, level)
@@ -412,7 +466,7 @@ function techage.mydump(o, indent, nested, level)
 		return "<circular reference>"
 	end
 	nested[o] = true
-	indent = " "
+	indent = indent or " "
 	level = level or 1
 	local t = {}
 	local dumped_indexes = {}
@@ -470,7 +524,7 @@ local BUFFER_DEPTH = 10
 function techage.historybuffer_add(pos, s)
 	local mem = techage.get_mem(pos)
 	mem.hisbuf = mem.hisbuf or {}
-	
+
 	if #s > 2 then
 		table.insert(mem.hisbuf, s)
 		if #mem.hisbuf > BUFFER_DEPTH then
@@ -484,7 +538,7 @@ function techage.historybuffer_priv(pos)
 	local mem = techage.get_mem(pos)
 	mem.hisbuf = mem.hisbuf or {}
 	mem.hisbuf_idx = mem.hisbuf_idx or 1
-	
+
 	mem.hisbuf_idx = math.max(1, mem.hisbuf_idx - 1)
 	return mem.hisbuf[mem.hisbuf_idx]
 end
@@ -493,7 +547,7 @@ function techage.historybuffer_next(pos)
 	local mem = techage.get_mem(pos)
 	mem.hisbuf = mem.hisbuf or {}
 	mem.hisbuf_idx = mem.hisbuf_idx or 1
-	
+
 	mem.hisbuf_idx = math.min(#mem.hisbuf, mem.hisbuf_idx + 1)
 	return mem.hisbuf[mem.hisbuf_idx]
 end

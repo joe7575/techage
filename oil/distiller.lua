@@ -7,13 +7,11 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Distillation Tower
 
 ]]--
 
-local S2P = minetest.string_to_pos
-local P2S = minetest.pos_to_string
 local M = minetest.get_meta
 local S = techage.S
 local Pipe = techage.LiquidPipe
@@ -70,7 +68,7 @@ minetest.register_node("techage:ta3_distiller_base", {
 	},
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	
+
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},
@@ -129,7 +127,7 @@ minetest.register_node("techage:ta3_distiller2", {
 	after_place_node = function(pos, placer)
 		return orientation(pos, {"techage:ta3_distiller1", "techage:ta3_distiller3"})
 	end,
-	
+
 	paramtype = "light",
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -157,7 +155,7 @@ minetest.register_node("techage:ta3_distiller3", {
 		return res
 	end,
 	after_dig_node = after_dig_node,
-	
+
 	paramtype = "light",
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -188,7 +186,7 @@ minetest.register_node("techage:ta3_distiller4", {
 		return res
 	end,
 	after_dig_node = after_dig_node,
-	
+
 	paramtype = "light",
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -208,7 +206,7 @@ techage.register_node({"techage:ta3_distiller1"}, {
 			local nvm = techage.get_nvm(pos)
 			nvm.idx = nvm.idx or 1
 			local outdir
-			if nvm.idx == 5 then 
+			if nvm.idx == 5 then
 				outdir = 6 -- up
 			else
 				outdir = M(pos):get_int("outdir")

