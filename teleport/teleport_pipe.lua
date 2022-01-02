@@ -8,7 +8,7 @@
 	AGPL v3
 	See LICENSE.txt for more information
 
-	TA5 teleport tube
+	TA5 teleport pipe
 
 ]]--
 
@@ -18,10 +18,11 @@ local S2P = minetest.string_to_pos
 local M = minetest.get_meta
 local S = techage.S
 
-local Tube = techage.Tube
+local Pipe = techage.LiquidPipe
 local teleport = techage.teleport
 local Cable = techage.ElectricCable
 local power = networks.power
+local liquid = networks.liquid
 
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
@@ -29,7 +30,7 @@ local CYCLE_TIME = 2
 local PWR_NEEDED = 12
 local EX_POINTS = 60
 local MAX_DIST = 200
-local DESCRIPTION = S("TA5 Teleport Tube")
+local DESCRIPTION = S("TA5 Teleport Pipe")
 
 local function formspec(self, pos, nvm)
 	local title = DESCRIPTION .. " " .. M(pos):get_string("tele_status")
@@ -45,7 +46,7 @@ local function can_start(pos, nvm, state)
 end
 
 local State = techage.NodeStates:new({
-	node_name_passive = "techage:ta5_tele_tube",
+	node_name_passive = "techage:ta5_tele_pipe",
 	infotext_name = DESCRIPTION,
 	cycle_time = CYCLE_TIME,
 	standby_ticks = STANDBY_TICKS,
@@ -69,14 +70,14 @@ local function consume_power(pos, nvm)
 	end
 end
 
-minetest.register_node("techage:ta5_tele_tube", {
+minetest.register_node("techage:ta5_tele_pipe", {
 	description = DESCRIPTION,
 	tiles = {
 		-- up, down, right, left, back, front
-		"techage_filling_ta4.png^techage_frame_ta5_top.png^techage_appl_tele_tube.png",
+		"techage_filling_ta4.png^techage_frame_ta5_top.png^techage_appl_tele_pipe.png",
 		"techage_filling_ta4.png^techage_frame_ta5_top.png",
 		"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_teleport.png",
-		"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_hole_tube.png",
+		"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_hole_pipe.png",
 		"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_teleport.png",
 		"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_teleport.png",
 	},
@@ -85,14 +86,14 @@ minetest.register_node("techage:ta5_tele_tube", {
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
 		local node = minetest.get_node(pos)
-		local tube_dir = techage.side_to_outdir("L", node.param2)
-		local number = techage.add_node(pos, "techage:ta5_tele_tube")
+		local pipe_dir = techage.side_to_outdir("L", node.param2)
+		local number = techage.add_node(pos, "techage:ta5_tele_pipe")
 		State:node_init(pos, nvm, number)
-		meta:set_int("tube_dir", tube_dir)
+		meta:set_int("pipe_dir", pipe_dir)
 		meta:set_string("owner", placer:get_player_name())
-		Tube:after_place_node(pos, {tube_dir})
+		Pipe:after_place_node(pos, {pipe_dir})
 		Cable:after_place_node(pos)
-		teleport.prepare_pairing(pos, "ta5_tele_tube")
+		teleport.prepare_pairing(pos, "ta5_tele_pipe")
 	end,
 	
 	on_receive_fields = function(pos, formname, fields, player)
@@ -128,7 +129,7 @@ minetest.register_node("techage:ta5_tele_tube", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		teleport.stop_pairing(pos, oldmetadata)
-		Tube:after_dig_node(pos)
+		Pipe:after_dig_node(pos)
 		Cable:after_dig_node(pos)
 		techage.del_mem(pos)
 	end,
@@ -141,40 +142,50 @@ minetest.register_node("techage:ta5_tele_tube", {
 })
 
 minetest.register_craft({
-	output = "techage:ta5_tele_tube",
+	output = "techage:ta5_tele_pipe",
 	recipe = {
 		{"techage:aluminum", "dye:red", "techage:aluminum"},
-		{"techage:ta4_tubeS", "techage:usmium_nuggets", "techage:ta5_aichip"},
+		{"techage:ta3_pipeS", "techage:usmium_nuggets", "techage:ta5_aichip"},
 		{"techage:ta4_carbon_fiber", "", "techage:ta4_carbon_fiber"},
 	},
 })
 
-techage.register_node({"techage:ta5_tele_tube"}, {
-	on_push_item = function(pos, in_dir, stack)
+local blocked = false  -- flag to prevent stack overruns (not to pump into the own "tank")
+liquid.register_nodes({"techage:ta5_tele_pipe"}, Pipe, "tank", {"L"}, {
+	peek = function(pos)
 		local nvm = techage.get_nvm(pos)
-		if techage.is_operational(nvm) then
+		return liquid.srv_peek(nvm)
+	end,
+	put = function(pos, indir, name, amount)
+		local nvm = techage.get_nvm(pos)
+		nvm.oil_amount = nvm.oil_amount or 0
+		if not blocked and techage.is_operational(nvm) then
 			local rmt_pos = teleport.get_remote_pos(pos)
 			local rmt_nvm = techage.get_nvm(rmt_pos)
 			if techage.is_operational(rmt_nvm) then
-				local tube_dir = M(rmt_pos):get_int("tube_dir")
-				if techage.push_items(rmt_pos, tube_dir, stack) then
+				local pipe_dir = M(rmt_pos):get_int("pipe_dir")
+				blocked = true
+				local leftover = liquid.put(rmt_pos, Pipe, pipe_dir, name, amount)
+				blocked = false
+				if leftover < amount then
 					State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 					State:keep_running(rmt_pos, rmt_nvm, COUNTDOWN_TICKS)
-					return true
 				end
+				return leftover
 			else
 				State:blocked(pos, nvm, S("Remote block error"))
 			end
 		end
-		return false
-	end,
-	is_pusher = true,  -- is a pulling/pushing node
+		return amount
+	end
+})
 
+techage.register_node({"techage:ta5_tele_pipe"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		return State:on_receive_message(pos, topic, payload)
 	end,
 })
 
-power.register_nodes({"techage:ta5_tele_tube"}, Cable, "con", {"B", "R", "F", "D", "U"})
-Tube:set_valid_sides("techage:ta5_tele_tube", {"L"})
+power.register_nodes({"techage:ta5_tele_pipe"}, Cable, "con", {"B", "R", "F", "D", "U"})
+Pipe:set_valid_sides("techage:ta5_tele_pipe", {"L"})
 

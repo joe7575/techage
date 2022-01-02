@@ -70,6 +70,13 @@ local TELE_MENU = {
 		label = S("Remote name"),      
 		tooltip = S("Connection name of the remote block"),
 	},
+	{
+		type = "output",
+		label = S("Status"),
+		tooltip = S("Connection status"),
+		name = "status",
+		default = "",
+	},
 }
 
 function techage.teleport.formspec(pos)
@@ -127,23 +134,34 @@ function techage.teleport.get_remote_pos(pos)
 	end
 end
 
-function techage.teleport.after_formspec(pos, fields)
-	if techage.menu.eval_input(pos, TELE_MENU, fields) then
-		if not techage.teleport.is_connected(pos) then
-			local meta = M(pos)
-			if fields.remote_name ~= "" then -- Client
-				local tbl = get_pairing_table1(meta)
-				local peer_pos = tbl[fields.remote_name]
-				if peer_pos then
-					tbl[fields.remote_name] = nil
-					store_connection(pos, peer_pos)
-					store_connection(peer_pos, pos)
+function techage.teleport.after_formspec(pos, player, fields, max_dist, ex_points)
+	if techage.get_expoints(player) >= ex_points then
+		if techage.menu.eval_input(pos, TELE_MENU, fields) then
+			if not techage.teleport.is_connected(pos) then
+				local meta = M(pos)
+				if fields.remote_name ~= "" then -- Client
+					local tbl = get_pairing_table1(meta)
+					local peer_pos = tbl[fields.remote_name]
+					if peer_pos then
+						if vector.distance(pos, peer_pos) <= max_dist then
+							tbl[fields.remote_name] = nil
+							store_connection(pos, peer_pos)
+							store_connection(peer_pos, pos)
+							M(pos):set_string("status", S("Connected"))
+						else
+							M(pos):set_string("status", S("Distance > @1 blocks", max_dist))
+							meta:set_string("formspec", techage.teleport.formspec(pos))
+						end
+					end
+				elseif fields.conn_name ~= "" then -- Server
+					local tbl = get_pairing_table1(meta)
+					tbl[fields.conn_name] = pos
+					techage.teleport.prepare_pairing(pos, nil, S("server not connected"))
 				end
-			elseif fields.conn_name ~= "" then -- Server
-				local tbl = get_pairing_table1(meta)
-				tbl[fields.conn_name] = pos
-				techage.teleport.prepare_pairing(pos, nil, S("server not connected"))
 			end
 		end
+	else
+		M(pos):set_string("status", S("Ex-points missing (@1 < @2)", techage.get_expoints(player), ex_points))
+		M(pos):set_string("formspec", techage.teleport.formspec(pos))
 	end
 end

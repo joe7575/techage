@@ -255,20 +255,25 @@ TA2 Cylinder=TA2 Zylinder
 
 ### detector.lua ###
 
+TA4 Collider Detector=TA4 Collider Detektor
+TA4 Collider Detector Core=TA4 Collider Detektorkern
+TA4 Detector=TA4 Detektor
+
+### detector.lua ###
+### logic_block.lua ###
+### tele.lua ###
+
+Blocking Time=Sperrzeit
+
+### detector.lua ###
+### tele.lua ###
+
 Configured Items=Konfigurierte Gegenstände
 Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Items, die einen 'on'-Kommando generieren.@nWenn leer, generieren alle übergebenen Items einen 'on'-Befehl.
 On Time=ON Zeit
 TA3 Detector=TA3 Detektor
-TA4 Collider Detector=TA4 Collider Detektor
-TA4 Collider Detector Core=TA4 Collider Detektorkern
-TA4 Detector=TA4 Detektor
 The time after the 'off' command@nuntil the next 'on' command is accepted.=Die Zeit nach dem 'off' Kommando,@nbis das nächste 'on' Kommando akzeptiert wird.
 The time between the 'on' and 'off' commands.=Die Zeit zwischen den 'on' und 'off' Kommandos.
-
-### detector.lua ###
-### logic_block.lua ###
-
-Blocking Time=Sperrzeit
 
 ### display.lua ###
 
@@ -593,7 +598,7 @@ Power network connection error=Stromnetz Verbindungsfehler
 TA4 Heat Exchanger=TA4 Wärmetauscher
 TA4 Heat Exchanger 2=TA4 Wärmetauscher 2
 did you check the plan?=hast du den Plan geprüft?
-inlet/pipe error=Einlass/Röhrenfehler
+inlet/pipe error=Einlass/Leitungsfehler
 wrong storage diameter=Falscher Wärmespeicher-Durchmesser
 
 ### heatexchanger3.lua ###
@@ -607,25 +612,21 @@ Hydrogen Cylinder Small=Wasserstoffflasche klein
 TA4 Hydrogen=TA4 Wasserstoff
 
 ### hyperloop.lua ###
+### sensorchest.lua ###
+### teleport.lua ###
+### terminal.lua ###
+
+not connected=nicht verbunden
+
+### hyperloop.lua ###
+### teleport.lua ###
 
 Block name=Blockname
 Connection name for this block=Verbindungsname für diesen Block
 Connection name of the remote block=Verbindungsname des entfernten Blocks
 Enter a block name or select an existing one=Gebe einen Blocknamen ein oder wähle einen vorhandenen aus
 Remote name=Name entfernter Block
-
-### hyperloop.lua ###
-### lib.lua ###
-### sensorchest.lua ###
-### terminal.lua ###
-
-connected with=verbunden mit
-
-### hyperloop.lua ###
-### sensorchest.lua ###
-### terminal.lua ###
-
-not connected=nicht verbunden
+connected to=verbunden mit
 
 ### industriallamp1.lua ###
 
@@ -645,7 +646,7 @@ TA4 LED Industrial Lamp=TA4 LED Industrielampe
 
 ### inlet.lua ###
 
-TA4 Pipe Inlet=TA4 Rohrzulauf
+TA4 Pipe Inlet=TA4 Leitungszulauf
 one window maximum=maximal ein Fenster
 wrong diameter (should be 5, 7, or 9)=falscher Durchmesser (sollte 5, 7, oder 9 sein)
 wrong number of gravel nodes=falsche Anzahl von Kiesblöcken
@@ -691,6 +692,12 @@ to=bis
 ### lib.lua ###
 
 Block has an@nadditional wrench menu=Block besitzt ein@nzusätzliches@nSchraubenschlüssel-Menü
+
+### lib.lua ###
+### sensorchest.lua ###
+### terminal.lua ###
+
+connected with=verbunden mit
 
 ### lighter.lua ###
 
@@ -881,7 +888,7 @@ TA4 Pillar=TA4 Säule
 
 ### pipe_wall_entry.lua ###
 
-TA3 Pipe Wall Entry=TA3 Rohr/Wanddurchbruch
+TA3 Pipe Wall Entry=TA3 Leitungs/Wanddurchbruch
 
 ### pipe_wrench.lua ###
 
@@ -1264,6 +1271,28 @@ TA4 Tank=TA4 Tank
 
 TA Tank Cart=TA Tankwagen
 
+### teleport.lua ###
+
+Connected=Verbunden
+Connection status=Verbindungsstatus
+Distance > @1 blocks=Abstand > @1 Blöcke
+Ex-points missing (@1 < @2)=Erf.-Punkte fehlen  (@1 < @2)
+Status=Status
+server not connected=Server nicht verbunden
+
+### teleport_pipe.lua ###
+
+TA5 Teleport Pipe=TA5 Teleport Leitung
+
+### teleport_pipe.lua ###
+### teleport_tube.lua ###
+
+Remote block error=Fehler entfernter Block 
+
+### teleport_tube.lua ###
+
+TA5 Teleport Tube=TA5 Teleport Röhre
+
 ### terminal.lua ###
 
 Syntax error, try help=Syntax Fehler, nutze help
@@ -1300,7 +1329,7 @@ TechAge Trowel=TechAge Kelle
 
 ### tube_wall_entry.lua ###
 
-Tube Wall Entry=Tube Wanddurchbruch
+Tube Wall Entry=Röhrenwanddurchbruch
 
 ### tubes.lua ###
 
@@ -1373,6 +1402,3 @@ Remove detector=Entferne Detektor
 TA4 Collider Detector Worker=TA4 Collider Detektor Worker
 [TA4] Detector is being built!=[TA4] Detektor wird gebaut! 
 [TA4] Detector is being removed!=[TA4] Detektor wird  entfernt!
-
-
-

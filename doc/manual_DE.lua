@@ -239,8 +239,8 @@ techage.manual_DE.aTitel = {
   "3,TA5 Hyperloop Tank / TA5 Hyperloop Tank",
   "3,Hyperloop Teleport Blöcke (geplant)",
   "3,TA5 Container (geplant)",
-  "3,TA5-Teleport-Tubes (geplant)",
-  "3,TA5-Teleport-Pipes (geplant)",
+  "3,TA5-Teleportröhren / TA5-Teleport-Tubes",
+  "3,TA5-Teleportleitungen / TA5-Teleport-Pipes",
   "3,TA5-Raumgleiter (geplant)",
   "2,Weitere TA5 Blöcke/Items",
   "3,TA5 KI Chip / TA5 AI Chip",
@@ -2027,17 +2027,19 @@ techage.manual_DE.aText = {
   "\n"..
   "Für die Nutzung des TA5 Containers werden 80 Erfahrungspunkte benötigt.\n"..
   "\n",
-  "Teleport Tubes erlauben den Item-Transport ohne Tubes bis zu einer Entfernung von 200 Blöcken.\n"..
+  "Teleportröhren erlauben den Item-Transport ohne Röhren bis zu einer Entfernung von 200 Blöcken.\n"..
+  "Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Block eingeben\\, dann kannst du bei dem anderen Block diesen Namen auswählen und so die beiden Blöcke verbinden.\n"..
   "\n"..
-  "Die Teleport-Tubes benötigen jeweils 5 ku Strom.\n"..
+  "Die Teleportröhren benötigen jeweils 12 ku Strom.\n"..
   "\n"..
-  "Für die Nutzung der TA5 Teleport Tubes werden 60 Erfahrungspunkte benötigt.\n"..
+  "Für die Nutzung der Teleportröhren werden 60 Erfahrungspunkte benötigt.\n"..
   "\n",
-  "Teleport Pipes erlauben den Flüssigkeiten-Transport ohne Pipes bis zu einer Entfernung von 200 Blöcken.\n"..
+  "Teleportleitungen erlauben den Flüssigkeiten-Transport ohne Leitungen bis zu einer Entfernung von 200 Blöcken.\n"..
+  "Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Block eingeben\\, dann kannst du bei dem anderen Block diesen Namen auswählen und so die beiden Blöcke verbinden.\n"..
   "\n"..
-  "Die Teleport-Pipes benötigen jeweils 5 ku Strom.\n"..
+  "Die Teleportleitungen benötigen jeweils 12 ku Strom.\n"..
   "\n"..
-  "Für die Nutzung der TA5 Teleport Pipes werden 60 Erfahrungspunkte benötigt.\n"..
+  "Für die Nutzung der Teleportleitungen werden 60 Erfahrungspunkte benötigt.\n"..
   "\n",
   "Dank einem Spezialantrieb für Lichtgeschwindigkeit können mit dem Raumgleiter auch große Entfernungen sehr schnell überwunden werden.\n"..
   "\n",

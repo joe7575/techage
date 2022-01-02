@@ -255,20 +255,25 @@ TA2 Cylinder=
 
 ### detector.lua ###
 
+TA4 Collider Detector=
+TA4 Collider Detector Core=
+TA4 Detector=
+
+### detector.lua ###
+### logic_block.lua ###
+### tele.lua ###
+
+Blocking Time=
+
+### detector.lua ###
+### tele.lua ###
+
 Configured Items=
 Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=
 On Time=
 TA3 Detector=
-TA4 Collider Detector=
-TA4 Collider Detector Core=
-TA4 Detector=
 The time after the 'off' command@nuntil the next 'on' command is accepted.=
 The time between the 'on' and 'off' commands.=
-
-### detector.lua ###
-### logic_block.lua ###
-
-Blocking Time=
 
 ### display.lua ###
 
@@ -607,25 +612,21 @@ Hydrogen Cylinder Small=
 TA4 Hydrogen=
 
 ### hyperloop.lua ###
+### sensorchest.lua ###
+### teleport.lua ###
+### terminal.lua ###
+
+not connected=
+
+### hyperloop.lua ###
+### teleport.lua ###
 
 Block name=
 Connection name for this block=
 Connection name of the remote block=
 Enter a block name or select an existing one=
 Remote name=
-
-### hyperloop.lua ###
-### lib.lua ###
-### sensorchest.lua ###
-### terminal.lua ###
-
-connected with=
-
-### hyperloop.lua ###
-### sensorchest.lua ###
-### terminal.lua ###
-
-not connected=
+connected to=
 
 ### industriallamp1.lua ###
 
@@ -691,6 +692,12 @@ to=
 ### lib.lua ###
 
 Block has an@nadditional wrench menu=
+
+### lib.lua ###
+### sensorchest.lua ###
+### terminal.lua ###
+
+connected with=
 
 ### lighter.lua ###
 
@@ -1263,6 +1270,28 @@ TA4 Tank=
 ### tank_cart.lua ###
 
 TA Tank Cart=
+
+### teleport.lua ###
+
+Connected=
+Connection status=
+Distance > @1 blocks=
+Ex-points missing (@1 < @2)=
+Status=
+server not connected=
+
+### teleport_pipe.lua ###
+
+TA5 Teleport Pipe=
+
+### teleport_pipe.lua ###
+### teleport_tube.lua ###
+
+Remote block error=
+
+### teleport_tube.lua ###
+
+TA5 Teleport Tube=
 
 ### terminal.lua ###
 
