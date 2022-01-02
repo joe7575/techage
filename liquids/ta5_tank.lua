@@ -99,7 +99,7 @@ minetest.register_craft({
 	output = "techage:ta5_hl_tank",
 	recipe = {
 		{"", "techage:ta5_aichip", ""},
-		{"", "techage:ta5_hl_tank", ""},
+		{"", "techage:ta4_tank", ""},
 		{"", "", ""},
 	},
 })
