@@ -91,14 +91,14 @@ local function update_node_data(pos, state, conn_name, remote_name, rmt_pos)
 		meta:set_string("status", "server")
 		meta:set_string("conn_name", conn_name)
 		meta:set_string("remote_name", "")
-		meta:set_string("conn_status", S("connected with") .. " " .. P2S(rmt_pos))
+		meta:set_string("conn_status", S("connected to") .. " " .. P2S(rmt_pos))
 		nvm.rmt_pos = rmt_pos
 	elseif state == "client_connected" then
 		Stations:update(pos, {conn_name="nil", single="nil"})
 		meta:set_string("status", "client")
 		meta:set_string("conn_name", "")
 		meta:set_string("remote_name", remote_name)
-		meta:set_string("conn_status", S("connected with") .. " " .. P2S(rmt_pos))
+		meta:set_string("conn_status", S("connected to") .. " " .. P2S(rmt_pos))
 		nvm.rmt_pos = rmt_pos
 	elseif state == "server_not_connected" then
 		Stations:update(pos, {conn_name=conn_name, single=true})
@@ -212,7 +212,7 @@ function techage.hyperloop.after_dig_node(pos, oldnode, oldmetadata, digger)
 end
 
 function techage.hyperloop.after_formspec(pos, fields)
-	if HYPERLOOP and fields.save then
+	if HYPERLOOP and fields.save or fields.key_enter_field then
 		local meta = M(pos)
 		local conn_name = meta:get_string("conn_name")
 		local remote_name = meta:get_string("remote_name")

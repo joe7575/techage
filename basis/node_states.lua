@@ -174,6 +174,7 @@ function NodeStates:new(attr)
 		cycle_time = attr.cycle_time, -- for running state
 		standby_ticks = attr.standby_ticks, -- for standby state
 		-- optional
+                countdown_ticks = attr.countdown_ticks or 1,
 		node_name_passive = attr.node_name_passive,
 		node_name_active = attr.node_name_active, 
 		infotext_name = attr.infotext_name,
@@ -254,7 +255,7 @@ function NodeStates:start(pos, nvm)
 		if self.start_node then
 			self.start_node(pos, nvm, state)
 		end
-		nvm.techage_countdown = 1
+		nvm.techage_countdown = self.countdown_ticks
 		if self.node_name_active then
 			swap_node(pos, self.node_name_active)
 		end

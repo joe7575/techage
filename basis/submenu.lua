@@ -288,9 +288,9 @@ function techage.menu.generate_formspec(pos, ndef, form_def, player_name)
 end
 
 function techage.menu.eval_input(pos, form_def, fields, player_name)	
-	if fields.save then
+	if fields.save or fields.key_enter_field then
 		local meta = minetest.get_meta(pos)
 		evaluate_data(pos, meta, form_def, fields, player_name)
 	end
-	return fields.refresh or fields.save
+	return fields.refresh or fields.save or fields.key_enter_field 
 end

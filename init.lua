@@ -103,6 +103,7 @@ dofile(MP.."/basis/oggfiles.lua")
 dofile(MP.."/basis/submenu.lua")
 dofile(MP.."/basis/shared_inv.lua")
 dofile(MP.."/basis/shared_tank.lua")
+dofile(MP.."/basis/teleport.lua")
 
 -- Main doc
 dofile(MP.."/doc/manual_DE.lua")
@@ -392,6 +393,8 @@ dofile(MP.."/collider/inlets.lua")
 dofile(MP.."/collider/cooler.lua")
 dofile(MP.."/collider/detector.lua")
 dofile(MP.."/collider/worker.lua")
+
+dofile(MP.."/teleport/teleport_tube.lua")
 
 
 -- Prevent other mods from using IE
