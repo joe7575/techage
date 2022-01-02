@@ -205,6 +205,9 @@ techage.Items = {
 	----------------------------
 	ta5_flycontroller = "techage:ta5_flycontroller",
         ta5_aichip = "techage:ta5_aichip",
+        ta5_tele_pipe = "techage:ta5_tele_pipe",
+        ta5_tele_tube = "techage:ta5_tele_tube",
+
 }
 
 function techage.add_manual_items(table_with_items)

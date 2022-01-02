@@ -2033,6 +2033,8 @@ techage.manual_DE.aText = {
   "Die Teleportröhren benötigen jeweils 12 ku Strom.\n"..
   "\n"..
   "Für die Nutzung der Teleportröhren werden 60 Erfahrungspunkte benötigt.\n"..
+  "\n"..
+  "\n"..
   "\n",
   "Teleportleitungen erlauben den Flüssigkeiten-Transport ohne Leitungen bis zu einer Entfernung von 200 Blöcken.\n"..
   "Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Block eingeben\\, dann kannst du bei dem anderen Block diesen Namen auswählen und so die beiden Blöcke verbinden.\n"..
@@ -2040,6 +2042,8 @@ techage.manual_DE.aText = {
   "Die Teleportleitungen benötigen jeweils 12 ku Strom.\n"..
   "\n"..
   "Für die Nutzung der Teleportleitungen werden 60 Erfahrungspunkte benötigt.\n"..
+  "\n"..
+  "\n"..
   "\n",
   "Dank einem Spezialantrieb für Lichtgeschwindigkeit können mit dem Raumgleiter auch große Entfernungen sehr schnell überwunden werden.\n"..
   "\n",
@@ -2289,8 +2293,8 @@ techage.manual_DE.aItemName = {
   "ta4_tank",
   "",
   "",
-  "",
-  "",
+  "ta5_tele_tube",
+  "ta5_tele_pipe",
   "",
   "",
   "ta5_aichip",

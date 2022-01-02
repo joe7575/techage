@@ -75,6 +75,8 @@ The teleport tubes each require 12 ku of electricity.
 
 60 experience points are required to use the TA5 Teleport Tubes.
 
+[ta5_tele_tube|image]
+
 ### TA5 Teleport Pipes
 
 Teleport Pipes allow liquids to be transported without pipes up to a distance of 200 blocks.
@@ -83,6 +85,8 @@ For pairing you first have to enter a name for the block on one side, then you c
 The teleport pipes each require 12 ku of electricity.
 
 60 experience points are required to use the TA5 Teleport Pipes.
+
+[ta5_tele_pipe|image]
 
 ## More TA5 Blocks / Items
 

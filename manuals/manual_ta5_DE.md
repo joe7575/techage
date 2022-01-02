@@ -75,6 +75,8 @@ Die Teleportröhren benötigen jeweils 12 ku Strom.
 
 Für die Nutzung der Teleportröhren werden 60 Erfahrungspunkte benötigt.
 
+[ta5_tele_tube|image]
+
 ### TA5-Teleportleitungen / TA5-Teleport-Pipes
 
 Teleportleitungen erlauben den Flüssigkeiten-Transport ohne Leitungen bis zu einer Entfernung von 200 Blöcken.
@@ -83,6 +85,8 @@ Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Block 
 Die Teleportleitungen benötigen jeweils 12 ku Strom.
 
 Für die Nutzung der Teleportleitungen werden 60 Erfahrungspunkte benötigt.
+
+[ta5_tele_pipe|image]
 
 ### TA5-Raumgleiter (geplant)
 

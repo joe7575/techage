@@ -2030,6 +2030,8 @@ techage.manual_EN.aText = {
   "The teleport tubes each require 12 ku of electricity.\n"..
   "\n"..
   "60 experience points are required to use the TA5 Teleport Tubes.\n"..
+  "\n"..
+  "\n"..
   "\n",
   "Teleport Pipes allow liquids to be transported without pipes up to a distance of 200 blocks.\n"..
   "For pairing you first have to enter a name for the block on one side\\, then you can select this name for the other block and thus connect the two blocks.\n"..
@@ -2037,6 +2039,8 @@ techage.manual_EN.aText = {
   "The teleport pipes each require 12 ku of electricity.\n"..
   "\n"..
   "60 experience points are required to use the TA5 Teleport Pipes.\n"..
+  "\n"..
+  "\n"..
   "\n",
   "",
   "The TA5 AI Chip is partly required for the production of TA5 blocks. The TA5 AI Chip can only be manufactured at the TA4 Electronics Fab. This requires 10 experience points.\n"..
@@ -2284,8 +2288,8 @@ techage.manual_EN.aItemName = {
   "ta4_tank",
   "",
   "",
-  "",
-  "",
+  "ta5_tele_tube",
+  "ta5_tele_pipe",
   "",
   "ta5_aichip",
 }
