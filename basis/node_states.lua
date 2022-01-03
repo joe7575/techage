@@ -13,33 +13,33 @@
 ]]--
 
 
---[[ 
+--[[
 
 Node states:
 
         +-----------------------------------+    +------------+
-        |                                   |    |            |                                      
-        |                                   V    V            |                                      
-        |                                +---------+          |                                      
-        |                                |         |          |                                      
-        |                      +---------| STOPPED |          |                                      
-        |                      |         |         |          |                                      
-        |               button |         +---------+          |                                      
-        |                      |              ^               |                                      
- button |                      V              | button        |                                      
-        |                 +---------+         |               | button                               
-        |      +--------->|         |---------+               |                                      
-        |      | power    | RUNNING |                         |                                      
-        |      |   +------|         |---------+               |                                      
-        |      |   |      +---------+         |               |                                      
-        |      |   |         ^    |           |               |                                      
-        |      |   |         |    |           |               |                                      
-        |      |   V         |    V           V               |                                      
-        |   +---------+   +----------+   +---------+          |                                      
-        |   |         |   |          |   |         |          |                                      
-        +---| NOPOWER |   | STANDBY/ |   |  FAULT  |----------+                                      
-            |         |   | BLOCKED  |   |         |                                                 
-            +---------+   +----------+   +---------+                                                 
+        |                                   |    |            |
+        |                                   V    V            |
+        |                                +---------+          |
+        |                                |         |          |
+        |                      +---------| STOPPED |          |
+        |                      |         |         |          |
+        |               button |         +---------+          |
+        |                      |              ^               |
+ button |                      V              | button        |
+        |                 +---------+         |               | button
+        |      +--------->|         |---------+               |
+        |      | power    | RUNNING |                         |
+        |      |   +------|         |---------+               |
+        |      |   |      +---------+         |               |
+        |      |   |         ^    |           |               |
+        |      |   |         |    |           |               |
+        |      |   V         |    V           V               |
+        |   +---------+   +----------+   +---------+          |
+        |   |         |   |          |   |         |          |
+        +---| NOPOWER |   | STANDBY/ |   |  FAULT  |----------+
+            |         |   | BLOCKED  |   |         |
+            +---------+   +----------+   +---------+
 
 
 	|           cycle time   operational   needs power
@@ -74,12 +74,12 @@ techage.FAULT   = 5	-- any fault state (e.g. wrong source items), which can be f
 techage.STOPPED = 6	-- not operational/turned off
 
 techage.StatesImg = {
-	"techage_inv_button_on.png", 
+	"techage_inv_button_on.png",
 	"techage_inv_button_warning.png",
-	"techage_inv_button_standby.png", 
-	"techage_inv_button_nopower.png", 
+	"techage_inv_button_standby.png",
+	"techage_inv_button_nopower.png",
 	"techage_inv_button_error.png",
-	"techage_inv_button_off.png", 
+	"techage_inv_button_off.png",
 }
 
 local function error(pos, msg)
@@ -176,7 +176,7 @@ function NodeStates:new(attr)
 		-- optional
                 countdown_ticks = attr.countdown_ticks or 1,
 		node_name_passive = attr.node_name_passive,
-		node_name_active = attr.node_name_active, 
+		node_name_active = attr.node_name_active,
 		infotext_name = attr.infotext_name,
 		has_power =  attr.has_power or has_power,
 		can_start = attr.can_start or can_start,
@@ -274,7 +274,7 @@ function NodeStates:start(pos, nvm)
 			self.on_state_change(pos, state, RUNNING)
 		end
 		start_timer_delayed(pos, self.cycle_time)
-		
+
 		if self.quick_start and state == STOPPED then
 			self.quick_start(pos, 0)
 		end
@@ -305,7 +305,7 @@ function NodeStates:standby(pos, nvm, err_string)
 		return true
 	end
 	return false
-end	
+end
 
 -- special case of standby for pushing nodes
 function NodeStates:blocked(pos, nvm, err_string)
@@ -330,7 +330,7 @@ function NodeStates:blocked(pos, nvm, err_string)
 		return true
 	end
 	return false
-end	
+end
 
 function NodeStates:nopower(pos, nvm, err_string)
 	local state = nvm.techage_state or RUNNING
@@ -354,7 +354,7 @@ function NodeStates:nopower(pos, nvm, err_string)
 		return true
 	end
 	return false
-end	
+end
 
 function NodeStates:fault(pos, nvm, err_string)
 	local state = nvm.techage_state or STOPPED
@@ -379,7 +379,7 @@ function NodeStates:fault(pos, nvm, err_string)
 		return true
 	end
 	return false
-end	
+end
 
 function NodeStates:get_state(nvm)
 	return nvm.techage_state or techage.STOPPED
@@ -431,7 +431,7 @@ function NodeStates:state_button_event(pos, nvm, fields)
 		if state == STOPPED or state == STANDBY or state == BLOCKED then
 			if not self:start(pos, nvm) and (state == STANDBY or state == BLOCKED) then
 				self:stop(pos, nvm)
-			end	
+			end
 		elseif state == RUNNING or state == FAULT or state == NOPOWER then
 			self:stop(pos, nvm)
 		end
@@ -478,7 +478,7 @@ function NodeStates:on_receive_message(pos, topic, payload)
 		return "unsupported"
 	end
 end
-	
+
 -- restart timer
 function NodeStates:on_node_load(pos)
 	local nvm = techage.get_nvm(pos)

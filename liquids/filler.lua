@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Liquid Filler
 
 ]]--
@@ -80,7 +80,7 @@ local function node_timer(pos, elapsed)
 		end
 	end
 	return true
-end	
+end
 
 minetest.register_node("techage:filler", {
 	description = S("TA Liquid Filler"),
@@ -110,17 +110,17 @@ minetest.register_node("techage:filler", {
 		inv:set_size('src', 9)
 		inv:set_size('dst', 9)
 	end,
-	
+
 	after_place_node = function(pos, placer)
 		M(pos):set_string("formspec", formspec(pos))
 	end,
-	
+
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
 	can_dig = can_dig,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
-	
+
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -144,7 +144,7 @@ techage.register_node({"techage:filler"}, {
 		local inv = M(pos):get_inventory()
 		return techage.put_items(inv, "dst", stack)
 	end,
-})	
+})
 
 
 minetest.register_craft({

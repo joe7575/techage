@@ -7,15 +7,15 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Cracking breaks long chains of hydrocarbons into short chains using a catalyst.
-	Gibbsite powder serves as a catalyst (is not consumed). 
+	Gibbsite powder serves as a catalyst (is not consumed).
 	It can be used to convert bitumen into fueloil, fueloil into naphtha and naphtha into gasoline.
 
-	In hydrogenation, pairs of hydrogen atoms are added to a molecule to convert short-chain 
-	hydrocarbons into long ones. 
-	Here iron powder is required as a catalyst (is not consumed). 
-	It can be used to convert gas (propan) into isobutane, isobutane into gasoline, gasoline into naphtha, 
+	In hydrogenation, pairs of hydrogen atoms are added to a molecule to convert short-chain
+	hydrocarbons into long ones.
+	Here iron powder is required as a catalyst (is not consumed).
+	It can be used to convert gas (propan) into isobutane, isobutane into gasoline, gasoline into naphtha,
 	naphtha into fueloil, and fueloil into bitumen.
 
 ]]--

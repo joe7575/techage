@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Boiler common functions
 
 ]]--
@@ -74,7 +74,7 @@ function techage.boiler.water_temperature(pos, nvm)
 		nvm.temperature = math.max(nvm.temperature - HEAT_STEP, 20)
 	end
 	nvm.fire_trigger = false
-	
+
 	if nvm.water_level == 0 then
 		if nvm.num_water > 0 then
 			nvm.num_water = nvm.num_water - 1
@@ -119,7 +119,7 @@ function techage.boiler.on_punch(pos, node, puncher, pointed_thing)
 	if mem.blocking_time > techage.SystemTime then
 		return
 	end
-	
+
 	nvm.num_water = nvm.num_water or 0
 	local wielded_item = puncher:get_wielded_item():get_name()
 	local item_count = puncher:get_wielded_item():get_count()
@@ -146,4 +146,3 @@ function techage.boiler.on_punch(pos, node, puncher, pointed_thing)
 		M(pos):set_string("formspec", techage.boiler.formspec(pos, nvm))
 	end
 end
-

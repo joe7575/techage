@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	terminal.lua:
-	
+
 ]]--
 
 local M = minetest.get_meta
@@ -22,7 +22,7 @@ Local commands:
 - Output this message with 'help'
 - Switch to public use of buttons with 'pub'
 - Switch to private use of buttons with 'priv'
-- Program a user button with 
+- Program a user button with
    'set <button-num> <button-text> <command>'
    Example: 'set 1 ON cmd 1234 on'
 - send a command with 'cmd <num> <cmnd>'
@@ -35,7 +35,7 @@ Local commands:
 - Output this message with 'help'
 - Switch to public use of buttons with 'pub'
 - Switch to private use of buttons with 'priv'
-- Program a user button with 
+- Program a user button with
    'set <button-num> <button-text> <command>'
    Example: 'set 1 ON cmd 1234 on'
 - send a command with 'cmd <num> <cmnd>'
@@ -110,7 +110,7 @@ local function server_debug(pos, command, player)
 			return
 		end
 		local resp = techage.transfer(
-			pos, 
+			pos,
 			"B",  -- outdir
 			cmnd,  -- topic
 			payload,  -- payload
@@ -119,7 +119,7 @@ local function server_debug(pos, command, player)
 		output(pos, dump(resp))
 		return true
 	end
-	
+
 	cmnd, payload = command:match('^axle%s+([%w_]+)%s*(.*)$')
 	if cmnd then
 		if not minetest.check_player_privs(player, "server") then
@@ -127,7 +127,7 @@ local function server_debug(pos, command, player)
 			return
 		end
 		local resp = techage.transfer(
-			pos, 
+			pos,
 			"B",  -- outdir
 			cmnd,  -- topic
 			payload,  -- payload
@@ -136,7 +136,7 @@ local function server_debug(pos, command, player)
 		output(pos, dump(resp))
 		return true
 	end
-	
+
 	cmnd, payload = command:match('^vtube%s+([%w_]+)%s*(.*)$')
 	if cmnd then
 		if not minetest.check_player_privs(player, "server") then
@@ -144,7 +144,7 @@ local function server_debug(pos, command, player)
 			return
 		end
 		local resp = techage.transfer(
-			pos, 
+			pos,
 			"B",  -- outdir
 			cmnd,  -- topic
 			payload,  -- payload
@@ -158,11 +158,11 @@ end
 local function command(pos, command, player, is_ta4)
 	local meta = minetest.get_meta(pos)
 	local owner = meta:get_string("owner") or ""
-	
+
 	command = command:sub(1,80)
 	command = string.trim(command)
 	local cmnd, data = command:match('^(%w+)%s*(.*)$')
-	
+
 	if cmnd == "clear" then
 		meta:set_string("output", "")
 		meta:set_string("formspec", formspec2(meta))
@@ -202,7 +202,7 @@ local function command(pos, command, player, is_ta4)
 		local own_num = meta:get_string("node_number")
 		local connected_to = meta:contains("connected_to") and meta:get_string("connected_to")
 		local bttn_num, label, num, cmnd, payload
-		
+
 		num, cmnd, payload = command:match('^cmd%s+([0-9]+)%s+(%w+)%s*(.*)$')
 		if num and cmnd then
 			if techage.not_protected(num, owner, owner) then
@@ -215,7 +215,7 @@ local function command(pos, command, player, is_ta4)
 			end
 			return
 		end
-		
+
 		num, cmnd = command:match('^turn%s+([0-9]+)%s+([onf]+)$')
 		if num and (cmnd == "on" or cmnd == "off") then
 			if techage.not_protected(num, owner, owner) then
@@ -224,7 +224,7 @@ local function command(pos, command, player, is_ta4)
 			end
 			return
 		end
-		
+
 		bttn_num, label, cmnd = command:match('^set%s+([1-9])%s+([%w_]+)%s+(.+)$')
 		if bttn_num and label and cmnd then
 			meta:set_string("bttn_text"..bttn_num, label)
@@ -232,11 +232,11 @@ local function command(pos, command, player, is_ta4)
 			meta:set_string("formspec", formspec2(meta))
 			return
 		end
-		
+
 		if server_debug(pos, command, player) then
 			return
 		end
-		
+
 		if connected_to then
 			local cmnd, payload = command:match('^(%w+)%s*(.*)$')
 			if cmnd then
@@ -251,12 +251,12 @@ local function command(pos, command, player, is_ta4)
 				return
 			end
 		end
-		
+
 		if command ~= "" then
 			output(pos, SYNTAX_ERR)
 		end
 	end
-end	
+end
 
 local function send_cmnd(pos, meta, num)
 	local cmnd = meta:get_string("bttn_cmnd"..num)
@@ -271,7 +271,7 @@ local function register_terminal(name, description, tiles, node_box, selection_b
 		drawtype = "nodebox",
 		node_box = node_box,
 		selection_box = selection_box,
-		
+
 		after_place_node = function(pos, placer)
 			local number = techage.add_node(pos, minetest.get_node(pos).name)
 			local meta = minetest.get_meta(pos)
@@ -284,9 +284,9 @@ local function register_terminal(name, description, tiles, node_box, selection_b
 
 		on_receive_fields = function(pos, formname, fields, player)
 			local meta = minetest.get_meta(pos)
-			local public = meta:get_int("public") == 1 
+			local public = meta:get_int("public") == 1
 			local protected = minetest.is_protected(pos, player:get_player_name())
-		
+
 			if not protected then
 				local evt = minetest.explode_table_event(fields.output)
 				if evt.type == "DCL" then
@@ -324,11 +324,11 @@ local function register_terminal(name, description, tiles, node_box, selection_b
 				end
 			end
 		end,
-		
+
 		after_dig_node = function(pos, oldnode, oldmetadata)
 			techage.remove_node(pos, oldnode, oldmetadata)
 		end,
-		
+
 		paramtype = "light",
 		use_texture_alpha = techage.CLIP,
 		sunlight_propagates = true,

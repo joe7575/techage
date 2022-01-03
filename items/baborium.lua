@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Baborium
-	
+
 ]]--
 
 local S = techage.S

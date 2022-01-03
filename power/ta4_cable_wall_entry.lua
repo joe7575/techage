@@ -35,11 +35,11 @@ minetest.register_node("techage:ta4_cable_wall_entry", {
 		end
 		return false
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		TA4_Cable:after_dig_tube(pos, oldnode)
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	on_rotate = screwdriver.disallow, -- important!
 	groups = {crumbly = 2, cracky = 2, snappy = 2},

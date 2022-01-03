@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	commands.lua:
-	
+
 	Register all basic controller commands
 
 ]]--
@@ -65,7 +65,7 @@ techage.lua_ctlr.register_function("read_data", {
 })
 
 techage.lua_ctlr.register_function("time_as_str", {
-	cmnd = function(self) 
+	cmnd = function(self)
 		local t = minetest.get_timeofday()
 		local h = math.floor(t*24) % 24
 		local m = math.floor(t*1440) % 60
@@ -77,7 +77,7 @@ techage.lua_ctlr.register_function("time_as_str", {
 })
 
 techage.lua_ctlr.register_function("time_as_num", {
-	cmnd = function(self, num) 
+	cmnd = function(self, num)
 		local t = minetest.get_timeofday()
 		local h = math.floor(t*24) % 24
 		local m = math.floor(t*1440) % 60
@@ -89,7 +89,7 @@ techage.lua_ctlr.register_function("time_as_num", {
 })
 
 techage.lua_ctlr.register_action("send_cmnd", {
-	cmnd = function(self, num, cmnd, data) 
+	cmnd = function(self, num, cmnd, data)
 		num = tostring(num or "")
 		cmnd = tostring(cmnd or "")
 		if not_protected(self.meta.owner, num) then
@@ -104,7 +104,7 @@ techage.lua_ctlr.register_action("send_cmnd", {
 })
 
 techage.lua_ctlr.register_action("set_filter", {
-	cmnd = function(self, num, slot, val) 
+	cmnd = function(self, num, slot, val)
 		num = tostring(num or "")
 		slot = tostring(slot or "red")
 		val = tostring(val or "on")
@@ -158,11 +158,11 @@ techage.lua_ctlr.register_action("display", {
 		" and add a new line. If the first char of the string\n"..
 		" is a blank, the text will be horizontally centered.\n"..
 		' example: $display("123", 1, "Hello "..name)'
-		
+
 })
 
 techage.lua_ctlr.register_action("clear_screen", {
-	cmnd = function(self, num) 
+	cmnd = function(self, num)
 		num = tostring(num or "")
 		if not_protected(self.meta.owner, num) then
 			techage.send_single(self.meta.number, num, "clear", nil)
@@ -175,7 +175,7 @@ techage.lua_ctlr.register_action("clear_screen", {
 })
 
 techage.lua_ctlr.register_action("chat", {
-	cmnd = function(self, text) 
+	cmnd = function(self, text)
 		text = tostring(text or "")
 		minetest.chat_send_player(self.meta.owner, "[TA4 Lua Controller] "..text)
 	end,
@@ -185,7 +185,7 @@ techage.lua_ctlr.register_action("chat", {
 })
 
 techage.lua_ctlr.register_action("door", {
-	cmnd = function(self, pos, text) 
+	cmnd = function(self, pos, text)
 		pos = tostring(pos or "")
 		text = tostring(text or "")
 		pos = minetest.string_to_pos("("..pos..")")

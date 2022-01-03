@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Hydrogen
 
 ]]--
@@ -31,4 +31,3 @@ minetest.register_craft({
 		{"techage:canister_lye", "techage:ta3_canister_empty"},
 	}
 })
-

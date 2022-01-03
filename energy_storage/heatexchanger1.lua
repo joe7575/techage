@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Heat Exchanger1 (bottom part)
 	- has a connection to storage and turbine (via pipes)
 	- acts as a cable junction for Exchanger2
@@ -44,7 +44,7 @@ minetest.register_node("techage:heatexchanger1", {
 		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_electric.png",
 		"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole_electric.png",
 	},
-	
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		Cable:after_place_node(pos)
 		Pipe:after_place_node(pos)
@@ -99,4 +99,3 @@ minetest.register_craft({
 		{"", "techage:baborium_ingot", ""},
 	},
 })
-

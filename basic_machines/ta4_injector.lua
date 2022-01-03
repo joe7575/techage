@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Injector
 
 ]]--
@@ -47,12 +47,12 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	
+
 	local nvm = techage.get_nvm(pos)
 	if CRD(pos).State:get_state(nvm) ~= techage.STOPPED then
 		return 0
 	end
-	
+
 	local inv = M(pos):get_inventory()
 	local list = inv:get_list(listname)
 	local cdr = CRD(pos)
@@ -69,12 +69,12 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	
+
 	local nvm = techage.get_nvm(pos)
 	if CRD(pos).State:get_state(nvm) ~= techage.STOPPED then
 		return 0
 	end
-	
+
 	local inv = M(pos):get_inventory()
 	inv:set_stack(listname, index, nil)
 	return 0
@@ -148,7 +148,7 @@ local function pushing(pos, crd, meta, nvm)
 	local filter = inv:get_list("filter")
 	local pushed = false
 	local pulled = false
-	
+
 	for idx, item in ipairs(filter) do
 		local name = item:get_name()
 		local num = math.min(item:get_count(), crd.num_items)
@@ -165,7 +165,7 @@ local function pushing(pos, crd, meta, nvm)
 			end
 		end
 	end
-	
+
 	if not pulled then
 		crd.State:idle(pos, nvm)
 	elseif not pushed then
@@ -179,7 +179,7 @@ local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
 	pushing(pos, crd, M(pos), nvm)
-end	
+end
 
 local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
@@ -188,7 +188,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	local nvm = techage.get_nvm(pos)
 	if fields.pull_mode then
 		nvm.pull_mode = fields.pull_mode == "true"
-	end	
+	end
 	CRD(pos).State:state_button_event(pos, nvm, fields)
 	M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
 end
@@ -231,14 +231,14 @@ tiles.act = {
 		},
 	},
 }
-	
+
 local tubing = {
 	-- push item through the injector in opposit direction
 	on_push_item = function(pos, in_dir, stack)
 		return in_dir == M(pos):get_int("pull_dir") and techage.safe_push_items(pos, in_dir, stack)
 	end,
 	is_pusher = true, -- is a pulling/pushing node
-	
+
 	on_recv_message = function(pos, src, topic, payload)
 		return CRD(pos).State:on_receive_message(pos, topic, payload)
 	end,
@@ -246,8 +246,8 @@ local tubing = {
 		CRD(pos).State:on_node_load(pos)
 	end,
 }
-	
-local _, node_name_ta3, node_name_ta4 = 
+
+local _, node_name_ta3, node_name_ta4 =
 	techage.register_consumer("injector", S("Injector"), tiles, {
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
@@ -271,7 +271,7 @@ local _, node_name_ta3, node_name_ta4 =
 		on_receive_fields = on_receive_fields,
 		node_timer = node_timer,
 		on_rotate = screwdriver.disallow,
-		
+
 		groups = {choppy=2, cracky=2, crumbly=2},
 		is_ground_content = false,
 		sounds = default.node_sound_wood_defaults(),

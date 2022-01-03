@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Storage backend for node related data as node metadata
 
 ]]--
@@ -35,7 +35,7 @@ if use_marshal then
 	if not marshal then
 		error("Please install marshal via 'luarocks install lua-marshal'")
 	end
-	
+
 	serialize = marshal.encode
 
 	deserialize = function(s)
@@ -76,12 +76,12 @@ end
 function api.get_node_data(pos)
 	local tbl = {}
 	local s = M(pos):get_string("ta_data")
-	
+
 	if s ~= "" then
 		tbl = deserialize(s) or {}
 	end
 	tbl._POS_ = table.copy(pos)
-	
+
 	return tbl
 end
 

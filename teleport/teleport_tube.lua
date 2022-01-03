@@ -94,7 +94,7 @@ minetest.register_node("techage:ta5_tele_tube", {
 		Cable:after_place_node(pos)
 		teleport.prepare_pairing(pos, "ta5_tele_tube")
 	end,
-	
+
 	on_receive_fields = function(pos, formname, fields, player)
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return
@@ -114,9 +114,9 @@ minetest.register_node("techage:ta5_tele_tube", {
 			M(pos):set_string("formspec", formspec(State, pos, nvm))
 		else
 			M(pos):set_string("formspec", teleport.formspec(pos))
-		end	
+		end
 	end,
-	
+
 	on_timer = function(pos, elapsed)
 		local nvm = techage.get_nvm(pos)
 		consume_power(pos, nvm)
@@ -124,7 +124,7 @@ minetest.register_node("techage:ta5_tele_tube", {
 		State:idle(pos, nvm)
 		return State:is_active(nvm)
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		teleport.stop_pairing(pos, oldmetadata)
@@ -177,4 +177,3 @@ techage.register_node({"techage:ta5_tele_tube"}, {
 
 power.register_nodes({"techage:ta5_tele_tube"}, Cable, "con", {"B", "R", "F", "D", "U"})
 Tube:set_valid_sides("techage:ta5_tele_tube", {"L"})
-

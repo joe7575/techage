@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 ]]--
 
 function techage.ironage_swap_node(pos, name)
@@ -26,4 +26,3 @@ function techage.ironage_swap_nodes(pos1, pos2, name1, name2)
 		techage.ironage_swap_node(p, name2)
 	end
 end
-

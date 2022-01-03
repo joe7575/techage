@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Hydrogen
 
 ]]--
@@ -17,7 +17,7 @@ local S = techage.S
 minetest.register_craftitem("techage:hydrogen", {
 	description = S("TA4 Hydrogen"),
 	inventory_image = "techage_hydrogen_inv.png",
-	groups = {ta_liquid = 1},	
+	groups = {ta_liquid = 1},
 })
 
 minetest.register_craftitem("techage:cylinder_small_hydrogen", {

@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	For chests and tanks with hyperloop support
 
 ]]--
@@ -85,7 +85,7 @@ end
 local function update_node_data(pos, state, conn_name, remote_name, rmt_pos)
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
-	
+
 	if state == "server_connected" then
 		Stations:update(pos, {conn_name=conn_name, single="nil"})
 		meta:set_string("status", "server")
@@ -138,7 +138,7 @@ techage.hyperloop.SUBMENU = {
 		choices = "",
 		on_dropdown = on_dropdown,
 		name = "remote_name",
-		label = S("Remote name"),      
+		label = S("Remote name"),
 		tooltip = S("Connection name of the remote block"),
 	},
 }
@@ -153,7 +153,7 @@ function techage.hyperloop.is_client(pos)
 		end
 	end
 end
-	
+
 function techage.hyperloop.is_server(pos)
 	if HYPERLOOP then
 		if M(pos):get_string("status") == "server" then
@@ -184,28 +184,28 @@ function techage.hyperloop.remote_pos(pos)
 	end
 	return pos
 end
-	
+
 function techage.hyperloop.after_place_node(pos, placer, node_type)
 	if HYPERLOOP then
 		Stations:set(pos, node_type, {owner=placer:get_player_name()})
 		M(pos):set_string("node_type", node_type)
 		Tube:after_place_node(pos)
 	end
-end	
+end
 
 function techage.hyperloop.after_dig_node(pos, oldnode, oldmetadata, digger)
 	if HYPERLOOP then
 		local conn_name = oldmetadata.fields.conn_name
 		local remote_name = oldmetadata.fields.remote_name
 		local loc_pos, rmt_pos = pos, techage.get_nvm(pos).rmt_pos
-		
+
 		-- Close connections
 		if remote_name and rmt_pos then -- Connected client
 			update_node_data(rmt_pos, "server_not_connected", remote_name, "")
 		elseif conn_name and rmt_pos then -- Connected server
 			update_node_data(rmt_pos, "client_not_connected", "", conn_name)
 		end
-		
+
 		Tube:after_dig_node(pos)
 		Stations:delete(pos)
 	end
@@ -218,7 +218,7 @@ function techage.hyperloop.after_formspec(pos, fields)
 		local remote_name = meta:get_string("remote_name")
 		local status = meta:contains("status") and meta:get_string("status") or "not connected"
 		local loc_pos, rmt_pos = pos, techage.get_nvm(pos).rmt_pos
-		
+
 		if status == "not connected" then
 			if fields.remote_name ~= "" then -- Client
 				local rmt_pos = get_remote_pos(pos, fields.remote_name)
@@ -232,4 +232,3 @@ function techage.hyperloop.after_formspec(pos, fields)
 		end
 	end
 end
-

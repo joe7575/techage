@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Simple TA1 Hopper
-	
+
 ]]--
 
 -- Consumer Related Data
@@ -23,7 +23,7 @@ minecart.register_inventory(
 	{
 		"techage:chest_ta2", "techage:chest_ta3", "techage:chest_ta4",
 		"techage:meltingpot", "techage:meltingpot_active",
-	}, 
+	},
 	{
 		put = {
 			listname = "main",
@@ -49,7 +49,7 @@ minecart.register_inventory(
 			allow_inventory_put = function(pos, stack, player_name)
 				CRD(pos).State:start_if_standby(pos)
 				return true
-			end, 
+			end,
 			listname = "src",
 		},
 		take = {
@@ -61,7 +61,7 @@ minecart.register_inventory(
 minecart.register_inventory(
 	{
 		"techage:sieve0", "techage:sieve1", "techage:sieve2", "techage:sieve3",
-	}, 
+	},
 	{
 		put = {
 			allow_inventory_put = function(pos, stack, player_name)
@@ -71,7 +71,7 @@ minecart.register_inventory(
 					minetest.get_node_timer(pos):start(1)
 					return true
 				end
-			end, 
+			end,
 			listname = "src",
 		},
 	}

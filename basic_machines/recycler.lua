@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Recycler, recycling techage machines
-	
+
 ]]--
 
 -- for lazy programmers
@@ -112,9 +112,9 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return stack:get_count()
 end
 
-local function cook_reverse(stack, inv, idx, recipe) 
+local function cook_reverse(stack, inv, idx, recipe)
 	-- check space
-	for _,item in ipairs(recipe.items) do			
+	for _,item in ipairs(recipe.items) do
 		if not inv:room_for_item("dst", stack) then
 			return false
 		end
@@ -122,7 +122,7 @@ local function cook_reverse(stack, inv, idx, recipe)
 	-- take item
 	inv:remove_item("src", ItemStack(recipe.output))
 	-- add items
-	for _,item in ipairs(recipe.items) do			
+	for _,item in ipairs(recipe.items) do
 		inv:add_item("dst", item)
 	end
 	return true
@@ -240,7 +240,7 @@ local tubing = {
 	end,
 }
 
-local _, _, node_name_ta4 = 
+local _, _, node_name_ta4 =
 	techage.register_consumer("recycler", S("Recycler"), tiles, {
 		drawtype = "nodebox",
 		paramtype = "light",
@@ -292,13 +292,13 @@ minetest.register_craft({
 -------------------------------------------------------------------------------
 -- Prepare recipes
 -------------------------------------------------------------------------------
--- Nodes from mods that can be recycled 
+-- Nodes from mods that can be recycled
 local ModNames = {
-	techage = true, 
+	techage = true,
 	hyperloop = true,
 }
 
-local function get_item_list(inputs) 
+local function get_item_list(inputs)
 	local lst = {}
 	for _,input in pairs(inputs or {}) do
 		if SpecialItems[input] then
@@ -317,7 +317,7 @@ local function get_special_recipe(name)
 	if SpecialItems[name] then
 		return {
 			output = name,
-			items = {SpecialItems[name]} 
+			items = {SpecialItems[name]}
 		}
 	end
 end
@@ -325,22 +325,22 @@ end
 local function collect_recipes()
 	local add = function(name, ndef)
 		local _, _, mod, _ = string.find(name, "([%w_]+):([%w_]+)")
-		local recipe = get_special_recipe(name) or 
-		               techage.recipes.get_recipe(name) or 
+		local recipe = get_special_recipe(name) or
+		               techage.recipes.get_recipe(name) or
 		               minetest.get_craft_recipe(name)
 		local items = get_item_list(recipe.items)
-		
-		if ModNames[mod] 
-		and ndef.groups.not_in_creative_inventory ~= 1 
+
+		if ModNames[mod]
+		and ndef.groups.not_in_creative_inventory ~= 1
 		and not ndef.tool_capabilities
-		and recipe.output 
+		and recipe.output
 		and next(items) then
 			local s = table.concat(items, ", ")
 			--print(string.format("%-36s {%s}", recipe.output, s))
 			Recipes[name] = {output = recipe.output, items = items}
 		end
 	end
-	
+
 	for name, ndef in pairs(minetest.registered_nodes) do
 		add(name, ndef)
 	end

@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Water Inlet (replacement for the water pump)
-	
+
 ]]--
 
 -- for lazy programmers
@@ -20,16 +20,16 @@ local Pipe = techage.LiquidPipe
 local liquid = networks.liquid
 
 local function is_ocean(pos)
-	if pos.y > 1 then 
+	if pos.y > 1 then
 		M(pos):set_string("infotext", S("Error: Not on sea level!"))
-		return false 
+		return false
 	end
 	local node = techage.get_node_lvm({x = pos.x, y = pos.y - 1, z = pos.z})
-	if node.name ~= "default:water_source" then 
+	if node.name ~= "default:water_source" then
 		M(pos):set_string("infotext", S("Error: No water available!"))
-		return false 
+		return false
 	end
-	if node.param2 == 1 then 
+	if node.param2 == 1 then
 		M(pos):set_string("infotext", S("Error: No natural water!"))
 		return false
 	end
@@ -56,7 +56,7 @@ local function take_liquid(pos, indir, name, amount)
 	end
 	return mem.liquid_amount or 0, mem.liquid_name
 end
-	
+
 
 local function untake_liquid(pos, indir, name, amount)
 	return 0
@@ -106,4 +106,3 @@ minetest.register_craft({
 		{"techage:iron_ingot", "techage:ta3_barrel_empty", "techage:iron_ingot"},
 	},
 })
-

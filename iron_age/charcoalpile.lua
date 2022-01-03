@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Charcoalpile to produce charcoal
-	
+
 ]]--
 
 local S = techage.S
@@ -124,7 +124,7 @@ local function convert_to_coal(pos)
 	minetest.swap_node(pos, {name = "techage:charcoal"})
 	make_dirt_with_ash(pos)
 	make_dirt_with_dry_grass(pos)
-end	
+end
 
 function techage.start_pile(pos)
 	local meta = minetest.get_meta(pos)
@@ -202,7 +202,7 @@ minetest.register_node("techage:charcoal", {
 		minetest.after(COAL_BURN_TIME/2, minetest.remove_node, pos)
 	end,
 	is_ground_content = false,
-	groups = {crumbly = 2, falling_node = 1}, 
+	groups = {crumbly = 2, falling_node = 1},
 	sounds = default.node_sound_dirt_defaults(),
 })
 
@@ -225,4 +225,3 @@ minetest.register_lbm({
 		end
 	end
 })
-

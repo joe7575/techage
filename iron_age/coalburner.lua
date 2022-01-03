@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Coalburner as heater for the Meltingpot
-	
+
 ]]--
 
 local S = techage.S
@@ -75,7 +75,7 @@ local function calc_num_coal(height, burn_time)
 		num = math.max(height + math.floor(burn_time/x), 0)
 	end
 	return num
-end	
+end
 
 local function flame(pos, height, heat, first_time)
 	local idx
@@ -123,7 +123,7 @@ for idx,ratio in ipairs(lRatio) do
 				},
 			},
 		},
-		
+
 		after_destruct = function(pos, oldnode)
 			pos.y = pos.y + 1
 			local node = techage.get_node_lvm(pos)
@@ -131,7 +131,7 @@ for idx,ratio in ipairs(lRatio) do
 				minetest.remove_node(pos)
 			end
 		end,
-		
+
 		drawtype = "glasslike",
 		use_texture_alpha = techage.BLEND,
 		inventory_image = "techage_flame.png",
@@ -167,7 +167,7 @@ minetest.register_node("techage:ash", {
 function techage.start_burner(pos, playername)
 	local height = num_coal(pos)
 	if minetest.is_protected(
-			{x=pos.x, y=pos.y+height, z=pos.z}, 
+			{x=pos.x, y=pos.y+height, z=pos.z},
 			playername) then
 		return
 	end
@@ -179,9 +179,9 @@ function techage.start_burner(pos, playername)
 		start_burner(pos, height)
 		flame(pos, height, height, true)
 		local handle = minetest.sound_play("techage_gasflare", {
-				pos = {x=pos.x, y=pos.y+height, z=pos.z}, 
-				max_hear_distance = 20, 
-				gain = height/12.0, 
+				pos = {x=pos.x, y=pos.y+height, z=pos.z},
+				max_hear_distance = 20,
+				gain = height/12.0,
 				loop = true})
 		meta:set_int("handle", handle)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
@@ -212,9 +212,9 @@ function techage.keep_running_burner(pos)
 					flame(pos, height, num_coal, false)
 				end
 				handle = minetest.sound_play("techage_gasflare", {
-						pos = {x=pos.x, y=pos.y+height, z=pos.z}, 
-						max_hear_distance = 32, 
-						gain = num_coal/12.0, 
+						pos = {x=pos.x, y=pos.y+height, z=pos.z},
+						max_hear_distance = 32,
+						gain = num_coal/12.0,
 						loop = true})
 				meta:set_int("handle", handle)
 			else
@@ -246,5 +246,4 @@ function techage.stop_burner(pos)
 	minetest.sound_stop(handle)
 	meta:set_int("burn_time", 0)
 end
-
 

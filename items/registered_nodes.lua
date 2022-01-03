@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Collect data of registered nodes
 
 ]]--
@@ -29,7 +29,7 @@ techage.aAnyKindOfDirtBlocks = {}
 
 minetest.register_on_mods_loaded(function()
 	for name, ndef in pairs(minetest.registered_nodes) do
-		if string.find(name, "dirt") and 
+		if string.find(name, "dirt") and
 				ndef.drawtype == "normal" and
 				ndef.groups.crumbly and ndef.groups.crumbly > 0 then
 			techage.aAnyKindOfDirtBlocks[#techage.aAnyKindOfDirtBlocks + 1] = name

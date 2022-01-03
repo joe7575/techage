@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Coal Power Station Firebox
 
 ]]--
@@ -25,7 +25,7 @@ local BURN_CYCLE_FACTOR = 0.5
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	local power = techage.transfer(
-		{x=pos.x, y=pos.y+2, z=pos.z}, 
+		{x=pos.x, y=pos.y+2, z=pos.z},
 		nil,  -- outdir
 		"trigger",  -- topic
 		nil,  -- payload
@@ -34,7 +34,7 @@ local function node_timer(pos, elapsed)
 	)
 	nvm.burn_cycles = (nvm.burn_cycles or 0) - math.max((power or 0.02), 0.02)
 	if nvm.burn_cycles <= 0 then
-		local taken = firebox.get_fuel(pos) 
+		local taken = firebox.get_fuel(pos)
 		if taken then
 			nvm.burn_cycles = (firebox.Burntime[taken:get_name()] or 1) / CYCLE_TIME * BURN_CYCLE_FACTOR
 			nvm.burn_cycles_total = nvm.burn_cycles
@@ -83,7 +83,7 @@ minetest.register_node("techage:coalfirebox", {
 	allow_metadata_inventory_put = firebox.allow_metadata_inventory_put,
 	allow_metadata_inventory_take = firebox.allow_metadata_inventory_take,
 	on_rightclick = firebox.on_rightclick,
-	
+
 	after_place_node = function(pos, placer)
 		if firebox.is_free_position(pos, placer:get_player_name()) then
 			techage.add_node(pos, "techage:coalfirebox")

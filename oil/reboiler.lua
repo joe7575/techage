@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Oil Reboiler
 
 ]]--
@@ -30,7 +30,7 @@ local function play_sound(pos)
 	local mem = techage.get_mem(pos)
 	if not mem.handle or mem.handle == -1 then
 		mem.handle = minetest.sound_play("techage_reboiler", {
-			pos = pos, 
+			pos = pos,
 			gain = 1,
 			max_hear_distance = 15,
 			loop = true})
@@ -64,13 +64,13 @@ end
 
 local function pump_cmnd(pos)
 	local leftover = techage.transfer(
-		pos, 
+		pos,
 		"R",  -- outdir
 		"put",  -- topic
 		nil,  -- payload
 		Pipe,  -- Pipe
 		{"techage:ta3_distiller1"})
-	
+
 	-- number of processed oil items
 	return  1 - (tonumber(leftover) or 1)
 end
@@ -86,7 +86,7 @@ end
 local function on_timer(pos)
 	local nvm = techage.get_nvm(pos)
 	nvm.oil_amount = nvm.oil_amount or 0
-	
+
 	-- Power handling
 	if nvm.state == techage.STOPPED then
 		local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
@@ -108,7 +108,7 @@ local function on_timer(pos)
 			return true
 		end
 	end
-	
+
 	-- Oil handling
 	if nvm.state == techage.RUNNING then
 		if nvm.oil_amount >= 1 then
@@ -136,7 +136,7 @@ local function on_timer(pos)
 	end
 	return true
 end
-	
+
 local function after_place_node(pos)
 	local nvm = techage.get_nvm(pos)
 	new_state(pos, nvm, techage.STOPPED)
@@ -173,7 +173,7 @@ minetest.register_node("techage:ta3_reboiler", {
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	on_rightclick = on_rightclick,
-	
+
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},
@@ -213,7 +213,7 @@ minetest.register_node("techage:ta3_reboiler_on", {
 
 	on_timer = on_timer,
 	on_rightclick = on_rightclick,
-	
+
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	diggable = false,
@@ -230,7 +230,7 @@ local liquid_def = {
 	put = function(pos, indir, name, amount)
 		local nvm = techage.get_nvm(pos)
 		nvm.oil_amount = nvm.oil_amount or 0
-	
+
 		if nvm.state == techage.STANDBY or nvm.state == techage.RUNNING then
 			if name == "techage:oil_source" and amount > 0 then
 				if nvm.state == techage.STANDBY then
@@ -266,7 +266,7 @@ techage.register_node({"techage:ta3_reboiler", "techage:ta3_reboiler_on"}, {
 	on_node_load = function(pos, node)
 		if node.name == "techage:ta3_reboiler_on" then
 			play_sound(pos)
-		end	
+		end
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
 })
@@ -279,4 +279,3 @@ minetest.register_craft({
 		{"", "basic_materials:heating_element", ""},
 	},
 })
-

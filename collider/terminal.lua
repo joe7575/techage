@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA4 Terminal
-	
+
 ]]--
 
 local M = minetest.get_meta
@@ -25,7 +25,7 @@ machine.
 Commands can have up to 80 characters.
 Local commands:
 - clear          = clear screen
-- help           = this message 
+- help           = this message
 - pub            = switch to public use
 - priv           = switch to private use
 - connect <num>  = connect the machine
@@ -77,7 +77,7 @@ end
 local function command(pos, mem, player)
 	local meta = minetest.get_meta(pos)
 	local owner = meta:get_string("owner")
-		
+
 	if mem.command == "clear" then
 		mem.output = ""
 		mem.command = ""
@@ -103,12 +103,12 @@ local function command(pos, mem, player)
 		output(pos, "Switched to private use!")
 	elseif meta:get_int("public") == 1 or owner == player then
 		if mem.command == "clear" then
-			mem.output = 
+			mem.output =
 			mem.command = ""
 			meta:set_string("formspec", formspec2(mem))
 		end
 	end
-end	
+end
 
 minetest.register_node("techage:ta4_terminal", {
 	description = "TA4 Collider Terminal",
@@ -136,7 +136,7 @@ minetest.register_node("techage:ta4_terminal", {
 			{-12/32, -14/32,  12/32,  12/32,   6/32, 14/32},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local number = techage.add_node(pos, minetest.get_node(pos).name)
 		local meta = minetest.get_meta(pos)
@@ -169,11 +169,11 @@ minetest.register_node("techage:ta4_terminal", {
 			meta:set_string("formspec", formspec2(mem))
 		end
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata)
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,

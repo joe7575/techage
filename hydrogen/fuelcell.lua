@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Fuel Cell
 
 ]]--
@@ -67,7 +67,7 @@ local function can_start(pos, nvm, state)
 end
 
 
-local function consuming(pos, nvm)	
+local function consuming(pos, nvm)
 	if nvm.num_pwr_units <= 0 then
 		nvm.num_pwr_units = nvm.num_pwr_units + PWR_UNITS_PER_HYDROGEN_ITEM
 		nvm.liquid.amount = nvm.liquid.amount - 1
@@ -190,7 +190,7 @@ minetest.register_node("techage:ta4_fuelcell", {
 		end
 		return liquid.is_empty(pos)
 	end,
-	
+
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	get_generator_data = get_generator_data,
@@ -199,7 +199,7 @@ minetest.register_node("techage:ta4_fuelcell", {
 	on_timer = node_timer,
 	on_rightclick = on_rightclick,
 	ta4_formspec = techage.generator_settings("ta4", PWR_PERF),
-	
+
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -304,7 +304,7 @@ techage.register_node({"techage:ta4_fuelcell", "techage:ta4_fuelcell_on"}, {
 			return State:on_receive_message(pos, topic, payload)
 		end
 	end,
-})	
+})
 
 control.register_nodes({"techage:ta4_fuelcell", "techage:ta4_fuelcell_on"}, {
 		on_receive = function(pos, tlib2, topic, payload)
@@ -319,7 +319,7 @@ control.register_nodes({"techage:ta4_fuelcell", "techage:ta4_fuelcell_on"}, {
 					running = techage.is_running(nvm) or false,
 					available = PWR_PERF,
 					provided = nvm.provided or 0,
-					termpoint = meta:get_string("termpoint"), 
+					termpoint = meta:get_string("termpoint"),
 				}
 			end
 			return false

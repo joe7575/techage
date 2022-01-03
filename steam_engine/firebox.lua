@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA2 Steam Engine Firebox
 
 ]]--
@@ -26,7 +26,7 @@ local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	if nvm.running then
 		local power = techage.transfer(
-			{x=pos.x, y=pos.y+2, z=pos.z}, 
+			{x=pos.x, y=pos.y+2, z=pos.z},
 			nil,  -- outdir
 			"trigger",  -- topic
 			nil,  -- payload
@@ -35,7 +35,7 @@ local function node_timer(pos, elapsed)
 		)
 		nvm.burn_cycles = (nvm.burn_cycles or 0) - math.max((power or 0.1), 0.1)
 		if nvm.burn_cycles <= 0 then
-			local taken = firebox.get_fuel(pos) 
+			local taken = firebox.get_fuel(pos)
 			if taken then
 				nvm.burn_cycles = (firebox.Burntime[taken:get_name()] or 1) / CYCLE_TIME * BURN_CYCLE_FACTOR
 				nvm.burn_cycles_total = nvm.burn_cycles
@@ -75,7 +75,7 @@ minetest.register_node("techage:firebox", {
 	allow_metadata_inventory_put = firebox.allow_metadata_inventory_put,
 	allow_metadata_inventory_take = firebox.allow_metadata_inventory_take,
 	on_rightclick = firebox.on_rightclick,
-	
+
 	on_construct = function(pos)
 		local nvm = techage.get_nvm(pos)
 		nvm.running = false
@@ -126,7 +126,7 @@ minetest.register_node("techage:firebox_on", {
 	is_ground_content = false,
 	sounds = default.node_sound_stone_defaults(),
 	drop = "techage:firebox",
-	
+
 	on_timer = node_timer,
 	can_dig = firebox.can_dig,
 	allow_metadata_inventory_put = firebox.allow_metadata_inventory_put,
@@ -157,7 +157,7 @@ techage.register_node({"techage:firebox", "techage:firebox_on"}, {
 		end
 		return false
 	end,
-})	
+})
 
 minetest.register_lbm({
 	label = "[techage] Steam engine firebox",
@@ -170,5 +170,4 @@ minetest.register_lbm({
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end
 })
-
 

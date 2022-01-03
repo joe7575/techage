@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
-	Plastic 
-	
+
+	Plastic
+
 ]]--
 
 local S = techage.S
@@ -28,8 +28,8 @@ techage.recipes.add("ta4_doser", {
 })
 
 techage.furnace.register_recipe({
-	output = "basic_materials:plastic_sheet 4", 
-	recipe = {"techage:plastic_granules"}, 
+	output = "basic_materials:plastic_sheet 4",
+	recipe = {"techage:plastic_granules"},
 	time = 2,
-	
+
 })

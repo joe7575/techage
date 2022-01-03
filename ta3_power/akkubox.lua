@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Accu Box
 
 ]]--
@@ -28,7 +28,7 @@ local in_range = techage.in_range
 
 local function formspec(self, pos, nvm)
 	local data
-	
+
 	if nvm.running then
 		local outdir = M(pos):get_int("outdir")
 		data = power.get_network_data(pos, Cable, outdir)
@@ -69,7 +69,7 @@ local function node_timer(pos, elapsed)
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(State, pos, nvm))
 	end
-	return true		
+	return true
 end
 
 local function on_rightclick(pos, node, clicker)
@@ -129,7 +129,7 @@ end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	local outdir = tonumber(oldmetadata.fields.outdir or 0)
-	Cable:after_dig_node(pos, {outdir})        
+	Cable:after_dig_node(pos, {outdir})
 	techage.remove_node(pos, oldnode, oldmetadata)
 	techage.del_mem(pos)
 end

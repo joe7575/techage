@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Power Station Turbine
 
 ]]--
@@ -19,12 +19,12 @@ local S = techage.S
 local Pipe = techage.SteamPipe
 
 local function transfer_cooler(pos, topic, payload)
-	return techage.transfer(pos, 6, topic, payload, Pipe, 
+	return techage.transfer(pos, 6, topic, payload, Pipe,
 		{"techage:cooler", "techage:cooler_on"})
 end
 
 local function transfer_generator(pos, topic, payload)
-	return techage.transfer(pos, "R", topic, payload, nil, 
+	return techage.transfer(pos, "R", topic, payload, nil,
 		{"techage:generator", "techage:generator_on"})
 end
 
@@ -41,7 +41,7 @@ local function play_sound(pos)
 	local mem = techage.get_mem(pos)
 	if not mem.handle or mem.handle == -1 then
 		mem.handle = minetest.sound_play("techage_turbine", {
-			pos = pos, 
+			pos = pos,
 			gain = 1,
 			max_hear_distance = 15,
 			loop = true})
@@ -69,7 +69,7 @@ local function after_dig_node(pos, oldnode)
 	techage.del_mem(pos)
 end
 
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
+local function tubelib2_on_update2(pos, outdir, tlib2, node)
 	swap_node(pos, "techage:turbine")
 	stop_sound(pos)
 end
@@ -85,11 +85,11 @@ minetest.register_node("techage:turbine", {
 		"techage_filling_ta3.png^techage_appl_turbine.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_appl_turbine.png^techage_frame_ta3.png",
 	},
-	
+
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	tubelib2_on_update2 = tubelib2_on_update2,
-	
+
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -125,9 +125,9 @@ minetest.register_node("techage:turbine_on", {
 			},
 		},
 	},
-	
+
 	tubelib2_on_update2 = tubelib2_on_update2,
-	
+
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
 	diggable = false,
@@ -168,7 +168,7 @@ techage.register_node({"techage:turbine", "techage:turbine_on"}, {
 	on_node_load = function(pos, node)
 		if node.name == "techage:turbine_on" then
 			play_sound(pos)
-		end	
+		end
 	end,
 })
 
@@ -180,4 +180,3 @@ minetest.register_craft({
 		{"default:wood", "techage:iron_ingot", "basic_materials:steel_bar"},
 	},
 })
-

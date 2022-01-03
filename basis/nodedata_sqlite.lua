@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Storage backend for node related data via sqlite database
 
 ]]--
@@ -44,7 +44,7 @@ if sqlite3 then sqlite3 = nil end
 
 db:exec[[
   CREATE TABLE mapblocks(id INTEGER PRIMARY KEY, key INTEGER, data BLOB);
-  CREATE UNIQUE INDEX idx ON mapblocks(key);  
+  CREATE UNIQUE INDEX idx ON mapblocks(key);
 ]]
 
 local set = db:prepare("INSERT or REPLACE INTO mapblocks VALUES(NULL, ?, ?);")
@@ -54,7 +54,7 @@ local function set_block(key, data)
 	set:reset()
 	set:bind(1, key)
 	set:bind_blob(2, data)
-	set:step()	
+	set:step()
 	return true
 end
 
@@ -76,8 +76,8 @@ function api.store_mapblock_data(key, mapblock_data)
 	--local s = marshal.encode(mapblock_data)
 	local s = minetest.serialize(mapblock_data)
 	return set_block(key, s)
-end	
-	
+end
+
 function api.get_mapblock_data(key)
 	local s = get_block(key)
 	if s then
@@ -89,8 +89,8 @@ function api.get_mapblock_data(key)
 	end
 	api.store_mapblock_data(key, {})
 	return {}
-end	
-	
+end
+
 function api.get_node_data(pos)
 	-- legacy data available?
 	local s = M(pos):get_string("ta_data")

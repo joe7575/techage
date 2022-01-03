@@ -7,20 +7,20 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	ICTA Controller - Display
 
 ]]--
- 
+
 local S = techage.S
 
 techage.display = {}
 
-local NUM_ROWS = 5 
+local NUM_ROWS = 5
 local RADIUS = 6
 local Param2ToFacedir = {[0] = 0, 0, 3, 1, 2, 0}
- 
-local function lcdlib_bugfix(text_tbl) 
+
+local function lcdlib_bugfix(text_tbl)
 	if text_tbl and next(text_tbl) then
 		local t = {}
 		for _,txt in ipairs(text_tbl) do
@@ -34,11 +34,11 @@ local function lcdlib_bugfix(text_tbl)
 	end
 	return ""
 end
- 
+
 function techage.display.display_update(pos, objref)
 	pos = vector.round(pos)
 	local nvm = techage.get_nvm(pos)
-	local text = lcdlib_bugfix(nvm.text) 
+	local text = lcdlib_bugfix(nvm.text)
 	local texture = lcdlib.make_multiline_texture(
 		"default", text,
 		70, 70, NUM_ROWS, "top", "#000")
@@ -49,7 +49,7 @@ end
 function techage.display.display_updateXL(pos, objref)
 	pos = vector.round(pos)
 	local nvm = techage.get_nvm(pos)
-	local text = lcdlib_bugfix(nvm.text) 
+	local text = lcdlib_bugfix(nvm.text)
 	local texture = lcdlib.make_multiline_texture(
 		"default", text,
 		126, 70, NUM_ROWS, "top", "#000")
@@ -60,9 +60,9 @@ end
 function techage.display.on_timer(pos)
 	local mem = techage.get_mem(pos)
 	mem.ticks = mem.ticks or 0
-	
+
 	if mem.ticks > 0 then
-		local node = minetest.get_node(pos) 
+		local node = minetest.get_node(pos)
 		-- check if display is loaded and a player in front of the display
 		if node.name ~= "ignore" then
 			local dir = minetest.facedir_to_dir(Param2ToFacedir[node.param2 % 6])
@@ -97,7 +97,7 @@ minetest.register_node("techage:ta4_display", {
 	node_box = techage.display.lcd_box,
 	selection_box = techage.display.lcd_box,
 	light_source = 6,
-	
+
 	display_entities = {
 		["techage:display_entity"] = { depth = 0.42,
 			on_display_update = techage.display.display_update},
@@ -145,7 +145,7 @@ minetest.register_node("techage:ta4_displayXL", {
 	node_box = techage.display.lcd_boxXL,
 	selection_box = techage.display.lcd_boxXL,
 	light_source = 6,
-	
+
 	display_entities = {
 		["techage:display_entityXL"] = { depth = 0.42,
 			on_display_update = techage.display.display_updateXL},
@@ -200,11 +200,11 @@ function techage.display.add_line(pos, payload, cycle_time)
 	nvm.text = nvm.text or {}
 	mem.ticks = mem.ticks or 0
 	local str = tostring(payload) or "oops"
-	
+
 	if mem.ticks == 0 then
 		mem.ticks = cycle_time
 	end
-	
+
 	while #nvm.text >= NUM_ROWS do
 		table.remove(nvm.text, 1)
 	end
@@ -218,14 +218,14 @@ function techage.display.write_row(pos, payload, cycle_time)
 	mem.ticks = mem.ticks or 0
 	local str = tostring(payload.get("str")) or "oops"
 	local row = tonumber(payload.get("row")) or 1
-	
+
 	if mem.ticks == 0 then
 		mem.ticks = cycle_time
 	end
-	
+
 	if row < 1 then row = 1 end
 	if row > NUM_ROWS then row = NUM_ROWS end
-	
+
 	while #nvm.text < row do
 		table.insert(nvm.text, "")
 	end
@@ -236,7 +236,7 @@ function techage.display.clear_screen(pos, cycle_time)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
 	mem.ticks = mem.ticks or 0
-	
+
 	if mem.ticks == 0 then
 		mem.ticks = cycle_time
 	end
@@ -254,7 +254,7 @@ techage.register_node({"techage:ta4_display"}, {
 			techage.display.clear_screen(pos, 1)
 		end
 	end,
-})		
+})
 
 techage.register_node({"techage:ta4_displayXL"}, {
 	on_recv_message = function(pos, src, topic, payload)
@@ -270,4 +270,3 @@ techage.register_node({"techage:ta4_displayXL"}, {
 
 lcdlib.register_display_entity("techage:display_entity")
 lcdlib.register_display_entity("techage:display_entityXL")
-

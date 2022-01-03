@@ -7,16 +7,16 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Tube support for default chests and furnace
-	
+
 ]]--
 
 local OwnerCache = {
 }
 
 -- Check if the chest is in the protected area of the owner
-local function is_owner(pos, meta)		
+local function is_owner(pos, meta)
 	local owner = meta:get_string("owner")
 	local key = minetest.hash_node_position(pos)
 	-- If successfull, store info in cache
@@ -27,7 +27,7 @@ local function is_owner(pos, meta)
 	end
 	return OwnerCache[key] == owner
 end
-		
+
 
 techage.register_node({"default:chest", "default:chest_open"}, {
 	on_inv_request = function(pos, in_dir, access_type)
@@ -49,7 +49,7 @@ techage.register_node({"default:chest", "default:chest_open"}, {
 		local inv = meta:get_inventory()
 		return techage.put_items(inv, "main", stack)
 	end,
-})	
+})
 
 techage.register_node({"default:chest_locked", "default:chest_locked_open"}, {
 	on_inv_request = function(pos, in_dir, access_type)
@@ -75,7 +75,7 @@ techage.register_node({"default:chest_locked", "default:chest_locked_open"}, {
 		local inv = meta:get_inventory()
 		return techage.put_items(inv, "main", stack)
 	end,
-})	
+})
 
 techage.register_node({"shop:shop"}, {
 	on_inv_request = function(pos, in_dir, access_type)
@@ -101,7 +101,7 @@ techage.register_node({"shop:shop"}, {
 		local inv = meta:get_inventory()
 		return techage.put_items(inv, "register", stack)
 	end,
-})	
+})
 
 techage.register_node({"default:furnace", "default:furnace_active"}, {
 	on_pull_item = function(pos, in_dir, num)
@@ -124,7 +124,7 @@ techage.register_node({"default:furnace", "default:furnace_active"}, {
 		local inv = meta:get_inventory()
 		return techage.put_items(inv, "dst", stack)
 	end,
-})	
+})
 
 techage.register_node({"mobs:beehive"}, {
 	on_pull_item = function(pos, in_dir, num)
@@ -137,7 +137,7 @@ techage.register_node({"mobs:beehive"}, {
 		local inv = meta:get_inventory()
 		return techage.put_items(inv, "beehive", stack)
 	end,
-})	
+})
 
 techage.register_node({"xdecor:hive"}, {
 	on_pull_item = function(pos, in_dir, num)
@@ -150,4 +150,4 @@ techage.register_node({"xdecor:hive"}, {
 		local inv = meta:get_inventory()
 		return techage.put_items(inv, "honey", stack)
 	end,
-})	
+})

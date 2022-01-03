@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Tube support for digtron and protector chests
-	
+
 ]]--
 
 
@@ -20,7 +20,7 @@ local CacheForFuelNodeNames = {}
 
 local function is_fuel(stack)
 	local name = stack:get_name()
-	if CacheForFuelNodeNames[name] then 
+	if CacheForFuelNodeNames[name] then
 		return true
 	end
 	if minetest.get_craft_result({method="fuel", width=1, items={stack}}).time ~= 0 then
@@ -53,7 +53,7 @@ techage.register_node({"digtron:inventory"}, {
 		local inv = meta:get_inventory()
 		return techage.put_items(inv, "main", stack)
 	end,
-})	
+})
 
 techage.register_node({"digtron:fuelstore"}, {
 	on_inv_request = function(pos, in_dir, access_type)
@@ -75,7 +75,7 @@ techage.register_node({"digtron:fuelstore"}, {
 		local inv = meta:get_inventory()
 		return techage.put_items(inv, "fuel", stack)
 	end,
-})	
+})
 
 techage.register_node({"digtron:combined_storage"}, {
 	on_inv_request = function(pos, in_dir, access_type)
@@ -102,7 +102,7 @@ techage.register_node({"digtron:combined_storage"}, {
 		local inv = meta:get_inventory()
 		return techage.put_items(inv, "main", stack)
 	end,
-})	
+})
 
 ------------------------------------------------------------------------------
 -- protector
@@ -128,6 +128,5 @@ techage.register_node({"protector:chest"}, {
 		local inv = meta:get_inventory()
 		return techage.put_items(inv, "main", stack)
 	end,
-})	
-
+})
 

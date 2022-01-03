@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA2 Steam Engine Flywheel
 
 ]]--
@@ -35,7 +35,7 @@ local function formspec(self, pos, nvm)
 end
 
 local function transfer_cylinder(pos, topic, payload)
-	return techage.transfer(pos, "L", topic, payload, nil, 
+	return techage.transfer(pos, "L", topic, payload, nil,
 		{"techage:cylinder", "techage:cylinder_on"})
 end
 
@@ -139,7 +139,7 @@ minetest.register_node("techage:flywheel", {
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_flywheel.png",
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_flywheel.png^[transformFX]",
 	},
-	
+
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
@@ -192,7 +192,7 @@ minetest.register_node("techage:flywheel_on", {
 			},
 		},
 	},
-	
+
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
@@ -236,5 +236,4 @@ minetest.register_craft({
 		{"default:wood", "techage:iron_ingot", "basic_materials:steel_bar"},
 	},
 })
-
 

@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA3 & TA4 Logic button
-	
+
 ]]--
 
 -- for lazy programmers
@@ -23,7 +23,7 @@ local WRENCH_MENU = {
 	{
 		type = "ascii",
 		name = "command",
-		label = S("Command"),      
+		label = S("Command"),
 		tooltip = S("Command to be sent"),
 		default = "on",
 	},
@@ -71,7 +71,7 @@ local function formspec(meta)
 	if idx == 0 then idx = 1 end
 	local access_idx = meta:get_string("public") == "true" and 3 or meta:get_string("protected") == "true" and 2 or 1
 	return "size[7.5,6]"..
-		"dropdown[0.2,0;3;type;switch,button 1s,button 2s,button 4s,button 8s,button 16s,button 32s;"..idx.."]".. 
+		"dropdown[0.2,0;3;type;switch,button 1s,button 2s,button 4s,button 8s,button 16s,button 32s;"..idx.."]"..
 		"field[0.5,2;7,1;numbers;"..S("Insert destination node number(s)")..";"..numbers.."]" ..
 		"label[0.2,3;"..S("Access:").."]"..
 		"dropdown[3,3;4;access;private,protected,public;"..access_idx.."]"..
@@ -200,7 +200,7 @@ minetest.register_node("techage:ta3_button_off", {
 	on_rightclick = on_rightclick_on,
 	techage_set_numbers = techage_set_numbers,
 	after_dig_node = after_dig_node,
-	
+
 	on_rotate = screwdriver.disallow,
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
@@ -267,7 +267,7 @@ minetest.register_node("techage:ta4_button_off", {
 	on_rightclick = on_rightclick_on,
 	techage_set_numbers = techage_set_numbers,
 	after_dig_node = after_dig_node,
-	
+
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
@@ -331,4 +331,3 @@ minetest.register_craft({
 		{"", "", ""},
 	},
 })
-

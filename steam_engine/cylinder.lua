@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA2 Steam Engine Cylinder
 
 ]]--
@@ -19,7 +19,7 @@ local S = techage.S
 local Pipe = techage.SteamPipe
 
 local function transfer_flywheel(pos, topic, payload)
-	return  techage.transfer(pos, "R", topic, payload, nil, 
+	return  techage.transfer(pos, "R", topic, payload, nil,
 		{"techage:flywheel", "techage:flywheel_on"})
 end
 
@@ -36,7 +36,7 @@ local function play_sound(pos)
 	local mem = techage.get_mem(pos)
 	if not mem.handle or mem.handle == -1 then
 		mem.handle = minetest.sound_play("techage_steamengine", {
-			pos = pos, 
+			pos = pos,
 			gain = 0.5,
 			max_hear_distance = 8,
 			loop = true})
@@ -64,7 +64,7 @@ local function after_dig_node(pos, oldnode)
 	techage.del_mem(pos)
 end
 
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
+local function tubelib2_on_update2(pos, outdir, tlib2, node)
 	swap_node(pos, "techage:cylinder")
 	stop_sound(pos)
 end
@@ -80,11 +80,11 @@ minetest.register_node("techage:cylinder", {
 		"techage_filling_ta2.png^techage_cylinder.png^techage_frame_ta2.png",
 		"techage_filling_ta2.png^techage_cylinder.png^techage_frame_ta2.png",
 	},
-	
+
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	tubelib2_on_update2 = tubelib2_on_update2,
-	
+
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -121,9 +121,9 @@ minetest.register_node("techage:cylinder_on", {
 			},
 		},
 	},
-	
+
 	tubelib2_on_update2 = tubelib2_on_update2,
-	
+
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
 	diggable = false,
@@ -162,7 +162,7 @@ techage.register_node({"techage:cylinder", "techage:cylinder_on"}, {
 		--print("on_node_load", node.name)
 		if node.name == "techage:cylinder_on" then
 			play_sound(pos)
-		end	
+		end
 	end,
 })
 
@@ -174,4 +174,3 @@ minetest.register_craft({
 		{"default:wood", "techage:iron_ingot", "basic_materials:steel_bar"},
 	},
 })
-

@@ -7,10 +7,10 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Cement as ingredient and alternative recipe for basic_materials:wet_cement
 	Cement is cooked and grinded clay
-	
+
 ]]--
 
 local S = techage.S
@@ -26,14 +26,14 @@ if not  minetest.get_modpath("bakedclay") then
 	})
 
 	minetest.register_craft({
-		type = "cooking", 
+		type = "cooking",
 		output = "techage:cement_block",
 		recipe = "default:clay",
 	})
 
 	techage.add_grinder_recipe({input="techage:cement_block", output="techage:cement_powder"})
 else
-	-- The block should not exist when the mod baked clay is loaded. 
+	-- The block should not exist when the mod baked clay is loaded.
 	-- But this block was active due to an error and can therefore no longer be deleted.
 	minetest.register_node("techage:cement_block", {
 		description = S("Cement Block"),
@@ -42,7 +42,7 @@ else
 		groups = {cracky = 2, stone = 1},
 		sounds = default.node_sound_stone_defaults(),
 	})
-	
+
 	techage.add_grinder_recipe({input="techage:cement_block", output="techage:cement_powder"})
 	techage.add_grinder_recipe({input="bakedclay:white", output="techage:cement_powder"})
 end
@@ -61,4 +61,3 @@ minetest.register_craft({
 	},
 	replacements = {{"bucket:bucket_water", "bucket:bucket_empty"}},
 })
-

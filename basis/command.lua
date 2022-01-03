@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Basis functions for inter-node communication
 
 ]]--
@@ -59,7 +59,7 @@ local function delete_nodeinfo_entry(number)
 	return number
 end
 
--- Keep the cache size small by deleting entries randomly 
+-- Keep the cache size small by deleting entries randomly
 local function keep_small(number)
 	number = delete_nodeinfo_entry(number)
 	minetest.after(10, keep_small, number)
@@ -82,13 +82,13 @@ end
 -- Determine position related node number for addressing purposes
 local function get_number(pos, new)
 	local meta = minetest.get_meta(pos)
-	if meta:contains("node_number") then 
-		return meta:get_string("node_number") 
+	if meta:contains("node_number") then
+		return meta:get_string("node_number")
 	end
 	-- generate new number
 	if new then
 		local num = backend.add_nodepos(pos)
-		meta:set_string("node_number", num) 
+		meta:set_string("node_number", num)
 		return num
 	end
 end
@@ -141,15 +141,15 @@ end
 local function get_next_node(pos, out_dir)
 	local res, npos, node = Tube:compatible_node(pos, out_dir)
 	local in_dir = tubelib2.Turn180Deg[out_dir]
-	return res, npos, in_dir, node.name 
+	return res, npos, in_dir, node.name
 end
 
 local function get_dest_node(pos, out_dir)
 	local spos, in_dir = Tube:get_connected_node_pos(pos, out_dir)
 	local _,node = Tube:get_node(spos)
-	return spos, in_dir, node.name 
+	return spos, in_dir, node.name
 end
-	
+
 local function item_handling_node(name)
 	local node_def = name and NodeDef[name]
 	if node_def then
@@ -181,17 +181,17 @@ end)
 -------------------------------------------------------------------
 -- API helper functions
 -------------------------------------------------------------------
-	
+
 -- Function returns { pos, name } for the node referenced by number
 function techage.get_node_info(dest_num)
 	return NodeInfoCache[dest_num] or update_nodeinfo(dest_num)
-end	
+end
 
 -- Function returns the node number from the given position or
 -- nil, if no node number for this position is assigned.
 function techage.get_node_number(pos)
 	return get_number(pos)
-end	
+end
 
 function techage.get_pos(pos, side)
 	local node = techage.get_node_lvm(pos)
@@ -200,11 +200,11 @@ function techage.get_pos(pos, side)
 		dir = side_to_dir(side, node.param2)
 	end
 	return tubelib2.get_pos(pos, dir)
-end	
+end
 
 -- Function is used for available nodes with lost numbers, only.
 function techage.get_new_number(pos, name)
-	-- store position 
+	-- store position
 	return get_number(pos, true)
 end
 
@@ -217,7 +217,7 @@ end
 -------------------------------------------------------------------
 -- Node construction/destruction functions
 -------------------------------------------------------------------
-	
+
 -- Add node to the techage lists.
 -- Function determines and returns the node position number,
 -- needed for message communication.
@@ -227,7 +227,7 @@ function techage.add_node(pos, name, is_ta2)
 	if item_handling_node(name) then
 		Tube:after_place_node(pos)
 	end
-	if is_ta2 then 
+	if is_ta2 then
 		return "-"
 	end
 	local key = minetest.hash_node_position(pos)
@@ -307,10 +307,10 @@ function techage.register_node(names, node_definition)
 	for _,n in ipairs(names) do
 		NodeDef[n] = node_definition
 	end
-	if node_definition.on_pull_item or node_definition.on_push_item or 
+	if node_definition.on_pull_item or node_definition.on_push_item or
 			node_definition.is_pusher then
 		Tube:add_secondary_node_names(names)
-		
+
 		for _,n in ipairs(names) do
 			techage.KnownNodes[n] = true
 		end
@@ -346,7 +346,7 @@ function techage.check_numbers(numbers, placer_name)
 		return true
 	end
 	return false
-end	
+end
 
 function techage.send_multi(src, numbers, topic, payload)
 	--print("send_multi", src, numbers, topic)
@@ -360,7 +360,7 @@ function techage.send_multi(src, numbers, topic, payload)
 			end
 		end
 	end
-end		
+end
 
 function techage.send_single(src, number, topic, payload)
 	--print("send_single", src, number, topic)
@@ -373,7 +373,7 @@ function techage.send_single(src, number, topic, payload)
 		end
 	end
 	return false
-end		
+end
 
 -- The destination node location is either:
 -- A) a destination position, specified by pos
@@ -407,7 +407,7 @@ function techage.transfer(pos, outdir, topic, payload, network, nodenames)
 		return ndef.on_transfer(dpos, indir, topic, payload)
 	end
 	return false
-end		
+end
 
 -------------------------------------------------------------------
 -- Client side Push/Pull item functions
@@ -430,10 +430,10 @@ end
 function techage.push_items(pos, out_dir, stack, idx)
 	local npos, in_dir, name = get_dest_node(pos, out_dir)
 	if npos and NodeDef[name] and NodeDef[name].on_push_item then
-		return NodeDef[name].on_push_item(npos, in_dir, stack, idx)	
+		return NodeDef[name].on_push_item(npos, in_dir, stack, idx)
 	elseif is_air_like(name) or is_cart_available(npos) then
 		minetest.add_item(npos, stack)
-		return true 
+		return true
 	end
 	return false
 end
@@ -470,9 +470,9 @@ function techage.unpull_items(pos, out_dir, stack)
 	end
 	return false
 end
-	
+
 -------------------------------------------------------------------
--- Client side Push/Pull item functions for hopper like nodes 
+-- Client side Push/Pull item functions for hopper like nodes
 -- (nodes with no tube support)
 -------------------------------------------------------------------
 
@@ -486,10 +486,10 @@ end
 function techage.neighbour_push_items(pos, out_dir, stack)
 	local res, npos, in_dir, name = get_next_node(pos, out_dir)
 	if res and NodeDef[name] and NodeDef[name].on_push_item then
-		return NodeDef[name].on_push_item(npos, in_dir, stack)	
+		return NodeDef[name].on_push_item(npos, in_dir, stack)
 	elseif name == "air" then
 		minetest.add_item(npos, stack)
-		return true 
+		return true
 	end
 	return false
 end

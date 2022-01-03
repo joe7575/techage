@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Old Power Switch Box
 ]]--
 
@@ -43,22 +43,22 @@ minetest.register_node("techage:powerswitch_box", {
 
 	drawtype = "nodebox",
 	node_box = node_box,
-	
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		local node = minetest.get_node(pos)
 		minetest.swap_node(pos, {name = "techage:powerswitch_box_on", param2 = node.param2})
-		
+
 		if not Cable:after_place_tube(pos, placer, pointed_thing) then
 			minetest.remove_node(pos)
 			return true
 		end
 		return false
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Cable:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,

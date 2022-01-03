@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA2/TA3 Bucket based Liquid Sampler
-	
+
 ]]--
 
 -- for lazy programmers
@@ -96,7 +96,7 @@ end
 local function keep_running(pos, elapsed)
 	--if tubelib.data_not_corrupted(pos) then
 	local nvm = techage.get_nvm(pos)
-	local crd = CRD(pos)	
+	local crd = CRD(pos)
 	local inv = M(pos):get_inventory()
 	sample_liquid(pos, crd, nvm, inv)
 end
@@ -175,7 +175,7 @@ local tubing = {
 	end,
 }
 
-local node_name_ta2, node_name_ta3, _ = 
+local node_name_ta2, node_name_ta3, _ =
 	techage.register_consumer("liquidsampler", S("Liquid Sampler"), tiles, {
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
@@ -220,4 +220,3 @@ minetest.register_craft({
 		{"", "techage:vacuum_tube", ""},
 	},
 })
-

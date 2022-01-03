@@ -9,13 +9,13 @@
 	See LICENSE.txt for more information
 
 	TA4 Logic fourfold button
-	
+
 ]]--
 
 -- for lazy programmers
 local M = minetest.get_meta
 local S = techage.S
-			
+
 local function get_button_num(pos, clicker, pointed_thing)
 	-- use the node behind the button to get better results
 	if clicker and pointed_thing then
@@ -24,7 +24,7 @@ local function get_button_num(pos, clicker, pointed_thing)
 		pointed_thing.above = vector.add(pointed_thing.above, offs)
 		local pos1 = minetest.pointed_thing_to_face_pos(clicker, pointed_thing)
 		local y = pos1.y - pos.y
-		
+
 		if y < -0.3 then
 			return 4
 		elseif y < -0.03 and y > -0.22 then
@@ -49,84 +49,84 @@ local WRENCH_MENU = {
 	{
 		type = "ascii",
 		name = "label1",
-		label = S("Label") .. " 1",      
+		label = S("Label") .. " 1",
 		tooltip = S("Label for the button"),
 		default = "1",
 	},
 	{
 		type = "numbers",
 		name = "dest_number1",
-		label = S("Number") .. " 1",      
+		label = S("Number") .. " 1",
 		tooltip = S("Destination block number"),
 		default = "",
 	},
 	{
 		type = "ascii",
 		name = "command1",
-		label = S("Command") .. " 1",      
+		label = S("Command") .. " 1",
 		tooltip = S("Command to be sent (ignored for switches)"),
 		default = "1",
 	},
 	{
 		type = "ascii",
 		name = "label2",
-		label = S("Label") .. " 2",      
+		label = S("Label") .. " 2",
 		tooltip = S("Label for the button"),
 		default = "1",
 	},
 	{
 		type = "numbers",
 		name = "dest_number2",
-		label = S("Number") .. " 2",      
+		label = S("Number") .. " 2",
 		tooltip = S("Destination block number"),
 		default = "",
 	},
 	{
 		type = "ascii",
 		name = "command2",
-		label = S("Command") .. " 2",      
+		label = S("Command") .. " 2",
 		tooltip = S("Command to be sent (ignored for switches)"),
 		default = "2",
 	},
 	{
 		type = "ascii",
 		name = "label3",
-		label = S("Label") .. " 3",      
+		label = S("Label") .. " 3",
 		tooltip = S("Label for the button"),
 		default = "1",
 	},
 	{
 		type = "numbers",
 		name = "dest_number3",
-		label = S("Number") .. " 3",      
+		label = S("Number") .. " 3",
 		tooltip = S("Destination block number"),
 		default = "",
 	},
 	{
 		type = "ascii",
 		name = "command3",
-		label = S("Command") .. " 3",      
+		label = S("Command") .. " 3",
 		tooltip = S("Command to be sent (ignored for switches)"),
 		default = "3",
 	},
 	{
 		type = "ascii",
 		name = "label4",
-		label = S("Label") .. " 4",      
+		label = S("Label") .. " 4",
 		tooltip = S("Label for the button"),
 		default = "1",
 	},
 	{
 		type = "numbers",
 		name = "dest_number4",
-		label = S("Number") .. " 4",      
+		label = S("Number") .. " 4",
 		tooltip = S("Destination block number"),
 		default = "",
 	},
 	{
 		type = "ascii",
 		name = "command4",
-		label = S("Command") .. " 4",      
+		label = S("Command") .. " 4",
 		tooltip = S("Command to be sent (ignored for switches)"),
 		default = "4",
 	},
@@ -134,7 +134,7 @@ local WRENCH_MENU = {
 		type = "dropdown",
 		choices = "private,protected,public",
 		name = "access",
-		label = S("Access"),      
+		label = S("Access"),
 		tooltip = S("Button protection"),
 		default = "8",
 	},
@@ -163,7 +163,7 @@ local function button_update(pos, objref)
 	local tbl = {meta:get_string("label1"), " ",  meta:get_string("label2"), " ", meta:get_string("label3"), " ", meta:get_string("label4")}
 	local text = "<      " .. table.concat(tbl, "\n<      ")
 	local texture = lcdlib.make_multiline_texture("default", text, 96, 96, 7, "top", "#000", 6)
-	
+
 	if nvm.button[1] then
 		texture = texture .. "^techage_smartline_button_4x_on1.png"
 	end

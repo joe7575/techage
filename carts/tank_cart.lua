@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA3 Tank Cart
-	
+
 ]]--
 
 -- for lazy programmers
@@ -20,7 +20,7 @@ local S2P = minetest.string_to_pos
 local Pipe = techage.LiquidPipe
 local MP = minetest.get_modpath("minecart")
 
-local liquid = networks.liquid 
+local liquid = networks.liquid
 local CAPACITY = 100
 
 local function on_rightclick(pos, node, clicker)
@@ -41,7 +41,7 @@ local function node_timer(pos, elapsed)
 		local nvm = techage.get_nvm(pos)
 		M(pos):set_string("formspec", techage.liquid.formspec(pos, nvm))
 		return true
-	end	
+	end
 	return false
 end
 
@@ -58,7 +58,7 @@ local function take_liquid(pos, indir, name, amount)
 	end
 	return amount, name
 end
-	
+
 local function put_liquid(pos, indir, name, amount)
 	-- check if it is not powder
 	local ndef = minetest.registered_craftitems[name] or {}
@@ -85,7 +85,7 @@ end
 minetest.register_node("techage:tank_cart", {
 	description = S("TA Tank Cart"),
 	tiles = {
-		-- up, down, right, left, back, front		
+		-- up, down, right, left, back, front
 			"techage_tank_cart_top.png",
 			"techage_tank_cart_bottom.png",
 			"techage_tank_cart_side.png",
@@ -110,7 +110,7 @@ minetest.register_node("techage:tank_cart", {
 	groups = {cracky = 2, crumbly = 2, choppy = 2},
 	node_placement_prediction = "",
 	diggable = false,
-	
+
 	on_place = minecart.on_nodecart_place,
 	on_punch = minecart.on_nodecart_punch,
 
@@ -119,31 +119,31 @@ minetest.register_node("techage:tank_cart", {
 		nvm.liquid = nvm.liquid or {}
 		M(pos):set_string("formspec", techage.liquid.formspec(pos, nvm))
 		-- Delete the network between pump and cart
-		Pipe:after_dig_node(pos) 
+		Pipe:after_dig_node(pos)
 		Pipe:after_place_node(pos)
 	end,
-	
+
 	set_cargo = function(pos, data)
 		local nvm = techage.get_nvm(pos)
 		nvm.liquid = data
 	end,
-	
+
 	get_cargo = function(pos)
 		local nvm = techage.get_nvm(pos)
 		local data = nvm.liquid
 		nvm.liquid = {}
 		return data
 	end,
-	
+
 	has_cargo = function(pos)
 		return not techage.liquid.is_empty(pos)
 	end,
-	
+
 	on_timer = node_timer,
 	on_rightclick = on_rightclick,
 })
 
-techage.register_node({"techage:tank_cart"}, techage.liquid.recv_message)	
+techage.register_node({"techage:tank_cart"}, techage.liquid.recv_message)
 
 liquid.register_nodes({"techage:tank_cart"},
 	Pipe, "tank", {"U"}, {

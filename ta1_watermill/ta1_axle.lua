@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA1 Axles for the Watermill
 
 ]]--
@@ -22,7 +22,7 @@ local Axle = tubelib2.Tube:new({
 	max_tube_length = 10,
 	show_infotext = false,
 	tube_type = "axle1",
-	primary_node_names = {"techage:ta1_axle"}, 
+	primary_node_names = {"techage:ta1_axle"},
 	secondary_node_names = {"techage:ta1_mill_gear", "techage:ta1_axle_bearing1", "techage:ta1_axle_bearing2"},
 	after_place_tube = function(pos, param2, tube_type, num_tubes, state)
 		minetest.swap_node(pos, {name = "techage:ta1_axle", param2 = param2})
@@ -50,7 +50,7 @@ minetest.register_node("techage:ta1_axle", {
 			{-1/8, -1/8, -4/8,  1/8, 1/8, 4/8},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		if not Axle:after_place_tube(pos, placer, pointed_thing) then
 			minetest.remove_node(pos)
@@ -58,11 +58,11 @@ minetest.register_node("techage:ta1_axle", {
 		end
 		return false
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Axle:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
@@ -88,15 +88,15 @@ minetest.register_node("techage:ta1_axle_bearing1", {
 			{-1/8, -1/8, -1/2,   1/8,  1/8,  1/2},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer)
-		Axle:after_place_node(pos)		
+		Axle:after_place_node(pos)
 	end,
 
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Axle:after_dig_node(pos)
 	end,
-	
+
 	paramtype2 = "facedir",
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
@@ -116,15 +116,15 @@ minetest.register_node("techage:ta1_axle_bearing2", {
 		"default_stone_brick.png^techage_axle_bearing_front.png",
 		"default_stone_brick.png^techage_axle_bearing_front.png",
 	},
-	
+
 	after_place_node = function(pos, placer)
-		Axle:after_place_node(pos)		
+		Axle:after_place_node(pos)
 	end,
 
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Axle:after_dig_node(pos)
 	end,
-	
+
 	paramtype2 = "facedir",
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
@@ -136,7 +136,7 @@ minetest.register_node("techage:ta1_axle_bearing2", {
 techage.register_node({"techage:ta1_axle_bearing1", "techage:ta1_axle_bearing2"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		return techage.transfer(
-			pos, 
+			pos,
 			in_dir,  -- outdir
 			topic,
 			payload,

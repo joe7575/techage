@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Electric Cables (AC)
 
 ]]--
@@ -24,11 +24,11 @@ local ELE1_MAX_CABLE_LENGHT = 1000
 
 local Cable = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
-	max_tube_length = ELE1_MAX_CABLE_LENGHT, 
+	max_tube_length = ELE1_MAX_CABLE_LENGHT,
 	show_infotext = false,
 	tube_type = "ele1",
 	primary_node_names = {"techage:electric_cableS", "techage:electric_cableA",
-		"techage:power_line", "techage:power_lineS", "techage:power_lineA", 
+		"techage:power_line", "techage:power_lineS", "techage:power_lineA",
 		"techage:power_pole2", "techage:powerswitch_box", "techage:powerswitch_box_on"},
 	secondary_node_names = {},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
@@ -86,7 +86,7 @@ minetest.register_node("techage:electric_cableS", {
 		{ name = "techage_electric_cable_end.png", color = "white" },
 		{ name = "techage_electric_cable_end.png", color = "white" },
 	},
-	
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		if not Cable:after_place_tube(pos, placer, pointed_thing) then
 			minetest.remove_node(pos)
@@ -94,11 +94,11 @@ minetest.register_node("techage:electric_cableS", {
 		end
 		return false
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Cable:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype2 = "colorfacedir", -- important!
 	palette = "techage_cable_palette.png",
 	drawtype = "nodebox",
@@ -137,11 +137,11 @@ minetest.register_node("techage:electric_cableA", {
 		"",
 		{ name = "techage_electric_cable_end.png", color = "white" },
 	},
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Cable:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype2 = "colorfacedir", -- important!
 	palette = "techage_cable_palette.png",
 	drawtype = "nodebox",
@@ -157,7 +157,7 @@ minetest.register_node("techage:electric_cableA", {
 	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3, 
+	groups = {snappy = 2, choppy = 2, oddly_breakable_by_hand = 3,
 			techage_trowel = 1, not_in_creative_inventory = 1},
 	sounds = default.node_sound_defaults(),
 	drop = {

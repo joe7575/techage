@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	mark.lua:
-	
+
 ]]--
 
 local marker_region = {}
@@ -44,7 +44,7 @@ function techage.mark_cube(name, pos1, pos2, nametag, color, time)
 	local size_x = math.abs(pos1.x - pos2.x)  + 1
 	local size_y = math.abs(pos1.y - pos2.y)  + 1
 	local size_z = math.abs(pos1.z - pos2.z)  + 1
-	
+
 	local marker = minetest.add_entity(
 		{x = new_x, y = new_y, z = new_z}, "techage:position_cube")
 	if marker ~= nil then
@@ -126,4 +126,3 @@ minetest.register_entity(":techage:position_side", {
 		techage.unmark_position(self.player_name)
 	end,
 })
-

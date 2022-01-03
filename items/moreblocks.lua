@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	techage node registrations
-	
+
 ]]--
 
 local function register_alias(name)
@@ -44,13 +44,13 @@ local NodeNames = {
 	"techage:red_stone",
 	"techage:red_stone_block",
 	"techage:red_stone_brick",
-	
+
 	"techage:basalt_cobble",
 	"techage:basalt_stone",
 	"techage:basalt_stone_block",
 	"techage:basalt_stone_brick",
 	"techage:sieved_basalt_gravel",
-	
+
 	"techage:basalt_glass",
 	"techage:basalt_glass2",
 	"techage:bauxite_stone",

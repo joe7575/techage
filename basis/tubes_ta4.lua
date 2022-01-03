@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Tubes in TA4 design based on tubelib2
 
 ]]--
@@ -25,7 +25,7 @@ minetest.register_node("techage:ta4_tubeS", {
 		"techage_tube_hole.png",
 		"techage_tube_hole.png",
 	},
-	
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		if not Tube:after_place_tube(pos, placer, pointed_thing) then
 			minetest.remove_node(pos)
@@ -33,11 +33,11 @@ minetest.register_node("techage:ta4_tubeS", {
 		end
 		return false
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Tube:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype2 = "facedir",
 	drawtype = "nodebox",
 	node_box = {
@@ -73,11 +73,11 @@ minetest.register_node("techage:ta4_tubeA", {
 		"techage_tubeta4_knee2.png",
 		"techage_tubeta4_hole2.png",
 	},
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Tube:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype2 = "facedir",
 	drawtype = "nodebox",
 	node_box = {

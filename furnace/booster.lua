@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Booster
 
 ]]--
@@ -39,7 +39,7 @@ local function play_sound(pos)
 	local mem = techage.get_mem(pos)
 	if not mem.handle or mem.handle == -1 then
 		mem.handle = minetest.sound_play("techage_booster", {
-			pos = pos, 
+			pos = pos,
 			gain = 1,
 			max_hear_distance = 7,
 			loop = true})
@@ -82,7 +82,7 @@ minetest.register_node("techage:ta3_booster", {
 		"techage_filling_ta3.png^techage_appl_compressor.png^techage_frame_ta3.png",
 		"techage_filling_ta3.png^techage_appl_compressor.png^[transformFX^techage_frame_ta3.png",
 	},
-	
+
 	on_timer = function(pos, elapsed)
 		local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
 		if consumed == PWR_NEEDED then
@@ -94,7 +94,7 @@ minetest.register_node("techage:ta3_booster", {
 	end,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	
+
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -130,7 +130,7 @@ minetest.register_node("techage:ta3_booster_on", {
 			},
 		},
 	},
-	
+
 	on_timer = function(pos, elapsed)
 		local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
 		if consumed < PWR_NEEDED then
@@ -142,7 +142,7 @@ minetest.register_node("techage:ta3_booster_on", {
 	end,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	
+
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory = 1},
 	diggable = false,
@@ -185,7 +185,7 @@ techage.register_node({"techage:ta3_booster", "techage:ta3_booster_on"}, {
 	on_node_load = function(pos, node)
 		if node.name == "techage:ta3_booster_on" then
 			play_sound(pos)
-		end	
+		end
 	end,
 })
 
@@ -197,4 +197,3 @@ minetest.register_craft({
 		{"basic_materials:steel_bar", "default:wood", "basic_materials:steel_bar"},
 	},
 })
-

@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA1 Watermill
-	
+
 ]]--
 
 local M = minetest.get_meta
@@ -24,8 +24,8 @@ local function calc_dir(dir, facedir)
 		return {x = -dir.z, y = dir.y, z = dir.x}
 	end
 	return {x = dir.x, y = dir.y, z = dir.z}
-end	
-	
+end
+
 local function add_node(pos, dir, facedir, node_name)
 	local pos2 = vector.add(pos, calc_dir(dir, facedir))
 	local node = minetest.get_node(pos2)
@@ -45,7 +45,7 @@ end
 local function water_flowing(pos, facedir, tRes)
 	facedir = ((facedir or 0) + 1) % 4
 	local dir =  minetest.facedir_to_dir(facedir)
-	
+
 	local pos2 = vector.add(pos, dir)
 	pos2.y = pos2.y + 1
 	local node = minetest.get_node(pos2)
@@ -53,7 +53,7 @@ local function water_flowing(pos, facedir, tRes)
 		tRes.backward = false
 		return true
 	end
-	
+
 	pos2 = vector.subtract(pos, dir)
 	pos2.y = pos2.y + 1
 	node = minetest.get_node(pos2)
@@ -67,7 +67,7 @@ local function enough_space(pos, facedir)
 	local pos1 = vector.add(pos, calc_dir({x =-1, y =-1, z = 0}, facedir))
 	local pos2 = vector.add(pos, calc_dir({x = 1, y = 1, z = 0}, facedir))
 	local _, nodes = minetest.find_nodes_in_area(pos1, pos2, {"air"})
-	return nodes["air"] and nodes["air"] == 8 
+	return nodes["air"] and nodes["air"] == 8
 end
 
 local function remove_nodes(pos, facedir)
@@ -91,7 +91,7 @@ local function start_wheel(pos, facedir, backward)
 	end
 	local self = obj:get_luaentity()
 	self.facedir = facedir
-	
+
 	add_node(pos, {x = 0, y = 1, z = 0}, facedir, "techage:water_stop")
 	add_node(pos, {x =-1, y = 0, z = 0}, facedir, "techage:water_stop")
 	add_node(pos, {x = 1, y = 0, z = 0}, facedir, "techage:water_stop")
@@ -113,7 +113,7 @@ local function stop_wheel(pos, self)
 		M(pos):set_int("facedir", self.facedir)
 		minetest.get_node_timer(pos):start(2)
 	end
-	
+
 	remove_nodes(pos, self.facedir)
 	self.object:remove()
 end
@@ -121,7 +121,7 @@ end
 local function trigger_consumer(pos, facedir)
 	local outdir = facedir + 1
 	local resp = techage.transfer(
-		pos, 
+		pos,
 		outdir,          -- outdir
 		"trigger",       -- topic
 		nil,             -- payload
@@ -130,7 +130,7 @@ local function trigger_consumer(pos, facedir)
 	if not resp then
 		outdir = tubelib2.Turn180Deg[outdir]
 		resp = techage.transfer(
-			pos, 
+			pos,
 			outdir,          -- outdir
 			"trigger",       -- topic
 			nil,             -- payload
@@ -155,12 +155,12 @@ minetest.register_node("techage:ta1_watermill", {
 		type = "fixed",
 		fixed = {
 			{-1/2, -1/2, -1/2,   1/2, 1/2,  1/2},
-			
+
 			{-4.5/2, -1/2,  0.8/2,   4.5/2, 1/2,  1.0/2},
 			{-4.5/2, -1/2, -1.0/2,   4.5/2, 1/2, -0.8/2},
 			{-3.8/2, -1/2,  2.1/2,   3.8/2, 1/2,  2.3/2},
 			{-3.8/2, -1/2, -2.3/2,   3.8/2, 1/2, -2.1/2},
-		                                    
+
 			{ 0.8/2, -1/2, -4.5/2,   1.0/2, 1/2,  4.5/2},
 			{-1.0/2, -1/2, -4.5/2,  -0.8/2, 1/2,  4.5/2},
 			{ 2.1/2, -1/2, -3.8/2,   2.3/2, 1/2,  3.8/2},
@@ -170,7 +170,7 @@ minetest.register_node("techage:ta1_watermill", {
 	on_rightclick = function(pos, node, clicker)
 		start_wheel(pos, M(pos):get_int("facedir"))
 	end,
-	
+
 	on_timer = function(pos, elapsed)
 		local tRes = {}
 		if water_flowing(pos, M(pos):get_int("facedir"), tRes) then
@@ -178,7 +178,7 @@ minetest.register_node("techage:ta1_watermill", {
 		end
 		return true
 	end,
-	
+
 	paramtype2 = "facedir",
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
@@ -208,19 +208,19 @@ minetest.register_node("techage:ta1_watermill_inv", {
 		type = "fixed",
 		fixed = {
 			{-1/4, -1/4, -1/4,   1/4, 1/4,  1/4},
-			
+
 			{-4.5/4,  0.8/4, -1/4,   4.5/4,  1.0/4, 1/4},
 			{-4.5/4, -1.0/4, -1/4,   4.5/4, -0.8/4, 1/4},
 			{-3.8/4,  2.1/4, -1/4,   3.8/4,  2.3/4, 1/4},
 			{-3.8/4, -2.3/4, -1/4,   3.8/4, -2.1/4, 1/4},
-		                                            
+
 			{ 0.8/4, -4.5/4, -1/4,   1.0/4,  4.5/4, 1/4},
 			{-1.0/4, -4.5/4, -1/4,  -0.8/4,  4.5/4, 1/4},
 			{ 2.1/4, -3.8/4, -1/4,   2.3/4,  3.8/4, 1/4},
 			{-2.3/4, -3.8/4, -1/4,  -2.1/4,  3.8/4, 1/4},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local node = minetest.get_node(pos)
 		M(pos):set_int("facedir", node.param2)
@@ -236,7 +236,7 @@ minetest.register_node("techage:ta1_watermill_inv", {
 			return true
 		end
 	end,
-	
+
 	paramtype2 = "facedir",
 	node_placement_prediction = "",
 	diggable = false,
@@ -246,7 +246,7 @@ techage.register_node({"techage:ta1_watermill"}, {
 	on_node_load = function(pos, node)
 		minetest.get_node_timer(pos):start(2)
 	end,
-})	
+})
 
 
 minetest.register_entity("techage:ta1_watermill_entity", {
@@ -260,10 +260,10 @@ minetest.register_entity("techage:ta1_watermill_entity", {
 		automatic_rotate = -math.pi * 0.2,
 		pointable = false,
 	},
-	
+
 	on_step = function(self, dtime)
 		self.dtime = (self.dtime or 0) + dtime
-		
+
 		if self.dtime > 2 then
 			self.dtime = 0
 			local pos = vector.round(self.object:get_pos())
@@ -275,7 +275,7 @@ minetest.register_entity("techage:ta1_watermill_entity", {
 			max_hear_distance = 10}, true)
 		end
 	end,
-	
+
 	on_rightclick = function(self, clicker)
 		local pos = vector.round(self.object:get_pos())
 		stop_wheel(pos, self)
@@ -284,7 +284,7 @@ minetest.register_entity("techage:ta1_watermill_entity", {
 	on_activate = function(self, staticdata)
 		self.facedir = tonumber(staticdata) or 0
 	end,
-	
+
 	get_staticdata = function(self)
 		return self.facedir
 	end,
@@ -295,7 +295,7 @@ minetest.register_node("techage:water_stop", {
 	drawtype = "glasslike_framed_optional",
 	tiles = {"techage_invisible.png"},
 	inventory_image = 'techage_invisible_inv.png',
-	
+
 	use_texture_alpha = "blend",
 	paramtype = "light",
 	walkable = false,

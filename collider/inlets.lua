@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Tube/Pipe Inputs/Outputs as part of the Collider
 
 ]]--
@@ -64,7 +64,7 @@ minetest.register_node("techage:ta4_collider_tube_inlet", {
 	after_place_node = function(pos, placer, itemstack)
 		VTube:after_place_node(pos)
 	end,
-	
+
 	after_dig_node = function(pos, oldnode)
 		VTube:after_dig_node(pos)
 		techage.del_mem(pos)
@@ -87,10 +87,10 @@ techage.register_node({"techage:ta4_collider_tube_inlet"}, {
 			return true
 		end
 	end,
-})	
+})
 
 -- Used by the detector to check the tube connection
-function techage.tube_inlet_command(pos, command, payload) 
+function techage.tube_inlet_command(pos, command, payload)
 	if command == "distance" then
 		local pos2 = techage.transfer(pos, "F", command, payload, VTube, {"techage:ta4_magnet"})
 		if type(pos2) == "table" then
@@ -144,7 +144,7 @@ minetest.register_node("techage:ta4_collider_pipe_inlet", {
 		Pipe:after_place_node(pos)
 		nvm.liquid = {}
 	end,
-	
+
 	after_dig_node = function(pos, oldnode)
 		Pipe:after_dig_node(pos)
 		techage.del_mem(pos)
@@ -180,10 +180,10 @@ techage.register_node({"techage:ta4_collider_pipe_inlet"}, {
 			return true
 		end
 	end,
-})	
+})
 
 -- Used by the detector to check for gas pressure
-function techage.gas_inlet_check(pos, node, meta, nvm) 
+function techage.gas_inlet_check(pos, node, meta, nvm)
 	nvm.liquid = nvm.liquid or {}
 	if nvm.liquid.amount == GAS_CAPA and nvm.liquid.name == "techage:isobutane" then
 		return true
@@ -192,7 +192,7 @@ function techage.gas_inlet_check(pos, node, meta, nvm)
 end
 
 -- Used by the detector to check for cooler connection
-function techage.cooler_check(pos, node, meta, nvm) 
+function techage.cooler_check(pos, node, meta, nvm)
 	if nvm.detector_received then
 		nvm.detector_received = nil
 		return true
@@ -247,7 +247,7 @@ minetest.register_node("techage:ta4_collider_pipe_outlet", {
 		init_air(nvm)
 		Pipe:after_place_node(pos)
 	end,
-	
+
 	after_dig_node = function(pos, oldnode)
 		Pipe:after_dig_node(pos)
 		techage.del_mem(pos)
@@ -275,7 +275,7 @@ liquid.register_nodes({"techage:ta4_collider_pipe_outlet"}, Pipe, "tank", {"U"},
 })
 
 -- Used by the detector to check the vacuum
-function techage.air_outlet_check(pos, node, meta, nvm) 
+function techage.air_outlet_check(pos, node, meta, nvm)
 	nvm.liquid = nvm.liquid or {}
 	if nvm.liquid.amount == 0 then
 		return true
@@ -283,7 +283,7 @@ function techage.air_outlet_check(pos, node, meta, nvm)
 	return false, "no vacuum"
 end
 
-function techage.air_outlet_reset(pos) 
+function techage.air_outlet_reset(pos)
 	local nvm = techage.get_nvm(pos)
 	init_air(nvm)
 end
@@ -325,13 +325,13 @@ minetest.register_node("techage:ta4_collider_cable_inlet", {
 		Cable:after_place_node(pos)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
-	
+
 	on_timer = function(pos, elapsed)
 		local nvm = techage.get_nvm(pos)
 		nvm.consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
 		return true
 	end,
-		
+
 	after_dig_node = function(pos, oldnode)
 		Cable:after_dig_node(pos)
 		techage.del_mem(pos)
@@ -339,7 +339,7 @@ minetest.register_node("techage:ta4_collider_cable_inlet", {
 })
 
 -- Used by the detector to check for power
-function techage.power_inlet_check(pos, node, meta, nvm) 
+function techage.power_inlet_check(pos, node, meta, nvm)
 	if nvm.consumed == PWR_NEEDED then
 		return true
 	end
@@ -352,7 +352,7 @@ techage.register_node({"techage:ta4_collider_cable_inlet"}, {
 	on_node_load = function(pos)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
-})	
+})
 
 minetest.register_craft({
 	output = "techage:ta4_collider_cable_inlet",

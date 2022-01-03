@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Storage backend for node number mapping via mod storage
 
 ]]--
@@ -59,23 +59,23 @@ storage:set_int("Version", Version)
 -------------------------------------------------------------------
 function backend.get_nodepos(number)
 	return minetest.string_to_pos(storage:get_string(number))
-end	
-	
+end
+
 function backend.set_nodepos(number, pos)
 	storage:set_string(number, minetest.pos_to_string(pos))
-end	
-	
+end
+
 function backend.add_nodepos(pos)
 	local num = tostring(NextNumber)
 	NextNumber = NextNumber + 1
 	storage:set_int("NextNumber", NextNumber)
 	storage:set_string(num, minetest.pos_to_string(pos))
 	return num
-end	
-	
+end
+
 function backend.del_nodepos(number)
 	storage:set_string(number, "")
-end	
+end
 
 -- delete invalid entries
 function backend.delete_invalid_entries(node_def)
@@ -88,11 +88,11 @@ function backend.delete_invalid_entries(node_def)
 			if not node_def[name] then
 				backend.del_nodepos(number)
 			else
-				minetest.get_meta(pos):set_string("node_number", number) 
+				minetest.get_meta(pos):set_string("node_number", number)
 			end
 		end
 	end
 	minetest.log("info", "[TechAge] Data maintenance finished")
-end	
+end
 
 return backend

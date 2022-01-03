@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Magnet as part of the Collider
 
 ]]--
@@ -60,9 +60,9 @@ minetest.register_node("techage:ta4_detector_magnet", {
 minetest.register_node("techage:ta4_magnet", {
 	description = S("TA4 Collider Magnet"),
 	inventory_image = minetest.inventorycube(
-		"techage_collider_magnet.png^techage_appl_hole_electric.png", 
+		"techage_collider_magnet.png^techage_appl_hole_electric.png",
 		"techage_collider_magnet.png^techage_appl_hole_pipe.png",
-		"techage_collider_magnet.png^techage_collider_magnet_tube.png"), 
+		"techage_collider_magnet.png^techage_collider_magnet_tube.png"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_collider_magnet.png^techage_appl_hole_electric.png",
@@ -111,7 +111,7 @@ minetest.register_node("techage:ta4_magnet", {
 		VTube:after_place_node(pos)
 		M(pos):set_string("infotext", S("TA4 Collider Magnet") .. " #0")
 	end,
-	
+
 	-- To be called by the detector
 	on_cyclic_check = function(pos)
 		local nvm = techage.get_nvm(pos)
@@ -120,15 +120,15 @@ minetest.register_node("techage:ta4_magnet", {
 		if nvm.tube_damage then
 			nvm.tube_damage = nil
 			return -1
-		elseif nvm.liquid.amount == CAPACITY and 
-				nvm.liquid.name == "techage:isobutane" and 
+		elseif nvm.liquid.amount == CAPACITY and
+				nvm.liquid.name == "techage:isobutane" and
 				nvm.consumed == PWR_NEEDED then
 			return 0
 		end
 		return -2
 	end,
-	
-	tubelib2_on_update2 = function(pos, outdir, tlib2, node) 
+
+	tubelib2_on_update2 = function(pos, outdir, tlib2, node)
 		if tlib2.tube_type == "vtube" then
 			local nvm = techage.get_nvm(pos)
 			nvm.tube_damage = true
@@ -138,7 +138,7 @@ minetest.register_node("techage:ta4_magnet", {
 			nvm.liquid.amount = 0
 		end
 	end,
-	
+
 	after_dig_node = function(pos, oldnode)
 		Pipe:after_dig_node(pos)
 		Cable:after_dig_node(pos)
@@ -172,14 +172,14 @@ VTube:add_secondary_node_names({"techage:ta4_magnet"})
 VTube:set_valid_sides("techage:ta4_magnet", {"R", "L"})
 
 local function send_to_next(pos, in_dir, topic, payload)
-	return techage.transfer(pos, in_dir, topic, payload, VTube, 
+	return techage.transfer(pos, in_dir, topic, payload, VTube,
 		{"techage:ta4_magnet", "techage:ta4_collider_tube_inlet"})
 end
 
 --[[
 Commands
---------  
-  
+--------
+
 distance  : Check distance between all magnets.
             Returns pos of next magnet or the number of the defect magnet.
 enumerate : Give each magnet a unique number (1...n)
@@ -231,7 +231,7 @@ techage.register_node({"techage:ta4_magnet"}, {
 			end
 		end
 	end,
-})	
+})
 
 minetest.register_node("techage:ta4_magnet_base", {
 	description = S("TA4 Collider Magnet Base"),

@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Biogas flare
 
 ]]--
@@ -65,7 +65,7 @@ for idx,ratio in ipairs(lRatio) do
 				},
 			},
 		},
-		
+
 		after_destruct = function(pos, oldnode)
 			pos.y = pos.y + 1
 			local node = minetest.get_node(pos)
@@ -73,7 +73,7 @@ for idx,ratio in ipairs(lRatio) do
 				minetest.remove_node(pos)
 			end
 		end,
-		
+
 		use_texture_alpha = true,
 		inventory_image = "techage_flame.png",
 		paramtype = "light",
@@ -93,16 +93,16 @@ end
 
 local function start_flarestack(pos, playername)
 	if minetest.is_protected(
-			{x=pos.x, y=pos.y+1, z=pos.z}, 
+			{x=pos.x, y=pos.y+1, z=pos.z},
 			playername) then
 		return
 	end
 	local meta = minetest.get_meta(pos)
 	flame({x=pos.x, y=pos.y+1, z=pos.z})
 	local handle = minetest.sound_play("gasflare", {
-			pos = pos, 
-			max_hear_distance = 20, 
-			gain = 1, 
+			pos = pos,
+			max_hear_distance = 20,
+			gain = 1,
 			loop = true})
 	--print("handle", handle)
 	meta:set_int("handle", handle)
@@ -123,7 +123,7 @@ minetest.register_node("techage:gasflare", {
 		"techage_gasflare.png",
 		"techage_gasflare.png^techage_appl_hole2.png",
 	},
-	
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		local node = minetest.get_node({x=pos.x, y=pos.y+1, z=pos.z})
 		if node.name ~= "air" then
@@ -131,14 +131,14 @@ minetest.register_node("techage:gasflare", {
 		end
 		minetest.add_node({x=pos.x, y=pos.y+1, z=pos.z}, {name = "techage:gasflare2"})
 	end,
-	
+
 	on_punch = function(pos, node, puncher)
 		local meta = minetest.get_meta(pos)
 		local handle = meta:get_int("handle")
 		minetest.sound_stop(handle)
 		start_flarestack(pos, puncher:get_player_name())
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		--print(dump(oldmetadata))
 		stop_flarestack(pos, oldmetadata.fields.handle)
@@ -149,7 +149,7 @@ minetest.register_node("techage:gasflare", {
 	end,
 
 	paramtype = "light",
-	light_source = 0,	
+	light_source = 0,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -163,7 +163,7 @@ minetest.register_node("techage:gasflare2", {
 		"techage_gasflare.png^techage_appl_hole2.png",
 		"techage_gasflare.png"
 	},
-	
+
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
@@ -173,7 +173,7 @@ minetest.register_node("techage:gasflare2", {
 		},
 	},
 	paramtype = "light",
-	light_source = 0,	
+	light_source = 0,
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	diggable = false,

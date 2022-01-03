@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Nodes
 
 ]]--
@@ -34,4 +34,3 @@ minetest.register_node("techage:glow_gravel", {
 	sounds = default.node_sound_gravel_defaults(),
 	drop = "",
 })
-

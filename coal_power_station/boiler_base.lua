@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Coal Power Station Boiler Base
 
 ]]--
@@ -39,7 +39,7 @@ minetest.register_node("techage:coalboiler_base", {
 
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	
+
 	paramtype = "light",
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -49,7 +49,7 @@ minetest.register_node("techage:coalboiler_base", {
 })
 
 Pipe:add_secondary_node_names({"techage:coalboiler_base"})
-	
+
 -- for logical communication
 techage.register_node({"techage:coalboiler_base"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
@@ -65,4 +65,3 @@ minetest.register_craft({
 		{"default:stone", "default:stone", "default:stone"},
 	},
 })
-

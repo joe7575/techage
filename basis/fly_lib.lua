@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	Block fly/move library
-	
+
 ]]--
 
 -- for lazy programmers
@@ -22,7 +22,7 @@ local flylib = {}
 
 local function lvect_add_vec(lvect1, offs)
 	if not lvect1 or not offs then return end
-	
+
 	local lvect2 = {}
 	for _, v in ipairs(lvect1) do
 		lvect2[#lvect2 + 1] = vector.add(v, offs)
@@ -32,7 +32,7 @@ end
 
 local function lvect_add(lvect1, lvect2)
 	if not lvect1 or not lvect2 then return end
-	
+
 	local lvect3 = {}
 	for i, v in ipairs(lvect1) do
 		lvect3[#lvect3 + 1] = vector.add(v, lvect2[i])
@@ -42,7 +42,7 @@ end
 
 local function lvect_subtract(lvect1, lvect2)
 	if not lvect1 or not lvect2 then return end
-	
+
 	local lvect3 = {}
 	for i, v in ipairs(lvect1) do
 		lvect3[#lvect3 + 1] = vector.subtract(v, lvect2[i])
@@ -58,7 +58,7 @@ local function rotate(v, yaw)
 end
 
 -------------------------------------------------------------------------------
--- to_path function for the fly/move path 
+-- to_path function for the fly/move path
 -------------------------------------------------------------------------------
 
 local function strsplit(text)
@@ -79,9 +79,9 @@ function flylib.to_vector(s)
 	local x,y,z = unpack(string.split(s, ","))
 	if x and y and z then
 		return {
-			x=tonumber(x) or 0, 
-			y=tonumber(y) or 0, 
-			z=tonumber(z) or 0, 
+			x=tonumber(x) or 0,
+			y=tonumber(y) or 0,
+			z=tonumber(z) or 0,
 		}
 	end
 end
@@ -89,7 +89,7 @@ end
 function flylib.to_path(s, max_dist)
 	local tPath
 	local dist = 0
-	
+
 	for _, line in ipairs(strsplit(s)) do
 		line = trim(line)
 		line = string.split(line, "--", true, 1)[1] or ""
@@ -125,7 +125,7 @@ local function reverse_path(lpath)
 	end
 	return lres
 end
-	
+
 local function dest_offset(lpath)
 	local offs = {x=0, y=0, z=0}
 	for i = 1,#lpath do
@@ -133,9 +133,9 @@ local function dest_offset(lpath)
 	end
 	return offs
 end
-	
+
 -------------------------------------------------------------------------------
--- Entity / Move / Attach / Detach 
+-- Entity / Move / Attach / Detach
 -------------------------------------------------------------------------------
 local MIN_SPEED = 0.4
 local MAX_SPEED = 8
@@ -167,7 +167,7 @@ end
 -- Check access conflicts with other mods
 local function lock_player(player)
 	local meta = player:get_meta()
-	if meta:get_int("player_physics_locked") == 0 then 
+	if meta:get_int("player_physics_locked") == 0 then
 		meta:set_int("player_physics_locked", 1)
 		meta:set_string("player_physics_locked_by", "ta_flylib")
 		return true
@@ -177,7 +177,7 @@ end
 
 local function unlock_player(player)
 	local meta = player:get_meta()
-	if meta:get_int("player_physics_locked") == 1 then 
+	if meta:get_int("player_physics_locked") == 1 then
 		if meta:get_string("player_physics_locked_by") == "ta_flylib" then
 			meta:set_int("player_physics_locked", 0)
 			meta:set_string("player_physics_locked_by", "")
@@ -294,7 +294,7 @@ local function entity_to_node(pos, obj)
 			nvm.running = nil
 		end
 		obj:remove()
-		
+
 		local node =  minetest.get_node(pos)
 		local ndef1 = minetest.registered_nodes[name]
 		local ndef2 = minetest.registered_nodes[node.name]
@@ -321,7 +321,7 @@ end
 local function node_to_entity(start_pos)
 	local meta = M(start_pos)
 	local node, metadata
-	
+
 	if meta:contains("ta_move_block") then
 		-- Move-block stored as metadata
 		node = minetest.deserialize(meta:get_string("ta_move_block"))
@@ -335,17 +335,17 @@ local function node_to_entity(start_pos)
 	end
 	local obj = minetest.add_entity(start_pos, "techage:move_item")
 	if obj then
-		local self = obj:get_luaentity() 
+		local self = obj:get_luaentity()
 		local rot = techage.facedir_to_rotation(node.param2)
 		obj:set_rotation(rot)
 		obj:set_properties({wield_item=node.name})
 		obj:set_armor_groups({immortal=1})
-		
+
 		-- To be able to revert to node
 		self.item_name = node.name
 		self.param2 = node.param2
 		self.metadata = metadata or {}
-		
+
 		-- Prepare for attachments
 		self.players = {}
 		self.entities = {}
@@ -412,7 +412,7 @@ local function handover_to(obj, self, pos1)
 				nvm.lpos1 = nvm.lpos1 or {}
 				if self.move2to1 then
 					nvm.lpos1[self.pos1_idx] = pos2
-					
+
 				else
 					nvm.lpos1[self.pos1_idx] = pos1
 				end
@@ -435,7 +435,7 @@ minetest.register_entity("techage:move_item", {
 		visual_size = {x=0.67, y=0.67, z=0.67},
 		selectionbox = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
 	},
-	
+
 	get_staticdata = function(self)
 		return minetest.serialize({
 			item_name = self.item_name,
@@ -454,7 +454,7 @@ minetest.register_entity("techage:move_item", {
 			respawn = true,
 		})
 	end,
-	
+
 	on_activate = function(self, staticdata)
 		if staticdata then
 			local tbl = minetest.deserialize(staticdata) or {}
@@ -478,7 +478,7 @@ minetest.register_entity("techage:move_item", {
 			end
 		end
 	end,
-	
+
 	on_step = function(self, dtime, moveresult)
 		local stop_obj = function(obj, self)
 			local dest_pos = self.dest_pos
@@ -490,14 +490,14 @@ minetest.register_entity("techage:move_item", {
 			self.ttl = 2
 			return dest_pos
 		end
-		
+
 		if self.dest_pos then
 			local obj = self.object
 			local pos = obj:get_pos()
 			local dist = vector.distance(pos, self.dest_pos)
 			local speed = calc_speed(obj:get_velocity())
 			self.old_dist = self.old_dist or dist
-			
+
 			-- Landing
 			if self.lpath and self.lpath[self.path_idx] then
 				if dist < 1 or dist > self.old_dist then
@@ -520,26 +520,26 @@ minetest.register_entity("techage:move_item", {
 					return
 				end
 			end
-			
+
 			self.old_dist = dist
-			
-			-- Braking or limit max speed 
+
+			-- Braking or limit max speed
 			if self.handover then
 				if speed > (dist * 4) or speed > self.max_speed then
-					speed = math.min(speed, math.max(dist * 4, MIN_SPEED)) 
+					speed = math.min(speed, math.max(dist * 4, MIN_SPEED))
 					local vel = vector.multiply(self.dir,speed)
 					obj:set_velocity(vel)
 					obj:set_acceleration({x=0, y=0, z=0})
 				end
 			else
 				if speed > (dist * 2) or speed > self.max_speed then
-					speed = math.min(speed, math.max(dist * 2, MIN_SPEED)) 
+					speed = math.min(speed, math.max(dist * 2, MIN_SPEED))
 					local vel = vector.multiply(self.dir,speed)
 					obj:set_velocity(vel)
 					obj:set_acceleration({x=0, y=0, z=0})
 				end
 			end
-		
+
 		elseif self.ttl then
 			self.ttl = self.ttl - dtime
 			if self.ttl < 0 then
@@ -566,19 +566,19 @@ end
 local function is_simple_node(pos)
 	-- special handling
 	local name = minetest.get_node(pos).name
-	if SimpleNodes[name] ~= nil then 
-		return SimpleNodes[name] 
+	if SimpleNodes[name] ~= nil then
+		return SimpleNodes[name]
 	end
-	
+
 	local ndef = minetest.registered_nodes[name]
 	if not ndef or name == "air" or name == "ignore" then return false end
 	-- don't remove nodes with some intelligence or undiggable nodes
 	if ndef.drop == "" then return false end
 	if ndef.diggable == false then return false end
 	if ndef.after_dig_node then return false end
-	
+
 	return true
-end	
+end
 
 local function move_node(pos, pos1_idx, start_pos, lpath, max_speed, height, move2to1, handover, cpos)
 	local pos2 = next_path_pos(start_pos, lpath, 1)
@@ -618,7 +618,7 @@ local function move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, ha
 	--print("move_nodes", dump(nvm), dump(lpath), max_speed, height, move2to1, handover)
 	local owner = meta:get_string("owner")
 	techage.counting_add(owner, #nvm.lpos1 * #lpath)
-	
+
 	for idx = 1, #nvm.lpos1 do
 		local pos1 = nvm.lpos1[idx]
 		local pos2 = nvm.lpos2[idx]
@@ -650,27 +650,27 @@ local function move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, ha
 	return true
 end
 
-function flylib.move_to_other_pos(pos, move2to1)	
+function flylib.move_to_other_pos(pos, move2to1)
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
 	local lpath, err = flylib.to_path(meta:get_string("path")) or {}
 	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
 	local height = meta:contains("height") and meta:get_float("height") or 1
 	local handover
-	
+
 	if err then return false end
-	
+
 	height = techage.in_range(height, 0, 1)
 	max_speed = techage.in_range(max_speed, MIN_SPEED, MAX_SPEED)
 	nvm.lpos1 = nvm.lpos1 or {}
-	
+
 	local offs = dest_offset(lpath)
 	if move2to1 then
 		lpath = reverse_path(lpath)
 	end
 	-- calc destination positions
 	nvm.lpos2 = lvect_add_vec(nvm.lpos1, offs)
-	
+
 	if move2to1 then
 		handover = meta:contains("handoverA") and meta:get_string("handoverA")
 	else
@@ -688,9 +688,9 @@ function flylib.rotate_nodes(pos, posses1, rot)
 	local posses2 = techage.rotate_around_center(posses1, rot, cpos)
 	local param2
 	local nodes2 = {}
-	
+
 	techage.counting_add(owner, #posses1 * 2)
-	
+
 	for i, pos1 in ipairs(posses1) do
 		local node = techage.get_node_lvm(pos1)
 		if rot == "l" then

@@ -7,9 +7,9 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
-	TA4 Laser beam emitter and receiver 
-	
+
+	TA4 Laser beam emitter and receiver
+
 ]]--
 
 -- for lazy programmers
@@ -46,8 +46,8 @@ minetest.register_node("techage:ta4_laser_emitter", {
 				Cable:pairing(pos2, "laser")
 				Cable:pairing(pos, "laser")
 			else
-				minetest.chat_send_player(placer:get_player_name(), 
-					S("Valid destination positions:") .. " " .. 
+				minetest.chat_send_player(placer:get_player_name(),
+					S("Valid destination positions:") .. " " ..
 					P2S(pos1) .. " " .. S("to") .. " " .. P2S(pos2))
 			end
 		else
@@ -82,14 +82,14 @@ minetest.register_node("techage:ta4_laser_emitter", {
 		end
 		return true
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.del_laser(pos)
 		Cable:stop_pairing(pos, oldmetadata, "")
 		local tube_dir = tonumber(oldmetadata.fields.tube_dir or 0)
 		Cable:after_dig_node(pos, {tube_dir})
 	end,
-	
+
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
@@ -119,7 +119,7 @@ minetest.register_node("techage:ta4_laser_receiver", {
 		local tube_dir = tonumber(oldmetadata.fields.tube_dir or 0)
 		Cable:after_dig_node(pos, {tube_dir})
 	end,
-	
+
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
@@ -156,4 +156,3 @@ minetest.register_craft({
 		{"default:steel_ingot", "techage:ta4_wlanchip", "default:steel_ingot"},
 	},
 })
-

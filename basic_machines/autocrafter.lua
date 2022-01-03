@@ -8,11 +8,11 @@
 	AGPL v3
 	See LICENSE.txt for more information
 
-	The autocrafter is derived from pipeworks: 
+	The autocrafter is derived from pipeworks:
 	Copyright (C) 2004 Sam Hocevar <sam@hocevar.net>  WTFPL
-	
+
 	TA2/TA3/TA4 Autocrafter
-	
+
 ]]--
 
 -- for lazy programmers
@@ -69,7 +69,7 @@ local function count_index(invlist)
 end
 
 -- caches some recipe data
-local autocrafterCache = {}  
+local autocrafterCache = {}
 
 local function get_craft(pos, inventory, hash)
 	hash = hash or minetest.hash_node_position(pos)
@@ -78,13 +78,13 @@ local function get_craft(pos, inventory, hash)
 		local recipe = inventory:get_list("recipe")
 		local output, decremented_input = minetest.get_craft_result(
 				{method = "normal", width = 3, items = recipe})
-		
+
 		-- check if registered item
-		if UncraftableItems[output.item:get_name()] then 
+		if UncraftableItems[output.item:get_name()] then
 			output.item = ItemStack()
 		end
-		
-		craft = {recipe = recipe, consumption = count_index(recipe), 
+
+		craft = {recipe = recipe, consumption = count_index(recipe),
 				output = output, decremented_input = decremented_input}
 		autocrafterCache[hash] = craft
 	end
@@ -93,18 +93,18 @@ end
 
 local function autocraft(pos, crd, nvm, inv)
 	local craft = get_craft(pos, inv)
-	if not craft then 
+	if not craft then
 		crd.State:idle(pos, nvm)
 		return
 	end
 	local output_item = craft.output.item
 	if output_item:get_name() == "" then
 		crd.State:idle(pos, nvm)
-		return 
+		return
 	end
-		
+
 	-- check if we have enough room in dst
-	if not inv:room_for_item("dst", output_item) then	
+	if not inv:room_for_item("dst", output_item) then
 		crd.State:blocked(pos, nvm)
 		return
 	end
@@ -112,9 +112,9 @@ local function autocraft(pos, crd, nvm, inv)
 	local inv_index = count_index(inv:get_list("src"))
 	-- check if we have enough material available
 	for itemname, number in pairs(consumption) do
-		if (not inv_index[itemname]) or inv_index[itemname] < number then 
+		if (not inv_index[itemname]) or inv_index[itemname] < number then
 			crd.State:idle(pos, nvm)
-			return 
+			return
 		end
 	end
 	-- consume material
@@ -129,7 +129,7 @@ local function autocraft(pos, crd, nvm, inv)
 	for i = 1, 9 do
 		inv:add_item("dst", craft.decremented_input.items[i])
 	end
-	
+
 	crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 end
 
@@ -230,7 +230,7 @@ local function determine_recipe_items(pos, input)
 		if num and idx then
 			input = get_input_from_recipeblock(pos, num, idx)
 		end
-		
+
 		if input then
 			-- "<item>,<item>,..." input
 			local items = string.split(input, ",", true, 8)
@@ -452,7 +452,7 @@ local tubing = {
 	end,
 }
 
-local node_name_ta2, node_name_ta3, node_name_ta4 = 
+local node_name_ta2, node_name_ta3, node_name_ta4 =
 	techage.register_consumer("autocrafter", S("Autocrafter"), tiles, {
 		drawtype = "normal",
 		cycle_time = CYCLE_TIME,

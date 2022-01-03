@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	ICTA Controller
 
 ]]--
@@ -16,11 +16,11 @@
 local M = minetest.get_meta
 local S = techage.S
 local logic = techage.logic
-	
+
 --
 -- Helper functions
 --
-local function gen_table(size, val) 
+local function gen_table(size, val)
 	local tbl = {}
 	for idx = 1,size do
 		if type(val) == "table" then
@@ -42,14 +42,14 @@ local function integer(s, min, max)
 	return min
 end
 
-local sOUTPUT = "Edit commands (see help)" 
+local sOUTPUT = "Edit commands (see help)"
 local Cache = {}
 local FS_DATA = gen_table(techage.NUM_RULES, {})
 
 
 local function output(pos, text, flush_buffer)
 	local meta = minetest.get_meta(pos)
-	if not flush_buffer then 
+	if not flush_buffer then
 		text = meta:get_string("output") .. "\n" .. (text or "")
 		text = text:sub(-500,-1)
 	end
@@ -123,7 +123,7 @@ local function generate(pos, meta, environ)
 		elseif cond == nil and actn ~= nil then
 			output(pos, "Error in condition in rule "..idx)
 		end
-	end 
+	end
 	return tbl
 end
 
@@ -182,7 +182,7 @@ local function battery(pos)
 		return true
 	end
 	return false
-end	
+end
 
 local function start_controller(pos, meta)
 	local number = meta:get_string("number")
@@ -190,10 +190,10 @@ local function start_controller(pos, meta)
 		meta:set_string("formspec", techage.formspecError(meta))
 		return false
 	end
-	
+
 	meta:set_string("output", "<press update>")
 	meta:set_int("cpu", 0)
-	
+
 	if compile(pos, meta, number) then
 		meta:set_int("state", techage.RUNNING)
 		minetest.get_node_timer(pos):start(1)
@@ -243,7 +243,7 @@ local function on_timer(pos, elapsed)
 	local number = meta:get_string("number")
 	if Cache[number] or compile(pos, meta, number) then
 		local res = execute(pos, number, elapsed == -1)
-		if res then 
+		if res then
 			t = minetest.get_us_time() - t
 			if not update_battery(meta, t) then
 				no_battery(pos)
@@ -265,7 +265,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	if player:get_player_name() ~= owner then
 		return
 	end
-	
+
 	--print("fields", dump(fields))
 	if fields.quit then  -- cancel button
 		return
@@ -295,7 +295,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 	if fields._exit_ == "ok" then  -- exit from sub-menu?
 		if fields._button_ then
-			techage.formspec_button_update(meta, fields)	
+			techage.formspec_button_update(meta, fields)
 		end
 		-- simulate tab selection
 		fields.tab = "1"
@@ -369,12 +369,12 @@ minetest.register_node("techage:ta4_icta_controller", {
 			{ -6/32, -6/32, 14/32,  6/32,  6/32, 16/32},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos)
 		local number = techage.add_node(pos, "techage:ta4_icta_controller")
 		local fs_data = FS_DATA
-		meta:set_string("fs_data", minetest.serialize(fs_data)) 
+		meta:set_string("fs_data", minetest.serialize(fs_data))
 		meta:set_string("owner", placer:get_player_name())
 		meta:set_string("number", number)
 		meta:set_int("state", techage.STOPPED)
@@ -384,14 +384,14 @@ minetest.register_node("techage:ta4_icta_controller", {
 	end,
 
 	on_receive_fields = on_receive_fields,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
 	end,
-	
+
 	on_timer = on_timer,
-	
+
 	paramtype = "light",
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
@@ -413,7 +413,7 @@ minetest.register_craft({
 
 -- write inputs from remote nodes
 local function set_input(pos, own_number, rmt_number, val)
-	if rmt_number then 
+	if rmt_number then
 		if Cache[own_number] and Cache[own_number].env.input then
 			local t = minetest.get_us_time()
 			Cache[own_number].env.input[rmt_number] = val
@@ -425,14 +425,14 @@ local function set_input(pos, own_number, rmt_number, val)
 			end
 		end
 	end
-end	
+end
 
 techage.register_node({"techage:ta4_icta_controller"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local meta = minetest.get_meta(pos)
 		local number = meta:get_string("number")
 		local state = meta:get_int("state")
-		
+
 		if state == techage.RUNNING and topic == "on" then
 			set_input(pos, number, src, topic)
 		elseif state == techage.RUNNING and topic == "off" then
@@ -444,5 +444,4 @@ techage.register_node({"techage:ta4_icta_controller"}, {
 			return "unsupported"
 		end
 	end,
-})		
-
+})

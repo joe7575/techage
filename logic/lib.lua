@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	Logic library
-	
+
 ]]--
 
 -- for lazy programmers
@@ -27,7 +27,7 @@ local Face2Dir = {[0]=
 	{x=0,  y=1,  z=0}
 }
 
--- Determine the destination position based on the position, 
+-- Determine the destination position based on the position,
 -- the node param2, and a route table like : {0,0,3}
 -- 0 = forward, 1 = right, 2 = backward, 3 = left
 function techage.logic.dest_pos(pos, param2, route)

@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Barrel/Liquid/Canister/Water
 
 ]]--
@@ -18,14 +18,14 @@ minetest.register_craftitem("techage:water", {
 	description = S("Water"),
 	inventory_image = "techage_liquid2_inv.png^[colorize:#0b6eca:120^techage_liquid1_inv.png",
 	groups = {not_in_creative_inventory=1},
-	
+
 })
 
 minetest.register_craftitem("techage:river_water", {
 	description = S("Water"),
 	inventory_image = "techage_liquid2_inv.png^[colorize:#189dc3:120^techage_liquid1_inv.png",
 	groups = {not_in_creative_inventory=1},
-	
+
 })
 
 minetest.register_craftitem("techage:barrel_water", {

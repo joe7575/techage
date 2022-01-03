@@ -7,9 +7,9 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Chest for TA2 gravity-based energy storage
-	
+
 ]]--
 
 -- for lazy programmers
@@ -106,7 +106,7 @@ minetest.register_node("techage:ta2_weight_chest", {
 		local inv = meta:get_inventory()
 		inv:set_size('main', 10)
 	end,
-	
+
 	after_place_node = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", formspec())
@@ -115,7 +115,7 @@ minetest.register_node("techage:ta2_weight_chest", {
 	techage_set_numbers = function(pos, numbers, player_name)
 		return techage.logic.set_numbers(pos, numbers, player_name, S("TA2 Weight Chest"))
 	end,
-	
+
 	can_dig = can_dig,
 	after_dig_node = after_dig_node,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
@@ -135,4 +135,3 @@ minetest.register_craft({
 		{"", "", ""},
 	},
 })
-

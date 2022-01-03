@@ -90,4 +90,3 @@ techage.manual_DE.aPlanTable = {
   "",
 }
 
-

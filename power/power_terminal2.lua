@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Power Terminal
 
 ]]--
@@ -35,7 +35,7 @@ con . . . . . print main consumers
 
 local function row(num, label, data)
 	local y = 4.0 + num * 0.5
-	return 
+	return
 		"box[0," .. y .. ";9.8,0.4;#395c74]"..
 		"label[0.2,"..y..";" .. label .. "]" ..
 		"label[8.5,"..y..";" .. data .. "]"
@@ -47,14 +47,14 @@ local function formspec1(pos, data)
 	local outdir = M(pos):get_int("outdir")
 	local netw = networks.get_network_table(pos, Cable, outdir, true) or {}
 	data = data or power.get_network_data(pos, Cable, outdir)
-	
+
 	mem.star = ((mem.star or 0) + 1) % 2
 	local star = mem.star == 1 and "*" or ""
 	local storage_provided = math.max(data.consumed - data.available, 0)
 	local available = math.max(data.consumed, data.available)
-	
+
 	return "size[10,8]"..
-		"tabheader[0,0;tab;status,console;1;;true]".. 
+		"tabheader[0,0;tab;status,console;1;;true]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
@@ -65,7 +65,7 @@ local function formspec1(pos, data)
 		techage.formspec_power_bar(pos, 2.5, 0.7,  S("Consumer"), data.consumed, available)..
 		techage.formspec_charging_bar(pos, 5.0, 0.7, S("Charging"), data)..
 		techage.formspec_storage_bar(pos, 7.5, 0.7, S("Storage"),  data.curr_load, data.max_capa)..
-		
+
 		row(1, S("Number of network nodes:"), netw.num_nodes or 0) ..
 		row(2, S("Number of generators:"), #(netw.gen or {})) ..
 		row(3, S("Number of consumers:"), #(netw.con or {})) ..
@@ -79,9 +79,9 @@ local function formspec2(pos)
 	local command = mem.cmnd or "help"
 	output = minetest.formspec_escape(output)
 	output = output:gsub("\n", ",")
-	
+
 	return "size[10,8]"..
-		"tabheader[0,0;tab;status,console;2;;true]".. 
+		"tabheader[0,0;tab;status,console;2;;true]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
@@ -101,11 +101,11 @@ local function generators(pos)
 	for _, item in ipairs(resp) do
 		local name = item.type .. " (" .. item.number .. ")"
 		if item.running then
-			local s = string.format("%s (%s): %s/%u ku (%s)", 
+			local s = string.format("%s (%s): %s/%u ku (%s)",
 					item.type, item.number, techage.round(item.provided), item.available, item.termpoint)
 			tbl[#tbl + 1] = s
 		else
-			local s = string.format("%s (%s): off", 
+			local s = string.format("%s (%s): off",
 					item.type, item.number)
 			tbl[#tbl + 1] = s
 		end
@@ -121,15 +121,15 @@ local function storages(pos)
 	for _, item in ipairs(resp) do
 		local name = item.type .. " (" .. item.number .. ")"
 		if item.running then
-			local s = string.format("%s (%s): %s/%s kud", 
-					item.type, item.number, 
-					techage.round(item.load / techage.CYCLES_PER_DAY), 
+			local s = string.format("%s (%s): %s/%s kud",
+					item.type, item.number,
+					techage.round(item.load / techage.CYCLES_PER_DAY),
 					techage.round(item.capa / techage.CYCLES_PER_DAY))
 			tbl[#tbl + 1] = s
 		else
-			local s = string.format("%s (%s): %s/%s kud (off)", 
-					item.type, item.number, 
-					techage.round(item.load / techage.CYCLES_PER_DAY), 
+			local s = string.format("%s (%s): %s/%s kud (off)",
+					item.type, item.number,
+					techage.round(item.load / techage.CYCLES_PER_DAY),
 					techage.round(item.capa / techage.CYCLES_PER_DAY))
 			tbl[#tbl + 1] = s
 		end
@@ -163,12 +163,12 @@ end
 
 local function command(pos, nvm, command)
 	local meta = M(pos)
-	
+
 	if command then
 		command = command:sub(1,80)
 		command = string.trim(command)
 		local cmd, data = unpack(string.split(command, " ", false, 1))
-		
+
 		if cmd == "cls" then
 			meta:set_string("output", "")
 		elseif cmd == "help" then
@@ -183,7 +183,7 @@ local function command(pos, nvm, command)
 			output(pos, command, "")
 		end
 	end
-end	
+end
 
 minetest.register_node("techage:ta3_power_terminal", {
 	description = S("TA3 Power Terminal"),
@@ -203,7 +203,7 @@ minetest.register_node("techage:ta3_power_terminal", {
 			{ -8/16, -8/16, 0/16,  8/16, 8/16, 8/16},
 		},
 	},
-	
+
 	after_place_node = function(pos)
 		M(pos):set_int("outdir", networks.side_to_outdir(pos, "B"))
 		Cable:after_place_node(pos)
@@ -232,14 +232,14 @@ minetest.register_node("techage:ta3_power_terminal", {
 			return true
 		end
 	end,
-	
+
 	on_receive_fields = function(pos, formname, fields, player)
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return
 		end
 		local nvm = techage.get_nvm(pos)
 		local mem = techage.get_mem(pos)
-		
+
 		if fields.key_enter_field or fields.enter then
 			command(pos, nvm, fields.cmnd)
 			mem.cmnd = ""
@@ -258,7 +258,7 @@ minetest.register_node("techage:ta3_power_terminal", {
 			M(pos):set_string("formspec", formspec2(pos))
 		end
 	end,
-	
+
 	paramtype2 = "facedir",
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,

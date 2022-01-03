@@ -10,7 +10,7 @@
 	See LICENSE.txt for more information
 
 	Fake Player
-	
+
 ]]--
 
 -- Map method names to their return values
@@ -115,4 +115,3 @@ for method_name, return_value in pairs(methods) do
 		return return_value
 	end
 end
-

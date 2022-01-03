@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Industrial Furnace Heater
 
 ]]--
@@ -52,7 +52,7 @@ minetest.register_node("techage:furnace_heater", {
 		"techage_concrete.png^techage_frame_ta3.png",
 		"techage_concrete.png^techage_appl_heater.png^techage_frame_ta3.png",
 	},
-	
+
 	on_timer = function(pos, elapsed)
 		local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
 		if consumed == PWR_NEEDED then
@@ -62,7 +62,7 @@ minetest.register_node("techage:furnace_heater", {
 	end,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	
+
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -81,7 +81,7 @@ minetest.register_node("techage:furnace_heater_on", {
 		"techage_concrete.png^techage_frame_ta3.png",
 		"techage_concrete.png^techage_appl_heater_on.png^techage_frame_ta3.png",
 	},
-	
+
 	on_timer = function(pos, elapsed)
 		local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
 		if consumed < PWR_NEEDED then
@@ -91,7 +91,7 @@ minetest.register_node("techage:furnace_heater_on", {
 	end,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	
+
 	light_source = 8,
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory = 1},
@@ -124,7 +124,7 @@ techage.register_node({"techage:furnace_heater", "techage:furnace_heater_on"}, {
 			return true
 		end
 	end
-})	
+})
 
 minetest.register_craft({
 	output = "techage:furnace_heater",

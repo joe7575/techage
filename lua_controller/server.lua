@@ -56,7 +56,7 @@ minetest.register_node("techage:ta4_server", {
 			{ -3/16, -8/16, -7/16, 3/16, 6/16, 7/16},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
@@ -68,7 +68,7 @@ minetest.register_node("techage:ta4_server", {
 		meta:set_string("infotext", "Server "..number..": ("..nvm.size.."/"..SERVER_CAPA..")")
 		minetest.get_node_timer(pos):start(20)
 	end,
-	
+
 	on_receive_fields = function(pos, formname, fields, player)
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
@@ -80,7 +80,7 @@ minetest.register_node("techage:ta4_server", {
 			end
 		end
 	end,
-	
+
 	on_dig = function(pos, node, puncher, pointed_thing)
 		if minetest.is_protected(pos, puncher:get_player_name()) then
 			return
@@ -88,7 +88,7 @@ minetest.register_node("techage:ta4_server", {
 		techage.del_mem(pos)
 		minetest.node_dig(pos, node, puncher, pointed_thing)
 	end,
-		
+
 	after_dig_node = function(pos, oldnode, oldmetadata)
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
@@ -101,7 +101,7 @@ minetest.register_node("techage:ta4_server", {
 		meta:set_string("infotext", "Server "..number..": ("..nvm.size.."/"..SERVER_CAPA..")")
 		return true
 	end,
-	
+
 	paramtype = "light",
 	sunlight_propagates = true,
 	use_texture_alpha = techage.CLIP,
@@ -158,7 +158,7 @@ minetest.register_node("techage:ta4_server2", {
             {-0.5, -0.0625, -0.4375, -0.4375, 0, 0.4375},
         }
     },
-	
+
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
@@ -170,7 +170,7 @@ minetest.register_node("techage:ta4_server2", {
 		meta:set_string("infotext", "Server "..number..": ("..nvm.size.."/"..SERVER_CAPA..")")
 		minetest.get_node_timer(pos):start(20)
 	end,
-	
+
 	on_receive_fields = function(pos, formname, fields, player)
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
@@ -182,7 +182,7 @@ minetest.register_node("techage:ta4_server2", {
 			end
 		end
 	end,
-	
+
 	on_dig = function(pos, node, puncher, pointed_thing)
 		if minetest.is_protected(pos, puncher:get_player_name()) then
 			return
@@ -190,7 +190,7 @@ minetest.register_node("techage:ta4_server2", {
 		techage.del_mem(pos)
 		minetest.node_dig(pos, node, puncher, pointed_thing)
 	end,
-		
+
 	after_dig_node = function(pos, oldnode, oldmetadata)
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
@@ -203,7 +203,7 @@ minetest.register_node("techage:ta4_server2", {
 		meta:set_string("infotext", "Server "..number..": ("..nvm.size.."/"..SERVER_CAPA..")")
 		return true
 	end,
-	
+
 	paramtype = "light",
 	sunlight_propagates = true,
 	use_texture_alpha = techage.CLIP,
@@ -268,7 +268,7 @@ local function write_value(nvm, key, item)
 		return true
 	end
 	return false
-end	
+end
 
 local function read_value(nvm, key)
 	local item = nvm.data[key]
@@ -276,7 +276,7 @@ local function read_value(nvm, key)
 		item = safer_lua.table_to_datastruct(item)
 	end
 	return item
-end	
+end
 
 techage.register_node({"techage:ta4_server", "techage:ta4_server2"}, {
 	on_recv_message = function(pos, src, topic, payload)
@@ -285,11 +285,11 @@ techage.register_node({"techage:ta4_server", "techage:ta4_server2"}, {
 	on_node_load = function(pos)
 		minetest.get_node_timer(pos):start(20)
 	end,
-})		
+})
 
 
 techage.lua_ctlr.register_function("server_read", {
-	cmnd = function(self, num, key) 
+	cmnd = function(self, num, key)
 		if type(key) == "string" then
 			local nvm = get_memory(num, self.meta.owner)
 			if nvm then
@@ -323,5 +323,4 @@ techage.lua_ctlr.register_action("server_write", {
 		" return value: true if successful or false\n"..
 		' example: res = $server_write("123", "state", state)'
 })
-
 

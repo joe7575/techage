@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA2 Steam Engine Boiler
 
 ]]--
@@ -63,14 +63,14 @@ minetest.register_node("techage:boiler2", {
 		type = "fixed",
 		fixed = {-10/32, -48/32, -10/32, 10/32, 16/32, 10/32},
 	},
-	
+
 	can_dig = boiler.can_dig,
 	on_timer = node_timer,
 	on_rightclick = boiler.on_rightclick,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	on_punch = boiler.on_punch,
-	
+
 	paramtype = "light",
 	groups = {cracky=1},
 	on_rotate = screwdriver.disallow,
@@ -135,4 +135,3 @@ minetest.register_craft({
 		{"techage:iron_ingot", "", "techage:iron_ingot"},
 	},
 })
-

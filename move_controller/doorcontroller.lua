@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	Door/Gate Controller
-	
+
 ]]--
 
 -- for lazy programmers
@@ -54,7 +54,7 @@ local function swap_door_nodes(pos, open)
 						item.removed = false
 					end
 				elseif techage.is_air_like(node.name) and item.removed then
-					minetest.add_node(item.pos, {name = item.name, param2 = item.param2})			
+					minetest.add_node(item.pos, {name = item.name, param2 = item.param2})
 				end
 			end
 		end
@@ -92,7 +92,7 @@ minetest.register_node("techage:ta3_doorcontroller", {
 			store_door_data(pos)
 		end
 	end,
-	
+
 	techage_set_numbers = function(pos, numbers, player_name)
 		local meta = M(pos)
 		local res = logic.set_numbers(pos, numbers, player_name, S("TA3 Door Controller"))
@@ -103,7 +103,7 @@ minetest.register_node("techage:ta3_doorcontroller", {
 		end
 		return res
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata)
 		swap_door_nodes(pos, false)
 		techage.remove_node(pos, oldnode, oldmetadata)
@@ -124,7 +124,7 @@ techage.register_node({"techage:ta3_doorcontroller"}, {
 			swap_door_nodes(pos, false)
 		end
 	end,
-})		
+})
 
 minetest.register_craft({
 	output = "techage:ta3_doorcontroller",
@@ -134,4 +134,3 @@ minetest.register_craft({
 		{"", "group:wood", ""},
 	},
 })
-

@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Gravel Sieve, sieving gravel to find ores
-	
+
 ]]--
 
 -- for lazy programmers
@@ -53,7 +53,7 @@ local function keep_running(pos, elapsed)
 	if swap_node(pos) then
 		local inv = M(pos):get_inventory()
 		local src, dst
-		
+
 		if inv:contains_item("src", ItemStack("techage:basalt_gravel")) then
 			dst, src = get_random_basalt_ore(), ItemStack("techage:basalt_gravel")
 		elseif inv:contains_item("src", ItemStack("default:gravel")) then
@@ -111,12 +111,12 @@ local nodebox_data = {
 	{ -8/16, -3/16,  6/16,   8/16, 4/16,  8/16 },
 	{ -8/16, -3/16, -8/16,  -6/16, 4/16,  8/16 },
 	{  6/16, -3/16, -8/16,   8/16, 4/16,  8/16 },
-	
+
 	{ -8/16, -8/16, -8/16,  -6/16, -3/16, -6/16 },
 	{  6/16, -8/16, -8/16,   8/16, -3/16, -6/16 },
 	{ -8/16, -8/16,  6/16,  -6/16, -3/16,  8/16 },
 	{  6/16, -8/16,  6/16,   8/16, -3/16,  8/16 },
-	
+
 	{ -6/16, -2/16, -6/16,   6/16, 8/16,  6/16 },
 }
 
@@ -139,10 +139,10 @@ for idx = 0,3 do
 			fixed = { -8/16, -3/16, -8/16,   8/16, 4/16, 8/16 },
 		},
 
-		on_construct = idx == 3 and on_construct or nil, 
+		on_construct = idx == 3 and on_construct or nil,
 		on_punch = idx == 3 and on_punch or nil,
 		on_timer = keep_running,
-		
+
 		minecart_hopper_takeitem = minecart_hopper_takeitem,
 		minecart_hopper_untakeitem = minecart_hopper_untakeitem,
 
@@ -168,7 +168,7 @@ techage.register_node({"techage:sieve0", "techage:sieve1", "techage:sieve2", "te
 		end
 		return false
 	end,
-})	
+})
 
 minetest.register_node("techage:sieved_gravel", {
 	description = S("Sieved Gravel"),
@@ -210,4 +210,3 @@ minetest.register_craft({
 
 minetest.register_alias("techage:sieve", "techage:sieve3")
 minetest.register_alias("techage:auto_sieve", "techage:auto_sieve3")
-

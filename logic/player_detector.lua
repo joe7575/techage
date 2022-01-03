@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 & TA4 Player Detector
 
 ]]--
@@ -38,14 +38,14 @@ local function scan_for_player(pos)
 	local names = meta:get_string("names") or ""
 	for _, object in pairs(minetest.get_objects_inside_radius(pos, 4)) do
 		if object:is_player() then
-			if names == "" then 
+			if names == "" then
 				nvm.player_name = object:get_player_name()
-				return true 
+				return true
 			end
 			for _,name in ipairs(string.split(names, " ")) do
-				if object:get_player_name() == name then 
+				if object:get_player_name() == name then
 					nvm.player_name = name
-					return true 
+					return true
 				end
 			end
 		end
@@ -84,7 +84,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	
+
 	local meta = minetest.get_meta(pos)
 	if fields.exit == "Save" then
 		if techage.check_numbers(fields.numbers, player:get_player_name()) then
@@ -117,7 +117,7 @@ minetest.register_node("techage:ta3_playerdetector_off", {
 	end,
 
 	on_receive_fields = on_receive_fields,
-	
+
 	on_timer = function (pos, elapsed)
 		if scan_for_player(pos) then
 			switch_on(pos, 3)
@@ -131,12 +131,12 @@ minetest.register_node("techage:ta3_playerdetector_off", {
 		meta:set_string("formspec", formspec(meta))
 		return res
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
 	end,
-	
+
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
@@ -152,21 +152,21 @@ minetest.register_node("techage:ta3_playerdetector_on", {
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_playerdetector_on.png",
 	},
 	on_receive_fields = on_receive_fields,
-	
+
 	on_timer = function (pos, elapsed)
 		if not scan_for_player(pos) then
 			switch_off(pos, 3)
 		end
 		return true
 	end,
-	
+
 	techage_set_numbers = function(pos, numbers, player_name)
 		local meta = M(pos)
 		local res = logic.set_numbers(pos, numbers, player_name, S("TA3 Player Detector"))
 		meta:set_string("formspec", formspec(meta))
 		return res
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
@@ -208,7 +208,7 @@ minetest.register_node("techage:ta4_playerdetector_off", {
 	end,
 
 	on_receive_fields = on_receive_fields,
-	
+
 	on_timer = function (pos, elapsed)
 		if scan_for_player(pos) then
 			switch_on(pos, 4)
@@ -222,12 +222,12 @@ minetest.register_node("techage:ta4_playerdetector_off", {
 		meta:set_string("formspec", formspec(meta))
 		return res
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
 	end,
-	
+
 	paramtype = "light",
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
@@ -257,21 +257,21 @@ minetest.register_node("techage:ta4_playerdetector_on", {
 		},
 	},
 	on_receive_fields = on_receive_fields,
-	
+
 	on_timer = function (pos, elapsed)
 		if not scan_for_player(pos) then
 			switch_off(pos, 4)
 		end
 		return true
 	end,
-	
+
 	techage_set_numbers = function(pos, numbers, player_name)
 		local meta = M(pos)
 		local res = logic.set_numbers(pos, numbers, player_name, S("TA4 Player Detector"))
 		meta:set_string("formspec", formspec(meta))
 		return res
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
@@ -313,7 +313,7 @@ techage.register_node({
 				return nvm.player_name or ""
 			elseif topic == "state" then
 				local node = techage.get_node_lvm(pos)
-				if node.name == "techage:ta3_playerdetector_on" or 
+				if node.name == "techage:ta3_playerdetector_on" or
 						node.name == "techage:ta4_playerdetector_on" then
 					return "on"
 				else
@@ -327,5 +327,4 @@ techage.register_node({
 			minetest.get_node_timer(pos):start(CYCLE_TIME)
 		end,
 	}
-)		
-
+)

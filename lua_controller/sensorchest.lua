@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Sensor Chest
-	
+
 ]]--
 
 -- for lazy programmers
@@ -25,7 +25,7 @@ local function store_action(pos, player, action)
 	local name = player and player:get_player_name() or ""
 	local number = meta:get_string("node_number")
 	PlayerActions[number] = {name, action}
-end	
+end
 
 local function send_off_command(pos)
 	local meta = minetest.get_meta(pos)
@@ -134,7 +134,7 @@ minetest.register_node("techage:ta4_sensor_chest", {
 		local inv = meta:get_inventory()
 		inv:set_size('main', 4)
 	end,
-	
+
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos)
 		local number = techage.add_node(pos, "techage:ta4_sensor_chest")
@@ -148,11 +148,11 @@ minetest.register_node("techage:ta4_sensor_chest", {
 	on_receive_fields = function(pos, formname, fields, player)
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
-		
+
 		if meta:get_string("public") ~= "true" and minetest.is_protected(pos, player:get_player_name()) then
 			return 0
 		end
-		
+
 		if fields.public then
 			meta:set_string("public", fields.public)
 		end
@@ -174,11 +174,11 @@ minetest.register_node("techage:ta4_sensor_chest", {
 			meta:set_string("formspec", formspec2(pos))
 		end
 	end,
-	
+
 	techage_set_numbers = function(pos, numbers, player_name)
 		return techage.logic.set_numbers(pos, numbers, player_name, S("TA4 Sensor Chest"))
 	end,
-	
+
 	can_dig = can_dig,
 	after_dig_node = after_dig_node,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
@@ -206,7 +206,7 @@ techage.register_node({"techage:ta4_sensor_chest"}, {
 		local inv = meta:get_inventory()
 		return techage.put_items(inv, "main", stack)
 	end,
-	
+
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "state" then
 			local meta = minetest.get_meta(pos)
@@ -226,11 +226,10 @@ techage.register_node({"techage:ta4_sensor_chest"}, {
 			return "unsupported"
 		end
 	end,
-})	
+})
 
 minetest.register_craft({
 	type = "shapeless",
 	output = "techage:ta4_sensor_chest",
 	recipe = {"techage:chest_ta4", "techage:ta4_wlanchip"}
 })
-

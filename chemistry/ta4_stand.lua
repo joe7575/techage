@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Reactor Stand and Base
 
 ]]--
@@ -26,7 +26,7 @@ local function play_sound(pos)
 	local mem = techage.get_mem(pos)
 	if not mem.handle or mem.handle == -1 then
 		mem.handle = minetest.sound_play("techage_reactor", {
-			pos = pos, 
+			pos = pos,
 			gain = 0.5,
 			max_hear_distance = 10,
 			loop = true})
@@ -58,8 +58,8 @@ local function on_nopower(pos)
 	nvm.running = false
 end
 
-local function is_running(pos, nvm) 
-	return nvm.running 
+local function is_running(pos, nvm)
+	return nvm.running
 end
 
 minetest.register_node("techage:ta4_reactor_stand", {
@@ -76,14 +76,14 @@ minetest.register_node("techage:ta4_reactor_stand", {
 	drawtype = "nodebox",
 	node_box = {
 		type = "fixed",
-		fixed = {	
+		fixed = {
 			{ -8/16,  2/16, -8/16,   8/16, 4/16,   8/16 },
-			
+
 			{ -8/16, -8/16, -8/16,  -6/16,  8/16, -6/16 },
 			{  6/16, -8/16, -8/16,   8/16,  8/16, -6/16 },
 			{ -8/16, -8/16,  6/16,  -6/16,  8/16,  8/16 },
 			{  6/16, -8/16,  6/16,   8/16,  8/16,  8/16 },
-			
+
 			{-1/8, -4/8, -1/8,   1/8, 4/8, 1/8},
 			{-4/8, -1/8, -1/8,   4/8, 1/8,  1/8},
 			{-4/8, -1/8, -3/8,  -3/8, 1/8,  3/8},
@@ -94,7 +94,7 @@ minetest.register_node("techage:ta4_reactor_stand", {
 		type = "fixed",
 		fixed = {-1/2, -1/2, -1/2, 1/2, 1/2, 1/2},
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local nvm = techage.get_nvm(pos)
 		M(pos):set_string("infotext", S("off"))
@@ -117,7 +117,7 @@ minetest.register_node("techage:ta4_reactor_stand", {
 		Cable:after_dig_node(pos)
 		techage.del_mem(pos)
 	end,
-	
+
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
 	paramtype2 = "facedir",
@@ -155,7 +155,7 @@ techage.register_node({"techage:ta4_reactor_stand"}, {
 		local nvm = techage.get_nvm(pos)
 		if nvm.has_power then
 			play_sound(pos)
-		end	
+		end
 	end,
 })
 
@@ -170,7 +170,7 @@ minetest.register_node("techage:ta4_reactor_base", {
 		"techage_concrete.png",
 		"techage_concrete.png",
 	},
-	
+
 	after_place_node = function(pos, placer)
 		M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
 		Pipe:after_place_node(pos)
@@ -178,7 +178,7 @@ minetest.register_node("techage:ta4_reactor_base", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 	end,
-	
+
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},

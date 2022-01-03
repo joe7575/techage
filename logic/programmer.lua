@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	Number programmer
-	
+
 ]]--
 
 -- for lazy programmers
@@ -28,7 +28,7 @@ local function reset_programmer(itemstack, user, pointed_thing)
 	user:get_meta():set_string("techage_prog_numbers", nil)
 	minetest.chat_send_player(user:get_player_name(), S("[TechAge Programmer] programmer reset"))
 	return itemstack
-end	
+end
 
 local function read_number(itemstack, user, pointed_thing)
 	local pos = pointed_thing.under
@@ -98,4 +98,3 @@ minetest.register_craft({
 		{"", "dye:red", ""},
 	},
 })
-

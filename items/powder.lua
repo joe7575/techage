@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
-	Powder 
-	
+
+	Powder
+
 ]]--
 
 local S = techage.S
@@ -62,6 +62,5 @@ techage.add_grinder_recipe({input="default:iron_lump", output="techage:iron_powd
 techage.add_grinder_recipe({input="default:clay", output="techage:clay_powder"})
 techage.add_grinder_recipe({input="techage:aluminum", output="techage:aluminum_powder"})
 techage.add_grinder_recipe({input="default:silver_sandstone", output="techage:silver_sandstone_powder"})
-
 
 

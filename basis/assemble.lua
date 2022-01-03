@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	Assemble routines
-	
+
 ]]--
 
 -- for lazy programmers
@@ -28,7 +28,7 @@ local Face2Dir = {[0]=
 	{x=0,  y=1,  z=0}
 }
 
--- Determine the destination position based on the base position, 
+-- Determine the destination position based on the base position,
 -- param2, and a route table like : {0,3}
 -- 0 = forward, 1 = right, 2 = backward, 3 = left
 local function dest_pos(pos, param2, route, y_offs)
@@ -54,8 +54,8 @@ local function build(pos, param2, AssemblyPlan, idx)
 		local nvm = techage.get_nvm(pos)
 		nvm.assemble_locked = false
 	end
-end	
-	
+end
+
 -- timer based function
 local function remove(pos, param2, AssemblyPlan, idx)
 	local item = AssemblyPlan[idx]
@@ -68,7 +68,7 @@ local function remove(pos, param2, AssemblyPlan, idx)
 		local nvm = techage.get_nvm(pos)
 		nvm.assemble_locked = false
 	end
-end	
+end
 
 local function check_space(pos, param2, AssemblyPlan, player_name)
 	for _,item in ipairs(AssemblyPlan) do
@@ -78,7 +78,7 @@ local function check_space(pos, param2, AssemblyPlan, player_name)
 			minetest.chat_send_player(player_name, S("[TA] Area is protected!"))
 			return false
 		end
-		
+
 		local node = techage.get_node_lvm(pos1)
 		local ndef = minetest.registered_nodes[node.name]
 		if not ndef or not ndef.buildable_to and node.name ~= node_name then
@@ -97,7 +97,7 @@ function techage.assemble.build(pos, AssemblyPlan, player_name)
 	-- check protection
 	if minetest.is_protected(pos, player_name) then
 		return
-	end			
+	end
 	local nvm = techage.get_nvm(pos)
 	if nvm.assemble_locked then
 		return
@@ -114,7 +114,7 @@ function techage.assemble.remove(pos, AssemblyPlan, player_name)
 	-- check protection
 	if minetest.is_protected(pos, player_name) then
 		return
-	end		
+	end
 	local nvm = techage.get_nvm(pos)
 	if nvm.assemble_locked then
 		return
@@ -130,7 +130,7 @@ end
 --------------------------------------------------------------------------------
 local function play_sound(pos, sound)
 	minetest.sound_play(sound, {
-		pos = pos, 
+		pos = pos,
 		gain = 1,
 		max_hear_distance = 10,
 	})
@@ -232,7 +232,7 @@ function techage.assemble.count_items(AssemblyPlan)
 		end
 	end
 	return t
-end	
+end
 
 -- Determine the destination position based on the given route
 -- param2, and a route table like : {0,3}

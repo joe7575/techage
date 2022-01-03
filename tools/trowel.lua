@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Trowel tool to hide/open cable/pipe/tube nodes
 
 ]]--
@@ -36,7 +36,7 @@ local function replace_node(itemstack, placer, pointed_thing)
 		end
 		if res then
 			minetest.sound_play("default_dig_snappy", {
-				pos = pos, 
+				pos = pos,
 				gain = 1,
 				max_hear_distance = 5})
 		elseif placer and placer.get_player_name then

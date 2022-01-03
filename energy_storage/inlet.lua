@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Pipe Inlet
 
 ]]--
@@ -40,10 +40,10 @@ minetest.register_node("techage:ta4_pipe_inlet", {
 		"basic_materials_concrete_block.png^techage_tes_inlet.png",
 		"basic_materials_concrete_block.png^techage_tes_inlet.png",
 	},
-	
+
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	
+
 	networks = {
 		pipe2 = {},
 	},
@@ -72,7 +72,7 @@ local Numbers = {
 local function get_diameter(pos, in_dir)
 	local dir = tubelib2.Dir6dToVector[in_dir]
 	local pos2, node
-	
+
 	pos2 = vector.add(pos, vector.multiply(dir, 4))
 	node = minetest.get_node(pos2)
 	if node.name == "techage:ta3_pipe_wall_entry" then
@@ -81,7 +81,7 @@ local function get_diameter(pos, in_dir)
 	if node.name == "techage:ta4_pipe_inlet" then
 		return 5
 	end
-	
+
 	pos2 = vector.add(pos, vector.multiply(dir, 6))
 	node = minetest.get_node(pos2)
 	if node.name == "techage:ta3_pipe_wall_entry" then
@@ -90,7 +90,7 @@ local function get_diameter(pos, in_dir)
 	if node.name == "techage:ta4_pipe_inlet" then
 		return 7
 	end
-	
+
 	pos2 = vector.add(pos, vector.multiply(dir, 8))
 	node = minetest.get_node(pos2)
 	if node.name == "techage:ta3_pipe_wall_entry" then
@@ -116,11 +116,11 @@ local function check_volume(pos, in_dir, owner)
 		-- calculate size
 		local pos1 = {x = cpos.x - radius, y = cpos.y - radius, z = cpos.z - radius}
 		local pos2 = {x = cpos.x + radius, y = cpos.y + radius, z = cpos.z + radius}
-		local _, node_tbl = minetest.find_nodes_in_area(pos1, pos2, 
-				{"default:gravel", "techage:ta4_pipe_inlet", 
+		local _, node_tbl = minetest.find_nodes_in_area(pos1, pos2,
+				{"default:gravel", "techage:ta4_pipe_inlet",
 				"basic_materials:concrete_block", "default:obsidian_glass",
 				"techage:glow_gravel"})
-		if node_tbl["default:obsidian_glass"] > 1 then 
+		if node_tbl["default:obsidian_glass"] > 1 then
 			return S("one window maximum")
 		elseif node_tbl["default:obsidian_glass"] + node_tbl["basic_materials:concrete_block"] ~= Numbers.shell[radius] then
 			return S("wrong number of shell nodes")

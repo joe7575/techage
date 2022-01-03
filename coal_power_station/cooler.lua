@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Cooler
 
 ]]--
@@ -19,7 +19,7 @@ local S = techage.S
 local Pipe = techage.SteamPipe
 
 local function transfer(pos, in_dir, topic, payload)
-	return techage.transfer(pos, in_dir, topic, payload, Pipe, 
+	return techage.transfer(pos, in_dir, topic, payload, Pipe,
 			{"techage:coalboiler_base"})
 end
 
@@ -61,10 +61,10 @@ minetest.register_node("techage:cooler", {
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_cooler.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_cooler.png",
 	},
-	
+
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	
+
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -102,10 +102,10 @@ minetest.register_node("techage:cooler_on", {
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_cooler.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_cooler.png",
 	},
-	
+
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	
+
 	paramtype2 = "facedir",
 	drop = "techage:cooler",
 	groups = {cracky=2, crumbly=2, choppy=2, not_in_creative_inventory=1},
@@ -131,4 +131,3 @@ minetest.register_craft({
 		{"basic_materials:steel_bar", "default:wood", "basic_materials:steel_bar"},
 	},
 })
-

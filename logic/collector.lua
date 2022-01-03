@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Collector
 	Collects states from other nodes, acting as a state concentrator.
 
@@ -24,14 +24,14 @@ local CYCLE_TIME = 1
 local tStates = {stopped = 0, running = 0, standby = 1, blocked = 2, nopower = 3, fault = 4}
 local tDropdownPos = {["1 standby"] = 1, ["2 blocked"] = 2, ["3 nopower"] = 3, ["4 fault"] = 4}
 local lStates = {[0] = "stopped", "standby", "blocked", "nopower", "fault"}
-	
+
 local function formspec(nvm, meta)
 	nvm.poll_numbers = nvm.poll_numbers or {}
 	local poll_numbers = table.concat(nvm.poll_numbers, " ")
 	local event_number = meta:get_string("event_number")
 	local dropdown_pos = meta:get_int("dropdown_pos")
 	if dropdown_pos == 0 then dropdown_pos = 1 end
-	
+
 	return "size[9,6]"..
 		default.gui_bg..
 		default.gui_bg_img..
@@ -41,7 +41,7 @@ local function formspec(nvm, meta)
 		"label[1.3,2.8;"..S("Send an event if state is equal or larger than")..":]"..
 		"dropdown[1.2,3.4;7,4;severity;1 standby,2 blocked,3 nopower,4 fault;"..dropdown_pos.."]"..
 		"button_exit[3,5;2,1;exit;Save]"
-end	
+end
 
 
 local function send_event(nvm, meta)
@@ -75,7 +75,7 @@ local function on_timer(pos,elapsed)
 	local meta = minetest.get_meta(pos)
 	nvm.idx = (nvm.idx or 0) + 1
 	nvm.common_state = nvm.common_state or 0
-	
+
 	if not nvm.poll_numbers then
 		local own_number = meta:get_string("own_number")
 		meta:set_string("infotext", S("TA4 State Collector").." "..own_number..": stopped")
@@ -83,7 +83,7 @@ local function on_timer(pos,elapsed)
 		nvm.idx = 1
 		return false
 	end
-	
+
 	if nvm.idx > #nvm.poll_numbers then
 		nvm.idx = 1
 		if nvm.stored_state ~= nvm.common_state then
@@ -94,7 +94,7 @@ local function on_timer(pos,elapsed)
 		end
 		nvm.common_state = 0  -- reset for the next round
 	end
-	
+
 	request_state(nvm, meta)
 	return true
 end
@@ -140,7 +140,7 @@ minetest.register_node("techage:ta4_collector", {
 		local nvm = techage.get_nvm(pos)
 		local timer = minetest.get_node_timer(pos)
 		local own_number = meta:get_string("own_number")
-		
+
 		if fields.quit == "true" and fields.poll_numbers then
 			if techage.check_numbers(fields.event_number, player:get_player_name()) then
 				meta:set_string("event_number", fields.event_number)
@@ -166,7 +166,7 @@ minetest.register_node("techage:ta4_collector", {
 			meta:set_string("formspec", formspec(nvm, meta))
 		end
 	end,
-	
+
 	techage_set_numbers = function(pos, numbers, player_name)
 		local nvm = techage.get_nvm(pos)
 		local meta = M(pos)
@@ -174,9 +174,9 @@ minetest.register_node("techage:ta4_collector", {
 		meta:set_string("formspec", formspec(nvm, meta))
 		return res
 	end,
-	
+
 	on_timer = on_timer,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata)
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
@@ -210,4 +210,4 @@ techage.register_node({"techage:ta4_collector"}, {
 	on_node_load = function(pos)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
-})		
+})

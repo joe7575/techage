@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Hammer to convert stone into gravel
-	
+
 ]]--
 
 local S = techage.S
@@ -213,4 +213,3 @@ minetest.register_craft({
 		{"", "group:stick", ""},
 	}
 })
-

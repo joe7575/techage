@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Cart Detector/Starter
 
 ]]--
@@ -58,7 +58,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	
+
 	local meta = minetest.get_meta(pos)
 	if fields.accept then
 		if techage.check_numbers(fields.numbers, player:get_player_name()) then
@@ -154,7 +154,7 @@ techage.register_node({"techage:ta3_cartdetector_off", "techage:ta3_cartdetector
 	on_node_load = function(pos)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
-})		
+})
 
 -- Register default cart in addition
 minecart.tEntityNames["carts:cart"] = true

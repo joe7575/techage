@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA5 Hyperloop Tank
 
 ]]--
@@ -93,7 +93,7 @@ liquid.register_nodes({"techage:ta5_hl_tank"},
 	}
 )
 
-techage.register_node({"techage:ta5_hl_tank"}, techage.liquid.recv_message)	
+techage.register_node({"techage:ta5_hl_tank"}, techage.liquid.recv_message)
 
 minetest.register_craft({
 	output = "techage:ta5_hl_tank",

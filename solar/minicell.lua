@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA4 Streetlamp Solar Cell
-	
+
 ]]--
 
 -- for lazy programmers
@@ -31,7 +31,7 @@ local function node_timer(pos, elapsed)
 	local light = minetest.get_node_light(pos) or 0
 	local t = minetest.get_timeofday()
 	pos.y = pos.y - 1
-	
+
 	if t > 0.25 and t < 0.75 then
 		if nvm.providing then
 			nvm.providing = false
@@ -97,7 +97,7 @@ minetest.register_node("techage:ta4_solar_minicell", {
 	groups = {cracky=2, crumbly=2, choppy=2},
 	is_ground_content = false,
 	use_texture_alpha = techage.CLIP,
-	
+
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	on_timer = node_timer,
@@ -105,7 +105,7 @@ minetest.register_node("techage:ta4_solar_minicell", {
 
 power.register_nodes({"techage:ta4_solar_minicell"}, Cable, "gen", {"D"})
 
-techage.register_node({"techage:ta4_solar_minicell"}, {	
+techage.register_node({"techage:ta4_solar_minicell"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		if topic == "state" then
@@ -133,4 +133,3 @@ minetest.register_craft({
 		{"default:tin_ingot", "techage:iron_ingot", "default:copper_ingot"},
 	},
 })
-

@@ -43,7 +43,7 @@ local Schedule = {[0] =
 
 local function play_sound(pos)
 	minetest.sound_play("techage_hum", {
-		pos = pos, 
+		pos = pos,
 		gain = 0.5,
 		max_hear_distance = 10,
 	})
@@ -52,12 +52,12 @@ end
 local function terminal_message(pos, msg)
 	local term_num = M(pos):contains("term_num") and M(pos):get_string("term_num")
 	local own_num = M(pos):get_string("node_number")
-	
+
 	if term_num and own_num then
 		techage.send_single(own_num, term_num, "text", msg)
 	end
 end
-	
+
 local function experience_points(pos)
 	if math.random(PROBABILITY) == 1 then
 		local owner = M(pos):get_string("owner")
@@ -92,11 +92,11 @@ local function check_state(pos)
 	nvm.ticks = (nvm.ticks or 0) + 1
 	local idx = nvm.ticks % TIME_SLOTS
 	local item = Schedule[idx]
-	
+
 	if idx == 1 then
 		nvm.result = true
 	end
-	
+
 	if item then
 		if item.name == "shell" then
 			local res, err = check_shell(pos, param2)
@@ -130,7 +130,7 @@ local function check_state(pos)
 		return nvm.result
 	end
 end
-	
+
 local function add_laser(pos)
 	local param2 = minetest.get_node(pos).param2
 	local pos1 = getpos(pos, param2, {3,3}, 1)
@@ -144,7 +144,7 @@ local function create_task(pos, task)
 	if not mem.co then
 		mem.co = coroutine.create(task)
 	end
-	
+
 	local _, err = coroutine.resume(mem.co, pos)
 	if err then
 		mem.co = nil
@@ -227,10 +227,10 @@ minetest.register_node("techage:ta4_detector_core", {
 		end
 		return true
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.on_remove_collider(digger)
-		techage.remove_node(pos, oldnode, oldmetadata) 
+		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
 	end,
 })
@@ -247,7 +247,7 @@ local function start_task(pos)
 	local own_num = M(pos):get_string("node_number")
 	local nvm = techage.get_nvm(pos)
 	nvm.magnet_positions = {}
-	
+
 	if term_num and param2 and pos2 then
 		techage.send_single(own_num, term_num, "text", "#### Start ####")
 
@@ -267,7 +267,7 @@ local function start_task(pos)
 			return
 		end
 		techage.send_single(own_num, term_num, "append", "ok")
-	
+
 		coroutine.yield()
 		techage.send_single(own_num, term_num, "text", "- Start magnets...")
 		local t = {}
@@ -285,7 +285,7 @@ local function start_task(pos)
 		end
 		nvm.magnet_positions = t
 		techage.send_single(own_num, term_num, "append", "ok")
-	
+
 		coroutine.yield()
 		techage.send_single(own_num, term_num, "text", "- Check magnets...")
 		-- The check will be performed by the timer, so wait 5 sec.
@@ -298,7 +298,7 @@ local function start_task(pos)
 			nvm.locked = false
 			return
 		end
-	
+
 		coroutine.yield()
 		techage.send_single(own_num, term_num, "text", "- Check detector...")
 		for _,item  in ipairs(Schedule)do
@@ -333,14 +333,14 @@ local function start_task(pos)
 			end
 		end
 		techage.send_single(own_num, term_num, "append", "ok")
-		
+
 		coroutine.yield()
 		techage.send_single(own_num, term_num, "text", "Collider started.")
 		nvm.ticks = 0
 		nvm.running = true
 	end
 end
-	
+
 local function test_magnet(pos, payload)
 	local term_num = M(pos):contains("term_num") and M(pos):get_string("term_num")
 	local param2 = minetest.get_node(pos).param2
@@ -363,7 +363,7 @@ techage.register_node({"techage:ta4_detector_core"}, {
 			return true
 		elseif topic == "start" then
 			-- Worker block
-			nvm.locked = true  
+			nvm.locked = true
 			create_task(pos, start_task)
 			return true
 		elseif topic == "stop" then
@@ -381,7 +381,7 @@ techage.register_node({"techage:ta4_detector_core"}, {
 			end
 		elseif topic == "test"then
 			if payload and tonumber(payload) then
-				test_magnet(pos, payload)	
+				test_magnet(pos, payload)
 				return true
 			else
 				return "Invalid magnet number"
@@ -400,7 +400,7 @@ techage.register_node({"techage:ta4_detector_core"}, {
 	on_node_load = function(pos)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
-})	
+})
 
 
 minetest.register_craft({
@@ -411,4 +411,3 @@ minetest.register_craft({
 		{'default:steel_ingot', '', 'techage:aluminum'},
 	},
 })
-

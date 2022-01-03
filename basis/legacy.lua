@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	For the transition from v0.26 to v1.0
 
 ]]--

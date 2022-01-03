@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA2 Gearbox
 
 ]]--
@@ -70,12 +70,12 @@ local function after_dig_node(pos, oldnode)
 	Axle:after_dig_node(pos)
 end
 
-local function tubelib2_on_update2_on(pos, outdir, tlib2, node) 
+local function tubelib2_on_update2_on(pos, outdir, tlib2, node)
 	power.update_network(pos, 0, tlib2, node)
 	switch_axles(pos, true)
 end
 
-local function tubelib2_on_update2_off(pos, outdir, tlib2, node) 
+local function tubelib2_on_update2_off(pos, outdir, tlib2, node)
 	power.update_network(pos, 0, tlib2, node)
 	switch_axles(pos, false)
 end
@@ -83,14 +83,14 @@ end
 minetest.register_node("techage:gearbox", {
 	description = S("TA2 Gearbox"),
 	tiles = {"techage_filling_ta2.png^techage_axle_gearbox.png^techage_frame_ta2.png"},
-	
+
 	on_timer = node_timer_off,
 	techage_on_repair = techage_on_repair,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	tubelib2_on_update2 = tubelib2_on_update2_off,
 	paramtype = "light",
-	light_source = 0,	
+	light_source = 0,
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -113,7 +113,7 @@ minetest.register_node("techage:gearbox_on", {
 			},
 		},
 	},
-	
+
 	on_timer = node_timer_on,
 	techage_on_repair = techage_on_repair,
 	after_place_node = after_place_node,
@@ -129,7 +129,7 @@ minetest.register_node("techage:gearbox_on", {
 })
 
 power.register_nodes({"techage:gearbox", "techage:gearbox_on"}, Axle, "junc")
-	
+
 techage.register_node({"techage:gearbox", "techage:gearbox_on"}, {
 	on_node_load = function(pos, node)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
@@ -144,4 +144,3 @@ minetest.register_craft({
 		{"default:wood", "techage:axle", "default:junglewood"},
 	},
 })
-

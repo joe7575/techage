@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA4 Solar Module and Carriers
-	
+
 ]]--
 
 -- for lazy programmers
@@ -42,14 +42,14 @@ local function light(pos)
 	if minetest.get_node(pos).name ~= "air" then return false end
 	local light = minetest.get_node_light(pos) or 0
 	return light >= (15 - 1)
-end	
-	
+end
+
 -- check if solar module is available and has the correct orientation
 local function is_solar_module(base_pos, pos, side)
 	local pos1 = techage.get_pos(pos, side)
 	if pos1 then
 		local node = techage.get_node_lvm(pos1)
-		if node and node.name == "techage:ta4_solar_module" and 
+		if node and node.name == "techage:ta4_solar_module" and
 						light({x = pos1.x, y = pos1.y + 1, z = pos1.z}) then
 			if side == "L" and node.param2 == M(base_pos):get_int("left_param2") then
 				return true
@@ -89,7 +89,7 @@ local function after_dig_node(pos, oldnode)
 	Cable:after_dig_node(pos)
 end
 
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
+local function tubelib2_on_update2(pos, outdir, tlib2, node)
 	power.update_network(pos, 0, tlib2, node)
 end
 
@@ -151,11 +151,11 @@ minetest.register_node("techage:ta4_solar_carrier", {
 		M(pos):set_int("left_param2", get_param2(pos, "L"))
 		M(pos):set_int("right_param2", get_param2(pos, "R"))
 	end,
-	
+
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	tubelib2_on_update2 = tubelib2_on_update2,
-	
+
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
 	paramtype2 = "facedir",
@@ -190,11 +190,11 @@ minetest.register_node("techage:ta4_solar_carrierB", {
 		M(pos):set_int("right_param2", get_param2(pos, "R"))
 		Cable:after_place_node(pos)
 	end,
-	
+
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	tubelib2_on_update2 = tubelib2_on_update2,
-	
+
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
 	paramtype2 = "facedir",
@@ -223,7 +223,7 @@ minetest.register_node("techage:ta4_solar_carrierT", {
 			{-3/8,  5/16, -1/2,  3/8,  7/16, 1/2},
 		},
 	},
-	
+
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
 	paramtype2 = "facedir",
@@ -291,4 +291,3 @@ minetest.register_craft({
 		{"", "", ""},
 	},
 })
-

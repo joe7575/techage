@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Electrolyzer
 
 ]]--
@@ -58,7 +58,7 @@ end
 local function can_start(pos, nvm, state)
 	nvm.liquid = nvm.liquid or {}
 	nvm.liquid.amount = nvm.liquid.amount or 0
-	
+
 	if nvm.liquid.amount < CAPACITY then
 		return true
 	end
@@ -99,7 +99,7 @@ local function generating(pos, nvm)
 			nvm.num_pwr_units = nvm.num_pwr_units - PWR_UNITS_PER_HYDROGEN_ITEM
 		end
 	end
-end	
+end
 
 -- converts power into hydrogen
 local function node_timer(pos, elapsed)
@@ -107,7 +107,7 @@ local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	nvm.liquid = nvm.liquid or {}
 	nvm.liquid.amount = nvm.liquid.amount or 0
-	
+
 	if nvm.liquid.amount < CAPACITY then
 		local in_dir = meta:get_int("in_dir")
 		local curr_load = power.get_storage_load(pos, Cable, in_dir, 1)
@@ -183,7 +183,7 @@ local tool_config = {
 	{
 		type = "const",
 		name = "needed",
-		label = S("Maximum power consumption [ku]"),      
+		label = S("Maximum power consumption [ku]"),
 		tooltip = S("Maximum possible\ncurrent consumption"),
 		value = PWR_NEEDED,
 	},
@@ -191,7 +191,7 @@ local tool_config = {
 		type = "dropdown",
 		choices = "20%,40%,60%,80%,100%",
 		name = "reduction",
-		label = S("Current limitation"),      
+		label = S("Current limitation"),
 		tooltip = S("Configurable value\nfor the current limit"),
 		default = "100%",
 	},
@@ -199,12 +199,12 @@ local tool_config = {
 		type = "dropdown",
 		choices = "0%,20%,40%,60%,80%",
 		name = "turnoff",
-		label = S("Turnoff point"),      
+		label = S("Turnoff point"),
 		tooltip = S("If the charge of the storage\nsystem exceeds the configured value,\nthe block switches off"),
 		default = "0%",
 	},
 }
-	
+
 minetest.register_node("techage:ta4_electrolyzer", {
 	description = S("TA4 Electrolyzer"),
 	tiles = {
@@ -223,14 +223,14 @@ minetest.register_node("techage:ta4_electrolyzer", {
 		end
 		return liquid.is_empty(pos)
 	end,
-	
+
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	on_punch = liquid.on_punch,
 	on_receive_fields = on_receive_fields,
 	on_timer = node_timer,
 	on_rightclick = on_rightclick,
-	
+
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -272,7 +272,7 @@ minetest.register_node("techage:ta4_electrolyzer_on", {
 	on_punch = liquid.on_punch,
 	on_timer = node_timer,
 	on_rightclick = on_rightclick,
-	
+
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
 	on_rotate = screwdriver.disallow,
@@ -339,7 +339,7 @@ techage.register_node({"techage:ta4_electrolyzer", "techage:ta4_electrolyzer_on"
 			meta:set_string("turnoff", "0%")
 		end
 	end,
-})	
+})
 
 minetest.register_craft({
 	output = "techage:ta4_electrolyzer",
@@ -349,4 +349,3 @@ minetest.register_craft({
 		{'default:steel_ingot', "techage:ta4_wlanchip", 'default:steel_ingot'},
 	},
 })
-

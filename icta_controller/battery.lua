@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	ICTA Controller - Battery
 
 ]]--
@@ -85,7 +85,7 @@ minetest.register_node("techage:ta4_battery", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
-	
+
 	on_timer = on_timer,
 
 	preserve_metadata = function(pos, oldnode, oldmetadata, drops)
@@ -126,12 +126,12 @@ minetest.register_node("techage:ta4_battery_empty", {
 			{ -6/32, -6/32, 14/32,  6/32,  6/32, 16/32},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos)
 		meta:set_int("content", 0)
 	end,
-	
+
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
@@ -167,7 +167,7 @@ techage.register_node({"techage:ta4_battery"}, {
 	on_node_load = function(pos)
 		minetest.get_node_timer(pos):start(30)
 	end,
-	
+
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "load" then
 			local meta = minetest.get_meta(pos)

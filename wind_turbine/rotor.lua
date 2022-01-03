@@ -9,12 +9,12 @@
 	See LICENSE.txt for more information
 
 	TA4 Power Wind Turbine Rotor
-	
+
 	Code by Joachim Stolberg, derived from DS-Minetest [1]
 	Rotor model and texture designed by DS-Minetest [1] (CC-0)
-	
+
 	[1] https://github.com/DS-Minetest/wind_turbine
-	
+
 ]]--
 
 -- for lazy programmers
@@ -28,7 +28,7 @@ local COUNTDOWN_TICKS = 2
 
 local Cable = techage.ElectricCable
 local power = networks.power
-local control = networks.control 
+local control = networks.control
 
 local Rotors = {}
 
@@ -60,20 +60,20 @@ local function check_rotor(pos, nvm)
 		nvm.error = err
 		return false
 	end
-	
+
 	local npos = techage.get_pos(pos, "F")
 	local node = techage.get_node_lvm(npos)
 	if node.name ~= "techage:ta4_wind_turbine_nacelle" then
 		nvm.error = S("Nacelle is missing")
 		return false
 	end
-	
+
 	local own_num = M(pos):get_string("node_number") or ""
 	M(pos):set_string("infotext", S("TA4 Wind Turbine")..": "..own_num)
 	nvm.error = false
 	return true
 end
-	
+
 local function formspec(self, pos, nvm)
 	return techage.generator_formspec(self, pos, nvm, S("TA4 Wind Turbine"), nvm.provided, PWR_PERF)
 end
@@ -91,7 +91,7 @@ local function add_rotor(pos, nvm, force)
 		obj:set_rotation(yaw)
 		Rotors[hash] = obj
 	end
-end	
+end
 
 local function start_rotor(pos, nvm, state)
 	if not nvm.error then
@@ -216,7 +216,7 @@ minetest.register_node("techage:ta4_wind_turbine", {
 		"techage_rotor.png",
 		"techage_rotor.png^techage_appl_open.png",
 	},
-	
+
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	get_generator_data = get_generator_data,
@@ -245,7 +245,7 @@ control.register_nodes({"techage:ta4_wind_turbine"}, {
 					running = techage.is_running(nvm) or false,
 					available = PWR_PERF,
 					provided = nvm.provided or 0,
-					termpoint = meta:get_string("termpoint"), 
+					termpoint = meta:get_string("termpoint"),
 				}
 			end
 			return false
@@ -280,7 +280,7 @@ minetest.register_entity("techage:rotor_ent", {initial_properties = {
 	static_save = false,
 }})
 
-techage.register_node({"techage:ta4_wind_turbine"}, {	
+techage.register_node({"techage:ta4_wind_turbine"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		if topic == "state" then
@@ -355,8 +355,8 @@ minetest.register_craft({
 })
 
 techage.furnace.register_recipe({
-	output = "techage:ta4_carbon_fiber", 
-	recipe = {"default:papyrus", "default:stick", "default:papyrus", "default:stick"}, 
+	output = "techage:ta4_carbon_fiber",
+	recipe = {"default:papyrus", "default:stick", "default:papyrus", "default:stick"},
 	heat = 4,
 	time = 3,
 })

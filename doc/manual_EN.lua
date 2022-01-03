@@ -2548,4 +2548,3 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
 }
-

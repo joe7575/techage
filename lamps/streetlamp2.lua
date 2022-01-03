@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 LED Street Lamp
 
 ]]--
@@ -25,7 +25,7 @@ techage.register_lamp("techage:streetlamp2", {
 		"techage_streetlamp2_housing.png^techage_streetlamp2_off.png",
 		"techage_streetlamp2_housing.png",
 	},
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {
@@ -61,15 +61,15 @@ minetest.register_node("techage:streetlamp_pole", {
 	tiles = {
 		"techage_streetlamp2_housing.png",
 	},
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {
 		type = "connected",
 		fixed = {{ -5/32, -16/32,  -5/32,   5/32, 16/32,   5/32}},
-		
-		connect_left =  {{-16/32, 8/32, -3/32,   3/32, 14/32, 3/32}},	
-		connect_right = {{ -3/32, 8/32, -3/32,  16/32, 14/32, 3/32}},	
+
+		connect_left =  {{-16/32, 8/32, -3/32,   3/32, 14/32, 3/32}},
+		connect_right = {{ -3/32, 8/32, -3/32,  16/32, 14/32, 3/32}},
 		connect_back =  {{ -3/32, 8/32, -3/32,   3/32, 14/32, 16/32}},
 		connect_front = {{ -3/32, 8/32, -16/32,  3/32, 14/32, 3/32}},
 	},
@@ -86,7 +86,7 @@ minetest.register_node("techage:streetlamp_arm", {
 	tiles = {
 		"techage_streetlamp2_housing.png",
 	},
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {
@@ -126,4 +126,3 @@ minetest.register_craft({
 		{"", "", ""},
 	},
 })
-

@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Liquid lib
 
 ]]--
@@ -55,7 +55,7 @@ function techage.liquid.formspec(pos, nvm, title)
 			help(7.4, -0.1)..
 			techage.item_image(3.5, 1, itemname)
 	end
-end	
+end
 
 function techage.liquid.is_empty(pos)
 	local nvm = techage.get_nvm(pos)
@@ -75,7 +75,7 @@ techage.liquid.recv_message = {
 			return "unsupported"
 		end
 	end,
-}	
+}
 
 -- like: register_liquid("techage:ta3_barrel_oil", "techage:ta3_barrel_empty", 10, "techage:oil")
 function techage.register_liquid(full_container, empty_container, container_size, inv_item)
@@ -88,7 +88,7 @@ end
 local function get_liquid_def(full_container)
 	return LiquidDef[full_container]
 end
-	
+
 local function get_container_def(container_name)
 	return ContainerDef[container_name]
 end
@@ -109,7 +109,7 @@ local function fill_container(pos, inv, empty_container)
 	local full_container = get_full_container(empty_container, nvm.liquid.name)
 	if empty_container and full_container then
 		local ldef = get_liquid_def(full_container)
-		if ldef and nvm.liquid.amount - ldef.size >= 0 then 
+		if ldef and nvm.liquid.amount - ldef.size >= 0 then
 			if inv:room_for_item("dst", {name = full_container}) then
 				inv:add_item("dst", {name = full_container})
 				nvm.liquid.amount = nvm.liquid.amount - ldef.size
@@ -134,7 +134,7 @@ local function empty_container(pos, inv, full_container)
 	local tank_size = (ndef_lqd and ndef_lqd.capa) or 0
 	local ldef = get_liquid_def(full_container)
 	if ldef and (not nvm.liquid.name or ldef.inv_item == nvm.liquid.name) then
-		if nvm.liquid.amount + ldef.size <= tank_size then 
+		if nvm.liquid.amount + ldef.size <= tank_size then
 			if inv:room_for_item("dst", {name = ldef.container}) then
 				inv:add_item("dst", {name = ldef.container})
 				nvm.liquid.amount = nvm.liquid.amount + ldef.size
@@ -157,22 +157,22 @@ local function fill_on_punch(nvm, empty_container, item_count, puncher)
 	if empty_container and full_container then
 		local item = {name = full_container}
 		local ldef = get_liquid_def(full_container)
-		if ldef and nvm.liquid.amount - ldef.size >= 0 then 
+		if ldef and nvm.liquid.amount - ldef.size >= 0 then
 			if item_count > 1 then -- can't be simply replaced?
 				-- check for extra free space
 				local inv = puncher:get_inventory()
 				if inv:room_for_item("main", {name = full_container}) then
 					-- add full container and return
 					-- the empty once - 1
-					inv:add_item("main", {name = full_container})	
+					inv:add_item("main", {name = full_container})
 					item = {name = empty_container, count = item_count - 1}
 				else
 					return -- no free space
 				end
 			end
 			nvm.liquid.amount = nvm.liquid.amount - ldef.size
-			if nvm.liquid.amount == 0 then 
-				nvm.liquid.name = nil 
+			if nvm.liquid.amount == 0 then
+				nvm.liquid.name = nil
 			end
 			return item -- to be added to the players inv.
 		end
@@ -181,8 +181,8 @@ local function fill_on_punch(nvm, empty_container, item_count, puncher)
 			local count = math.max(nvm.liquid.amount, 99)
 			local name = nvm.liquid.name
 			nvm.liquid.amount = nvm.liquid.amount - count
-			if nvm.liquid.amount == 0 then 
-				nvm.liquid.name = nil 
+			if nvm.liquid.amount == 0 then
+				nvm.liquid.name = nil
 			end
 			return {name = name, count = count}
 		end
@@ -195,7 +195,7 @@ local function legacy_items(full_container, item_count)
 	elseif full_container == "techage:oil_source" then
 		return {container = "", size = item_count, inv_item = full_container}
 	end
-end	
+end
 
 -- check if the wielded full container can be emptied into the tank
 local function empty_on_punch(pos, nvm, full_container, item_count)
@@ -203,10 +203,10 @@ local function empty_on_punch(pos, nvm, full_container, item_count)
 	nvm.liquid.amount = nvm.liquid.amount or 0
 	local lqd_def = get_liquid_def(full_container) or legacy_items(full_container, item_count)
 	local ndef_lqd = LQD(pos)
-	if lqd_def and ndef_lqd then 
+	if lqd_def and ndef_lqd then
 		local tank_size = ndef_lqd.capa or 0
 		if not nvm.liquid.name or lqd_def.inv_item == nvm.liquid.name then
-			if nvm.liquid.amount + lqd_def.size <= tank_size then 
+			if nvm.liquid.amount + lqd_def.size <= tank_size then
 				nvm.liquid.amount = nvm.liquid.amount + lqd_def.size
 				nvm.liquid.name = lqd_def.inv_item
 				return {name = lqd_def.container}
@@ -227,10 +227,10 @@ function techage.liquid.on_punch(pos, node, puncher, pointed_thing)
 	if mem.blocking_time > techage.SystemTime then
 		return
 	end
-	
+
 	local wielded_item = puncher:get_wielded_item():get_name()
 	local item_count = puncher:get_wielded_item():get_count()
-	local new_item = fill_on_punch(nvm, wielded_item, item_count, puncher) 
+	local new_item = fill_on_punch(nvm, wielded_item, item_count, puncher)
 			or empty_on_punch(pos, nvm, wielded_item, item_count)
 	if new_item then
 		puncher:set_wielded_item(new_item)

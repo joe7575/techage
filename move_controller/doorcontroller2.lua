@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	Door/Gate Controller II
-	
+
 ]]--
 
 -- for lazy programmers
@@ -19,27 +19,27 @@ local S = techage.S
 
 local logic = techage.logic
 
-local MarkedNodes = {} -- t[player] = {{entity, pos},...} 
+local MarkedNodes = {} -- t[player] = {{entity, pos},...}
 local CurrentPos  -- to mark punched entities
 local RegisteredNodes = {}  -- to be checked before removed/placed
 
 local function is_simple_node(name)
 	-- special handling
-	if RegisteredNodes[name] ~= nil then 
-		return RegisteredNodes[name] 
+	if RegisteredNodes[name] ~= nil then
+		return RegisteredNodes[name]
 	end
-	
+
 	local ndef = minetest.registered_nodes[name]
 	if not ndef or name == "air" then return true end
 	if ndef.groups and ndef.groups.techage_door == 1 then return true end
-	
+
 	-- don't remove nodes with some intelligence or undiggable nodes
 	if ndef.drop == "" then return false end
 	if ndef.diggable == false then return false end
 	if ndef.after_dig_node then return false end
-	
+
 	return true
-end	
+end
 
 local function unmark_position(name, pos)
 	pos = vector.round(pos)
@@ -145,7 +145,7 @@ end
 
 local function play_sound(pos)
 	minetest.sound_play("techage_button", {
-		pos = pos, 
+		pos = pos,
 		gain = 1,
 		max_hear_distance = 15})
 end
@@ -170,7 +170,7 @@ end
 local function exchange_nodes(pos, nvm, slot)
 	local meta = M(pos)
 	local inv = meta:get_inventory()
-	
+
 	local item_list = inv:get_list("main")
 	local owner = meta:get_string("owner")
 	local res = false
@@ -184,7 +184,7 @@ local function exchange_nodes(pos, nvm, slot)
 			res = true
 		end
 	end
-	
+
 	inv:set_list("main", item_list)
 	return res
 end
@@ -195,7 +195,7 @@ local function show_nodes(pos)
 		nvm.is_on = true
 		if nvm.play_sound then
 			minetest.sound_play("doors_door_close", {
-				pos = pos, 
+				pos = pos,
 				gain = 1,
 				max_hear_distance = 15})
 		end
@@ -209,7 +209,7 @@ local function hide_nodes(pos)
 		nvm.is_on = false
 		if nvm.play_sound then
 			minetest.sound_play("doors_door_open", {
-				pos = pos, 
+				pos = pos,
 				gain = 1,
 				max_hear_distance = 15})
 		end
@@ -243,7 +243,7 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
-		
+
 		if fields.tab == "2" then
 			meta:set_string("formspec", formspec2(meta))
 			return
@@ -289,7 +289,7 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 			meta:set_string("formspec", formspec1(nvm, meta))
 		end
 	end,
-	
+
 	allow_metadata_inventory_move = function(pos, from_list, from_index, to_list, to_index, count, player)
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return 0
@@ -311,16 +311,16 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 		end
 		return 0
 	end,
-	
+
 	can_dig = function(pos, player)
 		if player and minetest.is_protected(pos, player:get_player_name()) then
 			return 0
 		end
-		
+
 		local inv = minetest.get_inventory({type="node", pos=pos})
 		return inv:is_empty("main")
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		local name = digger:get_player_name()
 		unmark_all(name)
@@ -365,7 +365,7 @@ techage.register_node({"techage:ta3_doorcontroller2"}, {
 			meta:set_string("param2_list", "")
 		end
 	end,
-})		
+})
 
 minetest.register_craft({
 	type = "shapeless",
@@ -376,11 +376,11 @@ minetest.register_craft({
 minetest.register_on_punchnode(function(pos, node, puncher, pointed_thing)
 	if puncher and puncher:is_player() then
 		local name = puncher:get_player_name()
-		
+
 		if not MarkedNodes[name] then
 			return
 		end
-		
+
 		if not minetest.is_protected(pointed_thing.under, name) then
 			mark_position(name, pointed_thing.under)
 		end

@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3/TA4 Junction box for electrical power distribution
 
 ]]--

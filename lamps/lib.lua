@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Lamp library
 
 ]]--
@@ -49,8 +49,8 @@ local function on_nopower(pos)
 	nvm.turned_on = false
 end
 
-local function is_running(pos, nvm) 
-	return nvm.turned_on 
+local function is_running(pos, nvm)
+	return nvm.turned_on
 end
 
 local function node_timer_off1(pos, elapsed)
@@ -89,7 +89,7 @@ local function lamp_on_rightclick(pos, node, clicker)
 	if minetest.is_protected(pos, clicker:get_player_name()) then
 		return
 	end
-	
+
 	local nvm = techage.get_nvm(pos)
 	if not nvm.turned_on and power.power_available(pos, Cable) then
 		nvm.turned_on = true
@@ -128,7 +128,7 @@ local function after_dig_node(pos, oldnode)
 	techage.del_mem(pos)
 end
 
-local function tubelib2_on_update2(pos, outdir, tlib2, node) 
+local function tubelib2_on_update2(pos, outdir, tlib2, node)
 	power.update_network(pos, outdir, tlib2)
 end
 
@@ -153,7 +153,7 @@ function techage.register_lamp(basename, ndef_off, ndef_on)
 	ndef_off.groups = {choppy=2, cracky=2, crumbly=2}
 	ndef_off.is_ground_content = false
 	ndef_off.sounds = default.node_sound_glass_defaults()
-	
+
 	if ndef_on.high_power then
 		ndef_on.on_timer = ndef_on.on_timer or node_timer_on2
 	else
@@ -172,13 +172,12 @@ function techage.register_lamp(basename, ndef_off, ndef_on)
 	ndef_on.groups = {not_in_creative_inventory=1}
 	ndef_on.is_ground_content = false
 	ndef_on.sounds = default.node_sound_glass_defaults()
-	
+
 	minetest.register_node(basename.."_off", ndef_off)
 	minetest.register_node(basename.."_on", ndef_on)
-	
+
 	power.register_nodes({basename.."_off", basename.."_on"}, Cable, "con")
 	techage.register_node_for_v1_transition({basename.."_off", basename.."_on"}, function(pos, node)
 		power.update_network(pos, nil, Cable)
 	end)
 end
-

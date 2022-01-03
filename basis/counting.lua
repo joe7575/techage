@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	Count techage commands player related
-	
+
 ]]--
 
 local PlayerName
@@ -43,10 +43,10 @@ local function output()
 		if val > MAX_POINTS then
 			local obj = minetest.get_player_by_name(name)
 			if obj then
-				minetest.chat_send_player(name, 
+				minetest.chat_send_player(name,
 					S("[techage] The limit for 'number of commands per minute' has been exceeded.") ..
 					" " .. string.format(MAX_POINTS .. " " .. S("is allowed. Current value is") .. " " .. val));
-				minetest.log("action", "[techage] " .. name .. 
+				minetest.log("action", "[techage] " .. name ..
 					" exceeds the limit for commands per minute. value = " .. val)
 				local factor = 100 / (obj:get_armor_groups().fleshy or 100)
 				obj:punch(obj, 1.0, {full_punch_interval=1.0, damage_groups = {fleshy=factor * 5}})
@@ -65,8 +65,7 @@ minetest.register_chatcommand("ta_limit", {
 	description = "Get your current techage command limit value",
     func = function(name)
 		local num = LastPlayerPoints[name] or 0
-		return true, S("Your current value is") .. " " .. num .. " " .. S("per minute") .. ". " .. 
+		return true, S("Your current value is") .. " " .. num .. " " .. S("per minute") .. ". " ..
 			MAX_POINTS .. " " .. S("is allowed")
     end
 })
-

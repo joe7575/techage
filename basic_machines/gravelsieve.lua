@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA2/TA3/TA4 Gravel Sieve, sieving gravel to find ores
-	
+
 ]]--
 
 -- for lazy programmers
@@ -179,7 +179,7 @@ local tubing = {
 	end,
 }
 
-local node_name_ta2, node_name_ta3, node_name_ta4 = 
+local node_name_ta2, node_name_ta3, node_name_ta4 =
 	techage.register_consumer("gravelsieve", S("Gravel Sieve"), tiles, {
 		drawtype = "nodebox",
 		paramtype = "light",
@@ -265,17 +265,17 @@ techage.recipes.register_craft_type("ta4_gravelsieve", {
 	height = 1,
 })
 techage.recipes.register_craft({
-	output = "techage:sieved_basalt_gravel", 
+	output = "techage:sieved_basalt_gravel",
 	items = {"techage:basalt_gravel"},
 	type = "ta2_gravelsieve",
 })
 techage.recipes.register_craft({
-	output = "techage:sieved_basalt_gravel", 
+	output = "techage:sieved_basalt_gravel",
 	items = {"techage:basalt_gravel"},
 	type = "ta3_gravelsieve",
 })
 techage.recipes.register_craft({
-	output = "techage:sieved_basalt_gravel", 
+	output = "techage:sieved_basalt_gravel",
 	items = {"techage:basalt_gravel"},
 	type = "ta4_gravelsieve",
 })

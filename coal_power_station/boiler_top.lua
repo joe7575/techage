@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Coal Power Station Boiler Top
 
 ]]--
@@ -62,14 +62,14 @@ minetest.register_node("techage:coalboiler_top", {
 		type = "fixed",
 		fixed = {-13/32, -48/32, -13/32, 13/32, 16/32, 13/32},
 	},
-	
+
 	can_dig = boiler.can_dig,
 	on_timer = node_timer,
 	on_rightclick = boiler.on_rightclick,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	on_punch = boiler.on_punch,
-	
+
 	paramtype = "light",
 	paramtype2 = "facedir",
 	groups = {cracky=1},
@@ -108,4 +108,3 @@ minetest.register_craft({
 		{"default:stone", "", "default:stone"},
 	},
 })
-

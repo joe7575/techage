@@ -7,10 +7,10 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Configured inventory lib
 	Assuming the inventory has the name "conf"
-	
+
 ]]--
 
 -- for lazy programmers
@@ -38,7 +38,7 @@ function inv_lib.item_filter(pos, size)
 	for idx = 1, size do
 		local item_name = inv:get_stack("conf", idx):get_name()
 		if item_name == "" then item_name = "unconfigured" end
-		if not filter[item_name] then 
+		if not filter[item_name] then
 			filter[item_name] = {}
 		end
 		table.insert(filter[item_name], idx)
@@ -49,7 +49,7 @@ end
 function inv_lib.allow_conf_inv_put(pos, listname, index, stack, player)
 	local inv = M(pos):get_inventory()
 	local list = inv:get_list(listname)
-	
+
 	if list[index]:get_count() == 0 then
 		stack:set_count(1)
 		inv:set_stack(listname, index, stack)
@@ -104,6 +104,6 @@ function inv_lib.take_item(pos, inv, listname, num, stacks)
 		end
 	end
 end
-		
+
 
 return inv_lib

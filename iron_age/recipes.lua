@@ -7,10 +7,10 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Meltingpot recipes
 	Bucket redefinitions
-	
+
 ]]--
 
 local S = techage.S
@@ -19,15 +19,15 @@ local S = techage.S
 -- New burner recipes
 --
 techage.ironage_register_recipe({
-	output = "default:obsidian", 
-	recipe = {"default:cobble"}, 
+	output = "default:obsidian",
+	recipe = {"default:cobble"},
 	heat = 10,
 	time = 8,
 })
 
 techage.ironage_register_recipe({
-	output = "techage:iron_ingot", 
-	recipe = {"default:iron_lump"}, 
+	output = "techage:iron_ingot",
+	recipe = {"default:iron_lump"},
 	heat = 5,
 	time = 3,
 })
@@ -64,7 +64,7 @@ local function register_liquid(source, flowing, itemname, inventory_image, name,
 
 	if itemname ~= nil then
 		minetest.unregister_item(itemname)
-	
+
 		minetest.register_craftitem(":"..itemname, {
 			description = name,
 			inventory_image = inventory_image,
@@ -126,7 +126,7 @@ local function register_liquid(source, flowing, itemname, inventory_image, name,
 					-- see "basis/lib.lua" techage.is_ocean(pos)
 				    minetest.set_node(lpos, {name = source, param2 = 1})
 				end
-				-------------------------------- End Modification				
+				-------------------------------- End Modification
 				return ItemStack("bucket:bucket_empty")
 			end
 		})
@@ -159,32 +159,32 @@ if techage.modified_recipes_enabled then
 			{'default:bronzeblock'},
 		}
 	})
-	
+
 	techage.ironage_register_recipe({
-		output = "default:bronze_ingot 4", 
-		recipe = {"default:copper_ingot", "default:copper_ingot", "default:copper_ingot", "default:tin_ingot"}, 
+		output = "default:bronze_ingot 4",
+		recipe = {"default:copper_ingot", "default:copper_ingot", "default:copper_ingot", "default:tin_ingot"},
 		heat = 4,
 		time = 8,
 	})
 
 	techage.ironage_register_recipe({
-		output = "default:steel_ingot 4", 
-		recipe = {"default:coal_lump", "default:iron_lump", "default:iron_lump", "default:iron_lump"}, 
+		output = "default:steel_ingot 4",
+		recipe = {"default:coal_lump", "default:iron_lump", "default:iron_lump", "default:iron_lump"},
 		heat = 7,
 		time = 8,
 	})
 
 	techage.ironage_register_recipe({
-		output = "default:tin_ingot 1", 
-		recipe = {"default:tin_lump"}, 
+		output = "default:tin_ingot 1",
+		recipe = {"default:tin_lump"},
 		heat = 4,
 		time = 2,
 	})
-	
+
 	if minetest.global_exists("moreores") then
 		techage.ironage_register_recipe({
-			output = "moreores:silver_ingot 1", 
-			recipe = {"moreores:silver_lump"}, 
+			output = "moreores:silver_ingot 1",
+			recipe = {"moreores:silver_lump"},
 			heat = 5,
 			time = 2,
 		})
@@ -217,7 +217,7 @@ if techage.modified_recipes_enabled then
 	minetest.override_item("bucket:bucket_river_water", {
 			inventory_image = "bucket_river_water.png^[colorize:#c7643d:30"
 	})
-	
+
 	register_liquid(
 		"default:water_source",
 		"default:water_flowing",
@@ -235,4 +235,3 @@ if techage.modified_recipes_enabled then
 		"Lava Bucket"
 	)
 end
-

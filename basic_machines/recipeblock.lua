@@ -91,7 +91,7 @@ local function get_recipe(inv)
 	local input = table.concat(items, ",", 1, last_idx)
 	local stack = inv:get_stack("output", 1)
 	return {
-		input = input, 
+		input = input,
 		output = stack:get_name() .. " " .. stack:get_count()
 	}
 end
@@ -129,7 +129,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	
+
 	local inv = M(pos):get_inventory()
 	local list = inv:get_list(listname)
 	stack:set_count(1)
@@ -142,7 +142,7 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	
+
 	local inv = M(pos):get_inventory()
 	inv:set_stack(listname, index, nil)
 	after_recipe_change(pos, inv, listname)
@@ -153,7 +153,7 @@ local function allow_metadata_inventory_move(pos, from_list, from_index, to_list
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	
+
 	local inv = M(pos):get_inventory()
 	if from_list == to_list then
 		minetest.after(0.1, after_recipe_change, pos, inv, from_list)
@@ -176,7 +176,7 @@ minetest.register_node("techage:ta4_recipeblock", {
 		inv:set_size('input', 9)
 		inv:set_size('output', 1)
 	end,
-	
+
 	after_place_node = function(pos, placer, itemstack)
 		local nvm = techage.get_nvm(pos)
 		local number = techage.add_node(pos, "techage:ta4_chest")
@@ -190,7 +190,7 @@ minetest.register_node("techage:ta4_recipeblock", {
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return
 		end
-		
+
 		local nvm = techage.get_nvm(pos)
 		nvm.recipe_idx = nvm.recipe_idx or 1
 		if fields.next == ">>" then
@@ -202,7 +202,7 @@ minetest.register_node("techage:ta4_recipeblock", {
 		update_inventor(pos, inv, nvm.recipe_idx or 1)
 		M(pos):set_string("formspec", formspec(pos, nvm))
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
@@ -211,7 +211,7 @@ minetest.register_node("techage:ta4_recipeblock", {
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
 	allow_metadata_inventory_move = allow_metadata_inventory_move,
-	
+
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
@@ -241,4 +241,3 @@ minetest.register_craft({
 		{"default:steel_ingot", "techage:ta4_wlanchip", "default:steel_ingot"},
 	},
 })
-

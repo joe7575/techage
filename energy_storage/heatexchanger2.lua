@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Heat Exchanger2 (middle part)
 	(alternatively used as cooler for the TA4 collider)
 
@@ -35,13 +35,13 @@ local DOWN = 5
 local PWR_NEEDED = 5
 
 local function heatexchanger1_cmnd(pos, topic, payload)
-	return techage.transfer({x = pos.x, y = pos.y - 1, z = pos.z}, 
+	return techage.transfer({x = pos.x, y = pos.y - 1, z = pos.z},
 		nil, topic, payload, nil,
 		{"techage:heatexchanger1"})
 end
 
 local function heatexchanger3_cmnd(pos, topic, payload)
-	return techage.transfer({x = pos.x, y = pos.y + 1, z = pos.z}, 
+	return techage.transfer({x = pos.x, y = pos.y + 1, z = pos.z},
 		nil, topic, payload, nil,
 		{"techage:heatexchanger3"})
 end
@@ -59,7 +59,7 @@ local function play_sound(pos)
 	local mem = techage.get_mem(pos)
 	if not mem.handle or mem.handle == -1 then
 		mem.handle = minetest.sound_play("techage_booster", {
-			pos = pos, 
+			pos = pos,
 			gain = 0.3,
 			max_hear_distance = 10,
 			loop = true})
@@ -95,7 +95,7 @@ local function can_start(pos, nvm)
 			return S("No power")
 		end
 	end
-	-- Used as heat exchanger 
+	-- Used as heat exchanger
 	local netID = networks.determine_netID(pos, Cable, DOWN)
 	if heatexchanger1_cmnd(pos, "netID") ~= netID then
 		return S("Power network connection error")
@@ -139,7 +139,7 @@ end
 
 local function formspec(self, pos, nvm)
 	local data
-	
+
 	if nvm.used_as_cooler then
 		return cooler_formspec(self, pos, nvm)
 	end
@@ -182,7 +182,7 @@ local function check_TES_integrity(pos, nvm)
 	end
 	nvm.check_once_again = true
 	return true
-end	
+end
 
 local State = techage.NodeStates:new({
 	node_name_passive = "techage:heatexchanger2",
@@ -200,7 +200,7 @@ local function cooler_timer(pos, nvm)
 	if power.consume_power(pos, Cable, DOWN, PWR_NEEDED) ~= PWR_NEEDED then
 		State:fault(pos, nvm, "No power")
 		stop_sound(pos)
-		return true		
+		return true
 	end
 
 	-- Cyclically check pipe connections
@@ -218,7 +218,7 @@ local function cooler_timer(pos, nvm)
 		State:fault(pos, nvm, "Pipe connection error")
 		stop_sound(pos)
 	end
-	return true		
+	return true
 end
 
 local function node_timer(pos, elapsed)
@@ -233,7 +233,7 @@ local function node_timer(pos, elapsed)
 		heatexchanger1_cmnd(pos, "stop")
 		power.start_storage_calc(pos, Cable, DOWN)
 	end
-	
+
 	if techage.is_running(nvm) then
 		local capa = power.get_storage_load(pos, Cable, DOWN, nvm.capa_max) or 0
 		if capa > 0 then
@@ -243,7 +243,7 @@ local function node_timer(pos, elapsed)
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(State, pos, nvm))
 	end
-	return true		
+	return true
 end
 
 local function can_dig(pos, player)
@@ -273,7 +273,7 @@ local function after_place_node(pos, placer)
 	Cable:after_place_node(pos, {DOWN})
 	State:node_init(pos, nvm, own_num)
 end
-	
+
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	Cable:after_dig_node(pos)
 	techage.del_mem(pos)
@@ -283,7 +283,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	
+
 	local nvm = techage.get_nvm(pos)
 	State:state_button_event(pos, nvm, fields)
 	M(pos):set_string("formspec", formspec(State, pos, nvm))
@@ -309,12 +309,12 @@ minetest.register_node("techage:heatexchanger2", {
 		"techage_filling_ta4.png^techage_frameM_ta4.png^techage_appl_ribsB.png",
 		"techage_filling_ta4.png^techage_frameM_ta4.png^techage_appl_ribsB.png",
 	},
-	
+
 	selection_box = {
 		type = "fixed",
 		fixed = {-1/2, -1.5/2, -1/2, 1/2, 1/2, 1/2},
 	},
-	
+
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,

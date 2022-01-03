@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3/TA4 Tank, Oil Tank
 
 ]]--
@@ -35,7 +35,7 @@ local function node_timer(pos, elapsed)
 		local nvm = techage.get_nvm(pos)
 		M(pos):set_string("formspec", techage.liquid.formspec(pos, nvm))
 		return true
-	end	
+	end
 	return false
 end
 
@@ -62,7 +62,7 @@ local function take_liquid(pos, indir, name, amount)
 	end
 	return amount, name
 end
-	
+
 local function put_liquid(pos, indir, name, amount)
 	-- check if it is not powder
 	local ndef = minetest.registered_craftitems[name] or {}
@@ -251,7 +251,7 @@ liquid.register_nodes({"techage:ta4_tank"},
 	}
 )
 
-techage.register_node({"techage:ta3_tank", "techage:ta4_tank", "techage:oiltank"}, techage.liquid.recv_message)	
+techage.register_node({"techage:ta3_tank", "techage:ta4_tank", "techage:oiltank"}, techage.liquid.recv_message)
 
 minetest.register_craft({
 	output = "techage:ta3_tank 2",

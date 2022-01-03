@@ -65,7 +65,7 @@ techage.register_node(names, {
 		return techage.safe_push_items(pos, push_dir, stack)
 	end,
 	is_pusher = true,  -- is a pulling/pushing node
-})	
+})
 
 names = networks.register_junction("techage:ta4_concentrator", 2/8, Boxes, Tube, {
 	description = S("TA4 Tube Concentrator"),
@@ -104,7 +104,7 @@ techage.register_node(names, {
 		return techage.safe_push_items(pos, push_dir, stack)
 	end,
 	is_pusher = true,  -- is a pulling/pushing node
-})	
+})
 
 
 minetest.register_craft({

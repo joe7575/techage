@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	terminal.lua:
-	
+
 ]]--
 
 local HELP = [[#### TA4 Lua Controller Terminal ####
@@ -21,7 +21,7 @@ Controller to the Terminal.
 Commands can have up to 80 characters.
 Local commands:
 - clear    = clear screen
-- help     = this message 
+- help     = this message
 - pub      = switch to public use
 - priv      = switch to private use
 Global commands:
@@ -71,7 +71,7 @@ local function command(pos, cmnd, player)
 	local owner = meta:get_string("owner")
 	if cmnd then
 		cmnd = cmnd:sub(1,80)
-		
+
 		if cmnd == "clear" then
 			meta:set_string("output", "")
 			meta:set_string("formspec", formspec2(meta))
@@ -121,7 +121,7 @@ local function command(pos, cmnd, player)
 			end
 		end
 	end
-end	
+end
 
 minetest.register_node("techage:ta4_terminal", {
 	description = "TA4 Lua Controller Terminal",
@@ -149,7 +149,7 @@ minetest.register_node("techage:ta4_terminal", {
 			{-12/32, -14/32,  12/32,  12/32,   6/32, 14/32},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local number = techage.add_node(pos, minetest.get_node(pos).name)
 		local meta = minetest.get_meta(pos)
@@ -173,11 +173,11 @@ minetest.register_node("techage:ta4_terminal", {
 			command(pos, fields.cmnd, player:get_player_name())
 		end
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata)
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
@@ -259,4 +259,3 @@ techage.lua_ctlr.register_action("send_msg", {
 		' Send a message to the controller with number "num".\n'..
 		' example: $send_msg("0123", "test")'
 })
-

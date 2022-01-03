@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	ICTA Controller - Formspec edit command
 
 ]]--
@@ -20,8 +20,8 @@ function techage.edit_command(fs_data, text)
 	if cmnd and pos1 and pos2 then
 		pos1 = math.max(1, math.min(pos1, techage.NUM_RULES))
 		pos2 = math.max(1, math.min(pos2, techage.NUM_RULES))
-		
-		if cmnd == "x" then 
+
+		if cmnd == "x" then
 			local temp = fs_data[pos1]
 			fs_data[pos1] = fs_data[pos2]
 			fs_data[pos2] = temp

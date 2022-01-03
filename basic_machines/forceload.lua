@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	Forceload block
-	
+
 ]]--
 
 -- for lazy programmers
@@ -38,7 +38,7 @@ end
 local function remove_list_elem(list, x)
 	local n = nil
 	for idx, v in ipairs(list) do
-		if vector.equals(v, x) then 
+		if vector.equals(v, x) then
 			n = idx
 			break
 		end
@@ -59,12 +59,12 @@ local function postload_area(pos)
 		minetest.after(60, postload_area, pos)
 	end
 end
-	
+
 local function add_pos(pos, player)
 	local meta = player:get_meta()
 	local lPos = minetest.deserialize(meta:get_string("techage_forceload_blocks")) or {}
 	if not in_list(lPos, pos) and (#lPos < techage.max_num_forceload_blocks or
-				creative and creative.is_enabled_for and 
+				creative and creative.is_enabled_for and
 				creative.is_enabled_for(player:get_player_name())) then
 		lPos[#lPos+1] = pos
 		local meta = player:get_meta()
@@ -73,7 +73,7 @@ local function add_pos(pos, player)
 	end
 	return false
 end
-	
+
 local function del_pos(pos, player)
 	local meta = player:get_meta()
 	local lPos = minetest.deserialize(meta:get_string("techage_forceload_blocks")) or {}
@@ -202,10 +202,10 @@ minetest.register_node("techage:forceload", {
 	after_dig_node = after_dig_node,
 	on_rightclick = on_rightclick,
 	on_punch = on_punch,
-	
+
 	paramtype = "light",
 	sunlight_propagates = true,
-	groups = {choppy=2, cracky=2, crumbly=2, 
+	groups = {choppy=2, cracky=2, crumbly=2,
 		digtron_protected = 1,
 		not_in_creative_inventory = techage.max_num_forceload_blocks == 0 and 1 or 0},
 	is_ground_content = false,
@@ -236,17 +236,17 @@ minetest.register_node("techage:forceloadtile", {
 			{-4/16,  -8/16, -4/16, 4/16,  -15/32,  4/16},
 		},
 	},
-	
+
 	on_place = on_place,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
 	on_rightclick = on_rightclick,
 	on_punch = on_punch,
-	
+
 	paramtype = "light",
 	paramtype2 = "facedir",
 	sunlight_propagates = true,
-	groups = {choppy=2, cracky=2, crumbly=2, 
+	groups = {choppy=2, cracky=2, crumbly=2,
 		not_in_creative_inventory = techage.max_num_forceload_blocks == 0 and 1 or 0},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),

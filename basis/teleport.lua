@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	For tupe/pipe blocks with teleport support
 
 ]]--
@@ -67,7 +67,7 @@ local TELE_MENU = {
 		choices = "",
 		on_dropdown = get_free_server_list,
 		name = "remote_name",
-		label = S("Remote name"),      
+		label = S("Remote name"),
 		tooltip = S("Connection name of the remote block"),
 	},
 	{
@@ -83,7 +83,7 @@ function techage.teleport.formspec(pos)
 	local ndef = NDEF(pos)
 	return menu.generate_formspec(pos, ndef, TELE_MENU)
 end
-	
+
 local function store_connection(pos, peer_pos)
 	local meta = M(pos)
 	local status = S("connected to") .. " " .. P2S(peer_pos)

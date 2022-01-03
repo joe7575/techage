@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3/4 Lamp Holder
 
 ]]--
@@ -23,26 +23,26 @@ local function register_holder(name, description, png)
 		node_box = {
 			type = "connected",
 			fixed = {{ -4/32, -4/32, -4/32,   4/32, 4/32, 4/32}},
-			
+
 			connect_top =    {{ -3/32,  -3/32,  -3/32,  3/32, 16/32,  3/32}},
 			connect_bottom = {{ -3/32, -16/32,  -3/32,  3/32,  3/32,  3/32}},
-			connect_left =   {{-16/32,  -3/32,  -3/32,  3/32,  3/32,  3/32}},	
-			connect_right =  {{ -3/32,  -3/32,  -3/32, 16/32,  3/32,  3/32}},	
+			connect_left =   {{-16/32,  -3/32,  -3/32,  3/32,  3/32,  3/32}},
+			connect_right =  {{ -3/32,  -3/32,  -3/32, 16/32,  3/32,  3/32}},
 			connect_back =   {{ -3/32,  -3/32,  -3/32,  3/32,  3/32, 16/32}},
 			connect_front =  {{ -3/32,  -3/32, -16/32,  3/32,  3/32,  3/32}},
 		},
 		connects_to = {
-			"techage:ceilinglamp_off", "techage:ceilinglamp_on", 
-			"techage:growlight_off", "techage:growlight_on", 
-			"techage:industriallamp1_off", "techage:industriallamp1_on", 
-			"techage:industriallamp2_off", "techage:industriallamp2_on", 
-			"techage:industriallamp3_off", "techage:industriallamp3_on", 
-			"techage:industriallamp4_off", "techage:industriallamp4_on", 
-			"techage:simplelamp_off", "techage:simplelamp_on", 
-			"techage:streetlamp_off", "techage:streetlamp_on", 
-			"techage:streetlamp2_off", "techage:streetlamp2_on", 
-			"techage:streetlamp_arm", "techage:streetlamp_pole", 
-			"techage:streetlamp2_off", "techage:streetlamp2_on", 
+			"techage:ceilinglamp_off", "techage:ceilinglamp_on",
+			"techage:growlight_off", "techage:growlight_on",
+			"techage:industriallamp1_off", "techage:industriallamp1_on",
+			"techage:industriallamp2_off", "techage:industriallamp2_on",
+			"techage:industriallamp3_off", "techage:industriallamp3_on",
+			"techage:industriallamp4_off", "techage:industriallamp4_on",
+			"techage:simplelamp_off", "techage:simplelamp_on",
+			"techage:streetlamp_off", "techage:streetlamp_on",
+			"techage:streetlamp2_off", "techage:streetlamp2_on",
+			"techage:streetlamp_arm", "techage:streetlamp_pole",
+			"techage:streetlamp2_off", "techage:streetlamp2_on",
 			"techage:power_line", "techage:power_lineS", "techage:power_lineA"
 		},
 		paramtype = "light",

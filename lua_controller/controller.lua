@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Lua Controller
 
 ]]--
@@ -18,13 +18,13 @@ local M = minetest.get_meta
 
 local sHELP = [[TA4 Lua Controller
 
- This controller is used to control and monitor 
+ This controller is used to control and monitor
  TechAge machines.
  This controller can be programmed in Lua.
- 
- See on GitHub for more help: 
+
+ See on GitHub for more help:
  https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md
- 
+
  or download the PDF file from:
  https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.pdf
 
@@ -46,8 +46,8 @@ local tHelpTexts = {[" Overview"] = sHELP, [" Data structures"] = safer_lua.Data
 local sFunctionList = ""
 local tFunctionIndex = {}
 
-minetest.after(2, function() 
-	sFunctionList = table.concat(tFunctions, ",") 
+minetest.after(2, function()
+	sFunctionList = table.concat(tFunctions, ",")
 	for idx,key in ipairs(tFunctions) do
 		tFunctionIndex[key] = idx
 	end
@@ -289,7 +289,7 @@ local function patch_error_string(err, line_offs)
 		else
 			table.insert(tbl, s)
 		end
-	end    
+	end
 	return table.concat(tbl, "\n")
 end
 
@@ -317,7 +317,7 @@ local function compile(pos, meta, number)
 	local env = table.copy(tCommands)
 	env.meta = {pos=pos, owner=owner, number=number, error=error}
 	local code = safer_lua.init(pos, init, func.."\n"..loop, env, error)
-	
+
 	if code then
 		Cache[number] = {code=code, inputs={}, events=env.meta.events}
 		Cache[number].inputs.term = nil  -- terminal inputs
@@ -335,7 +335,7 @@ local function battery(pos)
 		return true
 	end
 	return false
-end	
+end
 
 local function start_controller(pos)
 	local meta = minetest.get_meta(pos)
@@ -344,12 +344,12 @@ local function start_controller(pos)
 		meta:set_string("formspec", formspec0(meta))
 		return false
 	end
-	
+
 	meta:set_string("output", "")
 	meta:set_int("cycletime", 1)
 	meta:set_int("cyclecount", 0)
 	meta:set_int("cpu", 0)
-	
+
 	if compile(pos, meta, number) then
 		meta:set_int("state", techage.RUNNING)
 		meta:set_int("running", STATE_RUNNING)
@@ -402,7 +402,7 @@ local function call_loop(pos, meta, elapsed)
 		local cpu = meta:get_int("cpu") or 0
 		local code = Cache[number].code
 		local res = safer_lua.run_loop(pos, elapsed, code, error)
-		if res then 
+		if res then
 			-- Don't count thread changes
 			t = math.min(minetest.get_us_time() - t, 1000)
 			cpu = math.floor(((cpu * 20) + t) / 21)
@@ -445,7 +445,7 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	local meta = minetest.get_meta(pos)
-	
+
 	--print(dump(fields))
 	if fields.cancel == nil then
 		if fields.init then
@@ -460,9 +460,9 @@ local function on_receive_fields(pos, formname, fields, player)
 		elseif fields.notes then
 			meta:set_string("notes", fields.notes)
 			meta:set_string("formspec", formspec5(meta))
-		end	
+		end
 	end
-	
+
 	if fields.update then
 		meta:set_string("formspec", formspec4(meta))
 		techage.set_activeformspec(pos, player)
@@ -517,7 +517,7 @@ minetest.register_node("techage:ta4_lua_controller", {
 			{ -6/32, -6/32, 14/32,  6/32,  6/32, 16/32},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos)
 		local number = techage.add_node(pos, "techage:ta4_lua_controller")
@@ -538,7 +538,7 @@ minetest.register_node("techage:ta4_lua_controller", {
 	end,
 
 	on_receive_fields = on_receive_fields,
-	
+
 	on_rightclick = function(pos, node, clicker)
 		local meta = M(pos)
 		if meta:get_int("running") == STATE_RUNNING then
@@ -546,14 +546,14 @@ minetest.register_node("techage:ta4_lua_controller", {
 			meta:set_string("formspec", formspec4(meta))
 		end
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
 	end,
-	
+
 	on_timer = on_timer,
-	
+
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
@@ -575,7 +575,7 @@ minetest.register_craft({
 
 -- write inputs from remote nodes
 local function set_input(pos, number, input, val)
-	if input and M(pos):get_int("state") == techage.RUNNING then 
+	if input and M(pos):get_int("state") == techage.RUNNING then
 		if (Cache[number] or compile(pos, M(pos), number)) and Cache[number].inputs then
 			if input == "msg" then
 				if #Cache[number].inputs["msg"] < 10 then
@@ -594,17 +594,17 @@ local function set_input(pos, number, input, val)
 			end
 		end
 	end
-end	
+end
 
 -- used by the command "input"
 function techage.lua_ctlr.get_input(number, input)
-	if input then 
+	if input then
 		if Cache[number] and Cache[number].inputs then
 			return Cache[number].inputs[input] or "off"
 		end
 	end
 	return "off"
-end	
+end
 
 function techage.lua_ctlr.get_next_input(number)
 	if Cache[number] and Cache[number].inputs then
@@ -616,7 +616,7 @@ function techage.lua_ctlr.get_next_input(number)
 			return num, state
 		end
 	end
-end	
+end
 
 -- used for Terminal commands
 function techage.lua_ctlr.get_command(number)
@@ -625,20 +625,20 @@ function techage.lua_ctlr.get_command(number)
 		Cache[number].inputs["term"] = nil
 		return cmnd
 	end
-end	
+end
 
 -- used for queued messages
 function techage.lua_ctlr.get_msg(number)
 	if Cache[number] and Cache[number].inputs then
 		return table.remove(Cache[number].inputs["msg"], 1)
 	end
-end	
+end
 
 techage.register_node({"techage:ta4_lua_controller"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local meta = minetest.get_meta(pos)
 		local number = meta:get_string("number")
-		
+
 		if topic == "on" then
 			set_input(pos, number, src, topic)
 		elseif topic == "off" then
@@ -654,4 +654,4 @@ techage.register_node({"techage:ta4_lua_controller"}, {
 			return "unsupported"
 		end
 	end,
-})		
+})

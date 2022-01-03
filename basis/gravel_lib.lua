@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Gravel Sieve basis functions
-	
+
 ]]--
 
 -- Increase the probability over the natural occurrence
@@ -36,12 +36,12 @@ local function add_ores()
 			and drop ~= ""
 			and item.ore_type == "scatter"
 			and item.wherein == "default:stone"
-			and item.clust_scarcity ~= nil and item.clust_scarcity > 0 
-			and item.clust_num_ores ~= nil and item.clust_num_ores > 0 
+			and item.clust_scarcity ~= nil and item.clust_scarcity > 0
+			and item.clust_num_ores ~= nil and item.clust_num_ores > 0
 			and item.y_max ~= nil and item.y_min ~= nil then
 				local factor = 0.5
-				if item.y_max < -250 then 
-					factor = -250 / item.y_max 
+				if item.y_max < -250 then
+					factor = -250 / item.y_max
 				end
 				local probability = (techage.ore_rarity / PROBABILITY_FACTOR) * item.clust_scarcity /
 						(item.clust_num_ores * factor)
@@ -64,7 +64,7 @@ local function add_ores()
 		overall_probability = overall_probability + 1.0/probability
 	end
 	minetest.log("info", string.format("[techage] Overall probability %g", overall_probability))
-end	
+end
 
 minetest.after(1, add_ores)
 

@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA2/TA3/TA4 Chest
-	
+
 ]]--
 
 -- for lazy programmers
@@ -76,7 +76,7 @@ minetest.register_node("techage:chest_ta2", {
 		local inv = meta:get_inventory()
 		inv:set_size('main', 32)
 	end,
-	
+
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("owner", placer:get_player_name())
@@ -86,7 +86,7 @@ minetest.register_node("techage:chest_ta2", {
 	techage_set_numbers = function(pos, numbers, player_name)
 		return techage.logic.set_numbers(pos, numbers, player_name, S("TA2 Protected Chest"))
 	end,
-	
+
 	can_dig = can_dig,
 	after_dig_node = after_dig_node,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
@@ -126,7 +126,7 @@ minetest.register_node("techage:chest_ta3", {
 		local inv = meta:get_inventory()
 		inv:set_size('main', 40)
 	end,
-	
+
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos)
 		local number = techage.add_node(pos, "techage:chest_ta3")
@@ -139,7 +139,7 @@ minetest.register_node("techage:chest_ta3", {
 	techage_set_numbers = function(pos, numbers, player_name)
 		return techage.logic.set_numbers(pos, numbers, player_name, S("TA3 Protected Chest"))
 	end,
-	
+
 	can_dig = can_dig,
 	after_dig_node = after_dig_node,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
@@ -180,7 +180,7 @@ techage.register_node({"techage:chest_ta2", "techage:chest_ta3"}, {
 			return "unsupported"
 		end
 	end,
-})	
+})
 
 
 local function formspec4(pos)
@@ -227,7 +227,7 @@ local function ta4_allow_metadata_inventory_put(pos, listname, index, stack, pla
 	if not public and minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	
+
 	if listname == "main" then
 		return stack:get_count()
 	else
@@ -240,7 +240,7 @@ local function ta4_allow_metadata_inventory_take(pos, listname, index, stack, pl
 	if not public and minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	
+
 	if listname == "main" then
 		return stack:get_count()
 	else
@@ -253,7 +253,7 @@ local function ta4_allow_metadata_inventory_move(pos, from_list, from_index, to_
 	if not public and minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	
+
 	if from_list == "main" then
 		return count
 	else
@@ -279,7 +279,7 @@ minetest.register_node("techage:chest_ta4", {
 		inv:set_size('main', 50)
 		inv:set_size('conf', 50)
 	end,
-	
+
 	after_place_node = function(pos, placer)
 		local meta = minetest.get_meta(pos)
 		local number = techage.add_node(pos, "techage:chest_ta4")
@@ -293,7 +293,7 @@ minetest.register_node("techage:chest_ta4", {
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return
 		end
-		
+
 		local meta = minetest.get_meta(pos)
 		local mem = techage.get_mem(pos)
 		if fields.tab == "1" then
@@ -320,11 +320,11 @@ minetest.register_node("techage:chest_ta4", {
 			meta:set_string("formspec", formspec4_cfg(pos))
 		end
 	end,
-	
+
 	techage_set_numbers = function(pos, numbers, player_name)
 		return techage.logic.set_numbers(pos, numbers, player_name, S("TA4 Protected Chest"))
 	end,
-	
+
 	can_dig = can_dig,
 	after_dig_node = after_dig_node,
 	allow_metadata_inventory_put = ta4_allow_metadata_inventory_put,
@@ -347,14 +347,14 @@ techage.register_node({"techage:chest_ta4"}, {
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		local mem = techage.get_mem(pos)
-		
+
 		mem.filter = mem.filter or mConf.item_filter(pos, TA4_INV_SIZE)
 		mem.chest_configured = mem.chest_configured or not inv:is_empty("conf")
-		
+
 		if inv:is_empty("main") then
 			return nil
 		end
-		
+
 		if item_name then
 			if mem.filter[item_name] or not mem.chest_configured then
 				local taken = inv:remove_item("main", {name = item_name, count = num})
@@ -374,10 +374,10 @@ techage.register_node({"techage:chest_ta4"}, {
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		local mem = techage.get_mem(pos)
-		
+
 		mem.filter = mem.filter or mConf.item_filter(pos, TA4_INV_SIZE)
 		mem.chest_configured = mem.chest_configured or not inv:is_empty("conf")
-		
+
 		if mem.chest_configured then
 			local name = item:get_name()
 			local stacks = mem.filter[name] or mem.filter["unconfigured"]
@@ -390,10 +390,10 @@ techage.register_node({"techage:chest_ta4"}, {
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		local mem = techage.get_mem(pos)
-		
+
 		mem.filter = mem.filter or mConf.item_filter(pos, TA4_INV_SIZE)
 		mem.chest_configured = mem.chest_configured or not inv:is_empty("conf")
-		
+
 		if mem.chest_configured then
 			local name = item:get_name()
 			local stacks = mem.filter[name] or mem.filter["unconfigured"]
@@ -402,7 +402,7 @@ techage.register_node({"techage:chest_ta4"}, {
 			return techage.put_items(inv, "main", item)
 		end
 	end,
-	
+
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "state" then
 			local meta = minetest.get_meta(pos)
@@ -412,7 +412,7 @@ techage.register_node({"techage:chest_ta4"}, {
 			return "unsupported"
 		end
 	end,
-})	
+})
 
 minetest.register_craft({
 	type = "shapeless",

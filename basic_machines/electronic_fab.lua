@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA2/TA3/TA4 Electronic Fab
-	
+
 ]]--
 
 -- for lazy programmers
@@ -109,14 +109,14 @@ local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	
+
 	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
-	
-	if not nvm.running then	
+
+	if not nvm.running then
 		recipes.on_receive_fields(pos, formname, fields, player)
 	end
-	
+
 	crd.State:state_button_event(pos, nvm, fields)
 	M(pos):set_string("formspec", formspec(crd.State, pos, nvm))
 end
@@ -207,7 +207,7 @@ local tubing = {
 	end,
 }
 
-local node_name_ta2, node_name_ta3, node_name_ta4 = 
+local node_name_ta2, node_name_ta3, node_name_ta4 =
 	techage.register_consumer("electronic_fab", S("Electronic Fab"), tiles, {
 		drawtype = "normal",
 		cycle_time = CYCLE_TIME,
@@ -277,4 +277,3 @@ techage.recipes.register_craft_type("ta4_electronic_fab", {
 	width = 2,
 	height = 2,
 })
-

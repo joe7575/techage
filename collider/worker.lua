@@ -19,7 +19,7 @@ local S = techage.S
 local AssemblyPlan = {
 	-- y-offs, path, facedir-offs, name
 	-- 0 = forward, 1 = right, 2 = backward, 3 = left
-	
+
 	-- level 1
 	-- left/right
 	{ 1, {3,3,3,2}, 0, "techage:ta4_colliderblock"},
@@ -45,7 +45,7 @@ local AssemblyPlan = {
 	{ 1, {3},     0, "techage:ta4_detector_magnet"},
 	{ 1, {1},     0, "techage:ta4_detector_magnet"},
 	{ 1, {1,1},   0, "techage:ta4_detector_magnet"},
-	
+
 	-- level 2
 	-- left/right
 	{ 2, {3,3,3,2}, 1, "techage:ta4_collider_pipe_inlet"},
@@ -93,7 +93,7 @@ local AssemblyPlan = {
 	{ 3, {},      0, "techage:ta4_collider_pipe_outlet"},
 	{ 3, {1},     0, "techage:ta4_detector_magnet"},
 	{ 3, {1,1},   0, "techage:ta4_detector_magnet"},
-    
+
 	-- Core block
 	{ 1, {},      0, "techage:ta4_detector_core"},
 }
@@ -156,12 +156,12 @@ minetest.register_node("techage:ta4_collider_detector_worker", {
 		inv:set_size("src", 9)
 		M(pos):set_string("formspec", formspec())
 	end,
-	
+
 	on_receive_fields = function(pos, formname, fields, player)
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return
 		end
-		
+
 		local nvm = techage.get_nvm(pos)
 		if fields.build then
 			if not nvm.assemble_locked then
@@ -176,7 +176,7 @@ minetest.register_node("techage:ta4_collider_detector_worker", {
 			end
 		end
 	end,
-	
+
 	after_dig_node = function(pos, oldnode)
 		techage.del_mem(pos)
 	end,
@@ -207,4 +207,3 @@ minetest.register_craft({
 		{'default:steel_ingot', 'default:mese_crystal', 'techage:aluminum'},
 	},
 })
-

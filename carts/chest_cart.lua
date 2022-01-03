@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA3 Chest Cart
-	
+
 ]]--
 
 -- for lazy programmers
@@ -59,7 +59,7 @@ end
 minetest.register_node("techage:chest_cart", {
 	description = S("TA Chest Cart"),
 	tiles = {
-		-- up, down, right, left, back, front		
+		-- up, down, right, left, back, front
 			"techage_chest_cart_top.png",
 			"techage_chest_cart_bottom.png",
 			"techage_chest_cart_side.png",
@@ -83,13 +83,13 @@ minetest.register_node("techage:chest_cart", {
 	groups = {cracky = 2, crumbly = 2, choppy = 2},
 	node_placement_prediction = "",
 	diggable = false,
-	
+
 	on_place = minecart.on_nodecart_place,
 	on_punch = minecart.on_nodecart_punch,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
 	on_rightclick = on_rightclick,
-	
+
 	after_place_node = function(pos, placer)
 		local inv = M(pos):get_inventory()
 		inv:set_size('main', 4)
@@ -99,14 +99,14 @@ minetest.register_node("techage:chest_cart", {
 			M(pos):set_string("formspec", formspec())
 		end
 	end,
-	
+
 	set_cargo = function(pos, data)
 		local inv = M(pos):get_inventory()
 		for idx, stack in ipairs(data) do
 			inv:set_stack("main", idx, stack)
 		end
 	end,
-	
+
 	get_cargo = function(pos)
 		local inv = M(pos):get_inventory()
 		local data = {}
@@ -159,7 +159,7 @@ techage.register_node({"techage:chest_cart"}, {
 			return "unsupported"
 		end
 	end,
-})	
+})
 
 Tube:set_valid_sides("techage:chest_cart", {"L", "R", "F", "B"})
 

@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	ICTA Controller - Condition Registration
 
 ]]--
@@ -49,16 +49,16 @@ end
 function techage.cond_formspec(row, kvSelect)
 	return techage.submenu_generate_formspec(
 		row, "cond", "Condition type", aCondTypes, aCondTitles, kvRegisteredCond, kvSelect)
-end	
-	
+end
+
 -- evaluate the row condition input
 -- and return new data
 function techage.cond_eval_input(kvSelect, fields)
 	kvSelect = techage.submenu_eval_input(kvRegisteredCond, aCondTypes, aCondTitles, kvSelect, fields)
 	return kvSelect
 end
-	
--- return the Lua code	
+
+-- return the Lua code
 function techage.code_condition(kvSelect, environ)
 	if kvSelect and kvRegisteredCond[kvSelect.choice] then
 		if techage.submenu_verify(environ.owner, kvRegisteredCond, kvSelect) then
@@ -82,4 +82,3 @@ techage.icta_register_condition("default", {
 	end,
 	button = function(data, environ) return "..." end,
 })
-

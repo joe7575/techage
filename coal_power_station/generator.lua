@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Power Station Generator
 
 ]]--
@@ -30,7 +30,7 @@ local function formspec(self, pos, nvm)
 end
 
 local function transfer_turbine(pos, topic, payload)
-	return techage.transfer(pos, "L", topic, payload, nil, 
+	return techage.transfer(pos, "L", topic, payload, nil,
 		{"techage:turbine", "techage:turbine_on"})
 end
 
@@ -145,7 +145,7 @@ minetest.register_node("techage:generator", {
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_generator.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_generator.png^[transformFX]",
 	},
-	
+
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
@@ -190,7 +190,7 @@ minetest.register_node("techage:generator_on", {
 			},
 		},
 	},
-	
+
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
@@ -247,7 +247,7 @@ control.register_nodes({"techage:generator", "techage:generator_on"}, {
 					running = techage.is_running(nvm) or false,
 					available = PWR_PERF,
 					provided = nvm.provided or 0,
-					termpoint = meta:get_string("termpoint"), 
+					termpoint = meta:get_string("termpoint"),
 				}
 			end
 			return false

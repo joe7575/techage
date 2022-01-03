@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Sound Block
-	
+
 ]]--
 
 -- for lazy programmers
@@ -29,7 +29,7 @@ local GAIN = {0.05 ,0.1, 0.2, 0.5, 1.0}
 
 local function play_sound(pos, ogg, gain)
 	minetest.sound_play(ogg, {
-		pos = pos, 
+		pos = pos,
 		gain = GAIN[gain or 1] or 1,
 		max_hear_distance = 15})
 end
@@ -38,7 +38,7 @@ local function formspec(meta)
 	local idx = meta:contains("idx") and meta:get_int("idx") or 1
 	local gain = meta:contains("gain") and meta:get_int("gain") or 1
 	return "size[8,8]"..
-		"tablecolumns[text,width=5;text]"..      
+		"tablecolumns[text,width=5;text]"..
 		"table[0,0;8,6;oggfiles;" .. OGG_FILES .. ";" .. idx .. "]" ..
 		"dropdown[0,6.5;5.5,1.4;gain;1,2,3,4,5;" .. gain .. "]" ..
 		"button[2.5,7.2;3,1;play;" .. S("Play") .. "]"
@@ -80,7 +80,7 @@ minetest.register_node("techage:ta3_soundblock", {
 			play_sound(pos, ogg, M(pos):get_int("gain"))
 		end
 	end,
-	
+
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
@@ -115,7 +115,7 @@ techage.register_node({"techage:ta3_soundblock"}, {
 		local meta = M(pos)
 		meta:set_string("formspec", formspec(meta))
 	end
-})		
+})
 
 minetest.register_craft({
 	output = "techage:ta3_soundblock",
@@ -125,4 +125,3 @@ minetest.register_craft({
 		{"", "group:wood", ""},
 	},
 })
-

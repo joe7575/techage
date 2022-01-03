@@ -7,9 +7,9 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Winch for TA2 gravity-based energy storage
-	
+
 ]]--
 
 -- for lazy programmers
@@ -44,7 +44,7 @@ local function chest_load(nvm, pos)
 	end
 	return amount
 end
-	
+
 local function chest_full(pos)
 	local nvm = techage.get_nvm(pos)
 	local pos1 = chest_pos(pos)
@@ -53,7 +53,7 @@ local function chest_full(pos)
 		return chest_load(nvm, pos1) >= MIN_LOAD
 	end
 end
-	
+
 local function add_chest_entity(pos, nvm)
 	local mem = techage.get_mem(pos)
 	local length = (nvm.length or MAX_ROPE_LEN) * (1 - (nvm.load or 0) / (nvm.capa or 1))
@@ -72,8 +72,8 @@ local function add_chest(pos)
 	if mem.obj then
 		mem.obj:remove()
 		mem.obj = nil
-	end		
-	if nvm.capa and nvm.capa >= MIN_LOAD then 
+	end
+	if nvm.capa and nvm.capa >= MIN_LOAD then
 		local pos1 = {x = pos.x, y = pos.y - (nvm.length or 1) - 1, z = pos.z}
 		minetest.add_node(pos1, {name = "techage:ta2_weight_chest", param2 = 0})
 		local ndef = minetest.registered_nodes["techage:ta2_weight_chest"]
@@ -85,7 +85,7 @@ local function add_chest(pos)
 		end
 	end
 	nvm.capa = 0
-end	
+end
 
 -- Remove chest node, add rope and chest entity instead
 local function remove_chest(pos)
@@ -101,7 +101,7 @@ local function remove_chest(pos)
 		techage.renew_rope(pos, nvm.length)
 		return true
 	end
-end	
+end
 
 minetest.register_node("techage:ta2_winch", {
 	description = S("TA2 Winch"),
@@ -129,7 +129,7 @@ minetest.register_node("techage:ta2_winch", {
 		local outdir = M(pos):get_int("outdir")
 		nvm.capa = nvm.capa or 1
 		nvm.load = nvm.load or 0
-		
+
 		if not nvm.running and power.power_available(pos, Axle, outdir) and chest_full(pos) then
 			remove_chest(pos)
 			nvm.running = true
@@ -139,9 +139,9 @@ minetest.register_node("techage:ta2_winch", {
 			nvm.running = false
 			power.start_storage_calc(pos, Axle, outdir)
 		end
-		
+
 		if nvm.running then
-			local val = power.get_storage_load(pos, Axle, outdir, nvm.capa) or 0 
+			local val = power.get_storage_load(pos, Axle, outdir, nvm.capa) or 0
 			if val > 0 then
 				nvm.load = val
 				add_chest_entity(pos, nvm)
@@ -149,7 +149,7 @@ minetest.register_node("techage:ta2_winch", {
 		end
 		return true
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata)
 		add_chest(pos)
 		techage.del_rope(pos)
@@ -158,7 +158,7 @@ minetest.register_node("techage:ta2_winch", {
 		Axle:after_dig_node(pos, {outdir})
 		techage.del_mem(pos)
 	end,
-	
+
 	get_storage_data = function(pos, outdir, tlib2)
 		local nvm = techage.get_nvm(pos)
 		nvm.capa = nvm.capa or 1
@@ -166,7 +166,7 @@ minetest.register_node("techage:ta2_winch", {
 			return {level = (nvm.load or 0) / nvm.capa, capa = nvm.capa}
 		end
 	end,
-	
+
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
@@ -191,4 +191,3 @@ minetest.register_craft({
 		{"farming:string", "farming:string", "farming:string"},
 	},
 })
-

@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 8x2000 Chest
-	
+
 ]]--
 
 -- for lazy programmers
@@ -36,7 +36,7 @@ local function repair_inv(nvm)
 	nvm.inventory = nvm.inventory or {}
 	for i = 1,8 do
 		local item = nvm.inventory[i]
-		if not item or type(item) ~= "table" 
+		if not item or type(item) ~= "table"
 			or not item.name  or type(item.name)  ~= "string" or item.name == ""
 			or not item.count or type(item.count) ~= "number" or item.count < 1
 		then
@@ -102,8 +102,8 @@ end
 
 local function get_stacksize(pos)
 	local size = M(pos):get_int("stacksize")
-	if size == 0 then 
-		return STACK_SIZE 
+	if size == 0 then
+		return STACK_SIZE
 	end
 	return size
 end
@@ -362,15 +362,15 @@ local function get_front_chest_pos(pos)
 	if nvm.front_chest_pos then
 		return nvm.front_chest_pos
 	end
-	
+
 	local node = techage.get_node_lvm(pos)
 	if search_chest_in_front(pos, node) then
 		return nvm.front_chest_pos
 	end
-	
+
 	return pos
 end
-	
+
 local function convert_to_chest_again(pos, node, player)
 	local dir = techage.side_to_outdir("B", node.param2)
 	local pos1 = tubelib2.get_pos(pos, dir)
@@ -389,8 +389,8 @@ local function convert_to_chest_again(pos, node, player)
 		M(pos1):set_string("formspec", formspec(pos1))
 		M(pos1):set_string("infotext", DESCRIPTION.." "..number)
 	end
-end	
-	
+end
+
 local function unlock_chests(pos, player)
 	local nvm = techage.get_nvm(pos)
 	for idx = 1,8 do
@@ -450,7 +450,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	
+
 	for i = 1,8 do
 		if fields["get"..i] ~= nil then
 			inv_take_from_chest(pos, i)
@@ -469,7 +469,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	if fields.priority then
 		M(pos):set_int("priority", fields.priority == "true" and 1 or 0)
 	end
-	
+
 	M(pos):set_string("formspec", formspec(pos))
 end
 
@@ -511,7 +511,7 @@ minetest.register_node("techage:ta4_chest", {
 		local inv = M(pos):get_inventory()
 		inv:set_size('main', 8)
 	end,
-	
+
 	after_place_node = function(pos, placer)
 		local node = minetest.get_node(pos)
 		if search_chest_in_front(pos, node) then
@@ -530,7 +530,7 @@ minetest.register_node("techage:ta4_chest", {
 	techage_set_numbers = function(pos, numbers, player_name)
 		return techage.logic.set_numbers(pos, numbers, player_name, DESCRIPTION)
 	end,
-	
+
 	on_rotate = on_rotate,
 	on_rightclick = on_rightclick,
 	on_receive_fields = on_receive_fields,
@@ -538,7 +538,7 @@ minetest.register_node("techage:ta4_chest", {
 	after_dig_node = after_dig_node,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
-	
+
 	on_metadata_inventory_put = on_metadata_inventory_put,
 	on_metadata_inventory_move = on_metadata_inventory_move,
 	on_metadata_inventory_take = on_metadata_inventory_take,
@@ -593,7 +593,7 @@ techage.register_node({"techage:ta4_chest"}, {
 		end
 		return res
 	end,
-	
+
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "count" then
 			local nvm = techage.get_nvm(pos)
@@ -608,7 +608,7 @@ techage.register_node({"techage:ta4_chest"}, {
 			return "unsupported"
 		end
 	end,
-})	
+})
 
 techage.register_node({"techage:ta4_chest_dummy"}, {
 	on_pull_item = function(pos, in_dir, num, item_name)
@@ -635,7 +635,7 @@ techage.register_node({"techage:ta4_chest_dummy"}, {
 		end
 		return res
 	end
-})	
+})
 
 minetest.register_craft({
 	type = "shapeless",

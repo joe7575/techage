@@ -7,18 +7,18 @@ local function remove_pipe(itemstack, user, pointed_thing)
 			return itemstack
 		end
     end
-    
+
     if(pos ~= nil) then
         local node = minetest.get_node(pos)
         if(node.name == "techage:oil_drillbit2") then
             minetest.set_node(pos, {name = "air"})
             itemstack:add_wear(65636/200)
             return itemstack
-            
+
         end -- if(node.name
-                    
+
     end -- if(pos ~= nil)
-    
+
 end -- remove_pipe
 
 

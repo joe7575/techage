@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	ICTA Controller - Action Registration
 
 ]]--
@@ -53,17 +53,17 @@ end
 function techage.actn_formspec(row, kvSelect)
 	return techage.submenu_generate_formspec(
 		row, "actn", "Action type", aActnTypes, aActnTitles, kvRegisteredActn, kvSelect)
-end	
-	
+end
+
 -- evaluate the row action input
 -- and return new data
 function techage.actn_eval_input(kvSelect, fields)
 	kvSelect = techage.submenu_eval_input(kvRegisteredActn, aActnTypes, aActnTitles, kvSelect, fields)
 	return kvSelect
 end
-	
-	
--- return the Lua code	
+
+
+-- return the Lua code
 function techage.code_action(kvSelect, environ)
 	if kvSelect and kvRegisteredActn[kvSelect.choice] then
 		if techage.submenu_verify(environ.owner, kvRegisteredActn, kvSelect) then
@@ -84,18 +84,18 @@ techage.icta_register_action("print", {
 	title = "print to output window",
 	formspec = {
 		{
-			type = "ascii", 
+			type = "ascii",
 			name = "text",
-			label = "Output the following text",      
+			label = "Output the following text",
 			default = "",
 		},
 		{
-			type = "label", 
-			name = "lbl", 
-			label = "Use a '*' character as reference to any\ncondition state", 
+			type = "label",
+			name = "lbl",
+			label = "Use a '*' character as reference to any\ncondition state",
 		},
 	},
-	button = function(data, environ) 
+	button = function(data, environ)
 		return 'print("'..data.text:sub(1,12)..'")'
 	end,
 	code = function(data, environ)
@@ -105,4 +105,3 @@ techage.icta_register_action("print", {
 		end
 	end,
 })
-

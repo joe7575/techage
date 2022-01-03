@@ -39,7 +39,7 @@ function techage.shared_tank.node_timer(pos)
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(pos))
 		return true
-	end	
+	end
 	return false
 end
 
@@ -47,10 +47,10 @@ function techage.shared_tank.on_rightclick(pos, node, clicker)
 	--if hyperloop.is_client(pos) then
 		techage.set_activeformspec(pos, clicker)
 		minetest.get_node_timer(pos):start(2)
-	--end	
+	--end
 	M(pos):set_string("formspec", formspec(pos))
 end
-	
+
 function techage.shared_tank.can_dig(pos, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return false
@@ -74,7 +74,7 @@ function techage.shared_tank.take_liquid(pos, indir, name, amount)
 	end
 	return amount, name
 end
-	
+
 function techage.shared_tank.put_liquid(pos, indir, name, amount)
 	pos = remote_pos(pos)
 	-- check if it is not powder

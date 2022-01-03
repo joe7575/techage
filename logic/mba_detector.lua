@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Mapblock Active Detector
 
 ]]--
@@ -38,20 +38,20 @@ minetest.register_node("techage:ta4_mbadetector", {
 			{ -6/32, -6/32, 14/32,  6/32,  6/32, 16/32},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		logic.after_place_node(pos, placer, "techage:ta4_mbadetector", S("TA4 Mapblock Active Detector"))
 		logic.infotext(meta, S("TA4 Mapblock Active Detector"))
 		minetest.get_node_timer(pos):start(1)
 	end,
-	
+
 	on_timer =  function(pos, elapsed)
 		local mem = techage.get_mem(pos)
 		mem.gametime = minetest.get_gametime()
 		return true
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
@@ -96,5 +96,4 @@ techage.register_node({"techage:ta4_mbadetector"}, {
 			minetest.get_node_timer(pos):start(1)
 		end,
 	}
-)		
-
+)

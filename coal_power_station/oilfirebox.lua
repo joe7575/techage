@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Coal Power Station Firebox
 
 ]]--
@@ -28,7 +28,7 @@ local BURN_CYCLE_FACTOR = 0.5
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	local power = techage.transfer(
-		{x=pos.x, y=pos.y+2, z=pos.z}, 
+		{x=pos.x, y=pos.y+2, z=pos.z},
 		nil,  -- outdir
 		"trigger",  -- topic
 		nil,  -- payload
@@ -85,7 +85,7 @@ minetest.register_node("techage:oilfirebox", {
 	can_dig = fuel.can_dig,
 	on_rightclick = fuel.on_rightclick,
 	on_receive_fields = fuel.on_receive_fields,
-	
+
 	after_place_node = function(pos, placer)
 		if firebox.is_free_position(pos, placer:get_player_name()) then
 			techage.add_node(pos, "techage:oilfirebox")
@@ -103,7 +103,7 @@ minetest.register_node("techage:oilfirebox", {
 			return true
 		end
 	end,
-	
+
 	on_destruct = function(pos)
 		firebox.set_firehole(pos, nil)
 	end,
@@ -142,5 +142,4 @@ minetest.register_craft({
 		{'', '', ''},
 	},
 })
-
 

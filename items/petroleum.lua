@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA3 Petroleum types: bitumen, fueloil, naphtha, gasoline, isobutane, gas (propan)
-	
+
 ]]--
 
 local S = techage.S
@@ -171,4 +171,3 @@ techage.register_liquid("techage:ta3_canister_naphtha", "techage:ta3_canister_em
 techage.register_liquid("techage:ta3_canister_gasoline", "techage:ta3_canister_empty", 1, "techage:gasoline")
 techage.register_liquid("techage:ta3_cylinder_small_gas", "techage:ta3_cylinder_small", 1, "techage:gas")
 techage.register_liquid("techage:ta4_cylinder_small_isobutane", "techage:ta3_cylinder_small", 1, "techage:isobutane")
-

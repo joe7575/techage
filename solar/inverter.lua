@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA4 Solar Power DC/AC Inverter
-	
+
 ]]--
 
 -- for lazy programmers
@@ -36,7 +36,7 @@ local function determine_power(pos, nvm)
 	for _, power in ipairs(control.request(pos, Solar, outdir, "junc", "power")) do
 		max_power = max_power + power
 	end
-	
+
 	if num_inv == 1 then  -- only one inverter is allowed
 		nvm.max_power = math.min(PWR_PERF, max_power)
 	else
@@ -192,7 +192,7 @@ minetest.register_node("techage:ta4_solar_inverter", {
 		State:node_init(pos, nvm, number)
 		M(pos):set_string("formspec", formspec(State, pos, nvm))
 	end,
-	
+
 	after_dig_node = function(pos, oldnode)
 		Cable:after_dig_node(pos)
 		Solar:after_dig_node(pos)
@@ -218,7 +218,7 @@ techage.register_node({"techage:ta4_solar_inverter"}, {
 			return State:on_receive_message(pos, topic, payload)
 		end
 	end,
-})	
+})
 
 control.register_nodes({"techage:ta4_solar_inverter"}, {
 		on_receive = function(pos, tlib2, topic, payload)
@@ -233,7 +233,7 @@ control.register_nodes({"techage:ta4_solar_inverter"}, {
 					running = techage.is_running(nvm) or false,
 					available = nvm.max_power or 0,
 					provided = nvm.provided or 0,
-					termpoint = meta:get_string("termpoint"), 
+					termpoint = meta:get_string("termpoint"),
 				}
 			end
 			return false

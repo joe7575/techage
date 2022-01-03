@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Recipe lib for formspecs
 
 ]]--
@@ -38,7 +38,7 @@ local GROUP_ITEMS = {
 local RECIPE = {
      output = {name = "", num = 0},
      waste = {name = "", num = 0},
-     input = {                    
+     input = {
          {name = "", num =0},
          {name = "", num =0},
          {name = "", num =0},
@@ -52,7 +52,7 @@ local function filter_recipes_based_on_points(recipes, owner)
 		local player = minetest.get_player_by_name(owner)
 		ex_points = techage.get_expoints(player) or 0
 	end
-	
+
 	local tbl = {}
 	for _,item in ipairs(recipes) do
 		if ex_points >= (item.ex_points or 0) then
@@ -78,7 +78,7 @@ function techage.recipes.get(nvm, rtype)
 	local recipes = Recipes[rtype] or {}
 	return recipes[nvm.recipe_idx or 1]
 end
-	
+
 -- Add 4 input/output/waste recipe
 -- {
 --     output = "<item-name> <units>",  -- units = 1..n
@@ -92,7 +92,7 @@ function techage.recipes.add(rtype, recipe)
 	if not Recipes[rtype] then
 		Recipes[rtype] = {}
 	end
-	
+
 	local name, num, output
 	local item = {input = {}}
 	for idx = 1,4 do
@@ -100,7 +100,7 @@ function techage.recipes.add(rtype, recipe)
 		name, num = unpack(string.split(inp, " "))
 		item.input[idx] = {name = name or "", num = tonumber(num) or 0}
 	end
-	if recipe.waste then 
+	if recipe.waste then
 		name, num = unpack(string.split(recipe.waste, " "))
 	else
 		name, num = "", "0"
@@ -114,12 +114,12 @@ function techage.recipes.add(rtype, recipe)
 	output = name
 
 	techage.recipes.register_craft({
-		output = recipe.output, 
+		output = recipe.output,
 		items = recipe.input,
 		type = rtype,
 	})
 	NormalizedRecipes[output] = {
-			output = recipe.output, 
+			output = recipe.output,
 			items = recipe.input,
 	}
 end
@@ -151,9 +151,9 @@ function techage.recipes.on_receive_fields(pos, formname, fields, player)
 		return
 	end
 	local nvm = techage.get_nvm(pos)
-	
+
 	nvm.recipe_idx = nvm.recipe_idx or 1
-	if not nvm.running then	
+	if not nvm.running then
 		if fields.next == ">>" then
 			nvm.recipe_idx = nvm.recipe_idx + 1
 		elseif fields.priv == "<<" then
@@ -165,8 +165,8 @@ end
 function techage.recipes.get_recipe(name)
 	return NormalizedRecipes[name]
 end
-	
-	
+
+
 function techage.recipes.get_default_group_item_name(item_name)
 	if item_name and item_name:sub(1, 6) == "group:" then
 		local default_name = GROUP_ITEMS[item_name:sub(7)]
@@ -182,7 +182,7 @@ function techage.recipes.add_group_item(group, default_item_name)
 end
 
 -------------------------------------------------------------------------------
--- Borrowed from ghaydn 
+-- Borrowed from ghaydn
 -------------------------------------------------------------------------------
 local has_i3 = minetest.get_modpath("i3")
 local has_ui = minetest.get_modpath("unified_inventory")

@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Oil fuel burning lib
 
 ]]--
@@ -51,7 +51,7 @@ function techage.fuel.fuel_container(x, y, nvm)
 		fuel_percent..":default_furnace_fire_fg.png]"..
 		techage.item_image(0.1, 1.1, itemname)..
 		"container_end[]"
-end	
+end
 
 local function help(x, y)
 	local tooltip = S("To add fuel punch\nthis block\nwith a fuel container")
@@ -108,17 +108,17 @@ function techage.fuel.on_punch(pos, node, puncher, pointed_thing)
 	if mem.blocking_time > techage.SystemTime then
 		return
 	end
-	
+
 	local wielded_item = puncher:get_wielded_item():get_name()
 	local item_count = puncher:get_wielded_item():get_count()
-	local new_item = techage.liquid.fill_on_punch(nvm, wielded_item, item_count, puncher) 
+	local new_item = techage.liquid.fill_on_punch(nvm, wielded_item, item_count, puncher)
 	if new_item then
 		puncher:set_wielded_item(new_item)
 		M(pos):set_string("formspec", techage.fuel.formspec(pos, nvm))
 		mem.blocking_time = techage.SystemTime + BLOCKING_TIME
 		return
 	end
-		
+
 	local ldef = techage.liquid.get_liquid_def(wielded_item)
 	if ldef and ValidOilFuels[ldef.inv_item] then
 		local lqd = (minetest.registered_nodes[node.name] or {}).liquid
@@ -139,7 +139,7 @@ function techage.fuel.get_fuel(nvm)
 			nvm.liquid.amount = nvm.liquid.amount - 1
 			return nvm.liquid.name
 		end
-		nvm.liquid.name = nil 
+		nvm.liquid.name = nil
 	end
 	return nil
 end

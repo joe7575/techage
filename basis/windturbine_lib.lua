@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Wind turbine helper function
 
 ]]--
@@ -49,15 +49,15 @@ function techage.valid_place_for_windturbine(pos, player_name, num_turbines)
 	num = #minetest.find_nodes_in_area(pos1, pos2, {"air", "ignore"})
 	if num < (41 * 41 * 21 * 0.9) then
 		techage.mark_region(player_name, pos1, pos2, "")
-		return chat_message(player_name, 
+		return chat_message(player_name,
 				S("Here is not enough wind\n(A free air space of 41x41x21 m is necessary)!"))
 	end
 	-- Check for water surface (occean)
 	pos1 = {x=pos.x-20, y=1, z=pos.z-20}
 	pos2 = {x=pos.x+20, y=1, z=pos.z+20}
-	num = #minetest.find_nodes_in_area(pos1, pos2, 
+	num = #minetest.find_nodes_in_area(pos1, pos2,
 			{"default:water_source", "default:water_flowing", "ignore"})
-	
+
 	if num < (41*41 * 0.8) then
 		techage.mark_region(player_name, pos1, pos2, "")
 		return chat_message(player_name, S("Here is not enough water (41x41 m)!"))
@@ -71,7 +71,7 @@ function techage.valid_place_for_windturbine(pos, player_name, num_turbines)
 		techage.mark_region(player_name, pos1, pos2, "")
 		return chat_message(player_name, S("The next wind turbines is too close!"))
 	end
-	
+
 	if num_turbines == 0 then
 		chat_message(player_name,  minetest.pos_to_string(pos).." "..
 				S("is a suitable place for a wind turbine!"))

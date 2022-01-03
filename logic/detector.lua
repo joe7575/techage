@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA3/TA4 Item detector
-	
+
 ]]--
 
 -- for lazy programmers
@@ -26,7 +26,7 @@ local WRENCH_MENU = {
 		type = "dropdown",
 		choices = "1,2,4,6,8,12,16",
 		name = "ontime",
-		label = S("On Time") .. " [s]",      
+		label = S("On Time") .. " [s]",
 		tooltip = S("The time between the 'on' and 'off' commands."),
 		default = "1",
 	},
@@ -34,14 +34,14 @@ local WRENCH_MENU = {
 		type = "dropdown",
 		choices = "2,4,6,8,12,16,20",
 		name = "blockingtime",
-		label = S("Blocking Time") .. " [s]",      
+		label = S("Blocking Time") .. " [s]",
 		tooltip = S("The time after the 'off' command\nuntil the next 'on' command is accepted."),
 		default = "8",
 	},
 	{
 		type = "items",
 		name = "config",
-		label = S("Configured Items"),      
+		label = S("Configured Items"),
 		tooltip = S("Items which generate an 'on' command.\nIf empty, all passed items generate an 'on' command."),
 		size = 4,
 	}
@@ -131,7 +131,7 @@ minetest.register_node("techage:ta3_detector_off", {
 	techage_set_numbers = techage_set_numbers,
 	after_dig_node = after_dig_node,
 	ta3_formspec = WRENCH_MENU,
-	
+
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -159,7 +159,7 @@ minetest.register_node("techage:ta3_detector_on", {
 	techage_set_numbers = techage_set_numbers,
 	after_dig_node = after_dig_node,
 	ta3_formspec = WRENCH_MENU,
-	
+
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
 	is_ground_content = false,
@@ -184,7 +184,7 @@ minetest.register_node("techage:ta4_detector_off", {
 	techage_set_numbers = techage_set_numbers,
 	after_dig_node = after_dig_node,
 	ta3_formspec = WRENCH_MENU,
-	
+
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
 	sunlight_propagates = true,
@@ -212,7 +212,7 @@ minetest.register_node("techage:ta4_detector_on", {
 	techage_set_numbers = techage_set_numbers,
 	after_dig_node = after_dig_node,
 	ta3_formspec = WRENCH_MENU,
-	
+
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
 	is_ground_content = false,
@@ -250,7 +250,7 @@ techage.register_node({"techage:ta3_detector_off", "techage:ta3_detector_on"}, {
 		return false
 	end,
 	is_pusher = true,  -- is a pulling/pushing node
-})	
+})
 
 techage.register_node({"techage:ta4_detector_off", "techage:ta4_detector_on"}, {
 	on_push_item = function(pos, in_dir, stack)
@@ -263,7 +263,7 @@ techage.register_node({"techage:ta4_detector_off", "techage:ta4_detector_on"}, {
 		return false
 	end,
 	is_pusher = true,  -- is a pulling/pushing node
-	
+
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "count" then
 			local nvm = techage.get_nvm(pos)
@@ -276,5 +276,4 @@ techage.register_node({"techage:ta4_detector_off", "techage:ta4_detector_on"}, {
 			return "unsupported"
 		end
 	end,
-})	
-
+})

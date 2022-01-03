@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA2 Drive Axles for the Steam Engine
 
 ]]--
@@ -24,7 +24,7 @@ local Axle = tubelib2.Tube:new({
 	max_tube_length = 10,
 	show_infotext = false,
 	tube_type = "axle",
-	primary_node_names = {"techage:axle", "techage:axle_on"}, 
+	primary_node_names = {"techage:axle", "techage:axle_on"},
 	secondary_node_names = {},
 	after_place_tube = function(pos, param2, tube_type, num_tubes, state)
 		if state == "on" then
@@ -50,7 +50,7 @@ minetest.register_node("techage:axle", {
 		"techage_axle_clutch.png",
 		"techage_axle_clutch.png",
 	},
-	
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		if not Axle:after_place_tube(pos, placer, pointed_thing) then
 			minetest.remove_node(pos)
@@ -58,11 +58,11 @@ minetest.register_node("techage:axle", {
 		end
 		return false
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Axle:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {
@@ -144,7 +144,7 @@ minetest.register_node("techage:axle_on", {
 			},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		if not Axle:after_place_tube(pos, placer, pointed_thing) then
 			minetest.remove_node(pos)
@@ -152,11 +152,11 @@ minetest.register_node("techage:axle_on", {
 		end
 		return false
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Axle:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {

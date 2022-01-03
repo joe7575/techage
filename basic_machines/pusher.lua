@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA2/TA3/TA4 Pusher
 	Nodes for push/pull operation of StackItems from chests or other
 	inventory/server nodes to tubes or other inventory/server nodes.
@@ -33,7 +33,7 @@ local Tube = techage.Tube
 local STANDBY_TICKS = 2
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 2
-	
+
 local function ta4_formspec(self, pos, nvm)
 	if CRD(pos).stage == 4 then -- TA4 node?
 		return "size[8,7.2]"..
@@ -56,12 +56,12 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	
+
 	local nvm = techage.get_nvm(pos)
 	if CRD(pos).State:get_state(nvm) ~= techage.STOPPED then
 		return 0
 	end
-	
+
 	local inv = M(pos):get_inventory()
 	local list = inv:get_list(listname)
 	if list[index]:get_count() == 0 then
@@ -76,12 +76,12 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
-	
+
 	local nvm = techage.get_nvm(pos)
 	if CRD(pos).State:get_state(nvm) ~= techage.STOPPED then
 		return 0
 	end
-	
+
 	local inv = M(pos):get_inventory()
 	inv:set_stack(listname, index, nil)
 	return 0
@@ -118,7 +118,7 @@ local function keep_running(pos, elapsed)
 	local crd = CRD(pos)
 	pushing(pos, crd, M(pos), nvm)
 	crd.State:is_active(nvm)
-end	
+end
 
 local function on_rightclick(pos, node, clicker)
 	if CRD(pos).stage ~= 4 then -- Not TA4 node?
@@ -148,14 +148,14 @@ local function tubelib2_on_update2(pos, outdir, tlib2, node)
 	local pull_dir = M(pos):get_int("pull_dir")
 	local push_dir = M(pos):get_int("push_dir")
 	local is_ta4_tube = true
-	
+
 	for i, pos, node in Tube:get_tube_line(pos, pull_dir) do
 		is_ta4_tube = is_ta4_tube and techage.TA4tubes[node.name]
 	end
 	for i, pos, node in Tube:get_tube_line(pos, push_dir) do
 		is_ta4_tube = is_ta4_tube and techage.TA4tubes[node.name]
 	end
-	
+
 	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
 	if CRD(pos).stage == 4 and not is_ta4_tube then
@@ -182,7 +182,7 @@ end
 
 local function config_item(pos, payload)
 	local name, count = unpack(payload:split(" "))
-	if name and (minetest.registered_nodes[name] or minetest.registered_items[name] 
+	if name and (minetest.registered_nodes[name] or minetest.registered_items[name]
 			or minetest.registered_craftitems[name]) then
 		count = tonumber(count) or 1
 		local inv = M(pos):get_inventory()
@@ -230,14 +230,14 @@ tiles.act = {
 		},
 	},
 }
-	
+
 local tubing = {
 	-- push item through the pusher in opposit direction
 	on_push_item = function(pos, in_dir, stack)
 		return in_dir == M(pos):get_int("pull_dir") and techage.safe_push_items(pos, in_dir, stack)
 	end,
 	is_pusher = true, -- is a pulling/pushing node
-	
+
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "pull" then
 			local nvm = techage.get_nvm(pos)
@@ -257,8 +257,8 @@ local tubing = {
 		end
 	end,
 }
-	
-local node_name_ta2, node_name_ta3, node_name_ta4 = 
+
+local node_name_ta2, node_name_ta3, node_name_ta4 =
 	techage.register_consumer("pusher", S("Pusher"), tiles, {
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
@@ -285,7 +285,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		node_timer = keep_running,
 		on_rotate = screwdriver.disallow,
 		tubelib2_on_update2 = tubelib2_on_update2,
-		
+
 		groups = {choppy=2, cracky=2, crumbly=2},
 		is_ground_content = false,
 		sounds = default.node_sound_wood_defaults(),
@@ -319,4 +319,3 @@ minetest.register_craft({
 		{"", "techage:ta4_wlanchip", ""},
 	},
 })
-

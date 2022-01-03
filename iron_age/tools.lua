@@ -5,7 +5,7 @@
 
 	Copyright (C) 2018 Joachim Stolberg
     Based on mods/default/tools.lua
-	
+
 	AGPL v3
 	See LICENSE.txt for more information
 
@@ -100,4 +100,3 @@ local function tools()
 end
 
 minetest.after(1, tools)
-

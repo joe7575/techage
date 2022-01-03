@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Pumpjack
 
 ]]--
@@ -69,7 +69,7 @@ local function play_sound(pos)
 	local mem = techage.get_mem(pos)
 	if not mem.handle or mem.handle == -1 then
 		mem.handle = minetest.sound_play("techage_reboiler", {
-			pos = pos, 
+			pos = pos,
 			gain = 1,
 			max_hear_distance = 15,
 			loop = true})
@@ -123,7 +123,7 @@ local function keep_running(pos, elapsed)
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(crd.State, pos, nvm))
 	end
-end	
+end
 
 local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
@@ -171,7 +171,7 @@ tiles.act = {
 	"techage_filling_ta#.png^techage_frame_ta#_top.png^techage_appl_arrow.png^[transformR90]",
 	"techage_filling_ta#.png^techage_frame_ta#_top.png^techage_appl_arrow.png^[transformR90]",
 }
-	
+
 local tubing = {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "load" then
@@ -182,7 +182,7 @@ local tubing = {
 					return techage.power.percent(capa or 0, amount or 0), amount or 0
 				end
 			end
-		else		
+		else
 			return CRD(pos).State:on_receive_message(pos, topic, payload)
 		end
 	end,
@@ -190,11 +190,11 @@ local tubing = {
 		CRD(pos).State:on_node_load(pos)
 		if node.name == "techage:ta3_pumpjack_act" then
 			play_sound(pos)
-		end	
+		end
 	end,
 }
-	
-local _, node_name_ta3, _ = 
+
+local _, node_name_ta3, _ =
 	techage.register_consumer("pumpjack", S("Oil Pumpjack"), tiles, {
 		cycle_time = CYCLE_TIME,
 		standby_ticks = STANDBY_TICKS,
@@ -206,7 +206,7 @@ local _, node_name_ta3, _ =
 			if node.name == "techage:oil_drillbit2" then
 				local info = techage.explore.get_oil_info(pos)
 				if info then
-					M(pos):set_string("storage_pos", P2S(info.storage_pos)) 
+					M(pos):set_string("storage_pos", P2S(info.storage_pos))
 				end
 			end
 			Pipe:after_place_node(pos)
@@ -216,11 +216,11 @@ local _, node_name_ta3, _ =
 		on_receive_fields = on_receive_fields,
 		node_timer = keep_running,
 		on_rotate = screwdriver.disallow,
-		
+
 		after_dig_node = function(pos, oldnode, oldmetadata, digger)
 			Pipe:after_dig_node(pos)
 		end,
-		
+
 		groups = {choppy=2, cracky=2, crumbly=2},
 		is_ground_content = false,
 		sounds = default.node_sound_wood_defaults(),
@@ -239,4 +239,3 @@ minetest.register_craft({
 })
 
 liquid.register_nodes({"techage:ta3_pumpjack_pas", "techage:ta3_pumpjack_act"}, Pipe, "pump", {"U"}, {})
-

@@ -7,7 +7,7 @@
 
 	GPL v3
 	See LICENSE.txt for more information
-	
+
 	Demo for a electrical power consuming node
 
 ]]--
@@ -62,7 +62,7 @@ end
 minetest.register_node("techage:sink", {
 	description = "Sink",
 	tiles = {'techage_electric_button.png^[colorize:#000000:50'},
-	
+
 	on_timer = function(pos, elapsed)
 		local consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
 		if consumed == PWR_NEEDED then
@@ -76,7 +76,7 @@ minetest.register_node("techage:sink", {
 	after_dig_node = after_dig_node,
 
 	paramtype = "light",
-	light_source = 0,	
+	light_source = 0,
 	paramtype2 = "facedir",
 	groups = {choppy = 2, cracky = 2, crumbly = 2},
 	is_ground_content = false,
@@ -100,7 +100,7 @@ minetest.register_node("techage:sink_on", {
 	after_dig_node = after_dig_node,
 
 	paramtype = "light",
-	light_source = minetest.LIGHT_MAX,	
+	light_source = minetest.LIGHT_MAX,
 	paramtype2 = "facedir",
 	diggable = false,
 	drop = "",

@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA3 Oil
-	
+
 ]]--
 
 -- for lazy programmers
@@ -40,9 +40,9 @@ minetest.register_node("techage:oil_source", {
             animation = {
 				type = "vertical_frames",
 				aspect_w = 16,
-                aspect_h = 16, 
+                aspect_h = 16,
 				length = 2.0
-			}   
+			}
         }
     },
 
@@ -113,10 +113,10 @@ minetest.register_craft({
 })
 
 bucket.register_liquid(
-	"techage:oil_source", 
-	"techage:oil_flowing", 
-	"techage:bucket_oil", 
-	"techage_bucket_oil.png", 
+	"techage:oil_source",
+	"techage:oil_flowing",
+	"techage:bucket_oil",
+	"techage_bucket_oil.png",
 	"Oil Bucket")
 
 minetest.register_craftitem("techage:ta3_barrel_oil", {

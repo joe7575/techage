@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Invisible Light Block
 
 ]]--
@@ -15,7 +15,7 @@
 local S = techage.S
 
 -- 9 light positions in a 3x3 field
-local Positions = { 
+local Positions = {
 	{x =-1, y = 0, z = 0},
 	{x = 0, y = 0, z =-1},
 	{x = 1, y = 0, z = 0},
@@ -33,9 +33,9 @@ minetest.register_node("techage:lightblock", {
 	light_source = minetest.LIGHT_MAX,
 	sunlight_propagates = true,
 	walkable = false,
-	pointable = false, 
-	diggable = false, 
-	buildable_to = true, 
+	pointable = false,
+	diggable = false,
+	buildable_to = true,
 	floodable = true,
 	is_ground_content = false,
 	groups = {not_in_creative_inventory=1},

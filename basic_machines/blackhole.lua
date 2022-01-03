@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	All items and liquids disappear.
-	
+
 ]]--
 
 local S = techage.S
@@ -70,7 +70,7 @@ minetest.register_craft({
 techage.register_node({"techage:blackhole"}, {
 	on_pull_item = nil,  		-- not needed
 	on_unpull_item = nil,		-- not needed
-	
+
 	on_push_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)
 		if meta:get_int("push_dir") == in_dir then

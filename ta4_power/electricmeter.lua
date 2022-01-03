@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Electric Meter (to separate networks)
 
 ]]--
@@ -28,7 +28,7 @@ local control = networks.control
 local function formspec(self, pos, nvm, power)
 	local units = (nvm.units or 0) / techage.CYCLES_PER_DAY
 	power = power or 0
-	
+
 	return "size[5,4]" ..
 		default.gui_bg ..
 		default.gui_bg_img ..
@@ -81,7 +81,7 @@ local function node_timer(pos, elapsed)
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(State, pos, nvm, nvm.moved))
 	end
-	return true		
+	return true
 end
 
 local function on_rightclick(pos, node, clicker)
@@ -109,7 +109,7 @@ end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	local outdir = tonumber(oldmetadata.fields.outdir or 0)
-	Cable:after_dig_node(pos, {outdir, networks.Flip[outdir]})        
+	Cable:after_dig_node(pos, {outdir, networks.Flip[outdir]})
 	techage.del_mem(pos)
 end
 
@@ -175,7 +175,7 @@ control.register_nodes({"techage:ta4_electricmeter"}, {
 					running = techage.is_running(nvm) or false,
 					available = PWR_PERF,
 					provided = nvm.moved or 0,
-					termpoint = "-", 
+					termpoint = "-",
 				}
 			end
 			return false

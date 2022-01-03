@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 TES Gas Turbine
 
 ]]--
@@ -19,7 +19,7 @@ local S = techage.S
 local Pipe = techage.LiquidPipe
 
 local function generator_cmnd(pos, topic, payload)
-	return techage.transfer(pos, "R", topic, payload, nil, 
+	return techage.transfer(pos, "R", topic, payload, nil,
 		{"techage:ta4_generator", "techage:ta4_generator_on"})
 end
 
@@ -36,7 +36,7 @@ local function play_sound(pos)
 	local mem = techage.get_mem(pos)
 	if not mem.handle or mem.handle == -1 then
 		mem.handle = minetest.sound_play("techage_turbine", {
-			pos = pos, 
+			pos = pos,
 			gain = 0.4,
 			max_hear_distance = 10,
 			loop = true})
@@ -65,7 +65,7 @@ minetest.register_node("techage:ta4_turbine", {
 		"techage_filling_ta4.png^techage_appl_turbine.png^techage_frame_ta4.png",
 		"techage_filling_ta4.png^techage_appl_turbine.png^techage_frame_ta4.png",
 	},
-	
+
 	after_place_node = function(pos)
 		Pipe:after_place_node(pos)
 	end,
@@ -112,8 +112,8 @@ minetest.register_node("techage:ta4_turbine_on", {
 			},
 		},
 	},
-	
-	tubelib2_on_update2 = function(pos, outdir, tlib2, node) 
+
+	tubelib2_on_update2 = function(pos, outdir, tlib2, node)
 		swap_node(pos, "techage:ta4_turbine")
 		stop_sound(pos)
 		generator_cmnd(pos, "stop")
@@ -151,7 +151,7 @@ techage.register_node({"techage:ta4_turbine", "techage:ta4_turbine_on"}, {
 	on_node_load = function(pos, node)
 		if node.name == "techage:ta4_turbine_on" then
 			play_sound(pos)
-		end	
+		end
 	end,
 })
 
@@ -163,4 +163,3 @@ minetest.register_craft({
 		{"", "techage:ta4_wlanchip", ""},
 	},
 })
-

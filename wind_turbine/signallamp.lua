@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	Colored Signal Lamp (requires unifieddyes)
-	
+
 ]]--
 
 -- for lazy programmers
@@ -24,12 +24,12 @@ local COLORED = minetest.get_modpath("unifieddyes") and minetest.global_exists("
 local function switch_on(pos, node)
 	node.name = "techage:signal_lamp_on"
 	minetest.swap_node(pos, node)
-end	
+end
 
 local function switch_off(pos, node)
 	node.name = "techage:signal_lamp_off"
 	minetest.swap_node(pos, node)
-end	
+end
 
 minetest.register_node("techage:rotor_signal_lamp_off", {
 	description = S("TA4 Wind Turbine Signal Lamp"),
@@ -76,7 +76,7 @@ minetest.register_node("techage:rotor_signal_lamp_on", {
 		minetest.swap_node(pos, {name = "techage:rotor_signal_lamp_off"})
 		return true
 	end,
-	
+
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
 	light_source = 8,
@@ -107,4 +107,3 @@ minetest.register_craft({
 		{"", "default:glass", ""},
 	},
 })
-

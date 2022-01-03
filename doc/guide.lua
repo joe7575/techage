@@ -58,7 +58,7 @@ local function plan(images)
 		end
 	end
 	return table.concat(tbl)
-end	
+end
 
 local function formspec_help(meta, manual)
 	local bttn
@@ -123,13 +123,13 @@ minetest.register_node("techage:construction_board", {
 	drawtype = "nodebox",
 	node_box = board_box,
 	selection_box = board_box,
-	
+
 	after_place_node = function(pos, placer, itemstack)
 		local meta = minetest.get_meta(pos)
 		meta:set_int("index", 1)
 		meta:set_string("formspec", formspec_help(meta, techage.manual_DE))
 	end,
-	
+
 	on_receive_fields = function(pos, formname, fields, player)
 		local player_name = player:get_player_name()
 		if minetest.is_protected(pos, player_name) then
@@ -149,7 +149,7 @@ minetest.register_node("techage:construction_board", {
 			end
 		end
 	end,
-	
+
 	paramtype2 = "wallmounted",
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
@@ -175,13 +175,13 @@ minetest.register_node("techage:construction_board_EN", {
 	drawtype = "nodebox",
 	node_box = board_box,
 	selection_box = board_box,
-	
+
 	after_place_node = function(pos, placer, itemstack)
 		local meta = minetest.get_meta(pos)
 		meta:set_int("index", 1)
 		meta:set_string("formspec", formspec_help(meta, techage.manual_EN))
 	end,
-	
+
 	on_receive_fields = function(pos, formname, fields, player)
 		local player_name = player:get_player_name()
 		if minetest.is_protected(pos, player_name) then
@@ -201,7 +201,7 @@ minetest.register_node("techage:construction_board_EN", {
 			end
 		end
 	end,
-	
+
 	paramtype2 = "wallmounted",
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,

@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
     A formspec control to generate formspec strings for machine settings and monitoring
 ]]--
 
@@ -43,7 +43,7 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 	local player_inv_needed = false
 	if meta and form_def then
 		local nvm = techage.get_nvm(pos)
-		
+
 		for i,elem in ipairs(form_def) do
 			local offs = (i - 1) * 0.9 - 0.2
 			tbl[#tbl+1] = "label[0," .. offs .. ";" .. minetest.formspec_escape(elem.label) .. ":]"
@@ -133,7 +133,7 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 			tbl[#tbl+1] = "label[0," .. offs .. ";" .. S("Note: You can't change any values while the block is running!") .. "]"
 		end
 	end
-	
+
 	return player_inv_needed, table.concat(tbl, "")
 end
 
@@ -143,23 +143,23 @@ local function value_check(elem, value)
 	end
 	return value ~= nil
 end
-	
+
 local function evaluate_data(pos, meta, form_def, fields, player_name)
 	local res = true
-	
+
 	if meta and form_def then
 		local nvm = techage.get_nvm(pos)
 		if nvm.running or techage.is_running(nvm) then
 			return res
 		end
 		for idx,elem in ipairs(form_def) do
-			if elem.type == "number" then	
+			if elem.type == "number" then
 				if fields[elem.name] then
-					if fields[elem.name] == "" then 
+					if fields[elem.name] == "" then
 						meta:set_string(elem.name, "")
 					elseif fields[elem.name]:find("^[%d ]+$") then
 						local val = tonumber(fields[elem.name])
-						if value_check(elem, val) then 
+						if value_check(elem, val) then
 							meta:set_int(elem.name, val)
 							--print("set_int", elem.name, val)
 						else
@@ -169,11 +169,11 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 						res = false
 					end
 				end
-			elseif elem.type == "numbers" then	
+			elseif elem.type == "numbers" then
 				if fields[elem.name] then
-					if fields[elem.name] == "" then 
+					if fields[elem.name] == "" then
 						meta:set_string(elem.name, "")
-					elseif fields[elem.name]:find("^[%d ]+$") and value_check(elem, fields[elem.name]) then 
+					elseif fields[elem.name]:find("^[%d ]+$") and value_check(elem, fields[elem.name]) then
 						meta:set_string(elem.name, fields[elem.name])
 					else
 						res = false
@@ -184,13 +184,13 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 					meta:set_string(elem.name, "")
 				elseif fields[elem.name] then
 					local val = tonumber(fields[elem.name])
-					if val and value_check(elem, val) then 
+					if val and value_check(elem, val) then
 						meta:set_string(elem.name, val)
 					else
 						res = false
 					end
 				end
-			elseif elem.type == "ascii" then	
+			elseif elem.type == "ascii" then
 				if fields[elem.name] == ""then
 					meta:set_string(elem.name, "")
 				elseif fields[elem.name] then
@@ -200,11 +200,11 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 						res = false
 					end
 				end
-			elseif elem.type == "dropdown" then	
+			elseif elem.type == "dropdown" then
 				if fields[elem.name] ~= nil then
 					meta:set_string(elem.name, fields[elem.name])
 				end
-			elseif elem.type == "items" and player_name then	
+			elseif elem.type == "items" and player_name then
 				local inv_name = minetest.formspec_escape(player_name) .. "_techage_wrench_menu"
 				local dinv = minetest.get_inventory({type = "detached", name = inv_name})
 				local ninv = minetest.get_inventory({type = "node", pos = pos})
@@ -232,7 +232,7 @@ function techage.menu.generate_formspec(pos, ndef, form_def, player_name)
 			allow_take = allow_take})
 		local dinv = minetest.get_inventory({type = "detached", name = inv_name})
 		local ninv = minetest.get_inventory({type = "node", pos = pos})
-		if dinv and ninv then	
+		if dinv and ninv then
 			dinv:set_size('cfg', ninv:get_size("cfg"))
 			for i = 1, ninv:get_size("cfg") do
 				dinv:set_stack("cfg", i, ninv:get_stack("cfg", i))
@@ -243,7 +243,7 @@ function techage.menu.generate_formspec(pos, ndef, form_def, player_name)
 		local title = ndef.description .. " (" .. number .. ")"
 		local player_inv_needed, text = generate_formspec_substring(pos, meta, form_def, player_name)
 		local buttons
-		
+
 		if player_inv_needed then
 			buttons = "button[0.5,6.2;3,1;refresh;" .. S("Refresh") .. "]" ..
 				"button_exit[3.5,6.2;3,1;cancel;" .. S("Cancel") .. "]" ..
@@ -254,7 +254,7 @@ function techage.menu.generate_formspec(pos, ndef, form_def, player_name)
 				"button_exit[3.5,8.4;3,1;cancel;" .. S("Cancel") .. "]" ..
 				"button[6.5,8.4;3,1;save;" .. S("Save") .. "]"
 		end
-		
+
 		if #form_def > 8 then
 			local size = (#form_def * 10) - 60
 			return "size[10,9]" ..
@@ -287,10 +287,10 @@ function techage.menu.generate_formspec(pos, ndef, form_def, player_name)
 	return ""
 end
 
-function techage.menu.eval_input(pos, form_def, fields, player_name)	
+function techage.menu.eval_input(pos, form_def, fields, player_name)
 	if fields.save or fields.key_enter_field then
 		local meta = minetest.get_meta(pos)
 		evaluate_data(pos, meta, form_def, fields, player_name)
 	end
-	return fields.refresh or fields.save or fields.key_enter_field 
+	return fields.refresh or fields.save or fields.key_enter_field
 end

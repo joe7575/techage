@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Vacuum Tube as part of the Collider
 
 ]]--
@@ -18,10 +18,10 @@ local S = techage.S
 
 local VTube = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4},
-	max_tube_length = 5, 
+	max_tube_length = 5,
 	tube_type = "vtube",
 	show_infotext = false,
-	primary_node_names = {"techage:ta4_vtubeS", "techage:ta4_vtubeA"}, 
+	primary_node_names = {"techage:ta4_vtubeS", "techage:ta4_vtubeA"},
 	secondary_node_names = {"techage:ta4_magnet"},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
 		minetest.swap_node(pos, {name = "techage:ta4_vtube"..tube_type, param2 = param2})
@@ -63,11 +63,11 @@ minetest.register_node("techage:ta4_vtubeS", {
 		end
 		return false
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		VTube:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
@@ -108,7 +108,7 @@ minetest.register_node("techage:ta4_vtubeA", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		VTube:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",

@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3/TA4 Power line for electrical landline
 ]]--
 
@@ -41,11 +41,11 @@ minetest.register_node("techage:power_line", {
 		end
 		return false
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Cable:after_dig_tube(pos, oldnode)
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {
@@ -80,11 +80,11 @@ minetest.register_node("techage:power_lineS", {
 		end
 		return false
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Cable:after_dig_tube(pos, oldnode)
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {
@@ -125,11 +125,11 @@ minetest.register_node("techage:power_lineA", {
 		end
 		return false
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Cable:after_dig_tube(pos, oldnode)
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {
@@ -175,7 +175,7 @@ minetest.register_node("techage:power_pole2", {
 		"default_wood.png^techage_power_pole_top.png",
 		"default_wood.png^techage_power_pole.png"
 	},
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {
@@ -187,7 +187,7 @@ minetest.register_node("techage:power_pole2", {
 			{ -2/32,  -4/32,  12/32,   2/32,  4/32,  16/32},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		M(pos):set_string("owner", placer:get_player_name())
 		if techage.is_protected(pos, placer:get_player_name()) then
@@ -206,7 +206,7 @@ minetest.register_node("techage:power_pole2", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Cable:after_dig_tube(pos, oldnode)
 	end,
-	
+
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
@@ -224,7 +224,7 @@ minetest.register_node("techage:power_pole", {
 		"default_wood.png^techage_power_pole_top.png",
 		"default_wood.png^techage_power_pole.png"
 	},
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {
@@ -239,7 +239,7 @@ minetest.register_node("techage:power_pole", {
 			{ -2/32,  -4/32,  12/32,   2/32,  4/32,  16/32},
 		},
 	},
-	
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		M(pos):set_string("owner", placer:get_player_name())
 		if techage.is_protected(pos, placer:get_player_name()) then
@@ -252,7 +252,7 @@ minetest.register_node("techage:power_pole", {
 		minetest.swap_node(pos, node)
 		Cable:after_place_node(pos)
 	end,
-	
+
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
@@ -270,16 +270,16 @@ minetest.register_node("techage:power_pole_conn", {
 		"default_wood.png^techage_power_pole_top.png",
 		"default_wood.png^techage_power_pole.png"
 	},
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {
 		type = "connected",
 		fixed = {{ -4/32, -16/32,  -4/32,   4/32, 16/32,   4/32}},
-		
-		connect_left = {{-16/32, -6/32, -1/32,  1/32,  -4/32, 1/32},	
+
+		connect_left = {{-16/32, -6/32, -1/32,  1/32,  -4/32, 1/32},
 			{-16/32, -4/32, -2/32, -12/32, 4/32, 2/32}},
-		connect_right = {{ -1/32, -6/32, -1/32,  16/32, -4/32, 1/32},	
+		connect_right = {{ -1/32, -6/32, -1/32,  16/32, -4/32, 1/32},
 			{12/32, -4/32, -2/32,  16/32, 4/32, 2/32}},
 		connect_back = {{-1/32, -6/32,  -1/32,  1/32, -4/32, 16/32},
 			{-2/32, -4/32, 12/32, 2/32, 4/32, 16/32}},
@@ -292,7 +292,7 @@ minetest.register_node("techage:power_pole_conn", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Cable:after_dig_node(pos)
 	end,
-	
+
 	drop = "techage:power_pole",
 	on_rotate = screwdriver.disallow, -- important!
 	paramtype = "light",
@@ -312,7 +312,7 @@ minetest.register_node("techage:power_pole3", {
 		"default_wood.png",
 		"default_wood.png"
 	},
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {
@@ -365,4 +365,3 @@ minetest.register_craft({
 		{"", "group:wood", ""},
 	},
 })
-

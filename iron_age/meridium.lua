@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Brilliant Meririum and tools (mod "wielded_light" needed)
-	
+
 ]]--
 
 local S = techage.S
@@ -118,9 +118,8 @@ minetest.register_craft({
 })
 
 techage.ironage_register_recipe({
-	output = "techage:meridium_ingot", 
-	recipe = {"default:steel_ingot", "default:mese_crystal_fragment"}, 
+	output = "techage:meridium_ingot",
+	recipe = {"default:steel_ingot", "default:mese_crystal_fragment"},
 	heat = 4,
 	time = 3,
 })
-

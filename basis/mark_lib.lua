@@ -9,12 +9,12 @@
 	See LICENSE.txt for more information
 
 	Block marker lib for door/move/fly controller
-	
+
 ]]--
 
 local marker = {}
 
-local MarkedNodes = {} -- t[player] = {{entity, pos},...} 
+local MarkedNodes = {} -- t[player] = {{entity, pos},...}
 local MaxNumber = {}
 local CurrentPos  -- to mark punched entities
 
@@ -67,11 +67,11 @@ end
 minetest.register_on_punchnode(function(pos, node, puncher, pointed_thing)
 	if puncher and puncher:is_player() then
 		local name = puncher:get_player_name()
-		
+
 		if not MarkedNodes[name] then
 			return
 		end
-		
+
 		mark_position(name, pointed_thing.under)
 	end
 end)

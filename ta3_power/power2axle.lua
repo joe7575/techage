@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA3 Electric Motor
-	
+
 ]]--
 
 -- for lazy programmers
@@ -44,11 +44,11 @@ local function node_timer_on(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	local outdir = M(pos):get_int("outdir")
 	nvm.buffer = nvm.buffer or 0
-	
+
 	local amount = math.min(PWR_PERF * 2 - nvm.buffer, PWR_PERF)
 	local taken = power.consume_power(pos, Cable, networks.Flip[outdir], amount)
 	nvm.buffer = nvm.buffer + taken - 1  -- some loss
-	
+
 	if nvm.buffer >= PWR_PERF then
 		nvm.provided = power.provide_power(pos, Axle, outdir, PWR_PERF)
 		nvm.load = power.get_storage_load(pos, Axle, outdir, PWR_PERF)
@@ -63,11 +63,11 @@ local function node_timer_on(pos, elapsed)
 	end
 	return true
 end
-		
+
 local function node_timer_off(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	local outdir = M(pos):get_int("outdir")
-	
+
 	if power.power_available(pos, Cable) then
 		swap_node(pos, "techage:ta3_motor_on")
 		switch_axles(pos, true)
@@ -104,16 +104,16 @@ minetest.register_node("techage:ta3_motor_off", {
 		M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
 		Cable:after_place_node(pos)
 		Axle:after_place_node(pos)
-		minetest.get_node_timer(pos):start(CYCLE_TIME)   
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		M(pos):set_string("infotext", S("TA3 Electric Motor"))
 	end,
-	
+
 	after_dig_node = function(pos, oldnode)
 		Cable:after_dig_node(pos)
 		Axle:after_dig_node(pos)
 		techage.del_mem(pos)
 	end,
-	
+
 	on_timer = node_timer_off,
 	get_generator_data = get_generator_data,
 })
@@ -184,4 +184,3 @@ minetest.register_craft({
 		{"default:wood", "techage:iron_ingot", "basic_materials:steel_bar"},
 	},
 })
-

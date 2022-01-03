@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Heat Exchanger3 (top part)
 
 ]]--
@@ -63,10 +63,10 @@ minetest.register_node("techage:heatexchanger3", {
 		"techage_filling_ta4.png^techage_frameT_ta4.png^techage_appl_ribsT.png",
 		"techage_filling_ta4.png^techage_frameT_ta4.png^techage_appl_ribsT.png",
 	},
-	
+
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
-	
+
 	networks = {
 		pipe2 = {},
 	},

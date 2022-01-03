@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA2/TA3 Power Test Source
-	
+
 ]]--
 
 -- for lazy programmers
@@ -55,7 +55,7 @@ local function stop_node2(pos, nvm, state)
 end
 
 local function start_node3(pos, nvm, state)
-	local meta = M(pos) 
+	local meta = M(pos)
 	nvm.running = true
 	nvm.provided = 0
 	techage.evaluate_charge_termination(nvm, meta)
@@ -241,7 +241,7 @@ techage.register_node({"techage:t4_source"}, {
 			return State3:on_receive_message(pos, topic, payload)
 		end
 	end,
-})	
+})
 
 control.register_nodes({"techage:t4_source"}, {
 		on_receive = function(pos, tlib2, topic, payload)
@@ -256,11 +256,10 @@ control.register_nodes({"techage:t4_source"}, {
 					running = nvm.running or false,
 					available = PWR_PERF,
 					provided = nvm.provided or 0,
-					termpoint = meta:get_string("termpoint"), 
+					termpoint = meta:get_string("termpoint"),
 				}
 			end
 			return false
 		end,
 	}
 )
-

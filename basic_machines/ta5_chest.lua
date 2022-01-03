@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA5 Hyperloop Chest
-	
+
 ]]--
 
 -- for lazy programmers
@@ -33,7 +33,7 @@ local function formspec(pos)
 		local title = ndef.description .. " " .. status
 		return "size[8,9]"..
 			"box[0,-0.1;7.8,0.5;#c6e8ff]" ..
-			"label[0.2,-0.1;" .. minetest.colorize( "#000000", title) .. "]" .. 
+			"label[0.2,-0.1;" .. minetest.colorize( "#000000", title) .. "]" ..
 			"list[context;main;0,1;8,4;]"..
 			"list[current_player;main;0,5.3;8,4;]"..
 			"listring[context;main]"..
@@ -175,7 +175,7 @@ techage.register_node({"techage:ta5_hl_chest"}, {
 			return "unsupported"
 		end
 	end,
-})	
+})
 
 
 minetest.register_craft({

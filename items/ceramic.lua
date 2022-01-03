@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Ceramic
-	
+
 ]]--
 
 local S = techage.S
@@ -48,8 +48,8 @@ minetest.register_craftitem("techage:ta4_furnace_ceramic", {
 techage.furnace.register_recipe({
 	output = "techage:ta4_furnace_ceramic",
 	recipe = {
-		"techage:ta4_ceramic_material", 
-		"techage:ta4_ceramic_material", 
+		"techage:ta4_ceramic_material",
+		"techage:ta4_ceramic_material",
 	},
 	time = 16,
 })

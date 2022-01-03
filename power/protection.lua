@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3/TA4 Power line Protection
 ]]--
 
@@ -27,7 +27,7 @@ local function powerpole_found(pos, name, range)
 	local pos1 = {x=pos.x-range, y=pos.y-range, z=pos.z-range}
 	local pos2 = {x=pos.x+range, y=pos.y+range, z=pos.z+range}
 	for _,npos in ipairs(minetest.find_nodes_in_area(pos1, pos2, {
-				"techage:power_pole", "techage:power_pole_conn", 
+				"techage:power_pole", "techage:power_pole_conn",
 				"techage:power_pole2"})) do
 		if minetest.get_meta(npos):get_string("owner") ~= name then
 			return true
@@ -69,4 +69,3 @@ techage.register_powerline_node("techage:power_line")
 techage.register_powerline_node("techage:power_lineS")
 techage.register_powerline_node("techage:power_lineA")
 techage.register_powerline_node("techage:power_pole3")
-

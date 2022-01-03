@@ -42,7 +42,7 @@ local function add_rope(pos, pos1, pos2)
 	pos2.y = pos2.y - 0.5  -- to
 	local pos3 = {x = pos1.x, y = (pos1.y + pos2.y) / 2, z = pos1.z}  -- mid-pos
 	local length = math.abs(pos1.y - pos2.y)
-	
+
 	local rope = minetest.add_entity(pos3, "techage:ta2_rope")
 	if rope then
 		rope:set_properties({visual_size = {x = 0.06, y = length}, collisionbox = {x = 0.06, y = length}})

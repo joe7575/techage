@@ -29,7 +29,7 @@ minetest.after(1, function()
 						end
 						Recipes[key] = name
 					end
-				end	
+				end
 			end
 		end
 	end

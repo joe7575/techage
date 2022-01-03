@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Quarry machine to dig stones and other ground blocks.
-	
+
 	The Quarry digs a hole (default) 5x5 blocks large and up to 80 blocks deep.
 	It starts at the given level (0 is same level as the quarry block,
 	1 is one level higher and so on)) and goes down to the given depth number.
@@ -34,7 +34,7 @@ local Side2Facedir = {F=0, R=1, B=2, L=3, D=4, U=5}
 local Depth2Idx = {[1]=1 ,[2]=2, [3]=3, [5]=4, [10]=5, [15]=6, [20]=7, [25]=8, [40]=9, [60]=10, [80]=11}
 local Holesize2Idx = {["3x3"] = 1, ["5x5"] = 2, ["7x7"] = 3, ["9x9"] = 4, ["11x11"] = 5}
 local Holesize2Diameter = {["3x3"] = 3, ["5x5"] = 5, ["7x7"] = 7, ["9x9"] = 9, ["11x11"] = 11}
-local Level2Idx = {[2]=1, [1]=2, [0]=3, [-1]=4, [-2]=5, [-3]=6, 
+local Level2Idx = {[2]=1, [1]=2, [0]=3, [-1]=4, [-2]=5, [-3]=6,
 				   [-5]=7, [-10]=8, [-15]=9, [-20]=10}
 
 local function formspec(self, pos, nvm)
@@ -53,7 +53,7 @@ local function formspec(self, pos, nvm)
 	elseif CRD(pos).stage == 2 then
 		depth_list = "1,2,3,5,10,15,20"
 	end
-	
+
 	return "size[8,8]"..
 		default.gui_bg..
 		default.gui_bg_img..
@@ -61,11 +61,11 @@ local function formspec(self, pos, nvm)
 		"box[0,-0.1;7.8,0.5;#c6e8ff]"..
 		"label[3.5,-0.1;"..minetest.colorize( "#000000", S("Quarry")).."]"..
 		techage.question_mark_help(8, tooltip)..
-		"dropdown[0,0.8;1.5;level;2,1,0,-1,-2,-3,-5,-10,-15,-20;"..level_idx.."]".. 
+		"dropdown[0,0.8;1.5;level;2,1,0,-1,-2,-3,-5,-10,-15,-20;"..level_idx.."]"..
 		"label[1.6,0.9;"..S("Start level").."]"..
-		"dropdown[0,1.8;1.5;depth;"..depth_list..";"..depth_idx.."]".. 
+		"dropdown[0,1.8;1.5;depth;"..depth_list..";"..depth_idx.."]"..
 		"label[1.6,1.9;"..S("Digging depth").." ("..level..")]"..
-		"dropdown[0,2.8;1.5;hole_size;"..hsize_list..";"..hsize_idx.."]".. 
+		"dropdown[0,2.8;1.5;hole_size;"..hsize_list..";"..hsize_idx.."]"..
 		"label[1.6,2.9;"..S("Hole size").."]"..
 		"list[context;main;5,0.8;3,3;]"..
 		"image[4,0.8;1,1;"..techage.get_power_image(pos, nvm).."]"..
@@ -80,7 +80,7 @@ local function play_sound(pos)
 	local mem = techage.get_mem(pos)
 	if not mem.handle or mem.handle == -1 then
 		mem.handle = minetest.sound_play("techage_quarry", {
-			pos = pos, 
+			pos = pos,
 			gain = 1.5,
 			max_hear_distance = 15,
 			loop = true})
@@ -114,7 +114,7 @@ local function get_pos(pos, facedir, side, steps)
 	facedir = (facedir + Side2Facedir[side]) % 4
 	local dir = vector.multiply(minetest.facedir_to_dir(facedir), steps or 1)
 	return vector.add(pos, dir)
-end	
+end
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
@@ -147,7 +147,7 @@ local function get_corner_positions(pos, facedir, hole_diameter)
 	return pos1, pos2
 end
 
-local function is_air_level(pos1, pos2, hole_diameter) 
+local function is_air_level(pos1, pos2, hole_diameter)
 	return #minetest.find_nodes_in_area(pos1, pos2, {"air"}) == hole_diameter * hole_diameter
 end
 
@@ -189,7 +189,7 @@ local function quarry_task(pos, crd, nvm)
 		end
 		return at_least_one_added
 	end
-	
+
 	local pos1, pos2 = get_corner_positions(pos, facedir, nvm.hole_diameter)
 	nvm.level = 1
 	for y_curr = y_first, y_last, -1 do
@@ -197,16 +197,16 @@ local function quarry_task(pos, crd, nvm)
 		pos2.y = y_curr
 
 		nvm.level = y_first - y_curr
-		
+
 		if minetest.is_area_protected(pos1, pos2, owner, 5) then
 			crd.State:fault(pos, nvm, S("area is protected"))
 			return
 		end
-		
+
 		if not is_air_level(pos1, pos2, nvm.hole_diameter) then
 			mark_area(pos1, pos2, owner)
 			coroutine.yield()
-			
+
 			for zoffs = 1, nvm.hole_diameter do
 				for xoffs = 1, nvm.hole_diameter do
 					local qpos = get_quarry_pos(pos1, xoffs, zoffs)
@@ -226,20 +226,20 @@ local function quarry_task(pos, crd, nvm)
 	end
 	crd.State:stop(pos, nvm, S("finished"))
 end
-	
+
 local function keep_running(pos, elapsed)
 	local mem = techage.get_mem(pos)
 	if not mem.co then
 		mem.co = coroutine.create(quarry_task)
 	end
-	
+
 	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
 	local _, err = coroutine.resume(mem.co, pos, crd, nvm)
 	if err then
 		minetest.log("error", "[TA4 Quarry Coroutine Error]" .. err)
 	end
-		
+
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(crd.State, pos, nvm))
 	end
@@ -268,7 +268,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
-	
+
 	if fields.depth then
 		if tonumber(fields.depth) ~= nvm.quarry_depth then
 			nvm.quarry_depth = tonumber(fields.depth)
@@ -281,7 +281,7 @@ local function on_receive_fields(pos, formname, fields, player)
 			CRD(pos).State:stop(pos, nvm)
 		end
 	end
-	
+
 	if fields.level then
 		if tonumber(fields.level) ~= nvm.start_level then
 			nvm.start_level = tonumber(fields.level)
@@ -373,7 +373,7 @@ local tubing = {
 	end,
 }
 
-local node_name_ta2, node_name_ta3, node_name_ta4 = 
+local node_name_ta2, node_name_ta3, node_name_ta4 =
 	techage.register_consumer("quarry", S("Quarry"), tiles, {
 		drawtype = "normal",
 		cycle_time = CYCLE_TIME,

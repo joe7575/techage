@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA4 Move Controller
-	
+
 ]]--
 
 -- for lazy programmers
@@ -19,8 +19,8 @@ local S2P = minetest.string_to_pos
 local S = techage.S
 
 local MP = minetest.get_modpath("techage")
-local fly  = dofile(MP .. "/basis/fly_lib.lua")  
-local mark = dofile(MP .. "/basis/mark_lib.lua")  
+local fly  = dofile(MP .. "/basis/fly_lib.lua")
+local mark = dofile(MP .. "/basis/mark_lib.lua")
 
 local MAX_DIST = 100
 local MAX_BLOCKS = 16
@@ -30,35 +30,35 @@ local WRENCH_MENU = {
 		type = "dropdown",
 		choices = "0.5,1,2,4,6,8",
 		name = "max_speed",
-		label = S("Maximum Speed"),      
+		label = S("Maximum Speed"),
 		tooltip = S("Maximum speed for moving blocks"),
 		default = "8",
 	},
 	{
 		type = "number",
 		name = "handoverB",
-		label = S("Handover to B"),      
+		label = S("Handover to B"),
 		tooltip = S("Number of the next movecontroller"),
 		default = "",
 	},
 	{
 		type = "number",
 		name = "handoverA",
-		label = S("Handover to A"),      
+		label = S("Handover to A"),
 		tooltip = S("Number of the previous movecontroller"),
 		default = "",
 	},
 	{
 		type = "float",
 		name = "height",
-		label = S("Move block height"),      
+		label = S("Move block height"),
 		tooltip = S("Value in the range of 0.0 to 1.0"),
 		default = "1.0",
 	},
 	{
 		type = "float",
 		name = "offset",
-		label = S("Object offset"),      
+		label = S("Object offset"),
 		tooltip = S("Y-offset for non-player objects like vehicles (-0.5 to 0.5)"),
 		default = "0.0",
 	},
@@ -165,7 +165,7 @@ minetest.register_node("techage:ta4_movecontroller", {
 			meta:set_string("formspec", formspec(nvm, meta))
 		end
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		local name = digger:get_player_name()
 		mark.unmark_all(name)
@@ -204,7 +204,7 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 		end
 		return false
 	end,
-})		
+})
 
 minetest.register_craft({
 	output = "techage:ta4_movecontroller",

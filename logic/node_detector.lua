@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Node Detector
 
 ]]--
@@ -62,12 +62,12 @@ local function any_node_changed(pos)
 	end
 	local num1 = #minetest.find_nodes_in_area(nvm.pos1, nvm.pos2, {"air"})
 	local num2 = #minetest.find_nodes_in_area(nvm.pos1, nvm.pos2, {"ignore"})
-	
+
 	if num2 == 0 and nvm.num ~= num1 then
-		if nvm.mode == 1 and num1 < nvm.num then 
+		if nvm.mode == 1 and num1 < nvm.num then
 			nvm.num = num1
 			return true
-		elseif nvm.mode == 2 and num1 > nvm.num then 
+		elseif nvm.mode == 2 and num1 > nvm.num then
 			nvm.num = num1
 			return true
 		elseif nvm.mode == 3 then
@@ -83,7 +83,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	
+
 	local nvm = techage.get_nvm(pos)
 	local meta = M(pos)
 	if fields.accept then
@@ -113,7 +113,7 @@ minetest.register_node("techage:ta3_nodedetector_off", {
 		"techage_filling_ta3.png^techage_frame_ta3_top.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_nodedetector.png",
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
@@ -124,22 +124,22 @@ minetest.register_node("techage:ta3_nodedetector_off", {
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		any_node_changed(pos)
 	end,
-	
+
 	on_timer = node_timer,
 	on_receive_fields = on_receive_fields,
-	
+
 	techage_set_numbers = function(pos, numbers, player_name)
 		local meta = M(pos)
 		local res = logic.set_numbers(pos, numbers, player_name, S("TA3 Node Detector"))
 		meta:set_string("formspec", formspec(meta, techage.get_nvm(pos)))
 		return res
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
 	end,
-	
+
 	on_rotate = screwdriver.disallow,
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -155,21 +155,21 @@ minetest.register_node("techage:ta3_nodedetector_on", {
 		"techage_filling_ta3.png^techage_frame_ta3_top.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_nodedetector_on.png",
 	},
-			
+
 	on_timer = node_timer,
-	
+
 	techage_set_numbers = function(pos, numbers, player_name)
 		local meta = M(pos)
 		local res = logic.set_numbers(pos, numbers, player_name, S("TA3 Node Detector"))
 		meta:set_string("formspec", formspec(meta, techage.get_nvm(pos)))
 		return res
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
 	end,
-	
+
 	on_rotate = screwdriver.disallow,
 	paramtype2 = "facedir",
 	is_ground_content = false,
@@ -206,5 +206,4 @@ techage.register_node({"techage:ta3_nodedetector_off", "techage:ta3_nodedetector
 	on_node_load = function(pos)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
-})		
-
+})

@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Data storage system for node related volatile and non-volatile data.
 	Non-volatile data is stored from time to time and at shutdown.
 	Volatile data is lost at every shutdown.
@@ -41,14 +41,14 @@ local function get_keys(pos)
 end
 
 local function pos_from_key(key1, key2)
-	
+
 	local x1 = (math.floor(key1 / (4096 * 4096)) - 2048)  * 16
 	local y1 = ((math.floor(key1 / 4096) % 4096) - 2048)  * 16
 	local z1 = ((key1 % 4096) - 2048)  * 16
 	local x2 = math.floor(key2 / (16 * 16))
 	local y2 = math.floor(key2 / 16) % 16
 	local z2 = key2 % 16
-	
+
 	return {x = x1 + x2, y = y1 + y2, z = z1 + z2}
 end
 
@@ -66,8 +66,8 @@ local function debug(key1, item)
 	end
 	print("mapblock", string.format("%09X", key1), cnt.." nodes")
 end
-	
-	
+
+
 -------------------------------------------------------------------
 -- Storage scheduler
 -------------------------------------------------------------------
@@ -137,12 +137,12 @@ end
 -- Returns non-volatile node data as table
 function techage.get_nvm(pos)
 	local key1, key2 = get_keys(pos)
-	
+
 	if not NvmStore[key1] then
 		NvmStore[key1] = backend.get_mapblock_data(key1)
 		push(key1)
 	end
-	
+
 	local block = NvmStore[key1]
 	block.in_use = true
 	if not block[key2] then
@@ -161,7 +161,7 @@ end
 function techage.del_mem(pos)
 	local hash = minetest.hash_node_position(pos)
 	MemStore[hash] = nil
-	
+
 	local key1, key2 = get_keys(pos)
 	NvmStore[key1] = NvmStore[key1] or backend.get_mapblock_data(key1)
 	NvmStore[key1][key2] = nil

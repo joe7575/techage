@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA2 Gravel Rinser, washing sieved gravel to find more ores
-	
+
 ]]--
 
 -- for lazy programmers
@@ -146,7 +146,7 @@ local function washing(pos, crd, nvm, inv)
 		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 		return
 	end
-	
+
 	local src = ItemStack("techage:sieved_gravel")
 	local dst = ItemStack("default:sand")
 	if inv:contains_item("src", src) then
@@ -255,7 +255,7 @@ local tubing = {
 	end,
 }
 
-local node_name_ta2, node_name_ta3, node_name_ta4 = 
+local node_name_ta2, node_name_ta3, node_name_ta4 =
 	techage.register_consumer("rinser", S("Gravel Rinser"), tiles, {
 		drawtype = "nodebox",
 		paramtype = "light",
@@ -329,8 +329,7 @@ function techage.add_rinser_recipe(recipe)
 	recipe.items = {recipe.input}
 	recipe.type = "rinsing"
 	techage.recipes.register_craft(recipe)
-end	
+end
 
 techage.add_rinser_recipe({input="techage:sieved_gravel", output="techage:usmium_nuggets", probability=30})
 techage.add_rinser_recipe({input="techage:sieved_gravel", output="default:copper_lump", probability=15})
-

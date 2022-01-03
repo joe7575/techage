@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Aluminium
 
 ]]--
@@ -55,9 +55,9 @@ techage.recipes.add("ta4_doser", {
 })
 
 techage.furnace.register_recipe({
-	output = "techage:aluminum 2", 
-	recipe = {"techage:gibbsite_powder", "techage:gibbsite_powder", 
-		"techage:gibbsite_powder", "techage:gibbsite_powder"}, 
+	output = "techage:aluminum 2",
+	recipe = {"techage:gibbsite_powder", "techage:gibbsite_powder",
+		"techage:gibbsite_powder", "techage:gibbsite_powder"},
 	time = 16,
-	
+
 })

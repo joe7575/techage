@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Power Switch Box
 ]]--
 
@@ -31,7 +31,7 @@ local node_box = {
 function techage.legacy_switches(pos)
 	local meta = M(pos)
 	local node = N(pos)
-	
+
 	if node.name == "techage:powerswitch_box" then
 		if meta:get_int("netw_param2") == 0 then
 			node.name = "techage:powerswitch_box_off"
@@ -80,7 +80,7 @@ minetest.register_node("techage:powerswitch_box_on", {
 		if M(pos):get_int("switch_sign_in") ~= 1 then
 			if power.turn_switch_off(pos, Cable, "techage:powerswitch_box_off", "techage:powerswitch_box_on") then
 				minetest.sound_play("doors_glass_door_open", {
-					pos = pos, 
+					pos = pos,
 					gain = 1,
 					max_hear_distance = 5})
 			end
@@ -117,7 +117,7 @@ minetest.register_node("techage:powerswitch_box_off", {
 		if M(pos):get_int("switch_sign_in") ~= 1 then
 			if power.turn_switch_on(pos, Cable, "techage:powerswitch_box_off", "techage:powerswitch_box_on") then
 				minetest.sound_play("doors_glass_door_open", {
-					pos = pos, 
+					pos = pos,
 					gain = 1,
 					max_hear_distance = 5})
 			end

@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Cooler as part of the Collider
 
 ]]--
@@ -60,7 +60,7 @@ minetest.register_node("techage:ta4_collider_cooler", {
 	after_place_node = function(pos, placer, itemstack)
 		Pipe:after_place_node(pos)
 	end,
-	
+
 	after_dig_node = function(pos, oldnode)
 		Pipe:after_dig_node(pos)
 		techage.del_mem(pos)
@@ -78,7 +78,7 @@ techage.register_node({"techage:ta4_collider_cooler"}, {
 			return false
 		end
 	end,
-})	
+})
 
 minetest.register_craft({
 	output = "techage:ta4_collider_cooler",
@@ -88,4 +88,3 @@ minetest.register_craft({
 		{'', 'techage:aluminum', ''},
 	},
 })
-

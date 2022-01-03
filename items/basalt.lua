@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Basalt as result from the lava/water generator
-	
+
 ]]--
 
 local S = techage.S

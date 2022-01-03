@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA4 Sequencer
-	
+
 ]]--
 
 -- for lazy programmers
@@ -65,20 +65,20 @@ local function add_error(text, line_num)
 		end
 	end
 	return table.concat(tbl, "\n")
-end	
+end
 
 local function exception(tRes, line, s)
 	if tRes then
 		tRes.line = line
 		tRes.error = s
 	end
-end	
+end
 
 local function compile(s, tRes)
 	local tCode = {}
 	local old_idx = 0
 	local start_idx
-	
+
 	for i, line in ipairs(strsplit(s)) do
 		line = trim(line)
 		line = string.split(line, "--", true, 1)[1] or ""
@@ -114,7 +114,7 @@ local function compile(s, tRes)
 			old_idx = idx
 		end
 	end
-	-- Returns: 
+	-- Returns:
 	-- {
 	--   start_idx = 1,
 	--   tCode = {
@@ -174,7 +174,7 @@ local function restart_timer(pos, time)
 		timer:stop()
 	end
 	timer:start(time / 10)
-end	
+end
 
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
@@ -184,8 +184,8 @@ local function node_timer(pos, elapsed)
 		if mem.code then
 			mem.idx = mem.idx or mem.code.start_idx
 			local code = mem.code.tCode[mem.idx]
-			if code and code.cmnd then 
-				local src = M(pos):get_string("node_number") 
+			if code and code.cmnd then
+				local src = M(pos):get_string("node_number")
 				techage.counting_start(M(pos):get_string("owner"))
 				techage.send_single(src, code.number, code.cmnd, code.payload)
 				techage.counting_stop()
@@ -209,12 +209,12 @@ local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	
+
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
 	nvm.running = nvm.running or false
-	
+
 	if fields.stop then
 		nvm.running = false
 		minetest.get_node_timer(pos):stop()
@@ -227,7 +227,7 @@ local function on_receive_fields(pos, formname, fields, player)
 			meta:set_string("formspec", formspec(nvm, meta))
 			return
 		end
-		
+
 		if fields.save then
 			nvm.running = false
 			meta:set_string("text", fields.text or "")
@@ -255,7 +255,7 @@ minetest.register_node("techage:ta4_sequencer", {
 		"techage_filling_ta4.png^techage_frame_ta4_top.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_sequencer.png",
 	},
-	
+
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
@@ -266,14 +266,14 @@ minetest.register_node("techage:ta4_sequencer", {
 	end,
 
 	on_receive_fields = on_receive_fields,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
 	end,
-	
+
 	on_timer = node_timer,
-	
+
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
@@ -311,5 +311,4 @@ techage.register_node({"techage:ta4_sequencer"}, {
 			return "unsupported"
 		end
 	end,
-})		
-
+})

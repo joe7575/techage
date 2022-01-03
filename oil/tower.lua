@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Oil Tower
 
 ]]--
@@ -198,7 +198,7 @@ minetest.register_node("techage:oil_drillbit2", {
 
 local AssemblyPlan = {
 	-- y-offs, path, facedir-offs, name
-	
+
 	-- level 0
 	{ 0, {0,1}, 0, "techage:oiltower1"},
 	{ 0, {0,3}, 0, "techage:oiltower1"},
@@ -284,4 +284,3 @@ function techage.oiltower.remove(pos, player_name)
 	minetest.chat_send_player(player_name, S("[TA] Derrick is being removed!"))
 	techage.assemble.remove(pos, AssemblyPlan, player_name)
 end
-

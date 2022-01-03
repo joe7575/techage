@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA Items Table
 
 ]]--
@@ -118,7 +118,7 @@ techage.Items = {
 	ta3_programmer = "techage:programmer",
 	ta3_doorcontroller = "techage:ta3_doorcontroller",
 	ta3_drill_pipe_wrench = "techage:ta3_drill_pipe_wrench",
-	ta3_pipe = "techage:ta3_pipeS", 
+	ta3_pipe = "techage:ta3_pipeS",
 	ta3_pipe_wall_entry = "techage:ta3_pipe_wall_entry",
 	ta3_mesecons_converter = "techage:ta3_mesecons_converter",
 	ta3_valve = "techage:ta3_valve_closed",
@@ -132,13 +132,13 @@ techage.Items = {
 	ta4_blinklamp = "techage:rotor_signal_lamp_off",
 	ta4_nacelle = "techage:ta4_wind_turbine_nacelle",
 	ta4_minicell = "techage:ta4_solar_minicell",
-	ta4_pipe = "techage:ta4_pipeS", 
-	ta4_tube = "techage:ta4_tubeS", 
-	ta4_junctionpipe = "techage:ta4_junctionpipe25", 
-	ta4_pipeinlet = "techage:ta4_pipe_inlet", 
+	ta4_pipe = "techage:ta4_pipeS",
+	ta4_tube = "techage:ta4_tubeS",
+	ta4_junctionpipe = "techage:ta4_junctionpipe25",
+	ta4_pipeinlet = "techage:ta4_pipe_inlet",
 	ta4_turbine = "techage:ta4_turbine",
 	ta4_generator = "techage:ta4_generator",
-	ta4_heatexchanger = "techage:heatexchanger3", 
+	ta4_heatexchanger = "techage:heatexchanger3",
 	ta4_powercable = "techage:ta4_power_cableS",
 	ta4_powerbox = "techage:ta4_power_box",
 	ta4_solarmodule = "techage:ta4_solar_module",

@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Industrial Furnace Firebox
 
 ]]--
@@ -72,7 +72,7 @@ end
 
 local function booster_cmnd(pos, cmnd)
 	return techage.transfer(
-		pos, 
+		pos,
 		"L",  -- outdir
 		cmnd,  -- topic
 		nil,  -- payload
@@ -102,7 +102,7 @@ minetest.register_node("techage:furnace_firebox", {
 	on_punch = fuel.on_punch,
 	on_receive_fields = fuel.on_receive_fields,
 	on_rightclick = fuel.on_rightclick,
-	
+
 	on_construct = function(pos)
 		local nvm = techage.get_nvm(pos)
 		techage.add_node(pos, "techage:furnace_firebox")
@@ -145,7 +145,7 @@ minetest.register_node("techage:furnace_firebox_on", {
 	is_ground_content = false,
 	sounds = default.node_sound_stone_defaults(),
 	drop = "techage:furnace_firebox",
-	
+
 	on_timer = node_timer,
 	can_dig = fuel.can_dig,
 	on_receive_fields = fuel.on_receive_fields,
@@ -197,9 +197,9 @@ techage.register_node({"techage:furnace_firebox", "techage:furnace_firebox_on"},
 			nvm.liquid.amount = (nvm.liquid.amount or 0) + count
 			nvm.liquid.name = "techage:gasoline"
 			inv:set_stack("fuel", 1, nil)
-		end	
+		end
 	end,
-})	
+})
 
 liquid.register_nodes({"techage:furnace_firebox", "techage:furnace_firebox_on"},
 	Pipe, "tank", nil, fuel.get_liquid_table(fuel.BT_OIL, fuel.CAPACITY, start_firebox))

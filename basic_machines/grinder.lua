@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA2/TA3/TA4 Grinder, grinding Cobble/Basalt to Gravel
-	
+
 ]]--
 
 -- for lazy programmers
@@ -98,7 +98,7 @@ local function src_to_dst(src_stack, idx, src_name, num_items, inp_num, inv, dst
 	end
 	return false
 end
-			
+
 local function grinding(pos, crd, nvm, inv)
 	local blocked = false 	-- idle
 	for idx,stack in ipairs(inv:get_list("src")) do
@@ -211,7 +211,7 @@ local tubing = {
 	end,
 }
 
-local node_name_ta2, node_name_ta3, node_name_ta4 = 
+local node_name_ta2, node_name_ta3, node_name_ta4 =
 	techage.register_consumer("grinder", S("Grinder"), tiles, {
 		drawtype = "nodebox",
 		paramtype = "light",
@@ -313,7 +313,7 @@ techage.register_node({"techage:ta1_mill_base"}, {
 	on_node_load = function(pos, node)
 		minetest.get_node_timer(pos):start(4)
 	end,
-})	
+})
 
 minetest.register_craft({
 	output = "techage:ta1_mill_base",
@@ -369,19 +369,19 @@ function techage.add_grinder_recipe(recipe, ta1_permitted)
 	if minetest.registered_items[name] then
 		if ta1_permitted then
 			RecipesTa1[name] = {input = name,inp_num = tonumber(num) or 1, output = recipe.output}
-			
+
 			recipe.items = {recipe.input}
 			recipe.type = "milling"
 			techage.recipes.register_craft(table.copy(recipe))
 		end
-		
+
 		Recipes[name] = {input = name,inp_num = tonumber(num) or 1, output = recipe.output}
-		
+
 		recipe.items = {recipe.input}
 		recipe.type = "grinding"
 		techage.recipes.register_craft(recipe)
 	end
-end	
+end
 
 
 techage.add_grinder_recipe({input="default:cobble", output="default:gravel"})

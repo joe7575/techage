@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Doser
 
 ]]--
@@ -54,14 +54,14 @@ local function get_liquids(pos)
 	Liquids[hash] = tbl
 	return Liquids[hash]
 end
-	
+
 local function del_liquids(pos)
 	local hash = minetest.hash_node_position(pos)
 	Liquids[hash] = nil
 end
-	
+
 -- if liquids are missing, update the cached liquid table
-local function reload_liquids(pos)	
+local function reload_liquids(pos)
 	local hash = minetest.hash_node_position(pos)
 	-- determine the available input liquids
 	local tbl = {}
@@ -73,11 +73,11 @@ local function reload_liquids(pos)
 	end
 	Liquids[hash] = tbl
 	return Liquids[hash]
-end	
+end
 
 local function reactor_cmnd(pos, cmnd, payload)
 	return techage.transfer(
-		pos, 
+		pos,
 		6,  -- outdir
 		cmnd,  -- topic
 		payload,  -- payload
@@ -136,7 +136,7 @@ local function untake(pos, taken)
 	for _,item in pairs(taken) do
 		liquid.untake(pos, Pipe, item.outdir, item.name, item.num)
 	end
-end	
+end
 
 local function dosing(pos, nvm, elapsed)
 	-- trigger reactor (power)
@@ -177,13 +177,13 @@ local function dosing(pos, nvm, elapsed)
 			end
 		end
 	end
-	
+
 	-- check leftover
 	local leftover
 	local mem = techage.get_mem(pos)
 	if mem.waste_leftover then
 		leftover = reactor_cmnd(pos, "waste", {
-				name = mem.waste_leftover.name, 
+				name = mem.waste_leftover.name,
 				amount = mem.waste_leftover.num}) or mem.waste_leftover.num
 		if leftover > 0 then
 			mem.waste_leftover.num = leftover
@@ -194,7 +194,7 @@ local function dosing(pos, nvm, elapsed)
 	end
 	if mem.output_leftover then
 		leftover = reactor_cmnd(pos, "output", {
-				name = mem.output_leftover.name, 
+				name = mem.output_leftover.name,
 				amount = mem.output_leftover.num}) or mem.output_leftover.num
 		if leftover > 0 then
 			mem.output_leftover.num = leftover
@@ -203,11 +203,11 @@ local function dosing(pos, nvm, elapsed)
 		end
 		mem.output_leftover = nil
 	end
-	
+
 	-- inputs
 	local taken = {}
 	mem.dbg_cycles = (mem.dbg_cycles or 0) - 1
-	
+
 	for _,item in pairs(recipe.input) do
 		if item.name ~= "" then
 			local outdir = liquids[item.name] or reload_liquids(pos)[item.name]
@@ -231,7 +231,7 @@ local function dosing(pos, nvm, elapsed)
 	-- waste
 	if recipe.waste.name ~= "" then
 		leftover = reactor_cmnd(pos, "waste", {
-				name = recipe.waste.name, 
+				name = recipe.waste.name,
 				amount = recipe.waste.num}) or recipe.waste.num
 		if leftover > 0 then
 			mem.waste_leftover = {name = recipe.waste.name, num = leftover}
@@ -243,7 +243,7 @@ local function dosing(pos, nvm, elapsed)
 	end
 	-- output
 	leftover = reactor_cmnd(pos, "output", {
-			name = recipe.output.name, 
+			name = recipe.output.name,
 			amount = recipe.output.num}) or recipe.output.num
 	if leftover > 0 then
 		mem.output_leftover = {name = recipe.output.name, num = leftover}
@@ -252,13 +252,13 @@ local function dosing(pos, nvm, elapsed)
 		return
 	end
 	State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-end	
+end
 
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	dosing(pos, nvm, elapsed)
 	return State:is_active(nvm)
-end	
+end
 
 local function on_rightclick(pos)
 	local nvm = techage.get_nvm(pos)
@@ -269,9 +269,9 @@ local function on_receive_fields(pos, formname, fields, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	
+
 	local nvm = techage.get_nvm(pos)
-	if not nvm.running then	
+	if not nvm.running then
 		recipes.on_receive_fields(pos, formname, fields, player)
 	end
 	local mem = techage.get_mem(pos)
@@ -345,7 +345,7 @@ minetest.register_node("techage:ta4_doser_on", {
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick,
 	on_timer = node_timer,
-	
+
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	diggable = false,

@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Firebox basic functions
 
 ]]--
@@ -43,7 +43,7 @@ local function determine_burntimes()
 		local fuel,_ = minetest.get_craft_result({method = "fuel", width = 1, items = {k}})
 		techage.firebox.Burntime[k] = fuel.time
 	end
-end	
+end
 minetest.after(1, determine_burntimes)
 
 function techage.firebox.formspec(nvm)
@@ -147,5 +147,4 @@ function techage.firebox.set_firehole(pos, on)
 			minetest.swap_node(pos2, {name="air"})
 		end
 	end
-end	
-
+end

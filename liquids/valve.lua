@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA3 Valve
 
 ]]--
@@ -29,7 +29,7 @@ minetest.register_node("techage:ta3_valve_open", {
 		"techage_gaspipe_valve_hole.png",
 		"techage_gaspipe_valve_hole.png",
 	},
-	
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		if not Pipe:after_place_tube(pos, placer, pointed_thing) then
 			minetest.remove_node(pos)
@@ -48,7 +48,7 @@ minetest.register_node("techage:ta3_valve_open", {
 		end
 		if liquid.turn_valve_off(pos, Pipe, "techage:ta3_valve_closed", "techage:ta3_valve_open") then
 			minetest.sound_play("techage_valve", {
-				pos = pos, 
+				pos = pos,
 				gain = 1,
 				max_hear_distance = 10})
 		end
@@ -56,7 +56,7 @@ minetest.register_node("techage:ta3_valve_open", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {
@@ -85,14 +85,14 @@ minetest.register_node("techage:ta3_valve_closed", {
 		"techage_gaspipe_valve_hole.png",
 		"techage_gaspipe_valve_hole.png",
 	},
-	
+
 	on_rightclick = function(pos, node, clicker)
 		if minetest.is_protected(pos, clicker:get_player_name()) then
 			return
 		end
 		if liquid.turn_valve_on(pos, Pipe, "techage:ta3_valve_closed", "techage:ta3_valve_open") then
 			minetest.sound_play("techage_valve", {
-				pos = pos, 
+				pos = pos,
 				gain = 1,
 				max_hear_distance = 10})
 		end
@@ -101,7 +101,7 @@ minetest.register_node("techage:ta3_valve_closed", {
 		Pipe:after_dig_node(pos)
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {
@@ -139,9 +139,9 @@ techage.register_node({"techage:ta3_valve_closed", "techage:ta3_valve_open"}, {
 			return "unsupported"
 		end
 	end,
-})	
+})
 
-liquid.register_nodes({"techage:ta3_valve_closed"}, Pipe, "special", {}, {}) 
+liquid.register_nodes({"techage:ta3_valve_closed"}, Pipe, "special", {}, {})
 
 minetest.register_craft({
 	output = "techage:ta3_valve_open",

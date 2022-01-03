@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Isolation Transformer (to separate networks)
 
 ]]--
@@ -79,7 +79,7 @@ local function node_timer(pos, elapsed)
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", formspec(State, pos, nvm, data))
 	end
-	return true		
+	return true
 end
 
 local function on_rightclick(pos, node, clicker)
@@ -107,7 +107,7 @@ end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	local outdir = tonumber(oldmetadata.fields.outdir or 0)
-	Cable:after_dig_node(pos, {outdir, networks.Flip[outdir]})        
+	Cable:after_dig_node(pos, {outdir, networks.Flip[outdir]})
 	techage.del_mem(pos)
 end
 
@@ -165,7 +165,7 @@ control.register_nodes({"techage:ta4_transformer"}, {
 					running = techage.is_running(nvm) or false,
 					available = PWR_PERF,
 					provided = nvm.moved or 0,
-					termpoint = "-", 
+					termpoint = "-",
 				}
 			end
 			return false

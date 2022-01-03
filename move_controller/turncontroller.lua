@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA4 Turn Controller
-	
+
 ]]--
 
 -- for lazy programmers
@@ -19,8 +19,8 @@ local S2P = minetest.string_to_pos
 local S = techage.S
 
 local MP = minetest.get_modpath("techage")
-local fly  = dofile(MP .. "/basis/fly_lib.lua")  
-local mark = dofile(MP .. "/basis/mark_lib.lua")  
+local fly  = dofile(MP .. "/basis/fly_lib.lua")
+local mark = dofile(MP .. "/basis/mark_lib.lua")
 
 local MAX_BLOCKS = 16
 
@@ -85,7 +85,7 @@ minetest.register_node("techage:ta4_turncontroller", {
 			meta:set_string("status", "")
 			local new_posses = fly.rotate_nodes(pos, nvm.lpos, "l")
 			if new_posses then
-				nvm.lpos = new_posses 
+				nvm.lpos = new_posses
 				local name = player:get_player_name()
 				mark.stop(name)
 			end
@@ -94,14 +94,14 @@ minetest.register_node("techage:ta4_turncontroller", {
 			meta:set_string("status", "")
 			local new_posses = fly.rotate_nodes(pos, nvm.lpos, "r")
 			if new_posses then
-				nvm.lpos = new_posses 
+				nvm.lpos = new_posses
 				local name = player:get_player_name()
 				mark.stop(name)
 			end
 			meta:set_string("formspec", formspec(nvm, meta))
 		end
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		local name = digger:get_player_name()
 		mark.unmark_all(name)
@@ -125,7 +125,7 @@ techage.register_node({"techage:ta4_turncontroller"}, {
 			local nvm = techage.get_nvm(pos)
 			local new_posses = fly.rotate_nodes(pos, nvm.lpos, "l")
 			if new_posses then
-				nvm.lpos = new_posses 
+				nvm.lpos = new_posses
 				return true
 			end
 			return false
@@ -133,7 +133,7 @@ techage.register_node({"techage:ta4_turncontroller"}, {
 			local nvm = techage.get_nvm(pos)
 			local new_posses = fly.rotate_nodes(pos, nvm.lpos, "r")
 			if new_posses then
-				nvm.lpos = new_posses 
+				nvm.lpos = new_posses
 				return true
 			end
 			return false
@@ -141,10 +141,10 @@ techage.register_node({"techage:ta4_turncontroller"}, {
 			local nvm = techage.get_nvm(pos)
 			local new_posses = fly.rotate_nodes(pos, nvm.lpos, "r")
 			if new_posses then
-				nvm.lpos = new_posses 
+				nvm.lpos = new_posses
 				new_posses = fly.rotate_nodes(pos, nvm.lpos, "r")
 				if new_posses then
-					nvm.lpos = new_posses 
+					nvm.lpos = new_posses
 					return true
 				end
 			end
@@ -152,7 +152,7 @@ techage.register_node({"techage:ta4_turncontroller"}, {
 		end
 		return false
 	end,
-})		
+})
 
 minetest.register_craft({
 	output = "techage:ta4_turncontroller",

@@ -34,7 +34,7 @@ function techage.shared_inv.node_timer(pos, elapsed)
 	if techage.is_activeformspec(pos) then
 		copy_inventory_list(rmt_pos, pos, "main")
 		return true
-	end	
+	end
 	return false
 end
 
@@ -64,6 +64,5 @@ function techage.shared_inv.on_rightclick(pos, clicker, listname)
 		copy_inventory_list(rmt_pos, pos, listname)
 		techage.set_activeformspec(pos, clicker)
 		minetest.get_node_timer(pos):start(2)
-	end	
+	end
 end
-	

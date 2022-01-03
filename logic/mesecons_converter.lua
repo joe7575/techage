@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	Mesecons converter
-	
+
 ]]--
 
 -- for lazy programmers
@@ -74,20 +74,20 @@ minetest.register_node("techage:ta3_mesecons_converter", {
 		end
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
-	
+
 	on_timer = function(pos,elapsed)
 		local mem = techage.get_mem(pos)
 		mem.overload_cnt = 0
 		return true
 	end,
-	
+
 	techage_set_numbers = function(pos, numbers, player_name)
 		local meta = M(pos)
 		local res = logic.set_numbers(pos, numbers, player_name, S("TA3 Mesecons Converter"))
 		meta:set_string("formspec", formspec(meta))
 		return res
 	end,
-	
+
 	mesecons = {
 		receptor = {
 			state = mesecon.state.off,
@@ -106,7 +106,7 @@ minetest.register_node("techage:ta3_mesecons_converter", {
 			end,
 		}
 	},
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
@@ -118,7 +118,7 @@ minetest.register_node("techage:ta3_mesecons_converter", {
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
 })
-	
+
 
 minetest.register_craft({
 	output = "techage:ta3_mesecons_converter",
@@ -144,4 +144,4 @@ techage.register_node({"techage:ta3_mesecons_converter"}, {
 	on_node_load = function(pos)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
-})		
+})

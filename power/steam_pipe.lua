@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA2 Steam pipes for the Steam Engine
 
 ]]--
@@ -19,11 +19,11 @@ local S = techage.S
 
 local Pipe = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
-	max_tube_length = 12, 
+	max_tube_length = 12,
 	show_infotext = false,
 	force_to_use_tubes = true,
 	tube_type = "pipe1",
-	primary_node_names = {"techage:steam_pipeS", "techage:steam_pipeA"}, 
+	primary_node_names = {"techage:steam_pipeS", "techage:steam_pipeA"},
 	secondary_node_names = {"techage:cylinder", "techage:cylinder_on", "techage:boiler2"},
 	after_place_tube = function(pos, param2, tube_type, num_tubes)
 		minetest.swap_node(pos, {name = "techage:steam_pipe"..tube_type, param2 = param2})
@@ -40,7 +40,7 @@ minetest.register_node("techage:steam_pipeS", {
 		"techage_steam_hole.png",
 		"techage_steam_hole.png",
 	},
-	
+
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		if not Pipe:after_place_tube(pos, placer, pointed_thing) then
 			minetest.remove_node(pos)
@@ -48,11 +48,11 @@ minetest.register_node("techage:steam_pipeS", {
 		end
 		return false
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {
@@ -80,11 +80,11 @@ minetest.register_node("techage:steam_pipeA", {
 		"techage_steam_knee2.png",
 		"techage_steam_hole2.png",
 	},
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_tube(pos, oldnode, oldmetadata)
 	end,
-	
+
 	paramtype2 = "facedir", -- important!
 	drawtype = "nodebox",
 	node_box = {

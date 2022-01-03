@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
-	Meltingpot to produce metal and alloy ingots 
-	
+
+	Meltingpot to produce metal and alloy ingots
+
 ]]--
 
 local S = techage.S
@@ -36,23 +36,23 @@ local function draw(images)
 		end
 	end
 	return table.concat(tbl)
-end	
+end
 
-local formspec1 = 
+local formspec1 =
 	"size[8,8]"..
 	default.gui_bg..
 	default.gui_bg_img..
 	default.gui_slots..
 	"tabheader[0,0;tab;"..Tabs..";1;;true]"..
 	"label[1,0.2;"..S("Menu").."]"..
-	
+
 	"container[1,1]"..
 	"list[current_name;src;0,0;2,2;]"..
 	"item_image[2.6,0;0.8,0.8;techage:meltingpot]"..
 	"image[2.3,0.6;1.6,1;gui_furnace_arrow_bg.png^[transformR270]"..
 	"list[current_name;dst;4,0;2,2;]"..
 	"container_end[]"..
-	
+
 	"list[current_player;main;0,4;8,4;]"..
 	"listring[current_name;dst]"..
 	"listring[current_player;main]"..
@@ -79,7 +79,7 @@ local function formspec2(idx)
 	default.gui_slots..
 	"tabheader[0,0;tab;"..Tabs..";2;;true]"..
 	"label[1,0.2;"..S("Melting Guide").."]"..
-	
+
 	"container[1,1]"..
 	"item_image_button[0,0;1,1;"..input1..";b1;]"..
 	"item_image_button[1,0;1,1;"..input2..";b2;]"..
@@ -177,7 +177,7 @@ local function get_recipe(inv)
 	end
 	local key = recipe_key(names)
 	local recipe = Recipes[key]
-	
+
 	if recipe then
 		return {
 			input = recipe.input,
@@ -210,24 +210,24 @@ local function get_heat(pos)
 		pos.y = pos.y + 1
 		return 0
 	end
-	
+
 	pos.y = pos.y - 1
 	node = techage.get_node_lvm(pos)
 	pos.y = pos.y + 2
-	if minetest.get_item_group(node.name, "techage_flame") == 0 and 
+	if minetest.get_item_group(node.name, "techage_flame") == 0 and
 			node.name ~= "techage:charcoal_burn" then
 		return 0
 	end
-		
-	return meta:get_int("heat") 
+
+	return meta:get_int("heat")
 end
-	
+
 -- Start melting if heat is ok AND source items available
 function techage.switch_to_active(pos)
 	local meta = minetest.get_meta(pos)
 	local heat = get_heat(pos)
 	local recipe = store_recipe_in_cache(pos)
-	
+
 	if recipe and heat >= recipe.heat then
 		minetest.swap_node(pos, {name = "techage:meltingpot_active"})
 		minetest.registered_nodes["techage:meltingpot_active"].on_construct(pos)
@@ -237,13 +237,13 @@ function techage.switch_to_active(pos)
 	end
 	meta:set_string("infotext", S("Melting Pot inactive (heat=")..heat..")")
 	return false
-end	
+end
 
 function techage.update_heat(pos)
 	local meta = minetest.get_meta(pos)
 	local heat = get_heat(pos)
 	meta:set_string("infotext", S("Melting Pot inactive (heat=")..heat..")")
-end	
+end
 
 local function set_inactive(meta, pos, heat)
 	minetest.get_node_timer(pos):stop()
@@ -258,14 +258,14 @@ local function switch_to_inactive(pos)
 	local heat = get_heat(pos)
 	local hash = minetest.hash_node_position(pos)
 	local recipe = Cache[hash] or store_recipe_in_cache(pos)
-	
+
 	if not recipe or heat < recipe.heat then
 		set_inactive(meta, pos, heat)
 		return true
 	end
 	meta:set_string("infotext", S("Melting Pot active (heat=")..heat..")")
 	return false
-end	
+end
 
 
 local function index(list, x)
@@ -300,15 +300,15 @@ local function process(inv, recipe, heat)
 		return true
 	end
 	return false
-end		
+end
 
 local function smelting(pos, recipe, heat, elapsed)
 	local meta = minetest.get_meta(pos)
 	local inv = meta:get_inventory()
 	elapsed = elapsed + meta:get_int("leftover")
-	
+
 	while elapsed >= recipe.time do
-		if process(inv, recipe, heat) == false then 
+		if process(inv, recipe, heat) == false then
 			meta:set_int("leftover", 0)
 			set_inactive(meta, pos, heat)
 			return false
@@ -361,7 +361,7 @@ minetest.register_node("techage:meltingpot_active", {
 		type = "fixed",
 		fixed = {-10/16, -8/16, -10/16,  10/16, 9/16,  10/16},
 	},
-	
+
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", formspec1)
@@ -369,32 +369,32 @@ minetest.register_node("techage:meltingpot_active", {
 		inv:set_size('src', 4)
 		inv:set_size('dst', 4)
 	end,
-	
+
 	on_timer = function(pos, elapsed)
 		return pot_node_timer(pos, elapsed)
 	end,
-	
+
 	on_receive_fields = function(pos, formname, fields, sender)
 		on_receive_fields(pos, formname, fields, sender)
 	end,
-	
+
 	on_metadata_inventory_move = function(pos)
 		store_recipe_in_cache(pos)
 		switch_to_inactive(pos)
 	end,
-	
+
 	on_metadata_inventory_put = function(pos)
 		store_recipe_in_cache(pos)
 		switch_to_inactive(pos)
 	end,
-	
+
 	on_metadata_inventory_take = function(pos)
 		store_recipe_in_cache(pos)
 		switch_to_inactive(pos)
 	end,
-	
+
 	can_dig = can_dig,
-	
+
 	drop = "techage:meltingpot",
 	is_ground_content = false,
 	groups = {cracky = 3, not_in_creative_inventory=1},
@@ -426,7 +426,7 @@ minetest.register_node("techage:meltingpot", {
 		type = "fixed",
 		fixed = {-10/16, -8/16, -10/16, 10/16, 9/16, 10/16},
 	},
-	
+
 	on_construct = function(pos)
 		local meta = minetest.get_meta(pos)
 		meta:set_string("formspec", formspec1)
@@ -435,28 +435,28 @@ minetest.register_node("techage:meltingpot", {
 		inv:set_size('src', 4)
 		inv:set_size('dst', 4)
 	end,
-	
+
 	on_metadata_inventory_move = function(pos)
 		store_recipe_in_cache(pos)
 		techage.switch_to_active(pos)
 	end,
-	
+
 	on_metadata_inventory_put = function(pos)
 		store_recipe_in_cache(pos)
 		techage.switch_to_active(pos)
 	end,
-	
+
 	on_metadata_inventory_take = function(pos)
 		store_recipe_in_cache(pos)
 		techage.switch_to_active(pos)
 	end,
-	
+
 	on_receive_fields = function(pos, formname, fields, sender)
 		on_receive_fields(pos, formname, fields, sender)
 	end,
-	
+
 	can_dig = can_dig,
-	
+
 	is_ground_content = false,
 	groups = {cracky = 3},
 	sounds = default.node_sound_metal_defaults(),
@@ -511,4 +511,3 @@ function techage.ironage_register_recipe(recipe)
 	recipe.type = "melting"
 	techage.recipes.register_craft(recipe)
 end
-

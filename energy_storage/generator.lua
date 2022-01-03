@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 TES Generator (dummy)
 	- can be started and stopped
     - provides netID of cable network
@@ -40,7 +40,7 @@ minetest.register_node("techage:ta4_generator", {
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_generator.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_generator.png^[transformFX]",
 	},
-	
+
 	after_place_node = function(pos)
 		M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
 		Cable:after_place_node(pos)
@@ -86,7 +86,7 @@ minetest.register_node("techage:ta4_generator_on", {
 			},
 		},
 	},
-	
+
 	paramtype2 = "facedir",
 	drop = "",
 	groups = {not_in_creative_inventory=1},
@@ -128,5 +128,4 @@ minetest.register_craft({
 		{"", "techage:ta4_wlanchip", ""},
 	},
 })
-
 

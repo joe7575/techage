@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 LED Grow Light
 
 ]]--
@@ -24,7 +24,7 @@ local Flowers = {}
 local Plants = {}
 local Ignore = { ["flowers:waterlily_waving"] = true }
 -- 9 plant positions below the light
-local Positions = { 
+local Positions = {
 	{x = 0, y =-1, z = 0},
 	{x =-1, y =-1, z = 0},
 	{x = 0, y =-1, z =-1},

@@ -42,8 +42,8 @@ local ValidSymbols = {
 }
 
 local Dropdown = {
-	[""] = 1, 
-	["on"] = 2, 
+	[""] = 1,
+	["on"] = 2,
 	["off"] = 3
 }
 
@@ -55,7 +55,7 @@ local function check_expr(pos, expr)
 	expr = expr:gsub("~=", " ~= ")
 	expr = expr:gsub("%(", " ( ")
 	expr = expr:gsub("%)", " ) ")
-	
+
 	-- First syntax check
 	local old_sym = "or"  -- valid default value
 	for sym in expr:gmatch("[^%s]+") do
@@ -80,7 +80,7 @@ end
 
 local function check_num(pos, num, player_name)
 	local nvm = techage.get_nvm(pos)
-	
+
 	if num ~= "me" and (num == nvm.own_num or
 			not techage.check_numbers(num, player_name)) then
 		return "Invalid node number '"..num.."'"
@@ -94,13 +94,13 @@ local function debug(mem, text)
 	end
 	local s = string.format("%.3f", techage.SystemTime) .. " s: " .. text
 	table.insert(mem.debug, s)
-end	
+end
 
 local function send(pos, num, val)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
 	debug(mem, "(outp) " .. num .. " = " .. val)
-	
+
 	if num == "me" then
 		nvm.outp_tbl = nvm.outp_tbl or {}
 		nvm.outp_tbl.me = val
@@ -125,7 +125,7 @@ local function get_inputs(pos)
 	end
 	return nvm.old_inp_tbl
 end
-		
+
 local function check_syntax(pos, line, owner, outp, expr)
 	local err = check_num(pos, outp, owner)
 	if not err then
@@ -135,7 +135,7 @@ local function check_syntax(pos, line, owner, outp, expr)
 		end
 	end
 	return false, "Error(" .. line .. "): " .. err
-end	
+end
 
 local function compile(nvm, str)
     if str then
@@ -169,12 +169,12 @@ local function get_code(pos, nvm, mem)
 	local owner = M(pos):get_string("owner")
 	nvm.own_num = nvm.own_num or M(pos):get_string("node_number")
 	mem.outp_num = {}
-	
+
 	for i = 1,NUM_RULES do
 		local outp = meta:get_string("outp" .. i)
 		local val  = meta:get_string("val"  .. i)
 		local expr = meta:get_string("expr" .. i)
-		
+
 		if outp ~= "" and val ~= "" and expr ~= "" then
 			local res, err = check_syntax(pos, i, owner, outp, expr)
 			if res then
@@ -190,16 +190,16 @@ local function get_code(pos, nvm, mem)
 			end
 		end
 	end
-	
+
 	local str = table.concat(tbl, "\n")
 	local code = compile(nvm, str)
 	if code then
-		local env = {}	
+		local env = {}
 		env.send = send
 		env.pos = pos
 		env.get_inputs = get_inputs
 		setfenv(code, env)
-		
+
 		return code
 	end
 end
@@ -219,14 +219,14 @@ end
 
 local function rules(meta)
 	local tbl = {}
-	
+
 	tbl[#tbl + 1] = "label[-0.2,0;<outp>]"
 	tbl[#tbl + 1] = "label[1.4,0;=]"
 	tbl[#tbl + 1] = "label[1.8,0;<cmnd>]"
 	tbl[#tbl + 1] = "label[3.5,0;if]"
 	tbl[#tbl + 1] = "label[4.2,0;<inp expression> is true]"
-	
-	
+
+
 	for i = 1,NUM_RULES do
 		local y1 = (i * 0.9) - 0.1
 		local y2 = (i * 0.9) - 0.2
@@ -235,7 +235,7 @@ local function rules(meta)
 		local val  = meta:get_string("val"  .. i)
 		local expr = meta:get_string("expr" .. i)
 		val = Dropdown[val] or 1
-		
+
 		tbl[#tbl + 1] = "field[0," .. y1 .. ";1.6,1;outp" .. i ..";;" .. outp .. "]"
 		tbl[#tbl + 1] = "label[1.4," .. y2 .. ";=]"
 		tbl[#tbl + 1] = "dropdown[1.8," .. y3 .. ";1.6,1;val" .. i ..";,on,off;" .. val .. "]"
@@ -257,11 +257,11 @@ local function formspec(pos, meta)
 		"container[0.4,0.1]" ..
 		rules(meta) ..
 		"container_end[]" ..
-		
+
 		"label[0.2,4.4;" .. S("Blocking Time") .. "]"..
 		"field[4.6,4.5;2,1;bt;;" .. bt .. "]"..
 		"label[6.3,4.4;s]"..
-		
+
 		"label[0,5.3;" .. S("Inputs") .. ":]" ..
 		"label[2,5.3;" .. inputs .."]" ..
 		"label[0,5.9;" .. S("Outputs") .. ":]" ..
@@ -310,9 +310,9 @@ minetest.register_node("techage:ta3_logic2", {
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return
 		end
-		
+
 		local meta = M(pos)
-		
+
 		if fields.store then
 			for i = 1,NUM_RULES do
 				meta:set_string("outp" .. i, fields["outp" .. i] or "")
@@ -331,7 +331,7 @@ minetest.register_node("techage:ta3_logic2", {
 			mem.debug = {}
 			meta:set_string("formspec", formspec_debug(mem))
 		end
-		
+
 		if fields.tab == "2" then
 			meta:set_string("formspec", formspec_help())
 		elseif fields.tab == "3" then
@@ -345,27 +345,27 @@ minetest.register_node("techage:ta3_logic2", {
 			meta:set_string("formspec", formspec(pos, meta))
 		end
 	end,
-	
+
 	on_timer = function(pos)
 		execute(pos)
 		return false
 	end,
-	
+
 	on_rightclick = function(pos, node, clicker)
 		if minetest.is_protected(pos, clicker:get_player_name()) then
 			return
 		end
-		
+
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
 		meta:set_string("formspec", formspec(pos, meta))
 	end,
-	
+
 	after_dig_node = function(pos, oldnode, oldmetadata)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
 	end,
-	
+
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
@@ -389,7 +389,7 @@ techage.register_node({"techage:ta3_logic2"}, {
 		nvm.own_num = nvm.own_num or M(pos):get_string("node_number")
 		nvm.blocking_time = nvm.blocking_time or M(pos):get_float("blocking_time")
 		nvm.inp_tbl = nvm.inp_tbl or {}
-		
+
 		if src ~= nvm.own_num then
 			if topic == "on" then
 				debug(mem, "(inp) " .. src .. " = on")
@@ -401,12 +401,11 @@ techage.register_node({"techage:ta3_logic2"}, {
 				debug(mem, "(inp) invalid command")
 				return "unsupported"
 			end
-			
+
 			local t = math.max((mem.ttl or 0) - techage.SystemTime, 0.1)
 			minetest.get_node_timer(pos):start(t)
 			mem.ttl = techage.SystemTime + (nvm.blocking_time or 0)
 		end
 	end,
-})		
-
+})
 

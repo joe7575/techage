@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA1 mill boards
-	
+
 ]]--
 
 local M = minetest.get_meta
@@ -32,7 +32,7 @@ local function register_board1(output, description, tiles, input)
 		sunlight_propagates = true,
 		is_ground_content = false,
 		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2},
-		sounds = default.node_sound_wood_defaults(), 
+		sounds = default.node_sound_wood_defaults(),
 	})
 
 	minetest.register_craft({
@@ -58,14 +58,14 @@ local function register_board2(output, description, tiles, input1, input2)
 				{-1/2, -5/16, -1/16,  1/2, -3/16, 1/16},
 			},
 		},
-		
+
 		paramtype2 = "facedir",
 		paramtype = "light",
 		use_texture_alpha = techage.CLIP,
 		sunlight_propagates = true,
 		is_ground_content = false,
 		groups = {choppy = 2, oddly_breakable_by_hand = 2, flammable = 2, fence = 1},
-		sounds = default.node_sound_wood_defaults(), 
+		sounds = default.node_sound_wood_defaults(),
 	})
 
 	minetest.register_craft({

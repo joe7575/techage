@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	Redstone as result from the redmud/sand
-	
+
 ]]--
 
 local S = techage.S
@@ -60,10 +60,9 @@ minetest.register_craft({
 techage.furnace.register_recipe({
 	output = "techage:red_stone",
 	recipe = {
-		"techage:canister_redmud", 
-		"default:sand", 
+		"techage:canister_redmud",
+		"default:sand",
 	},
 	waste = "techage:ta3_canister_empty",
 	time = 4,
 })
-

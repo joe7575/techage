@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA2/TA3/TA4 Distributor
-	
+
 ]]--
 
 -- for lazy programmers
@@ -34,7 +34,7 @@ local INFO = [[Turn port on/off or read its state: command = 'port', payload = r
 
 --local Side2Color = {B="red", L="green", F="blue", R="yellow"}
 local SlotColors = {"red", "green", "blue", "yellow"}
-local Num2Ascii = {"B", "L", "F", "R"} 
+local Num2Ascii = {"B", "L", "F", "R"}
 local FilterCache = {} -- local cache for filter settings
 
 local function filter_settings(pos)
@@ -72,9 +72,9 @@ local function filter_settings(pos)
 			end
 		end
 	end
-	
+
 	FilterCache[minetest.hash_node_position(pos)] = {
-		ItemFilter = ItemFilter, 
+		ItemFilter = ItemFilter,
 		OpenPorts = OpenPorts,
 	}
 end
@@ -88,7 +88,7 @@ local function get_filter_settings(pos)
 --	}
 --	local OpenPorts = {3}
 --	return ItemFilter, OpenPorts
-	
+
 	local hash = minetest.hash_node_position(pos)
 	if FilterCache[hash] == nil then
 		filter_settings(pos)
@@ -111,8 +111,8 @@ local function blocking_checkbox(pos, filter, is_hp)
 		M(pos):set_int("blocking", 0) -- disable blocking
 	end
 	return ""
-end		
-		
+end
+
 local function formspec(self, pos, nvm)
 	local filter = minetest.deserialize(M(pos):get_string("filter")) or {false,false,false,false}
 	local is_hp = nvm.high_performance == true
@@ -185,7 +185,7 @@ end
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	local inv = M(pos):get_inventory()
 	local list = inv:get_list(listname)
-	
+
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
@@ -247,7 +247,7 @@ local function tubelib2_on_update2(pos, outdir, tlib2, node)
 			is_ta4_tube = is_ta4_tube and techage.TA4tubes[node.name]
 		end
 	end
-	
+
 	local nvm = techage.get_nvm(pos)
 	local crd = CRD(pos)
 	if CRD(pos).stage == 4 and not is_ta4_tube then
@@ -295,10 +295,10 @@ local function distributing(pos, inv, crd, nvm)
 	local sum_num_pushed = 0
 	local num_pushed = 0
 	local blocking_mode = M(pos):get_int("blocking") == 1
-	
+
 	-- start searching after last position
 	local offs = nvm.last_index or 1
-	
+
 	for i = 1, SRC_INV_SIZE do
 		local idx = ((i + offs - 1) % 8) + 1
 		local stack = inv:get_stack("src", idx)
@@ -308,7 +308,7 @@ local function distributing(pos, inv, crd, nvm)
 		local stack_to_push = stack:peek_item(num_to_push)
 		local filter = item_filter[item_name]
 		num_pushed = 0
-		
+
 		if filter and #filter > 0 then
 			-- Push items based on filter
 			num_pushed = push_item(pos, filter, stack_to_push, num_to_push, nvm)
@@ -320,16 +320,16 @@ local function distributing(pos, inv, crd, nvm)
 			-- Push items based on open ports
 			num_pushed = push_item(pos, open_ports, stack_to_push, num_to_push, nvm)
 		end
-			
+
 		sum_num_pushed = sum_num_pushed + num_pushed
 		stack:take_item(num_pushed)
 		inv:set_stack("src", idx, stack)
-		if sum_num_pushed >= (nvm.num_items or crd.num_items) then 
+		if sum_num_pushed >= (nvm.num_items or crd.num_items) then
 			nvm.last_index = idx
-			break 
+			break
 		end
 	end
-	
+
 	if sum_num_pushed == 0 then
 		crd.State:blocked(pos, nvm)
 	else
@@ -370,9 +370,9 @@ local function on_receive_fields(pos, formname, fields, player)
 		meta:set_int("blocking", fields.blocking == "true" and 1 or 0)
 	end
 	meta:set_string("filter", minetest.serialize(filter))
-	
+
 	filter_settings(pos)
-	
+
 	local nvm = techage.get_nvm(pos)
 	if fields.state_button ~= nil then
 		crd.State:state_button_event(pos, nvm, fields)
@@ -391,9 +391,9 @@ local function change_filter_settings(pos, slot, val)
 		filter[num] = val == "on"
 	end
 	meta:set_string("filter", minetest.serialize(filter))
-	
+
 	filter_settings(pos)
-	
+
 	local nvm = techage.get_nvm(pos)
 	meta:set_string("formspec", formspec(CRD(pos).State, pos, nvm))
 	return true
@@ -474,7 +474,7 @@ local tubing = {
 			else
 				return change_filter_settings(pos, slot, val)
 			end
-		else		
+		else
 			return CRD(pos).State:on_receive_message(pos, topic, payload)
 		end
 	end,

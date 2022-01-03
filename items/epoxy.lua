@@ -7,9 +7,9 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
-	Epoxy 
-	
+
+	Epoxy
+
 ]]--
 
 local S = techage.S

@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	ICTA Controller - Formspec
 
 ]]--
@@ -26,15 +26,15 @@ Examples for conditions are:
  - the Player Detector detects a player
  - a button is pressed
  - a machine is fault, blocked, standby,...
-  
+
 Actions are:
  - switch on/off lamps and machines
  - send chat messages to the owner
  - output a text message to the display
- 
+
 The controller executes all rules cyclically.
 The cycle time for each rule is configurable
-(1..1000 sec). 
+(1..1000 sec).
 0 means, the rule will only be called, if
 the controller received a command from
 another blocks, such as buttons.
@@ -51,14 +51,14 @@ The 'outp' tab is for debugging outputs via 'print'
 The 'notes' tab for your notes.
 
 The controller needs battery power to work.
-The battery pack has to be placed near the 
-controller (1 node distance). 
-The needed battery power is directly dependent 
+The battery pack has to be placed near the
+controller (1 node distance).
+The needed battery power is directly dependent
 on the CPU time the controller consumes.
 
- The Manual in German: 
+ The Manual in German:
  https://github.com/joe7575/techage/blob/master/manuals/ta4_icta_controller_DE.md
- 
+
  Or the same as PDF:
  https://github.com/joe7575/techage/blob/master/manuals/ta4_icta_controller_DE.pdf
 
@@ -70,7 +70,7 @@ local lButtonKeys = {}
 for idx = 1,techage.NUM_RULES do
 	lButtonKeys[#lButtonKeys+1] = "cond"..idx
 	lButtonKeys[#lButtonKeys+1] = "actn"..idx
-end	
+end
 
 local function buttons(s)
 	return "button_exit[7.4,7.5;1.8,1;cancel;Cancel]"..
@@ -80,7 +80,7 @@ end
 
 function techage.formspecError(meta)
 	local running = meta:get_int("state") == techage.RUNNING
-	local cmnd = running and "stop;Stop" or "start;Start" 
+	local cmnd = running and "stop;Stop" or "start;Start"
 	local init = meta:get_string("init")
 	init = minetest.formspec_escape(init)
 	return "size[4,3]"..
@@ -101,7 +101,7 @@ end
 
 function techage.listing(fs_data)
 	local tbl = {}
-		
+
 	for idx = 1,techage.NUM_RULES do
 		tbl[#tbl+1] = idx.." ("..fs_data[idx].cycle.."s): IF "..button(fs_data[idx].cond)
 		tbl[#tbl+1] = " THEN "..button(fs_data[idx].actn).." after "..fs_data[idx].after.."s\n"
@@ -112,7 +112,7 @@ end
 local function formspec_rules(fs_data)
 	local tbl = {"field[0,0;0,0;_type_;;main]"..
 		"label[0.4,0;Cycle/s:]label[2.5,0;IF  cond:]label[7,0;THEN  action:]label[11.5,0;after/s:]"}
-		
+
 	for idx = 1,techage.NUM_RULES do
 		local ypos = idx * 0.75 - 0.4
 		tbl[#tbl+1] = "label[0,"..(0.2+ypos)..";"..idx.."]"
@@ -129,7 +129,7 @@ function techage.store_main_form_data(meta, fields)
 	for idx = 1,techage.NUM_RULES do
 		fs_data[idx].cycle = fields["cycle"..idx] or ""
 		fs_data[idx].after = fields["after"..idx] or "0"
-	end	
+	end
 	meta:set_string("fs_data", minetest.serialize(fs_data))
 end
 
@@ -150,10 +150,10 @@ function techage.formspecSubMenu(meta, key)
 	else
 		local row = tonumber(key:sub(5,5))
 		return techage.actn_formspec(row, fs_data[row].actn)
-	end	
+	end
 end
 
-function techage.formspec_button_update(meta, fields)	
+function techage.formspec_button_update(meta, fields)
 	local fs_data = minetest.deserialize(meta:get_string("fs_data"))
 	local row = tonumber(fields._row_ or 1)
 	if fields._col_ == "cond" then
@@ -164,7 +164,7 @@ function techage.formspec_button_update(meta, fields)
 	meta:set_string("fs_data", minetest.serialize(fs_data))
 end
 
-function techage.cond_formspec_update(meta, fields)	
+function techage.cond_formspec_update(meta, fields)
 	local fs_data = minetest.deserialize(meta:get_string("fs_data"))
 	local row = tonumber(fields._row_ or 1)
 	fs_data[row].cond = techage.cond_eval_input(fs_data[row].cond, fields)
@@ -172,7 +172,7 @@ function techage.cond_formspec_update(meta, fields)
 	meta:set_string("fs_data", minetest.serialize(fs_data))
 end
 
-function techage.actn_formspec_update(meta, fields)	
+function techage.actn_formspec_update(meta, fields)
 	local fs_data = minetest.deserialize(meta:get_string("fs_data"))
 	local row = tonumber(fields._row_ or 1)
 	fs_data[row].actn = techage.actn_eval_input(fs_data[row].actn, fields)
@@ -183,7 +183,7 @@ end
 
 function techage.formspecRules(meta, fs_data, output)
 	local running = meta:get_int("state") == techage.RUNNING
-	local cmnd = running and "stop;Stop" or "start;Start" 
+	local cmnd = running and "stop;Stop" or "start;Start"
 	local init = meta:get_string("init")
 	init = minetest.formspec_escape(init)
 	return SIZE..
@@ -200,7 +200,7 @@ end
 
 function techage.formspecOutput(meta)
 	local running = meta:get_int("state") == techage.RUNNING
-	local cmnd = running and "stop;Stop" or "start;Start" 
+	local cmnd = running and "stop;Stop" or "start;Start"
 	local output = meta:get_string("output")
 	output = minetest.formspec_escape(output)
 	return SIZE..
@@ -217,7 +217,7 @@ end
 
 function techage.formspecNotes(meta)
 	local running = meta:get_int("state") == techage.RUNNING
-	local cmnd = running and "stop;Stop" or "start;Start" 
+	local cmnd = running and "stop;Stop" or "start;Start"
 	local notes = meta:get_string("notes") or ""
 	if notes == "" then notes = "<space for your notes>" end
 	notes = minetest.formspec_escape(notes)

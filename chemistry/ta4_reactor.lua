@@ -7,7 +7,7 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	TA4 Reactor
 
 ]]--
@@ -51,10 +51,10 @@ minetest.register_node("techage:ta4_reactor_fillerpipe", {
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 	end,
-	
+
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
-	sunlight_propagates = true,	
+	sunlight_propagates = true,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
 	groups = {cracky=2},
@@ -64,7 +64,7 @@ minetest.register_node("techage:ta4_reactor_fillerpipe", {
 
 local function stand_cmnd(pos, cmnd, payload)
 	return techage.transfer(
-		{x = pos.x, y = pos.y-1, z = pos.z}, 
+		{x = pos.x, y = pos.y-1, z = pos.z},
 		5,  -- outdir
 		cmnd,  -- topic
 		payload,  -- payload
@@ -83,11 +83,11 @@ techage.register_node({"techage:ta4_reactor_fillerpipe"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		if topic == "check" then
 			local pos2,node = Pipe:get_node(pos, 5)
-			if not node or node.name ~= "techage:ta4_reactor" then 
+			if not node or node.name ~= "techage:ta4_reactor" then
 				return false
 			end
 			pos2,node = Pipe:get_node(pos2, 5)
-			if not node or node.name ~= "techage:ta4_reactor_stand" then 
+			if not node or node.name ~= "techage:ta4_reactor_stand" then
 				return false
 			end
 			return true
@@ -95,7 +95,7 @@ techage.register_node({"techage:ta4_reactor_fillerpipe"}, {
 			return base_waste(pos, payload or {})
 		elseif topic == "catalyst" then
 			local pos2,node = Pipe:get_node(pos, 5)
-			if not node or node.name ~= "techage:ta4_reactor" then 
+			if not node or node.name ~= "techage:ta4_reactor" then
 				return
 			end
 			local inv =  M(pos2):get_inventory()
@@ -158,7 +158,7 @@ minetest.register_node("techage:ta4_reactor", {
 	end,
 	allow_metadata_inventory_put = allow_metadata_inventory_put,
 	allow_metadata_inventory_take = allow_metadata_inventory_take,
-	
+
 	paramtype = "light",
 	use_texture_alpha = techage.CLIP,
 	paramtype2 = "facedir",
@@ -191,7 +191,7 @@ minetest.register_lbm({
     name = "techage:update_reactor",
 
     nodenames = {
-		"techage:ta4_reactor", 
+		"techage:ta4_reactor",
 	},
 
     run_at_every_load = true,

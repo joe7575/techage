@@ -9,30 +9,30 @@
 	See LICENSE.txt for more information
 
 	TA4 Logic twofold signal lamp
-	
+
 ]]--
 
 -- for lazy programmers
 local M = minetest.get_meta
 local S = techage.S
-	
+
 local OFF   = 0
 local RED   = 1
 local GREEN = 2
-local AMBER = 3	
-	
+local AMBER = 3
+
 local WRENCH_MENU = {
 	{
 		type = "ascii",
 		name = "label1",
-		label = S("Label") .. " 1",      
+		label = S("Label") .. " 1",
 		tooltip = S("Label for the lamp"),
 		default = "1",
 	},
 	{
 		type = "ascii",
 		name = "label2",
-		label = S("Label") .. " 2",      
+		label = S("Label") .. " 2",
 		tooltip = S("Label for the lamp"),
 		default = "2",
 	},
@@ -46,7 +46,7 @@ local function lamp_update(pos, objref)
 	local tbl = {" ", " ", meta:get_string("label1"), " ",  meta:get_string("label2")}
 	local text = "<      " .. table.concat(tbl, "\n<      ")
 	local texture = lcdlib.make_multiline_texture("default", text, 96, 96, 7, "top", "#000", 6)
-	
+
 	if nvm.lamp[1] == RED then
 		texture = texture .. "^techage_smartline_signal_red2.png"
 	elseif nvm.lamp[1] == GREEN then
@@ -54,7 +54,7 @@ local function lamp_update(pos, objref)
 	elseif nvm.lamp[1] == AMBER then
 		texture = texture .. "^techage_smartline_signal_amber2.png"
 	end
-	
+
 	if nvm.lamp[2] == RED then
 		texture = texture .. "^techage_smartline_signal_red3.png"
 	elseif nvm.lamp[2] == GREEN then
@@ -62,7 +62,7 @@ local function lamp_update(pos, objref)
 	elseif nvm.lamp[2] == AMBER then
 		texture = texture .. "^techage_smartline_signal_amber3.png"
 	end
-	
+
 	objref:set_properties({ textures = {texture}, visual_size = {x=1, y=1} })
 end
 
@@ -106,7 +106,7 @@ minetest.register_node("techage:ta4_signallamp_2x", {
 	ta_after_formspec = function(pos, fields, playername)
 		lcdlib.update_entities(pos)
 	end,
-	
+
 	ta3_formspec = WRENCH_MENU,
 	on_place = lcdlib.on_place,
 	on_construct = lcdlib.on_construct,
@@ -139,7 +139,7 @@ techage.register_node({"techage:ta4_signallamp_2x"}, {
 			lcdlib.update_entities(pos)
 		end
 	end,
-})		
+})
 
 minetest.register_craft({
 	output = "techage:ta4_signallamp_2x",

@@ -9,7 +9,7 @@
 	See LICENSE.txt for more information
 
 	TA3 Oil Explorer
-	
+
 ]]--
 
 -- for lazy programmers
@@ -40,8 +40,8 @@ local ValidGroundNodes = {
 
 local function oil_amount(pos)
 	if pos.y > YPOS_MAX then return 0 end
-	local block_key = seed + 
-		math.floor((pos.z + 32768) / 16) * 4096 * 4096 + 
+	local block_key = seed +
+		math.floor((pos.z + 32768) / 16) * 4096 * 4096 +
 		math.floor((pos.y + 32768) / 16) * 4096 +
 		math.floor((pos.x + 32768) / 16)
 	math.randomseed(block_key)
@@ -68,7 +68,7 @@ local function mapblock_coordinates(pos)
 	local pos2 = {x = pos1.x + 15,  y = pos1.y + 15,  z = pos1.z + 15}
 	return pos1, pos2
 end
-		
+
 local function calc_depth(pos, explore_pos)
 	return pos.y - explore_pos.y + 1
 end
@@ -78,7 +78,7 @@ end
 -- function returns the real position {x,y,z}
 local function calc_vmdata_pos(posC, idx)
 	local rest, xoffs, yoffs, zoffs
-	
+
 	rest = idx - 1
 	xoffs = rest % 16
 	rest  = math.floor(rest / 16)
@@ -86,12 +86,12 @@ local function calc_vmdata_pos(posC, idx)
 	rest  = math.floor(rest / 16)
 	yoffs = rest % 16
 	return {x = basis(posC.x) + xoffs, y = basis(posC.y) + yoffs, z = basis(posC.z) + zoffs}
-end	
+end
 
 local function calc_vmdata_index(xoffs, yoffs, zoffs)
 	return (xoffs + (yoffs * 16) + (zoffs * 16 * 16)) + 1
 end
-	
+
 -- from/to are x/z-offsets (0..15) for one layer of oil within one mapblock
 local function gen_oil_slice(yoffs, from, to, vmdata, id)
 	for xoffs = from, to do
@@ -103,7 +103,7 @@ end
 
 local function gen_oil_bubble(vmdata)
 	local id = minetest.get_content_id("techage:oil_source")
-	
+
 	gen_oil_slice(1, 3, 12, vmdata, id)
 	gen_oil_slice(2, 2, 13, vmdata, id)
 	for offs = 3, 12 do
@@ -111,8 +111,8 @@ local function gen_oil_bubble(vmdata)
 	end
 	gen_oil_slice(13, 2, 13, vmdata, id)
 	gen_oil_slice(14, 3, 12, vmdata, id)
-end	
-	
+end
+
 local function useable_stone_block(data)
 	local valid = {}
 	for _,id in ipairs(data) do
@@ -120,8 +120,8 @@ local function useable_stone_block(data)
 			local itemname = minetest.get_name_from_content_id(id)
 			if not ValidGroundNodes[itemname] then
 				local ndef = minetest.registered_nodes[itemname]
-				if InvalidGroundNodes[itemname] or not ndef or ndef.is_ground_content == false then 
-					return false 
+				if InvalidGroundNodes[itemname] or not ndef or ndef.is_ground_content == false then
+					return false
 				end
 			end
 			valid[id] = true
@@ -129,7 +129,7 @@ local function useable_stone_block(data)
 	end
 	return true
 end
-	
+
 local function get_next_explore_pos(pos)
 	local meta = M(pos)
 	local ypos = meta:get_int("exploration_ypos")
@@ -147,7 +147,7 @@ local function get_next_explore_pos(pos)
 			-- load world and pause for one step
 			minetest.emerge_area(posC, posC)
 		end
-		
+
 	end
 	return {x = center(pos.x), y = center(ypos), z = center(pos.z)}
 end
@@ -164,7 +164,7 @@ end
 
 local function status(pos, player_name, explore_pos, amount)
 	local depth = calc_depth(pos, explore_pos)
-	minetest.chat_send_player(player_name, 
+	minetest.chat_send_player(player_name,
 		"[TA Oil] "..P2S(explore_pos).." "..S("depth")..": "..depth..",  "..S("Oil")..": "..amount.."    ")
 end
 
@@ -180,7 +180,7 @@ local function generate_oil_bubble(posC, amount)
 	local pos1, pos2 = mapblock_coordinates(posC)
 	local vm = minetest.get_voxel_manip(pos1, pos2)
 	local data = vm:get_data()
-	
+
 	if useable_stone_block(data) then
 		gen_oil_bubble(data)
 		vm:set_data(data)
@@ -195,14 +195,14 @@ end
 local function explore_area(pos, node, player_name)
 	if M(pos):get_int("oil_amount") == 0 then -- nothing found so far?
 		local posC, amount
-		
+
 		node.name = "techage:oilexplorer_on"
 		minetest.swap_node(pos, node)
 		minetest.get_node_timer(pos):start(2.2)
 		minetest.sound_play("techage_explore", {
-			pos = pos, 
+			pos = pos,
 			max_hear_distance = 8})
-		
+
 		for i = 1,4 do
 			posC = get_next_explore_pos(pos)
 			amount = oil_amount(posC)
@@ -210,7 +210,7 @@ local function explore_area(pos, node, player_name)
 				break
 			end
 		end
-		
+
 		if amount > 0 then
 			if get_oil_amount(posC) == 0 then -- not explored so far?
 				if generate_oil_bubble(posC, amount) then
@@ -221,7 +221,7 @@ local function explore_area(pos, node, player_name)
 			end
 			M(pos):set_int("oil_amount", amount)
 		end
-		
+
 		minetest.after(2, status, pos, player_name, posC, amount)
 	else
 		local explore_pos = {x = center(pos.x), y = M(pos):get_int("exploration_ypos"), z = center(pos.z)}
@@ -273,7 +273,7 @@ minetest.register_node("techage:oilexplorer_on", {
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
-				
+
 				aspect_w = 32,
 				aspect_h = 32,
 				length = 1.2,
@@ -288,7 +288,7 @@ minetest.register_node("techage:oilexplorer_on", {
 		node.name = "techage:oilexplorer"
 		minetest.swap_node(pos, node)
 	end,
-	
+
 	diggable = false,
 	is_ground_content = false,
 	paramtype = "light",
@@ -334,7 +334,7 @@ function techage.explore.dec_oil_amount(posC)
 	local oil_amount, oil_initial = techage.explore.get_oil_amount(posC)
 	oil_amount = oil_amount - 1
 	M(posC):set_int("oil_amount", oil_amount)
-	
+
 	local idx = math.floor(oil_amount * OIL_BUBBLE_SIZE / oil_initial)
 	idx = idx + 256 -- last level is stone, so add one level
 	if idx <= (OIL_BUBBLE_SIZE - 256) then -- first level is stone, too

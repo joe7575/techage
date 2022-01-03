@@ -7,14 +7,14 @@
 
 	AGPL v3
 	See LICENSE.txt for more information
-	
+
 	API to add further chapters to the manuals
 
 ]]--
 
 function techage.add_to_manual(language, titles, texts, items, plans)
 	local tbl
-	
+
 	if language == "DE" then
 		tbl = techage.manual_DE
 	elseif language == "EN" then
@@ -37,5 +37,4 @@ function techage.add_to_manual(language, titles, texts, items, plans)
 		tbl.aPlanTable[#tbl.aPlanTable + 1] = item
 	end
 end
-
 
