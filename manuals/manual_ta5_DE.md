@@ -40,7 +40,7 @@ Für das Pairing musst du zuerst auf der einen Seite einen Namen für die Kiste 
 
 Die Nutzung der TA5 Hyperloop Kiste benötigt 20 Erfahrungspunkte.
 
-[ta4_chest|image]
+[ta5_chest|image]
 
 ### TA5 Hyperloop Tank / TA5 Hyperloop Tank
 
@@ -52,7 +52,7 @@ Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Tank e
 
 Die Nutzung des TA5 Hyperloop Tanks benötigt 20 Erfahrungspunkte.
 
-[ta4_tank|image]
+[ta5_tank|image]
 
 ### Hyperloop Teleport Blöcke (geplant)
 
@@ -71,6 +71,11 @@ Für die Nutzung des TA5 Containers werden 80 Erfahrungspunkte benötigt.
 Teleportblöcke erlauben den Item-Transport ohne Röhren bis zu einer Entfernung von 200 Blöcken.
 Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Block eingeben, dann kannst du bei dem anderen Block diesen Namen auswählen und so die beiden Blöcke verbinden.
 
+Die Teleport Blöcke können so `[C]-[>]-[T]   [T]-[C]` und auch so `[C]-[T]   [T]-[>]-[C]` eingesetzt werden.
+`[T]` = Teleport
+`[>]` = Schieber 
+`[C]` = chest/Kiste
+
 Teleportblöcke benötigen jeweils 12 ku Strom.
 
 Für die Nutzung der Teleportblöcke werden 60 Erfahrungspunkte benötigt.
@@ -81,6 +86,11 @@ Für die Nutzung der Teleportblöcke werden 60 Erfahrungspunkte benötigt.
 
 Teleportblöcke erlauben den Flüssigkeiten-Transport ohne Leitungen bis zu einer Entfernung von 200 Blöcken.
 Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Block eingeben, dann kannst du bei dem anderen Block diesen Namen auswählen und so die beiden Blöcke verbinden.
+
+Die Teleport Blöcke können so `[=]-[>]-[T]   [T]-[=]` und auch so `[=]-[T]   [T]-[>]-[=]` eingesetzt werden.
+`[T]` = Teleport
+`[>]` = Pumpe 
+`[=]` = Tank
 
 Teleportblöcke benötigen jeweils 12 ku Strom.
 

@@ -2027,6 +2027,11 @@ techage.manual_EN.aText = {
   "Teleport blocks allow items to be transported without tubes up to a distance of 200 blocks.\n"..
   "For pairing you first have to enter a name for the block on one side\\, then you can select this name for the other block and thus connect the two blocks.\n"..
   "\n"..
+  "The teleport blocks can be used like this: '\\[C\\]-\\[>\\]-\\[T\\]   \\[T\\]-\\[C\\]' and also like this '\\[C\\]-\\[T\\]   \\[T\\]-\\[>\\]-\\[C\\]'\n"..
+  "'\\[T\\]' = Teleport\n"..
+  "'\\[>\\]' = pusher \n"..
+  "'\\[C\\]' = chest\n"..
+  "\n"..
   "Teleport blocks each require 12 ku of electricity.\n"..
   "\n"..
   "60 experience points are required to use the Teleport blocks.\n"..
@@ -2035,6 +2040,11 @@ techage.manual_EN.aText = {
   "\n",
   "Teleport blocks allow liquids to be transported without pipes up to a distance of 200 blocks.\n"..
   "For pairing you first have to enter a name for the block on one side\\, then you can select this name for the other block and thus connect the two blocks.\n"..
+  "\n"..
+  "The teleport blocks can be used like this: '\\[=\\]-\\[>\\]-\\[T\\]   \\[T\\]-\\[=\\]' and also like this '\\[=\\]-\\[T\\]   \\[T\\]-\\[>\\]-\\[=\\]'\n"..
+  "'\\[T\\]' = Teleport\n"..
+  "'\\[>\\]' = pump\n"..
+  "'\\[=\\]' = tank\n"..
   "\n"..
   "Teleport blocks each require 12 ku of electricity.\n"..
   "\n"..
@@ -2284,8 +2294,8 @@ techage.manual_EN.aItemName = {
   "",
   "",
   "ta5_flycontroller",
-  "ta4_chest",
-  "ta4_tank",
+  "ta5_chest",
+  "ta5_tank",
   "",
   "",
   "ta5_tele_tube",

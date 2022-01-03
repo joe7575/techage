@@ -2030,6 +2030,11 @@ techage.manual_DE.aText = {
   "Teleportblöcke erlauben den Item-Transport ohne Röhren bis zu einer Entfernung von 200 Blöcken.\n"..
   "Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Block eingeben\\, dann kannst du bei dem anderen Block diesen Namen auswählen und so die beiden Blöcke verbinden.\n"..
   "\n"..
+  "Die Teleport Blöcke können so '\\[C\\]-\\[>\\]-\\[T\\]   \\[T\\]-\\[C\\]' und auch so '\\[C\\]-\\[T\\]   \\[T\\]-\\[>\\]-\\[C\\]' eingesetzt werden.\n"..
+  "'\\[T\\]' = Teleport\n"..
+  "'\\[>\\]' = Schieber \n"..
+  "'\\[C\\]' = chest/Kiste\n"..
+  "\n"..
   "Teleportblöcke benötigen jeweils 12 ku Strom.\n"..
   "\n"..
   "Für die Nutzung der Teleportblöcke werden 60 Erfahrungspunkte benötigt.\n"..
@@ -2038,6 +2043,11 @@ techage.manual_DE.aText = {
   "\n",
   "Teleportblöcke erlauben den Flüssigkeiten-Transport ohne Leitungen bis zu einer Entfernung von 200 Blöcken.\n"..
   "Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Block eingeben\\, dann kannst du bei dem anderen Block diesen Namen auswählen und so die beiden Blöcke verbinden.\n"..
+  "\n"..
+  "Die Teleport Blöcke können so '\\[=\\]-\\[>\\]-\\[T\\]   \\[T\\]-\\[=\\]' und auch so '\\[=\\]-\\[T\\]   \\[T\\]-\\[>\\]-\\[=\\]' eingesetzt werden.\n"..
+  "'\\[T\\]' = Teleport\n"..
+  "'\\[>\\]' = Pumpe \n"..
+  "'\\[=\\]' = Tank\n"..
   "\n"..
   "Teleportblöcke benötigen jeweils 12 ku Strom.\n"..
   "\n"..
@@ -2289,8 +2299,8 @@ techage.manual_DE.aItemName = {
   "",
   "",
   "ta5_flycontroller",
-  "ta4_chest",
-  "ta4_tank",
+  "ta5_chest",
+  "ta5_tank",
   "",
   "",
   "ta5_tele_tube",
