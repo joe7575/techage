@@ -80,6 +80,10 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2022-01-03  V1.06**
+- TA5 teleport blocks added
+- Many improvements
+
 **2021-12-25  V1.05**
 - Support for the mod i3 added (thanks to ghaydn)
 - TA5 enabled
@@ -88,7 +92,7 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 **2021-12-12  V1.04**
 - TA4 Collider added (experimental)
 - move, turn, sound, and fly blocks added
-- TA5 (future) introduced (TA4 is now the "now age")
+- TA5 (future) introduced (TA4 is now the "present")
 
 **2021-10-24  V1.03**
 - Add TA4 Sequencer for time controlled command sequences
