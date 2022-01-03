@@ -66,25 +66,25 @@ Der TA5 Container erlaubt Techage Anlagen ein- und an einer anderen Stelle wiede
 
 Für die Nutzung des TA5 Containers werden 80 Erfahrungspunkte benötigt.
 
-### TA5-Teleportröhren / TA5-Teleport-Tubes
+### TA5 Teleport Block Gegenstände / TA5 Teleport Block Items
 
-Teleportröhren erlauben den Item-Transport ohne Röhren bis zu einer Entfernung von 200 Blöcken.
+Teleportblöcke erlauben den Item-Transport ohne Röhren bis zu einer Entfernung von 200 Blöcken.
 Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Block eingeben, dann kannst du bei dem anderen Block diesen Namen auswählen und so die beiden Blöcke verbinden.
 
-Die Teleportröhren benötigen jeweils 12 ku Strom.
+Teleportblöcke benötigen jeweils 12 ku Strom.
 
-Für die Nutzung der Teleportröhren werden 60 Erfahrungspunkte benötigt.
+Für die Nutzung der Teleportblöcke werden 60 Erfahrungspunkte benötigt.
 
 [ta5_tele_tube|image]
 
-### TA5-Teleportleitungen / TA5-Teleport-Pipes
+### TA5 Teleport Block Flüssigkeiten / TA5 Teleport Block Liquids
 
-Teleportleitungen erlauben den Flüssigkeiten-Transport ohne Leitungen bis zu einer Entfernung von 200 Blöcken.
+Teleportblöcke erlauben den Flüssigkeiten-Transport ohne Leitungen bis zu einer Entfernung von 200 Blöcken.
 Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Block eingeben, dann kannst du bei dem anderen Block diesen Namen auswählen und so die beiden Blöcke verbinden.
 
-Die Teleportleitungen benötigen jeweils 12 ku Strom.
+Teleportblöcke benötigen jeweils 12 ku Strom.
 
-Für die Nutzung der Teleportleitungen werden 60 Erfahrungspunkte benötigt.
+Für die Nutzung der Teleportblöcke werden 60 Erfahrungspunkte benötigt.
 
 [ta5_tele_pipe|image]
 

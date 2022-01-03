@@ -239,8 +239,8 @@ techage.manual_EN.aTitel = {
   "3,TA5 Hyperloop Tank",
   "3,Hyperloop Teleport Blocks (planned)",
   "3,TA5 Container (planned)",
-  "3,TA5 Teleport Tubes",
-  "3,TA5 Teleport Pipes",
+  "3,TA5 Teleport Block Items",
+  "3,TA5 Teleport Block Liquids",
   "2,More TA5 Blocks / Items",
   "3,TA5 AI Chip",
 }
@@ -2024,21 +2024,21 @@ techage.manual_EN.aText = {
   "\n"..
   "80 experience points are required to use the TA5 container.\n"..
   "\n",
-  "Teleport tubes allow items to be transported without tubes up to a distance of 200 blocks.\n"..
+  "Teleport blocks allow items to be transported without tubes up to a distance of 200 blocks.\n"..
   "For pairing you first have to enter a name for the block on one side\\, then you can select this name for the other block and thus connect the two blocks.\n"..
   "\n"..
-  "The teleport tubes each require 12 ku of electricity.\n"..
+  "Teleport blocks each require 12 ku of electricity.\n"..
   "\n"..
-  "60 experience points are required to use the TA5 Teleport Tubes.\n"..
+  "60 experience points are required to use the Teleport blocks.\n"..
   "\n"..
   "\n"..
   "\n",
-  "Teleport Pipes allow liquids to be transported without pipes up to a distance of 200 blocks.\n"..
+  "Teleport blocks allow liquids to be transported without pipes up to a distance of 200 blocks.\n"..
   "For pairing you first have to enter a name for the block on one side\\, then you can select this name for the other block and thus connect the two blocks.\n"..
   "\n"..
-  "The teleport pipes each require 12 ku of electricity.\n"..
+  "Teleport blocks each require 12 ku of electricity.\n"..
   "\n"..
-  "60 experience points are required to use the TA5 Teleport Pipes.\n"..
+  "60 experience points are required to use the Teleport blocks.\n"..
   "\n"..
   "\n"..
   "\n",

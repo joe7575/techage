@@ -66,25 +66,25 @@ The TA5 container allows Techage systems to be packed and unpacked at another lo
 
 80 experience points are required to use the TA5 container.
 
-### TA5 Teleport Tubes
+### TA5 Teleport Block Items
 
-Teleport tubes allow items to be transported without tubes up to a distance of 200 blocks.
+Teleport blocks allow items to be transported without tubes up to a distance of 200 blocks.
 For pairing you first have to enter a name for the block on one side, then you can select this name for the other block and thus connect the two blocks.
 
-The teleport tubes each require 12 ku of electricity.
+Teleport blocks each require 12 ku of electricity.
 
-60 experience points are required to use the TA5 Teleport Tubes.
+60 experience points are required to use the Teleport blocks.
 
 [ta5_tele_tube|image]
 
-### TA5 Teleport Pipes
+### TA5 Teleport Block Liquids
 
-Teleport Pipes allow liquids to be transported without pipes up to a distance of 200 blocks.
+Teleport blocks allow liquids to be transported without pipes up to a distance of 200 blocks.
 For pairing you first have to enter a name for the block on one side, then you can select this name for the other block and thus connect the two blocks.
 
-The teleport pipes each require 12 ku of electricity.
+Teleport blocks each require 12 ku of electricity.
 
-60 experience points are required to use the TA5 Teleport Pipes.
+60 experience points are required to use the Teleport blocks.
 
 [ta5_tele_pipe|image]
 

@@ -1282,7 +1282,7 @@ server not connected=
 
 ### teleport_pipe.lua ###
 
-TA5 Teleport Pipe=
+TA5 Teleport Block Liquids=
 
 ### teleport_pipe.lua ###
 ### teleport_tube.lua ###
@@ -1291,7 +1291,7 @@ Remote block error=
 
 ### teleport_tube.lua ###
 
-TA5 Teleport Tube=
+TA5 Teleport Block Items=
 
 ### terminal.lua ###
 

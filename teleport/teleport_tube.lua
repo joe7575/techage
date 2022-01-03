@@ -29,7 +29,7 @@ local CYCLE_TIME = 2
 local PWR_NEEDED = 12
 local EX_POINTS = 60
 local MAX_DIST = 200
-local DESCRIPTION = S("TA5 Teleport Tube")
+local DESCRIPTION = S("TA5 Teleport Block Items")
 
 local function formspec(self, pos, nvm)
 	local title = DESCRIPTION .. " " .. M(pos):get_string("tele_status")
