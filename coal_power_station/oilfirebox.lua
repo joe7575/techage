@@ -142,4 +142,3 @@ minetest.register_craft({
 		{'', '', ''},
 	},
 })
-

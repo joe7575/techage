@@ -170,4 +170,3 @@ minetest.register_lbm({
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end
 })
-

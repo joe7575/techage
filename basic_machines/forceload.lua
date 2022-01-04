@@ -116,7 +116,6 @@ local function formspec(name)
 		local tRes = {}
 		for idx,pos in ipairs(lPos) do
 			local pos1, pos2 = calc_area(pos)
-			local ypos = 0.2 + idx * 0.4
 			tRes[#tRes+1] = idx
 			tRes[#tRes+1] = minetest.formspec_escape(P2S(pos1))
 			tRes[#tRes+1] = "to"

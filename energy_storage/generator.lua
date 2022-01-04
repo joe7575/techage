@@ -128,4 +128,3 @@ minetest.register_craft({
 		{"", "techage:ta4_wlanchip", ""},
 	},
 })
-

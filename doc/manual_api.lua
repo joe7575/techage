@@ -37,4 +37,3 @@ function techage.add_to_manual(language, titles, texts, items, plans)
 		tbl.aPlanTable[#tbl.aPlanTable + 1] = item
 	end
 end
-

@@ -187,4 +187,3 @@ minetest.register_craft({
 	},})
 
 techage.TA4_Cable = Cable
-

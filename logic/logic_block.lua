@@ -408,4 +408,3 @@ techage.register_node({"techage:ta3_logic2"}, {
 		end
 	end,
 })
-

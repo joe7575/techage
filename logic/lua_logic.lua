@@ -250,4 +250,3 @@ techage.register_node({"techage:ta3_logic"}, {
 
 	end,
 })
-

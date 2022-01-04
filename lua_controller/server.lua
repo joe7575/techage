@@ -323,4 +323,3 @@ techage.lua_ctlr.register_action("server_write", {
 		" return value: true if successful or false\n"..
 		' example: res = $server_write("123", "state", state)'
 })
-

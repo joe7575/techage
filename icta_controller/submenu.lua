@@ -22,11 +22,10 @@ end
 
 -- generate the choice dependent part of the form
 local function add_controls_to_table(tbl, kvDefinition, kvSelect)
-	local val = ""
 	local offs = 1.4
 	if kvDefinition[kvSelect.choice] then
 		local lControls = kvDefinition[kvSelect.choice].formspec
-		for idx,elem in ipairs(lControls) do
+		for _,elem in ipairs(lControls) do
 			if elem.type == "label" then
 				tbl[#tbl+1] = "label[0,"..offs..";Description:\n"..elem.label.."]"
 				offs = offs + 0.4
@@ -36,12 +35,12 @@ local function add_controls_to_table(tbl, kvDefinition, kvSelect)
 			end
 			if elem.type == "numbers" or elem.type == "number" or elem.type == "digits" or elem.type == "letters"
 					or elem.type == "ascii" then
-				val = kvSelect[elem.name] or elem.default
+				local val = kvSelect[elem.name] or elem.default
 				tbl[#tbl+1] = "field[0.3,"..(offs+0.2)..";8,1;"..elem.name..";;"..val.."]"
 				offs = offs + 0.9
 			elseif elem.type == "textlist" then
 				local l = elem.choices:split(",")
-				val = index(l, kvSelect[elem.name]) or elem.default
+				local val = index(l, kvSelect[elem.name]) or elem.default
 				tbl[#tbl+1] = "dropdown[0.0,"..(offs)..";8.5,1.4;"..elem.name..";"..elem.choices..";"..val.."]"
 				offs = offs + 0.9
 			end
@@ -52,7 +51,7 @@ end
 
 local function default_data(kvDefinition, kvSelect)
 	local lControls = kvDefinition[kvSelect.choice].formspec
-	for idx,elem in ipairs(lControls) do
+	for _,elem in ipairs(lControls) do
 		kvSelect[elem.name] = elem.default
 	end
 	kvSelect.button = kvDefinition[kvSelect.choice].button(kvSelect)
@@ -66,7 +65,7 @@ end
 local function field_to_kvSelect(kvDefinition, kvSelect, fields)
 	local error = false
 	local lControls = kvDefinition[kvSelect.choice].formspec
-	for idx,elem in ipairs(lControls) do
+	for _,elem in ipairs(lControls) do
 		if elem.type == "numbers" then
 			if fields[elem.name] then
 				if fields[elem.name]:find("^[%d ]+$") then
@@ -131,7 +130,7 @@ end
 function techage.submenu_verify(owner, kvDefinition, kvSelect)
 	local error = false
 	local lControls = kvDefinition[kvSelect.choice].formspec
-	for idx,elem in ipairs(lControls) do
+	for _,elem in ipairs(lControls) do
 		if elem.type == "numbers" then
 			if not kvSelect[elem.name]:find("^[%d ]+$") then
 				error = true

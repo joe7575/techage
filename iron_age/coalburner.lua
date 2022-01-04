@@ -246,4 +246,3 @@ function techage.stop_burner(pos)
 	minetest.sound_stop(handle)
 	meta:set_int("burn_time", 0)
 end
-

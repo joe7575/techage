@@ -63,4 +63,3 @@ techage.add_grinder_recipe({input="default:clay", output="techage:clay_powder"})
 techage.add_grinder_recipe({input="techage:aluminum", output="techage:aluminum_powder"})
 techage.add_grinder_recipe({input="default:silver_sandstone", output="techage:silver_sandstone_powder"})
 
-

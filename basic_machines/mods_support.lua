@@ -129,4 +129,3 @@ techage.register_node({"protector:chest"}, {
 		return techage.put_items(inv, "main", stack)
 	end,
 })
-
