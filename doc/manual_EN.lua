@@ -237,11 +237,12 @@ techage.manual_EN.aTitel = {
   "3,TA5 Flight Controller",
   "3,TA5 Hyperloop Chest",
   "3,TA5 Hyperloop Tank",
-  "3,Hyperloop Teleport Blocks (planned)",
-  "3,TA5 Container (planned)",
+  "2,Teleport Blocks",
   "3,TA5 Teleport Block Items",
   "3,TA5 Teleport Block Liquids",
-  "2,More TA5 Blocks / Items",
+  "3,Hyperloop Teleport Blocks (planned)",
+  "2,More TA5 Blocks/Items",
+  "3,TA5 Container (planned)",
   "3,TA5 AI Chip",
 }
 
@@ -2016,43 +2017,37 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Teleport blocks allow things to be transferred between two teleport blocks without the need for a pipe or tube in between. To pair the blocks\\, you first have to enter a name for the block on one side\\, then you can select this name for the other block and thus connect the two blocks. Pairing can only be carried out by one player (player name is checked) and must be completed before the server is restarted. Otherwise the pairing data will be lost.\n"..
+  "\n"..
+  "The map on the right shows how the blocks can be used. \n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "These teleport blocks allow the transfer of items and thus replace a tube. Distances of up to 200 blocks can be bridged.\n"..
+  "\n"..
+  "Each Teleport blocks requires 12 ku of electricity.\n"..
+  "\n"..
+  "60 experience points are required to use the teleport blocks. \n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "These teleport blocks allow the transfer of liquids and thus replace a pipe. Distances of up to 200 blocks can be bridged.\n"..
+  "\n"..
+  "Each Teleport blocks requires 12 ku of electricity.\n"..
+  "\n"..
+  "60 experience points are required to use the teleport blocks. \n"..
+  "\n"..
+  "\n"..
+  "\n",
   "The Hyperloop Teleport Blocks allow the construction of a Hyperloop network without Hyperloop tubes.\n"..
   "\n"..
   "The use of the Hyperloop Teleport Blocks requires 120 experience points.\n"..
   "\n",
+  "",
   "The TA5 container allows Techage systems to be packed and unpacked at another location.\n"..
   "\n"..
   "80 experience points are required to use the TA5 container.\n"..
   "\n",
-  "Teleport blocks allow items to be transported without tubes up to a distance of 200 blocks.\n"..
-  "For pairing you first have to enter a name for the block on one side\\, then you can select this name for the other block and thus connect the two blocks.\n"..
-  "\n"..
-  "The teleport blocks can be used like this: '\\[C\\]-\\[>\\]-\\[T\\]   \\[T\\]-\\[C\\]' and also like this '\\[C\\]-\\[T\\]   \\[T\\]-\\[>\\]-\\[C\\]'\n"..
-  "'\\[T\\]' = Teleport\n"..
-  "'\\[>\\]' = pusher \n"..
-  "'\\[C\\]' = chest\n"..
-  "\n"..
-  "Teleport blocks each require 12 ku of electricity.\n"..
-  "\n"..
-  "60 experience points are required to use the Teleport blocks.\n"..
-  "\n"..
-  "\n"..
-  "\n",
-  "Teleport blocks allow liquids to be transported without pipes up to a distance of 200 blocks.\n"..
-  "For pairing you first have to enter a name for the block on one side\\, then you can select this name for the other block and thus connect the two blocks.\n"..
-  "\n"..
-  "The teleport blocks can be used like this: '\\[=\\]-\\[>\\]-\\[T\\]   \\[T\\]-\\[=\\]' and also like this '\\[=\\]-\\[T\\]   \\[T\\]-\\[>\\]-\\[=\\]'\n"..
-  "'\\[T\\]' = Teleport\n"..
-  "'\\[>\\]' = pump\n"..
-  "'\\[=\\]' = tank\n"..
-  "\n"..
-  "Teleport blocks each require 12 ku of electricity.\n"..
-  "\n"..
-  "60 experience points are required to use the Teleport blocks.\n"..
-  "\n"..
-  "\n"..
-  "\n",
-  "",
   "The TA5 AI Chip is partly required for the production of TA5 blocks. The TA5 AI Chip can only be manufactured at the TA4 Electronics Fab. This requires 10 experience points.\n"..
   "\n"..
   "\n"..
@@ -2297,9 +2292,10 @@ techage.manual_EN.aItemName = {
   "ta5_chest",
   "ta5_tank",
   "",
-  "",
   "ta5_tele_tube",
   "ta5_tele_pipe",
+  "",
+  "",
   "",
   "ta5_aichip",
 }
@@ -2541,6 +2537,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
+  "ta5_teleport",
   "",
   "",
   "",
@@ -2548,3 +2545,4 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
 }
+

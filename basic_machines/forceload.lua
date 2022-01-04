@@ -64,7 +64,7 @@ local function add_pos(pos, player)
 	local meta = player:get_meta()
 	local lPos = minetest.deserialize(meta:get_string("techage_forceload_blocks")) or {}
 	if not in_list(lPos, pos) and (#lPos < techage.max_num_forceload_blocks or
-				creative and creative.is_enabled_for and
+				minetest.global_exists("creative") and creative.is_enabled_for and
 				creative.is_enabled_for(player:get_player_name())) then
 		lPos[#lPos+1] = pos
 		local meta = player:get_meta()

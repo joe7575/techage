@@ -151,7 +151,7 @@ local function create_task(pos, task)
 		--print(err)
 		return
 	end
-	minetest.after(0.4, create_task, pos)
+	minetest.after(0.4, create_task, pos, task)
 end
 
 -- Call on_cyclic_check of all magents so that the magnets don't need a FLB.

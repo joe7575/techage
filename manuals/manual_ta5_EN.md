@@ -54,53 +54,51 @@ The use of the TA5 Hyperloop Tank requires 20 experience points.
 
 [ta5_tank|image]
 
+
+
+## Teleport Blocks
+
+Teleport blocks allow things to be transferred between two teleport blocks without the need for a pipe or tube in between. To pair the blocks, you first have to enter a name for the block on one side, then you can select this name for the other block and thus connect the two blocks. Pairing can only be carried out by one player (player name is checked) and must be completed before the server is restarted. Otherwise the pairing data will be lost.
+
+The map on the right shows how the blocks can be used. 
+
+[ta5_teleport|plan]
+
+### TA5 Teleport Block Items
+
+These teleport blocks allow the transfer of items and thus replace a tube. Distances of up to 200 blocks can be bridged.
+
+Each Teleport blocks requires 12 ku of electricity.
+
+60 experience points are required to use the teleport blocks. 
+
+[ta5_tele_tube|image]
+
+### TA5 Teleport Block Liquids
+
+These teleport blocks allow the transfer of liquids and thus replace a pipe. Distances of up to 200 blocks can be bridged.
+
+Each Teleport blocks requires 12 ku of electricity.
+
+60 experience points are required to use the teleport blocks. 
+
+[ta5_tele_pipe|image]
+
 ### Hyperloop Teleport Blocks (planned)
 
 The Hyperloop Teleport Blocks allow the construction of a Hyperloop network without Hyperloop tubes.
 
 The use of the Hyperloop Teleport Blocks requires 120 experience points.
 
+
+
+## More TA5 Blocks/Items
+
 ### TA5 Container (planned)
 
 The TA5 container allows Techage systems to be packed and unpacked at another location.
 
 80 experience points are required to use the TA5 container.
-
-### TA5 Teleport Block Items
-
-Teleport blocks allow items to be transported without tubes up to a distance of 200 blocks.
-For pairing you first have to enter a name for the block on one side, then you can select this name for the other block and thus connect the two blocks.
-
-The teleport blocks can be used like this: `[C]-[>]-[T]   [T]-[C]` and also like this `[C]-[T]   [T]-[>]-[C]`
-`[T]` = Teleport
-`[>]` = pusher 
-`[C]` = chest
-
-
-
-Teleport blocks each require 12 ku of electricity.
-
-60 experience points are required to use the Teleport blocks.
-
-[ta5_tele_tube|image]
-
-### TA5 Teleport Block Liquids
-
-Teleport blocks allow liquids to be transported without pipes up to a distance of 200 blocks.
-For pairing you first have to enter a name for the block on one side, then you can select this name for the other block and thus connect the two blocks.
-
-The teleport blocks can be used like this: `[=]-[>]-[T]   [T]-[=]` and also like this `[=]-[T]   [T]-[>]-[=]`
-`[T]` = Teleport
-`[>]` = pump
-`[=]` = tank
-
-Teleport blocks each require 12 ku of electricity.
-
-60 experience points are required to use the Teleport blocks.
-
-[ta5_tele_pipe|image]
-
-## More TA5 Blocks / Items
 
 ### TA5 AI Chip
 

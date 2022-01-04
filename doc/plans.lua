@@ -493,6 +493,26 @@ techage.ConstructionPlans["ta4_cooler"] = {
 	{false, false, false, false, false, false, false, false, false},
 }
 
+--
+-- TA5 Teleport Blocks
+--
+local TELEP = {"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_teleport.png", "techage:ta5_tele_pipe"}
+local TELET = {"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_teleport.png", "techage:ta5_tele_tube"}
+local PUMP4 = {"techage_filling_ta4.png^techage_appl_pump.png^techage_frame_ta4.png", "techage:t4_pump"}
+local ARROW = {"techage_form_arrow.png"}
+
+techage.ConstructionPlans["ta5_teleport"] = {
+	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, CHEST, PushR, TELET, false, ARROW, false, TELET, Tubes, CHEST, false},
+	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, CHEST, Tubes, TELET, false, ARROW, false, TELET, PushR, CHEST, false},
+	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, TANK4, PUMP4, TELEP, false, ARROW, false, TELEP, PIPEH, TANK4, false},
+	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, TANK4, PIPEH, TELEP, false, ARROW, false, TELEP, PUMP4, TANK4, false},
+}
+
 function techage.add_manual_plans(table_with_plans)
 	for name, tbl in pairs(table_with_plans) do
 		techage.ConstructionPlans[name] = tbl

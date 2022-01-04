@@ -54,55 +54,51 @@ Die Nutzung des TA5 Hyperloop Tanks benötigt 20 Erfahrungspunkte.
 
 [ta5_tank|image]
 
+### TA5-Raumgleiter (geplant)
+
+Dank einem Spezialantrieb für Lichtgeschwindigkeit können mit dem Raumgleiter auch große Entfernungen sehr schnell überwunden werden.
+
+## Teleport Blöcke
+
+Mit Teleport-Blöcken können Dinge zwischen zwei Teleport-Blöcken übertragen werden, ohne dass sich dazwischen eine Röhre oder Leitung befinden muss. Für das Pairing der Blöcke musst du zuerst auf der einen Seite einen Namen für den Block eingeben, dann kannst du bei dem anderen Block diesen Namen auswählen und so die beiden Blöcke verbinden. Das Pairung kann nur von einem Spieler durchgeführt werden (Spielername wird geprüft) und muss vor einem Server-Neustart abgeschlossen sein. Anderenfalls gehen die Pairing-Daten verloren.
+
+Der Plan rechts zeigt, wie die Blöcke genutzt werden können.
+
+[ta5_teleport|plan]
+
+### TA5 Teleport Block Gegenstände / TA5 Teleport Block Items
+
+Diese Teleport-Blöcke erlauben die Übertragung von Gegenständen und ersetzen somit eine Röhre. Dabei können Entfernungen von bis zu 200 Blöcken überbrückt werden.
+
+Ein Teleport-Block benötigt 12 ku Strom.
+
+Für die Nutzung der Teleport-Blöcke werden 60 Erfahrungspunkte benötigt.
+
+[ta5_tele_tube|image]
+
+### TA5 Teleport Block Flüssigkeiten / TA5 Teleport Block Liquids
+
+Diese Teleport-Blöcke erlauben die Übertragung von Flüssigkeiten und ersetzen somit eine gelbe Leitung. Dabei können Entfernungen von bis zu 200 Blöcken überbrückt werden.
+
+Ein Teleport-Block benötigt 12 ku Strom.
+
+Für die Nutzung der Teleport-Blöcke werden 60 Erfahrungspunkte benötigt.
+
+[ta5_tele_pipe|image]
+
 ### Hyperloop Teleport Blöcke (geplant)
 
 Die Hyperloop Teleport Blöcke erlauben den Aufbau von Hyperloop Netzwerk ohne Hyperloop-Röhren.
 
 Die Nutzung der Hyperloop Teleport Blöcke benötigt 120 Erfahrungspunkte.
 
+## Weitere TA5 Blöcke/Items
+
 ### TA5 Container (geplant)
 
 Der TA5 Container erlaubt Techage Anlagen ein- und an einer anderen Stelle wieder auszupacken.
 
 Für die Nutzung des TA5 Containers werden 80 Erfahrungspunkte benötigt.
-
-### TA5 Teleport Block Gegenstände / TA5 Teleport Block Items
-
-Teleportblöcke erlauben den Item-Transport ohne Röhren bis zu einer Entfernung von 200 Blöcken.
-Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Block eingeben, dann kannst du bei dem anderen Block diesen Namen auswählen und so die beiden Blöcke verbinden.
-
-Die Teleport Blöcke können so `[C]-[>]-[T]   [T]-[C]` und auch so `[C]-[T]   [T]-[>]-[C]` eingesetzt werden.
-`[T]` = Teleport
-`[>]` = Schieber 
-`[C]` = chest/Kiste
-
-Teleportblöcke benötigen jeweils 12 ku Strom.
-
-Für die Nutzung der Teleportblöcke werden 60 Erfahrungspunkte benötigt.
-
-[ta5_tele_tube|image]
-
-### TA5 Teleport Block Flüssigkeiten / TA5 Teleport Block Liquids
-
-Teleportblöcke erlauben den Flüssigkeiten-Transport ohne Leitungen bis zu einer Entfernung von 200 Blöcken.
-Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Block eingeben, dann kannst du bei dem anderen Block diesen Namen auswählen und so die beiden Blöcke verbinden.
-
-Die Teleport Blöcke können so `[=]-[>]-[T]   [T]-[=]` und auch so `[=]-[T]   [T]-[>]-[=]` eingesetzt werden.
-`[T]` = Teleport
-`[>]` = Pumpe 
-`[=]` = Tank
-
-Teleportblöcke benötigen jeweils 12 ku Strom.
-
-Für die Nutzung der Teleportblöcke werden 60 Erfahrungspunkte benötigt.
-
-[ta5_tele_pipe|image]
-
-### TA5-Raumgleiter (geplant)
-
-Dank einem Spezialantrieb für Lichtgeschwindigkeit können mit dem Raumgleiter auch große Entfernungen sehr schnell überwunden werden.
-
-## Weitere TA5 Blöcke/Items
 
 ### TA5 KI Chip / TA5 AI Chip
 
