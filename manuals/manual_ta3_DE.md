@@ -836,16 +836,12 @@ Mit Shift+Rechtsklick kann bei einigen Blöcken ein erweitertes Menü geöffnet 
 [ta3_end_wrench|image]
 
 
-
-
 ### TechAge Programmer
 
 Mit dem Programmer können Blocknummern mit einem Rechtsklick von mehreren Blöcken eingesammelt und mit einem Linksklick in einen Block wie Taster/Schalter geschrieben werden.
 Wird in die Luft geklickt, wird der interne Speicher gelöscht.
 
 [ta3_programmer|image]
-
-
 
 ### TechAge Kelle / Trowel
 
@@ -859,3 +855,14 @@ Die Kelle dient zum Verputzen von Stromkabel. Siehe dazu "TA Stromkabel".
 Mit diesem Werkzeug lassen sich die Bohrgestängezange Blöcke wieder entfernen, wenn dort bspw. ein Tunnel durch soll.
 
 [ta3_drill_pipe_wrench|image]
+
+### Techage Schraubendreher
+
+Der Techage Schraubendreher dient als Ersatz für den normalen Schraubendreher. Es besitzt folgende Funktionen:
+
+- Linksklick: Den Block nach links drehen
+- Rechtsklick: Die sichtbare Seite des Blockes nach oben drehen
+- Shift+Linksklick: Ausrichtung des angeklickten Blockes speichern
+- Shift+Rechtsklick: Die gespeicherte Ausrichtung auf den angeklickten Block anwenden
+
+[ta3_screwdriver|image]

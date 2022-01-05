@@ -80,12 +80,55 @@ function techage.facedir_to_rotation(facedir)
 end
 
 function techage.param2_turn_left(param2)
-	return (RotationViaYAxis[param2] or RotationViaYAxis[0])[1]
+	return (RotationViaYAxis[param2] or RotationViaYAxis[0])[2]
 end
 
 function techage.param2_turn_right(param2)
-	return (RotationViaYAxis[param2] or RotationViaYAxis[0])[2]
+	return (RotationViaYAxis[param2] or RotationViaYAxis[0])[1]
 end
+
+-- Roll a block in north direction (south is vice versa)
+local RollNorth = {
+	{0,4,22,8},
+	{1,5,23,9},
+	{2,6,20,10},
+	{3,7,21,11},
+	{12,13,14,15},
+	{16,19,18,17},
+}
+-- Roll a block in east direction (west is vice versa)
+local RollEast = {
+	{0,12,20,16},
+	{1,13,21,17},
+	{2,14,22,18},
+	{3,15,23,19},
+	{4,7,6,5},
+	{8,9,10,11},
+}
+
+-- Generate a table for all facedir and param2 values:
+--   TurnUp[facedir][param2] = new_param2
+local TurnUp = {[0] = {}, {}, {}, {}}
+
+for i = 1,6 do
+	for j = 1,4 do
+		local idx = RollNorth[i][j]
+		TurnUp[0][idx] = RollNorth[i][j == 4 and 1 or j + 1]  -- north
+		TurnUp[2][idx] = RollNorth[i][j == 1 and 4 or j - 1]  -- south
+
+		idx = RollEast[i][j]
+		TurnUp[1][idx] = RollEast[i][j == 4 and 1 or j + 1]   -- east
+		TurnUp[3][idx] = RollEast[i][j == 1 and 4 or j - 1]   -- west
+	end
+end
+
+-- facedir is from the players (0..3)
+-- param2 is from the node (0..23)
+function techage.param2_turn_up(facedir, param2)
+	return TurnUp[facedir % 4][param2 % 24]
+end
+
+
 
 -------------------------------------------------------------------------------
 -- Rotate nodes around the center

@@ -228,6 +228,7 @@ dofile(MP.."/tools/repairkit.lua")
 dofile(MP.."/tools/pipe_wrench.lua")
 dofile(MP.."/basic_machines/blackhole.lua")
 dofile(MP.."/basic_machines/forceload.lua")
+dofile(MP.."/tools/screwdriver.lua")
 
 -- Lamps
 dofile(MP.."/lamps/lib.lua")

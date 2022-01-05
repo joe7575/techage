@@ -829,7 +829,6 @@ With Shift + right click an extended menu can be opened for some blocks. Dependi
 
 [ta3_end_wrench|image]
 
-
 ### TechAge Programmer
 
 With the programmer, block numbers can be collected from several blocks with a right click and written into a block like a button / switch with a left click.
@@ -837,17 +836,25 @@ If you click in the air, the internal memory is deleted.
 
 [ta3_programmer|image]
 
-
-
 ### TechAge Trowel / Trowel
 
 The trowel is used for plastering power cables. See also "TA power cable".
 
 [ta3_trowel|image]
 
-
 ### TA3 drill pipe wrench
 
 This tool can be used to remove the drill pipe blocks if, for example, a tunnel is to pass through there.
 
 [ta3_drill_pipe_wrench|image]
+
+### Techage Screwdriver
+
+The Techage Screwdriver serves as a replacement for the normal screwdriver. It has the following functions:
+
+- Left click: turn the block to the left
+- Right click: turn the visible side of the block upwards
+- Shift + left click: save the alignment of the clicked block
+- Shift + right click: apply the saved alignment to the clicked block
+
+[ta3_screwdriver|image] 

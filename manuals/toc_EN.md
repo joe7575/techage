@@ -138,6 +138,7 @@
         - [TechAge Programmer](./manual_ta3_EN.md#techage-programmer)
         - [TechAge Trowel / Trowel](./manual_ta3_EN.md#techage-trowel--trowel)
         - [TA3 drill pipe wrench](./manual_ta3_EN.md#ta3-drill-pipe-wrench)
+        - [Techage Screwdriver](./manual_ta3_EN.md#techage-screwdriver)
 - [TA4: Present](./manual_ta4_EN.md#ta4:-present)
     - [Wind Turbine](./manual_ta4_EN.md#wind-turbine)
         - [TA4 Wind Turbine](./manual_ta4_EN.md#ta4-wind-turbine)

@@ -1049,6 +1049,11 @@ TA4 Rotor Blade=TA4 Rotorblatt
 TA4 Wind Turbine=TA4 Windkraftanlage
 TA4 Wind Turbine Nacelle=TA4 Windkraftanlagengondel
 
+### screwdriver.lua ###
+
+Block alignment stored!=Blockausrichtung gespeichert!
+Techage Screwdriver@n(See: TA3 > Tools)=Techage Schraubendreher@n(Siehe: TA3 > Werkzeuge)
+
 ### sensorchest.lua ###
 
 Allow public chest access=Erlaube öffentlichen Zugriff

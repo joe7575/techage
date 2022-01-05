@@ -139,6 +139,7 @@ techage.manual_DE.aTitel = {
   "3,TechAge Programmer",
   "3,TechAge Kelle / Trowel",
   "3,TA3 Bohrgestängezange / TA3 Drill Pipe Wrench",
+  "3,Techage Schraubendreher",
   "1,TA4: Gegenwart",
   "2,Windkraftanlage",
   "3,TA4 Windkraftanlage / Wind Turbine",
@@ -1268,6 +1269,15 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der Techage Schraubendreher dient als Ersatz für den normalen Schraubendreher. Es besitzt folgende Funktionen:\n"..
+  "\n"..
+  "  - Linksklick: Den Block nach links drehen\n"..
+  "  - Rechtsklick: Die sichtbare Seite des Blockes nach oben drehen\n"..
+  "  - Shift+Linksklick: Ausrichtung des angeklickten Blockes speichern\n"..
+  "  - Shift+Rechtsklick: Die gespeicherte Ausrichtung auf den angeklickten Block anwenden\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Regenerative Energiequellen wie Wind\\, Sonne und Biokraft helfen dir\\, das Ölzeitalter zu verlassen. Mit modernen Technologien und intelligenten Maschinen machst du dich auf in die Zukunft.\n"..
   "\n"..
   "\n"..
@@ -2198,6 +2208,7 @@ techage.manual_DE.aItemName = {
   "ta3_programmer",
   "ta3_trowel",
   "ta3_drill_pipe_wrench",
+  "ta3_screwdriver",
   "techage_ta4",
   "",
   "ta4_windturbine",
@@ -2446,6 +2457,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
   "ta4_windturbine",
   "",
   "",
@@ -2552,3 +2564,4 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
 }
+

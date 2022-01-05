@@ -139,6 +139,7 @@ techage.manual_EN.aTitel = {
   "3,TechAge Programmer",
   "3,TechAge Trowel / Trowel",
   "3,TA3 drill pipe wrench",
+  "3,Techage Screwdriver",
   "1,TA4: Present",
   "2,Wind Turbine",
   "3,TA4 Wind Turbine",
@@ -1266,6 +1267,15 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The Techage Screwdriver serves as a replacement for the normal screwdriver. It has the following functions:\n"..
+  "\n"..
+  "  - Left click: turn the block to the left\n"..
+  "  - Right click: turn the visible side of the block upwards\n"..
+  "  - Shift + left click: save the alignment of the clicked block\n"..
+  "  - Shift + right click: apply the saved alignment to the clicked block\n"..
+  "\n"..
+  " \n"..
+  "\n",
   "Renewable energy sources such as wind\\, sun and biofuels help you to leave the oil age. With modern technologies and intelligent machines you set out into the future.\n"..
   "\n"..
   "\n"..
@@ -2193,6 +2203,7 @@ techage.manual_EN.aItemName = {
   "ta3_programmer",
   "ta3_trowel",
   "ta3_drill_pipe_wrench",
+  "ta3_screwdriver",
   "techage_ta4",
   "",
   "ta4_windturbine",
@@ -2440,6 +2451,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
+  "",
   "ta4_windturbine",
   "",
   "",
@@ -2545,3 +2557,4 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
 }
+

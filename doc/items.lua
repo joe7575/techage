@@ -85,6 +85,7 @@ techage.Items = {
 	ta3_powerswitchbox = "techage:powerswitch_box",
 	ta3_powerterminal = "techage:ta3_power_terminal",
 	ta3_trowel = "techage:trowel",
+	ta3_screwdriver = "techage:screwdriver",
 	ta3_tinygenerator = "techage:tiny_generator",
 	ta3_akkublock = "techage:ta3_akku",
 	ta3_furnace = "techage:ta3_furnace_pas",
