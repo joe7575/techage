@@ -134,8 +134,8 @@ minetest.register_craft({
 	output = "techage:screwdriver",
 	recipe = {
 		{"", "default:diamond", ""},
-		{"", "default:stick", ""},
-		{"", "", ""},
+		{"", "basic_materials:steel_bar", ""},
+		{"", "techage:baborium_ingot", ""},
 	},
 })
 
