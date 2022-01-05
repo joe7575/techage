@@ -28,6 +28,7 @@ local NodeDef = techage.NodeDef
 local Tube = techage.Tube
 local is_cart_available = minecart.is_nodecart_available
 local techage_counting_hit = techage.counting_hit
+local tubelib2_side_to_dir = tubelib2.side_to_dir
 
 -------------------------------------------------------------------
 -- Database
@@ -125,11 +126,7 @@ end
 local SideToDir = {B=1, R=2, F=3, L=4, D=5, U=6}
 
 local function side_to_dir(side, param2)
-	local dir = SideToDir[side]
-	if dir < 5 then
-		dir = (((dir - 1) + (param2 % 4)) % 4) + 1
-	end
-	return dir
+	return tubelib2_side_to_dir(side, param2)
 end
 
 techage.side_to_outdir = side_to_dir

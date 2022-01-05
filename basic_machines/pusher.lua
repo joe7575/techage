@@ -197,7 +197,7 @@ local tiles = {}
 -- '{power}' will be replaced by the power PNG
 tiles.pas = {
 	"techage_filling_ta#.png^techage_frame_ta#_top.png^techage_appl_arrow.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#_bottom.png^techage_appl_arrow.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
 	"techage_appl_pusher.png^[transformR180]^techage_frame_ta#.png",
@@ -206,7 +206,7 @@ tiles.pas = {
 tiles.act = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta#.png^techage_frame_ta#_top.png^techage_appl_arrow.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#_bottom.png^techage_appl_arrow.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
 	{
@@ -277,7 +277,14 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 				M(pos):set_string("formspec", ta4_formspec(CRD(pos).State, pos, nvm))
 			end
 		end,
-
+		ta_rotate_node = function(pos, node, new_param2)
+			Tube:after_dig_node(pos)
+			minetest.swap_node(pos, {name = node.name, param2 = new_param2})
+			Tube:after_place_node(pos)
+			local meta = M(pos)
+			meta:set_int("pull_dir", techage.side_to_outdir("L", new_param2))
+			meta:set_int("push_dir", techage.side_to_outdir("R", new_param2))
+		end,
 		allow_metadata_inventory_put = allow_metadata_inventory_put,
 		allow_metadata_inventory_take = allow_metadata_inventory_take,
 		on_rightclick = on_rightclick,

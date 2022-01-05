@@ -41,14 +41,13 @@ local function base_checks(user, pointed_thing)
 		return false
 	end
 
-	if ndef.on_rotate == screwdriver.disallow then
+	if ndef.on_rotate == screwdriver.disallow and not ndef.ta_rotate_node then
 		return false
 	end
 
 	local yaw = user:get_look_horizontal()
 	local dir = minetest.yaw_to_dir(yaw)
 	local facedir = minetest.dir_to_facedir(dir)
-	print("base_checks", facedir, ndef.paramtype2)
 
 	return true, pos, player_name, facedir, node, ndef
 end
@@ -59,21 +58,35 @@ local function store_node_param2(user, node)
 	minetest.chat_send_player(user:get_player_name(), S("Block alignment stored!"))
 end
 
-local function turn_node_param2(pos, node, user)
+local function turn_node_param2(pos, node, ndef, user)
 	local param2 = user:get_meta():get_string("techage_screwdriver_param2")
-	minetest.swap_node(pos, {name = node.name, param2 = param2})
+	if ndef.ta_rotate_node then
+		ndef.ta_rotate_node(pos, node, param2)
+	else
+		minetest.swap_node(pos, {name = node.name, param2 = param2})
+		minetest.check_for_falling(pos)
+	end
 end
 
-local function turn_left(pos, node)
+local function turn_left(pos, node, ndef)
 	local param2 = techage.param2_turn_left(node.param2)
-	minetest.swap_node(pos, {name = node.name, param2 = param2})
+	if ndef.ta_rotate_node then
+		ndef.ta_rotate_node(pos, node, param2)
+	else
+		minetest.swap_node(pos, {name = node.name, param2 = param2})
+		minetest.check_for_falling(pos)
+	end
 end
 
-local function turn_up(pos, node, facedir)
+local function turn_up(pos, node, ndef, facedir)
 	local param2 = techage.param2_turn_up(facedir, node.param2)
-	minetest.swap_node(pos, {name = node.name, param2 = param2})
+	if ndef.ta_rotate_node then
+		ndef.ta_rotate_node(pos, node, param2)
+	else
+		minetest.swap_node(pos, {name = node.name, param2 = param2})
+		minetest.check_for_falling(pos)
+	end
 end
-
 
 -- on_use == on_left_click == turn left
 local function on_use(itemstack, user, pointed_thing)
@@ -83,7 +96,7 @@ local function on_use(itemstack, user, pointed_thing)
 			if user:get_player_control().sneak then
 				store_node_param2(user, node)
 			else
-				turn_left(pos, node)
+				turn_left(pos, node, ndef)
 			end
 		else
 			return screwdriver.handler(itemstack, user, pointed_thing, screwdriver.ROTATE_FACE, USES)
@@ -103,9 +116,9 @@ local function on_place(itemstack, user, pointed_thing)
 		if ndef.paramtype2 == "facedir" then
 			if ndef.on_rotate ~= screwdriver.rotate_simple then
 				if user:get_player_control().sneak then
-					turn_node_param2(pos, node, user)
+					turn_node_param2(pos, node, ndef, user)
 				else
-					turn_up(pos, node, facedir)
+					turn_up(pos, node, ndef, facedir)
 				end
 			else
 				return itemstack
