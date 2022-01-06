@@ -54,12 +54,12 @@ end
 
 
 local function store_node_param2(user, node)
-	user:get_meta():set_string("techage_screwdriver_param2", node.param2)
+	user:get_meta():set_int("techage_screwdriver_param2", node.param2)
 	minetest.chat_send_player(user:get_player_name(), S("Block alignment stored!"))
 end
 
 local function turn_node_param2(pos, node, ndef, user)
-	local param2 = user:get_meta():get_string("techage_screwdriver_param2")
+	local param2 = user:get_meta():get_int("techage_screwdriver_param2") or 0
 	if ndef.ta_rotate_node then
 		ndef.ta_rotate_node(pos, node, param2)
 	else

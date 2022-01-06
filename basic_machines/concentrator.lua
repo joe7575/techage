@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -54,6 +54,12 @@ local names = networks.register_junction("techage:concentrator", 2/8, Boxes, Tub
 		local name = "techage:concentrator"..networks.junction_type(pos, Tube, "R", node.param2)
 		minetest.swap_node(pos, {name = name, param2 = node.param2})
 	end,
+	ta_rotate_node = function(pos, node, new_param2)
+		Tube:after_dig_node(pos)
+		minetest.swap_node(pos, {name = node.name, param2 = new_param2})
+		Tube:after_place_node(pos)
+		M(pos):set_int("push_dir", techage.side_to_outdir("R", new_param2))
+	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Tube:after_dig_node(pos)
 	end,
@@ -92,6 +98,12 @@ names = networks.register_junction("techage:ta4_concentrator", 2/8, Boxes, Tube,
 	tubelib2_on_update2 = function(pos, dir1, tlib2, node)
 		local name = "techage:ta4_concentrator"..networks.junction_type(pos, Tube, "R", node.param2)
 		minetest.swap_node(pos, {name = name, param2 = node.param2})
+	end,
+	ta_rotate_node = function(pos, node, new_param2)
+		Tube:after_dig_node(pos)
+		minetest.swap_node(pos, {name = node.name, param2 = new_param2})
+		Tube:after_place_node(pos)
+		M(pos):set_int("push_dir", techage.side_to_outdir("R", new_param2))
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Tube:after_dig_node(pos)
