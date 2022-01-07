@@ -398,7 +398,11 @@ dofile(MP.."/collider/worker.lua")
 dofile(MP.."/teleport/teleport_tube.lua")
 dofile(MP.."/teleport/teleport_pipe.lua")
 
+dofile(MP.."/fusion_reactor/shell.lua")
 dofile(MP.."/fusion_reactor/gas_pipe.lua")
+dofile(MP.."/fusion_reactor/magnet.lua")
+dofile(MP.."/fusion_reactor/plasma.lua")
+dofile(MP.."/fusion_reactor/controller.lua")
 
 -- Prevent other mods from using IE
 techage.IE = nil
