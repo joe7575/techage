@@ -18,8 +18,8 @@ local P2S = minetest.pos_to_string
 local M = minetest.get_meta
 local S = techage.S
 
-minetest.register_node("techage:ta5_fr_shell1", {
-	description = "TA5 Fusion Reactor Shell 1",
+minetest.register_node("techage:ta5_fr_shell", {
+	description = "TA5 Fusion Reactor Shell",
 	tiles = {
 		"techage_reactor_shell.png",
 	},
@@ -32,23 +32,10 @@ minetest.register_node("techage:ta5_fr_shell1", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
-minetest.register_node("techage:ta5_fr_shell2", {
-	description = "TA5 Fusion Reactor Shell 2",
+minetest.register_node("techage:ta5_fr_nucleus", {
+	description = "TA5 Fusion Reactor Nucleus",
 	tiles = {
-		"techage_reactor_shell.png",
-	},
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-8/16, -8/16, -8/16, -2/16,  8/16,  8/16},
-			{ 2/16, -8/16, -8/16,  8/16,  8/16,  8/16},
-			{-8/16, -8/16, -8/16,  8/16, -2/16,  8/16},
-			{-8/16,  2/16, -8/16,  8/16,  8/16,  8/16},
-		},
-	},
-	selection_box = {
-		type = "fixed",
-		fixed = {-8/16, -8/16, -8/16,  8/16, 8/16, 8/16},
+		"techage_reactor_shell.png^techage_collider_detector_core.png",
 	},
 	drawtype = "nodebox",
 	paramtype2 = "facedir",

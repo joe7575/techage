@@ -19,6 +19,9 @@ local Cable2 = techage.TA4_Cable
 local Pipe2 = techage.LiquidPipe
 local menu = techage.menu
 
+local N = techage.get_node_lvm
+local CTL = function(pos) return (minetest.registered_nodes[N(pos).name] or {}).control end
+
 local function network_check(start_pos, Cable, player_name)
 --	local ndef = techage.networks.net_def(start_pos, Cable.tube_type)
 --	local outdir = nil
@@ -59,17 +62,6 @@ local function read_state(itemstack, user, pointed_thing)
 		if data then
 			local name = minetest.get_biome_name(data.biome)
 			minetest.chat_send_player(user:get_player_name(), S("Biome")..": "..name..", "..S("Position temperature")..": "..math.floor(data.heat).."    ")
-		end
-
-		if ndef and ndef.networks then
-			local player_name = user:get_player_name()
-			if ndef.networks.ele1 then
-				network_check(pos, Cable1, player_name)
-			elseif ndef.networks.ele2 then
-				network_check(pos, Cable2, player_name)
-			elseif ndef.networks.pipe2 then
-				network_check(pos, Pipe2, player_name)
-			end
 		end
 
 		if number then
@@ -122,6 +114,14 @@ local function read_state(itemstack, user, pointed_thing)
 				itemstack:add_wear(65636/200)
 				return itemstack
 			end
+		elseif node.name == "techage:ta5_magnet1" or node.name == "techage:ta5_magnet2" then
+			local ctl = CTL(pos)
+			local has_gas = ctl.on_request(pos, nil, "test_gas") and S("yes") or S("no")
+			local has_power = ctl.on_request(pos, nil, "test_power") and S("yes") or S("no")
+			minetest.chat_send_player(user:get_player_name(), S("Power: @1, Cooling: @2", has_power, has_gas))
+			minetest.chat_send_player(user:get_player_name(), S("Position")..": "..minetest.pos_to_string(pos).."    ")
+			itemstack:add_wear(65636/200)
+			return itemstack
 		elseif ndef and ndef.description then
 			if ndef.techage_info then
 				local info = ndef.techage_info(pos) or ""

@@ -91,7 +91,7 @@ minetest.register_node("techage:ta3_tank", {
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta3.png^techage_frame_ta3_top.png",
-		"techage_filling_ta3.png^techage_frame_ta3.png",
+		"techage_filling_ta3.png^techage_frame_ta3_bottom.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_tank.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_tank.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_tank.png",
@@ -197,7 +197,7 @@ minetest.register_node("techage:ta4_tank", {
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta4.png^techage_frame_ta4_top.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png",
+		"techage_filling_ta4.png^techage_frame_ta4_bottom.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_tank.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_tank.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_tank.png",

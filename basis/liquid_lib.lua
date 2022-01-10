@@ -190,7 +190,7 @@ local function fill_on_punch(nvm, empty_container, item_count, puncher)
 end
 
 local function legacy_items(full_container, item_count)
-	if full_container == "techage:hydrogen" then
+	if full_container == "techage:isobutane" then
 		return {container = "", size = item_count, inv_item = full_container}
 	elseif full_container == "techage:oil_source" then
 		return {container = "", size = item_count, inv_item = full_container}
