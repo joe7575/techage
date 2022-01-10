@@ -505,6 +505,14 @@ function techage.wrench_tooltip(x, y)
 		"tooltip["..x..","..y..";0.5,0.5;"..tooltip..";#0C3D32;#FFFFFF]"
 end
 
+techage.RegisteredMobsMods = {}
+
+-- Register mobs mods for the move/fly controllers
+function techage.register_mobs_mods(mod)
+	techage.RegisteredMobsMods[mod] = true
+end
+
+
 -------------------------------------------------------------------------------
 -- Terminal history buffer
 -------------------------------------------------------------------------------

@@ -112,7 +112,7 @@ minetest.register_node("techage:ta4_movecontroller", {
 			nvm.lpos1 = {}
 			nvm.lpos2 = {}
 			nvm.moveBA = false
-			nvm.running = true
+			nvm.running = nil
 			meta:set_string("status", S("Recording..."))
 			local name = player:get_player_name()
 			minetest.chat_send_player(name, S("Click on all blocks that shall be moved"))
@@ -125,7 +125,7 @@ minetest.register_node("techage:ta4_movecontroller", {
 				meta:set_string("path", fields.path)
 			end
 			local text = #pos_list.." "..S("block positions are stored.")
-			nvm.running = false
+			nvm.running = nil
 			meta:set_string("status", text)
 			nvm.lpos1 = pos_list
 			mark.unmark_all(name)
@@ -142,7 +142,7 @@ minetest.register_node("techage:ta4_movecontroller", {
 			local name = player:get_player_name()
 			mark.stop(name)
 			nvm.moveBA = false
-			nvm.running = true
+			nvm.running = nil
 		elseif fields.moveAB then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, false) then
