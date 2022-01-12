@@ -75,6 +75,10 @@ local Commands = {
 		local resp = control.send(pos, Cable, outdir, "con", "off")
 		return "off " .. resp
 	end,
+	function(pos, outdir)
+		local resp = control.request(pos, Cable, outdir, "con", "no_gas")
+		return "no_gas: " .. concentrate(resp)
+	end,
 }
 
 local function after_place_node(pos, placer, itemstack)

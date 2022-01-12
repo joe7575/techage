@@ -134,19 +134,22 @@ Pipe:set_valid_sides("techage:ta5_turbine", {"L", "U"})
 Pipe:set_valid_sides("techage:ta5_turbine_on", {"L", "U"})
 
 techage.register_node({"techage:ta5_turbine", "techage:ta5_turbine_on"}, {
+	-- used by heatexchanger1
 	on_transfer = function(pos, in_dir, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		if topic == "start" then  -- used by heatexchanger1
+		if topic == "trigger" then  
+			return generator_cmnd(pos, topic, payload)
+		elseif topic == "start" then
 			swap_node(pos, "techage:ta5_turbine_on")
 			play_sound(pos)
 			return generator_cmnd(pos, topic, payload)
-		elseif topic == "stop" then  -- used by heatexchanger1
+		elseif topic == "stop" then
 			swap_node(pos, "techage:ta5_turbine")
 			stop_sound(pos)
 			return generator_cmnd(pos, topic, payload)
-		elseif topic == "turbine" then  -- used by heatexchanger1
+		elseif topic == "turbine" then
 			return true
-		else  -- used by heatexchanger1
+		else
 			return generator_cmnd(pos, topic, payload)
 		end
 	end,

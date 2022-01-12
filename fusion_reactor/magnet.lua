@@ -24,6 +24,7 @@ local power = networks.power
 local liquid = networks.liquid
 local control = networks.control
 
+local CAPACITY = 6
 local SHELLBLOCKS = {"techage:ta5_fr_shell", "techage:ta5_fr_nucleus", "techage:ta5_magnet1", "techage:ta5_magnet2"}
 
 minetest.register_node("techage:ta5_magnet1", {
@@ -95,7 +96,25 @@ minetest.register_node("techage:ta5_magnet2", {
 })
 
 power.register_nodes({"techage:ta5_magnet1"}, Cable, "con", {"B"})
-liquid.register_nodes({"techage:ta5_magnet1", "techage:ta5_magnet2"}, Pipe, "tank", {"U", "D"}, {})
+liquid.register_nodes({"techage:ta5_magnet1", "techage:ta5_magnet2"}, Pipe, "tank", {"U", "D"}, {
+	capa = CAPACITY,
+	peek = function(pos, indir)
+		local nvm = techage.get_nvm(pos)
+		return liquid.srv_peek(nvm)
+	end,
+	put = function(pos, indir, name, amount)
+		local nvm = techage.get_nvm(pos)
+		return liquid.srv_put(nvm, name, amount, CAPACITY)
+	end,
+	take = function(pos, indir, name, amount)
+		local nvm = techage.get_nvm(pos)
+		return liquid.srv_take(nvm, name, amount)
+	end,
+	untake = function(pos, indir, name, amount)
+		local nvm = techage.get_nvm(pos)
+		liquid.srv_put(nvm, name, amount, CAPACITY)
+	end,
+})
 
 local function check_plasma(pos, param2)
 	local pos1 = networks.get_relpos(pos, "F", param2)
@@ -141,14 +160,24 @@ end
 local function on_request(pos, tlib2, topic)
 	--print("on_request", topic)
 	local nvm = techage.get_nvm(pos)
+	nvm.liquid = nvm.liquid or {}
+	nvm.liquid.amount = nvm.liquid.amount or 0
 	if topic == "test_power" and tlib2 == Cable then
+		nvm.has_power = true
 		return true
 	elseif topic == "test_gas_blue" and tlib2 == Pipe then
+		-- Test if gas is available
 		nvm.gas_cnt = 1
-		return true
+		return nvm.liquid.amount == CAPACITY
 	elseif topic == "test_gas_green" and tlib2 == Pipe then
+		-- Test if gas is heated
 		nvm.gas_cnt = (nvm.gas_cnt or 0) - 1
-		return nvm.gas_cnt == 0
+		local res = nvm.gas_cnt == 0 and nvm.has_power
+		nvm.has_power = false
+		return res
+	elseif topic == "no_gas" then
+		nvm.liquid.amount = 0
+		return true
 	elseif topic == "test_plasma" then
 		local node = minetest.get_node(pos) or {}
 		return check_plasma(pos, node.param2)

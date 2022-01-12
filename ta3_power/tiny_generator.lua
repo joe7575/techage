@@ -127,10 +127,10 @@ local function node_timer(pos, elapsed)
 	local fuel = has_fuel(pos, nvm)
 	if running and not fuel then
 		State:standby(pos, nvm, S("no fuel"))
-        stop_node(pos, nvm, State)
+		stop_node(pos, nvm, State)
 	elseif not running and fuel then
 		State:start(pos, nvm)
-        -- start_node() is called implicit
+		-- start_node() is called implicit
 	elseif running then
 		local meta = M(pos)
 		local outdir = meta:get_int("outdir")

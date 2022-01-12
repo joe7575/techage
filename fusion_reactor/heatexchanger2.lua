@@ -41,15 +41,6 @@ local function heatexchanger3_cmnd(pos, topic, payload)
 		{"techage:ta5_heatexchanger3"})
 end
 
-local function swap_node(pos, name)
-	local node = techage.get_node_lvm(pos)
-	if node.name == name then
-		return
-	end
-	node.name = name
-	minetest.swap_node(pos, node)
-end
-
 local function play_sound(pos)
 	local mem = techage.get_mem(pos)
 	if not mem.handle or mem.handle == -1 then
@@ -72,7 +63,7 @@ local function stop_sound(pos)
 	end
 end
 
-local function concentrate(t)
+local function count_trues(t)
 	local cnt = 0
 	for _,v in ipairs(t) do
 		if v then
@@ -91,7 +82,7 @@ local CheckCommands = {
 	end,
 	function(pos)
 		local resp = heatexchanger1_cmnd(pos, "test_gas_blue")
-		local cnt = concentrate(resp)
+		local cnt = count_trues(resp)
 		if cnt ~= EXPECT_BLUE then
 			return S("Blue pipe error (@1/@2)", cnt, EXPECT_BLUE)
 		end
@@ -99,7 +90,7 @@ local CheckCommands = {
 	end,
 	function(pos)
 		local resp = heatexchanger3_cmnd(pos, "test_gas_green")
-		local cnt = concentrate(resp)
+		local cnt = count_trues(resp)
 		if cnt ~= EXPECT_GREEN then
 			return S("Green pipe error (@1/@2)", cnt, EXPECT_GREEN)
 		end
@@ -130,30 +121,39 @@ end
 local function start_node(pos, nvm)
 	play_sound(pos)
 	nvm.ticks = 0
+	nvm.temperature = 20
 	heatexchanger1_cmnd(pos, "start")
 end
 
 local function stop_node(pos, nvm)
 	stop_sound(pos)
+	nvm.temperature = 20
 	heatexchanger1_cmnd(pos, "stop")
 end
 
+local function temp_indicator (nvm, x, y)
+	local temp = nvm.temperature or 20
+	return "image["  .. x .. "," .. y .. ";1,2;techage_form_temp_bg.png^[lowpart:" ..
+		temp .. ":techage_form_temp_fg.png]" ..
+		"tooltip["  .. x .. "," .. y .. ";1,2;" .. S("water temperature") .. ";#0C3D32;#FFFFFF]"
+end
+
 local function formspec(self, pos, nvm)
-	return "size[4,2]"..
-		"box[0,-0.1;3.8,0.5;#c6e8ff]" ..
+	return "size[5,3]"..
+		"box[0,-0.1;4.8,0.5;#c6e8ff]" ..
 		"label[0.2,-0.1;" .. minetest.colorize( "#000000", DESCRIPTION) .. "]" ..
-		"image_button[1.5,1;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
-		"tooltip[1.5,1;1,1;"..self:get_state_tooltip(nvm).."]"
+		temp_indicator (nvm, 1, 1) ..
+		"image_button[3.2,1.5;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
+		"tooltip[3.2,1.5;1,1;"..self:get_state_tooltip(nvm).."]"
 end
 
 local function check_integrity(pos, nvm)
 	-- Check every 30 sec
 	nvm.ticks = ((nvm.ticks or 0) % 15) + 1
 	if CheckCommands[nvm.ticks] then
-		local res = CheckCommands[nvm.ticks](pos)
-		if res ~= true then return res end
+		nvm.result = CheckCommands[nvm.ticks](pos)
 	end
-	return true
+	return nvm.result
 end
 
 local State = techage.NodeStates:new({
@@ -182,15 +182,23 @@ local function consume_power(pos, nvm)
 	end
 end
 
+local function steam_management(pos, nvm)
+	nvm.temperature = nvm.temperature or 20
+	nvm.temperature = math.min(nvm.temperature + 1, 100)
+	if nvm.temperature > 80 then 
+		heatexchanger1_cmnd(pos, "trigger")
+	end
+end
+
 local function node_timer(pos, elapsed)
-	print("node_timer")
 	local nvm = techage.get_nvm(pos)
+	nvm.temperature = nvm.temperature or 20
 	consume_power(pos, nvm)
-	local res = check_integrity(pos, nvm)
-	if res ~= true then
-		State:fault(pos, nvm, res)
-		stop_sound(pos)
-		heatexchanger1_cmnd(pos, "stop")
+	if check_integrity(pos, nvm) == true then
+		steam_management(pos, nvm)
+	else
+		State:fault(pos, nvm, nvm.result)
+		stop_node(pos, nvm)
 	end
 	return State:is_active(nvm)
 end
@@ -262,7 +270,6 @@ minetest.register_node("techage:ta5_heatexchanger2", {
 	after_place_node = after_place_node,
 	can_dig = can_dig,
 	after_dig_node = after_dig_node,
-	get_storage_data = get_storage_data,
 
 	paramtype2 = "facedir",
 	groups = {crumbly = 2, cracky = 2, snappy = 2},

@@ -408,8 +408,9 @@ dofile(MP.."/fusion_reactor/controller.lua")
 dofile(MP.."/fusion_reactor/heatexchanger3.lua")
 dofile(MP.."/fusion_reactor/heatexchanger2.lua")
 dofile(MP.."/fusion_reactor/heatexchanger1.lua")
---dofile(MP.."/fusion_reactor/generator.lua")
+dofile(MP.."/fusion_reactor/generator.lua")
 dofile(MP.."/fusion_reactor/turbine.lua")
+dofile(MP.."/fusion_reactor/ta5_pump.lua")
 
 -- Prevent other mods from using IE
 techage.IE = nil
