@@ -119,7 +119,6 @@ liquid.register_nodes({"techage:ta5_magnet1", "techage:ta5_magnet2"}, Pipe, "tan
 local function check_plasma(pos, param2)
 	local pos1 = networks.get_relpos(pos, "F", param2)
 	local node = minetest.get_node(pos1) or {}
-	--techage.mark_position("singleplayer", pos1, "pos1", nil, 2)
 	return node.name == "air"
 end
 
@@ -157,36 +156,61 @@ local function on_receive(pos, tlib2, topic, payload)
 	end
 end
 
+local function rst_power(nvm)
+	nvm.power = 0
+	return true
+end
+
+local function inc_power(nvm)
+	nvm.power = nvm.power or 0
+	if nvm.power < 0 then nvm.power = 0 end
+	nvm.power = nvm.power + 1
+	return nvm.power <= 2
+end
+
+local function dec_power(nvm)
+	nvm.power = nvm.power or 0
+	if nvm.power > 0 then nvm.power = 0 end
+	nvm.power = nvm.power - 1
+	return nvm.power >= -2
+end
+
 local function on_request(pos, tlib2, topic)
-	--print("on_request", topic)
 	local nvm = techage.get_nvm(pos)
 	nvm.liquid = nvm.liquid or {}
 	nvm.liquid.amount = nvm.liquid.amount or 0
-	if topic == "test_power" and tlib2 == Cable then
-		nvm.has_power = true
-		return true
-	elseif topic == "test_gas_blue" and tlib2 == Pipe then
-		-- Test if gas is available
-		nvm.gas_cnt = 1
-		return nvm.liquid.amount == CAPACITY
-	elseif topic == "test_gas_green" and tlib2 == Pipe then
-		-- Test if gas is heated
-		nvm.gas_cnt = (nvm.gas_cnt or 0) - 1
-		local res = nvm.gas_cnt == 0 and nvm.has_power
-		nvm.has_power = false
-		return res
-	elseif topic == "no_gas" then
-		nvm.liquid.amount = 0
-		return true
-	elseif topic == "test_plasma" then
-		local node = minetest.get_node(pos) or {}
-		return check_plasma(pos, node.param2)
-	elseif topic == "test_shell" then
-		local node = minetest.get_node(pos) or {}
-		return check_shell(pos, node.param2)
-	elseif topic == "test_nucleus" then
-		local node = minetest.get_node(pos) or {}
-		return check_nucleus(pos, node.param2)
+	if tlib2 == Cable then
+		if topic == "connect" then
+			return true
+		elseif topic == "inc_power" then
+			return inc_power(nvm)
+		elseif topic == "test_plasma" then
+			local node = minetest.get_node(pos) or {}
+			return check_plasma(pos, node.param2)
+		elseif topic == "test_shell" then
+			local node = minetest.get_node(pos) or {}
+			return check_shell(pos, node.param2)
+		elseif topic == "test_nucleus" then
+			local node = minetest.get_node(pos) or {}
+			return check_nucleus(pos, node.param2)
+		elseif topic == "no_gas" then
+			nvm.liquid.amount = 0
+			return true
+		end
+	else  -- Pipe
+		if topic == "dec_power" then
+			return dec_power(nvm)
+		elseif topic == "test_gas_blue" then
+			nvm.has_gas = true
+			return nvm.liquid.amount == CAPACITY
+		elseif topic == "test_gas_green" then
+			local res = nvm.has_gas
+			nvm.has_gas = false
+			return res
+		end
+	end
+	if topic == "rst_power" then
+		return rst_power(nvm)
 	end
 	return false
 end
@@ -196,3 +220,47 @@ control.register_nodes({"techage:ta5_magnet1", "techage:ta5_magnet2"}, {
 		on_request = on_request,
 	}
 )
+
+minetest.register_craftitem("techage:ta5_magnet_blank", {
+	description = S("TA5 Fusion Reactor Magnet Blank"),
+	inventory_image = "techage_collider_magnet.png^techage_appl_hole_electric.png",
+})
+
+minetest.register_craftitem("techage:ta5_magnet_shield", {
+	description = S("TA5 Fusion Reactor Magnet Shield"),
+	inventory_image = "techage_steel_tiles.png",
+})
+
+techage.furnace.register_recipe({
+	output = "techage:ta5_magnet_shield 1",
+	recipe = {"default:steel_ingot", "techage:usmium_powder", "techage:graphite_powder"},
+	time = 2,
+
+})
+
+minetest.register_craft({
+	output = "techage:ta5_magnet_blank 2",
+	recipe = {
+		{'default:steel_ingot', 'techage:electric_cableS', 'techage:aluminum'},
+		{'techage:ta5_pipe1S', 'basic_materials:gold_wire', 'techage:ta5_pipe2S'},
+		{'techage:aluminum', 'dye:brown', 'default:steel_ingot'},
+	},
+})
+
+minetest.register_craft({
+	output = "techage:ta5_magnet1",
+	recipe = {
+		{'', 'techage:ta5_magnet_shield', 'techage:ta5_magnet_blank'},
+		{'', '', ''},
+		{'', '', ''},
+	},
+})
+
+minetest.register_craft({
+	output = "techage:ta5_magnet2",
+	recipe = {
+		{'', 'techage:ta5_magnet_shield', 'techage:ta5_magnet_blank'},
+		{'', '', 'techage:ta5_magnet_shield'},
+		{'', '', ''},
+	},
+})

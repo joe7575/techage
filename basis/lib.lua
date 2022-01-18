@@ -264,25 +264,6 @@ function techage.get_node_lvm(pos)
 	return {name="ignore", param2=0}
 end
 
---
--- Functions used to hide electric cable and biogas pipes
---
--- Overridden method of tubelib2!
-function techage.get_primary_node_param2(pos, dir)
-	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
-	local param2 = M(npos):get_int("tl2_param2")
-	if param2 ~= 0 then
-		return param2, npos
-	end
-end
-
--- Overridden method of tubelib2!
-function techage.is_primary_node(pos, dir)
-	local npos = vector.add(pos, tubelib2.Dir6dToVector[dir or 0])
-	local param2 = M(npos):get_int("tl2_param2")
-	return param2 ~= 0
-end
-
 function techage.is_air_like(name)
 	local ndef = minetest.registered_nodes[name]
 	if ndef and ndef.buildable_to then
@@ -597,4 +578,51 @@ function techage.set_expoints(player, ex_points)
 			return true
 		end
 	end
+end
+
+-------------------------------------------------------------------------------
+-- Scheduler for a table-based, cyclic call of functions
+-------------------------------------------------------------------------------
+local TABLE_SIZE = 256
+techage.scheduler = {}
+
+local function add_to_table(tbl, i, func)
+	while i < TABLE_SIZE do
+		if not tbl[i] then
+			tbl[i] = func
+			return i + 1
+		end
+		i = i + 1
+	end
+	return i
+end
+
+function techage.scheduler.init(pos)
+	local mem = techage.get_mem(pos)
+	mem.sched_idx = 0
+end
+
+-- tFunc     : (empty) table of functions
+-- call_rate : (2,4,8,16,32,64 or 128)
+-- offset    : 0-128
+-- func      : function to be called
+function techage.scheduler.register(tFunc, call_rate, offset, func)
+	local i= 0
+	while i < TABLE_SIZE do
+		if (i % call_rate) == offset then
+			i = add_to_table(tFunc, i, func)
+		else
+			i = i + 1
+		end
+	end
+	return tFunc
+end
+
+-- tFunc   : table of functions
+-- default : default function (optional)
+-- Returns a function to be called be the callee
+function techage.scheduler.get(pos, tFunc, default)
+	local mem = techage.get_mem(pos)
+	mem.sched_idx = ((mem.sched_idx or 0) + 1) % TABLE_SIZE
+	return tFunc[mem.sched_idx] or default or function() end
 end

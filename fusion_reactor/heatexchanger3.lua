@@ -55,7 +55,6 @@ end
 -- Send to the magnets
 local function control_cmnd(pos, topic)
 	local outdir = networks.side_to_outdir(pos, "L")
-	print("control_cmnd3", outdir, "tank", topic)
 	return control.request(pos, Pipe3, outdir, "tank", topic)
 end
 

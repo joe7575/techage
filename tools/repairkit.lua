@@ -114,14 +114,6 @@ local function read_state(itemstack, user, pointed_thing)
 				itemstack:add_wear(65636/200)
 				return itemstack
 			end
-		elseif node.name == "techage:ta5_magnet1" or node.name == "techage:ta5_magnet2" then
-			local ctl = CTL(pos)
-			local has_gas = ctl.on_request(pos, nil, "test_gas") and S("yes") or S("no")
-			local has_power = ctl.on_request(pos, nil, "test_power") and S("yes") or S("no")
-			minetest.chat_send_player(user:get_player_name(), S("Power: @1, Cooling: @2", has_power, has_gas))
-			minetest.chat_send_player(user:get_player_name(), S("Position")..": "..minetest.pos_to_string(pos).."    ")
-			itemstack:add_wear(65636/200)
-			return itemstack
 		elseif ndef and ndef.description then
 			if ndef.techage_info then
 				local info = ndef.techage_info(pos) or ""

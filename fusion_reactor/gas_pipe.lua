@@ -292,22 +292,40 @@ local names2 = networks.register_junction("techage:ta5_junctionpipe2", 1/8, Boxe
 liquid.register_nodes(names1, Pipe, "junc")
 liquid.register_nodes(names2, Pipe, "junc")
 
---minetest.register_craft({
---	output = "techage:ta3_junctionpipe25 2",
---	recipe = {
---		{"", "techage:ta3_pipeS", ""},
---		{"techage:ta3_pipeS", "", "techage:ta3_pipeS"},
---		{"", "techage:ta3_pipeS", ""},
---	},
---})
+minetest.register_craft({
+	output = "techage:ta5_pipe1S 6",
+	recipe = {
+		{'', '', "default:steel_ingot"},
+		{'', 'dye:blue', 'techage:ta4_carbon_fiber'},
+		{"", '', 'techage:aluminum'},
+	},
+})
 
---minetest.register_craft({
---	output = "techage:ta3_pipeS 6",
---	recipe = {
---		{'', '', "techage:iron_ingot"},
---		{'dye:yellow', 'default:steel_ingot', ''},
---		{"techage:iron_ingot", '', ''},
---	},
---})
+minetest.register_craft({
+	output = "techage:ta5_pipe2S 6",
+	recipe = {
+		{'', '', "default:steel_ingot"},
+		{'', 'dye:green', 'techage:ta4_carbon_fiber'},
+		{"", '', 'techage:aluminum'},
+	},
+})
+
+minetest.register_craft({
+	output = "techage:ta5_junctionpipe125 2",
+	recipe = {
+		{"", "techage:ta5_pipe1S", ""},
+		{"techage:ta5_pipe1S", "", "techage:ta5_pipe1S"},
+		{"", "techage:ta5_pipe1S", ""},
+	},
+})
+
+minetest.register_craft({
+	output = "techage:ta5_junctionpipe225 2",
+	recipe = {
+		{"", "techage:ta5_pipe2S", ""},
+		{"techage:ta5_pipe2S", "", "techage:ta5_pipe2S"},
+		{"", "techage:ta5_pipe2S", ""},
+	},
+})
 
 techage.GasPipe = Pipe

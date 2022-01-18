@@ -221,7 +221,7 @@ end
 
 function techage.menu.generate_formspec(pos, ndef, form_def, player_name)
 	local meta = minetest.get_meta(pos)
-	local number = techage.get_node_number(pos)
+	local number = techage.get_node_number(pos) or "-"
 	local mem = techage.get_mem(pos)
 	mem.star = ((mem.star or 0) + 1) % 2
 	local star = mem.star == 1 and "*" or ""

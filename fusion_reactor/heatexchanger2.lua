@@ -21,13 +21,17 @@ local S = techage.S
 local Cable = techage.ElectricCable
 local power = networks.power
 local control = networks.control
+local sched = techage.scheduler
 
 local CYCLE_TIME = 2
 local PWR_NEEDED = 5
+local COUNTDOWN_TICKS = 1
 local DOWN = 5  -- dir
 local DESCRIPTION = S("TA5 Heat Exchanger")
 local EXPECT_BLUE = 56
 local EXPECT_GREEN = 52
+local CALL_RATE1 = 16  -- 2s * 16 = 32s
+local CALL_RATE2 = 8  -- 2s * 8 = 16s
 
 local function heatexchanger1_cmnd(pos, topic, payload)
 	return techage.transfer({x = pos.x, y = pos.y - 1, z = pos.z},
@@ -73,66 +77,77 @@ local function count_trues(t)
 	return cnt
 end
 
-local CheckCommands = {
-	function(pos)
-		if not power.power_available(pos, Cable, DOWN) then
-			return S("No power")
-		end
-		return true
-	end,
-	function(pos)
-		local resp = heatexchanger1_cmnd(pos, "test_gas_blue")
-		local cnt = count_trues(resp)
-		if cnt ~= EXPECT_BLUE then
-			return S("Blue pipe error (@1/@2)", cnt, EXPECT_BLUE)
-		end
-		return true
-	end,
-	function(pos)
-		local resp = heatexchanger3_cmnd(pos, "test_gas_green")
-		local cnt = count_trues(resp)
-		if cnt ~= EXPECT_GREEN then
-			return S("Green pipe error (@1/@2)", cnt, EXPECT_GREEN)
-		end
-		return true
-	end,
-	function(pos)
+local tSched = {}
+
+sched.register(tSched, CALL_RATE1, 0, function(pos)
 		if not heatexchanger1_cmnd(pos, "turbine") then
 			return S("Turbine error")
 		end
 		return true
-	end,
-	function(pos)
+	end)
+sched.register(tSched, CALL_RATE1, 1, function(pos)
 		if not heatexchanger3_cmnd(pos, "turbine") then
 			return S("Cooler error")
 		end
 		return true
-	end,
-}
+	end)
+sched.register(tSched, CALL_RATE1, 2, function(pos)
+		local resp = heatexchanger1_cmnd(pos, "test_gas_blue")
+		local cnt = count_trues(resp)
+		if cnt ~= EXPECT_BLUE then
+			return S("Blue pipe connection error\n(@1 found / @2 expected)", cnt, EXPECT_BLUE)
+		end
+		return true
+	end)
+sched.register(tSched, CALL_RATE1, 3, function(pos)
+		local resp = heatexchanger3_cmnd(pos, "test_gas_green")
+		local cnt = count_trues(resp)
+		if cnt ~= EXPECT_GREEN then
+			return S("Green pipe connection error\n(@1 found / @2 expected)", cnt, EXPECT_GREEN)
+		end
+		return true
+	end)
+sched.register(tSched, CALL_RATE2, 4, function(pos)
+		local resp = heatexchanger3_cmnd(pos, "dec_power")
+		local cnt = count_trues(resp)
+		print("dec_power", cnt)
+		if cnt < 52 then
+			return 0
+		end
+		return 1
+	end)
 
 local function can_start(pos, nvm)
-	for _,item in ipairs(CheckCommands) do
-		local res = item(pos)
-		if res ~= true then return res end
+	if not power.power_available(pos, Cable, DOWN) then
+		return S("No power")
+	end
+	heatexchanger3_cmnd(pos, "rst_power")
+	for i = 0,4 do
+		local res = tSched[i](pos)
+		if res ~= true and res ~= 1 then return res end
 	end
 	return true
 end
 
 local function start_node(pos, nvm)
 	play_sound(pos)
-	nvm.ticks = 0
-	nvm.temperature = 20
-	heatexchanger1_cmnd(pos, "start")
+	sched.init(pos)
+	nvm.temperature = nvm.temperature or 0
+	local mem = techage.get_mem(pos)
+	local t = minetest.get_gametime() - (mem.stopped_at or 0)
+	nvm.temperature = math.max(nvm.temperature - math.floor(t/2), 0)
+	nvm.temperature = math.min(nvm.temperature, 70)
 end
 
 local function stop_node(pos, nvm)
 	stop_sound(pos)
-	nvm.temperature = 20
 	heatexchanger1_cmnd(pos, "stop")
+	local mem = techage.get_mem(pos)
+	mem.stopped_at = minetest.get_gametime()
 end
 
 local function temp_indicator (nvm, x, y)
-	local temp = nvm.temperature or 20
+	local temp = techage.is_running(nvm) and nvm.temperature or 0
 	return "image["  .. x .. "," .. y .. ";1,2;techage_form_temp_bg.png^[lowpart:" ..
 		temp .. ":techage_form_temp_fg.png]" ..
 		"tooltip["  .. x .. "," .. y .. ";1,2;" .. S("water temperature") .. ";#0C3D32;#FFFFFF]"
@@ -147,15 +162,6 @@ local function formspec(self, pos, nvm)
 		"tooltip[3.2,1.5;1,1;"..self:get_state_tooltip(nvm).."]"
 end
 
-local function check_integrity(pos, nvm)
-	-- Check every 30 sec
-	nvm.ticks = ((nvm.ticks or 0) % 15) + 1
-	if CheckCommands[nvm.ticks] then
-		nvm.result = CheckCommands[nvm.ticks](pos)
-	end
-	return nvm.result
-end
-
 local State = techage.NodeStates:new({
 	node_name_passive = "techage:ta5_heatexchanger2",
 	cycle_time = CYCLE_TIME,
@@ -167,12 +173,35 @@ local State = techage.NodeStates:new({
 	formspec_func = formspec,
 })
 
+local function steam_management(pos, nvm)
+	local resp = sched.get(pos, tSched, function() return true end)(pos)
+	
+	if resp == 0 then  -- has no power
+		nvm.temperature = math.max(nvm.temperature - 10, 0)
+	elseif resp == 1 then  -- has power
+		nvm.temperature = math.min(nvm.temperature + 10, 100)
+	elseif resp ~= true then
+		State:fault(pos, nvm, resp)
+		stop_node(pos, nvm)
+		return false
+	end
+	
+	if nvm.temperature == 75 then
+		heatexchanger1_cmnd(pos, "stop")
+	elseif nvm.temperature == 80 then
+		heatexchanger1_cmnd(pos, "start")
+	elseif nvm.temperature > 80 then
+		heatexchanger1_cmnd(pos, "trigger")
+	end
+	return true
+end
+
 local function consume_power(pos, nvm)
 	if techage.needs_power(nvm) then
 		local taken = power.consume_power(pos, Cable, DOWN, PWR_NEEDED)
 		if techage.is_running(nvm) then
 			if taken < PWR_NEEDED then
-				State:nopower(pos, nvm, "No power")
+				State:nopower(pos, nvm, S("No power"))
 				stop_sound(pos)
 				heatexchanger1_cmnd(pos, "stop")
 			else
@@ -182,25 +211,19 @@ local function consume_power(pos, nvm)
 	end
 end
 
-local function steam_management(pos, nvm)
-	nvm.temperature = nvm.temperature or 20
-	nvm.temperature = math.min(nvm.temperature + 1, 100)
-	if nvm.temperature > 80 then 
-		heatexchanger1_cmnd(pos, "trigger")
-	end
-end
-
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
-	nvm.temperature = nvm.temperature or 20
-	consume_power(pos, nvm)
-	if check_integrity(pos, nvm) == true then
-		steam_management(pos, nvm)
-	else
-		State:fault(pos, nvm, nvm.result)
-		stop_node(pos, nvm)
+	nvm.temperature = nvm.temperature or 0
+	print("node_timer", nvm.temperature)
+	if consume_power(pos, nvm) then
+		if steam_management(pos, nvm) then
+			State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+		end
 	end
-	return State:is_active(nvm)
+	if techage.is_activeformspec(pos) then
+		M(pos):set_string("formspec", formspec(State, pos, nvm))
+	end
+	return State:is_active(nvm) or nvm.temperature > 0
 end
 
 local function can_dig(pos, player)
@@ -243,7 +266,7 @@ local function on_receive_fields(pos, formname, fields, player)
 
 	local nvm = techage.get_nvm(pos)
 	State:state_button_event(pos, nvm, fields)
-	M(pos):set_string("formspec", formspec(State, pos, nvm))
+	--M(pos):set_string("formspec", formspec(State, pos, nvm))
 end
 
 -- Middle node with the formspec from the bottom node

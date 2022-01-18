@@ -19,8 +19,6 @@ local Cable = techage.ElectricCable
 local power = networks.power
 
 local CYCLE_TIME = 2
-local STANDBY_TICKS = 1
-local COUNTDOWN_TICKS = 2
 local PWR_PERF = 800
 
 local function swap_node(pos, name)
@@ -41,57 +39,42 @@ local function start_node(pos, nvm)
 	power.start_storage_calc(pos, Cable, outdir)
 	swap_node(pos, "techage:ta5_generator_on")
 	minetest.get_node_timer(pos):start(CYCLE_TIME)
-	--play_sound(pos)
 end
 
 local function stop_node(pos, nvm)
 	nvm.provided = 0
+	nvm.alive_cnt = 0
 	local outdir = M(pos):get_int("outdir")
-	--stop_sound(pos)
 	power.start_storage_calc(pos, Cable, outdir)
 	swap_node(pos, "techage:ta5_generator")
 end
 
-local function on_receive_fields(pos, formname, fields, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
-		return
-	end
-	local nvm = techage.get_nvm(pos)
-	State:state_button_event(pos, nvm, fields)
-end
-
-local function on_rightclick(pos, node, clicker)
-	local nvm = techage.get_nvm(pos)
-	--techage.set_activeformspec(pos, clicker)
-	--M(pos):set_string("formspec", formspec(State, pos, nvm))
-end
-
 local function get_generator_data(pos, outdir, tlib2)
 	local nvm = techage.get_nvm(pos)
-	--if nvm.running and techage.is_running(nvm) then
+	if (nvm.alive_cnt or 0) > 0 then
 		return {level = (nvm.load or 0) / PWR_PERF, perf = PWR_PERF, capa = PWR_PERF * 2}
-	--end
+	end
 end
 
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	nvm.alive_cnt = (nvm.alive_cnt or 0) - 1
-	print("node_timer", nvm.alive_cnt)
 	if nvm.alive_cnt > 0 then
 		local meta = M(pos)
 		local outdir = meta:get_int("outdir")
 		local tp1 = tonumber(meta:get_string("termpoint1"))
 		local tp2 = tonumber(meta:get_string("termpoint2"))
 		nvm.provided = power.provide_power(pos, Cable, outdir, PWR_PERF, tp1, tp2)
-		print("nvm.provided", nvm.provided)
 		local val = power.get_storage_load(pos, Cable, outdir, PWR_PERF)
 		if val > 0 then
 			nvm.load = val
 		end
+		return true
 	else
 		swap_node(pos, "techage:ta5_generator")
+		stop_node(pos, nvm)
+		return false
 	end
-	return true
 end
 
 minetest.register_node("techage:ta5_generator", {
@@ -106,7 +89,7 @@ minetest.register_node("techage:ta5_generator", {
 		"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_generator.png^[transformFX]",
 	},
 
-	after_place_node = function(pos)
+	after_place_node = function(pos, placer)
 		M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
 		Cable:after_place_node(pos)
 	end,
@@ -116,9 +99,7 @@ minetest.register_node("techage:ta5_generator", {
 	end,
 
 	get_generator_data = get_generator_data,
-	ta3_formspec = techage.generator_settings("ta3", PWR_PERF),
-	--on_receive_fields = on_receive_fields,
-	--on_rightclick = on_rightclick,
+	ta4_formspec = techage.generator_settings("ta4", PWR_PERF),
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
 	on_rotate = screwdriver.disallow,
@@ -157,9 +138,7 @@ minetest.register_node("techage:ta5_generator_on", {
 	},
 
 	get_generator_data = get_generator_data,
-	ta3_formspec = techage.generator_settings("ta3", PWR_PERF),
-	--on_receive_fields = on_receive_fields,
-	--on_rightclick = on_rightclick,
+	ta4_formspec = techage.generator_settings("ta4", PWR_PERF),
 	on_timer = node_timer,
 	paramtype2 = "facedir",
 	drop = "",
