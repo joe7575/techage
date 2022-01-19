@@ -232,7 +232,7 @@ minetest.register_craftitem("techage:ta5_magnet_shield", {
 })
 
 techage.furnace.register_recipe({
-	output = "techage:ta5_magnet_shield 1",
+	output = "techage:ta5_magnet_shield 2",
 	recipe = {"default:steel_ingot", "techage:usmium_powder", "techage:graphite_powder"},
 	time = 2,
 

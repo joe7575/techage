@@ -154,16 +154,18 @@ techage.register_node({"techage:ta5_tele_tube"}, {
 		local nvm = techage.get_nvm(pos)
 		if techage.is_operational(nvm) then
 			local rmt_pos = teleport.get_remote_pos(pos)
-			local rmt_nvm = techage.get_nvm(rmt_pos)
-			if techage.is_operational(rmt_nvm) then
-				local tube_dir = M(rmt_pos):get_int("tube_dir")
-				if techage.push_items(rmt_pos, tube_dir, stack) then
-					State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-					State:keep_running(rmt_pos, rmt_nvm, COUNTDOWN_TICKS)
-					return true
+			if rmt_pos then
+				local rmt_nvm = techage.get_nvm(rmt_pos)
+				if techage.is_operational(rmt_nvm) then
+					local tube_dir = M(rmt_pos):get_int("tube_dir")
+					if techage.push_items(rmt_pos, tube_dir, stack) then
+						State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+						State:keep_running(rmt_pos, rmt_nvm, COUNTDOWN_TICKS)
+						return true
+					end
+				else
+					State:blocked(pos, nvm, S("Remote block error"))
 				end
-			else
-				State:blocked(pos, nvm, S("Remote block error"))
 			end
 		end
 		return false

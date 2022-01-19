@@ -160,11 +160,11 @@ techage.register_node({"techage:ta5_turbine", "techage:ta5_turbine_on"}, {
 	end,
 })
 
---minetest.register_craft({
---	output = "techage:ta5_turbine",
---	recipe = {
---		{"", "dye:blue", ""},
---		{"", "techage:turbine", ""},
---		{"", "techage:ta4_wlanchip", ""},
---	},
---})
+minetest.register_craft({
+	output = "techage:ta5_turbine",
+	recipe = {
+		{"", "dye:red", ""},
+		{"", "techage:turbine", ""},
+		{"", "techage:ta5_ceramic_turbine", ""},
+	},
+})

@@ -172,11 +172,11 @@ techage.register_node({"techage:ta5_generator", "techage:ta5_generator_on"}, {
 	end,
 })
 
---minetest.register_craft({
---	output = "techage:ta5_generator",
---	recipe = {
---		{"", "dye:blue", ""},
---		{"", "techage:generator", ""},
---		{"", "techage:ta4_wlanchip", ""},
---	},
---})
+minetest.register_craft({
+	output = "techage:ta5_generator",
+	recipe = {
+		{"", "dye:red", ""},
+		{"", "techage:ta4_generator", ""},
+		{"", "techage:baborium_ingot", ""},
+	},
+})

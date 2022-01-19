@@ -99,11 +99,11 @@ techage.register_node({"techage:ta5_heatexchanger1"}, {
 	end,
 })
 
---minetest.register_craft({
---	output = "techage:ta5_heatexchanger1",
---	recipe = {
---		{"default:tin_ingot", "techage:electric_cableS", "default:steel_ingot"},
---		{"techage:ta4_pipeS", "basic_materials:gear_steel", "techage:ta4_pipeS"},
---		{"", "techage:baborium_ingot", ""},
---	},
---})
+minetest.register_craft({
+	output = "techage:ta5_heatexchanger1",
+	recipe = {
+		{"default:tin_ingot", "techage:electric_cableS", "default:steel_ingot"},
+		{"techage:ta5_pipe1S", "basic_materials:gear_steel", "techage:ta4_pipeS"},
+		{"", "techage:baborium_ingot", ""},
+	},
+})

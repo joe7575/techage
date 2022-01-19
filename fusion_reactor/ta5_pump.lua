@@ -181,11 +181,11 @@ liquid.register_nodes({
 	"techage:t5_pump", "techage:t5_pump_on",
 }, Pipe3, "pump", {"R"}, {})
 
---minetest.register_craft({
---	output = "techage:t5_pump",
---	recipe = {
---		{"default:tin_ingot", "dye:red", "default:steel_ingot"},
---		{"", "techage:t4_pump", ""},
---		{"", "", ""},
---	},
---})
+minetest.register_craft({
+	output = "techage:t5_pump",
+	recipe = {
+		{"techage:aluminum", "dye:red", "default:steel_ingot"},
+		{"techage:ta4_pipeS", "techage:ta5_ceramic_turbine", "techage:ta5_pipe1S"},
+		{"default:steel_ingot", "basic_materials:motor", "techage:aluminum"},
+	},
+})

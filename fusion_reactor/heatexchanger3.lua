@@ -59,7 +59,7 @@ local function control_cmnd(pos, topic)
 end
 
 minetest.register_node("techage:ta5_heatexchanger3", {
-	description = S("TA4 Heat Exchanger 3"),
+	description = S("TA5 Heat Exchanger 3"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta4.png^techage_frame_ta5_top.png",
@@ -94,13 +94,13 @@ techage.register_node({"techage:ta5_heatexchanger3"}, {
 	end,
 })
 
---minetest.register_craft({
---	output = "techage:ta5_heatexchanger3",
---	recipe = {
---		{"default:tin_ingot", "dye:blue", "default:steel_ingot"},
---		{"techage:ta4_pipeS", "basic_materials:gear_steel", "techage:ta4_pipeS"},
---		{"", "techage:baborium_ingot", ""},
---	},
---})
+minetest.register_craft({
+	output = "techage:ta5_heatexchanger3",
+	recipe = {
+		{"default:tin_ingot", "dye:red", "default:steel_ingot"},
+		{"techage:ta5_pipe2S", "basic_materials:gear_steel", "techage:ta4_pipeS"},
+		{"", "techage:baborium_ingot", ""},
+	},
+})
 
 techage.orientate_node = orientate_node

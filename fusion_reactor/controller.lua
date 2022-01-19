@@ -33,6 +33,7 @@ local EXPECTED_MAGNET_NUM = 56
 local CALL_RATE1 = 16  -- 2s * 16 = 32s
 local CALL_RATE2 = 8  -- 2s * 8 = 16s
 local DESCRIPTION = S("TA5 Fusion Reactor Controller")
+local EX_POINTS = 80
 
 local function count_trues(t)
 	local cnt = 0
@@ -198,9 +199,11 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 
-	local nvm = techage.get_nvm(pos)
-	State:state_button_event(pos, nvm, fields)
-	--M(pos):set_string("formspec", formspec(State, pos, nvm))
+	if techage.get_expoints(player) >= EX_POINTS then
+		local nvm = techage.get_nvm(pos)
+		State:state_button_event(pos, nvm, fields)
+		--M(pos):set_string("formspec", formspec(State, pos, nvm))
+	end
 end
 
 minetest.register_node("techage:ta5_fr_controller_pas", {
@@ -268,3 +271,11 @@ minetest.register_node("techage:ta5_fr_controller_act", {
 
 power.register_nodes({"techage:ta5_fr_controller_pas", "techage:ta5_fr_controller_act"}, Cable, "con", {"L", "R"})
 
+minetest.register_craft({
+	output = "techage:ta5_fr_controller_pas",
+	recipe = {
+		{'techage:aluminum', 'basic_materials:gold_wire', 'default:steel_ingot'},
+		{'techage:electric_cableS', 'techage:ta5_aichip2', 'techage:electric_cableS'},
+		{'default:steel_ingot', 'default:diamond', 'techage:aluminum'},
+	},
+})

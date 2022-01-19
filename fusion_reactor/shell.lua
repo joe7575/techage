@@ -45,3 +45,19 @@ minetest.register_node("techage:ta5_fr_nucleus", {
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
 })
+
+techage.furnace.register_recipe({
+	output = "techage:ta5_fr_shell 3",
+	recipe = {'techage:ta4_colliderblock', 'techage:ta4_colliderblock', "techage:graphite_powder"},
+	time = 24,
+})
+
+minetest.register_craft({
+	output = "techage:ta5_fr_nucleus",
+	recipe = {
+		{"", "techage:ta5_aichip2", ""},
+		{"techage:electric_cableS", "techage:cylinder_large_hydrogen", "techage:ta3_valve_open"},
+		{"", "techage:ta5_fr_shell", ""},
+	},
+})
+

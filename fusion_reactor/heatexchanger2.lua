@@ -27,11 +27,12 @@ local CYCLE_TIME = 2
 local PWR_NEEDED = 5
 local COUNTDOWN_TICKS = 1
 local DOWN = 5  -- dir
-local DESCRIPTION = S("TA5 Heat Exchanger")
+local DESCRIPTION = S("TA5 Heat Exchanger 2")
 local EXPECT_BLUE = 56
 local EXPECT_GREEN = 52
 local CALL_RATE1 = 16  -- 2s * 16 = 32s
 local CALL_RATE2 = 8  -- 2s * 8 = 16s
+local EX_POINTS = 80
 
 local function heatexchanger1_cmnd(pos, topic, payload)
 	return techage.transfer({x = pos.x, y = pos.y - 1, z = pos.z},
@@ -264,9 +265,11 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 
-	local nvm = techage.get_nvm(pos)
-	State:state_button_event(pos, nvm, fields)
-	--M(pos):set_string("formspec", formspec(State, pos, nvm))
+	if techage.get_expoints(player) >= EX_POINTS then
+		local nvm = techage.get_nvm(pos)
+		State:state_button_event(pos, nvm, fields)
+		--M(pos):set_string("formspec", formspec(State, pos, nvm))
+	end
 end
 
 -- Middle node with the formspec from the bottom node
@@ -359,11 +362,11 @@ control.register_nodes({"techage:ta5_heatexchanger2"}, {
 	}
 )
 
---minetest.register_craft({
---	output = "techage:ta5_heatexchanger2",
---	recipe = {
---		{"default:tin_ingot", "", "default:steel_ingot"},
---		{"", "techage:ta4_wlanchip", ""},
---		{"", "techage:baborium_ingot", ""},
---	},
---})
+minetest.register_craft({
+	output = "techage:ta5_heatexchanger2",
+	recipe = {
+		{"default:tin_ingot", "", "default:steel_ingot"},
+		{"", "techage:ta5_aichip2", ""},
+		{"", "techage:baborium_ingot", ""},
+	},
+})
