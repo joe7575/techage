@@ -519,6 +519,7 @@ techage.ConstructionPlans["ta5_teleport"] = {
 -- TA5 Fusion Reactor
 --
 local SHELL = {"techage_reactor_shell.png", "techage:ta5_fr_shell"}
+local NUCLS = {"techage_reactor_shell.png^techage_collider_detector_core.png", "techage:ta5_fr_nucleus"}
 local MAGN1 = {"techage_collider_magnet.png^techage_steel_tiles_top3.png", "techage:ta5_magnet1"}
 local MAGN2 = {"techage_collider_magnet.png^techage_steel_tiles_top3.png^[transformR90]", "techage:ta5_magnet1"}
 local MAGN3 = {"techage_collider_magnet.png^techage_steel_tiles_top3.png^[transformR180]", "techage:ta5_magnet1"}
@@ -532,7 +533,7 @@ techage.ConstructionPlans["ta5_fusion_reactor"] = {
 	{false, SECTV, false, false, false, false, false, false, false, false, false},
 	{false, false, SHELL, SHELL, SHELL, false, SHELL, SHELL, SHELL, false, false},
 	{false, SHELL, SHELL, MAGN3, SHELL, SHELL, SHELL, MAGN3, SHELL, SHELL, false},
-	{false, SHELL, MAGN4, false, MAGN2, SHELL, MAGN4, false, MAGN2, SHELL, false},
+	{false, SHELL, MAGN4, false, MAGN2, NUCLS, MAGN4, false, MAGN2, SHELL, false},
 	{false, SHELL, SHELL, MAGN1, SHELL, SHELL, SHELL, MAGN1, SHELL, SHELL, false},
 	{false, false, SHELL, SHELL, SHELL, false, SHELL, SHELL, SHELL, false, false},
 }
