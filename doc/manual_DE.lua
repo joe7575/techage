@@ -2015,7 +2015,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Für den Aufbau des Fusionsreaktor werden insgesamt 64 TA5 Fusionreaktor Magnete benötigt. Diese bilden den Ring\\, in dem sich das Plasma bildet. Der TA5 Fusionsreaktor Magnete benötigt Strom und hat zwei Anschlüsse für die Kühlung.\n"..
+  "Für den Aufbau des Fusionsreaktor werden insgesamt 60 TA5 Fusionreaktor Magnete benötigt. Diese bilden den Ring\\, in dem sich das Plasma bildet. Der TA5 Fusionsreaktor Magnete benötigt Strom und hat zwei Anschlüsse für die Kühlung.\n"..
   "\n"..
   "Es gibt zwei Typen von Magneten\\, so dass auch alle Seiten des Magnets\\, die zum Plasmaring zeigen\\, mit einem Hitzeschild geschützt werden können.\n"..
   "\n"..

@@ -2012,7 +2012,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "A total of 64 TA5 Fusion Reactor Magnets are required to set up the fusion reactor. These form the ring in which the plasma forms. The TA5 Fusion Reactor Magnets requires power and has two ports for cooling.\n"..
+  "A total of 60 TA5 Fusion Reactor Magnets are required to set up the fusion reactor. These form the ring in which the plasma forms. The TA5 Fusion Reactor Magnets requires power and has two ports for cooling.\n"..
   "\n"..
   "There are two types of magnets\\, so all sides of the magnet that face the plasma ring can also be protected with a heat shield.\n"..
   "\n"..

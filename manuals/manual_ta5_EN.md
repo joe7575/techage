@@ -26,7 +26,7 @@ The plan on the right shows a section through the fusion reactor.
 
 #### TA5 Fusion Reactor Magnet
 
-A total of 64 TA5 Fusion Reactor Magnets are required to set up the fusion reactor. These form the ring in which the plasma forms. The TA5 Fusion Reactor Magnets requires power and has two ports for cooling.
+A total of 60 TA5 Fusion Reactor Magnets are required to set up the fusion reactor. These form the ring in which the plasma forms. The TA5 Fusion Reactor Magnets requires power and has two ports for cooling.
 
 There are two types of magnets, so all sides of the magnet that face the plasma ring can also be protected with a heat shield.
 

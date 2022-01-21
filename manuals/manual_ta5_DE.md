@@ -26,7 +26,7 @@ Für den Betrieb des Fusionsreaktors werden 60 Erfahrungspunkte benötigt. Der F
 
 #### TA5 Fusionreaktor Magnet
 
-Für den Aufbau des Fusionsreaktor werden insgesamt 64 TA5 Fusionreaktor Magnete benötigt. Diese bilden den Ring, in dem sich das Plasma bildet. Der TA5 Fusionsreaktor Magnete benötigt Strom und hat zwei Anschlüsse für die Kühlung.
+Für den Aufbau des Fusionsreaktor werden insgesamt 60 TA5 Fusionreaktor Magnete benötigt. Diese bilden den Ring, in dem sich das Plasma bildet. Der TA5 Fusionsreaktor Magnete benötigt Strom und hat zwei Anschlüsse für die Kühlung.
 
 Es gibt zwei Typen von Magneten, so dass auch alle Seiten des Magnets, die zum Plasmaring zeigen, mit einem Hitzeschild geschützt werden können.
 
