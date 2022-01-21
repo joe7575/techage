@@ -43,7 +43,7 @@ local Pipe = tubelib2.Tube:new({
 				minetest.swap_node(pos, {name = "techage:ta5_pipe2"..tube_type, param2 = param2 % 32})
 			end
 		end
-		M(pos):set_int("netw_param2", param2) 
+		M(pos):set_int("netw_param2", param2)
 	end,
 })
 
@@ -126,7 +126,7 @@ minetest.register_node("techage:ta5_pipe1A", {
 	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {crumbly = 2, cracky = 2, snappy = 2, 
+	groups = {crumbly = 2, cracky = 2, snappy = 2,
 		not_in_creative_inventory=1, techage_trowel = 1},
 	sounds = default.node_sound_metal_defaults(),
 	drop = "techage:ta5_pipe1S",
@@ -203,7 +203,7 @@ minetest.register_node("techage:ta5_pipe2A", {
 	use_texture_alpha = techage.CLIP,
 	sunlight_propagates = true,
 	is_ground_content = false,
-	groups = {crumbly = 2, cracky = 2, snappy = 2, 
+	groups = {crumbly = 2, cracky = 2, snappy = 2,
 		not_in_creative_inventory=1, techage_trowel = 1},
 	sounds = default.node_sound_metal_defaults(),
 	drop = "techage:ta5_pipe2S",

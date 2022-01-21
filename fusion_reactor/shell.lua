@@ -19,7 +19,7 @@ local M = minetest.get_meta
 local S = techage.S
 
 minetest.register_node("techage:ta5_fr_shell", {
-	description = "TA5 Fusion Reactor Shell",
+	description = S("TA5 Fusion Reactor Shell"),
 	tiles = {
 		"techage_reactor_shell.png",
 	},
@@ -33,7 +33,7 @@ minetest.register_node("techage:ta5_fr_shell", {
 })
 
 minetest.register_node("techage:ta5_fr_nucleus", {
-	description = "TA5 Fusion Reactor Nucleus",
+	description = S("TA5 Fusion Reactor Nucleus"),
 	tiles = {
 		"techage_reactor_shell.png^techage_collider_detector_core.png",
 	},

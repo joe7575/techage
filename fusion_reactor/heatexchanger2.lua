@@ -176,7 +176,7 @@ local State = techage.NodeStates:new({
 
 local function steam_management(pos, nvm)
 	local resp = sched.get(pos, tSched, function() return true end)(pos)
-	
+
 	if resp == 0 then  -- has no power
 		nvm.temperature = math.max(nvm.temperature - 10, 0)
 	elseif resp == 1 then  -- has power
@@ -186,7 +186,7 @@ local function steam_management(pos, nvm)
 		stop_node(pos, nvm)
 		return false
 	end
-	
+
 	if nvm.temperature == 75 then
 		heatexchanger1_cmnd(pos, "stop")
 	elseif nvm.temperature == 80 then

@@ -230,7 +230,13 @@ techage.manual_EN.aTitel = {
   "3,TA4 Recycler",
   "1,TA5: Future",
   "2,Energy Sources",
-  "3,TA5 Fusion Reactor (planned)",
+  "3,TA5 Fusion Reactor",
+  "4,TA5 Fusion Reactor Magnet",
+  "4,TA5 Pump",
+  "4,TA5 Heat Exchanger",
+  "4,TA5 Fusion Reactor Controller",
+  "4,TA5 Fusion Reactor Shell",
+  "4,TA5 Fusion Reactor Core",
   "2,Energy Storage",
   "3,TA5 Hybrid Storage (planned)",
   "2,Logic blocks",
@@ -1992,7 +1998,44 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "",
-  "",
+  "Nuclear fusion means the fusing of two atomic nuclei. Depending on the reaction\\, large amounts of energy can be released. Nuclear fusions\\, in which energy is released\\, take place in the form of chain reactions. They are the source of the energy of the stars\\, including our sun\\, for example. A fusion reactor converts the energy released during controlled nuclear fusion into electricity.\n"..
+  "\n"..
+  "*How ​​do fusion reactors work?*\n"..
+  "\n"..
+  "A fusion reactor works according to the classic principle of a thermal power plant: water is heated and drives a steam turbine\\, whose kinetic energy is converted into electricity by a generator.\n"..
+  "\n"..
+  "A fusion power plant initially requires a large amount of energy\\, since a plasma has to be generated. \"Plasma\" is the name given to the fourth state of matter\\, after solid\\, liquid and gaseous. This requires a lot of electricity. Only through this extreme concentration of energy does the fusion reaction ignite and the heat given off is used to generate electricity via the heat exchanger. The generator then delivers 800 ku of electricity.\n"..
+  "\n"..
+  "The plan on the right shows a section through the fusion reactor.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "A total of 64 TA5 Fusion Reactor Magnets are required to set up the fusion reactor. These form the ring in which the plasma forms. The TA5 Fusion Reactor Magnets requires power and has two ports for cooling.\n"..
+  "\n"..
+  "There are two types of magnets\\, so all sides of the magnet that face the plasma ring can also be protected with a heat shield.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The pump is required to fill the cooling circuit with isobutane. About 350 units of isobutane are required.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The TA5 Heat Exchanger is required to convert the heat generated in the fusion reactor first to steam and then to electricity. The Heat Exchanger itself requires 5 ku electricity. The structure is similar to the Heat Exchanger of the energy store from TA4.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The fusion reactor is switched on via the TA5 Fusion Reactor Controller. The cooling/Heat Exchanger must be switched on first and then the controller. It takes about 2 minutes for the reactor to start up and supply electricity. The fusion reactor and thus the controller requires 400 ku of electricity to maintain the plasma.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The entire reactor must be surrounded by a shell that absorbs the enormous pressure that the magnets exert on the plasma and protects the environment from radiation. Without this shell\\, the reactor cannot be started. With the TechAge Trowel\\, power cables and cooling pipes of the fusion reactor can also be integrated into the shell.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The core must sit in the center of the reactor. See illustration under \"TA5 Fusion Reactor\". The TechAge Trowel is also required for this.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "",
   "",
   "",
@@ -2295,6 +2338,12 @@ techage.manual_EN.aItemName = {
   "techage_ta5",
   "",
   "",
+  "ta5_magnet",
+  "ta5_pump",
+  "",
+  "ta5_fr_controller",
+  "ta5_fr_shell",
+  "ta5_fr_nucleus",
   "",
   "",
   "",
@@ -2539,6 +2588,12 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
+  "",
+  "",
+  "ta5_fusion_reactor",
+  "",
+  "",
+  "ta5_heatexchanger",
   "",
   "",
   "",

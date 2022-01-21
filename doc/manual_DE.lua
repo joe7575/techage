@@ -230,7 +230,13 @@ techage.manual_DE.aTitel = {
   "3,TA4 Recycler",
   "1,TA5: Zukunft",
   "2,Energiequellen",
-  "3,TA5 Fusionsreaktor (geplant)",
+  "3,TA5 Fusionsreaktor",
+  "4,TA5 Fusionreaktor Magnet",
+  "4,TA5 Pumpe",
+  "4,TA5 Wärmetauscher",
+  "4,TA5 Fusionreaktor Controller",
+  "4,TA5 Fusionreaktor Hülle",
+  "4,TA5 Fusionreaktor Kern",
   "2,Energiespeicher",
   "3,TA5 Hybrid-Speicher (geplant)",
   "2,Logik Blöcke",
@@ -1995,7 +2001,44 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "",
-  "",
+  "Kernfusion bedeutet das Verschmelzen zweier Atomkerne. Dabei können\\, je nach Reaktion\\, große Mengen von Energie freigesetzt werden. Kernfusionen\\, bei denen Energie frei wird\\, laufen in Form von Kettenreaktionen ab. Sie sind die Quelle der Energie der Sterne\\, zum Beispiel auch unserer Sonne. Ein Fusionsreaktor wandelt die Energie\\, die bei einer kontrollierten Kernfusion frei wird\\, in elektrischen Strom um.\n"..
+  "\n"..
+  "*Wie funktionieren ein Fusionsreaktor?*\n"..
+  "\n"..
+  "Ein Fusionsreaktor funktioniert nach dem klassischen Prinzip eines Wärmekraftwerks: Wasser wird erhitzt und treibt eine Dampfturbine an\\, deren Bewegungsenergie von einem Generator in Strom gewandelt wird.\n"..
+  "\n"..
+  "Ein Fusionskraftwerk benötigt zunächst eine hohe Menge an Energie\\, da ein Plasma erzeugt werden muss. „Plasma“ nennt man den vierten Zustand von Stoffen\\, nach fest\\, flüssig und gasförmig. Dafür wird viel Strom benötigt. Erst durch diese extreme Energiekonzentration zündet die Fusionsreaktion und mit der abgegebenen Wärme wird über den Wärmetauscher Strom erzeugt. Der Generator liefert dann 800 ku an Strom.\n"..
+  "\n"..
+  "Der Plan rechts zeigt einen Schnitt durch den Fusionsreaktor.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Für den Aufbau des Fusionsreaktor werden insgesamt 64 TA5 Fusionreaktor Magnete benötigt. Diese bilden den Ring\\, in dem sich das Plasma bildet. Der TA5 Fusionsreaktor Magnete benötigt Strom und hat zwei Anschlüsse für die Kühlung.\n"..
+  "\n"..
+  "Es gibt zwei Typen von Magneten\\, so dass auch alle Seiten des Magnets\\, die zum Plasmaring zeigen\\, mit einem Hitzeschild geschützt werden können.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Pumpe wird benötigt\\, um den Kühlkreislauf mit Isobutan zu füllen. Es werden ca. 350 Einheiten Isobutan benötigt.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der TA5 Wärmetauscher wird benötigt\\, um die im Fusionsreaktor erzeugte Hitze zuerst in Dampf und dann in Strom umzuwandeln. Der Wärmetauscher selbst benötigt dazu 5 ku Strom. Der Aufbau gleicht dem Wärmetauscher des Energiespeichers aus TA4.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Über den TA5 Fusionreaktor Controller wird der Fusionreaktors eingeschaltet. Dabei muss zuerst die Kühlung/Wärmetauscher und dann der Controller eingeschaltet werden. Es dauert ca. 2 min\\, bis der Reaktor in Gang kommt und Strom liefert. Der Fusionreaktor und damit der Controller benötigt 400 ku an Strom\\, um das Plasma aufrecht zu erhalten.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der komplette Reaktor muss mit einer Hülle umgeben werden\\, die den enormen Druck\\, den die Magnete auf das Plasma ausüben\\, abfängt und die Umgebung vor Strahlung schützt. Ohne diese Hülle kann der Reaktor nicht gestartet werden. Mit der TechAge Kelle können auch Stromkabel und Kühlleitungen des Fusionreaktors in die Hülle integriert werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Der Kern muss in der Mitte des Reaktors sitzen. Siehe Abbildung unter \"TA5 Fusionsreaktor\". Auch hierfür wird die TechAge Kelle benötigt.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "",
   "",
   "",
@@ -2300,6 +2343,12 @@ techage.manual_DE.aItemName = {
   "techage_ta5",
   "",
   "",
+  "ta5_magnet",
+  "ta5_pump",
+  "",
+  "ta5_fr_controller",
+  "ta5_fr_shell",
+  "ta5_fr_nucleus",
   "",
   "",
   "",
@@ -2545,6 +2594,12 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
+  "",
+  "ta5_fusion_reactor",
+  "",
+  "",
+  "ta5_heatexchanger",
   "",
   "",
   "",

@@ -34,9 +34,9 @@ local WRENCH_MENU =	{{
 }}
 
 local State = techage.NodeStates:new({
-	node_name_passive = "techage:t5_pump",
-	node_name_active = "techage:t5_pump_on",
-	infotext_name = S("TA45 Pump"),
+	node_name_passive = "techage:ta5_pump",
+	node_name_active = "techage:ta5_pump_on",
+	infotext_name = S("TA5 Pump"),
 	cycle_time = CYCLE_TIME,
 	standby_ticks = STANDBY_TICKS,
 })
@@ -64,7 +64,7 @@ end
 
 local function after_place_node(pos, placer)
 	local nvm = techage.get_nvm(pos)
-	local number = techage.add_node(pos, "techage:t5_pump")
+	local number = techage.add_node(pos, "techage:ta5_pump")
 	State:node_init(pos, nvm, number)
 	M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
 	Pipe2:after_place_node(pos)
@@ -83,9 +83,9 @@ local function on_rightclick(pos, node, clicker)
 	end
 
 	local nvm = techage.get_nvm(pos)
-	if node.name == "techage:t5_pump" then
+	if node.name == "techage:ta5_pump" then
 		State:start(pos, nvm)
-	elseif node.name == "techage:t5_pump_on" then
+	elseif node.name == "techage:ta5_pump_on" then
 		State:stop(pos, nvm)
 	end
 end
@@ -134,7 +134,7 @@ local tiles_act = {
 	},
 }
 
-minetest.register_node("techage:t5_pump", {
+minetest.register_node("techage:ta5_pump", {
 	description = S("TA5 Pump"),
 	tiles = tiles_pas,
 	after_place_node = after_place_node,
@@ -150,7 +150,7 @@ minetest.register_node("techage:t5_pump", {
 	ta4_formspec = WRENCH_MENU,
 })
 
-minetest.register_node("techage:t5_pump_on", {
+minetest.register_node("techage:ta5_pump_on", {
 	description = S("TA5 Pump"),
 	tiles = tiles_act,
 	--after_place_node = after_place_node4,
@@ -166,7 +166,7 @@ minetest.register_node("techage:t5_pump_on", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
-techage.register_node({"techage:t5_pump", "techage:t5_pump_on"}, {
+techage.register_node({"techage:ta5_pump", "techage:ta5_pump_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		return State:on_receive_message(pos, topic, payload)
 	end,
@@ -174,15 +174,15 @@ techage.register_node({"techage:t5_pump", "techage:t5_pump_on"}, {
 
 -- Pumps have to provide one output and one input side
 liquid.register_nodes({
-	"techage:t5_pump", "techage:t5_pump_on",
+	"techage:ta5_pump", "techage:ta5_pump_on",
 }, Pipe2, "pump", {"L"}, {})
 
 liquid.register_nodes({
-	"techage:t5_pump", "techage:t5_pump_on",
+	"techage:ta5_pump", "techage:ta5_pump_on",
 }, Pipe3, "pump", {"R"}, {})
 
 minetest.register_craft({
-	output = "techage:t5_pump",
+	output = "techage:ta5_pump",
 	recipe = {
 		{"techage:aluminum", "dye:red", "default:steel_ingot"},
 		{"techage:ta4_pipeS", "techage:ta5_ceramic_turbine", "techage:ta5_pipe1S"},

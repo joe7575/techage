@@ -176,7 +176,7 @@ local function node_timer(pos)
 	local nvm = techage.get_nvm(pos)
 	local outdir = networks.side_to_outdir(pos, "L")
 	if consume_power(pos, nvm, outdir) then
-		local resp = sched.get(pos, tSched, function() 
+		local resp = sched.get(pos, tSched, function()
 				return true end)(pos, networks.Flip[outdir])
 		if resp ~= true then
 			State:fault(pos, nvm, resp)
