@@ -2008,13 +2008,15 @@ techage.manual_EN.aText = {
   "\n"..
   "The plan on the right shows a section through the fusion reactor.\n"..
   "\n"..
-  "60 experience points are required to operate the fusion reactor. \n"..
+  "60 experience points are required to operate the fusion reactor. The fusion reactor must be built entirely in a forceload block area.\n"..
   "\n"..
   "\n"..
   "\n",
   "A total of 64 TA5 Fusion Reactor Magnets are required to set up the fusion reactor. These form the ring in which the plasma forms. The TA5 Fusion Reactor Magnets requires power and has two ports for cooling.\n"..
   "\n"..
   "There are two types of magnets\\, so all sides of the magnet that face the plasma ring can also be protected with a heat shield.\n"..
+  "\n"..
+  "With the corner magnets on the inside of the ring\\, one connection side is covered (power or cooling) and can therefore not be connected. This is technically not feasible and therefore has no influence on the function of the fusion reactor. \n"..
   "\n"..
   "\n"..
   "\n",

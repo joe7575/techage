@@ -2011,13 +2011,15 @@ techage.manual_DE.aText = {
   "\n"..
   "Der Plan rechts zeigt einen Schnitt durch den Fusionsreaktor.\n"..
   "\n"..
-  "Für den Betrieb des Fusionsreaktors werden 60 Erfahrungspunkte benötigt.\n"..
+  "Für den Betrieb des Fusionsreaktors werden 60 Erfahrungspunkte benötigt. Der Fusionsreaktur muss komplett in einem Forceload Block Bereich aufgebaut werden.\n"..
   "\n"..
   "\n"..
   "\n",
   "Für den Aufbau des Fusionsreaktor werden insgesamt 64 TA5 Fusionreaktor Magnete benötigt. Diese bilden den Ring\\, in dem sich das Plasma bildet. Der TA5 Fusionsreaktor Magnete benötigt Strom und hat zwei Anschlüsse für die Kühlung.\n"..
   "\n"..
   "Es gibt zwei Typen von Magneten\\, so dass auch alle Seiten des Magnets\\, die zum Plasmaring zeigen\\, mit einem Hitzeschild geschützt werden können.\n"..
+  "\n"..
+  "Bei den Eckmagneten auf der Innenseite des Rings ist jeweils eine Anschlussseite verdeckt (Strom oder Kühlung) und kann daher nicht angeschlossen werden. Dies ist technisch nicht machbar und hat daher keinen Einfluß auf die Funktion des Fusionsreaktor. \n"..
   "\n"..
   "\n"..
   "\n",

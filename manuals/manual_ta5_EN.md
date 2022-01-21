@@ -30,6 +30,8 @@ A total of 64 TA5 Fusion Reactor Magnets are required to set up the fusion react
 
 There are two types of magnets, so all sides of the magnet that face the plasma ring can also be protected with a heat shield.
 
+With the corner magnets on the inside of the ring, one connection side is covered (power or cooling) and can therefore not be connected. This is technically not feasible and therefore has no influence on the function of the fusion reactor. 
+
 [ta5_magnet|image]
 
 #### TA5 Pump

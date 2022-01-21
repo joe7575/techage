@@ -30,6 +30,8 @@ Für den Aufbau des Fusionsreaktor werden insgesamt 64 TA5 Fusionreaktor Magnete
 
 Es gibt zwei Typen von Magneten, so dass auch alle Seiten des Magnets, die zum Plasmaring zeigen, mit einem Hitzeschild geschützt werden können.
 
+Bei den Eckmagneten auf der Innenseite des Rings ist jeweils eine Anschlussseite verdeckt (Strom oder Kühlung) und kann daher nicht angeschlossen werden. Dies ist technisch nicht machbar und hat daher keinen Einfluß auf die Funktion des Fusionsreaktor. 
+
 [ta5_magnet|image]
 
 #### TA5 Pumpe
