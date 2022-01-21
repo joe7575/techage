@@ -597,6 +597,7 @@ TA4 LED Grow Light=
 
 No plan available=
 Plan=
+Sectional view=
 Side view=
 Top view=
 

@@ -20,7 +20,7 @@ A fusion power plant initially requires a large amount of energy, since a plasma
 
 The plan on the right shows a section through the fusion reactor.
 
-60 experience points are required to operate the fusion reactor. 
+60 experience points are required to operate the fusion reactor. The fusion reactor must be built entirely in a forceload block area.
 
 [ta5_fusion_reactor|plan]
 

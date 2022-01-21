@@ -191,6 +191,8 @@ local function steam_management(pos, nvm)
 		heatexchanger1_cmnd(pos, "stop")
 	elseif nvm.temperature == 80 then
 		heatexchanger1_cmnd(pos, "start")
+		local owner = M(pos):get_string("owner")
+		minetest.log("action", "[techage] " .. owner .. " starts the TA5 Fusion Reactor")
 	elseif nvm.temperature > 80 then
 		heatexchanger1_cmnd(pos, "trigger")
 	end

@@ -20,7 +20,7 @@ Ein Fusionskraftwerk benötigt zunächst eine hohe Menge an Energie, da ein Plas
 
 Der Plan rechts zeigt einen Schnitt durch den Fusionsreaktor.
 
-Für den Betrieb des Fusionsreaktors werden 60 Erfahrungspunkte benötigt.
+Für den Betrieb des Fusionsreaktors werden 60 Erfahrungspunkte benötigt. Der Fusionsreaktur muss komplett in einem Forceload Block Bereich aufgebaut werden.
 
 [ta5_fusion_reactor|plan]
 

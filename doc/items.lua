@@ -204,6 +204,7 @@ techage.Items = {
 	ta4_autocrafter = "techage:ta4_autocrafter_pas",
 	ta4_recipeblock = "techage:ta4_recipeblock",
 	----------------------------
+	techage_ta5 = "techage:ta5_fr_nucleus",
 	ta5_flycontroller = "techage:ta5_flycontroller",
 	ta5_aichip = "techage:ta5_aichip",
 	ta5_tele_pipe = "techage:ta5_tele_pipe",

@@ -25,9 +25,11 @@ local IMG42 = {"", "techage_ta4_solar.png"}
 local IMG43 = {"", "techage_reactor_inv.png"}
 local IMG44 = {"", "techage_ta4_filter.png"}
 local IMG45 = {"10x10", "techage_collider_plan.png"}
+local IMG46 = {"5x4", "techage_fusion_reactor.png"}
 
 local TOP_V = {"top_view", ""}
 local SIDEV = {"side_view", ""}
+local SECTV = {"sectional_view", ""}
 
 --
 -- TA1: Coal Pile
@@ -523,9 +525,11 @@ local MAGN3 = {"techage_collider_magnet.png^techage_steel_tiles_top3.png^[transf
 local MAGN4 = {"techage_collider_magnet.png^techage_steel_tiles_top3.png^[transformR270]", "techage:ta5_magnet1"}
 
 techage.ConstructionPlans["ta5_fusion_reactor"] = {
+	{false, false, false, false, false, false, IMG46, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false, false},
-	{false, false, false, SIDEV, false, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, false, false, false, false, false, false, false, false, false, false},
+	{false, SECTV, false, false, false, false, false, false, false, false, false},
 	{false, false, SHELL, SHELL, SHELL, false, SHELL, SHELL, SHELL, false, false},
 	{false, SHELL, SHELL, MAGN3, SHELL, SHELL, SHELL, MAGN3, SHELL, SHELL, false},
 	{false, SHELL, MAGN4, false, MAGN2, SHELL, MAGN4, false, MAGN2, SHELL, false},
