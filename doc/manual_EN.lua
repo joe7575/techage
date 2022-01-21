@@ -2008,6 +2008,8 @@ techage.manual_EN.aText = {
   "\n"..
   "The plan on the right shows a section through the fusion reactor.\n"..
   "\n"..
+  "60 experience points are required to operate the fusion reactor. \n"..
+  "\n"..
   "\n"..
   "\n",
   "A total of 64 TA5 Fusion Reactor Magnets are required to set up the fusion reactor. These form the ring in which the plasma forms. The TA5 Fusion Reactor Magnets requires power and has two ports for cooling.\n"..

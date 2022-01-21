@@ -32,7 +32,7 @@ local EXPECT_BLUE = 56
 local EXPECT_GREEN = 52
 local CALL_RATE1 = 16  -- 2s * 16 = 32s
 local CALL_RATE2 = 8  -- 2s * 8 = 16s
-local EX_POINTS = 80
+local EX_POINTS = 60
 
 local function heatexchanger1_cmnd(pos, topic, payload)
 	return techage.transfer({x = pos.x, y = pos.y - 1, z = pos.z},

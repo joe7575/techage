@@ -33,7 +33,7 @@ local EXPECTED_MAGNET_NUM = 56
 local CALL_RATE1 = 16  -- 2s * 16 = 32s
 local CALL_RATE2 = 8  -- 2s * 8 = 16s
 local DESCRIPTION = S("TA5 Fusion Reactor Controller")
-local EX_POINTS = 80
+local EX_POINTS = 60
 
 local function count_trues(t)
 	local cnt = 0

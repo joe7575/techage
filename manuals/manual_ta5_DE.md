@@ -20,6 +20,8 @@ Ein Fusionskraftwerk benötigt zunächst eine hohe Menge an Energie, da ein Plas
 
 Der Plan rechts zeigt einen Schnitt durch den Fusionsreaktor.
 
+Für den Betrieb des Fusionsreaktors werden 60 Erfahrungspunkte benötigt.
+
 [ta5_fusion_reactor|plan]
 
 #### TA5 Fusionreaktor Magnet
