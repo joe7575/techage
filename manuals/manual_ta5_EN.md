@@ -8,7 +8,61 @@ Experience points are required for the manufacture and use of TA5 machines and b
 
 ## Energy Sources
 
-### TA5 Fusion Reactor (planned)
+### TA5 Fusion Reactor
+
+Nuclear fusion means the fusing of two atomic nuclei. Depending on the reaction, large amounts of energy can be released. Nuclear fusions, in which energy is released, take place in the form of chain reactions. They are the source of the energy of the stars, including our sun, for example. A fusion reactor converts the energy released during controlled nuclear fusion into electricity.
+
+**How ​​do fusion reactors work?**
+
+A fusion reactor works according to the classic principle of a thermal power plant: water is heated and drives a steam turbine, whose kinetic energy is converted into electricity by a generator.
+
+A fusion power plant initially requires a large amount of energy, since a plasma has to be generated. "Plasma" is the name given to the fourth state of matter, after solid, liquid and gaseous. This requires a lot of electricity. Only through this extreme concentration of energy does the fusion reaction ignite and the heat given off is used to generate electricity via the heat exchanger. The generator then delivers 800 ku of electricity.
+
+The plan on the right shows a section through the fusion reactor.
+
+60 experience points are required to operate the fusion reactor. The fusion reactor must be built entirely in a forceload block area.
+
+[ta5_fusion_reactor|plan]
+
+#### TA5 Fusion Reactor Magnet
+
+A total of 60 TA5 Fusion Reactor Magnets are required to set up the fusion reactor. These form the ring in which the plasma forms. The TA5 Fusion Reactor Magnets requires power and has two ports for cooling.
+
+There are two types of magnets, so all sides of the magnet that face the plasma ring can also be protected with a heat shield.
+
+With the corner magnets on the inside of the ring, one connection side is covered (power or cooling) and can therefore not be connected. This is technically not feasible and therefore has no influence on the function of the fusion reactor. 
+
+[ta5_magnet|image]
+
+#### TA5 Pump
+
+The pump is required to fill the cooling circuit with isobutane. About 350 units of isobutane are required.
+
+[ta5_pump|image]
+
+#### TA5 Heat Exchanger
+
+The TA5 Heat Exchanger is required to convert the heat generated in the fusion reactor first to steam and then to electricity. The Heat Exchanger itself requires 5 ku electricity. The structure is similar to the Heat Exchanger of the energy store from TA4.
+
+[ta5_heatexchanger|plan]
+
+#### TA5 Fusion Reactor Controller
+
+The fusion reactor is switched on via the TA5 Fusion Reactor Controller. The cooling/Heat Exchanger must be switched on first and then the controller. It takes about 2 minutes for the reactor to start up and supply electricity. The fusion reactor and thus the controller requires 400 ku of electricity to maintain the plasma.
+
+[ta5_fr_controller|image]
+
+#### TA5 Fusion Reactor Shell
+
+The entire reactor must be surrounded by a shell that absorbs the enormous pressure that the magnets exert on the plasma and protects the environment from radiation. Without this shell, the reactor cannot be started. With the TechAge Trowel, power cables and cooling pipes of the fusion reactor can also be integrated into the shell.
+
+[ta5_fr_shell|image]
+
+#### TA5 Fusion Reactor Core
+
+The core must sit in the center of the reactor. See illustration under "TA5 Fusion Reactor". The TechAge Trowel is also required for this.
+
+[ta5_fr_nucleus|image]
 
 ## Energy Storage
 

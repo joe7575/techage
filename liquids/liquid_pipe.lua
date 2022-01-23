@@ -20,7 +20,7 @@ local S = techage.S
 
 local MAX_PIPE_LENGHT = 100
 
-local power = networks.power
+local liquid = networks.liquid
 
 local Pipe = tubelib2.Tube:new({
 	dirs_to_check = {1,2,3,4,5,6},
@@ -47,7 +47,7 @@ local Pipe = tubelib2.Tube:new({
 
 -- Use global callback instead of node related functions
 Pipe:register_on_tube_update2(function(pos, outdir, tlib2, node)
-	power.update_network(pos, outdir, tlib2, node)
+	liquid.update_network(pos, outdir, tlib2, node)
 end)
 
 minetest.register_node("techage:ta3_pipeS", {
@@ -172,14 +172,14 @@ local names = networks.register_junction("techage:ta3_junctionpipe", 1/8, Boxes,
 	tubelib2_on_update2 = function(pos, dir1, tlib2, node)
 		local name = "techage:ta3_junctionpipe" .. networks.junction_type(pos, Pipe)
 		minetest.swap_node(pos, {name = name, param2 = 0})
-		power.update_network(pos, 0, tlib2, node)
+		liquid.update_network(pos, 0, tlib2, node)
 	end,
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Pipe:after_dig_node(pos)
 	end,
 }, 25)
 
-power.register_nodes(names, Pipe, "junc")
+liquid.register_nodes(names, Pipe, "junc")
 
 minetest.register_craft({
 	output = "techage:ta3_junctionpipe25 2",

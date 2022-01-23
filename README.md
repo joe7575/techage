@@ -26,7 +26,7 @@ In contrast to TechPack, the resources are more limited and it is much more diff
 
 
 ### License
-Copyright (C) 2019-2021 Joachim Stolberg
+Copyright (C) 2019-2022 Joachim Stolberg
 Code: Licensed under the GNU AGPL version 3 or later. See LICENSE.txt  
 Textures: CC BY-SA 3.0
 
@@ -79,6 +79,9 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 
 ### History
+
+**2022-01-22  V1.07**
+- TA5 fusion reactor added
 
 **2022-01-03  V1.06**
 - TA5 teleport blocks added

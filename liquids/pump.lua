@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -66,7 +66,7 @@ local function pumping(pos, nvm, state, capa)
 				state:blocked(pos, nvm)
 				return 0
 			end
-                        state:keep_running(pos, nvm, COUNTDOWN_TICKS)
+			state:keep_running(pos, nvm, COUNTDOWN_TICKS)
 			return taken - leftover
 		end
 		state:keep_running(pos, nvm, COUNTDOWN_TICKS)
@@ -133,7 +133,7 @@ end
 local ta3_tiles_pas = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta3.png^techage_frame_ta3_top.png^techage_appl_arrow.png",
-	"techage_filling_ta3.png^techage_frame_ta3.png",
+	"techage_filling_ta3.png^techage_frame_ta3_bottom.png",
 	"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 	"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 	"techage_filling_ta3.png^techage_appl_pump.png^techage_frame_ta3.png^[transformFX",
@@ -143,7 +143,7 @@ local ta3_tiles_pas = {
 local ta4_tiles_pas = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_arrow.png",
-	"techage_filling_ta4.png^techage_frame_ta4.png",
+	"techage_filling_ta4.png^techage_frame_ta4_bottom.png",
 	"techage_filling_ta4.png^techage_appl_hole_pipe.png^techage_frame_ta4.png",
 	"techage_filling_ta4.png^techage_appl_hole_pipe.png^techage_frame_ta4.png",
 	"techage_filling_ta4.png^techage_appl_pump.png^techage_frame_ta4.png^[transformFX",
@@ -153,7 +153,7 @@ local ta4_tiles_pas = {
 local ta3_tiles_act = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta3.png^techage_frame_ta3_top.png^techage_appl_arrow.png",
-	"techage_filling_ta3.png^techage_frame_ta3.png",
+	"techage_filling_ta3.png^techage_frame_ta3_bottom.png",
 	"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 	"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 	{
@@ -181,7 +181,7 @@ local ta3_tiles_act = {
 local ta4_tiles_act = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_arrow.png",
-	"techage_filling_ta4.png^techage_frame_ta4.png",
+	"techage_filling_ta4.png^techage_frame_ta4_bottom.png",
 	"techage_filling_ta4.png^techage_appl_hole_pipe.png^techage_frame_ta4.png",
 	"techage_filling_ta4.png^techage_appl_hole_pipe.png^techage_frame_ta4.png",
 	{

@@ -242,9 +242,8 @@ local function attach_objects(pos, offs, parent, yoffs)
 		local dir = vector.subtract(obj:get_pos(), pos)
 		local entity = obj:get_luaentity()
 		if entity then
-			if entity.name == "__builtin:item" then  -- dropped items
-				--obj:set_attach(objref, "", {x=0, y=0, z=0}, {x=0, y=0, z=0}, true) -- hier kracht es
-			elseif entity.name ~= "techage:move_item" then
+			local mod = entity.name:gmatch("(.-):")()
+			if techage.RegisteredMobsMods[mod] then
 				dir.y = dir.y + yoffs
 				attach_single_object(parent, obj, dir)
 			end

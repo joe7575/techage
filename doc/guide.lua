@@ -15,6 +15,8 @@ local function tooltip(item)
 			return "", name
 		elseif img == "10x10" then  -- huge image for the plan?
 			return "10x10", name
+		elseif img == "5x4" then  -- huge image for the plan?
+			return "5x4", name
 		end
 		local ndef = minetest.registered_nodes[name]
 		if ndef and ndef.description then
@@ -40,12 +42,17 @@ local function plan(images)
 					tbl[#tbl+1] = "label["..x_offs..","..y_offs..";"..S("Top view").."]"
 				elseif img == "side_view" then
 					tbl[#tbl+1] = "label["..x_offs..","..y_offs..";"..S("Side view").."]"
+				elseif img == "sectional_view" then
+					tbl[#tbl+1] = "label["..x_offs..","..y_offs..";"..S("Sectional view").."]"
 				elseif img == "" then
 					img = tooltip -- use tooltip for bigger image
 					tbl[#tbl+1] = "image["..x_offs..","..y_offs..";2.2,2.2;"..img.."]"
 				elseif img == "10x10" then
 					img = tooltip -- use tooltip for bigger image
 					tbl[#tbl+1] = "image["..x_offs..","..y_offs..";10,10;"..img.."]"
+				elseif img == "5x4" then
+					img = tooltip -- use tooltip for bigger image
+					tbl[#tbl+1] = "image["..x_offs..","..y_offs..";5,4;"..img.."]"
 				elseif string.find(img, ":") then
 					tbl[#tbl+1] = "item_image["..x_offs..","..y_offs..";1,1;"..img.."]"
 				else

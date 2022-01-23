@@ -8,7 +8,61 @@ Für die Herstellung und Nutzung von TA5 Maschinen und Blöcken sind Erfahrungsp
 
 ## Energiequellen
 
-### TA5 Fusionsreaktor (geplant)
+### TA5 Fusionsreaktor
+
+Kernfusion bedeutet das Verschmelzen zweier Atomkerne. Dabei können, je nach Reaktion, große Mengen von Energie freigesetzt werden. Kernfusionen, bei denen Energie frei wird, laufen in Form von Kettenreaktionen ab. Sie sind die Quelle der Energie der Sterne, zum Beispiel auch unserer Sonne. Ein Fusionsreaktor wandelt die Energie, die bei einer kontrollierten Kernfusion frei wird, in elektrischen Strom um.
+
+**Wie funktionieren ein Fusionsreaktor?**
+
+Ein Fusionsreaktor funktioniert nach dem klassischen Prinzip eines Wärmekraftwerks: Wasser wird erhitzt und treibt eine Dampfturbine an, deren Bewegungsenergie von einem Generator in Strom gewandelt wird.
+
+Ein Fusionskraftwerk benötigt zunächst eine hohe Menge an Energie, da ein Plasma erzeugt werden muss. „Plasma“ nennt man den vierten Zustand von Stoffen, nach fest, flüssig und gasförmig. Dafür wird viel Strom benötigt. Erst durch diese extreme Energiekonzentration zündet die Fusionsreaktion und mit der abgegebenen Wärme wird über den Wärmetauscher Strom erzeugt. Der Generator liefert dann 800 ku an Strom.
+
+Der Plan rechts zeigt einen Schnitt durch den Fusionsreaktor.
+
+Für den Betrieb des Fusionsreaktors werden 60 Erfahrungspunkte benötigt. Der Fusionsreaktur muss komplett in einem Forceload Block Bereich aufgebaut werden.
+
+[ta5_fusion_reactor|plan]
+
+#### TA5 Fusionreaktor Magnet
+
+Für den Aufbau des Fusionsreaktor werden insgesamt 60 TA5 Fusionreaktor Magnete benötigt. Diese bilden den Ring, in dem sich das Plasma bildet. Der TA5 Fusionsreaktor Magnete benötigt Strom und hat zwei Anschlüsse für die Kühlung.
+
+Es gibt zwei Typen von Magneten, so dass auch alle Seiten des Magnets, die zum Plasmaring zeigen, mit einem Hitzeschild geschützt werden können.
+
+Bei den Eckmagneten auf der Innenseite des Rings ist jeweils eine Anschlussseite verdeckt (Strom oder Kühlung) und kann daher nicht angeschlossen werden. Dies ist technisch nicht machbar und hat daher keinen Einfluß auf die Funktion des Fusionsreaktor. 
+
+[ta5_magnet|image]
+
+#### TA5 Pumpe
+
+Die Pumpe wird benötigt, um den Kühlkreislauf mit Isobutan zu füllen. Es werden ca. 350 Einheiten Isobutan benötigt.
+
+[ta5_pump|image]
+
+#### TA5 Wärmetauscher
+
+Der TA5 Wärmetauscher wird benötigt, um die im Fusionsreaktor erzeugte Hitze zuerst in Dampf und dann in Strom umzuwandeln. Der Wärmetauscher selbst benötigt dazu 5 ku Strom. Der Aufbau gleicht dem Wärmetauscher des Energiespeichers aus TA4.
+
+[ta5_heatexchanger|plan]
+
+#### TA5 Fusionreaktor Controller
+
+Über den TA5 Fusionreaktor Controller wird der Fusionreaktors eingeschaltet. Dabei muss zuerst die Kühlung/Wärmetauscher und dann der Controller eingeschaltet werden. Es dauert ca. 2 min, bis der Reaktor in Gang kommt und Strom liefert. Der Fusionreaktor und damit der Controller benötigt 400 ku an Strom, um das Plasma aufrecht zu erhalten.
+
+[ta5_fr_controller|image]
+
+#### TA5 Fusionreaktor Hülle
+
+Der komplette Reaktor muss mit einer Hülle umgeben werden, die den enormen Druck, den die Magnete auf das Plasma ausüben, abfängt und die Umgebung vor Strahlung schützt. Ohne diese Hülle kann der Reaktor nicht gestartet werden. Mit der TechAge Kelle können auch Stromkabel und Kühlleitungen des Fusionreaktors in die Hülle integriert werden.
+
+[ta5_fr_shell|image]
+
+#### TA5 Fusionreaktor Kern
+
+Der Kern muss in der Mitte des Reaktors sitzen. Siehe Abbildung unter "TA5 Fusionsreaktor". Auch hierfür wird die TechAge Kelle benötigt.
+
+[ta5_fr_nucleus|image]
 
 ## Energiespeicher
 

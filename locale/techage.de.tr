@@ -97,6 +97,10 @@ TA3 Boiler Base=TA3 Boiler unten
 
 To add water punch@nthe boiler@nwith a water bucket=Um Wasser nachzufüllen,@nschlage mit einem Wassereimer@nauf den Block
 Water Boiler=Wasserboiler
+
+### boiler_lib.lua ###
+### heatexchanger2.lua ###
+
 water temperature=Wassertemperatur
 
 ### boiler_top.lua ###
@@ -197,6 +201,7 @@ Cement Powder=Zement Pulver
 TA4 Ceramic Material=TA4 Keramik Material
 TA4 Furnace Ceramic=TA4 Ofen Keramik
 TA4 Round Ceramic=TA4 Rund-Keramik
+TA5 Ceramic Turbine=TA5 Keramikturbine
 
 ### charcoalpile.lua ###
 
@@ -231,6 +236,20 @@ TA4 State Collector=TA4 Zuständesammler
 
 TA4 Tube Concentrator=TA4 Röhren Konzentrator
 Tube Concentrator=Röhren Konzentrator
+
+### controller.lua ###
+
+Cooling failed=Kühlung ausgefallen
+Magnet detection error@n(@1% found / 100% expected)=Magneterkennungsfehler@n(@1% erkannt / 100% erwartet)
+Nucleus detection error=Kern nicht erkannt
+Shell shape error@n(@1% found / 100% expected)=Hüllenformfehler@n(@1% erkannt / 100% erwartet)
+TA5 Fusion Reactor Controller=TA5 Fusionsreaktor Controller
+Tokamak shape error=Tokamakformfehler
+
+### controller.lua ###
+### heatexchanger2.lua ###
+
+No power=Kein Strom
 
 ### cooking.lua ###
 
@@ -383,6 +402,7 @@ TA4 LEDs=TA4 LEDs
 TA4 RAM Chip=RAM Chip
 TA4 WLAN Chip=TA4 WLAN Chip
 TA5 AI Chip=TA5 KI Chip
+TA5 AI Chip II=TA5 KI Chip II
 WLAN Chip=WLAN Chip
 
 ### electronic_fab.lua ###
@@ -523,6 +543,11 @@ Furnace Top=Ofenoberteil
 Outp=Ergeb.
 no fuel or no power=kein Strom oder Brennstoff
 
+### gas_pipe.lua ###
+
+TA5 Junction Pipe=TA5 Leitungskupplung
+TA5 Pipe=TA5 Leitung
+
 ### gateblock.lua ###
 
 TechAge Gate Block=TechAge Torblock
@@ -535,6 +560,7 @@ TA2 Gearbox=TA2 Getriebeblock
 
 TA3 Generator=TA3 Generator
 TA4 Generator=TA4 Generator
+TA5 Generator=TA5 Generator
 
 ### generator.lua ###
 ### power_terminal2.lua ###
@@ -571,6 +597,7 @@ TA4 LED Grow Light=TA4 LED Pflanzenlampe
 
 No plan available=Kein Plan verfügar
 Plan=Plan
+Sectional view=Schnittbild
 Side view=Seitenansicht
 Top view=Draufsicht
 
@@ -590,13 +617,18 @@ TA4 Furnace Heater=TA4 Ofenheizung
 ### heatexchanger1.lua ###
 
 TA4 Heat Exchanger 1=TA4 Wärmetauscher 1
+TA5 Heat Exchanger 1=TA5 Wärmetauscher 1
 
 ### heatexchanger2.lua ###
 
-No power=Kein Strom
+Blue pipe connection error@n(@1 found / @2 expected)=Verbindungsfehler blaue Leitung@n(@1 erkannt / @2 erwartet)
+Cooler error=Kühlungsfehler
+Green pipe connection error@n(@1 found / @2 expected)=Verbindungsfehler grüne Leitung@n(@1 erkannt / @2 erwartet)
 Power network connection error=Stromnetz Verbindungsfehler
 TA4 Heat Exchanger=TA4 Wärmetauscher
 TA4 Heat Exchanger 2=TA4 Wärmetauscher 2
+TA5 Heat Exchanger 2=TA5 Wärmetauscher 2
+Turbine error=
 did you check the plan?=hast du den Plan geprüft?
 inlet/pipe error=Einlass/Leitungsfehler
 wrong storage diameter=Falscher Wärmespeicher-Durchmesser
@@ -604,6 +636,7 @@ wrong storage diameter=Falscher Wärmespeicher-Durchmesser
 ### heatexchanger3.lua ###
 
 TA4 Heat Exchanger 3=TA4 Wärmetauscher 3
+TA5 Heat Exchanger 3=TA5 Wärmetauscher 3
 
 ### hydrogen.lua ###
 
@@ -770,6 +803,10 @@ TA4 Collider Detector Magnet=TA4 Collider Detektormagnet
 TA4 Collider Magnet=TA4 Collider Magnet
 TA4 Collider Magnet Base=TA4 Collider Magnetfuß
 TA4 Collider Steel Block=TA4 Collider Stahlblock
+TA5 Fusion Reactor Magnet 1=TA5 Fusionsreaktor Magnet 1
+TA5 Fusion Reactor Magnet 2=TA5 Fusionsreaktor Magnet 2
+TA5 Fusion Reactor Magnet Blank=TA5 Fusionsreaktor Magnetrohling
+TA5 Fusion Reactor Magnet Shield=TA5 Fusionsreaktor Magnetschild
 
 ### mba_detector.lua ###
 
@@ -906,6 +943,7 @@ TA4 Player Detector=TA4 Spieler Detektor
 
 Aluminum Powder=Aluminium Pulver
 Clay Powder=Ton Pulver
+Graphite Powder=Graphitpulver 
 Iron Powder=Eisen Pulver
 Leave Powder=Laub Pulver
 Needle Powder=Nadel Pulver
@@ -967,6 +1005,10 @@ Allow to dig/place Techage power lines nearby power poles=Erlaubt TODO
 
 TA3 Pump=TA3 Pumpe
 TA4 Pump=TA4 Pumpe
+
+### pump.lua ###
+### ta5_pump.lua ###
+
 Total flow rate=Gesamtdurchfluss
 Total flow rate in liquid units=Gesamtdurchfluss in Flüssigkeitseinheiten
 
@@ -1093,6 +1135,11 @@ the timeslot when the command is executed.@n=der Zeitpunkt, wenn der Befehl ausg
 ### submenu.lua ###
 
 Cancel=Abbruch
+
+### shell.lua ###
+
+TA5 Fusion Reactor Nucleus=TA5 Fusionsreaktor Kern
+TA5 Fusion Reactor Shell=TA5 Fusionsreaktor Hülle
 
 ### signallamp.lua ###
 
@@ -1262,6 +1309,10 @@ no power=kein Strom
 
 TA5 Hyperloop Chest=TA5 Hyperloop Kiste
 
+### ta5_pump.lua ###
+
+TA5 Pump=TA5 Pumpe
+
 ### ta5_tank.lua ###
 
 TA5 Hyperloop Tank=TA5 Hyperloop Tank
@@ -1348,6 +1399,7 @@ TA4 Tube=TA4 Röhre
 
 TA3 Turbine=TA3 Turbine
 TA4 Turbine=TA4 Turbine
+TA5 Turbine=TA5 Turbine
 
 ### turncontroller.lua ###
 
