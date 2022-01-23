@@ -91,7 +91,7 @@ sched.register(tSched, CALL_RATE1, 3, function(pos, outdir)
 sched.register(tSched, CALL_RATE2, 4, function(pos, outdir)
 		local resp = control.request(pos, Cable, outdir, "con", "inc_power")
 		local cnt = count_trues(resp)
-		print("inc_power", cnt)
+		--print("inc_power", cnt)
 		if cnt < 52 then
 			return S("Cooling failed")
 		end

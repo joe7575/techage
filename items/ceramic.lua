@@ -64,6 +64,14 @@ minetest.register_craftitem("techage:ta5_ceramic_turbine", {
 	inventory_image = "techage_ceramic_turbine.png",
 })
 
+techage.furnace.register_recipe({
+	output = "techage:ta4_round_ceramic 2",
+	recipe = {
+		"techage:ta4_ceramic_material", "techage:ta4_ceramic_material",
+		"techage:ta4_ceramic_material", "techage:ta4_ceramic_material",
+	},
+	time = 16,
+})
 
 techage.furnace.register_recipe({
 	output = "techage:ta5_ceramic_turbine",

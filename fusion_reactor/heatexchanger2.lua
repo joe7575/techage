@@ -111,7 +111,7 @@ sched.register(tSched, CALL_RATE1, 3, function(pos)
 sched.register(tSched, CALL_RATE2, 4, function(pos)
 		local resp = heatexchanger3_cmnd(pos, "dec_power")
 		local cnt = count_trues(resp)
-		print("dec_power", cnt)
+		--print("dec_power", cnt)
 		if cnt < 52 then
 			return 0
 		end
@@ -217,7 +217,7 @@ end
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	nvm.temperature = nvm.temperature or 0
-	print("node_timer", nvm.temperature)
+	--print("node_timer", nvm.temperature)
 	if consume_power(pos, nvm) then
 		if steam_management(pos, nvm) then
 			State:keep_running(pos, nvm, COUNTDOWN_TICKS)

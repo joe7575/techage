@@ -17,6 +17,7 @@ local S = techage.S
 
 local Cable = techage.ElectricCable
 local power = networks.power
+local control = networks.control
 
 local CYCLE_TIME = 2
 local PWR_PERF = 800
@@ -171,6 +172,27 @@ techage.register_node({"techage:ta5_generator", "techage:ta5_generator_on"}, {
 		M(pos):set_string("formspec", "")
 	end,
 })
+
+control.register_nodes({"techage:ta5_generator", "techage:ta5_generator_on"}, {
+		on_receive = function(pos, tlib2, topic, payload)
+		end,
+		on_request = function(pos, tlib2, topic)
+			if topic == "info" then
+				local nvm = techage.get_nvm(pos)
+				local meta = M(pos)
+				return {
+					type = S("TA5 Generator"),
+					number = "-",
+					running = (nvm.alive_cnt or 0) > 0,
+					available = PWR_PERF,
+					provided = nvm.provided or 0,
+					termpoint = meta:get_string("termpoint"),
+				}
+			end
+			return false
+		end,
+	}
+)
 
 minetest.register_craft({
 	output = "techage:ta5_generator",
