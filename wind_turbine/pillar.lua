@@ -21,10 +21,14 @@ minetest.register_node("techage:pillar", {
 	mesh = "techage_cylinder_07.obj",
 	selection_box = {
 		type = "fixed",
-		fixed = {-8/32, -16/32, -8/32, 8/32, 16/32, 8/32},
+		fixed = {-10/32, -16/32, -10/32, 10/32, 16/32, 10/32},
+	},
+	collision_box = {
+		type = "fixed",
+		fixed = {-4/32, -16/32, -4/32, 4/32, 16/32, 4/32},
 	},
 	climbable = true,
-	walkable = false,
+	walkable = true,
 	paramtype = "light",
 	backface_culling = true,
 	groups = {cracky=1},

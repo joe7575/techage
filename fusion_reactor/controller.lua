@@ -69,7 +69,7 @@ sched.register(tSched, CALL_RATE1, 1, function(pos, outdir)
 		local resp = control.request(pos, Cable, outdir, "con", "test_plasma")
 		local cnt = count_trues(resp)
 		if cnt ~= EXPECTED_PLASMA_NUM then
-			return S("Tokamak shape error")
+			return S("Plasma ring shape error")
 		end
 		return true
 	end)
@@ -97,11 +97,6 @@ sched.register(tSched, CALL_RATE2, 4, function(pos, outdir)
 		end
 		return true
 	end)
-
---	function(pos, outdir)
---		local resp = control.request(pos, Cable, outdir, "con", "no_gas")
---		return "no_gas: " .. concentrate(resp)
---	end,
 
 local function can_start(pos, nvm)
 	local outdir = networks.side_to_outdir(pos, "L")
@@ -269,6 +264,12 @@ minetest.register_node("techage:ta5_fr_controller_act", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
+techage.register_node({"techage:ta5_fr_controller_pas", "techage:ta5_fr_controller_act"}, {
+	on_recv_message = function(pos, src, topic, payload)
+		return State:on_receive_message(pos, topic, payload)
+	end,
+})
+
 power.register_nodes({"techage:ta5_fr_controller_pas", "techage:ta5_fr_controller_act"}, Cable, "con", {"L", "R"})
 
 minetest.register_craft({
@@ -279,3 +280,4 @@ minetest.register_craft({
 		{'default:steel_ingot', 'default:diamond', 'techage:aluminum'},
 	},
 })
+
