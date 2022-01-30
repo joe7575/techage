@@ -244,6 +244,17 @@ function techage.add_to_set(set, x)
 	end
 end
 
+-- techage.tbl_filter({"a", "b", "c", "d"}, function(v, k, t) return v >= "c" end)  --> {"c","d"}
+techage.tbl_filter = function(t, filterIter)
+	local out = {}
+
+	for k, v in pairs(t) do
+		if filterIter(v, k, t) then out[k] = v end
+	end
+
+	return out
+end
+
 function techage.get_node_lvm(pos)
 	local node = minetest.get_node_or_nil(pos)
 	if node then

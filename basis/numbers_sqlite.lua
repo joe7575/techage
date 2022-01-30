@@ -12,30 +12,21 @@
 
 ]]--
 
--- for lazy programmers
-local M = minetest.get_meta
-
 local storage = techage.storage
 
 -------------------------------------------------------------------
 -- Database
 -------------------------------------------------------------------
-local MN = minetest.get_current_modname()
 local WP = minetest.get_worldpath()
-local MAR_MAGIC = 0x8e
 
 if not techage.IE then
 	error("Please add 'secure.trusted_mods = techage' to minetest.conf!")
 end
 
 local sqlite3 = techage.IE.require("lsqlite3")
-local marshal = techage.IE.require("marshal")
 
 if not sqlite3 then
 	error("Please install sqlite3 via 'luarocks install lsqlite3'")
-end
-if not marshal then
-	error("Please install marshal via 'luarocks install lua-marshal'")
 end
 
 local db = sqlite3.open(WP.."/techage_numbers.sqlite")
@@ -129,7 +120,7 @@ end
 -- delete invalid entries
 function api.delete_invalid_entries(node_def)
 	minetest.log("info", "[TechAge] Data maintenance started")
-	for id, num, x, y, z in db:urows('SELECT * FROM numbers') do
+	for _, num, x, y, z in db:urows('SELECT * FROM numbers') do
 		local pos = {x = x, y = y, z = z}
 		local name = techage.get_node_lvm(pos).name
 		if not node_def[name] then

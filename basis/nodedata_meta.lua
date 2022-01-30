@@ -17,37 +17,8 @@ local M = minetest.get_meta
 
 local storage = techage.storage
 
--------------------------------------------------------------------
--- Marshaling
--------------------------------------------------------------------
-local use_marshal = minetest.settings:get_bool('techage_use_marshal', false)
-local MAR_MAGIC = 0x8e
-
--- default functions
-local serialize = minetest.serialize
-local deserialize = minetest.deserialize
-
-if use_marshal then
-	if not techage.IE then
-		error("Please add 'secure.trusted_mods = techage' to minetest.conf!")
-	end
-	local marshal = techage.IE.require("marshal")
-	if not marshal then
-		error("Please install marshal via 'luarocks install lua-marshal'")
-	end
-
-	serialize = marshal.encode
-
-	deserialize = function(s)
-		if s ~= "" then
-			if s:byte(1) == MAR_MAGIC then
-				return marshal.decode(s)
-			else
-				return minetest.deserialize(s)
-			end
-		end
-	end
-end
+local MP = minetest.get_modpath("techage")
+local serialize, deserialize = dofile(MP .. "/basis/marshal.lua")
 
 -------------------------------------------------------------------
 -- API functions
@@ -86,15 +57,17 @@ function api.get_node_data(pos)
 end
 
 -- Meta data can't be written reliable at shutdown,
--- so we have to store/restore the data differently
+-- so we have to store/restore the data differently.
 function api.freeze_at_shutdown(data)
-	storage:set_string("shutdown_nodedata", serialize(data))
+	-- We use the minetest serialize function, because marshal.encode
+        -- generates a binary string, which can't be stored in storage.
+	storage:set_string("shutdown_nodedata", minetest.serialize(data))
 end
 
 function api.restore_at_startup()
 	local s = storage:get_string("shutdown_nodedata")
 	if s ~= "" then
-		return deserialize(s) or {}
+		return minetest.deserialize(s) or {}
 	end
 	return {}
 end

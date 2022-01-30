@@ -46,6 +46,7 @@ local function count_trues(t)
 end
 
 local function nucleus(t)
+	t = techage.tbl_filter(t, function(v, k, t) return type(v) == "table" end)
 	if #t == 4 then
 		if vector.equals(t[1], t[2]) and vector.equals(t[3], t[4]) then
 			return true
