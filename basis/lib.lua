@@ -64,6 +64,10 @@ local FACEDIR_TO_ROT = {[0] =
 	{x=0.000000, y=4.712389, z=3.141593},
 }
 
+--                                0  1  2  3  4  5
+local WALLMOUNTED_TO_RIGHT = {[0]=0, 1, 5, 4, 2, 3}
+local WALLMOUNTED_TO_LEFT  = {[0]=0, 1, 4, 5, 3, 2}
+
 local RotationViaYAxis = {}
 
 for _,row in ipairs(ROTATION) do
@@ -80,11 +84,11 @@ function techage.facedir_to_rotation(facedir)
 end
 
 function techage.param2_turn_left(param2)
-	return (RotationViaYAxis[param2] or RotationViaYAxis[0])[2]
+	return (RotationViaYAxis[param2] or RotationViaYAxis[0])[1]
 end
 
 function techage.param2_turn_right(param2)
-	return (RotationViaYAxis[param2] or RotationViaYAxis[0])[1]
+	return (RotationViaYAxis[param2] or RotationViaYAxis[0])[2]
 end
 
 -- Roll a block in north direction (south is vice versa)
@@ -133,6 +137,91 @@ end
 -------------------------------------------------------------------------------
 -- Rotate nodes around the center
 -------------------------------------------------------------------------------
+-- turn is one of "l", "r", "2l", "2r", or ""
+function techage.rotate_param2(node, turn)
+	print("calc_node_param2", turn)
+	local ndef = minetest.registered_nodes[node.name]
+	if ndef then
+		print("calc_node_param2", ndef.paramtype2)
+		if ndef.paramtype2 == "facedir" then
+			if turn == "l" then
+				return techage.param2_turn_left(node.param2)
+			elseif turn == "r" then
+				return techage.param2_turn_right(node.param2)
+			elseif turn == "" then
+				return node.param2
+			else
+				return techage.param2_turn_right(techage.param2_turn_right(node.param2))
+			end
+		elseif ndef.paramtype2 == "colorfacedir" then
+			local param2 = math.floor(node.param2 % 32)
+			if turn == "l" then
+				param2 = techage.param2_turn_left(param2)
+			elseif turn == "r" then
+				param2 = techage.param2_turn_right(param2)
+			elseif turn == "" then
+				param2 = param2
+			else
+				param2 = techage.param2_turn_right(param2)
+				param2 = techage.param2_turn_right(param2)
+			end
+			-- Add color again
+			return math.floor(node.param2 / 32) * 32 + param2
+		elseif ndef.paramtype2 == "wallmounted" then
+			if turn == "l" then
+				return WALLMOUNTED_TO_LEFT[node.param2]
+			elseif turn == "r" then	
+				return WALLMOUNTED_TO_RIGHT[node.param2]
+			elseif turn == "" then
+				return node.param2
+			else
+				return WALLMOUNTED_TO_RIGHT[WALLMOUNTED_TO_RIGHT[node.param2]]
+			end
+		elseif ndef.paramtype2 == "colorwallmounted" then
+			local param2 = math.floor(node.param2 % 8)
+			if turn == "l" then
+				param2 = WALLMOUNTED_TO_LEFT[param2]
+			elseif turn == "r" then
+				param2 = WALLMOUNTED_TO_RIGHT[param2]
+			elseif turn == "" then
+				param2 = param2
+			else
+				param2 = WALLMOUNTED_TO_RIGHT[param2]
+				param2 = WALLMOUNTED_TO_RIGHT[param2]
+			end
+			-- Add color again
+			return math.floor(node.param2 / 8) * 8 + param2
+		elseif ndef.paramtype2 == "degrotate" then
+			local rot = (node.param2 * 1.5) + 360
+			if turn == "l" then
+				rot = rot + 90
+			elseif turn == "r" then
+				rot = rot - 90
+			elseif turn == "" then
+				rot = rot + 0
+			else
+				rot = rot + 180
+			end
+			return math.floor((rot % 360) / 1.5)
+		elseif ndef.paramtype2 == "colordegrotate" then
+			local param2 = node.param2 % 32
+			local rot = (param2 * 15) + 360
+			if turn == "l" then
+				rot = rot + 90
+			elseif turn == "r" then
+				rot = rot - 90
+			elseif turn == "" then
+				rot = rot + 0
+			else
+				rot = rot + 180
+			end
+			-- Add color again
+			return math.floor(node.param2 / 32) * 32 + math.floor((rot % 360) / 15)
+		end
+	end
+	return node.param2
+end
+
 function techage.positions_center(lpos)
 	local c = {x=0, y=0, z=0}
 	for _,v in ipairs(lpos) do

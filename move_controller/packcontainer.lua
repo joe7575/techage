@@ -40,7 +40,7 @@ local function formspec(nvm, meta)
 		"button[4.1,2.1;3.8,1;done;" .. S("Done") .. "]" ..
 		"button[0.1,2.9;3.8,1;pack;" .. S("Pack") .. "]" ..
 		"button[4.1,2.9;3.8,1;unpack;" .. S("Unpack") .. "]" ..
-		"label[0.3,9;" .. status .. "]"
+		"label[0.3,3.9;" .. status .. "]"
 end
 
 local function get_rposlist(pos, pos_list)
@@ -53,21 +53,24 @@ local function get_rposlist(pos, pos_list)
 end
 
 local function set_storage_pos(pos, oldnode, oldmetadata, drops)
-	local meta = drops[1]:get_meta()
-	meta:set_string("storage_pos", P2S(pos))
-	meta:set_string("node_name", (oldmetadata.node_name or ""))
-	meta:set_string("description", DESCRIPTION .. ' "' .. (oldmetadata.node_name or "") .. '"')
+	if oldmetadata.data_stored == "1" then
+		local meta = drops[1]:get_meta()
+		meta:set_string("storage_pos", P2S(pos))
+		meta:set_string("node_name", oldmetadata.node_name or "")
+		meta:set_string("status", oldmetadata.status or "")
+		meta:set_int("data_stored", 1)
+		meta:set_string("description", DESCRIPTION .. ' "' .. (oldmetadata.node_name or "") .. '"')
+	end
 end
 
 local function get_storage_pos(pos, nvm, itemstack)
-	print("get_storage_pos")
 	local imeta = itemstack:get_meta()
 	if imeta then
-	print("get_storage_pos2")
 		local meta = M(pos)
 		meta:set_string("node_name", imeta:get_string("node_name"))
+		meta:set_string("status", imeta:get_string("status"))
+		meta:set_int("data_stored", imeta:get_int("data_stored"))
 		nvm.storage_pos = S2P(imeta:get_string("storage_pos"))
-		print("get_storage_pos3", dump(nvm))
 		return nvm.storage_pos ~= nil
 	end
 end
@@ -81,12 +84,24 @@ local function copy_data_and_remove_node(mypos, rmtpos)
 	techage.del_mem(rmtpos)
 end
 
+local function determine_rotation(old_param2, new_param2)
+	local offs = new_param2 - old_param2
+	print("determine_rotation", offs)
+	if     offs ==  0 then return ""
+	elseif offs == -1 then return "l"
+	elseif offs ==  1 then return "r"
+	else return "2r" end
+end
+
 local function after_place_node(pos, placer, itemstack)
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
 	meta:set_string("infotext", DESCRIPTION)
+	meta:set_string("owner", placer:get_player_name())
 	if get_storage_pos(pos, nvm, itemstack) then
-		if techage.get_node_lvm(nvm.storage_pos).name == "techage:ta5_packcontainer_storage" then
+		local node = techage.get_node_lvm(nvm.storage_pos)
+		if node.name == "techage:ta5_packcontainer_storage" then
+			nvm.turn = determine_rotation(node.param2, minetest.get_node(pos).param2)
 			copy_data_and_remove_node(pos, nvm.storage_pos)
 			nvm.storage_pos = nil
 		end
@@ -101,18 +116,19 @@ local function on_receive_fields(pos, formname, fields, player)
 
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
+	local data_stored = meta:get_int("data_stored") == 1
 
-	if fields.record then
-		nvm.lrpos = {}
+	if fields.record and not data_stored then
+		nvm.lrpos = nil
 		meta:set_string("status", S("Recording..."))
 		local name = player:get_player_name()
 		minetest.chat_send_player(name, S("Click on all blocks that shall be turned"))
 		mark.start(name, MAX_BLOCKS)
 		meta:set_string("formspec", formspec(nvm, meta))
-	elseif fields.store then
+	elseif fields.store and not data_stored then
 		meta:set_string("node_name", fields.node_name)
 		meta:set_string("formspec", formspec(nvm, meta))
-	elseif fields.done then
+	elseif fields.done and not data_stored then
 		local name = player:get_player_name()
 		local pos_list = mark.get_poslist(name)
 		local text = #pos_list.." "..S("block positions are stored.")
@@ -122,20 +138,23 @@ local function on_receive_fields(pos, formname, fields, player)
 		mark.unmark_all(name)
 		mark.stop(name)
 		meta:set_string("formspec", formspec(nvm, meta))
-	elseif fields.pack then
+	elseif fields.pack and nvm.lrpos and #nvm.lrpos > 0 and not data_stored then
 		nvm.pack_tbl = techage.pack_nodes(pos, nvm.lrpos or {})
-		meta:set_string("status", S("Packed"))
+		meta:set_string("status", S("Blocks stored"))
 		meta:set_string("formspec", formspec(nvm, meta))
 		meta:set_int("data_stored", 1)
-		local name = player:get_player_name()
-		mark.stop(name)
-	elseif fields.unpack then
-		techage.unpack_nodes(pos, nvm.pack_tbl)
-		meta:set_string("status", S("Unpacked"))
-		meta:set_string("formspec", formspec(nvm, meta))
-		meta:set_int("data_stored", 0)
-		local name = player:get_player_name()
-		mark.stop(name)
+	elseif fields.unpack and data_stored then
+		local tbl = techage.unpack_nodes(pos, nvm.pack_tbl, nvm.turn or "")
+		if tbl then
+			nvm.lrpos = tbl
+			meta:set_string("status", S("Blocks placed"))
+			meta:set_string("formspec", formspec(nvm, meta))
+			meta:set_int("data_stored", 0)
+			nvm.turn = ""
+		else
+			meta:set_string("status", S("Position(s) occupied"))
+			meta:set_string("formspec", formspec(nvm, meta))
+		end
 	end
 end
 
@@ -145,7 +164,9 @@ local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	mark.stop(name)
 
 	if oldmetadata.fields.data_stored == "1" then
-		minetest.set_node(pos, {name = "techage:ta5_packcontainer_storage"})
+		minetest.set_node(pos, {name = "techage:ta5_packcontainer_storage", param2 = oldnode.param2})
+		local owner = oldmetadata.fields.owner or ""
+		M(pos):set_string("infotext", S("@1's @2 storage", owner, DESCRIPTION))
 	else
 		techage.del_mem(pos)
 	end
@@ -155,9 +176,9 @@ minetest.register_node("techage:ta5_packcontainer", {
 	description = DESCRIPTION,
 	tiles = {
 		-- up, down, right, left, back, front
+		"techage_filling_ta4.png^techage_frame_ta5_top.png^techage_appl_arrow.png",
 		"techage_filling_ta4.png^techage_frame_ta5_top.png",
-		"techage_filling_ta4.png^techage_frame_ta5_top.png",
-		"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_turn.png",
+		"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_pack.png",
 	},
 	after_place_node = after_place_node,
 	on_receive_fields = on_receive_fields,
@@ -195,20 +216,18 @@ minetest.register_node("techage:ta5_packcontainer_storage", {
 	node_box = {
 		type = "fixed",
 		fixed = {
-			{ -11/32, -1/2, -11/32, 11/32, -5/16, 11/32},
+			{ -5/16, -8/16, -5/16, 5/16, -5/16, 5/16},
 		},
 	},
 	tiles = {
 		-- up, down, right, left, back, front
-		"signs_bot_sensor2.png^signs_bot_sensor_bot.png",
-		"signs_bot_sensor2.png",
-		"signs_bot_sensor2.png",
-		"signs_bot_sensor2.png",
-		"signs_bot_sensor2.png",
-		"signs_bot_sensor2.png",
+		"techage_pack_storage.png",
 	},
+	paramtype2 = "facedir",
 	paramtype = "light",
 	sunlight_propagates = true,
+	light_source = 5,
+	glow = 12,
 	use_texture_alpha = techage.CLIP,
 	is_ground_content = false,
 	on_blast = function() end,

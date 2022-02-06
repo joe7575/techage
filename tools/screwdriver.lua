@@ -69,7 +69,8 @@ local function turn_node_param2(pos, node, ndef, user)
 end
 
 local function turn_left(pos, node, ndef)
-	local param2 = techage.param2_turn_left(node.param2)
+	-- Turn face left means turn block right
+	local param2 = techage.param2_turn_right(node.param2)
 	if ndef.ta_rotate_node then
 		ndef.ta_rotate_node(pos, node, param2)
 	else

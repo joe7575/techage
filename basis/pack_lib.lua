@@ -85,6 +85,14 @@ local function on_unpack_fallback(pos, name, param2, data)
 	end
 end
 
+-- cpos is the center pos
+-- npos the the node pos
+-- turn is one of "l", "r", "2l", "2r"
+local function get_new_node_pos(cpos, npos, turn, item)
+	item.param2 = techage.rotate_param2(item, turn)
+	return techage.rotate_around_axis(npos, cpos, turn)
+end
+
 -- pack/unpack API functions
 function techage.pack_nodes(pos, pos_list)
 	print("pack_nodes", P2S(pos), #pos_list)
@@ -103,14 +111,32 @@ function techage.pack_nodes(pos, pos_list)
 	return tbl
 end
 
-function techage.unpack_nodes(pos, tbl)
+function techage.unpack_nodes(pos, tbl, turn)
+	print("unpack_nodes", P2S(pos), turn)
+	-- Check positions
 	for rpos, item in pairs(tbl or {}) do
 		local pos2 = vector.add(pos, rpos)
+		pos2 = techage.rotate_around_axis(pos2, pos, turn)
+		local node = minetest.get_node(pos2)
+		if not techage.is_air_like(node.name) then
+			return false
+		end
+	end
+	-- Place nodes
+	local out = {}
+	for rpos, item in pairs(tbl or {}) do
+		local pos2 = vector.add(pos, rpos)
+		item.param2 = techage.rotate_param2(item, turn)
+		pos2 = techage.rotate_around_axis(pos2, pos, turn)
 		local ndef = minetest.registered_nodes[item.name]
 		if ndef and ndef.on_unpack then
 			ndef.on_unpack(pos2, item.name, item.param2, item.data)
 		else
 			on_unpack_fallback(pos2, item.name, item.param2, item.data)
 		end
+		-- Because of the rotated arrangement, generate a new rel-pos table
+		table.insert(out, vector.subtract(pos2, pos))
 	end
+	return out
 end
+
