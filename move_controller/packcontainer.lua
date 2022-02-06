@@ -28,88 +28,141 @@ local DESCRIPTION = S("TA5 Pack Container")
 local function formspec(nvm, meta)
 	local status = meta:get_string("status")
 	local path = meta:contains("path") and meta:get_string("path") or "0,3,0"
-	return "size[8,3]" ..
+	local node_name = meta:get_string("node_name")
+	return "size[8,4.3]" ..
 		"box[0,-0.1;7.8,0.5;#c6e8ff]" ..
 		"label[0.2,-0.1;" .. minetest.colorize( "#000000", DESCRIPTION) .. "]" ..
 		--techage.wrench_image(7.4, -0.05) ..
-		"button[0.1,0.7;3.8,1;record;" .. S("Record") .. "]" ..
-		"button[4.1,0.7;3.8,1;done;" .. S("Done") .. "]" ..
-		"button[0.1,1.5;3.8,1;left;" .. S("Turn left") .. "]" ..
-		"button[4.1,1.5;3.8,1;right;" .. S("Turn right") .. "]" ..
-		"label[0.3,2.5;" .. status .. "]"
+		"field[0.4,1.2;3.8,1;node_name;" .. S("Node name") .. ";" .. node_name .. "]" ..
+		"button[4.1,0.9;3.8,1;store;" .. S("Store") .. "]" ..
+		"button[0.1,2.1;3.8,1;record;" .. S("Record") .. "]" ..
+		"box[0,1.9;7.8,0.02;#ffffff]" ..
+		"button[4.1,2.1;3.8,1;done;" .. S("Done") .. "]" ..
+		"button[0.1,2.9;3.8,1;pack;" .. S("Pack") .. "]" ..
+		"button[4.1,2.9;3.8,1;unpack;" .. S("Unpack") .. "]" ..
+		"label[0.3,9;" .. status .. "]"
 end
 
+local function get_rposlist(pos, pos_list)
+	local lst = {}
+	for _,item_pos in ipairs(pos_list or {}) do
+		local rpos = vector.subtract(item_pos, pos)
+		table.insert(lst, rpos)
+	end
+	return lst
+end
 
-minetest.register_node("techage:ta4_turncontroller", {
-	description = S("TA4 Turn Controller"),
-	tiles = {
-		-- up, down, right, left, back, front
-		"techage_filling_ta4.png^techage_frame_ta4_top.png",
-		"techage_filling_ta4.png^techage_frame_ta4_top.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_turn.png",
-	},
+local function set_storage_pos(pos, oldnode, oldmetadata, drops)
+	local meta = drops[1]:get_meta()
+	meta:set_string("storage_pos", P2S(pos))
+	meta:set_string("node_name", (oldmetadata.node_name or ""))
+	meta:set_string("description", DESCRIPTION .. ' "' .. (oldmetadata.node_name or "") .. '"')
+end
 
-	after_place_node = function(pos, placer, itemstack)
+local function get_storage_pos(pos, nvm, itemstack)
+	print("get_storage_pos")
+	local imeta = itemstack:get_meta()
+	if imeta then
+	print("get_storage_pos2")
 		local meta = M(pos)
-		techage.logic.after_place_node(pos, placer, "techage:ta4_turncontroller", S("TA4 Turn Controller"))
-		techage.logic.infotext(meta, DESCRIPTION)
-		local nvm = techage.get_nvm(pos)
+		meta:set_string("node_name", imeta:get_string("node_name"))
+		nvm.storage_pos = S2P(imeta:get_string("storage_pos"))
+		print("get_storage_pos3", dump(nvm))
+		return nvm.storage_pos ~= nil
+	end
+end
+
+local function copy_data_and_remove_node(mypos, rmtpos)
+	local nvm1 = techage.get_nvm(mypos)
+	local nvm2 = techage.get_nvm(rmtpos)
+	nvm1.lrpos = nvm2.lrpos
+	nvm1.pack_tbl = nvm2.pack_tbl
+	minetest.remove_node(rmtpos)
+	techage.del_mem(rmtpos)
+end
+
+local function after_place_node(pos, placer, itemstack)
+	local meta = M(pos)
+	local nvm = techage.get_nvm(pos)
+	meta:set_string("infotext", DESCRIPTION)
+	if get_storage_pos(pos, nvm, itemstack) then
+		if techage.get_node_lvm(nvm.storage_pos).name == "techage:ta5_packcontainer_storage" then
+			copy_data_and_remove_node(pos, nvm.storage_pos)
+			nvm.storage_pos = nil
+		end
+	end
+	meta:set_string("formspec", formspec(nvm, meta))
+end
+
+local function on_receive_fields(pos, formname, fields, player)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return
+	end
+
+	local meta = M(pos)
+	local nvm = techage.get_nvm(pos)
+
+	if fields.record then
+		nvm.lrpos = {}
+		meta:set_string("status", S("Recording..."))
+		local name = player:get_player_name()
+		minetest.chat_send_player(name, S("Click on all blocks that shall be turned"))
+		mark.start(name, MAX_BLOCKS)
 		meta:set_string("formspec", formspec(nvm, meta))
-	end,
-
-	on_receive_fields = function(pos, formname, fields, player)
-		if minetest.is_protected(pos, player:get_player_name()) then
-			return
-		end
-
-		local meta = M(pos)
-		local nvm = techage.get_nvm(pos)
-
-		if fields.record then
-			nvm.lpos1 = {}
-			nvm.lpos2 = {}
-			meta:set_string("status", S("Recording..."))
-			local name = player:get_player_name()
-			minetest.chat_send_player(name, S("Click on all blocks that shall be turned"))
-			mark.start(name, MAX_BLOCKS)
-			meta:set_string("formspec", formspec(nvm, meta))
-		elseif fields.done then
-			local name = player:get_player_name()
-			local pos_list = mark.get_poslist(name)
-			local text = #pos_list.." "..S("block positions are stored.")
-			meta:set_string("status", text)
-			nvm.lpos = pos_list
-			mark.unmark_all(name)
-			mark.stop(name)
-			meta:set_string("formspec", formspec(nvm, meta))
-		elseif fields.left then
-			meta:set_string("status", "")
-			local new_posses = fly.rotate_nodes(pos, nvm.lpos, "l")
-			if new_posses then
-				nvm.lpos = new_posses
-				local name = player:get_player_name()
-				mark.stop(name)
-			end
-			meta:set_string("formspec", formspec(nvm, meta))
-		elseif fields.right then
-			meta:set_string("status", "")
-			local new_posses = fly.rotate_nodes(pos, nvm.lpos, "r")
-			if new_posses then
-				nvm.lpos = new_posses
-				local name = player:get_player_name()
-				mark.stop(name)
-			end
-			meta:set_string("formspec", formspec(nvm, meta))
-		end
-	end,
-
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		local name = digger:get_player_name()
+	elseif fields.store then
+		meta:set_string("node_name", fields.node_name)
+		meta:set_string("formspec", formspec(nvm, meta))
+	elseif fields.done then
+		local name = player:get_player_name()
+		local pos_list = mark.get_poslist(name)
+		local text = #pos_list.." "..S("block positions are stored.")
+		meta:set_string("status", text)
+		meta:set_string("node_name", fields.node_name)
+		nvm.lrpos = get_rposlist(pos, pos_list)
 		mark.unmark_all(name)
 		mark.stop(name)
-		techage.remove_node(pos, oldnode, oldmetadata)
-	end,
+		meta:set_string("formspec", formspec(nvm, meta))
+	elseif fields.pack then
+		nvm.pack_tbl = techage.pack_nodes(pos, nvm.lrpos or {})
+		meta:set_string("status", S("Packed"))
+		meta:set_string("formspec", formspec(nvm, meta))
+		meta:set_int("data_stored", 1)
+		local name = player:get_player_name()
+		mark.stop(name)
+	elseif fields.unpack then
+		techage.unpack_nodes(pos, nvm.pack_tbl)
+		meta:set_string("status", S("Unpacked"))
+		meta:set_string("formspec", formspec(nvm, meta))
+		meta:set_int("data_stored", 0)
+		local name = player:get_player_name()
+		mark.stop(name)
+	end
+end
 
+local function after_dig_node(pos, oldnode, oldmetadata, digger)
+	local name = digger:get_player_name()
+	mark.unmark_all(name)
+	mark.stop(name)
+
+	if oldmetadata.fields.data_stored == "1" then
+		minetest.set_node(pos, {name = "techage:ta5_packcontainer_storage"})
+	else
+		techage.del_mem(pos)
+	end
+end
+
+minetest.register_node("techage:ta5_packcontainer", {
+	description = DESCRIPTION,
+	tiles = {
+		-- up, down, right, left, back, front
+		"techage_filling_ta4.png^techage_frame_ta5_top.png",
+		"techage_filling_ta4.png^techage_frame_ta5_top.png",
+		"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_turn.png",
+	},
+	after_place_node = after_place_node,
+	on_receive_fields = on_receive_fields,
+	after_dig_node = after_dig_node,
+	preserve_metadata = set_storage_pos,
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
@@ -118,38 +171,10 @@ minetest.register_node("techage:ta4_turncontroller", {
 
 local INFO = [[Commands: 'left', 'right', 'uturn']]
 
-techage.register_node({"techage:ta4_turncontroller"}, {
+techage.register_node({"techage:ta5_packcontainer"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "info" then
 			return INFO
-		elseif topic == "left" then
-			local nvm = techage.get_nvm(pos)
-			local new_posses = fly.rotate_nodes(pos, nvm.lpos, "l")
-			if new_posses then
-				nvm.lpos = new_posses
-				return true
-			end
-			return false
-		elseif topic == "right" then
-			local nvm = techage.get_nvm(pos)
-			local new_posses = fly.rotate_nodes(pos, nvm.lpos, "r")
-			if new_posses then
-				nvm.lpos = new_posses
-				return true
-			end
-			return false
-		elseif topic == "uturn" then
-			local nvm = techage.get_nvm(pos)
-			local new_posses = fly.rotate_nodes(pos, nvm.lpos, "r")
-			if new_posses then
-				nvm.lpos = new_posses
-				new_posses = fly.rotate_nodes(pos, nvm.lpos, "r")
-				if new_posses then
-					nvm.lpos = new_posses
-					return true
-				end
-			end
-			return false
 		end
 		return false
 	end,
@@ -164,168 +189,34 @@ minetest.register_craft({
 	},
 })
 
-
-local storage = minetest.get_mod_storage()
-
-
-local function get_number()
-	storage:set_int("number", storage:get_int("number") + 1)
-	return storage:get_int("number")
-end
-
-local function store_node_data(meta, lrpos, data)
-	local number = meta:get_string("number")
-	local tbl = {lrpos = lrpos, data = data}
-	storage:set_string(number, minetest.serialize(tbl))
-end
-
-local function get_node_data(meta)
-	local number = meta:get_string("number")
-	local s = storage:get_string(number)
-	storage:set_string(number, "")
-	local tbl = minetest.deserialize(s or "")
-	if tbl then
-		return tbl.lrpos, tbl.data
-	end
-end
-
-local function has_node_data(meta)
-	local number = meta:get_string("number")
-	return storage:contains(number)
-end
-
-
-local function pack_nodes(pos, nvm)
-	local tbl = {}
-	for idx, rpos in ipairs(nvm.lrpos or {}) do
-		local pos2 = vector.add(pos, rpos)
-		local node = minetest.get_node(pos2)
-		print("node", node.name, P2S(pos))
-		local ndef = minetest.registered_nodes[node.name]
-		if ndef and ndef.on_pack then
-			tbl[rpos] = {name = node.name, param2 = node.param2, data = ndef.on_pack(pos2, node)}
-		end
-	end
-	return tbl
-end
-
-local function unpack_nodes(pos, tbl)
-	for rpos, item in pairs(tbl or {}) do
-		local pos2 = vector.add(pos, rpos)
-		local ndef = minetest.registered_nodes[item.name]
-		if ndef and ndef.on_unpack then
-			ndef.on_unpack(pos2, item.name, item.param2, item.data)
-		end
-	end
-end
-
-local function restore_metadata(itemstack, meta)
-	local imeta = itemstack:get_meta()
-	if imeta then
-		meta:set_string("number", imeta:get_string("number"))
-	end
-end
-
-local function preserve_metadata(pos, oldnode, oldmetadata, drops)
-	local imeta = drops[1]:get_meta()
-	imeta:set_string("description", oldmetadata.infotext)
-	imeta:set_string("number", oldmetadata.number)
-end
-
-local function formspec(meta)
-	local status = meta:get_string("status")
-	return "size[8,4]" ..
-		"button[0.7,1.2;3,1;record;" .. S("Record") .. "]" ..
-		"button[4.3,1.2;3,1;ready;" .. S("Done") .. "]" ..
-		"button[0.7,2.2;3,1;pack;" .. S("Pack") .. "]" ..
-		"button[4.3,2.2;3,1;unpack;" .. S("Unpack") .. "]" ..
-		"label[0.5,3.3;" .. status .. "]"
-end
-
-local Data = nil
-
-minetest.register_node("test:container", {
-	description = S("Test Container"),
-	tiles = {
-		"default_chest_top.png",
-		"default_chest_top.png",
-		"default_chest_side.png",
-		"default_chest_side.png",
-		"default_chest_front.png",
-		"default_chest_inside.png"
+minetest.register_node("techage:ta5_packcontainer_storage", {
+	description = DESCRIPTION,
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{ -11/32, -1/2, -11/32, 11/32, -5/16, 11/32},
+		},
 	},
-
-	after_place_node = function(pos, placer, itemstack)
-		local meta = M(pos)
-		restore_metadata(itemstack, meta)
-		if not meta:contains("number") then
-			meta:set_string("number", get_number())
-		end
-		meta:set_string("infotext", S("Test Container") .. ": " .. meta:get_string("number"))
-		meta:set_string("formspec", formspec(meta))
-	end,
-
-	on_receive_fields = function(pos, formname, fields, player)
-		if minetest.is_protected(pos, player:get_player_name()) then
-			return
-		end
-
-		local meta = M(pos)
-		local nvm = tubelib2.get_mem(pos)
-		local data
-		
-		if fields.record then
-			local inv = meta:get_inventory()
-			nvm.pos_list = nil
-			nvm.is_on = false
-			meta:set_string("status", S("Recording..."))
-			local name = player:get_player_name()
-			minetest.chat_send_player(name, S("Click on all blocks that shall be moved"))
-			MarkedNodes[name] = {}
-			meta:set_string("formspec", formspec(meta))
-		elseif fields.ready then
-			local name = player:get_player_name()
-			local rpos_list = get_rposlist(pos, name)
-			local text = #rpos_list.." "..S("block positions are stored.")
-			meta:set_string("status", text)
-			nvm.lrpos = rpos_list
-			unmark_all(name)
-			meta:set_string("formspec", formspec(meta))
-		elseif fields.pack and not has_node_data(meta) then
-			data = pack_nodes(pos, nvm)
-			store_node_data(meta, nvm.lrpos, data)
-			meta:set_string("status", S("Packed"))
-			meta:set_string("formspec", formspec(meta))
-			local name = player:get_player_name()
-			MarkedNodes[name] = nil
-		elseif fields.unpack and has_node_data(meta) then
-			nvm.lrpos, data = get_node_data(meta)
-			unpack_nodes(pos, data)
-			meta:set_string("status", S("Unpacked"))
-			meta:set_string("formspec", formspec(meta))
-			local name = player:get_player_name()
-			MarkedNodes[name] = nil
-		end
-	end,
-	
-	after_dig_node = function(pos, oldnode, oldmetadata)
-	end,
-
-	preserve_metadata = preserve_metadata,
-	paramtype2 = "facedir",
-	groups = {choppy=2, cracky=2, crumbly=2},
+	tiles = {
+		-- up, down, right, left, back, front
+		"signs_bot_sensor2.png^signs_bot_sensor_bot.png",
+		"signs_bot_sensor2.png",
+		"signs_bot_sensor2.png",
+		"signs_bot_sensor2.png",
+		"signs_bot_sensor2.png",
+		"signs_bot_sensor2.png",
+	},
+	paramtype = "light",
+	sunlight_propagates = true,
+	use_texture_alpha = techage.CLIP,
 	is_ground_content = false,
-	sounds = default.node_sound_wood_defaults(),
+	on_blast = function() end,
+	on_destruct = function () end,
+	can_dig = function() return false end,
+	diggable = false,
+	drop = "",
+	groups = {not_in_creative_inventory = 1},
 })
 
-minetest.register_on_punchnode(function(pos, node, puncher, pointed_thing)
-	if puncher and puncher:is_player() then
-		local name = puncher:get_player_name()
-		
-		if not MarkedNodes[name] then
-			return
-		end
-		
-		mark_position(name, pointed_thing.under)
-	end
-end)
+techage.register_node({"techage:ta5_packcontainer_storage"})

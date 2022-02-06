@@ -307,11 +307,11 @@ dofile(MP.."/move_controller/movecontroller.lua")
 dofile(MP.."/move_controller/turncontroller.lua")
 dofile(MP.."/move_controller/flycontroller.lua")
 dofile(MP.."/move_controller/soundblock.lua")
-
+dofile(MP.."/move_controller/packcontainer.lua")
 
 -- Test
 dofile(MP.."/recipe_checker.lua")
-dofile(MP.."/.test/sink.lua")
+--dofile(MP.."/.test/sink.lua")
 
 -- Solar
 dofile(MP.."/solar/minicell.lua")
@@ -415,6 +415,3 @@ dofile(MP.."/fusion_reactor/ta5_pump.lua")
 
 -- Prevent other mods from using IE
 techage.IE = nil
-
-
-function techage.icta_register_condition(key, tData) end

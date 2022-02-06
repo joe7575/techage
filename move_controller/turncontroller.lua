@@ -65,8 +65,7 @@ minetest.register_node("techage:ta4_turncontroller", {
 		local nvm = techage.get_nvm(pos)
 
 		if fields.record then
-			nvm.lpos1 = {}
-			nvm.lpos2 = {}
+			nvm.lpos = {}
 			meta:set_string("status", S("Recording..."))
 			local name = player:get_player_name()
 			minetest.chat_send_player(name, S("Click on all blocks that shall be turned"))

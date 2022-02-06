@@ -13,50 +13,104 @@
 ]]--
 
 -- for lazy programmers
-local P = minetest.string_to_pos
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local M = minetest.get_meta
 
---function techage.pack_nvm(pos)
---	return minetest.serialize(techage.)
---end
-
---function techage.unpack_nvm(pos)
---end
-
-local function serialize_inventory(tbl)
-	local out1 = {}
-	for k,v in pairs(tbl) do
-		local out2 = {}
-		for i,item in ipairs(v) do
-			out2[i] = item:to_string()
+-- string/usercode conversion
+local function usercode_to_string(tbl)
+	if tbl and tbl.inventory then
+		for list_name,list in pairs(tbl.inventory) do
+			for i,item in ipairs(list) do
+				tbl.inventory[list_name][i] = item:to_string()
+			end
 		end
-		out1[k] = minetest.serialize(out2)
 	end
-	return out1
 end
 
+local function string_to_usercode(tbl)
+	if tbl and tbl.inventory then
+		for list_name,list in pairs(tbl.inventory) do
+			for i,item in ipairs(list) do
+				tbl.inventory[list_name][i] = ItemStack(item)
+			end
+		end
+	end
+end
+
+-- pack/unpack node nvm data
+function techage.pack_nvm(pos)
+	if techage.has_nvm(pos) then
+		local s = minetest.serialize(techage.get_nvm(pos))
+		techage.del_mem(pos)
+		return s
+	end
+end
+
+function techage.unpack_nvm(pos, s)
+	local tbl = minetest.deserialize(s)
+	local nvm = techage.get_nvm(pos)
+	for k,v in pairs(tbl) do
+		nvm.k = v
+	end
+end
+
+-- pack/unpack node metedata
 function techage.pack_meta(pos)
-	local tbl = M(pos):to_table()
-	local fields, inventory
-	
-	if tbl and tbl.fields then
-		fields = minetest.serialize(tbl.fields)
-	end
-	
-	local inv = minetest.get_inventory({type="node", pos=pos})
-	local lists = inv:get_lists()
-	print(dump(lists))
-	if lists then
-		inventory = serialize_inventory(lists)
-	end
-	return minetest.serialize({fields = fields, inventory = inventory})
+	local tbl = M(pos):to_table() or {}
+	usercode_to_string(tbl)
+	return minetest.serialize(tbl)
 end
 
---function techage.unpack_meta(pos, s)
---	local tbl = minetest.deserialize(s or "") or {}
---	local out = {}
---	for i,item in ipairs(tbl) do
---		out[i] = ItemStack(item)
---	end
---	local inv = minetest.get_inventory({type="node", pos=pos})
---end
+function techage.unpack_meta(pos, s)
+	local tbl = minetest.deserialize(s) or {}
+	string_to_usercode(tbl)
+	M(pos):from_table(tbl)
+end
+
+-- on_pack/on_unpack fallback functions
+local function on_pack_fallback_(pos, node)
+	print("on_pack_fallback_",P2S(pos), node.name)
+	local smeta = techage.pack_meta(pos)
+	local snvm = techage.pack_nvm(pos)
+	minetest.remove_node(pos)
+	return {smeta = smeta, snvm = snvm}
+end
+
+local function on_unpack_fallback(pos, name, param2, data)
+	print("on_unpack_fallback",P2S(pos), name)
+	minetest.add_node(pos, {name = name, param2 = param2})
+	techage.unpack_meta(pos, data.smeta)
+	if data.snvm then
+		techage.unpack_nvm(pos, data.snvm)
+	end
+end
+
+-- pack/unpack API functions
+function techage.pack_nodes(pos, pos_list)
+	print("pack_nodes", P2S(pos), #pos_list)
+	local tbl = {}
+	for idx, rpos in ipairs(pos_list or {}) do
+		local pos2 = vector.add(pos, rpos)
+		local node = minetest.get_node(pos2)
+		--print("node", node.name, P2S(pos))
+		local ndef = minetest.registered_nodes[node.name]
+		if ndef and ndef.on_pack then
+			tbl[rpos] = {name = node.name, param2 = node.param2, data = ndef.on_pack(pos2, node)}
+		else
+			tbl[rpos] = {name = node.name, param2 = node.param2, data = on_pack_fallback_(pos2, node)}
+		end
+	end
+	return tbl
+end
+
+function techage.unpack_nodes(pos, tbl)
+	for rpos, item in pairs(tbl or {}) do
+		local pos2 = vector.add(pos, rpos)
+		local ndef = minetest.registered_nodes[item.name]
+		if ndef and ndef.on_unpack then
+			ndef.on_unpack(pos2, item.name, item.param2, item.data)
+		else
+			on_unpack_fallback(pos2, item.name, item.param2, item.data)
+		end
+	end
+end

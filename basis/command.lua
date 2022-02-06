@@ -300,6 +300,7 @@ end
 --        on_transfer = func(pos, in_dir, topic, payload),
 --    }
 function techage.register_node(names, node_definition)
+	node_definition = node_definition or {}
 	-- store facedir table for all known node names
 	for _,n in ipairs(names) do
 		NodeDef[n] = node_definition
