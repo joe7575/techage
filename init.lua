@@ -285,6 +285,7 @@ dofile(MP.."/logic/timer.lua")
 dofile(MP.."/logic/lua_logic.lua")  -- old
 dofile(MP.."/logic/logic_block.lua")  -- new
 dofile(MP.."/logic/node_detector.lua")
+dofile(MP.."/logic/light_detector.lua")
 dofile(MP.."/logic/player_detector.lua")
 dofile(MP.."/logic/mba_detector.lua")
 dofile(MP.."/logic/cart_detector.lua")
