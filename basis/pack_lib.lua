@@ -69,7 +69,7 @@ end
 
 -- on_pack/on_unpack fallback functions
 local function on_pack_fallback_(pos, node)
-	print("on_pack_fallback_",P2S(pos), node.name)
+	--print("on_pack_fallback_",P2S(pos), node.name)
 	local smeta = techage.pack_meta(pos)
 	local snvm = techage.pack_nvm(pos)
 	minetest.remove_node(pos)
@@ -77,7 +77,7 @@ local function on_pack_fallback_(pos, node)
 end
 
 local function on_unpack_fallback(pos, name, param2, data)
-	print("on_unpack_fallback",P2S(pos), name)
+	--print("on_unpack_fallback",P2S(pos), name)
 	minetest.add_node(pos, {name = name, param2 = param2})
 	techage.unpack_meta(pos, data.smeta)
 	if data.snvm then
@@ -85,57 +85,94 @@ local function on_unpack_fallback(pos, name, param2, data)
 	end
 end
 
--- cpos is the center pos
--- npos the the node pos
--- turn is one of "l", "r", "2l", "2r"
-local function get_new_node_pos(cpos, npos, turn, item)
-	item.param2 = techage.rotate_param2(item, turn)
-	return techage.rotate_around_axis(npos, cpos, turn)
-end
-
+-------------------------------------------------------------------------------
 -- pack/unpack API functions
-function techage.pack_nodes(pos, pos_list)
-	print("pack_nodes", P2S(pos), #pos_list)
-	local tbl = {}
-	for idx, rpos in ipairs(pos_list or {}) do
-		local pos2 = vector.add(pos, rpos)
+-------------------------------------------------------------------------------
+-- pos_list is a list of node positions
+function techage.pack_nodes(pos_list)
+	local pack_tbl = {}
+	for _, pos2 in ipairs(pos_list or {}) do
 		local node = minetest.get_node(pos2)
-		--print("node", node.name, P2S(pos))
 		local ndef = minetest.registered_nodes[node.name]
 		if ndef and ndef.on_pack then
-			tbl[rpos] = {name = node.name, param2 = node.param2, data = ndef.on_pack(pos2, node)}
+			pack_tbl[pos2] = {name = node.name, param2 = node.param2, data = ndef.on_pack(pos2, node)}
 		else
-			tbl[rpos] = {name = node.name, param2 = node.param2, data = on_pack_fallback_(pos2, node)}
+			pack_tbl[pos2] = {name = node.name, param2 = node.param2, data = on_pack_fallback_(pos2, node)}
 		end
 	end
-	return tbl
+	return pack_tbl
 end
 
-function techage.unpack_nodes(pos, tbl, turn)
-	print("unpack_nodes", P2S(pos), turn)
+function techage.unpack_nodes(pack_tbl)
 	-- Check positions
-	for rpos, item in pairs(tbl or {}) do
-		local pos2 = vector.add(pos, rpos)
-		pos2 = techage.rotate_around_axis(pos2, pos, turn)
+	for pos2, _ in pairs(pack_tbl or {}) do
 		local node = minetest.get_node(pos2)
 		if not techage.is_air_like(node.name) then
 			return false
 		end
 	end
 	-- Place nodes
-	local out = {}
-	for rpos, item in pairs(tbl or {}) do
-		local pos2 = vector.add(pos, rpos)
-		item.param2 = techage.rotate_param2(item, turn)
-		pos2 = techage.rotate_around_axis(pos2, pos, turn)
+	for pos2, item in pairs(pack_tbl or {}) do
 		local ndef = minetest.registered_nodes[item.name]
 		if ndef and ndef.on_unpack then
 			ndef.on_unpack(pos2, item.name, item.param2, item.data)
 		else
 			on_unpack_fallback(pos2, item.name, item.param2, item.data)
 		end
-		-- Because of the rotated arrangement, generate a new rel-pos table
-		table.insert(out, vector.subtract(pos2, pos))
+	end
+	return true
+end
+
+-------------------------------------------------------------------------------
+-- move/turn API functions
+-------------------------------------------------------------------------------
+function techage.determine_turn_rotation(old_param2, new_param2)
+	local offs = new_param2 - old_param2
+	if offs == -1 or offs == 3 then return "l"
+	elseif offs == 1 or offs == -3 then return "r"
+	elseif offs == 2 or offs == -2 then return "2r"
+	else return "" end
+end
+
+-- move is the distance between old and new pos as vector
+function techage.adjust_pos_list_move(pos_list, move)
+	local out = {}
+	for idx, pos in ipairs(pos_list or {}) do
+		local pos2 = vector.add(pos, move)
+		out[idx] = pos2
+	end
+	return out
+end
+
+-- Adjust the data for a turn of all nodes around cpos
+-- turn is one of "l", "r", "2l", "2r"
+function techage.adjust_pos_list_turn(cpos, pos_list, turn)
+	local out = {}
+	for idx, npos in ipairs(pos_list or {}) do
+		local pos2 = techage.rotate_around_axis(npos, cpos, turn)
+		out[idx] = pos2
+	end
+	return out
+end
+
+-- move is the distance between old and new pos as vector
+function techage.adjust_pack_tbl_move(pack_tbl, move)
+	local out = {}
+	for pos, item in pairs(pack_tbl or {}) do
+		local pos2 = vector.add(pos, move)
+		out[pos2] = item
+	end
+	return out
+end
+
+-- Adjust the data for a turn of all nodes around cpos
+-- turn is one of "l", "r", "2l", "2r"
+function techage.adjust_pack_tbl_turn(cpos, pack_tbl, turn)
+	local out = {}
+	for npos, item in pairs(pack_tbl or {}) do
+		item.param2 = techage.rotate_param2(item, turn)
+		local pos2 = techage.rotate_around_axis(npos, cpos, turn)
+		out[pos2] = item
 	end
 	return out
 end

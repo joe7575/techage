@@ -43,15 +43,6 @@ local function formspec(nvm, meta)
 		"label[0.3,3.9;" .. status .. "]"
 end
 
-local function get_rposlist(pos, pos_list)
-	local lst = {}
-	for _,item_pos in ipairs(pos_list or {}) do
-		local rpos = vector.subtract(item_pos, pos)
-		table.insert(lst, rpos)
-	end
-	return lst
-end
-
 local function set_storage_pos(pos, oldnode, oldmetadata, drops)
 	if oldmetadata.data_stored == "1" then
 		local meta = drops[1]:get_meta()
@@ -63,48 +54,55 @@ local function set_storage_pos(pos, oldnode, oldmetadata, drops)
 	end
 end
 
-local function get_storage_pos(pos, nvm, itemstack)
+local function get_storage_pos(pos, itemstack)
 	local imeta = itemstack:get_meta()
 	if imeta then
 		local meta = M(pos)
 		meta:set_string("node_name", imeta:get_string("node_name"))
 		meta:set_string("status", imeta:get_string("status"))
 		meta:set_int("data_stored", imeta:get_int("data_stored"))
-		nvm.storage_pos = S2P(imeta:get_string("storage_pos"))
-		return nvm.storage_pos ~= nil
+		local pos2 = S2P(imeta:get_string("storage_pos"))
+		if pos2 then
+			local node = techage.get_node_lvm(pos2)
+			if node.name == "techage:ta5_packcontainer_storage" then
+				return pos2, node.param2
+			end
+		end
 	end
 end
 
-local function copy_data_and_remove_node(mypos, rmtpos)
-	local nvm1 = techage.get_nvm(mypos)
-	local nvm2 = techage.get_nvm(rmtpos)
-	nvm1.lrpos = nvm2.lrpos
-	nvm1.pack_tbl = nvm2.pack_tbl
-	minetest.remove_node(rmtpos)
-	techage.del_mem(rmtpos)
+local function takeover_data(old_pos, new_pos)
+	local nvm1 = techage.get_nvm(old_pos)
+	local nvm2 = techage.get_nvm(new_pos)
+	nvm2.pos_list = nvm1.pos_list
+	nvm2.pack_tbl = nvm1.pack_tbl
 end
 
-local function determine_rotation(old_param2, new_param2)
-	local offs = new_param2 - old_param2
-	print("determine_rotation", offs)
-	if     offs ==  0 then return ""
-	elseif offs == -1 then return "l"
-	elseif offs ==  1 then return "r"
-	else return "2r" end
+local function remove_storage_node(old_pos)
+	minetest.remove_node(old_pos)
+	techage.del_mem(old_pos)
+end
+
+local function adjust_database(pos, nvm, move, turn)
+	nvm.pos_list = techage.adjust_pos_list_move(nvm.pos_list, move)
+	nvm.pos_list = techage.adjust_pos_list_turn(pos, nvm.pos_list, turn)
+	nvm.pack_tbl = techage.adjust_pack_tbl_move(nvm.pack_tbl, move)
+	nvm.pack_tbl = techage.adjust_pack_tbl_turn(pos, nvm.pack_tbl, turn)
 end
 
 local function after_place_node(pos, placer, itemstack)
-	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
+	local meta = M(pos)
 	meta:set_string("infotext", DESCRIPTION)
 	meta:set_string("owner", placer:get_player_name())
-	if get_storage_pos(pos, nvm, itemstack) then
-		local node = techage.get_node_lvm(nvm.storage_pos)
-		if node.name == "techage:ta5_packcontainer_storage" then
-			nvm.turn = determine_rotation(node.param2, minetest.get_node(pos).param2)
-			copy_data_and_remove_node(pos, nvm.storage_pos)
-			nvm.storage_pos = nil
-		end
+	local old_pos, old_param2 = get_storage_pos(pos, itemstack)
+	if old_pos then
+		local new_param2 = minetest.get_node(pos).param2
+		local turn = techage.determine_turn_rotation(old_param2, new_param2)
+		local move = vector.subtract(pos, old_pos)
+		takeover_data(old_pos, pos)
+		adjust_database(pos, nvm, move, turn)
+		remove_storage_node(old_pos)
 	end
 	meta:set_string("formspec", formspec(nvm, meta))
 end
@@ -119,7 +117,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	local data_stored = meta:get_int("data_stored") == 1
 
 	if fields.record and not data_stored then
-		nvm.lrpos = nil
+		nvm.pos_list = nil
 		meta:set_string("status", S("Recording..."))
 		local name = player:get_player_name()
 		minetest.chat_send_player(name, S("Click on all blocks that shall be turned"))
@@ -130,31 +128,26 @@ local function on_receive_fields(pos, formname, fields, player)
 		meta:set_string("formspec", formspec(nvm, meta))
 	elseif fields.done and not data_stored then
 		local name = player:get_player_name()
-		local pos_list = mark.get_poslist(name)
-		local text = #pos_list.." "..S("block positions are stored.")
+		nvm.pos_list = mark.get_poslist(name) or {}
+		local text = #(nvm.pos_list).." "..S("block positions are stored.")
 		meta:set_string("status", text)
 		meta:set_string("node_name", fields.node_name)
-		nvm.lrpos = get_rposlist(pos, pos_list)
 		mark.unmark_all(name)
 		mark.stop(name)
 		meta:set_string("formspec", formspec(nvm, meta))
-	elseif fields.pack and nvm.lrpos and #nvm.lrpos > 0 and not data_stored then
-		nvm.pack_tbl = techage.pack_nodes(pos, nvm.lrpos or {})
+	elseif fields.pack and nvm.pos_list and #nvm.pos_list > 0 and not data_stored then
+		nvm.pack_tbl = techage.pack_nodes(nvm.pos_list)
 		meta:set_string("status", S("Blocks stored"))
 		meta:set_string("formspec", formspec(nvm, meta))
 		meta:set_int("data_stored", 1)
-	elseif fields.unpack and data_stored then
-		local tbl = techage.unpack_nodes(pos, nvm.pack_tbl, nvm.turn or "")
-		if tbl then
-			nvm.lrpos = tbl
+	elseif fields.unpack and data_stored and nvm.pack_tbl then
+		if techage.unpack_nodes(nvm.pack_tbl) then
 			meta:set_string("status", S("Blocks placed"))
-			meta:set_string("formspec", formspec(nvm, meta))
 			meta:set_int("data_stored", 0)
-			nvm.turn = ""
 		else
 			meta:set_string("status", S("Position(s) occupied"))
-			meta:set_string("formspec", formspec(nvm, meta))
 		end
+		meta:set_string("formspec", formspec(nvm, meta))
 	end
 end
 
