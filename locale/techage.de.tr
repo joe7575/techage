@@ -242,9 +242,9 @@ Tube Concentrator=Röhren Konzentrator
 Cooling failed=Kühlung ausgefallen
 Magnet detection error@n(@1% found / 100% expected)=Magneterkennungsfehler@n(@1% erkannt / 100% erwartet)
 Nucleus detection error=Kern nicht erkannt
+Plasma ring shape error=Formfehler des Plasmarings
 Shell shape error@n(@1% found / 100% expected)=Hüllenformfehler@n(@1% erkannt / 100% erwartet)
 TA5 Fusion Reactor Controller=TA5 Fusionsreaktor Controller
-Tokamak shape error=Tokamakformfehler
 
 ### controller.lua ###
 ### heatexchanger2.lua ###
