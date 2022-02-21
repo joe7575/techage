@@ -124,6 +124,7 @@ techage.manual_EN.aTitel = {
   "3,TA3 Cart Detector",
   "3,TA3 Block Detector",
   "3,TA3 Player Detector",
+  "3,TA3 Light Detector"
   "2,TA3 Machines",
   "3,TA3 Pusher",
   "3,TA3 Distributor",
@@ -1196,6 +1197,11 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The light detector sends an 'on' command if the light level above it exceeds a certain level, which can be set in the right-click menu of the block.\n"..
+  "If you have a TA4 Lua controller, you can get the exact light level by getting the block's 'light_level' property.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "TA3 has the same machines as TA2\\, only these are more powerful and require electricity instead of axis drive.\n"..
   "Therefore\\, only the different technical data are given below.\n"..
   "\n"..
@@ -2235,6 +2241,7 @@ techage.manual_EN.aItemName = {
   "ta3_cartdetector",
   "ta3_nodedetector",
   "ta3_playerdetector",
+  "ta3_lightdetector",
   "ta3_grinder",
   "ta3_pusher",
   "ta3_distributor",
@@ -2469,6 +2476,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "ta3_distiller",
+  "",
   "",
   "",
   "",

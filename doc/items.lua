@@ -110,6 +110,7 @@ techage.Items = {
 	ta3_logic = "techage:ta3_logic",
 	ta3_nodedetector = "techage:ta3_nodedetector_off",
 	ta3_playerdetector = "techage:ta3_playerdetector_off",
+	ta3_lightdetector = "techage:ta3_lightdetector_off",
 	ta3_repeater = "techage:ta3_repeater",
 	ta3_sequencer = "techage:ta3_sequencer",
 	ta3_timer = "techage:ta3_timer",
