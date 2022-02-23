@@ -737,6 +737,14 @@ Soll die Suche auf bestimmte Spieler eingegrenzt werden, so können diese Spiele
 [ta3_playerdetector|image]
 
 
+### TA3 Lichtdetektor
+
+Der Lichtdetektor sendet einen `on`-Kommando, wenn der Lichtpegel des darüber liegenden Blocks einen bestimmten Pegel überschreitet, der über das Rechtsklickmenü eingestellt werden kann.
+Mit einen TA4 Lua Controller kann die genaue Lichtstärke mit $get_cmd(num, 'light_level') ermitteln werden.
+
+[ta3_lightdetector|image]
+
+
 ## TA3 Maschinen
 
 Bei TA3 existieren die gleichen Maschinen wie bei TA2, nur sind diese hier leistungsfähiger und benötigen Strom statt Achsenantrieb.

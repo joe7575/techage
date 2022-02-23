@@ -730,6 +730,12 @@ If the search should be limited to specific players, these player names can also
 
 [ta3_playerdetector|image]
 
+### TA3 Light Detector
+
+The light detector sends an `on` command if the light level of the block above exceeds a certain level, which can be set through the right-click menu.
+If you have a TA4 Lua Controller, you can get the exact light level with $get_cmd(num, 'light_level')
+
+[ta3_lightdetector|image]
 
 ## TA3 Machines
 

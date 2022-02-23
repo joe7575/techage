@@ -123,6 +123,7 @@
         - [TA3 Wagen Detektor / Cart Detector](./manual_ta3_DE.md#ta3-wagen-detektor--cart-detector)
         - [TA3 Block Detektor / Node Detector](./manual_ta3_DE.md#ta3-block-detektor--node-detector)
         - [TA3 Spieler Detektor / Player Detector](./manual_ta3_DE.md#ta3-spieler-detektor--player-detector)
+        - [TA3 Lichtdetektor](./manual_ta3_DE.md#ta3-lichtdetektor)
     - [TA3 Maschinen](./manual_ta3_DE.md#ta3-maschinen)
         - [TA3 Schieber / Pusher](./manual_ta3_DE.md#ta3-schieber--pusher)
         - [TA3 Verteiler / Distributor](./manual_ta3_DE.md#ta3-verteiler--distributor)

@@ -127,6 +127,7 @@ Command=Kommando
 ### button.lua ###
 ### cart_detector.lua ###
 ### detector.lua ###
+### light_detector.lua ###
 ### lua_logic.lua ###
 ### mesecons_converter.lua ###
 ### node_detector.lua ###
@@ -178,6 +179,7 @@ TA4 4x Button=TA4 4x Taster
 TA3 Cart Detector=TA3 Wagen Detektor
 
 ### cart_detector.lua ###
+### light_detector.lua ###
 ### node_detector.lua ###
 
 accept=akzeptieren
@@ -731,6 +733,11 @@ Block has an@nadditional wrench menu=Block besitzt ein@nzusätzliches@nSchrauben
 ### terminal.lua ###
 
 connected with=verbunden mit
+
+### light_detector.lua ###
+
+Send signal if light level is above:=Sende ein Signal wenn der Lichtwert größer ist als:
+TA3 Light Detector=TA3 Lichtdetektor
 
 ### lighter.lua ###
 

@@ -124,6 +124,7 @@ techage.manual_DE.aTitel = {
   "3,TA3 Wagen Detektor / Cart Detector",
   "3,TA3 Block Detektor / Node Detector",
   "3,TA3 Spieler Detektor / Player Detector",
+  "3,TA3 Lichtdetektor",
   "2,TA3 Maschinen",
   "3,TA3 Schieber / Pusher",
   "3,TA3 Verteiler / Distributor",
@@ -1198,6 +1199,11 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der Lichtdetektor sendet einen 'on'-Kommando\\, wenn der Lichtpegel des darüber liegenden Blocks einen bestimmten Pegel überschreitet\\, der über das Rechtsklickmenü eingestellt werden kann.\n"..
+  "Mit einen TA4 Lua Controller kann die genaue Lichtstärke mit $get_cmd(num\\, 'light_level') ermitteln werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Bei TA3 existieren die gleichen Maschinen wie bei TA2\\, nur sind diese hier leistungsfähiger und benötigen Strom statt Achsenantrieb.\n"..
   "Im folgenden sind daher nur die unterschiedlichen\\, technischen Daten angegeben.\n"..
   "\n"..
@@ -2240,6 +2246,7 @@ techage.manual_DE.aItemName = {
   "ta3_cartdetector",
   "ta3_nodedetector",
   "ta3_playerdetector",
+  "ta3_lightdetector",
   "ta3_grinder",
   "ta3_pusher",
   "ta3_distributor",
@@ -2475,6 +2482,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta3_distiller",
+  "",
   "",
   "",
   "",

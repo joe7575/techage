@@ -123,6 +123,7 @@
         - [TA3 Cart Detector](./manual_ta3_EN.md#ta3-cart-detector)
         - [TA3 Block Detector](./manual_ta3_EN.md#ta3-block-detector)
         - [TA3 Player Detector](./manual_ta3_EN.md#ta3-player-detector)
+        - [TA3 Light Detector](./manual_ta3_EN.md#ta3-light-detector)
     - [TA3 Machines](./manual_ta3_EN.md#ta3-machines)
         - [TA3 Pusher](./manual_ta3_EN.md#ta3-pusher)
         - [TA3 Distributor](./manual_ta3_EN.md#ta3-distributor)
