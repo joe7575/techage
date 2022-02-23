@@ -127,6 +127,7 @@ Command=
 ### button.lua ###
 ### cart_detector.lua ###
 ### detector.lua ###
+### light_detector.lua ###
 ### lua_logic.lua ###
 ### mesecons_converter.lua ###
 ### node_detector.lua ###
@@ -178,6 +179,7 @@ TA4 4x Button=
 TA3 Cart Detector=
 
 ### cart_detector.lua ###
+### light_detector.lua ###
 ### node_detector.lua ###
 
 accept=
@@ -731,6 +733,11 @@ Block has an@nadditional wrench menu=
 ### terminal.lua ###
 
 connected with=
+
+### light_detector.lua ###
+
+Send signal if light level is above:=
+TA3 Light Detector=
 
 ### lighter.lua ###
 

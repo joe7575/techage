@@ -98,7 +98,7 @@ local function after_dig_node(pos, oldnode, oldmetadata, digger)
 end
 
 minetest.register_node("techage:ta3_lightdetector_off", {
-	description = S("TA3 Light Detector (Off)"),
+	description = S("TA3 Light Detector"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta3.png^techage_frame_ta3_top.png^techage_appl_lightdetector.png",
