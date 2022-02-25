@@ -101,7 +101,7 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 			elseif elem.type == "dropdown" then
 				local l = elem.choices:split(",")
 				if nvm.running or techage.is_running(nvm) then
-					local val = elem.default
+					local val = elem.default or ""
 					if meta:contains(elem.name) then
 						val = meta:get_string(elem.name) or ""
 					end
