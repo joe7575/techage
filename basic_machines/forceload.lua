@@ -91,13 +91,13 @@ local function set_pos_list(player, lPos)
 	meta:set_string("techage_forceload_blocks", minetest.serialize(lPos))
 end
 
-local function shoe_flbs(pos, name, range)
+local function show_flbs(pos, name, range)
 	local pos1 = {x=pos.x-range, y=pos.y-range, z=pos.z-range}
 	local pos2 = {x=pos.x+range, y=pos.y+range, z=pos.z+range}
 	for _,npos in ipairs(minetest.find_nodes_in_area(pos1, pos2, {"techage:forceload", "techage:forceloadtile"})) do
 		local _pos1, _pos2 = calc_area(npos)
 		local owner = M(npos):get_string("owner")
-		techage.mark_region(name, _pos1, _pos2, owner)
+                techage.mark_region(name, _pos1, _pos2, owner .. " " .. P2S(npos))
 	end
 end
 
@@ -292,15 +292,11 @@ minetest.register_chatcommand("forceload", {
 	params = "",
 	description = S("Show all forceload blocks in a 64x64x64 range"),
 	func = function(name, param)
-		if minetest.check_player_privs(name, "superminer") then
-			local player = minetest.get_player_by_name(name)
-			if player then
-				local pos = player:get_pos()
-				pos = vector.round(pos)
-				shoe_flbs(pos, name, 64)
-			end
-		else
-			return false, S("Priv missing")
+		local player = minetest.get_player_by_name(name)
+		if player then
+			local pos = player:get_pos()
+			pos = vector.round(pos)
+			show_flbs(pos, name, 64)
 		end
 	end,
 })

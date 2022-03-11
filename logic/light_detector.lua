@@ -140,7 +140,7 @@ minetest.register_node("techage:ta3_lightdetector_on", {
 	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
-	drop = "techage:ta3_cartdetector_off"
+	drop = "techage:ta3_lightdetector_off"
 })
 
 minetest.register_craft({
