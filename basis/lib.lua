@@ -76,7 +76,7 @@ for _,row in ipairs(ROTATION) do
 end
 
 function techage.facedir_to_rotation(facedir)
-	return FACEDIR_TO_ROT[facedir]
+	return FACEDIR_TO_ROT[facedir] or FACEDIR_TO_ROT[0]
 end
 
 function techage.param2_turn_left(param2)

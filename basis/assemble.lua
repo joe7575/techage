@@ -173,13 +173,14 @@ local function remove_inv(pos, inv, param2, AssemblyPlan, player_name, idx)
 			if inv:room_for_item("src", stack) then
 				local node = minetest.get_node(pos1)
 				if node.name == node_name then
+					local meta = M(pos1):to_table()
 					minetest.remove_node(pos1)
 					inv:add_item("src", stack)
 					play_sound(pos, "default_dig_cracky")
 					local ndef = minetest.registered_nodes[node_name]
 					if ndef and ndef.after_dig_node then
 						local digger = minetest.get_player_by_name(player_name)
-						ndef.after_dig_node(pos1, pos, ItemStack(node_name), {}, digger)
+						ndef.after_dig_node(pos1, node, meta, digger)
 					end
 				end
 			end
