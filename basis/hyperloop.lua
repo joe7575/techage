@@ -57,16 +57,18 @@ local function get_remote_pos(pos, rmt_name)
 end
 
 local function get_free_server_list(pos, owner)
-	local tbl = {M(pos):get_string("remote_name")}
-	for key,item in pairs(Stations:get_node_table(pos)) do
-		if item.single and item.owner == owner then
-			if M(pos):get_string("node_type") == M(S2P(key)):get_string("node_type") then
-				tbl[#tbl+1] = item.conn_name
+	if Stations and Stations.get_node_table then
+		local tbl = {M(pos):get_string("remote_name")}
+		for key,item in pairs(Stations:get_node_table(pos) or {}) do
+			if item.single and item.owner == owner then
+				if M(pos):get_string("node_type") == M(S2P(key)):get_string("node_type") then
+					tbl[#tbl+1] = item.conn_name
+				end
 			end
 		end
+		tbl[#tbl+1] = ""
+		return tbl
 	end
-	tbl[#tbl+1] = ""
-	return tbl
 end
 
 local function on_lose_connection(pos, node_type)
@@ -78,8 +80,11 @@ local function on_lose_connection(pos, node_type)
 end
 
 local function on_dropdown(pos)
-    local owner = M(pos):get_string("owner")
-	return table.concat(get_free_server_list(pos, owner), ",")
+	if pos then
+		local owner = M(pos):get_string("owner")
+		return table.concat(get_free_server_list(pos, owner), ",") or ""
+	end
+	return ""
 end
 
 local function update_node_data(pos, state, conn_name, remote_name, rmt_pos)

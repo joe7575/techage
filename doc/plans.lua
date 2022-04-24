@@ -511,8 +511,6 @@ techage.ConstructionPlans["ta5_teleport"] = {
 	{false, false, false, false, false, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false, false},
 	{false, TANK4, PUMP4, TELEP, false, ARROW, false, TELEP, PIPEH, TANK4, false},
-	{false, false, false, false, false, false, false, false, false, false, false},
-	{false, TANK4, PIPEH, TELEP, false, ARROW, false, TELEP, PUMP4, TANK4, false},
 }
 
 --

@@ -572,6 +572,8 @@ function techage.add_expoint(player, number)
 	end
 end
 
+-- Delete number with: `//lua minetest.get_player_by_name("<name>"):get_meta():set_string("techage_collider_number", "")`
+
 function techage.on_remove_collider(player)
 	if player and player.get_meta then
 		local meta = player:get_meta()
