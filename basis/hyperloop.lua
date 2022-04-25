@@ -69,6 +69,7 @@ local function get_free_server_list(pos, owner)
 		tbl[#tbl+1] = ""
 		return tbl
 	end
+	return {}
 end
 
 local function on_lose_connection(pos, node_type)
