@@ -388,36 +388,38 @@ end
 
 -- Handover the entity to the next movecontroller
 local function handover_to(obj, self, pos1)
-	local info = techage.get_node_info(self.handover)
-	if info and info.name == "techage:ta4_movecontroller" then
-		local meta = M(info.pos)
-		if self.move2to1 then
-			self.handover = meta:contains("handoverA") and meta:get_string("handoverA")
-		else
-			self.handover = meta:contains("handoverB") and meta:get_string("handoverB")
-		end
-
-		self.lpath = flylib.to_path(meta:get_string("path"))
-		if pos1 and self.lpath then
-			self.path_idx = 2
+	if self.handover then
+		local info = techage.get_node_info(self.handover)
+		if info and info.name == "techage:ta4_movecontroller" then
+			local meta = M(info.pos)
 			if self.move2to1 then
-				self.lpath[1] = vector.multiply(self.lpath[1], - 1)
+				self.handover = meta:contains("handoverA") and meta:get_string("handoverA") or nil
+			else
+				self.handover = meta:contains("handoverB") and meta:get_string("handoverB") or nil
 			end
-			local pos2 = next_path_pos(pos1, self.lpath, 1)
-			local dir = determine_dir(pos1, pos2)
-			--print("handover_to", P2S(pos1), P2S(pos2), P2S(dir), P2S(info.pos), meta:get_string("path"))
-			if not self.handover then
-				local nvm = techage.get_nvm(info.pos)
-				nvm.lpos1 = nvm.lpos1 or {}
-				if self.move2to1 then
-					nvm.lpos1[self.pos1_idx] = pos2
 
-				else
-					nvm.lpos1[self.pos1_idx] = pos1
+			self.lpath = flylib.to_path(meta:get_string("path"))
+			if pos1 and self.lpath then
+				self.path_idx = 2
+				if self.move2to1 then
+					self.lpath[1] = vector.multiply(self.lpath[1], - 1)
 				end
+				local pos2 = next_path_pos(pos1, self.lpath, 1)
+				local dir = determine_dir(pos1, pos2)
+				--print("handover_to", P2S(pos1), P2S(pos2), P2S(dir), P2S(info.pos), meta:get_string("path"))
+				if not self.handover then
+					local nvm = techage.get_nvm(info.pos)
+					nvm.lpos1 = nvm.lpos1 or {}
+					if self.move2to1 then
+						nvm.lpos1[self.pos1_idx] = pos2
+
+					else
+						nvm.lpos1[self.pos1_idx] = pos1
+					end
+				end
+				move_entity(obj, pos2, dir)
+				return true
 			end
-			move_entity(obj, pos2, dir)
-			return true
 		end
 	end
 end
@@ -671,9 +673,9 @@ function flylib.move_to_other_pos(pos, move2to1)
 	nvm.lpos2 = lvect_add_vec(nvm.lpos1, offs)
 
 	if move2to1 then
-		handover = meta:contains("handoverA") and meta:get_string("handoverA")
+		handover = meta:contains("handoverA") and meta:get_string("handoverA") or nil
 	else
-		handover = meta:contains("handoverB") and meta:get_string("handoverB")
+		handover = meta:contains("handoverB") and meta:get_string("handoverB") or nil
 	end
 	return move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, handover)
 end
