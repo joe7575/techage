@@ -83,20 +83,24 @@ minetest.register_node("techage:ta4_turncontroller", {
 			meta:set_string("formspec", formspec(nvm, meta))
 		elseif fields.left then
 			meta:set_string("status", "")
-			local new_posses = fly.rotate_nodes(pos, nvm.lpos, "l")
-			if new_posses then
-				nvm.lpos = new_posses
-				local name = player:get_player_name()
-				mark.stop(name)
+			if nvm.lpos then
+				local new_posses = fly.rotate_nodes(pos, nvm.lpos, "l")
+				if new_posses then
+					nvm.lpos = new_posses
+					local name = player:get_player_name()
+					mark.stop(name)
+				end
 			end
 			meta:set_string("formspec", formspec(nvm, meta))
 		elseif fields.right then
 			meta:set_string("status", "")
-			local new_posses = fly.rotate_nodes(pos, nvm.lpos, "r")
-			if new_posses then
-				nvm.lpos = new_posses
-				local name = player:get_player_name()
-				mark.stop(name)
+			if nvm.lpos then
+				local new_posses = fly.rotate_nodes(pos, nvm.lpos, "r")
+				if new_posses then
+					nvm.lpos = new_posses
+					local name = player:get_player_name()
+					mark.stop(name)
+				end
 			end
 			meta:set_string("formspec", formspec(nvm, meta))
 		end
