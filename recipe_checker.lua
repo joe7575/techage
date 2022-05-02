@@ -14,7 +14,7 @@ end
 minetest.after(1, function()
 	for name,_ in pairs(minetest.registered_items) do
 		local mod = string.split(name, ":")[1]
-		if mod == "techage" or mod == "signs_bot" then
+		if mod == "techage" or mod == "signs_bot" or mod == "vm16" or mod == "beduino" then
 			local recipes = minetest.get_all_craft_recipes(name)
 			if recipes then
 				for _,recipe in ipairs(recipes) do

@@ -74,9 +74,12 @@ local function input_string(recipe)
 	return table.concat(tbl, "")
 end
 
-function techage.recipes.get(nvm, rtype)
+function techage.recipes.get(nvm, rtype, owner)
 	local recipes = Recipes[rtype] or {}
-	return recipes[nvm.recipe_idx or 1]
+	if owner then
+		recipes = filter_recipes_based_on_points(recipes, owner)
+	end
+	return recipes[nvm.recipe_idx or 1] or recipes[1]
 end
 
 -- Add 4 input/output/waste recipe

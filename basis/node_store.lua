@@ -71,7 +71,7 @@ end
 -------------------------------------------------------------------
 -- Storage scheduler
 -------------------------------------------------------------------
-local CYCLE_TIME = 900  -- store data every 15 min
+local CYCLE_TIME = 600  -- store data every 10 min
 local JobQueue = {}
 local first = 0
 local last = -1

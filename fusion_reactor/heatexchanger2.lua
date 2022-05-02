@@ -183,7 +183,7 @@ local function steam_management(pos, nvm)
 		nvm.temperature = math.min(nvm.temperature + 10, 100)
 	elseif resp ~= true then
 		State:fault(pos, nvm, resp)
-		stop_node(pos, nvm)
+		State:stop(pos, nvm)
 		return false
 	end
 
@@ -325,10 +325,10 @@ techage.register_node({"techage:ta5_heatexchanger2"}, {
 			local data = power.get_network_data(pos, Cable, DOWN)
 			return data.consumed - data.provided
 		elseif topic == "on" then
-			start_node(pos, techage.get_nvm(pos))
+			State:start(pos, nvm)
 			return true
 		elseif topic == "off" then
-			stop_node(pos, techage.get_nvm(pos))
+			State:stop(pos, nvm)
 			return true
 		else
 			return "unsupported"
@@ -344,7 +344,7 @@ techage.register_node({"techage:ta5_heatexchanger2"}, {
 		-- Attempt to restart the system as the heat exchanger goes into error state
 		-- when parts of the storage block are unloaded.
 		if nvm.techage_state == techage.FAULT then
-			start_node(pos, nvm)
+			State:start(pos, nvm)
 		end
 	end,
 })

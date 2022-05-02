@@ -74,8 +74,9 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 end
 
 local function making(pos, crd, nvm, inv)
+	local owner = M(pos):get_string("owner")
 	local rtype = RecipeType[crd.stage]
-	local recipe = recipes.get(nvm, rtype)
+	local recipe = recipes.get(nvm, rtype, owner)
 	local output = ItemStack(recipe.output.name.." "..recipe.output.num)
 	if inv:room_for_item("dst", output) then
 		for _,item in ipairs(recipe.input) do
