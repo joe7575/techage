@@ -550,6 +550,7 @@ Der TA4 Sequenzer unterstützt folgende techage Kommandos:
 
 - `goto <num>`  Zu einer Kommandozeile springen und damit den Sequenzer starten
 - `stop`  Den Sequenzer anhalten
+- `on` und `off` als Alias für `goto 1` bzw. `stop`
 
 Das `goto` Kommando wird nur angenommen, wenn der Sequenzer gestoppt ist.
 

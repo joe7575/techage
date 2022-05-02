@@ -290,18 +290,18 @@ minetest.register_craft({
 	},
 })
 
-local INFO = [[Commands: 'goto <num>', 'stop']]
+local INFO = [[Commands: 'goto <num>', 'stop', 'on', 'off']]
 
 techage.register_node({"techage:ta4_sequencer"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		if topic == "goto" and not nvm.running then
+		if (topic == "goto" or topic == "on") and not nvm.running then
 			local mem = techage.get_mem(pos)
 			nvm.running = true
 			mem.idx = tonumber(payload or 1) or 1
 			restart_timer(pos, 0.1)
 			logic.infotext(M(pos), S("TA4 Sequencer"), S("running"))
-		elseif topic == "stop" then
+		elseif topic == "stop" or topic == "off" then
 			nvm.running = false
 			minetest.get_node_timer(pos):stop()
 			logic.infotext(M(pos), S("TA4 Sequencer"), S("stopped"))
