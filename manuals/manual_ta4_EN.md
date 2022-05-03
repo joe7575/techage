@@ -542,6 +542,7 @@ The TA4 sequencer supports the following techage commands:
 
 - `goto <num>` Jump to a command line and start the sequencer
 - `stop` Stop the sequencer
+- `on` and `off` as aliases for `goto 1` resp. `stop`
 
 The `goto` command is only accepted when the sequencer is stopped.
 

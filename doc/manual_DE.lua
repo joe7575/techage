@@ -1686,6 +1686,7 @@ techage.manual_DE.aText = {
   "\n"..
   "  - 'goto <num>'  Zu einer Kommandozeile springen und damit den Sequenzer starten\n"..
   "  - 'stop'  Den Sequenzer anhalten\n"..
+  "  - 'on' und 'off' als Alias für 'goto 1' bzw. 'stop'\n"..
   "\n"..
   "Das 'goto' Kommando wird nur angenommen\\, wenn der Sequenzer gestoppt ist.\n"..
   "\n"..

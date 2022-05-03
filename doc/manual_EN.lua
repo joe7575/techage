@@ -1682,6 +1682,7 @@ techage.manual_EN.aText = {
   "\n"..
   "  - 'goto <num>' Jump to a command line and start the sequencer\n"..
   "  - 'stop' Stop the sequencer\n"..
+  "  - 'on' and 'off' as aliases for 'goto 1' resp. 'stop'\n"..
   "\n"..
   "The 'goto' command is only accepted when the sequencer is stopped.\n"..
   "\n"..
