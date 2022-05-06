@@ -117,9 +117,11 @@ local function stop_rotor(pos, nvm, state)
 end
 
 local function can_start(pos, nvm)
+	check_rotor(pos, nvm)
 	if nvm.error then
 		return nvm.error
 	end
+	add_rotor(pos, nvm)
 	return true
 end
 
@@ -308,6 +310,7 @@ techage.register_node({"techage:ta4_wind_turbine"}, {
 	on_node_load = function(pos)
 		local nvm = techage.get_nvm(pos)
 		add_rotor(pos, nvm, true)
+		start_rotor(pos, nvm)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
 })

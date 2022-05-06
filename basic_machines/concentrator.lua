@@ -65,6 +65,10 @@ local names = networks.register_junction("techage:concentrator", 2/8, Boxes, Tub
 	end,
 }, 27)
 
+for _, name in ipairs(names) do
+	Tube:set_valid_sides(name, {"B", "R", "F", "L", "D", "U"})
+end
+
 techage.register_node(names, {
 	on_push_item = function(pos, in_dir, stack)
 		local push_dir = M(pos):get_int("push_dir")
@@ -109,6 +113,10 @@ names = networks.register_junction("techage:ta4_concentrator", 2/8, Boxes, Tube,
 		Tube:after_dig_node(pos)
 	end,
 }, 27)
+
+for _, name in ipairs(names) do
+	Tube:set_valid_sides(name, {"B", "R", "F", "L", "D", "U"})
+end
 
 techage.register_node(names, {
 	on_push_item = function(pos, in_dir, stack)
