@@ -21,7 +21,9 @@ local getpos = techage.assemble.get_pos
 
 local CYCLE_TIME = 2
 local TNO_MAGNETS = 22
-local PROBABILITY = 180  -- check every 20 s => 20 * 180 * 50% = 30 min
+local IMPROBABILITY = 60  -- every 60 min
+--  one point per 60 min: check every 20 s => factor = 60 * 3 = 180
+IMPROBABILITY = (minetest.settings:get("techage_expoint_rate_in_min") or 60) * 3
 
 local TIME_SLOTS = 10
 local Schedule = {[0] =
@@ -59,7 +61,7 @@ local function terminal_message(pos, msg)
 end
 
 local function experience_points(pos)
-	if math.random(PROBABILITY) == 1 then
+	if math.random(IMPROBABILITY) == 1 then
 		local owner = M(pos):get_string("owner")
 		local own_num = M(pos):get_string("node_number")
 		local player = minetest.get_player_by_name(owner)
