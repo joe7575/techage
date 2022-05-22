@@ -1158,7 +1158,7 @@ techage.manual_EN.aText = {
   "\n"..
   "  - Command 'on' to play a sound\n"..
   "  - Command 'sound <idx>' to select a sound via the index\n"..
-  "  - Command 'gain <volume>' to adjust the volume via the '<volume>' value (0 to 1.0).\n"..
+  "  - Command 'gain <volume>' to adjust the volume via the '<volume>' value (1 to 5).\n"..
   "\n"..
   "\n"..
   "\n",

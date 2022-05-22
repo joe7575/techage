@@ -2,10 +2,7 @@
 
 Tech Age, a mod to go through 5 tech ages in search of wealth and power.
 
-**Tech Age (techage) is the successor to TechPack V2, at first glance similar and yet completely different!**
-
 ![screenshot](https://github.com/joe7575/techage/blob/master/screenshot.png)
-
 
 
 Important facts:
@@ -21,6 +18,10 @@ Important facts:
 
 In contrast to TechPack, the resources are more limited and it is much more difficult to pass all levels.
 (no endless ore generation by means of cobble generators)
+
+**Techage blocks store information outside of the block. This is for performance reasons.
+If you move, place, or remove blocks with any tool, at best, only the information is lost.
+In the worst case, the server crashes.**
 
 [Manuals](https://github.com/joe7575/techage/wiki)
 
@@ -75,7 +76,7 @@ For the installation of 'luarocks' (if not already available), see [luarocks](ht
 
 Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
-** Never disable 'lsqlite3' for a world that has already been used!**
+**Never disable 'lsqlite3' for a world that has already been used!**
 
 
 ### History

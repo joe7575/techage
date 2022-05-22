@@ -679,7 +679,7 @@ Die Sounds können über das Menü und über ein Kommando ausgewählt und abgesp
 
 - Kommando `on` zum Abspielen eines Sounds
 - Kommando `sound <idx>` zur Auswahl eines Sounds über den Index
-- Kommando `gain <volume>` zum Einstellen der Lautstärke über den `<volume>`  Wert (0 bis 1.0). 
+- Kommando `gain <volume>` zum Einstellen der Lautstärke über den `<volume>`  Wert (1 bis 5). 
 
 [ta3_soundblock|image]
 

@@ -98,15 +98,15 @@ techage.register_node({"techage:ta3_soundblock"}, {
 			if not mem.blocking_time or (mem.blocking_time < minetest.get_gametime()) then
 				local idx = M(pos):get_int("idx")
 				local ogg = techage.OggFileList[idx or 1] or techage.OggFileList[1]
-				local gain = M(pos):get_float("gain")
+				local gain = M(pos):get_int("gain")
 				play_sound(pos, ogg, gain)
 				mem.blocking_time = minetest.get_gametime() + 2
 				return true
 			end
 		elseif topic == "sound" then
-			M(pos):get_int("idx", tonumber(payload or 1) or 1)
+			M(pos):set_int("idx", tonumber(payload or 1) or 1)
 		elseif topic == "gain" then
-			M(pos):get_int("gain", tonumber(payload or 1) or 1)
+			M(pos):set_int("gain", tonumber(payload or 1) or 1)
 		else
 			return "unsupported"
 		end

@@ -1160,7 +1160,7 @@ techage.manual_DE.aText = {
   "\n"..
   "  - Kommando 'on' zum Abspielen eines Sounds\n"..
   "  - Kommando 'sound <idx>' zur Auswahl eines Sounds über den Index\n"..
-  "  - Kommando 'gain <volume>' zum Einstellen der Lautstärke über den '<volume>'  Wert (0 bis 1.0).\n"..
+  "  - Kommando 'gain <volume>' zum Einstellen der Lautstärke über den '<volume>'  Wert (1 bis 5).\n"..
   "\n"..
   "\n"..
   "\n",

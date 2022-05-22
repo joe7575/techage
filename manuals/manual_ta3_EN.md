@@ -672,7 +672,7 @@ The sounds can be selected and played via the menu and via command.
 
 - Command `on` to play a sound
 - Command `sound <idx>` to select a sound via the index
-- Command `gain <volume>` to adjust the volume via the `<volume>` value (0 to 1.0). 
+- Command `gain <volume>` to adjust the volume via the `<volume>` value (1 to 5). 
 
 [ta3_soundblock|image]
 
