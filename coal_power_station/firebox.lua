@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -205,6 +205,18 @@ techage.register_node({"techage:coalfirebox"}, {
 			return techage.fuel.get_fuel_amount(nvm)
 		else
 			return "unsupported"
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == 128 then
+			return 0, techage.get_node_lvm(pos).name
+		elseif topic == 129 then
+			return 0, {nvm.running and "running" or "stopped"}
+		elseif topic == 132 then
+			return 0, {techage.fuel.get_fuel_amount(nvm)}
+		else
+			return 2, ""
 		end
 	end,
 })

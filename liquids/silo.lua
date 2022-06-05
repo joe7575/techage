@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -310,6 +310,25 @@ techage.register_node({"techage:ta3_silo", "techage:ta4_silo"}, {
 			return techage.power.percent(nvm.capa, nvm.item_count), nvm.item_count
 		else
 			return "unsupported"
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		if topic == 129 then -- State
+			local meta = M(pos)
+			local inv = meta:get_inventory()
+			return 0, {techage.get_inv_state(inv, "main")}
+		elseif topic == 134 then
+			local inv = M(pos):get_inventory()
+			local nvm = techage.get_nvm(pos)
+			nvm.item_count = nvm.item_count or get_item_count(pos)
+			nvm.capa = nvm.capa or get_silo_capa(pos)
+			if payload[1] == 1 then
+				return 0, {techage.power.percent(nvm.capa, nvm.item_count)}
+			else
+				return 0, {nvm.item_count}
+			end
+		else
+			return 2, ""
 		end
 	end,
 	on_node_load = function(pos)

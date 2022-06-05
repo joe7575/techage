@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -197,11 +197,11 @@ local tool_config = {
 	},
 	{
 		type = "dropdown",
-		choices = "0%,20%,40%,60%,80%",
+		choices = "0%,20%,40%,60%,80%,98%",
 		name = "turnoff",
 		label = S("Turnoff point"),
 		tooltip = S("If the charge of the storage\nsystem exceeds the configured value,\nthe block switches off"),
-		default = "0%",
+		default = "98%",
 	},
 }
 
@@ -332,11 +332,24 @@ techage.register_node({"techage:ta4_electrolyzer", "techage:ta4_electrolyzer_on"
 			return State:on_receive_message(pos, topic, payload)
 		end
 	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		return State:on_beduino_receive_cmnd(pos, topic, payload)
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == 134 and payload[1] == 1 then
+			return 0, {techage.power.percent(CAPACITY, (nvm.liquid and nvm.liquid.amount) or 0)}
+		elseif topic == 135 then
+			return 0, {math.floor((nvm.provided or 0) + 0.5)}
+		else
+			return State:on_beduino_request_data(pos, topic, payload)
+		end
+	end,
 	on_node_load = function(pos, node)
 		local meta = M(pos)
 		if not meta:contains("reduction") then
 			meta:set_string("reduction", "100%")
-			meta:set_string("turnoff", "0%")
+			meta:set_string("turnoff", "100%")
 		end
 	end,
 })

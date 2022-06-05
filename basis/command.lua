@@ -407,6 +407,35 @@ function techage.transfer(pos, outdir, topic, payload, network, nodenames)
 end
 
 -------------------------------------------------------------------
+-- Beduino functions (see "bep-005_ta_cmnd.md")
+-------------------------------------------------------------------
+function techage.beduino_send_cmnd(src, number, topic, payload)
+	--print("beduino_send_cmnd", src, number, topic)
+	local ninfo = NodeInfoCache[number] or update_nodeinfo(number)
+	if ninfo and ninfo.name and ninfo.pos then
+		local ndef = NodeDef[ninfo.name]
+		if ndef and ndef.on_beduino_receive_cmnd then
+			techage_counting_hit()
+			return ndef.on_beduino_receive_cmnd(ninfo.pos, src, topic, payload or {})
+		end
+	end
+	return 1, ""
+end
+
+function techage.beduino_request_data(src, number, topic, payload)
+	--print("beduino_request_data", src, number, topic)
+	local ninfo = NodeInfoCache[number] or update_nodeinfo(number)
+	if ninfo and ninfo.name and ninfo.pos then
+		local ndef = NodeDef[ninfo.name]
+		if ndef and ndef.on_beduino_request_data then
+			techage_counting_hit()
+			return ndef.on_beduino_request_data(ninfo.pos, src, topic, payload or {})
+		end
+	end
+	return 1, ""
+end
+
+-------------------------------------------------------------------
 -- Client side Push/Pull item functions
 -------------------------------------------------------------------
 

@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2020 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -597,15 +597,29 @@ techage.register_node({"techage:ta4_chest"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "count" then
 			local nvm = techage.get_nvm(pos)
-			return get_count(nvm, tonumber(payload) or 0)
+			return get_count(nvm, tonumber(payload or 1) or 1)
 		elseif topic == "itemstring" then
 			local nvm = techage.get_nvm(pos)
-			return get_itemstring(nvm, tonumber(payload) or 0)
+			return get_itemstring(nvm, tonumber(payload or 1) or 1)
 		elseif topic == "state" then
 			local nvm = techage.get_nvm(pos)
 			return inv_state(nvm)
 		else
 			return "unsupported"
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		if topic == 140 and payload[1] == 1 then  -- Inventory Item Count
+			local nvm = techage.get_nvm(pos)
+			return 0, {get_count(nvm, tonumber(payload[2] or 1) or 1)}
+		elseif topic == 140 and payload[1] == 2 then  -- Inventory Item Name
+			local nvm = techage.get_nvm(pos)
+			return 0, {get_itemstring(nvm, tonumber(payload[2] or 1) or 1)}
+		elseif topic == 131 then  -- Chest State
+			local nvm = techage.get_nvm(pos)
+			return 0, {inv_state(nvm)}
+		else
+			return 2, ""
 		end
 	end,
 })

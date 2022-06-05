@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -354,6 +354,37 @@ techage.register_node({"techage:heatexchanger2"}, {
 			return true
 		else
 			return "unsupported"
+		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == 1 and payload[1] == 1 then
+			start_node(pos, techage.get_nvm(pos))
+			return 0
+		elseif topic == 1 and payload[1] == 0 then
+			stop_node(pos, techage.get_nvm(pos))
+			return 0
+		else
+			return 2, ""
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == 128 then
+			return 0, techage.get_node_lvm(pos).name
+		elseif topic == 129 then -- State
+			if techage.is_running(nvm) then
+				return 0, {1}
+			else
+				return 0, {0}
+			end
+		elseif topic == 135 then  -- Delivered Power
+			local data = power.get_network_data(pos, Cable, DOWN)
+			return 0, {data.consumed - data.provided}
+		elseif topic == 134 then  -- Tank Load Percent
+			return 0, {techage.power.percent(nvm.capa_max, nvm.capa)}
+		else
+			return 2, ""
 		end
 	end,
 	on_node_load = function(pos, node)

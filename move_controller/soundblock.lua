@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2021 Joachim Stolberg
+	Copyright (C) 2021-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -42,6 +42,18 @@ local function formspec(meta)
 		"table[0,0;8,6;oggfiles;" .. OGG_FILES .. ";" .. idx .. "]" ..
 		"dropdown[0,6.5;5.5,1.4;gain;1,2,3,4,5;" .. gain .. "]" ..
 		"button[2.5,7.2;3,1;play;" .. S("Play") .. "]"
+end
+
+local function play_predefined_sound(pos)
+	local mem = techage.get_mem(pos)
+	if not mem.blocking_time or (mem.blocking_time < minetest.get_gametime()) then
+		local idx = M(pos):get_int("idx")
+		local ogg = techage.OggFileList[idx or 1] or techage.OggFileList[1]
+		local gain = M(pos):get_int("gain")
+		play_sound(pos, ogg, gain)
+		mem.blocking_time = minetest.get_gametime() + 2
+		return true
+	end
 end
 
 minetest.register_node("techage:ta3_soundblock", {
@@ -94,15 +106,7 @@ techage.register_node({"techage:ta3_soundblock"}, {
 		if topic == "info" then
 			return INFO
 		elseif topic == "on" then
-			local mem = techage.get_mem(pos)
-			if not mem.blocking_time or (mem.blocking_time < minetest.get_gametime()) then
-				local idx = M(pos):get_int("idx")
-				local ogg = techage.OggFileList[idx or 1] or techage.OggFileList[1]
-				local gain = M(pos):get_int("gain")
-				play_sound(pos, ogg, gain)
-				mem.blocking_time = minetest.get_gametime() + 2
-				return true
-			end
+			play_predefined_sound(pos)
 		elseif topic == "sound" then
 			M(pos):set_int("idx", tonumber(payload or 1) or 1)
 		elseif topic == "gain" then
@@ -110,6 +114,23 @@ techage.register_node({"techage:ta3_soundblock"}, {
 		else
 			return "unsupported"
 		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		if topic == 1 then
+			if payload[1] == 0 then
+				play_predefined_sound(pos)
+				return 0
+			end
+		elseif topic == 14 then
+			if payload[1] == 1 then
+				M(pos):set_int("gain", payload[2])
+				return 0
+			elseif payload[1] == 2 then
+				M(pos):set_int("idx", payload[2])
+				return 0
+			end
+		end
+		return 2  -- unknown or invalid topic
 	end,
 	on_node_load = function(pos)
 		local meta = M(pos)

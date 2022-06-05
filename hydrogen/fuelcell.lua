@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -302,6 +302,19 @@ techage.register_node({"techage:ta4_fuelcell", "techage:ta4_fuelcell_on"}, {
 			return math.floor((nvm.provided or 0) + 0.5)
 		else
 			return State:on_receive_message(pos, topic, payload)
+		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		return State:on_beduino_receive_cmnd(pos, topic, payload)
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == 134 and payload[1] == 1 then
+			return 0, {techage.power.percent(CAPACITY, (nvm.liquid and nvm.liquid.amount) or 0)}
+		elseif topic == 135 then
+			return 0, {math.floor((nvm.provided or 0) + 0.5)}
+		else
+			return State:on_beduino_request_data(pos, topic, payload)
 		end
 	end,
 })

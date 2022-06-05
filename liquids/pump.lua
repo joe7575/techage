@@ -284,6 +284,17 @@ techage.register_node({"techage:t4_pump", "techage:t4_pump_on"}, {
 			return State4:on_receive_message(pos, topic, payload)
 		end
 	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		return State4:on_beduino_receive_cmnd(pos, topic, payload)
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		if topic == 137 then  -- Total Flow Rate
+			local nvm = techage.get_nvm(pos)
+			return 0, {nvm.flowrate or 0}
+		else
+			return State4:on_beduino_request_data(pos, topic, payload)
+		end
+	end,
 })
 
 -- Pumps have to provide one output and one input side

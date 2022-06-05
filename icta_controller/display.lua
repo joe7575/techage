@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -211,14 +211,22 @@ function techage.display.add_line(pos, payload, cycle_time)
 	table.insert(nvm.text, str)
 end
 
-function techage.display.write_row(pos, payload, cycle_time)
+function techage.display.write_row(pos, payload, cycle_time, beduino)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
+	local str, row
+	
 	nvm.text = nvm.text or {}
 	mem.ticks = mem.ticks or 0
-	local str = tostring(payload.get("str")) or "oops"
-	local row = tonumber(payload.get("row")) or 1
-
+	
+	if beduino then
+		row = tonumber(payload:sub(1,1) or "1") or 1
+		str = payload:sub(2) or "oops"
+	else
+		str = tostring(payload.get("str")) or "oops"
+		row = tonumber(payload.get("row")) or 1
+	end
+	
 	if mem.ticks == 0 then
 		mem.ticks = cycle_time
 	end
@@ -254,6 +262,18 @@ techage.register_node({"techage:ta4_display"}, {
 			techage.display.clear_screen(pos, 1)
 		end
 	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		if topic == 67 then  -- add one line and scroll if necessary
+			techage.display.add_line(pos, payload, 1)
+		elseif topic == 68 then  -- overwrite the given row
+			techage.display.write_row(pos, payload, 1, true)
+		elseif topic == 17 then  -- clear the screen
+			techage.display.clear_screen(pos, 1)
+		else
+			return 2
+		end
+		return 0
+	end,
 })
 
 techage.register_node({"techage:ta4_displayXL"}, {
@@ -265,6 +285,18 @@ techage.register_node({"techage:ta4_displayXL"}, {
 		elseif topic == "clear" then  -- clear the screen
 			techage.display.clear_screen(pos, 2)
 		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		if topic == 67 then  -- add one line and scroll if necessary
+			techage.display.add_line(pos, payload, 2)
+		elseif topic == 68 then  -- overwrite the given row
+			techage.display.write_row(pos, payload, 2, true)
+		elseif topic == 17 then  -- clear the screen
+			techage.display.clear_screen(pos, 2)
+		else
+			return 2
+		end
+		return 0
 	end,
 })
 

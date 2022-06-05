@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -174,6 +174,14 @@ techage.register_node({"techage:ta4_battery"}, {
 			return calc_percent(meta:get_int("content"))
 		else
 			return "unsupported"
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		if topic == 134 then
+			local meta = minetest.get_meta(pos)
+			return 0, {calc_percent(meta:get_int("content"))}
+		else
+			return 2, ""
 		end
 	end,
 })

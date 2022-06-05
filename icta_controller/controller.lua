@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -442,6 +442,32 @@ techage.register_node({"techage:ta4_icta_controller"}, {
 			return techage.StateStrings[state] or "stopped"
 		else
 			return "unsupported"
+		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		local meta = minetest.get_meta(pos)
+		local number = meta:get_string("number")
+		local state = meta:get_int("state")
+
+		if state == techage.RUNNING and topic == 1 and payload[1] == 1 then
+			set_input(pos, number, src, topic)
+		elseif state == techage.RUNNING and topic == 1 and payload[1] == 0 then
+			set_input(pos, number, src, topic)
+		else
+			return 2
+		end
+		return 0
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		local meta = minetest.get_meta(pos)
+		local number = meta:get_string("number")
+		local state = meta:get_int("state")
+
+		if topic == 129 then
+			local state = meta:get_int("state") or 0
+			return 0, {techage.StateStrings[state] or "stopped"}
+		else
+			return 2, ""
 		end
 	end,
 })

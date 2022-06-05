@@ -170,6 +170,12 @@ techage.register_node({"techage:ta5_pump", "techage:ta5_pump_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		return State:on_receive_message(pos, topic, payload)
 	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		return State:on_beduino_receive_cmnd(pos, topic, payload)
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		return State:on_beduino_request_data(pos, topic, payload)
+	end,
 })
 
 -- Pumps have to provide one output and one input side

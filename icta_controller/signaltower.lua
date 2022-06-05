@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -130,6 +130,29 @@ techage.register_node({"techage:ta4_signaltower",
 		elseif topic == "state" then
 			local meta = minetest.get_meta(pos)
 			return meta:get_string("state")
+		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		if topic == 2 then
+			local color = ({"green", "amber", "red"})[payload[1]]
+			local node = minetest.get_node(pos)
+			if color then
+				switch_on(pos, node, color)
+			else
+				switch_off(pos, node)
+			end
+			return 0
+		else
+			return 2  -- unknown or invalid topic
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		if topic == 130 then
+			local meta = minetest.get_meta(pos)
+			local color = ({off = 0, green = 1, amber = 2, red = 3})[meta:get_string("state")] or 1
+			return 0, {color}
+		else
+			return 2, ""  -- unknown or invalid topic
 		end
 	end,
 })

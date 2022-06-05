@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -181,13 +181,15 @@ local function can_start(pos, nvm, state)
 end
 
 local function config_item(pos, payload)
-	local name, count = unpack(payload:split(" "))
-	if name and (minetest.registered_nodes[name] or minetest.registered_items[name]
-			or minetest.registered_craftitems[name]) then
-		count = tonumber(count) or 1
-		local inv = M(pos):get_inventory()
-		inv:set_stack("main", 1, {name = name, count = 1})
-		return count
+	if type(payload) == "string" then
+		local name, count = unpack(payload:split(" "))
+		if name and (minetest.registered_nodes[name] or minetest.registered_items[name]
+				or minetest.registered_craftitems[name]) then
+			count = tonumber(count) or 1
+			local inv = M(pos):get_inventory()
+			inv:set_stack("main", 1, {name = name, count = 1})
+			return count
+		end
 	end
 	return 0
 end
@@ -254,6 +256,24 @@ local tubing = {
 			return true
 		else
 			return CRD(pos).State:on_receive_message(pos, topic, payload)
+		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		if topic == 64 then -- Start pusher
+			local nvm = techage.get_nvm(pos)
+			CRD(pos).State:stop(pos, nvm)
+			nvm.item_count = math.min(config_item(pos, payload), 12)
+			nvm.rmt_num = src
+			CRD(pos).State:start(pos, nvm)
+			return 0
+		elseif topic == 65 then -- Config Pusher
+			local nvm = techage.get_nvm(pos)
+			CRD(pos).State:stop(pos, nvm)
+			config_item(pos, payload)
+			CRD(pos).State:start(pos, nvm)
+			return 0
+		else
+			return CRD(pos).State:on_beduino_receive_cmnd(pos, topic, payload)
 		end
 	end,
 }

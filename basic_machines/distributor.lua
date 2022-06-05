@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -477,6 +477,19 @@ local tubing = {
 		else
 			return CRD(pos).State:on_receive_message(pos, topic, payload)
 		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		if topic == 4 then
+			local slot = ({red = 1, green = 2, blue = 3, yellow = 4})[payload[1]]
+			local state = payload[2] == 1 and "on" or "off"
+			change_filter_settings(pos, slot, state)
+			return 0
+		else
+			return CRD(pos).State:on_beduino_receive_cmnd(pos, topic, payload)
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		return CRD(pos).State:on_beduino_request_data(pos, topic, payload)
 	end,
 	on_node_load = function(pos)
 		CRD(pos).State:on_node_load(pos)

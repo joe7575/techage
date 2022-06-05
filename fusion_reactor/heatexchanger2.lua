@@ -334,6 +334,35 @@ techage.register_node({"techage:ta5_heatexchanger2"}, {
 			return "unsupported"
 		end
 	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == 1 and payload[1] == 1 then
+			start_node(pos, techage.get_nvm(pos))
+			return 0
+		elseif topic == 1 and payload[1] == 0 then
+			stop_node(pos, techage.get_nvm(pos))
+			return 0
+		else
+			return 2, ""
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == 128 then
+			return 0, techage.get_node_lvm(pos).name
+		elseif topic == 129 then -- State
+			if techage.is_running(nvm) then
+				return 0, {1}
+			else
+				return 0, {0}
+			end
+		elseif topic == 135 then  -- Delivered Power
+			local data = power.get_network_data(pos, Cable, DOWN)
+			return 0, {data.consumed - data.provided}
+		else
+			return 2, ""
+		end
+	end,
 	on_node_load = function(pos, node)
 		local nvm = techage.get_nvm(pos)
 		if techage.is_running(nvm) then

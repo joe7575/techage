@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -157,6 +157,15 @@ techage.register_node({"techage:chest_cart"}, {
 			return techage.get_inv_state(inv, "main")
 		else
 			return "unsupported"
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		if topic == 131 then  -- Chest State
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			return 0, {techage.get_inv_state(inv, "main")}
+		else
+			return 2, ""
 		end
 	end,
 })
