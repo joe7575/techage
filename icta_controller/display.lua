@@ -215,10 +215,10 @@ function techage.display.write_row(pos, payload, cycle_time, beduino)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
 	local str, row
-	
+
 	nvm.text = nvm.text or {}
 	mem.ticks = mem.ticks or 0
-	
+
 	if beduino then
 		row = tonumber(payload:sub(1,1) or "1") or 1
 		str = payload:sub(2) or "oops"
@@ -226,7 +226,7 @@ function techage.display.write_row(pos, payload, cycle_time, beduino)
 		str = tostring(payload.get("str")) or "oops"
 		row = tonumber(payload.get("row")) or 1
 	end
-	
+
 	if mem.ticks == 0 then
 		mem.ticks = cycle_time
 	end

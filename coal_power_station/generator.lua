@@ -235,7 +235,7 @@ techage.register_node({"techage:generator", "techage:generator_on"}, {
 		return State:on_beduino_receive_cmnd(pos, topic, payload)
 	end,
 	on_beduino_request_data = function(pos, src, topic, payload)
-		local nvm = techage.get_nvm(pos)   
+		local nvm = techage.get_nvm(pos)
 		if topic == 135 then  -- Delivered Power
 			return 0, {math.floor((nvm.provided or 0) + 0.5)}
 		else

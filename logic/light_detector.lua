@@ -36,7 +36,7 @@ local function switch_on(pos)
 end
 
 local function node_timer(pos)
-	
+
 	local nvm = techage.get_nvm(pos)
 
 	trigger = nvm.mode or 7
