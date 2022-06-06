@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -652,6 +652,29 @@ techage.register_node({"techage:ta4_lua_controller"}, {
 			return techage.StateStrings[running] or "stopped"
 		else
 			return "unsupported"
+		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		local meta = minetest.get_meta(pos)
+		local number = meta:get_string("number")
+
+		if topic == 1 and payload[1] == 1 then
+			set_input(pos, number, src, "on")
+		elseif topic == 1 and payload[1] == 0 then
+			set_input(pos, number, src, "off")
+		else
+			return 2
+		end
+		return 0
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		local meta = minetest.get_meta(pos)
+
+		if topic == 129 then
+			local running = meta:get_int("running") or STATE_STOPPED
+			return 0, running
+		else
+			return 2, ""
 		end
 	end,
 })

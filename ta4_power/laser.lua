@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	GPL v3
 	See LICENSE.txt for more information
@@ -133,6 +133,14 @@ techage.register_node({"techage:ta4_laser_emitter"}, {
 			return nvm.running and "running" or "stopped"
 		else
 			return "unsupported"
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		if topic == 142 then  -- Binary State
+			local nvm = techage.get_nvm(pos)
+			return 0, {nvm.running and 1 or 0}
+		else
+			return 2, ""
 		end
 	end,
 })

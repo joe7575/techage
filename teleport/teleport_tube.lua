@@ -175,6 +175,12 @@ techage.register_node({"techage:ta5_tele_tube"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		return State:on_receive_message(pos, topic, payload)
 	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		return State:on_beduino_receive_cmnd(pos, topic, payload)
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		return State:on_beduino_request_data(pos, topic, payload)
+	end,
 })
 
 power.register_nodes({"techage:ta5_tele_tube"}, Cable, "con", {"B", "R", "F", "D", "U"})

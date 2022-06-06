@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2020-2021 Joachim Stolberg
+	Copyright (C) 2020-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -344,6 +344,17 @@ techage.register_node({"techage:ta3_doorcontroller2"}, {
 			return exchange_nodes(pos, nvm, tonumber(payload))
 		end
 		return false
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		if topic == 1 and payload[1] == 1 then
+			return hide_nodes(pos) and 0 or 3
+		elseif topic == 1 and payload[1] == 0 then
+			return show_nodes(pos) and 0 or 3
+		elseif topic == 9 then  -- Exchange Block
+			local nvm = techage.get_nvm(pos)
+			return exchange_nodes(pos, nvm, payload[1] or 1) and 0 or 3
+		end
+		return 2
 	end,
 	on_node_load = function(pos)
 		local meta = M(pos)

@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -254,15 +254,6 @@ liquid.register_nodes({"techage:ta3_reboiler", "techage:ta3_reboiler_on"}, Pipe,
 power.register_nodes({"techage:ta3_reboiler", "techage:ta3_reboiler_on"}, Cable, "con")
 
 techage.register_node({"techage:ta3_reboiler", "techage:ta3_reboiler_on"}, {
-	on_recv_message = function(pos, src, topic, payload)
-		local nvm = techage.get_nvm(pos)
-		if topic == "state" then
-			nvm.state = nvm.state or techage.STOPPED
-			return techage.StateStrings[nvm.state]
-		else
-			return "unsupported"
-		end
-	end,
 	on_node_load = function(pos, node)
 		if node.name == "techage:ta3_reboiler_on" then
 			play_sound(pos)

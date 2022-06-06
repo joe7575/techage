@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2020 Joachim Stolberg
+	Copyright (C) 2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -122,6 +122,17 @@ techage.register_node({"techage:ta3_doorcontroller"}, {
 			swap_door_nodes(pos, true)
 		elseif topic == "off" then
 			swap_door_nodes(pos, false)
+		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		if topic == 1 and payload[1] == 1 then
+			swap_door_nodes(pos, true)
+			return 0
+		elseif topic == 1 and payload[1] == 0 then
+			swap_door_nodes(pos, false)
+			return 0
+		else
+			return 2
 		end
 	end,
 })

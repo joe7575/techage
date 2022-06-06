@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -184,6 +184,24 @@ local tubing = {
 			end
 		else
 			return CRD(pos).State:on_receive_message(pos, topic, payload)
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		if topic == 134 then  -- Load
+			local storage_pos = M(pos):get_string("storage_pos")
+			if storage_pos ~= "" then
+				local amount, capa = techage.explore.get_oil_amount(P(storage_pos))
+				if amount and capa and capa > 0 then
+					if payload[1] == 1 then
+						return 0, {techage.power.percent(capa or 0, amount or 0)}
+					else
+						return 0, {math.min(amount or 0, 65535)}
+					end
+				end
+			end
+			return 2
+		else
+			return CRD(pos).State:on_beduino_request_data(pos, topic, payload)
 		end
 	end,
 	on_node_load = function(pos, node)

@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -158,6 +158,17 @@ techage.register_node({"techage:ta4_electricmeter"}, {
 			return math.floor((nvm.units or 0) / techage.CYCLES_PER_DAY)
 		else
 			return State:on_receive_message(pos, topic, payload)
+		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		return State:on_beduino_receive_cmnd(pos, topic, payload)
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == 146 then  -- Consumption
+			return 0, {math.floor((nvm.units or 0) / techage.CYCLES_PER_DAY)}
+		else
+			return State:on_beduino_request_data(pos, topic, payload)
 		end
 	end,
 })

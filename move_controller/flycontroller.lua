@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2020-2021 Joachim Stolberg
+	Copyright (C) 2020-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -227,6 +227,33 @@ techage.register_node({"techage:ta5_flycontroller"}, {
 			return fly.move_to_other_pos(pos, nvm.moveBA == false)
 		end
 		return false
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == 11 then
+			if payload[1] == 1 then
+				nvm.moveBA = true
+				nvm.running = true
+				return fly.move_to_other_pos(pos, false) and 0 or 3
+			elseif payload[1] == 2 then
+				nvm.moveBA = false
+				nvm.running = true
+				return fly.move_to_other_pos(pos, true) and 0 or 3
+			elseif payload[1] == 3 then
+				nvm.moveBA = nvm.moveBA == false
+				nvm.running = true
+				return fly.move_to_other_pos(pos, nvm.moveBA == false) and 0 or 3
+			end
+		else
+			return 2
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == 129 then
+			return 0, {nvm.running and 1 or 6}
+		end
+		return 2, ""
 	end,
 })
 

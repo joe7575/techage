@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -118,6 +118,20 @@ techage.register_node({"techage:ta4_solar_minicell"}, {
 			end
 		else
 			return "unsupported"
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == 145 then  -- Solar Cell State
+			if nvm.providing then
+				return 0, {2}
+			elseif (nvm.capa or 0) > 0 then
+				return 0, {1}
+			else
+				return 0, {0}
+			end
+		else
+			return 2, ""
 		end
 	end,
 	on_node_load = function(pos)

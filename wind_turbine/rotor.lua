@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 DS-Minetest, Joachim Stolberg
+	Copyright (C) 2019-2022 DS-Minetest, Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -305,6 +305,37 @@ techage.register_node({"techage:ta4_wind_turbine"}, {
 			State:stop(pos, nvm)
 		else
 			return "unsupported"
+		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == 1 and payload[1] == 1 then
+			State:start(pos, nvm)
+		elseif topic == 1 and payload[1] == 0 then
+			State:stop(pos, nvm)
+		else
+			return 2
+		end
+		return 0
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == 129 then
+			local node = minetest.get_node(pos)
+			if node.name == "ignore" then  -- unloaded node?
+				return 0, {7}  -- unloaded
+			end
+			if nvm.error then
+				return 0, {5}  -- fault
+			elseif techage.is_running(nvm) then
+				return 0, {1}  -- running
+			else
+				return 0, {6}  -- stopped
+			end
+		elseif topic == 135 then  -- Delivered Power
+			return 0, {nvm.delivered or 0}
+		else
+			return 2, ""
 		end
 	end,
 	on_node_load = function(pos)
