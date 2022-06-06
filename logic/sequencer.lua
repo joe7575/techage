@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2020 Joachim Stolberg
+	Copyright (C) 2017-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -277,6 +277,28 @@ techage.register_node({"techage:ta3_sequencer"}, {
 		else
 			return "unsupported"
 		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == 7 then  -- TA3 Sequenzer
+			if payload[1] == 1 then
+				start_the_sequencer(pos)
+				return 0
+			elseif payload[1] == 0 then
+				-- do not stop immediately
+				local nvm = techage.get_nvm(pos)
+				if not nvm.running then
+					nvm.endless = not (nvm.endless or false)
+				else
+					nvm.endless = false
+				end
+				return 0
+			elseif payload[1] == 2 then
+				stop_the_sequencer(pos)
+				return 0
+			end
+		end
+		return 2
 	end,
 	on_node_load = function(pos)
 		local nvm = techage.get_nvm(pos)

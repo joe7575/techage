@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2021 Joachim Stolberg
+	Copyright (C) 2017-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -17,9 +17,9 @@ local M = minetest.get_meta
 local S = techage.S
 
 local OFF   = 0
-local RED   = 1
-local GREEN = 2
-local AMBER = 3
+local GREEN = 1
+local AMBER = 2
+local RED   = 3
 
 local WRENCH_MENU = {
 	{
@@ -137,6 +137,19 @@ techage.register_node({"techage:ta4_signallamp_2x"}, {
 			local num = math.min(tonumber(payload) or 0, 2)
 			nvm.lamp[num] = OFF
 			lcdlib.update_entities(pos)
+		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		nvm.lamp = nvm.lamp or {}
+		if topic == 3 then  -- Signal Lamp
+			local num   = math.min(payload[1] or 1, 2)
+			local color = math.min(payload[2] or 0, 3)
+			nvm.lamp[num] = color
+			lcdlib.update_entities(pos)
+			return 0
+		else
+			return 2
 		end
 	end,
 })

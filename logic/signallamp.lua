@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2020 Joachim Stolberg
+	Copyright (C) 2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -119,6 +119,19 @@ techage.register_node({"techage:signal_lamp_off", "techage:signal_lamp_on"}, {
 			switch_off(pos, node)
 		else
 			return "unsupported"
+		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		if topic == 1 and payload[1] == 1 then
+			local node = techage.get_node_lvm(pos)
+			switch_on(pos, node)
+			return 0
+		elseif topic == 1 and payload[1] == 0 then
+			local node = techage.get_node_lvm(pos)
+			switch_off(pos, node)
+			return 0
+		else
+			return 2
 		end
 	end,
 })

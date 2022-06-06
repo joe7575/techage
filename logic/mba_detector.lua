@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2020 Joachim Stolberg
+	Copyright (C) 2017-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -90,6 +90,23 @@ techage.register_node({"techage:ta4_mbadetector"}, {
 				end
 			else
 				return "unsupported"
+			end
+		end,
+		on_beduino_request_data = function(pos, src, topic, payload)
+			if topic == 142 then  -- Binary State
+				if minetest.compare_block_status then
+					if minetest.compare_block_status(pos, "active") then
+						return 0, {1}
+					else
+						return 0, {0}
+					end
+				else
+					local mem = techage.get_mem(pos)
+					local res = mem.gametime and mem.gametime > (minetest.get_gametime() - 2)
+					return 0, {res and 1 or 0}
+				end
+			else
+				return 2, ""
 			end
 		end,
 		on_node_load = function(pos)

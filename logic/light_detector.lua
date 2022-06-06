@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -166,6 +166,21 @@ techage.register_node({"techage:ta3_lightdetector_off", "techage:ta3_lightdetect
 			return minetest.get_node_light(pos_above, nil)
 		else
 			return "unsupported"
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		if topic == 142 then  -- Binary State
+			local node = techage.get_node_lvm(pos)
+			if node.name == "techage:ta3_lightdetector_on" then
+				return 0, {1}
+			else
+				return 0, {0}
+			end
+		elseif topic == 143 then -- Allow finding the specific light level
+			local pos_above = {x = pos.x, y = pos.y + 1, z = pos.z}
+			return 0, {minetest.get_node_light(pos_above, nil)}
+		else
+			return 2, ""
 		end
 	end,
 	on_node_load = function(pos)

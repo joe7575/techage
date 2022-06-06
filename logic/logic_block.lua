@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2021 Joachim Stolberg
+	Copyright (C) 2017-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -402,6 +402,31 @@ techage.register_node({"techage:ta3_logic2"}, {
 				return "unsupported"
 			end
 
+			local t = math.max((mem.ttl or 0) - techage.SystemTime, 0.1)
+			minetest.get_node_timer(pos):start(t)
+			mem.ttl = techage.SystemTime + (nvm.blocking_time or 0)
+		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		local mem = techage.get_mem(pos)
+		nvm.own_num = nvm.own_num or M(pos):get_string("node_number")
+		nvm.blocking_time = nvm.blocking_time or M(pos):get_float("blocking_time")
+		nvm.inp_tbl = nvm.inp_tbl or {}
+
+		if src ~= nvm.own_num then
+			if topic == 1 and payload[1] == 1 then
+				debug(mem, "(inp) " .. src .. " = on")
+				nvm.inp_tbl[src] = "on"
+				return 0
+			elseif topic == 1 and payload[1] == 0 then
+				debug(mem, "(inp) " .. src .. " = off")
+				nvm.inp_tbl[src] = "off"
+				return 0
+			else
+				debug(mem, "(inp) invalid command")
+				return 2
+			end
 			local t = math.max((mem.ttl or 0) - techage.SystemTime, 0.1)
 			minetest.get_node_timer(pos):start(t)
 			mem.ttl = techage.SystemTime + (nvm.blocking_time or 0)

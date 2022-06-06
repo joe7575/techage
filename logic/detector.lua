@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2020 Joachim Stolberg
+	Copyright (C) 2017-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -274,6 +274,23 @@ techage.register_node({"techage:ta4_detector_off", "techage:ta4_detector_on"}, {
 			return true
 		else
 			return "unsupported"
+		end
+	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		if topic == 6 then  -- Detector Block Reset
+			local nvm = techage.get_nvm(pos)
+			nvm.counter = 0
+			return 0
+		else
+			return 2
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		if topic == 139 then
+			local nvm = techage.get_nvm(pos)
+			return 0, {nvm.counter or 0}
+		else
+			return 2, ""
 		end
 	end,
 })

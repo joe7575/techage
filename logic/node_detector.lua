@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2020 Joachim Stolberg
+	Copyright (C) 2017-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -189,18 +189,27 @@ minetest.register_craft({
 
 techage.register_node({"techage:ta3_nodedetector_off", "techage:ta3_nodedetector_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		if topic == "name" then
-			local nvm = techage.get_nvm(pos)
-			return nvm.player_name or ""
-		elseif topic == "state" then
+		if topic == "state" then
 			local node = techage.get_node_lvm(pos)
 			if node.name == "techage:ta3_nodedetector_off" then
-				return "on"
-			else
 				return "off"
+			else
+				return "on"
 			end
 		else
 			return "unsupported"
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		if topic == 142 then
+			local node = techage.get_node_lvm(pos)
+			if node.name == "techage:ta3_nodedetector_off" then
+				return 0, {0}
+			else
+				return 0, {1}
+			end
+		else
+			return 2, ""
 		end
 	end,
 	on_node_load = function(pos)

@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2020 Joachim Stolberg
+	Copyright (C) 2017-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -24,6 +24,7 @@ local CYCLE_TIME = 1
 local tStates = {stopped = 0, running = 0, standby = 1, blocked = 2, nopower = 3, fault = 4}
 local tDropdownPos = {["1 standby"] = 1, ["2 blocked"] = 2, ["3 nopower"] = 3, ["4 fault"] = 4}
 local lStates = {[0] = "stopped", "standby", "blocked", "nopower", "fault"}
+local TaStates = {running = 1, blocked = 2, standby = 3, nopower = 4, fault = 5, stopped = 6}
 
 local function formspec(nvm, meta)
 	nvm.poll_numbers = nvm.poll_numbers or {}
@@ -200,11 +201,19 @@ minetest.register_craft({
 
 techage.register_node({"techage:ta4_collector"}, {
 	on_recv_message = function(pos, src, topic, payload)
-	if topic == "state" then
+		if topic == "state" then
 			local nvm = techage.get_nvm(pos)
 			return lStates[nvm.stored_state or 0]
 		else
 			return "unsupported"
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		if topic == 129 then
+			local nvm = techage.get_nvm(pos)
+			return 0, {TaStates[lStates[nvm.stored_state or 0]]}
+		else
+			return 2, ""
 		end
 	end,
 	on_node_load = function(pos)

@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2020 Joachim Stolberg
+	Copyright (C) 2017-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -246,7 +246,19 @@ techage.register_node({"techage:ta3_logic"}, {
 		end
 		minetest.get_node_timer(pos):start(0.1)
 	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		if topic == 1 and payload[1] == 1 then
+			nvm.inp_tbl.inp = true
+			nvm.inp_tbl["n"..src] = true
+			return 0
+		elseif topic == 1 and payload[1] == 0 then
+			nvm.inp_tbl.inp = false
+			nvm.inp_tbl["n"..src] = false
+			return 0
+		else
+			return 2
+		end
+	end,
 	on_node_load = function(pos)
-
 	end,
 })
