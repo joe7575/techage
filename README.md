@@ -81,6 +81,9 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2022-06-06  V1.08**
+- Native support for the mod Beduino added
+
 **2022-01-22  V1.07**
 - TA5 fusion reactor added
 
