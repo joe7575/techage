@@ -654,11 +654,13 @@ The door controller is used to control the TA3 door/gate blocks. With the door c
 
 The Door Controller II can remove and set all types of blocks. To teach in the Door Controller II, the "Record" button must be pressed. Then all blocks that should be part of the door / gate must be clicked. Then the "Done" button must be pressed. Up to 16 blocks can be selected. The removed blocks are saved in the controller's inventory. The function of the controller can be tested manually using the "Remove" or "Set" buttons. If an `on` /`off` command is sent to the Door Controller II, it removes or sets the blocks as well.
 
-Individual blocks can be set, removed or replaced by other blocks via an `exchange` command. The slot number of the inventory (1 .. 16) must be transferred as payload, i.e.:
+With `$send_cmnd(node_number, "exchange", 2)` individual blocks can be set, removed or replaced by other blocks from the inventory. 
 
-```
-$send_cmnd(node_number, "exchange", 2)
-```
+With `$send_cmnd(node_number, "set", 2)` a block from the inventory can be set explicitly, as long as the inventory slot is not empty.
+
+A block can be removed again with `$send_cmnd(node_number, "dig", 2)` if the inventory slot is empty. 
+
+The slot number of the inventory (1 .. 16) must be passed as payload in all three cases.
 
 This can also be used to simulate extendable stairs and the like. 
 

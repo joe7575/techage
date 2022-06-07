@@ -1146,9 +1146,13 @@ techage.manual_DE.aText = {
   "\n"..
   "Wird ein  'on' / 'off' Kommando an den Tür Controller II gesendet\\, entfernt bzw. setzt er die Blöcke ebenfalls.\n"..
   "\n"..
-  "Über ein 'exchange' Kommando können einzelne Böcke gesetzt\\, entfernt\\, bzw. durch andere Blöcke ersetzt werden. Die Slot-Nummer des Inventars (1 .. 16) muss als payload übergeben werden\\, also:\n"..
+  "Mit '$send_cmnd(node_number\\, \"exchange\"\\, 2)' können einzelne Böcke gesetzt\\, entfernt\\, bzw. durch andere Blöcke aus dem Inventar ersetzt werden. \n"..
   "\n"..
-  "    $send_cmnd(node_number\\, \"exchange\"\\, 2)\n"..
+  "Mit '$send_cmnd(node_number\\, \"set\"\\, 2)' kann ein Block aus dem Inventory explizit gesetzt werden\\, sofern der Inventory Slot nicht leer ist.\n"..
+  "\n"..
+  "Mit '$send_cmnd(node_number\\, \"dig\"\\, 2)' kann ein Block wieder entfernt werden\\, sofern der Inventory Slot leer ist. \n"..
+  "\n"..
+  "Die Slot-Nummer des Inventars (1 .. 16) muss in allen drei Fällen als payload übergeben werden.\n"..
   "\n"..
   "Damit lassen sich auch ausfahrbare Treppen und ähnliches simulieren.\n"..
   "\n"..

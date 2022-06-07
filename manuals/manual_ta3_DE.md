@@ -661,11 +661,13 @@ Der Tür Controller II kann alle Arten von Blöcken entfernen und wieder setzen.
 
 Wird ein  `on` / `off` Kommando an den Tür Controller II gesendet, entfernt bzw. setzt er die Blöcke ebenfalls.
 
-Über ein `exchange` Kommando können einzelne Böcke gesetzt, entfernt, bzw. durch andere Blöcke ersetzt werden. Die Slot-Nummer des Inventars (1 .. 16) muss als payload übergeben werden, also:
+Mit `$send_cmnd(node_number, "exchange", 2)` können einzelne Böcke gesetzt, entfernt, bzw. durch andere Blöcke aus dem Inventar ersetzt werden. 
 
-```
-$send_cmnd(node_number, "exchange", 2)
-```
+Mit `$send_cmnd(node_number, "set", 2)` kann ein Block aus dem Inventory explizit gesetzt werden, sofern der Inventory Slot nicht leer ist.
+
+Mit `$send_cmnd(node_number, "dig", 2)` kann ein Block wieder entfernt werden, sofern der Inventory Slot leer ist. 
+
+Die Slot-Nummer des Inventars (1 .. 16) muss in allen drei Fällen als payload übergeben werden.
 
 Damit lassen sich auch ausfahrbare Treppen und ähnliches simulieren.
 

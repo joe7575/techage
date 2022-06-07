@@ -167,7 +167,7 @@ local function exchange_node(pos, item, param2)
 	return item, param2
 end
 
-local function exchange_nodes(pos, nvm, slot)
+local function exchange_nodes(pos, nvm, slot, force)
 	local meta = M(pos)
 	local inv = meta:get_inventory()
 
@@ -179,9 +179,14 @@ local function exchange_nodes(pos, nvm, slot)
 
 	for idx = (slot or 1), (slot or 16) do
 		local pos = nvm.pos_list[idx]
+		local item = item_list[idx]
 		if pos then
-			item_list[idx], nvm.param2_list[idx] = exchange_node(pos, item_list[idx], nvm.param2_list[idx])
-			res = true
+			if (force == nil)
+			or (force == "dig" and item:get_count() == 0)
+			or (force == "set" and item:get_count() > 0) then
+				item_list[idx], nvm.param2_list[idx] = exchange_node(pos, item, nvm.param2_list[idx])
+				res = true
+			end
 		end
 	end
 
@@ -342,6 +347,12 @@ techage.register_node({"techage:ta3_doorcontroller2"}, {
 		elseif topic == "exchange" then
 			local nvm = techage.get_nvm(pos)
 			return exchange_nodes(pos, nvm, tonumber(payload))
+		elseif topic == "set" then
+			local nvm = techage.get_nvm(pos)
+			return exchange_nodes(pos, nvm, tonumber(payload), "set")
+		elseif topic == "dig" then
+			local nvm = techage.get_nvm(pos)
+			return exchange_nodes(pos, nvm, tonumber(payload), "dig")
 		end
 		return false
 	end,
@@ -350,9 +361,15 @@ techage.register_node({"techage:ta3_doorcontroller2"}, {
 			return hide_nodes(pos) and 0 or 3
 		elseif topic == 1 and payload[1] == 0 then
 			return show_nodes(pos) and 0 or 3
-		elseif topic == 9 then  -- Exchange Block
+		elseif topic == 9 and payload[1] == 0 then  -- Exchange Block
 			local nvm = techage.get_nvm(pos)
-			return exchange_nodes(pos, nvm, payload[1] or 1) and 0 or 3
+			return exchange_nodes(pos, nvm, payload[2] or 1) and 0 or 3
+		elseif topic == 9 and payload[1] == 1 then  -- Set Block
+			local nvm = techage.get_nvm(pos)
+			return exchange_nodes(pos, nvm, payload[2] or 1, "set") and 0 or 3
+		elseif topic == 9 and payload[1] == 2 then  -- Dig Block
+			local nvm = techage.get_nvm(pos)
+			return exchange_nodes(pos, nvm, payload[2] or 1, "dig") and 0 or 3
 		end
 		return 2
 	end,
