@@ -83,12 +83,21 @@ local function formspec(meta)
 		"button_exit[2,2;3,1;exit;"..S("Save").."]"
 end
 
-local function after_place_node(pos, placer)
+local function after_place_node3(pos, placer)
 	local meta = M(pos)
 	local inv = meta:get_inventory()
 	inv:set_size('cfg', 4)
-	logic.after_place_node(pos, placer, "techage:ta3_detector_off", NDEF(pos).description)
-	logic.infotext(meta, NDEF(pos).description)
+	logic.after_place_node(pos, placer, "techage:ta3_detector_off", S("TA3 Detector"))
+	logic.infotext(meta, S("TA3 Detector"))
+	meta:set_string("formspec", formspec(meta))
+end
+
+local function after_place_node4(pos, placer)
+	local meta = M(pos)
+	local inv = meta:get_inventory()
+	inv:set_size('cfg', 4)
+	logic.after_place_node(pos, placer, "techage:ta4_detector_off", S("TA4 Detector"))
+	logic.infotext(meta, S("TA4 Detector"))
 	meta:set_string("formspec", formspec(meta))
 end
 
@@ -126,7 +135,7 @@ minetest.register_node("techage:ta3_detector_off", {
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_detector.png",
 	},
 
-	after_place_node = after_place_node,
+	after_place_node = after_place_node3,
 	on_receive_fields = on_receive_fields,
 	techage_set_numbers = techage_set_numbers,
 	after_dig_node = after_dig_node,
@@ -179,7 +188,7 @@ minetest.register_node("techage:ta4_detector_off", {
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_detector.png",
 	},
 
-	after_place_node = after_place_node,
+	after_place_node = after_place_node4,
 	on_receive_fields = on_receive_fields,
 	techage_set_numbers = techage_set_numbers,
 	after_dig_node = after_dig_node,

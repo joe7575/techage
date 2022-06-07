@@ -76,6 +76,11 @@ local function read_state(itemstack, user, pointed_thing)
 					state = dump(state)
 					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": state = "..state.."    ")
 				end
+				local state = techage.send_single("0", number, "count", nil)
+				if state and state ~= "" and state ~= "unsupported" then
+					state = dump(state)
+					minetest.chat_send_player(user:get_player_name(), ndef.description.." "..number..": count = "..state.."    ")
+				end
 				local fuel = techage.send_single("0", number, "fuel", nil)
 				if fuel and fuel ~= "" and fuel ~= "unsupported" then
 					fuel = dump(fuel)

@@ -182,13 +182,19 @@ end
 
 local function config_item(pos, payload)
 	if type(payload) == "string" then
-		local name, count = unpack(payload:split(" "))
-		if name and (minetest.registered_nodes[name] or minetest.registered_items[name]
-				or minetest.registered_craftitems[name]) then
-			count = tonumber(count) or 1
+		if payload == "" then
 			local inv = M(pos):get_inventory()
-			inv:set_stack("main", 1, {name = name, count = 1})
-			return count
+			inv:set_stack("main", 1, nil)
+			return 0
+		else
+			local name, count = unpack(payload:split(" "))
+			if name and (minetest.registered_nodes[name] or minetest.registered_items[name]
+					or minetest.registered_craftitems[name]) then
+				count = tonumber(count) or 1
+				local inv = M(pos):get_inventory()
+				inv:set_stack("main", 1, {name = name, count = 1})
+				return count
+			end
 		end
 	end
 	return 0

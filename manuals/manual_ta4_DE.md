@@ -844,6 +844,7 @@ Der TA4 Schieber besitzt zwei zusätzliche Kommandos für den Lua Controller:
 
 - `config` dient zur Konfiguration des Schiebers, analog zum manuellen Konfiguration über das Menü.
   Beispiel:  `$send_cmnd(1234, "config", "default:dirt")`
+  Mit `$send_cmnd(1234, "config", "")` wird die Konfiguration gelöscht
 - `pull` dient zum Absetzen eines Auftrags an den Schieber:
   Beispiel: `$send_cmnd(1234, "pull", "default:dirt 8")`
   Als Nummer sind Werte von 1 bis 12 zulässig. Danach geht der Schieber wieder in den `stopped` Mode und sendet ein "off" Kommando zurück an den Sender des "pull" Kommandos.

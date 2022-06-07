@@ -1910,7 +1910,7 @@ techage.manual_EN.aText = {
   "\n"..
   "The TA4 pusher has two additional commands for the Lua controller:\n"..
   "\n"..
-  "  - 'config' is used to configure the pusher\\, analogous to manual configuration via the menu.\nExample: '$send_cmnd(1234\\, \"config\"\\, \"default: dirt\")'\n"..
+  "  - 'config' is used to configure the pusher\\, analogous to manual configuration via the menu.\nExample: '$send_cmnd(1234\\, \"config\"\\, \"default: dirt\")'\nWith '$send_cmnd(1234\\, \"config\"\\, \"\")' the configuration is deleted\n"..
   "  - 'pull' is used to send an order to the pusher:\nExample: '$send_cmnd(1234\\, \"pull\"\\, \"default: dirt 8\")'\nValues ​​from 1 to 12 are permitted as numbers. Then the pusher goes back to 'stopped' mode and sends an\" off \"command back to the transmitter of the\" pull \"command.\n"..
   "\n"..
   "\n"..
