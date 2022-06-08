@@ -475,7 +475,7 @@ minetest.register_entity("techage:move_item", {
 			self.object:set_properties({wield_item = self.item})
 			--print("tbl.respawn", tbl.respawn)
 			if tbl.respawn then
-				entity_to_node(self.start_pos, self.object)
+				entity_to_node(self.dest_pos, self.object)
 			end
 		end
 	end,
