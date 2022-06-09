@@ -212,7 +212,7 @@ techage.register_node({"techage:coalfirebox"}, {
 		if topic == 128 then
 			return 0, techage.get_node_lvm(pos).name
 		elseif topic == 129 then
-			return 0, {nvm.running and "running" or "stopped"}
+			return 0, {nvm.running and techage.RUNNING or techage.STOPPED}
 		elseif topic == 132 then
 			return 0, {techage.fuel.get_fuel_amount(nvm)}
 		else

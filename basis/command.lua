@@ -593,6 +593,23 @@ function techage.get_inv_state(inv, listname)
     return state
 end
 
+-- Beduino variant
+function techage.get_inv_state_num(inv, listname)
+	local state
+    if inv:is_empty(listname) then
+        state = 0
+    else
+        local list = inv:get_list(listname)
+        state = 2
+        for _, item in ipairs(list) do
+            if item:is_empty() then
+                return 1
+            end
+        end
+    end
+    return state
+end
+
 minetest.register_chatcommand("ta_send", {
 	description = minetest.formspec_escape(
 			"Send a techage command to the block with the number given: /ta_send <number> <command> [<data>]"),

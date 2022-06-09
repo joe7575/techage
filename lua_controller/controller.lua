@@ -670,9 +670,9 @@ techage.register_node({"techage:ta4_lua_controller"}, {
 	on_beduino_request_data = function(pos, src, topic, payload)
 		local meta = minetest.get_meta(pos)
 
-		if topic == 129 then
+		if topic == 142 then
 			local running = meta:get_int("running") or STATE_STOPPED
-			return 0, running
+			return 0, {running}
 		else
 			return 2, ""
 		end

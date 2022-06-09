@@ -184,8 +184,7 @@ techage.register_node({"techage:chest_ta2", "techage:chest_ta3"}, {
 		if topic == 131 then
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
-			local state = techage.get_inv_state(inv, "main")
-			return 0, ({full = 2, loaded = 1, empty = 0})[state] or 0
+			return 0, {techage.get_inv_state_num(inv, "main")}
 		else
 			return 2, ""
 		end
@@ -426,8 +425,7 @@ techage.register_node({"techage:chest_ta4"}, {
 		if topic == 131 then
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
-			local state = techage.get_inv_state(inv, "main")
-			return 0, ({full = 2, loaded = 1, empty = 0})[state] or 0
+			return 0, {techage.get_inv_state_num(inv, "main")}
 		else
 			return 2, ""
 		end

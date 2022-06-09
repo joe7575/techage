@@ -92,6 +92,18 @@ local function inv_state(nvm)
 	return "loaded"
 end
 
+local function inv_state_num(nvm)
+	local num = 0
+	for _,item in ipairs(nvm.inventory or {}) do
+		if item.count and item.count > 0 then
+			num = num + 1
+		end
+	end
+	if num == 0 then return 0 end
+	if num == 8 then return 2 end
+	return 1
+end
+
 local function max_stacksize(item_name)
 	-- It is sufficient to use minetest.registered_items as all registration
 	-- functions (node, craftitems, tools) add the definitions there.
@@ -614,10 +626,10 @@ techage.register_node({"techage:ta4_chest"}, {
 			return 0, {get_count(nvm, tonumber(payload[2] or 1) or 1)}
 		elseif topic == 140 and payload[1] == 2 then  -- Inventory Item Name
 			local nvm = techage.get_nvm(pos)
-			return 0, {get_itemstring(nvm, tonumber(payload[2] or 1) or 1)}
+			return 0, get_itemstring(nvm, tonumber(payload[2] or 1) or 1)
 		elseif topic == 131 then  -- Chest State
 			local nvm = techage.get_nvm(pos)
-			return 0, {inv_state(nvm)}
+			return 0, {inv_state_num(nvm)}
 		else
 			return 2, ""
 		end

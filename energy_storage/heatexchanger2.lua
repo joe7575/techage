@@ -374,9 +374,9 @@ techage.register_node({"techage:heatexchanger2"}, {
 			return 0, techage.get_node_lvm(pos).name
 		elseif topic == 129 then -- State
 			if techage.is_running(nvm) then
-				return 0, {1}
+				return 0, {techage.RUNNING}
 			else
-				return 0, {0}
+				return 0, {techage.STOPPED}
 			end
 		elseif topic == 135 then  -- Delivered Power
 			local data = power.get_network_data(pos, Cable, DOWN)

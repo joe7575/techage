@@ -465,7 +465,7 @@ techage.register_node({"techage:ta4_icta_controller"}, {
 
 		if topic == 129 then
 			local state = meta:get_int("state") or 0
-			return 0, {techage.StateStrings[state] or "stopped"}
+			return 0, {state or techage.STOPPED}
 		else
 			return 2, ""
 		end

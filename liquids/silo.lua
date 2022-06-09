@@ -313,10 +313,10 @@ techage.register_node({"techage:ta3_silo", "techage:ta4_silo"}, {
 		end
 	end,
 	on_beduino_request_data = function(pos, src, topic, payload)
-		if topic == 129 then -- State
+		if topic == 131 then  -- Chest State
 			local meta = M(pos)
 			local inv = meta:get_inventory()
-			return 0, {techage.get_inv_state(inv, "main")}
+			return 0, {techage.get_inv_state_num(inv, "main")}
 		elseif topic == 134 then
 			local inv = M(pos):get_inventory()
 			local nvm = techage.get_nvm(pos)

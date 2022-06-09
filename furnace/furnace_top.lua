@@ -263,7 +263,7 @@ local tubing = {
 	on_beduino_request_data = function(pos, src, topic, payload)
 		if topic == 141 then  -- Furnace Output
 			local nvm = techage.get_nvm(pos)
-			return 0, {string.split(nvm.output or "unknown", " ")[1]}
+			return 0, string.split(nvm.output or "unknown", " ")[1]
 		else
 			return CRD(pos).State:on_beduino_request_data(pos, topic, payload)
 		end

@@ -153,7 +153,7 @@ techage.register_node({"techage:ta3_valve_closed", "techage:ta3_valve_open"}, {
 	end,
 	on_beduino_request_data = function(pos, src, topic, payload)
 		local node = techage.get_node_lvm(pos)
-		if topic == 129 then -- State
+		if topic == 142 then -- State
 			if node.name == "techage:ta3_valve_open" then
 				return 0, {1}
 			end

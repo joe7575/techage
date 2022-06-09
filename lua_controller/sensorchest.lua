@@ -247,7 +247,7 @@ techage.register_node({"techage:ta4_sensor_chest"}, {
 		if topic == 131 then  -- Chest State
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
-			return 0, {techage.get_inv_state(inv, "main")}
+			return 0, {techage.get_inv_state_num(inv, "main")}
 		elseif topic == 138 and payload[1] == 1 then  -- Sensor Chests State (action)
 			local meta = minetest.get_meta(pos)
 			local number = meta:get_string("node_number")
@@ -256,10 +256,10 @@ techage.register_node({"techage:ta4_sensor_chest"}, {
 		elseif topic == 138 and payload[1] == 2 then  -- Sensor Chests State (player name)
 			local meta = minetest.get_meta(pos)
 			local number = meta:get_string("node_number")
-			return 0, {(PlayerActions[number] or {})[1]}
+			return 0, (PlayerActions[number] or {})[1]
 		elseif topic == 138 and payload[1] == 3 then  -- Sensor Chests State (stack item name)
 			local name, _ = get_stack(pos, payload[2] or 1)
-			return 0, {name}
+			return 0, name
 		elseif topic == 138 and payload[1] == 4 then  -- Sensor Chests State (stack item count)
 			local _, count = get_stack(pos, payload[2] or 1)
 			return 0, {count}

@@ -323,14 +323,14 @@ techage.register_node({"techage:ta4_wind_turbine"}, {
 		if topic == 129 then
 			local node = minetest.get_node(pos)
 			if node.name == "ignore" then  -- unloaded node?
-				return 0, {7}  -- unloaded
+				return 0, {techage.UNLOADED}
 			end
 			if nvm.error then
-				return 0, {5}  -- fault
+				return 0, {techage.FAULT}
 			elseif techage.is_running(nvm) then
-				return 0, {1}  -- running
+				return 0, {techage.RUNNING}
 			else
-				return 0, {6}  -- stopped
+				return 0, {techage.STOPPED}
 			end
 		elseif topic == 135 then  -- Delivered Power
 			return 0, {nvm.delivered or 0}

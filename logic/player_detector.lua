@@ -326,7 +326,7 @@ techage.register_node({
 		on_beduino_request_data = function(pos, src, topic, payload)
 			if topic == 144 then  -- Player Name
 				local nvm = techage.get_nvm(pos)
-				return 0, {nvm.player_name or ""}
+				return 0, nvm.player_name or ""
 			elseif topic == 142 then  -- Binary State
 				local node = techage.get_node_lvm(pos)
 				if node.name == "techage:ta3_playerdetector_on" or
