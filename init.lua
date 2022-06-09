@@ -413,8 +413,8 @@ dofile(MP.."/fusion_reactor/generator.lua")
 dofile(MP.."/fusion_reactor/turbine.lua")
 dofile(MP.."/fusion_reactor/ta5_pump.lua")
 
+-- Beduino extensions
+dofile(MP.."/beduino/kv_store.lua")
+
 -- Prevent other mods from using IE
 techage.IE = nil
-
-
-function techage.icta_register_condition(key, tData) end
