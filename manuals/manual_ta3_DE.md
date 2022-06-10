@@ -667,6 +667,8 @@ Mit `$send_cmnd(node_number, "set", 2)` kann ein Block aus dem Inventory explizi
 
 Mit `$send_cmnd(node_number, "dig", 2)` kann ein Block wieder entfernt werden, sofern der Inventory Slot leer ist. 
 
+Mit `$send_cmnd(node_number, "get", 2)` wird der Name des gesetzten Blocks zurückgeliefert. 
+
 Die Slot-Nummer des Inventars (1 .. 16) muss in allen drei Fällen als payload übergeben werden.
 
 Damit lassen sich auch ausfahrbare Treppen und ähnliches simulieren.

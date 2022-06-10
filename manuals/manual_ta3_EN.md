@@ -660,6 +660,8 @@ With `$send_cmnd(node_number, "set", 2)` a block from the inventory can be set e
 
 A block can be removed again with `$send_cmnd(node_number, "dig", 2)` if the inventory slot is empty. 
 
+The name of the set block is returned with `$send_cmnd(node_number, "get", 2)`.
+
 The slot number of the inventory (1 .. 16) must be passed as payload in all three cases.
 
 This can also be used to simulate extendable stairs and the like. 

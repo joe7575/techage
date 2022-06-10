@@ -196,6 +196,14 @@ local function exchange_nodes(pos, nvm, slot, force)
 	return res
 end
 
+local function get_node_name(nvm, slot)
+	local pos = nvm.pos_list[slot]
+	if pos then
+		return techage.get_node_lvm(pos).name
+	end
+	return "unknown"
+end
+
 local function show_nodes(pos)
 	local nvm = techage.get_nvm(pos)
 	if not nvm.is_on then
@@ -355,6 +363,9 @@ techage.register_node({"techage:ta3_doorcontroller2"}, {
 		elseif topic == "dig" then
 			local nvm = techage.get_nvm(pos)
 			return exchange_nodes(pos, nvm, tonumber(payload), "dig")
+		elseif topic == "get" then
+			local nvm = techage.get_nvm(pos)
+			return get_node_name(nvm, tonumber(payload))
 		end
 		return false
 	end,
@@ -374,6 +385,13 @@ techage.register_node({"techage:ta3_doorcontroller2"}, {
 			return exchange_nodes(pos, nvm, payload[2] or 1, "dig") and 0 or 3
 		end
 		return 2
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		if topic == 147 then  -- Get Name
+			local nvm = techage.get_nvm(pos)
+			return 0, get_node_name(nvm, payload[1] or 1)
+		end
+		return 2, ""
 	end,
 	on_node_load = function(pos)
 		local meta = M(pos)

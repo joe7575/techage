@@ -1150,6 +1150,8 @@ techage.manual_EN.aText = {
   "\n"..
   "A block can be removed again with '$send_cmnd(node_number\\, \"dig\"\\, 2)' if the inventory slot is empty. \n"..
   "\n"..
+  "The name of the set block is returned with '$send_cmnd(node_number\\, \"get\"\\, 2)'.\n"..
+  "\n"..
   "The slot number of the inventory (1 .. 16) must be passed as payload in all three cases.\n"..
   "\n"..
   "This can also be used to simulate extendable stairs and the like. \n"..
