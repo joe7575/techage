@@ -292,7 +292,7 @@ local function entity_to_node(pos, obj)
 			local nvm = techage.get_nvm(self.base_pos)
 			nvm.running = nil
 		end
-		obj:remove()
+		minetest.after(0.2, obj.remove, obj)
 
 		local node =  minetest.get_node(pos)
 		local ndef1 = minetest.registered_nodes[name]
@@ -330,7 +330,7 @@ local function node_to_entity(start_pos)
 		-- Block with other metadata
 		node = minetest.get_node(start_pos)
 		metadata = meta:to_table()
-		minetest.remove_node(start_pos)
+		minetest.after(0.2, minetest.remove_node, start_pos)
 	end
 	local obj = minetest.add_entity(start_pos, "techage:move_item")
 	if obj then
@@ -714,6 +714,39 @@ function flylib.rotate_nodes(pos, posses1, rot)
 	return posses2
 end
 
+function flylib.exchange_node(pos, name, param2)
+	local meta = M(pos)
+	local move_block
+	
+	-- consider stored "objects"
+	if meta:contains("ta_move_block") then
+		move_block = meta:get_string("ta_move_block")
+	end
+	
+	minetest.swap_node(pos, {name = name, param2 = param2})
+	
+	if move_block then
+		meta:set_string("ta_move_block", move_block)
+	end
+end
+
+function flylib.remove_node(pos)
+	local meta = M(pos)
+	local move_block
+	
+	-- consider stored "objects"
+	if meta:contains("ta_move_block") then
+		move_block = meta:get_string("ta_move_block")
+	end
+	
+	minetest.remove_node(pos)
+	
+	if move_block then
+		local node = minetest.deserialize(move_block)
+		minetest.add_node(pos, node)
+		meta:set_string("ta_move_block", "")
+	end
+end
 
 minetest.register_on_joinplayer(function(player)
 	unlock_player(player)

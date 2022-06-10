@@ -17,6 +17,8 @@ local M = minetest.get_meta
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local S = techage.S
 
+local MP = minetest.get_modpath("techage")
+local flylib = dofile(MP .. "/basis/fly_lib.lua")
 local logic = techage.logic
 
 local MarkedNodes = {} -- t[player] = {{entity, pos},...}
@@ -154,9 +156,9 @@ local function exchange_node(pos, item, param2)
 	local node = minetest.get_node_or_nil(pos)
 	if node and is_simple_node(node.name) then
 		if item and item:get_name() ~= "" and minetest.registered_nodes[item:get_name()] then
-			minetest.swap_node(pos, {name = item:get_name(), param2 = param2})
+			flylib.exchange_node(pos, item:get_name(), param2)
 		else
-			minetest.remove_node(pos)
+			flylib.remove_node(pos)
 		end
 		if node.name ~= "air" then
 			return ItemStack(node.name), node.param2
