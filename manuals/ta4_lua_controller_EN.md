@@ -390,6 +390,7 @@ Please note, that this is not a technical distinction, only a logical.
 | "red, "amber", "green", "off"    | nil          | set Signal Tower color                                       |
 | "red, "amber", "green", "off" | lamp number (1..4) | Set the signal lamp color. Valid for "TA4 2x Signal Lamp" and "TA4 4x Signal Lamp" |
 | "port"                          | string<br />`<color>=on/off` | Enable/disable a Distributor filter slot..<br />Example: `"yellow=on"`<br />colors: red, green, blue, yellow |
+| "config" | "\<slot> \<item list>" | Configure a Distributor filter slot, like: "red default:dirt dye:blue" |
 | "text"                           | text string  | Text to be used for the Sensor Chest menu                    |
 | "reset"                          | nil          | Reset the item counter of the TA4 Item Detector block        |
 | "pull"                           | item  string | Start the TA4 pusher to pull/push items.<br /> Example: `default:dirt 8` |
