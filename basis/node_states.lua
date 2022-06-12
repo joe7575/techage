@@ -135,13 +135,15 @@ local function has_power(pos, nvm)
 	return true
 end
 
-local function swap_node(pos, name)
+local function swap_node(pos, new_name, old_name)
 	local node = techage.get_node_lvm(pos)
-	if node.name == name then
+	if node.name == new_name then
 		return
 	end
-	node.name = name
-	minetest.swap_node(pos, node)
+	if node.name == old_name then
+		node.name = new_name
+		minetest.swap_node(pos, node)
+	end
 end
 
 -- true if node_timer should be executed
@@ -176,7 +178,7 @@ function NodeStates:new(attr)
 		cycle_time = attr.cycle_time, -- for running state
 		standby_ticks = attr.standby_ticks, -- for standby state
 		-- optional
-                countdown_ticks = attr.countdown_ticks or 1,
+		countdown_ticks = attr.countdown_ticks or 1,
 		node_name_passive = attr.node_name_passive,
 		node_name_active = attr.node_name_active,
 		infotext_name = attr.infotext_name,
@@ -222,7 +224,7 @@ function NodeStates:stop(pos, nvm)
 		self.stop_node(pos, nvm, state)
 	end
 	if self.node_name_passive then
-		swap_node(pos, self.node_name_passive)
+		swap_node(pos, self.node_name_passive, self.node_name_active)
 	end
 	if self.infotext_name then
 		local number = M(pos):get_string("node_number")
@@ -259,7 +261,7 @@ function NodeStates:start(pos, nvm)
 		end
 		nvm.techage_countdown = self.countdown_ticks
 		if self.node_name_active then
-			swap_node(pos, self.node_name_active)
+			swap_node(pos, self.node_name_active, self.node_name_passive)
 		end
 		if self.infotext_name then
 			local number = M(pos):get_string("node_number")
@@ -290,7 +292,7 @@ function NodeStates:standby(pos, nvm, err_string)
 	if state == RUNNING or state == BLOCKED then
 		nvm.techage_state = STANDBY
 		if self.node_name_passive then
-			swap_node(pos, self.node_name_passive)
+			swap_node(pos, self.node_name_passive, self.node_name_active)
 		end
 		if self.infotext_name then
 			local number = M(pos):get_string("node_number")
@@ -315,7 +317,7 @@ function NodeStates:blocked(pos, nvm, err_string)
 	if state == RUNNING then
 		nvm.techage_state = BLOCKED
 		if self.node_name_passive then
-			swap_node(pos, self.node_name_passive)
+			swap_node(pos, self.node_name_passive, self.node_name_active)
 		end
 		if self.infotext_name then
 			local number = M(pos):get_string("node_number")
@@ -339,7 +341,7 @@ function NodeStates:nopower(pos, nvm, err_string)
 	if state ~= NOPOWER then
 		nvm.techage_state = NOPOWER
 		if self.node_name_passive then
-			swap_node(pos, self.node_name_passive)
+			swap_node(pos, self.node_name_passive, self.node_name_active)
 		end
 		if self.infotext_name then
 			local number = M(pos):get_string("node_number")
@@ -364,7 +366,7 @@ function NodeStates:fault(pos, nvm, err_string)
 	if state == RUNNING or state == STOPPED then
 		nvm.techage_state = FAULT
 		if self.node_name_passive then
-			swap_node(pos, self.node_name_passive)
+			swap_node(pos, self.node_name_passive, self.node_name_active)
 		end
 		if self.infotext_name then
 			local number = M(pos):get_string("node_number")
