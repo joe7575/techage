@@ -336,10 +336,15 @@ local function count_number_of_chests(pos)
 	local node = techage.get_node_lvm(pos)
 	local dir = techage.side_to_outdir("B", node.param2)
 	local pos1 = tubelib2.get_pos(pos, dir)
+	local param2 = node.param2
 	local cnt = 1
 	while cnt < 50 do
 		node = techage.get_node_lvm(pos1)
 		if node.name ~= "techage:ta4_chest_dummy" then
+			break
+		end
+		local meta = M(pos1)
+		if meta:contains("param2") and meta:get_int("param2") ~= param2 then
 			break
 		end
 		pos1 = tubelib2.get_pos(pos1, dir)
@@ -351,10 +356,15 @@ end
 local function search_chest_in_front(pos, node)
 	local dir = techage.side_to_outdir("F", node.param2)
 	local pos1 = tubelib2.get_pos(pos, dir)
+	local param2 = node.param2
 	local cnt = 1
 	while cnt < 50 do
 		node = techage.get_node_lvm(pos1)
 		if node.name ~= "techage:ta4_chest_dummy" then
+			break
+		end
+		local meta = M(pos1)
+		if meta:contains("param2") and meta:get_int("param2") ~= param2 then
 			break
 		end
 		pos1 = tubelib2.get_pos(pos1, dir)
@@ -529,6 +539,7 @@ minetest.register_node("techage:ta4_chest", {
 		if search_chest_in_front(pos, node) then
 			node.name = "techage:ta4_chest_dummy"
 			minetest.swap_node(pos, node)
+			M(pos):set_int("param2", node.param2)
 		else
 			local nvm = techage.get_nvm(pos)
 			gen_inv(nvm)
