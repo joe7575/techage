@@ -34,6 +34,7 @@ local INFO = [[Turn port on/off or read its state: command = 'port', payload = r
 
 --local Side2Color = {B="red", L="green", F="blue", R="yellow"}
 local SlotColors = {"red", "green", "blue", "yellow"}
+local SlotNumbers = {red = 1, green = 2, blue = 3, yellow = 4}
 local Num2Ascii = {"B", "L", "F", "R"}
 local FilterCache = {} -- local cache for filter settings
 
@@ -383,27 +384,63 @@ end
 
 -- techage command to turn on/off filter channels
 local function change_filter_settings(pos, slot, val)
-	local slots = {["red"] = 1, ["green"] = 2, ["blue"] = 3, ["yellow"] = 4}
 	local meta = M(pos)
 	local filter = minetest.deserialize(meta:get_string("filter")) or {false,false,false,false}
-	local num = slots[slot] or 1
+	local num = SlotNumbers[slot] or 1
 	if num >= 1 and num <= 4 then
 		filter[num] = val == "on"
 	end
 	meta:set_string("filter", minetest.serialize(filter))
 
-	filter_settings(pos)
+	local hash = minetest.hash_node_position(pos)
+	FilterCache[hash] = nil
 
-	local nvm = techage.get_nvm(pos)
-	meta:set_string("formspec", formspec(CRD(pos).State, pos, nvm))
+--	local nvm = techage.get_nvm(pos)
+--	meta:set_string("formspec", formspec(CRD(pos).State, pos, nvm))
 	return true
 end
 
 -- techage command to read filter channel status (on/off)
 local function read_filter_settings(pos, slot)
-	local slots = {["red"] = 1, ["green"] = 2, ["blue"] = 3, ["yellow"] = 4}
 	local filter = minetest.deserialize(M(pos):get_string("filter")) or {false,false,false,false}
-	return filter[slots[slot]] and "on" or "off"
+	return filter[SlotNumbers[slot]] and "on" or "off"
+end
+
+local function get_payload_values(payload)
+	local color
+	local idx = 0
+	local items = {ItemStack(""), ItemStack(""), ItemStack(""), ItemStack(""), ItemStack(""), ItemStack("")}
+	for s in payload:gmatch("[^%s]+") do   --- white spaces
+		if not color then
+			if SlotNumbers[s] then
+				color = s
+			else
+				return "red", {}
+			end
+		else
+			idx = idx + 1
+			if idx <= 6 then
+				items[idx] = ItemStack(s)
+			end
+		end
+	end
+	return color, items
+end
+
+local function str_of_inv_items(pos, color)
+	color = SlotColors[color] or color
+	if SlotNumbers[color] then
+		local inv = M(pos):get_inventory()
+		local t = {}
+		for idx = 1, 6 do
+			local item = inv:get_stack(color, idx)
+			if item:get_count() > 0 then
+				t[#t + 1] = item:get_name()
+			end
+		end
+		return table.concat(t, " ")
+	end
+	return ""
 end
 
 local function can_dig(pos, player)
@@ -474,22 +511,46 @@ local tubing = {
 			else
 				return change_filter_settings(pos, slot, val)
 			end
+		elseif topic == "config" then
+			local color, items = get_payload_values(payload)
+			local inv = M(pos):get_inventory()
+			for idx,item in ipairs(items) do
+				inv:set_stack(color, idx, item)
+			end
+			local hash = minetest.hash_node_position(pos)
+			FilterCache[hash] = nil
+			return true
+		elseif topic == "get" then
+			return str_of_inv_items(pos, payload)
 		else
 			return CRD(pos).State:on_receive_message(pos, topic, payload)
 		end
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
 		if topic == 4 then
-			local slot = ({red = 1, green = 2, blue = 3, yellow = 4})[payload[1]]
+			local slot = SlotNumbers[payload[1]]
 			local state = payload[2] == 1 and "on" or "off"
 			change_filter_settings(pos, slot, state)
+			return 0
+		elseif topic == 67 then
+			local color, items = get_payload_values(payload)
+			local inv = M(pos):get_inventory()
+			for idx,item in ipairs(items) do
+				inv:set_stack(color, idx, item)
+			end
+			local hash = minetest.hash_node_position(pos)
+			FilterCache[hash] = nil
 			return 0
 		else
 			return CRD(pos).State:on_beduino_receive_cmnd(pos, topic, payload)
 		end
 	end,
 	on_beduino_request_data = function(pos, src, topic, payload)
-		return CRD(pos).State:on_beduino_request_data(pos, topic, payload)
+		if topic == 148 then
+			return 0, str_of_inv_items(pos, payload[1])
+		else
+			return CRD(pos).State:on_beduino_request_data(pos, topic, payload)
+		end
 	end,
 	on_node_load = function(pos)
 		CRD(pos).State:on_node_load(pos)
