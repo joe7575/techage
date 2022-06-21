@@ -395,8 +395,8 @@ local function change_filter_settings(pos, slot, val)
 	local hash = minetest.hash_node_position(pos)
 	FilterCache[hash] = nil
 
---	local nvm = techage.get_nvm(pos)
---	meta:set_string("formspec", formspec(CRD(pos).State, pos, nvm))
+	local nvm = techage.get_nvm(pos)
+	meta:set_string("formspec", formspec(CRD(pos).State, pos, nvm))
 	return true
 end
 
@@ -528,7 +528,7 @@ local tubing = {
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
 		if topic == 4 then
-			local slot = SlotNumbers[payload[1]]
+			local slot = SlotColors[payload[1]]
 			local state = payload[2] == 1 and "on" or "off"
 			change_filter_settings(pos, slot, state)
 			return 0
