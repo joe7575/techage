@@ -39,7 +39,7 @@ local function node_timer(pos)
 
 	local nvm = techage.get_nvm(pos)
 
-	trigger = nvm.mode or 7
+	local trigger = nvm.mode or 7
 
 	local pos_above = {x = pos.x, y = pos.y + 1, z = pos.z}
 	if minetest.get_node_light(pos_above, nil) == nil then

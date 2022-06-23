@@ -30,6 +30,7 @@ local HELP = S("Syntax:\n") ..
 	S(" - 'send <node num> <cmnd>' (techage command)\n") ..
 	S(" - 'goto <num>'  (jump to another line)\n") ..
 	S(" - 'stop' (stop the execution)\n") ..
+	S(" - 'nop' (do nothing)\n") ..
 	S("\n") ..
 	S("Example:\n") ..
 	" -- move controller commands\n" ..
@@ -108,7 +109,7 @@ local function compile(s, tRes)
 				tCode[idx] = {next_idx = tonumber(cmnd2) or 1}
 			elseif cmnd1 == "stop" then
 				tCode[idx] = false
-			elseif cmnd1 == nil then
+			elseif cmnd1 == nil or cmnd1 == "nop" then
 				tCode[idx] = {}
 			end
 			old_idx = idx

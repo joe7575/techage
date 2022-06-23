@@ -129,7 +129,6 @@ function techage.param2_turn_up(facedir, param2)
 end
 
 
-
 -------------------------------------------------------------------------------
 -- Rotate nodes around the center
 -------------------------------------------------------------------------------
@@ -181,12 +180,12 @@ function techage.rotate_around_center(nodes1, turn, cpos)
 	return nodes2
 end
 
--- allowed for digging
-local RegisteredNodesToBeDug = {}
 
-function techage.register_node_to_be_dug(name)
-	RegisteredNodesToBeDug[name] = true
-end
+-------------------------------------------------------------------------------
+-- Helper functions
+-------------------------------------------------------------------------------
+-- allowed for digging
+local SimpleNodes = {}
 
 -- translation from param2 to dir (out of the node upwards)
 local Param2Dir = {}
@@ -284,19 +283,52 @@ function techage.is_air_like(name)
 end
 
 -- returns true, if node can be dug, otherwise false
-function techage.can_node_dig(node, ndef)
-	if RegisteredNodesToBeDug[node.name] then
+function techage.can_dig_node(name, ndef)
+	if not ndef then return false end
+	if SimpleNodes[name] ~= nil then
+		return SimpleNodes[name]
+	end
+	
+	if ndef.groups and ndef.groups.techage_door == 1 then
+		SimpleNodes[name] = true
 		return true
 	end
-	if not ndef then return false end
-	if node.name == "ignore" then return false end
-	if node.name == "air" then return true end
-	if ndef.buildable_to == true then return true end
-	if ndef.diggable == false then return false end
-	if ndef.after_dig_node then return false end
+	if name == "ignore" then
+		SimpleNodes[name] = false
+		return false
+	end
+	if name == "air" then
+		SimpleNodes[name] = true
+		return true
+	end
+	if ndef.buildable_to == true then
+		SimpleNodes[name] = true
+		return true
+	end
+	-- don't remove nodes with some intelligence or undiggable nodes
+	if ndef.drop == "" then
+		SimpleNodes[name] = false
+		return false
+	end
+	if ndef.diggable == false then
+		SimpleNodes[name] = false
+		return false
+	end
+	if ndef.after_dig_node then
+		SimpleNodes[name] = false
+		return false
+	end
 	-- add it to the white list
-	RegisteredNodesToBeDug[node.name] = true
+	SimpleNodes[name] = true
 	return true
+end
+
+-- Simple nodes
+function techage.register_simple_nodes(node_names, is_valid)
+	if is_valid == nil then is_valid = true end
+	for _,name in ipairs(node_names or {}) do
+		SimpleNodes[name] = is_valid
+	end
 end
 
 techage.dig_states = {
@@ -432,50 +464,6 @@ function techage.item_image_small(x, y, itemname, tooltip_prefix)
 		tooltip
 end
 
-function techage.mydump(o, indent, nested, level)
-	local t = type(o)
-	if not level and t == "userdata" then
-		-- when userdata (e.g. player) is passed directly, print its metatable:
-		return "userdata metatable: " .. techage.mydump(getmetatable(o))
-	end
-	if t ~= "table" then
-		return basic_dump(o)
-	end
-	-- Contains table -> true/nil of currently nested tables
-	nested = nested or {}
-	if nested[o] then
-		return "<circular reference>"
-	end
-	nested[o] = true
-	indent = " "
-	level = level or 1
-	local t = {}
-	local dumped_indexes = {}
-	for i, v in ipairs(o) do
-		t[#t + 1] = techage.mydump(v, indent, nested, level + 1)
-		dumped_indexes[i] = true
-	end
-	for k, v in pairs(o) do
-		if not dumped_indexes[k] then
-			if type(k) ~= "string" or not is_valid_identifier(k) then
-				k = "["..techage.mydump(k, indent, nested, level + 1).."]"
-			end
-			v = techage.mydump(v, indent, nested, level + 1)
-			t[#t + 1] = k.." = "..v
-		end
-	end
-	nested[o] = nil
-	if indent ~= "" then
-		local indent_str = string.rep(indent, level)
-		local end_indent_str = string.rep(indent, level - 1)
-		return string.format("{%s%s%s}",
-				indent_str,
-				table.concat(t, ","..indent_str),
-				end_indent_str)
-	end
-	return "{"..table.concat(t, ", ").."}"
-end
-
 function techage.vector_dump(posses)
 	local t = {}
 	for _,pos in ipairs(posses) do
@@ -504,6 +492,10 @@ function techage.register_mobs_mods(mod)
 	techage.RegisteredMobsMods[mod] = true
 end
 
+function techage.beduino_signed_var(val)
+	val = val or 0
+	return val >= 32768 and val - 0x10000 or val
+end
 
 -------------------------------------------------------------------------------
 -- Terminal history buffer

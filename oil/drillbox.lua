@@ -149,7 +149,7 @@ local function drilling(pos, crd, nvm, inv)
 		inv:remove_item("src", ItemStack("techage:oil_drillbit"))
 		nvm.drill_pos.y = nvm.drill_pos.y-1
 		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-	elseif techage.can_node_dig(node, ndef) then
+	elseif techage.can_dig_node(node.name, ndef) then
 		local drop_name = techage.dropped_node(node, ndef)
 		if drop_name then
 			local item = ItemStack(drop_name)

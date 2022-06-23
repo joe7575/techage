@@ -67,4 +67,4 @@ techage.register_mobs_mods("mobf_trader")
 techage.register_mobs_mods("ts_vehicles_cars")
 
 -- Used as e.g. crane cable
-techage.logic.register_doorcontroller_nodes({"techage:power_lineS"})
+techage.register_simple_nodes({"techage:power_lineS"}, true)

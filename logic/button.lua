@@ -55,7 +55,10 @@ local function switch_off(pos, is_button)
 	elseif name == "techage:ta4_button_on" then
 		logic.swap_node(pos, "techage:ta4_button_off")
 	end
-	logic.send_off(pos, M(pos))
+	local meta = M(pos)
+	if not meta:contains("command") or meta:get_string("command") == "on" then
+		logic.send_off(pos, M(pos))
+	end
 	if not is_button then
 		minetest.sound_play("techage_button", {
 				pos = pos,

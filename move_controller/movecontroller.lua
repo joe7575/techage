@@ -62,11 +62,30 @@ local WRENCH_MENU = {
 		tooltip = S("Y-offset for non-player objects like vehicles (-0.5 to 0.5)"),
 		default = "0.0",
 	},
+	{
+		type = "dropdown",
+		choices = "A-B / B-A,move xyz",
+		name = "opmode",
+		label = S("Operational mode"),
+		tooltip = S("Switch to the remote controlled 'move xyz' mode"),
+		default = "A-B / B-A",
+	},
 }
 
 local function formspec(nvm, meta)
 	local status = meta:get_string("status")
 	local path = meta:contains("path") and meta:get_string("path") or "0,3,0"
+	local buttons
+	if meta:get_string("opmode") == "move xyz" then
+		buttons = "field[0.4,2.5;3.8,1;path;" .. S("Move distance") .. ";" .. path .. "]" ..
+			"button_exit[4.1,2.2;3.8,1;move2;" .. S("Move") .. "]" ..
+			"button_exit[0.1,3.3;3.8,1;reset;" .. S("Reset") .. "]"
+	else
+		buttons = "field[0.4,2.5;3.8,1;path;" .. S("Move distance (A to B)") .. ";" .. path .. "]" ..
+			"button_exit[0.1,3.3;3.8,1;moveAB;" .. S("Move A-B") .. "]" ..
+			"button_exit[4.1,3.3;3.8,1;moveBA;" .. S("Move B-A") .. "]" ..
+			"button[4.1,2.2;3.8,1;store;" .. S("Store") .. "]"
+	end
 	return "size[8,5]" ..
 		default.gui_bg ..
 		default.gui_bg_img ..
@@ -76,10 +95,7 @@ local function formspec(nvm, meta)
 		techage.wrench_image(7.4, -0.05) ..
 		"button[0.1,0.8;3.8,1;record;" .. S("Record") .. "]" ..
 		"button[4.1,0.8;3.8,1;done;" .. S("Done") .. "]" ..
-		"field[0.4,2.5;3.8,1;path;" .. S("Move distance (A to B)") .. ";" .. path .. "]" ..
-		"button[4.1,2.2;3.8,1;store;" .. S("Store") .. "]" ..
-		"button_exit[0.1,3.3;3.8,1;moveAB;" .. S("Move A-B") .. "]" ..
-		"button_exit[4.1,3.3;3.8,1;moveBA;" .. S("Move B-A") .. "]" ..
+		buttons ..
 		"label[0.3,4.3;" .. status .. "]"
 end
 
@@ -163,7 +179,28 @@ minetest.register_node("techage:ta4_movecontroller", {
 				mark.stop(name)
 			end
 			meta:set_string("formspec", formspec(nvm, meta))
+		elseif fields.move2 then
+			if fly.to_vector(fields.path or "", MAX_DIST) then
+				meta:set_string("path", fields.path)
+			end
+			local line = fly.to_vector(meta:get_string("path"))
+			if line then
+				nvm.running = true
+				fly.move_to(pos, line)
+			end
+		elseif fields.reset then
+			nvm.running = true
+			fly.reset_move(pos)
 		end
+	end,
+
+	on_rightclick = function(pos, node, clicker, itemstack, pointed_thing)
+		if not clicker or minetest.is_protected(pos, clicker:get_player_name()) then
+			return
+		end
+		local meta = M(pos)
+		local nvm = techage.get_nvm(pos)
+		meta:set_string("formspec", formspec(nvm, meta))
 	end,
 
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
@@ -185,28 +222,43 @@ local INFO = [[Commands: 'state', 'a2b', 'b2a', 'move']]
 techage.register_node({"techage:ta4_movecontroller"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
+		local move_xyz = M(pos):get_string("opmode") == "move xyz"
 		if topic == "info" then
 			return INFO
 		elseif topic == "state" then
 			return nvm.running and "running" or "stopped"
-		elseif topic == "a2b" then
+		elseif not move_xyz and topic == "a2b" then
 			nvm.moveBA = true
 			nvm.running = true
 			return fly.move_to_other_pos(pos, false)
-		elseif topic == "b2a" then
+		elseif not move_xyz and topic == "b2a" then
 			nvm.moveBA = false
 			nvm.running = true
 			return fly.move_to_other_pos(pos, true)
-		elseif topic == "move" then
+		elseif move_xyz and topic == "move" then
 			nvm.moveBA = nvm.moveBA == false
 			nvm.running = true
 			return fly.move_to_other_pos(pos, nvm.moveBA == false)
+		elseif move_xyz and topic == "move2" then
+			local line = fly.to_vector(payload)
+			if line then
+				nvm.running = true
+				nvm.controller_mode = true
+				return fly.move_to(pos, line)
+			end
+			return false
+		elseif topic == "reset" then
+			nvm.running = true
+			nvm.controller_mode = true
+			return fly.reset_move(pos)
 		end
 		return false
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		if topic == 11 then
+		local move_xyz = M(pos):get_string("opmode") == "move xyz"
+		--print("on_beduino_receive_cmnd", P2S(pos), move_xyz, topic, payload[1])
+		if not move_xyz and topic == 11 then
 			if payload[1] == 1 then
 				nvm.moveBA = true
 				nvm.running = true
@@ -220,6 +272,19 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 				nvm.running = true
 				return fly.move_to_other_pos(pos, nvm.moveBA == false) and 0 or 3
 			end
+		elseif move_xyz and topic == 18 then  -- move xyz
+			local line = {
+				x = techage.in_range(techage.beduino_signed_var(payload[1]), -10, 10),
+				y = techage.in_range(techage.beduino_signed_var(payload[2]), -10, 10),
+				z = techage.in_range(techage.beduino_signed_var(payload[3]), -10, 10),
+			}
+			nvm.running = true
+			nvm.controller_mode = true
+			return fly.move_to(pos, line) and 0 or 3
+		elseif move_xyz and topic == 19 then  -- reset
+			nvm.running = true
+			nvm.controller_mode = true
+			return fly.reset_move(pos) and 0 or 3
 		else
 			return 2
 		end

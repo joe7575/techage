@@ -23,24 +23,10 @@ local logic = techage.logic
 
 local MarkedNodes = {} -- t[player] = {{entity, pos},...}
 local CurrentPos  -- to mark punched entities
-local RegisteredNodes = {}  -- to be checked before removed/placed
 
 local function is_simple_node(name)
-	-- special handling
-	if RegisteredNodes[name] ~= nil then
-		return RegisteredNodes[name]
-	end
-
 	local ndef = minetest.registered_nodes[name]
-	if not ndef or name == "air" then return true end
-	if ndef.groups and ndef.groups.techage_door == 1 then return true end
-
-	-- don't remove nodes with some intelligence or undiggable nodes
-	if ndef.drop == "" then return false end
-	if ndef.diggable == false then return false end
-	if ndef.after_dig_node then return false end
-
-	return true
+	return techage.can_dig_node(name, ndef)
 end
 
 local function unmark_position(name, pos)
@@ -160,7 +146,7 @@ local function exchange_node(pos, item, param2)
 		else
 			flylib.remove_node(pos)
 		end
-		if node.name ~= "air" then
+		if not techage.is_air_like(node.name) then
 			return ItemStack(node.name), node.param2
 		else
 			return ItemStack(), nil
@@ -214,7 +200,7 @@ local function show_nodes(pos)
 				gain = 1,
 				max_hear_distance = 15})
 		end
-		return exchange_nodes(pos, nvm)
+		return exchange_nodes(pos, nvm, nil, "set")
 	end
 end
 
@@ -228,7 +214,7 @@ local function hide_nodes(pos)
 				gain = 1,
 				max_hear_distance = 15})
 		end
-		return exchange_nodes(pos, nvm)
+		return exchange_nodes(pos, nvm, nil, "dig")
 	end
 end
 
@@ -435,12 +421,6 @@ minetest.register_on_punchnode(function(pos, node, puncher, pointed_thing)
 	end
 end)
 
-function logic.register_doorcontroller_nodes(node_names)
-	for _,name in ipairs(node_names or {}) do
-		RegisteredNodes[name] = true
-	end
-end
-
 local Doors = {
 	"doors:door_steel",
 	"doors:prison_door",
@@ -459,7 +439,8 @@ local Doors = {
 
 for _, name in ipairs(Doors) do
 	for _, postfix in ipairs({"a", "b", "c", "d"}) do
-		logic.register_doorcontroller_nodes({name .. "_" .. postfix})
+		techage.register_simple_nodes({name .. "_" .. postfix}, true)
+		flylib.protect_door_from_being_opened(name .. "_" .. postfix)
 	end
 end
 
@@ -472,8 +453,7 @@ local ProtectorDoors = {
 
 for _, name in ipairs(ProtectorDoors) do
 	for _, postfix in ipairs({"b_1", "b_2", "t_1", "t_2"}) do
-		logic.register_doorcontroller_nodes({name .. "_" .. postfix})
+		techage.register_simple_nodes({name .. "_" .. postfix}, true)
+		flylib.protect_door_from_being_opened(name .. "_" .. postfix)
 	end
 end
-
-logic.SimpleNodes = RegisteredNodes

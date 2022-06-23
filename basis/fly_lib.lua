@@ -135,12 +135,38 @@ local function dest_offset(lpath)
 end
 
 -------------------------------------------------------------------------------
+-- Protect the doors from being opened by hand
+-------------------------------------------------------------------------------
+local function new_on_rightclick(old_on_rightclick)
+	return function(pos, node, clicker, itemstack, pointed_thing)
+		if M(pos):contains("ta_door_locked") then
+			return itemstack
+		end
+		if old_on_rightclick then
+			return old_on_rightclick(pos, node, clicker, itemstack, pointed_thing)
+		else
+			return itemstack
+		end
+	end
+end
+
+function flylib.protect_door_from_being_opened(name)
+	-- Change on_rightclick function.
+	local ndef = minetest.registered_nodes[name]
+	if ndef then
+		local old_on_rightclick = ndef.on_rightclick
+		minetest.override_item(ndef.name, {
+			on_rightclick = new_on_rightclick(old_on_rightclick)
+		})
+	end
+end
+
+-------------------------------------------------------------------------------
 -- Entity / Move / Attach / Detach
 -------------------------------------------------------------------------------
 local MIN_SPEED = 0.4
 local MAX_SPEED = 8
 local CORNER_SPEED = 4
-local SimpleNodes = techage.logic.SimpleNodes
 
 local function calc_speed(v)
 	return math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z)
@@ -303,6 +329,7 @@ local function entity_to_node(pos, obj)
 				minetest.set_node(pos, {name=name, param2=param2})
 				meta:from_table(metadata)
 				meta:set_string("ta_move_block", "")
+				meta:set_int("ta_door_locked", 1)
 				return
 			end
 			local meta = M(pos)
@@ -326,11 +353,14 @@ local function node_to_entity(start_pos)
 		node = minetest.deserialize(meta:get_string("ta_move_block"))
 		metadata = {}
 		meta:set_string("ta_move_block", "")
-	else
+		meta:set_string("ta_block_locked", "true")
+	elseif not meta:contains("ta_block_locked") then
 		-- Block with other metadata
 		node = minetest.get_node(start_pos)
 		metadata = meta:to_table()
 		minetest.after(0.2, minetest.remove_node, start_pos)
+	else
+		return
 	end
 	local obj = minetest.add_entity(start_pos, "techage:move_item")
 	if obj then
@@ -554,8 +584,7 @@ minetest.register_entity("techage:move_item", {
 
 local function is_valid_dest(pos)
 	local node = minetest.get_node(pos)
-	local ndef = minetest.registered_nodes[node.name]
-	if ndef and ndef.buildable_to then
+	if techage.is_air_like(node.name) then
 		return true
 	end
 	if not M(pos):contains("ta_move_block") then
@@ -565,20 +594,9 @@ local function is_valid_dest(pos)
 end
 
 local function is_simple_node(pos)
-	-- special handling
-	local name = minetest.get_node(pos).name
-	if SimpleNodes[name] ~= nil then
-		return SimpleNodes[name]
-	end
-
-	local ndef = minetest.registered_nodes[name]
-	if not ndef or name == "air" or name == "ignore" then return false end
-	-- don't remove nodes with some intelligence or undiggable nodes
-	if ndef.drop == "" then return false end
-	if ndef.diggable == false then return false end
-	if ndef.after_dig_node then return false end
-
-	return true
+	local node = minetest.get_node(pos)
+	local ndef = minetest.registered_nodes[node.name]
+	return not techage.is_air_like(node.name) and techage.can_dig_node(node.name, ndef)
 end
 
 local function move_node(pos, pos1_idx, start_pos, lpath, max_speed, height, move2to1, handover, cpos)
@@ -651,6 +669,43 @@ local function move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, ha
 	return true
 end
 
+-- Move nodes from lpos1 by the given x/y/z 'line'
+local function move_nodes2(pos, meta, lpos1, line, max_speed, height)
+	--print("move_nodes2", dump(lpos1), dump(line), max_speed, height)
+	local owner = meta:get_string("owner")
+	techage.counting_add(owner, #lpos1)
+
+	local lpos2 = {}
+	for idx = 1, #lpos1 do
+		
+		local pos1 = lpos1[idx]
+		local pos2 = vector.add(lpos1[idx], line)
+		lpos2[idx] = pos2
+		
+		if not minetest.is_protected(pos1, owner) and not minetest.is_protected(pos2, owner) then
+			if is_simple_node(pos1) and is_valid_dest(pos2) then
+				move_node(pos, idx, pos1, {line}, max_speed, height, false, false)
+			else
+				if not is_simple_node(pos1) then
+					meta:set_string("status", S("No valid node at the start position"))
+				else
+					meta:set_string("status", S("No valid destination position"))
+				end
+			end
+		else
+			if minetest.is_protected(pos1, owner) then
+				meta:set_string("status", S("Start position is protected"))
+			else
+				meta:set_string("status", S("Destination position is protected"))
+			end
+			return false, lpos1
+		end
+	end
+	
+	meta:set_string("status", "")
+	return true, lpos2
+end
+
 function flylib.move_to_other_pos(pos, move2to1)
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
@@ -678,6 +733,29 @@ function flylib.move_to_other_pos(pos, move2to1)
 		handover = meta:contains("handoverB") and meta:get_string("handoverB") or nil
 	end
 	return move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, handover)
+end
+
+function flylib.move_to(pos, line)
+	local meta = M(pos)
+	local nvm = techage.get_nvm(pos)
+	local height = techage.in_range(meta:contains("height") and meta:get_float("height") or 1, 0, 1)
+	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
+	local resp
+
+	resp, nvm.lastpos = move_nodes2(pos, meta, nvm.lastpos or nvm.lpos1, line, max_speed, height)
+	return resp
+end
+
+function flylib.reset_move(pos)
+	local meta = M(pos)
+	local nvm = techage.get_nvm(pos)
+	local height = techage.in_range(meta:contains("height") and meta:get_float("height") or 1, 0, 1)
+	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
+	local move = vector.subtract(nvm.lpos1[1], (nvm.lastpos or nvm.lpos1)[1])
+	local resp
+
+	resp, nvm.lastpos = move_nodes2(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed, height)
+	return resp
 end
 
 -- rot is one of "l", "r", "2l", "2r"
