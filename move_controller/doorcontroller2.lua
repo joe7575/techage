@@ -200,7 +200,7 @@ local function show_nodes(pos)
 				gain = 1,
 				max_hear_distance = 15})
 		end
-		return exchange_nodes(pos, nvm, nil, "set")
+		return exchange_nodes(pos, nvm)
 	end
 end
 
@@ -214,7 +214,7 @@ local function hide_nodes(pos)
 				gain = 1,
 				max_hear_distance = 15})
 		end
-		return exchange_nodes(pos, nvm, nil, "dig")
+		return exchange_nodes(pos, nvm)
 	end
 end
 
