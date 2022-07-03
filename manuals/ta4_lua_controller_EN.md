@@ -374,7 +374,9 @@ Please note, that this is not a technical distinction, only a logical.
 | "count"      | number of items                                              | Read the total amount of TA4 chest items. An optional  number as `add_data` is used to address only one inventory slot (1..8, from left to right). |
 | "itemstring" | item string of the given slot                                | Specific command for the TA4 8x2000 Chest to read the item type (technical name) of one chest slot, specified via `add_data` (1..8).<br />Example: s = $send_cmnd("223", "itemstring", 1) |
 | "output"     | recipe output string, <br />e.g.: "default:glass"            | Only for the Industrial Furnace. If no recipe is active, the command returns "unknown" |
-| "input"      | `<index>`                                                    | Read a recipe from the TA4 Recipe Block. `<index>` is the number of the recipe. The block return a list of recipe items. |
+| "input"      | \<index>                                                     | Read a recipe from the TA4 Recipe Block. `<index>` is the number of the recipe. The block return a list of recipe items. |
+| "name"       | \<player name>                                               | Player name of the TA3/TA4 Player Detector or TA4 Button     |
+| "time"       | number                                                       | Time in system ticks (norm. 100 ms) when the TA4 Button is clicked |
 
 
 

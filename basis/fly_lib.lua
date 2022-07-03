@@ -318,8 +318,7 @@ local function entity_to_node(pos, obj)
 			local nvm = techage.get_nvm(self.base_pos)
 			nvm.running = nil
 		end
-		minetest.after(0.2, obj.remove, obj)
-
+		minetest.after(0.1, obj.remove, obj)
 		local node =  minetest.get_node(pos)
 		local ndef1 = minetest.registered_nodes[name]
 		local ndef2 = minetest.registered_nodes[node.name]
@@ -358,7 +357,7 @@ local function node_to_entity(start_pos)
 		-- Block with other metadata
 		node = minetest.get_node(start_pos)
 		metadata = meta:to_table()
-		minetest.after(0.2, minetest.remove_node, start_pos)
+		minetest.after(0.1, minetest.remove_node, start_pos)
 	else
 		return
 	end

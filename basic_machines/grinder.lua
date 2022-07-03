@@ -56,7 +56,10 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 		return 0
 	end
 	if listname == "src" then
-		CRD(pos).State:start_if_standby(pos)
+		local state = CRD(pos).State
+		if state then
+			state:start_if_standby(pos)
+		end
 	end
 	return stack:get_count()
 end
