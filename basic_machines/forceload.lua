@@ -204,6 +204,7 @@ minetest.register_node("techage:forceload", {
 
 	paramtype = "light",
 	sunlight_propagates = true,
+	use_texture_alpha = techage.CLIP,
 	groups = {choppy=2, cracky=2, crumbly=2,
 		digtron_protected = 1,
 		not_in_creative_inventory = techage.max_num_forceload_blocks == 0 and 1 or 0},

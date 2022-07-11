@@ -82,7 +82,6 @@ minetest.register_entity(":techage:marker", {
 			"techage_cube_mark.png",
 			"techage_cube_mark.png",
 		},
-		--use_texture_alpha = true,
 		physical = false,
 		visual_size = {x = 1.1, y = 1.1},
 		collisionbox = {-0.55,-0.55,-0.55, 0.55,0.55,0.55},

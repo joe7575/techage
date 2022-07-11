@@ -70,7 +70,7 @@ minetest.register_entity(":techage:position_cube", {
 			"techage_cube_mark.png",
 			"techage_cube_mark.png",
 		},
-		use_texture_alpha = true,
+		use_texture_alpha = techage.BLEND,
 		physical = false,
 		visual_size = {x = 1.1, y = 1.1},
 		collisionbox = {-0.55,-0.55,-0.55, 0.55,0.55,0.55},

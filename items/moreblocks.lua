@@ -13,7 +13,7 @@
 ]]--
 
 local function register_alias(name)
-	minetest.register_alias("stairs:slab_" ..name, "techage:slab_" ..name)
+	--minetest.register_alias("stairs:slab_" ..name, "techage:slab_" ..name)
 	minetest.register_alias("stairs:slab_" ..name.. "_inverted", "techage:slab_" ..name.. "_inverted")
 	minetest.register_alias("stairs:slab_" ..name.. "_wall", "techage:slab_" ..name.. "_wall")
 	minetest.register_alias("stairs:slab_" ..name.. "_quarter", "techage:slab_" ..name.. "_quarter")
@@ -22,7 +22,7 @@ local function register_alias(name)
 	minetest.register_alias("stairs:slab_" ..name.. "_three_quarter", "techage:slab_" ..name.. "_three_quarter")
 	minetest.register_alias("stairs:slab_" ..name.. "_three_quarter_inverted", "techage:slab_" ..name.. "_three_quarter_inverted")
 	minetest.register_alias("stairs:slab_" ..name.. "_three_quarter_wall", "techage:slab_" ..name.. "_three_quarter_wall")
-	minetest.register_alias("stairs:stair_" ..name, "techage:stair_" ..name)
+	--minetest.register_alias("stairs:stair_" ..name, "techage:stair_" ..name)
 	minetest.register_alias("stairs:stair_" ..name.. "_inverted", "techage:stair_" ..name.. "_inverted")
 	minetest.register_alias("stairs:stair_" ..name.. "_wall", "techage:stair_" ..name.. "_wall")
 	minetest.register_alias("stairs:stair_" ..name.. "_wall_half", "techage:stair_" ..name.. "_wall_half")

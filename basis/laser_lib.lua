@@ -98,7 +98,7 @@ for _, size in ipairs(SIZES) do
 				"techage_laser.png",
 				"techage_laser.png",
 			},
-			use_texture_alpha = true,
+			use_texture_alpha = techage.BLEND,
 			physical = false,
 			collide_with_objects = false,
 			pointable = false,

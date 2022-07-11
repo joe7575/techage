@@ -82,7 +82,7 @@ minetest.register_entity(":techage:region_cube", {
 	initial_properties = {
 		visual = "upright_sprite",
 		textures = {"techage_cube_mark.png"},
-		use_texture_alpha = true,
+		use_texture_alpha = techage.BLEND,
 		physical = false,
 		glow = 12,
 	},
