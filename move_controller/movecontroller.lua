@@ -274,9 +274,9 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 			end
 		elseif move_xyz and topic == 18 then  -- move xyz
 			local line = {
-				x = techage.in_range(techage.beduino_signed_var(payload[1]), -10, 10),
-				y = techage.in_range(techage.beduino_signed_var(payload[2]), -10, 10),
-				z = techage.in_range(techage.beduino_signed_var(payload[3]), -10, 10),
+				x = techage.in_range(techage.beduino_signed_var(payload[1]), -100, 100),
+				y = techage.in_range(techage.beduino_signed_var(payload[2]), -100, 100),
+				z = techage.in_range(techage.beduino_signed_var(payload[3]), -100, 100),
 			}
 			nvm.running = true
 			nvm.controller_mode = true
