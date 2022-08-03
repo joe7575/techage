@@ -1796,7 +1796,7 @@ techage.manual_EN.aText = {
   "A collider consists of a \"ring\" made of tubes and magnets as well as a detector with a cooling system.\n"..
   "\n"..
   "  - The detector is the heart of the system. This is where the scientific experiments take place. The detector is 3x3x7 blocks in size.\n"..
-  "  - The TA4 Collider Detector magnets (22 pieces) must be connected to each other via 5 blocks of the TA4 vacuum tube. Each magnet also requires electricity and a gas connection for cooling. The whole thing forms (as shown in the plan on the right) a square with an edge length of 37 meters.\n"..
+  "  - 22 TA4 Collider Magnets (not the TA4 Collider Detector Magnets!) must be connected to each other via 5 blocks of the TA4 vacuum tube. Each magnet also requires electricity and a gas connection for cooling. The whole thing forms (as shown in the plan on the right) a square with an edge length of 37 meters.\n"..
   "  - In addition\\, cooling is required\\, which must also be installed at the detector. Isobutane is required for cooling.\n"..
   "  - The system requires quite a bit of electricity. Therefore\\, it makes sense to have your own power supply.\n"..
   "\n"..

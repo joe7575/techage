@@ -20,6 +20,7 @@ local M = minetest.get_meta
 -------------------------------------------------------------------
 local MN = minetest.get_current_modname()
 local WP = minetest.get_worldpath()
+local use_marshal = minetest.settings:get_bool('techage_use_marshal', false)
 local MAR_MAGIC = 0x8e
 
 if not techage.IE then
@@ -55,7 +56,6 @@ local function set_block(key, data)
 	set:bind(1, key)
 	set:bind_blob(2, data)
 	set:step()
-	return true
 end
 
 local function get_block(key)
@@ -72,10 +72,11 @@ end
 local api = {}
 
 function api.store_mapblock_data(key, mapblock_data)
-	-- deactivated due to weird server crashes without error logs
-	--local s = marshal.encode(mapblock_data)
-	local s = minetest.serialize(mapblock_data)
-	return set_block(key, s)
+	if use_marshal then 
+		set_block(key, marshal.encode(mapblock_data))
+	else
+		set_block(key, minetest.serialize(mapblock_data))
+	end
 end
 
 function api.get_mapblock_data(key)

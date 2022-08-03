@@ -56,6 +56,7 @@ techage.basalt_stone_enabled = minetest.settings:get_bool("techage_basalt_stone_
 techage.ore_rarity = tonumber(minetest.settings:get("techage_ore_rarity")) or 1
 techage.modified_recipes_enabled = minetest.settings:get_bool("techage_modified_recipes_enabled") ~= false
 techage.collider_min_depth = tonumber(minetest.settings:get("techage_collider_min_depth")) or -28
+techage.recipe_checker_enabled = minetest.settings:get_bool("techage_recipe_checker_enabled") ~= false
 
 -- allow to load marshal and sqlite3
 techage.IE = minetest.request_insecure_environment()
@@ -310,7 +311,9 @@ dofile(MP.."/move_controller/soundblock.lua")
 
 
 -- Test
-dofile(MP.."/recipe_checker.lua")
+if techage.recipe_checker_enabled then
+	dofile(MP.."/recipe_checker.lua")
+end
 dofile(MP.."/.test/sink.lua")
 
 -- Solar

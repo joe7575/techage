@@ -336,7 +336,7 @@ local function entity_to_node(pos, obj)
 				meta:set_string("ta_move_block", minetest.serialize({name=name, param2=param2}))
 				return
 			end
-			minetest.add_item(pos, ItemStack(name))
+			--minetest.add_item(pos, ItemStack(name))
 		elseif ndef1 then
 			minetest.add_item(pos, ItemStack(name))
 		end

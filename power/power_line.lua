@@ -200,6 +200,7 @@ minetest.register_node("techage:power_pole2", {
 		if not Cable:after_place_tube(pos, placer, pointed_thing) then
 			minetest.chat_send_player(placer:get_player_name(), "invalid pole position   ")
 			minetest.remove_node(pos)
+			Cable:after_dig_node(pos)
 			return true
 		end
 		return false

@@ -1800,7 +1800,7 @@ techage.manual_DE.aText = {
   "Ein Teilchenbeschleuniger besteht aus einem \"Ring\" aus Röhren und Magneten sowie dem Detektor mit Kühlanlage. \n"..
   "\n"..
   "  - Der Detektor ist das Herz der Anlage. Hier finden die wissenschaftlichen Experimente statt. Der Detektor ist 3x3x7 Blöcke groß.\n"..
-  "  - Die TA4 Collider Detector Magnete (22 Stück) müssen über jeweils 5 Blöcken der TA4 Vakuumröhre miteinander verbunden werden. Jeder Magnet benötigt zusätzlich Strom und einen Gasanschluss für die Kühlung. Das ganze bildet (wie rechts im Plan abgebildet) ein Quadrat mit einer Kantenlänge von 37 Metern.\n"..
+  "  - 22 TA4 Collider Magnete (nicht die TA4 Collider Detector Magnete!) müssen über jeweils 5 Blöcken der TA4 Vakuumröhre miteinander verbunden werden. Jeder Magnet benötigt zusätzlich Strom und einen Gasanschluss für die Kühlung. Das ganze bildet (wie rechts im Plan abgebildet) ein Quadrat mit einer Kantenlänge von 37 Metern.\n"..
   "  - Zusätzlich wird eine Kühlung benötigt\\, welche zusätzlich beim Detektor aufgebaut werden muss. Für die Kühlung wird Isobutan benötigt.\n"..
   "  - Die Anlage benötigt einiges an Strom. Daher ist eine eigene Stromversorgung sinnvoll.\n"..
   "\n"..

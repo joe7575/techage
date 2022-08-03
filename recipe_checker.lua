@@ -3,6 +3,7 @@
 --
 local Recipes = {}
 
+
 local function recipe_key(items)
 	local tbl = {}
 	for idx = 1,9 do
@@ -34,3 +35,5 @@ minetest.after(1, function()
 		end
 	end
 end)
+
+print ("[techage] Recipe checker loaded")
