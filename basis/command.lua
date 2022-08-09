@@ -230,6 +230,7 @@ function techage.add_node(pos, name, is_ta2)
 	local key = minetest.hash_node_position(pos)
 	local num = NumbersToBeRecycled[key]
 	if num then
+		NodeInfoCache[num] = nil
 		backend.set_nodepos(num, pos)
 		NumbersToBeRecycled[key] = nil
 		return num

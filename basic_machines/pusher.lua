@@ -282,6 +282,9 @@ local tubing = {
 			return CRD(pos).State:on_beduino_receive_cmnd(pos, topic, payload)
 		end
 	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		return CRD(pos).State:on_beduino_request_data(pos, topic, payload)
+	end,
 }
 
 local node_name_ta2, node_name_ta3, node_name_ta4 =

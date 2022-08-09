@@ -153,7 +153,7 @@ techage.icta_register_condition("input", {
 			return env.input[data.number]
 		end
 		local result = function(val)
-			return techage.compare(val, tonumber(data.value) or 0, data.operand)
+			return techage.compare(val, data.value or "invalid", data.operand)
 		end
 		return condition, result
 	end,
@@ -196,7 +196,7 @@ techage.icta_register_condition("state", {
 			return techage.send_single(environ.number, data.number, "state")
 		end
 		local result = function(val)
-			return techage.compare(val, tonumber(data.value) or 0, data.operand)
+			return techage.compare(val, data.value or "invalid", data.operand)
 		end
 		return condition, result
 	end,
@@ -408,7 +408,7 @@ techage.icta_register_condition("chest", {
 			return techage.send_single(environ.number, data.number, "state")
 		end
 		local result = function(val)
-			return techage.compare(val, tonumber(data.value) or 0, data.operand)
+			return techage.compare(val, data.value or "invalid", data.operand)
 		end
 		return condition, result
 	end,
@@ -449,7 +449,7 @@ techage.icta_register_condition("signaltower", {
 			return techage.send_single(environ.number, data.number, "state")
 		end
 		local result = function(val)
-			return techage.compare(val, tonumber(data.value) or 0, data.operand)
+			return techage.compare(val, data.value or "invalid", data.operand)
 		end
 		return condition, result
 	end,
@@ -919,7 +919,7 @@ techage.icta_register_condition("get_filter", {
 			return techage.send_single(environ.number, data.number, "port", data.color)
 		end
 		local result = function(val)
-			return techage.compare(val, tonumber(data.value) or 0, data.operand)
+			return techage.compare(val, data.value or "invalid", data.operand)
 		end
 		return condition, result
 	end,
