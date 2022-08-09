@@ -62,6 +62,8 @@ local P = minetest.string_to_pos
 local M = minetest.get_meta
 local N = techage.get_node_lvm
 
+local MAX_CYCLE_TIME = 20
+
 --
 -- TechAge machine states
 --
@@ -282,6 +284,7 @@ function NodeStates:start(pos, nvm)
 		if self.quick_start and state == STOPPED then
 			self.quick_start(pos, 0)
 		end
+		self:trigger_state(pos, nvm)
 		return true
 	end
 	return false
@@ -468,7 +471,7 @@ function NodeStates:on_receive_message(pos, topic, payload)
 		if node.name == "ignore" then  -- unloaded node?
 			return "unloaded"
 		elseif nvm.techage_state == RUNNING then
-			local ttl = (nvm.last_active or 0) + 2 * (self.cycle_time or 0)
+			local ttl = (nvm.last_active or 0) + MAX_CYCLE_TIME
 			if ttl < minetest.get_gametime() then
 				return "inactive"
 			end
@@ -506,7 +509,7 @@ function NodeStates:on_beduino_request_data(pos, topic, payload)
 		if node.name == "ignore" then  -- unloaded node?
 			return 0, {techage.UNLOADED}
 		elseif nvm.techage_state == RUNNING then
-			local ttl = (nvm.last_active or 0) + 2 * (self.cycle_time or 0)
+			local ttl = (nvm.last_active or 0) + MAX_CYCLE_TIME
 			if ttl < minetest.get_gametime() then
 				return 0, {techage.INACTIVE}
 			end
