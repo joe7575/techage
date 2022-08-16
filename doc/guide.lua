@@ -97,9 +97,9 @@ local function formspec_help(meta, manual)
 	"tableoptions[opendepth=1]"..
 	"table[0.1,0;9,5;page;"..table.concat(aTitel, ",")..";"..idx.."]"..
 	bttn..
+	"box[0,5.75;10.775,4.45;#000000]"..
 	"style_type[textarea;textcolor=#FFFFFF]"..
-	"textarea[0.3,5.7;11,5.3;;"..(aText[idx] or "")..";]"..
-	"box[0,5.75;10.775,4.45;#000000]"
+	"textarea[0.3,5.7;11,5.3;;"..(aText[idx] or "")..";]"
 end
 
 local function formspec_plan(meta, manual)
