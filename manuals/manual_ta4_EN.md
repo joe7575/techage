@@ -560,7 +560,7 @@ Since the moving blocks can take players and mobs standing on the block with the
 Instructions:
 
 - Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)
-- the "flight route" must be entered via an x, y, z specification (relative) (the maximum distance is 100 m)
+- the "flight route" must be entered via an x, y, z specification (relative) (the maximum distance (x+y+z) is 200 m)
 - The movement can be tested with the menu buttons "Move A-B" and "Move B-A"
 - you can also fly through walls or other blocks
 - The target position for the blocks can also be occupied. In this case, the blocks are saved "invisibly". This is intended for sliding doors and the like

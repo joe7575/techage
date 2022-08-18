@@ -1701,7 +1701,7 @@ techage.manual_EN.aText = {
   "Instructions:\n"..
   "\n"..
   "  - Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)\n"..
-  "  - the \"flight route\" must be entered via an x\\, y\\, z specification (relative) (the maximum distance is 100 m)\n"..
+  "  - the \"flight route\" must be entered via an x\\, y\\, z specification (relative) (the maximum distance (x+y+z) is 200 m)\n"..
   "  - The movement can be tested with the menu buttons \"Move A-B\" and \"Move B-A\"\n"..
   "  - you can also fly through walls or other blocks\n"..
   "  - The target position for the blocks can also be occupied. In this case\\, the blocks are saved \"invisibly\". This is intended for sliding doors and the like\n"..
