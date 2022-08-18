@@ -68,9 +68,13 @@ The package has to be installed via [luarocks](https://luarocks.org/):
 
     luarocks  --lua-version 5.1 install lsqlite3
 
-To enable this `unsafe` package, add 'techage' to the list of trusted mods in minetest.conf:
+To enable this `unsafe` package, add 'techage' to the list of trusted mods in `minetest.conf`:
 
     secure.trusted_mods = techage
+
+and add the following line to your `world.mt` or `minetest.conf`:
+
+    techage_use_sqlite = true
 
 For the installation of 'luarocks' (if not already available), see [luarocks](https://luarocks.org/)
 
