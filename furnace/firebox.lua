@@ -105,7 +105,7 @@ minetest.register_node("techage:furnace_firebox", {
 
 	on_construct = function(pos)
 		local nvm = techage.get_nvm(pos)
-		techage.add_node(pos, "techage:furnace_firebox")
+		techage.add_node(pos, "techage:furnace_firebox", true)
 		nvm.running = false
 		nvm.burn_cycles = 0
 		nvm.liquid = {}

@@ -66,7 +66,7 @@ It is highly recommended that you install the following mods, too:
 For large servers with many player `lsqlite3` is recommended.
 The package has to be installed via [luarocks](https://luarocks.org/):
 
-    luarocks install lsqlite3
+    luarocks  --lua-version 5.1 install lsqlite3
 
 To enable this `unsafe` package, add 'techage' to the list of trusted mods in minetest.conf:
 

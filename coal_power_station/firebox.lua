@@ -86,7 +86,7 @@ minetest.register_node("techage:coalfirebox", {
 
 	after_place_node = function(pos, placer)
 		if firebox.is_free_position(pos, placer:get_player_name()) then
-			techage.add_node(pos, "techage:coalfirebox")
+			techage.add_node(pos, "techage:coalfirebox", true)
 			local nvm = techage.get_nvm(pos)
 			nvm.running = false
 			nvm.burn_cycles = 0

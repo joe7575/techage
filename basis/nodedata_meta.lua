@@ -65,6 +65,7 @@ function api.store_mapblock_data(key, mapblock_data)
 			if pos then
 				item._POS_ = nil
 				local data = serialize(item)
+				item._POS_ = pos
 				local meta = M(pos)
 				meta:set_string("ta_data", data)
 				meta:mark_as_private("ta_data")
