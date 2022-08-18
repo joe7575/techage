@@ -75,14 +75,15 @@ function flylib.distance(v)
 	return math.abs(v.x) + math.abs(v.y) + math.abs(v.z)
 end
 
-function flylib.to_vector(s)
+function flylib.to_vector(s, max_dist)
 	local x,y,z = unpack(string.split(s, ","))
+	x = tonumber(x) or 0
+	y = tonumber(y) or 0
+	z = tonumber(z) or 0
 	if x and y and z then
-		return {
-			x=tonumber(x) or 0,
-			y=tonumber(y) or 0,
-			z=tonumber(z) or 0,
-		}
+		if not max_dist or (math.abs(x) + math.abs(y) + math.abs(z)) <= max_dist then
+			return {x = x, y = y, z = z}
+		end
 	end
 end
 

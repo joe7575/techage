@@ -22,7 +22,7 @@ local MP = minetest.get_modpath("techage")
 local fly  = dofile(MP .. "/basis/fly_lib.lua")
 local mark = dofile(MP .. "/basis/mark_lib.lua")
 
-local MAX_DIST = 100
+local MAX_DIST = 200
 local MAX_BLOCKS = 16
 
 local WRENCH_MENU = {
@@ -183,7 +183,7 @@ minetest.register_node("techage:ta4_movecontroller", {
 			if fly.to_vector(fields.path or "", MAX_DIST) then
 				meta:set_string("path", fields.path)
 			end
-			local line = fly.to_vector(meta:get_string("path"))
+			local line = fly.to_vector(meta:get_string("path"), MAX_DIST)
 			if line then
 				nvm.running = true
 				fly.move_to(pos, line)
@@ -240,7 +240,7 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 			nvm.running = true
 			return fly.move_to_other_pos(pos, nvm.moveBA == false)
 		elseif move_xyz and topic == "move2" then
-			local line = fly.to_vector(payload)
+			local line = fly.to_vector(payload, MAX_DIST)
 			if line then
 				nvm.running = true
 				nvm.controller_mode = true
