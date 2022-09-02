@@ -460,7 +460,7 @@ function techage.push_items(pos, out_dir, stack, idx)
 		minetest.add_item(npos, stack)
 		return true
 	end
-	return false
+	return stack
 end
 
 -- Check for recursion and too long distances
@@ -485,43 +485,12 @@ function techage.safe_push_items(pos, out_dir, stack, idx)
 			end
 		end
 	end
-	return false
+	return stack
 end
 
 function techage.unpull_items(pos, out_dir, stack)
 	local npos, in_dir, name = get_dest_node(pos, out_dir)
 	if npos and NodeDef[name] and NodeDef[name].on_unpull_item then
-		return NodeDef[name].on_unpull_item(npos, in_dir, stack)
-	end
-	return false
-end
-
--------------------------------------------------------------------
--- Client side Push/Pull item functions for hopper like nodes
--- (nodes with no tube support)
--------------------------------------------------------------------
-
-function techage.neighbour_pull_items(pos, out_dir, num)
-	local res, npos, in_dir, name = get_next_node(pos, out_dir)
-	if res and NodeDef[name] and NodeDef[name].on_pull_item then
-		return NodeDef[name].on_pull_item(npos, in_dir, num)
-	end
-end
-
-function techage.neighbour_push_items(pos, out_dir, stack)
-	local res, npos, in_dir, name = get_next_node(pos, out_dir)
-	if res and NodeDef[name] and NodeDef[name].on_push_item then
-		return NodeDef[name].on_push_item(npos, in_dir, stack)
-	elseif name == "air" then
-		minetest.add_item(npos, stack)
-		return true
-	end
-	return false
-end
-
-function techage.neighbour_unpull_items(pos, out_dir, stack)
-	local res, npos, in_dir, name = get_next_node(pos, out_dir)
-	if res and NodeDef[name] and NodeDef[name].on_unpull_item then
 		return NodeDef[name].on_unpull_item(npos, in_dir, stack)
 	end
 	return false
@@ -554,23 +523,33 @@ function techage.get_items(pos, inv, listname, num)
 	return nil
 end
 
--- Put the given stack into the given ItemList.
--- Function returns false if ItemList is full.
+-- Put the given stack into the given ItemList/inventory.
+-- Function returns:
+--  - true, if all items are moved 
+--  - false, if no item is moved 
+--  - leftover, if less than all items are moved 
+-- (true/false is the legacy mode and can't be removed)
 function techage.put_items(inv, listname, item, idx)
+	local leftover
 	if idx and inv and idx <= inv:get_size(listname) then
 		local stack = inv:get_stack(listname, idx)
-		if stack:item_fits(item) then
-			stack:add_item(item)
-			inv:set_stack(listname, idx, stack)
-			return true
-		end
+		leftover = stack:add_item(item)
+		inv:set_stack(listname, idx, stack)
+	elseif inv then
+		leftover = inv:add_item(listname, item)
 	else
-		if inv and inv:room_for_item(listname, item) then
-			inv:add_item(listname, item)
-			return true
-		end
+		return false
 	end
-	return false
+	
+	local cnt = leftover:get_count()
+	if cnt == item:get_count() then
+		return false
+	elseif cnt == 0 then
+		return true
+	else
+		return leftover
+	end
+	
 end
 
 -- Return "full", "loaded", or "empty" depending

@@ -79,11 +79,12 @@ function inv_lib.put_items(pos, inv, listname, item, stacks, idx)
 	for _, i in ipairs(stacks or {}) do
 		if not idx or idx == i then
 			local stack = inv:get_stack(listname, i)
-			if stack:item_fits(item) then
-				stack:add_item(item)
-				inv:set_stack(listname, i, stack)
+			local leftover = stack:add_item(item)
+			inv:set_stack(listname, i, stack)
+			if leftover:get_count() == 0 then
 				return true
 			end
+			return leftover
 		end
 	end
 	return false

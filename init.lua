@@ -198,6 +198,7 @@ dofile(MP.."/basic_machines/recycler.lua")
 dofile(MP.."/basic_machines/concentrator.lua")
 dofile(MP.."/basic_machines/recipeblock.lua")
 dofile(MP.."/basic_machines/ta5_chest.lua")
+dofile(MP.."/basic_machines/flow_limiter.lua")
 
 -- Liquids II
 dofile(MP.."/liquids/tank.lua")
@@ -316,6 +317,7 @@ if techage.recipe_checker_enabled then
 end
 dofile(MP.."/.test/sink.lua")
 dofile(MP.."/.test/testblock.lua")
+dofile(MP.."/.test/minichest.lua")
 
 -- Solar
 dofile(MP.."/solar/minicell.lua")

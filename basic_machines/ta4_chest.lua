@@ -18,7 +18,7 @@ local M = minetest.get_meta
 local S = techage.S
 
 local DESCRIPTION = S("TA4 8x2000 Chest")
-local STACK_SIZE = 2000
+local STACK_SIZE = 200
 
 local function gen_stack(inv, idx)
 	inv[idx] = {name = "", count = 0}
@@ -133,7 +133,7 @@ local function doesItemStackMatchNvmStack(itemstack, nvmstack)
 
 	-- The following seems to be the most reliable approach to compare meta.
 	local nvm_meta = ItemStack():get_meta()
-	nvm_meta:from_table(minetest.deserialize(nvmstack.meta))
+	nvm_meta:from_table(minetest.deserialize(nvmstack.meta or ""))
 	if not nvm_meta:equals(itemstack:get_meta()) then
 		return false, "Mismatching meta"
 	end
@@ -197,7 +197,7 @@ local function take_from_chest(pos, idx, output_stack, max_total_count, keep_ass
 		count = count,
 		wear = nvm_stack.wear,
 	}))
-	output_stack:get_meta():from_table(minetest.deserialize(nvm_stack.meta))
+	output_stack:get_meta():from_table(minetest.deserialize(nvm_stack.meta or ""))
 	nvm_stack.count = nvm_stack.count - count
 	if nvm_stack.count == 0 then
 		gen_stack(nvm.inventory or {}, idx)
@@ -210,21 +210,14 @@ local function tube_add_to_chest(pos, input_stack)
 	local nvm = techage.get_nvm(pos)
 	nvm.inventory = nvm.inventory or {}
 
-	-- Backup some values needed for restoring the old
-	-- state if items can't fully be added to chest.
-	local orig_count = input_stack:get_count()
-	local backup = table.copy(nvm.inventory)
-
 	for idx = 1,8 do
 		input_stack:take_item(add_to_chest(pos, input_stack, idx))
 	end
 
 	if input_stack:get_count() > 0 then
-		nvm.inventory = backup -- Restore old nvm inventory
-		input_stack:set_count(orig_count) -- Restore input_stack
-		return false -- No items were added to chest
+		return input_stack -- Not all items were added to chest
 	else
-		return true -- Items were added successfully
+		return true -- All items were added
 	end
 end
 

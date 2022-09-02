@@ -277,10 +277,17 @@ local function push_item(pos, base_filter, itemstack, num_items, nvm)
 		num_of_trials = num_of_trials + 1
 		local push_dir = filter[idx]
 		local num_to_push = math.min(amount, num_items - num_pushed)
-		if techage.push_items(pos, push_dir, itemstack:peek_item(num_to_push)) then
-			num_pushed = num_pushed + num_to_push
-			nvm.port_counter[push_dir] = (nvm.port_counter[push_dir] or 0) + num_to_push
+		local leftover = techage.push_items(pos, push_dir, itemstack:peek_item(num_to_push))
+		local pushed
+		if not leftover then
+			pushed = 0
+		elseif leftover ~= true then
+			pushed = num_to_push - leftover:get_count()
+		else -- leftover == true
+			pushed = num_to_push
 		end
+		num_pushed = num_pushed + pushed
+		nvm.port_counter[push_dir] = (nvm.port_counter[push_dir] or 0) + pushed
 		-- filter start offset
 		idx = idx + 1
 		if idx > num_ports then

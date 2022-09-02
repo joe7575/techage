@@ -93,9 +93,16 @@ local function pushing(pos, crd, meta, nvm)
 	local num = nvm.item_count or nvm.num_items or crd.num_items
 	local items = techage.pull_items(pos, pull_dir, num, nvm.item_name)
 	if items ~= nil then
-		if techage.push_items(pos, push_dir, items) ~= true then
+		local leftover = techage.push_items(pos, push_dir, items)
+		print("leftover", dump(leftover))
+		if not leftover then
 			-- place item back
 			techage.unpull_items(pos, pull_dir, items)
+			crd.State:blocked(pos, nvm)
+			return
+		elseif leftover ~= true then
+			-- place item back
+			techage.unpull_items(pos, pull_dir, leftover)
 			crd.State:blocked(pos, nvm)
 			return
 		end

@@ -73,11 +73,17 @@ minetest.register_node("techage:itemsource", {
 		local stack = inv:get_stack('main', 1)
 		if stack:get_count() > 0 then
 			local push_dir = meta:get_int("push_dir")
-			if techage.push_items(pos, push_dir, stack) then
-				local cnt = meta:get_int("counter") + stack:get_count()
-				meta:set_int("counter", cnt)
-				meta:set_string("infotext", "Techage Item Source: "..cnt)
+			local leftover = techage.push_items(pos, push_dir, stack)
+			local pushed
+			if not leftover then
+				pushed = 0
+			elseif leftover ~= true then
+				pushed = stack:get_count() - leftover:get_count()
+			else -- leftover == true
+				pushed = stack:get_count()
 			end
+			meta:set_int("counter", pushed)
+			meta:set_string("infotext", "Techage Item Source: "..pushed)
 		end
 		return true
 	end,

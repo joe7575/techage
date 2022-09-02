@@ -158,11 +158,14 @@ techage.register_node({"techage:ta5_tele_tube"}, {
 				local rmt_nvm = techage.get_nvm(rmt_pos)
 				if techage.is_operational(rmt_nvm) then
 					local tube_dir = M(rmt_pos):get_int("tube_dir")
-					if techage.push_items(rmt_pos, tube_dir, stack) then
+					local leftover = techage.push_items(rmt_pos, tube_dir, stack)
+					-- Moved any items
+					if leftover then
 						State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 						State:keep_running(rmt_pos, rmt_nvm, COUNTDOWN_TICKS)
 						return true
 					end
+					return leftover
 				else
 					State:blocked(pos, nvm, S("Remote block error"))
 				end
