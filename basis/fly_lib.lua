@@ -677,11 +677,11 @@ local function move_nodes2(pos, meta, lpos1, line, max_speed, height)
 
 	local lpos2 = {}
 	for idx = 1, #lpos1 do
-		
+
 		local pos1 = lpos1[idx]
 		local pos2 = vector.add(lpos1[idx], line)
 		lpos2[idx] = pos2
-		
+
 		if not minetest.is_protected(pos1, owner) and not minetest.is_protected(pos2, owner) then
 			if is_simple_node(pos1) and is_valid_dest(pos2) then
 				move_node(pos, idx, pos1, {line}, max_speed, height, false, false)
@@ -701,7 +701,7 @@ local function move_nodes2(pos, meta, lpos1, line, max_speed, height)
 			return false, lpos1
 		end
 	end
-	
+
 	meta:set_string("status", "")
 	return true, lpos2
 end
@@ -795,14 +795,14 @@ end
 function flylib.exchange_node(pos, name, param2)
 	local meta = M(pos)
 	local move_block
-	
+
 	-- consider stored "objects"
 	if meta:contains("ta_move_block") then
 		move_block = meta:get_string("ta_move_block")
 	end
-	
+
 	minetest.swap_node(pos, {name = name, param2 = param2})
-	
+
 	if move_block then
 		meta:set_string("ta_move_block", move_block)
 	end
@@ -811,14 +811,14 @@ end
 function flylib.remove_node(pos)
 	local meta = M(pos)
 	local move_block
-	
+
 	-- consider stored "objects"
 	if meta:contains("ta_move_block") then
 		move_block = meta:get_string("ta_move_block")
 	end
-	
+
 	minetest.remove_node(pos)
-	
+
 	if move_block then
 		local node = minetest.deserialize(move_block)
 		minetest.add_node(pos, node)

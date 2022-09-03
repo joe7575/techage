@@ -25,12 +25,21 @@ local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 2
 local CAPA = 4
 
-local WRENCH_MENU =	{{
-	type = "output",
-	name = "flowrate",
-	label = S("Total flow rate"),
-	tooltip = S("Total flow rate in liquid units"),
-}}
+local WRENCH_MENU = {
+	{
+		type = "output",
+		name = "flowrate",
+		label = S("Total flow rate"),
+		tooltip = S("Total flow rate in liquid units"),
+	},
+	{
+		type = "number",
+		name = "limit",
+		label = S("Number of units"),
+		tooltip = S("Number of liquid units that are allowed to be pumped"),
+		default = "0",
+	},
+}
 
 local State3 = techage.NodeStates:new({
 	node_name_passive = "techage:t3_pump",
@@ -48,11 +57,8 @@ local State4 = techage.NodeStates:new({
 	standby_ticks = STANDBY_TICKS,
 })
 
-local function pumping(pos, nvm, state, capa)
-	local mem = techage.get_mem(pos)
-	mem.dbg_cycles = (mem.dbg_cycles or 0) - 1
-	local outdir = M(pos):get_int("outdir")
-	local taken, name = liquid.take(pos, Pipe, Flip[outdir], nil, capa, mem.dbg_cycles > 0)
+local function pump(pos, mem, nvm, state, outdir, units)
+	local taken, name = liquid.take(pos, Pipe, Flip[outdir], nil, units, mem.dbg_cycles > 0)
 	if taken > 0 then
 		local leftover = liquid.put(pos, Pipe, outdir, name, taken, mem.dbg_cycles > 0)
 		if leftover and leftover > 0 then
@@ -66,13 +72,39 @@ local function pumping(pos, nvm, state, capa)
 				state:blocked(pos, nvm)
 				return 0
 			end
-			state:keep_running(pos, nvm, COUNTDOWN_TICKS)
 			return taken - leftover
 		end
-		state:keep_running(pos, nvm, COUNTDOWN_TICKS)
 		return taken
+	else
+		state:idle(pos, nvm)
+		return 0
 	end
-	state:idle(pos, nvm)
+end
+
+local function pumping(pos, nvm, state, capa)
+	local mem = techage.get_mem(pos)
+	mem.dbg_cycles = (mem.dbg_cycles or 0) - 1
+	local outdir = M(pos):get_int("outdir")
+	
+	if not nvm.limit then
+		local num = pump(pos, mem, nvm, state, outdir, capa)
+		if num > 0 then
+			state:keep_running(pos, nvm, COUNTDOWN_TICKS)
+		end
+		return num
+	elseif nvm.num_items < nvm.limit then
+		local num = math.min(capa, nvm.limit - nvm.num_items)
+		num = pump(pos, mem, nvm, state, outdir, num)
+		if num > 0 then
+			nvm.num_items = nvm.num_items + num
+			if nvm.num_items >= nvm.limit then
+				state:stop(pos, nvm)
+			else
+				state:keep_running(pos, nvm, COUNTDOWN_TICKS)
+			end
+		end
+		return num
+	end
 	return 0
 end
 
@@ -119,6 +151,14 @@ local function on_rightclick(pos, node, clicker)
 	elseif node.name == "techage:t4_pump" then
 		local mem = techage.get_mem(pos)
 		mem.dbg_cycles = 5
+		local val = M(pos):get_int("limit")
+		if val and val > 0 then
+			nvm.limit = val
+			nvm.num_items = 0
+		else
+			nvm.limit = nil
+			nvm.num_items = nil
+		end
 		State4:start(pos, nvm)
 	elseif node.name == "techage:t4_pump_on" then
 		State4:stop(pos, nvm)
@@ -285,12 +325,34 @@ techage.register_node({"techage:t4_pump", "techage:t4_pump_on"}, {
 		end
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
-		return State4:on_beduino_receive_cmnd(pos, topic, payload)
+		if topic == 69 and payload then -- set limit
+			local nvm = techage.get_nvm(pos)
+			State4:stop(pos, nvm)
+			if payload[1] > 0 then
+				nvm.limit = payload[1]
+				nvm.num_items = 0
+				M(pos):set_int("limit", payload[1])
+			else
+				nvm.limit = nil
+				nvm.num_items = nil
+				M(pos):set_string("limit", "")
+			end
+			return 0
+		else
+			local nvm = techage.get_nvm(pos)
+			if nvm.limit then
+				nvm.num_items = 0
+			end
+			return State4:on_beduino_receive_cmnd(pos, topic, payload)
+		end
 	end,
 	on_beduino_request_data = function(pos, src, topic, payload)
 		if topic == 137 then  -- Total Flow Rate
 			local nvm = techage.get_nvm(pos)
 			return 0, {nvm.flowrate or 0}
+		elseif topic == 151 then -- Request count
+			local nvm = techage.get_nvm(pos)
+			return 0, {nvm.num_items or 0}
 		else
 			return State4:on_beduino_request_data(pos, topic, payload)
 		end

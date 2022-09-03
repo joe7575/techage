@@ -72,7 +72,7 @@ end
 local api = {}
 
 function api.store_mapblock_data(key, mapblock_data)
-	if use_marshal then 
+	if use_marshal then
 		set_block(key, marshal.encode(mapblock_data))
 	else
 		set_block(key, minetest.serialize(mapblock_data))

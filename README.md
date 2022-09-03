@@ -89,6 +89,10 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2022-09-03  V1.09**
+- Change the way items are pushed
+- Add "Flow Limiter" mode to TA4 pump and TA4 pusher
+
 **2022-06-06  V1.08**
 - Native support for the mod Beduino added
 

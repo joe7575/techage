@@ -20,7 +20,7 @@ local Cable = techage.ElectricCable
 local power = networks.power
 
 local function can_dig(pos, digger)
-	if digger and digger:is_player() then 
+	if digger and digger:is_player() then
 		if M(pos):get_string("owner") == digger:get_player_name() then
 			return true
 		end

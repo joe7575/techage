@@ -97,8 +97,8 @@ minetest.register_globalstep(function(dtime)
 	SystemTime = SystemTime + dtime
 	local key = pop()
 	if key and NvmStore[key] then
---		minetest.log("warning", 
---			string.format("[TA Storage] SystemTime = %.3f, #JobQueue = %d, in_use = %s", 
+--		minetest.log("warning",
+--			string.format("[TA Storage] SystemTime = %.3f, #JobQueue = %d, in_use = %s",
 --			SystemTime, last - first, NvmStore[key].in_use))
 		local t = minetest.get_us_time()
 		if NvmStore[key].in_use then

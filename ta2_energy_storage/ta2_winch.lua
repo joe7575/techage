@@ -57,7 +57,7 @@ end
 local function add_chest_entity(pos, nvm)
 	local mem = techage.get_mem(pos)
 	local length
-	
+
 	if not nvm.capa or nvm.capa == 0 then
 		length = (nvm.length or MAX_ROPE_LEN) * (1 - (nvm.load or 0))
 	else

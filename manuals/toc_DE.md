@@ -228,6 +228,7 @@
         - [TA4 Elektronikfabrik / Electronic Fab](./manual_ta4_DE.md#ta4-elektronikfabrik--electronic-fab)
         - [TA4 Injektor / Injector](./manual_ta4_DE.md#ta4-injektor--injector)
         - [TA4 Recycler](./manual_ta4_DE.md#ta4-recycler)
+        - [TA4 Item Durchlaufbegrenzer / Item Flow Limiter](./manual_ta4_DE.md#ta4-item-durchlaufbegrenzer--item-flow-limiter)
 - [TA5: Zukunft](./manual_ta5_DE.md#ta5:-zukunft)
     - [Energiequellen](./manual_ta5_DE.md#energiequellen)
         - [TA5 Fusionsreaktor](./manual_ta5_DE.md#ta5-fusionsreaktor)

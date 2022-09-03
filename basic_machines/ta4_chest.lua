@@ -18,7 +18,7 @@ local M = minetest.get_meta
 local S = techage.S
 
 local DESCRIPTION = S("TA4 8x2000 Chest")
-local STACK_SIZE = 200
+local STACK_SIZE = 2000
 
 local function gen_stack(inv, idx)
 	inv[idx] = {name = "", count = 0}

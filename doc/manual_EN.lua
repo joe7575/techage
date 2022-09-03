@@ -135,6 +135,7 @@ techage.manual_EN.aTitel = {
   "3,TA3 Gravel Rinser",
   "3,TA3 Grinder",
   "3,TA3 Injector",
+  "3,TA3 Item Flow Limiter",
   "2,Tools",
   "3,Techage Info Tool",
   "3,TechAge Programmer",
@@ -229,6 +230,7 @@ techage.manual_EN.aTitel = {
   "3,TA4 Electronic Fab",
   "3,TA4 Injector",
   "3,TA4 Recycler",
+  "3,TA4 Item Flow Limiter",
   "1,TA5: Future",
   "2,Energy Sources",
   "3,TA5 Fusion Reactor",
@@ -1264,6 +1266,16 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The Flow Limiter limits the number of items that can be pushed through by using a slider. This allows the number of items that are put into an oven\\, for example\\, to be precisely adapted to the recipe.\n"..
+  "\n"..
+  "The Flow Limiter must be configured via the menu and then started. If the configured number of items has been passed\\, the block switches off. The next time the Flow Limiter is switched on\\, it again transmits the configured number of items.\n"..
+  "\n"..
+  "*Note: The Flow Limiter must be placed behind the pusher.*\n"..
+  "\n"..
+  "The Flow Limiter can also be configured and started using a Lua or Beduino controller.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "",
   "The Techage Info Tool (open-ended wrench) has several functions. It shows the time\\, position\\, temperature and biome when an unknown block is clicked on.\n"..
   "If you click on a TechAge block with command interface\\, all available data will be shown (see also \"Logic / switching blocks\").\n"..
@@ -1888,7 +1900,13 @@ techage.manual_EN.aText = {
   "\n",
   "See TA3 pump.\n"..
   "\n"..
-  "The TA4 pump pumps 8 units of liquid every two seconds. The pump also supports the 'flowrate' command. This means that the total flow rate through the pump can be queried. \n"..
+  "The TA4 pump pumps 8 units of liquid every two seconds. \n"..
+  "\n"..
+  "In the \"Flow limiter\" mode\\, the number of units pumped by the pump can be limited. The flow limiter mode can be activated via the open-end wrench menu by configuring the number of units in the menu. Once the configured number of units have been pumped\\, the pump will turn off. When the pump is turned on again\\, it will pump the configured number of units again and then turn off.\n"..
+  "\n"..
+  "The flow limiter can also be configured and started using a Lua or Beduino controller.\n"..
+  "\n"..
+  "The pump also supports the 'flowrate' command. This allows the total flow rate through the pump to be queried.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -2003,6 +2021,10 @@ techage.manual_EN.aText = {
   "The processing power is one item every 8 s.  The block requires 16 ku of electricity for this.\n"..
   "\n"..
   " \n"..
+  "\n",
+  "The function corresponds to that of TA3.\n"..
+  "\n"..
+  "\n"..
   "\n",
   "Machines to overcome space and time\\, new sources of energy and other achievements shape your life.\n"..
   "\n"..
@@ -2259,6 +2281,7 @@ techage.manual_EN.aItemName = {
   "ta3_gravelrinser",
   "ta3_grinder",
   "ta3_injector",
+  "ta3_item_flow_limiter_pas",
   "",
   "ta3_end_wrench",
   "ta3_programmer",
@@ -2353,6 +2376,7 @@ techage.manual_EN.aItemName = {
   "ta4_electronicfab",
   "ta4_injector",
   "ta4_recycler",
+  "ta4_item_flow_limiter_pas",
   "techage_ta5",
   "",
   "",
@@ -2520,6 +2544,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
+  "",
   "ta4_windturbine",
   "",
   "",
@@ -2585,6 +2610,7 @@ techage.manual_EN.aPlanTable = {
   "ta4_liquid_filter_top",
   "techage_collider_plan",
   "ta4_cooler",
+  "",
   "",
   "",
   "",

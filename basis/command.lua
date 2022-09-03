@@ -525,9 +525,9 @@ end
 
 -- Put the given stack into the given ItemList/inventory.
 -- Function returns:
---  - true, if all items are moved 
---  - false, if no item is moved 
---  - leftover, if less than all items are moved 
+--  - true, if all items are moved
+--  - false, if no item is moved
+--  - leftover, if less than all items are moved
 -- (true/false is the legacy mode and can't be removed)
 function techage.put_items(inv, listname, item, idx)
 	local leftover
@@ -540,7 +540,7 @@ function techage.put_items(inv, listname, item, idx)
 	else
 		return false
 	end
-	
+
 	local cnt = leftover:get_count()
 	if cnt == item:get_count() then
 		return false
@@ -549,7 +549,7 @@ function techage.put_items(inv, listname, item, idx)
 	else
 		return leftover
 	end
-	
+
 end
 
 -- Return "full", "loaded", or "empty" depending

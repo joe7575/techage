@@ -460,7 +460,6 @@ Error: Invalid path !!=
 
 Error: Recording is missing !!=
 Flight route (A to B)=
-Move=
 See chat output=
 TA5 Fly Controller=
 Test=
@@ -480,6 +479,7 @@ Store=
 Click on all blocks that shall be moved=
 Maximum Speed=
 Maximum speed for moving blocks=
+Move=
 Move A-B=
 Move B-A=
 Move block height=
@@ -495,7 +495,6 @@ TA2 Flywheel=
 
 Area already loaded or max. number of Forceload Blocks reached!=
 List of your Forceload Blocks:=
-Priv missing=
 Punch the block to make the area visible.=
 Show all forceload blocks in a 64x64x64 range=
 Techage Forceload Block=
@@ -870,15 +869,27 @@ TA1 Pine Wood Board=
 
 TA4 Streetlamp Solar Cell=
 
+### minichest.lua ###
+
+Test Chest=
+
+### minitank.lua ###
+
+Test Mini Tank=
+
 ### movecontroller.lua ###
 
 Error: Invalid distance !!=
 Handover to A=
 Handover to B=
+Move distance=
 Move distance (A to B)=
 Number of the next movecontroller=
 Number of the previous movecontroller=
 Object offset=
+Operational mode=
+Reset=
+Switch to the remote controlled 'move xyz' mode=
 TA4 Move Controller=
 Y-offset for non-player objects like vehicles (-0.5 to 0.5)=
 
@@ -1010,6 +1021,8 @@ Allow to dig/place Techage power lines nearby power poles=
 
 ### pump.lua ###
 
+Number of liquid units that are allowed to be pumped=
+Number of units=
 TA3 Pump=
 TA4 Pump=
 
@@ -1120,6 +1133,7 @@ stopped=
 ### sequencer2.lua ###
 
  - 'goto <num>'  (jump to another line)@n=
+ - 'nop' (do nothing)@n=
  - 'send <node num> <cmnd>' (techage command)@n=
  - 'stop' (stop the execution)@n=
  - 1 corresponds to 100 ms@n=

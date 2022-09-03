@@ -229,6 +229,7 @@ techage.manual_DE.aTitel = {
   "3,TA4 Elektronikfabrik / Electronic Fab",
   "3,TA4 Injektor / Injector",
   "3,TA4 Recycler",
+  "3,TA4 Item Durchlaufbegrenzer / Item Flow Limiter",
   "1,TA5: Zukunft",
   "2,Energiequellen",
   "3,TA5 Fusionsreaktor",
@@ -1892,7 +1893,13 @@ techage.manual_DE.aText = {
   "\n",
   "Siehe TA3 Pumpe.\n"..
   "\n"..
-  "Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden. Zusätzlich unterstützt die Pumpe das Kommando 'flowrate'. Damit kann die Gesamtdurchflussmenge durch die Pumpe abgefragt werden.\n"..
+  "Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden. \n"..
+  "\n"..
+  "In der Betriebsart \"Durchflussbegrenzer\" kann die Anzahl der Einheiten\\, die von der Pumpe gepumpt werden\\, begrenzt werden. Die Betriebsart Durchflussbegrenzer kann über das Gabelschlüssel-Menü aktiviert werden\\, indem im Menü die Anzahl an Einheiten konfiguriert wird. Sobald die  konfigurierte Anzahl an Einheiten gepumpt wurden\\, schaltet sich die Pumpe ab. Wird die Pumpe wieder eingeschaltet\\, pumpt sie wieder die konfigurierte Anzahl an Einheiten und schaltet sich dann ab.\n"..
+  "\n"..
+  "Der Durchflussbegrenzer kann auch per Lua- oder Beduino Controller konfiguriert und gestartet werden.\n"..
+  "\n"..
+  "Zusätzlich unterstützt die Pumpe das Kommando 'flowrate'. Damit kann die Gesamtdurchflussmenge durch die Pumpe abgefragt werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -2004,6 +2011,10 @@ techage.manual_DE.aText = {
   "  - Werkzeuge können nicht recycelt werden\n"..
   "\n"..
   "Die Verarbeitungsleistung beträgt ein Item alle 8 s. Der Block benötigt hierfür 16 ku Strom.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Die Funktion entspricht der von TA3.  \n"..
   "\n"..
   "\n"..
   "\n",
@@ -2358,6 +2369,7 @@ techage.manual_DE.aItemName = {
   "ta4_electronicfab",
   "ta4_injector",
   "ta4_recycler",
+  "ta4_item_flow_limiter_pas",
   "techage_ta5",
   "",
   "",
@@ -2591,6 +2603,7 @@ techage.manual_DE.aPlanTable = {
   "ta4_liquid_filter_top",
   "techage_collider_plan",
   "ta4_cooler",
+  "",
   "",
   "",
   "",

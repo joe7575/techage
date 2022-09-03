@@ -804,7 +804,13 @@ In einen TA4 Tank passen 2000 Einheiten oder 200 Fässer einer Flüssigkeit.
 
 Siehe TA3 Pumpe.
 
-Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden. Zusätzlich unterstützt die Pumpe das Kommando `flowrate`. Damit kann die Gesamtdurchflussmenge durch die Pumpe abgefragt werden.
+Die TA4 Pumpe pumpt 8 Einheiten Flüssigkeit alle zwei Sekunden. 
+
+In der Betriebsart "Durchflussbegrenzer" kann die Anzahl der Einheiten, die von der Pumpe gepumpt werden, begrenzt werden. Die Betriebsart Durchflussbegrenzer kann über das Gabelschlüssel-Menü aktiviert werden, indem im Menü die Anzahl an Einheiten konfiguriert wird. Sobald die  konfigurierte Anzahl an Einheiten gepumpt wurden, schaltet sich die Pumpe ab. Wird die Pumpe wieder eingeschaltet, pumpt sie wieder die konfigurierte Anzahl an Einheiten und schaltet sich dann ab.
+
+Der Durchflussbegrenzer kann auch per Lua- oder Beduino Controller konfiguriert und gestartet werden.
+
+Zusätzlich unterstützt die Pumpe das Kommando `flowrate`. Damit kann die Gesamtdurchflussmenge durch die Pumpe abgefragt werden.
 
 [ta4_pump|image]
 
@@ -957,3 +963,8 @@ Die Verarbeitungsleistung beträgt ein Item alle 8 s. Der Block benötigt hierf�
 
 [ta4_recycler|image]
 
+### TA4 Item Durchlaufbegrenzer / Item Flow Limiter
+
+Die Funktion entspricht der von TA3.  
+
+[ta4_item_flow_limiter_pas|image]

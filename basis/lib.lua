@@ -288,7 +288,7 @@ function techage.can_dig_node(name, ndef)
 	if SimpleNodes[name] ~= nil then
 		return SimpleNodes[name]
 	end
-	
+
 	if ndef.groups and ndef.groups.techage_door == 1 then
 		SimpleNodes[name] = true
 		return true

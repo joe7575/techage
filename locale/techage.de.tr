@@ -460,7 +460,6 @@ Error: Invalid path !!=Fehler: Ungültiger Pfad !!
 
 Error: Recording is missing !!=Fehler: Aufzeichnung fehlt !!
 Flight route (A to B)=Flug Route (A nach B)
-Move=Bewege
 See chat output=Siehe chat Ausgabe
 TA5 Fly Controller=TA5 Flug Controller
 Test=Test
@@ -480,6 +479,7 @@ Store=Speichern
 Click on all blocks that shall be moved=Klicke auf alle Blöcke, die verschoben werden sollen
 Maximum Speed=Maximalgeschwindigkeit
 Maximum speed for moving blocks=Maximale Geschwindigkeit für bewegliche Blöcke
+Move=Bewege
 Move A-B=Bewege A-B
 Move B-A=Bewege B-A
 Move block height=Move Block Höhe
@@ -495,7 +495,6 @@ TA2 Flywheel=TA2 Schwungrad
 
 Area already loaded or max. number of Forceload Blocks reached!=Bereich bereits geladen oder maximale Anzahl von Forceload Blöcken erreicht!
 List of your Forceload Blocks:=Liste der Forceload Blöcke
-Priv missing=Rechte fehlen
 Punch the block to make the area visible.=Schlage auf den Bock um den Bereich anzuzeigen.
 Show all forceload blocks in a 64x64x64 range=Zeige alle Forceload Blöcke im Umkreis von 64x64x64 Blöcken
 Techage Forceload Block=Techage Forceload Block
@@ -870,15 +869,27 @@ TA1 Pine Wood Board=TA1 Kiefernholzbrett
 
 TA4 Streetlamp Solar Cell=TA4 Straßenlampen-Solarzelle
 
+### minichest.lua ###
+
+Test Chest=
+
+### minitank.lua ###
+
+Test Mini Tank=
+
 ### movecontroller.lua ###
 
 Error: Invalid distance !!=Fehler: Ungültige Entfernung !!
 Handover to A=Übergabe an A
 Handover to B=Übergabe an B
+Move distance=Entfernung
 Move distance (A to B)=Entfernung (A nach B)
 Number of the next movecontroller=Nummer des nächsten Move Controllers
 Number of the previous movecontroller=Nummer des vorhergehenden Move Controllers
 Object offset=Objekt Offset
+Operational mode=Betriebsmodus
+Reset=Rücksetzen
+Switch to the remote controlled 'move xyz' mode=Wechseln in den ferngesteuerten 'move xyz'-Modus
 TA4 Move Controller=TA4 Move Controller
 Y-offset for non-player objects like vehicles (-0.5 to 0.5)=Y-Offset für Nicht-Spieler Objekte wie Fahrzeuge (-0.5 bis 0.5)
 
@@ -1010,6 +1021,8 @@ Allow to dig/place Techage power lines nearby power poles=Erlaubt TODO
 
 ### pump.lua ###
 
+Number of liquid units that are allowed to be pumped=Anzahl der Flüssigkeitseinheiten, die gepumpt werden dürfen
+Number of units=Anzahl der Einheiten
 TA3 Pump=TA3 Pumpe
 TA4 Pump=TA4 Pumpe
 
@@ -1120,6 +1133,7 @@ stopped=gestoppt
 ### sequencer2.lua ###
 
  - 'goto <num>'  (jump to another line)@n= - 'goto <num>'  (springe zu einer anderen Zeile)@n
+ - 'nop' (do nothing)@n= - 'nop' (mache nichts)@n
  - 'send <node num> <cmnd>' (techage command)@n= - 'send <node num> <cmnd>' (techage Kommando)@n
  - 'stop' (stop the execution)@n= - 'stop' (stoppe die Ausführung)@n
  - 1 corresponds to 100 ms@n= - 1 entspricht 100 ms@n

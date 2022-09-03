@@ -796,7 +796,13 @@ A TA4 tank can hold 2000 units or 200 barrels of liquid.
 
 See TA3 pump.
 
-The TA4 pump pumps 8 units of liquid every two seconds. The pump also supports the `flowrate` command. This means that the total flow rate through the pump can be queried. 
+The TA4 pump pumps 8 units of liquid every two seconds. 
+
+In the "Flow limiter" mode, the number of units pumped by the pump can be limited. The flow limiter mode can be activated via the open-end wrench menu by configuring the number of units in the menu. Once the configured number of units have been pumped, the pump will turn off. When the pump is turned on again, it will pump the configured number of units again and then turn off.
+
+The flow limiter can also be configured and started using a Lua or Beduino controller.
+
+The pump also supports the `flowrate` command. This allows the total flow rate through the pump to be queried.
 
 [ta4_pump|image]
 
@@ -949,3 +955,10 @@ The machine can disassemble pretty much any Techage and Hyperloop blocks. But no
 The processing power is one item every 8 s.  The block requires 16 ku of electricity for this.
 
 [ta4_recycler|image] 
+
+### TA4 Item Flow Limiter
+
+The function corresponds to that of TA3.
+
+[ta4_item_flow_limiter_pas|image]
+
