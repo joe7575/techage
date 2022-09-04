@@ -57,6 +57,7 @@ local State4 = techage.NodeStates:new({
 	standby_ticks = STANDBY_TICKS,
 })
 
+-- Function returns the number of pumped units
 local function pump(pos, mem, nvm, state, outdir, units)
 	local taken, name = liquid.take(pos, Pipe, Flip[outdir], nil, units, mem.dbg_cycles > 0)
 	if taken > 0 then
@@ -317,7 +318,24 @@ techage.register_node({"techage:t3_pump", "techage:t3_pump_on"}, {
 
 techage.register_node({"techage:t4_pump", "techage:t4_pump_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		if topic == "flowrate" then
+		if topic == "limit" then  -- Set pump limit
+			local nvm = techage.get_nvm(pos)
+			State4:stop(pos, nvm)
+			local val = tonumber(payload) or 0
+			if val and val > 0 then
+				nvm.limit = val
+				nvm.num_items = 0
+				M(pos):set_int("limit", val)
+			else
+				nvm.limit = nil
+				nvm.num_items = nil
+				M(pos):set_string("limit", "")
+			end
+			return true
+		elseif topic == "count" then  -- Get number of pumped units
+			local nvm = techage.get_nvm(pos)
+			return nvm.num_items or 0
+		elseif topic == "flowrate" then  -- Get total number of pumped units
 			local nvm = techage.get_nvm(pos)
 			return nvm.flowrate or 0
 		else
@@ -325,7 +343,7 @@ techage.register_node({"techage:t4_pump", "techage:t4_pump_on"}, {
 		end
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
-		if topic == 69 and payload then -- set limit
+		if topic == 69 and payload then  -- Set pump limit
 			local nvm = techage.get_nvm(pos)
 			State4:stop(pos, nvm)
 			if payload[1] > 0 then
@@ -347,10 +365,10 @@ techage.register_node({"techage:t4_pump", "techage:t4_pump_on"}, {
 		end
 	end,
 	on_beduino_request_data = function(pos, src, topic, payload)
-		if topic == 137 then  -- Total Flow Rate
+		if topic == 137 then  -- Get total number of pumped units
 			local nvm = techage.get_nvm(pos)
 			return 0, {nvm.flowrate or 0}
-		elseif topic == 151 then -- Request count
+		elseif topic == 151 then  -- Get number of pumped units
 			local nvm = techage.get_nvm(pos)
 			return 0, {nvm.num_items or 0}
 		else

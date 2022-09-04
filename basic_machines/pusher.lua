@@ -34,6 +34,16 @@ local STANDBY_TICKS = 2
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 2
 
+local WRENCH_MENU = {
+	{
+		type = "number",
+		name = "limit",
+		label = S("Number of items"),
+		tooltip = S("Number of items that are allowed to be pushed"),
+		default = "0",
+	},
+}
+
 local function ta4_formspec(self, pos, nvm)
 	if CRD(pos).stage == 4 then -- TA4 node?
 		return "size[8,7.2]"..
@@ -42,7 +52,8 @@ local function ta4_formspec(self, pos, nvm)
 			default.gui_slots..
 			"box[0,-0.1;7.8,0.5;#c6e8ff]"..
 			"label[3,-0.1;"..minetest.colorize("#000000", S("Pusher")).."]"..
-			techage.question_mark_help(8, S("Optionally configure\nthe pusher with one item"))..
+			techage.question_mark_help(7.5, S("Optionally configure\nthe pusher with one item"))..
+			techage.wrench_image(7.4, -0.05) .. 
 			"list[context;main;3.5,0.8;1,1;]"..
 			"image_button[3.5,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 			"tooltip[3.5,2;1,1;"..self:get_state_tooltip(nvm).."]"..
@@ -87,37 +98,50 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return 0
 end
 
-local function pushing(pos, crd, meta, nvm)
-	local pull_dir = meta:get_int("pull_dir")
-	local push_dir = meta:get_int("push_dir")
-	local num = nvm.item_count or nvm.num_items or crd.num_items
+-- Function returns the number of pushed items
+local function push(pos, crd, meta, nvm, pull_dir, push_dir, num)
 	local items = techage.pull_items(pos, pull_dir, num, nvm.item_name)
 	if items ~= nil then
 		local leftover = techage.push_items(pos, push_dir, items)
-		print("leftover", dump(leftover))
 		if not leftover then
 			-- place item back
 			techage.unpull_items(pos, pull_dir, items)
 			crd.State:blocked(pos, nvm)
-			return
+			return 0
 		elseif leftover ~= true then
 			-- place item back
 			techage.unpull_items(pos, pull_dir, leftover)
 			crd.State:blocked(pos, nvm)
-			return
+			return items:get_count() - leftover:get_count()
 		end
-		if nvm.item_count then  -- remote job?
-			nvm.item_count = nil
-			nvm.item_name = nil
-			crd.State:stop(pos, nvm)
-			local number = M(pos):get_string("node_number")
-			techage.send_single(number, nvm.rmt_num, "off")
-		else
-			crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-		end
-		return
+		return items:get_count()
 	end
 	crd.State:idle(pos, nvm)
+	return 0
+end
+
+local function pushing(pos, crd, meta, nvm)
+	local pull_dir = meta:get_int("pull_dir")
+	local push_dir = meta:get_int("push_dir")
+	
+	if not nvm.limit then
+		local num = nvm.item_count or nvm.num_items or crd.num_items
+		num = push(pos, crd, meta, nvm, pull_dir, push_dir, num)
+		if num > 0 then
+			crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+		end
+	elseif nvm.num_items < nvm.limit then
+		local num = math.min(crd.num_items, nvm.limit - nvm.num_items)
+		num = push(pos, crd, meta, nvm, pull_dir, push_dir, num)
+		if num > 0 then
+			nvm.num_items = nvm.num_items + num
+			if nvm.num_items >= nvm.limit then
+				crd.State:stop(pos, nvm)
+			else
+				crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+			end
+		end
+	end
 end
 
 local function keep_running(pos, elapsed)
@@ -187,6 +211,20 @@ local function can_start(pos, nvm, state)
 	return true
 end
 
+local function on_state_change(pos, old_state, new_state)
+	if old_state == techage.STOPPED and new_state == techage.RUNNING then
+		local nvm = techage.get_nvm(pos)
+		local val = M(pos):get_int("limit")
+		if val and val > 0 then
+			nvm.limit = val
+			nvm.num_items = 0
+		else
+			nvm.limit = nil
+			nvm.num_items = nil
+		end
+	end
+end
+
 local function config_item(pos, payload)
 	if type(payload) == "string" then
 		if payload == "" then
@@ -254,43 +292,73 @@ local tubing = {
 	is_pusher = true, -- is a pulling/pushing node
 
 	on_recv_message = function(pos, src, topic, payload)
-		if topic == "pull" then
+		if topic == "pull" then -- Deprecated command, use config/limit/start instead
 			local nvm = techage.get_nvm(pos)
 			CRD(pos).State:stop(pos, nvm)
 			nvm.item_count = math.min(config_item(pos, payload), 12)
 			nvm.rmt_num = src
 			CRD(pos).State:start(pos, nvm)
 			return true
-		elseif topic == "config" then
+		elseif topic == "config" then  -- Set item type
 			local nvm = techage.get_nvm(pos)
 			CRD(pos).State:stop(pos, nvm)
 			config_item(pos, payload)
-			CRD(pos).State:start(pos, nvm)
 			return true
+		elseif topic == "limit" then  -- Set push limit
+			local nvm = techage.get_nvm(pos)
+			CRD(pos).State:stop(pos, nvm)
+			local val = tonumber(payload) or 0
+			if val and val > 0 then
+				nvm.limit = val
+				nvm.num_items = 0
+				M(pos):set_int("limit", val)
+			else
+				nvm.limit = nil
+				nvm.num_items = nil
+				M(pos):set_string("limit", "")
+			end
+			return true
+		elseif topic == "count" then  -- Get number of push items
+			local nvm = techage.get_nvm(pos)
+			return nvm.num_items or 0
 		else
 			return CRD(pos).State:on_receive_message(pos, topic, payload)
 		end
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
-		if topic == 64 then -- Start pusher
-			local nvm = techage.get_nvm(pos)
-			CRD(pos).State:stop(pos, nvm)
-			nvm.item_count = math.min(config_item(pos, payload), 12)
-			nvm.rmt_num = src
-			CRD(pos).State:start(pos, nvm)
-			return 0
-		elseif topic == 65 then -- Config Pusher
+		if topic == 65 then  -- Set item type
 			local nvm = techage.get_nvm(pos)
 			CRD(pos).State:stop(pos, nvm)
 			config_item(pos, payload)
-			CRD(pos).State:start(pos, nvm)
+			return 0
+		elseif topic == 68 then  -- Set push limit
+			local nvm = techage.get_nvm(pos)
+			CRD(pos).State:stop(pos, nvm)
+			if payload[1] > 0 then
+				nvm.limit = payload[1]
+				nvm.num_items = 0
+				M(pos):set_int("limit", payload[1])
+			else
+				nvm.limit = nil
+				nvm.num_items = nil
+				M(pos):set_string("limit", "")
+			end
 			return 0
 		else
+			local nvm = techage.get_nvm(pos)
+			if nvm.limit then
+				nvm.num_items = 0
+			end
 			return CRD(pos).State:on_beduino_receive_cmnd(pos, topic, payload)
 		end
 	end,
 	on_beduino_request_data = function(pos, src, topic, payload)
-		return CRD(pos).State:on_beduino_request_data(pos, topic, payload)
+		if topic == 150 then  -- Get number of pushed items
+			local nvm = techage.get_nvm(pos)
+			return 0, {nvm.num_items or 0}
+		else
+			return CRD(pos).State:on_beduino_request_data(pos, topic, payload)
+		end
 	end,
 }
 
@@ -301,6 +369,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		formspec = ta4_formspec,
 		tubing = tubing,
 		can_start = can_start,
+		on_state_change = on_state_change,
 		after_place_node = function(pos, placer)
 			local meta = M(pos)
 			local node = minetest.get_node(pos)
@@ -328,6 +397,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		node_timer = keep_running,
 		on_rotate = screwdriver.disallow,
 		tubelib2_on_update2 = tubelib2_on_update2,
+		ta4_formspec = WRENCH_MENU,
 
 		groups = {choppy=2, cracky=2, crumbly=2},
 		is_ground_content = false,

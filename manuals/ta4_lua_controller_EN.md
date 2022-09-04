@@ -372,6 +372,8 @@ Please note, that this is not a technical distinction, only a logical.
 | "stacks"     | Array with up to 4 Stores with the inventory content (see example) | Only for Sensor Chests                                       |
 | "count"      | number                                                       | Read the item counter of the TA4 Item Detector block         |
 | "count"      | number of items                                              | Read the total amount of TA4 chest items. An optional  number as `add_data` is used to address only one inventory slot (1..8, from left to right). |
+| "count"      | number of items                                              | Read the number of pushed items for a TA4 Pusher in "flow limiter" mode |
+| "count"      | number of units                                              | Read the number of pumped liquid units for a TA4 Pump in "flow limiter" mode |
 | "itemstring" | item string of the given slot                                | Specific command for the TA4 8x2000 Chest to read the item type (technical name) of one chest slot, specified via `add_data` (1..8).<br />Example: s = $send_cmnd("223", "itemstring", 1) |
 | "output"     | recipe output string, <br />e.g.: "default:glass"            | Only for the Industrial Furnace. If no recipe is active, the command returns "unknown" |
 | "input"      | \<index>                                                     | Read a recipe from the TA4 Recipe Block. `<index>` is the number of the recipe. The block return a list of recipe items. |
@@ -395,7 +397,8 @@ Please note, that this is not a technical distinction, only a logical.
 | "config" | "\<slot> \<item list>" | Configure a Distributor filter slot, like: "red default:dirt dye:blue" |
 | "text"                           | text string  | Text to be used for the Sensor Chest menu                    |
 | "reset"                          | nil          | Reset the item counter of the TA4 Item Detector block        |
-| "pull"                           | item  string | Start the TA4 pusher to pull/push items.<br /> Example: `default:dirt 8` |
+| "limit"                       | number | Configure a TA4 Pusher with the number of items that are allowed to be pushed ("flow limiter" mode)<br />limit = 0 turns off the "flow limiter" mode |
+| "limit" | number | Configure a TA4 Pump with the number of liquid units that are allowed to be pumped ("flow limiter" mode)<br />limit = 0 turns off the "flow limiter" mode |
 | "config"                         | item  string | Configure the TA4 pusher.<br />Example: `wool:blue`          |
 | "exchange" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Exchange a block<br />*idx* is the inventory slot number (1..n) of/for the block to be exchanged |
 | "set" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Set/add a block<br />*idx* is the inventory slot number (1..n) with the block to be set |

@@ -230,6 +230,8 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				on_metadata_inventory_put = tNode.on_metadata_inventory_put,
 				on_metadata_inventory_take = tNode.on_metadata_inventory_take,
 				ta_rotate_node = tNode.ta_rotate_node,
+				ta3_formspec = stage == 3 and tNode.ta3_formspec,
+				ta4_formspec = stage == 4 and tNode.ta4_formspec,
 
 				paramtype = tNode.paramtype,
 				paramtype2 = "facedir",
@@ -271,6 +273,8 @@ function techage.register_consumer(base_name, inv_name, tiles, tNode, validState
 				on_metadata_inventory_put = tNode.on_metadata_inventory_put,
 				on_metadata_inventory_take = tNode.on_metadata_inventory_take,
 				ta_rotate_node = tNode.ta_rotate_node,
+				ta3_formspec = stage == 3 and tNode.ta3_formspec,
+				ta4_formspec = stage == 4 and tNode.ta4_formspec,
 
 				paramtype = tNode.paramtype,
 				paramtype2 = "facedir",
