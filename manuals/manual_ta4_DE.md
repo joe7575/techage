@@ -846,14 +846,18 @@ Aber: TA4 Schieber und TA4 Verteiler erreichen ihre volle Leistungsfähigkeit nu
 Die Funktion entspricht grundsätzlich der von TA2/TA3. Zusätzlich kann aber über ein Menü konfiguriert werden, welche Gegenstände aus einer TA4 Kiste geholt und weiter transportiert werden sollen.
 Die Verarbeitungsleistung beträgt 12 Items alle 2 s, sofern auf beiden Seiten TA4 Röhren verwendet werden. Anderenfalls sind es nur 6 Items alle 2 s.
 
-Der TA4 Schieber besitzt zwei zusätzliche Kommandos für den Lua Controller:
+In der Betriebsart "Durchlaufbegrenzer" kann die Anzahl der Items, die von dem Schieber bewegt werden, begrenzt werden. Die Betriebsart Durchlaufbegrenzer kann über das Gabelschlüssel-Menü aktiviert werden, indem im Menü die Anzahl an Items konfiguriert wird. Sobald die  konfigurierte Anzahl an Items bewegt wurden, schaltet sich der Schieber ab. Wird der Schieber wieder eingeschaltet, bewegt er wieder die konfigurierte Anzahl an Items und schaltet sich dann ab.
+
+Der TA4 Schieber kann auch per Lua- oder Beduino Controller konfiguriert und gestartet werden.
+
+Hier die zusätzlichen Kommandos für den Lua Controller:
 
 - `config` dient zur Konfiguration des Schiebers, analog zum manuellen Konfiguration über das Menü.
   Beispiel:  `$send_cmnd(1234, "config", "default:dirt")`
   Mit `$send_cmnd(1234, "config", "")` wird die Konfiguration gelöscht
-- `pull` dient zum Absetzen eines Auftrags an den Schieber:
-  Beispiel: `$send_cmnd(1234, "pull", "default:dirt 8")`
-  Als Nummer sind Werte von 1 bis 12 zulässig. Danach geht der Schieber wieder in den `stopped` Mode und sendet ein "off" Kommando zurück an den Sender des "pull" Kommandos.
+- `limit` dient zum Setzen der Anzahl der Items für die Durchlaufbegrenzer Betriebsart:
+  Beispiel: `$send_cmnd(1234, "init", 7)`
+  
 
 [ta4_pusher|image]
 

@@ -838,14 +838,17 @@ But: TA4 pushers and TA4 distributors only achieve their full performance when u
 The function basically corresponds to that of TA2 / TA3. In addition, a menu can be used to configure which objects should be taken from a TA4 chest and transported further.
 The processing power is 12 items every 2 s, if TA4 tubes are used on both sides. Otherwise there are only 6 items every 2 s.
 
-The TA4 pusher has two additional commands for the Lua controller:
+In the "flow limiter" mode, the number of items that are moved by the pusher can be limited. The flow limiter mode can be activated via the open-end wrench menu by configuring the number of items in the menu. As soon as the configured number of items have been moved, the pusher switches off. If the pusher is switched on again, it moves the configured number of items again and then switches off.
+
+The TA4 pusher can also be configured and started using a Lua or Beduino controller.
+
+Here are the additional commands for the Lua controller:
 
 - `config` is used to configure the pusher, analogous to manual configuration via the menu.
-  Example: `$send_cmnd(1234, "config", "default: dirt")`
-  With `$send_cmnd(1234, "config", "")` the configuration is deleted
-- `pull` is used to send an order to the pusher:
-  Example: `$send_cmnd(1234, "pull", "default: dirt 8")`
-  Values ​​from 1 to 12 are permitted as numbers. Then the pusher goes back to `stopped` mode and sends an" off "command back to the transmitter of the" pull "command.
+   Example: `$send_cmnd(1234, "config", "default:dirt")`
+   With `$send_cmnd(1234, "config", "")` the configuration is deleted
+- `limit` is used to set the number of items for the flow limiter mode:
+   Example: `$send_cmnd(1234, "init", 7)`
 
 [ta4_pusher|image]
 

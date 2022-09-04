@@ -1932,10 +1932,14 @@ techage.manual_EN.aText = {
   "The function basically corresponds to that of TA2 / TA3. In addition\\, a menu can be used to configure which objects should be taken from a TA4 chest and transported further.\n"..
   "The processing power is 12 items every 2 s\\, if TA4 tubes are used on both sides. Otherwise there are only 6 items every 2 s.\n"..
   "\n"..
-  "The TA4 pusher has two additional commands for the Lua controller:\n"..
+  "In the \"flow limiter\" mode\\, the number of items that are moved by the pusher can be limited. The flow limiter mode can be activated via the open-end wrench menu by configuring the number of items in the menu. As soon as the configured number of items have been moved\\, the pusher switches off. If the pusher is switched on again\\, it moves the configured number of items again and then switches off.\n"..
   "\n"..
-  "  - 'config' is used to configure the pusher\\, analogous to manual configuration via the menu.\nExample: '$send_cmnd(1234\\, \"config\"\\, \"default: dirt\")'\nWith '$send_cmnd(1234\\, \"config\"\\, \"\")' the configuration is deleted\n"..
-  "  - 'pull' is used to send an order to the pusher:\nExample: '$send_cmnd(1234\\, \"pull\"\\, \"default: dirt 8\")'\nValues ​​from 1 to 12 are permitted as numbers. Then the pusher goes back to 'stopped' mode and sends an\" off \"command back to the transmitter of the\" pull \"command.\n"..
+  "The TA4 pusher can also be configured and started using a Lua or Beduino controller.\n"..
+  "\n"..
+  "Here are the additional commands for the Lua controller:\n"..
+  "\n"..
+  "  - 'config' is used to configure the pusher\\, analogous to manual configuration via the menu.\n Example: '$send_cmnd(1234\\, \"config\"\\, \"default:dirt\")'\n With '$send_cmnd(1234\\, \"config\"\\, \"\")' the configuration is deleted\n"..
+  "  - 'limit' is used to set the number of items for the flow limiter mode:\n Example: '$send_cmnd(1234\\, \"init\"\\, 7)'\n"..
   "\n"..
   "\n"..
   "\n",
