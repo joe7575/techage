@@ -316,8 +316,6 @@ if techage.recipe_checker_enabled then
 end
 dofile(MP.."/.test/sink.lua")
 dofile(MP.."/.test/testblock.lua")
-dofile(MP.."/.test/minichest.lua")
-dofile(MP.."/.test/minitank.lua")
 
 -- Solar
 dofile(MP.."/solar/minicell.lua")
