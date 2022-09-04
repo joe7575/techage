@@ -235,7 +235,7 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 			nvm.moveBA = false
 			nvm.running = true
 			return fly.move_to_other_pos(pos, true)
-		elseif move_xyz and topic == "move" then
+		elseif not move_xyz and topic == "move" then
 			nvm.moveBA = nvm.moveBA == false
 			nvm.running = true
 			return fly.move_to_other_pos(pos, nvm.moveBA == false)
