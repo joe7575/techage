@@ -36,8 +36,8 @@ elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.01 then
 elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.01 then
 	minetest.log("error", "[techage] Techage requires safer_lua version 1.01 or newer!")
 	return
-elseif minetest.global_exists("networks") and networks.version < 0.10 then
-	minetest.log("error", "[techage] Techage requires networks version 0.10 or newer!")
+elseif minetest.global_exists("networks") and networks.version < 0.12 then
+	minetest.log("error", "[techage] Techage requires networks version 0.12 or newer!")
 	return
 elseif minetest.global_exists("hyperloop") and hyperloop.version < 2.07 then
 	minetest.log("error", "[techage] Techage requires hyperloop version 2.07 or newer!")
