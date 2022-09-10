@@ -1098,6 +1098,8 @@ Biome=Biom
 Node owner=Blockbesitzer
 Position=Position
 Position temperature=Positionstemperatur
+Pump connected to no/empty tank(s).=Pumpe an keine/leere Tank(s) angeschlossen.
+Pump connected to tank(s) with: @1=Pumpe an Tank(s) angeschlossen mit: @1
 TechAge Info Tool (use @= read status info)=TechAge Info Werkzeug
 TechAge Repair Kit=TechAge Reparaturset
 

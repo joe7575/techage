@@ -86,7 +86,7 @@ local function pumping(pos, nvm, state, capa)
 	local mem = techage.get_mem(pos)
 	mem.dbg_cycles = (mem.dbg_cycles or 0) - 1
 	local outdir = M(pos):get_int("outdir")
-	
+
 	if not nvm.limit then
 		local num = pump(pos, mem, nvm, state, outdir, capa)
 		if num > 0 then

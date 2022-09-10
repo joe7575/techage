@@ -53,7 +53,7 @@ local function ta4_formspec(self, pos, nvm)
 			"box[0,-0.1;7.8,0.5;#c6e8ff]"..
 			"label[3,-0.1;"..minetest.colorize("#000000", S("Pusher")).."]"..
 			techage.question_mark_help(7.5, S("Optionally configure\nthe pusher with one item"))..
-			techage.wrench_image(7.4, -0.05) .. 
+			techage.wrench_image(7.4, -0.05) ..
 			"list[context;main;3.5,0.8;1,1;]"..
 			"image_button[3.5,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
 			"tooltip[3.5,2;1,1;"..self:get_state_tooltip(nvm).."]"..
@@ -123,7 +123,7 @@ end
 local function pushing(pos, crd, meta, nvm)
 	local pull_dir = meta:get_int("pull_dir")
 	local push_dir = meta:get_int("push_dir")
-	
+
 	if not nvm.limit then
 		local num = nvm.item_count or nvm.num_items or crd.num_items
 		num = push(pos, crd, meta, nvm, pull_dir, push_dir, num)

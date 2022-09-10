@@ -197,8 +197,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 end)
 
 
-register_signallamp("techage:signal_lamp", 
-	S("TechAge Signal Lamp"), 
+register_signallamp("techage:signal_lamp",
+	S("TechAge Signal Lamp"),
 	{"techage_signal_lamp.png^[colorize:#000000:100"},
 	{
 		type = "fixed",
@@ -209,8 +209,8 @@ register_signallamp("techage:signal_lamp",
 	}
 )
 
-register_signallamp("techage:signal_lamp2", 
-	S("TechAge Signal Lamp 2 "), 
+register_signallamp("techage:signal_lamp2",
+	S("TechAge Signal Lamp 2 "),
 	{"techage_signallamp2.png"}
 )
 

@@ -1098,6 +1098,8 @@ Biome=
 Node owner=
 Position=
 Position temperature=
+Pump connected to no/empty tank(s).=
+Pump connected to tank(s) with: @1=
 TechAge Info Tool (use @= read status info)=
 TechAge Repair Kit=
 

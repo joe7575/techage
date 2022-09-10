@@ -115,6 +115,16 @@ local function read_state(itemstack, user, pointed_thing)
 				if owner ~= "" then
 					minetest.chat_send_player(user:get_player_name(), S("Node owner")..": "..owner.."    ")
 				end
+				if ndef and ndef.networks and ndef.networks.pipe2 and ndef.networks.pipe2.ntype == "pump" then
+					local tbl = networks.liquid.get_liquids(pos, Pipe2)
+					if #tbl > 0 then
+						local names = table.concat(tbl, ",  ")
+						minetest.chat_send_player(user:get_player_name(), S("Pump connected to tank(s) with: @1", names))
+					else
+						minetest.chat_send_player(user:get_player_name(), S("Pump connected to no/empty tank(s)."))
+					end
+				end
+
 				minetest.chat_send_player(user:get_player_name(), S("Position")..": "..minetest.pos_to_string(pos).."    ")
 				itemstack:add_wear(65636/200)
 				return itemstack
