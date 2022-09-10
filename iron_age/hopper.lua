@@ -68,7 +68,7 @@ minecart.register_inventory(
 				local meta = minetest.get_meta(pos)
 				local inv = meta:get_inventory()
 				if inv:is_empty("src") then
-					minetest.get_node_timer(pos):start(1)
+					minetest.get_node_timer(pos):start(2)
 					return true
 				end
 			end,
