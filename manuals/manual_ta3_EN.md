@@ -629,8 +629,7 @@ In public mode, all players can use the preconfigured keys.
 
 ### TechAge Signal Lamp
 
-The signal lamp can be switched on or off with the `on` / `off` command. This lamp does not need electricity and
-can be colored with the airbrush tool of the mod Unified Dyes.
+The signal lamp can be switched on or off with the `on` / `off` command. This lamp does not need electricity and can be colored with the airbrush tool from the mod Unified Dyes" and via Lua/Beduino commands.
 
 [ta3_signallamp|image]
 

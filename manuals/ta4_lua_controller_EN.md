@@ -417,6 +417,7 @@ Please note, that this is not a technical distinction, only a logical.
 | "stop" | nil | Stop command for the TA4 Sequencer. |
 | "gain" | volume | Set volume of the sound block (`volume` is a value between 0 and 1.0) |
 | "sound" | index | Select sound sample of the sound block |
+| "color" | \<color> | Set the color of the TechAge Signal Lamp and TechAge Signal Lamp 2 (color = 0..255) |
 
 ### Server and Terminal Functions
 

@@ -1128,8 +1128,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The signal lamp can be switched on or off with the 'on' / 'off' command. This lamp does not need electricity and\n"..
-  "can be colored with the airbrush tool of the mod Unified Dyes.\n"..
+  "The signal lamp can be switched on or off with the 'on' / 'off' command. This lamp does not need electricity and can be colored with the airbrush tool from the mod Unified Dyes\" and via Lua/Beduino commands.\n"..
   "\n"..
   "\n"..
   "\n",

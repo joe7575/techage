@@ -1126,7 +1126,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Die Signallampe kann mit 'on'/'off' Kommando ein- bzw. ausgeschaltet werden. Diese Lampe braucht keinen Strom und\n"..
-  "kann mit der Spritzpistole aus der Mod \"Unified Dyes\" farbig gemacht werden.\n"..
+  "kann mit der Spritzpistole aus der Mod \"Unified Dyes\" und über Lua/Beduino Kommandos eingefärbt werden.\n"..
   "\n"..
   "\n"..
   "\n",

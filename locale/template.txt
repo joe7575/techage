@@ -1042,6 +1042,8 @@ no oil=
 
 ### pusher.lua ###
 
+Number of items=
+Number of items that are allowed to be pushed=
 Optionally configure@nthe pusher with one item=
 Pusher=
 
@@ -1166,7 +1168,7 @@ TA5 Fusion Reactor Shell=
 
 TA4 Wind Turbine Signal Lamp=
 TechAge Signal Lamp=
-TechAge Signal Lamp (can be colored)=
+TechAge Signal Lamp 2 =
 
 ### signallamp_2x.lua ###
 

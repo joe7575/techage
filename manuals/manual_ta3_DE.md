@@ -631,7 +631,7 @@ Im privaten Modus (private) kann das Terminal nur von Spielern verwendet werden,
 ### TechAge Signallampe / Signal Lamp
 
 Die Signallampe kann mit `on`/`off` Kommando ein- bzw. ausgeschaltet werden. Diese Lampe braucht keinen Strom und
-kann mit der Spritzpistole aus der Mod "Unified Dyes" farbig gemacht werden.
+kann mit der Spritzpistole aus der Mod "Unified Dyes" und über Lua/Beduino Kommandos eingefärbt werden.
 
 [ta3_signallamp|image]
 
