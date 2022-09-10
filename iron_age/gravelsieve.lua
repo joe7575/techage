@@ -86,7 +86,7 @@ local function on_punch(pos, node, puncher, pointed_thing)
 		if inv:room_for_item("src", stack) then
 			inv:add_item("src", stack)
 			minetest.swap_node(pos, {name = "techage:sieve0"})
-			minetest.get_node_timer(pos):start(1)
+			minetest.get_node_timer(pos):start(1.5)
 			local w = puncher:get_wielded_item()
 			if not(minetest.setting_getbool("creative_mode")) then
 				w:take_item(1)
@@ -163,7 +163,7 @@ techage.register_node({"techage:sieve0", "techage:sieve1", "techage:sieve2", "te
 		local inv = meta:get_inventory()
 		if inv:room_for_item("src", stack) then
 			inv:add_item("src", stack)
-			minetest.get_node_timer(pos):start(1)
+			minetest.get_node_timer(pos):start(1.5)
 			return true
 		end
 		return false
