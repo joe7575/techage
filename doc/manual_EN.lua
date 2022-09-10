@@ -1130,6 +1130,8 @@ techage.manual_EN.aText = {
   "\n",
   "The signal lamp can be switched on or off with the 'on' / 'off' command. This lamp does not need electricity and can be colored with the airbrush tool from the mod Unified Dyes\" and via Lua/Beduino commands.\n"..
   "\n"..
+  "With the chat command '/ta_color' the color palette with the values for the Lua/Beduino commands is displayed.\n"..
+  "\n"..
   "\n"..
   "\n",
   "With these blocks you can realize doors and gates that can be opened via commands (blocks disappear) and closed again. One door controller is required for each gate or door.\n"..

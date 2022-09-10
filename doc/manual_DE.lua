@@ -1128,6 +1128,8 @@ techage.manual_DE.aText = {
   "Die Signallampe kann mit 'on'/'off' Kommando ein- bzw. ausgeschaltet werden. Diese Lampe braucht keinen Strom und\n"..
   "kann mit der Spritzpistole aus der Mod \"Unified Dyes\" und über Lua/Beduino Kommandos eingefärbt werden.\n"..
   "\n"..
+  "Mit dem Chat-Kommando '/ta_color' wird die Farbpalette mit den Werten für die Lua/Beduino Kommandos angezeigt.\n"..
+  "\n"..
   "\n"..
   "\n",
   "Mit diese Blöcken kann man Türe und Tore realisieren\\, die über Kommandos geöffnet (Blöcke verschwinden) und wieder geschlossen werden können. Pro Tor oder Tür wird dazu ein Tür Controller benötigt. \n"..

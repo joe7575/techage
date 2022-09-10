@@ -633,6 +633,8 @@ Im privaten Modus (private) kann das Terminal nur von Spielern verwendet werden,
 Die Signallampe kann mit `on`/`off` Kommando ein- bzw. ausgeschaltet werden. Diese Lampe braucht keinen Strom und
 kann mit der Spritzpistole aus der Mod "Unified Dyes" und über Lua/Beduino Kommandos eingefärbt werden.
 
+Mit dem Chat-Kommando `/ta_color` wird die Farbpalette mit den Werten für die Lua/Beduino Kommandos angezeigt.
+
 [ta3_signallamp|image]
 
 
