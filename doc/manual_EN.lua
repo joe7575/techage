@@ -1130,7 +1130,7 @@ techage.manual_EN.aText = {
   "\n",
   "The signal lamp can be switched on or off with the 'on' / 'off' command. This lamp does not need electricity and can be colored with the airbrush tool from the mod Unified Dyes\" and via Lua/Beduino commands.\n"..
   "\n"..
-  "With the chat command '/ta_color' the color palette with the values for the Lua/Beduino commands is displayed.\n"..
+  "With the chat command '/ta_color' the color palette with the values for the Lua/Beduino commands is displayed and with '/ta_send color <num>' the color can be changed.\n"..
   "\n"..
   "\n"..
   "\n",
