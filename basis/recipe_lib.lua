@@ -169,6 +169,14 @@ function techage.recipes.get_recipe(name)
 	return NormalizedRecipes[name]
 end
 
+function techage.recipes.set_recipe(pos, rtype, idx)
+	local nvm = techage.get_nvm(pos)
+	if not nvm.running then
+		local recipes = Recipes[rtype] or {}
+		idx = tonumber(idx) or 1
+		nvm.recipe_idx = range(idx, 1, #recipes)
+	end
+end
 
 function techage.recipes.get_default_group_item_name(item_name)
 	if item_name and item_name:sub(1, 6) == "group:" then

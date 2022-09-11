@@ -168,6 +168,28 @@ minetest.register_node("techage:ta4_reactor", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
+techage.register_node({"techage:ta4_reactor"}, {
+	on_inv_request = function(pos, in_dir, access_type)
+		local meta = minetest.get_meta(pos)
+		return meta:get_inventory(), "main"
+	end,
+	on_pull_item = function(pos, in_dir, num, item_name)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.get_items(pos, inv, "main", num)
+	end,
+	on_push_item = function(pos, in_dir, stack)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.put_items(inv, "main", stack)
+	end,
+	on_unpull_item = function(pos, in_dir, stack)
+		local meta = minetest.get_meta(pos)
+		local inv = meta:get_inventory()
+		return techage.put_items(inv, "main", stack)
+	end,
+})
+
 minetest.register_craft({
 	output = 'techage:ta4_reactor',
 	recipe = {

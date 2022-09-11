@@ -358,7 +358,12 @@ liquid.register_nodes({"techage:ta4_doser", "techage:ta4_doser_on"}, Pipe, "pump
 
 techage.register_node({"techage:ta4_doser", "techage:ta4_doser_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		return State:on_receive_message(pos, topic, payload)
+		if topic == "recipe" then
+			techage.recipes.set_recipe(pos, "ta4_doser", payload)
+			return true
+		else
+			return State:on_receive_message(pos, topic, payload)
+		end
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
 		return State:on_beduino_receive_cmnd(pos, topic, payload)
