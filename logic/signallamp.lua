@@ -27,7 +27,7 @@ local function switch_on(pos, node, player, color)
 	if player and minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
-	color = (tonumber(color) or COLORED and 96 or 6) % 256
+	color = tonumber(color) or node.param2
 	if LampsOff[node.name] then
 		node.name = LampsOff[node.name]
 		node.param2 = color
@@ -44,18 +44,17 @@ local function switch_off(pos, node, player)
 	end
 	if LampsOn[node.name] then
 		node.name = LampsOn[node.name]
-		node.param2 = COLORED and 241 or 35
 		minetest.swap_node(pos, node)
 	end
 end
 
-local function register_signallamp(name, description, tiles, node_box)
+local function register_signallamp(name, description, tiles_off, tiles_on, node_box)
 	LampsOff[name .. "_off"] = name .. "_on"
 	LampsOn[name .. "_on"] = name .. "_off"
 
 	minetest.register_node(name .. "_off", {
 		description = description,
-		tiles = tiles,
+		tiles = tiles_off,
 		drawtype = node_box and "nodebox",
 		node_box = node_box,
 
@@ -87,7 +86,7 @@ local function register_signallamp(name, description, tiles, node_box)
 		paramtype2 = "color",
 		--palette = "techage_palette256.png",
 		palette = COLORED and "unifieddyes_palette_extended.png" or "techage_palette256.png",
-		place_param2 = 241,
+		place_param2 = 240,
 		sunlight_propagates = true,
 		sounds = default.node_sound_glass_defaults(),
 		groups = {choppy=2, cracky=1, ud_param2_colorable = 1},
@@ -97,7 +96,7 @@ local function register_signallamp(name, description, tiles, node_box)
 
 	minetest.register_node(name .. "_on", {
 		description = description,
-		tiles = tiles,
+		tiles = tiles_on,
 		drawtype = node_box and "nodebox",
 		node_box = node_box,
 
@@ -199,7 +198,8 @@ end)
 
 register_signallamp("techage:signal_lamp",
 	S("TechAge Signal Lamp"),
-	{"techage_signal_lamp.png^[colorize:#000000:100"},
+	{"techage_signal_lamp.png^[colorize:#000000:80"},
+	{"techage_signal_lamp.png"},
 	{
 		type = "fixed",
 		fixed = {
@@ -211,6 +211,7 @@ register_signallamp("techage:signal_lamp",
 
 register_signallamp("techage:signal_lamp2",
 	S("TechAge Signal Lamp 2 "),
+	{"techage_signallamp2.png^[colorize:#000000:80"},
 	{"techage_signallamp2.png"}
 )
 
