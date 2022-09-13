@@ -446,7 +446,7 @@ Firebox=
 ### fly_lib.lua ###
 
 Destination position is protected=
-Error: Max. length of the flight route exceeded !!=
+Error: Max. length of the flight route exceeded by @1 blocks !!=
 No valid destination position=
 No valid node at the start position=
 Start position is protected=

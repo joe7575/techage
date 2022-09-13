@@ -102,7 +102,7 @@ function flylib.to_path(s, max_dist)
 					tPath = tPath or {}
 					tPath[#tPath + 1] = v
 				else
-					return tPath, S("Error: Max. length of the flight route exceeded !!")
+					return tPath, S("Error: Max. length of the flight route exceeded by @1 blocks !!", dist - max_dist)
 				end
 			else
 				return tPath, S("Error: Invalid path !!")

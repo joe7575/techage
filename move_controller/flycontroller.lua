@@ -46,7 +46,8 @@ local WRENCH_MENU = {
 
 local function formspec(nvm, meta)
 	local status = meta:get_string("status")
-	local path = meta:contains("path") and meta:get_string("path") or "0,3,0"
+	local path = meta:contains("fs_path") and meta:get_string("fs_path") or 
+		meta:contains("path") and meta:get_string("path") or "0,3,0"
 	return "size[8,6.7]" ..
 		"style_type[textarea;font=mono;textcolor=#FFFFFF;border=true]" ..
 		"box[0,-0.1;7.2,0.5;#c6e8ff]" ..
@@ -107,6 +108,7 @@ minetest.register_node("techage:ta5_flycontroller", {
 			local pos_list = mark.get_poslist(name)
 			local _, err = fly.to_path(fields.path, MAX_DIST)
 			if not err then
+				meta:set_string("fs_path", fields.path)
 				meta:set_string("path", fields.path)
 			end
 			nvm.running = nil
@@ -120,8 +122,11 @@ minetest.register_node("techage:ta5_flycontroller", {
 			local _, err = fly.to_path(fields.path, MAX_DIST)
 			if not err then
 				meta:set_string("path", fields.path)
+				meta:set_string("fs_path", fields.path)
 				meta:set_string("status", S("Stored"))
 			else
+				meta:set_string("path", "0,0,0")
+				meta:set_string("fs_path", fields.path)
 				meta:set_string("status", err)
 			end
 			meta:set_string("formspec", formspec(nvm, meta))

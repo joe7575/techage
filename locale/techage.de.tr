@@ -446,7 +446,7 @@ Firebox=Feuerkasten
 ### fly_lib.lua ###
 
 Destination position is protected=Zielposition ist geschützt
-Error: Max. length of the flight route exceeded !!=Fehler: Max. Flugstreckenlänge überschritten !!
+Error: Max. length of the flight route exceeded by @1 blocks !!=Fehler: max. Länge der Flugstrecke um @1 Blöcke überschritten !!
 No valid destination position=Keine gültige Zielposition
 No valid node at the start position=Kein gültiger Block an der Startposition
 Start position is protected=Startposition ist geschützt
@@ -1484,3 +1484,8 @@ Remove detector=Entferne Detektor
 TA4 Collider Detector Worker=TA4 Collider Detektor Worker
 [TA4] Detector is being built!=[TA4] Detektor wird gebaut! 
 [TA4] Detector is being removed!=[TA4] Detektor wird  entfernt!
+
+
+##### not used anymore #####
+
+Error: Max. length of the flight route exceeded !!=Fehler: Max. Flugstreckenlänge überschritten !!
