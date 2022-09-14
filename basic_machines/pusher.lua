@@ -133,12 +133,9 @@ local function pushing(pos, crd, meta, nvm)
 				if nvm.item_count <= 0 then
 					crd.State:stop(pos, nvm)
 					nvm.item_count = nil
-				else
-					crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 				end
 			end
-		else
-			crd.State:stop(pos, nvm)
+			crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 		end
 	elseif nvm.num_items < nvm.limit then
 		local num = math.min(crd.num_items, nvm.limit - nvm.num_items)
