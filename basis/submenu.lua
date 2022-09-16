@@ -137,9 +137,9 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 	return player_inv_needed, table.concat(tbl, "")
 end
 
-local function value_check(elem, value)
+local function value_check(elem, value, player_name)
 	if elem.check then
-		return elem.check(value)
+		return elem.check(value, player_name)
 	end
 	return value ~= nil
 end
@@ -159,7 +159,7 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 						meta:set_string(elem.name, "")
 					elseif fields[elem.name]:find("^[%d ]+$") then
 						local val = tonumber(fields[elem.name])
-						if value_check(elem, val) then
+						if value_check(elem, val, player_name) then
 							meta:set_int(elem.name, val)
 							--print("set_int", elem.name, val)
 						else
@@ -173,7 +173,8 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 				if fields[elem.name] then
 					if fields[elem.name] == "" then
 						meta:set_string(elem.name, "")
-					elseif fields[elem.name]:find("^[%d ]+$") and value_check(elem, fields[elem.name]) then
+					elseif fields[elem.name]:find("^[%d ]+$") and
+							value_check(elem, fields[elem.name], player_name) then
 						meta:set_string(elem.name, fields[elem.name])
 					else
 						res = false
@@ -184,7 +185,7 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 					meta:set_string(elem.name, "")
 				elseif fields[elem.name] then
 					local val = tonumber(fields[elem.name])
-					if val and value_check(elem, val) then
+					if val and value_check(elem, val, player_name) then
 						meta:set_string(elem.name, val)
 					else
 						res = false
@@ -194,7 +195,7 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 				if fields[elem.name] == ""then
 					meta:set_string(elem.name, "")
 				elseif fields[elem.name] then
-					if value_check(elem, fields[elem.name]) then
+					if value_check(elem, fields[elem.name], player_name) then
 						meta:set_string(elem.name, fields[elem.name])
 					else
 						res = false

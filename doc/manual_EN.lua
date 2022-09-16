@@ -1639,7 +1639,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "",
-  "Only the appearance of the TA4 button/switch has changed. The functionality is the same as with the TA3 button/switch.\n"..
+  "Only the appearance of the TA4 button/switch has changed. The functionality is the same as with the TA3 button/switch. With the wrench menu\\, however\\, the data can be changed later.\n"..
   "\n"..
   "\n"..
   "\n",

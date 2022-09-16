@@ -40,6 +40,7 @@ local WRENCH_MENU = {
 		label = S("Handover to B"),
 		tooltip = S("Number of the next movecontroller"),
 		default = "",
+		check = techage.check_numbers,
 	},
 	{
 		type = "number",
@@ -47,6 +48,7 @@ local WRENCH_MENU = {
 		label = S("Handover to A"),
 		tooltip = S("Number of the previous movecontroller"),
 		default = "",
+		check = techage.check_numbers,
 	},
 	{
 		type = "float",

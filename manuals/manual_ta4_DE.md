@@ -467,7 +467,7 @@ Das Terminal dient zur Ein-/Ausgabe für den Lua Controller.
 
 ### TA4 Taster/Schalter / Button/Switch
 
-Beim TA4 Taster/Schalter hat sich nur das Aussehen geändert. Die Funktionalität ist gleich wie beim TA3 Taster/Schalter.
+Beim TA4 Taster/Schalter hat sich nur das Aussehen geändert. Die Funktionalität ist gleich wie beim TA3 Taster/Schalter. Mit dem Schraubenschlüssel-Menü können die Daten aber nachträglich geändert werden.
 
 [ta4_button|image]
 

@@ -459,7 +459,7 @@ The terminal is used for input / output for the Lua controller.
 
 ### TA4 Button/Switch
 
-Only the appearance of the TA4 button/switch has changed. The functionality is the same as with the TA3 button/switch.
+Only the appearance of the TA4 button/switch has changed. The functionality is the same as with the TA3 button/switch. With the wrench menu, however, the data can be changed later.
 
 [ta4_button|image]
 

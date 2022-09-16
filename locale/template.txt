@@ -114,7 +114,11 @@ TA3 Booster=
 ### button.lua ###
 
 Access:=
+Button or switch=
+Change the node name (infotext)=
 Command to be sent=
+Destination block number(s)=
+Infotext=
 TA3 Button/Switch=
 TA4 Button/Switch=
 
@@ -122,7 +126,11 @@ TA4 Button/Switch=
 ### button_2x.lua ###
 ### button_4x.lua ###
 
+Access=
+Button protection=
 Command=
+Number=
+Type=
 
 ### button.lua ###
 ### cart_detector.lua ###
@@ -154,14 +162,10 @@ TA4 2x Button=
 ### button_2x.lua ###
 ### button_4x.lua ###
 
-Access=
-Button protection=
 Command to be sent (ignored for switches)=
 Destination block number=
 Label for the button=
 Momentary button or on/off switch=
-Number=
-Type=
 
 ### button_2x.lua ###
 ### button_4x.lua ###

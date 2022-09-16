@@ -59,6 +59,7 @@ local WRENCH_MENU = {
 		label = S("Number") .. " 1",
 		tooltip = S("Destination block number"),
 		default = "",
+		check = techage.check_numbers,
 	},
 	{
 		type = "ascii",
@@ -80,6 +81,7 @@ local WRENCH_MENU = {
 		label = S("Number") .. " 2",
 		tooltip = S("Destination block number"),
 		default = "",
+		check = techage.check_numbers,
 	},
 	{
 		type = "ascii",
@@ -101,6 +103,7 @@ local WRENCH_MENU = {
 		label = S("Number") .. " 3",
 		tooltip = S("Destination block number"),
 		default = "",
+		check = techage.check_numbers,
 	},
 	{
 		type = "ascii",
@@ -122,6 +125,7 @@ local WRENCH_MENU = {
 		label = S("Number") .. " 4",
 		tooltip = S("Destination block number"),
 		default = "",
+		check = techage.check_numbers,
 	},
 	{
 		type = "ascii",

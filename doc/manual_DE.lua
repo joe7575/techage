@@ -1633,7 +1633,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "",
-  "Beim TA4 Taster/Schalter hat sich nur das Aussehen geändert. Die Funktionalität ist gleich wie beim TA3 Taster/Schalter.\n"..
+  "Beim TA4 Taster/Schalter hat sich nur das Aussehen geändert. Die Funktionalität ist gleich wie beim TA3 Taster/Schalter. Mit dem Schraubenschlüssel-Menü können die Daten aber nachträglich geändert werden.\n"..
   "\n"..
   "\n"..
   "\n",

@@ -114,7 +114,11 @@ TA3 Booster=TA3 Gebläse
 ### button.lua ###
 
 Access:=Zugriff:
+Button or switch=Taster oder Schalter
+Change the block name (infotext)=Ändere den Blocknamen
 Command to be sent=Zu sendender Befehl 
+Destination block number(s)=Zielblocknummer
+Infotext=Infotext
 TA3 Button/Switch=TA3 Taster/Schalter
 TA4 Button/Switch=TA4 Schalter/Taster
 
@@ -122,7 +126,11 @@ TA4 Button/Switch=TA4 Schalter/Taster
 ### button_2x.lua ###
 ### button_4x.lua ###
 
+Access=Zugriff
+Button protection=Tastenschutz
 Command=Kommando
+Number=Nummer
+Type=Typ
 
 ### button.lua ###
 ### cart_detector.lua ###
@@ -154,14 +162,10 @@ TA4 2x Button=TA4 2x Taster
 ### button_2x.lua ###
 ### button_4x.lua ###
 
-Access=Zugriff
-Button protection=Tastenschutz
 Command to be sent (ignored for switches)=Zu sendender Befehl (wird für Schalter ignoriert)
 Destination block number=Zielblocknummer 
 Label for the button=Beschriftung für die Taste
 Momentary button or on/off switch=Taster oder Ein-/Ausschalter
-Number=Nummer
-Type=Typ
 
 ### button_2x.lua ###
 ### button_4x.lua ###

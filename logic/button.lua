@@ -21,11 +21,42 @@ local logic = techage.logic
 
 local WRENCH_MENU = {
 	{
+		type = "dropdown",
+		choices = "switch,button 1s,button 2s,button 4s,button 8s,button 16s,button 32s",
+		name = "type",
+		label = S("Type"),
+		tooltip = S("Button or switch"),
+		default = "1",
+	},
+	{
+		type = "numbers",
+		name = "numbers",
+		label = S("Number"),
+		tooltip = S("Destination block number(s)"),
+		default = "",
+		check = techage.check_numbers,
+	},
+	{
 		type = "ascii",
 		name = "command",
 		label = S("Command"),
 		tooltip = S("Command to be sent"),
 		default = "on",
+	},
+	{
+		type = "dropdown",
+		choices = "private,protected,public",
+		name = "access",
+		label = S("Access"),
+		tooltip = S("Button protection"),
+		default = "1",
+	},
+	{
+		type = "ascii",
+		name = "decription",
+		label = S("Infotext"),
+		tooltip = S("Change the block name (infotext)"),
+		default = "",
 	},
 }
 
@@ -81,14 +112,8 @@ local function formspec(meta)
 		"button_exit[2,4;3,1;exit;"..S("Save").."]"
 end
 
-local function on_receive_fields(pos, formname, fields, player)
-	if minetest.is_protected(pos, player:get_player_name()) then
-		return
-	end
+local function store_fields_data(pos, fields)
 	local meta = M(pos)
-	if not techage.check_numbers(fields.numbers, player:get_player_name()) then
-		return
-	end
 	meta:set_string("numbers", fields.numbers)
 	if fields.access == "protected" then
 		meta:set_string("protected", "true")
@@ -128,12 +153,36 @@ local function on_receive_fields(pos, formname, fields, player)
 	if cycle_time ~= nil then
 		meta:set_int("cycle_time", cycle_time)
 	end
+	meta:set_string("access", fields.access)
+	meta:set_string("type", fields.type)
+end
+
+local function on_receive_fields(pos, formname, fields, player)
+	if minetest.is_protected(pos, player:get_player_name()) then
+		return
+	end
+	if not techage.check_numbers(fields.numbers, player:get_player_name()) then
+		return
+	end
+	store_fields_data(pos, fields)
+
+	local meta = M(pos)
 	logic.infotext(meta, NDEF(pos).description)
 	if fields.exit then
 		meta:set_string("formspec", nil)
 		meta:set_string("fixed" , "true")
 	else
 		meta:set_string("formspec", formspec(meta))
+	end
+end
+
+local function ta_after_formspec(pos, fields, playername)
+	store_fields_data(pos, fields)
+	local meta = M(pos)
+	if fields.decription ~= "" then
+		logic.infotext(meta, fields.decription)
+	else
+		logic.infotext(meta, NDEF(pos).description)
 	end
 end
 
@@ -269,6 +318,7 @@ minetest.register_node("techage:ta4_button_off", {
 	end,
 
 	ta4_formspec = WRENCH_MENU,
+	ta_after_formspec = ta_after_formspec,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick_on,
 	techage_set_numbers = techage_set_numbers,
@@ -305,6 +355,8 @@ minetest.register_node("techage:ta4_button_on", {
 		},
 	},
 
+	ta4_formspec = WRENCH_MENU,
+	ta_after_formspec = ta_after_formspec,
 	on_rightclick = on_rightclick_off,
 	on_timer = switch_off,
 	on_rotate = screwdriver.disallow,

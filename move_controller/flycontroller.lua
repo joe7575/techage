@@ -46,7 +46,7 @@ local WRENCH_MENU = {
 
 local function formspec(nvm, meta)
 	local status = meta:get_string("status")
-	local path = meta:contains("fs_path") and meta:get_string("fs_path") or 
+	local path = meta:contains("fs_path") and meta:get_string("fs_path") or
 		meta:contains("path") and meta:get_string("path") or "0,3,0"
 	return "size[8,6.7]" ..
 		"style_type[textarea;font=mono;textcolor=#FFFFFF;border=true]" ..
