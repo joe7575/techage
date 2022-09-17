@@ -1705,6 +1705,8 @@ techage.manual_EN.aText = {
   "\n"..
   "The 'goto' command is only accepted when the sequencer is stopped.\n"..
   "\n"..
+  "The cycle time (default: 100 ms) can be changed for the sequencer via the open-end wrench menu.\n"..
+  "\n"..
   "\n"..
   "\n",
   "",

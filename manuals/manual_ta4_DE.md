@@ -554,6 +554,8 @@ Der TA4 Sequenzer unterstützt folgende techage Kommandos:
 
 Das `goto` Kommando wird nur angenommen, wenn der Sequenzer gestoppt ist.
 
+Über das Gabelschlüssel-Menü kann beim Sequenzer die Zykluszeit (normal: 100 ms) geändert werden. 
+
 [ta4_sequencer|image]
 
 

@@ -546,6 +546,8 @@ The TA4 sequencer supports the following techage commands:
 
 The `goto` command is only accepted when the sequencer is stopped.
 
+The cycle time (default: 100 ms) can be changed for the sequencer via the open-end wrench menu.
+
 [ta4_sequencer|image]
 
 

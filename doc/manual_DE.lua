@@ -1699,6 +1699,8 @@ techage.manual_DE.aText = {
   "\n"..
   "Das 'goto' Kommando wird nur angenommen\\, wenn der Sequenzer gestoppt ist.\n"..
   "\n"..
+  "Über das Gabelschlüssel-Menü kann beim Sequenzer die Zykluszeit (normal: 100 ms) geändert werden. \n"..
+  "\n"..
   "\n"..
   "\n",
   "",

@@ -5,7 +5,7 @@
 import re
 import sys
 import pprint
-import mistune
+import mistune  # must be v0.8.4
 
 def formspec_escape(text):
     text = text.replace("\\", "")
