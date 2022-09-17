@@ -76,16 +76,21 @@ function inv_lib.allow_conf_inv_move(pos, from_list, from_index, to_list, to_ind
 end
 
 function inv_lib.put_items(pos, inv, listname, item, stacks, idx)
+	local name = item:get_name()
+	local count = item:get_count()
 	for _, i in ipairs(stacks or {}) do
 		if not idx or idx == i then
 			local stack = inv:get_stack(listname, i)
-			local leftover = stack:add_item(item)
+			local leftover = stack:add_item({name = name, count = count})
+			count = leftover:get_count()
 			inv:set_stack(listname, i, stack)
-			if leftover:get_count() == 0 then
+			if count == 0 then
 				return true
 			end
-			return leftover
 		end
+	end
+	if count > 0 then
+		return ItemStack({name = name, count = count})
 	end
 	return false
 end

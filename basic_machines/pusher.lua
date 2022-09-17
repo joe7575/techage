@@ -98,10 +98,24 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return 0
 end
 
+local function set_limit(pos, nvm, val)
+	val = tonumber(val) or 0
+	if val > 0 then
+		nvm.limit = val
+		nvm.num_items = 0
+		M(pos):set_int("limit", val)
+	else
+		nvm.limit = nil
+		nvm.num_items = nil
+		M(pos):set_string("limit", "")
+	end
+end
+
 -- Function returns the number of pushed items
 local function push(pos, crd, meta, nvm, pull_dir, push_dir, num)
 	local items = techage.pull_items(pos, pull_dir, num, nvm.item_name)
 	if items ~= nil then
+		local taken = items:get_count()
 		local leftover = techage.push_items(pos, push_dir, items)
 		if not leftover then
 			-- place item back
@@ -112,9 +126,9 @@ local function push(pos, crd, meta, nvm, pull_dir, push_dir, num)
 			-- place item back
 			techage.unpull_items(pos, pull_dir, leftover)
 			crd.State:blocked(pos, nvm)
-			return items:get_count() - leftover:get_count()
+			return taken - leftover:get_count()
 		end
-		return items:get_count()
+		return taken
 	end
 	crd.State:idle(pos, nvm)
 	return 0
@@ -218,17 +232,15 @@ local function can_start(pos, nvm, state)
 	return true
 end
 
+local function ta_after_formspec(pos, fields, playername)
+	local nvm = techage.get_nvm(pos)
+	set_limit(pos, nvm, fields.limit)
+end
+
 local function on_state_change(pos, old_state, new_state)
 	if old_state == techage.STOPPED and new_state == techage.RUNNING then
 		local nvm = techage.get_nvm(pos)
-		local val = M(pos):get_int("limit")
-		if val and val > 0 then
-			nvm.limit = val
-			nvm.num_items = 0
-		else
-			nvm.limit = nil
-			nvm.num_items = nil
-		end
+		set_limit(pos, nvm,  M(pos):get_int("limit"))
 	end
 end
 
@@ -314,16 +326,7 @@ local tubing = {
 		elseif topic == "limit" then  -- Set push limit
 			local nvm = techage.get_nvm(pos)
 			CRD(pos).State:stop(pos, nvm)
-			local val = tonumber(payload) or 0
-			if val and val > 0 then
-				nvm.limit = val
-				nvm.num_items = 0
-				M(pos):set_int("limit", val)
-			else
-				nvm.limit = nil
-				nvm.num_items = nil
-				M(pos):set_string("limit", "")
-			end
+			set_limit(pos, nvm, payload)
 			return true
 		elseif topic == "count" then  -- Get number of push items
 			local nvm = techage.get_nvm(pos)
@@ -341,15 +344,7 @@ local tubing = {
 		elseif topic == 68 then  -- Set push limit
 			local nvm = techage.get_nvm(pos)
 			CRD(pos).State:stop(pos, nvm)
-			if payload[1] > 0 then
-				nvm.limit = payload[1]
-				nvm.num_items = 0
-				M(pos):set_int("limit", payload[1])
-			else
-				nvm.limit = nil
-				nvm.num_items = nil
-				M(pos):set_string("limit", "")
-			end
+			set_limit(pos, nvm, payload[1])
 			return 0
 		else
 			local nvm = techage.get_nvm(pos)
@@ -405,6 +400,7 @@ local node_name_ta2, node_name_ta3, node_name_ta4 =
 		on_rotate = screwdriver.disallow,
 		tubelib2_on_update2 = tubelib2_on_update2,
 		ta4_formspec = WRENCH_MENU,
+		ta_after_formspec = ta_after_formspec,
 
 		groups = {choppy=2, cracky=2, crumbly=2},
 		is_ground_content = false,
