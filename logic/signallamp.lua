@@ -63,6 +63,10 @@ local function register_signallamp(name, description, tiles_off, tiles_on, node_
 			logic.infotext(M(pos), description)
 			if COLORED then
 				unifieddyes.recolor_on_place(pos, placer, itemstack, pointed_thing)
+			else
+				local node = minetest.get_node(pos)
+				node.param2 = 35
+				minetest.swap_node(pos, node)
 			end
 		end,
 
@@ -72,10 +76,6 @@ local function register_signallamp(name, description, tiles_off, tiles_on, node_
 			techage.remove_node(pos, oldnode, oldmetadata)
 			if COLORED then
 				unifieddyes.after_dig_node(pos, oldnode, oldmetadata, digger)
-			else
-				local node = minetest.get_node(pos)
-				node.param2 = 35
-				minetest.swap_node(pos, node)
 			end
 		end,
 

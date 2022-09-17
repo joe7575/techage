@@ -38,6 +38,34 @@ local HELP = S("Syntax:\n") ..
 	" [30] send 1234 b2a\n" ..
 	" [60] goto 1 -- keep going"
 
+local WRENCH_MENU = {
+	{
+		type = "dropdown",
+		choices = "100ms,200ms,500ms,1s,2s",
+		name = "cycletime",
+		label = S("Cycle time"),
+		tooltip = S("Timer cycle time (default: 100 ms)"),
+		default = "1",
+	},
+}
+
+local CYCLE_TIMES = {
+	["100ms"] = 0.1, 
+	["200ms"] = 0.2,
+	["500ms"] = 0.5,
+	["1s"] = 1.0,
+	["2s"] = 2.0
+}
+
+local function cycle_time(pos)
+	local mem = techage.get_mem(pos)
+	if not mem.cycletime then
+		mem.cycletime = CYCLE_TIMES[M(pos):get_string("cycletime")] or 0.1
+	end
+	return mem.cycletime
+end
+
+
 local function strsplit(text)
 	text = text:gsub("\r\n", "\n")
 	text = text:gsub("\r", "\n")
@@ -169,12 +197,12 @@ local function formspec_help(meta)
 		"background[0.1,0.3;9.8,8.0;techage_form_mask.png]"
 end
 
-local function restart_timer(pos, time)
+local function restart_timer(pos, ticks)
 	local timer = minetest.get_node_timer(pos)
 	if timer:is_started() then
 		timer:stop()
 	end
-	timer:start(time / 10)
+	timer:start(ticks * cycle_time(pos))
 end
 
 local function node_timer(pos, elapsed)
@@ -240,7 +268,8 @@ local function on_receive_fields(pos, formname, fields, player)
 				meta:set_string("text", fields.text or "")
 				mem.code = nil
 				mem.idx = nil
-				minetest.get_node_timer(pos):start(0.5)
+				mem.cycletime = nil
+				restart_timer(pos, 1)
 				logic.infotext(meta, S("TA4 Sequencer"), S("running"))
 			end
 		end
@@ -274,6 +303,7 @@ minetest.register_node("techage:ta4_sequencer", {
 	end,
 
 	on_timer = node_timer,
+	ta4_formspec = WRENCH_MENU,
 
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
@@ -300,7 +330,7 @@ techage.register_node({"techage:ta4_sequencer"}, {
 			local mem = techage.get_mem(pos)
 			nvm.running = true
 			mem.idx = tonumber(payload or 1) or 1
-			restart_timer(pos, 0.1)
+			restart_timer(pos, 1)
 			logic.infotext(M(pos), S("TA4 Sequencer"), S("running"))
 		elseif topic == "stop" or topic == "off" then
 			nvm.running = false
@@ -319,7 +349,7 @@ techage.register_node({"techage:ta4_sequencer"}, {
 				local mem = techage.get_mem(pos)
 				nvm.running = true
 				mem.idx = tonumber(payload or 1) or 1
-				restart_timer(pos, 0.1)
+				restart_timer(pos, 1)
 				logic.infotext(M(pos), S("TA4 Sequencer"), S("running"))
 				return 0
 			elseif payload[1] == 0 then
