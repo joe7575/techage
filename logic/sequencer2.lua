@@ -46,21 +46,14 @@ local WRENCH_MENU = {
 		label = S("Cycle time"),
 		tooltip = S("Timer cycle time (default: 100 ms)"),
 		default = "1",
+		values = {0.1, 0.2, 0.5, 1.0, 2.0}
 	},
-}
-
-local CYCLE_TIMES = {
-	["100ms"] = 0.1, 
-	["200ms"] = 0.2,
-	["500ms"] = 0.5,
-	["1s"] = 1.0,
-	["2s"] = 2.0
 }
 
 local function cycle_time(pos)
 	local mem = techage.get_mem(pos)
 	if not mem.cycletime then
-		mem.cycletime = CYCLE_TIMES[M(pos):get_string("cycletime")] or 0.1
+		mem.cycletime = tonumber(M(pos):get_string("cycletime")) or 0.1
 	end
 	return mem.cycletime
 end

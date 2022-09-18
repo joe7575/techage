@@ -22,7 +22,7 @@ local logic = techage.logic
 local WRENCH_MENU = {
 	{
 		type = "dropdown",
-		choices = "switch,button 1s,button 2s,button 4s,button 8s,button 16s,button 32s",
+		choices = "switch,on button,button 1s,button 2s,button 4s,button 8s,button 16s,button 32s",
 		name = "type",
 		label = S("Type"),
 		tooltip = S("Button or switch"),
@@ -87,7 +87,8 @@ local function switch_off(pos, is_button)
 		logic.swap_node(pos, "techage:ta4_button_off")
 	end
 	local meta = M(pos)
-	if not meta:contains("command") or meta:get_string("command") == "on" then
+	if meta:get_string("off_command") ~= "true" and 
+			(not meta:contains("command") or meta:get_string("command") == "on") then
 		logic.send_off(pos, M(pos))
 	end
 	if not is_button then
@@ -105,7 +106,7 @@ local function formspec(meta)
 	if idx == 0 then idx = 1 end
 	local access_idx = meta:get_string("public") == "true" and 3 or meta:get_string("protected") == "true" and 2 or 1
 	return "size[7.5,6]"..
-		"dropdown[0.2,0;3;type;switch,button 1s,button 2s,button 4s,button 8s,button 16s,button 32s;"..idx.."]"..
+		"dropdown[0.2,0;3;type;switch,on button,button 1s,button 2s,button 4s,button 8s,button 16s,button 32s;"..idx.."]"..
 		"field[0.5,2;7,1;numbers;"..S("Insert destination node number(s)")..";"..numbers.."]" ..
 		"label[0.2,3;"..S("Access:").."]"..
 		"dropdown[3,3;4;access;private,protected,public;"..access_idx.."]"..
@@ -115,6 +116,8 @@ end
 local function store_fields_data(pos, fields)
 	local meta = M(pos)
 	meta:set_string("numbers", fields.numbers)
+	meta:set_string("off_command", "")
+	
 	if fields.access == "protected" then
 		meta:set_string("protected", "true")
 		meta:set_string("public", "")
@@ -131,23 +134,27 @@ local function store_fields_data(pos, fields)
 	if fields.type == "switch" then
 		meta:set_int("cycle_idx", 1)
 		cycle_time = 0
-	elseif fields.type == "button 1s" then
+	elseif fields.type == "on button" then
 		meta:set_int("cycle_idx", 2)
+		meta:set_string("off_command", "true")
+		cycle_time = 1
+	elseif fields.type == "button 1s" then
+		meta:set_int("cycle_idx", 3)
 		cycle_time = 1
 	elseif fields.type == "button 2s" then
-		meta:set_int("cycle_idx", 3)
+		meta:set_int("cycle_idx", 4)
 		cycle_time = 2
 	elseif fields.type == "button 4s" then
-		meta:set_int("cycle_idx", 4)
+		meta:set_int("cycle_idx", 5)
 		cycle_time = 4
 	elseif fields.type == "button 8s" then
-		meta:set_int("cycle_idx", 5)
+		meta:set_int("cycle_idx", 6)
 		cycle_time = 8
 	elseif fields.type == "button 16s" then
-		meta:set_int("cycle_idx", 6)
+		meta:set_int("cycle_idx", 7)
 		cycle_time = 16
 	elseif fields.type == "button 32s" then
-		meta:set_int("cycle_idx", 7)
+		meta:set_int("cycle_idx", 8)
 		cycle_time = 32
 	end
 	if cycle_time ~= nil then

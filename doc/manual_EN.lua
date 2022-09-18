@@ -1046,7 +1046,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "The button/switch sends 'on' / 'off' commands to the blocks that have been configured via the numbers.\n"..
-  "The button/switch can be configured as a button or a switch. If it is configured as a button\\, the time between the 'on' and 'off' commands can be set.\n"..
+  "The button/switch can be configured as a button or a switch. If it is configured as a button\\, the time between the 'on' and 'off' commands can be set. With the operating mode \"on button\" only an 'on' and no 'off' command is sent.\n"..
   "\n"..
   "The checkbox \"public\" can be used to set whether the button can be used by everyone (set) or only by the owner himself (not set).\n"..
   "\n"..

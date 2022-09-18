@@ -1043,7 +1043,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n",
   "Der Taster/Schalter sendet 'on'/'off' Kommandos zu den Blöcken\\, die über die Nummern konfiguriert wurden.\n"..
-  "Der Taster/Schalter kann als Taster (button) oder Schalter (switch) konfiguriert werden. Wird er als Taster konfiguriert\\, so kann die Zeit zwischen den 'on' und 'off' Kommandos eingestellt werden.\n"..
+  "Der Taster/Schalter kann als Taster (button) oder Schalter (switch) konfiguriert werden. Wird er als Taster konfiguriert\\, so kann die Zeit zwischen den 'on' und 'off' Kommandos eingestellt werden. Mit der Betriebsart \"on button\" wird nur ein 'on' und kein 'off' Kommandos gesendet.\n"..
   "\n"..
   "Über die Checkbox \"public\" kann eingestellt werden\\, ob den Taster von jedem (gesetzt)\\, oder nur vom Besitzer selbst (nicht gesetzt) genutzt werden darf.\n"..
   "\n"..

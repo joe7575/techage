@@ -16,8 +16,8 @@ local S = techage.S
 techage.menu = {}
 
 local function index(list, x)
-	for idx, v in ipairs(list) do
-		if v == x then return idx end
+	for idx, v in ipairs(list or {}) do
+		if tostring(v) == x then return idx end
 	end
 	return nil
 end
@@ -99,7 +99,6 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 				end
 				tbl[#tbl+1] = "label[4.75," .. offs .. ";" .. val .. "]"
 			elseif elem.type == "dropdown" then
-				local l = elem.choices:split(",")
 				if nvm.running or techage.is_running(nvm) then
 					local val = elem.default or ""
 					if meta:contains(elem.name) then
@@ -120,7 +119,13 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 					if meta:contains(elem.name) then
 						val = meta:get_string(elem.name) or ""
 					end
-					local idx = index(l, val) or 1
+					local idx
+					if elem.values then
+						idx = index(elem.values, val) or 1
+					else
+						local l = elem.choices:split(",")
+						idx = index(l, val) or 1
+					end
 					tbl[#tbl+1] = "dropdown[4.72," .. (offs) .. ";5.5,1.4;" .. elem.name .. ";" .. elem.choices .. ";" .. idx .. "]"
 				end
 			elseif elem.type == "items" then  -- inventory
@@ -203,7 +208,14 @@ local function evaluate_data(pos, meta, form_def, fields, player_name)
 				end
 			elseif elem.type == "dropdown" then
 				if fields[elem.name] ~= nil then
-					meta:set_string(elem.name, fields[elem.name])
+					if elem.values then
+						local l = elem.choices:split(",")
+						local idx = index(l, fields[elem.name]) or 1
+						local text = elem.values[idx]
+						meta:set_string(elem.name, text)
+					else
+						meta:set_string(elem.name, fields[elem.name])
+					end
 				end
 			elseif elem.type == "items" and player_name then
 				local inv_name = minetest.formspec_escape(player_name) .. "_techage_wrench_menu"
