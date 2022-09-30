@@ -354,8 +354,8 @@ techage.ConstructionPlans["ta4_reactor"] = {
 	{false, false, false, false, PN000, PIPEH, PIPEH, PN270, false, false, false},
 	{false, false, false, false, PIPEV, false, false, FILLR, false, false, false},
 	{false, false, false, false, PIPEV, false, false, REACT, false, false, false},
-	{false, false, false, false, PIPEV, false, false, STAND, PIPEH, PIPEH, SILO},
-	{false, TANK3, PIPEH, PIPEH, DOSER, PN270, false, RBASE, PIPEH, PIPEH, TANK3},
+	{false, false, false, false, PIPEV, false, false, STAND, PIPEH, PIPEH, TANK3},
+	{false, TANK3, PIPEH, PIPEH, DOSER, PN270, false, RBASE, PIPEH, PIPEH, SILO},
 	{false, SILO,  PIPEH, PIPEH, PIPEH, PN180, false, false, false, false, false},
 }
 
