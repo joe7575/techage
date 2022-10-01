@@ -70,3 +70,21 @@ techage.add_grinder_recipe({input="techage:aluminum", output="techage:aluminum_p
 techage.add_grinder_recipe({input="default:silver_sandstone", output="techage:silver_sandstone_powder"})
 techage.add_grinder_recipe({input="default:coal_lump", output="techage:graphite_powder"})
 
+if minetest.get_modpath("ethereal") then
+	techage.add_grinder_recipe({input="ethereal:bush", output="techage:leave_powder"})
+	techage.add_grinder_recipe({input="ethereal:bush2", output="techage:leave_powder"})
+	techage.add_grinder_recipe({input="ethereal:bush3", output="techage:leave_powder"})
+	techage.add_grinder_recipe({input="ethereal:bamboo_leaves", output="techage:leave_powder"})
+	techage.add_grinder_recipe({input="ethereal:bananaleaves", output="techage:leave_powder"})
+	techage.add_grinder_recipe({input="ethereal:birch_leaves", output="techage:leave_powder"})
+	techage.add_grinder_recipe({input="ethereal:frost_leaves", output="techage:leave_powder"})
+	techage.add_grinder_recipe({input="ethereal:lemon_leaves", output="techage:leave_powder"})
+	techage.add_grinder_recipe({input="ethereal:olive_leaves", output="techage:leave_powder"})
+	techage.add_grinder_recipe({input="ethereal:orange_leaves", output="techage:leave_powder"})
+	techage.add_grinder_recipe({input="ethereal:palmleaves", output="techage:leave_powder"})
+	techage.add_grinder_recipe({input="ethereal:redwood_leaves", output="techage:leave_powder"})
+	techage.add_grinder_recipe({input="ethereal:sakura_leaves", output="techage:leave_powder"})
+	techage.add_grinder_recipe({input="ethereal:ethereal:sakura_leaves2", output="techage:leave_powder"})
+	techage.add_grinder_recipe({input="ethereal:willow_twig", output="techage:leave_powder"})
+	techage.add_grinder_recipe({input="ethereal:yellowleaves", output="techage:leave_powder"})
+end
