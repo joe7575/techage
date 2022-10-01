@@ -346,7 +346,8 @@ local STAND = {"techage_reactor_stand_side.png", "techage:ta4_reactor_stand"}
 local REACT = {"techage_reactor_plan.png", "techage:ta4_reactor"}
 local FILLR = {"techage_reactor_filler_plan.png", "techage:ta4_reactor_fillerpipe"}
 local DOSER = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_pump_up.png", "techage:ta4_doser"}
-local SILO  = {"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_silo.png", "techage:ta3_silo"}
+local SILO4 = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_silo.png", "techage:ta4_silo"}
+local TANK4 = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_tank.png", "techage:ta4_tank"}
 
 techage.ConstructionPlans["ta4_reactor"] = {
 	{false, false, false, false, false, false, SIDEV, false, false, false, false},
@@ -354,9 +355,9 @@ techage.ConstructionPlans["ta4_reactor"] = {
 	{false, false, false, false, PN000, PIPEH, PIPEH, PN270, false, false, false},
 	{false, false, false, false, PIPEV, false, false, FILLR, false, false, false},
 	{false, false, false, false, PIPEV, false, false, REACT, false, false, false},
-	{false, false, false, false, PIPEV, false, false, STAND, PIPEH, PIPEH, SILO},
-	{false, TANK3, PIPEH, PIPEH, DOSER, PN270, false, RBASE, PIPEH, PIPEH, TANK3},
-	{false, SILO,  PIPEH, PIPEH, PIPEH, PN180, false, false, false, false, false},
+	{false, false, false, false, PIPEV, false, false, STAND, PIPEH, PIPEH, SILO4},
+	{false, TANK4, PIPEH, PIPEH, DOSER, PN270, false, RBASE, PIPEH, PIPEH, TANK4},
+	{false, SILO4,  PIPEH, PIPEH, PIPEH, PN180, false, false, false, false, false},
 }
 
 --

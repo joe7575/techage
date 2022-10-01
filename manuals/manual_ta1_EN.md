@@ -17,13 +17,21 @@ The durability / hardness for an axe, for example:
 
 You need the Charcoal Pile to make charcoal. Charcoal is required for the melting furnace, but also, for example, in TA2 for the steam engine.
 
+For the charcoal burner you need:
+
+- a lighter block (`techage:lighter`)
+- 26 wooden blocks that are stacked into a pile of wood. The type of wood is irrelevant
+- Dirt to cover the pile of wood
+- Flint and Iron (technical name: `fire:flint_and_steel`) to light the lighter block
+
+
+
 Building instructions (see also plan):
 
-- Build a 5x5 area of ​​dirt
-- Place a lighter in the middle
-- Build a 3x3x3 cube above it out of wood
-- Cover everything with a layer of dirt to form a 5x5x5 cube
-- Leave a hole to the lighter
+- Build a 5x5 area of dirt
+- Place 7 wood around the lighter but leave a hole to the lighter
+- Build another 2 layers of wood on top, making a 3x3x3 wooden cube
+- Cover everything with a layer of dirt into a 5x5x5 cube, but keep the hole to the lighter open
 - Light the lighter and immediately close the hole with a block of wood and dirt
 - If you have done everything correctly, the coal burner will start smoking after a few seconds
 - Only open the charcoal burner when the smoke has disappeared (approx. 20 min)

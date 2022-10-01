@@ -17,13 +17,22 @@ Die Haltbarkeit/Härte bspw. für eine Axt ist:
 
 Den Köhler brauchst du, um Holzkohle herzustellen. Holzkohle wird für den Brenner, aber auch bspw. in TA2 für die Dampfmaschine benötigt.
 
+Für den Köhler brauchst du:
+
+- einen Anzünderblock (`techage:lighter`)
+- 26 Hölzblöcke (wood), die zu einem Würfen aufgeschichtet werden. Die Holzsorte spielt keine Rolle
+- Erde (dirt) um den Holzhaufen abzudecken
+- Flint and Iron (technischer Name: `fire:flint_and_steel`) um den Anzünderblock anzuzünden
+
+
+
 Bauanleitung (siehe auch Plan):
 
 - Baue eine 5x5 große Fläche aus Erde (dirt)
 - Platziere in die Mitte einen Anzünder (lighter)
-- Baue aus Holz (wood) einen 3x3x3 großen Würfel darüber
-- Überdecke alles mit einer Schicht Erde zu einem 5x5x5 großen Würfel
-- Lasse ein Loch zum Anzünder
+- Platziere rund um den Anzünder 7 Holz (wood), aber lasse ein Loch zum Anzünder frei
+- Baue weitere 2 Schichten Holz darüber, so dass ein 3x3x3 großen Holzwürfel entsteht
+- Überdecke alles mit einer Schicht Erde zu einem 5x5x5 großen Würfel, aber lasse das Loch zum Anzünder frei
 - Zünde den Anzünder an und verschließe das Loch sofort mit jeweils einem Block Holz und Erde
 - Wenn du alles richtig gemacht hast, beginnt der Köhler nach wenigen Sekunden an zu rauchen
 - Öffne den Köhler erst, wenn der Rauch verschwunden ist (ca. 20 min)

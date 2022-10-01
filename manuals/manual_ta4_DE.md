@@ -258,6 +258,8 @@ In den Elektrolyseur passen 200 Einheiten Wasserstoff.
 
 Der Elektrolyseur besitzt ein Schraubenschlüssel-Menü zur Einstellung der Stromaufnahme und des Abschaltpunkts.
 
+Unterschreitet die im Stromnetz gespeicherte Leistung den angegebenen Wert des Abschaltpunkts, so schaltet sich der Elektrolyseur automatisch ab. Damit kann ein Leerlaufen der Speichersysteme verhindert werden.
+
 [ta4_electrolyzer|image]
 
 

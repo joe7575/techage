@@ -200,7 +200,7 @@ local tool_config = {
 		choices = "0%,20%,40%,60%,80%,98%",
 		name = "turnoff",
 		label = S("Turnoff point"),
-		tooltip = S("If the charge of the storage\nsystem exceeds the configured value,\nthe block switches off"),
+		tooltip = S("If the charge of the storage\nsystem falls below the configured value,\nthe block switches off"),
 		default = "98%",
 	},
 }

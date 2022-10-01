@@ -251,6 +251,8 @@ The electrolyzer can draw up to 35 ku of electricity and then generates a hydrog
 
 The electrolyzer has a wrench menu for setting the current consumption and the switch-off point.
 
+If the power stored in the power grid falls below the specified value of the switch-off point, the electrolyzer switches off automatically. This prevents the storage systems from running empty.
+
 [ta4_electrolyzer|image]
 
 

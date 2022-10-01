@@ -60,7 +60,7 @@ local State4 = techage.NodeStates:new({
 -- Function returns the number of pumped units
 local function pump(pos, mem, nvm, state, outdir, units)
 	local taken, name = liquid.take(pos, Pipe, Flip[outdir], nil, units, mem.dbg_cycles > 0)
-	if taken > 0 then
+	if taken > 0 and name then
 		local leftover = liquid.put(pos, Pipe, outdir, name, taken, mem.dbg_cycles > 0)
 		if leftover and leftover > 0 then
 			-- air needs no tank
