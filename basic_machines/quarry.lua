@@ -26,7 +26,7 @@ local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm
 
 local S = techage.S
 
-local CYCLE_TIME = 3
+local CYCLE_TIME = 4
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
 

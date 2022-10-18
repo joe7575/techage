@@ -10,7 +10,8 @@
 
 	Cracking breaks long chains of hydrocarbons into short chains using a catalyst.
 	Gibbsite powder serves as a catalyst (is not consumed).
-	It can be used to convert bitumen into fueloil, fueloil into naphtha and naphtha into gasoline.
+	It can be used to convert bitumen into fueloil, fueloil into naphtha, naphtha into gasoline,
+	and gasoline into gas.
 
 	In hydrogenation, pairs of hydrogen atoms are added to a molecule to convert short-chain
 	hydrocarbons into long ones.
@@ -41,6 +42,22 @@ techage.recipes.add("ta4_doser", {
 	output = "techage:gasoline 1",
 	input = {
 		"techage:naphtha 1",
+	},
+	catalyst = "techage:gibbsite_powder",
+})
+
+techage.recipes.add("ta4_doser", {
+	output = "techage:isobutane 1",
+	input = {
+		"techage:gasoline 1",
+	},
+	catalyst = "techage:gibbsite_powder",
+})
+
+techage.recipes.add("ta4_doser", {
+	output = "techage:gas 1",
+	input = {
+		"techage:isobutane 1",
 	},
 	catalyst = "techage:gibbsite_powder",
 })
