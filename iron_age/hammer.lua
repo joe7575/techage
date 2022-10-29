@@ -14,6 +14,19 @@
 
 local S = techage.S
 
+local Stone2Gravel = {
+	["default:stone"] = "default:gravel",
+	["default:cobble"] = "default:gravel",
+	["default:desert_stone"] = "default:gravel",
+	["techage:basalt_stone"] = "techage:basalt_gravel",	["techage:basalt_cobble"] = "techage:basalt_gravel",
+	["techage:bauxite_stone"] = "techage:bauxite_gravel",
+	["techage:bauxite_cobble"] = "techage:bauxite_gravel",
+}
+
+function techage.register_stone_gravel_pair(stone_name, gravel_name)
+	Stone2Gravel[stone_name] = gravel_name
+end
+
 local function handler(player_name, node, itemstack, digparams)
 	local pos = techage.dug_node[player_name]
 	if not pos then return end
@@ -38,8 +51,8 @@ local function handler(player_name, node, itemstack, digparams)
 				end
 			end
 		end
-		if node.name == "techage:basalt_stone" or node.name == "techage:basalt_cobble" then
-			node.name = "techage:basalt_gravel"
+		if Stone2Gravel[node.name] then
+			node.name = Stone2Gravel[node.name]
 		else
 			node.name = "default:gravel"
 		end
