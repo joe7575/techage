@@ -751,11 +751,14 @@ function flylib.reset_move(pos)
 	local nvm = techage.get_nvm(pos)
 	local height = techage.in_range(meta:contains("height") and meta:get_float("height") or 1, 0, 1)
 	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
-	local move = vector.subtract(nvm.lpos1[1], (nvm.lastpos or nvm.lpos1)[1])
-	local resp
+	if nvm.lpos1 and nvm.lpos1[1] then
+		local move = vector.subtract(nvm.lpos1[1], (nvm.lastpos or nvm.lpos1)[1])
+		local resp
 
-	resp, nvm.lastpos = move_nodes2(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed, height)
-	return resp
+		resp, nvm.lastpos = move_nodes2(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed, height)
+		return resp
+	end
+	return false
 end
 
 -- rot is one of "l", "r", "2l", "2r"
