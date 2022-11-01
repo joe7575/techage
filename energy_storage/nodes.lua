@@ -30,7 +30,7 @@ minetest.register_node("techage:glow_gravel", {
 	}},
 	paramtype = "light",
 	light_source = 8,
-	groups = {crumbly = 2, falling_node = 1},
+	groups = {crumbly = 2, falling_node = 1, not_in_creative_inventory = 1},
 	sounds = default.node_sound_gravel_defaults(),
 	drop = "",
 })
