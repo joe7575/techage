@@ -16,6 +16,7 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 --local P = minetest.string_to_pos
 --local M = minetest.get_meta
+local has_mesecons = minetest.global_exists("mesecons_mvps")
 
 local NodeInfoCache = {}
 local NumbersToBeRecycled = {}
@@ -316,6 +317,13 @@ function techage.register_node(names, node_definition)
 	-- register LBM
 	if node_definition.on_node_load then
 		register_lbm(names[1], names)
+	end
+
+	-- register mvps stopper
+	if has_mesecons then
+		for _, name in ipairs(names) do
+			mesecon.register_mvps_stopper(name)
+		end
 	end
 end
 
