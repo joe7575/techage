@@ -16,7 +16,7 @@
 local S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 --local P = minetest.string_to_pos
 --local M = minetest.get_meta
-local has_mesecons = minetest.get_modpath("mesecons_mvps") 
+local has_mesecons = minetest.global_exists("mesecons_mvps")
 
 local NodeInfoCache = {}
 local NumbersToBeRecycled = {}
