@@ -172,7 +172,7 @@ end)
 techage.dug_node = {}
 minetest.register_on_dignode(function(pos, oldnode, digger)
 	if not digger then return end
-	-- store pos for tools without own 'register_on_dignode'
+	-- store the position of the dug block for tools like the TA1 hammer
 	techage.dug_node[digger:get_player_name()] = pos
 end)
 

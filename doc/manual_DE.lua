@@ -360,13 +360,20 @@ techage.manual_DE.aText = {
   "\n",
   "Den Köhler brauchst du\\, um Holzkohle herzustellen. Holzkohle wird für den Brenner\\, aber auch bspw. in TA2 für die Dampfmaschine benötigt.\n"..
   "\n"..
+  "Für den Köhler brauchst du:\n"..
+  "\n"..
+  "  - einen Anzünderblock ('techage:lighter')\n"..
+  "  - 26 Hölzblöcke (wood)\\, die zu einem Würfen aufgeschichtet werden. Die Holzsorte spielt keine Rolle\n"..
+  "  - Erde (dirt) um den Holzhaufen abzudecken\n"..
+  "  - Flint and Iron (technischer Name: 'fire:flint_and_steel') um den Anzünderblock anzuzünden\n"..
+  "\n"..
   "Bauanleitung (siehe auch Plan):\n"..
   "\n"..
   "  - Baue eine 5x5 große Fläche aus Erde (dirt)\n"..
   "  - Platziere in die Mitte einen Anzünder (lighter)\n"..
-  "  - Baue aus Holz (wood) einen 3x3x3 großen Würfel darüber\n"..
-  "  - Überdecke alles mit einer Schicht Erde zu einem 5x5x5 großen Würfel\n"..
-  "  - Lasse ein Loch zum Anzünder\n"..
+  "  - Platziere rund um den Anzünder 7 Holz (wood)\\, aber lasse ein Loch zum Anzünder frei\n"..
+  "  - Baue weitere 2 Schichten Holz darüber\\, so dass ein 3x3x3 großen Holzwürfel entsteht\n"..
+  "  - Überdecke alles mit einer Schicht Erde zu einem 5x5x5 großen Würfel\\, aber lasse das Loch zum Anzünder frei\n"..
   "  - Zünde den Anzünder an und verschließe das Loch sofort mit jeweils einem Block Holz und Erde\n"..
   "  - Wenn du alles richtig gemacht hast\\, beginnt der Köhler nach wenigen Sekunden an zu rauchen\n"..
   "  - Öffne den Köhler erst\\, wenn der Rauch verschwunden ist (ca. 20 min)\n"..
@@ -1478,6 +1485,8 @@ techage.manual_DE.aText = {
   "In den Elektrolyseur passen 200 Einheiten Wasserstoff.\n"..
   "\n"..
   "Der Elektrolyseur besitzt ein Schraubenschlüssel-Menü zur Einstellung der Stromaufnahme und des Abschaltpunkts.\n"..
+  "\n"..
+  "Unterschreitet die im Stromnetz gespeicherte Leistung den angegebenen Wert des Abschaltpunkts\\, so schaltet sich der Elektrolyseur automatisch ab. Damit kann ein Leerlaufen der Speichersysteme verhindert werden.\n"..
   "\n"..
   "\n"..
   "\n",
