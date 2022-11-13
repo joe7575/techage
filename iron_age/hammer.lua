@@ -28,6 +28,19 @@ function techage.register_stone_gravel_pair(stone_name, gravel_name)
 	Stone2Gravel[stone_name] = gravel_name
 end
 
+-- Pipeworks uses a fakeplayer based on the owner of the nodebraker.
+-- Since the fakeplayer position differs from the real player position,
+-- this can be used to detect the fakeplayer.
+local function is_real_player(player)
+	if minetest.is_player(player) then
+		local obj = minetest.get_player_by_name(player:get_player_name())
+		if obj then
+			return vector.equals(obj:get_pos(), player:get_pos())
+		end
+	end
+	return false
+end
+
 local function handler(player_name, node, itemstack, digparams)
 	local pos = techage.dug_node[player_name]
 	if not pos then return end
@@ -77,7 +90,7 @@ minetest.register_tool("techage:hammer_stone", {
 	},
 	sound = {breaks = "default_tool_breaks"},
 	after_use = function(itemstack, user, node, digparams)
-		if minetest.is_player(user) then
+		if is_real_player(user) then
 			minetest.after(0.01, handler, user:get_player_name(), node)
 		end
 		itemstack:add_wear(digparams.wear)
@@ -98,7 +111,7 @@ minetest.register_tool("techage:hammer_bronze", {
 	},
 	sound = {breaks = "default_tool_breaks"},
 	after_use = function(itemstack, user, node, digparams)
-		if minetest.is_player(user) then
+		if is_real_player(user) then
 			minetest.after(0.01, handler, user:get_player_name(), node)
 		end
 		itemstack:add_wear(digparams.wear)
@@ -119,7 +132,7 @@ minetest.register_tool("techage:hammer_steel", {
 	},
 	sound = {breaks = "default_tool_breaks"},
 	after_use = function(itemstack, user, node, digparams)
-		if minetest.is_player(user) then
+		if is_real_player(user) then
 			minetest.after(0.01, handler, user:get_player_name(), node)
 		end
 		itemstack:add_wear(digparams.wear)
@@ -140,7 +153,7 @@ minetest.register_tool("techage:hammer_mese", {
 	},
 	sound = {breaks = "default_tool_breaks"},
 	after_use = function(itemstack, user, node, digparams)
-		if minetest.is_player(user) then
+		if is_real_player(user) then
 			minetest.after(0.01, handler, user:get_player_name(), node)
 		end
 		itemstack:add_wear(digparams.wear)
@@ -161,7 +174,7 @@ minetest.register_tool("techage:hammer_diamond", {
 	},
 	sound = {breaks = "default_tool_breaks"},
 	after_use = function(itemstack, user, node, digparams)
-		if minetest.is_player(user) then
+		if is_real_player(user) then
 			minetest.after(0.01, handler, user:get_player_name(), node)
 		end
 		itemstack:add_wear(digparams.wear)
