@@ -29,16 +29,8 @@ function techage.register_stone_gravel_pair(stone_name, gravel_name)
 end
 
 -- Pipeworks uses a fakeplayer based on the owner of the nodebraker.
--- Since the fakeplayer position differs from the real player position,
--- this can be used to detect the fakeplayer.
 local function is_real_player(player)
-	if minetest.is_player(player) then
-		local obj = minetest.get_player_by_name(player:get_player_name())
-		if obj then
-			return vector.equals(obj:get_pos(), player:get_pos())
-		end
-	end
-	return false
+	return minetest.is_player(player) and not player.is_fake_player
 end
 
 local function handler(player_name, node, itemstack, digparams)

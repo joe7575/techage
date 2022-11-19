@@ -431,4 +431,5 @@ if minetest.global_exists("farming") then
 	techage.add_grinder_recipe({input="farming:seed_rice 6", output="farming:rice_flour"}, true)
 	techage.add_grinder_recipe({input="farming:oat 3", output="farming:flour"}, true)
 	techage.add_grinder_recipe({input="farming:seed_oat 6", output="farming:flour"}, true)
+	techage.add_grinder_recipe({input="farming:seed_cotton 3", output="basic_materials:oil_extract"}, true)
 end
