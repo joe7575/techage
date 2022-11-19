@@ -576,6 +576,12 @@ The Move Controller supports the following techage commands:
 - `b2a` Move block from B to A.
 - `move` Move block to the other side
 
+You can switch to the `move xyz` operating mode via the wrench menu. After switching, the following techage commands are supported: 
+
+- `move2` With the command, the flight route must also be specified as an x,y,z vector.
+  Example Lua Controller: `$send_cmnd(MOVE_CTLR, "move2", "0,12,0")` 
+- `reset` move block(s) back to start position
+
 **Important instructions:**
 
 - If several blocks are to be moved, the block that is to take the players/mobs must be clicked first when training.

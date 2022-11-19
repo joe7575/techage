@@ -585,6 +585,12 @@ Der Move Controller unterstützt folgende techage Kommandos:
 - `b2a`  Bewege Block von B nach A
 - `move` Bewege Block auf die andere Seite
 
+Über das Schraubenschlüssel-Menü kann auf die Betriebsart `move xyz` umgeschaltet werden.  Nach der Umschaltung werden folgende techage Kommandos unterstützt:
+
+- `move2`  Beim Kommando muss zusätzlich die Flugstrecke als x,y,z Vektor angegeben werden.
+  Beispiel Lua Controller: `$send_cmnd(MOVE_CTLR, "move2", "0,12,0")`
+- `reset` Block/Blöcke zurück in Startposition bewegen
+
 **Wichtige Hinweise:**
 
 - Sofern mehrere Blöcke bewegt werden sollen, muss der Block, der die Spieler/Mobs mitnehmen soll, beim Antrainieren als erstes angeklickt werden.

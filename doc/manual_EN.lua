@@ -1736,6 +1736,11 @@ techage.manual_EN.aText = {
   "  - 'b2a' Move block from B to A.\n"..
   "  - 'move' Move block to the other side\n"..
   "\n"..
+  "You can switch to the 'move xyz' operating mode via the wrench menu. After switching\\, the following techage commands are supported: \n"..
+  "\n"..
+  "  - 'move2' With the command\\, the flight route must also be specified as an x\\,y\\,z vector.\nExample Lua Controller: '$send_cmnd(MOVE_CTLR\\, \"move2\"\\, \"0\\,12\\,0\")'\n"..
+  "  - 'reset' move block(s) back to start position\n"..
+  "\n"..
   "*Important instructions:*\n"..
   "\n"..
   "  - If several blocks are to be moved\\, the block that is to take the players/mobs must be clicked first when training.\n"..

@@ -1731,6 +1731,11 @@ techage.manual_DE.aText = {
   "  - 'b2a'  Bewege Block von B nach A\n"..
   "  - 'move' Bewege Block auf die andere Seite\n"..
   "\n"..
+  "Über das Schraubenschlüssel-Menü kann auf die Betriebsart 'move xyz' umgeschaltet werden.  Nach der Umschaltung werden folgende techage Kommandos unterstützt:\n"..
+  "\n"..
+  "  - 'move2'  Beim Kommando muss zusätzlich die Flugstrecke als x\\,y\\,z Vektor angegeben werden.\nBeispiel Lua Controller: '$send_cmnd(MOVE_CTLR\\, \"move2\"\\, \"0\\,12\\,0\")'\n"..
+  "  - 'reset' Block/Blöcke zurück in Startposition bewegen\n"..
+  "\n"..
   "*Wichtige Hinweise:*\n"..
   "\n"..
   "  - Sofern mehrere Blöcke bewegt werden sollen\\, muss der Block\\, der die Spieler/Mobs mitnehmen soll\\, beim Antrainieren als erstes angeklickt werden.\n"..
