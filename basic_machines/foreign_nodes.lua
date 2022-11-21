@@ -109,17 +109,19 @@ techage.register_node({"default:furnace", "default:furnace_active"}, {
 		local inv = meta:get_inventory()
 		return techage.get_items(pos, inv, "dst", num)
 	end,
-	on_push_item = function(pos, side, stack)
+	on_push_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		minetest.get_node_timer(pos):start(1.0)
-		if minetest.get_craft_result({method="fuel", width=1, items={stack}}).time ~= 0 then
+		if in_dir == 5 then
+			return techage.put_items(inv, "src", stack)
+		elseif minetest.get_craft_result({method="fuel", width=1, items={stack}}).time ~= 0 then
 			return techage.put_items(inv, "fuel", stack)
 		else
 			return techage.put_items(inv, "src", stack)
 		end
 	end,
-	on_unpull_item = function(pos, side, stack)
+	on_unpull_item = function(pos, in_dir, stack)
 		local meta = minetest.get_meta(pos)
 		local inv = meta:get_inventory()
 		return techage.put_items(inv, "dst", stack)
