@@ -959,6 +959,8 @@ Plastic Granules=Plastikgranulat
 
 ### player_detector.lua ###
 
+Radius=Radius
+Search radius=Suchradius
 TA4 Player Detector=TA4 Spieler Detektor
 
 ### powder.lua ###
@@ -1151,12 +1153,14 @@ stopped=gestoppt
 <num> is a number from 1 to 50000 and is@n=<num> ist eine Nummer von 1 bis 50000 und ist@n
 @n=@n
 Commands=Kommandos
+Cycle time=Zykluszeit
 Example:@n=Beispiel:
 Invalid command!=Ungültiges Kommando!
 Start=Start
 Stop=Stopp
 Syntax:@n=Syntax:@n
 TA4 Sequencer=TA4 Sequenzer
+Timer cycle time (default: 100 ms)=Zykluszeit (normal: 100 ms)
 running=läuft
 the timeslot when the command is executed.@n=der Zeitpunkt, wenn der Befehl ausgeführt wird.@n
 

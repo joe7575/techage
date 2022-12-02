@@ -115,7 +115,7 @@ TA3 Booster=
 
 Access:=
 Button or switch=
-Change the node name (infotext)=
+Change the block name (infotext)=
 Command to be sent=
 Destination block number(s)=
 Infotext=
@@ -959,6 +959,8 @@ Plastic Granules=
 
 ### player_detector.lua ###
 
+Radius=
+Search radius=
 TA4 Player Detector=
 
 ### powder.lua ###
@@ -1151,12 +1153,14 @@ stopped=
 <num> is a number from 1 to 50000 and is@n=
 @n=
 Commands=
+Cycle time=
 Example:@n=
 Invalid command!=
 Start=
 Stop=
 Syntax:@n=
 TA4 Sequencer=
+Timer cycle time (default: 100 ms)=
 running=
 the timeslot when the command is executed.@n=
 
