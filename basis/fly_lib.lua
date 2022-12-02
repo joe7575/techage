@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2020-2021 Joachim Stolberg
+	Copyright (C) 2020-2022 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -308,6 +308,30 @@ local function detach_objects(pos, self)
 	self.players = {}
 end
 
+local function set_node(pos, name, param2, metadata)
+	local node =  minetest.get_node(pos)
+	local ndef1 = minetest.registered_nodes[name]
+	local ndef2 = minetest.registered_nodes[node.name]
+	if ndef1 and ndef2 then
+		if ndef2.buildable_to then
+			local meta = M(pos)
+			minetest.set_node(pos, {name=name, param2=param2})
+			meta:from_table(metadata)
+			meta:set_string("ta_move_block", "")
+			meta:set_int("ta_door_locked", 1)
+			return
+		end
+		local meta = M(pos)
+		if not meta:contains("ta_move_block") then
+			meta:set_string("ta_move_block", minetest.serialize({name=name, param2=param2}))
+			return
+		end
+		--minetest.add_item(pos, ItemStack(name))
+	elseif ndef1 then
+		minetest.add_item(pos, ItemStack(name))
+	end
+end
+
 local function entity_to_node(pos, obj)
 	local self = obj:get_luaentity()
 	if self then
@@ -320,27 +344,7 @@ local function entity_to_node(pos, obj)
 			nvm.running = nil
 		end
 		minetest.after(0.1, obj.remove, obj)
-		local node =  minetest.get_node(pos)
-		local ndef1 = minetest.registered_nodes[name]
-		local ndef2 = minetest.registered_nodes[node.name]
-		if ndef1 and ndef2 then
-			if ndef2.buildable_to then
-				local meta = M(pos)
-				minetest.set_node(pos, {name=name, param2=param2})
-				meta:from_table(metadata)
-				meta:set_string("ta_move_block", "")
-				meta:set_int("ta_door_locked", 1)
-				return
-			end
-			local meta = M(pos)
-			if not meta:contains("ta_move_block") then
-				meta:set_string("ta_move_block", minetest.serialize({name=name, param2=param2}))
-				return
-			end
-			--minetest.add_item(pos, ItemStack(name))
-		elseif ndef1 then
-			minetest.add_item(pos, ItemStack(name))
-		end
+		set_node(pos, name, param2, metadata)
 	end
 end
 
@@ -468,6 +472,12 @@ minetest.register_entity("techage:move_item", {
 	},
 
 	get_staticdata = function(self)
+		if self.start_pos and self.dest_pos then
+			local pos = vector.round(self.object:get_pos())
+			if not vector.equals(pos, self.start_pos) and not vector.equals(pos, self.dest_pos) then
+				set_node(self.dest_pos, self.item_name, self.param2, self.metadata or {})
+			end
+		end
 		return minetest.serialize({
 			item_name = self.item_name,
 			param2 = self.param2,
