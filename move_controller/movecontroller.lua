@@ -19,8 +19,8 @@ local S2P = minetest.string_to_pos
 local S = techage.S
 
 local MP = minetest.get_modpath("techage")
-local fly  = dofile(MP .. "/basis/fly_lib.lua")
 local mark = dofile(MP .. "/basis/mark_lib.lua")
+local fly = techage.flylib
 
 local MAX_DIST = 200
 local MAX_BLOCKS = 16
@@ -131,6 +131,7 @@ minetest.register_node("techage:ta4_movecontroller", {
 			nvm.lpos2 = {}
 			nvm.moveBA = false
 			nvm.running = nil
+			nvm.lastpos = nil
 			meta:set_string("status", S("Recording..."))
 			local name = player:get_player_name()
 			minetest.chat_send_player(name, S("Click on all blocks that shall be moved"))
@@ -144,6 +145,7 @@ minetest.register_node("techage:ta4_movecontroller", {
 			end
 			local text = #pos_list.." "..S("block positions are stored.")
 			nvm.running = nil
+			nvm.lastpos = nil
 			meta:set_string("status", text)
 			nvm.lpos1 = pos_list
 			mark.unmark_all(name)
@@ -161,11 +163,10 @@ minetest.register_node("techage:ta4_movecontroller", {
 			mark.stop(name)
 			nvm.moveBA = false
 			nvm.running = nil
+			nvm.lastpos = nil
 		elseif fields.moveAB then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, false) then
-				nvm.moveBA = true
-				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
 				mark.stop(name)
@@ -174,8 +175,6 @@ minetest.register_node("techage:ta4_movecontroller", {
 		elseif fields.moveBA then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, true) then
-				nvm.moveBA = false
-				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
 				mark.stop(name)
@@ -187,11 +186,9 @@ minetest.register_node("techage:ta4_movecontroller", {
 			end
 			local line = fly.to_vector(meta:get_string("path"), MAX_DIST)
 			if line then
-				nvm.running = true
 				fly.move_to(pos, line)
 			end
 		elseif fields.reset then
-			nvm.running = true
 			fly.reset_move(pos)
 		end
 	end,
@@ -230,28 +227,18 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 		elseif topic == "state" then
 			return nvm.running and "running" or "stopped"
 		elseif not move_xyz and topic == "a2b" then
-			nvm.moveBA = true
-			nvm.running = true
 			return fly.move_to_other_pos(pos, false)
 		elseif not move_xyz and topic == "b2a" then
-			nvm.moveBA = false
-			nvm.running = true
 			return fly.move_to_other_pos(pos, true)
 		elseif not move_xyz and topic == "move" then
-			nvm.moveBA = nvm.moveBA == false
-			nvm.running = true
 			return fly.move_to_other_pos(pos, nvm.moveBA == false)
 		elseif move_xyz and topic == "move2" then
 			local line = fly.to_vector(payload, MAX_DIST)
 			if line then
-				nvm.running = true
-				nvm.controller_mode = true
 				return fly.move_to(pos, line)
 			end
 			return false
 		elseif topic == "reset" then
-			nvm.running = true
-			nvm.controller_mode = true
 			return fly.reset_move(pos)
 		end
 		return false
@@ -262,16 +249,10 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 		--print("on_beduino_receive_cmnd", P2S(pos), move_xyz, topic, payload[1])
 		if not move_xyz and topic == 11 then
 			if payload[1] == 1 then
-				nvm.moveBA = true
-				nvm.running = true
 				return fly.move_to_other_pos(pos, false) and 0 or 3
 			elseif payload[1] == 2 then
-				nvm.moveBA = false
-				nvm.running = true
 				return fly.move_to_other_pos(pos, true) and 0 or 3
 			elseif payload[1] == 3 then
-				nvm.moveBA = nvm.moveBA == false
-				nvm.running = true
 				return fly.move_to_other_pos(pos, nvm.moveBA == false) and 0 or 3
 			end
 		elseif move_xyz and topic == 18 then  -- move xyz
@@ -280,12 +261,8 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 				y = techage.in_range(techage.beduino_signed_var(payload[2]), -100, 100),
 				z = techage.in_range(techage.beduino_signed_var(payload[3]), -100, 100),
 			}
-			nvm.running = true
-			nvm.controller_mode = true
 			return fly.move_to(pos, line) and 0 or 3
 		elseif move_xyz and topic == 19 then  -- reset
-			nvm.running = true
-			nvm.controller_mode = true
 			return fly.reset_move(pos) and 0 or 3
 		else
 			return 2
@@ -297,6 +274,10 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 			return 0, {nvm.running and 1 or 6}
 		end
 		return 2, ""
+	end,
+	on_node_load = function(pos, node)
+		local nvm = techage.get_nvm(pos)
+		nvm.running = false
 	end,
 })
 

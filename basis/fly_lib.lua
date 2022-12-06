@@ -57,6 +57,96 @@ local function rotate(v, yaw)
 	return {x = v.x * cosyaw - v.z * sinyaw, y = v.y, z = v.x * sinyaw + v.z * cosyaw}
 end
 
+local function set_node(item)
+	local dest_pos = item.dest_pos
+	local name = item.name or "air"
+	local param2 = item.param2 or 0
+	local metadata = item.metadata or {}
+	local nvm = techage.get_nvm(item.base_pos)
+	local node = techage.get_node_lvm(dest_pos)
+	local ndef1 = minetest.registered_nodes[name]
+	local ndef2 = minetest.registered_nodes[node.name]
+
+	nvm.running = false
+	M(item.base_pos):set_string("status", S("Stopped"))
+	if ndef1 and ndef2 then
+		if ndef2.buildable_to then
+			local meta = M(dest_pos)
+			minetest.set_node(dest_pos, {name=name, param2=param2})
+			meta:from_table(item.metadata or {})
+			meta:set_string("ta_move_block", "")
+			meta:set_int("ta_door_locked", 1)
+			return
+		end
+		local meta = M(dest_pos)
+		if not meta:contains("ta_move_block") then
+			meta:set_string("ta_move_block", minetest.serialize({name=name, param2=param2}))
+			return
+		end
+	elseif ndef1 then
+		minetest.add_item(dest_pos, ItemStack(name))
+	end
+end
+
+-------------------------------------------------------------------------------
+-- Entity monitoring
+-------------------------------------------------------------------------------
+local queue = {}
+local first = 0
+local last = -1
+
+local function push(item)
+	last = last + 1
+	queue[last] = item
+end
+
+local function pop(nvm, time)
+	if first > last then return end
+	local item = queue[first]
+	queue[first] = nil -- to allow garbage collection
+	first = first + 1
+	return item
+end
+
+local function monitoring()
+	local num = last - first + 1
+	for _ = 1, num do
+		local item = pop()
+		if item.ttl >= techage.SystemTime then
+			-- still valud
+			push(item)
+		elseif item.ttl ~= 0 then
+			set_node(item)
+		end
+	end
+	minetest.after(1, monitoring)
+end
+minetest.after(1, monitoring)
+
+minetest.register_on_shutdown(function()
+	local num = last - first + 1
+	for _ = 1, num do
+		local item = pop()
+		if item.ttl ~= 0 then
+			set_node(item)
+		end
+	end
+end)
+
+local function monitoring_add_entity(item)
+	item.ttl = techage.SystemTime + 1
+	push(item)
+end
+
+local function monitoring_del_entity(item)
+	-- Mark as timed out
+	item.ttl = 0
+end
+
+local function monitoring_trigger_entity(item)
+	item.ttl = techage.SystemTime + 1
+end
+
 -------------------------------------------------------------------------------
 -- to_path function for the fly/move path
 -------------------------------------------------------------------------------
@@ -308,47 +398,17 @@ local function detach_objects(pos, self)
 	self.players = {}
 end
 
-local function set_node(pos, name, param2, metadata)
-	local node =  minetest.get_node(pos)
-	local ndef1 = minetest.registered_nodes[name]
-	local ndef2 = minetest.registered_nodes[node.name]
-	if ndef1 and ndef2 then
-		if ndef2.buildable_to then
-			local meta = M(pos)
-			minetest.set_node(pos, {name=name, param2=param2})
-			meta:from_table(metadata)
-			meta:set_string("ta_move_block", "")
-			meta:set_int("ta_door_locked", 1)
-			return
-		end
-		local meta = M(pos)
-		if not meta:contains("ta_move_block") then
-			meta:set_string("ta_move_block", minetest.serialize({name=name, param2=param2}))
-			return
-		end
-		--minetest.add_item(pos, ItemStack(name))
-	elseif ndef1 then
-		minetest.add_item(pos, ItemStack(name))
-	end
-end
-
 local function entity_to_node(pos, obj)
 	local self = obj:get_luaentity()
-	if self then
-		local name = self.item_name or "air"
-		local param2 = self.param2 or 0
-		local metadata = self.metadata or {}
+	if self and self.item then
 		detach_objects(pos, self)
-		if self.base_pos then
-			local nvm = techage.get_nvm(self.base_pos)
-			nvm.running = nil
-		end
+		monitoring_del_entity(self.item)
 		minetest.after(0.1, obj.remove, obj)
-		set_node(pos, name, param2, metadata)
+		set_node(self.item)
 	end
 end
 
-local function node_to_entity(start_pos)
+local function node_to_entity(base_pos, start_pos, dest_pos)
 	local meta = M(start_pos)
 	local node, metadata
 
@@ -360,7 +420,7 @@ local function node_to_entity(start_pos)
 		meta:set_string("ta_block_locked", "true")
 	elseif not meta:contains("ta_block_locked") then
 		-- Block with other metadata
-		node = minetest.get_node(start_pos)
+		node = techage.get_node_lvm(start_pos)
 		metadata = meta:to_table()
 		minetest.after(0.1, minetest.remove_node, start_pos)
 	else
@@ -375,9 +435,15 @@ local function node_to_entity(start_pos)
 		obj:set_armor_groups({immortal=1})
 
 		-- To be able to revert to node
-		self.item_name = node.name
 		self.param2 = node.param2
-		self.metadata = metadata or {}
+		self.item = {
+			name = node.name,
+			param2 = node.param2,
+			metadata = metadata or {},
+			dest_pos = dest_pos,
+			base_pos = base_pos,
+		}
+		monitoring_add_entity(self.item)
 
 		-- Prepare for attachments
 		self.players = {}
@@ -440,7 +506,6 @@ local function handover_to(obj, self, pos1)
 				end
 				local pos2 = next_path_pos(pos1, self.lpath, 1)
 				local dir = determine_dir(pos1, pos2)
-				--print("handover_to", P2S(pos1), P2S(pos2), P2S(dir), P2S(info.pos), meta:get_string("path"))
 				if not self.handover then
 					local nvm = techage.get_nvm(info.pos)
 					nvm.lpos1 = nvm.lpos1 or {}
@@ -462,7 +527,7 @@ minetest.register_entity("techage:move_item", {
 	initial_properties = {
 		pointable = true,
 		makes_footstep_sound = true,
-		static_save = true,
+		static_save = false,
 		collide_with_objects = false,
 		physical = false,
 		visual = "wielditem",
@@ -470,55 +535,6 @@ minetest.register_entity("techage:move_item", {
 		visual_size = {x=0.67, y=0.67, z=0.67},
 		selectionbox = {-0.5, -0.5, -0.5, 0.5, 0.5, 0.5},
 	},
-
-	get_staticdata = function(self)
-		if self.start_pos and self.dest_pos then
-			local pos = vector.round(self.object:get_pos())
-			if not vector.equals(pos, self.start_pos) and not vector.equals(pos, self.dest_pos) then
-				set_node(self.dest_pos, self.item_name, self.param2, self.metadata or {})
-			end
-		end
-		return minetest.serialize({
-			item_name = self.item_name,
-			param2 = self.param2,
-			metadata = self.metadata,
-			move2to1 = self.move2to1,
-			handover = self.handover,
-			path_idx = self.path_idx,
-			pos1_idx = self.pos1_idx,
-			lpath = self.lpath,
-			start_pos = self.start_pos,
-			base_pos = self.base_pos,
-			max_speed = self.max_speed,
-			dest_pos = self.dest_pos,
-			dir = self.dir,
-			respawn = true,
-		})
-	end,
-
-	on_activate = function(self, staticdata)
-		if staticdata then
-			local tbl = minetest.deserialize(staticdata) or {}
-			self.item_name = tbl.item_name or "air"
-			self.param2 = tbl.param2 or 0
-			self.metadata = tbl.metadata or {}
-			self.move2to1 = tbl.move2to1 or false
-			self.handover = tbl.handover
-			self.path_idx = tbl.path_idx or 1
-			self.pos1_idx = tbl.pos1_idx or 1
-			self.lpath = tbl.lpath or {}
-			self.max_speed = tbl.max_speed or MAX_SPEED
-			self.dest_pos = tbl.dest_pos or self.object:get_pos()
-			self.start_pos = tbl.start_pos or self.object:get_pos()
-			self.base_pos = tbl.base_pos
-			self.dir = tbl.dir or {x=0, y=0, z=0}
-			self.object:set_properties({wield_item = self.item})
-			--print("tbl.respawn", tbl.respawn)
-			if tbl.respawn then
-				entity_to_node(self.dest_pos, self.object)
-			end
-		end
-	end,
 
 	on_step = function(self, dtime, moveresult)
 		local stop_obj = function(obj, self)
@@ -528,7 +544,6 @@ minetest.register_entity("techage:move_item", {
 			obj:set_velocity({x=0, y=0, z=0})
 			self.dest_pos = nil
 			self.old_dist = nil
-			self.ttl = 2
 			return dest_pos
 		end
 
@@ -581,19 +596,13 @@ minetest.register_entity("techage:move_item", {
 				end
 			end
 
-		elseif self.ttl then
-			self.ttl = self.ttl - dtime
-			if self.ttl < 0 then
-				local obj = self.object
-				local pos = obj:get_pos()
-				entity_to_node(pos, obj)
-			end
+			monitoring_trigger_entity(self.item)
 		end
 	end,
 })
 
 local function is_valid_dest(pos)
-	local node = minetest.get_node(pos)
+	local node = techage.get_node_lvm(pos)
 	if techage.is_air_like(node.name) then
 		return true
 	end
@@ -604,20 +613,19 @@ local function is_valid_dest(pos)
 end
 
 local function is_simple_node(pos)
-	local node = minetest.get_node(pos)
+	local node =techage.get_node_lvm(pos)
 	local ndef = minetest.registered_nodes[node.name]
 	return not techage.is_air_like(node.name) and techage.can_dig_node(node.name, ndef)
 end
 
 local function move_node(pos, pos1_idx, start_pos, lpath, max_speed, height, move2to1, handover, cpos)
 	local pos2 = next_path_pos(start_pos, lpath, 1)
-	--print("move_node", P2S(pos), P2S(start_pos), lpath, max_speed, height, move2to1, P2S(pos2))
 	-- optional for non-player objects
 	local yoffs = M(pos):get_float("offset")
 
 	if pos2 then
 		local dir = determine_dir(start_pos, pos2)
-		local obj = node_to_entity(start_pos)
+		local obj = node_to_entity(pos, start_pos, pos2)
 
 		if obj then
 			local offs = {x=0, y=height or 1, z=0}
@@ -632,21 +640,17 @@ local function move_node(pos, pos1_idx, start_pos, lpath, max_speed, height, mov
 			self.pos1_idx = pos1_idx
 			self.lpath = lpath
 			self.max_speed = max_speed
-			self.start_pos = start_pos
-			self.base_pos = pos
 			self.move2to1 = move2to1
 			self.handover = handover
 			self.yoffs = yoffs
-			--print("move_node", P2S(start_pos), P2S(pos2), P2S(dir), P2S(pos))
 			move_entity(obj, pos2, dir)
 		end
 	end
 end
 
 local function move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, handover)
-	--print("move_nodes", dump(nvm), dump(lpath), max_speed, height, move2to1, handover)
 	local owner = meta:get_string("owner")
-	techage.counting_add(owner, #nvm.lpos1 * #lpath)
+	techage.counting_add(owner, #lpath, #nvm.lpos1 * #lpath)
 
 	for idx = 1, #nvm.lpos1 do
 		local pos1 = nvm.lpos1[idx]
@@ -656,7 +660,6 @@ local function move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, ha
 			pos1, pos2 = pos2, pos1
 		end
 
-		--print("move_nodes", P2S(pos1), P2S(pos2))
 		if not minetest.is_protected(pos1, owner) and not minetest.is_protected(pos2, owner) then
 			if is_simple_node(pos1) and is_valid_dest(pos2) then
 				move_node(pos, idx, pos1, lpath, max_speed, height, move2to1, handover)
@@ -666,6 +669,7 @@ local function move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, ha
 				else
 					meta:set_string("status", S("No valid destination position"))
 				end
+				return false
 			end
 		else
 			if minetest.is_protected(pos1, owner) then
@@ -676,12 +680,12 @@ local function move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, ha
 			return false
 		end
 	end
+	meta:set_string("status", S("Running"))
 	return true
 end
 
 -- Move nodes from lpos1 by the given x/y/z 'line'
 local function move_nodes2(pos, meta, lpos1, line, max_speed, height)
-	--print("move_nodes2", dump(lpos1), dump(line), max_speed, height)
 	local owner = meta:get_string("owner")
 	techage.counting_add(owner, #lpos1)
 
@@ -701,6 +705,7 @@ local function move_nodes2(pos, meta, lpos1, line, max_speed, height)
 				else
 					meta:set_string("status", S("No valid destination position"))
 				end
+				return false, lpos1
 			end
 		else
 			if minetest.is_protected(pos1, owner) then
@@ -712,7 +717,7 @@ local function move_nodes2(pos, meta, lpos1, line, max_speed, height)
 		end
 	end
 
-	meta:set_string("status", "")
+	meta:set_string("status", S("Running"))
 	return true, lpos2
 end
 
@@ -724,7 +729,7 @@ function flylib.move_to_other_pos(pos, move2to1)
 	local height = meta:contains("height") and meta:get_float("height") or 1
 	local handover
 
-	if err then return false end
+	if err or nvm.running then return false end
 
 	height = techage.in_range(height, 0, 1)
 	max_speed = techage.in_range(max_speed, MIN_SPEED, MAX_SPEED)
@@ -742,7 +747,9 @@ function flylib.move_to_other_pos(pos, move2to1)
 	else
 		handover = meta:contains("handoverB") and meta:get_string("handoverB") or nil
 	end
-	return move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, handover)
+	nvm.running = move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, handover)
+	nvm.moveBA = nvm.running and not move2to1
+	return nvm.running
 end
 
 function flylib.move_to(pos, line)
@@ -752,8 +759,10 @@ function flylib.move_to(pos, line)
 	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
 	local resp
 
-	resp, nvm.lastpos = move_nodes2(pos, meta, nvm.lastpos or nvm.lpos1, line, max_speed, height)
-	return resp
+	if nvm.running then return false end
+
+	nvm.running, nvm.lastpos = move_nodes2(pos, meta, nvm.lastpos or nvm.lpos1, line, max_speed, height)
+	return nvm.running
 end
 
 function flylib.reset_move(pos)
@@ -761,12 +770,15 @@ function flylib.reset_move(pos)
 	local nvm = techage.get_nvm(pos)
 	local height = techage.in_range(meta:contains("height") and meta:get_float("height") or 1, 0, 1)
 	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
+
+	if nvm.running then return false end
+
 	if nvm.lpos1 and nvm.lpos1[1] then
 		local move = vector.subtract(nvm.lpos1[1], (nvm.lastpos or nvm.lpos1)[1])
 		local resp
 
-		resp, nvm.lastpos = move_nodes2(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed, height)
-		return resp
+		nvm.running, nvm.lastpos = move_nodes2(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed, height)
+		return nvm.running
 	end
 	return false
 end
@@ -855,4 +867,4 @@ minetest.register_on_dieplayer(function(player)
 	end
 end)
 
-return flylib
+techage.flylib = flylib

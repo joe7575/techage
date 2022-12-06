@@ -19,8 +19,8 @@ local S2P = minetest.string_to_pos
 local S = techage.S
 
 local MP = minetest.get_modpath("techage")
-local fly  = dofile(MP .. "/basis/fly_lib.lua")
 local mark = dofile(MP .. "/basis/mark_lib.lua")
+local fly = techage.flylib
 
 local MAX_BLOCKS = 16
 
