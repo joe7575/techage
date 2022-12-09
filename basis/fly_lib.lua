@@ -644,6 +644,9 @@ local function move_node(pos, pos1_idx, start_pos, lpath, max_speed, height, mov
 			self.handover = handover
 			self.yoffs = yoffs
 			move_entity(obj, pos2, dir)
+			return true
+		else
+			return false
 		end
 	end
 end
@@ -655,6 +658,7 @@ local function move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, ha
 	for idx = 1, #nvm.lpos1 do
 		local pos1 = nvm.lpos1[idx]
 		local pos2 = nvm.lpos2[idx]
+		--print("move_nodes", idx, P2S(pos1), P2S(pos2))
 
 		if move2to1 then
 			pos1, pos2 = pos2, pos1
@@ -662,7 +666,10 @@ local function move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, ha
 
 		if not minetest.is_protected(pos1, owner) and not minetest.is_protected(pos2, owner) then
 			if is_simple_node(pos1) and is_valid_dest(pos2) then
-				move_node(pos, idx, pos1, lpath, max_speed, height, move2to1, handover)
+				if move_node(pos, idx, pos1, lpath, max_speed, height, move2to1, handover) == false then
+					meta:set_string("status", S("No valid node at the start position"))
+					return false
+				end
 			else
 				if not is_simple_node(pos1) then
 					meta:set_string("status", S("No valid node at the start position"))

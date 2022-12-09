@@ -140,9 +140,9 @@ local function exchange_node(pos, item, param2)
 	local node = minetest.get_node_or_nil(pos)
 	if node and is_simple_node(node.name) then
 		if item and item:get_name() ~= "" and minetest.registered_nodes[item:get_name()] then
-			flylib.exchange_node(pos, item:get_name(), param2)
+			fly.exchange_node(pos, item:get_name(), param2)
 		else
-			flylib.remove_node(pos)
+			fly.remove_node(pos)
 		end
 		if not techage.is_air_like(node.name) then
 			return ItemStack(node.name), node.param2
