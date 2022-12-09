@@ -453,7 +453,9 @@ Destination position is protected=Zielposition ist geschützt
 Error: Max. length of the flight route exceeded by @1 blocks !!=Fehler: max. Länge der Flugstrecke um @1 Blöcke überschritten !!
 No valid destination position=Keine gültige Zielposition
 No valid node at the start position=Kein gültiger Block an der Startposition
+Running=In Betrieb
 Start position is protected=Startposition ist geschützt
+Stopped=Gestoppt
 
 ### fly_lib.lua ###
 ### flycontroller.lua ###

@@ -453,7 +453,9 @@ Destination position is protected=
 Error: Max. length of the flight route exceeded by @1 blocks !!=
 No valid destination position=
 No valid node at the start position=
+Running=
 Start position is protected=
+Stopped=
 
 ### fly_lib.lua ###
 ### flycontroller.lua ###
