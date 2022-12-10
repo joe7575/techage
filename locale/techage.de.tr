@@ -128,9 +128,15 @@ TA4 Button/Switch=TA4 Schalter/Taster
 
 Access=Zugriff
 Button protection=Tastenschutz
+Type=Typ
+
+### button.lua ###
+### button_2x.lua ###
+### button_4x.lua ###
+### player_detector.lua ###
+
 Command=Kommando
 Number=Nummer
-Type=Typ
 
 ### button.lua ###
 ### cart_detector.lua ###
@@ -163,9 +169,14 @@ TA4 2x Button=TA4 2x Taster
 ### button_4x.lua ###
 
 Command to be sent (ignored for switches)=Zu sendender Befehl (wird für Schalter ignoriert)
-Destination block number=Zielblocknummer 
 Label for the button=Beschriftung für die Taste
 Momentary button or on/off switch=Taster oder Ein-/Ausschalter
+
+### button_2x.lua ###
+### button_4x.lua ###
+### player_detector.lua ###
+
+Destination block number=Zielblocknummer 
 
 ### button_2x.lua ###
 ### button_4x.lua ###
@@ -961,6 +972,8 @@ Plastic Granules=Plastikgranulat
 
 ### player_detector.lua ###
 
+Command to send when player is detected=Befehl zum Senden, wenn ein Spieler erkannt wird
+Command to send when player moves away=Befehl zum Senden, wenn sich der Spieler wegbewegt
 Radius=Radius
 Search radius=Suchradius
 TA4 Player Detector=TA4 Spieler Detektor

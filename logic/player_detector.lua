@@ -29,17 +29,39 @@ local WRENCH_MENU = {
 		tooltip = S("Search radius"),
 		default = "4",
 	},
+	{
+		type = "numbers",
+		name = "numbers",
+		label = S("Number"),
+		tooltip = S("Destination block number"),
+		default = "",
+		check = techage.check_numbers,
+	},
+	{
+		type = "ascii",
+		name = "command1",
+		label = "On " .. S("Command"),
+		tooltip = S("Command to send when player is detected"),
+		default = "on",
+	},
+	{
+		type = "ascii",
+		name = "command2",
+		label = "Off " .. S("Command"),
+		tooltip = S("Command to send when player moves away"),
+		default = "off",
+	},
 }
 
 local function switch_on(pos, stage)
 	if logic.swap_node(pos, "techage:ta"..stage.."_playerdetector_on") then
-		logic.send_on(pos, M(pos))
+		logic.send_cmnd(pos, "command1", "on")
 	end
 end
 
 local function switch_off(pos, stage)
 	if logic.swap_node(pos, "techage:ta"..stage.."_playerdetector_off") then
-		logic.send_off(pos, M(pos))
+		logic.send_cmnd(pos, "command2", "off")
 	end
 end
 

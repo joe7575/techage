@@ -128,9 +128,15 @@ TA4 Button/Switch=
 
 Access=
 Button protection=
+Type=
+
+### button.lua ###
+### button_2x.lua ###
+### button_4x.lua ###
+### player_detector.lua ###
+
 Command=
 Number=
-Type=
 
 ### button.lua ###
 ### cart_detector.lua ###
@@ -163,9 +169,14 @@ TA4 2x Button=
 ### button_4x.lua ###
 
 Command to be sent (ignored for switches)=
-Destination block number=
 Label for the button=
 Momentary button or on/off switch=
+
+### button_2x.lua ###
+### button_4x.lua ###
+### player_detector.lua ###
+
+Destination block number=
 
 ### button_2x.lua ###
 ### button_4x.lua ###
@@ -961,6 +972,8 @@ Plastic Granules=
 
 ### player_detector.lua ###
 
+Command to send when player is detected=
+Command to send when player moves away=
 Radius=
 Search radius=
 TA4 Player Detector=
