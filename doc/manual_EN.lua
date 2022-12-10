@@ -1509,16 +1509,18 @@ techage.manual_EN.aText = {
   "The reactor is used to process the ingredients obtained from the distillation tower or from other recipes into new products.\n"..
   "The plan on the left shows only one possible variant\\, since the arrangement of the silos and tanks depends on the recipe.\n"..
   "\n"..
+  "The primary output product is always output to the side of the reactor stand\\, regardless of whether it is a powder or a liquid. The (secondary) waste product is always discharged at the bottom of the reactor stand.\n"..
+  "\n"..
   "A reactor consists of:\n"..
   "\n"..
   "  - Various tanks and silos with the ingredients that are connected to the doser via pipes\n"..
-  "  - optionally a reactor base\\, which discharges the waste from the reactor (only necessary for recipes with two starting materials)\n"..
+  "  - optionally a reactor base\\, which discharges the waste from the reactor (only necessary for recipes with two output products)\n"..
   "  - the reactor stand\\, which must be placed on the base (if available). The stand has a power connection and draws 8 ku during operation.\n"..
   "  - The reactor vessel that has to be placed on the reactor stand\n"..
   "  - The filler pipe that must be placed on the reactor vessel\n"..
   "  - The dosing device\\, which has to be connected to the tanks or silos and the filler pipe via pipes\n"..
   "\n"..
-  "Note 1: Liquids are only stored in tanks\\, solids and substances in powder form only in silos. This applies to ingredients and raw materials.\n"..
+  "Note 1: Liquids are only stored in tanks\\, solids and substances in powder form only in silos. This applies to ingredients and output products.\n"..
   "\n"..
   "Note 2: Tanks or silos with different contents must not be connected to a pipe system. In contrast\\, several tanks or silos with the same content may hang in parallel on one line.\n"..
   "\n"..
@@ -1539,7 +1541,7 @@ techage.manual_EN.aText = {
   "As with other machines:\n"..
   "\n"..
   "  - if the doser is in standby mode\\, one or more ingredients are missing\n"..
-  "  - if the doser is in the blocked state\\, the outlet tank or silo is full\\, defective or incorrectly connected\n"..
+  "  - if the doser is in the blocked state\\, the output tank or silo is full\\, defective or incorrectly connected\n"..
   "\n"..
   "The doser does not need any electricity. A recipe is processed every 10 s.\n"..
   "\n"..

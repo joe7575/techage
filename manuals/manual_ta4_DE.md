@@ -281,15 +281,17 @@ In diesem Fall können keine anderen Blöcke der Kategorie 2 wie der Akku-Block 
 
 Der Reaktor dient dazu, die über den Destillationsturm oder aus anderen Rezepten gewonnenen Zutaten zu neuen Produkten weiter zu verarbeiten. Der Plan links zeigt nur eine mögliche Variante, da die Anordnung der Silos und Tanks rezeptabhängig ist.
 
+Das primäre Ausgabeprodukt wird immer an der Seite des Reaktorständers ausgegeben, unabhängig davon, ob es sich um ein Pulver oder eine Flüssigkeit handelt. Das (sekundäre) Abfallprodukt wird immer unten am Reaktorständers ausgegeben.
+
 Ein Reaktor besteht aus:
 - div. Tanks und Silos mit den Zutaten, die über Leitungen mit dem Dosierer verbunden sind
-- optional einem Reaktorsockel, welcher die Abfälle aus dem Reaktor ableitet (nur bei Rezepten mit zwei Ausgangsstoffen notwendig)
+- optional einem Reaktorsockel, welcher die Abfälle aus dem Reaktor ableitet (nur bei Rezepten mit zwei Ausgabestoffen notwendig)
 - dem Reaktorständer, der auf den Sockel gesetzt werden muss (sofern vorhanden). Der Ständer hat einen Stromanschluss und zieht bei Betrieb 8 ku.
 - dem eigentlichen Reaktorbehälter, der auf den Reaktorständer gesetzt werden muss
 - dem Einfüllstutzen der auf den Reaktorbehälter gesetzt werden muss
 - dem Dosierer, welcher über Leitungen mit den Tanks oder Silos sowie dem Einfüllstutzen verbunden werden muss
 
-Hinweis 1: Flüssigkeiten werden nur in Tanks gelagert, feste Stoffe und Stoffe in Pulverform nur in Silos. Dies gilt für Zutaten und Ausgangsstoffe.
+Hinweis 1: Flüssigkeiten werden nur in Tanks gelagert, feste Stoffe und Stoffe in Pulverform nur in Silos. Dies gilt für Zutaten und Ausgabestoffe.
 
 Hinweis 2: Tanks oder Silos mit verschiedenen Inhalten dürfen nicht zu einem Leitungssystem verbunden werden. Mehrere Tanks oder Silos mit gleichem Inhalt dürfen dagegen parallel an einer Leitung hängen.
 
@@ -312,7 +314,7 @@ Auf allen 4 Seiten der Dosierers können Leitungen für Eingangsmaterialien ange
 
 Wie auch bei anderen Maschinen:
 - geht der Dosierer in den standby Zustand, so fehlen ein oder mehrere Zutaten
-- geht der Dosierer in den blocked Zustand, so ist Ausgangstank oder Silo voll, defekt oder falsch angeschlossen
+- geht der Dosierer in den blocked Zustand, so ist Ausgabetank oder Silo voll, defekt oder falsch angeschlossen
 
 Der Dosierer benötigt keinen Strom. Alle 10 s wird ein Rezept abgearbeitet.
 
@@ -337,7 +339,7 @@ Teil des Chemischen Reaktors. Muss auf den Reaktor gesetzt werden. Wenn dies nic
 
 Teil des Chemischen Reaktors. Hier ist auch der Stromanschluss für den Reaktor. Der Reaktor benötigt 8 ku Strom.
 
-Der Ständer hat zwei Leitungsanschlüsse, nach rechst für das Ausgangsprodukt und nach unten für den Abfall, wie bspw. Rotschlamm bei der Aluminiumherstellung.
+Der Ständer hat zwei Leitungsanschlüsse, nach rechst für das primäre Ausgabeprodukt und nach unten für den Abfall, wie bspw. Rotschlamm bei der Aluminiumherstellung.
 
 [ta4_reactorstand|image]
 

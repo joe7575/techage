@@ -1503,16 +1503,18 @@ techage.manual_DE.aText = {
   "\n",
   "Der Reaktor dient dazu\\, die über den Destillationsturm oder aus anderen Rezepten gewonnenen Zutaten zu neuen Produkten weiter zu verarbeiten. Der Plan links zeigt nur eine mögliche Variante\\, da die Anordnung der Silos und Tanks rezeptabhängig ist.\n"..
   "\n"..
+  "Das primäre Ausgabeprodukt wird immer an der Seite des Reaktorständers ausgegeben\\, unabhängig davon\\, ob es sich um ein Pulver oder eine Flüssigkeit handelt. Das (sekundäre) Abfallprodukt wird immer unten am Reaktorständers ausgegeben.\n"..
+  "\n"..
   "Ein Reaktor besteht aus:\n"..
   "\n"..
   "  - div. Tanks und Silos mit den Zutaten\\, die über Leitungen mit dem Dosierer verbunden sind\n"..
-  "  - optional einem Reaktorsockel\\, welcher die Abfälle aus dem Reaktor ableitet (nur bei Rezepten mit zwei Ausgangsstoffen notwendig)\n"..
+  "  - optional einem Reaktorsockel\\, welcher die Abfälle aus dem Reaktor ableitet (nur bei Rezepten mit zwei Ausgabestoffen notwendig)\n"..
   "  - dem Reaktorständer\\, der auf den Sockel gesetzt werden muss (sofern vorhanden). Der Ständer hat einen Stromanschluss und zieht bei Betrieb 8 ku.\n"..
   "  - dem eigentlichen Reaktorbehälter\\, der auf den Reaktorständer gesetzt werden muss\n"..
   "  - dem Einfüllstutzen der auf den Reaktorbehälter gesetzt werden muss\n"..
   "  - dem Dosierer\\, welcher über Leitungen mit den Tanks oder Silos sowie dem Einfüllstutzen verbunden werden muss\n"..
   "\n"..
-  "Hinweis 1: Flüssigkeiten werden nur in Tanks gelagert\\, feste Stoffe und Stoffe in Pulverform nur in Silos. Dies gilt für Zutaten und Ausgangsstoffe.\n"..
+  "Hinweis 1: Flüssigkeiten werden nur in Tanks gelagert\\, feste Stoffe und Stoffe in Pulverform nur in Silos. Dies gilt für Zutaten und Ausgabestoffe.\n"..
   "\n"..
   "Hinweis 2: Tanks oder Silos mit verschiedenen Inhalten dürfen nicht zu einem Leitungssystem verbunden werden. Mehrere Tanks oder Silos mit gleichem Inhalt dürfen dagegen parallel an einer Leitung hängen.\n"..
   "\n"..
@@ -1533,7 +1535,7 @@ techage.manual_DE.aText = {
   "Wie auch bei anderen Maschinen:\n"..
   "\n"..
   "  - geht der Dosierer in den standby Zustand\\, so fehlen ein oder mehrere Zutaten\n"..
-  "  - geht der Dosierer in den blocked Zustand\\, so ist Ausgangstank oder Silo voll\\, defekt oder falsch angeschlossen\n"..
+  "  - geht der Dosierer in den blocked Zustand\\, so ist Ausgabetank oder Silo voll\\, defekt oder falsch angeschlossen\n"..
   "\n"..
   "Der Dosierer benötigt keinen Strom. Alle 10 s wird ein Rezept abgearbeitet.\n"..
   "\n"..
@@ -1550,7 +1552,7 @@ techage.manual_DE.aText = {
   "\n",
   "Teil des Chemischen Reaktors. Hier ist auch der Stromanschluss für den Reaktor. Der Reaktor benötigt 8 ku Strom.\n"..
   "\n"..
-  "Der Ständer hat zwei Leitungsanschlüsse\\, nach rechst für das Ausgangsprodukt und nach unten für den Abfall\\, wie bspw. Rotschlamm bei der Aluminiumherstellung.\n"..
+  "Der Ständer hat zwei Leitungsanschlüsse\\, nach rechst für das primäre Ausgabeprodukt und nach unten für den Abfall\\, wie bspw. Rotschlamm bei der Aluminiumherstellung.\n"..
   "\n"..
   "\n"..
   "\n",

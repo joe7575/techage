@@ -274,15 +274,17 @@ In this case, no other category 2 blocks such as the battery block can be charge
 The reactor is used to process the ingredients obtained from the distillation tower or from other recipes into new products.
 The plan on the left shows only one possible variant, since the arrangement of the silos and tanks depends on the recipe.
 
+The primary output product is always output to the side of the reactor stand, regardless of whether it is a powder or a liquid. The (secondary) waste product is always discharged at the bottom of the reactor stand.
+
 A reactor consists of:
 - Various tanks and silos with the ingredients that are connected to the doser via pipes
-- optionally a reactor base, which discharges the waste from the reactor (only necessary for recipes with two starting materials)
+- optionally a reactor base, which discharges the waste from the reactor (only necessary for recipes with two output products)
 - the reactor stand, which must be placed on the base (if available). The stand has a power connection and draws 8 ku during operation.
 - The reactor vessel that has to be placed on the reactor stand
 - The filler pipe that must be placed on the reactor vessel
 - The dosing device, which has to be connected to the tanks or silos and the filler pipe via pipes
 
-Note 1: Liquids are only stored in tanks, solids and substances in powder form only in silos. This applies to ingredients and raw materials.
+Note 1: Liquids are only stored in tanks, solids and substances in powder form only in silos. This applies to ingredients and output products.
 
 Note 2: Tanks or silos with different contents must not be connected to a pipe system. In contrast, several tanks or silos with the same content may hang in parallel on one line.
 
@@ -306,7 +308,7 @@ The recipe can be set and the reactor started via the doser.
 
 As with other machines:
 - if the doser is in standby mode, one or more ingredients are missing
-- if the doser is in the blocked state, the outlet tank or silo is full, defective or incorrectly connected
+- if the doser is in the blocked state, the output tank or silo is full, defective or incorrectly connected
 
 The doser does not need any electricity. A recipe is processed every 10 s.
 
