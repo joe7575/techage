@@ -613,10 +613,10 @@ techage.register_node({"techage:ta4_chest"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "count" then
 			local nvm = techage.get_nvm(pos)
-			return get_count(nvm, tonumber(payload or 1) or 1)
+			return get_count(nvm, tonumber(payload or 0) or 0)
 		elseif topic == "itemstring" then
 			local nvm = techage.get_nvm(pos)
-			return get_itemstring(nvm, tonumber(payload or 1) or 1)
+			return get_itemstring(nvm, tonumber(payload or 0) or 0)
 		elseif topic == "state" then
 			local nvm = techage.get_nvm(pos)
 			return inv_state(nvm)
@@ -627,10 +627,10 @@ techage.register_node({"techage:ta4_chest"}, {
 	on_beduino_request_data = function(pos, src, topic, payload)
 		if topic == 140 and payload[1] == 1 then  -- Inventory Item Count
 			local nvm = techage.get_nvm(pos)
-			return 0, {get_count(nvm, tonumber(payload[2] or 1) or 1)}
+			return 0, {get_count(nvm, tonumber(payload[2] or 0) or 0)}
 		elseif topic == 140 and payload[1] == 2 then  -- Inventory Item Name
 			local nvm = techage.get_nvm(pos)
-			return 0, get_itemstring(nvm, tonumber(payload[2] or 1) or 1)
+			return 0, get_itemstring(nvm, tonumber(payload[2] or 0) or 0)
 		elseif topic == 131 then  -- Chest State
 			local nvm = techage.get_nvm(pos)
 			return 0, {inv_state_num(nvm)}
