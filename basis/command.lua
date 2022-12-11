@@ -339,6 +339,19 @@ function techage.not_protected(number, placer_name, clicker_name)
 	return false
 end
 
+-- Check the given number value.
+-- Returns true if the number is valid, point to real node and
+-- and the node is not protected for the given player_name.
+function techage.check_number(number, placer_name)
+	if number then
+		if not techage.not_protected(number, placer_name, nil) then
+			return false
+		end
+		return true
+	end
+	return false
+end
+
 -- Check the given list of numbers.
 -- Returns true if number(s) is/are valid, point to real nodes and
 -- and the nodes are not protected for the given player_name.
