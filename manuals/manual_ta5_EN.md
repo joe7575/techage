@@ -159,3 +159,9 @@ The TA5 container allows Techage systems to be packed and unpacked at another lo
 The TA5 AI Chip is partly required for the production of TA5 blocks. The TA5 AI Chip can only be manufactured at the TA4 Electronics Fab. This requires 10 experience points.
 
 [ta5_aichip|image]
+
+### TA5 AI Chip II
+
+The TA5 AI Chip II is required to build the TA5 Fusion Reactor. The TA5 AI Chip II can only be manufactured at the TA4 Electronics Fab. This requires 50 experience points.
+
+[ta5_aichip2|image]

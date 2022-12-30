@@ -253,3 +253,4 @@
     - [More TA5 Blocks/Items](./manual_ta5_EN.md#more-ta5-blocksitems)
         - [TA5 Container (planned)](./manual_ta5_EN.md#ta5-container-(planned))
         - [TA5 AI Chip](./manual_ta5_EN.md#ta5-ai-chip)
+        - [TA5 AI Chip II](./manual_ta5_EN.md#ta5-ai-chip-ii)

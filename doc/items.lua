@@ -208,6 +208,7 @@ techage.Items = {
 	techage_ta5 = "techage:ta5_fr_nucleus",
 	ta5_flycontroller = "techage:ta5_flycontroller",
 	ta5_aichip = "techage:ta5_aichip",
+	ta5_aichip2 = "techage:ta5_aichip2",
 	ta5_tele_pipe = "techage:ta5_tele_pipe",
 	ta5_tele_tube = "techage:ta5_tele_tube",
 	ta5_chest = "techage:ta5_hl_chest",

@@ -254,6 +254,7 @@ techage.manual_DE.aTitel = {
   "2,Weitere TA5 Blöcke/Items",
   "3,TA5 Container (geplant)",
   "3,TA5 KI Chip / TA5 AI Chip",
+  "3,TA5 KI Chip II / TA5 AI Chip II",
 }
 
 techage.manual_DE.aText = {
@@ -2162,6 +2163,10 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der TA5 KI Chip II wird zur Herstellung des TA5 Fusionsreaktors benötigt. Der TA5 KI Chip II kann nur auf der TA4 Elektronik Fab hergestellt werden. Dazu werden 50 Erfahrungspunkte benötigt.\n"..
+  "\n"..
+  "\n"..
+  "\n",
 }
 
 techage.manual_DE.aItemName = {
@@ -2418,6 +2423,7 @@ techage.manual_DE.aItemName = {
   "",
   "",
   "ta5_aichip",
+  "ta5_aichip2",
 }
 
 techage.manual_DE.aPlanTable = {
@@ -2668,6 +2674,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta5_teleport",
+  "",
   "",
   "",
   "",

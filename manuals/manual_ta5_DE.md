@@ -159,3 +159,9 @@ Für die Nutzung des TA5 Containers werden 80 Erfahrungspunkte benötigt.
 Der TA5 KI Chip wird teilweise zur Herstellung von TA5 Blöcken benötigt. Der TA5 KI Chip kann nur auf der TA4 Elektronik Fab hergestellt werden. Dazu werden 10 Erfahrungspunkte benötigt.
 
 [ta5_aichip|image]
+
+### TA5 KI Chip II / TA5 AI Chip II
+
+Der TA5 KI Chip II wird zur Herstellung des TA5 Fusionsreaktors benötigt. Der TA5 KI Chip II kann nur auf der TA4 Elektronik Fab hergestellt werden. Dazu werden 50 Erfahrungspunkte benötigt.
+
+[ta5_aichip2|image]
