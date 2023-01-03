@@ -196,6 +196,9 @@ local function quarry_task(pos, crd, nvm)
 		pos1.y = y_curr
 		pos2.y = y_curr
 
+		-- Restarting the server can detach the coroutine data.
+		-- Therefore, read nvm again. 
+		nvm = techage.get_nvm(pos)
 		nvm.level = y_first - y_curr
 
 		if minetest.is_area_protected(pos1, pos2, owner, 5) then
@@ -382,6 +385,8 @@ local tubing = {
 	end,
 	on_node_load = function(pos)
 		CRD(pos).State:on_node_load(pos)
+		stop_sound(pos)
+		play_sound(pos)
 	end,
 }
 
