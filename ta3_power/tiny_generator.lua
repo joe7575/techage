@@ -225,8 +225,8 @@ minetest.register_node("techage:tiny_generator", {
 			meta:set_string("liquid_name", nvm.liquid.name)
 			meta:set_int("liquid_amount", nvm.liquid.amount)
 			meta:set_string("description", S("TA3 Tiny Power Generator") .. " (fuel: " ..
-			                tostring(nvm.liquid and nvm.liquid.amount or 0) .. "/" ..
-					tostring(fuel.CAPACITY) .. ")")
+				tostring(nvm.liquid and nvm.liquid.amount or 0) .. "/" ..
+				tostring(fuel.CAPACITY) .. ")")
 		end
 	end,
 
