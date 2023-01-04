@@ -171,11 +171,26 @@ minetest.register_craft({
 	},
 })
 
+local function contains(table, element)
+	for _, value in pairs(table) do
+		if value == element then
+			return true
+		end
+	end
+	return false
+end
+
 function techage.register_flower(name)
+	if contains(Flowers, name) then 
+		return 
+	end
 	Flowers[#Flowers+1] = name
 end
 
 function techage.register_plant(name)
+	if contains(Plants, name) then 
+		return 
+	end
 	Plants[name] = true
 end
 
@@ -201,4 +216,5 @@ minetest.after(1, function()
 			end
 		end
 	end
+	print(dump(Flowers))
 end)
