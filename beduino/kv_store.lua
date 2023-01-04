@@ -55,6 +55,6 @@ minetest.register_on_mods_loaded(function()
 		beduino.lib.register_SystemHandler(0x140, ta_kv_init)
 		beduino.lib.register_SystemHandler(0x141, ta_kv_add)
 		beduino.lib.register_SystemHandler(0x142, ta_kv_get)
-		vm16.register_ro_file("beduino", "ta_kvstore.c", kvstore_c)
+		vm16.register_ro_file("beduino", "lib/ta_kvstore.c", kvstore_c)
 	end
 end)

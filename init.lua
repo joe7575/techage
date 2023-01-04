@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2022 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -27,8 +27,8 @@ elseif minetest.global_exists("techpack") then
 elseif minetest.global_exists("tubelib2") and tubelib2.version < 2.2 then
 	minetest.log("error", "[techage] Techage requires tubelib2 version 2.2 or newer!")
 	return
-elseif minetest.global_exists("minecart") and minecart.version < 1.08 then
-	minetest.log("error", "[techage] Techage requires minecart version 1.08 or newer!")
+elseif minetest.global_exists("minecart") and minecart.version < 2.03 then
+	minetest.log("error", "[techage] Techage requires minecart version 2.03 or newer!")
 	return
 elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.01 then
 	minetest.log("error", "[techage] Techage requires lcdlib version 1.01 or newer!")
