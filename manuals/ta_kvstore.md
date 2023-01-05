@@ -5,8 +5,8 @@ The key/value store simplifies the handling/comparison of strings.
 The following example shows the use of the Key/Value Store, here to check the names from the Player Detector:
 
 ```c
-import "ta_kvstore.c"
-import "ta_iom.c"
+import "lib/ta_kvstore.c"
+import "lib/ta_iom.c"
 
 var s[16];
 

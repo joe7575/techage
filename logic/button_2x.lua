@@ -252,3 +252,12 @@ minetest.register_craft({
 		{"", "", ""},
 	},
 })
+
+minetest.register_craft({
+	output = "techage:ta4_button_off 2",
+	recipe = {
+		{"", "", ""},
+		{"", "techage:ta4_button_2x", ""},
+		{"", "", ""},
+	},
+})

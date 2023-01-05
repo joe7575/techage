@@ -266,6 +266,11 @@ if techage.max_num_forceload_blocks > 0 then
 		output = "techage:forceloadtile",
 		recipe = {"techage:forceload"},
 	})
+	minetest.register_craft({
+		type = "shapeless",
+		output = "techage:forceload",
+		recipe = {"techage:forceloadtile"},
+	})
 end
 
 minetest.register_on_joinplayer(function(player)
