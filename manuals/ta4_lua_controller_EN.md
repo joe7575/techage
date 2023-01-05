@@ -396,7 +396,8 @@ Please note, that this is not a technical distinction, only a logical.
 | "port"                          | string<br />`<color>=on/off` | Enable/disable a Distributor filter slot..<br />Example: `"yellow=on"`<br />colors: red, green, blue, yellow |
 | "config" | "\<slot> \<item list>" | Configure a Distributor filter slot, like: "red default:dirt dye:blue" |
 | "text"                           | text string  | Text to be used for the Sensor Chest menu                    |
-| "reset"                          | nil          | Reset the item counter of the TA4 Item Detector block        |
+| "reset"                          | nil          | Reset item and countdown counters of the TA4 Item Detector block |
+| "countdown" | number | Set countdown counter of the TA4 Item Detector block to the given value and<br />start countdown mode. |
 | "limit"                       | number | Configure a TA4 Pusher with the number of items that are allowed to be pushed ("flow limiter" mode)<br />limit = 0 turns off the "flow limiter" mode |
 | "limit" | number | Configure a TA4 Pump with the number of liquid units that are allowed to be pumped ("flow limiter" mode)<br />limit = 0 turns off the "flow limiter" mode |
 | "config"                         | item  string | Configure the TA4 pusher.<br />Example: `wool:blue`          |

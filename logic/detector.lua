@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2022 Joachim Stolberg
+	Copyright (C) 2017-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -21,7 +21,7 @@ local logic = techage.logic
 local BLOCKING_TIME = 8 -- seconds
 local ON_TIME = 1
 
-local WRENCH_MENU = {
+local WRENCH_MENU3 = {
 	{
 		type = "dropdown",
 		choices = "1,2,4,6,8,12,16",
@@ -37,6 +37,46 @@ local WRENCH_MENU = {
 		label = S("Blocking Time") .. " [s]",
 		tooltip = S("The time after the 'off' command\nuntil the next 'on' command is accepted."),
 		default = "8",
+	},
+	{
+		type = "items",
+		name = "config",
+		label = S("Configured Items"),
+		tooltip = S("Items which generate an 'on' command.\nIf empty, all passed items generate an 'on' command."),
+		size = 4,
+	}
+}
+
+local WRENCH_MENU4 = {
+	{
+		type = "dropdown",
+		choices = "1,2,4,6,8,12,16",
+		name = "ontime",
+		label = S("On Time") .. " [s]",
+		tooltip = S("The time between the 'on' and 'off' commands."),
+		default = "1",
+	},
+	{
+		type = "dropdown",
+		choices = "2,4,6,8,12,16,20",
+		name = "blockingtime",
+		label = S("Blocking Time") .. " [s]",
+		tooltip = S("The time after the 'off' command\nuntil the next 'on' command is accepted."),
+		default = "8",
+	},
+	{
+		type = "number",
+		name = "countdown",
+		label = S("Countdown"),
+		tooltip = S("Counts down the number of items passed through\nand only triggers an 'on' command when it reaches zero."),
+		default = "0",
+	},
+	{
+		type = "output",
+		name = "countdown",
+		label = S("Current countdown"),
+		tooltip = S("Current countdown value."),
+		default = "0",
 	},
 	{
 		type = "items",
@@ -122,6 +162,17 @@ local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	techage.del_mem(pos)
 end
 
+local function ta_after_formspec(pos, fields, playername)
+	if fields.save then
+		local nvm = techage.get_nvm(pos)
+		local val = M(pos):get_int("countdown") or 0
+		if val > 0 then
+			nvm.countdown = val 
+		else
+			nvm.countdown = nil
+		end
+	end
+end
 
 minetest.register_node("techage:ta3_detector_off", {
 	description = S("TA3 Detector"),
@@ -139,7 +190,7 @@ minetest.register_node("techage:ta3_detector_off", {
 	on_receive_fields = on_receive_fields,
 	techage_set_numbers = techage_set_numbers,
 	after_dig_node = after_dig_node,
-	ta3_formspec = WRENCH_MENU,
+	ta3_formspec = WRENCH_MENU3,
 
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
@@ -167,7 +218,7 @@ minetest.register_node("techage:ta3_detector_on", {
 	on_rotate = screwdriver.disallow,
 	techage_set_numbers = techage_set_numbers,
 	after_dig_node = after_dig_node,
-	ta3_formspec = WRENCH_MENU,
+	ta3_formspec = WRENCH_MENU3,
 
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
@@ -192,7 +243,8 @@ minetest.register_node("techage:ta4_detector_off", {
 	on_receive_fields = on_receive_fields,
 	techage_set_numbers = techage_set_numbers,
 	after_dig_node = after_dig_node,
-	ta3_formspec = WRENCH_MENU,
+	ta4_formspec = WRENCH_MENU4,
+	ta_after_formspec = ta_after_formspec,
 
 	on_rotate = screwdriver.disallow,
 	paramtype = "light",
@@ -220,7 +272,8 @@ minetest.register_node("techage:ta4_detector_on", {
 	on_rotate = screwdriver.disallow,
 	techage_set_numbers = techage_set_numbers,
 	after_dig_node = after_dig_node,
-	ta3_formspec = WRENCH_MENU,
+	ta4_formspec = WRENCH_MENU4,
+	ta_after_formspec = ta_after_formspec,
 
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
@@ -268,13 +321,22 @@ techage.register_node({"techage:ta4_detector_off", "techage:ta4_detector_on"}, {
 		if leftover then
 			local inv =  minetest.get_inventory({type = "node", pos = pos})
 			if not inv or inv:is_empty("cfg") or inv:contains_item("cfg", ItemStack(stack:get_name())) then
-				switch_on(pos)
 				local nvm = techage.get_nvm(pos)
-				if leftover == true then
-					nvm.counter = (nvm.counter or 0) + stack:get_count()
-				else
-					nvm.counter = (nvm.counter or 0) + stack:get_count() - leftover:get_count()
+				local num_moved = stack:get_count()
+				if leftover ~= true then
+					num_moved = num_moved - leftover:get_count()
 				end
+				
+				if nvm.countdown and nvm.countdown > 0 then
+					nvm.countdown = nvm.countdown - num_moved
+					if nvm.countdown <= 0 then
+						M(pos):set_int("countdown", 0)
+						switch_on(pos)
+					end
+				elseif nvm.countdown == nil then
+					switch_on(pos)
+				end
+				nvm.counter = (nvm.counter or 0) + num_moved
 			end
 			return leftover
 		end
@@ -286,9 +348,15 @@ techage.register_node({"techage:ta4_detector_off", "techage:ta4_detector_on"}, {
 		if topic == "count" then
 			local nvm = techage.get_nvm(pos)
 			return nvm.counter or 0
+		elseif topic == "countdown" then
+			local nvm = techage.get_nvm(pos)
+			nvm.countdown = tonumber(payload) or 0
+			M(pos):set_int("countdown", nvm.countdown)
+			return true
 		elseif topic == "reset" then
 			local nvm = techage.get_nvm(pos)
 			nvm.counter = 0
+			nvm.countdown = nil
 			return true
 		else
 			return "unsupported"
@@ -298,6 +366,12 @@ techage.register_node({"techage:ta4_detector_off", "techage:ta4_detector_on"}, {
 		if topic == 6 then  -- Detector Block Reset
 			local nvm = techage.get_nvm(pos)
 			nvm.counter = 0
+			nvm.countdown = nil
+			return 0
+		elseif topic == 5 then  -- Detector Block Countdown
+			local nvm = techage.get_nvm(pos)
+			nvm.countdown = tonumber(payload[1]) or 0
+			M(pos):set_int("countdown", nvm.countdown)
 			return 0
 		else
 			return 2

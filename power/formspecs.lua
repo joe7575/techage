@@ -28,6 +28,7 @@ techage.power = {}
 -- Helper function
 -------------------------------------------------------------------------------
 local function round(val)
+	val = tonumber(val) or 0
 	if val > 100 then
 		return math.floor(val + 0.5)
 	elseif val > 10 then
