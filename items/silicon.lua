@@ -30,16 +30,16 @@ if minetest.global_exists("mesecon") then
 		},
 		time = 6,
 	})
-else
-	techage.furnace.register_recipe({
-		output = "techage:ta4_silicon_wafer 16",
-		recipe = {
-			"basic_materials:silicon",
-			"basic_materials:silicon",
-			"basic_materials:silicon",
-			"techage:baborium_ingot"
-		},
-		time = 6,
-	})
 end
+techage.furnace.register_recipe({
+	output = "techage:ta4_silicon_wafer 16",
+	recipe = {
+		"basic_materials:silicon",
+		"basic_materials:silicon",
+		"basic_materials:silicon",
+		"techage:baborium_ingot"
+	},
+	time = 6,
+})
+
 

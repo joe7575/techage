@@ -343,7 +343,7 @@ techage.register_node({"techage:t4_pump", "techage:t4_pump_on"}, {
 		end
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
-		if topic == 69 and payload then  -- Set pump limit
+		if (topic == 69 or topic == 21) and payload then  -- Set pump limit
 			local nvm = techage.get_nvm(pos)
 			State4:stop(pos, nvm)
 			if payload[1] > 0 then

@@ -341,7 +341,7 @@ local tubing = {
 			CRD(pos).State:stop(pos, nvm)
 			config_item(pos, payload)
 			return 0
-		elseif topic == 68 then  -- Set push limit
+		elseif topic == 68 or topic == 20 then  -- Set push limit
 			local nvm = techage.get_nvm(pos)
 			CRD(pos).State:stop(pos, nvm)
 			set_limit(pos, nvm, payload[1])

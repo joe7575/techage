@@ -148,7 +148,7 @@ local function register_signallamp(name, description, tiles_off, tiles_on, node_
 				local node = techage.get_node_lvm(pos)
 				switch_off(pos, node)
 				return 0
-			elseif topic == 70 then
+			elseif topic == 70 or topic == 22 then
 				local node = techage.get_node_lvm(pos)
 				switch_on(pos, node, nil, payload[1])
 				return 0
