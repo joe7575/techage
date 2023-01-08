@@ -346,6 +346,20 @@ local function count_number_of_chests(pos)
 	M(pos):set_int("stacksize", STACK_SIZE * cnt)
 end
 
+local function dummy_chest_behind(pos, node)
+	local dir = techage.side_to_outdir("B", node.param2)
+	local pos1 = tubelib2.get_pos(pos, dir)
+	node = techage.get_node_lvm(pos1)
+	return node.name == "techage:ta4_chest_dummy"
+end
+
+local function part_of_a_chain(pos, node)
+	local dir = techage.side_to_outdir("F", node.param2)
+	local pos1 = tubelib2.get_pos(pos, dir)
+	node = techage.get_node_lvm(pos1)
+	return node.name == "techage:ta4_chest_dummy" or node.name == "techage:ta4_chest"
+end
+
 local function search_chest_in_front(pos, node)
 	local dir = techage.side_to_outdir("F", node.param2)
 	local pos1 = tubelib2.get_pos(pos, dir)
@@ -529,6 +543,10 @@ minetest.register_node("techage:ta4_chest", {
 
 	after_place_node = function(pos, placer)
 		local node = minetest.get_node(pos)
+		if dummy_chest_behind(pos, node) then
+			minetest.remove_node(pos)
+			return true
+		end
 		if search_chest_in_front(pos, node) then
 			node.name = "techage:ta4_chest_dummy"
 			minetest.swap_node(pos, node)
@@ -665,6 +683,18 @@ techage.register_node({"techage:ta4_chest_dummy"}, {
 		end
 		return res
 	end
+})
+
+minetest.register_lbm({
+	label = "Repair Dummy Chests",
+	name = "techage:chest_dummy",
+	nodenames = {"techage:ta4_chest_dummy"},
+	run_at_every_load = true,
+	action = function(pos, node)
+		if not part_of_a_chain(pos, node) then
+			minetest.swap_node(pos, {name = "techage:ta4_chest", param2 = node.param2})
+		end
+	end,
 })
 
 minetest.register_craft({
