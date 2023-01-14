@@ -43,10 +43,12 @@ else
 		sounds = default.node_sound_stone_defaults(),
 	})
 
-	minetest.register_craft({
-		type = "cooking",
+	-- Needs to be a techage recipe, not to overwrite the clay/bakedclay recipe
+	techage.furnace.register_recipe({
 		output = "techage:cement_block",
-		recipe = "default:clay",
+		recipe = {
+			"default:clay",
+		},
 	})
 	techage.add_grinder_recipe({input="techage:cement_block", output="techage:cement_powder"})
 	techage.add_grinder_recipe({input="bakedclay:white", output="techage:cement_powder"})
