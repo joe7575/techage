@@ -113,7 +113,7 @@ techage.manual_DE.aTitel = {
   "3,TA3 Sequenzer / Sequencer",
   "3,TA3 Timer",
   "3,TA3 Terminal",
-  "3,TechAge Signallampe / Signal Lamp",
+  "3,TechAge Farblampe / Color Lamp",
   "3,Tür/Tor Blöcke / Door/Gate Blocks",
   "3,TA3 Tür Controller / Door Controller",
   "3,TA3 Tür Controller II / Door Controller II",
@@ -1133,7 +1133,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Die Signallampe kann mit 'on'/'off' Kommando ein- bzw. ausgeschaltet werden. Diese Lampe braucht keinen Strom und\n"..
+  "Die Farblampe kann mit 'on'/'off' Kommando ein- bzw. ausgeschaltet werden. Diese Lampe braucht keinen Strom und\n"..
   "kann mit der Spritzpistole aus der Mod \"Unified Dyes\" und über Lua/Beduino Kommandos eingefärbt werden.\n"..
   "\n"..
   "Mit dem Chat-Kommando '/ta_color' wird die Farbpalette mit den Werten für die Lua/Beduino Kommandos angezeigt und mit '/ta_send color <num>' kann die Farbe geändert werden.\n"..
@@ -2282,7 +2282,7 @@ techage.manual_DE.aItemName = {
   "ta3_sequencer",
   "ta3_timer",
   "ta3_terminal",
-  "ta3_signallamp",
+  "ta3_colorlamp",
   "ta3_doorblock",
   "ta3_doorcontroller",
   "ta3_doorcontroller",
