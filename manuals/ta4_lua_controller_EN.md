@@ -363,6 +363,7 @@ Please note, that this is not a technical distinction, only a logical.
 | "state"      | one of: "running", "stopped", "blocked", "standby", "fault", or "unloaded" | Techage machine state, used by many machines                 |
 | "state"      | one of: "red", "amber", "green", "off"                       | Signal Tower state                                           |
 | "state"      | one of: "empty", "loaded", "full"                            | State of a chest or Sensor Chest                             |
+| "state"      | one of: "on", "off"                                          | State of a TA4 Button                                        |
 | "fuel"       | number                                                       | fuel value of a fuel consuming block                         |
 | "depth"      | number                                                       | Read the current depth value of a quarry block (1..80)       |
 | "load"       | number                                                       | Read the load value in percent  (0..100) of a tank, silo, accu, or battery block, or from the Signs Bot Box. Silo and tank return two values: The percentage value and the absolute value in units.<br /> Example: percent, absolute = $send_cmnd("223", "load") |
@@ -418,7 +419,7 @@ Please note, that this is not a technical distinction, only a logical.
 | "stop" | nil | Stop command for the TA4 Sequencer. |
 | "gain" | volume | Set volume of the sound block (`volume` is a value between 0 and 1.0) |
 | "sound" | index | Select sound sample of the sound block |
-| "color" | \<color> | Set the color of the TechAge Signal Lamp and TechAge Signal Lamp 2 (color = 0..255) |
+| "color" | \<color> | Set the color of the TechAge Color Lamp and TechAge Color Lamp 2 (color = 0..255) |
 
 ### Server and Terminal Functions
 
