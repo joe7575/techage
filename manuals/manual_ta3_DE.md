@@ -628,14 +628,14 @@ Im privaten Modus (private) kann das Terminal nur von Spielern verwendet werden,
 [ta3_terminal|image]
 
 
-### TechAge Signallampe / Signal Lamp
+### TechAge Farblampe / Color Lamp
 
-Die Signallampe kann mit `on`/`off` Kommando ein- bzw. ausgeschaltet werden. Diese Lampe braucht keinen Strom und
+Die Farblampe kann mit `on`/`off` Kommando ein- bzw. ausgeschaltet werden. Diese Lampe braucht keinen Strom und
 kann mit der Spritzpistole aus der Mod "Unified Dyes" und über Lua/Beduino Kommandos eingefärbt werden.
 
 Mit dem Chat-Kommando `/ta_color` wird die Farbpalette mit den Werten für die Lua/Beduino Kommandos angezeigt und mit `/ta_send color <num>` kann die Farbe geändert werden.
 
-[ta3_signallamp|image]
+[ta3_colorlamp|image]
 
 
 ### Tür/Tor Blöcke / Door/Gate Blocks

@@ -627,13 +627,13 @@ In public mode, all players can use the preconfigured keys.
 [ta3_terminal|image]
 
 
-### TechAge Signal Lamp
+### TechAge Color Lamp
 
 The signal lamp can be switched on or off with the `on` / `off` command. This lamp does not need electricity and can be colored with the airbrush tool from the mod Unified Dyes" and via Lua/Beduino commands.
 
 With the chat command `/ta_color` the color palette with the values for the Lua/Beduino commands is displayed and with `/ta_send color <num>` the color can be changed.
 
-[ta3_signallamp|image]
+[ta3_colorlamp|image]
 
 
 ### Door/Gate Blocks
