@@ -112,7 +112,7 @@
         - [TA3 Sequencer](./manual_ta3_EN.md#ta3-sequencer)
         - [TA3 Timer](./manual_ta3_EN.md#ta3-timer)
         - [TA3 Terminal](./manual_ta3_EN.md#ta3-terminal)
-        - [TechAge Signal Lamp](./manual_ta3_EN.md#techage-signal-lamp)
+        - [TechAge Color Lamp](./manual_ta3_EN.md#techage-color-lamp)
         - [Door/Gate Blocks](./manual_ta3_EN.md#doorgate-blocks)
         - [TA3 Door Controller](./manual_ta3_EN.md#ta3-door-controller)
         - [TA3 Door Controller II](./manual_ta3_EN.md#ta3-door-controller-ii)
