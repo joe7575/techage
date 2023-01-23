@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2022 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -518,6 +518,20 @@ function NodeStates:on_beduino_request_data(pos, topic, payload)
 	else
 		return 2, ""  -- topic is unknown or invalid
 	end
+end
+
+function NodeStates.get_beduino_state(pos)
+	local node = minetest.get_node(pos)
+	local nvm = techage.get_nvm(pos)
+	if node.name == "ignore" then  -- unloaded node?
+		return 0, {techage.UNLOADED}
+	elseif nvm.techage_state == RUNNING then
+		local ttl = (nvm.last_active or 0) + MAX_CYCLE_TIME
+		if ttl < minetest.get_gametime() then
+			return 0, {techage.INACTIVE}
+		end
+	end
+	return 0, {nvm.techage_state or STOPPED}
 end
 
 -- restart timer

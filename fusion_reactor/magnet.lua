@@ -54,7 +54,6 @@ minetest.register_node("techage:ta5_magnet1", {
 		Cable:after_dig_node(pos)
 		techage.del_mem(pos)
 	end,
-	drawtype = "nodebox",
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
@@ -88,7 +87,6 @@ minetest.register_node("techage:ta5_magnet2", {
 		Cable:after_dig_node(pos)
 		techage.del_mem(pos)
 	end,
-	drawtype = "nodebox",
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
