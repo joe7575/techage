@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2020 Joachim Stolberg
+	Copyright (C) 2017-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -394,11 +394,16 @@ minetest.register_craft({
 	},
 })
 
+techage.register_node({"techage:ta3_button_off", "techage:ta3_button_on"}, {})
+
 techage.register_node({
 		"techage:ta4_button_off", "techage:ta4_button_on",
 	}, {
 		on_recv_message = function(pos, src, topic, payload)
-			if topic == "name" then
+			if topic == "state" then
+				local name = techage.get_node_lvm(pos).name
+				return name == "techage:ta4_button_on" and "on" or "off"
+			elseif topic == "name" then
 				local mem = techage.get_mem(pos)
 				return mem.clicker or ""
 			elseif topic == "time" then
@@ -409,7 +414,10 @@ techage.register_node({
 			end
 		end,
 		on_beduino_request_data = function(pos, src, topic, payload)
-			if topic == 144 then  -- Player Name
+			if topic == 131 then  -- State
+				local name = techage.get_node_lvm(pos).name
+				return 0, name == "techage:ta4_button_on" and {1} or {0}
+			elseif topic == 144 then  -- Player Name
 				local mem = techage.get_mem(pos)
 				return 0, mem.clicker
 			elseif topic == 149 then  --time
