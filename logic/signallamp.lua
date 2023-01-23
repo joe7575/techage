@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2022 Joachim Stolberg
+	Copyright (C) 2022-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -104,7 +104,6 @@ local function register_signallamp(name, description, tiles_off, tiles_on, node_
 
 		paramtype = "light",
 		paramtype2 = "color",
-		--palette = "techage_palette256.png",
 		palette = COLORED and "unifieddyes_palette_extended.png" or "techage_palette256.png",
 		groups = {choppy=2, cracky=1, not_in_creative_inventory=1, ud_param2_colorable = 1},
 
@@ -196,8 +195,8 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 end)
 
 
-register_signallamp("techage:signal_lamp",
-	S("TechAge Signal Lamp"),
+register_signallamp("techage:color_lamp",
+	S("TechAge Color Lamp"),
 	{"techage_signal_lamp.png^[colorize:#000000:80"},
 	{"techage_signal_lamp.png"},
 	{
@@ -209,8 +208,8 @@ register_signallamp("techage:signal_lamp",
 	}
 )
 
-register_signallamp("techage:signal_lamp2",
-	S("TechAge Signal Lamp 2 "),
+register_signallamp("techage:color_lamp2",
+	S("TechAge Color Lamp 2"),
 	{"techage_signallamp2.png^[colorize:#000000:80"},
 	{"techage_signallamp2.png"}
 )
@@ -232,3 +231,8 @@ minetest.register_craft({
 			{"", "techage:vacuum_tube", ""},
 		},
 	})
+
+minetest.register_alias("techage:signal_lamp_off", "techage:color_lamp_off")
+minetest.register_alias("techage:signal_lamp2_off", "techage:color_lamp2_off")
+minetest.register_alias("techage:signal_lamp_on", "techage:color_lamp_on")
+minetest.register_alias("techage:signal_lamp2_on", "techage:color_lamp2_on")
