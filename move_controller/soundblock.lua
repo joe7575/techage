@@ -116,8 +116,9 @@ techage.register_node({"techage:ta3_soundblock"}, {
 		end
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		print("ta3_soundblock", topic, payload[1], payload[2])
 		if topic == 1 then
-			if payload[1] == 0 then
+			if payload[1] == 1 then
 				play_predefined_sound(pos)
 				return 0
 			end
