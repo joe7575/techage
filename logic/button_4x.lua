@@ -300,6 +300,8 @@ minetest.register_node("techage:ta4_button_4x", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
+techage.register_node({"techage:ta4_button_4x"}, {})
+
 minetest.register_craft({
 	output = "techage:ta4_button_4x",
 	recipe = {
