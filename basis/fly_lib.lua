@@ -694,6 +694,7 @@ end
 -- Move nodes from lpos1 by the given x/y/z 'line'
 local function move_nodes2(pos, meta, lpos1, line, max_speed, height)
 	local owner = meta:get_string("owner")
+	lpos1 = lpos1 or {}
 	techage.counting_add(owner, #lpos1)
 
 	local lpos2 = {}
