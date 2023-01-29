@@ -30,7 +30,7 @@ local TOTAL_MAX = INV_SIZE * FUEL_STACK_MAX
 
 local function count_coal(metadata)
 	local total = 0
-	for _,stack in pairs(metadata.inventory.fuel) do
+	for _,stack in pairs(metadata.inventory.fuel or {}) do
 		total = total + stack:get_count()
 	end
 	return total
