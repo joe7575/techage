@@ -165,8 +165,6 @@ minetest.register_node("techage:ta5_flycontroller", {
 		elseif fields.moveAB then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, false) then
-				nvm.moveBA = true
-				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
 				mark.stop(name)
@@ -175,8 +173,6 @@ minetest.register_node("techage:ta5_flycontroller", {
 		elseif fields.moveBA then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, true) then
-				nvm.moveBA = false
-				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
 				mark.stop(name)
@@ -185,8 +181,6 @@ minetest.register_node("techage:ta5_flycontroller", {
 		elseif fields.move then
 			meta:set_string("status", "")
 			if fly.move_to_other_pos(pos, nvm.moveBA) then
-				nvm.moveBA = nvm.moveBA == false
-				nvm.running = true
 				meta:set_string("formspec", formspec(nvm, meta))
 				local name = player:get_player_name()
 				mark.stop(name)
@@ -219,17 +213,11 @@ techage.register_node({"techage:ta5_flycontroller"}, {
 		elseif topic == "state" then
 			return nvm.running and "running" or "stopped"
 		elseif topic == "a2b" then
-			nvm.moveBA = true
-			nvm.running = true
 			return fly.move_to_other_pos(pos, false)
 		elseif topic == "b2a" then
-			nvm.moveBA = false
-			nvm.running = true
 			return fly.move_to_other_pos(pos, true)
 		elseif topic == "move" then
-			nvm.moveBA = nvm.moveBA == false
-			nvm.running = true
-			return fly.move_to_other_pos(pos, nvm.moveBA == false)
+			return fly.move_to_other_pos(pos, nvm.moveBA)
 		end
 		return false
 	end,
@@ -237,17 +225,11 @@ techage.register_node({"techage:ta5_flycontroller"}, {
 		local nvm = techage.get_nvm(pos)
 		if topic == 11 then
 			if payload[1] == 1 then
-				nvm.moveBA = true
-				nvm.running = true
 				return fly.move_to_other_pos(pos, false) and 0 or 3
 			elseif payload[1] == 2 then
-				nvm.moveBA = false
-				nvm.running = true
 				return fly.move_to_other_pos(pos, true) and 0 or 3
 			elseif payload[1] == 3 then
-				nvm.moveBA = nvm.moveBA == false
-				nvm.running = true
-				return fly.move_to_other_pos(pos, nvm.moveBA == false) and 0 or 3
+				return fly.move_to_other_pos(pos, nvm.moveBA) and 0 or 3
 			end
 		else
 			return 2

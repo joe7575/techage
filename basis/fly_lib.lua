@@ -542,6 +542,7 @@ minetest.register_entity("techage:move_item", {
 			obj:move_to(self.dest_pos, true)
 			obj:set_acceleration({x=0, y=0, z=0})
 			obj:set_velocity({x=0, y=0, z=0})
+			self.item.dest_pos = dest_pos
 			self.dest_pos = nil
 			self.old_dist = nil
 			return dest_pos
@@ -554,9 +555,9 @@ minetest.register_entity("techage:move_item", {
 			local speed = calc_speed(obj:get_velocity())
 			self.old_dist = self.old_dist or dist
 
-			-- Landing
 			if self.lpath and self.lpath[self.path_idx] then
 				if dist < 1 or dist > self.old_dist then
+					-- change of direction
 					local dest_pos = stop_obj(obj, self)
 					if not moveon_entity(obj, self, dest_pos) then
 						minetest.after(0.5, entity_to_node, dest_pos, obj)
@@ -571,6 +572,7 @@ minetest.register_entity("techage:move_item", {
 				return
 			else
 				if dist < 0.05 or dist > self.old_dist then
+					-- Landing
 					local dest_pos = stop_obj(obj, self)
 					minetest.after(0.5, entity_to_node, dest_pos, obj)
 					return
