@@ -3,12 +3,12 @@
 	TechAge
 	=======
 
-	Copyright (C) 2020-2022 Joachim Stolberg
+	Copyright (C) 2020-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
 
-	TA4 Move Controller
+	TA5 Fly Controller
 
 ]]--
 
@@ -41,6 +41,13 @@ local WRENCH_MENU = {
 		label = S("Move block height"),
 		tooltip = S("Value in the range of 0.0 to 1.0"),
 		default = "1.0",
+	},
+	{
+		type = "float",
+		name = "offset",
+		label = S("Object offset"),
+		tooltip = S("Y-offset for non-player objects like vehicles (-0.5 to 0.5)"),
+		default = "0.0",
 	},
 }
 
@@ -241,6 +248,10 @@ techage.register_node({"techage:ta5_flycontroller"}, {
 			return 0, {nvm.running and 1 or 6}
 		end
 		return 2, ""
+	end,
+	on_node_load = function(pos, node)
+		local nvm = techage.get_nvm(pos)
+		nvm.running = false
 	end,
 })
 

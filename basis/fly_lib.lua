@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2020-2022 Joachim Stolberg
+	Copyright (C) 2020-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -30,26 +30,6 @@ local function lvect_add_vec(lvect1, offs)
 	return lvect2
 end
 
-local function lvect_add(lvect1, lvect2)
-	if not lvect1 or not lvect2 then return end
-
-	local lvect3 = {}
-	for i, v in ipairs(lvect1) do
-		lvect3[#lvect3 + 1] = vector.add(v, lvect2[i])
-	end
-	return lvect3
-end
-
-local function lvect_subtract(lvect1, lvect2)
-	if not lvect1 or not lvect2 then return end
-
-	local lvect3 = {}
-	for i, v in ipairs(lvect1) do
-		lvect3[#lvect3 + 1] = vector.subtract(v, lvect2[i])
-	end
-	return lvect3
-end
-
 -- yaw in radiant
 local function rotate(v, yaw)
 	local sinyaw = math.sin(yaw)
@@ -61,7 +41,6 @@ local function set_node(item)
 	local dest_pos = item.dest_pos
 	local name = item.name or "air"
 	local param2 = item.param2 or 0
-	local metadata = item.metadata or {}
 	local nvm = techage.get_nvm(item.base_pos)
 	local node = techage.get_node_lvm(dest_pos)
 	local ndef1 = minetest.registered_nodes[name]
@@ -100,7 +79,7 @@ local function push(item)
 	queue[last] = item
 end
 
-local function pop(nvm, time)
+local function pop()
 	if first > last then return end
 	local item = queue[first]
 	queue[first] = nil -- to allow garbage collection
@@ -408,6 +387,9 @@ local function entity_to_node(pos, obj)
 	end
 end
 
+-- Create a node entitiy.
+-- * base_pos is controller block related
+-- * start_pos and dest_pos are entity positions
 local function node_to_entity(base_pos, start_pos, dest_pos)
 	local meta = M(start_pos)
 	local node, metadata
@@ -464,9 +446,9 @@ local function determine_dir(pos1, pos2)
 	return {x=0, y=0, z=0}
 end
 
-local function move_entity(obj, dest_pos, dir, is_corner)
+local function move_entity(obj, next_pos, dir, is_corner)
 	local self = obj:get_luaentity()
-	self.dest_pos = dest_pos
+	self.next_pos = next_pos
 	self.dir = dir
 	if is_corner then
 		local vel = vector.multiply(dir, math.min(CORNER_SPEED, self.max_speed))
@@ -477,49 +459,12 @@ local function move_entity(obj, dest_pos, dir, is_corner)
 end
 
 local function moveon_entity(obj, self, pos1)
-	local pos2 = next_path_pos(pos1, self.lpath, self.path_idx)
+	local pos2 = next_path_pos(pos1, self.lmove, self.path_idx)
 	if pos2 then
 		self.path_idx = self.path_idx + 1
 		local dir = determine_dir(pos1, pos2)
 		move_entity(obj, pos2, dir, true)
 		return true
-	end
-end
-
--- Handover the entity to the next movecontroller
-local function handover_to(obj, self, pos1)
-	if self.handover then
-		local info = techage.get_node_info(self.handover)
-		if info and info.name == "techage:ta4_movecontroller" then
-			local meta = M(info.pos)
-			if self.move2to1 then
-				self.handover = meta:contains("handoverA") and meta:get_string("handoverA") or nil
-			else
-				self.handover = meta:contains("handoverB") and meta:get_string("handoverB") or nil
-			end
-
-			self.lpath = flylib.to_path(meta:get_string("path"))
-			if pos1 and self.lpath then
-				self.path_idx = 2
-				if self.move2to1 then
-					self.lpath[1] = vector.multiply(self.lpath[1], - 1)
-				end
-				local pos2 = next_path_pos(pos1, self.lpath, 1)
-				local dir = determine_dir(pos1, pos2)
-				if not self.handover then
-					local nvm = techage.get_nvm(info.pos)
-					nvm.lpos1 = nvm.lpos1 or {}
-					if self.move2to1 then
-						nvm.lpos1[self.pos1_idx] = pos2
-
-					else
-						nvm.lpos1[self.pos1_idx] = pos1
-					end
-				end
-				move_entity(obj, pos2, dir)
-				return true
-			end
-		end
 	end
 end
 
@@ -538,64 +483,47 @@ minetest.register_entity("techage:move_item", {
 
 	on_step = function(self, dtime, moveresult)
 		local stop_obj = function(obj, self)
-			local dest_pos = self.dest_pos
-			obj:move_to(self.dest_pos, true)
+			local next_pos = self.next_pos
+			obj:move_to(self.next_pos, true)
 			obj:set_acceleration({x=0, y=0, z=0})
 			obj:set_velocity({x=0, y=0, z=0})
-			self.item.dest_pos = dest_pos
-			self.dest_pos = nil
+			self.next_pos = nil
 			self.old_dist = nil
-			return dest_pos
+			return next_pos
 		end
 
-		if self.dest_pos then
+		if self.next_pos then
 			local obj = self.object
 			local pos = obj:get_pos()
-			local dist = vector.distance(pos, self.dest_pos)
+			local dist = vector.distance(pos, self.next_pos)
 			local speed = calc_speed(obj:get_velocity())
 			self.old_dist = self.old_dist or dist
 
-			if self.lpath and self.lpath[self.path_idx] then
+			if self.lmove and self.lmove[self.path_idx] then
 				if dist < 1 or dist > self.old_dist then
 					-- change of direction
-					local dest_pos = stop_obj(obj, self)
-					if not moveon_entity(obj, self, dest_pos) then
-						minetest.after(0.5, entity_to_node, dest_pos, obj)
+					local next_pos = stop_obj(obj, self)
+					if not moveon_entity(obj, self, next_pos) then
+						minetest.after(0.5, entity_to_node, next_pos, obj)
 					end
 					return
 				end
-			elseif self.handover and dist < 0.2 or dist > self.old_dist then
-				local dest_pos = stop_obj(obj, self)
-				if not handover_to(obj, self, dest_pos) then
-					minetest.after(0.5, entity_to_node, dest_pos, obj)
-				end
+			elseif dist < 0.05 or dist > self.old_dist then
+				-- Landing
+				local next_pos = stop_obj(obj, self)
+				local dest_pos = self.item.dest_pos or next_pos
+				minetest.after(0.5, entity_to_node, dest_pos, obj)
 				return
-			else
-				if dist < 0.05 or dist > self.old_dist then
-					-- Landing
-					local dest_pos = stop_obj(obj, self)
-					minetest.after(0.5, entity_to_node, dest_pos, obj)
-					return
-				end
 			end
 
 			self.old_dist = dist
 
 			-- Braking or limit max speed
-			if self.handover then
-				if speed > (dist * 4) or speed > self.max_speed then
-					speed = math.min(speed, math.max(dist * 4, MIN_SPEED))
-					local vel = vector.multiply(self.dir,speed)
-					obj:set_velocity(vel)
-					obj:set_acceleration({x=0, y=0, z=0})
-				end
-			else
-				if speed > (dist * 2) or speed > self.max_speed then
-					speed = math.min(speed, math.max(dist * 2, MIN_SPEED))
-					local vel = vector.multiply(self.dir,speed)
-					obj:set_velocity(vel)
-					obj:set_acceleration({x=0, y=0, z=0})
-				end
+			if speed > (dist * 2) or speed > self.max_speed then
+				speed = math.min(speed, math.max(dist * 2, MIN_SPEED))
+				local vel = vector.multiply(self.dir,speed)
+				obj:set_velocity(vel)
+				obj:set_acceleration({x=0, y=0, z=0})
 			end
 
 			monitoring_trigger_entity(self.item)
@@ -620,30 +548,34 @@ local function is_simple_node(pos)
 	return not techage.is_air_like(node.name) and techage.can_dig_node(node.name, ndef)
 end
 
-local function move_node(pos, pos1_idx, start_pos, lpath, max_speed, height, move2to1, handover, cpos)
-	local pos2 = next_path_pos(start_pos, lpath, 1)
+-- Move node from 'pos1' to the destination, calculated by means of 'lmove'
+-- * pos and meta are controller block related
+-- * lmove is the movement as a list of `moves`
+-- * height is move block height as value between 0 and 1 and used to calculate the offset
+--   for the attached object (player).
+local function move_node(pos, meta, pos1, lmove, max_speed, height)
+	local pos2 = next_path_pos(pos1, lmove, 1)
+	local offs = dest_offset(lmove)
+	local dest_pos = vector.add(pos1, offs)
 	-- optional for non-player objects
-	local yoffs = M(pos):get_float("offset")
+	local yoffs = meta:get_float("offset")
 
 	if pos2 then
-		local dir = determine_dir(start_pos, pos2)
-		local obj = node_to_entity(pos, start_pos, pos2)
+		local dir = determine_dir(pos1, pos2)
+		local obj = node_to_entity(pos, pos1, dest_pos)
 
 		if obj then
 			local offs = {x=0, y=height or 1, z=0}
-			attach_objects(start_pos, offs, obj, yoffs)
+			attach_objects(pos1, offs, obj, yoffs)
 			if dir.y == 0 then
 				if (dir.x ~= 0 and dir.z == 0) or (dir.x == 0 and dir.z ~= 0) then
-					attach_objects(start_pos, dir, obj, yoffs)
+					attach_objects(pos1, dir, obj, yoffs)
 				end
 			end
 			local self = obj:get_luaentity()
 			self.path_idx = 2
-			self.pos1_idx = pos1_idx
-			self.lpath = lpath
+			self.lmove = lmove
 			self.max_speed = max_speed
-			self.move2to1 = move2to1
-			self.handover = handover
 			self.yoffs = yoffs
 			move_entity(obj, pos2, dir)
 			return true
@@ -653,14 +585,20 @@ local function move_node(pos, pos1_idx, start_pos, lpath, max_speed, height, mov
 	end
 end
 
-local function move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, handover)
+-- Move the nodes from nvm.lpos1 to nvm.lpos2
+-- * nvm.lpos1 is a list of nodes
+-- * lmove is the movement as a list of `moves`
+-- * pos, meta, and nvm are controller block related
+--- height is move block height as value between 0 and 1 and used to calculate the offset
+-- for the attached object (player).
+local function multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2to1)
 	local owner = meta:get_string("owner")
-	techage.counting_add(owner, #lpath, #nvm.lpos1 * #lpath)
+	techage.counting_add(owner, #lmove, #nvm.lpos1 * #lmove)
 
 	for idx = 1, #nvm.lpos1 do
 		local pos1 = nvm.lpos1[idx]
 		local pos2 = nvm.lpos2[idx]
-		--print("move_nodes", idx, P2S(pos1), P2S(pos2))
+		--print("multi_move_nodes", idx, P2S(pos1), P2S(pos2))
 
 		if move2to1 then
 			pos1, pos2 = pos2, pos1
@@ -668,7 +606,7 @@ local function move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, ha
 
 		if not minetest.is_protected(pos1, owner) and not minetest.is_protected(pos2, owner) then
 			if is_simple_node(pos1) and is_valid_dest(pos2) then
-				if move_node(pos, idx, pos1, lpath, max_speed, height, move2to1, handover) == false then
+				if move_node(pos, meta, pos1, lmove, max_speed, height) == false then
 					meta:set_string("status", S("No valid node at the start position"))
 					return false
 				end
@@ -693,8 +631,13 @@ local function move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, ha
 	return true
 end
 
--- Move nodes from lpos1 by the given x/y/z 'line'
-local function move_nodes2(pos, meta, lpos1, line, max_speed, height)
+-- Move the nodes from lpos1 to lpos2. 
+-- * lpos1 is a list of nodes
+-- * lpos2 = lpos1 + move
+-- * pos and meta are controller block related
+-- * height is move block height as value between 0 and 1 and used to calculate the offset
+--   for the attached object (player).
+local function move_nodes(pos, meta, lpos1, move, max_speed, height)
 	local owner = meta:get_string("owner")
 	lpos1 = lpos1 or {}
 	techage.counting_add(owner, #lpos1)
@@ -703,12 +646,12 @@ local function move_nodes2(pos, meta, lpos1, line, max_speed, height)
 	for idx = 1, #lpos1 do
 
 		local pos1 = lpos1[idx]
-		local pos2 = vector.add(lpos1[idx], line)
+		local pos2 = vector.add(lpos1[idx], move)
 		lpos2[idx] = pos2
 
 		if not minetest.is_protected(pos1, owner) and not minetest.is_protected(pos2, owner) then
 			if is_simple_node(pos1) and is_valid_dest(pos2) then
-				move_node(pos, idx, pos1, {line}, max_speed, height, false, false)
+				move_node(pos, meta, pos1, {move}, max_speed, height)
 			else
 				if not is_simple_node(pos1) then
 					meta:set_string("status", S("No valid node at the start position"))
@@ -731,13 +674,14 @@ local function move_nodes2(pos, meta, lpos1, line, max_speed, height)
 	return true, lpos2
 end
 
+-- move2to1 is the direction and is true for 'from pos2 to pos1'
+-- Move path and other data is stored as meta data of pos
 function flylib.move_to_other_pos(pos, move2to1)
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
-	local lpath, err = flylib.to_path(meta:get_string("path")) or {}
+	local lmove, err = flylib.to_path(meta:get_string("path")) or {}
 	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
 	local height = meta:contains("height") and meta:get_float("height") or 1
-	local handover
 
 	if err or nvm.running then return false end
 
@@ -745,33 +689,28 @@ function flylib.move_to_other_pos(pos, move2to1)
 	max_speed = techage.in_range(max_speed, MIN_SPEED, MAX_SPEED)
 	nvm.lpos1 = nvm.lpos1 or {}
 
-	local offs = dest_offset(lpath)
+	local offs = dest_offset(lmove)
 	if move2to1 then
-		lpath = reverse_path(lpath)
+		lmove = reverse_path(lmove)
 	end
 	-- calc destination positions
 	nvm.lpos2 = lvect_add_vec(nvm.lpos1, offs)
 
-	if move2to1 then
-		handover = meta:contains("handoverA") and meta:get_string("handoverA") or nil
-	else
-		handover = meta:contains("handoverB") and meta:get_string("handoverB") or nil
-	end
-	nvm.running = move_nodes(pos, meta, nvm, lpath, max_speed, height, move2to1, handover)
+	nvm.running = multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2to1)
 	nvm.moveBA = nvm.running and not move2to1
 	return nvm.running
 end
 
-function flylib.move_to(pos, line)
+-- `move` the movement as a vector
+function flylib.move_to(pos, move)
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
 	local height = techage.in_range(meta:contains("height") and meta:get_float("height") or 1, 0, 1)
 	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
-	local resp
 
 	if nvm.running then return false end
 
-	nvm.running, nvm.lastpos = move_nodes2(pos, meta, nvm.lastpos or nvm.lpos1, line, max_speed, height)
+	nvm.running, nvm.lastpos = move_nodes(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed, height)
 	return nvm.running
 end
 
@@ -785,27 +724,28 @@ function flylib.reset_move(pos)
 
 	if nvm.lpos1 and nvm.lpos1[1] then
 		local move = vector.subtract(nvm.lpos1[1], (nvm.lastpos or nvm.lpos1)[1])
-		local resp
 
-		nvm.running, nvm.lastpos = move_nodes2(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed, height)
+		nvm.running, nvm.lastpos = move_nodes(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed, height)
 		return nvm.running
 	end
 	return false
 end
 
+-- pos is the controller block pos
+-- lpos is a list of node positions to be moved
 -- rot is one of "l", "r", "2l", "2r"
--- cpos is the center pos (optional)
-function flylib.rotate_nodes(pos, posses1, rot)
+function flylib.rotate_nodes(pos, lpos, rot)
 	local meta = M(pos)
 	local owner = meta:get_string("owner")
+	-- cpos is the center pos
 	local cpos = meta:contains("center") and flylib.to_vector(meta:get_string("center"))
-	local posses2 = techage.rotate_around_center(posses1, rot, cpos)
+	local lpos2 = techage.rotate_around_center(lpos, rot, cpos)
 	local param2
 	local nodes2 = {}
 
-	techage.counting_add(owner, #posses1 * 2)
+	techage.counting_add(owner, #lpos * 2)
 
-	for i, pos1 in ipairs(posses1) do
+	for i, pos1 in ipairs(lpos) do
 		local node = techage.get_node_lvm(pos1)
 		if rot == "l" then
 			param2 = techage.param2_turn_right(node.param2)
@@ -816,7 +756,7 @@ function flylib.rotate_nodes(pos, posses1, rot)
 		end
 		if not minetest.is_protected(pos1, owner) and is_simple_node(pos1) then
 			minetest.remove_node(pos1)
-			nodes2[#nodes2 + 1] = {pos = posses2[i], name = node.name, param2 = param2}
+			nodes2[#nodes2 + 1] = {pos = lpos2[i], name = node.name, param2 = param2}
 		end
 	end
 	for _,item in ipairs(nodes2) do
@@ -824,7 +764,7 @@ function flylib.rotate_nodes(pos, posses1, rot)
 			minetest.add_node(item.pos, {name = item.name, param2 = item.param2})
 		end
 	end
-	return posses2
+	return lpos2
 end
 
 function flylib.exchange_node(pos, name, param2)

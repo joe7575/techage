@@ -35,22 +35,6 @@ local WRENCH_MENU = {
 		default = "8",
 	},
 	{
-		type = "number",
-		name = "handoverB",
-		label = S("Handover to B"),
-		tooltip = S("Number of the next movecontroller"),
-		default = "",
-		check = techage.check_number,
-	},
-	{
-		type = "number",
-		name = "handoverA",
-		label = S("Handover to A"),
-		tooltip = S("Number of the previous movecontroller"),
-		default = "",
-		check = techage.check_number,
-	},
-	{
 		type = "float",
 		name = "height",
 		label = S("Move block height"),
