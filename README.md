@@ -89,6 +89,19 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2023-02-04  V1.10**
+- Improve flycontroller
+- Remove handover for movecontroller
+- Rename "techage:signal_lamp" to "techage:color_lamp"
+- Rename "techage:signal_lamp2" to "techage:color_lamp2"
+- Add countdown mode to TA4 Detector
+- Adapt to new beduino and minecart versions
+- Improve manuals
+- flycontroller/movecontroller: Allow moving blocks through unloaded areas
+- playerdetector: Add wrench menu to configure search radius
+- Default furnace: Don't use items filled from the top as fuel
+- Many further improvements and bug fixes from joe7575 and Niklp09
+
 **2022-09-03  V1.09**
 - Change the way items are pushed
 - Add "Flow Limiter" mode to TA4 pump and TA4 pusher
