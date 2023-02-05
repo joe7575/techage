@@ -37,7 +37,8 @@ local function rotate(v, yaw)
 	return {x = v.x * cosyaw - v.z * sinyaw, y = v.y, z = v.x * sinyaw + v.z * cosyaw}
 end
 
-local function set_node(item)
+-- playername is needed for carts, to attach the player to the cart entity
+local function set_node(item, playername)
 	local dest_pos = item.dest_pos
 	local name = item.name or "air"
 	local param2 = item.param2 or 0
@@ -49,7 +50,11 @@ local function set_node(item)
 	nvm.running = false
 	M(item.base_pos):set_string("status", S("Stopped"))
 	if ndef1 and ndef2 then
-		if ndef2.buildable_to then
+		if minecart.is_cart(name) then
+			local player = playername and minetest.get_player_by_name(playername)
+			minecart.place_and_start_cart(dest_pos, {name = name, param2 = param2}, item.cartdef, player)
+			return
+		elseif ndef2.buildable_to then
 			local meta = M(dest_pos)
 			minetest.set_node(dest_pos, {name=name, param2=param2})
 			meta:from_table(item.metadata or {})
@@ -294,7 +299,7 @@ local function detach_player(player)
 end
 
 -- Attach player/mob to given parent object (block)
-local function attach_single_object(parent, obj, dir)
+local function attach_single_object(parent, obj, distance)
 	local self = parent:get_luaentity()
 	local res = obj:get_attach()
 	if not res then -- not already attached
@@ -305,20 +310,20 @@ local function attach_single_object(parent, obj, dir)
 			yaw = obj:get_rotation().y
 		end
 		-- store for later use
-		local offs = table.copy(dir)
+		local offs = table.copy(distance)
 		-- Calc entity rotation, which is relative to the parent's rotation
 		local rot = parent:get_rotation()
 		if self.param2 >= 20 then
-			dir = rotate(dir, 2 * math.pi - rot.y)
-			dir.y = -dir.y
-			dir.x = -dir.x
+			distance = rotate(distance, 2 * math.pi - rot.y)
+			distance.y = -distance.y
+			distance.x = -distance.x
 			rot.y = rot.y - yaw
 		elseif self.param2 < 4 then
-			dir = rotate(dir, 2 * math.pi - rot.y)
+			distance = rotate(distance, 2 * math.pi - rot.y)
 			rot.y = rot.y - yaw
 		end
-		dir = vector.multiply(dir, 29)
-		obj:set_attach(parent, "", dir, vector.multiply(rot, 180 / math.pi))
+		distance = vector.multiply(distance, 29)
+		obj:set_attach(parent, "", distance, vector.multiply(rot, 180 / math.pi))
 		obj:set_properties({visual_size = {x=2.9, y=2.9}})
 		if obj:is_player() then
 			if lock_player(obj) then
@@ -332,19 +337,21 @@ end
 
 -- Attach all objects around to the parent object
 -- offs is the search/attach position offset
-local function attach_objects(pos, offs, parent, yoffs)
+-- distance (optional) is the attach distance to the center of the entity
+local function attach_objects(pos, offs, parent, yoffs, distance)
 	local pos1 = vector.add(pos, offs)
 	for _, obj in pairs(minetest.get_objects_inside_radius(pos1, 0.9)) do
-		local dir = vector.subtract(obj:get_pos(), pos)
+		-- keep relative object position
+		distance = distance or vector.subtract(obj:get_pos(), pos)
 		local entity = obj:get_luaentity()
 		if entity then
 			local mod = entity.name:gmatch("(.-):")()
 			if techage.RegisteredMobsMods[mod] then
-				dir.y = dir.y + yoffs
-				attach_single_object(parent, obj, dir)
+				distance.y = distance.y + yoffs
+				attach_single_object(parent, obj, distance)
 			end
 		elseif obj:is_player() then
-			attach_single_object(parent, obj, dir)
+			attach_single_object(parent, obj, distance)
 		end
 	end
 end
@@ -380,10 +387,11 @@ end
 local function entity_to_node(pos, obj)
 	local self = obj:get_luaentity()
 	if self and self.item then
+		local playername = self.players and self.players[1] and self.players[1].name
 		detach_objects(pos, self)
 		monitoring_del_entity(self.item)
 		minetest.after(0.1, obj.remove, obj)
-		set_node(self.item)
+		set_node(self.item, playername)
 	end
 end
 
@@ -392,9 +400,12 @@ end
 -- * start_pos and dest_pos are entity positions
 local function node_to_entity(base_pos, start_pos, dest_pos)
 	local meta = M(start_pos)
-	local node, metadata
+	local node, metadata, cartdef
 
-	if meta:contains("ta_move_block") then
+	node = techage.get_node_lvm(start_pos)
+	if minecart.is_cart(node.name) then
+		cartdef = minecart.remove_cart(start_pos)
+	elseif meta:contains("ta_move_block") then
 		-- Move-block stored as metadata
 		node = minetest.deserialize(meta:get_string("ta_move_block"))
 		metadata = {}
@@ -424,6 +435,7 @@ local function node_to_entity(base_pos, start_pos, dest_pos)
 			metadata = metadata or {},
 			dest_pos = dest_pos,
 			base_pos = base_pos,
+			cartdef = cartdef,
 		}
 		monitoring_add_entity(self.item)
 
@@ -432,7 +444,7 @@ local function node_to_entity(base_pos, start_pos, dest_pos)
 		self.entities = {}
 		-- Prepare for path walk
 		self.path_idx = 1
-		return obj
+		return obj, self.item.cartdef ~= nil
 	end
 end
 
@@ -543,9 +555,11 @@ local function is_valid_dest(pos)
 end
 
 local function is_simple_node(pos)
-	local node =techage.get_node_lvm(pos)
-	local ndef = minetest.registered_nodes[node.name]
-	return not techage.is_air_like(node.name) and techage.can_dig_node(node.name, ndef)
+	local node = techage.get_node_lvm(pos)
+	if not minecart.is_rail(pos, node) then
+		local ndef = minetest.registered_nodes[node.name]
+		return not techage.is_air_like(node.name) and techage.can_dig_node(node.name, ndef) or minecart.is_cart(node.name)
+	end
 end
 
 -- Move node from 'pos1' to the destination, calculated by means of 'lmove'
@@ -562,14 +576,18 @@ local function move_node(pos, meta, pos1, lmove, max_speed, height)
 
 	if pos2 then
 		local dir = determine_dir(pos1, pos2)
-		local obj = node_to_entity(pos, pos1, dest_pos)
+		local obj, is_cart = node_to_entity(pos, pos1, dest_pos)
 
 		if obj then
-			local offs = {x=0, y=height or 1, z=0}
-			attach_objects(pos1, offs, obj, yoffs)
-			if dir.y == 0 then
-				if (dir.x ~= 0 and dir.z == 0) or (dir.x == 0 and dir.z ~= 0) then
-					attach_objects(pos1, dir, obj, yoffs)
+			if is_cart then
+				attach_objects(pos1, 0, obj, yoffs, {x = 0, y = -0.2, z = 0})
+			else
+				local offs = {x=0, y=height or 1, z=0}
+				attach_objects(pos1, offs, obj, yoffs)
+				if dir.y == 0 then
+					if (dir.x ~= 0 and dir.z == 0) or (dir.x == 0 and dir.z ~= 0) then
+						attach_objects(pos1, dir, obj, yoffs)
+					end
 				end
 			end
 			local self = obj:get_luaentity()
