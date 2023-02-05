@@ -50,7 +50,7 @@ local function set_node(item, playername)
 	nvm.running = false
 	M(item.base_pos):set_string("status", S("Stopped"))
 	if ndef1 and ndef2 then
-		if minecart.is_cart(name) then
+		if minecart.is_cart(name) and minecart.is_rail(dest_pos, node.name) then
 			local player = playername and minetest.get_player_by_name(playername)
 			minecart.place_and_start_cart(dest_pos, {name = name, param2 = param2}, item.cartdef, player)
 			return
@@ -548,6 +548,9 @@ local function is_valid_dest(pos)
 	if techage.is_air_like(node.name) then
 		return true
 	end
+	if minecart.is_rail(pos, node.name) then
+		return true
+	end
 	if not M(pos):contains("ta_move_block") then
 		return true
 	end
@@ -556,7 +559,7 @@ end
 
 local function is_simple_node(pos)
 	local node = techage.get_node_lvm(pos)
-	if not minecart.is_rail(pos, node) then
+	if not minecart.is_rail(pos, node.name) then
 		local ndef = minetest.registered_nodes[node.name]
 		return not techage.is_air_like(node.name) and techage.can_dig_node(node.name, ndef) or minecart.is_cart(node.name)
 	end
@@ -580,7 +583,7 @@ local function move_node(pos, meta, pos1, lmove, max_speed, height)
 
 		if obj then
 			if is_cart then
-				attach_objects(pos1, 0, obj, yoffs, {x = 0, y = -0.2, z = 0})
+				attach_objects(pos1, 0, obj, yoffs, {x = 0, y = -0.4, z = 0})
 			else
 				local offs = {x=0, y=height or 1, z=0}
 				attach_objects(pos1, offs, obj, yoffs)
