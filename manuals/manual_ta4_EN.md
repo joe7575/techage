@@ -570,7 +570,6 @@ Instructions:
 - The movement can be tested with the menu buttons "Move A-B" and "Move B-A"
 - you can also fly through walls or other blocks
 - The target position for the blocks can also be occupied. In this case, the blocks are saved "invisibly". This is intended for sliding doors and the like
-- A "handover" can also be programmed in the controller via the open-ended wrench menu. By entering a block number, the blocks are then transferred to the next move controller. In this way, connected movements can also be implemented using several Move Controllers.
 
 The Move Controller supports the following techage commands:
 
