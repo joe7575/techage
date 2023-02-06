@@ -50,7 +50,7 @@ local function set_node(item, playername)
 	nvm.running = false
 	M(item.base_pos):set_string("status", S("Stopped"))
 	if ndef1 and ndef2 then
-		if minecart.is_cart(name) and minecart.is_rail(dest_pos, node.name) then
+		if minecart.is_cart(name) and (minecart.is_rail(dest_pos, node.name) or minecart.is_cart(name)) then
 			local player = playername and minetest.get_player_by_name(playername)
 			minecart.place_and_start_cart(dest_pos, {name = name, param2 = param2}, item.cartdef, player)
 			return
@@ -548,7 +548,7 @@ local function is_valid_dest(pos)
 	if techage.is_air_like(node.name) then
 		return true
 	end
-	if minecart.is_rail(pos, node.name) then
+	if minecart.is_rail(pos, node.name) or minecart.is_cart(node.name) then
 		return true
 	end
 	if not M(pos):contains("ta_move_block") then
