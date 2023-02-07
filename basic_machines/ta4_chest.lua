@@ -22,6 +22,7 @@ local STACK_SIZE = 2000
 
 local function gen_stack(inv, idx)
 	inv[idx] = {name = "", count = 0}
+	return inv[idx]
 end
 
 local function gen_inv(nvm)
