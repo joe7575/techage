@@ -55,6 +55,8 @@ local NodeNames = {
 	"techage:basalt_glass2",
 	"techage:bauxite_stone",
 	"techage:bauxite_cobble",
+
+	"techage:cement_block",
 }
 
 if(minetest.get_modpath("moreblocks")) then
