@@ -56,10 +56,12 @@ local function set_node(item, playername)
 			return
 		elseif ndef2.buildable_to then
 			local meta = M(dest_pos)
-			minetest.set_node(dest_pos, {name=name, param2=param2})
-			meta:from_table(item.metadata or {})
-			meta:set_string("ta_move_block", "")
-			meta:set_int("ta_door_locked", 1)
+			if name ~= "techage:moveblock" then
+				minetest.set_node(dest_pos, {name=name, param2=param2})
+				meta:from_table(item.metadata or {})
+				meta:set_string("ta_move_block", "")
+				meta:set_int("ta_door_locked", 1)
+			end
 			return
 		end
 		local meta = M(dest_pos)
@@ -68,7 +70,9 @@ local function set_node(item, playername)
 			return
 		end
 	elseif ndef1 then
-		minetest.add_item(dest_pos, ItemStack(name))
+		if name ~= "techage:moveblock" then
+			minetest.add_item(dest_pos, ItemStack(name))
+		end
 	end
 end
 
@@ -560,6 +564,10 @@ end
 local function is_simple_node(pos)
 	local node = techage.get_node_lvm(pos)
 	if not minecart.is_rail(pos, node.name) then
+		if node.name == "air" then
+			minetest.swap_node(pos, {name = "techage:moveblock", param2 = 0})
+			return true
+		end
 		local ndef = minetest.registered_nodes[node.name]
 		return not techage.is_air_like(node.name) and techage.can_dig_node(node.name, ndef) or minecart.is_cart(node.name)
 	end
@@ -821,6 +829,21 @@ function flylib.remove_node(pos)
 		meta:set_string("ta_move_block", "")
 	end
 end
+
+minetest.register_node("techage:moveblock", {
+	description = "Techage Move Block",
+	drawtype = "normal",
+	tiles = {"techage_invisible.png"},
+	sunlight_propagates = true,
+	walkable = false,
+	pointable = false,
+	diggable = false,
+	buildable_to = true,
+	floodable = true,
+	is_ground_content = false,
+	groups = {not_in_creative_inventory=1},
+	drop = "",
+})
 
 minetest.register_on_joinplayer(function(player)
 	unlock_player(player)
