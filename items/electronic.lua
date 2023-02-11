@@ -51,11 +51,13 @@ minetest.register_craftitem("techage:ta5_aichip2", {
 
 techage.recipes.add("ta2_electronic_fab", {
 	output = "techage:vacuum_tube 2",
+	waste = "basic_materials:empty_spool 1",
 	input = {"default:glass 1", "basic_materials:copper_wire 1", "basic_materials:plastic_sheet 1", "techage:usmium_nuggets 1"}
 })
 
 techage.recipes.add("ta3_electronic_fab", {
 	output = "techage:vacuum_tube 2",
+	waste = "basic_materials:empty_spool 1",
 	input = {"default:glass 1", "basic_materials:copper_wire 1", "basic_materials:plastic_sheet 1", "techage:usmium_nuggets 1"}
 })
 
@@ -81,17 +83,20 @@ techage.recipes.add("ta4_electronic_fab", {
 
 techage.recipes.add("ta4_electronic_fab", {
 	output = "techage:ta4_leds 8",
+	waste = "basic_materials:empty_spool 1",
 	input = {"basic_materials:plastic_sheet 4", "basic_materials:copper_wire 1", "techage:ta4_silicon_wafer 1"}
 })
 
 techage.recipes.add("ta4_electronic_fab", {
 	output = "techage:ta5_aichip 2",
+	waste = "basic_materials:empty_spool 2",
 	input = {"techage:ta4_leds 8", "basic_materials:copper_wire 1", "basic_materials:gold_wire 1", "techage:ta4_silicon_wafer 1"},
 	ex_points = 10,
 })
 
 techage.recipes.add("ta4_electronic_fab", {
 	output = "techage:ta5_aichip2 2",
+	waste = "basic_materials:empty_spool 2",
 	input = {"techage:ta4_leds 8", "basic_materials:copper_wire 1", "basic_materials:gold_wire 1", "techage:ta4_silicon_wafer 1"},
 	ex_points = 50,
 })

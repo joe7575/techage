@@ -77,8 +77,9 @@ local function making(pos, crd, nvm, inv)
 	local owner = M(pos):get_string("owner")
 	local rtype = RecipeType[crd.stage]
 	local recipe = recipes.get(nvm, rtype, owner)
-	local output = ItemStack(recipe.output.name.." "..recipe.output.num)
-	if inv:room_for_item("dst", output) then
+	local output = ItemStack(recipe.output.name .. " " .. recipe.output.num)
+	local waste = recipe.waste and ItemStack(recipe.waste.name .. " " .. recipe.waste.num)
+	if inv:room_for_item("dst", output) and (not waste or inv:room_for_item("dst", waste)) then
 		for _,item in ipairs(recipe.input) do
 			local input = ItemStack(item.name.." "..item.num)
 			if not inv:contains_item("src", input) then
@@ -91,6 +92,9 @@ local function making(pos, crd, nvm, inv)
 			inv:remove_item("src", input)
 		end
 		inv:add_item("dst", output)
+		if waste then
+			inv:add_item("dst", waste)
+		end
 		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 		return
 	end
