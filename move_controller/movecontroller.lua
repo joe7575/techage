@@ -266,7 +266,7 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 })
 
 minetest.register_node("techage:rack_and_pinion", {
-	description = "TA Rack and Pinion",
+	description = S("TA Rack and Pinion"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"default_steel_block.png",

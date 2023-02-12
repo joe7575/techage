@@ -906,6 +906,7 @@ Move distance (A to B)=
 Operational mode=
 Reset=
 Switch to the remote controlled 'move xyz' mode=
+TA Rack and Pinion=
 TA4 Move Controller=
 
 ### node_detector.lua ###

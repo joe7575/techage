@@ -892,11 +892,11 @@ TA4 Streetlamp Solar Cell=TA4 Straßenlampen-Solarzelle
 
 ### minichest.lua ###
 
-Test Chest=
+Test Chest=Testkiste
 
 ### minitank.lua ###
 
-Test Mini Tank=
+Test Mini Tank=Testminitank
 
 ### movecontroller.lua ###
 
@@ -906,6 +906,7 @@ Move distance (A to B)=Entfernung (A nach B)
 Operational mode=Betriebsmodus
 Reset=Rücksetzen
 Switch to the remote controlled 'move xyz' mode=Wechseln in den ferngesteuerten 'move xyz'-Modus
+TA Rack and Pinion=TA Zahnstange
 TA4 Move Controller=TA4 Move Controller
 
 ### node_detector.lua ###
