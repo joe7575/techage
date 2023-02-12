@@ -265,11 +265,48 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 	end,
 })
 
+minetest.register_node("techage:rack_and_pinion", {
+	description = "TA Rack and Pinion",
+	tiles = {
+		-- up, down, right, left, back, front
+		"default_steel_block.png",
+		"default_steel_block.png",
+		"default_steel_block.png",
+		"default_steel_block.png",
+		"default_steel_block.png",
+		"techage_rack_and_pinion.png",
+	},
+
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{ -6/32, -16/32, 14.1/32,  6/32,  16/32, 16/32},
+		},
+	},
+	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
+	sunlight_propagates = true,
+	paramtype2 = "facedir",
+	is_ground_content = false,
+	groups = {cracky = 1, level = 2},
+	sounds = default.node_sound_metal_defaults(),
+})
+
 minetest.register_craft({
 	output = "techage:ta4_movecontroller",
 	recipe = {
 		{"default:steel_ingot", "dye:blue", "default:steel_ingot"},
 		{"default:mese_crystal_fragment", "techage:ta4_wlanchip", "default:mese_crystal_fragment"},
 		{"group:wood", "basic_materials:gear_steel", "group:wood"},
+	},
+})
+
+minetest.register_craft({
+	output = "techage:rack_and_pinion 10",
+	recipe = {
+		{"", "default:steel_ingot", ""},
+		{"basic_materials:steel_bar", "default:steel_ingot", "basic_materials:steel_bar"},
+		{"", "default:steel_ingot", ""},
 	},
 })
