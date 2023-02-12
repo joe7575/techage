@@ -45,8 +45,17 @@ local WRENCH_MENU = {
 		name = "cycletime",
 		label = S("Cycle time"),
 		tooltip = S("Timer cycle time (default: 100 ms)"),
-		default = "1",
+		default = "100ms",
 		values = {0.1, 0.2, 0.5, 1.0, 2.0}
+	},
+	{
+		type = "dropdown",
+		choices = "no,yes",
+		name = "ignore_off",
+		label = S("Ignore OFF command"),
+		tooltip = S("If 'yes' a received OFF command won't stop the sequencer"),
+		default = "no",
+		values = {0, 1}
 	},
 }
 
@@ -171,6 +180,7 @@ local function formspec(nvm, meta)
 
 	return "size[10,8]" ..
 		style ..
+		techage.wrench_image(9.3, -0.25) ..
 		"tabheader[0,0;tab;edit,help;1;;true]" ..
 		"label[0.1,-0.2;" .. S("Commands") .. ":]" ..
 		textarea ..
@@ -207,6 +217,7 @@ local function node_timer(pos, elapsed)
 			mem.idx = mem.idx or mem.code.start_idx
 			local code = mem.code.tCode[mem.idx]
 			if code and code.cmnd then
+				print("Sequencer", code.cmnd)
 				local src = M(pos):get_string("node_number")
 				techage.counting_start(M(pos):get_string("owner"))
 				techage.send_single(src, code.number, code.cmnd, code.payload)
@@ -325,7 +336,7 @@ techage.register_node({"techage:ta4_sequencer"}, {
 			mem.idx = tonumber(payload or 1) or 1
 			restart_timer(pos, 1)
 			logic.infotext(M(pos), S("TA4 Sequencer"), S("running"))
-		elseif topic == "stop" or topic == "off" then
+		elseif topic == "stop" or (topic == "off" and M(pos):get_int("ignore_off") == 0) then
 			nvm.running = false
 			minetest.get_node_timer(pos):stop()
 			logic.infotext(M(pos), S("TA4 Sequencer"), S("stopped"))
