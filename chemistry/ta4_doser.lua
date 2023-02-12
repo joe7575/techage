@@ -113,9 +113,6 @@ local function start_node(pos, nvm, state)
 	reactor_cmnd(pos, "start")
 	del_liquids(pos)
 	nvm.running = true
-	local mem = techage.get_mem(pos)
-	mem.waste_leftover = nil
-	mem.output_leftover = nil
 end
 
 local function stop_node(pos, nvm, state)
@@ -275,7 +272,11 @@ local function on_receive_fields(pos, formname, fields, player)
 
 	local nvm = techage.get_nvm(pos)
 	if not nvm.running then
-		recipes.on_receive_fields(pos, formname, fields, player)
+		if recipes.on_receive_fields(pos, formname, fields, player) then
+			local mem = techage.get_mem(pos)
+			mem.waste_leftover = nil
+			mem.output_leftover = nil
+		end
 	end
 	local mem = techage.get_mem(pos)
 	mem.dbg_cycles = 5

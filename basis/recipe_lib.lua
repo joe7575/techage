@@ -159,8 +159,10 @@ function techage.recipes.on_receive_fields(pos, formname, fields, player)
 	if not nvm.running then
 		if fields.next == ">>" then
 			nvm.recipe_idx = nvm.recipe_idx + 1
+			return true
 		elseif fields.priv == "<<" then
 			nvm.recipe_idx = nvm.recipe_idx - 1
+			return true
 		end
 	end
 end
