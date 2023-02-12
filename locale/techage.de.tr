@@ -291,6 +291,10 @@ TA2 Cylinder=TA2 Zylinder
 
 ### detector.lua ###
 
+Countdown=Countdown
+Counts down the number of items passed through@nand only triggers an 'on' command when it reaches zero.=Zählt die Anzahl der durchlaufenen Elemente herunter@nund löst nur dann einen 'ON'-Befehl aus, wenn er Null erreicht.
+Current countdown=Aktueller Zähler
+Current countdown value.=Aktueller Zählerwert.
 TA4 Collider Detector=TA4 Collider Detektor
 TA4 Collider Detector Core=TA4 Collider Detektorkern
 TA4 Detector=TA4 Detektor
@@ -500,8 +504,10 @@ Move=Bewege
 Move A-B=Bewege A-B
 Move B-A=Bewege B-A
 Move block height=Move Block Höhe
+Object offset=Objekt Offset
 Stored=Gespeichert
 Value in the range of 0.0 to 1.0=Wert im Bereich von 0.0 bis 1.0
+Y-offset for non-player objects like vehicles (-0.5 to 0.5)=Y-Offset für Nicht-Spieler Objekte wie Fahrzeuge (-0.5 bis 0.5)
 
 ### flywheel.lua ###
 
@@ -665,7 +671,6 @@ TA4 Hydrogen=TA4 Wasserstoff
 ### hyperloop.lua ###
 ### sensorchest.lua ###
 ### teleport.lua ###
-### terminal.lua ###
 
 not connected=nicht verbunden
 
@@ -746,7 +751,6 @@ Block has an@nadditional wrench menu=Block besitzt ein@nzusätzliches@nSchrauben
 
 ### lib.lua ###
 ### sensorchest.lua ###
-### terminal.lua ###
 
 connected with=verbunden mit
 
@@ -897,18 +901,12 @@ Test Mini Tank=
 ### movecontroller.lua ###
 
 Error: Invalid distance !!=Fehler: Ungültige Entfernung !!
-Handover to A=Übergabe an A
-Handover to B=Übergabe an B
 Move distance=Entfernung
 Move distance (A to B)=Entfernung (A nach B)
-Number of the next movecontroller=Nummer des nächsten Move Controllers
-Number of the previous movecontroller=Nummer des vorhergehenden Move Controllers
-Object offset=Objekt Offset
 Operational mode=Betriebsmodus
 Reset=Rücksetzen
 Switch to the remote controlled 'move xyz' mode=Wechseln in den ferngesteuerten 'move xyz'-Modus
 TA4 Move Controller=TA4 Move Controller
-Y-offset for non-player objects like vehicles (-0.5 to 0.5)=Y-Offset für Nicht-Spieler Objekte wie Fahrzeuge (-0.5 bis 0.5)
 
 ### node_detector.lua ###
 
@@ -1170,6 +1168,8 @@ stopped=gestoppt
 Commands=Kommandos
 Cycle time=Zykluszeit
 Example:@n=Beispiel:
+If 'yes' a received OFF command won't stop the sequencer=Bei 'yes' stoppt ein empfangener OFF-Befehl den Sequenzer nicht
+Ignore OFF command=OFF-Befehl ignorieren
 Invalid command!=Ungültiges Kommando!
 Start=Start
 Stop=Stopp
@@ -1192,8 +1192,8 @@ TA5 Fusion Reactor Shell=TA5 Fusionsreaktor Hülle
 ### signallamp.lua ###
 
 TA4 Wind Turbine Signal Lamp=TA4 Windkraftanlagenlampe
-TechAge Signal Lamp=TechAge Signallampe
-TechAge Signal Lamp 2 =TechAge Signallampe 2
+TechAge Color Lamp=TechAge Farblampe
+TechAge Color Lamp 2=TechAge Farblampe 2
 
 ### signallamp_2x.lua ###
 
@@ -1401,7 +1401,6 @@ TA5 Teleport Block Items=TA5 Teleport Block Gegenstände
 
 Syntax error, try help=Syntax Fehler, nutze help
 TA3 Terminal=TA3 Terminal
-TA4 Collider Terminal=TA4 Collider Terminal
 TA4 Terminal=TA4 Terminal
 commands like: help=Kommandos wie: help
 
@@ -1511,4 +1510,11 @@ TA4 Collider Detector Worker=TA4 Collider Detektor Worker
 
 ##### not used anymore #####
 
+Handover to A=Übergabe an A
+Handover to B=Übergabe an B
+Number of the next movecontroller=Nummer des nächsten Move Controllers
+Number of the previous movecontroller=Nummer des vorhergehenden Move Controllers
+TechAge Signal Lamp=TechAge Signallampe
+TechAge Signal Lamp 2 =TechAge Signallampe 2
+TA4 Collider Terminal=TA4 Collider Terminal
 Error: Max. length of the flight route exceeded !!=Fehler: Max. Flugstreckenlänge überschritten !!
