@@ -217,7 +217,6 @@ local function node_timer(pos, elapsed)
 			mem.idx = mem.idx or mem.code.start_idx
 			local code = mem.code.tCode[mem.idx]
 			if code and code.cmnd then
-				print("Sequencer", code.cmnd)
 				local src = M(pos):get_string("node_number")
 				techage.counting_start(M(pos):get_string("owner"))
 				techage.send_single(src, code.number, code.cmnd, code.payload)
