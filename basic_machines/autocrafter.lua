@@ -266,6 +266,9 @@ end
 
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
+	if listname == "output" then
+		return 0
+	end
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
@@ -285,6 +288,9 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 end
 
 local function allow_metadata_inventory_take(pos, listname, index, stack, player)
+	if listname == "output" then
+		return 0
+	end
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
@@ -302,6 +308,9 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 end
 
 local function allow_metadata_inventory_move(pos, from_list, from_index, to_list, to_index, count, player)
+	if from_list == "output" or "to_list" == "output" then
+		return 0
+	end
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
