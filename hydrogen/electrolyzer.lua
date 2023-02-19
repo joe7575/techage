@@ -26,6 +26,7 @@ local STANDBY_TICKS = 3
 local PWR_NEEDED = 35
 local PWR_UNITS_PER_HYDROGEN_ITEM = 80
 local CAPACITY = 200
+local TURNOFF_THRESHOLD = "40%"
 
 local function evaluate_percent(s)
 	return (tonumber(s:sub(1, -2)) or 0) / 100
@@ -124,11 +125,14 @@ local function node_timer(pos, elapsed)
 				State:keep_running(pos, nvm, 1)
 			end
 		elseif curr_load == 0 then
+			nvm.taken = 0
 			State:nopower(pos, nvm)
 		else
+			nvm.taken = 0
 			State:standby(pos, nvm, S("Turnoff point reached"))
 		end
 	else
+		nvm.taken = 0
 		State:blocked(pos, nvm, S("Storage full"))
 	end
 	if techage.is_activeformspec(pos) then
@@ -161,6 +165,8 @@ local function after_place_node(pos)
 	State:node_init(pos, nvm, number)
 	local node = minetest.get_node(pos)
 	M(pos):set_int("in_dir", techage.side_to_indir("R", node.param2))
+	M(pos):set_string("reduction", "100%")
+	M(pos):set_string("turnoff", TURNOFF_THRESHOLD)
 	Pipe:after_place_node(pos)
 	Cable:after_place_node(pos)
 end
@@ -201,7 +207,7 @@ local tool_config = {
 		name = "turnoff",
 		label = S("Turnoff point"),
 		tooltip = S("If the charge of the storage\nsystem falls below the configured value,\nthe block switches off"),
-		default = "98%",
+		default = TURNOFF_THRESHOLD,
 	},
 }
 
@@ -349,7 +355,7 @@ techage.register_node({"techage:ta4_electrolyzer", "techage:ta4_electrolyzer_on"
 		local meta = M(pos)
 		if not meta:contains("reduction") then
 			meta:set_string("reduction", "100%")
-			meta:set_string("turnoff", "100%")
+			meta:set_string("turnoff", TURNOFF_THRESHOLD)
 		end
 	end,
 })

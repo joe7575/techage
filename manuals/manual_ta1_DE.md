@@ -110,12 +110,6 @@ Block in verschiedenen Holzsorten zum Bauen des Mühlbachkanals. Dieser Block ei
 
 
 
-
-## 
-
-
-
-
 ## Erze und Werkzeuge
 
 TA1 hat seine eigenen Werkzeuge wie Hammer und Kiessieb, aber auch der Minecart Hopper kann genutzt werden.

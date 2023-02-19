@@ -20,7 +20,6 @@
         - [TA1 Schleusengriff / TA1 Sluice Handle](./manual_ta1_DE.md#ta1-schleusengriff--ta1-sluice-handle)
         - [TA1 Apfelholzbrett / TA1 Apple Wood Board](./manual_ta1_DE.md#ta1-apfelholzbrett--ta1-apple-wood-board)
         - [TA1 Apfel Mühlbachbrett / TA1 Apple Millrace Board](./manual_ta1_DE.md#ta1-apfel-mühlbachbrett--ta1-apple-millrace-board)
-    - [ ](./manual_ta1_DE.md#-)
     - [Erze und Werkzeuge](./manual_ta1_DE.md#erze-und-werkzeuge)
         - [Hammer](./manual_ta1_DE.md#hammer)
         - [Kiessieb / Gravel Sieve](./manual_ta1_DE.md#kiessieb--gravel-sieve)

@@ -21,7 +21,6 @@ techage.manual_DE.aTitel = {
   "3,TA1 Schleusengriff / TA1 Sluice Handle",
   "3,TA1 Apfelholzbrett / TA1 Apple Wood Board",
   "3,TA1 Apfel Mühlbachbrett / TA1 Apple Millrace Board",
-  "2, ",
   "2,Erze und Werkzeuge",
   "3,Hammer",
   "3,Kiessieb / Gravel Sieve",
@@ -432,7 +431,6 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "",
   "TA1 hat seine eigenen Werkzeuge wie Hammer und Kiessieb\\, aber auch der Minecart Hopper kann genutzt werden.\n"..
   "\n"..
   "\n"..
@@ -2189,7 +2187,6 @@ techage.manual_DE.aItemName = {
   "ta1_sluice_handle",
   "ta1_board1",
   "ta1_board2",
-  "",
   "ta1_gravelsieve",
   "hammer",
   "ta1_gravelsieve",
@@ -2442,7 +2439,6 @@ techage.manual_DE.aPlanTable = {
   "coalburner",
   "watermill1",
   "watermill2",
-  "",
   "",
   "",
   "",
