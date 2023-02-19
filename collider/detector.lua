@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -157,7 +157,7 @@ local function create_task(pos, task)
 end
 
 -- Call on_cyclic_check of all magents so that the magnets don't need a FLB.
-local function magnet_on_cyclic_check(pos, nvm)
+local function magnets_on_cyclic_check(pos, nvm)
 	local ndef = minetest.registered_nodes["techage:ta4_magnet"]
 	for idx,pos2 in ipairs(nvm.magnet_positions or {}) do
 		local res = ndef.on_cyclic_check(pos2)
@@ -171,6 +171,29 @@ local function magnet_on_cyclic_check(pos, nvm)
 		end
 	end
 	return true
+end
+
+-- Turn off all magnets so that they don't consume power
+local function magnets_turn_off(pos, nvm)
+	local ndef = minetest.registered_nodes["techage:ta4_magnet"]
+	for idx,pos2 in ipairs(nvm.magnet_positions or {}) do
+		ndef.on_turn_off(pos2)
+	end
+end
+
+local function cable_inlets_turn_on_off(pos, on)
+	local turn_on_off = function(pos, param2, item)
+		local pos2 = getpos(pos, param2, item.route, item.yoffs)
+		local node2 = minetest.get_node(pos2)
+		if item.name == node2.name then
+			local nvm = techage.get_nvm(pos2)
+			techage.power_inlet_turn_on_off(pos2, nvm, on)
+		end
+	end
+	
+	local param2 = minetest.get_node(pos).param2
+	turn_on_off(pos, param2, Schedule[2])
+	turn_on_off(pos, param2, Schedule[3])
 end
 
 minetest.register_node("techage:ta4_detector_core", {
@@ -202,29 +225,33 @@ minetest.register_node("techage:ta4_detector_core", {
 
 	on_timer = function(pos, elapsed)
 		local nvm = techage.get_nvm(pos)
-		if not magnet_on_cyclic_check(pos, nvm) then
-			techage.del_laser(pos)
-			if nvm.running then
-				terminal_message(pos, "Detector stopped.")
-				nvm.running = false
-			end
-			nvm.magnet_positions = nil
-		elseif nvm.running then
-			local res = check_state(pos)
-			if res == true then
-				experience_points(pos)
-				add_laser(pos)
-				if nvm.ticks <= TIME_SLOTS then -- only once
-					terminal_message(pos, "Detector running.")
-				end
-			elseif res == false then
+		if nvm.running then
+			if not magnets_on_cyclic_check(pos, nvm) then
 				techage.del_laser(pos)
+				terminal_message(pos, "Detector stopped.")
+				magnets_turn_off(pos, nvm)
+				cable_inlets_turn_on_off(pos, false)
 				nvm.running = false
 				nvm.magnet_positions = nil
-				terminal_message(pos, "Detector stopped.")
-			end
-			if nvm.running then
-				play_sound(pos)
+			else
+				local res = check_state(pos)
+				if res == true then
+					experience_points(pos)
+					add_laser(pos)
+					if nvm.ticks <= TIME_SLOTS then -- only once
+						terminal_message(pos, "Detector running.")
+					end
+				elseif res == false then
+					techage.del_laser(pos)
+					magnets_turn_off(pos, nvm)
+					cable_inlets_turn_on_off(pos, false)
+					nvm.running = false
+					nvm.magnet_positions = nil
+					terminal_message(pos, "Detector stopped.")
+				end
+				if nvm.running then
+					play_sound(pos)
+				end
 			end
 		end
 		return true
@@ -287,6 +314,7 @@ local function start_task(pos)
 		end
 		nvm.magnet_positions = t
 		techage.send_single(own_num, term_num, "append", "ok")
+		cable_inlets_turn_on_off(pos, true)
 
 		coroutine.yield()
 		techage.send_single(own_num, term_num, "text", "- Check magnets...")
@@ -310,6 +338,7 @@ local function start_task(pos)
 					techage.send_single(own_num, term_num, "append", err .. "!!!")
 					nvm.magnet_positions = nil
 					nvm.locked = false
+					cable_inlets_turn_on_off(pos, false)
 					return
 				end
 			else
@@ -323,12 +352,14 @@ local function start_task(pos)
 						techage.send_single(own_num, term_num, "append", err .. "!!!")
 						nvm.magnet_positions = nil
 						nvm.locked = false
+						cable_inlets_turn_on_off(pos, false)
 						return
 					end
 				else
 					techage.send_single(own_num, term_num, "append", "defect!!!")
 					nvm.magnet_positions = nil
 					nvm.locked = false
+					cable_inlets_turn_on_off(pos, false)
 					return
 				end
 				coroutine.yield()
@@ -337,7 +368,7 @@ local function start_task(pos)
 		techage.send_single(own_num, term_num, "append", "ok")
 
 		coroutine.yield()
-		techage.send_single(own_num, term_num, "text", "Collider started.")
+		techage.send_single(own_num, term_num, "text", "Collider starting...")
 		nvm.ticks = 0
 		nvm.running = true
 	end
@@ -372,6 +403,9 @@ techage.register_node({"techage:ta4_detector_core"}, {
 			nvm.running = false
 			techage.del_laser(pos)
 			nvm.locked = false
+			magnets_turn_off(pos, nvm)
+			cable_inlets_turn_on_off(pos, false)
+			nvm.magnet_positions = nil
 			return "Detector stopped."
 		elseif topic == "status" then
 			if nvm.running == true then

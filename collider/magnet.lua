@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -119,13 +119,21 @@ minetest.register_node("techage:ta4_magnet", {
 		nvm.consumed = power.consume_power(pos, Cable, 6, PWR_NEEDED)
 		if nvm.tube_damage then
 			nvm.tube_damage = nil
+			nvm.running = nil
 			return -1
 		elseif nvm.liquid.amount == CAPACITY and
 				nvm.liquid.name == "techage:isobutane" and
 				nvm.consumed == PWR_NEEDED then
+			nvm.running = true
 			return 0
 		end
+		nvm.running = nil
 		return -2
+	end,
+	
+	on_turn_off = function(pos)
+		local nvm = techage.get_nvm(pos)
+		nvm.running = nil
 	end,
 
 	tubelib2_on_update2 = function(pos, outdir, tlib2, node)

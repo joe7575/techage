@@ -328,7 +328,11 @@ minetest.register_node("techage:ta4_collider_cable_inlet", {
 
 	on_timer = function(pos, elapsed)
 		local nvm = techage.get_nvm(pos)
-		nvm.consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
+		if nvm.running then
+			nvm.consumed = power.consume_power(pos, Cable, nil, PWR_NEEDED)
+		else
+			nvm.consumed = 0
+		end
 		return true
 	end,
 
@@ -344,6 +348,11 @@ function techage.power_inlet_check(pos, node, meta, nvm)
 		return true
 	end
 	return false, "no power"
+end
+
+-- Used by the detector to turn on/off the node
+function techage.power_inlet_turn_on_off(pos, nvm, on)
+	nvm.running = on
 end
 
 power.register_nodes({"techage:ta4_collider_cable_inlet"}, Cable, "con", {"F"})
