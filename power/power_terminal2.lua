@@ -238,13 +238,18 @@ minetest.register_node("techage:ta3_power_terminal", {
 		},
 	},
 
-	after_place_node = function(pos)
+	after_place_node = function(pos, placer)
 		M(pos):set_int("outdir", networks.side_to_outdir(pos, "B"))
 		Cable:after_place_node(pos)
 		M(pos):set_string("formspec", formspec1(pos))
+		local number = techage.add_node(pos, "techage:ta3_power_terminal")
+		M(pos):set_string("node_number", number)
+		M(pos):set_string("owner", placer:get_player_name())
+		M(pos):set_string("infotext", S("TA3 Power Terminal").." "..number)
 	end,
-	after_dig_node = function(pos)
+	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		Cable:after_dig_node(pos)
+		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.del_mem(pos)
 	end,
 	on_rightclick = function(pos, node, clicker)
@@ -304,6 +309,28 @@ minetest.register_node("techage:ta3_power_terminal", {
 })
 
 power.register_nodes({"techage:ta3_power_terminal"}, Cable, "con", {"B"})
+
+techage.register_node({"techage:ta3_power_terminal"}, {
+	on_recv_message = function(pos, src, topic, payload)
+		if topic == "load" then
+			local outdir = M(pos):get_int("outdir")
+			local value = networks.power.get_storage_percent(pos, Cable, outdir)
+			return techage.round(value)
+		else
+			return "unsupported"
+		end
+	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == 134 then
+			local outdir = M(pos):get_int("outdir")
+			local value = networks.power.get_storage_percent(pos, Cable, outdir)
+			return 0, {math.floor(value + 0.5)}
+		else
+			return 2, ""
+		end
+	end,
+})
 
 minetest.register_craft({
 	output = "techage:ta3_power_terminal",

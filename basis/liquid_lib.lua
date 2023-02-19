@@ -84,7 +84,8 @@ techage.liquid.recv_message = {
 			nvm.liquid = nvm.liquid or {}
 			nvm.liquid.amount = nvm.liquid.amount or 0
 			if payload[1] == 1 then
-				return 0, {techage.power.percent(LQD(pos).capa, nvm.liquid.amount)}
+				local value = techage.power.percent(LQD(pos).capa, nvm.liquid.amount)
+				return 0, {math.floor(value + 0.5)}
 			else
 				return 0, {nvm.liquid.amount}
 			end

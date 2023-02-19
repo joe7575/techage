@@ -382,7 +382,8 @@ techage.register_node({"techage:heatexchanger2"}, {
 			local data = power.get_network_data(pos, Cable, DOWN)
 			return 0, {data.consumed - data.provided}
 		elseif topic == 134 then  -- Tank Load Percent
-			return 0, {techage.power.percent(nvm.capa_max, nvm.capa)}
+			local value = techage.power.percent(nvm.capa_max, nvm.capa)
+			return 0, {math.floor(value + 0.5)}
 		else
 			return 2, ""
 		end

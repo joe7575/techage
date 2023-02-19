@@ -366,7 +366,9 @@ Please note, that this is not a technical distinction, only a logical.
 | "state"      | one of: "on", "off"                                          | State of a TA4 Button                                        |
 | "fuel"       | number                                                       | fuel value of a fuel consuming block                         |
 | "depth"      | number                                                       | Read the current depth value of a quarry block (1..80)       |
-| "load"       | number                                                       | Read the load value in percent  (0..100) of a tank, silo, accu, or battery block, or from the Signs Bot Box. Silo and tank return two values: The percentage value and the absolute value in units.<br /> Example: percent, absolute = $send_cmnd("223", "load") |
+| "load"       | number                                                       | Read the load value in percent  (0..100) of a accu, or battery block. |
+| "load"       | number                                                       | Read the load value in percent  (0..100) of a tank or silo. <br />Silo and tank return two values: <br />The percentage value and the absolute value in units.<br /> Example: percent, absolute = $send_cmnd("223", "load") |
+| "load"       | number                                                       | Read the grid storage amount in percent  (0..100) from a TA3 Power Terminal. |
 | "delivered"  | number                                                       | Read the current delivered power value of a generator block. A power consuming block (accu) provides a negative value |
 | "flowrate"   | Total flow rate in liquid units                              | Only for TA4 Pumps                                           |
 | "action"     | player-name, action-string                                   | Only for Sensor Chests                                       |
