@@ -75,6 +75,23 @@ techage.liquid.recv_message = {
 			return "unsupported"
 		end
 	end,
+	on_beduino_request_data = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		if topic == 128 then
+			return 0, techage.get_node_lvm(pos).name
+		elseif topic == 134 then
+			local nvm = techage.get_nvm(pos)
+			nvm.liquid = nvm.liquid or {}
+			nvm.liquid.amount = nvm.liquid.amount or 0
+			if payload[1] == 1 then
+				return 0, {techage.power.percent(LQD(pos).capa, nvm.liquid.amount)}
+			else
+				return 0, {nvm.liquid.amount}
+			end
+		else
+			return 2, ""
+		end
+	end,
 }
 
 -- like: register_liquid("techage:ta3_barrel_oil", "techage:ta3_barrel_empty", 10, "techage:oil")
