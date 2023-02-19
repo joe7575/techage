@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -21,6 +21,7 @@ local S2P = minetest.string_to_pos
 local Cable = techage.ElectricCable
 local Axle = techage.Axle
 local power = networks.power
+local control = networks.control
 
 local CYCLE_TIME = 2
 local PWR_PERF = 24
@@ -45,9 +46,7 @@ local function node_timer_on(pos, elapsed)
 	nvm.buffer = nvm.buffer + taken - 1  -- some loss
 
 	if nvm.buffer >= PWR_PERF then
-		local tp1 = tonumber(meta:get_string("termpoint1"))
-		local tp2 = tonumber(meta:get_string("termpoint2"))
-		nvm.provided = power.provide_power(pos, Cable, outdir, PWR_PERF, tp1, tp2)
+		nvm.provided = power.provide_power(pos, Cable, outdir, PWR_PERF, 0.8, 1.0)
 		nvm.load = power.get_storage_load(pos, Cable, outdir, PWR_PERF)
 		nvm.buffer = nvm.buffer - nvm.provided
 	end
@@ -171,6 +170,27 @@ techage.register_node({"techage:ta2_generator_off", "techage:ta2_generator_on"},
 
 power.register_nodes({"techage:ta2_generator_off", "techage:ta2_generator_on"}, Axle, "con", {"L"})
 power.register_nodes({"techage:ta2_generator_off", "techage:ta2_generator_on"}, Cable, "gen", {"R"})
+
+control.register_nodes({"techage:ta2_generator_off", "techage:ta2_generator_on"}, {
+		on_receive = function(pos, tlib2, topic, payload)
+		end,
+		on_request = function(pos, tlib2, topic)
+			if topic == "info" then
+				local nvm = techage.get_nvm(pos)
+				local meta = M(pos)
+				return {
+					type = S("TA2 Power Generator"),
+					number = "---",
+					running = true,
+					available = PWR_PERF,
+					provided = nvm.provided or 0,
+					termpoint = "80% - 100%",
+				}
+			end
+			return false
+		end,
+	}
+)
 
 minetest.register_craft({
 	output = "techage:ta2_generator_off",

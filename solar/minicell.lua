@@ -23,6 +23,7 @@ local PWR_CAPA = 2400 -- ticks (2s) with 1 ku ==> 80 min = 4 game days
 
 local Cable = techage.ElectricCable
 local power = networks.power
+local control = networks.control
 
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
@@ -46,7 +47,7 @@ local function node_timer(pos, elapsed)
 				power.start_storage_calc(pos, Cable, 5)
 				nvm.providing = true
 			else
-				nvm.provided = power.provide_power(pos, Cable, 5, PWR_PERF)
+				nvm.provided = power.provide_power(pos, Cable, 5, PWR_PERF, 0.8, 1.0)
 				nvm.capa = nvm.capa - nvm.provided
 			end
 		else
@@ -104,6 +105,27 @@ minetest.register_node("techage:ta4_solar_minicell", {
 })
 
 power.register_nodes({"techage:ta4_solar_minicell"}, Cable, "gen", {"D"})
+
+control.register_nodes({"techage:ta4_solar_minicell"}, {
+		on_receive = function(pos, tlib2, topic, payload)
+		end,
+		on_request = function(pos, tlib2, topic)
+			if topic == "info" then
+				local nvm = techage.get_nvm(pos)
+				local meta = M(pos)
+				return {
+					type = S("TA4 Streetlamp Solar Cell"),
+					number = meta:get_string("node_number") or "",
+					running = nvm.providing or false,
+					available = PWR_PERF,
+					provided = nvm.provided or 0,
+					termpoint = "80% - 100%",
+				}
+			end
+			return false
+		end,
+	}
+)
 
 techage.register_node({"techage:ta4_solar_minicell"}, {
 	on_recv_message = function(pos, src, topic, payload)

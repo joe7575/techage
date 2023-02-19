@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2021 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -27,10 +27,11 @@ local control = networks.control
 
 local HELP = S([[Commands
 help . . . print this text
-cls . . . . . clear screen
-gen . . . . print all generators
-sto . . . . . print all storage systems
-con . . . . . print main consumers
+cls  . . . . clear screen
+gen    . . print generators
+sto     . . print storage systems
+con1  . . print consumers with power consumption between 1 and 10 ku
+con2  . . print consumers with power consumption with 10 ku or above
 ]])
 
 local function row(num, label, data)
@@ -40,7 +41,6 @@ local function row(num, label, data)
 		"label[0.2,"..y..";" .. label .. "]" ..
 		"label[8.5,"..y..";" .. data .. "]"
 end
-
 
 local function formspec1(pos, data)
 	local mem = techage.get_mem(pos)
@@ -94,12 +94,32 @@ local function formspec2(pos)
 		"button[7.9,7.4;2,1;enter;"..S("Enter").."]"
 end
 
+--------------------------------------------------------------------------------------
+--Overwrite networks.power.consume_power function
+--------------------------------------------------------------------------------------
+local origin_consume_power = networks.power.consume_power
+
+function networks.power.consume_power(pos, tlib2, outdir, amount)
+	local nvm = techage.get_nvm(pos)
+	nvm.power_taken = origin_consume_power(pos, tlib2, outdir, amount)
+	return nvm.power_taken
+end
+
+local function get_consumer_power_consumption(pos)
+	if pos then
+		local nvm = techage.get_nvm(pos)
+		if nvm.running or techage.needs_power(nvm) then
+			return nvm.power_taken or 0
+		end
+	end
+	return 0
+end
+
 local function generators(pos)
 	local tbl = {}
 	local outdir = M(pos):get_int("outdir")
 	local resp = control.request(pos, Cable, outdir, "gen", "info")
 	for _, item in ipairs(resp) do
-		local name = item.type .. " (" .. item.number .. ")"
 		if item.running then
 			local s = string.format("%s (%s): %s/%u ku (%s)",
 					item.type, item.number, techage.round(item.provided), item.available, item.termpoint)
@@ -119,26 +139,28 @@ local function storages(pos)
 	local outdir = M(pos):get_int("outdir")
 	local resp = control.request(pos, Cable, outdir, "sto", "info")
 	for _, item in ipairs(resp) do
-		local name = item.type .. " (" .. item.number .. ")"
-		if item.running then
-			local s = string.format("%s (%s): %s/%s kud",
-					item.type, item.number,
-					techage.round(item.load / techage.CYCLES_PER_DAY),
-					techage.round(item.capa / techage.CYCLES_PER_DAY))
-			tbl[#tbl + 1] = s
-		else
-			local s = string.format("%s (%s): %s/%s kud (off)",
-					item.type, item.number,
-					techage.round(item.load / techage.CYCLES_PER_DAY),
-					techage.round(item.capa / techage.CYCLES_PER_DAY))
-			tbl[#tbl + 1] = s
+		-- TA4/TA5 heatexchangers are no storage systems
+		if item.capa and item.capa > 1 then  
+			if item.running then
+				local s = string.format("%s (%s): %s/%s kud",
+						item.type, item.number,
+						techage.round(item.load / techage.CYCLES_PER_DAY),
+						techage.round(item.capa / techage.CYCLES_PER_DAY))
+				tbl[#tbl + 1] = s
+			else
+				local s = string.format("%s (%s): %s/%s kud (off)",
+						item.type, item.number,
+						techage.round(item.load / techage.CYCLES_PER_DAY),
+						techage.round(item.capa / techage.CYCLES_PER_DAY))
+				tbl[#tbl + 1] = s
+			end
 		end
 	end
 	table.sort(tbl)
 	return table.concat(tbl, "\n")
 end
 
-local function consumers(pos)
+local function consumers(pos, min, max)
 	local tbl = {}
 	local outdir = M(pos):get_int("outdir")
 	local netw = networks.get_network_table(pos, Cable, outdir) or {}
@@ -147,7 +169,17 @@ local function consumers(pos)
 		if number then
 			local name = techage.get_node_lvm(item.pos).name
 			name = (minetest.registered_nodes[name] or {}).description or "unknown"
-			tbl[#tbl + 1] = name .. " (" .. number .. ")"
+			local taken = techage.round(get_consumer_power_consumption(item.pos))
+			if taken > min and taken < max then
+				tbl[#tbl + 1] = string.format("%s (%s): %s ku", name, number, taken)
+			end
+		else
+			local name = techage.get_node_lvm(item.pos).name
+			name = (minetest.registered_nodes[name] or {}).description or "unknown"
+			local taken = techage.round(get_consumer_power_consumption(item.pos))
+			if taken > min and taken < max then
+				tbl[#tbl + 1] = string.format("%s: %s ku", name, taken)
+			end
 		end
 	end
 	table.sort(tbl)
@@ -157,7 +189,7 @@ end
 local function output(pos, command, text)
 	local meta = M(pos)
 	text = meta:get_string("output") .. "\n$ " .. command .. "\n" .. (text or "")
-	text = text:sub(-2000,-1)
+	text = text:sub(-5000,-1)
 	meta:set_string("output", text)
 end
 
@@ -177,8 +209,10 @@ local function command(pos, nvm, command)
 			output(pos, command, generators(pos))
 		elseif cmd == "sto" then
 			output(pos, command, storages(pos))
-		elseif cmd == "con" then
-			output(pos, command, consumers(pos))
+		elseif cmd == "con1" then
+			output(pos, command, consumers(pos, 1, 10))
+		elseif cmd == "con2" then
+			output(pos, command, consumers(pos, 9, 1000))
 		elseif command ~= "" then
 			output(pos, command, "")
 		end

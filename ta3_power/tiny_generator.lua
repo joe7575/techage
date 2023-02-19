@@ -22,6 +22,7 @@ local fuel = techage.fuel
 local Pipe = techage.LiquidPipe
 local power = networks.power
 local liquid = networks.liquid
+local control = networks.control
 
 local CYCLE_TIME = 2
 local STANDBY_TICKS = 1
@@ -326,6 +327,27 @@ local liquid_def = {
 
 power.register_nodes({"techage:tiny_generator", "techage:tiny_generator_on"}, Cable, "gen", {"R"})
 liquid.register_nodes({"techage:tiny_generator", "techage:tiny_generator_on"}, Pipe, "tank", nil, liquid_def)
+
+control.register_nodes({"techage:tiny_generator", "techage:tiny_generator_on"}, {
+		on_receive = function(pos, tlib2, topic, payload)
+		end,
+		on_request = function(pos, tlib2, topic)
+			if topic == "info" then
+				local nvm = techage.get_nvm(pos)
+				local meta = M(pos)
+				return {
+					type = S("TA3 Tiny Power Generator"),
+					number = meta:get_string("node_number") or "",
+					running = techage.is_running(nvm) or false,
+					available = PWR_PERF,
+					provided = nvm.provided or 0,
+					termpoint = meta:get_string("termpoint"),
+				}
+			end
+			return false
+		end,
+	}
+)
 
 techage.register_node({"techage:tiny_generator", "techage:tiny_generator_on"}, {
 	on_recv_message = function(pos, src, topic, payload)
