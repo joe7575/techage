@@ -440,7 +440,7 @@ Damit die Minecarts automatisch wieder starten, müssen die Prellböcke mit Stat
 
 Der Tankwagen dient zum Transport von Flüssigkeiten. Es kann wie Tanks mit Pumpen gefüllt bzw. geleert werden.  In beiden Fällen muss die gelbe Röhre von oben mit dem Tankwagen verbunden werden.
 
-In den Tankwagen passen 100 Einheiten.
+In den Tankwagen passen 200 Einheiten.
 
 [tank_cart|image]
 

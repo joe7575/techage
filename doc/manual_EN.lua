@@ -983,7 +983,7 @@ techage.manual_EN.aText = {
   "\n",
   "The tank truck is used to transport liquids. Like tanks\\, it can be filled with pumps or emptied. In both cases\\, the yellow tube must be connected to the tank truck from above.\n"..
   "\n"..
-  "100 units fit in the tank truck.\n"..
+  "200 units fit in the tank truck.\n"..
   "\n"..
   "\n"..
   "\n",

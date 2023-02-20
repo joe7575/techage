@@ -21,7 +21,7 @@ local Pipe = techage.LiquidPipe
 local MP = minetest.get_modpath("minecart")
 
 local liquid = networks.liquid
-local CAPACITY = 100
+local CAPACITY = 200
 
 local function on_rightclick(pos, node, clicker)
 	if clicker and clicker:is_player() then

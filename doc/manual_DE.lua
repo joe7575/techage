@@ -979,7 +979,7 @@ techage.manual_DE.aText = {
   "\n",
   "Der Tankwagen dient zum Transport von Flüssigkeiten. Es kann wie Tanks mit Pumpen gefüllt bzw. geleert werden.  In beiden Fällen muss die gelbe Röhre von oben mit dem Tankwagen verbunden werden.\n"..
   "\n"..
-  "In den Tankwagen passen 100 Einheiten.\n"..
+  "In den Tankwagen passen 200 Einheiten.\n"..
   "\n"..
   "\n"..
   "\n",
