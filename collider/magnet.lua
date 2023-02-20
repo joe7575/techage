@@ -93,6 +93,8 @@ minetest.register_node("techage:ta4_magnet", {
 	},
 	wield_scale = {x = 0.8, y = 0.8, z = 0.8},
 	paramtype2 = "facedir",
+	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
 	groups = {cracky = 1},
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
