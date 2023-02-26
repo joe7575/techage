@@ -43,6 +43,21 @@ local function take_node(tbl, name)
 	end
 end
 
+local function next_node(tbl)
+	return function(tbl)
+		local name, cnt = next(tbl)
+		if cnt and cnt > 0 then
+			cnt = cnt - 1
+			if cnt == 0 then
+				tbl[name] = nil
+			else
+				tbl[name] = cnt
+			end
+			return name
+		end
+	end, tbl
+end
+
 local function get_new_nodename(item)
 	local name = item:get_name()
 	if name == "" then 
@@ -202,7 +217,7 @@ local function store_config(pos, nvm)
 			end
 
 			local node = techage.get_node_lvm(pos)
-			if is_simple_node(node.name) then
+			if is_simple_node(node.name) or node.name == "air" then
 				nodes.exp_nodes[idx] = techage.get_node_lvm(pos)
 			end
 		end
@@ -249,13 +264,22 @@ local function restore_config(pos, nvm)
 	inv:set_list("main", item_list)
 
 	for idx, node in pairs(nodes.exp_nodes or {}) do
+		local pos = nvm.pos_list[idx]
 		if take_node(stock, node.name) then
-			local pos = nvm.pos_list[idx]
 			local param2 = nvm.param2_list[idx] or 0
 			fly.exchange_node(pos, node.name, param2)
 			nvm.expected_nodenames[idx] = node.name
+		else
+			fly.remove_node(pos)
+			nvm.expected_nodenames[idx] = "air"
 		end
 	end
+
+	for name in next_node(stock) do
+		inv:add_item("main", ItemStack(name))
+	end
+
+	return true
 end
 
 --------------------------------------------------------------------------
@@ -272,7 +296,7 @@ local function exchange_node(pos, item, param2)
 		if not techage.is_air_like(node.name) then
 			return ItemStack(node.name), node.param2
 		else
-			return ItemStack(), nil
+			return ItemStack(), param2
 		end
 	end
 	return item, param2
@@ -496,6 +520,9 @@ techage.register_node({"techage:ta3_doorcontroller2"}, {
 		elseif topic == "get" then
 			local nvm = techage.get_nvm(pos)
 			return get_node_name(nvm, tonumber(payload))
+		elseif topic == "reset" then
+			local nvm = techage.get_nvm(pos)
+			return restore_config(pos, nvm)
 		end
 		return false
 	end,
@@ -513,6 +540,9 @@ techage.register_node({"techage:ta3_doorcontroller2"}, {
 		elseif topic == 9 and payload[1] == 2 then  -- Dig Block
 			local nvm = techage.get_nvm(pos)
 			return exchange_nodes(pos, nvm, payload[2] or 1, "dig") and 0 or 3
+		elseif topic == 9 and payload[1] == 3 then  -- reset
+			local nvm = techage.get_nvm(pos)
+			return restore_config(pos, nvm) and 0 or 3
 		end
 		return 2
 	end,
