@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2020-2022 Joachim Stolberg
+	Copyright (C) 2020-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -20,14 +20,53 @@ local S = techage.S
 local logic = techage.logic
 local fly = techage.flylib
 
+local NUMSLOTS = 16
+
 local MarkedNodes = {} -- t[player] = {{entity, pos},...}
 local CurrentPos  -- to mark punched entities
 
-local function is_simple_node(name)
-	local ndef = minetest.registered_nodes[name]
-	return techage.can_dig_node(name, ndef)
+--------------------------------------------------------------------------
+-- helper functions
+--------------------------------------------------------------------------
+local function count_nodes(tbl, name)
+	if tbl[name] then
+		tbl[name] = tbl[name] + 1
+	else
+		tbl[name] = 1
+	end
 end
 
+local function take_node(tbl, name)
+	if tbl[name] and tbl[name] > 0 then
+		tbl[name] = tbl[name] - 1
+		return true
+	end
+end
+
+local function get_new_nodename(item)
+	local name = item:get_name()
+	if name == "" then 
+		return "air" 
+	end
+	return name
+end
+
+local function get_node_name(nvm, slot)
+	local pos = nvm.pos_list[slot]
+	if pos then
+		return techage.get_node_lvm(pos).name
+	end
+	return "unknown"
+end
+
+local function is_simple_node(name)
+	local ndef = minetest.registered_nodes[name]
+	return name ~= "air" and techage.can_dig_node(name, ndef)
+end
+
+--------------------------------------------------------------------------
+-- Marker
+--------------------------------------------------------------------------
 local function unmark_position(name, pos)
 	pos = vector.round(pos)
 	for idx,item in ipairs(MarkedNodes[name] or {}) do
@@ -102,6 +141,9 @@ minetest.register_entity(":techage:marker", {
 	end,
 })
 
+--------------------------------------------------------------------------
+-- formspec
+--------------------------------------------------------------------------
 local function formspec1(nvm, meta)
 	local status = meta:get_string("status")
 	local play_sound = dump(nvm.play_sound or false)
@@ -109,8 +151,8 @@ local function formspec1(nvm, meta)
 		"tabheader[0,0;tab;"..S("Ctrl,Inv")..";1;;true]"..
 		"button[0.7,0.2;3,1;record;"..S("Record").."]"..
 		"button[4.3,0.2;3,1;ready;"..S("Done").."]"..
-		"button[0.7,1.2;3,1;show;"..S("Set").."]"..
-		"button[4.3,1.2;3,1;hide;"..S("Remove").."]"..
+		"button[0.7,1.2;3,1;reset;"..S("Reset").."]"..
+		"button[4.3,1.2;3,1;exchange;"..S("Exchange").."]"..
 		"checkbox[4.3,2.1;play_sound;"..S("with door sound")..";"..play_sound.."]"..
 		"label[0.5,2.3;"..status.."]"..
 		"list[current_player;main;0,3.3;8,4;]"
@@ -136,10 +178,93 @@ local function play_sound(pos)
 		max_hear_distance = 15})
 end
 
+--------------------------------------------------------------------------
+-- Configuration
+--------------------------------------------------------------------------
+-- Store the current state of inventory and placed nodes
+local function store_config(pos, nvm)
+	local meta = M(pos)
+	local inv = meta:get_inventory()
+	local item_list = inv:get_list("main")
+	local nodes = {exp_nodes = {}, inv_nodes = {}}
+
+	nvm.pos_list = nvm.pos_list or {}
+	nvm.param2_list = nvm.param2_list or {}
+
+	for idx = 1, NUMSLOTS do
+		local pos = nvm.pos_list[idx]
+
+		if pos then
+			local param2 = nvm.param2_list[idx] or 0
+			local item = item_list[idx]
+			if item and item:get_count() > 0 then
+				nodes.inv_nodes[idx] = {name = item:get_name(), param2 = param2}
+			end
+
+			local node = techage.get_node_lvm(pos)
+			if is_simple_node(node.name) then
+				nodes.exp_nodes[idx] = techage.get_node_lvm(pos)
+			end
+		end
+	end
+	meta:set_string("stored_config", minetest.serialize(nodes))
+end
+
+-- Generate a table of currently available inventory and placed nodes
+local function available_nodes(pos, nvm, item_list)
+	local nodes = {}
+	
+	for idx = 1, NUMSLOTS do
+		local item = item_list[idx]
+		if item and item:get_count() > 0 then
+			count_nodes(nodes, item:get_name())
+		end
+
+		local pos = nvm.pos_list[idx]
+		if pos then
+			local node = techage.get_node_lvm(pos)
+			if is_simple_node(node.name) then
+				count_nodes(nodes, node.name)
+			end
+		end
+	end
+	return nodes
+end
+
+local function restore_config(pos, nvm)
+	local meta = M(pos)
+	local inv = meta:get_inventory()
+	local item_list = inv:get_list("main")
+	local stock = available_nodes(pos, nvm, item_list)
+	local nodes = minetest.deserialize(meta:get_string("stored_config")) or {}
+
+	inv:set_list("main", {})
+	item_list = inv:get_list("main")
+
+	for idx, node in pairs(nodes.inv_nodes or {}) do
+		if take_node(stock, node.name) then
+			item_list[idx] = ItemStack(node.name)
+		end
+	end
+	inv:set_list("main", item_list)
+
+	for idx, node in pairs(nodes.exp_nodes or {}) do
+		if take_node(stock, node.name) then
+			local pos = nvm.pos_list[idx]
+			local param2 = nvm.param2_list[idx] or 0
+			fly.exchange_node(pos, node.name, param2)
+			nvm.expected_nodenames[idx] = node.name
+		end
+	end
+end
+
+--------------------------------------------------------------------------
+-- Exchange nodes
+--------------------------------------------------------------------------
 local function exchange_node(pos, item, param2)
 	local node = minetest.get_node_or_nil(pos)
-	if node and is_simple_node(node.name) then
-		if item and item:get_name() ~= "" and minetest.registered_nodes[item:get_name()] then
+	if node and is_simple_node(node.name) or node.name == "air" then
+		if item and is_simple_node(item:get_name()) then
 			fly.exchange_node(pos, item:get_name(), param2)
 		else
 			fly.remove_node(pos)
@@ -153,24 +278,42 @@ local function exchange_node(pos, item, param2)
 	return item, param2
 end
 
+local function expected_node(pos, nvm, idx, force, new_nodename)
+	local expected_name = force and nvm.expected_nodenames[idx] or nil
+	if expected_name then
+		local node = techage.get_node_lvm(pos)
+		if expected_name == node.name then
+			nvm.expected_nodenames[idx] = new_nodename
+			return true
+		else
+			return false
+		end
+	end
+	nvm.expected_nodenames[idx] = new_nodename
+	return true
+end
+
 local function exchange_nodes(pos, nvm, slot, force)
 	local meta = M(pos)
 	local inv = meta:get_inventory()
 
 	local item_list = inv:get_list("main")
-	local owner = meta:get_string("owner")
 	local res = false
 	nvm.pos_list = nvm.pos_list or {}
 	nvm.param2_list = nvm.param2_list or {}
+	nvm.expected_nodenames = nvm.expected_nodenames or {}
 
-	for idx = (slot or 1), (slot or 16) do
+	for idx = (slot or 1), (slot or NUMSLOTS) do
 		local pos = nvm.pos_list[idx]
 		local item = item_list[idx]
 		if pos then
 			if (force == nil)
+			or (force == "exch")
 			or (force == "dig" and item:get_count() == 0)
 			or (force == "set" and item:get_count() > 0) then
-				item_list[idx], nvm.param2_list[idx] = exchange_node(pos, item, nvm.param2_list[idx])
+				if expected_node(pos, nvm, idx, force, get_new_nodename(item)) then
+					item_list[idx], nvm.param2_list[idx] = exchange_node(pos, item, nvm.param2_list[idx])
+				end
 				res = true
 			end
 		end
@@ -178,14 +321,6 @@ local function exchange_nodes(pos, nvm, slot, force)
 
 	inv:set_list("main", item_list)
 	return res
-end
-
-local function get_node_name(nvm, slot)
-	local pos = nvm.pos_list[slot]
-	if pos then
-		return techage.get_node_lvm(pos).name
-	end
-	return "unknown"
 end
 
 local function show_nodes(pos)
@@ -216,6 +351,17 @@ local function hide_nodes(pos)
 	end
 end
 
+local function exch_nodes(pos)
+	local nvm = techage.get_nvm(pos)
+	if nvm.play_sound then
+		minetest.sound_play("doors_door_open", {
+			pos = pos,
+			gain = 1,
+			max_hear_distance = 15})
+	end
+	return exchange_nodes(pos, nvm)
+end
+
 minetest.register_node("techage:ta3_doorcontroller2", {
 	description = S("TA3 Door Controller II"),
 	tiles = {
@@ -228,7 +374,7 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 	after_place_node = function(pos, placer, itemstack)
 		local meta = M(pos)
 		local inv = meta:get_inventory()
-		inv:set_size('main', 16)
+		inv:set_size('main', NUMSLOTS)
 		logic.after_place_node(pos, placer, "techage:ta3_doorcontroller2", S("TA3 Door Controller II"))
 		logic.infotext(meta, S("TA3 Door Controller II"))
 		local nvm = techage.get_nvm(pos)
@@ -252,11 +398,12 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 		elseif fields.record then
 			local inv = meta:get_inventory()
 			nvm.pos_list = nil
-			nvm.is_on = false
 			meta:set_string("status", S("Recording..."))
 			local name = player:get_player_name()
 			minetest.chat_send_player(name, S("Click on all the blocks that are part of the door/gate"))
+			nvm.expected_nodenames = {}
 			MarkedNodes[name] = {}
+			meta:set_string("stored_config", "")
 			meta:set_string("formspec", formspec1(nvm, meta))
 		elseif fields.ready then
 			local name = player:get_player_name()
@@ -264,25 +411,24 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 			local text = #pos_list.." "..S("block positions are stored.")
 			meta:set_string("status", text)
 			nvm.pos_list = pos_list
-			nvm.is_on = true
+			nvm.expected_nodenames = {}
 			unmark_all(name)
+			meta:set_string("stored_config", "")
 			meta:set_string("formspec", formspec1(nvm, meta))
-		elseif fields.show then
-			if show_nodes(pos) then
-				play_sound(pos)
-				meta:set_string("status", S("Blocks are back"))
+		elseif fields.exchange then
+			if exch_nodes(pos) then
+				store_config(pos, nvm)
+				meta:set_string("status", S("Blocks exchanged"))
 				meta:set_string("formspec", formspec1(nvm, meta))
 				local name = player:get_player_name()
 				MarkedNodes[name] = nil
 			end
-		elseif fields.hide then
-			if hide_nodes(pos) then
-				play_sound(pos)
-				meta:set_string("status", S("Blocks are disappeared"))
-				meta:set_string("formspec", formspec1(nvm, meta))
-				local name = player:get_player_name()
-				MarkedNodes[name] = nil
-			end
+		elseif fields.reset then
+			restore_config(pos, nvm)
+			meta:set_string("status", S("Blocks reset"))
+			meta:set_string("formspec", formspec1(nvm, meta))
+			local name = player:get_player_name()
+			MarkedNodes[name] = nil
 		elseif fields.play_sound then
 			nvm.play_sound = fields.play_sound == "true"
 			meta:set_string("formspec", formspec1(nvm, meta))
@@ -340,7 +486,7 @@ techage.register_node({"techage:ta3_doorcontroller2"}, {
 			return show_nodes(pos)
 		elseif topic == "exchange" then
 			local nvm = techage.get_nvm(pos)
-			return exchange_nodes(pos, nvm, tonumber(payload))
+			return exchange_nodes(pos, nvm, tonumber(payload), "exch")
 		elseif topic == "set" then
 			local nvm = techage.get_nvm(pos)
 			return exchange_nodes(pos, nvm, tonumber(payload), "set")
@@ -360,7 +506,7 @@ techage.register_node({"techage:ta3_doorcontroller2"}, {
 			return show_nodes(pos) and 0 or 3
 		elseif topic == 9 and payload[1] == 0 then  -- Exchange Block
 			local nvm = techage.get_nvm(pos)
-			return exchange_nodes(pos, nvm, payload[2] or 1) and 0 or 3
+			return exchange_nodes(pos, nvm, payload[2] or 1, "exch") and 0 or 3
 		elseif topic == 9 and payload[1] == 1 then  -- Set Block
 			local nvm = techage.get_nvm(pos)
 			return exchange_nodes(pos, nvm, payload[2] or 1, "set") and 0 or 3
