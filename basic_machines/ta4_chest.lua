@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2022 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -378,7 +378,7 @@ local function search_chest_in_front(pos, node)
 		pos1 = tubelib2.get_pos(pos1, dir)
 		cnt = cnt + 1
 	end
-	if node.name == "techage:ta4_chest" then
+	if node.name == "techage:ta4_chest" and node.param2 == param2 then
 		minetest.after(1, count_number_of_chests, pos1)
 		local nvm = techage.get_nvm(pos)
 		nvm.front_chest_pos = pos1
