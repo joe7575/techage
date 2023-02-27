@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2022 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -31,7 +31,7 @@ end
 
 function techage.shared_inv.node_timer(pos, elapsed)
 	local rmt_pos = remote_pos(pos)
-	if techage.is_activeformspec(pos) then
+	if rmt_pos and techage.is_activeformspec(pos) then
 		copy_inventory_list(rmt_pos, pos, "main")
 		return true
 	end
@@ -42,8 +42,10 @@ end
 function techage.shared_inv.before_inv_access(pos, listname)
 	if hyperloop.is_client(pos) then
 		local rmt_pos = remote_pos(pos)
-		copy_inventory_list(rmt_pos, pos, listname)
-		return true
+		if rmt_pos then
+			copy_inventory_list(rmt_pos, pos, listname)
+			return true
+		end
 	end
 	return false
 end
@@ -52,8 +54,10 @@ end
 function techage.shared_inv.after_inv_access(pos, listname)
 	if hyperloop.is_client(pos) then
 		local rmt_pos = remote_pos(pos)
-		copy_inventory_list(pos, rmt_pos, listname)
-		return true
+		if rmt_pos then
+			copy_inventory_list(pos, rmt_pos, listname)
+			return true
+		end
 	end
 	return false
 end
@@ -61,8 +65,10 @@ end
 function techage.shared_inv.on_rightclick(pos, clicker, listname)
 	if hyperloop.is_client(pos) then
 		local rmt_pos = remote_pos(pos)
-		copy_inventory_list(rmt_pos, pos, listname)
-		techage.set_activeformspec(pos, clicker)
-		minetest.get_node_timer(pos):start(2)
+		if rmt_pos then
+			copy_inventory_list(rmt_pos, pos, listname)
+			techage.set_activeformspec(pos, clicker)
+			minetest.get_node_timer(pos):start(2)
+		end
 	end
 end
