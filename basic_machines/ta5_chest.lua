@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2022 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -49,7 +49,7 @@ local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	end
 	shared_inv.before_inv_access(pos, listname)
 	local inv = minetest.get_inventory({type="node", pos=pos})
-	if inv:room_for_item(listname, stack) then
+	if inv and inv:room_for_item(listname, stack) then
 		return stack:get_count()
 	end
 	return 0
@@ -61,7 +61,7 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	end
 	shared_inv.before_inv_access(pos, listname)
 	local inv = minetest.get_inventory({type="node", pos=pos})
-	if inv:contains_item(listname, stack) then
+	if inv and inv:contains_item(listname, stack) then
 		return stack:get_count()
 	end
 	return 0
@@ -141,36 +141,64 @@ minetest.register_node("techage:ta5_hl_chest", {
 techage.register_node({"techage:ta5_hl_chest"}, {
 	on_inv_request = function(pos, in_dir, access_type)
 		pos = remote_pos(pos)
-		local meta = minetest.get_meta(pos)
-		return meta:get_inventory(), "main"
+		if pos then
+			local meta = minetest.get_meta(pos)
+			if meta then
+				return meta:get_inventory(), "main"
+			end
+		end
 	end,
 	on_pull_item = function(pos, in_dir, num, item_name)
 		pos = remote_pos(pos)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		return techage.get_items(pos, inv, "main", num)
+		if pos then
+			local meta = minetest.get_meta(pos)
+			if meta then
+				local inv = meta:get_inventory()
+				if inv then
+					return techage.get_items(pos, inv, "main", num)
+				end
+			end
+		end
+		return false
 	end,
 	on_push_item = function(pos, in_dir, stack)
 		if techage.hyperloop.is_paired(pos) then
 			pos = remote_pos(pos)
-			local meta = minetest.get_meta(pos)
-			local inv = meta:get_inventory()
-			return techage.put_items(inv, "main", stack)
+			if pos then
+				local meta = minetest.get_meta(pos)
+				if meta then
+					local inv = meta:get_inventory()
+					if inv then
+						return techage.put_items(inv, "main", stack)
+					end
+				end
+			end
 		end
 		return false
 	end,
 	on_unpull_item = function(pos, in_dir, stack)
 		pos = remote_pos(pos)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		return techage.put_items(inv, "main", stack)
+		if pos then
+			local meta = minetest.get_meta(pos)
+			if meta then
+				local inv = meta:get_inventory()
+				if inv then
+					return techage.put_items(inv, "main", stack)
+				end
+			end
+		end
+		return false
 	end,
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "state" then
-			pos = remote_pos(pos)
 			local meta = minetest.get_meta(pos)
-			local inv = meta:get_inventory()
-			return techage.get_inv_state(inv, "main")
+			if meta then
+				local inv = meta:get_inventory()
+				if inv then
+					return techage.get_inv_state(inv, "main")
+				end
+			end
+			return "error"
 		else
 			return "unsupported"
 		end
@@ -178,8 +206,12 @@ techage.register_node({"techage:ta5_hl_chest"}, {
 	on_beduino_request_data = function(pos, src, topic, payload)
 		if topic == 131 then  -- Chest State
 			local meta = minetest.get_meta(pos)
-			local inv = meta:get_inventory()
-			return 0, {techage.get_inv_state_num(inv, "main")}
+			if meta then
+				local inv = meta:get_inventory()
+				if inv then
+					return 0, {techage.get_inv_state_num(inv, "main")}
+				end
+			end
 		else
 			return 2, ""
 		end
