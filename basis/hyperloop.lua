@@ -184,7 +184,7 @@ function techage.hyperloop.remote_pos(pos)
 		local nvm = techage.get_nvm(pos)
 		if Stations:get(nvm.rmt_pos) then
 			if M(pos):contains("remote_name") then
-				return nvm.rmt_pos
+				return nvm.rmt_pos or pos
 			end
 		end
 	end
