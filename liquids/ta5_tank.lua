@@ -26,7 +26,7 @@ local shared_tank = techage.shared_tank
 local menu = techage.menu
 
 local CAPACITY = 1000
-local EX_POINTS = 20
+local EX_POINTS = 15
 
 minetest.register_node("techage:ta5_hl_tank", {
 	description = S("TA5 Hyperloop Tank"),

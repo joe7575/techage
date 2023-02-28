@@ -98,5 +98,5 @@ techage.recipes.add("ta4_electronic_fab", {
 	output = "techage:ta5_aichip2 2",
 	waste = "basic_materials:empty_spool 2",
 	input = {"techage:ta4_leds 8", "basic_materials:copper_wire 1", "basic_materials:gold_wire 1", "techage:ta4_silicon_wafer 1"},
-	ex_points = 50,
+	ex_points = 25,
 })

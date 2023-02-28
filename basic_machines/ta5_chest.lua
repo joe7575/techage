@@ -19,7 +19,7 @@ local M = minetest.get_meta
 local S = techage.S
 
 local TA4_INV_SIZE = 32
-local EX_POINTS = 20
+local EX_POINTS = 15
 
 local hyperloop = techage.hyperloop
 local remote_pos = techage.hyperloop.remote_pos

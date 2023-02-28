@@ -27,8 +27,8 @@ local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 2
 local PWR_NEEDED = 12
-local EX_POINTS = 60
-local MAX_DIST = 200
+local EX_POINTS = 30
+local MAX_DIST = 500
 local DESCRIPTION = S("TA5 Teleport Block Items")
 
 local function formspec(self, pos, nvm)

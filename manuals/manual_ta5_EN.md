@@ -92,7 +92,7 @@ The TA5 Hyperloop Chest has to be placed on a Hyperloop Junction. The chest has 
 
 For pairing you first have to enter a name for the chest on one side, then you can select this name for the other chest and thus connect the two blocks.
 
-The use of the TA5 Hyperloop Chest requires 20 experience points.
+The use of the TA5 Hyperloop Chest requires 15 experience points.
 
 [ta5_chest|image]
 
@@ -104,7 +104,7 @@ The TA5 Hyperloop Tank has to be placed on a Hyperloop Junction.The tank has a s
 
 For pairing you first have to enter a name for the tank on one side, then you can select this name for the other tank and thus connect the two blocks.
 
-The use of the TA5 Hyperloop Tank requires 20 experience points.
+The use of the TA5 Hyperloop Tank requires 15 experience points.
 
 [ta5_tank|image]
 
@@ -120,21 +120,21 @@ The map on the right shows how the blocks can be used.
 
 ### TA5 Teleport Block Items
 
-These teleport blocks allow the transfer of items and thus replace a tube. Distances of up to 200 blocks can be bridged.
+These teleport blocks allow the transfer of items and thus replace a tube. Distances of up to 500 blocks can be bridged.
 
 Each Teleport blocks requires 12 ku of electricity.
 
-60 experience points are required to use the teleport blocks. 
+30 experience points are required to use the teleport blocks. 
 
 [ta5_tele_tube|image]
 
 ### TA5 Teleport Block Liquids
 
-These teleport blocks allow the transfer of liquids and thus replace a pipe. Distances of up to 200 blocks can be bridged.
+These teleport blocks allow the transfer of liquids and thus replace a pipe. Distances of up to 500 blocks can be bridged.
 
 Each Teleport blocks requires 12 ku of electricity.
 
-60 experience points are required to use the teleport blocks. 
+30 experience points are required to use the teleport blocks. 
 
 [ta5_tele_pipe|image]
 
@@ -142,7 +142,7 @@ Each Teleport blocks requires 12 ku of electricity.
 
 The Hyperloop Teleport Blocks allow the construction of a Hyperloop network without Hyperloop tubes.
 
-The use of the Hyperloop Teleport Blocks requires 120 experience points.
+The use of the Hyperloop Teleport Blocks requires 60 experience points.
 
 
 
@@ -162,6 +162,6 @@ The TA5 AI Chip is partly required for the production of TA5 blocks. The TA5 AI 
 
 ### TA5 AI Chip II
 
-The TA5 AI Chip II is required to build the TA5 Fusion Reactor. The TA5 AI Chip II can only be manufactured at the TA4 Electronics Fab. This requires 50 experience points.
+The TA5 AI Chip II is required to build the TA5 Fusion Reactor. The TA5 AI Chip II can only be manufactured at the TA4 Electronics Fab. This requires 25 experience points.
 
 [ta5_aichip2|image]

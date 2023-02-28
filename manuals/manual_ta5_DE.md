@@ -92,7 +92,7 @@ Die TA5 Hyperloop Kiste muss man dazu auf eine Hyperloop Junction stellen. Die K
 
 Für das Pairing musst du zuerst auf der einen Seite einen Namen für die Kiste eingeben, dann kannst du bei der anderen Kiste diesen Namen auswählen und so die beiden Blöcke verbinden.
 
-Die Nutzung der TA5 Hyperloop Kiste benötigt 20 Erfahrungspunkte.
+Die Nutzung der TA5 Hyperloop Kiste benötigt 15 Erfahrungspunkte.
 
 [ta5_chest|image]
 
@@ -104,7 +104,7 @@ Den TA5 Hyperloop Tank muss man dazu auf eine Hyperloop Junction stellen. Der Ta
 
 Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Tank eingeben, dann kannst du bei dem anderen Tank diesen Namen auswählen und so die beiden Blöcke verbinden.
 
-Die Nutzung des TA5 Hyperloop Tanks benötigt 20 Erfahrungspunkte.
+Die Nutzung des TA5 Hyperloop Tanks benötigt 15 Erfahrungspunkte.
 
 [ta5_tank|image]
 
@@ -122,21 +122,21 @@ Der Plan rechts zeigt, wie die Blöcke genutzt werden können.
 
 ### TA5 Teleport Block Gegenstände / TA5 Teleport Block Items
 
-Diese Teleport-Blöcke erlauben die Übertragung von Gegenständen und ersetzen somit eine Röhre. Dabei können Entfernungen von bis zu 200 Blöcken überbrückt werden.
+Diese Teleport-Blöcke erlauben die Übertragung von Gegenständen und ersetzen somit eine Röhre. Dabei können Entfernungen von bis zu 500 Blöcken überbrückt werden.
 
 Ein Teleport-Block benötigt 12 ku Strom.
 
-Für die Nutzung der Teleport-Blöcke werden 60 Erfahrungspunkte benötigt.
+Für die Nutzung der Teleport-Blöcke werden 30 Erfahrungspunkte benötigt.
 
 [ta5_tele_tube|image]
 
 ### TA5 Teleport Block Flüssigkeiten / TA5 Teleport Block Liquids
 
-Diese Teleport-Blöcke erlauben die Übertragung von Flüssigkeiten und ersetzen somit eine gelbe Leitung. Dabei können Entfernungen von bis zu 200 Blöcken überbrückt werden.
+Diese Teleport-Blöcke erlauben die Übertragung von Flüssigkeiten und ersetzen somit eine gelbe Leitung. Dabei können Entfernungen von bis zu 500 Blöcken überbrückt werden.
 
 Ein Teleport-Block benötigt 12 ku Strom.
 
-Für die Nutzung der Teleport-Blöcke werden 60 Erfahrungspunkte benötigt.
+Für die Nutzung der Teleport-Blöcke werden 30 Erfahrungspunkte benötigt.
 
 [ta5_tele_pipe|image]
 
@@ -144,7 +144,7 @@ Für die Nutzung der Teleport-Blöcke werden 60 Erfahrungspunkte benötigt.
 
 Die Hyperloop Teleport Blöcke erlauben den Aufbau von Hyperloop Netzwerk ohne Hyperloop-Röhren.
 
-Die Nutzung der Hyperloop Teleport Blöcke benötigt 120 Erfahrungspunkte.
+Die Nutzung der Hyperloop Teleport Blöcke benötigt 60 Erfahrungspunkte.
 
 ## Weitere TA5 Blöcke/Items
 
@@ -162,6 +162,6 @@ Der TA5 KI Chip wird teilweise zur Herstellung von TA5 Blöcken benötigt. Der T
 
 ### TA5 KI Chip II / TA5 AI Chip II
 
-Der TA5 KI Chip II wird zur Herstellung des TA5 Fusionsreaktors benötigt. Der TA5 KI Chip II kann nur auf der TA4 Elektronik Fab hergestellt werden. Dazu werden 50 Erfahrungspunkte benötigt.
+Der TA5 KI Chip II wird zur Herstellung des TA5 Fusionsreaktors benötigt. Der TA5 KI Chip II kann nur auf der TA4 Elektronik Fab hergestellt werden. Dazu werden 25 Erfahrungspunkte benötigt.
 
 [ta5_aichip2|image]
