@@ -27,7 +27,7 @@ In the worst case, the server crashes.**
 
 
 ### License
-Copyright (C) 2019-2022 Joachim Stolberg
+Copyright (C) 2019-2023 Joachim Stolberg
 Code: Licensed under the GNU AGPL version 3 or later. See LICENSE.txt  
 Textures: CC BY-SA 3.0
 
@@ -88,6 +88,24 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 
 ### History
+
+**2023-03-05  V1.11**
+- Reduce the number of necessary exp points for TA5 Hyperloop Chest,
+  TA5 Hyperloop Tank, and TA5 AI Chip II
+- Fix possible kernel crashes with TA5 Hyperloop Chest and autocrafter
+- Rework doorcontroller (menu changed)
+- Increase tank cart storage size to 200 units
+- Fix several paramtype/use_texture_alpha issues
+- Add command 'load' to the TA4 power terminal
+- Add beduino tank commands
+- Fix power consumption bug for a stopped collider
+- Fix electrolyzer formspec bug
+- Add Rack and pinion node
+- Expand ta4 sequencer wrench menu
+- Accept mincart carts for the move controller
+- movecontroller: Allow to move objects 'without' a move block
+- Add empty_spool as fab output
+- Fix doser goes blocked bug
 
 **2023-02-04  V1.10**
 - Improve flycontroller
