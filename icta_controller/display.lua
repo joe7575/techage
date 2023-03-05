@@ -219,7 +219,7 @@ function techage.display.write_row(pos, payload, cycle_time, beduino)
 	nvm.text = nvm.text or {}
 	mem.ticks = mem.ticks or 0
 
-	if beduino then
+	if beduino or type(payload) == "string" then
 		row = tonumber(payload:sub(1,1) or "1") or 1
 		str = payload:sub(2) or "oops"
 	else
