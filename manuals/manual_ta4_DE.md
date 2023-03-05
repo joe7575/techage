@@ -205,7 +205,7 @@ Mit Hilfe von Trenntransformator und Stromzähler können Netzwerke zu noch grö
 
 Mit Hilfe eines Trenntransformators können zwei Stromnetze zu einem größeren Netzwerk verbunden werden. Der Trenntransformator kann Strom in beide Richtungen übertragen.
 
-Der Trenntransformator kann bis zu 100 ku übertragen.
+Der Trenntransformator kann bis zu 300 ku übertragen. Der Maximalwert ist über das Schraubenschlüsselmenü einstellbar.
 
 [ta4_transformer|image]
 
@@ -215,7 +215,11 @@ Der Trenntransformator kann bis zu 100 ku übertragen.
 
 Mit Hilfe eines Stromzählers können zwei Stromnetze zu einem größeren Netzwerk verbunden werden. Der Stromzähler leitet  den Strom nur in eine  Richtungen weiter (Pfeil beachten). Die Menge an Strom (in kud) wird gemessen und angezeigt. Die Strommenge kann auch über das Kommando `consumption` durch einen Lua Controller abgefragt werden.
 
-Der Stromzähler kann bis zu 200 ku durchleiten.
+Der Stromzähler kann bis zu 200 ku durchleiten. Der Maximalwert ist über das Schraubenschlüsselmenü einstellbar.
+
+Über das Schraubenschlüsselmenü  kann auch ein Countdown für die Leistungsabgabe eingegeben werden. Läuft dieser Countdown auf Null, schaltet sich der Stromzähler ab. Der Countdown kann über das Kommando `countdown` abgefragt werden.
+
+
 
 [ta4_electricmeter|image]
 

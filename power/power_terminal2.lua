@@ -140,7 +140,7 @@ local function storages(pos)
 	local resp = control.request(pos, Cable, outdir, "sto", "info")
 	for _, item in ipairs(resp) do
 		-- TA4/TA5 heatexchangers are no storage systems
-		if item.capa and item.capa > 1 then  
+		if item.capa and item.capa > 1 then
 			if item.running then
 				local s = string.format("%s (%s): %s/%s kud",
 						item.type, item.number,

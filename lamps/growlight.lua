@@ -181,15 +181,15 @@ local function contains(table, element)
 end
 
 function techage.register_flower(name)
-	if contains(Flowers, name) then 
-		return 
+	if contains(Flowers, name) then
+		return
 	end
 	Flowers[#Flowers+1] = name
 end
 
 function techage.register_plant(name)
-	if contains(Plants, name) then 
-		return 
+	if contains(Plants, name) then
+		return
 	end
 	Plants[name] = true
 end

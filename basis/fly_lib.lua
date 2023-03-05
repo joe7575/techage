@@ -660,7 +660,7 @@ local function multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2t
 	return true
 end
 
--- Move the nodes from lpos1 to lpos2. 
+-- Move the nodes from lpos1 to lpos2.
 -- * lpos1 is a list of nodes
 -- * lpos2 = lpos1 + move
 -- * pos and meta are controller block related

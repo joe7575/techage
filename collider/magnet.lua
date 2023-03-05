@@ -132,7 +132,7 @@ minetest.register_node("techage:ta4_magnet", {
 		nvm.running = nil
 		return -2
 	end,
-	
+
 	on_turn_off = function(pos)
 		local nvm = techage.get_nvm(pos)
 		nvm.running = nil

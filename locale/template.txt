@@ -291,13 +291,17 @@ TA2 Cylinder=
 
 ### detector.lua ###
 
-Countdown=
 Counts down the number of items passed through@nand only triggers an 'on' command when it reaches zero.=
 Current countdown=
 Current countdown value.=
 TA4 Collider Detector=
 TA4 Collider Detector Core=
 TA4 Detector=
+
+### detector.lua ###
+### electricmeter.lua ###
+
+Countdown=
 
 ### detector.lua ###
 ### logic_block.lua ###
@@ -348,12 +352,11 @@ TA3 Door Controller=
 
 ### doorcontroller2.lua ###
 
-Blocks are back=
-Blocks are disappeared=
+Blocks exchanged=
+Blocks reset=
 Click on all the blocks that are part of the door/gate=
 Ctrl,Inv=
-Remove=
-Set=
+Exchange=
 TA3 Door Controller II=
 with door sound=
 
@@ -366,6 +369,11 @@ Done=
 Record=
 Recording...=
 block positions are stored.=
+
+### doorcontroller2.lua ###
+### movecontroller.lua ###
+
+Reset=
 
 ### drillbox.lua ###
 
@@ -388,7 +396,9 @@ TA Electric Cable=
 
 ### electricmeter.lua ###
 
+Amount of power to be provided before the device turns off=
 Consumption=
+Power countdown=
 TA4 Electric Meter=
 
 ### electricmeter.lua ###
@@ -396,6 +406,12 @@ TA4 Electric Meter=
 ### transformer.lua ###
 
 Power=
+
+### electricmeter.lua ###
+### transformer.lua ###
+
+Max. power=
+Maximum power passed through=
 
 ### electrolyzer.lua ###
 
@@ -904,7 +920,6 @@ Error: Invalid distance !!=
 Move distance=
 Move distance (A to B)=
 Operational mode=
-Reset=
 Switch to the remote controlled 'move xyz' mode=
 TA Rack and Pinion=
 TA4 Move Controller=
@@ -1000,7 +1015,7 @@ TA Power Pole Top 2 (for landlines)=
 
 ### power_terminal2.lua ###
 
-Commands@nhelp . . . print this text@ncls . . . . . clear screen@ngen . . . . print all generators@nsto . . . . . print all storage systems@ncon . . . . . print main consumers@n=
+Commands@nhelp . . . print this text@ncls  . . . . clear screen@ngen    . . print generators@nsto     . . print storage systems@ncon1  . . print consumers with power consumption between 1 and 10 ku@ncon2  . . print consumers with power consumption with 10 ku or above@n=
 Consumer=
 Network Data=
 Number of consumers:=

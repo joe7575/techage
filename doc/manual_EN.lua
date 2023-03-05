@@ -1457,13 +1457,15 @@ techage.manual_EN.aText = {
   "\n",
   "With the help of an isolating transformer\\, two power grids can be connected to form a larger network. The isolation transformer can transmit electricity in both directions.\n"..
   "\n"..
-  "The isolation transformer can transmit up to 100 ku. \n"..
+  "The isolation transformer can transmit up to 300 ku. The maximum value is adjustable via the wrench menu.\n"..
   "\n"..
   "\n"..
   "\n",
   "With the help of an electricity meter\\, two electricity networks can be connected to form a larger network. The electricity meter only transmits electricity in one direction (note arrow). The amount of electricity (in kud) is measured and displayed. The amount of electricity can also be queried by a Lua controller using the 'consumption' command.\n"..
   "\n"..
-  "The electricity meter can pass up to 200 ku. \n"..
+  "The electricity meter can pass up to 200 ku. The maximum value is adjustable via the wrench menu.\n"..
+  "\n"..
+  "A power output countdown can also be entered via the wrench menu. When this countdown reaches zero\\, the electricity meter switches off. The countdown can be queried using the 'countdown' command.\n"..
   "\n"..
   "\n"..
   "\n",

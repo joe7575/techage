@@ -291,13 +291,17 @@ TA2 Cylinder=TA2 Zylinder
 
 ### detector.lua ###
 
-Countdown=Countdown
 Counts down the number of items passed through@nand only triggers an 'on' command when it reaches zero.=Zählt die Anzahl der durchlaufenen Elemente herunter@nund löst nur dann einen 'ON'-Befehl aus, wenn er Null erreicht.
 Current countdown=Aktueller Zähler
 Current countdown value.=Aktueller Zählerwert.
 TA4 Collider Detector=TA4 Collider Detektor
 TA4 Collider Detector Core=TA4 Collider Detektorkern
 TA4 Detector=TA4 Detektor
+
+### detector.lua ###
+### electricmeter.lua ###
+
+Countdown=Countdown
 
 ### detector.lua ###
 ### logic_block.lua ###
@@ -348,12 +352,11 @@ TA3 Door Controller=TA3 Tür Controller
 
 ### doorcontroller2.lua ###
 
-Blocks are back=Blöcke sind wieder da
-Blocks are disappeared=Blöcke sind verschwunden
+Blocks exchanged=Blöcke ausgetauscht
+Blocks reset=Blöcke rückgesetzt
 Click on all the blocks that are part of the door/gate=Klicke auf alle Blöcke, die Teil des Tores sind
 Ctrl,Inv=Ctrl,Inv
-Remove=Entfernen
-Set=Setzen
+Exchange=Austauschen
 TA3 Door Controller II=TA3 Tür Controller II
 with door sound=mit Türgeräusch
 
@@ -366,6 +369,11 @@ Done=Fertig
 Record=Aufzeichnen
 Recording...=Aufzeichnung...
 block positions are stored.=Block Positionen gespeichert.
+
+### doorcontroller2.lua ###
+### movecontroller.lua ###
+
+Reset=Rücksetzen
 
 ### drillbox.lua ###
 
@@ -388,7 +396,9 @@ TA Electric Cable=TA Stromkabel
 
 ### electricmeter.lua ###
 
+Amount of power to be provided before the device turns off=Strommenge, die bereitgestellt werden soll, bis sich das Gerät ausschaltet
 Consumption=Verbrauch
+Power countdown=Leistungs-Countdown
 TA4 Electric Meter=TA4 Stromzähler
 
 ### electricmeter.lua ###
@@ -396,6 +406,12 @@ TA4 Electric Meter=TA4 Stromzähler
 ### transformer.lua ###
 
 Power=Strom
+
+### electricmeter.lua ###
+### transformer.lua ###
+
+Max. power=Max. Leistung
+Maximum power passed through=Max. Leistung, die durchgeleitet werden soll
 
 ### electrolyzer.lua ###
 
@@ -904,7 +920,6 @@ Error: Invalid distance !!=Fehler: Ungültige Entfernung !!
 Move distance=Entfernung
 Move distance (A to B)=Entfernung (A nach B)
 Operational mode=Betriebsmodus
-Reset=Rücksetzen
 Switch to the remote controlled 'move xyz' mode=Wechseln in den ferngesteuerten 'move xyz'-Modus
 TA Rack and Pinion=TA Zahnstange
 TA4 Move Controller=TA4 Move Controller
@@ -1000,7 +1015,7 @@ TA Power Pole Top 2 (for landlines)=TA Strommastkopf 2 (für Überlandleitungen)
 
 ### power_terminal2.lua ###
 
-Commands@nhelp . . . print this text@ncls . . . . . clear screen@ngen . . . . print all generators@nsto . . . . . print all storage systems@ncon . . . . . print main consumers@n=Kommandos@nhelp . . . diesen Text ausgeben@ncls . . . . . Bildschirm löschen@ngen . . . . Alle Generatoren ausgeben@nsto . . . . . Alle Speichersysteme ausgeben@ncon . . . . . Hauptverbraucher ausgeben@n
+Commands@nhelp . . . print this text@ncls  . . . . clear screen@ngen    . . print generators@nsto     . . print storage systems@ncon1  . . print consumers with power consumption between 1 and 10 ku@ncon2  . . print consumers with power consumption with 10 ku or above@n=Commands@nhelp . . . diesen Text ausgeben@ncls  . . . . lösche Bildschirm@ngen    . . Generatoren ausgeben@nsto     . . Speichersysteme ausgeben@ncon1  . . Verbraucher mit einem Verbrauch zw. 1 und 10 ku ausgeben@ncon2  . . Verbraucher ab 10 ku Verbrauch ausgeben@n
 Consumer=Verbraucher
 Network Data=Netzwerkdaten
 Number of consumers:=Anzahl der Verbraucher
@@ -1511,6 +1526,11 @@ TA4 Collider Detector Worker=TA4 Collider Detektor Worker
 
 ##### not used anymore #####
 
+Blocks are back=Blöcke sind wieder da
+Blocks are disappeared=Blöcke sind verschwunden
+Remove=Entfernen
+Set=Setzen
+Commands@nhelp . . . print this text@ncls . . . . . clear screen@ngen . . . . print all generators@nsto . . . . . print all storage systems@ncon . . . . . print main consumers@n=Kommandos@nhelp . . . diesen Text ausgeben@ncls . . . . . Bildschirm löschen@ngen . . . . Alle Generatoren ausgeben@nsto . . . . . Alle Speichersysteme ausgeben@ncon . . . . . Hauptverbraucher ausgeben@n
 Handover to A=Übergabe an A
 Handover to B=Übergabe an B
 Number of the next movecontroller=Nummer des nächsten Move Controllers

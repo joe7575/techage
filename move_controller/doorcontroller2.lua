@@ -60,8 +60,8 @@ end
 
 local function get_new_nodename(item)
 	local name = item:get_name()
-	if name == "" then 
-		return "air" 
+	if name == "" then
+		return "air"
 	end
 	return name
 end
@@ -228,7 +228,7 @@ end
 -- Generate a table of currently available inventory and placed nodes
 local function available_nodes(pos, nvm, item_list)
 	local nodes = {}
-	
+
 	for idx = 1, NUMSLOTS do
 		local item = item_list[idx]
 		if item and item:get_count() > 0 then

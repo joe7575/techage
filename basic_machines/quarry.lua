@@ -197,7 +197,7 @@ local function quarry_task(pos, crd, nvm)
 		pos2.y = y_curr
 
 		-- Restarting the server can detach the coroutine data.
-		-- Therefore, read nvm again. 
+		-- Therefore, read nvm again.
 		nvm = techage.get_nvm(pos)
 		nvm.level = y_first - y_curr
 

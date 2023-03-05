@@ -167,7 +167,7 @@ local function ta_after_formspec(pos, fields, playername)
 		local nvm = techage.get_nvm(pos)
 		local val = M(pos):get_int("countdown") or 0
 		if val > 0 then
-			nvm.countdown = val 
+			nvm.countdown = val
 		else
 			nvm.countdown = nil
 		end
@@ -326,7 +326,7 @@ techage.register_node({"techage:ta4_detector_off", "techage:ta4_detector_on"}, {
 				if leftover ~= true then
 					num_moved = num_moved - leftover:get_count()
 				end
-				
+
 				if nvm.countdown and nvm.countdown > 0 then
 					nvm.countdown = nvm.countdown - num_moved
 					if nvm.countdown <= 0 then

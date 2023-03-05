@@ -157,9 +157,9 @@ end
 
 function techage.formspec_meter(pos, x, y, label, value, unit)
 	return "container[" .. x .. "," .. y .. "]" ..
-		"box[0,0;2.3,1.2;#395c74]" ..
+		"box[0,0;2.3,0.9;#395c74]" ..
 		"label[0.2,0.0;" .. label .. ":]" ..
-		"label[0.2,0.5;" .. round(value) .. " " .. unit .. "]" ..
+		"label[0.2,0.4;" .. round(value) .. " " .. unit .. "]" ..
 		"container_end[]"
 end
 

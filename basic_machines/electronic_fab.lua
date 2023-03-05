@@ -26,7 +26,7 @@ local recipes = techage.recipes
 
 local RecipeType = {
 	[2] = "ta2_electronic_fab",
-	[3]	= "ta3_electronic_fab",
+	[3] = "ta3_electronic_fab",
 	[4] = "ta4_electronic_fab",
 }
 

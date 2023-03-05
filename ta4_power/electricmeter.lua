@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2022 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -24,25 +24,54 @@ local Cable = techage.ElectricCable
 local power = networks.power
 local control = networks.control
 
+local WRENCH_MENU = {
+	{
+		type = "dropdown",
+		choices = "200 ku,150 ku,100 ku,50 ku,20 ku",
+		name = "current",
+		label = S("Max. power"),
+		tooltip = S("Maximum power passed through"),
+		default = "100 ku",
+		values = {200, 150, 100, 50, 20}
+	},
+	{
+		type = "number",
+		name = "countdown",
+		label = S("Power countdown"),
+		tooltip = S("Amount of power to be provided before the device turns off"),
+		default = "0",
+	},
+}
+
+local function max_current(pos)
+	local meta = M(pos)
+	if meta:contains("current") then
+		local current = meta:get_int("current")
+		return current > 0 and current or PWR_PERF
+	end
+	return PWR_PERF
+end
 
 local function formspec(self, pos, nvm, power)
 	local units = (nvm.units or 0) / techage.CYCLES_PER_DAY
+	nvm.countdown = nvm.countdown or M(pos):get_int("countdown")
 	power = power or 0
 
 	return "size[5,4]" ..
-		default.gui_bg ..
-		default.gui_bg_img ..
-		default.gui_slots ..
 		"box[0,-0.1;4.8,0.5;#c6e8ff]" ..
+		techage.wrench_image(4.4, -0.08) ..
 		"label[0.2,-0.1;" .. minetest.colorize( "#000000", S("TA4 Electric Meter")).."]" ..
-		techage.formspec_power_bar(pos, 0.0, 0.7, S("Power"), power, PWR_PERF) ..
+		techage.formspec_power_bar(pos, 0.0, 0.7, S("Power"), power, max_current(pos)) ..
 		techage.formspec_meter(pos, 2.5, 0.7, S("Consumption"), units, "kud") ..
-		"image_button[3.2,2.2;1,1;" .. self:get_state_button_image(nvm) .. ";state_button;]" ..
+		techage.formspec_meter(pos, 2.5, 1.7, S("Countdown"), nvm.countdown, "kud") ..
+		"image_button[3.2,3.0;1,1;" .. self:get_state_button_image(nvm) .. ";state_button;]" ..
 		"tooltip[3.2,2.2;1,1;" .. self:get_state_tooltip(nvm) .. "]"
 end
 
 local function start_node(pos, nvm, state)
 	local outdir = M(pos):get_int("outdir")
+	nvm.load = 0
+	nvm.countdown = M(pos):get_int("countdown")
 	power.start_storage_calc(pos, Cable, outdir)
 	outdir = networks.Flip[outdir]
 	power.start_storage_calc(pos, Cable, outdir)
@@ -71,11 +100,19 @@ local function node_timer(pos, elapsed)
 	if techage.is_running(nvm) then
 		local outdir2 = M(pos):get_int("outdir")
 		local outdir1 = networks.Flip[outdir2]
-		data = power.transfer_simplex(pos, Cable, outdir1, Cable, outdir2, PWR_PERF)
+		local current = max_current(pos)
+		data = power.transfer_simplex(pos, Cable, outdir1, Cable, outdir2, current)
 		if data then
-			nvm.load = (data.curr_load1 / data.max_capa1 + data.curr_load2 / data.max_capa2) / 2 * PWR_PERF
+			nvm.countdown = nvm.countdown or M(pos):get_int("countdown")
+			nvm.load = (data.curr_load1 / data.max_capa1 + data.curr_load2 / data.max_capa2) / 2 * current
 			nvm.moved = data.moved
 			nvm.units = (nvm.units or 0) + data.moved
+			if nvm.countdown > 0 then
+				nvm.countdown = nvm.countdown - (data.moved / techage.CYCLES_PER_DAY)
+				if nvm.countdown <= 0 then
+					State:stop(pos, nvm)
+				end
+			end
 		end
 	end
 	if techage.is_activeformspec(pos) then
@@ -118,7 +155,8 @@ local function get_generator_data(pos, outdir, tlib2)
 	-- check for secondary/generator side
 	if outdir == M(pos):get_int("outdir") then
 		if techage.is_running(nvm) then
-			return {level = (nvm.load or 0) / PWR_PERF, perf = PWR_PERF, capa = PWR_PERF * 2}
+			local current = max_current(pos)
+			return {level = (nvm.load or 0) / current, perf = current, capa = current * 2}
 		end
 	end
 end
@@ -140,6 +178,7 @@ minetest.register_node("techage:ta4_electricmeter", {
 	on_receive_fields = on_receive_fields,
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
+	ta4_formspec = WRENCH_MENU,
 	get_generator_data = get_generator_data,
 	paramtype2 = "facedir",
 	groups = {cracky=2, crumbly=2, choppy=2},
@@ -156,6 +195,8 @@ techage.register_node({"techage:ta4_electricmeter"}, {
 		local nvm = techage.get_nvm(pos)
 		if topic == "consumption" then
 			return math.floor((nvm.units or 0) / techage.CYCLES_PER_DAY)
+		elseif topic == "countdown" then
+			return math.floor((nvm.countdown or 0) + 0.5)
 		else
 			return State:on_receive_message(pos, topic, payload)
 		end
@@ -165,8 +206,12 @@ techage.register_node({"techage:ta4_electricmeter"}, {
 	end,
 	on_beduino_request_data = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		if topic == 146 then  -- Consumption
-			return 0, {math.floor((nvm.units or 0) / techage.CYCLES_PER_DAY)}
+		if topic == 146 then
+			if payload[1] == 0 then -- Consumption
+				return 0, {math.floor((nvm.units or 0) / techage.CYCLES_PER_DAY)}
+			else -- countdown
+				return 0, {math.floor((nvm.countdown or 0) + 0.5)}
+			end
 		else
 			return State:on_beduino_request_data(pos, topic, payload)
 		end
@@ -184,7 +229,7 @@ control.register_nodes({"techage:ta4_electricmeter"}, {
 					type = S("TA4 Electric Meter"),
 					number = meta:get_string("node_number") or "",
 					running = techage.is_running(nvm) or false,
-					available = PWR_PERF,
+					available = max_current(pos),
 					provided = nvm.moved or 0,
 					termpoint = "-",
 				}

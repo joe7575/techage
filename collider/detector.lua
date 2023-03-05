@@ -190,7 +190,7 @@ local function cable_inlets_turn_on_off(pos, on)
 			techage.power_inlet_turn_on_off(pos2, nvm, on)
 		end
 	end
-	
+
 	local param2 = minetest.get_node(pos).param2
 	turn_on_off(pos, param2, Schedule[2])
 	turn_on_off(pos, param2, Schedule[3])
