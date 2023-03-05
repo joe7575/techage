@@ -395,6 +395,8 @@ minetest.register_node("techage:meltingpot_active", {
 
 	can_dig = can_dig,
 
+	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
 	drop = "techage:meltingpot",
 	is_ground_content = false,
 	groups = {cracky = 3, not_in_creative_inventory=1},
