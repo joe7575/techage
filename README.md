@@ -61,7 +61,7 @@ It is highly recommended that you install the following mods, too:
 * [compost](https://github.com/joe7575/compost): The garden soil is needed for the TA4 LED Grow Light based flower bed
 * [techpack_stairway](https://github.com/joe7575/techpack_stairway): Ladders, stairways, and bridges for your machines
 * [autobahn](https://github.com/joe7575/autobahn): Street blocks and slopes with stripes for faster traveling
-* [[ta4_jetpack](https://github.com/joe7575/ta4_jetpack): A Jetpack with hydrogen as fuel and TA4 recipe
+* [ta4_jetpack](https://github.com/joe7575/ta4_jetpack): A Jetpack with hydrogen as fuel and TA4 recipe
 
 For large servers with many players, the following packages are recommended:
 
@@ -89,7 +89,17 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2023-03-05  V1.12**
+
+- Improve Transformer:
+  - add wrench menu for 'max. power passed through'
+  - Increase max. power passed through from 100 to 300 ku
+- Improve Electricmeter: 
+  - add wrench menu for 'max. power passed through' and 'power countdown'
+  - add commands to read the countdown value (Lua and Beduino controller)
+
 **2023-03-05  V1.11**
+
 - Reduce the number of necessary exp points for TA5 Hyperloop Chest,
   TA5 Hyperloop Tank, and TA5 AI Chip II
 - Fix possible kernel crashes with TA5 Hyperloop Chest and autocrafter
