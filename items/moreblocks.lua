@@ -68,9 +68,11 @@ if(minetest.get_modpath("moreblocks")) then
 			ndef.sunlight_propagates = true
 			ndef.groups.not_in_creative_inventory = 1
 			stairsplus:register_all("techage", subname, name, ndef)
-			register_alias(subname)
+			if techage.stair_aliases_enabled then
+				register_alias(subname)
+			end
 		end
-    end
+	end
 else
     for _,name in ipairs(NodeNames) do
 		local ndef = minetest.registered_nodes[name]
@@ -86,7 +88,9 @@ else
 				ndef.sound,
 				false
 			)
-			register_alias(subname)
+			if techage.stair_aliases_enabled then
+				register_alias(subname)
+			end
 		end
 	end
 end

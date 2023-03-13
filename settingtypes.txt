@@ -41,3 +41,6 @@ techage_expoint_rate_in_min (average waiting time for one expoint) int 60
 
 # For testing purpuses only
 techage_recipe_checker_enabled (test techage recipes) bool false
+
+# Enables stair aliases (to prevent unknown nodes)
+techage_stair_aliases_enabled (Enable stair aliases) bool false
