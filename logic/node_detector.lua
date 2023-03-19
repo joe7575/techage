@@ -37,6 +37,12 @@ local DropdownValues = {
 	[S("added or removed")] = 3,
 }
 
+local AirLikeBlocks = {"air"}
+for i = 1,14 do
+	-- Add light blocks from the mod "wielded_light" to the air-like blocks
+	AirLikeBlocks[#AirLikeBlocks + 1] = "wielded_light:" .. i
+end
+
 local function formspec(meta, nvm)
 	local numbers = meta:get_string("numbers") or ""
 	local label = S("added")..","..S("removed")..","..S("added or removed")
@@ -57,10 +63,10 @@ local function any_node_changed(pos)
 		local param2 = (node.param2 + 2) % 4
 		nvm.pos1 = logic.dest_pos(pos, param2, {0})
 		nvm.pos2 = logic.dest_pos(pos, param2, {0,0,0})
-		nvm.num = #minetest.find_nodes_in_area(nvm.pos1, nvm.pos2, {"air"})
+		nvm.num = #minetest.find_nodes_in_area(nvm.pos1, nvm.pos2, AirLikeBlocks)
 		return false
 	end
-	local num1 = #minetest.find_nodes_in_area(nvm.pos1, nvm.pos2, {"air"})
+	local num1 = #minetest.find_nodes_in_area(nvm.pos1, nvm.pos2, AirLikeBlocks)
 	local num2 = #minetest.find_nodes_in_area(nvm.pos1, nvm.pos2, {"ignore"})
 
 	if num2 == 0 and nvm.num ~= num1 then
