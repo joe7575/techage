@@ -21,9 +21,12 @@ local logic = techage.logic
 
 local CYCLE_TIME = 1
 
-local tStates = {stopped = 0, running = 0, standby = 1, blocked = 2, nopower = 3, fault = 4}
+-- The numbering seems strange here, but I had to add the "running" state
+-- afterwards without changing the behavior of the block.
+local tStates = {stopped = 0, running = 1, standby = 2, blocked = 3, fault = 4, defect = 5}
+local tDropdownPos = {["1 standby"] = 1, ["2 blocked"] = 2, ["3 fault"] = 3, ["4 defect"] = 4}
+local lStates = {[0] = "stopped", "running", "standby", "blocked", "fault", "defect"}
 local tDropdownPos = {["1 standby"] = 1, ["2 blocked"] = 2, ["3 nopower"] = 3, ["4 fault"] = 4}
-local lStates = {[0] = "stopped", "standby", "blocked", "nopower", "fault"}
 local TaStates = {running = 1, blocked = 2, standby = 3, nopower = 4, fault = 5, stopped = 6}
 
 local function formspec(nvm, meta)
@@ -50,7 +53,7 @@ local function send_event(nvm, meta)
 	if event_number ~= "" then
 		local severity = meta:get_int("dropdown_pos")
 		local own_number = meta:get_string("own_number")
-		if nvm.common_state >= severity then
+		if nvm.common_state > severity then
 			techage.send_multi(own_number, event_number, "on")
 		else
 			techage.send_multi(own_number, event_number, "off")
