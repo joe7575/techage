@@ -20,7 +20,7 @@ local liquid = techage.liquid
 local CYCLE_TIME = 2
 
 local function formspec(pos)
-	return "size[8,7]"..
+	return "size[8,8]"..
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
@@ -29,7 +29,7 @@ local function formspec(pos)
 		"list[context;src;0,0.8;3,3;]"..
 		"image[3.5,1.8;1,1;techage_form_arrow_bg.png^[transformR270]"..
 		"list[context;dst;5,0.8;3,3;]"..
-		"list[current_player;main;0,4.2;8,3;]"..
+		"list[current_player;main;0,4.2;8,4;]"..
 		"listring[current_player;main]"..
 		"listring[context;src]" ..
 		"listring[current_player;main]"..
