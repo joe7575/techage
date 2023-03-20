@@ -124,9 +124,10 @@ local function push(pos, crd, meta, nvm, pull_dir, push_dir, num)
 			return 0
 		elseif leftover ~= true then
 			-- place item back
+			taken = taken - leftover:get_count()
 			techage.unpull_items(pos, pull_dir, leftover)
 			crd.State:blocked(pos, nvm)
-			return taken - leftover:get_count()
+			return taken
 		end
 		return taken
 	end
