@@ -293,6 +293,28 @@ minetest.register_node("techage:rack_and_pinion", {
 	sounds = default.node_sound_metal_defaults(),
 })
 
+minetest.register_node("techage:moveblock", {
+	description = "Techage Invisible Move Block",
+	drawtype = "glasslike_framed_optional",
+	inventory_image = 'techage_inv_invisible.png',
+	tiles = {"techage_invisible.png"},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-16/32, -16/32, -16/32,  16/32, -14/32, 16/32},
+		},
+	},
+	paramtype = "light",
+	light_source = 0,
+	sunlight_propagates = true,
+	walkable = false,
+	pointable = true,
+	is_ground_content = false,
+	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	sounds = default.node_sound_glass_defaults(),
+})
+
+
 minetest.register_craft({
 	output = "techage:ta4_movecontroller",
 	recipe = {

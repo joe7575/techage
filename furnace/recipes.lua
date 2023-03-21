@@ -138,6 +138,14 @@ techage.furnace.register_recipe({
 })
 
 techage.furnace.register_recipe({
+	output = "techage:moveblock",
+	recipe = {
+		"techage:sieved_basalt_gravel",
+	},
+	time = 4,
+})
+
+techage.furnace.register_recipe({
 	output = "basic_materials:concrete_block 4",
 	recipe = {
 		"basic_materials:wet_cement",
