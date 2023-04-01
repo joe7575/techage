@@ -29,7 +29,7 @@ local menu = techage.menu
 local function formspec(pos)
 	local ndef = minetest.registered_nodes["techage:ta5_hl_chest"]
 	local status = M(pos):get_string("conn_status")
-	if hyperloop.is_client(pos) or hyperloop.is_server(pos) then
+	if hyperloop.is_server(pos) then
 		local title = ndef.description .. " " .. status
 		return "size[8,9]"..
 			"box[0,-0.1;7.8,0.5;#c6e8ff]" ..
@@ -38,6 +38,13 @@ local function formspec(pos)
 			"list[current_player;main;0,5.3;8,4;]"..
 			"listring[context;main]"..
 			"listring[current_player;main]"
+	elseif hyperloop.is_client(pos) then
+		local title = ndef.description .. " " .. status
+		return "size[8,9]"..
+			"box[0,-0.1;7.8,0.5;#c6e8ff]" ..
+			"label[0.2,-0.1;" .. minetest.colorize( "#000000", title) .. "]" ..
+			"label[0.2,2;Inventory access on client side disabled\ndue to minetest core issues!]" ..
+			"list[current_player;main;0,5.3;8,4;]"
 	else
 		return menu.generate_formspec(pos, ndef, hyperloop.SUBMENU)
 	end
@@ -45,6 +52,9 @@ end
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
+		return 0
+	end
+	if techage.hyperloop.is_client(pos) then
 		return 0
 	end
 	shared_inv.before_inv_access(pos, listname)
@@ -59,6 +69,9 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
 	end
+	if techage.hyperloop.is_client(pos) then
+		return 0
+	end
 	shared_inv.before_inv_access(pos, listname)
 	local inv = minetest.get_inventory({type="node", pos=pos})
 	if inv and inv:contains_item(listname, stack) then
@@ -69,6 +82,9 @@ end
 
 local function allow_metadata_inventory_move(pos, from_list, from_index, to_list, to_index, count, player)
 	if shared_inv.before_inv_access(pos, "main") then
+		return 0
+	end
+	if techage.hyperloop.is_client(pos) then
 		return 0
 	end
 	return count
