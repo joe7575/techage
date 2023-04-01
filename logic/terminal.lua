@@ -22,6 +22,7 @@ Local commands:
 - Output this message with 'help'
 - Switch to public use of buttons with 'pub'
 - Switch to private use of buttons with 'priv'
+- Output techage version with 'vers'
 - Program a user button with
    'set <button-num> <button-text> <command>'
    Example: 'set 1 ON cmd 1234 on'
@@ -35,6 +36,7 @@ Local commands:
 - Output this message with 'help'
 - Switch to public use of buttons with 'pub'
 - Switch to private use of buttons with 'priv'
+- Output techage version with 'vers'
 - Program a user button with
    'set <button-num> <button-text> <command>'
    Example: 'set 1 ON cmd 1234 on'
@@ -182,6 +184,9 @@ local function command(pos, command, player, is_ta4)
 		meta:set_int("public", 0)
 		output(pos, "$ "..command)
 		output(pos, "Switched to private buttons!")
+	elseif cmnd == "vers" then
+		output(pos, "$ "..command)
+		output(pos, "Techage version = " .. techage.version)
 	elseif cmnd == "connect" and data then
 		output(pos, "$ "..command)
 		if techage.not_protected(data, owner, owner) then
