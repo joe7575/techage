@@ -89,7 +89,7 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
-**2023-03-05  V1.12**
+**2023-04-01 V1.12**
 
 - Improve Transformer:
   - add wrench menu for 'max. power passed through'
@@ -97,6 +97,11 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 - Improve Electricmeter: 
   - add wrench menu for 'max. power passed through' and 'power countdown'
   - add commands to read the countdown value (Lua and Beduino controller)
+- Improve TA3 Mesecons Converter:
+  - fix overload bug
+  - fix missing dominant 'on' issue
+- Add version command to TA3/TA4 Terminal
+- TA5 Hyperloop Chest: Disable inventory access on client side due to minetest core issues
 
 **2023-03-05  V1.11**
 
