@@ -127,7 +127,7 @@ minetest.register_node("techage:furnace_firebox_on", {
 		"techage_concrete.png^techage_frame_ta3.png",
 		"techage_concrete.png^techage_frame_ta3.png",
 		{
-			image = "techage_concrete4.png^techage_appl_firehole4.png^techage_frame4_ta3.png",
+			name = "techage_concrete4.png^techage_appl_firehole4.png^techage_frame4_ta3.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

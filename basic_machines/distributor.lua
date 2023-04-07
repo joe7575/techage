@@ -475,7 +475,7 @@ local get_tiles = function(is_hp)
 	tiles.act = {
 		-- up, down, right, left, back, front
 		{
-			image = "techage_filling4_ta#.png^techage_appl_distri4.png^techage_frame4_ta#_top"..variant..".png^techage_appl_color_top4.png",
+			name = "techage_filling4_ta#.png^techage_appl_distri4.png^techage_frame4_ta#_top"..variant..".png^techage_appl_color_top4.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

@@ -331,7 +331,7 @@ minetest.register_node("techage:ta4_doser_on", {
 		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_hole_pipe.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png",
 		{
-			image = "techage_filling8_ta4.png^techage_frame8_ta4.png^techage_appl_pump_up8.png",
+			name = "techage_filling8_ta4.png^techage_frame8_ta4.png^techage_appl_pump_up8.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

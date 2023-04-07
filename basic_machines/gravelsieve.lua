@@ -133,7 +133,7 @@ tiles.pas = {
 tiles.act = {
 	-- up, down, right, left, back, front
 	{
-		image = "techage_appl_sieve4_top.png^techage_frame4_ta#_top.png",
+		name = "techage_appl_sieve4_top.png^techage_frame4_ta#_top.png",
 		backface_culling = false,
 		animation = {
 			type = "vertical_frames",

@@ -121,7 +121,7 @@ minetest.register_node("techage:ta2_generator_on", {
 		"techage_filling_ta2.png^techage_frame_ta2.png",
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_hole_electric.png",
 		{
-			image = "techage_filling4_ta2.png^techage_axle_clutch4.png^techage_frame4_ta2.png",
+			name = "techage_filling4_ta2.png^techage_axle_clutch4.png^techage_frame4_ta2.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -131,7 +131,7 @@ minetest.register_node("techage:ta2_generator_on", {
 			},
 		},
 		{
-			image = "techage_filling4_ta2.png^techage_appl_generator_red4.png^techage_frame4_ta2.png",
+			name = "techage_filling4_ta2.png^techage_appl_generator_red4.png^techage_frame4_ta2.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -141,7 +141,7 @@ minetest.register_node("techage:ta2_generator_on", {
 			},
 		},
 		{
-			image = "techage_filling4_ta2.png^techage_appl_generator_red4.png^[transformFX]^techage_frame4_ta2.png",
+			name = "techage_filling4_ta2.png^techage_appl_generator_red4.png^[transformFX]^techage_frame4_ta2.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

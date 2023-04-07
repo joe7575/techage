@@ -92,7 +92,7 @@ minetest.register_node("techage:ta5_turbine_on", {
 		"techage_filling_ta4.png^techage_appl_open.png^techage_frame_ta5.png",
 		"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_hole_pipe.png",
 		{
-			image = "techage_filling4_ta4.png^techage_appl_turbine4.png^techage_frame4_ta5.png^[transformFX",
+			name = "techage_filling4_ta4.png^techage_appl_turbine4.png^techage_frame4_ta5.png^[transformFX",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -102,7 +102,7 @@ minetest.register_node("techage:ta5_turbine_on", {
 			},
 		},
 		{
-			image = "techage_filling4_ta4.png^techage_appl_turbine4.png^techage_frame4_ta5.png",
+			name = "techage_filling4_ta4.png^techage_appl_turbine4.png^techage_frame4_ta5.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

@@ -152,7 +152,7 @@ tiles.act = {
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
 	{
-		image = "techage_filling4_ta#.png^techage_appl_electronic_fab4.png^techage_frame4_ta#.png",
+		name = "techage_filling4_ta#.png^techage_appl_electronic_fab4.png^techage_frame4_ta#.png",
 		backface_culling = false,
 		animation = {
 			type = "vertical_frames",
@@ -162,7 +162,7 @@ tiles.act = {
 		},
 	},
 	{
-		image = "techage_filling4_ta#.png^techage_appl_electronic_fab4.png^techage_frame4_ta#.png",
+		name = "techage_filling4_ta#.png^techage_appl_electronic_fab4.png^techage_frame4_ta#.png",
 		backface_culling = false,
 		animation = {
 			type = "vertical_frames",

@@ -103,7 +103,7 @@ minetest.register_node("techage:gearbox_on", {
 	tiles = {
 		-- up, down, right, left, back, front
 		{
-			image = "techage_filling4_ta2.png^techage_axle_gearbox4.png^techage_frame4_ta2.png",
+			name = "techage_filling4_ta2.png^techage_axle_gearbox4.png^techage_frame4_ta2.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

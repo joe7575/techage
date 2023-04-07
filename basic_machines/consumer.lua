@@ -104,7 +104,7 @@ local function prepare_tiles(tiles, stage, power_png)
 			tbl[#tbl+1] = item:gsub("#", stage):gsub("{power}", power_png):gsub("@@", '#')
 		else
 			local temp = table.copy(item)
-			temp.image = temp.image:gsub("#", stage):gsub("{power}", power_png):gsub("@@", '#')
+			temp.name = temp.name:gsub("#", stage):gsub("{power}", power_png):gsub("@@", '#')
 			tbl[#tbl+1] = temp
 		end
 	end

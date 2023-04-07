@@ -125,7 +125,7 @@ minetest.register_node("techage:ta3_motor_on", {
 		"techage_filling_ta3.png^techage_frame_ta3_top.png^techage_appl_arrow.png",
 		"techage_filling_ta3.png^techage_frame_ta3.png",
 		{
-			image = "techage_filling4_ta3.png^techage_axle_clutch4.png^techage_frame4_ta3.png",
+			name = "techage_filling4_ta3.png^techage_axle_clutch4.png^techage_frame4_ta3.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -136,7 +136,7 @@ minetest.register_node("techage:ta3_motor_on", {
 		},
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_hole_electric.png",
 		{
-			image = "techage_filling4_ta3.png^techage_appl_generator_red4.png^[transformFX]^techage_frame4_ta3.png",
+			name = "techage_filling4_ta3.png^techage_appl_generator_red4.png^[transformFX]^techage_frame4_ta3.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -146,7 +146,7 @@ minetest.register_node("techage:ta3_motor_on", {
 			},
 		},
 		{
-			image = "techage_filling4_ta3.png^techage_appl_generator_red4.png^techage_frame4_ta3.png",
+			name = "techage_filling4_ta3.png^techage_appl_generator_red4.png^techage_frame4_ta3.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

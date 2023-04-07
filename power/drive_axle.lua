@@ -84,7 +84,7 @@ minetest.register_node("techage:axle_on", {
 	description = S("TA2 Drive Axle"),
 	tiles = {
 		{
-			image = "techage_axle4R.png",
+			name = "techage_axle4R.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -94,7 +94,7 @@ minetest.register_node("techage:axle_on", {
 			},
 		},
 		{
-			image = "techage_axle4R.png",
+			name = "techage_axle4R.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -104,7 +104,7 @@ minetest.register_node("techage:axle_on", {
 			},
 		},
 		{
-			image = "techage_axle4.png",
+			name = "techage_axle4.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -114,7 +114,7 @@ minetest.register_node("techage:axle_on", {
 			},
 		},
 		{
-			image = "techage_axle4.png",
+			name = "techage_axle4.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -124,7 +124,7 @@ minetest.register_node("techage:axle_on", {
 			},
 		},
 		{
-			image = "techage_axle_clutch4.png",
+			name = "techage_axle_clutch4.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -134,7 +134,7 @@ minetest.register_node("techage:axle_on", {
 			},
 		},
 		{
-			image = "techage_axle_clutch4.png",
+			name = "techage_axle_clutch4.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

@@ -37,7 +37,7 @@ minetest.register_node("techage:cooler", {
 	tiles = {
 		-- up, down, right, left, back, front
 		{
-			image = "techage_filling4_ta3.png^techage_appl_cooler4.png^techage_frame4_ta3.png",
+			name = "techage_filling4_ta3.png^techage_appl_cooler4.png^techage_frame4_ta3.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -47,7 +47,7 @@ minetest.register_node("techage:cooler", {
 			},
 		},
 		{
-			image = "techage_filling4_ta3.png^techage_appl_cooler4.png^techage_frame4_ta3.png",
+			name = "techage_filling4_ta3.png^techage_appl_cooler4.png^techage_frame4_ta3.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -78,7 +78,7 @@ minetest.register_node("techage:cooler_on", {
 	tiles = {
 		-- up, down, right, left, back, front
 		{
-			image = "techage_filling4_ta3.png^techage_appl_cooler4.png^techage_frame4_ta3.png",
+			name = "techage_filling4_ta3.png^techage_appl_cooler4.png^techage_frame4_ta3.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -88,7 +88,7 @@ minetest.register_node("techage:cooler_on", {
 			},
 		},
 		{
-			image = "techage_filling4_ta3.png^techage_appl_cooler4.png^techage_frame4_ta3.png",
+			name = "techage_filling4_ta3.png^techage_appl_cooler4.png^techage_frame4_ta3.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

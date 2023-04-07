@@ -161,7 +161,7 @@ minetest.register_node("techage:flywheel_on", {
 		"techage_filling_ta2.png^techage_frame_ta2.png",
 		"techage_filling_ta2.png^techage_frame_ta2.png",
 		{
-			image = "techage_filling4_ta2.png^techage_axle_clutch4.png^techage_frame4_ta2.png",
+			name = "techage_filling4_ta2.png^techage_axle_clutch4.png^techage_frame4_ta2.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -172,7 +172,7 @@ minetest.register_node("techage:flywheel_on", {
 		},
 		"techage_filling_ta2.png^techage_appl_open.png^techage_frame_ta2.png",
 		{
-			image = "techage_filling8_ta2.png^techage_frame8_ta2.png^techage_flywheel8.png",
+			name = "techage_filling8_ta2.png^techage_frame8_ta2.png^techage_flywheel8.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -182,7 +182,7 @@ minetest.register_node("techage:flywheel_on", {
 			},
 		},
 		{
-			image = "techage_filling8_ta2.png^techage_frame8_ta2.png^techage_flywheel8.png^[transformFX]",
+			name = "techage_filling8_ta2.png^techage_frame8_ta2.png^techage_flywheel8.png^[transformFX]",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

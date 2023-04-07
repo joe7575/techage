@@ -215,7 +215,7 @@ minetest.register_node("techage:ta4_fuelcell_on", {
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_hole_electric.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_hole_pipe.png",
 		{
-			image = "techage_filling4_ta4.png^techage_frame4_ta4.png^techage_appl_fuelcell4.png^techage_appl_ctrl_unit4.png^[transformFX",
+			name = "techage_filling4_ta4.png^techage_frame4_ta4.png^techage_appl_fuelcell4.png^techage_appl_ctrl_unit4.png^[transformFX",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -225,7 +225,7 @@ minetest.register_node("techage:ta4_fuelcell_on", {
 			},
 		},
 		{
-			image = "techage_filling4_ta4.png^techage_frame4_ta4.png^techage_appl_fuelcell4.png^techage_appl_ctrl_unit4.png",
+			name = "techage_filling4_ta4.png^techage_frame4_ta4.png^techage_appl_fuelcell4.png^techage_appl_ctrl_unit4.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

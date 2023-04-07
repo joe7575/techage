@@ -248,7 +248,7 @@ minetest.register_node("techage:tiny_generator_on", {
 		"techage_appl_electric_gen_side.png^techage_appl_hole_electric.png^techage_frame_ta3.png",
 		"techage_appl_electric_gen_side.png^techage_frame_ta3.png",
 		{
-			image = "techage_appl_electric_gen_front4.png^[transformFX]^techage_frame4_ta3.png",
+			name = "techage_appl_electric_gen_front4.png^[transformFX]^techage_frame4_ta3.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -258,7 +258,7 @@ minetest.register_node("techage:tiny_generator_on", {
 			},
 		},
 		{
-			image = "techage_appl_electric_gen_front4.png^techage_frame4_ta3.png",
+			name = "techage_appl_electric_gen_front4.png^techage_frame4_ta3.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

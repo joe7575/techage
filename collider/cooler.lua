@@ -23,7 +23,7 @@ minetest.register_node("techage:ta4_collider_cooler", {
 	tiles = {
 		-- up, down, right, left, back, front
 		{
-			image = "techage_appl_cooler4.png^techage_frame4_ta4_top.png",
+			name = "techage_appl_cooler4.png^techage_frame4_ta4_top.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -33,7 +33,7 @@ minetest.register_node("techage:ta4_collider_cooler", {
 			},
 		},
 		{
-			image = "techage_appl_cooler4.png^techage_frame4_ta4_top.png",
+			name = "techage_appl_cooler4.png^techage_frame4_ta4_top.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

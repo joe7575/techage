@@ -269,7 +269,7 @@ minetest.register_node("techage:oilexplorer_on", {
 	description = S("TA3 Oil Explorer"),
 	tiles = {
 		{
-			image = "techage_filling4_ta3.png^techage_appl_oilexplorer_top4.png^techage_frame4_ta3_top.png",
+			name = "techage_filling4_ta3.png^techage_appl_oilexplorer_top4.png^techage_frame4_ta3_top.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

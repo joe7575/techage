@@ -198,7 +198,7 @@ local ta3_tiles_act = {
 	"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 	"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 	{
-		image = "techage_filling8_ta3.png^techage_appl_pump8.png^techage_frame8_ta3.png^[transformFX",
+		name = "techage_filling8_ta3.png^techage_appl_pump8.png^techage_frame8_ta3.png^[transformFX",
 		backface_culling = false,
 		animation = {
 			type = "vertical_frames",
@@ -208,7 +208,7 @@ local ta3_tiles_act = {
 		},
 	},
 	{
-		image = "techage_filling8_ta3.png^techage_appl_pump8.png^techage_frame8_ta3.png",
+		name = "techage_filling8_ta3.png^techage_appl_pump8.png^techage_frame8_ta3.png",
 		backface_culling = false,
 		animation = {
 			type = "vertical_frames",
@@ -226,7 +226,7 @@ local ta4_tiles_act = {
 	"techage_filling_ta4.png^techage_appl_hole_pipe.png^techage_frame_ta4.png",
 	"techage_filling_ta4.png^techage_appl_hole_pipe.png^techage_frame_ta4.png",
 	{
-		image = "techage_filling8_ta4.png^techage_appl_pump8.png^techage_frame8_ta4.png^[transformFX",
+		name = "techage_filling8_ta4.png^techage_appl_pump8.png^techage_frame8_ta4.png^[transformFX",
 		backface_culling = false,
 		animation = {
 			type = "vertical_frames",
@@ -236,7 +236,7 @@ local ta4_tiles_act = {
 		},
 	},
 	{
-		image = "techage_filling8_ta4.png^techage_appl_pump8.png^techage_frame8_ta4.png",
+		name = "techage_filling8_ta4.png^techage_appl_pump8.png^techage_frame8_ta4.png",
 		backface_culling = false,
 		animation = {
 			type = "vertical_frames",

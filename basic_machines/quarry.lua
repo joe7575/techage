@@ -328,7 +328,7 @@ tiles.act = {
 	"techage_filling_ta#.png^techage_frame_ta#.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	{
-		image = "techage_frame14_ta#.png^techage_quarry_left14.png",
+		name = "techage_frame14_ta#.png^techage_quarry_left14.png",
 		backface_culling = false,
 		animation = {
 			type = "vertical_frames",

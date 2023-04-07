@@ -101,7 +101,7 @@ minetest.register_node("techage:cylinder_on", {
 		"techage_filling_ta2.png^techage_appl_open.png^techage_frame_ta2.png",
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_steam_hole.png",
 		{
-			image = "techage_filling4_ta2.png^techage_cylinder4.png^techage_frame4_ta2.png",
+			name = "techage_filling4_ta2.png^techage_cylinder4.png^techage_frame4_ta2.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -111,7 +111,7 @@ minetest.register_node("techage:cylinder_on", {
 			},
 		},
 		{
-			image = "techage_filling4_ta2.png^techage_cylinder4.png^techage_frame4_ta2.png",
+			name = "techage_filling4_ta2.png^techage_cylinder4.png^techage_frame4_ta2.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

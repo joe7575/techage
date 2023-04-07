@@ -38,7 +38,7 @@ minetest.register_node("techage:ta4_server", {
 		"techage_server_side.png^[transformFX",
 		"techage_server_back.png",
 		{
-			image = "techage_server_front.png",
+			name = "techage_server_front.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
@@ -130,7 +130,7 @@ minetest.register_node("techage:ta4_server2", {
 		"techage_server2_side.png^[transformFX",
 		"techage_server2_back.png",
 		{
-			image = "techage_server2_front.png",
+			name = "techage_server2_front.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

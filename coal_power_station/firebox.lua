@@ -149,7 +149,7 @@ minetest.register_node("techage:coalfirehole_on", {
 		"techage_coal_boiler.png^[colorize:black:80",
 		"techage_coal_boiler.png^[colorize:black:80",
 		{
-			image = "techage_coal_boiler4.png^[colorize:black:80^techage_appl_firehole4.png",
+			name = "techage_coal_boiler4.png^[colorize:black:80^techage_appl_firehole4.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

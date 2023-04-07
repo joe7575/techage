@@ -335,7 +335,7 @@ minetest.register_node("techage:meltingpot_active", {
 	description = S("TA1 Melting Pot"),
 	tiles = {
 		{
-			image = "techage_meltingpot_top_active.png",
+			name = "techage_meltingpot_top_active.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",

@@ -149,7 +149,7 @@ tiles.act = {
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_hole_pipe.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_hole_pipe.png",
 	{
-		image = "techage_appl_pumpjack14.png^techage_frame14_ta#.png",
+		name = "techage_appl_pumpjack14.png^techage_frame14_ta#.png",
 		backface_culling = false,
 		animation = {
 			type = "vertical_frames",
@@ -159,7 +159,7 @@ tiles.act = {
 		},
 	},
 	{
-		image = "techage_appl_pumpjack14.png^techage_frame14_ta#.png",
+		name = "techage_appl_pumpjack14.png^techage_frame14_ta#.png",
 		backface_culling = false,
 		animation = {
 			type = "vertical_frames",
