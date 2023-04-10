@@ -168,6 +168,7 @@ end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	Pipe:after_dig_node(pos)
+	techage.remove_node(pos, oldnode, oldmetadata)
 	techage.del_mem(pos)
 end
 
