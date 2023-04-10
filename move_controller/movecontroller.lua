@@ -56,6 +56,14 @@ local WRENCH_MENU = {
 		tooltip = S("Switch to the remote controlled 'move xyz' mode"),
 		default = "A-B / B-A",
 	},
+	{
+		type = "dropdown",
+		choices = "disable,enable",
+		name = "teleport_mode",
+		label = S("Teleport mode"),
+		tooltip = S("Move a player without moving blocks"),
+		default = "disable",
+	},
 }
 
 local function formspec(nvm, meta)
@@ -310,7 +318,7 @@ minetest.register_node("techage:moveblock", {
 	walkable = false,
 	pointable = true,
 	is_ground_content = false,
-	groups = {cracky = 3, oddly_breakable_by_hand = 3},
+	groups = {cracky = 3, oddly_breakable_by_hand = 3, not_in_creative_inventory = 1},
 	sounds = default.node_sound_glass_defaults(),
 })
 

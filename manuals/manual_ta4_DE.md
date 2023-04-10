@@ -578,7 +578,7 @@ Da die bewegten Blöcke Spieler und Mobs mitnehmen können, die auf dem Block st
 
 Anleitung:
 
-- Controller setzen und die Blöcke, die bewegt werden sollen, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)
+- Controller setzen und die Blöcke, die bewegt werden sollen, über das Menü (Taste "Aufzeichnen") an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)
 - die "Flugstrecke" muss über eine x,y,z Angabe (relativ) eingegeben werden (die maximale Distanz (x+y+z) beträgt 200 m)
 - mit den Menü-Tasten "Bewege A-B" sowie "Bewege B-A" kann die Bewegung getestet werden
 - man kann auch durch Wände oder andere Blöcke fliegen
@@ -595,6 +595,10 @@ Der Move Controller unterstützt folgende techage Kommandos:
 - `move2`  Beim Kommando muss zusätzlich die Flugstrecke als x,y,z Vektor angegeben werden.
   Beispiel Lua Controller: `$send_cmnd(MOVE_CTLR, "move2", "0,12,0")`
 - `reset` Block/Blöcke zurück in Startposition bewegen
+
+**Teleport Mode**
+
+Wird der `Teleport Mode` aktiviert (auf `enable` gesetzt), kann ein Spieler auch ohne Blöcke bewegt werden. Dazu muss die Startposition über die Taste "Aufzeichnen" konfiguriert werden. Es kann hier nur eine Position konfiguriert werden. Das Spieler, der bewegt werden soll, muss dazu auf dieser Position stehen.
 
 **Wichtige Hinweise:**
 

@@ -95,7 +95,7 @@ minetest.register_node("techage:ta3_mesecons_converter", {
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		mesecon.on_placenode(pos, minetest.get_node(pos))
 	end,
-	
+
 	on_receive_fields = on_receive_fields,
 	on_timer = on_timer,
 	techage_set_numbers = techage_set_numbers,

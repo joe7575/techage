@@ -86,8 +86,11 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 **Never disable 'lsqlite3' for a world that has already been used!**
 
-
 ### History
+
+**2023-04-10 V1.13**
+
+- Add "Teleport mode" to ta4 move and ta5 fly controller
 
 **2023-04-01 V1.12**
 

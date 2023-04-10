@@ -56,10 +56,12 @@ local function set_node(item, playername)
 			return
 		elseif ndef2.buildable_to then
 			local meta = M(dest_pos)
-			minetest.set_node(dest_pos, {name=name, param2=param2})
-			meta:from_table(item.metadata or {})
-			meta:set_string("ta_move_block", "")
-			meta:set_int("ta_door_locked", 1)
+			if name ~= "techage:moveblock" then
+				minetest.set_node(dest_pos, {name=name, param2=param2})
+				meta:from_table(item.metadata or {})
+				meta:set_string("ta_move_block", "")
+				meta:set_int("ta_door_locked", 1)
+			end
 			return
 		end
 		local meta = M(dest_pos)
@@ -68,7 +70,9 @@ local function set_node(item, playername)
 			return
 		end
 	elseif ndef1 then
-		minetest.add_item(dest_pos, ItemStack(name))
+		if name ~= "techage:moveblock" then
+			minetest.add_item(dest_pos, ItemStack(name))
+		end
 	end
 end
 
@@ -606,6 +610,10 @@ local function move_node(pos, meta, pos1, lmove, max_speed, height)
 	end
 end
 
+--
+-- Default Move Mode
+--
+
 -- Move the nodes from nvm.lpos1 to nvm.lpos2
 -- * nvm.lpos1 is a list of nodes
 -- * lmove is the movement as a list of `moves`
@@ -695,6 +703,86 @@ local function move_nodes(pos, meta, lpos1, move, max_speed, height)
 	return true, lpos2
 end
 
+--
+-- Teleport Mode
+--
+local function is_player_available(lpos1)
+	if #lpos1 == 1 then
+		for _, obj in pairs(minetest.get_objects_inside_radius(lpos1[1], 0.9)) do
+			if obj:is_player() then
+				return true
+			end
+		end
+	end
+end
+
+local function teleport(base_pos, pos1, pos2, meta, owner, lmove, max_speed)
+	if not minetest.is_protected(pos1, owner) and not minetest.is_protected(pos2, owner) then
+		local node1 = techage.get_node_lvm(pos1)
+		local node2 = techage.get_node_lvm(pos2)
+		if techage.is_air_like(node1.name) and  techage.is_air_like(node2.name) then
+			minetest.swap_node(pos1, {name = "techage:moveblock", param2 = 0})
+			if move_node(base_pos, meta, pos1, lmove, max_speed, 0) == false then
+				meta:set_string("status", S("No valid start position"))
+				return false
+			end
+		else
+			if not techage.is_air_like(node1.name) then
+				meta:set_string("status", S("No valid start position"))
+			else
+				meta:set_string("status", S("No valid destination position"))
+			end
+			return false
+		end
+	else
+		if minetest.is_protected(pos1, owner) then
+			meta:set_string("status", S("Start position is protected"))
+		else
+			meta:set_string("status", S("Destination position is protected"))
+		end
+		return false
+	end
+	meta:set_string("status", S("Running"))
+	return true
+end
+
+-- Move the player from nvm.lpos1 to nvm.lpos2
+-- * nvm.lpos1 is a list of length one(!) with the not to be moved block below the player
+-- * lmove is the movement as a list of `moves`
+-- * pos, meta, and nvm are controller block related
+local function multi_teleport_player(base_pos, meta, nvm, lmove, max_speed, move2to1)
+	local owner = meta:get_string("owner")
+	techage.counting_add(owner, #lmove, #nvm.lpos1 * #lmove)
+
+	local pos1 = vector.add(nvm.lpos1[1], {x=0, y=1, z=0})
+	local pos2 = vector.add(nvm.lpos2[1], {x=0, y=1, z=0})
+
+	if move2to1 then
+		pos1, pos2 = pos2, pos1
+	end
+
+	return teleport(base_pos, pos1, pos2, meta, owner, lmove, max_speed)
+end
+
+-- Move the player from lpos1 to lpos2.
+-- * lpos1 is a list of length one(!) with the not to be moved block below the player
+-- * lpos2 = lpos1 + move
+-- * pos and meta are controller block related
+local function teleport_player(base_pos, meta, lpos1, move, max_speed)
+	local owner = meta:get_string("owner")
+	lpos1 = lpos1 or {}
+	techage.counting_add(owner, #lpos1)
+
+	local pos1 = vector.add(lpos1[1], {x=0, y=1, z=0})
+	local pos2 = vector.add(pos1, move)
+
+	return teleport(base_pos, pos1, pos2, meta, owner, {move}, max_speed), nil
+end
+
+--------------------------------------------------------------------------------------
+-- API
+--------------------------------------------------------------------------------------
+
 -- move2to1 is the direction and is true for 'from pos2 to pos1'
 -- Move path and other data is stored as meta data of pos
 function flylib.move_to_other_pos(pos, move2to1)
@@ -703,6 +791,7 @@ function flylib.move_to_other_pos(pos, move2to1)
 	local lmove, err = flylib.to_path(meta:get_string("path")) or {}
 	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
 	local height = meta:contains("height") and meta:get_float("height") or 1
+	local teleport_mode = meta:get_string("teleport_mode") == "enable"
 
 	if err or nvm.running then return false end
 
@@ -716,8 +805,13 @@ function flylib.move_to_other_pos(pos, move2to1)
 	end
 	-- calc destination positions
 	nvm.lpos2 = lvect_add_vec(nvm.lpos1, offs)
+	local lpos = move2to1 and nvm.lpos2 or nvm.lpos1
 
-	nvm.running = multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2to1)
+	if teleport_mode and is_player_available(lpos) then
+		nvm.running = multi_teleport_player(pos, meta, nvm, lmove, max_speed, move2to1)
+	elseif not teleport_mode then
+		nvm.running = multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2to1)
+	end
 	nvm.moveBA = nvm.running and not move2to1
 	return nvm.running
 end
@@ -728,10 +822,15 @@ function flylib.move_to(pos, move)
 	local nvm = techage.get_nvm(pos)
 	local height = techage.in_range(meta:contains("height") and meta:get_float("height") or 1, 0, 1)
 	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
+	local teleport_mode = meta:get_string("teleport_mode") == "enable"
 
 	if nvm.running then return false end
 
-	nvm.running, nvm.lastpos = move_nodes(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed, height)
+	if teleport_mode and is_player_available(nvm.lpos1) then
+		nvm.running, nvm.lastpos = teleport_player(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed)
+	elseif not teleport_mode then
+		nvm.running, nvm.lastpos = move_nodes(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed, height)
+	end
 	return nvm.running
 end
 
@@ -742,6 +841,7 @@ function flylib.reset_move(pos)
 	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
 
 	if nvm.running then return false end
+	if meta:get_string("teleport_mode") == "enable" then return false end
 
 	if nvm.lpos1 and nvm.lpos1[1] then
 		local move = vector.subtract(nvm.lpos1[1], (nvm.lastpos or nvm.lpos1)[1])

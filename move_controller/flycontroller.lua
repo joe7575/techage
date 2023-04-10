@@ -49,6 +49,14 @@ local WRENCH_MENU = {
 		tooltip = S("Y-offset for non-player objects like vehicles (-0.5 to 0.5)"),
 		default = "0.0",
 	},
+	{
+		type = "dropdown",
+		choices = "disable,enable",
+		name = "teleport_mode",
+		label = S("Teleport mode"),
+		tooltip = S("Move a player without moving blocks"),
+		default = "disable",
+	},
 }
 
 local function formspec(nvm, meta)

@@ -585,6 +585,10 @@ You can switch to the `move xyz` operating mode via the wrench menu. After switc
   Example Lua Controller: `$send_cmnd(MOVE_CTLR, "move2", "0,12,0")` 
 - `reset` move block(s) back to start position
 
+**Teleport mode**
+
+If the 'Teleport Mode' is enabled, a player can also be moved without blocks. To do this, the start position must be configured using the "Record" button. Only one position can be configured here. The player to be moved must be in that position.
+
 **Important instructions:**
 
 - If several blocks are to be moved, the block that is to take the players/mobs must be clicked first when training.

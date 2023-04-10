@@ -1721,7 +1721,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Anleitung:\n"..
   "\n"..
-  "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
+  "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü (Taste \"Aufzeichnen\") an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
   "  - die \"Flugstrecke\" muss über eine x\\,y\\,z Angabe (relativ) eingegeben werden (die maximale Distanz (x+y+z) beträgt 200 m)\n"..
   "  - mit den Menü-Tasten \"Bewege A-B\" sowie \"Bewege B-A\" kann die Bewegung getestet werden\n"..
   "  - man kann auch durch Wände oder andere Blöcke fliegen\n"..
@@ -1737,6 +1737,10 @@ techage.manual_DE.aText = {
   "\n"..
   "  - 'move2'  Beim Kommando muss zusätzlich die Flugstrecke als x\\,y\\,z Vektor angegeben werden.\nBeispiel Lua Controller: '$send_cmnd(MOVE_CTLR\\, \"move2\"\\, \"0\\,12\\,0\")'\n"..
   "  - 'reset' Block/Blöcke zurück in Startposition bewegen\n"..
+  "\n"..
+  "*Teleport Mode*\n"..
+  "\n"..
+  "Wird der 'Teleport Mode' aktiviert\\, kann ein Spieler auch ohne Blöcke bewegt werden. Dazu muss die Startposition über die Taste \"Aufzeichnen\" konfiguriert werden. Es kann hier nur eine Position konfiguriert werden. Das Spieler der bewegt werden soll\\, muss dazu auf dieser Position stehen.\n"..
   "\n"..
   "*Wichtige Hinweise:*\n"..
   "\n"..
