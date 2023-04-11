@@ -53,8 +53,8 @@ local NodeNames = {
 
 	"techage:basalt_glass",
 	"techage:basalt_glass2",
-	"techage:bauxite_stone",
 	"techage:bauxite_cobble",
+	"techage:bauxite_stone",
 
 	"techage:cement_block",
 }
@@ -64,6 +64,9 @@ if(minetest.get_modpath("moreblocks")) then
 		local ndef = minetest.registered_nodes[name]
 		if ndef then
 			ndef = table.copy(ndef)
+			if ndef.drop then -- this fixes https://github.com/fluxionary/minetest-moreblocks/issues/19
+				ndef.drop = nil
+			end
 			local subname = string.split(name, ":")[2]
 			ndef.sunlight_propagates = true
 			ndef.groups.not_in_creative_inventory = 1
