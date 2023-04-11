@@ -424,7 +424,7 @@ The signal tower can display red, green and orange. A combination of the 3 color
 
 ## TA4 Lua Controller
 
-As the name suggests, the Lua controller must be programmed in the Lua programming language. You should also be able to speak some English. The manual in English is here available:
+As the name suggests, the Lua controller must be programmed in the Lua programming language. The manual in English is here available:
 
 https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md
 

@@ -1740,7 +1740,7 @@ techage.manual_DE.aText = {
   "\n"..
   "*Teleport Mode*\n"..
   "\n"..
-  "Wird der 'Teleport Mode' aktiviert\\, kann ein Spieler auch ohne Blöcke bewegt werden. Dazu muss die Startposition über die Taste \"Aufzeichnen\" konfiguriert werden. Es kann hier nur eine Position konfiguriert werden. Das Spieler der bewegt werden soll\\, muss dazu auf dieser Position stehen.\n"..
+  "Wird der 'Teleport Mode' aktiviert (auf 'enable' gesetzt)\\, kann ein Spieler auch ohne Blöcke bewegt werden. Dazu muss die Startposition über die Taste \"Aufzeichnen\" konfiguriert werden. Es kann hier nur eine Position konfiguriert werden. Das Spieler\\, der bewegt werden soll\\, muss dazu auf dieser Position stehen.\n"..
   "\n"..
   "*Wichtige Hinweise:*\n"..
   "\n"..

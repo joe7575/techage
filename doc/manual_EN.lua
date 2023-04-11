@@ -1622,7 +1622,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "As the name suggests\\, the Lua controller must be programmed in the Lua programming language. You should also be able to speak some English. The manual in English is here available:\n"..
+  "As the name suggests\\, the Lua controller must be programmed in the Lua programming language. The manual in English is here available:\n"..
   "\n"..
   "https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md\n"..
   "\n"..
