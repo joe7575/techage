@@ -596,10 +596,6 @@ Der Move Controller unterstützt folgende techage Kommandos:
   Beispiel Lua Controller: `$send_cmnd(MOVE_CTLR, "move2", "0,12,0")`
 - `reset` Block/Blöcke zurück in Startposition bewegen
 
-**Teleport Mode**
-
-Wird der `Teleport Mode` aktiviert (auf `enable` gesetzt), kann ein Spieler auch ohne Blöcke bewegt werden. Dazu muss die Startposition über die Taste "Aufzeichnen" konfiguriert werden. Es kann hier nur eine Position konfiguriert werden. Das Spieler, der bewegt werden soll, muss dazu auf dieser Position stehen.
-
 **Wichtige Hinweise:**
 
 - Sofern mehrere Blöcke bewegt werden sollen, muss der Block, der die Spieler/Mobs mitnehmen soll, beim Antrainieren als erstes angeklickt werden.

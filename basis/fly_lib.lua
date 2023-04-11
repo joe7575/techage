@@ -826,11 +826,12 @@ function flylib.move_to(pos, move)
 
 	if nvm.running then return false end
 
-	if teleport_mode and is_player_available(nvm.lpos1) then
-		nvm.running, nvm.lastpos = teleport_player(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed)
-	elseif not teleport_mode then
+	-- TODO: Not working so far. There is no known 'nvm.lastpos' as start pos.
+	--if teleport_mode and is_player_available(nvm.lpos1) then
+	--	nvm.running, nvm.lastpos = teleport_player(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed)
+	--elseif not teleport_mode then
 		nvm.running, nvm.lastpos = move_nodes(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed, height)
-	end
+	--end
 	return nvm.running
 end
 

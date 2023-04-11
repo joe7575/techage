@@ -82,6 +82,10 @@ The maximum distance for the entire flight distance is 500 m.
 
 The use of the TA5 Flight Controller requires 40 experience points.
 
+**Teleport mode**
+
+If the 'Teleport Mode' is enabled, a player can also be moved without blocks. To do this, the start position must be configured using the "Record" button. Only one position can be configured here. The player to be moved must be in that position.
+
 [ta5_flycontroller|image]
 
 ### TA5 Hyperloop Chest

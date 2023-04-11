@@ -56,14 +56,6 @@ local WRENCH_MENU = {
 		tooltip = S("Switch to the remote controlled 'move xyz' mode"),
 		default = "A-B / B-A",
 	},
-	{
-		type = "dropdown",
-		choices = "disable,enable",
-		name = "teleport_mode",
-		label = S("Teleport mode"),
-		tooltip = S("Move a player without moving blocks"),
-		default = "disable",
-	},
 }
 
 local function formspec(nvm, meta)
@@ -269,6 +261,7 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 	end,
 	on_node_load = function(pos, node)
 		local nvm = techage.get_nvm(pos)
+		M(pos):set_string("teleport_mode", "") -- delete not working op mode
 		nvm.running = false
 	end,
 })

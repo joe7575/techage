@@ -90,7 +90,7 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 **2023-04-10 V1.13**
 
-- Add "Teleport mode" to ta4 move and ta5 fly controller
+- Add "Teleport mode" to the ta5 fly controller
 
 **2023-04-01 V1.12**
 

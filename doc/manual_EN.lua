@@ -1745,10 +1745,6 @@ techage.manual_EN.aText = {
   "  - 'move2' With the command\\, the flight route must also be specified as an x\\,y\\,z vector.\nExample Lua Controller: '$send_cmnd(MOVE_CTLR\\, \"move2\"\\, \"0\\,12\\,0\")'\n"..
   "  - 'reset' move block(s) back to start position\n"..
   "\n"..
-  "*Teleport mode*\n"..
-  "\n"..
-  "If the 'Teleport Mode' is enabled\\, a player can also be moved without blocks. To do this\\, the start position must be configured using the \"Record\" button. Only one position can be configured here. The player to be moved must be in that position.\n"..
-  "\n"..
   "*Important instructions:*\n"..
   "\n"..
   "  - If several blocks are to be moved\\, the block that is to take the players/mobs must be clicked first when training.\n"..
@@ -2114,6 +2110,10 @@ techage.manual_EN.aText = {
   "The maximum distance for the entire flight distance is 500 m.\n"..
   "\n"..
   "The use of the TA5 Flight Controller requires 40 experience points.\n"..
+  "\n"..
+  "*Teleport mode*\n"..
+  "\n"..
+  "If the 'Teleport Mode' is enabled\\, a player can also be moved without blocks. To do this\\, the start position must be configured using the \"Record\" button. Only one position can be configured here. The player to be moved must be in that position.\n"..
   "\n"..
   "\n"..
   "\n",

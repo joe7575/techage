@@ -1738,10 +1738,6 @@ techage.manual_DE.aText = {
   "  - 'move2'  Beim Kommando muss zusätzlich die Flugstrecke als x\\,y\\,z Vektor angegeben werden.\nBeispiel Lua Controller: '$send_cmnd(MOVE_CTLR\\, \"move2\"\\, \"0\\,12\\,0\")'\n"..
   "  - 'reset' Block/Blöcke zurück in Startposition bewegen\n"..
   "\n"..
-  "*Teleport Mode*\n"..
-  "\n"..
-  "Wird der 'Teleport Mode' aktiviert (auf 'enable' gesetzt)\\, kann ein Spieler auch ohne Blöcke bewegt werden. Dazu muss die Startposition über die Taste \"Aufzeichnen\" konfiguriert werden. Es kann hier nur eine Position konfiguriert werden. Das Spieler\\, der bewegt werden soll\\, muss dazu auf dieser Position stehen.\n"..
-  "\n"..
   "*Wichtige Hinweise:*\n"..
   "\n"..
   "  - Sofern mehrere Blöcke bewegt werden sollen\\, muss der Block\\, der die Spieler/Mobs mitnehmen soll\\, beim Antrainieren als erstes angeklickt werden.\n"..
@@ -2106,6 +2102,10 @@ techage.manual_DE.aText = {
   "Die maximale Distanz für die gesammte Flugstrecke beträgt 500 m.\n"..
   "\n"..
   "Die Nutzung des TA5 Flug Controllers benötigt 40 Erfahrungspunkte.\n"..
+  "\n"..
+  "*Teleport Mode*\n"..
+  "\n"..
+  "Wird der 'Teleport Mode' aktiviert (auf 'enable' gesetzt)\\, kann ein Spieler auch ohne Blöcke bewegt werden. Dazu muss die Startposition über die Taste \"Aufzeichnen\" konfiguriert werden. Es kann hier nur eine Position konfiguriert werden. Das Spieler\\, der bewegt werden soll\\, muss dazu auf dieser Position stehen. \n"..
   "\n"..
   "\n"..
   "\n",
