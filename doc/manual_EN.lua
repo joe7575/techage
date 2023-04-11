@@ -397,7 +397,7 @@ techage.manual_EN.aText = {
   "  - Build a stone tower (cobble) with a 3x3 base (7-11 blocks high)\n"..
   "  - Leave a hole open on one side at the bottom\n"..
   "  - Put a lighter in it\n"..
-  "  - Fill the tower with charcoal from the top to the top\n"..
+  "  - Fill the tower with charcoal from the bottom to the top\n"..
   "  - Light the lighter through the hole\n"..
   "  - Place the melting pot in the flame over the tower\n(one block above the flame)\n"..
   "  - To stop the burner\\, temporarily close the hole with an dirt block\\, for example.\n"..
