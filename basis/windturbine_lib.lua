@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -15,6 +15,12 @@
 local S = techage.S
 local P = minetest.string_to_pos
 local M = minetest.get_meta
+
+local OCEAN = "ocean"
+
+if minetest.global_exists("asuna") then
+	OCEAN = "below"
+end
 
 local function chat_message(player_name, msg)
 	if player_name then
@@ -39,7 +45,7 @@ function techage.valid_place_for_windturbine(pos, player_name, num_turbines)
 	local data = minetest.get_biome_data({x=pos.x, y=-2, z=pos.z})
 	if data then
 		local name = minetest.get_biome_name(data.biome)
-		if not string.find(name, "ocean") then
+		if not string.find(name, OCEAN) then
 			return chat_message(player_name, S("This is a").." "..name.." "..S("biome and no ocean!"))
 		end
 	end
