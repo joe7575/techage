@@ -29,7 +29,7 @@ local ProbabilityCorrections = {
 -- collect all registered ores and calculate the probability
 local function add_ores()
 	for _,item in  pairs(minetest.registered_ores) do
-		if minetest.registered_nodes[item.ore] then
+		if not ore_probability[item.ore] and minetest.registered_nodes[item.ore] then
 			local drop = minetest.registered_nodes[item.ore].drop
 			if type(drop) == "string"
 			and drop ~= item.ore
@@ -66,8 +66,14 @@ local function add_ores()
 	minetest.log("info", string.format("[techage] Overall probability %g", overall_probability))
 end
 
-minetest.after(1, add_ores)
+minetest.register_on_mods_loaded(add_ores)
 
+--
+--  Change the probability of ores or register new ores for sieving
+--
+function techage.register_ore_for_gravelsieve(ore_name, probability)
+	ore_probability[ore_name] = probability
+end
 
 -- determine ore based on the calculated probability
 function techage.gravelsieve_get_random_gravel_ore()
