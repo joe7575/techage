@@ -88,6 +88,15 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2023-04-16 V1.14**
+
+- Add file "api.md"
+- Add API function `register_ore_for_gravelsieve`
+- Add support for the game Asuna
+- Merge pull request #124 from Niklp09/drops
+- Fix keep node number issue
+- Fix manual issue #123
+
 **2023-04-10 V1.13**
 
 - Add "Teleport mode" to the ta5 fly controller
