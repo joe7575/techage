@@ -51,7 +51,7 @@ Bauanleitung (siehe auch Plan):
 * Baue einen Turm aus Stein (cobble) mit einer 3x3 Grundfläche (7-11 Blöcke hoch)
 * Lasse unten ein Loch an einer Seite offen
 * Lege einen Anzünder (lighter) hinein
-* Fülle den Turm von oben bis zum Rand mit Holzkohle
+* Fülle den Turm bis zum Rand mit Holzkohle, in dem du die Holzkohle von oben in das Loch fallen lässt
 * Zünde den Anzünder durch das Loch an
 * Platziere den Schmelztiegel in die Flamme über dem Turm
   einen Block über der Flamme)

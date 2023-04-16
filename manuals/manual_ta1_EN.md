@@ -50,7 +50,7 @@ Building instructions (see also plan):
 * Build a stone tower (cobble) with a 3x3 base (7-11 blocks high)
 * Leave a hole open on one side at the bottom
 * Put a lighter in it
-* Fill the tower with charcoal from the top to the top
+* Fill the tower to the brim with charcoal by dropping the charcoal into the hole from above
 * Light the lighter through the hole
 * Place the melting pot in the flame over the tower
   (one block above the flame)
