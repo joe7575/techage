@@ -169,7 +169,7 @@ local function on_rightclick(pos, node, clicker, itemstack, pointed_thing)
 	if name == owner or	minetest.check_player_privs(name, "server") then
 		local s = formspec(owner)
 		if s then
-			minetest.show_formspec(owner, "techage:forceload", s)
+			minetest.show_formspec(name, "techage:forceload", s)
 		end
 	end
 end
