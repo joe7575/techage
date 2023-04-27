@@ -169,7 +169,7 @@ function flylib.to_path(s, max_dist)
 	local tPath
 	local dist = 0
 
-	for _, line in ipairs(strsplit(s)) do
+	for _, line in ipairs(strsplit(s or "")) do
 		line = trim(line)
 		line = string.split(line, "--", true, 1)[1] or ""
 		if line ~= "" then

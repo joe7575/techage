@@ -341,7 +341,7 @@ techage.ConstructionPlans["ta3_distiller"] = {
 --
 -- Chemical Reactor
 --
-local RBASE = {"techage_concrete.png", "techage:ta4_reactor_stand"}
+local RBASE = {"techage_concrete.png", "techage:ta4_reactor_base"}
 local STAND = {"techage_reactor_stand_side.png", "techage:ta4_reactor_stand"}
 local REACT = {"techage_reactor_plan.png", "techage:ta4_reactor"}
 local FILLR = {"techage_reactor_filler_plan.png", "techage:ta4_reactor_fillerpipe"}
