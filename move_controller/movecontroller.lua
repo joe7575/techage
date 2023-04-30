@@ -60,7 +60,7 @@ local WRENCH_MENU = {
 
 local function formspec(nvm, meta)
 	local status = meta:get_string("status")
-	local path = meta:contains("path") and meta:get_string("path") or "0,3,0"
+	local path = minetest.formspec_escape(meta:contains("path") and meta:get_string("path") or "0,3,0")
 	local buttons
 	if meta:get_string("opmode") == "move xyz" then
 		buttons = "field[0.4,2.5;3.8,1;path;" .. S("Move distance") .. ";" .. path .. "]" ..
