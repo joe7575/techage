@@ -101,6 +101,9 @@ function techage.register_liquid(full_container, empty_container, container_size
 	ContainerDef[empty_container] = ContainerDef[empty_container] or {}
 	ContainerDef[empty_container][inv_item] = full_container
 	IsLiquid[inv_item] = true
+	if inv_item == "techage:water" and container_size == 1 then
+		techage.register_water_bucket(empty_container, full_container)
+	end
 end
 
 local function get_liquid_def(full_container)

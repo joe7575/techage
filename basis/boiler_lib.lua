@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -24,13 +24,10 @@ local BLOCKING_TIME = 0.3 -- 300ms
 techage.boiler = {}
 
 local IsWater = {
-	["bucket:bucket_river_water"] = true,
-	["bucket:bucket_water"] = true,
+	["bucket:bucket_river_water"] = "bucket:bucket_empty",
 }
 
-local IsBucket = {
-	["bucket:bucket_empty"] = true,
-}
+local IsBucket = {}
 
 local function node_description(name)
 	name = string.split(name, " ")[1]
@@ -126,12 +123,12 @@ function techage.boiler.on_punch(pos, node, puncher, pointed_thing)
 	if IsWater[wielded_item] and nvm.num_water < MAX_WATER then
 		mem.blocking_time = techage.SystemTime + BLOCKING_TIME
 		nvm.num_water = nvm.num_water + 1
-		puncher:set_wielded_item(ItemStack("bucket:bucket_empty"))
+		puncher:set_wielded_item(ItemStack(IsWater[wielded_item]))
 		M(pos):set_string("formspec", techage.boiler.formspec(pos, nvm))
 	elseif IsBucket[wielded_item] and nvm.num_water > 0 then
 		if item_count > 1 then
 			local inv = puncher:get_inventory()
-			local item = ItemStack("bucket:bucket_water")
+			local item = ItemStack(IsBucket[wielded_item])
 			if inv:room_for_item("main", item) then
 				inv:add_item("main", item)
 				puncher:set_wielded_item({name=wielded_item, count = item_count - 1})
@@ -141,8 +138,13 @@ function techage.boiler.on_punch(pos, node, puncher, pointed_thing)
 		else
 			mem.blocking_time = techage.SystemTime + BLOCKING_TIME
 			nvm.num_water = nvm.num_water - 1
-			puncher:set_wielded_item(ItemStack("bucket:bucket_water"))
+			puncher:set_wielded_item(ItemStack(IsBucket[wielded_item]))
 		end
 		M(pos):set_string("formspec", techage.boiler.formspec(pos, nvm))
 	end
+end
+
+function techage.register_water_bucket(empty_bucket, full_bucket)
+	IsWater[full_bucket] = empty_bucket
+	IsBucket[empty_bucket] = full_bucket
 end
