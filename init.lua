@@ -199,7 +199,9 @@ dofile(MP.."/basic_machines/itemsource.lua")
 dofile(MP.."/basic_machines/recycler.lua")
 dofile(MP.."/basic_machines/concentrator.lua")
 dofile(MP.."/basic_machines/recipeblock.lua")
-dofile(MP.."/basic_machines/ta5_chest.lua")
+if minetest.global_exists("hyperloop") then
+	dofile(MP.."/basic_machines/ta5_chest.lua")
+end
 
 -- Liquids II
 dofile(MP.."/liquids/tank.lua")
