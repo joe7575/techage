@@ -131,11 +131,13 @@ This solar cell cannot be combined with the other solar modules.
 
 The thermal energy storage replaces the battery block from TA3.
 
-The thermal energy store consists of a concrete shell (concrete blocks) filled with gravel. Three sizes of the storage are possible:
+The thermal energy store consists of a concrete shell (concrete blocks) filled with gravel. Five sizes of the storage are possible:
 
 - Cover with 5x5x5 concrete blocks, filled with 27 gravel, storage capacity: 22.5 kud
 - Cover with 7x7x7 concrete blocks, filled with 125 gravel, storage capacity: 104 kud
 - Cover with 9x9x9 concrete blocks, filled with 343 gravel, storage capacity: 286 kud
+- Cover with 11x11x11 concrete blocks, filled with 729 gravel, storage capacity: 610 kud
+- Cover with 13x13x13 concrete blocks, filled with 1331 gravel, storage capacity: 1112 kud
 
 A window made of an obsidian glass block may be in the concrete shell. This must be placed fairly in the middle of the wall. Through this window you can see whether the storage is loaded more than 80%. In the plan on the right you can see the structure of TA4 heat exchanger consisting of 3 blocks, the TA4 turbine and the TA4 generator. Pay attention to the alignment of the heat exchanger (the arrow at block 1 must point to the turbine).
 

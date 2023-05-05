@@ -131,11 +131,13 @@ Diese Solarzelle kann nicht mit den anderen Solarmodulen kombiniert werden.
 
 Der TA4 Energiespeicher ersetzt den Batterie Block aus TA3.
 
-Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit Gravel. Es gibt 3 Größen vom Speicher:
+Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit Gravel. Es gibt 5 Größen vom Speicher:
 
 - Hülle mit 5x5x5 Concrete Blocks, gefüllt mit 27 Gravel, Speicherkapazität: 22.5 kud
-- dHülle mit 7x7x7 Concrete Blocks, gefüllt mit 125 Gravel, Speicherkapazität: 104 kud
+- Hülle mit 7x7x7 Concrete Blocks, gefüllt mit 125 Gravel, Speicherkapazität: 104 kud
 - Hülle mit 9x9x9 Concrete Blocks, gefüllt mit 343 Gravel, Speicherkapazität: 286 kud 
+- Hülle mit 11x11x11 Concrete Blocks, gefüllt mit 729 Gravel, Speicherkapazität: 610 kud 
+- Hülle mit 13x13x13 Concrete Blocks, gefüllt mit 1331 Gravel, Speicherkapazität: 1112 kud 
 
 In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man, ob der Speicher mehr als 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung zu achten (der Pfeil bei Block 1 muss zur Turbine zeigen).
 

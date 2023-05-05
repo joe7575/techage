@@ -397,7 +397,7 @@ techage.manual_EN.aText = {
   "  - Build a stone tower (cobble) with a 3x3 base (7-11 blocks high)\n"..
   "  - Leave a hole open on one side at the bottom\n"..
   "  - Put a lighter in it\n"..
-  "  - Fill the tower with charcoal from the top to the top\n"..
+  "  - Fill the tower to the brim with charcoal by dropping the charcoal into the hole from above\n"..
   "  - Light the lighter through the hole\n"..
   "  - Place the melting pot in the flame over the tower\n(one block above the flame)\n"..
   "  - To stop the burner\\, temporarily close the hole with an dirt block\\, for example.\n"..
@@ -1405,11 +1405,13 @@ techage.manual_EN.aText = {
   "\n",
   "The thermal energy storage replaces the battery block from TA3.\n"..
   "\n"..
-  "The thermal energy store consists of a concrete shell (concrete blocks) filled with gravel. Three sizes of the storage are possible:\n"..
+  "The thermal energy store consists of a concrete shell (concrete blocks) filled with gravel. Five sizes of the storage are possible:\n"..
   "\n"..
   "  - Cover with 5x5x5 concrete blocks\\, filled with 27 gravel\\, storage capacity: 22.5 kud\n"..
   "  - Cover with 7x7x7 concrete blocks\\, filled with 125 gravel\\, storage capacity: 104 kud\n"..
   "  - Cover with 9x9x9 concrete blocks\\, filled with 343 gravel\\, storage capacity: 286 kud\n"..
+  "  - Cover with 11x11x11 concrete blocks\\, filled with 729 gravel\\, storage capacity: 610 kud\n"..
+  "  - Cover with 13x13x13 concrete blocks\\, filled with 1331 gravel\\, storage capacity: 1112 kud\n"..
   "\n"..
   "A window made of an obsidian glass block may be in the concrete shell. This must be placed fairly in the middle of the wall. Through this window you can see whether the storage is loaded more than 80%. In the plan on the right you can see the structure of TA4 heat exchanger consisting of 3 blocks\\, the TA4 turbine and the TA4 generator. Pay attention to the alignment of the heat exchanger (the arrow at block 1 must point to the turbine).\n"..
   "\n"..

@@ -27,9 +27,11 @@ local control = networks.control
 local CYCLE_TIME = 2
 local GRVL_CAPA = 500
 local PWR_CAPA = {
-	[5] = GRVL_CAPA * 3 * 3 * 3,  -- 13500 Cyc = 450 min = 22.5 kud
-	[7] = GRVL_CAPA * 5 * 5 * 5,  -- 104 kud
-	[9] = GRVL_CAPA * 7 * 7 * 7,  -- 286 kuh
+	[5] = GRVL_CAPA * 3 * 3 * 3,      -- 13500 Cyc = 450 min = 22.5 kud
+	[7] = GRVL_CAPA * 5 * 5 * 5,      -- 104 kud
+	[9] = GRVL_CAPA * 7 * 7 * 7,      -- 286 kuh
+	[11] = GRVL_CAPA * 9 * 9 * 9,     -- 607 kuh
+	[13] = GRVL_CAPA * 11 * 11 * 11,  -- 1112 kuh
 }
 local DOWN = 5
 local PWR_NEEDED = 5

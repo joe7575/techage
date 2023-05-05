@@ -389,7 +389,7 @@ techage.manual_DE.aText = {
   "  - Baue einen Turm aus Stein (cobble) mit einer 3x3 Grundfläche (7-11 Blöcke hoch)\n"..
   "  - Lasse unten ein Loch an einer Seite offen\n"..
   "  - Lege einen Anzünder (lighter) hinein\n"..
-  "  - Fülle den Turm von oben bis zum Rand mit Holzkohle\n"..
+  "  - Fülle den Turm bis zum Rand mit Holzkohle\\, in dem du die Holzkohle von oben in das Loch fallen lässt\n"..
   "  - Zünde den Anzünder durch das Loch an\n"..
   "  - Platziere den Schmelztiegel in die Flamme über dem Turm\neinen Block über der Flamme)\n"..
   "  - Um den Brenner anzuhalten\\, schließe das Loch vorübergehend bspw. mit einem Erdblock.\n"..
@@ -1396,11 +1396,13 @@ techage.manual_DE.aText = {
   "\n",
   "Der TA4 Energiespeicher ersetzt den Batterie Block aus TA3.\n"..
   "\n"..
-  "Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit Gravel. Es gibt 3 Größen vom Speicher:\n"..
+  "Der Energiespeicher besteht aus einer Betonhülle (Concrete Block) gefüllt mit Gravel. Es gibt 5 Größen vom Speicher:\n"..
   "\n"..
   "  - Hülle mit 5x5x5 Concrete Blocks\\, gefüllt mit 27 Gravel\\, Speicherkapazität: 22.5 kud\n"..
-  "  - dHülle mit 7x7x7 Concrete Blocks\\, gefüllt mit 125 Gravel\\, Speicherkapazität: 104 kud\n"..
+  "  - Hülle mit 7x7x7 Concrete Blocks\\, gefüllt mit 125 Gravel\\, Speicherkapazität: 104 kud\n"..
   "  - Hülle mit 9x9x9 Concrete Blocks\\, gefüllt mit 343 Gravel\\, Speicherkapazität: 286 kud\n"..
+  "  - Hülle mit 11x11x11 Concrete Blocks\\, gefüllt mit 729 Gravel\\, Speicherkapazität: 610 kud\n"..
+  "  - Hülle mit 13x13x13 Concrete Blocks\\, gefüllt mit 1331 Gravel\\, Speicherkapazität: 1112 kud\n"..
   "\n"..
   "In der Betonhülle darf ein Fenster aus einem Obsidian Glas Block sein. Dieses muss ziemlich in der Mitte der Wand platziert werden. Durch dieses Fenster sieht man\\, ob der Speicher mehr als 80 % geladen ist. Im Plan rechts sieht man den Aufbau aus TA4 Wärmetauscher  bestehend aus 3 Blöcken\\, der TA4 Turbine und dem TA4 Generator. Beim Wärmetauscher ist auf die Ausrichtung zu achten (der Pfeil bei Block 1 muss zur Turbine zeigen).\n"..
   "\n"..

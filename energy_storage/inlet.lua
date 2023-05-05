@@ -61,11 +61,15 @@ local Numbers = {
 		[2] = 96,  -- 5x5x2 + 3x5x2 + 3x3x2 - 2
 		[3] = 216, -- 7x7x2 + 5x7x2 + 5x5x2 - 2
 		[4] = 384, -- 9x9x2 + 7x9x2 + 7x7x2 - 2
+		[5] = 600, -- 11x11x2 + 9x11x2 + 9x9x2 - 2
+		[6] = 864, -- 13x13x2 + 11x13x2 + 11x11x2 - 2
 	},
 	filling = {
 		[2] = 27,  -- 3x3x3
 		[3] = 125, -- 5x5x5
 		[4] = 343, -- 7x7x7
+		[5] = 729, -- 9x9x9
+		[6] = 1331, -- 11x11x11
 	}
 }
 
@@ -101,6 +105,24 @@ local function get_diameter(pos, in_dir)
 	end
 
 	pos2 = vector.add(pos, vector.multiply(dir, 10))
+	node = minetest.get_node(pos2)
+	if node.name == "techage:ta3_pipe_wall_entry" then
+		return
+	end
+	if node.name == "techage:ta4_pipe_inlet" then
+		return 11
+	end
+
+	pos2 = vector.add(pos, vector.multiply(dir, 12))
+	node = minetest.get_node(pos2)
+	if node.name == "techage:ta3_pipe_wall_entry" then
+		return
+	end
+	if node.name == "techage:ta4_pipe_inlet" then
+		return 13
+	end
+
+	pos2 = vector.add(pos, vector.multiply(dir, 14))
 	local poses = minetest.find_nodes_in_area(pos, pos2, {"techage:ta4_pipe_inlet"})
 	if #poses > 1 then
 		return vector.distance(pos, poses[2]) + 1
