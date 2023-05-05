@@ -34,7 +34,7 @@ Textures: CC BY-SA 3.0
 The TA1 mill sound is from https://freesound.org/people/JustinBW/sounds/70200/
 The TA1 watermill sound is from https://freesound.org/people/bmoreno/sounds/164182/
 
-Many thanks to Thomas-S and others for their contributions
+Many thanks to Thomas-S, niklp09, and others for their contributions
 
 
 ### Dependencies  
@@ -87,6 +87,16 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 **Never disable 'lsqlite3' for a world that has already been used!**
 
 ### History
+
+**2023-05-05 V1.15**
+
+- Allow energy storage with up to 13x13x13 concrete blocks
+- Allow registration of other buckets
+- Add hyperloop chest only if the hyperloop mod is available
+- Add missing 'minetest.formspec_escape' #131 
+- Fix bug "Trouble with flycontroller #130"    
+- Add optional dependency on farming mod (orwell96)
+- Fix forceload formspec receiver (Niklp09)
 
 **2023-04-16 V1.14**
 
