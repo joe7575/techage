@@ -138,9 +138,9 @@ minetest.register_node("techage:firebox_on", {
 minetest.register_craft({
 	output = "techage:firebox",
 	recipe = {
-		{'group:stone', 'group:stone', 'group:stone'},
+		{'default:stone', 'default:stone', 'default:stone'},
 		{'techage:iron_ingot', '', 'techage:iron_ingot'},
-		{'group:stone', 'group:stone', 'group:stone'},
+		{'default:stone', 'default:stone', 'default:stone'},
 	},
 })
 
