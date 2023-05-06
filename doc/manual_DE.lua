@@ -833,7 +833,7 @@ techage.manual_DE.aText = {
   "Der TA3 Industrieofen dient als Ergänzung zu normalen Ofen (furnace). Damit können alle Waren mit \"Koch\" Rezepten\\, auch im Industrieofen hergestellt werden. Es gibt aber auch spezielle Rezepte\\, die nur im Industrieofen hergestellt werden können.\n"..
   "Der Industrieofen hat sein eigenes Menü zur Rezeptauswahl. Abhängig von den Waren im Industrieofen Inventar links kann rechts das Ausgangsprodukt gewählt werden.\n"..
   "\n"..
-  "Der Industrieofen benötigt Strom (für das Gebläse) sowie Schweröl/Benzin für den Brenner. Der Industrieofens und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden.\n"..
+  "Der Industrieofen benötigt Strom (für das Gebläse) sowie Schweröl/Benzin für den Brenner. Der Industrieofen muss wie im Plan rechts abgebildet\\, zusammen gebaut werden.\n"..
   "\n"..
   "Siehe auch TA4 Ofenheizung.\n"..
   "\n"..

@@ -240,7 +240,7 @@ Das Elektromotor nimmt primär max. 40 ku an Strom auf und gibt sekundär max. 3
 Der TA3 Industrieofen dient als Ergänzung zu normalen Ofen (furnace). Damit können alle Waren mit "Koch" Rezepten, auch im Industrieofen hergestellt werden. Es gibt aber auch spezielle Rezepte, die nur im Industrieofen hergestellt werden können.
 Der Industrieofen hat sein eigenes Menü zur Rezeptauswahl. Abhängig von den Waren im Industrieofen Inventar links kann rechts das Ausgangsprodukt gewählt werden.
 
-Der Industrieofen benötigt Strom (für das Gebläse) sowie Schweröl/Benzin für den Brenner. Der Industrieofens und muss wie im Plan rechts abgebildet, zusammen gebaut werden.
+Der Industrieofen benötigt Strom (für das Gebläse) sowie Schweröl/Benzin für den Brenner. Der Industrieofen muss wie im Plan rechts abgebildet, zusammen gebaut werden.
 
 Siehe auch TA4 Ofenheizung.
 
