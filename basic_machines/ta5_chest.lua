@@ -240,3 +240,9 @@ minetest.register_craft({
 	output = "techage:ta5_hl_chest",
 	recipe = {"techage:chest_ta4", "techage:ta5_aichip"}
 })
+
+minetest.register_on_mods_loaded(function()
+	if not minetest.global_exists("hyperloop") then
+		minetest.clear_craft({output = "techage:ta5_hl_chest"})
+	end
+end)

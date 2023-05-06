@@ -103,3 +103,9 @@ minetest.register_craft({
 		{"", "", ""},
 	},
 })
+
+minetest.register_on_mods_loaded(function()
+	if not minetest.global_exists("hyperloop") then
+		minetest.clear_craft({output = "techage:ta5_hl_tank"})
+	end
+end)
