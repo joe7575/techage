@@ -326,7 +326,8 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Baborium is only extracted in underground mining. Baborium can only be found in stone at an altitude between -250 and -340 meters.\n"..
+  "Barborium can only be obtained from underground mining. This substance can only be found at a depth of -250 to -340 meters.\n"..
+  "\n"..
   "Baborium can only be melted in the TA3 Industrial Furnace.\n"..
   "\n"..
   "\n"..

@@ -325,7 +325,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Baborium wird nur im Untertagebau gewonnen. Baborium findet man nur in Stein in einer Höhe zwischen -250 und -340 Meter.\n"..
+  "Barborium kann nur im Untertagebau gewonnen werden. Diesen Stoff findet man nur in einer Tiefe von -250 bis -340 Metern.\n"..
   "Baborium kann nur im TA3 Industrieofen geschmolzen werden.\n"..
   "\n"..
   "\n"..

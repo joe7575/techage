@@ -92,7 +92,7 @@ Usmium kommt nur als Nuggets vor und kann nur beim Waschen von Kies mit der TA2/
 
 ### Baborium
 
-Baborium wird nur im Untertagebau gewonnen. Baborium findet man nur in Stein in einer Höhe zwischen -250 und -340 Meter.
+Barborium kann nur im Untertagebau gewonnen werden. Diesen Stoff findet man nur in einer Tiefe von -250 bis -340 Metern.
 Baborium kann nur im TA3 Industrieofen geschmolzen werden.
 
 [baborium|image]

@@ -93,7 +93,8 @@ Usmium only occurs as nuggets and can only be obtained by washing gravel with th
 
 ### Baborium
 
-Baborium is only extracted in underground mining. Baborium can only be found in stone at an altitude between -250 and -340 meters.
+Barborium can only be obtained from underground mining. This substance can only be found at a depth of -250 to -340 meters.
+
 Baborium can only be melted in the TA3 Industrial Furnace.
 
 
