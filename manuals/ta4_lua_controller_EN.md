@@ -654,6 +654,45 @@ end
 
 
 
+### Read the "TA4 4x Button"
+
+For the `$get_input(...)` function, the Lua controller expects received `on`/`off` commands. However, the "TA4 4x Button" is not able to send an `on` command followed by an `off` command.  To be able to receive commands from "TA4 4x Button", the `$get_msg()` function has to be used.
+
+Therefore, the "TA4 4x Button" has to be programmed with commands like: `msg 1`, `msg 2`, `msg 3`, `msg 4`.
+
+The following example demonstrates receiving "TA4 4x Button" commands:
+
+init() code:
+
+```lua
+$events(true)
+$loopcycle(0)
+
+BUTTON = "372"   -- "TA4 4x Button" number, to be adapted!
+```
+
+loop() code:
+
+```lua
+if event then
+    num,text = $get_msg()
+    if num == BUTTON then
+        $print("button: " .. text)
+    end
+end
+```
+
+If the buttons are pressed, the "outp" window of the Lua controller will look like:
+
+```
+button: 1
+button: 4
+button: 3
+button: 2
+```
+
+
+
 ### Emails
 
 For an email system you need a TA4 Lua Server and a TA4 Lua Controller with Terminal per player.
