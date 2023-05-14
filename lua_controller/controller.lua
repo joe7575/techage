@@ -398,26 +398,28 @@ end
 local function call_loop(pos, meta, elapsed)
 	local t = minetest.get_us_time()
 	local number = meta:get_string("number")
-	if Cache[number] or compile(pos, meta, number) then
-		local cpu = meta:get_int("cpu") or 0
-		local code = Cache[number].code
-		local res = safer_lua.run_loop(pos, elapsed, code, error)
-		if res then
-			-- Don't count thread changes
-			t = math.min(minetest.get_us_time() - t, 1000)
-			cpu = math.floor(((cpu * 20) + t) / 21)
-			meta:set_int("cpu", cpu)
-			meta:set_string("infotext", "Controller "..number..": running ("..cpu.."us)")
-			if not update_battery(meta, cpu) then
-				no_battery(pos)
-				return false
+	if meta:get_int("running") == STATE_RUNNING then
+		if Cache[number] or compile(pos, meta, number) then
+			local cpu = meta:get_int("cpu") or 0
+			local code = Cache[number].code
+			local res = safer_lua.run_loop(pos, elapsed, code, error)
+			if res then
+				-- Don't count thread changes
+				t = math.min(minetest.get_us_time() - t, 1000)
+				cpu = math.floor(((cpu * 20) + t) / 21)
+				meta:set_int("cpu", cpu)
+				meta:set_string("infotext", "Controller "..number..": running ("..cpu.."us)")
+				if not update_battery(meta, cpu) then
+					no_battery(pos)
+					return false
+				end
 			end
+			-- further messages available?
+			if next(Cache[number].inputs["msg"]) then
+				minetest.after(1, call_loop, pos, meta, -1)
+			end
+			return res
 		end
-		-- further messages available?
-		if next(Cache[number].inputs["msg"]) then
-			minetest.after(1, call_loop, pos, meta, -1)
-		end
-		return res
 	end
 	return false
 end
