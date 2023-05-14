@@ -36,8 +36,8 @@ techage_command_limit (Max. number of commands sent per minute) int 1200
 techage_collider_min_depth (Min. depth to build a TA4 Collider) int -30
 
 # Average waiting time in minutes to get one Collider expoint.
-# Default value is 60, which means one point per hour.
-techage_expoint_rate_in_min (average waiting time for one expoint) int 60
+# Default value is 40, which means one point ever< 40 min.
+techage_expoint_rate_in_min (average waiting time for one expoint) int 40
 
 # For testing purpuses only
 techage_recipe_checker_enabled (test techage recipes) bool false
