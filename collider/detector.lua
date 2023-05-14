@@ -21,9 +21,9 @@ local getpos = techage.assemble.get_pos
 
 local CYCLE_TIME = 2
 local TNO_MAGNETS = 22
-local IMPROBABILITY = 60  -- every 60 min
---  one point per 60 min: check every 20 s => factor = 60 * 3 = 180
-IMPROBABILITY = (minetest.settings:get("techage_expoint_rate_in_min") or 60) * 3
+local IMPROBABILITY = 40  -- every 40 min
+--  one point per 40 min: check every 20 s => factor = 40 * 3 = 120
+IMPROBABILITY = (minetest.settings:get("techage_expoint_rate_in_min") or 40) * 3
 
 local TIME_SLOTS = 10
 local Schedule = {[0] =
