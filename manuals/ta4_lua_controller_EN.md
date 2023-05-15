@@ -34,21 +34,13 @@ https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.pdf
     - [Further Functions](#Further-Functions)
 - [Example Scripts](#Example-Scripts)
     - [Simple Counter](#Simple-Counter)
-    
     - [Hello World](#Hello-World)
-    
     - [For Loop with range(from, to)](#For-Loop-with-range(from,-to))
-    
     - [Monitoring Chest & Furnace](#Monitoring-Chest-&-Furnace)
-    
     - [Simple Calculator](#Simple-Calculator)
-    
     - [Welcome Display](#Welcome-Display)
-    
     - [Sensor Chest](#Sensor-Chest)
-    
-    - [Read the "TA4 4x Button"](#Read-the-"TA4-4x-Button")
-    
+    - [Read the "TA4 4x Button"](#Read-the--TA4-4x-Button-)
     - [Emails](#Emails)
 
 
