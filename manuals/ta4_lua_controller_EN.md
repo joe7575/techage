@@ -40,7 +40,7 @@ https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.pdf
     - [Simple Calculator](#Simple-Calculator)
     - [Welcome Display](#Welcome-Display)
     - [Sensor Chest](#Sensor-Chest)
-    - [Read the "TA4 4x Button"](#Read-the--TA4-4x-Button-)
+    - [Read the "TA4 4x Button"](#Read-the-TA4-4x-Button)
     - [Emails](#Emails)
 
 
