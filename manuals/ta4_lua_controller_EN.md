@@ -34,12 +34,21 @@ https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.pdf
     - [Further Functions](#Further-Functions)
 - [Example Scripts](#Example-Scripts)
     - [Simple Counter](#Simple-Counter)
+    
     - [Hello World](#Hello-World)
+    
     - [For Loop with range(from, to)](#For-Loop-with-range(from,-to))
+    
     - [Monitoring Chest & Furnace](#Monitoring-Chest-&-Furnace)
+    
     - [Simple Calculator](#Simple-Calculator)
+    
     - [Welcome Display](#Welcome-Display)
+    
     - [Sensor Chest](#Sensor-Chest)
+    
+    - [Read the "TA4 4x Button"](#Read-the-"TA4-4x-Button")
+    
     - [Emails](#Emails)
 
 
@@ -277,7 +286,7 @@ table = Store()
 player_name = "unknown"
 
 # reset blocks
-$clear_screen("123")      -- "123" is the number of the display
+$clear_screen("123")      -- "123" is the number-string of the display
 $send_cmnd("2345", "off")  -- turn off the blocks with the number "2345"
 ```
 
@@ -335,7 +344,7 @@ In addition to Lua standard function the Lua Controller provides the following f
 - `get_gametime()` - Returns the time, in seconds, since the world was created
 - `$time_as_str()` - Read the time of day (ingame) as text string in 24h format, like "18:45"
 - `$time_as_num()` - Read the time of day (ingame) as integer number in 24h format, like 1845
-- `$get_input(num)` - Read an input value provided by an external block with the given number _num_. The block has to be configured with the number of the controller to be able to send status messages (on/off commands) to the controller.  _num_ is the number of the remote block, like "1234".
+- `$get_input(num)` - Read an input value provided by an external block with the given number _num_. The block has to be configured with the number of the controller to be able to send status messages (on/off commands) to the controller.  _num_ is the number (data type string) of the remote block, like "1234".
 
 #### Input Example
 - A Player Detector with number "456" is configured to send on/off commands to the TA4 Lua Controller  with number "345".
@@ -442,8 +451,8 @@ In contrast the Controller can send text strings to the terminal.
 
 Messages are used to transport data between Controllers. Messages can contain arbitrary data. Incoming messages are stored in order (up to 10) and can be read one after the other.
 
-* `$get_msg([raw])` - Read a received message. The function returns the sender number and the message. (see example "Emails"). If the _raw_ parameter is not set or false, the message is guaranteed to be a string.
-* `$send_msg(num, msg)` - Send a message to another Controller.  _num_ is the destination number. (see example "Emails")
+* `$get_msg([raw])` - Read a received message. The function returns the sender number as string and the message. (see example "Emails"). If the _raw_ parameter is not set or false, the message is guaranteed to be a string.
+* `$send_msg(num, msg)` - Send a message to another Controller.  _num_ is the destination number as string. (see example "Emails")
 
 ### Further Functions
 
@@ -658,7 +667,7 @@ end
 
 For the `$get_input(...)` function, the Lua controller expects received `on`/`off` commands. However, the "TA4 4x Button" is not able to send an `on` command followed by an `off` command.  To be able to receive commands from "TA4 4x Button", the `$get_msg()` function has to be used.
 
-Therefore, the "TA4 4x Button" has to be programmed with commands like: `msg 1`, `msg 2`, `msg 3`, `msg 4`.
+Therefore, the "TA4 4x Button" (Type set to "button") has to be programmed with commands like: `msg 1`, `msg 2`, `msg 3`, `msg 4`.
 
 The following example demonstrates receiving "TA4 4x Button" commands:
 
