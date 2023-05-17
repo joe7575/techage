@@ -115,7 +115,7 @@ end
 local function cook_reverse(stack, inv, idx, recipe)
 	-- check space
 	for _,item in ipairs(recipe.items) do
-		if not inv:room_for_item("dst", stack) then
+		if not inv:room_for_item("dst", item) then
 			return false
 		end
 	end
