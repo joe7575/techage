@@ -534,6 +534,15 @@ Diesen Zähler kann man über das Kommando 'count' abfragen und über 'reset' zu
 
 [ta4_detector|image]
 
+### TA4 Energiespeicher-Ladungsdetektor / Energy Storage Charge Detector
+
+Der Ladungsdetektor misst alle 8 s den Ladezustand des Energiespeichers des Stromnetzwerkes.
+
+Fällt der Wert unter eine konfigurierbare Schwelle  (Schaltpunkt), wird ein Kommando (default: "off") versendet. Steigt der Wert wieder über diesen Schaltpunkt, so wird ein zweites Kommando (default: "on") gesendet. Damit lassen sich Verbraucher vom Netz trennen, wenn der Ladezustand des Energiespeichers unter den angegebenen Schaltpunkt sinkt.
+
+Der Ladungsdetektor muss dazu über eine Verteilerdose an das Stromnetz angeschlossen werden. Die Konfiguration des Ladungsdetektors erfolgt über das Gabelschlüsselmenü.
+
+[ta4_chargedetector|image]
 
 ### TA4 Sequenzer
 

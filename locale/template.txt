@@ -133,6 +133,7 @@ Type=
 ### button.lua ###
 ### button_2x.lua ###
 ### button_4x.lua ###
+### charge_detector.lua ###
 ### player_detector.lua ###
 
 Command=
@@ -174,6 +175,7 @@ Momentary button or on/off switch=
 
 ### button_2x.lua ###
 ### button_4x.lua ###
+### charge_detector.lua ###
 ### player_detector.lua ###
 
 Destination block number=
@@ -224,6 +226,14 @@ TA5 Ceramic Turbine=
 
 Dirt with Ash=
 TA1 Charcoal=
+
+### charge_detector.lua ###
+
+Command to send when the energy storage charge@nlevel falls below the specified switch point=
+Command to send when the energy storage charge@nlevel rises above the specified switch point=
+Storage charge level switch point=
+Switch point=
+TA4 Energy Storage Charge Detector=
 
 ### chest.lua ###
 
@@ -498,8 +508,10 @@ Error: Invalid path !!=
 
 Error: Recording is missing !!=
 Flight route (A to B)=
+Move a player without moving blocks=
 See chat output=
 TA5 Fly Controller=
+Teleport mode=
 Test=
 [TA4 Fly Controller] Invalid path!=
 [TA4 Fly Controller] Recording is missing!=
@@ -520,11 +532,9 @@ Maximum speed for moving blocks=
 Move=
 Move A-B=
 Move B-A=
-Move a player without moving blocks=
 Move block height=
 Object offset=
 Stored=
-Teleport mode=
 Value in the range of 0.0 to 1.0=
 Y-offset for non-player objects like vehicles (-0.5 to 0.5)=
 

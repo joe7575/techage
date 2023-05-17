@@ -191,6 +191,7 @@
         - [TA4 Spieler Detektor / Player Detector](./manual_ta4_DE.md#ta4-spieler-detektor--player-detector)
         - [TA4 Zustandssammler / State Collector](./manual_ta4_DE.md#ta4-zustandssammler--state-collector)
         - [TA4 Detektor / Detector](./manual_ta4_DE.md#ta4-detektor--detector)
+        - [TA4 Energiespeicher-Ladungsdetektor / Energy Storage Charge Detector](./manual_ta4_DE.md#ta4-energiespeicher-ladungsdetektor--energy-storage-charge-detector)
         - [TA4 Sequenzer](./manual_ta4_DE.md#ta4-sequenzer)
     - [Move/Dreh-Controller](./manual_ta4_DE.md#movedreh-controller)
         - [TA4 Move Controller](./manual_ta4_DE.md#ta4-move-controller)

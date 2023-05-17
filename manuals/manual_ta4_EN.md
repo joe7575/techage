@@ -525,6 +525,16 @@ This counter can be queried with the 'count' command and reset with 'reset'.
 
 [ta4_detector|image]
 
+### TA4 Energy Storage Charge Detector
+
+The charge detector measures the state of charge of the power grid's energy storage every 8 s.
+
+If the value falls below a configurable threshold (switching point), a command (default: "off") is sent. If the value rises above this switching point again, a second command (default: "on") is sent. This allows consumers to be disconnected from the grid when the charge level of the energy storage device falls below the specified switching point.
+
+To do this, the charge detector must be connected to the grid via a junction box. The charge detector is configured via the open-end wrench menu.
+
+[ta4_chargedetector|image]
+
 ### TA4 Sequencer
 
 Entire processes can be programmed using the TA4 sequencer. Here's an example:

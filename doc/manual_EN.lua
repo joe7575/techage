@@ -194,6 +194,7 @@ techage.manual_EN.aTitel = {
   "3,TA4 Player Detector",
   "3,TA4 State Collector",
   "3,TA4 Detector",
+  "3,TA4 Energy Storage Charge Detector",
   "3,TA4 Sequencer",
   "2,Move/Turn Controller",
   "3,TA4 Move Controller",
@@ -1698,6 +1699,14 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The charge detector measures the state of charge of the power grid's energy storage every 8 s.\n"..
+  "\n"..
+  "If the value falls below a configurable threshold (switching point)\\, a command (default: \"off\") is sent. If the value rises above this switching point again\\, a second command (default: \"on\") is sent. This allows consumers to be disconnected from the grid when the charge level of the energy storage device falls below the specified switching point.\n"..
+  "\n"..
+  "To do this\\, the charge detector must be connected to the grid via a junction box. The charge detector is configured via the open-end wrench menu.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Entire processes can be programmed using the TA4 sequencer. Here's an example:\n"..
   "\n"..
   "    -- this is a comment\n"..
@@ -2375,6 +2384,7 @@ techage.manual_EN.aItemName = {
   "ta4_playerdetector",
   "ta4_collector",
   "ta4_detector",
+  "ta4_chargedetector",
   "ta4_sequencer",
   "",
   "ta4_movecontroller",
@@ -2607,6 +2617,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
   "",
   "",
   "",

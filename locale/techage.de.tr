@@ -133,6 +133,7 @@ Type=Typ
 ### button.lua ###
 ### button_2x.lua ###
 ### button_4x.lua ###
+### charge_detector.lua ###
 ### player_detector.lua ###
 
 Command=Kommando
@@ -174,6 +175,7 @@ Momentary button or on/off switch=Taster oder Ein-/Ausschalter
 
 ### button_2x.lua ###
 ### button_4x.lua ###
+### charge_detector.lua ###
 ### player_detector.lua ###
 
 Destination block number=Zielblocknummer 
@@ -224,6 +226,14 @@ TA5 Ceramic Turbine=TA5 Keramikturbine
 
 Dirt with Ash=Erde mit Asche
 TA1 Charcoal=TA1 Holzkohle
+
+### charge_detector.lua ###
+
+Command to send when the energy storage charge@nlevel falls below the specified switch point=Befehl zum Senden, wenn der Ladezustand des@nEnergiespeichers den angegebenen Schaltpunkt unterschreitet
+Command to send when the energy storage charge@nlevel rises above the specified switch point=Befehl zum Senden, wenn der Ladezustand des@nEnergiespeichers den angegebenen Schaltpunkt überschreitet
+Storage charge level switch point=Schaltpunkt Speicherladezustand
+Switch point=Schaltpunkt
+TA4 Energy Storage Charge Detector=TA4 Energiespeicher-Ladungsdetektor
 
 ### chest.lua ###
 
@@ -498,8 +508,10 @@ Error: Invalid path !!=Fehler: Ungültiger Pfad !!
 
 Error: Recording is missing !!=Fehler: Aufzeichnung fehlt !!
 Flight route (A to B)=Flug Route (A nach B)
+Move a player without moving blocks=Bewege einen Spieler ohne Blöcke
 See chat output=Siehe chat Ausgabe
 TA5 Fly Controller=TA5 Flug Controller
+Teleport mode=Teleport Mode
 Test=Test
 [TA4 Fly Controller] Invalid path!=[TA5 Flug Controller] Ungültiger Pfad!
 [TA4 Fly Controller] Recording is missing!=[TA5 Flug Controller] Aufzeichnung fehlt!
@@ -520,11 +532,9 @@ Maximum speed for moving blocks=Maximale Geschwindigkeit für bewegliche Blöcke
 Move=Bewege
 Move A-B=Bewege A-B
 Move B-A=Bewege B-A
-Move a player without moving blocks=Bewege einen Spieler ohne Blöcke
 Move block height=Move Block Höhe
 Object offset=Objekt Offset
 Stored=Gespeichert
-Teleport mode=Teleport Mode
 Value in the range of 0.0 to 1.0=Wert im Bereich von 0.0 bis 1.0
 Y-offset for non-player objects like vehicles (-0.5 to 0.5)=Y-Offset für Nicht-Spieler Objekte wie Fahrzeuge (-0.5 bis 0.5)
 

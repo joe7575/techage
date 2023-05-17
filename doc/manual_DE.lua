@@ -192,6 +192,7 @@ techage.manual_DE.aTitel = {
   "3,TA4 Spieler Detektor / Player Detector",
   "3,TA4 Zustandssammler / State Collector",
   "3,TA4 Detektor / Detector",
+  "3,TA4 Energiespeicher-Ladungsdetektor / Energy Storage Charge Detector",
   "3,TA4 Sequenzer",
   "2,Move/Dreh-Controller",
   "3,TA4 Move Controller",
@@ -1690,6 +1691,14 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der Ladungsdetektor misst alle 8 s den Ladezustand des Energiespeichers des Stromnetzwerkes.\n"..
+  "\n"..
+  "Fällt der Wert unter eine konfigurierbare Schwelle  (Schaltpunkt)\\, wird ein Kommando (default: \"off\") versendet. Steigt der Wert wieder über diesen Schaltpunkt\\, so wird ein zweites Kommando (default: \"on\") gesendet. Damit lassen sich Verbraucher vom Netz trennen\\, wenn der Ladezustand des Energiespeichers unter den angegebenen Schaltpunkt sinkt.\n"..
+  "\n"..
+  "Der Ladungsdetektor muss dazu über eine Verteilerdose an das Stromnetz angeschlossen werden. Die Konfiguration des Ladungsdetektors erfolgt über das Gabelschlüsselmenü.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "über den TA4 Sequenzer können ganze Abläufe programmiert werden. Hier ein Beispiel:\n"..
   "\n"..
   "    -- this is a comment\n"..
@@ -2366,6 +2375,7 @@ techage.manual_DE.aItemName = {
   "ta4_playerdetector",
   "ta4_collector",
   "ta4_detector",
+  "ta4_chargedetector",
   "ta4_sequencer",
   "",
   "ta4_movecontroller",
@@ -2597,6 +2607,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
   "",
   "",
   "",

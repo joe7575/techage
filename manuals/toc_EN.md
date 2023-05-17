@@ -193,6 +193,7 @@
         - [TA4 Player Detector](./manual_ta4_EN.md#ta4-player-detector)
         - [TA4 State Collector](./manual_ta4_EN.md#ta4-state-collector)
         - [TA4 Detector](./manual_ta4_EN.md#ta4-detector)
+        - [TA4 Energy Storage Charge Detector](./manual_ta4_EN.md#ta4-energy-storage-charge-detector)
         - [TA4 Sequencer](./manual_ta4_EN.md#ta4-sequencer)
     - [Move/Turn Controller](./manual_ta4_EN.md#moveturn-controller)
         - [TA4 Move Controller](./manual_ta4_EN.md#ta4-move-controller)
