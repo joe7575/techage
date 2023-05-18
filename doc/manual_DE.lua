@@ -495,7 +495,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Teil der Dampfmaschine. Muss mit Wasser gefüllt werden. Dies erfolgt durch Klicken mit einem Wassereimer auf den Boiler. Wenn kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich die Dampfmaschine ab.\n"..
+  "Teil der Dampfmaschine. Muss mit Wasser gefüllt werden. Dies erfolgt durch Klicken mit einem Wassereimer auf den Boiler. Wenn kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich die Dampfmaschine ab. Bei der Dampfmaschine geht bei jedem Kolbenhub etwas Wasser als Dampf verloren\\, daher muss regelmäßig Wasser nachgefüllt werden.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -701,7 +701,8 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich das Kraftwerk ab.\n"..
+  "Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich das Kraftwerk ab. Der Wasserverbrauch des TA3-Kessels ist durch den geschlossenen Dampfkreislauf viel geringer als bei der Dampfmachine.\n"..
+  "Bei der Dampfmaschine geht bei jedem Kolbenhub etwas Wasser als Dampf verloren.\n"..
   "\n"..
   "\n"..
   "\n",

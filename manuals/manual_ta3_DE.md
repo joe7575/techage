@@ -49,7 +49,8 @@ Der Ölbrenner kann nur 50 Einheiten Kraftstoff aufnehmen. Ein zusätzlicher Öl
 
 ### TA3 Boiler unten/oben
 
-Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt, schaltet sich das Kraftwerk ab.
+Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt, schaltet sich das Kraftwerk ab. Der Wasserverbrauch des TA3-Kessels ist durch den geschlossenen Dampfkreislauf viel geringer als bei der Dampfmachine.
+Bei der Dampfmaschine geht bei jedem Kolbenhub etwas Wasser als Dampf verloren.
 
 [ta3_boiler|image]
 

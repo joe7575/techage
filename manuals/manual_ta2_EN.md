@@ -39,7 +39,7 @@ The fire box must be filled with coal or charcoal. The burning time depends on t
 
 ### TA2 Boiler
 
-Part of the steam engine. Must be filled with water. This is done by clicking on the boiler with a water bucket. When there is no more water or the temperature drops too low, the steam engine switches off.
+Part of the steam engine. Must be filled with water. This is done by clicking on the boiler with a water bucket. When there is no more water or the temperature drops too low, the steam engine switches off. With the steam engine, some water is lost as steam with each piston stroke, so water has to be refilled regularly.
 
 [ta2_boiler|image]
 

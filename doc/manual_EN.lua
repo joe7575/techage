@@ -503,7 +503,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Part of the steam engine. Must be filled with water. This is done by clicking on the boiler with a water bucket. When there is no more water or the temperature drops too low\\, the steam engine switches off.\n"..
+  "Part of the steam engine. Must be filled with water. This is done by clicking on the boiler with a water bucket. When there is no more water or the temperature drops too low\\, the steam engine switches off. With the steam engine\\, some water is lost as steam with each piston stroke\\, so water has to be refilled regularly.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -708,6 +708,9 @@ techage.manual_EN.aText = {
   "\n"..
   "\n",
   "Part of the power plant. Must be filled with water. If there is no more water or the temperature drops too low\\, the power plant switches off.\n"..
+  "\n"..
+  "The water consumption of the TA3 boiler is much lower than that of the steam engine due to the closed steam circuit.\n"..
+  "With the steam engine\\, some water is lost as steam with each piston stroke.\n"..
   "\n"..
   "\n"..
   "\n",

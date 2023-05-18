@@ -51,6 +51,9 @@ The oil burner can only hold 50 units of fuel. An additional oil tank and an oil
 
 Part of the power plant. Must be filled with water. If there is no more water or the temperature drops too low, the power plant switches off.
 
+The water consumption of the TA3 boiler is much lower than that of the steam engine due to the closed steam circuit.
+With the steam engine, some water is lost as steam with each piston stroke.
+
 [ta3_boiler|image]
 
 
