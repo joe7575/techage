@@ -2093,9 +2093,15 @@ techage.manual_EN.aText = {
   "\n",
   "The pump is required to fill the cooling circuit with isobutane. About 350 units of isobutane are required.\n"..
   "\n"..
+  "Note: The TA5 pump can only be used to fill the cooling circuit\\, pumping out the coolant is not possible. Therefore\\, the pump should not be switched on until the magnets are correctly placed and all power and cooling lines are connected.\n"..
+  "\n"..
   "\n"..
   "\n",
   "The TA5 Heat Exchanger is required to convert the heat generated in the fusion reactor first to steam and then to electricity. The Heat Exchanger itself requires 5 ku electricity. The structure is similar to the Heat Exchanger of the energy store from TA4.\n"..
+  "\n"..
+  "Note: The TA5 Heat Exchanger has two connections (blue and green) for the cooling circuit. The heat exchanger and all magnets must be connected to form a cooling circuit via the green and blue pipes.\n"..
+  "\n"..
+  "The cooling circuit can be checked for completeness using the start button on the heat exchanger\\, even if no coolant has yet been filled in.\n"..
   "\n"..
   "\n"..
   "\n",

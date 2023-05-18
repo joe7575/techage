@@ -198,6 +198,13 @@ local function on_request(pos, tlib2, topic)
 	else  -- Pipe
 		if topic == "dec_power" then
 			return dec_power(nvm)
+		elseif topic == "test_pipe_blue" then
+			nvm.test_pipe = true
+			return true
+		elseif topic == "test_pipe_green" then
+			local res = nvm.test_pipe
+			nvm.test_pipe = false
+			return res
 		elseif topic == "test_gas_blue" then
 			nvm.has_gas = true
 			return nvm.liquid.amount == CAPACITY

@@ -91,7 +91,7 @@ techage.register_node({"techage:ta5_heatexchanger1"}, {
 	on_transfer = function(pos, indir, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		-- used by heatexchanger2
-		if topic == "test_gas_blue" then
+		if topic == "test_pipe_blue" or topic == "test_gas_blue" then
 			return control_cmnd(pos, topic)
 		else
 			return turbine_cmnd(pos, topic, payload)

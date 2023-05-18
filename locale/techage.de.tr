@@ -675,8 +675,10 @@ TA5 Heat Exchanger 1=TA5 Wärmetauscher 1
 ### heatexchanger2.lua ###
 
 Blue pipe connection error@n(@1 found / @2 expected)=Verbindungsfehler blaue Leitung@n(@1 erkannt / @2 erwartet)
+Blue pipe coolant missing@n(@1 found / @2 expected)=Kühlmittel fehlt bei der blauen Leitung@n(@1 erkannt / @2 erwartet)
 Cooler error=Kühlungsfehler
 Green pipe connection error@n(@1 found / @2 expected)=Verbindungsfehler grüne Leitung@n(@1 erkannt / @2 erwartet)
+Green pipe coolant missing@n(@1 found / @2 expected)=Kühlmittel fehlt bei der grünen Leitung@n(@1 erkannt / @2 erwartet)
 Power network connection error=Stromnetz Verbindungsfehler
 TA4 Heat Exchanger=TA4 Wärmetauscher
 TA4 Heat Exchanger 2=TA4 Wärmetauscher 2

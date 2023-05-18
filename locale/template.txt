@@ -675,8 +675,10 @@ TA5 Heat Exchanger 1=
 ### heatexchanger2.lua ###
 
 Blue pipe connection error@n(@1 found / @2 expected)=
+Blue pipe coolant missing@n(@1 found / @2 expected)=
 Cooler error=
 Green pipe connection error@n(@1 found / @2 expected)=
+Green pipe coolant missing@n(@1 found / @2 expected)=
 Power network connection error=
 TA4 Heat Exchanger=
 TA4 Heat Exchanger 2=

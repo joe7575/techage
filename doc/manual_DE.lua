@@ -2084,9 +2084,15 @@ techage.manual_DE.aText = {
   "\n",
   "Die Pumpe wird benötigt\\, um den Kühlkreislauf mit Isobutan zu füllen. Es werden ca. 350 Einheiten Isobutan benötigt.\n"..
   "\n"..
+  "Hinweis: Die TA5 Pumpe kann nur zum Füllen des Kühlkreislaufs genutzt werden\\, ein Abpumpen des Kühlmittels ist nicht möglich. Daher sollte die Pumpe erst eingeschaltet werden\\, wenn die Magnete korrekt platziert und alle Strom- und Kühlleitungen angeschlossen sind.\n"..
+  "\n"..
   "\n"..
   "\n",
   "Der TA5 Wärmetauscher wird benötigt\\, um die im Fusionsreaktor erzeugte Hitze zuerst in Dampf und dann in Strom umzuwandeln. Der Wärmetauscher selbst benötigt dazu 5 ku Strom. Der Aufbau gleicht dem Wärmetauscher des Energiespeichers aus TA4.\n"..
+  "\n"..
+  "Hinweis: Der TA5 Wärmetauscher hat zwei Anschlüsse (blau und grün) für den Kühlkreislauf. Über die grünen und blauen Röhren müssen der Wärmetauscher und alle Magnete zu einem Kühlkreislauf verbunden werden.\n"..
+  "\n"..
+  "Über den Start-Button des Wärmetauschers kann der Kühlkreislauf auf Vollständigkeit geprüft werden\\, auch wenn noch kein Kühlmittel eingefüllt wurde.\n"..
   "\n"..
   "\n"..
   "\n",
