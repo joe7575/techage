@@ -52,8 +52,7 @@ Building instructions (see also plan):
 * Put a lighter in it
 * Fill the tower to the brim with charcoal by dropping the charcoal into the hole from above
 * Light the lighter through the hole
-* Place the melting pot in the flame over the tower
-  (one block above the flame)
+* Place the melting pot on top of the tower directly into the flame, one block above the tower edge
 * To stop the burner, temporarily close the hole with an dirt block, for example.
 
 The melting pot has its own menu of recipes and an inventory where you have to put the ores in.

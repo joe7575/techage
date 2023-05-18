@@ -401,7 +401,7 @@ techage.manual_EN.aText = {
   "  - Put a lighter in it\n"..
   "  - Fill the tower to the brim with charcoal by dropping the charcoal into the hole from above\n"..
   "  - Light the lighter through the hole\n"..
-  "  - Place the melting pot in the flame over the tower\n(one block above the flame)\n"..
+  "  - Place the melting pot on top of the tower directly into the flame\\, one block above the tower edge\n"..
   "  - To stop the burner\\, temporarily close the hole with an dirt block\\, for example.\n"..
   "\n"..
   "The melting pot has its own menu of recipes and an inventory where you have to put the ores in.\n"..

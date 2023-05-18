@@ -366,7 +366,7 @@ techage.manual_DE.aText = {
   "  - einen Anzünderblock ('techage:lighter')\n"..
   "  - 26 Hölzblöcke (wood)\\, die zu einem Würfen aufgeschichtet werden. Die Holzsorte spielt keine Rolle\n"..
   "  - Erde (dirt) um den Holzhaufen abzudecken\n"..
-  "  - Flint and Iron (technischer Name: 'fire:flint_and_steel') um den Anzünderblock anzuzünden\n"..
+  "  - Feuerstein und Eisen (technischer Name: 'fire:flint_and_steel') um den Anzünderblock anzuzünden\n"..
   "\n"..
   "Bauanleitung (siehe auch Plan):\n"..
   "\n"..
@@ -375,15 +375,15 @@ techage.manual_DE.aText = {
   "  - Platziere rund um den Anzünder 7 Holz (wood)\\, aber lasse ein Loch zum Anzünder frei\n"..
   "  - Baue weitere 2 Schichten Holz darüber\\, so dass ein 3x3x3 großen Holzwürfel entsteht\n"..
   "  - Überdecke alles mit einer Schicht Erde zu einem 5x5x5 großen Würfel\\, aber lasse das Loch zum Anzünder frei\n"..
-  "  - Zünde den Anzünder an und verschließe das Loch sofort mit jeweils einem Block Holz und Erde\n"..
-  "  - Wenn du alles richtig gemacht hast\\, beginnt der Köhler nach wenigen Sekunden an zu rauchen\n"..
+  "  - Entzünde den Anzünder und verschließe das Loch sofort mit jeweils einem Block Holz und Erde\n"..
+  "  - Wenn du alles richtig gemacht hast\\, fängt der Köhler nach wenigen Sekunden an zu rauchen\n"..
   "  - Öffne den Köhler erst\\, wenn der Rauch verschwunden ist (ca. 20 min)\n"..
   "\n"..
   "Dann kannst du die 9 Holzkohleblöcke entnehmen und den Köhler erneut füllen.\n"..
   "\n"..
   "\n"..
   "\n",
-  "Den Kohlebrenner benötigst du bspw. um Eisen und andere Erze im Schmelztiegel zu schmelzen. Es gibt verschiedene Rezepte\\, welche verschiedene Temperaturen benötigen. Je höher der Turm\\, um so heißer ist die Flamme. Eine Höhe von 11 Blöcken über der Bodenplatte ist für alle Rezepte\\, ein Brenner mit dieser Höhe benötigt aber auch mehr Holzkohle.\n"..
+  "Den Kohlebrenner benötigst du bspw. um Eisen und andere Erze im Schmelztiegel zu schmelzen. Es gibt verschiedene Rezepte\\, welche verschiedene Temperaturen benötigen. Je höher der Turm\\, um so heißer ist die Flamme. Eine Höhe von 11 Blöcken über der Bodenplatte ist für alle Rezepte\\, ein Brenner mit dieser Höhe verbraucht aber auch mehr Holzkohle.\n"..
   "\n"..
   "Bauanleitung (siehe auch Plan):\n"..
   "\n"..
@@ -391,11 +391,11 @@ techage.manual_DE.aText = {
   "  - Lasse unten ein Loch an einer Seite offen\n"..
   "  - Lege einen Anzünder (lighter) hinein\n"..
   "  - Fülle den Turm bis zum Rand mit Holzkohle\\, in dem du die Holzkohle von oben in das Loch fallen lässt\n"..
-  "  - Zünde den Anzünder durch das Loch an\n"..
-  "  - Platziere den Schmelztiegel in die Flamme über dem Turm\neinen Block über der Flamme)\n"..
+  "  - Entzünde den Anzünder durch das Loch\n"..
+  "  - Platziere den Schmelztiegel oben auf dem Turm direkt in die Flamme\\, einen Block über dem Turmrand\n"..
   "  - Um den Brenner anzuhalten\\, schließe das Loch vorübergehend bspw. mit einem Erdblock.\n"..
   "\n"..
-  "Der Schmelztiegel hat ein eigenes Menü mit Rezepten und ein Inventar\\, wo du die Erze hinein tun musst.\n"..
+  "Der Schmelztiegel hat ein eigenes Menü mit Rezepten und ein Inventar\\, wo du die Erze hinein legst.\n"..
   "\n"..
   "\n"..
   "\n",
