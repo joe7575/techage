@@ -20,9 +20,9 @@ Den Köhler brauchst du, um Holzkohle herzustellen. Holzkohle wird für den Bren
 Für den Köhler brauchst du:
 
 - einen Anzünderblock (`techage:lighter`)
-- 26 Hölzblöcke (wood), die zu einem Würfen aufgeschichtet werden. Die Holzsorte spielt keine Rolle
-- Erde (dirt) um den Holzhaufen abzudecken
-- Feuerstein und Eisen (technischer Name: `fire:flint_and_steel`) um den Anzünderblock anzuzünden
+- 26 Hölzblöcke (wood), die zu einem Würfen aufgeschichtet werden. Die Holzsorte spielt keine Rolle.
+- Erde (dirt) um den Holzhaufen abzudecken.
+- Feuerstein und Eisen (technischer Name: `fire:flint_and_steel`) um den Anzünderblock anzuzünden.
 
 
 
@@ -31,7 +31,7 @@ Bauanleitung (siehe auch Plan):
 - Baue eine 5x5 große Fläche aus Erde (dirt)
 - Platziere in die Mitte einen Anzünder (lighter)
 - Platziere rund um den Anzünder 7 Holz (wood), aber lasse ein Loch zum Anzünder frei
-- Baue weitere 2 Schichten Holz darüber, so dass ein 3x3x3 großen Holzwürfel entsteht
+- Baue weitere 2 Schichten Holz darüber, so dass ein 3x3x3 großer Holzwürfel entsteht
 - Überdecke alles mit einer Schicht Erde zu einem 5x5x5 großen Würfel, aber lasse das Loch zum Anzünder frei
 - Entzünde den Anzünder und verschließe das Loch sofort mit jeweils einem Block Holz und Erde
 - Wenn du alles richtig gemacht hast, fängt der Köhler nach wenigen Sekunden an zu rauchen
@@ -44,7 +44,7 @@ Dann kannst du die 9 Holzkohleblöcke entnehmen und den Köhler erneut füllen.
 
 ## Kohlebrenner / Coal Burner
 
-Den Kohlebrenner benötigst du bspw. um Eisen und andere Erze im Schmelztiegel zu schmelzen. Es gibt verschiedene Rezepte, welche verschiedene Temperaturen benötigen. Je höher der Turm, um so heißer ist die Flamme. Eine Höhe von 11 Blöcken über der Bodenplatte ist für alle Rezepte, ein Brenner mit dieser Höhe verbraucht aber auch mehr Holzkohle.
+Den Kohlebrenner benötigst du bspw. um Eisen und andere Erze im Schmelztiegel zu schmelzen. Es gibt verschiedene Rezepte, welche verschiedene Temperaturen benötigen. Je höher der Turm, um so heißer ist die Flamme. Eine Höhe von 11 Blöcken über der Bodenplatte ist für alle Rezepte ausreichend, ein Brenner mit dieser Höhe verbraucht aber auch mehr Holzkohle.
 
 Bauanleitung (siehe auch Plan):
 
@@ -66,8 +66,8 @@ Der Schmelztiegel hat ein eigenes Menü mit Rezepten und ein Inventar, wo du die
 
 Mit der Wassermühle können Weizen und andere Getreide zu Mehl gemahlen und dann im Ofen zu Brot gebacken werden. Die Mühle wird mit
 Wasserkraft angetrieben. Dazu muss ein Mühlbach über einen Kanal zum Mühlrad geführt werden.
-Über eine Schleuse kann das Wasserfluss und damit das Mühlrad gesteuert werden.
-Die Schleuse bestehend aus Schleusenschieber und Schleusengriff.
+Über eine Schleuse kann der Wasserfluss und damit das Mühlrad gesteuert werden.
+Die Schleuse besteht aus Schleusenschieber und Schleusengriff.
 
 Die Abbildung rechts (auf "Plan" klicken) zeigt den Aufbau der Wassermühle.
 
@@ -103,7 +103,7 @@ Block in verschiedenen Holzsorten zum Bauen des Mühlbachkanals. Es kann aber au
 
 ### TA1 Apfel Mühlbachbrett / TA1 Apple Millrace Board
 
-Block in verschiedenen Holzsorten zum Bauen des Mühlbachkanals. Dieser Block eignet sich speziell in Verbindung mit Pfosten des Holzzauns um eine Stütze des Kanals zu bauen.
+Block in verschiedenen Holzsorten zum Bauen des Mühlbachkanals. Dieser Block eignet sich speziell in Verbindung mit den Pfosten des Holzzauns um eine Stütze für den Kanal zu bauen.
 
 [ta1_board2|image]
 
@@ -118,14 +118,14 @@ TA1 hat seine eigenen Werkzeuge wie Hammer und Kiessieb, aber auch der Minecart 
 
 ### Hammer
 
-Mit dem TA1 Hammer kann Stein (stone) in einer Mine, aber auch Steine (cobble) zu Kies (gravel) geklopft werden. Der Hammer ist in verschiedenen Ausführungen und damit verschiedenen Eigenschaften verfügbar: Bronze, Stahl, Mese und Diamant.
+Mit dem TA1 Hammer können Steine (stone) und Kopfsteinpflaster-Steine (cobble) zu Kies (gravel) zertrümmert werden. Der Hammer ist in verschiedenen Ausführungen und damit verschiedenen Eigenschaften verfügbar: Bronze, Stahl, Mese und Diamant.
 
 [hammer|image]
 
 
 ### Kiessieb / Gravel Sieve
 
-Mit dem Kiessieb können Erze aus dem Kies gesiebt werden. Dazu mit dem Kies (gravel) auf das Sieb klicken. Das gesiebte Kies und die Erze fallen unten heraus.
+Mit dem Kiessieb können Erze aus dem Kies gesiebt werden. Dazu mit dem Kies (gravel) auf das Sieb klicken. Der gesiebte Kies und die Erze fallen unten heraus.
 
 Um hier nicht stundenlang am Sieb zu stehen, kann das Sieben mit dem Trichter (hopper) automatisiert werden.
 
@@ -154,6 +154,6 @@ Bei den Kisten darauf achten, dass es die "chest_locked" ist, sonst klaut dir je
 
 ### Meridium
 
-TA1 hat seine eigene Metalllegierung Meridium. Meridium Ingots können mit dem Kohlebrenner aus Stahl und Mesesplitter hergestellt werden. Meridium leuchtet im Dunkeln. Auch Werkzeuge aus Meridium leuchten und sind daher im Untertagebau sehr hilfreich.
+TA1 hat seine eigene Metalllegierung Meridium. Meridium Ingots können mit dem Kohlebrenner aus Stahl und Mesesplittern hergestellt werden. Meridium leuchtet im Dunkeln. Auch Werkzeuge aus Meridium leuchten und sind daher im Untertagebau sehr hilfreich.
 
 [meridium|image]

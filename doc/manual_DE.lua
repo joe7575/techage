@@ -364,16 +364,16 @@ techage.manual_DE.aText = {
   "Für den Köhler brauchst du:\n"..
   "\n"..
   "  - einen Anzünderblock ('techage:lighter')\n"..
-  "  - 26 Hölzblöcke (wood)\\, die zu einem Würfen aufgeschichtet werden. Die Holzsorte spielt keine Rolle\n"..
-  "  - Erde (dirt) um den Holzhaufen abzudecken\n"..
-  "  - Feuerstein und Eisen (technischer Name: 'fire:flint_and_steel') um den Anzünderblock anzuzünden\n"..
+  "  - 26 Hölzblöcke (wood)\\, die zu einem Würfen aufgeschichtet werden. Die Holzsorte spielt keine Rolle.\n"..
+  "  - Erde (dirt) um den Holzhaufen abzudecken.\n"..
+  "  - Feuerstein und Eisen (technischer Name: 'fire:flint_and_steel') um den Anzünderblock anzuzünden.\n"..
   "\n"..
   "Bauanleitung (siehe auch Plan):\n"..
   "\n"..
   "  - Baue eine 5x5 große Fläche aus Erde (dirt)\n"..
   "  - Platziere in die Mitte einen Anzünder (lighter)\n"..
   "  - Platziere rund um den Anzünder 7 Holz (wood)\\, aber lasse ein Loch zum Anzünder frei\n"..
-  "  - Baue weitere 2 Schichten Holz darüber\\, so dass ein 3x3x3 großen Holzwürfel entsteht\n"..
+  "  - Baue weitere 2 Schichten Holz darüber\\, so dass ein 3x3x3 großer Holzwürfel entsteht\n"..
   "  - Überdecke alles mit einer Schicht Erde zu einem 5x5x5 großen Würfel\\, aber lasse das Loch zum Anzünder frei\n"..
   "  - Entzünde den Anzünder und verschließe das Loch sofort mit jeweils einem Block Holz und Erde\n"..
   "  - Wenn du alles richtig gemacht hast\\, fängt der Köhler nach wenigen Sekunden an zu rauchen\n"..
@@ -383,7 +383,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Den Kohlebrenner benötigst du bspw. um Eisen und andere Erze im Schmelztiegel zu schmelzen. Es gibt verschiedene Rezepte\\, welche verschiedene Temperaturen benötigen. Je höher der Turm\\, um so heißer ist die Flamme. Eine Höhe von 11 Blöcken über der Bodenplatte ist für alle Rezepte\\, ein Brenner mit dieser Höhe verbraucht aber auch mehr Holzkohle.\n"..
+  "Den Kohlebrenner benötigst du bspw. um Eisen und andere Erze im Schmelztiegel zu schmelzen. Es gibt verschiedene Rezepte\\, welche verschiedene Temperaturen benötigen. Je höher der Turm\\, um so heißer ist die Flamme. Eine Höhe von 11 Blöcken über der Bodenplatte ist für alle Rezepte ausreichend\\, ein Brenner mit dieser Höhe verbraucht aber auch mehr Holzkohle.\n"..
   "\n"..
   "Bauanleitung (siehe auch Plan):\n"..
   "\n"..
@@ -401,8 +401,8 @@ techage.manual_DE.aText = {
   "\n",
   "Mit der Wassermühle können Weizen und andere Getreide zu Mehl gemahlen und dann im Ofen zu Brot gebacken werden. Die Mühle wird mit\n"..
   "Wasserkraft angetrieben. Dazu muss ein Mühlbach über einen Kanal zum Mühlrad geführt werden.\n"..
-  "Über eine Schleuse kann das Wasserfluss und damit das Mühlrad gesteuert werden.\n"..
-  "Die Schleuse bestehend aus Schleusenschieber und Schleusengriff.\n"..
+  "Über eine Schleuse kann der Wasserfluss und damit das Mühlrad gesteuert werden.\n"..
+  "Die Schleuse besteht aus Schleusenschieber und Schleusengriff.\n"..
   "\n"..
   "Die Abbildung rechts (auf \"Plan\" klicken) zeigt den Aufbau der Wassermühle.\n"..
   "\n"..
@@ -428,7 +428,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Block in verschiedenen Holzsorten zum Bauen des Mühlbachkanals. Dieser Block eignet sich speziell in Verbindung mit Pfosten des Holzzauns um eine Stütze des Kanals zu bauen.\n"..
+  "Block in verschiedenen Holzsorten zum Bauen des Mühlbachkanals. Dieser Block eignet sich speziell in Verbindung mit den Pfosten des Holzzauns um eine Stütze für den Kanal zu bauen.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -436,11 +436,11 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Mit dem TA1 Hammer kann Stein (stone) in einer Mine\\, aber auch Steine (cobble) zu Kies (gravel) geklopft werden. Der Hammer ist in verschiedenen Ausführungen und damit verschiedenen Eigenschaften verfügbar: Bronze\\, Stahl\\, Mese und Diamant.\n"..
+  "Mit dem TA1 Hammer können Steine (stone) und Kopfsteinpflaster-Steine (cobble) zu Kies (gravel) zertrümmert werden. Der Hammer ist in verschiedenen Ausführungen und damit verschiedenen Eigenschaften verfügbar: Bronze\\, Stahl\\, Mese und Diamant.\n"..
   "\n"..
   "\n"..
   "\n",
-  "Mit dem Kiessieb können Erze aus dem Kies gesiebt werden. Dazu mit dem Kies (gravel) auf das Sieb klicken. Das gesiebte Kies und die Erze fallen unten heraus.\n"..
+  "Mit dem Kiessieb können Erze aus dem Kies gesiebt werden. Dazu mit dem Kies (gravel) auf das Sieb klicken. Der gesiebte Kies und die Erze fallen unten heraus.\n"..
   "\n"..
   "Um hier nicht stundenlang am Sieb zu stehen\\, kann das Sieben mit dem Trichter (hopper) automatisiert werden.\n"..
   "\n"..
@@ -460,7 +460,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "TA1 hat seine eigene Metalllegierung Meridium. Meridium Ingots können mit dem Kohlebrenner aus Stahl und Mesesplitter hergestellt werden. Meridium leuchtet im Dunkeln. Auch Werkzeuge aus Meridium leuchten und sind daher im Untertagebau sehr hilfreich.\n"..
+  "TA1 hat seine eigene Metalllegierung Meridium. Meridium Ingots können mit dem Kohlebrenner aus Stahl und Mesesplittern hergestellt werden. Meridium leuchtet im Dunkeln. Auch Werkzeuge aus Meridium leuchten und sind daher im Untertagebau sehr hilfreich.\n"..
   "\n"..
   "\n"..
   "\n",
