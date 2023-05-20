@@ -94,6 +94,9 @@ sched.register(tSched, CALL_RATE1, 1, function(pos)
 	end)
 sched.register(tSched, CALL_RATE1, 2, function(pos)
 		local resp = heatexchanger1_cmnd(pos, "test_pipe_blue")
+		if type(resp) ~= "table" then
+			return DESCRIPTION .. S(" Error!")
+		end
 		local cnt = count_trues(resp)
 		if cnt ~= EXPECT_BLUE then
 			return S("Blue pipe connection error\n(@1 found / @2 expected)", cnt, EXPECT_BLUE)
@@ -183,7 +186,7 @@ local State = techage.NodeStates:new({
 	node_name_passive = "techage:ta5_heatexchanger2",
 	cycle_time = CYCLE_TIME,
 	infotext_name = DESCRIPTION,
-	standby_ticks = 0,
+	standby_ticks = 1,
 	can_start = can_start,
 	start_node = start_node,
 	stop_node = stop_node,

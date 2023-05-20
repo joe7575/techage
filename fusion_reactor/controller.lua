@@ -24,7 +24,7 @@ local power = networks.power
 local control = networks.control
 
 local CYCLE_TIME = 2
-local STANDBY_TICKS = 0
+local STANDBY_TICKS = 1
 local COUNTDOWN_TICKS = 1
 local PWR_NEEDED = 400
 local EXPECTED_PLASMA_NUM = 56
