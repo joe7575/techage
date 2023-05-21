@@ -359,30 +359,33 @@ Please note, that this is not a technical distinction, only a logical.
 -  The result is block dependent (see table below)
 
 
-| ident        | returned data                                                | comment                                                      |
-| ------------ | ------------------------------------------------------------ | ------------------------------------------------------------ |
-| "state"      | one of: "running", "stopped", "blocked", "standby", "fault", or "unloaded" | Techage machine state, used by many machines                 |
-| "state"      | one of: "red", "amber", "green", "off"                       | Signal Tower state                                           |
-| "state"      | one of: "empty", "loaded", "full"                            | State of a chest or Sensor Chest                             |
-| "state"      | one of: "on", "off"                                          | State of a TA4 Button                                        |
-| "fuel"       | number                                                       | fuel value of a fuel consuming block                         |
-| "depth"      | number                                                       | Read the current depth value of a quarry block (1..80)       |
-| "load"       | number                                                       | Read the load value in percent  (0..100) of a accu, or battery block. |
-| "load"       | number                                                       | Read the load value in percent  (0..100) of a tank or silo. <br />Silo and tank return two values: <br />The percentage value and the absolute value in units.<br /> Example: percent, absolute = $send_cmnd("223", "load") |
-| "load"       | number                                                       | Read the grid storage amount in percent  (0..100) from a TA3 Power Terminal. |
-| "delivered"  | number                                                       | Read the current delivered power value of a generator block. A power consuming block (accu) provides a negative value |
-| "flowrate"   | Total flow rate in liquid units                              | Only for TA4 Pumps                                           |
-| "action"     | player-name, action-string                                   | Only for Sensor Chests                                       |
-| "stacks"     | Array with up to 4 Stores with the inventory content (see example) | Only for Sensor Chests                                       |
-| "count"      | number                                                       | Read the item counter of the TA4 Item Detector block         |
-| "count"      | number of items                                              | Read the total amount of TA4 chest items. An optional  number as `add_data` is used to address only one inventory slot (1..8, from left to right). |
-| "count"      | number of items                                              | Read the number of pushed items for a TA4 Pusher in "flow limiter" mode |
-| "count"      | number of units                                              | Read the number of pumped liquid units for a TA4 Pump in "flow limiter" mode |
-| "itemstring" | item string of the given slot                                | Specific command for the TA4 8x2000 Chest to read the item type (technical name) of one chest slot, specified via `add_data` (1..8).<br />Example: s = $send_cmnd("223", "itemstring", 1) |
-| "output"     | recipe output string, <br />e.g.: "default:glass"            | Only for the Industrial Furnace. If no recipe is active, the command returns "unknown" |
-| "input"      | \<index>                                                     | Read a recipe from the TA4 Recipe Block. `<index>` is the number of the recipe. The block return a list of recipe items. |
-| "name"       | \<player name>                                               | Player name of the TA3/TA4 Player Detector or TA4 Button     |
-| "time"       | number                                                       | Time in system ticks (norm. 100 ms) when the TA4 Button is clicked |
+| ident         | returned data                                                | comment                                                      |
+| ------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
+| "state"       | one of: "running", "stopped", "blocked", "standby", "fault", or "unloaded" | Techage machine state, used by many machines                 |
+| "state"       | one of: "red", "amber", "green", "off"                       | Signal Tower state                                           |
+| "state"       | one of: "empty", "loaded", "full"                            | State of a chest or Sensor Chest                             |
+| "state"       | one of: "on", "off"                                          | State of a TA4 Button                                        |
+| "fuel"        | number                                                       | fuel value of a fuel consuming block                         |
+| "depth"       | number                                                       | Read the current depth value of a quarry block (1..80)       |
+| "load"        | number                                                       | Read the load value in percent  (0..100) of a accu, or battery block. |
+| "load"        | number                                                       | Read the load value in percent  (0..100) of a tank or silo. <br />Silo and tank return two values: <br />The percentage value and the absolute value in units.<br /> Example: percent, absolute = $send_cmnd("223", "load") |
+| "load"        | number                                                       | Read the grid storage amount (state of charge) in percent  (0..100) from a TA3 Power Terminal. |
+| "delivered"   | number                                                       | Read the current delivered power value of a generator block. A power consuming block (accu) provides a negative value |
+| "flowrate"    | Total flow rate in liquid units                              | Only for TA4 Pumps                                           |
+| "action"      | player-name, action-string                                   | Only for Sensor Chests                                       |
+| "stacks"      | Array with up to 4 Stores with the inventory content (see example) | Only for Sensor Chests                                       |
+| "count"       | number                                                       | Read the item counter of the TA4 Item Detector block         |
+| "count"       | number of items                                              | Read the total amount of TA4 chest items. An optional  number as `add_data` is used to address only one inventory slot (1..8, from left to right). |
+| "count"       | number of items                                              | Read the number of pushed items for a TA4 Pusher in "flow limiter" mode |
+| "count"       | number of units                                              | Read the number of pumped liquid units for a TA4 Pump in "flow limiter" mode |
+| "itemstring"  | item string of the given slot                                | Specific command for the TA4 8x2000 Chest to read the item type (technical name) of one chest slot, specified via `add_data` (1..8).<br />Example: s = $send_cmnd("223", "itemstring", 1) |
+| "output"      | recipe output string, <br />e.g.: "default:glass"            | Only for the Industrial Furnace. If no recipe is active, the command returns "unknown" |
+| "input"       | \<index>                                                     | Read a recipe from the TA4 Recipe Block. `<index>` is the number of the recipe. The block return a list of recipe items. |
+| "name"        | \<player name>                                               | Player name of the TA3/TA4 Player Detector or TA4 Button     |
+| "time"        | number                                                       | Time in system ticks (norm. 100 ms) when the TA4 Button is clicked |
+| "consumption" | number                                                       | TA4 Electric Meter: Amount of electrical energy passed through |
+| "countdown"   | number                                                       | TA4 Electric Meter: Countdown value for the amount of electrical energy passed through |
+| "current"     | number                                                       | TA4 Electric Meter: Current flow of electricity (current)    |
 
 
 

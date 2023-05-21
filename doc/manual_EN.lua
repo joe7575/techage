@@ -1468,7 +1468,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "With the help of an electricity meter\\, two electricity networks can be connected to form a larger network. The electricity meter only transmits electricity in one direction (note arrow). The amount of electricity (in kud) is measured and displayed. The amount of electricity can also be queried by a Lua controller using the 'consumption' command.\n"..
+  "With the help of an electricity meter\\, two electricity networks can be connected to form a larger network. The electricity meter only transmits electricity in one direction (note arrow). The amount of electrical energy passed through (in kud) is measured and displayed. This value can also be queried by a Lua controller using the 'consumption' command. The current current can be queried via the command 'current'.\n"..
   "\n"..
   "The electricity meter can pass up to 200 ku. The maximum value is adjustable via the wrench menu.\n"..
   "\n"..

@@ -137,7 +137,9 @@ techage.register_node({"techage:filler"}, {
 	end,
 	on_push_item = function(pos, in_dir, stack)
 		local inv = M(pos):get_inventory()
-		minetest.get_node_timer(pos):start(CYCLE_TIME)
+		if not minetest.get_node_timer(pos):is_started() then
+			minetest.get_node_timer(pos):start(CYCLE_TIME)
+		end
 		return techage.put_items(inv, "src", stack)
 	end,
 	on_unpull_item = function(pos, in_dir, stack)

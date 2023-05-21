@@ -197,6 +197,8 @@ techage.register_node({"techage:ta4_electricmeter"}, {
 			return math.floor((nvm.units or 0) / techage.CYCLES_PER_DAY)
 		elseif topic == "countdown" then
 			return math.floor((nvm.countdown or 0) + 0.5)
+		elseif topic == "current" then
+			return math.floor((nvm.moved or 0) + 0.5)
 		else
 			return State:on_receive_message(pos, topic, payload)
 		end
@@ -209,8 +211,10 @@ techage.register_node({"techage:ta4_electricmeter"}, {
 		if topic == 146 then
 			if payload[1] == 0 then -- Consumption
 				return 0, {math.floor((nvm.units or 0) / techage.CYCLES_PER_DAY)}
-			else -- countdown
+			elseif payload[1] == 0 then -- countdown
 				return 0, {math.floor((nvm.countdown or 0) + 0.5)}
+			else -- current
+				return 0, {math.floor((nvm.moved or 0) + 0.5)}
 			end
 		else
 			return State:on_beduino_request_data(pos, topic, payload)
