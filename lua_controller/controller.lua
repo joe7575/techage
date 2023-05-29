@@ -415,9 +415,6 @@ local function call_loop(pos, meta, elapsed)
 				end
 			end
 			-- further messages available?
-			if next(Cache[number].inputs["msg"]) then
-				minetest.after(1, call_loop, pos, meta, -1)
-			end
 			return res
 		end
 	end
