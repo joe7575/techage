@@ -107,6 +107,7 @@ local function node_timer(pos, elapsed)
 			nvm.load = (data.curr_load1 / data.max_capa1 + data.curr_load2 / data.max_capa2) / 2 * current
 			nvm.moved = data.moved
 			nvm.units = (nvm.units or 0) + data.moved
+			State:keep_running(pos, nvm)
 			if nvm.countdown > 0 then
 				nvm.countdown = nvm.countdown - (data.moved / techage.CYCLES_PER_DAY)
 				if nvm.countdown <= 0 then
