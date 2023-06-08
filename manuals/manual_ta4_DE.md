@@ -544,6 +544,14 @@ Der Ladungsdetektor muss dazu über eine Verteilerdose an das Stromnetz angeschl
 
 [ta4_chargedetector|image]
 
+### TA4 Blicksensor / Gaze Sensor 
+
+Der TA4 Blicksensor generiert ein Kommando, wenn der Block vom Besitzer oder anderen konfigurierten Spielern angesehen/fokussiert wird und sendet ein zweites Kommando, wenn der Block nicht mehr fokussiert wird. Er dient damit als Ersatz für Taster/Schalter, um bspw. Türen zu öffnen/schließen.
+
+Der TA4 Blicksensor kann nur mit dem Gabelschlüsselmenü programmiert werden.
+
+[ta4_gaze_sensor|image]
+
 ### TA4 Sequenzer
 
 über den TA4 Sequenzer können ganze Abläufe programmiert werden. Hier ein Beispiel:

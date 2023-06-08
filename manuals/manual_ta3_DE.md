@@ -536,6 +536,13 @@ Hinweis: Mit dem Programmer können Blocknummern sehr einfach eingesammelt und k
 
 [ta3_button|image]
 
+### TA3 Kommando Konverter / Command Converter
+
+Mit dem TA3 Kommando Konverter können `on` / `off` Kommandos in andere Kommandos umgewandelt werden, sowie die Weiterleitung verhindert oder verzögert werden. Die Nummer des Zielblockes bzw. die Nummern der Zielblöcke, die Kommandos die gesendet werden sollen, sowie die Verzögerungszeiten in Sekunden müssen eingegeben werden. Wird kein Kommando eingegeben, wird nichts gesendet.
+
+Die Nummern können auch mit Hilfe des Techage Programmers programmiert werden.
+
+[ta3_command_converter|image]
 
 ### TA3 Logikblock / Logic Block
 

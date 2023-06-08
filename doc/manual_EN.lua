@@ -108,6 +108,7 @@ techage.manual_EN.aTitel = {
   "4,Reboiler",
   "2,Logic / Switching Blocks",
   "3,TA3 Button / Switch",
+  "3,TA3 Command Converter",
   "3,TA3 Logic Block",
   "3,TA3 Repeater",
   "3,TA3 Sequencer",
@@ -195,6 +196,7 @@ techage.manual_EN.aTitel = {
   "3,TA4 State Collector",
   "3,TA4 Detector",
   "3,TA4 Energy Storage Charge Detector",
+  "3,TA4 Gaze Sensor",
   "3,TA4 Sequencer",
   "2,Move/Turn Controller",
   "3,TA4 Move Controller",
@@ -1066,6 +1068,13 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "With the TA3 command converter\\, 'on' / 'off' commands can be converted into other commands\\, and forwarding can be prevented or delayed.\n"..
+  "The number of the target block or the numbers of the target blocks\\, the commands to be sent and the delay times in seconds must be entered. If no command is entered\\, nothing is sent.\n"..
+  "\n"..
+  "The numbers can also be programmed using the Techage programmer.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "The TA3 logic block can be programmed in such a way that one or more input commands are linked to one output command and sent. This block can therefore replace various logic elements such as AND\\, OR\\, NOT\\, XOR etc. \n"..
   "Input commands for the logic block are 'on' /'off' commands.\n"..
   "Input commands are referenced via the number\\, e.g. '1234' for the command from the sender with the number 1234. \n"..
@@ -1710,6 +1719,12 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The TA4 gaze sensor generates a command when the block is viewed/focused by the owner or other configured players and sends a second command when the block is no longer focused. It thus serves as a replacement for buttons/switches\\, for example to open/close doors.\n"..
+  "\n"..
+  "The TA4 Gaze Sensor can only be programmed using the open-end wrench menu.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Entire processes can be programmed using the TA4 sequencer. Here's an example:\n"..
   "\n"..
   "    -- this is a comment\n"..
@@ -2128,7 +2143,7 @@ techage.manual_EN.aText = {
   "\n"..
   "With the \"Test\" button\\, the flight route with the absolute coordinates is output for checking in the chat.\n"..
   "\n"..
-  "The maximum distance for the entire flight distance is 500 m.\n"..
+  "The maximum distance for the entire flight distance is 1000 m. Up to 32 blocks can be trained.\n"..
   "\n"..
   "The use of the TA5 Flight Controller requires 40 experience points.\n"..
   "\n"..
@@ -2307,6 +2322,7 @@ techage.manual_EN.aItemName = {
   "reboiler",
   "ta3_logic",
   "ta3_button",
+  "ta3_command_converter",
   "ta3_logic",
   "ta3_repeater",
   "ta3_sequencer",
@@ -2394,6 +2410,7 @@ techage.manual_EN.aItemName = {
   "ta4_collector",
   "ta4_detector",
   "ta4_chargedetector",
+  "ta4_gaze_sensor",
   "ta4_sequencer",
   "",
   "ta4_movecontroller",
@@ -2600,6 +2617,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "",
+  "",
   "ta4_windturbine",
   "",
   "",
@@ -2626,6 +2644,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
   "",
   "",
   "",

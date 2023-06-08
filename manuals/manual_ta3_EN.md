@@ -538,6 +538,16 @@ Note: With the programmer, block numbers can be easily collected and configured.
 [ta3_button|image]
 
 
+### TA3 Command Converter
+
+With the TA3 command converter, `on` / `off` commands can be converted into other commands, and forwarding can be prevented or delayed.
+The number of the target block or the numbers of the target blocks, the commands to be sent and the delay times in seconds must be entered. If no command is entered, nothing is sent.
+
+The numbers can also be programmed using the Techage programmer.
+
+[ta3_command_converter|image]
+
+
 ### TA3 Logic Block
 
 The TA3 logic block can be programmed in such a way that one or more input commands are linked to one output command and sent. This block can therefore replace various logic elements such as AND, OR, NOT, XOR etc. 

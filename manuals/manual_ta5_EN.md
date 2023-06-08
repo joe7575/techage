@@ -84,7 +84,7 @@ The TA5 Flight Controller is similar to the TA4 Move Controller. In contrast to 
 
 With the "Test" button, the flight route with the absolute coordinates is output for checking in the chat.
 
-The maximum distance for the entire flight distance is 500 m.
+The maximum distance for the entire flight distance is 1000 m. Up to 32 blocks can be trained.
 
 The use of the TA5 Flight Controller requires 40 experience points.
 

@@ -307,3 +307,8 @@ function techage.menu.eval_input(pos, form_def, fields, player_name)
 	end
 	return fields.refresh or fields.save or fields.key_enter_field
 end
+
+function techage.dropdown_index(sChoices, selected_value)
+	local l = sChoices:split(",")
+	return index(l, selected_value) or 1
+end

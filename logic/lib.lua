@@ -76,7 +76,9 @@ function techage.logic.send_cmnd(pos, ident, default, time)
 	if time and time > 0 then
 		minetest.get_node_timer(pos):start(time)
 	end
-	techage.send_multi(own_num, numbers, command, payload)
+	if command and command ~= "" then
+		techage.send_multi(own_num, numbers, command, payload)
+	end
 end
 
 function techage.logic.send_off(pos, meta)

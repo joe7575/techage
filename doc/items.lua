@@ -126,6 +126,7 @@ techage.Items = {
 	ta3_valve = "techage:ta3_valve_closed",
 	ta3_motor = "techage:ta3_motor_off",
 	ta3_injector = "techage:ta3_injector_pas",
+	ta3_command_converter = "techage:ta3_command_converter_off",
 	----------------------------
 	techage_ta4 = "techage_ta4.png",
 	techage_ta4c = "techage_ta4c.png",
@@ -205,6 +206,7 @@ techage.Items = {
 	ta4_autocrafter = "techage:ta4_autocrafter_pas",
 	ta4_recipeblock = "techage:ta4_recipeblock",
 	ta4_chargedetector = "techage:ta4_chargedetector_off",
+	ta4_gaze_sensor = "techage:ta4_gaze_sensor_off",
 	----------------------------
 	techage_ta5 = "techage:ta5_fr_nucleus",
 	ta5_flycontroller = "techage:ta5_flycontroller",

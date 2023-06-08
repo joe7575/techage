@@ -84,7 +84,7 @@ Der TA5 Flug Controller ist ähnlich zum TA4 Move Controller. Im Gegensatz zum T
 
 Mit der Taste "Test" wird die Flugstrecke mit den absoluten Koordinaten zur Überprüfung im Chat ausgegeben.
 
-Die maximale Distanz für die gesammte Flugstrecke beträgt 500 m.
+Die maximale Distanz für die gesammte Flugstrecke beträgt 1000 m. Es können bis zu 32 Blöcke antrainiert werden.
 
 Die Nutzung des TA5 Flug Controllers benötigt 40 Erfahrungspunkte.
 

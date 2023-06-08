@@ -117,7 +117,6 @@ Access:=
 Button or switch=
 Change the block name (infotext)=
 Command to be sent=
-Destination block number(s)=
 Infotext=
 TA3 Button/Switch=
 TA4 Button/Switch=
@@ -134,6 +133,7 @@ Type=
 ### button_2x.lua ###
 ### button_4x.lua ###
 ### charge_detector.lua ###
+### gaze_sensor.lua ###
 ### player_detector.lua ###
 
 Command=
@@ -141,6 +141,7 @@ Number=
 
 ### button.lua ###
 ### cart_detector.lua ###
+### command_converter.lua ###
 ### detector.lua ###
 ### light_detector.lua ###
 ### lua_logic.lua ###
@@ -153,6 +154,7 @@ Insert destination node number(s)=
 
 ### button.lua ###
 ### chest.lua ###
+### command_converter.lua ###
 ### detector.lua ###
 ### doorcontroller.lua ###
 ### mesecons_converter.lua ###
@@ -161,6 +163,11 @@ Insert destination node number(s)=
 ### submenu.lua ###
 
 Save=
+
+### button.lua ###
+### gaze_sensor.lua ###
+
+Destination block number(s)=
 
 ### button_2x.lua ###
 
@@ -258,6 +265,13 @@ Node number to send the events to=
 Node numbers to read the states from=
 Send an event if state is equal or larger than=
 TA4 State Collector=
+
+### command_converter.lua ###
+
+Receive=
+Send delay \\[s\\]=
+Sent command=
+TA3 Command Converter=
 
 ### concentrator.lua ###
 
@@ -605,6 +619,14 @@ TA5 Pipe=
 
 TechAge Gate Block=
 
+### gaze_sensor.lua ###
+
+Command to send when sensor is no longer viewed=
+Command to send when sensor is viewed=
+Input the player name(s) separated by blanks.@nIf empty, only the owner is accepted.=
+Player Names=
+TA4 Gaze Sensor=
+
 ### gearbox.lua ###
 
 TA2 Gearbox=
@@ -674,6 +696,7 @@ TA5 Heat Exchanger 1=
 
 ### heatexchanger2.lua ###
 
+ Error!=
 Blue pipe connection error@n(@1 found / @2 expected)=
 Blue pipe coolant missing@n(@1 found / @2 expected)=
 Cooler error=

@@ -107,6 +107,7 @@ techage.manual_DE.aTitel = {
   "4,Aufkocher / reboiler)",
   "2,Logik-/Schalt-Blöcke",
   "3,TA3 Taster/Schalter / Button/Switch",
+  "3,TA3 Kommando Konverter / Command Converter",
   "3,TA3 Logikblock / Logic Block",
   "3,TA3 Wiederholer / Repeater",
   "3,TA3 Sequenzer / Sequencer",
@@ -193,6 +194,7 @@ techage.manual_DE.aTitel = {
   "3,TA4 Zustandssammler / State Collector",
   "3,TA4 Detektor / Detector",
   "3,TA4 Energiespeicher-Ladungsdetektor / Energy Storage Charge Detector",
+  "3,TA4 Blicksensor / Gaze Sensor",
   "3,TA4 Sequenzer",
   "2,Move/Dreh-Controller",
   "3,TA4 Move Controller",
@@ -1059,6 +1061,12 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Mit dem TA3 Kommando Konverter können 'on' / 'off' Kommandos in andere Kommandos umgewandelt werden\\, sowie die Weiterleitung verhindert oder verzögert werden. Die Nummer des Zielblockes bzw. die Nummern der Zielblöcke\\, die Kommandos die gesendet werden sollen\\, sowie die Verzögerungszeiten in Sekunden müssen eingegeben werden. Wird kein Kommando eingegeben\\, wird nichts gesendet.\n"..
+  "\n"..
+  "Die Nummern können auch mit Hilfe des Techage Programmers programmiert werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Den TA3 Logikblock kann man so programmieren\\, dass ein oder mehrere Eingangskommandos zu einem Ausgangskommando verknüpft und gesendet werden. Dieser Block kann daher diverse Logik-Elemente wie AND\\, OR\\, NOT\\, XOR usw. ersetzen.\n"..
   "Eingangkommandos für den Logikblock sind 'on'/'off' Kommandos.\n"..
   "Eingangskommandos werden über die Nummer referenziert\\, also bspw. '1234' für das Kommando vom Sender mit der Nummer 1234.\n"..
@@ -1700,6 +1708,12 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Der TA4 Blicksensor generiert ein Kommando\\, wenn der Block vom Besitzer oder anderen konfigurierten Spielern angesehen/fokussiert wird und sendet ein zweites Kommando\\, wenn der Block nicht mehr fokussiert wird. Er dient damit als Ersatz für Taster/Schalter\\, um bspw. Türen zu öffnen/schließen.\n"..
+  "\n"..
+  "Der TA4 Blicksensor kann nur mit dem Gabelschlüsselmenü programmiert werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "über den TA4 Sequenzer können ganze Abläufe programmiert werden. Hier ein Beispiel:\n"..
   "\n"..
   "    -- this is a comment\n"..
@@ -2117,7 +2131,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Mit der Taste \"Test\" wird die Flugstrecke mit den absoluten Koordinaten zur Überprüfung im Chat ausgegeben.\n"..
   "\n"..
-  "Die maximale Distanz für die gesammte Flugstrecke beträgt 500 m.\n"..
+  "Die maximale Distanz für die gesammte Flugstrecke beträgt 1000 m. Es können bis zu 32 Blöcke antrainiert werden.\n"..
   "\n"..
   "Die Nutzung des TA5 Flug Controllers benötigt 40 Erfahrungspunkte.\n"..
   "\n"..
@@ -2297,6 +2311,7 @@ techage.manual_DE.aItemName = {
   "reboiler",
   "ta3_logic",
   "ta3_button",
+  "ta3_command_converter",
   "ta3_logic",
   "ta3_repeater",
   "ta3_sequencer",
@@ -2383,6 +2398,7 @@ techage.manual_DE.aItemName = {
   "ta4_collector",
   "ta4_detector",
   "ta4_chargedetector",
+  "ta4_gaze_sensor",
   "ta4_sequencer",
   "",
   "ta4_movecontroller",
@@ -2588,6 +2604,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "",
+  "",
   "ta4_windturbine",
   "",
   "",
@@ -2614,6 +2631,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
   "",
   "",
   "",

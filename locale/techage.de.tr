@@ -117,7 +117,6 @@ Access:=Zugriff:
 Button or switch=Taster oder Schalter
 Change the block name (infotext)=Ändere den Blocknamen
 Command to be sent=Zu sendender Befehl 
-Destination block number(s)=Zielblocknummer
 Infotext=Infotext
 TA3 Button/Switch=TA3 Taster/Schalter
 TA4 Button/Switch=TA4 Schalter/Taster
@@ -134,6 +133,7 @@ Type=Typ
 ### button_2x.lua ###
 ### button_4x.lua ###
 ### charge_detector.lua ###
+### gaze_sensor.lua ###
 ### player_detector.lua ###
 
 Command=Kommando
@@ -141,6 +141,7 @@ Number=Nummer
 
 ### button.lua ###
 ### cart_detector.lua ###
+### command_converter.lua ###
 ### detector.lua ###
 ### light_detector.lua ###
 ### lua_logic.lua ###
@@ -153,6 +154,7 @@ Insert destination node number(s)=Gebe Zielnummer(n) ein
 
 ### button.lua ###
 ### chest.lua ###
+### command_converter.lua ###
 ### detector.lua ###
 ### doorcontroller.lua ###
 ### mesecons_converter.lua ###
@@ -161,6 +163,11 @@ Insert destination node number(s)=Gebe Zielnummer(n) ein
 ### submenu.lua ###
 
 Save=Speichern
+
+### button.lua ###
+### gaze_sensor.lua ###
+
+Destination block number(s)=Zielblocknummer(n)
 
 ### button_2x.lua ###
 
@@ -258,6 +265,13 @@ Node number to send the events to=Knotennummer zum Senden der Events
 Node numbers to read the states from=Knotennummern zum Lesen der Zustände
 Send an event if state is equal or larger than=Senden ein Event wenn Status größer oder gleich als
 TA4 State Collector=TA4 Zuständesammler
+
+### command_converter.lua ###
+
+Receive=Empfang
+Send delay (s)=Sendeverz. (s)
+Sent command=Sendekommando
+TA3 Command Converter=TA3 Kommando Konverter
 
 ### concentrator.lua ###
 
@@ -605,6 +619,15 @@ TA5 Pipe=TA5 Leitung
 
 TechAge Gate Block=TechAge Torblock
 
+### gaze_sensor.lua ###
+
+Command to send when sensor is no longer viewed=Befehl zum Senden, wenn der Sensor nicht mehr angesehen wird
+Command to send when sensor is viewed=Befehl zum Senden, wenn der Sensor angesehen wird
+Input the player name(s) separated by blanks.@nIf empty, only the owner is accepted.=Geben den/die Spielernamen durch Leerzeichen getrennt ein.@nWenn leer, wird nur der Besitzer akzeptiert.
+
+Player Names=Spielernamen
+TA4 Gaze Sensor=TA4 Blicksensor
+
 ### gearbox.lua ###
 
 TA2 Gearbox=TA2 Getriebeblock
@@ -674,6 +697,7 @@ TA5 Heat Exchanger 1=TA5 Wärmetauscher 1
 
 ### heatexchanger2.lua ###
 
+ Error!=
 Blue pipe connection error@n(@1 found / @2 expected)=Verbindungsfehler blaue Leitung@n(@1 erkannt / @2 erwartet)
 Blue pipe coolant missing@n(@1 found / @2 expected)=Kühlmittel fehlt bei der blauen Leitung@n(@1 erkannt / @2 erwartet)
 Cooler error=Kühlungsfehler

@@ -290,6 +290,8 @@ dofile(MP.."/logic/logic_block.lua")  -- new
 dofile(MP.."/logic/node_detector.lua")
 dofile(MP.."/logic/light_detector.lua")
 dofile(MP.."/logic/player_detector.lua")
+dofile(MP.."/logic/gaze_sensor.lua")
+dofile(MP.."/logic/command_converter.lua")
 dofile(MP.."/logic/mba_detector.lua")
 dofile(MP.."/logic/cart_detector.lua")
 dofile(MP.."/logic/charge_detector.lua")

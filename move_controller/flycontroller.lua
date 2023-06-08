@@ -22,8 +22,8 @@ local MP = minetest.get_modpath("techage")
 local mark = dofile(MP .. "/basis/mark_lib.lua")
 local fly = techage.flylib
 
-local MAX_DIST = 500
-local MAX_BLOCKS = 16
+local MAX_DIST = 1000
+local MAX_BLOCKS = 32
 local EX_POINTS = 40
 
 local WRENCH_MENU = {
