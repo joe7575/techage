@@ -149,7 +149,7 @@ minetest.register_node("techage:ta3_command_converter_on", {
 minetest.register_craft({
 	output = "techage:ta3_command_converter_off",
 	recipe = {
-		{"", "group:wood", "default:mese_crystal"},
+		{"", "group:wood", ""},
 		{"default:mese_crystal_fragment", "default:copper_ingot", "techage:vacuum_tube"},
 		{"", "group:wood", ""},
 	},
