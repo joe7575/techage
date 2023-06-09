@@ -78,7 +78,6 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 
-	print(dump(fields))
 	local meta = minetest.get_meta(pos)
 	if fields.exit and fields.exit ~= "" then
 		if techage.check_numbers(fields.numbers, player:get_player_name()) then
@@ -143,7 +142,7 @@ minetest.register_node("techage:ta3_command_converter_on", {
 	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
-	drop = "techage:ta3_playerdetector_off"
+	drop = "techage:ta3_command_converter_off"
 })
 
 minetest.register_craft({
