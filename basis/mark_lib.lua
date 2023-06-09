@@ -12,6 +12,7 @@
 
 ]]--
 
+local MAX_NUM = 128
 local marker = {}
 
 local MarkedNodes = {} -- t[player] = {{entity, pos},...}
@@ -59,7 +60,7 @@ function marker.get_poslist(name)
 	for _,item in ipairs(MarkedNodes[name] or {}) do
 		table.insert(lst, item.pos)
 		idx = idx + 1
-		if idx >= 16 then break end
+		if idx >= MAX_NUM then break end
 	end
 	return lst
 end
