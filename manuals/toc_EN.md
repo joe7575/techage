@@ -108,6 +108,7 @@
     - [Logic / Switching Blocks](./manual_ta3_EN.md#logic--switching-blocks)
         - [TA3 Button / Switch](./manual_ta3_EN.md#ta3-button--switch)
         - [TA3 Command Converter](./manual_ta3_EN.md#ta3-command-converter)
+        - [TA3 Flip-Flop](./manual_ta3_EN.md#ta3-flip-flop)
         - [TA3 Logic Block](./manual_ta3_EN.md#ta3-logic-block)
         - [TA3 Repeater](./manual_ta3_EN.md#ta3-repeater)
         - [TA3 Sequencer](./manual_ta3_EN.md#ta3-sequencer)

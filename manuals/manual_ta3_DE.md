@@ -544,6 +544,14 @@ Die Nummern können auch mit Hilfe des Techage Programmers programmiert werden.
 
 [ta3_command_converter|image]
 
+### TA3 Flipflop / Flip-Flop
+
+Das TA3 Flipflop wechselt seinen Zustand mit jedem empfangenen `on` Kommando.  Empfangene `off` Kommandos werden ignortiert. Damit werden abhängig vom Zustandswechsel abwechselnd `on` / `off` Kommandos gesendet. Die Nummer des Zielblockes bzw. die Nummern der Zielblöcke müssen eingegeben werden. Die Nummern können auch mit Hilfe des Techage Programmers programmiert werden.
+
+Damit lassen sich bspw. Lampen mit Hilfe von Tastern ein- und wieder ausschalten.
+
+[ta3_flipflop|image]
+
 ### TA3 Logikblock / Logic Block
 
 Den TA3 Logikblock kann man so programmieren, dass ein oder mehrere Eingangskommandos zu einem Ausgangskommando verknüpft und gesendet werden. Dieser Block kann daher diverse Logik-Elemente wie AND, OR, NOT, XOR usw. ersetzen.

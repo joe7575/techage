@@ -108,6 +108,7 @@ techage.manual_DE.aTitel = {
   "2,Logik-/Schalt-Blöcke",
   "3,TA3 Taster/Schalter / Button/Switch",
   "3,TA3 Kommando Konverter / Command Converter",
+  "3,TA3 Flipflop / Flip-Flop",
   "3,TA3 Logikblock / Logic Block",
   "3,TA3 Wiederholer / Repeater",
   "3,TA3 Sequenzer / Sequencer",
@@ -1064,6 +1065,12 @@ techage.manual_DE.aText = {
   "Mit dem TA3 Kommando Konverter können 'on' / 'off' Kommandos in andere Kommandos umgewandelt werden\\, sowie die Weiterleitung verhindert oder verzögert werden. Die Nummer des Zielblockes bzw. die Nummern der Zielblöcke\\, die Kommandos die gesendet werden sollen\\, sowie die Verzögerungszeiten in Sekunden müssen eingegeben werden. Wird kein Kommando eingegeben\\, wird nichts gesendet.\n"..
   "\n"..
   "Die Nummern können auch mit Hilfe des Techage Programmers programmiert werden.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "Das TA3 Flipflop wechselt seinen Zustand mit jedem empfangenen 'on' Kommando.  Empfangene 'off' Kommandos werden ignortiert. Damit werden abhängig vom Zustandswechsel abwechselnd 'on' / 'off' Kommandos gesendet. Die Nummer des Zielblockes bzw. die Nummern der Zielblöcke müssen eingegeben werden. Die Nummern können auch mit Hilfe des Techage Programmers programmiert werden.\n"..
+  "\n"..
+  "Damit lassen sich bspw. Lampen mit Hilfe von Tastern ein- und wieder ausschalten.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -2312,6 +2319,7 @@ techage.manual_DE.aItemName = {
   "ta3_logic",
   "ta3_button",
   "ta3_command_converter",
+  "ta3_flipflop",
   "ta3_logic",
   "ta3_repeater",
   "ta3_sequencer",
@@ -2567,6 +2575,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta3_distiller",
+  "",
   "",
   "",
   "",

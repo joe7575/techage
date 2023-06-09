@@ -109,6 +109,7 @@ techage.manual_EN.aTitel = {
   "2,Logic / Switching Blocks",
   "3,TA3 Button / Switch",
   "3,TA3 Command Converter",
+  "3,TA3 Flip-Flop",
   "3,TA3 Logic Block",
   "3,TA3 Repeater",
   "3,TA3 Sequencer",
@@ -1072,6 +1073,12 @@ techage.manual_EN.aText = {
   "The number of the target block or the numbers of the target blocks\\, the commands to be sent and the delay times in seconds must be entered. If no command is entered\\, nothing is sent.\n"..
   "\n"..
   "The numbers can also be programmed using the Techage programmer.\n"..
+  "\n"..
+  "\n"..
+  "\n",
+  "The TA3 flip-flop changes its state with each received 'on' command. Received 'off' commands are ignored. Depending on the status change\\, 'on' / 'off' commands are sent alternately. The number of the target block or the numbers of the target blocks must be entered. The numbers can also be programmed using the Techage programmer.\n"..
+  "\n"..
+  "For example\\, lamps can be switched on and off with the help of buttons.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -2323,6 +2330,7 @@ techage.manual_EN.aItemName = {
   "ta3_logic",
   "ta3_button",
   "ta3_command_converter",
+  "ta3_flipflop",
   "ta3_logic",
   "ta3_repeater",
   "ta3_sequencer",
@@ -2579,6 +2587,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "ta3_distiller",
+  "",
   "",
   "",
   "",

@@ -52,7 +52,6 @@ techage.NodeDef = {}		-- node registration info
 
 techage.max_num_forceload_blocks = tonumber(minetest.settings:get("techage_max_num_forceload_blocks")) or 24
 
-techage.basalt_stone_enabled = minetest.settings:get_bool("techage_basalt_stone_enabled") ~= false
 techage.ore_rarity = tonumber(minetest.settings:get("techage_ore_rarity")) or 1
 techage.modified_recipes_enabled = minetest.settings:get_bool("techage_modified_recipes_enabled") ~= false
 techage.collider_min_depth = tonumber(minetest.settings:get("techage_collider_min_depth")) or -28
@@ -292,6 +291,7 @@ dofile(MP.."/logic/light_detector.lua")
 dofile(MP.."/logic/player_detector.lua")
 dofile(MP.."/logic/gaze_sensor.lua")
 dofile(MP.."/logic/command_converter.lua")
+dofile(MP.."/logic/flipflop.lua")
 dofile(MP.."/logic/mba_detector.lua")
 dofile(MP.."/logic/cart_detector.lua")
 dofile(MP.."/logic/charge_detector.lua")

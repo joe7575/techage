@@ -537,7 +537,6 @@ Note: With the programmer, block numbers can be easily collected and configured.
 
 [ta3_button|image]
 
-
 ### TA3 Command Converter
 
 With the TA3 command converter, `on` / `off` commands can be converted into other commands, and forwarding can be prevented or delayed.
@@ -547,6 +546,13 @@ The numbers can also be programmed using the Techage programmer.
 
 [ta3_command_converter|image]
 
+### TA3 Flip-Flop
+
+The TA3 flip-flop changes its state with each received `on` command. Received `off` commands are ignored. Depending on the status change, `on` / `off` commands are sent alternately. The number of the target block or the numbers of the target blocks must be entered. The numbers can also be programmed using the Techage programmer.
+
+For example, lamps can be switched on and off with the help of buttons.
+
+[ta3_flipflop|image]
 
 ### TA3 Logic Block
 

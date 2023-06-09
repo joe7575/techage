@@ -1,9 +1,6 @@
 # Maximim number of Forceload Blocks per player (default 20)
 techage_max_num_forceload_blocks (Max. number of Forceload Blocks) int 20
 
-# Enable Basalt Stone (and disable ore generation via cobble generator)
-techage_basalt_stone_enabled (Basalt Stone enabled) bool false
-
 # Rarity factor to find ores when sieving with the Gravel Sieve
 # 1.0 is according to the mapgen generator 
 # 2.0 means half as many ores as result

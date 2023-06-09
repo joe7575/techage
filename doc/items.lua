@@ -127,6 +127,7 @@ techage.Items = {
 	ta3_motor = "techage:ta3_motor_off",
 	ta3_injector = "techage:ta3_injector_pas",
 	ta3_command_converter = "techage:ta3_command_converter_off",
+	ta3_flipflop = "techage:ta3_flipflop_off",
 	----------------------------
 	techage_ta4 = "techage_ta4.png",
 	techage_ta4c = "techage_ta4c.png",
