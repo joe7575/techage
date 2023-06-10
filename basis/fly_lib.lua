@@ -516,7 +516,8 @@ minetest.register_entity("techage:move_item", {
 			self.old_dist = self.old_dist or dist
 
 			if self.lmove and self.lmove[self.path_idx] then
-				if dist < 1 or dist > self.old_dist then
+				local min_dist = math.min(1, self.max_speed / 8)
+				if dist < min_dist or dist > self.old_dist then
 					-- change of direction
 					local next_pos = stop_obj(obj, self)
 					if not moveon_entity(obj, self, next_pos) then
@@ -565,7 +566,7 @@ local function is_simple_node(pos)
 	local node = techage.get_node_lvm(pos)
 	if not minecart.is_rail(pos, node.name) then
 		local ndef = minetest.registered_nodes[node.name]
-		return not techage.is_air_like(node.name) and techage.can_dig_node(node.name, ndef) or minecart.is_cart(node.name)
+		return node.name ~= "air" and techage.can_dig_node(node.name, ndef) or minecart.is_cart(node.name)
 	end
 end
 
