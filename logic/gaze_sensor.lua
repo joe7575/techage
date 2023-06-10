@@ -76,15 +76,18 @@ end
 local function player_focuses_block(pos, name)
 	local obj = minetest.get_player_by_name(name)
 	if obj then
-		local owner_pos = obj:get_pos()
-		owner_pos.y = owner_pos.y + 1.5
-		local dist = vector.distance(pos, owner_pos)
+		local player_pos = obj:get_pos()
+		player_pos.y = player_pos.y + 1.5
+		local dist = vector.distance(pos, player_pos)
 		if dist < MAX_PLAYER_DIST then
 			local dir = obj:get_look_dir()
 			local vec1 = vector.multiply(dir, dist)
-			local pos1 = vector.round(vector.add(owner_pos, vec1))
+			local pos1 = vector.round(vector.add(player_pos, vec1))
 			if vector.equals(pos, pos1) then
-				return true
+				local item = obj:get_wielded_item()
+				if not item or item:get_name() ~= "techage:end_wrench" then
+					return true
+				end
 			end
 		end
 	end
