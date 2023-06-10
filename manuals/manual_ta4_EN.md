@@ -539,7 +539,7 @@ To do this, the charge detector must be connected to the grid via a junction box
 
 The TA4 gaze sensor generates a command when the block is viewed/focused by the owner or other configured players and sends a second command when the block is no longer focused. It thus serves as a replacement for buttons/switches, for example to open/close doors.
 
-The TA4 Gaze Sensor can only be programmed using the open-end wrench menu.
+The TA4 Gaze Sensor can only be programmed using the open-end wrench menu. If you have an open-end wrench in your hand, the sensor does not trigger, even if it is focused.
 
 [ta4_gaze_sensor|image]
 

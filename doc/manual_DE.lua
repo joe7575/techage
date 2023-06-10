@@ -1717,7 +1717,7 @@ techage.manual_DE.aText = {
   "\n",
   "Der TA4 Blicksensor generiert ein Kommando\\, wenn der Block vom Besitzer oder anderen konfigurierten Spielern angesehen/fokussiert wird und sendet ein zweites Kommando\\, wenn der Block nicht mehr fokussiert wird. Er dient damit als Ersatz für Taster/Schalter\\, um bspw. Türen zu öffnen/schließen.\n"..
   "\n"..
-  "Der TA4 Blicksensor kann nur mit dem Gabelschlüsselmenü programmiert werden.\n"..
+  "Der TA4 Blicksensor kann nur mit dem Gabelschlüsselmenü programmiert werden. Hat man einen Gabelschlüssel in der Hand\\, löst der Sensor nicht aus\\, auch wenn dieser fokussiert wird.\n"..
   "\n"..
   "\n"..
   "\n",
