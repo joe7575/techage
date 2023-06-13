@@ -643,16 +643,20 @@ local function multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2t
 			else
 				if not is_simple_node(pos1) then
 					meta:set_string("status", S("No valid node at the start position"))
+					minetest.chat_send_player(owner, " [techage] " .. S("No valid node at the start position") .. " at " .. P2S(pos1))
 				else
 					meta:set_string("status", S("No valid destination position"))
+					minetest.chat_send_player(owner, " [techage] " .. S("No valid destination position") .. " at " .. P2S(pos2))
 				end
 				return false
 			end
 		else
 			if minetest.is_protected(pos1, owner) then
 				meta:set_string("status", S("Start position is protected"))
+				minetest.chat_send_player(owner, " [techage] " .. S("Start position is protected") .. " at " .. P2S(pos1))
 			else
 				meta:set_string("status", S("Destination position is protected"))
+				minetest.chat_send_player(owner, " [techage] " .. S("Destination position is protected") .. " at " .. P2S(pos2))
 			end
 			return false
 		end
@@ -685,16 +689,20 @@ local function move_nodes(pos, meta, lpos1, move, max_speed, height)
 			else
 				if not is_simple_node(pos1) then
 					meta:set_string("status", S("No valid node at the start position"))
+					minetest.chat_send_player(owner, " [techage] " .. S("No valid node at the start position") .. " at " .. P2S(pos1))
 				else
 					meta:set_string("status", S("No valid destination position"))
+					minetest.chat_send_player(owner, " [techage] " .. S("No valid destination position") .. " at " .. P2S(pos2))
 				end
 				return false, lpos1
 			end
 		else
 			if minetest.is_protected(pos1, owner) then
 				meta:set_string("status", S("Start position is protected"))
+				minetest.chat_send_player(owner, " [techage] " .. S("Start position is protected") .. " at " .. P2S(pos1))
 			else
 				meta:set_string("status", S("Destination position is protected"))
+				minetest.chat_send_player(owner, " [techage] " .. S("Destination position is protected") .. " at " .. P2S(pos2))
 			end
 			return false, lpos1
 		end
@@ -730,16 +738,20 @@ local function teleport(base_pos, pos1, pos2, meta, owner, lmove, max_speed)
 		else
 			if not techage.is_air_like(node1.name) then
 				meta:set_string("status", S("No valid start position"))
+				minetest.chat_send_player(owner, " [techage] " .. S("No valid start position") .. " at " .. P2S(pos1))
 			else
 				meta:set_string("status", S("No valid destination position"))
+				minetest.chat_send_player(owner, " [techage] " .. S("No valid destination position") .. " at " .. P2S(pos2))
 			end
 			return false
 		end
 	else
 		if minetest.is_protected(pos1, owner) then
 			meta:set_string("status", S("Start position is protected"))
+			minetest.chat_send_player(owner, " [techage] " .. S("Start position is protected") .. " at " .. P2S(pos1))
 		else
 			meta:set_string("status", S("Destination position is protected"))
+			minetest.chat_send_player(owner, " [techage] " .. S("Destination position is protected") .. " at " .. P2S(pos2))
 		end
 		return false
 	end
