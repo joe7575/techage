@@ -68,3 +68,8 @@ techage.register_mobs_mods("ts_vehicles_cars")
 
 -- Used as e.g. crane cable
 techage.register_simple_nodes({"techage:power_lineS"}, true)
+
+-- Mods like cottages add the function ``after_dig_node`` to the dirt blocks
+techage.register_simple_nodes({"default:dirt", "default:dirt_with_grass", "default:dirt_with_grass_footsteps",
+	"default:dirt_with_dry_grass", "default:dirt_with_snow", "default:dirt_with_rainforest_litter",
+	"default:dirt_with_coniferous_litter"}, true)
