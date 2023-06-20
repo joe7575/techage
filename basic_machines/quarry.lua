@@ -46,6 +46,8 @@ local function formspec(self, pos, nvm)
 	local hsize_list = "5x5"
 	if CRD(pos).stage == 4 then
 		hsize_list = "3x3,5x5,7x7,9x9,11x11"
+	elseif CRD(pos).stage == 3 then
+		hsize_list = "3x3,5x5,7x7"
 	end
 	local depth_list = "1,2,3,5,10,15,20,25,40,60,80"
 	if CRD(pos).stage == 3 then
@@ -162,7 +164,7 @@ local function quarry_task(pos, crd, nvm)
 	nvm.quarry_depth = nvm.quarry_depth or 1
 	nvm.hole_diameter = nvm.hole_diameter or 5
 	local y_first = pos.y + nvm.start_level
-	local y_last  = y_first - nvm.quarry_depth + 1
+	local y_last  = y_first - nvm.quarry_depth
 	local facedir = minetest.get_node(pos).param2
 	local owner = M(pos):get_string("owner")
 	local fake_player = techage.Fake_player:new()
@@ -299,6 +301,13 @@ local function on_receive_fields(pos, formname, fields, player)
 			if fields.hole_size ~= nvm.hole_size then
 				nvm.hole_size = fields.hole_size
 				nvm.hole_diameter = Holesize2Diameter[fields.hole_size or "5x5"] or 5
+				mem.co = nil
+				CRD(pos).State:stop(pos, nvm)
+			end
+		elseif CRD(pos).stage == 3 then
+			if fields.hole_size ~= nvm.hole_size then
+				nvm.hole_size = fields.hole_size
+				nvm.hole_diameter = Holesize2Diameter[fields.hole_size or "7x7"] or 7
 				mem.co = nil
 				CRD(pos).State:stop(pos, nvm)
 			end
