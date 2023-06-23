@@ -140,6 +140,8 @@ minetest.register_node("techage:ta2_winch", {
 			remove_chest(pos)
 			nvm.running = true
 			power.start_storage_calc(pos, Axle, outdir)
+		elseif not nvm.running then
+			techage.renew_rope(pos, 50)
 		elseif nvm.running and nvm.load == 0 and not power.power_available(pos, Axle, outdir) then
 			add_chest(pos)
 			nvm.running = false
@@ -185,7 +187,9 @@ techage.register_node({"techage:ta2_winch"}, {
 	on_node_load = function(pos, node)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		local nvm = techage.get_nvm(pos)
-		add_chest_entity(pos, nvm)
+		if nvm.running then
+			add_chest_entity(pos, nvm)
+		end
 	end,
 })
 
