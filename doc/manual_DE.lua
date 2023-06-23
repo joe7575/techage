@@ -1068,7 +1068,7 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
-  "Das TA3 Flipflop wechselt seinen Zustand mit jedem empfangenen 'on' Kommando.  Empfangene 'off' Kommandos werden ignortiert. Damit werden abhängig vom Zustandswechsel abwechselnd 'on' / 'off' Kommandos gesendet. Die Nummer des Zielblockes bzw. die Nummern der Zielblöcke müssen eingegeben werden. Die Nummern können auch mit Hilfe des Techage Programmers programmiert werden.\n"..
+  "Das TA3 Flipflop wechselt seinen Zustand mit jedem empfangenen 'on' Kommando.  Empfangene 'off' Kommandos werden ignoriert. Damit werden abhängig vom Zustandswechsel abwechselnd 'on' / 'off' Kommandos gesendet. Die Nummer des Zielblockes bzw. die Nummern der Zielblöcke müssen eingegeben werden. Die Nummern können auch mit Hilfe des Techage Programmers programmiert werden.\n"..
   "\n"..
   "Damit lassen sich bspw. Lampen mit Hilfe von Tastern ein- und wieder ausschalten.\n"..
   "\n"..
