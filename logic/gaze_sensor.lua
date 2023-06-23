@@ -73,20 +73,22 @@ local function get_players(pos)
 	return t
 end
 
-local function player_focuses_block(pos, name)
-	local obj = minetest.get_player_by_name(name)
+local function player_focuses_block(pos, name, obj)
+	obj = obj or minetest.get_player_by_name(name)
 	if obj then
 		local player_pos = obj:get_pos()
 		player_pos.y = player_pos.y + 1.5
 		local dist = vector.distance(pos, player_pos)
 		if dist < MAX_PLAYER_DIST then
 			local dir = obj:get_look_dir()
-			local vec1 = vector.multiply(dir, dist)
-			local pos1 = vector.round(vector.add(player_pos, vec1))
-			if vector.equals(pos, pos1) then
-				local item = obj:get_wielded_item()
-				if not item or item:get_name() ~= "techage:end_wrench" then
-					return true
+			if dir then
+				local vec1 = vector.multiply(dir, dist)
+				local pos1 = vector.round(vector.add(player_pos, vec1))
+				if vector.equals(pos, pos1) then
+					local item = obj:get_wielded_item()
+					if not item or item:get_name() ~= "techage:end_wrench" then
+						return true
+					end
 				end
 			end
 		end
@@ -97,14 +99,30 @@ end
 local function scan_for_player(pos)
 	local mem = techage.get_mem(pos)
 	mem.players = mem.players or get_players(pos)
-	for _, name in ipairs(mem.players) do
-		if player_focuses_block(pos, name) then
-			mem.player_name = name
-			return true
+	if mem.players[1] == "***" then
+		for _, obj in ipairs(minetest.get_objects_inside_radius(pos, MAX_PLAYER_DIST)) do
+			if player_focuses_block(pos, "", obj) then
+				mem.player_name = obj:get_player_name()
+				return true
+			end
+		end
+	else
+		for _, name in ipairs(mem.players) do
+			if player_focuses_block(pos, name, nil) then
+				mem.player_name = name
+				return true
+			end
 		end
 	end
 	mem.player_name = ""
 	return false
+end
+
+local function ta_after_formspec(pos, fields, playername)
+	if fields.save then
+		local mem = techage.get_mem(pos)
+		mem.players = nil
+	end
 end
 
 minetest.register_node("techage:ta4_gaze_sensor_off", {
@@ -139,6 +157,7 @@ minetest.register_node("techage:ta4_gaze_sensor_off", {
 	end,
 
 	ta4_formspec = WRENCH_MENU,
+	ta_after_formspec = ta_after_formspec,
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
@@ -170,6 +189,7 @@ minetest.register_node("techage:ta4_gaze_sensor_on", {
 	end,
 
 	ta4_formspec = WRENCH_MENU,
+	ta_after_formspec = ta_after_formspec,
 	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
