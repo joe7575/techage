@@ -164,7 +164,7 @@ local function quarry_task(pos, crd, nvm)
 	nvm.quarry_depth = nvm.quarry_depth or 1
 	nvm.hole_diameter = nvm.hole_diameter or 5
 	local y_first = pos.y + nvm.start_level
-	local y_last  = y_first - nvm.quarry_depth
+	local y_last  = y_first - nvm.quarry_depth + 1
 	local facedir = minetest.get_node(pos).param2
 	local owner = M(pos):get_string("owner")
 	local fake_player = techage.Fake_player:new()
