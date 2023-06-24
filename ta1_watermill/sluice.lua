@@ -61,7 +61,7 @@ local function on_rightclick(pos, node, clicker, itemstack, pointed_thing)
 	if node2.name == "techage:ta1_sluice_closed" then
 		minetest.swap_node(pos, {name = "techage:ta1_sluice_handle_open", param2 = node.param2})
 		minetest.swap_node(pos2, {name = "techage:ta1_sluice_open", param2 = node.param2})
-		if res then
+		if res and (node3.name == "air" or node3.name == "default:water_flowing") then
 			minetest.add_node(pos3, {name = "default:water_source"})
 			minetest.get_node_timer(pos3):start(2)
 		end
@@ -70,7 +70,7 @@ local function on_rightclick(pos, node, clicker, itemstack, pointed_thing)
 	elseif node2.name == "techage:ta1_sluice_open" then
 		minetest.swap_node(pos, {name = "techage:ta1_sluice_handle_closed", param2 = node.param2})
 		minetest.swap_node(pos2, {name = "techage:ta1_sluice_closed", param2 = node.param2})
-		if res then
+		if res and node3.name == "default:water_source" then
 			minetest.add_node(pos3, {name = "air"})
 		end
 		minetest.sound_play("doors_door_close", {gain = 0.5, pos = pos,
