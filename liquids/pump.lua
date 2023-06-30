@@ -170,6 +170,13 @@ local function on_rightclick(pos, node, clicker)
 	end
 end
 
+local function ta_rotate_node(pos, node, new_param2)
+	Pipe:after_dig_node(pos)
+	minetest.swap_node(pos, {name = node.name, param2 = new_param2})
+	Pipe:after_place_node(pos)
+	M(pos):set_int("outdir", techage.side_to_outdir("R", new_param2))
+end
+
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	Pipe:after_dig_node(pos)
 	techage.remove_node(pos, oldnode, oldmetadata)
@@ -179,7 +186,7 @@ end
 local ta3_tiles_pas = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta3.png^techage_frame_ta3_top.png^techage_appl_arrow.png",
-	"techage_filling_ta3.png^techage_frame_ta3_bottom.png",
+	"techage_filling_ta3.png^techage_frame_ta3_bottom.png^techage_appl_arrow.png",
 	"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 	"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 	"techage_filling_ta3.png^techage_appl_pump.png^techage_frame_ta3.png^[transformFX",
@@ -189,7 +196,7 @@ local ta3_tiles_pas = {
 local ta4_tiles_pas = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_arrow.png",
-	"techage_filling_ta4.png^techage_frame_ta4_bottom.png",
+	"techage_filling_ta4.png^techage_frame_ta4_bottom.png^techage_appl_arrow.png",
 	"techage_filling_ta4.png^techage_appl_hole_pipe.png^techage_frame_ta4.png",
 	"techage_filling_ta4.png^techage_appl_hole_pipe.png^techage_frame_ta4.png",
 	"techage_filling_ta4.png^techage_appl_pump.png^techage_frame_ta4.png^[transformFX",
@@ -199,7 +206,7 @@ local ta4_tiles_pas = {
 local ta3_tiles_act = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta3.png^techage_frame_ta3_top.png^techage_appl_arrow.png",
-	"techage_filling_ta3.png^techage_frame_ta3_bottom.png",
+	"techage_filling_ta3.png^techage_frame_ta3_bottom.png^techage_appl_arrow.png",
 	"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 	"techage_filling_ta3.png^techage_appl_hole_pipe.png^techage_frame_ta3.png",
 	{
@@ -227,7 +234,7 @@ local ta3_tiles_act = {
 local ta4_tiles_act = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_arrow.png",
-	"techage_filling_ta4.png^techage_frame_ta4_bottom.png",
+	"techage_filling_ta4.png^techage_frame_ta4_bottom.png^techage_appl_arrow.png",
 	"techage_filling_ta4.png^techage_appl_hole_pipe.png^techage_frame_ta4.png",
 	"techage_filling_ta4.png^techage_appl_hole_pipe.png^techage_frame_ta4.png",
 	{
@@ -259,6 +266,7 @@ minetest.register_node("techage:t3_pump", {
 	on_rightclick = on_rightclick,
 	on_timer = node_timer3,
 	after_dig_node = after_dig_node,
+	ta_rotate_node = ta_rotate_node,
 	on_rotate = screwdriver.disallow,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
@@ -290,6 +298,7 @@ minetest.register_node("techage:t4_pump", {
 	on_rightclick = on_rightclick,
 	on_timer = node_timer4,
 	after_dig_node = after_dig_node,
+	ta_rotate_node = ta_rotate_node,
 	on_rotate = screwdriver.disallow,
 	paramtype2 = "facedir",
 	on_rotate = screwdriver.disallow,
