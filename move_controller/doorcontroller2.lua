@@ -290,7 +290,7 @@ end
 --------------------------------------------------------------------------
 local function exchange_node(pos, item, param2)
 	local node = minetest.get_node_or_nil(pos)
-	if node and is_simple_node(node.name) or node.name == "air" then
+	if node and (is_simple_node(node.name) or node.name == "air") then
 		if item and is_simple_node(item:get_name()) then
 			fly.exchange_node(pos, item:get_name(), param2)
 		else
