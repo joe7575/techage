@@ -19,7 +19,34 @@ local NDEF = function(pos) return (minetest.registered_nodes[techage.get_node_lv
 
 local logic = techage.logic
 
-local WRENCH_MENU = {
+local WRENCH_MENU3 = {
+	{
+		type = "dropdown",
+		choices = "switch,on button,button 1s,button 2s,button 4s,button 8s,button 16s,button 32s",
+		name = "type",
+		label = S("Type"),
+		tooltip = S("Button or switch"),
+		default = "1",
+	},
+	{
+		type = "numbers",
+		name = "numbers",
+		label = S("Number"),
+		tooltip = S("Destination block number(s)"),
+		default = "",
+		check = techage.check_numbers,
+	},
+	{
+		type = "dropdown",
+		choices = "private,protected,public",
+		name = "access",
+		label = S("Access"),
+		tooltip = S("Button protection"),
+		default = "1",
+	},
+}
+
+local WRENCH_MENU4 = {
 	{
 		type = "dropdown",
 		choices = "switch,on button,button 1s,button 2s,button 4s,button 8s,button 16s,button 32s",
@@ -183,7 +210,7 @@ end
 local function ta_after_formspec(pos, fields, playername)
 	store_fields_data(pos, fields)
 	local meta = M(pos)
-	if fields.decription ~= "" then
+	if fields.decription and fields.decription ~= "" then
 		logic.infotext(meta, fields.decription)
 	else
 		logic.infotext(meta, NDEF(pos).description)
@@ -255,6 +282,8 @@ minetest.register_node("techage:ta3_button_off", {
 		meta:set_int("cycle_time", 0)
 	end,
 
+	ta3_formspec = WRENCH_MENU3,
+	ta_after_formspec = ta_after_formspec,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick_on,
 	techage_set_numbers = techage_set_numbers,
@@ -279,6 +308,8 @@ minetest.register_node("techage:ta3_button_on", {
 		"techage_filling_ta3.png^techage_frame_ta3.png^techage_button_on.png",
 	},
 
+	ta3_formspec = WRENCH_MENU3,
+	ta_after_formspec = ta_after_formspec,
 	on_rightclick = on_rightclick_off,
 	on_timer = switch_off,
 	on_rotate = screwdriver.disallow,
@@ -321,7 +352,7 @@ minetest.register_node("techage:ta4_button_off", {
 		meta:set_int("cycle_time", 0)
 	end,
 
-	ta4_formspec = WRENCH_MENU,
+	ta4_formspec = WRENCH_MENU4,
 	ta_after_formspec = ta_after_formspec,
 	on_receive_fields = on_receive_fields,
 	on_rightclick = on_rightclick_on,
@@ -359,7 +390,7 @@ minetest.register_node("techage:ta4_button_on", {
 		},
 	},
 
-	ta4_formspec = WRENCH_MENU,
+	ta4_formspec = WRENCH_MENU4,
 	ta_after_formspec = ta_after_formspec,
 	on_rightclick = on_rightclick_off,
 	on_timer = switch_off,
