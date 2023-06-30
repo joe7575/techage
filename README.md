@@ -88,6 +88,15 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2023-06-30 V1.16**
+
+- Add TA4 node detector
+- Add wrench menu to TA3 button
+- Add arrows to the pump bottom and allow to turn the pump with the Techage Screwdriver
+- Fix bug with configurred TA4 chest and TA5 teleport tubes
+- Add gaze sensor
+- Many bugfixes and improvements
+
 **2023-05-05 V1.15**
 
 - Allow energy storage with up to 13x13x13 concrete blocks
