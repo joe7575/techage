@@ -124,7 +124,7 @@ techage.manual_EN.aTitel = {
   "2,Detectors",
   "3,TA3 Detector",
   "3,TA3 Cart Detector",
-  "3,TA3 Block Detector",
+  "3,TA3 Node Detector",
   "3,TA3 Player Detector",
   "3,TA3 Light Detector",
   "2,TA3 Machines",
@@ -196,6 +196,7 @@ techage.manual_EN.aTitel = {
   "3,TA4 Player Detector",
   "3,TA4 State Collector",
   "3,TA4 Detector",
+  "3,TA4 Node Detector",
   "3,TA4 Energy Storage Charge Detector",
   "3,TA4 Gaze Sensor",
   "3,TA4 Sequencer",
@@ -1225,7 +1226,7 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
-  "The block detector sends an 'on' command if it detects that blocks appear or disappear in front of it\\, but must be configured accordingly. After switching the detector back to the standard state (gray block)\\, an 'off' command is sent. Valid blocks are all types of blocks and plants\\, but not animals or players. The sensor range is 3 blocks / meter in the direction of the arrow.\n"..
+  "The node detector sends an 'on' command if it detects that nodes (blocks) appear or disappear in front of it\\, but must be configured accordingly. After switching the detector back to the standard state (gray block)\\, an 'off' command is sent. Valid blocks are all types of blocks and plants\\, but not animals or players. The sensor range is 3 blocks / meter in the direction of the arrow.\n"..
   "\n"..
   "\n"..
   "\n",
@@ -1718,6 +1719,14 @@ techage.manual_EN.aText = {
   "\n"..
   "\n"..
   "\n",
+  "The functionality is the same as with the TA3 Node Detector.\n"..
+  "\n"..
+  "In contrast to the TA3 node detector\\, the positions to be monitored can be configured individually here. To do this\\, the \"Record\" button must be pressed. Then all blocks must be clicked\\, the position of which is to be checked. Then the \"Done\" button must be pressed.\n"..
+  "\n"..
+  "Up to 4 blocks can be selected.\n"..
+  "\n"..
+  "\n"..
+  "\n",
   "The charge detector measures the state of charge of the power grid's energy storage every 8 s.\n"..
   "\n"..
   "If the value falls below a configurable threshold (switching point)\\, a command (default: \"off\") is sent. If the value rises above this switching point again\\, a second command (default: \"on\") is sent. This allows consumers to be disconnected from the grid when the charge level of the energy storage device falls below the specified switching point.\n"..
@@ -2150,7 +2159,7 @@ techage.manual_EN.aText = {
   "\n"..
   "With the \"Test\" button\\, the flight route with the absolute coordinates is output for checking in the chat.\n"..
   "\n"..
-  "The maximum distance for the entire flight distance is 1000 m. Up to 32 blocks can be trained.\n"..
+  "The maximum distance for the entire flight distance is 1500 m. Up to 32 blocks can be trained.\n"..
   "\n"..
   "The use of the TA5 Flight Controller requires 40 experience points.\n"..
   "\n"..
@@ -2417,6 +2426,7 @@ techage.manual_EN.aItemName = {
   "ta4_playerdetector",
   "ta4_collector",
   "ta4_detector",
+  "ta4_nodedetector",
   "ta4_chargedetector",
   "ta4_gaze_sensor",
   "ta4_sequencer",
@@ -2653,6 +2663,7 @@ techage.manual_EN.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
   "",
   "",
   "",

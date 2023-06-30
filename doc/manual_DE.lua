@@ -194,6 +194,7 @@ techage.manual_DE.aTitel = {
   "3,TA4 Spieler Detektor / Player Detector",
   "3,TA4 Zustandssammler / State Collector",
   "3,TA4 Detektor / Detector",
+  "3,TA4 Block Detektor / Node Detector",
   "3,TA4 Energiespeicher-Ladungsdetektor / Energy Storage Charge Detector",
   "3,TA4 Blicksensor / Gaze Sensor",
   "3,TA4 Sequenzer",
@@ -1707,6 +1708,14 @@ techage.manual_DE.aText = {
   "\n"..
   "\n"..
   "\n",
+  "Die Funktionalität ist gleich wie beim TA3 Block Detektor. \n"..
+  "\n"..
+  "Im Unterschied zum TA3 Block Detektor können hier die Positionen\\, die überwacht werden sollen\\, individuell konfiguriert werden. Dazu muss der \"Aufzeichnen\" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden\\, von denen die Position überprüft werden soll. Danach muss der \"Fertig\" Button gedrückt werden.  \n"..
+  "\n"..
+  "Es können bis zu 4 Blöcke ausgewählt werden. \n"..
+  "\n"..
+  "\n"..
+  "\n",
   "Der Ladungsdetektor misst alle 8 s den Ladezustand des Energiespeichers des Stromnetzwerkes.\n"..
   "\n"..
   "Fällt der Wert unter eine konfigurierbare Schwelle  (Schaltpunkt)\\, wird ein Kommando (default: \"off\") versendet. Steigt der Wert wieder über diesen Schaltpunkt\\, so wird ein zweites Kommando (default: \"on\") gesendet. Damit lassen sich Verbraucher vom Netz trennen\\, wenn der Ladezustand des Energiespeichers unter den angegebenen Schaltpunkt sinkt.\n"..
@@ -2138,7 +2147,7 @@ techage.manual_DE.aText = {
   "\n"..
   "Mit der Taste \"Test\" wird die Flugstrecke mit den absoluten Koordinaten zur Überprüfung im Chat ausgegeben.\n"..
   "\n"..
-  "Die maximale Distanz für die gesammte Flugstrecke beträgt 1000 m. Es können bis zu 32 Blöcke antrainiert werden.\n"..
+  "Die maximale Distanz für die gesammte Flugstrecke beträgt 1500 m. Es können bis zu 32 Blöcke antrainiert werden.\n"..
   "\n"..
   "Die Nutzung des TA5 Flug Controllers benötigt 40 Erfahrungspunkte.\n"..
   "\n"..
@@ -2405,6 +2414,7 @@ techage.manual_DE.aItemName = {
   "ta4_playerdetector",
   "ta4_collector",
   "ta4_detector",
+  "ta4_nodedetector",
   "ta4_chargedetector",
   "ta4_gaze_sensor",
   "ta4_sequencer",
@@ -2640,6 +2650,7 @@ techage.manual_DE.aPlanTable = {
   "",
   "",
   "ta4_reactor",
+  "",
   "",
   "",
   "",

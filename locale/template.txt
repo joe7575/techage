@@ -143,6 +143,7 @@ Number=
 ### cart_detector.lua ###
 ### command_converter.lua ###
 ### detector.lua ###
+### flipflop.lua ###
 ### light_detector.lua ###
 ### lua_logic.lua ###
 ### mesecons_converter.lua ###
@@ -157,6 +158,7 @@ Insert destination node number(s)=
 ### command_converter.lua ###
 ### detector.lua ###
 ### doorcontroller.lua ###
+### flipflop.lua ###
 ### mesecons_converter.lua ###
 ### repeater.lua ###
 ### sequencer2.lua ###
@@ -269,7 +271,7 @@ TA4 State Collector=
 ### command_converter.lua ###
 
 Receive=
-Send delay \\[s\\]=
+Send delay (s)=
 Sent command=
 TA3 Command Converter=
 
@@ -387,12 +389,19 @@ with door sound=
 ### doorcontroller2.lua ###
 ### flycontroller.lua ###
 ### movecontroller.lua ###
+### node_detector.lua ###
 ### turncontroller.lua ###
 
 Done=
 Record=
-Recording...=
 block positions are stored.=
+
+### doorcontroller2.lua ###
+### flycontroller.lua ###
+### movecontroller.lua ###
+### turncontroller.lua ###
+
+Recording...=
 
 ### doorcontroller2.lua ###
 ### movecontroller.lua ###
@@ -501,6 +510,10 @@ TA3 Power Station Firebox=
 ### firebox_lib.lua ###
 
 Firebox=
+
+### flipflop.lua ###
+
+TA3 Flip-Flop=
 
 ### fly_lib.lua ###
 
@@ -964,8 +977,10 @@ TA4 Move Controller=
 
 ### node_detector.lua ###
 
+Click on all blocks whose positions should be checked=
 Send signal if nodes have been:=
 TA3 Node Detector=
+TA4 Node Detector=
 added=
 added or removed=
 removed=

@@ -740,9 +740,9 @@ The detector can also be programmed with its own number. In this case, he pushes
 [ta3_cartdetector|image]
 
 
-### TA3 Block Detector
+### TA3 Node Detector
 
-The block detector sends an `on` command if it detects that blocks appear or disappear in front of it, but must be configured accordingly. After switching the detector back to the standard state (gray block), an `off` command is sent. Valid blocks are all types of blocks and plants, but not animals or players. The sensor range is 3 blocks / meter in the direction of the arrow.
+The node detector sends an `on` command if it detects that nodes (blocks) appear or disappear in front of it, but must be configured accordingly. After switching the detector back to the standard state (gray block), an `off` command is sent. Valid blocks are all types of blocks and plants, but not animals or players. The sensor range is 3 blocks / meter in the direction of the arrow.
 
 [ta3_nodedetector|image]
 

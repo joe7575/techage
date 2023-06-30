@@ -534,6 +534,16 @@ Diesen Zähler kann man über das Kommando 'count' abfragen und über 'reset' zu
 
 [ta4_detector|image]
 
+### TA4 Block Detektor / Node Detector
+
+Die Funktionalität ist gleich wie beim TA3 Block Detektor. 
+
+Im Unterschied zum TA3 Block Detektor können hier die Positionen, die überwacht werden sollen, individuell konfiguriert werden. Dazu muss der "Aufzeichnen" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden, von denen die Position überprüft werden soll. Danach muss der "Fertig" Button gedrückt werden.  
+
+Es können bis zu 4 Blöcke ausgewählt werden. 
+
+[ta4_nodedetector|image]
+
 ### TA4 Energiespeicher-Ladungsdetektor / Energy Storage Charge Detector
 
 Der Ladungsdetektor misst alle 8 s den Ladezustand des Energiespeichers des Stromnetzwerkes.

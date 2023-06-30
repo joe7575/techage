@@ -525,6 +525,16 @@ This counter can be queried with the 'count' command and reset with 'reset'.
 
 [ta4_detector|image]
 
+### TA4 Node Detector
+
+The functionality is the same as with the TA3 Node Detector.
+
+In contrast to the TA3 node detector, the positions to be monitored can be configured individually here. To do this, the "Record" button must be pressed. Then all blocks must be clicked, the position of which is to be checked. Then the "Done" button must be pressed.
+
+Up to 4 blocks can be selected.
+
+[ta4_nodedetector|image]
+
 ### TA4 Energy Storage Charge Detector
 
 The charge detector measures the state of charge of the power grid's energy storage every 8 s.
