@@ -163,7 +163,7 @@ techage.register_node({"techage:ta5_tele_tube"}, {
 					if leftover then
 						State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 						State:keep_running(rmt_pos, rmt_nvm, COUNTDOWN_TICKS)
-						return true
+						return leftover
 					end
 					return leftover
 				else
