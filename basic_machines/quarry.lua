@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2022 Joachim Stolberg
+	Copyright (C) 2019-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -31,11 +31,11 @@ local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
 
 local Side2Facedir = {F=0, R=1, B=2, L=3, D=4, U=5}
-local Depth2Idx = {[1]=1 ,[2]=2, [3]=3, [5]=4, [10]=5, [15]=6, [20]=7, [25]=8, [40]=9, [60]=10, [80]=11}
+local Depth2Idx = {[1]=1 ,[2]=2, [3]=3, [5]=4, [7]=5, [10]=6, [15]=7, [20]=8, [25]=9, [40]=10, [60]=11, [80]=12}
 local Holesize2Idx = {["3x3"] = 1, ["5x5"] = 2, ["7x7"] = 3, ["9x9"] = 4, ["11x11"] = 5}
 local Holesize2Diameter = {["3x3"] = 3, ["5x5"] = 5, ["7x7"] = 7, ["9x9"] = 9, ["11x11"] = 11}
 local Level2Idx = {[2]=1, [1]=2, [0]=3, [-1]=4, [-2]=5, [-3]=6,
-				   [-5]=7, [-10]=8, [-15]=9, [-20]=10}
+                   [-5]=7, [-10]=8, [-15]=9, [-20]=10}
 
 local function formspec(self, pos, nvm)
 	local tooltip = S("Start level = 0\nmeans the same level\nas the quarry is placed")
@@ -49,11 +49,11 @@ local function formspec(self, pos, nvm)
 	elseif CRD(pos).stage == 3 then
 		hsize_list = "3x3,5x5,7x7"
 	end
-	local depth_list = "1,2,3,5,10,15,20,25,40,60,80"
+	local depth_list = "1,2,3,5,7,10,15,20,25,40,60,80"
 	if CRD(pos).stage == 3 then
-		depth_list = "1,2,3,5,10,15,20,25,40"
+		depth_list = "1,2,3,5,7,10,15,20,25,40"
 	elseif CRD(pos).stage == 2 then
-		depth_list = "1,2,3,5,10,15,20"
+		depth_list = "1,2,3,5,7,10,15,20"
 	end
 
 	return "size[8,8]"..
