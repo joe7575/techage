@@ -108,6 +108,24 @@ techage.register_node({"techage:ta3_repeater"}, {
 			techage.counting_stop()
 		end
 	end,
+	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		local mem = techage.get_mem(pos)
+		mem.overload_cnt = (mem.overload_cnt or 0) + 1
+		if mem.overload_cnt > OVER_LOAD_MAX then
+			logic.infotext(M(pos), S("TA3 Repeater"), "fault (overloaded)")
+			minetest.get_node_timer(pos):stop()
+			return 3
+		else
+			if topic == 1 then
+				local numbers = M(pos):get_string("numbers") or ""
+				techage.counting_start(M(pos):get_string("owner"))
+				techage.send_multi(src, numbers, payload[1] == 1 and "on" or "off")
+				techage.counting_stop()
+				return 0
+                        end
+                end
+                return 2
+	end,
 	on_node_load = function(pos)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
