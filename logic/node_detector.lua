@@ -57,11 +57,16 @@ local DropdownValues = {
 local AirLikeBlocks = {"air"}
 local kvAirLikeBlocks = {air = 1}
 
-for i = 1,14 do
-	-- Add light blocks from the mod "wielded_light" to the air-like blocks
-	AirLikeBlocks[#AirLikeBlocks + 1] = "wielded_light:" .. i
-	kvAirLikeBlocks["wielded_light:" .. i] = 1
-end
+-- Add all nodes w/o tiles or `airlike` drawtype
+minetest.register_on_mods_loaded(function()
+	for node, def in pairs(minetest.registered_nodes) do
+		local tiles = def.tiles or def.tile_images
+		if tiles == nil or def.drawtype == "airlike" then
+			AirLikeBlocks[#AirLikeBlocks + 1] = node
+			kvAirLikeBlocks[node] = 1
+		end
+	end
+end)
 
 local function formspec3(meta, nvm)
 	local numbers = meta:get_string("numbers") or ""
