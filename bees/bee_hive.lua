@@ -295,3 +295,13 @@ techage.register_node({"techage:bee_hive"}, {
 	end
 })
 
+
+minetest.register_craft({
+	output = "techage:bee_hive",
+	recipe = {
+		{"group:wood",    "homedecor:plastic_sheeting", "group:wood"},
+		{"techage:tubeS", "bees:hive_artificial",       "techage:tubeS"},
+		{"group:wood",    "techage:iron_ingot",         "group:wood"},
+	},
+})
+
