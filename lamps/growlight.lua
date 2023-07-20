@@ -188,9 +188,6 @@ function techage.register_flower(name)
 end
 
 function techage.register_plant(name)
-	if contains(Plants, name) then
-		return
-	end
 	Plants[name] = true
 end
 
