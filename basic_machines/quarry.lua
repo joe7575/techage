@@ -243,7 +243,7 @@ local function keep_running(pos, elapsed)
 	local crd = CRD(pos)
 	local _, err = coroutine.resume(mem.co, pos, crd, nvm)
 	if err then
-		minetest.log("error", "[TA4 Quarry Coroutine Error]" .. err)
+		minetest.log("error", "[TA4 Quarry Coroutine Error] at pos " .. minetest.pos_to_string(pos) .. " " .. err)
 	end
 
 	if techage.is_activeformspec(pos) then
