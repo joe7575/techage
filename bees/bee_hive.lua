@@ -1,3 +1,17 @@
+--[[
+
+	TechAge
+	=======
+
+	Copyright (C) 2019-2022 Joachim Stolberg
+
+	AGPL v3
+	See LICENSE.txt for more information
+
+	TA2+ Bee Hive, an Apiary with tubes support
+
+]]--
+
 local S = techage.bees_S
 
 local function stackOrNil(stack)

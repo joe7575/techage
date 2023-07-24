@@ -1,3 +1,16 @@
+--[[
+
+	TechAge
+	=======
+
+	Copyright (C) 2019-2022 Joachim Stolberg
+
+	AGPL v3
+	See LICENSE.txt for more information
+
+	Base functions for the Bees mod integration
+]]--
+
 if minetest.get_translator then
 	techage.bees_S = minetest.get_translator("bees")
 elseif minetest.global_exists("intllib") then
