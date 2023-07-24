@@ -430,6 +430,7 @@ dofile(MP.."/beduino/kv_store.lua")
 if minetest.get_modpath("bees") then
 	dofile(MP.."/bees/bees_integration.lua")
 	dofile(MP.."/bees/bee_hive.lua")
+	dofile(MP.."/bees/extractor.lua")
 end
 
 -- Prevent other mods from using IE
