@@ -426,7 +426,6 @@ dofile(MP.."/fusion_reactor/ta5_pump.lua")
 dofile(MP.."/beduino/kv_store.lua")
 
 -- Bees mod integration
-
 if minetest.get_modpath("bees") then
 	dofile(MP.."/bees/bees_integration.lua")
 	dofile(MP.."/bees/bee_hive.lua")

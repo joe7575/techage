@@ -299,9 +299,59 @@ techage.register_node({"techage:bee_hive"}, {
 minetest.register_craft({
 	output = "techage:bee_hive",
 	recipe = {
-		{"group:wood",    "homedecor:plastic_sheeting", "group:wood"},
-		{"techage:tubeS", "bees:hive_artificial",       "techage:tubeS"},
-		{"group:wood",    "techage:iron_ingot",         "group:wood"},
+		{"group:wood",    "basic_materials:plastic_sheet", "group:wood"},
+		{"techage:tubeS", "bees:hive_artificial",          "techage:tubeS"},
+		{"group:wood",    "techage:iron_ingot",            "group:wood"},
 	},
+})
+
+minetest.register_abm({
+	label = "spawn bee particles",
+	nodenames = {"techage:bee_hive"},
+	interval = 10,
+	chance = 1,
+
+	action = function(pos, node)
+		-- Bee particle
+		minetest.add_particle({
+			pos = {x = pos.x, y = pos.y, z = pos.z},
+			velocity = {
+				x = (math.random() - 0.5) * 5,
+				y = (math.random() - 0.5) * 5,
+				z = (math.random() - 0.5) * 5
+			},
+			acceleration = {
+				x = math.random() - 0.5,
+				y = math.random() - 0.5,
+				z = math.random() - 0.5
+			},
+			expirationtime = math.random(2.5),
+			size = math.random(3),
+			collisiondetection = true,
+			texture = "bees_particle_bee.png",
+		})
+		minetest.sound_play("bees", {
+			pos = pos, gain = 0.6, max_hear_distance = 5}, true)
+	end
+})
+
+-- spawning bees around bee hive
+minetest.register_abm({
+	label = "spawn bees around bee hives",
+	nodenames = {"techage:bee_hive"},
+	neighbors = {"group:flower", "group:leaves"},
+	interval = 30,
+	chance = 4,
+
+	action = function(pos)
+		local p = {
+			x = pos.x + math.random(-5, 5),
+			y = pos.y - math.random(0, 3),
+			z = pos.z + math.random(-5, 5)
+		}
+		if minetest.get_node(p).name == "air" then
+			minetest.add_node(p, {name="bees:bees"})
+		end
+	end
 })
 
