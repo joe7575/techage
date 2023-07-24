@@ -459,6 +459,8 @@ minetest.register_node("techage:meltingpot", {
 
 	can_dig = can_dig,
 
+	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
 	is_ground_content = false,
 	groups = {cracky = 3},
 	sounds = default.node_sound_metal_defaults(),
