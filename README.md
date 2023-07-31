@@ -63,6 +63,12 @@ It is highly recommended that you install the following mods, too:
 * [autobahn](https://github.com/joe7575/autobahn): Street blocks and slopes with stripes for faster traveling
 * [ta4_jetpack](https://github.com/joe7575/ta4_jetpack): A Jetpack with hydrogen as fuel and TA4 recipe
 
+More recommended Techage related mods by other authors:
+
+* [ta4_addons](https://github.com/Thomas--S/ta4_addons) from Thomas--S: A Touchscreen for the Lua controller
+* [ts_vehicles](https://github.com/Thomas--S/ts_vehicles) from Thomas--S: A mod to provide cars and other vehicles for Minetest.
+* [ta_apiary](https://gitlab.com/lesya_minetest_mods/ta_apiary) from Olesya Sibidanova: TechAge Machines for beekeeping
+
 For large servers with many players, the following packages are recommended:
 
 * lua-mashal for faster serialization/deserialization of data
