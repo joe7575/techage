@@ -139,7 +139,6 @@ minetest.register_node("techage:ta4_collider_detector_worker", {
 		"default_steel_block.png^techage_collider_detector_banner.png",
 		"default_steel_block.png^techage_collider_detector_appl.png^techage_collider_detector_banner.png",
 	},
-	drawtype = "nodebox",
 	paramtype2 = "facedir",
 	groups = {cracky = 1},
 	on_rotate = screwdriver.disallow,

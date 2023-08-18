@@ -50,7 +50,6 @@ minetest.register_node("techage:ta4_detector_magnet", {
 		"techage_collider_magnet.png^techage_collider_magnet_appl.png",
 		"techage_collider_magnet.png^techage_collider_magnet_appl.png",
 	},
-	drawtype = "nodebox",
 	paramtype2 = "facedir",
 	groups = {cracky = 1},
 	is_ground_content = false,
