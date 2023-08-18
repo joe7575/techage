@@ -12,7 +12,7 @@
 
 ]]--
 
-techage.ConstructionPlans = {}
+local plans = {}
 
 
 local IMG_1 = {"", "techage_ta1.png"}
@@ -38,7 +38,7 @@ local DDIRT = {"default_dirt.png", "default:dirt"}
 local DWOOD = {"default_wood.png" , "default:wood"}
 local LIGTR = {"techage_lighter.png", "techage:lighter"}
 
-techage.ConstructionPlans["coalpile"] = {
+plans["coalpile"] = {
 	{false, false, SIDEV, false, false, false, false, false, TOP_V, false, false},
 	{false, false, false, false, false, false, false, false, false, false, false},
 	{DDIRT, DDIRT, DDIRT, DDIRT, DDIRT, false, DDIRT, DDIRT, DDIRT, DDIRT, DDIRT},
@@ -57,7 +57,7 @@ local CCOAL = {"techage_charcoal.png", "techage:charcoal"}
 local MEPOT = {"default_cobble.png^techage_meltingpot.png", "techage:meltingpot"}
 local FLAME = {"techage_flame.png", nil}
 
-techage.ConstructionPlans["coalburner"] = {
+plans["coalburner"] = {
 	{false, false, SIDEV, false, false, false, false},
 	{false, false, MEPOT, false, false, IMG_1, false},
 	{false, false, FLAME, false},
@@ -76,7 +76,7 @@ local CHEST = {"default_chest_lock.png", "default:chest_locked"}
 local HOPPR = {"techage_hopper.png^[transformFX", "minecart:hopper"}
 local SIEVE = {"techage_sieve_sieve_ta1.png", "techage:sieve3"}
 
-techage.ConstructionPlans["hoppersieve"] = {
+plans["hoppersieve"] = {
 	{false, false, false, false, false},
 	{false, false, false, false, false},
 	{false, CHEST, false, false, false},
@@ -110,7 +110,7 @@ local BEARG = {"default_stone_brick.png^techage_axle_bearing_front.png", "techag
 local BRICK = {"default_stone_brick.png", "default:stonebrick"}
 
 
-techage.ConstructionPlans["watermill1"] = {
+plans["watermill1"] = {
 	{false, false, false, false, false, false, false, false, false, false, false, false},
 	{false, false, SLUC2, false, false, false, false, false, false, false, false, false},
 	{WATR4, WATR4, SLUC1, WMILL, WMILL, WMILL, WMILL, WMILL, WATR3, false, false, false},
@@ -131,7 +131,7 @@ local MILLB = {"default_stone_brick.png", "techage:ta1_mill_base"}
 local FURNE = {"default_furnace_front.png", "default:furnace"}
 local HOPER = {"techage_hopper.png", "minecart:hopper"}
 
-techage.ConstructionPlans["watermill2"] = {
+plans["watermill2"] = {
 	{false, false, false, false, false, false, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false, false, false},
@@ -157,7 +157,7 @@ local FIBOX = {"techage_firebox.png^techage_appl_firehole.png^techage_frame_ta2.
 local CYLIN = {"techage_filling_ta2.png^techage_cylinder.png^techage_frame_ta2.png", "techage:cylinder"}
 local FLYWH = {"techage_filling_ta2.png^techage_frame_ta2.png^techage_flywheel.png^[transformFX]", "techage:flywheel"}
 
-techage.ConstructionPlans["steamengine"] = {
+plans["steamengine"] = {
 	{false, false, false, false, false, IMG_2, false},
 	{false, false, false, false, false, false, false},
 	{false, PK000, PI000, PK270, false, false, false},
@@ -176,7 +176,7 @@ local WINCH = {"techage_filling_ta2.png^techage_appl_winch.png^techage_frame_ta2
 local ROPE_ = {"techage_rope_inv.png", "techage:ta2_rope"}
 local WCHST = {"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_chest_back_ta3.png^techage_weight_side.png", "techage:ta2_weight_chest"}
 
-techage.ConstructionPlans["ta2_storage"] = {
+plans["ta2_storage"] = {
 	{false, false, false, GRBOX, WINCH, false, SIDEV},
 	{false, false, false, AXL90, ROPE_, false, false},
 	{false, false, false, AXL90, ROPE_, false, false},
@@ -198,7 +198,7 @@ local GRIND = {"techage_filling_ta2.png^techage_appl_grinder2.png^techage_frame_
 local DISTR = {"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_distri_blue.png", "techage:ta2_distributor_pas"}
 local SIEV2 = {"techage_filling_ta2.png^techage_appl_sieve.png^techage_frame_ta2.png", "techage:ta2_gravelsieve_pas"}
 
-techage.ConstructionPlans["itemtransport"] = {
+plans["itemtransport"] = {
 	{false, false, false, false, false, false, false, false, false, false, false},
 	{false},
 	{false},
@@ -217,7 +217,7 @@ local TK090 = {"techage_tube_knee.png^[transformR90", "techage:tubeS"} -- '7'
 local TK180 = {"techage_tube_knee.png^[transformR180", "techage:tubeS"}
 local TK270 = {"techage_tube_knee.png^[transformR270", "techage:tubeS"}
 
-techage.ConstructionPlans["gravelrinser"] = {
+plans["gravelrinser"] = {
 	{false, false, false, SIDEV, false, false, false, false},
 	{false, GLASS, WATER, GLASS, GLASS, GLASS, GLASS, GLASS},
 	{false, DDIRT, DDIRT, TK000, RINSR, TK270, HOPPR, CHEST},
@@ -239,7 +239,7 @@ local GENE3 = {"techage_filling_ta3.png^techage_frame_ta3.png^techage_appl_gener
 local COOL3 = {"techage_filling_ta3.png^techage_frame_ta3.png^techage_cooler.png", "techage:cooler"}
 local PK180 = {"techage_steam_knee.png^[transformR180", "techage:steam_pipeS"}
 
-techage.ConstructionPlans["coalpowerstation"] = {
+plans["coalpowerstation"] = {
 	{false, false, false, false, false, false, false, false},
 	{false, PK000, PI000, PI000, PI000, PI000, PI000, PK270},
 	{false, PI090, BOIL3, PI000, PK270, PK000, COOL3, PK180},
@@ -259,7 +259,7 @@ local Boost = {"techage_filling_ta3.png^techage_appl_compressor.png^[transformFX
 local Fibox = {"techage_concrete.png^techage_appl_firehole.png^techage_frame_ta3.png", "techage:furnace_firebox"}
 local Furnc = {"techage_concrete.png^techage_appl_furnace.png^techage_frame_ta3.png", "techage:ta3_furnace_pas"}
 
-techage.ConstructionPlans["ta3_furnace"] = {
+plans["ta3_furnace"] = {
 	{false, false, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false},
 	{false, Tubes, PushR, Tubes, Furnc, Tubes, PushR, Tubes},
@@ -280,7 +280,7 @@ local PN090 = {"techage_gaspipe_knee.png^[transformR90", "techage:ta4_pipeS"}   
 local PN180 = {"techage_gaspipe_knee.png^[transformR180", "techage:ta4_pipeS"}  -- J
 local PN270 = {"techage_gaspipe_knee.png^[transformR270", "techage:ta4_pipeS"}  -- 7
 
-techage.ConstructionPlans["ta3_tank"] = {
+plans["ta3_tank"] = {
 	{false, false, false, false, SIDEV, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false},
 	{false, Tubes, PushR, Tubes, Fillr, Tubes, PushR, Tubes, false, false},
@@ -302,7 +302,7 @@ local RAILH = {"carts_rail_straight.png^[transformR90", "carts:rail"}
 local CRAIL = {"carts_rail_curved.png^[transformR90", "carts:rail"}
 local BUFFR = {"default_junglewood.png^minecart_buffer.png", "minecart:buffer"}
 
-techage.ConstructionPlans["ta3_loading"] = {
+plans["ta3_loading"] = {
 	{false, false, PIPEH, Pump,  PIPEH, PN270, SIDEV, false, false, false, false},
 	{false, false, false, false, false, PIPEV, false, false, false, false, false},
 	{false, MCART, false, false, false, PN090, TANK3, false, false, false, false},
@@ -325,7 +325,7 @@ local DIST1 = {"techage_distiller_inv.png", "techage:ta3_distiller1"}
 local DBASE = {"techage_concrete.png", "techage:ta3_distiller_base"}
 local REBIO = {"techage_filling_ta3.png^techage_appl_reboiler.png^techage_frame_ta3.png", "techage:ta3_reboiler"}
 
-techage.ConstructionPlans["ta3_distiller"] = {
+plans["ta3_distiller"] = {
 	{false, false, false, false, false, SIDEV, false, PN000, PIPEH, TANK3, false},
 	{false, IMG31, false, false, false, false, false, DIST4, false, false, false},
 	{false, false, false, false, false, false, false, DIST3, PIPEH, TANK3, false},
@@ -349,7 +349,7 @@ local DOSER = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_pump_
 local SILO4 = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_silo.png", "techage:ta4_silo"}
 local TANK4 = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_tank.png", "techage:ta4_tank"}
 
-techage.ConstructionPlans["ta4_reactor"] = {
+plans["ta4_reactor"] = {
 	{false, false, false, false, false, false, SIDEV, false, false, false, false},
 	{false, IMG43, false, false, false, false, false, false, false, false, false},
 	{false, false, false, false, PN000, PIPEH, PIPEH, PN270, false, false, false},
@@ -368,7 +368,7 @@ local NCLLE = {"techage_rotor.png", "techage:ta4_wind_turbine_nacelle"}
 local PILLR = {"techage:pillar", "techage:pillar"}
 local SLAMP = {"techage:rotor_signal_lamp_off", "techage:rotor_signal_lamp_off"}
 
-techage.ConstructionPlans["ta4_windturbine"] = {
+plans["ta4_windturbine"] = {
 	{false, false, false, SIDEV, false,  false, false},
 	{false, false, false, SLAMP, false,  false, IMG_4, false},
 	{false, false, false, ROTOR, NCLLE, false, false},
@@ -394,7 +394,7 @@ local GRAVL = {"default_gravel.png", "default:gravel"}
 local INLET = {"basic_materials_concrete_block.png^techage_gaspipe.png^[transformR90", "techage:ta4_pipe_inlet"}
 local OGLAS = {"default_obsidian_glass.png", "default:obsidian_glass"}
 
-techage.ConstructionPlans["ta4_storagesystem"] = {
+plans["ta4_storagesystem"] = {
 	{false, false, TOP_V, false, false, false, false, SIDEV, false, IMG41, false},
 	{false, false, PN000, PIPEH, PIPEH, PIPEH, PN270, false, false, false, false},
 	{CONCR, CONCR, INLET, CONCR, CONCR, false, PIPEV, false, false, false, false},
@@ -414,7 +414,7 @@ local RCBLE = {"techage_ta4_cable_inv.png", "techage:ta4_power_cableS"}
 local CARRI = {"techage:ta4_solar_carrier", "techage:ta4_solar_carrier"}
 local INVAC = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_inverter.png", "techage:ta4_solar_inverter"}
 
-techage.ConstructionPlans["ta4_solarplant"] = {
+plans["ta4_solarplant"] = {
 	{false, false, false, false, false, false, false, false, false, IMG42, false},
 	{false, false, TOP_V, false, false, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false, false},
@@ -433,7 +433,7 @@ local PWETR = {"basic_materials_concrete_block.png^techage_gaspipe.png", "techag
 local TANK4 = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_tank.png", "techage:ta4_tank"}
 local LFFIL = {"basic_materials_concrete_block.png^techage_gaspipe_hole.png", "techage:ta4_liquid_filter_filler"}
 
-techage.ConstructionPlans["ta4_liquid_filter_base"] = {
+plans["ta4_liquid_filter_base"] = {
 	{false, false, false, false, false, false, false, false, IMG44, false},
 	{false, false, false, TOP_V, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false},
@@ -444,7 +444,7 @@ techage.ConstructionPlans["ta4_liquid_filter_base"] = {
 	{false, CONCR, CONCR, CONCR, CONCR, CONCR},
 }
 
-techage.ConstructionPlans["ta4_liquid_filter_gravel"] = {
+plans["ta4_liquid_filter_gravel"] = {
 	{false, false, false, false, false, false, false, false, IMG44, false},
 	{false, false, false, TOP_V, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false},
@@ -455,7 +455,7 @@ techage.ConstructionPlans["ta4_liquid_filter_gravel"] = {
 	{false, CONCR, OGLAS, OGLAS, OGLAS, CONCR},
 }
 
-techage.ConstructionPlans["ta4_liquid_filter_top"] = {
+plans["ta4_liquid_filter_top"] = {
 	{false, false, false, false, false, false, false, false, IMG44, false},
 	{false, false, false, TOP_V, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false},
@@ -472,7 +472,7 @@ techage.ConstructionPlans["ta4_liquid_filter_top"] = {
 local STEEL = {"default_steel_block.png", "techage:ta4_colliderblock"}
 local COOL4 = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_cooler.png", "techage:ta4_collider_cooler"}
 
-techage.ConstructionPlans["techage_collider_plan"] = {
+plans["techage_collider_plan"] = {
 	{IMG45, false, false, false},
 	{false, false, false, false},
 	{false, false, false, false},
@@ -487,7 +487,7 @@ techage.ConstructionPlans["techage_collider_plan"] = {
 local STEEL = {"default_steel_block.png", "techage:ta4_colliderblock"}
 local COOL4 = {"techage_filling_ta4.png^techage_frame_ta4.png^techage_cooler.png", "techage:ta4_collider_cooler"}
 
-techage.ConstructionPlans["ta4_cooler"] = {
+plans["ta4_cooler"] = {
 	{false, false, false, SIDEV, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false},
 	{false, STEEL, PIPEH, HEXR1, PIPEH, COOL4, PN270, false, false},
@@ -504,7 +504,7 @@ local TELET = {"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_telep
 local PUMP4 = {"techage_filling_ta4.png^techage_appl_pump.png^techage_frame_ta4.png", "techage:t4_pump"}
 local ARROW = {"techage_form_arrow.png"}
 
-techage.ConstructionPlans["ta5_teleport"] = {
+plans["ta5_teleport"] = {
 	{false, false, false, false, false, false, false, false, false, false, false},
 	{false, CHEST, PushR, TELET, false, ARROW, false, TELET, Tubes, CHEST, false},
 	{false, false, false, false, false, false, false, false, false, false, false},
@@ -524,7 +524,7 @@ local MAGN2 = {"techage_collider_magnet.png^techage_steel_tiles_top3.png^[transf
 local MAGN3 = {"techage_collider_magnet.png^techage_steel_tiles_top3.png^[transformR180]", "techage:ta5_magnet1"}
 local MAGN4 = {"techage_collider_magnet.png^techage_steel_tiles_top3.png^[transformR270]", "techage:ta5_magnet1"}
 
-techage.ConstructionPlans["ta5_fusion_reactor"] = {
+plans["ta5_fusion_reactor"] = {
 	{false, false, false, false, false, false, IMG46, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false, false, false, false},
@@ -548,7 +548,7 @@ local HEX53 = {"techage_filling_ta4.png^techage_frameB_ta4.png^techage_appl_hole
 local TURB5 = {"techage_filling_ta4.png^techage_appl_turbine.png^techage_frame_ta5.png", "techage:ta5_turbine"}
 local GENE5 = {"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_generator.png^[transformFX]", "techage:ta5_generator"}
 
-techage.ConstructionPlans["ta5_heatexchanger"] = {
+plans["ta5_heatexchanger"] = {
 	{false, false, false, false, SIDEV, false, false, false},
 	{false, false, false, false, false, false, false, false},
 	{false, false, false, false, false, false, false, false},
@@ -559,9 +559,36 @@ techage.ConstructionPlans["ta5_heatexchanger"] = {
 	{false, false, false, false, false, false, false, false},
 }
 
-
-function techage.add_manual_plans(table_with_plans)
-	for name, tbl in pairs(table_with_plans) do
-		techage.ConstructionPlans[name] = tbl
+-- Bring into legacy format
+local function reformat(plan)
+	for y=1,#plan do
+		for x=1,#plan[1] do
+			local item = plan[y][x] or false
+			if item ~= false then
+				local var1, var2 = item[1], item[2]
+				
+				if var1 == "top_view" then
+					plan[y][x] = {"text", var1}
+				elseif var1 == "side_view" then
+					plan[y][x] = {"text", var1}
+				elseif var1 == "sectional_view" then
+					plan[y][x] = {"text", var1}
+				elseif var1 == "" then
+					plan[y][x] = {"image", var2, "2.2,2.2"}
+				elseif var1 == "10x10" then
+					plan[y][x] = {"image", var2, "10,10"}
+				elseif var1 == "5x4" then
+					plan[y][x] = {"image", var2, "5,4"}
+				else
+					plan[y][x] = {"item", var1, var2}
+				end
+			end
+		end
 	end
+	return plan
+end
+
+
+for name, plan in pairs(plans) do
+	doclib.add_manual_plan("techage", "DE", name, reformat(plan))
 end

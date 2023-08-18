@@ -12,7 +12,7 @@
 
 ]]--
 
-techage.Items = {
+local items = {
 	techage_ta1 = "techage_ta1.png",
 	iron = "techage:iron_ingot",
 	charcoal = "techage:charcoal",
@@ -54,8 +54,8 @@ techage.Items = {
 	ta2_forceload = "techage:forceload",
 	ta2_driveaxle = "techage:axle",
 	ta2_generator = "techage:ta2_generator_off",
-    ta2_winch = "techage:ta2_winch",
-    ta2_weight_chest = "techage:ta2_weight_chest",
+	ta2_winch = "techage:ta2_winch",
+	ta2_weight_chest = "techage:ta2_weight_chest",
 	---------------------
 	techage_ta3 = "techage_ta3.png",
 	techage_ta31 = "techage_ta3b.png",
@@ -225,8 +225,7 @@ techage.Items = {
 	ta5_fr_controller = "techage:ta5_fr_controller_pas",
 }
 
-function techage.add_manual_items(table_with_items)
-	for name, tbl in pairs(table_with_items) do
-		techage.Items[name] = tbl
-	end
+for name, image in pairs(items) do
+	doclib.add_manual_image("techage", "DE", name, image)
+	doclib.add_manual_image("techage", "EN", name, image)
 end
