@@ -390,11 +390,15 @@ return {
     "\n",
     "The display shows its number after placement. The display can be addressed via this number. Texts can be output on the display\\, whereby the display can display 5 lines and thus 5 different texts.\n"..
     "\n"..
+    "Lines of text are always left-aligned. If the text is to be centered horizontally\\, the text must be preceded by the character \"t\" (tabulator).\n"..
+    "\n"..
     "The display is updated at most once per second.\n"..
     "\n"..
     "\n"..
     "\n",
     "The TA4 Display XL is twice the size of the TA4 display.\n"..
+    "\n"..
+    "Lines of text are always left-aligned. If the text is to be centered horizontally\\, the text must be preceded by the character \"t\" (tabulator).\n"..
     "\n"..
     "The display is updated every two seconds at most.\n"..
     "\n"..

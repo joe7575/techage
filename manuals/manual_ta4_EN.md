@@ -403,6 +403,8 @@ The battery must be placed in close proximity to the controller, i.e. in one of 
 
 The display shows its number after placement. The display can be addressed via this number. Texts can be output on the display, whereby the display can display 5 lines and thus 5 different texts.
 
+Lines of text are always left-aligned. If the text is to be centered horizontally, the text must be preceded by the character "\t" (tabulator).
+
 The display is updated at most once per second.
 
 [ta4_display|image]
@@ -410,6 +412,8 @@ The display is updated at most once per second.
 ### TA4 Display XL
 
 The TA4 Display XL is twice the size of the TA4 display.
+
+Lines of text are always left-aligned. If the text is to be centered horizontally, the text must be preceded by the character "\t" (tabulator).
 
 The display is updated every two seconds at most.
 

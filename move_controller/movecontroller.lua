@@ -119,6 +119,7 @@ minetest.register_node("techage:ta4_movecontroller", {
 			meta:set_string("status", S("Recording..."))
 			local name = player:get_player_name()
 			minetest.chat_send_player(name, S("Click on all blocks that shall be moved"))
+			mark.unmark_all(name)
 			mark.start(name, MAX_BLOCKS)
 			meta:set_string("formspec", formspec(nvm, meta))
 		elseif fields.done then

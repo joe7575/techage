@@ -30,8 +30,8 @@ elseif minetest.global_exists("tubelib2") and tubelib2.version < 2.2 then
 elseif minetest.global_exists("minecart") and minecart.version < 2.04 then
 	minetest.log("error", "[techage] Techage requires minecart version 2.04 or newer!")
 	return
-elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.01 then
-	minetest.log("error", "[techage] Techage requires lcdlib version 1.01 or newer!")
+elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.02 then
+	minetest.log("error", "[techage] Techage requires lcdlib version 1.02 or newer!")
 	return
 elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.01 then
 	minetest.log("error", "[techage] Techage requires safer_lua version 1.01 or newer!")

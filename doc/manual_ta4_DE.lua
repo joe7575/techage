@@ -392,11 +392,15 @@ return {
     "\n",
     "Das Display zeigt nach dem Platzieren seine Nummer an. Über diese Nummer kann das Display angesprochen werden. Auf dem Display können Texte ausgegeben werden\\, wobei das Display 5 Zeilen und damit 5 unterschiedliche Texte darstellen kann.\n"..
     "\n"..
+    "Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden\\, muss dem Text das Zeichen „t“ (Tabulator) vorangestellt werden.\n"..
+    "\n"..
     "Das Display wird maximal ein mal pro Sekunde aktualisiert.\n"..
     "\n"..
     "\n"..
     "\n",
     "Das TA4 Display XL hat die doppelte Größ wie das TA4 Display.\n"..
+    "\n"..
+    "Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden\\, muss dem Text das Zeichen „t“ (Tabulator) vorangestellt werden.\n"..
     "\n"..
     "Das Display wird maximal alle zwei Sekunden aktualisiert.\n"..
     "\n"..

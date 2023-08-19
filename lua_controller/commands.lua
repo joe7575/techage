@@ -137,10 +137,9 @@ techage.lua_ctlr.register_action("display", {
 		row = tonumber(row or 1) or 1
 		text = tostring(text or "")
 		if not_protected(self.meta.owner, num) then
-			if text:byte(1) ~= 32 then -- left aligned?
-				text = "<"..text	-- use the '<' lcdlib control char for left-aligned
-			else
-				text = text:sub(2) -- delete blank for centered
+			if text:byte(1) == 32 then -- left aligned?
+				-- use the '\t' lcdlib control char for left-aligned
+				text = "\t" .. text:sub(2)
 			end
 			if row == 0 then -- add line?
 				techage.send_single(self.meta.number, num, "add", text)
@@ -158,6 +157,29 @@ techage.lua_ctlr.register_action("display", {
 		" and add a new line. If the first char of the string\n"..
 		" is a blank, the text will be horizontally centered.\n"..
 		' example: $display("123", 1, "Hello "..name)'
+
+})
+
+techage.lua_ctlr.register_action("display2", {
+	cmnd = function(self, num, row, text)
+		num = tostring(num or "")
+		row = tonumber(row or 1) or 1
+		text = tostring(text or "")
+		if not_protected(self.meta.owner, num) then
+			if row == 0 then -- add line?
+				techage.send_single(self.meta.number, num, "add", text)
+			else
+				local payload = safer_lua.Store()
+				payload.set("row", row)
+				payload.set("str", text)
+				techage.send_single(self.meta.number, num, "set", payload)
+			end
+		end
+	end,
+	help = " $display2(num, row, text)\n"..
+		" Alternative 'display' function with different\n"..
+		" control char. If the first char of the string\n"..
+		" is a '\t', the text will be horizontally centered."
 
 })
 

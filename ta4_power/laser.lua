@@ -91,6 +91,7 @@ minetest.register_node("techage:ta4_laser_emitter", {
 	end,
 
 	paramtype2 = "facedir",
+	on_rotate = screwdriver.disallow,
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
@@ -121,6 +122,7 @@ minetest.register_node("techage:ta4_laser_receiver", {
 	end,
 
 	paramtype2 = "facedir",
+	on_rotate = screwdriver.disallow,
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
