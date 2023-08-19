@@ -574,11 +574,11 @@ local function reformat(plan)
 				elseif var1 == "sectional_view" then
 					plan[y][x] = {"text", var1}
 				elseif var1 == "" then
-					plan[y][x] = {"image", var2, "2.2,2.2"}
+					plan[y][x] = {"img", var2, "2.2,2.2"}
 				elseif var1 == "10x10" then
-					plan[y][x] = {"image", var2, "10,10"}
+					plan[y][x] = {"img", var2, "10,10"}
 				elseif var1 == "5x4" then
-					plan[y][x] = {"image", var2, "5,4"}
+					plan[y][x] = {"img", var2, "5,4"}
 				else
 					plan[y][x] = {"item", var1, var2}
 				end
@@ -588,7 +588,8 @@ local function reformat(plan)
 	return plan
 end
 
-
 for name, plan in pairs(plans) do
-	doclib.add_manual_plan("techage", "DE", name, reformat(plan))
+	local plan2 = reformat(plan)
+	doclib.add_manual_plan("techage", "EN", name, plan2)
+	doclib.add_manual_plan("techage", "DE", name, plan2)
 end
