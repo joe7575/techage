@@ -88,6 +88,14 @@ local WRENCH_MENU = {
 	},
 	{
 		type = "dropdown",
+		choices = "left,center",
+		name = "text_align",
+		label = S("Text align"),
+		tooltip = S("Label text alignment"),
+		default = "1",
+	},
+	{
+		type = "dropdown",
 		choices = "private,protected,public",
 		name = "access",
 		label = S("Access"),
@@ -117,7 +125,8 @@ local function button_update(pos, objref)
 	local nvm = techage.get_nvm(pos)
 	nvm.button = nvm.button or {}
 	local tbl = {" ", " ", meta:get_string("label1"), " ",  meta:get_string("label2")}
-	local text = "<      " .. table.concat(tbl, "\n<      ")
+	local txa = meta:get_string("text_align") == "center" and "\t" or ""
+	local text = txa .. "      " .. table.concat(tbl, "\n" .. txa .. "      ")
 	local texture = lcdlib.make_multiline_texture("default", text, 96, 96, 7, "top", "#000", 6)
 
 	if nvm.button[1] then
