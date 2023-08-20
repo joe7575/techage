@@ -846,19 +846,6 @@ The processing power is up to 8 times one item every 4 seconds.
 [ta3_injector|image]
 
 
-### TA3 Item Flow Limiter
-
-The Flow Limiter limits the number of items that can be pushed through by using a slider. This allows the number of items that are put into an oven, for example, to be precisely adapted to the recipe.
-
-The Flow Limiter must be configured via the menu and then started. If the configured number of items has been passed, the block switches off. The next time the Flow Limiter is switched on, it again transmits the configured number of items.
-
-**Note: The Flow Limiter must be placed behind the pusher.**
-
-The Flow Limiter can also be configured and started using a Lua or Beduino controller.
-
-[ta3_item_flow_limiter_pas|image]
-
-
 
 ## Tools
 

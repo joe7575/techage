@@ -1005,10 +1005,3 @@ The machine can disassemble pretty much any Techage and Hyperloop blocks. But no
 The processing power is one item every 8 s.  The block requires 16 ku of electricity for this.
 
 [ta4_recycler|image] 
-
-### TA4 Item Flow Limiter
-
-The function corresponds to that of TA3.
-
-[ta4_item_flow_limiter_pas|image]
-

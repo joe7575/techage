@@ -1014,9 +1014,3 @@ Aber nicht alle Zutaten/Materialien der Rezepte lassen sich recyclen:
 Die Verarbeitungsleistung beträgt ein Item alle 8 s. Der Block benötigt hierfür 16 ku Strom.
 
 [ta4_recycler|image]
-
-### TA4 Item Durchlaufbegrenzer / Item Flow Limiter
-
-Die Funktion entspricht der von TA3.  
-
-[ta4_item_flow_limiter_pas|image]

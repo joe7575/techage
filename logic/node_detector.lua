@@ -277,7 +277,6 @@ minetest.register_node("techage:ta3_nodedetector_on", {
 })
 
 local function node_timer4(pos)
-	print("node_timer4")
 	if any_node_changed4(pos)then
 		switch_on4(pos)
 	else

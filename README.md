@@ -38,7 +38,7 @@ Many thanks to Thomas-S, niklp09, and others for their contributions
 
 
 ### Dependencies  
-Required: default, doors, bucket, stairs, screwdriver, basic_materials, tubelib2, networks, minecart, lcdlib, safer_lua  
+Required: default, doors, bucket, stairs, screwdriver, basic_materials, tubelib2, networks, minecart, lcdlib, safer_lua, doclib  
 Recommended: signs_bot, hyperloop, compost, techpack_stairway, autobahn  
 Optional: unified_inventory, wielded_light, unifieddyes, lua-mashal, lsqlite3, moreores, ethereal, mesecon
 
@@ -53,6 +53,7 @@ The following mods in the newest version have to be downloaded directly from Git
 * [minecart](https://github.com/joe7575/minecart)
 * [lcdlib](https://github.com/joe7575/lcdlib)
 * [safer_lua](https://github.com/joe7575/safer_lua)
+* [doclib](https://github.com/joe7575/doclib)
 
 It is highly recommended that you install the following mods, too:
 
@@ -93,6 +94,14 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 **Never disable 'lsqlite3' for a world that has already been used!**
 
 ### History
+
+**2023-08-20 V1.17**
+
+- Add support for doclib / remove techage internal doc support
+  **The mod doclib is a new hard depenency !**
+- Fix LICENCSE file bug
+- Add beduino support for TA3 repeater (realmicu)
+- Fix some bugs
 
 **2023-06-30 V1.16**
 

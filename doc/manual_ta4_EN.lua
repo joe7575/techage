@@ -91,7 +91,6 @@ return {
     "3,TA4 Electronic Fab",
     "3,TA4 Injector",
     "3,TA4 Recycler",
-    "3,TA4 Item Flow Limiter",
   },
   texts = {
     "Renewable energy sources such as wind\\, sun and biofuels help you to leave the oil age. With modern technologies and intelligent machines you set out into the future.\n"..
@@ -854,10 +853,6 @@ return {
     "\n"..
     " \n"..
     "\n",
-    "The function corresponds to that of TA3.\n"..
-    "\n"..
-    "\n"..
-    "\n",
   },
   images = {
     "techage_ta4",
@@ -951,7 +946,6 @@ return {
     "ta4_electronicfab",
     "ta4_injector",
     "ta4_recycler",
-    "ta4_item_flow_limiter_pas",
   },
   plans = {
     "",
@@ -1023,7 +1017,6 @@ return {
     "ta4_liquid_filter_top",
     "techage_collider_plan",
     "ta4_cooler",
-    "",
     "",
     "",
     "",

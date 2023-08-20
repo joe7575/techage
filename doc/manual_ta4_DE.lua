@@ -91,7 +91,6 @@ return {
     "3,TA4 Elektronikfabrik / Electronic Fab",
     "3,TA4 Injektor / Injector",
     "3,TA4 Recycler",
-    "3,TA4 Item Durchlaufbegrenzer / Item Flow Limiter",
   },
   texts = {
     "Regenerative Energiequellen wie Wind\\, Sonne und Biokraft helfen dir\\, das Ölzeitalter zu verlassen. Mit modernen Technologien und intelligenten Maschinen machst du dich auf in die Zukunft.\n"..
@@ -855,10 +854,6 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Die Funktion entspricht der von TA3.  \n"..
-    "\n"..
-    "\n"..
-    "\n",
   },
   images = {
     "techage_ta4",
@@ -952,7 +947,6 @@ return {
     "ta4_electronicfab",
     "ta4_injector",
     "ta4_recycler",
-    "ta4_item_flow_limiter_pas",
   },
   plans = {
     "",
@@ -1024,7 +1018,6 @@ return {
     "ta4_liquid_filter_top",
     "techage_collider_plan",
     "ta4_cooler",
-    "",
     "",
     "",
     "",

@@ -79,7 +79,6 @@ return {
     "3,TA3 Gravel Rinser",
     "3,TA3 Grinder",
     "3,TA3 Injector",
-    "3,TA3 Item Flow Limiter",
     "2,Tools",
     "3,Techage Info Tool",
     "3,TechAge Programmer",
@@ -709,16 +708,6 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "The Flow Limiter limits the number of items that can be pushed through by using a slider. This allows the number of items that are put into an oven\\, for example\\, to be precisely adapted to the recipe.\n"..
-    "\n"..
-    "The Flow Limiter must be configured via the menu and then started. If the configured number of items has been passed\\, the block switches off. The next time the Flow Limiter is switched on\\, it again transmits the configured number of items.\n"..
-    "\n"..
-    "*Note: The Flow Limiter must be placed behind the pusher.*\n"..
-    "\n"..
-    "The Flow Limiter can also be configured and started using a Lua or Beduino controller.\n"..
-    "\n"..
-    "\n"..
-    "\n",
     "",
     "The Techage Info Tool (open-ended wrench) has several functions. It shows the time\\, position\\, temperature and biome when an unknown block is clicked on.\n"..
     "If you click on a TechAge block with command interface\\, all available data will be shown (see also \"Logic / switching blocks\").\n"..
@@ -830,7 +819,6 @@ return {
     "ta3_gravelrinser",
     "ta3_grinder",
     "ta3_injector",
-    "ta3_item_flow_limiter_pas",
     "",
     "ta3_end_wrench",
     "ta3_programmer",
@@ -886,7 +874,6 @@ return {
     "",
     "",
     "ta3_distiller",
-    "",
     "",
     "",
     "",
