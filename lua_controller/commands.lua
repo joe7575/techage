@@ -138,7 +138,7 @@ techage.lua_ctlr.register_action("display", {
 		text = tostring(text or "")
 		if not_protected(self.meta.owner, num) then
 			if text:byte(1) ~= 32 then -- left aligned?
-				text = "<"..text	-- use the '<' lcdlib control char for left-aligned
+				text = "\t"..text	-- use the '\t' lcdlib control char for left-aligned
 			else
 				text = text:sub(2) -- delete blank for centered
 			end
