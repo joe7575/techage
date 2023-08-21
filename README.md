@@ -97,7 +97,7 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 **2023-08-20 V1.17**
 
-- Add support for doclib / remove techage internal doc support
+- Add support for doclib / remove techage internal doc support  
   **The mod doclib is a new hard depenency !**
 - Fix LICENCSE file bug
 - Add beduino support for TA3 repeater (realmicu)
@@ -141,7 +141,7 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
   - add wrench menu for 'max. power passed through'
   - Increase max. power passed through from 100 to 300 ku
 - Improve Electricmeter: 
-  - add wrench menu for 'max. power passed through' and 'power countdown'
+  - add wrench menu for 'max. power passed through' and 'power countdown' 2458
   - add commands to read the countdown value (Lua and Beduino controller)
 - Improve TA3 Mesecons Converter:
   - fix overload bug
