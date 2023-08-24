@@ -113,16 +113,21 @@ end
 
 -- 'validStates' is optional and can be used to e.g. enable
 -- only one TA2 node {false, true, false, false}
-function techage.register_consumer(base_name, inv_name, tiles, tNode, validStates, node_name_prefix)
+function techage.register_consumer(base_name, inv_name, tiles, tNode, validStates, node_name_prefix, inv_name_prefix)
 	local names = {}
 	validStates = validStates or {true, true, true, true}
-	if not node_name_prefix then
-		node_name_prefix = "techage:ta"
+	
+	node_name_prefix = node_name_prefix or "techage:ta"
+	if inv_name_prefix then
+		inv_name_prefix = inv_name_prefix.." "
+	else
+		inv_name_prefix = ""
 	end
+	
 	for stage = 2,5 do
 		local name_pas = node_name_prefix..stage.."_"..base_name.."_pas"
 		local name_act = node_name_prefix..stage.."_"..base_name.."_act"
-		local name_inv = "TA"..stage.." "..inv_name
+		local name_inv = inv_name_prefix.."TA"..stage.." "..inv_name
 		names[#names+1] = name_pas
 
 		if validStates[stage] then
