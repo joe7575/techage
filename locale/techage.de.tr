@@ -649,6 +649,7 @@ TA2 Gearbox=TA2 Getriebeblock
 TA3 Generator=TA3 Generator
 TA4 Generator=TA4 Generator
 TA5 Generator=TA5 Generator
+no steam=Kein Dampf
 
 ### generator.lua ###
 ### power_terminal2.lua ###
@@ -680,14 +681,6 @@ TA1 Mill Base=Mühlenunterteil
 ### growlight.lua ###
 
 TA4 LED Grow Light=TA4 LED Pflanzenlampe
-
-### guide.lua ###
-
-No plan available=Kein Plan verfügar
-Plan=Plan
-Sectional view=Schnittbild
-Side view=Seitenansicht
-Top view=Draufsicht
 
 ### hammer.lua ###
 
@@ -1037,12 +1030,6 @@ TA3 Drill Pipe Wrench=TA3 Bohrgestängezange
 
 Plastic Granules=Plastikgranulat
 
-### plate.lua ###
-
-Lever=
-Stone Pressure Plate=
-Wooden Pressure Plate=
-
 ### player_detector.lua ###
 
 Command to send when player is detected=Befehl zum Senden, wenn ein Spieler erkannt wird
@@ -1358,6 +1345,10 @@ Refresh=Aktualisieren
 TA1 Axle=TA1 Achse
 TA1 Axle Bearing=TA1 Achsenlager
 
+### ta2_clutch.lua ###
+
+TA2 Clutch=
+
 ### ta2_weight_chest.lua ###
 
 TA2 Weight Chest=TA2 Gewichtekiste
@@ -1585,6 +1576,11 @@ TA4 Collider Detector Worker=TA4 Collider Detektor Worker
 
 ##### not used anymore #####
 
+No plan available=Kein Plan verfügar
+Plan=Plan
+Sectional view=Schnittbild
+Side view=Seitenansicht
+Top view=Draufsicht
 Blocks are back=Blöcke sind wieder da
 Blocks are disappeared=Blöcke sind verschwunden
 Remove=Entfernen

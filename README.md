@@ -95,12 +95,15 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
-**2023-08-20 V1.17**
+**2023-08-25 V1.17**
 
 - Add support for doclib / remove techage internal doc support  
   **The mod doclib is a new hard depenency !**
 - Fix LICENCSE file bug
 - Add beduino support for TA3 repeater (realmicu)
+- Add inv_name_prefix to `techage.register_consumer` (debiankaios)
+- Add generator menu to TA5 generator (fusion reactor)
+- Adapt mod to the new lcdlib mod
 - Fix some bugs
 
 **2023-06-30 V1.16**

@@ -649,6 +649,7 @@ TA2 Gearbox=
 TA3 Generator=
 TA4 Generator=
 TA5 Generator=
+no steam=
 
 ### generator.lua ###
 ### power_terminal2.lua ###
@@ -680,14 +681,6 @@ TA1 Mill Base=
 ### growlight.lua ###
 
 TA4 LED Grow Light=
-
-### guide.lua ###
-
-No plan available=
-Plan=
-Sectional view=
-Side view=
-Top view=
 
 ### hammer.lua ###
 
@@ -1351,6 +1344,10 @@ Refresh=
 
 TA1 Axle=
 TA1 Axle Bearing=
+
+### ta2_clutch.lua ###
+
+TA2 Clutch=
 
 ### ta2_weight_chest.lua ###
 
