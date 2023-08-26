@@ -42,7 +42,7 @@ local function chest_load(nvm, pos)
 		nvm.stored_items[i] = {name = stack:get_name(), count = stack:get_count()}
 		amount = amount + stack:get_count()
 	end
-	return amount
+	return amount * 3
 end
 
 local function chest_full(pos)
@@ -140,20 +140,19 @@ minetest.register_node("techage:ta2_winch", {
 			remove_chest(pos)
 			nvm.running = true
 			power.start_storage_calc(pos, Axle, outdir)
-		elseif not nvm.running then
-			techage.renew_rope(pos, 50)
-		elseif nvm.running and nvm.load == 0 and not power.power_available(pos, Axle, outdir) then
+		elseif nvm.running and nvm.load < 2 and not power.power_available(pos, Axle, outdir) then
 			add_chest(pos)
 			nvm.running = false
 			power.start_storage_calc(pos, Axle, outdir)
 		end
 
 		if nvm.running then
-			local val = power.get_storage_load(pos, Axle, outdir, nvm.capa) or 0
-			if val > 0 then
-				nvm.load = val
+			nvm.load = power.get_storage_load(pos, Axle, outdir, nvm.capa) or 0
+			if nvm.load > 2 then
 				add_chest_entity(pos, nvm)
 			end
+		else
+			techage.renew_rope(pos, 50)
 		end
 		return true
 	end,

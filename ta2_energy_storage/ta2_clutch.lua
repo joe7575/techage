@@ -32,7 +32,7 @@ end
 
 local function start_node(pos, nvm, state)
 	local outdir = M(pos):get_int("outdir")
-	switch_axles(pos, true)
+	--switch_axles(pos, true)
 	nvm.load = 0
 	power.start_storage_calc(pos, Axle, outdir)
 	outdir = networks.Flip[outdir]
@@ -41,7 +41,7 @@ end
 
 local function stop_node(pos, nvm, state)
 	local outdir = M(pos):get_int("outdir")
-	switch_axles(pos, false)
+	--switch_axles(pos, false)
 	power.start_storage_calc(pos, Axle, outdir)
 	outdir = networks.Flip[outdir]
 	power.start_storage_calc(pos, Axle, outdir)
@@ -58,6 +58,7 @@ local State = techage.NodeStates:new({
 })
 
 local function node_timer(pos, elapsed)
+	local t = minetest.get_us_time()
 	local nvm = techage.get_nvm(pos)
 	local outdir2 = M(pos):get_int("outdir")
 	local outdir1 = networks.Flip[outdir2]
@@ -66,7 +67,10 @@ local function node_timer(pos, elapsed)
 	if not power_flow then
 		power.start_storage_calc(pos, Axle, outdir1)
 		power.start_storage_calc(pos, Axle, outdir2)
+		switch_axles(pos, data.curr_load1 ~= 0)
 	end
+	t = minetest.get_us_time() - t
+	print("node_timer", t, power_flow, dump(data))
 	return true
 end
 
