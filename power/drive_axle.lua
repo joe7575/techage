@@ -29,7 +29,6 @@ local Axle = tubelib2.Tube:new({
 	after_place_tube = function(pos, param2, tube_type, num_tubes, state)
 		local node = minetest.get_node(pos)
 		local name = node.name
-		print("after_place_tube", name)
 		if name == "techage:axle_on" or name == "techage:axle" then
 			if state == "on" then -- texture state
 				minetest.swap_node(pos, {name = "techage:axle_on", param2 = param2})
