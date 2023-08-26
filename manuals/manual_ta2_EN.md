@@ -108,6 +108,14 @@ This chest must be placed under the winch with a distance of up to 10 blocks and
 
 
 
+### TA2 Clutch
+
+With the clutch, axles and machines can be separated from the energy storage. This means that the axles after the clutch come to a standstill and machine systems can be rebuilt.
+
+[techage:ta2_clutch_off|image]
+
+
+
 ## Push and sort items
 
 In order to transport objects from one processing station to the next, pushers and tubes are used. See plan.

@@ -12,6 +12,7 @@ return {
     "2,TA2 Energiespeicher",
     "3,TA2 Seilwinde  / TA2 Winch",
     "3,TA2 Gewichtekiste / TA2 Weight Chest",
+    "3,TA2 Kupplung  / TA2 Clutch",
     "2,Items schieben und sortieren",
     "3,Röhren / TechAge Tube",
     "3,Röhren Konzentrator / Tube Concentrator",
@@ -104,6 +105,10 @@ return {
     "\n"..
     "\n",
     "Diese Kiste muss mit bis zu 10 Blöcken Abstand unter die Seilwinde gesetzt und mit Pflastersteinen Kies oder Sand gefüllt werden. Ist das Mindestgewicht von einem Stack (99+ Items) erreicht und überschüssige Energie vorhanden\\, wird die Kiste automatisch über eine Seil mit der Seilwinde verbunden und in die Höhe gezogen.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "Mit der Kupplung können Achsen und Maschinen vom Energiespeicher getrennt werden. Damit kommen die Achsen nach der Kupplung zum Stillstand und Maschinenanlagen können umgebaut werden.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -247,6 +252,7 @@ return {
     "",
     "ta2_winch",
     "ta2_weight_chest",
+    "techage:ta2_clutch_off",
     "",
     "tube",
     "concentrator",
@@ -277,6 +283,7 @@ return {
     "",
     "",
     "ta2_storage",
+    "",
     "",
     "",
     "itemtransport",

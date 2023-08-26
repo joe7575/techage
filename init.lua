@@ -166,6 +166,7 @@ dofile(MP.."/steam_engine/flywheel.lua")
 dofile(MP.."/ta2_energy_storage/ta2_rope.lua")
 dofile(MP.."/ta2_energy_storage/ta2_winch.lua")
 dofile(MP.."/ta2_energy_storage/ta2_weight_chest.lua")
+dofile(MP.."/ta2_energy_storage/ta2_clutch.lua")
 
 -- Liquids I
 dofile(MP.."/liquids/liquid_pipe.lua")

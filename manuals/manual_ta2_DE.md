@@ -109,6 +109,14 @@ Diese Kiste muss mit bis zu 10 Blöcken Abstand unter die Seilwinde gesetzt und 
 
 
 
+### TA2 Kupplung  / TA2 Clutch
+
+Mit der Kupplung können Achsen und Maschinen vom Energiespeicher getrennt werden. Damit kommen die Achsen nach der Kupplung zum Stillstand und Maschinenanlagen können umgebaut werden.
+
+[techage:ta2_clutch_off|image]
+
+
+
 ## Items schieben und sortieren
 
 Um Gegenstände (Items) von einer Verarbeitungsstation zur nächsten weiter zu transportieren, werden Schieber und Röhren verwendet. Siehe Plan.

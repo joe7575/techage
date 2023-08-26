@@ -1347,7 +1347,7 @@ TA1 Axle Bearing=TA1 Achsenlager
 
 ### ta2_clutch.lua ###
 
-TA2 Clutch=
+TA2 Clutch=TA2 Kupplung
 
 ### ta2_weight_chest.lua ###
 
