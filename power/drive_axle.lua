@@ -24,13 +24,20 @@ local Axle = tubelib2.Tube:new({
 	max_tube_length = 10,
 	show_infotext = false,
 	tube_type = "axle",
-	primary_node_names = {"techage:axle", "techage:axle_on"},
+	primary_node_names = {"techage:axle", "techage:axle_on", "techage:ta2_clutch_on"},
 	secondary_node_names = {},
 	after_place_tube = function(pos, param2, tube_type, num_tubes, state)
-		if state == "on" then
-			minetest.swap_node(pos, {name = "techage:axle_on", param2 = param2})
+		local node = minetest.get_node(pos)
+		local name = node.name
+		print("after_place_tube", name)
+		if name == "techage:axle_on" or name == "techage:axle" then
+			if state == "on" then -- texture state
+				minetest.swap_node(pos, {name = "techage:axle_on", param2 = param2})
+			else
+				minetest.swap_node(pos, {name = "techage:axle", param2 = param2})
+			end
 		else
-			minetest.swap_node(pos, {name = "techage:axle", param2 = param2})
+			minetest.swap_node(pos, {name = name, param2 = param2})
 		end
 	end,
 })
