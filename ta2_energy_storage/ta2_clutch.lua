@@ -20,9 +20,36 @@ local S = techage.S
 local DESCR = S("TA2 Clutch")
 
 local Axle = techage.Axle
+local power = networks.power
+local control = networks.control
+
+-- Search for a gearbox, which is part of the axle network
+local function get_gearbox_pos(pos)
+	local outdir = M(pos):get_int("outdir")
+	local pos1, dir1 = Axle:get_connected_node_pos(pos, outdir)
+	if pos1 then
+		local node = minetest.get_node(pos1)
+		--print("get_gearbox_pos", node.name)
+		if node.name == "techage:gearbox_on" or node.name == "techage:gearbox" then
+			return pos1
+		end
+	end
+end
+
+-- Send to the winches
+local function control_cmnd(pos, topic)
+	-- The clutch is not part of the axle network,
+	-- so we have to use a helper function to be able 
+	-- to send a command into the network.
+	local pos1 = get_gearbox_pos(pos)
+	if pos1 then
+		control.send(pos1, Axle, 0, "sto", topic)
+	end
+end
 
 local function switch_on(pos, node)
 	if node.name == "techage:ta2_clutch_off" then
+		control_cmnd(pos, "on")
 		node.name = "techage:ta2_clutch_on"
 		minetest.swap_node(pos, node)
 		Axle:after_place_tube(pos)
@@ -35,8 +62,8 @@ end
 
 local function switch_off(pos, node)
 	if node.name == "techage:ta2_clutch_on" then
-		node.name = "techage:ta2_clutch_off"
-		minetest.swap_node(pos, node)
+		control_cmnd(pos, "off")
+		minetest.swap_node(pos, {name = "techage:ta2_clutch_off", param2 = M(pos):get_int("outdir") - 1})
 		Axle:after_dig_tube(pos, node)
 		minetest.sound_play("techage_button", {
 				pos = pos,
@@ -48,24 +75,16 @@ end
 minetest.register_node("techage:ta2_clutch_off", {
 	description = DESCR,
 	tiles = {
-		-- back, front, up, down, right, left
-		"techage_filling_ta2.png^techage_appl_clutch.png^techage_frame_ta2.png^[transformR90",
-		"techage_filling_ta2.png^techage_appl_clutch.png^techage_frame_ta2.png^[transformR90",
+		-- up, down, right, left, back, front
+		"techage_filling_ta2.png^techage_appl_clutch.png^techage_appl_arrow3.png^techage_frame_ta2.png^[transformR90",
+		"techage_filling_ta2.png^techage_appl_clutch.png^techage_appl_arrow3.png^techage_frame_ta2.png^[transformR270",
 		"techage_filling_ta2.png^techage_appl_clutch.png^techage_frame_ta2.png",
-		"techage_filling_ta2.png^techage_appl_clutch.png^techage_frame_ta2.png",
+		"techage_filling_ta2.png^techage_appl_clutch.png^techage_frame_ta2.png^[transformR180",
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_clutch_clutch.png",
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_clutch_clutch.png",
 	},
-
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
-		if not Axle:after_place_tube(pos, placer, pointed_thing) then
-			minetest.remove_node(pos)
-			return true
-		end
-		return false
-	end,
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		Axle:after_dig_tube(pos, oldnode, oldmetadata)
+		M(pos):set_int("outdir", networks.side_to_outdir(pos, "B"))
 	end,
 	on_rightclick = switch_on,
 	paramtype2 = "facedir",
@@ -78,11 +97,11 @@ minetest.register_node("techage:ta2_clutch_off", {
 minetest.register_node("techage:ta2_clutch_on", {
 	description = DESCR,
 	tiles = {
-		-- back, front, up, down, right, left
+		-- up, down, right, left, back, front
 		"techage_filling_ta2.png^techage_appl_clutch_on.png^techage_frame_ta2.png^[transformR90",
-		"techage_filling_ta2.png^techage_appl_clutch_on.png^techage_frame_ta2.png^[transformR90",
+		"techage_filling_ta2.png^techage_appl_clutch_on.png^techage_frame_ta2.png^[transformR270",
 		"techage_filling_ta2.png^techage_appl_clutch_on.png^techage_frame_ta2.png",
-		"techage_filling_ta2.png^techage_appl_clutch_on.png^techage_frame_ta2.png",
+		"techage_filling_ta2.png^techage_appl_clutch_on.png^techage_frame_ta2.png^[transformR180",
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_clutch_clutch.png",
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_clutch_clutch.png",
 	},
