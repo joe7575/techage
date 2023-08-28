@@ -19,6 +19,7 @@ local S = techage.S
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 local tooltip = S("Switch to pull mode \nto pull items out of inventory slots \naccording the injector configuration")
+local Tube = techage.Tube
 
 local STANDBY_TICKS = 2
 local COUNTDOWN_TICKS = 3
@@ -269,6 +270,18 @@ local _, node_name_ta3, node_name_ta4 =
 			inv:set_size('filter', 8)
 			local nvm = techage.get_nvm(pos)
 			M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
+		end,
+		ta_rotate_node = function(pos, node, new_param2)
+			local nvm = techage.get_nvm(pos)
+			if CRD(pos).State:get_state(nvm) == techage.STOPPED then
+				Tube:after_dig_node(pos)
+				minetest.swap_node(pos, {name = node.name, param2 = new_param2})
+				Tube:after_place_node(pos)
+				local meta = M(pos)
+				meta:set_int("pull_dir", techage.side_to_outdir("L", new_param2))
+				meta:set_int("push_dir", techage.side_to_outdir("R", new_param2))
+				M(pos):set_string("formspec", formspec(CRD(pos).State, pos, nvm))
+			end
 		end,
 
 		allow_metadata_inventory_put = allow_metadata_inventory_put,
