@@ -94,7 +94,9 @@ In order to achieve the maximum storage capacity, the chest must be completely f
 
 ###  TA2 Winch
 
-The cable winch must be connected to a gear box and can absorb excess energy and thus pull a weight chest upwards. The maximum rope length is 10 blocks. 
+The cable winch must be connected to a gear box and can absorb excess energy and thus pull a weight chest upwards. 
+When assembling the cable winch, make sure that the arrow on the top of the block points to the gearbox.
+The maximum rope length is 10 blocks. 
 
 [ta2_winch|image]
 
@@ -110,7 +112,7 @@ This chest must be placed under the winch with a distance of up to 10 blocks and
 
 ### TA2 Clutch
 
-With the clutch, axles and machines can be separated from the energy storage. This means that the axles after the clutch come to a standstill and machine systems can be rebuilt.
+With the clutch, axles and machines can be separated from the energy storage. This means that the axles after the clutch come to a standstill and machine systems can be rebuilt. When assembling the clutch, make sure that the arrow on the top of the block points to the energy storage system.
 
 [techage:ta2_clutch_off|image]
 

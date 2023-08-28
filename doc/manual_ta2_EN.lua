@@ -98,7 +98,9 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "The cable winch must be connected to a gear box and can absorb excess energy and thus pull a weight chest upwards. The maximum rope length is 10 blocks. \n"..
+    "The cable winch must be connected to a gear box and can absorb excess energy and thus pull a weight chest upwards. \n"..
+    "When assembling the cable winch\\, make sure that the arrow on the top of the block points to the gearbox.\n"..
+    "The maximum rope length is 10 blocks. \n"..
     "\n"..
     "\n"..
     "\n",
@@ -106,7 +108,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "With the clutch\\, axles and machines can be separated from the energy storage. This means that the axles after the clutch come to a standstill and machine systems can be rebuilt.\n"..
+    "With the clutch\\, axles and machines can be separated from the energy storage. This means that the axles after the clutch come to a standstill and machine systems can be rebuilt. When assembling the clutch\\, make sure that the arrow on the top of the block points to the energy storage system.\n"..
     "\n"..
     "\n"..
     "\n",

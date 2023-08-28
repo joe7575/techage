@@ -80,7 +80,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Die Antriebsachsen dienen zur Kraftübertragung von der Dampfmaschine zu anderen Maschinen. Die maximale Länge einer Antriebsachse beträgt 10 Blöcke. Über Getriebeboxen können auch größere Strecken überbrückt\\, sowie Abzweigungen und Richtungswechsel realisiert werden.\n"..
+    "Die Antriebsachsen dienen zur Kraftübertragung von der Dampfmaschine zu anderen Maschinen. Die maximale Länge einer Antriebsachse beträgt 10 Blöcke. Über Getriebeblöcke können auch größere Strecken überbrückt\\, sowie Abzweigungen und Richtungswechsel realisiert werden.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -96,11 +96,11 @@ return {
     "\n"..
     "Der Energiespeicher besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden.\n"..
     "\n"..
-    "Um die maximale Speicherkapazität zu erreichen\\, muss die Kiste mit Gewichten komplett gefüllt\\, und der Mast inklusive der zwei Getriebeboxen 12 Blöcke hoch sein. Kleinere Aufbauten sind aber auch möglich.\n"..
+    "Um die maximale Speicherkapazität zu erreichen\\, muss die Kiste mit Gewichten komplett gefüllt\\, und der Mast inklusive der zwei Getriebeblöcke 12 Blöcke hoch sein. Kleinere Aufbauten sind aber auch möglich.\n"..
     "\n"..
     "\n"..
     "\n",
-    "Die Seilwinde muss mit einer Getriebebox verbunden werden und kann so überschüssige Energie aufnehmen und damit eine Gewichtekiste nach oben ziehen. Die maximale Seillänge beträgt 10 Blöcke.\n"..
+    "Die Seilwinde muss mit einem Getriebeblock verbunden werden und kann so überschüssige Energie aufnehmen und damit eine Gewichtekiste nach oben ziehen. Achte beim Aufbau der Seilwinde darauf\\, dass der Pfeil auf der Blockoberseite zum Getriebeblock zeigt. Die maximale Seillänge beträgt 10 Blöcke.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -108,7 +108,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Mit der Kupplung können Achsen und Maschinen vom Energiespeicher getrennt werden. Damit kommen die Achsen nach der Kupplung zum Stillstand und Maschinenanlagen können umgebaut werden.\n"..
+    "Mit der Kupplung können Achsen und Maschinen vom Energiespeicher getrennt werden. Damit kommen die Achsen nach der Kupplung zum Stillstand und Maschinenanlagen können umgebaut werden. Achte beim Aufbau der Kupplung darauf\\, dass der Pfeil auf der Blockoberseite zum Energiespeicher zeigt. \n"..
     "\n"..
     "\n"..
     "\n",
