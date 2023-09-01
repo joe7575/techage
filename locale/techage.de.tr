@@ -1373,7 +1373,7 @@ Never completely empty the slots@nwith the pusher to keep the item assignment=Sp
 Size=Größe
 TA4 8x2000 Chest=TA4 8x2000 Kiste
 Unlock=Entsperren
-Unlock connected chest@nif all slots are below 2000=Nachfolgende Kiste entsperren,@nsofern alle Speicherplätze <= 2000
+Unlock connected chest@nif all slots are below 2000=Nachfolgende Kiste entsperren,@nsofern alle Speicherplätze <@= 2000
 right to left=von rechts nach links
 
 ### ta4_doser.lua ###
