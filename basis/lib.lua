@@ -481,7 +481,7 @@ end
 
 function techage.wrench_tooltip(x, y)
 	local tooltip = S("Block has an\nadditional wrench menu")
-	return "label["..x..","..y..";"..minetest.colorize("#000000", minetest.formspec_escape("[?]")).."]"..
+	return "image["..x.."," .. y .. ";0.5,0.5;techage_inv_wrench.png]" ..
 		"tooltip["..x..","..y..";0.5,0.5;"..tooltip..";#0C3D32;#FFFFFF]"
 end
 

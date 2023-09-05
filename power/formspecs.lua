@@ -187,7 +187,7 @@ end
 function techage.generator_formspec(self, pos, nvm, label, provided, max_available, ta2)
 	local tooltip = ""
 	if not ta2 then
-		tooltip = techage.wrench_tooltip(4.4, -0.1)
+		tooltip = techage.wrench_tooltip(4.4, -0.05)
 	end
 	return "size[5,4]" ..
 		default.gui_bg ..
