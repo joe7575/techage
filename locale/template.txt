@@ -21,6 +21,10 @@ Red Mud Canister=
 [TA] Area is protected!=
 [TA] Not enough space!=
 
+### assembly_tool.lua ###
+
+TechAge Assembly Tool=
+
 ### autocrafter.lua ###
 
 Autocrafter=
@@ -482,6 +486,21 @@ TA2 Ele Fab=
 TA3 Ele Fab=
 TA4 Ele Fab=
 
+### end_wrench.lua ###
+
+Biome=
+Node owner=
+Position=
+Position temperature=
+Pump connected to no/empty tank(s).=
+Pump connected to tank(s) with: @1=
+TechAge Info Tool (use @= read status info)=
+
+### end_wrench.lua ###
+### meltingpot.lua ###
+
+Time=
+
 ### epoxy.lua ###
 
 Epoxide Resin=
@@ -912,11 +931,6 @@ TA1 Burning=
 TA1 Melting=
 TA1 Melting Pot=
 
-### meltingpot.lua ###
-### repairkit.lua ###
-
-Time=
-
 ### meridium.lua ###
 
 Meridium Axe=
@@ -1172,17 +1186,6 @@ Recycler=
 Red Stone=
 Red Stone Block=
 Red Stone Brick=
-
-### repairkit.lua ###
-
-Biome=
-Node owner=
-Position=
-Position temperature=
-Pump connected to no/empty tank(s).=
-Pump connected to tank(s) with: @1=
-TechAge Info Tool (use @= read status info)=
-TechAge Repair Kit=
 
 ### repeater.lua ###
 

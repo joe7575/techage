@@ -886,7 +886,7 @@ Mit diesem Werkzeug lassen sich die Bohrgestängezange Blöcke wieder entfernen,
 
 [ta3_drill_pipe_wrench|image]
 
-### Techage Schraubendreher
+### Techage Schraubendreher / Screwdriver
 
 Der Techage Schraubendreher dient als Ersatz für den normalen Schraubendreher. Es besitzt folgende Funktionen:
 
@@ -896,3 +896,14 @@ Der Techage Schraubendreher dient als Ersatz für den normalen Schraubendreher. 
 - Shift+Rechtsklick: Die gespeicherte Ausrichtung auf den angeklickten Block anwenden
 
 [ta3_screwdriver|image]
+
+### TechAge Montagewerkzeug / Assembly Tool
+
+Das TechAge Montagewerkzeug dient zum Entfernen und wieder Setzen von Techage Blöcken, ohne dass diese Blöcke ihre Blocknummer verlieren, bzw. beim Setzen eine neue Nummer zugeteilt bekommen. Dies ist bspw. bei Steinbrechern hilfreich, da diese oft umgesetzt werden müssen.
+
+- Linke Taste: Entfernen eines Blocks
+- Rechte Taste: Setzen eines Blocks
+
+Der Block, der zuvor mit dem Montagewerkzeug entfernt wurde und wieder gesetzt werden soll, muss sich im Spieler-Inventar ganz links befinden.
+
+[techage:assembly_tool|image]

@@ -283,6 +283,18 @@ function techage.pack_node(pos, oldnode, number)
 	end
 end
 
+-------------------------------------------------------------------
+-- Used by the assembly tool
+-------------------------------------------------------------------
+function techage.pre_add_node(pos, number)
+	local key = minetest.hash_node_position(pos)
+	NumbersToBeRecycled[key] = number
+end
+
+function techage.post_remove_node(pos)
+	local key = minetest.hash_node_position(pos)
+	NumbersToBeRecycled[key] = nil
+end
 
 -------------------------------------------------------------------
 -- Node register function

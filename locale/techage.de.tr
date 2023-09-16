@@ -21,6 +21,10 @@ Red Mud Canister=Rotschlamm Kanister
 [TA] Area is protected!=[TA] Bereich ist geschützt
 [TA] Not enough space!=[TA] Nicht ausreichend Platz!
 
+### assembly_tool.lua ###
+
+TechAge Assembly Tool=TechAge Montagewerkzeug
+
 ### autocrafter.lua ###
 
 Autocrafter=Autocrafter
@@ -482,6 +486,21 @@ TA2 Ele Fab=TA2 E-Fabrik
 TA3 Ele Fab=TA3 E-Fabrik
 TA4 Ele Fab=TA4 E-Fabrik
 
+### end_wrench.lua ###
+
+Biome=Biom
+Node owner=Blockbesitzer
+Position=Position
+Position temperature=Positionstemperatur
+Pump connected to no/empty tank(s).=Pumpe an keine/leere Tank(s) angeschlossen.
+Pump connected to tank(s) with: @1=Pumpe an Tank(s) angeschlossen mit: @1
+TechAge Info Tool (use @= read status info)=TechAge Info Werkzeug
+
+### end_wrench.lua ###
+### meltingpot.lua ###
+
+Time=Zeit
+
 ### epoxy.lua ###
 
 Epoxide Resin=Epoxidharz
@@ -912,11 +931,6 @@ TA1 Burning=TA1 Brennen
 TA1 Melting=TA1 Schmelzen
 TA1 Melting Pot=TA1 Schmelztiegel
 
-### meltingpot.lua ###
-### repairkit.lua ###
-
-Time=Zeit
-
 ### meridium.lua ###
 
 Meridium Axe=Meridium Axt
@@ -1172,17 +1186,6 @@ Recycler=Recycler
 Red Stone=Rotstein
 Red Stone Block=Rotsteinblock
 Red Stone Brick=Rotsteinziegel
-
-### repairkit.lua ###
-
-Biome=Biom
-Node owner=Blockbesitzer
-Position=Position
-Position temperature=Positionstemperatur
-Pump connected to no/empty tank(s).=Pumpe an keine/leere Tank(s) angeschlossen.
-Pump connected to tank(s) with: @1=Pumpe an Tank(s) angeschlossen mit: @1
-TechAge Info Tool (use @= read status info)=TechAge Info Werkzeug
-TechAge Repair Kit=TechAge Reparaturset
 
 ### repeater.lua ###
 
@@ -1572,25 +1575,3 @@ Remove detector=Entferne Detektor
 TA4 Collider Detector Worker=TA4 Collider Detektor Worker
 [TA4] Detector is being built!=[TA4] Detektor wird gebaut! 
 [TA4] Detector is being removed!=[TA4] Detektor wird  entfernt!
-
-
-##### not used anymore #####
-
-No plan available=Kein Plan verfügar
-Plan=Plan
-Sectional view=Schnittbild
-Side view=Seitenansicht
-Top view=Draufsicht
-Blocks are back=Blöcke sind wieder da
-Blocks are disappeared=Blöcke sind verschwunden
-Remove=Entfernen
-Set=Setzen
-Commands@nhelp . . . print this text@ncls . . . . . clear screen@ngen . . . . print all generators@nsto . . . . . print all storage systems@ncon . . . . . print main consumers@n=Kommandos@nhelp . . . diesen Text ausgeben@ncls . . . . . Bildschirm löschen@ngen . . . . Alle Generatoren ausgeben@nsto . . . . . Alle Speichersysteme ausgeben@ncon . . . . . Hauptverbraucher ausgeben@n
-Handover to A=Übergabe an A
-Handover to B=Übergabe an B
-Number of the next movecontroller=Nummer des nächsten Move Controllers
-Number of the previous movecontroller=Nummer des vorhergehenden Move Controllers
-TechAge Signal Lamp=TechAge Signallampe
-TechAge Signal Lamp 2 =TechAge Signallampe 2
-TA4 Collider Terminal=TA4 Collider Terminal
-Error: Max. length of the flight route exceeded !!=Fehler: Max. Flugstreckenlänge überschritten !!

@@ -275,7 +275,7 @@ techage.register_node({"techage:powerswitch", "techage:powerswitch_on",
 	end,
 	on_beduino_request_data = function(pos, src, topic, payload)
 		local node = techage.get_node_lvm(pos)
-		if topic == 142 then
+		if topic == 131 or topic == 142 then
 			if node.name == "techage:powerswitch_on" or
 					node.name == "techage:powerswitchsmall_on" then
 				return 0, {1}

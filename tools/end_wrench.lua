@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2021 Joachim Stolberg
+	Copyright (C) 2017-2023 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -222,34 +222,6 @@ local function on_place(itemstack, placer, pointed_thing)
 	end
 end
 
-local function repair(itemstack, placer, pointed_thing)
-	if pointed_thing.type == "node" then
-		local pos = pointed_thing.under
-		if not placer or minetest.is_protected(pos, placer:get_player_name()) then
-			return
-		end
-		local number = techage.get_node_number(pos)
-		if number and not techage.get_node_info(number) then
-			techage.repair_number(pos)
-			minetest.chat_send_player(placer:get_player_name(), "Node repaired!")
-			itemstack:add_wear(65636/200)
-			return itemstack
-		end
-	end
-end
-
-minetest.register_tool("techage:repairkit", {
-	description = S("TechAge Repair Kit"),
-	inventory_image = "techage_repairkit.png",
-	wield_image = "techage_repairkit.png^[transformR270",
-	groups = {cracky=1, book=1},
-	on_use = repair,
-	on_place = repair,
-	node_placement_prediction = "",
-	stack_max = 1,
-})
-
-
 minetest.register_tool("techage:end_wrench", {
 	description = S("TechAge Info Tool (use = read status info)"),
 	inventory_image = "techage_end_wrench.png",
@@ -270,12 +242,3 @@ minetest.register_craft({
 		{"default:steel_ingot", "", ""},
 	},
 })
-
---minetest.register_craft({
---	output = "techage:repairkit",
---	recipe = {
---		{"", "", ""},
---		{"", "techage:end_wrench", ""},
---		{"", "", ""},
---	},
---})

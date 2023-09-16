@@ -887,3 +887,15 @@ The Techage Screwdriver serves as a replacement for the normal screwdriver. It h
 - Shift + right click: apply the saved alignment to the clicked block
 
 [ta3_screwdriver|image] 
+
+### TechAge Assembly Tool
+
+The TechAge Assembly Tool is used to remove and reposition Techage blocks without these blocks losing their block number or being assigned a new number when setting. This is helpful, for example, for quarries, as they often have to be moved.
+
+- Left button: Remove a block
+- Right button: Set a block
+
+The block that was previously removed with the assembly tool and is to be placed again must be on the far left of the player inventory.
+
+[techage:assembly_tool|image]
+
