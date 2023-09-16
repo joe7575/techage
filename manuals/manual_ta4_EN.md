@@ -823,11 +823,13 @@ The processing power is 4 items every 4 s. The autocrafter requires 9 ku of elec
 
 In addition, the TA4 Autocrafter supports the selection of different recipes using the following commands:
 
-`recipe <number>.<index>` switches the autocrafter to a recipe from the TA4 Recipe Block. `<number>` is the number of the recipe block, `<index>` the recipe number. Example: `$send_cmnd(1234, "recipe", 5467.1)`
+`recipe "<number>.<index>"` switches the autocrafter to a recipe from the TA4 Recipe Block. `<number>` is the number of the recipe block, `<index>` the recipe number. Example: `$send_cmnd(1234, "recipe", "5467.1")`
 
 Alternatively, a recipe can also be selected via the list of ingredients, such as:
 `$send_cmnd(1234, "recipe", "default:coal_lump,,,default:stick")`
 All technical names of a recipe must be specified here, separated by commas. See also the command `input` in the TA4 recipe block.
+
+The `flush` command moves all items from the input inventory to the output inventory. The command returns `true` if the input inventory was completely emptied. If `false` was returned (output inventory full), the command must be repeated at a later time.
 
 [ta4_autocrafter|image] 
 

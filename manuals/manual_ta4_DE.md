@@ -832,11 +832,15 @@ Die Verarbeitungsleistung beträgt 4 Items alle 4 s. Der Autocrafter benötigt h
 
 Zusätzlich unterstützt der TA4 Autocrafter die Auswahl unterschiedlicher Rezepte über folgende Kommandos:
 
-`recipe <number>.<index>`  schaltet den Autocrafter auf ein Rezept des TA4 Rezept Blocks um. `<number>` ist die Nummer des Rezept Blocks, `<index>` die Rezept-Nummer. Beispiel: `$send_cmnd(1234, "recipe", 5467.1)`
+`recipe "<number>.<index>"`  schaltet den Autocrafter auf ein Rezept des TA4 Rezept Blocks um. `<number>` ist die Nummer des Rezept Blocks, `<index>` die Rezept-Nummer. Beispiel: `$send_cmnd(1234, "recipe", "5467.1")`
 
 Alternativ  kann ein Rezept auch über die Zutatenliste ausgewählt werden, wie bspw.:
 `$send_cmnd(1234, "recipe", "default:coal_lump,,,default:stick")`
 Hier müssen alle technische Namen eines Rezeptes durch Kommas getrennt angegeben werden. Siehe auch das Kommando `input` beim TA4 Rezept Block.
+
+Das Kommando `flush` verschiebt alle Artikel vom Eingabeinventar in das Ausgabeinventar. Das Kommando liefert `true` zurück, wenn das Eingabeinventar dabei vollständig geleert wurde. Falls `false` zurückgeliefert wurde (Ausgabeinventar voll), muss das Kommando zu einem späteren Zeitpunkt wiederholt werden.
+
+
 
 [ta4_autocrafter|image]
 
