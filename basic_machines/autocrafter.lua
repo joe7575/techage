@@ -68,6 +68,21 @@ local function count_index(invlist)
 	return index
 end
 
+local function flush_input_inventory(pos)
+	local inv = M(pos):get_inventory()
+	if not inv:is_empty("src") then
+		for idx = 1, 16 do
+			local stack = inv:get_stack("src", idx)
+			if not inv:room_for_item("dst", stack) then
+				return false
+			end
+			inv:add_item("dst", stack)
+			inv:set_stack("src", idx, nil)
+		end
+	end
+	return true
+end
+
 -- caches some recipe data
 local autocrafterCache = {}
 
@@ -224,13 +239,18 @@ local function on_output_change(pos, inventory, stack)
 end
 
 local function determine_recipe_items(pos, input)
-	if input and type(input) == "string" then
-		-- Test if "<node-number>.<recipe-number>" input
-		local num, idx = unpack(string.split(input, ".", false, 1))
-		if num and idx then
-			input = get_input_from_recipeblock(pos, num, idx)
-		end
+	local num, idx
 
+	if input and type(input) == "string" then  -- Lua controller
+		-- Test if "<node-number>.<recipe-number>" input
+		num, idx = unpack(string.split(input, ".", false, 1))
+	elseif input and type(input) == "table" then  -- Beduino
+		num = tostring(input[1] * 65536 + input[2])
+		idx = tostring(input[3])
+	end
+
+	if num and idx then
+		input = get_input_from_recipeblock(pos, num, idx)
 		if input then
 			-- "<item>,<item>,..." input
 			local items = string.split(input, ",", true, 8)
@@ -443,13 +463,14 @@ local tubing = {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "recipe" and CRD(pos).stage == 4 then
 			if payload and payload ~= "" then
-				local inv = M(pos):get_inventory()
 				on_new_recipe(pos, payload)
 				return true
 			else
 				local inv = M(pos):get_inventory()
 				return inv:get_stack("output", 1):get_name()
 			end
+		elseif topic == "flush" and CRD(pos).stage == 4 then
+			return flush_input_inventory(pos)
 		elseif topic == "info" and CRD(pos).stage == 4 then
 			return INFO
 		else
@@ -457,6 +478,16 @@ local tubing = {
 		end
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		if topic == 10 and CRD(pos).stage == 4 then
+			on_new_recipe(pos, payload)
+			return 1, ""
+		elseif topic == 11 and CRD(pos).stage == 4 then
+			if flush_input_inventory(pos) then
+				return 1, ""
+			else
+				return 0, ""
+			end
+		end
 		return CRD(pos).State:on_beduino_receive_cmnd(pos, topic, payload)
 	end,
 	on_beduino_request_data = function(pos, src, topic, payload)
