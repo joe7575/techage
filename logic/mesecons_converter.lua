@@ -143,7 +143,7 @@ minetest.register_node("techage:ta3_mesecons_converter_on", {
 
 	mesecons = {
 		receptor = {
-			state = mesecon.state.on,
+			state = mesecon.state.off,
 			rules = mesecon.rules.default,
 		},
 		effector = {
@@ -164,7 +164,7 @@ minetest.register_node("techage:ta3_mesecons_converter_on", {
 	paramtype = "light",
 	light_source = 5,
 	paramtype2 = "facedir",
-	groups = {choppy=2, cracky=2, crumbly=2},
+	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
 	drop = "techage:ta3_mesecons_converter",
