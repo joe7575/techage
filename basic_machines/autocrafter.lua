@@ -263,27 +263,23 @@ end
 
 local function on_new_recipe(pos, input)
 	local items = determine_recipe_items(pos, input)
+	local inv = M(pos):get_inventory()
 	if items then
-		input = {
-			method = "normal",
-			width = 3,
-			items = items,
-		}
-		local output, _ = minetest.get_craft_result(input)
-		if output.item:get_name() ~= "" then
-			local inv = M(pos):get_inventory()
-			for i = 1, 9 do
-				inv:set_stack("recipe", i, input.items[i])
-			end
-			after_recipe_change(pos, inv)
+		for i = 1, 9 do
+			inv:set_stack("recipe", i, items[i])
 		end
 	else
-		local inv = M(pos):get_inventory()
 		inv:set_list("recipe", {})
-		after_recipe_change(pos, inv)
+	end
+	local hash = minetest.hash_node_position(pos)
+	autocrafterCache[hash] = nil
+	local craft = get_craft(pos, inv, hash)
+	if craft.output and craft.output.item then
+		inv:set_stack("output", 1, craft.output.item)
+	else
+		inv:set_stack("output", 1, nil)
 	end
 end
-
 
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if listname == "output" then
