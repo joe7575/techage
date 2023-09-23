@@ -88,7 +88,7 @@ local function on_punch(pos, node, puncher, pointed_thing)
 			minetest.swap_node(pos, {name = "techage:sieve0"})
 			minetest.get_node_timer(pos):start(1.5)
 			local w = puncher:get_wielded_item()
-			if not(minetest.setting_getbool("creative_mode")) then
+			if not minetest.is_creative_enabled(puncher:get_player_name()) then
 				w:take_item(1)
 				puncher:set_wielded_item(w)
 			end
