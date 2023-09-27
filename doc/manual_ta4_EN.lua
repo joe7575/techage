@@ -800,6 +800,7 @@ return {
     "The chest has an additional command for the Lua controller:\n"..
     "\n"..
     "  - 'count' is used to request how many items are in the chest.\nExample 1: '$send_cmnd(CHEST\\, \"count\")' -> Sum of items across all 8 stores\nExample 2: '$send_cmnd(CHEST\\, \"count\"\\, 2)' -> number of items in store 2 (second from left)\n"..
+    "  - 'storesize' is used to read the size of one of the eight stores:\nExample: '$send_cmnd(CHEST\\, \"storesize\")' -> function returns e.g. 6000\n"..
     "\n"..
     "\n"..
     "\n",

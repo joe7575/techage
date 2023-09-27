@@ -802,6 +802,7 @@ return {
     "Der Kiste besitzt ein zusätzliches Kommandos für den Lua Controller:\n"..
     "\n"..
     "  - 'count' dient zur Anfrage\\, wie viele Items in der Kiste sind.\nBeispiel 1:  '$send_cmnd(CHEST\\, \"count\")'  --> Summe der Items über alle 8 Speicher\nBeispiel 2:  '$send_cmnd(CHEST\\, \"count\"\\, 2)'  --> Anzahl der Items in Speicher 2 (zweiter von links)\n"..
+    "  - 'storesize' wird verwendet\\, um die Größe eines der acht Speicher auszulesen\nBeispiel: '$send_cmnd(CHEST\\, \"storesize\")' -> Funktion liefert bspw. 6000 zurück\n"..
     "\n"..
     "\n"..
     "\n",

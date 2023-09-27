@@ -935,6 +935,8 @@ The chest has an additional command for the Lua controller:
 - `count` is used to request how many items are in the chest.
   Example 1: `$send_cmnd(CHEST, "count")` -> Sum of items across all 8 stores
   Example 2: `$send_cmnd(CHEST, "count", 2)` -> number of items in store 2 (second from left)
+- `storesize` is used to read the size of one of the eight stores:
+  Example: `$send_cmnd(CHEST, "storesize")` -> function returns e.g. 6000
 
 [ta4_8x2000_chest|image]
 

@@ -636,6 +636,8 @@ techage.register_node({"techage:ta4_chest"}, {
 		elseif topic == "itemstring" then
 			local nvm = techage.get_nvm(pos)
 			return get_itemstring(nvm, tonumber(payload or 0) or 0)
+		elseif topic == "storesize" then
+			return get_stacksize(pos)
 		elseif topic == "state" then
 			local nvm = techage.get_nvm(pos)
 			return inv_state(nvm)
@@ -650,6 +652,8 @@ techage.register_node({"techage:ta4_chest"}, {
 		elseif topic == 140 and payload[1] == 2 then  -- Inventory Item Name
 			local nvm = techage.get_nvm(pos)
 			return 0, get_itemstring(nvm, tonumber(payload[2] or 0) or 0)
+		elseif topic == 140 and payload[1] == 3 then  -- storesize
+			return 0, {get_stacksize(pos)}
 		elseif topic == 131 then  -- Chest State
 			local nvm = techage.get_nvm(pos)
 			return 0, {inv_state_num(nvm)}

@@ -947,6 +947,8 @@ Der Kiste besitzt ein zusätzliches Kommandos für den Lua Controller:
 - `count` dient zur Anfrage, wie viele Items in der Kiste sind.
   Beispiel 1:  `$send_cmnd(CHEST, "count")`  --> Summe der Items über alle 8 Speicher
   Beispiel 2:  `$send_cmnd(CHEST, "count", 2)`  --> Anzahl der Items in Speicher 2 (zweiter von links)
+- `storesize` wird verwendet, um die Größe eines der acht Speicher auszulesen
+  Beispiel: `$send_cmnd(CHEST, "storesize")` -> Funktion liefert bspw. 6000 zurück
 
 [ta4_8x2000_chest|image]
 
