@@ -15,6 +15,8 @@ local M = minetest.get_meta
 local S = techage.S
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 
+local InvalidBlocks = {}
+
 local function base_checks(user, pointed_thing, place)
 	if pointed_thing.type ~= "node" then
 		return false
@@ -67,6 +69,10 @@ local function remove_node(pos, digger)
 	local ndef = minetest.registered_nodes[node.name]
 	local oldmetadata = minetest.get_meta(pos):to_table()
 
+	if InvalidBlocks[node.name] then
+		return
+	end
+	
 	if number ~= "" and ndef and ndef.after_dig_node then
 		minetest.remove_node(pos)
 		ndef.after_dig_node(pos, node, oldmetadata, digger)
@@ -159,3 +165,7 @@ minetest.register_craft({
 })
 
 minetest.register_alias("techage:repairkit", "techage:assembly_tool")
+
+function techage.disable_block_for_assembly_tool(block_name)
+	InvalidBlocks[block_name] = true
+end

@@ -214,3 +214,12 @@ techage.furnace.register_recipe({
 ```
 
 
+
+## Assembly Tool
+
+Disable a block from being removed by the assembly tool:
+
+```lua
+techage.disable_block_for_assembly_tool(block_name)
+```
+
