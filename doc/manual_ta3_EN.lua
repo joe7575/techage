@@ -20,7 +20,7 @@ return {
     "3,TA Power Switch Small",
     "3,TA Power Switch Box",
     "3,TA3 Small Power Generator",
-    "3,TA3 Battery Block",
+    "3,TA3 Accu Block",
     "3,TA3 Power Terminal",
     "3,TA3 Electric Motor",
     "2,TA3 Industrial Furnace",
@@ -228,11 +228,11 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "The battery block is used to store excess energy and automatically delivers power in the event of a power failure (if available).\n"..
-    "Several battery blocks together form a TA3 energy storage system. Each battery block has a display for the charging state and for the stored load.\n"..
+    "The accu block (rechargeable battery)  is used to store excess energy and automatically delivers power in the event of a power failure (if available).\n"..
+    "Several accu blocks together form a TA3 energy storage system. Each accu block has a display for the charging state and for the stored load.\n"..
     "The values for the entire network are always displayed here. The stored load is displayed in \"kud\" or \"ku-days\" (analogous to kWh) 5 kud thus corresponds\\, for example\\, to 5 ku for a game day (20 min) or 1 ku for 5 game days.\n"..
     "\n"..
-    "A battery block has 3.33 kud\n"..
+    "A accu block has 3.33 kud\n"..
     "\n"..
     "\n"..
     "\n",

@@ -43,7 +43,7 @@ local function formspec(pos)
 		return "size[8,9]"..
 			"box[0,-0.1;7.8,0.5;#c6e8ff]" ..
 			"label[0.2,-0.1;" .. minetest.colorize( "#000000", title) .. "]" ..
-			"label[0.2,2;Inventory access on client side disabled\ndue to minetest core issues!]" ..
+			"label[0.2,2;Inventory access on this node is disabled\ndue to minetest engine issues!]" ..
 			"list[current_player;main;0,5.3;8,4;]"
 	else
 		return menu.generate_formspec(pos, ndef, hyperloop.SUBMENU)

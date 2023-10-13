@@ -200,13 +200,13 @@ The power generator can only hold 50 units of gasoline. An additional tank and a
 [ta3_tinygenerator|image]
 
 
-### TA3 Battery Block
+### TA3 Accu Block
 
-The battery block is used to store excess energy and automatically delivers power in the event of a power failure (if available).
-Several battery blocks together form a TA3 energy storage system. Each battery block has a display for the charging state and for the stored load.
+The accu block (rechargeable battery)  is used to store excess energy and automatically delivers power in the event of a power failure (if available).
+Several accu blocks together form a TA3 energy storage system. Each accu block has a display for the charging state and for the stored load.
 The values for the entire network are always displayed here. The stored load is displayed in "kud" or "ku-days" (analogous to kWh) 5 kud thus corresponds, for example, to 5 ku for a game day (20 min) or 1 ku for 5 game days.
 
-A battery block has 3.33 kud
+A accu block has 3.33 kud
 
 [ta3_akkublock|image]
 

@@ -33,7 +33,7 @@ local function formspec(self, pos, nvm)
 		local outdir = M(pos):get_int("outdir")
 		data = power.get_network_data(pos, Cable, outdir)
 	end
-	return techage.storage_formspec(self, pos, nvm, S("TA3 Akku Box"), data, nvm.capa, PWR_CAPA)
+	return techage.storage_formspec(self, pos, nvm, S("TA3 Accu Box"), data, nvm.capa, PWR_CAPA)
 end
 
 local function start_node(pos, nvm, state)

@@ -197,7 +197,7 @@ Der Stromgenerator kann nur 50 Einheiten Benzin aufnehmen. Ein zusätzlicher Tan
 [ta3_tinygenerator|image]
 
 
-### TA3 Akku Block /  Akku Box
+### TA3 Akku Block /  TA3 Accu Box
 
 Der Akku Block dient zur Speicherung von überschüssiger Energie und gibt bei Stromausfall automatisch Strom ab (soweit vorhanden).
 Mehrere Akku Blocks zusammen bilden ein TA3 Energiespeichersystem. Jeder Akku Block hat eine Anzeige für den Ladezustand und für die gespeicherte Ladung, wobei hier immer die Werte für das gesamte Netzwerk angezeigt werden. Die gespeicherte Ladung wird in "kud" also "ku-days" angezeigt (analog zu kWh)  5 kud entspricht damit bspw. 5 ku für einen Spieltag (20 min) oder 1 ku für 5 Spieltage.

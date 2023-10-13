@@ -4,8 +4,7 @@
 
 ### akkubox.lua ###
 
-TA3 Accu Box=Akkublock
-TA3 Akku Box=TA3 Akku Block
+TA3 Accu Box=TA3 Akkublock
 
 ### aluminium.lua ###
 
@@ -1575,3 +1574,8 @@ Remove detector=Entferne Detektor
 TA4 Collider Detector Worker=TA4 Collider Detektor Worker
 [TA4] Detector is being built!=[TA4] Detektor wird gebaut! 
 [TA4] Detector is being removed!=[TA4] Detektor wird  entfernt!
+
+
+##### not used anymore #####
+
+TA3 Akku Box=TA3 Akku Block

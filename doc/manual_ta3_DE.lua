@@ -20,7 +20,7 @@ return {
     "3,TA Stromschalter klein / Power Switch Small",
     "3,TA Stromschalterbox / Power Switch Box",
     "3,TA3 Kleiner Stromgenerator / Tiny Power Generator",
-    "3,TA3 Akku Block /  Akku Box",
+    "3,TA3 Akku Block /  TA3 Accu Box",
     "3,TA3 Strom Terminal / Power Terminal",
     "3,TA3 Elektromotor / TA3 Electric Motor",
     "2,TA3 Industrieofen",
