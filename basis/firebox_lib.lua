@@ -20,14 +20,14 @@ local S = techage.S
 techage.firebox = {}
 
 techage.firebox.Burntime = {
-	["techage:charcoal"] = true, -- will be replaced by burntime
-	["default:coal_lump"] = true,
-	["default:coalblock"] = true,
-	["techage:oil_source"] = true,
-	["techage:gas"] = true,
-	["techage:gasoline"] = true,
-	["techage:naphtha"] = true,
-	["techage:fueloil"] = true,
+	["techage:charcoal"] = 1, -- will be replaced by burntime
+	["default:coal_lump"] = 1,
+	["default:coalblock"] = 1,
+	["techage:oil_source"] = 1,
+	["techage:gas"] = 1,
+	["techage:gasoline"] = 1,
+	["techage:naphtha"] = 1,
+	["techage:fueloil"] = 1,
 }
 
 techage.firebox.ValidOilFuels = {
@@ -44,7 +44,7 @@ local function determine_burntimes()
 		techage.firebox.Burntime[k] = fuel.time
 	end
 end
-minetest.after(1, determine_burntimes)
+minetest.register_on_mods_loaded(determine_burntimes)
 
 function techage.firebox.formspec(nvm)
 	local fuel_percent = 0
