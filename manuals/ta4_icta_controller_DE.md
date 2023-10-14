@@ -48,7 +48,7 @@ Für jede Regel kann eine der folgenden Bedingungen konfiguriert werden. Pro Reg
 
 - `inputs` - Damit kann der empfangene Wert `on` / `off` eines Kommandos (Ereignis) ausgewertet werden.  Hier bitte beachten: Bei Regeln, die Ereignis-gesteuert ausgeführt werden sollen, muss als Zykluszeit 0 angegeben werden.
 
-- `read block state` - Damit kann der Status einer Maschine abgefragt werden. Die Nummer der Maschine muss eingegeben werden. Mögliche Maschinenzustände sind:
+- `read block state` - Damit kann der Status einer Maschine abgefragt werden. Die Nummer der Maschine (Blocknummer) muss eingegeben werden. Mögliche Maschinenzustände sind:
   
     - `running` --> Maschine ist am arbeiten
     - `stopped` --> Maschine ist ausgeschaltet
@@ -59,8 +59,10 @@ Für jede Regel kann eine der folgenden Bedingungen konfiguriert werden. Pro Reg
     
     Ist eine konfigurierte Bedingung erfüllt, also bspw. `block nummer 456 is stopped`, so wird die Aktion ausgeführt.
     
-    Welche Maschinen welche Statusinformationen liefern, kann am einfachsten mit dem Schraubenschlüssel /Techage Info Werkzeug direkt an der Maschine festgestellt werden.
+    **Info:** Eine **Blocknummer** ist eine eindeutige Zahl, die von Techage beim Setzen von vielen Techage Blöcken generiert und als Infotext hinter dem Blocknamen angezeigt wird. Die Blocknummer dient zur Adressierung bei der Kommunikation zwischen Techage Controllern und Maschinen. 
 
+  Welche Maschinen welche Statusinformationen liefern, kann am einfachsten mit dem Schraubenschlüssel /Techage Info Werkzeug direkt an der Maschine festgestellt werden.
+  
 - `read amount of fuel` - Damit kann ausgelesen werden, wie viel Sprit eine Maschine noch hat (typisch 0-99 Einheiten) und mit einem Wert auf 'größer' oder 'kleiner' verglichen werden. Ist die konfigurierte Bedingung erfüllt, wird die Aktion ausgeführt.
     `read power/liquid load` - Damit kann die Ladung eines Akkus oder des Wärmespeichers in Prozent (Werte von 0..100) abgefragt und mit der konfigurierten Bedingung auf 'größer'/'kleiner' geprüft werden. Ist die Bedingung erfüllt, wird die Aktion ausgeführt.
 
