@@ -72,7 +72,11 @@ end
 techage.register_node(names, {
 	on_push_item = function(pos, in_dir, stack)
 		local push_dir = M(pos):get_int("push_dir")
-		return techage.safe_push_items(pos, push_dir, stack)
+		if networks.Flip[push_dir] ~= in_dir then
+			return techage.safe_push_items(pos, push_dir, stack)
+		else
+			return stack
+		end
 	end,
 	is_pusher = true,  -- is a pulling/pushing node
 })
@@ -121,7 +125,11 @@ end
 techage.register_node(names, {
 	on_push_item = function(pos, in_dir, stack)
 		local push_dir = M(pos):get_int("push_dir")
-		return techage.safe_push_items(pos, push_dir, stack)
+		if networks.Flip[push_dir] ~= in_dir then
+			return techage.safe_push_items(pos, push_dir, stack)
+		else
+			return stack
+		end
 	end,
 	is_pusher = true,  -- is a pulling/pushing node
 })
