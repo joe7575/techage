@@ -27,7 +27,7 @@ end
 local function num_cobble(pos, height)
 	local pos1 = {x=pos.x-1, y=pos.y+1, z=pos.z-1}
 	local pos2 = {x=pos.x+1, y=pos.y+height, z=pos.z+1}
-	local nodes = minetest.find_nodes_in_area(pos1, pos2, {"default:cobble", "default:desert_cobble"})
+	local nodes = minetest.find_nodes_in_area(pos1, pos2, {"default:cobble", "default:desert_cobble", "default:mossycobble", "techage:basalt_cobble", "techage:bauxite_cobble"})
 	return #nodes
 end
 
