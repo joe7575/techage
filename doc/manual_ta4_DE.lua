@@ -70,6 +70,7 @@ return {
     "2,TA4 Teilchenbeschleuniger / Collider",
     "3,Detektor",
     "3,Steuerung / TA4 Terminal",
+    "3,Kühlung und Strom",
     "3,Aufbau",
     "2,Weitere TA4 Blöcke",
     "3,TA4 Rezept Block",
@@ -637,9 +638,7 @@ return {
     "Ein Teilchenbeschleuniger besteht aus einem \"Ring\" aus Röhren und Magneten sowie dem Detektor mit Kühlanlage. \n"..
     "\n"..
     "  - Der Detektor ist das Herz der Anlage. Hier finden die wissenschaftlichen Experimente statt. Der Detektor ist 3x3x7 Blöcke groß.\n"..
-    "  - 22 TA4 Collider Magnete (nicht die TA4 Collider Detector Magnete!) müssen über jeweils 5 Blöcken der TA4 Vakuumröhre miteinander verbunden werden. Jeder Magnet benötigt zusätzlich Strom und einen Gasanschluss für die Kühlung. Das ganze bildet (wie rechts im Plan abgebildet) ein Quadrat mit einer Kantenlänge von 37 Metern.\n"..
-    "  - Zusätzlich wird eine Kühlung benötigt\\, welche zusätzlich beim Detektor aufgebaut werden muss. Für die Kühlung wird Isobutan benötigt.\n"..
-    "  - Die Anlage benötigt einiges an Strom. Daher ist eine eigene Stromversorgung sinnvoll.\n"..
+    "  - 22 TA4 Collider Magnete (nicht die TA4 Collider Detector Magnete!) müssen über jeweils 5 Blöcken der TA4 Vakuumröhre miteinander verbunden werden. Das ganze bildet (wie rechts im Plan abgebildet) ein Quadrat mit einer Kantenlänge von 37 Metern.\n"..
     "\n"..
     "Der Plan zeigt die Anlage von oben:\n"..
     "\n"..
@@ -676,11 +675,15 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Für den Teilchenbeschleunigers wird außer den Blöcken für den Bau folgendes benötigt:\n"..
+    "Jeder TA4 Collider Magnet muss zusätzlich (wie rechts im Plan abgebildet) mit Strom sowie mit Isobutan zur Kühlung versorgt werden:\n"..
     "\n"..
-    "  - Strom (145 ku)\n"..
-    "  - TA4 Tank mit mindestens 250 Einheiten Isobutan\n"..
+    "  - Der Anschluss für den Strom ist auf der Oberseite des Magneten.\n"..
+    "  - Der Anschluss für die Kühlung ist auf der Vorderseite des Magneten.\n"..
+    "  - Für die Kühlung der gesamten Anlage wird zusätzlich eine TA4 Pumpe und ein TA4 Tank mit mindestens 250 Einheiten Isobutan benötigt.\n"..
+    "  - Die Anlage benötigt auch einiges an Strom. Daher ist eine eigene Stromversorgung mit mindestens 145 ku sinnvoll.\n"..
     "\n"..
+    "\n"..
+    "\n",
     "Beim Aufbau des Teilchenbeschleunigers empfiehlt sich folgende Reihenfolge:\n"..
     "\n"..
     "  - Einen Forceload Block setzen. Nur der Detektor mit der Kühlanlage muss sich im Bereich des Forceload Blockes befinden.\n"..
@@ -929,6 +932,7 @@ return {
     "",
     "",
     "ta4_terminal",
+    "",
     "techage_ta4c",
     "",
     "ta4_recipeblock",
@@ -1022,6 +1026,7 @@ return {
     "techage_collider_plan",
     "ta4_cooler",
     "",
+    "techage_collider_plan2",
     "",
     "",
     "",

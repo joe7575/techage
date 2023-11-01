@@ -28,6 +28,22 @@ local VTube = techage.VTube
 local power = networks.power
 local liquid = networks.liquid
 
+local function is_junction(pos, side)
+	local node = techage.get_node_lvm(techage.get_pos(pos, side))
+	return node and techage.string_compare(node.name, "techage:ta3_junction")
+end
+
+-- Turn the magnet to the right direction
+local function handle_legacy_magnet(pos)
+	if M(pos):get_string("version") ~= "V2" then
+		if is_junction(pos, "B") and not is_junction(pos, "F") then
+			node.param2 = (node.param2 + 2) % 4
+			minetest.swap_node(pos, node)
+		end
+	end
+	M(pos):set_string("version", "V2")
+end
+
 minetest.register_node("techage:ta4_colliderblock", {
 	description = S("TA4 Collider Steel Block"),
 	tiles = {
@@ -60,7 +76,7 @@ minetest.register_node("techage:ta4_magnet", {
 	description = S("TA4 Collider Magnet"),
 	inventory_image = minetest.inventorycube(
 		"techage_collider_magnet.png^techage_appl_hole_electric.png",
-		"techage_collider_magnet.png^techage_appl_hole_pipe.png",
+		"techage_collider_magnet.png^techage_collider_magnet_appl.png^techage_appl_hole_pipe.png^techage_collider_magnet_sign.png",
 		"techage_collider_magnet.png^techage_collider_magnet_tube.png"),
 	tiles = {
 		-- up, down, right, left, back, front
@@ -68,7 +84,7 @@ minetest.register_node("techage:ta4_magnet", {
 		"techage_collider_magnet.png",
 		"techage_collider_magnet.png^techage_collider_magnet_tube.png",
 		"techage_collider_magnet.png^techage_collider_magnet_tube.png",
-		"techage_collider_magnet.png^techage_collider_magnet_appl.png^techage_appl_hole_pipe.png^techage_collider_magnet_sign.png",
+		"techage_collider_magnet.png^techage_collider_magnet_appl.png^techage_collider_magnet_sign.png",
 		"techage_collider_magnet.png^techage_collider_magnet_appl.png^techage_appl_hole_pipe.png^techage_collider_magnet_sign.png",
 	},
 	drawtype = "nodebox",
@@ -111,6 +127,7 @@ minetest.register_node("techage:ta4_magnet", {
 		Cable:after_place_node(pos)
 		VTube:after_place_node(pos)
 		M(pos):set_string("infotext", S("TA4 Collider Magnet") .. " #0")
+		M(pos):set_string("version", "V2")
 	end,
 
 	-- To be called by the detector
@@ -157,7 +174,7 @@ minetest.register_node("techage:ta4_magnet", {
 })
 
 power.register_nodes({"techage:ta4_magnet"}, Cable, "con", {"U"})
-liquid.register_nodes({"techage:ta4_magnet"}, Pipe, "tank", {"F", "B"}, {
+liquid.register_nodes({"techage:ta4_magnet"}, Pipe, "tank", {"F"}, {
 	capa = CAPACITY,
 	peek = function(pos, indir)
 		local nvm = techage.get_nvm(pos)
@@ -223,6 +240,7 @@ techage.register_node({"techage:ta4_magnet"}, {
 				return send_to_next(pos, in_dir, topic, payload)
 			end
 		elseif topic == "test" then
+			handle_legacy_magnet(pos)
 			if payload and tonumber(payload) == nvm.number then
 				if not nvm.liquid or not nvm.liquid.amount or nvm.liquid.amount < CAPACITY then
 					return false, "no gas"

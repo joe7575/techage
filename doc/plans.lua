@@ -26,6 +26,7 @@ local IMG43 = {"", "techage_reactor_inv.png"}
 local IMG44 = {"", "techage_ta4_filter.png"}
 local IMG45 = {"10x10", "techage_collider_plan.png"}
 local IMG46 = {"5x4", "techage_fusion_reactor.png"}
+local IMG47 = {"5x4", "techage_collider_plan2.png"}
 
 local TOP_V = {"top_view", ""}
 local SIDEV = {"side_view", ""}
@@ -477,6 +478,15 @@ plans["techage_collider_plan"] = {
 	{IMG45, false, false, false},
 	{false, false, false, false},
 	{false, false, false, false},
+	{false, false, false, false},
+	{false, false, false, false},
+	{false, false, false, false},
+}
+
+plans["techage_collider_plan2"] = {
+	{false, false, false, false},
+	{false, false, false, false},
+	{false, false, IMG47, false},
 	{false, false, false, false},
 	{false, false, false, false},
 	{false, false, false, false},
