@@ -18,9 +18,10 @@ local S = techage.S
 
 local Pipe = techage.LiquidPipe
 local liquid = networks.liquid
+local water_level = tonumber(minetest.get_mapgen_setting("water_level")) or 1
 
 local function is_ocean(pos)
-	if pos.y > 1 then
+	if pos.y > water_level then
 		M(pos):set_string("infotext", S("Error: Not on sea level!"))
 		return false
 	end
