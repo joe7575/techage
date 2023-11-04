@@ -127,9 +127,6 @@ local function on_place(itemstack, user, pointed_thing)
 			return screwdriver.handler(itemstack, user, pointed_thing, screwdriver.ROTATE_AXIS, USES)
 		end
 
-		if not minetest.is_creative_enabled(player_name) then
-			itemstack:add_wear(65535 / (USES - 1))
-		end
 	end
 	return itemstack
 end
