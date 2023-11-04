@@ -49,7 +49,7 @@ local function water_flowing(pos, facedir, tRes)
 	local pos2 = vector.add(pos, dir)
 	pos2.y = pos2.y + 1
 	local node = minetest.get_node(pos2)
-	if node.name == "default:water_flowing" then
+	if node.name == "default:water_flowing" or node.name == "default:river_water_flowing" then
 		tRes.backward = false
 		return true
 	end
@@ -57,7 +57,7 @@ local function water_flowing(pos, facedir, tRes)
 	pos2 = vector.subtract(pos, dir)
 	pos2.y = pos2.y + 1
 	node = minetest.get_node(pos2)
-	if node.name == "default:water_flowing" then
+	if node.name == "default:water_flowing" or node.name == "default:river_water_flowing" then
 		tRes.backward = true
 		return true
 	end
