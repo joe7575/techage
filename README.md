@@ -95,6 +95,24 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2023-11-05 V1.18**
+
+- Add TA2 clutch
+- TA5 Generator: Add generator menu
+- TA4 Injector: Allow rotation with a screwdriver
+- Escape equal sign in german translation (Niklp09)
+- Autocrafter: Add Beduino command interface
+- Autocrafter: Add flush command
+- Fix converter stores mesecon signals (Niklp09)
+- TA1 Gravel Sieve: Use proper player creative check (Niklp09)
+- TA4 Chest: Add storesize command
+- Improve Assembly Tool
+- Furnace: Fix burn time issue
+- Allow further types of cobblestone for the coalburner
+- Fix water mill river water bug (alwayshopeless)
+- Improve manual
+- Further improvements
+
 **2023-08-25 V1.17**
 
 - Add support for doclib / remove techage internal doc support  
