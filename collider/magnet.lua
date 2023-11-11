@@ -37,6 +37,7 @@ end
 local function handle_legacy_magnet(pos)
 	if M(pos):get_string("version") ~= "V2" then
 		if is_junction(pos, "B") and not is_junction(pos, "F") then
+			local node = techage.get_node_lvm(pos)
 			node.param2 = (node.param2 + 2) % 4
 			minetest.swap_node(pos, node)
 		end
@@ -228,6 +229,7 @@ techage.register_node({"techage:ta4_magnet"}, {
 				return pos2
 			end
 		elseif topic == "enumerate" and payload then
+			handle_legacy_magnet(pos)
 			payload = tonumber(payload) or 1
 			nvm.number = payload
 			M(pos):set_string("infotext", S("TA4 Collider Magnet") .. " #" .. payload)
@@ -240,7 +242,6 @@ techage.register_node({"techage:ta4_magnet"}, {
 				return send_to_next(pos, in_dir, topic, payload)
 			end
 		elseif topic == "test" then
-			handle_legacy_magnet(pos)
 			if payload and tonumber(payload) == nvm.number then
 				if not nvm.liquid or not nvm.liquid.amount or nvm.liquid.amount < CAPACITY then
 					return false, "no gas"
