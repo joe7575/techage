@@ -17,31 +17,41 @@ https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.pdf
 
 ## Table of Contents
 
-- [TA4 Lua Controller Blocks](#TA4-Lua-Controller-Blocks)
-    - [TA4 Lua Controller](#TA4-Lua-Controller)
-    - [Battery](#Battery)
-    - [TA4 Lua Server](#TA4-Lua-Server)
-    - [TA4 Lua Controller Terminal](#TA4-Lua-Controller-Terminal)
-    - [TA4 Sensor Chest](#TA4-Sensor-Chest)
-- [Lua Functions and Environment](#Lua-Functions-and-Environment)
-    - [Lua Functions and Limitations](#Lua-Functions-and-Limitations)
-    - [Arrays, Stores, and Sets](#Arrays,-Stores,-and-Sets)
-    - [Initialization, Cyclic Task, and Events](#Initialization,-Cyclic-Task,-and-Events)
-- [Lua Controller Functions](#Lua-Controller-Functions)
-    - [Controller local Functions](#Controller-local-Functions)
-    - [Techage Command Functions](#Techage-Command-Functions)
-    - [Server and Terminal Functions](#Server-and-Terminal-Functions)
-    - [Further Functions](#Further-Functions)
-- [Example Scripts](#Example-Scripts)
-    - [Simple Counter](#Simple-Counter)
-    - [Hello World](#Hello-World)
-    - [For Loop with range(from, to)](#For-Loop-with-range(from,-to))
-    - [Monitoring Chest & Furnace](#Monitoring-Chest-&-Furnace)
-    - [Simple Calculator](#Simple-Calculator)
-    - [Welcome Display](#Welcome-Display)
-    - [Sensor Chest](#Sensor-Chest)
-    - [Read the "TA4 4x Button"](#Read-the-TA4-4x-Button)
-    - [Emails](#Emails)
+- [TA4 Lua Controller](#ta4-lua-controller)
+  - [Table of Contents](#table-of-contents)
+  - [TA4 Lua Controller Blocks](#ta4-lua-controller-blocks)
+    - [TA4 Lua Controller](#ta4-lua-controller-1)
+    - [Battery](#battery)
+    - [TA4 Lua Server](#ta4-lua-server)
+    - [TA4 Lua Controller Terminal](#ta4-lua-controller-terminal)
+    - [TA4 Sensor Chest](#ta4-sensor-chest)
+  - [Lua Functions and Environment](#lua-functions-and-environment)
+    - [Lua Functions and Limitations](#lua-functions-and-limitations)
+    - [Arrays, Stores, and Sets](#arrays-stores-and-sets)
+      - [Arrays](#arrays)
+      - [Stores](#stores)
+      - [Sets](#sets)
+    - [Initialization, Cyclic Task, and Events](#initialization-cyclic-task-and-events)
+      - [Initialization](#initialization)
+      - [Cyclic Task](#cyclic-task)
+      - [Events](#events)
+  - [Lua Controller Functions](#lua-controller-functions)
+    - [Controller local Functions](#controller-local-functions)
+      - [Input Example](#input-example)
+    - [Techage Command Functions](#techage-command-functions)
+    - [Server and Terminal Functions](#server-and-terminal-functions)
+    - [Communication between Lua Controllers](#communication-between-lua-controllers)
+    - [Further Functions](#further-functions)
+  - [Example Scripts](#example-scripts)
+    - [Simple Counter](#simple-counter)
+    - [Hello World](#hello-world)
+    - [For Loop with range(from, to)](#for-loop-with-rangefrom-to)
+    - [Monitoring Chest \& Furnace](#monitoring-chest--furnace)
+    - [Simple Calculator](#simple-calculator)
+    - [Welcome Display](#welcome-display)
+    - [Sensor Chest](#sensor-chest)
+    - [Read the "TA4 4x Button"](#read-the-ta4-4x-button)
+    - [Emails](#emails)
 
 
 
@@ -333,7 +343,7 @@ In addition to Lua standard function the Lua Controller provides the following f
 - `$loopcycle(seconds)` - This function allows to change the call frequency of the controller loop() function, witch is per default one second. For more info, see "Cyclic Task"
 - `$events(bool)` - Enable/disable event handling. For more info, see "Events"
 - `$get_ms_time()` - Returns the time with millisecond precision
-- `get_gametime()` - Returns the time, in seconds, since the world was created
+- `$get_gametime()` - Returns the time, in seconds, since the world was created
 - `$time_as_str()` - Read the time of day (ingame) as text string in 24h format, like "18:45"
 - `$time_as_num()` - Read the time of day (ingame) as integer number in 24h format, like 1845
 - `$get_input(num)` - Read an input value provided by an external block with the given number _num_. The block has to be configured with the number of the controller to be able to send status messages (on/off commands) to the controller.  _num_ is the number (data type string) of the remote block, like "1234".
