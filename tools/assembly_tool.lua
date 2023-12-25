@@ -73,6 +73,10 @@ local function remove_node(pos, digger)
 		return
 	end
 	
+	if ndef.can_dig and not ndef.can_dig(pos, digger) then
+		return
+	end
+
 	if number ~= "" and ndef and ndef.after_dig_node then
 		minetest.remove_node(pos)
 		ndef.after_dig_node(pos, node, oldmetadata, digger)
