@@ -2,23 +2,23 @@
 
 Tech Age is a technology mod with 5 development stages:
 
-TA1: Iron Age
+TA1: Iron Age  
 Use tools and aids such as coal burners, coal burners, gravel sieves, hammers and hoppers to mine and process the necessary ores and metals.
 
-TA2: Steam Age
+TA2: Steam Age  
 Build a steam engine with drive axles and use it to operate your first ore processing machines.
 
-TA3: Oil Age
+TA3: Oil Age  
 Find and extract oil, built railways for oil transportation. A power plant provides the necessary electricity for your machines. Electric light illuminates your industrial plants.
 
-TA4: Present
-Renewable energy sources such as wind, sun and biofuels help you to leave the oil age. With modern technologies and intelligent machines you set out into the future.
+TA4: Present  
+Renewable energy sources such as wind, sun and bio-fuels help you to leave the oil age. With modern technologies and intelligent machines you set out into the future.
 
-TA5: Future
+TA5: Future  
 Machines to overcome space and time, new sources of energy and other achievements shape your life.
 
 
-Note: With a click on the plus sign you get into the subchapters of this manual.
+Note: With a click on the plus sign you get into the sub-chapters of this manual.
 
 [techage_ta4|image]
 

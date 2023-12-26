@@ -2,19 +2,19 @@
 
 Tech Age ist eine Technik-Mod mit 5 Entwicklungsstufen:
 
-TA1: Eisenzeitalter (Iron Age) 
+TA1: Eisenzeitalter (Iron Age)  
 Benutze Werkzeuge und Hilfsmittel wie Köhler, Kohlebrenner, Kiessieb, Hammer, Hopper um notwendige Erze und Metalle zu schürfen und zu verarbeiten.
 
-TA2: Dampfzeitalter (Steam Age)
+TA2: Dampfzeitalter (Steam Age)  
 Baue eine Dampfmaschine mit Antriebsachsen und betreibe damit deine ersten Maschinen zur Verarbeitung von Erzen.
 
-TA3: Ölzeitalter (Oil Age)
+TA3: Ölzeitalter (Oil Age)  
 Suche und fördere Öl, baute Schienenwege zur Ölbeförderung. Ein Kraftwerk liefert den notwendigen Strom für deine Maschinen. Elektrisches Licht erhellt deine Industrieanlagen.
 
-TA4: Gegenwart (Present)
+TA4: Gegenwart (Present)  
 Regenerative Energiequellen wie Wind, Sonne und Biokraft helfen dir, das Ölzeitalter zu verlassen. Mit modernen Technologien und intelligenten Maschinen machst du dich auf in die Zukunft.
 
-TA5: Zukunft (Future)
+TA5: Zukunft (Future)  
 Maschinen zur Überwindung von Raum und Zeit, neue Energiequellen und andere Errungenschaften prägen dein Leben.
 
 
