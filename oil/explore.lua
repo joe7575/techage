@@ -51,6 +51,8 @@ local function oil_amount(pos)
 		local amount = math.random(OIL_MIN, OIL_MAX)
 		return amount
 	end
+	-- Generate new randomseed after use
+	math.randomseed(os.time())
 	return 0
 end
 
