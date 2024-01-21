@@ -56,6 +56,8 @@ minetest.register_node("techage:ta4_collider_tube_inlet", {
 		fixed = {-4/8, -4/8, -4/8, 4/8, 4/8, 4/8},
 	},
 	paramtype2 = "facedir",
+	paramtype = "light",
+	use_texture_alpha = techage.CLIP,
 	groups = {cracky = 1},
 	on_rotate = screwdriver.disallow,
 	is_ground_content = false,
