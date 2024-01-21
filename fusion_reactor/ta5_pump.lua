@@ -31,6 +31,14 @@ local WRENCH_MENU =	{{
 	name = "flowrate",
 	label = S("Total flow rate"),
 	tooltip = S("Total flow rate in liquid units"),
+},{
+	type = "dropdown",
+	choices = "normal,reverse",
+	name = "operation",
+	label = S("Operation"),
+	tooltip = S("Pump direction"),
+	values = {0, 1},
+	default = "1",
 }}
 
 local State = techage.NodeStates:new({
@@ -43,20 +51,39 @@ local State = techage.NodeStates:new({
 
 local function pumping(pos, nvm)
 	local outdir = M(pos):get_int("outdir")
-	local taken, name = liquid.take(pos, Pipe2, Flip[outdir], nil, CAPA)
-	if taken > 0 then
-		local leftover = liquid.put(pos, Pipe3, outdir, name, taken)
-		if leftover and leftover > 0 then
-			liquid.untake(pos, Pipe2, Flip[outdir], name, leftover)
-			if leftover == taken then
-				State:blocked(pos, nvm)
-				return 0
+	local reverse = M(pos):get_int("operation")
+	if reverse == 1 then
+		local taken, name = liquid.take(pos, Pipe3, outdir, nil, CAPA)
+		if taken > 0 then
+			local leftover = liquid.put(pos, Pipe2, Flip[outdir], name, taken)
+			if leftover and leftover > 0 then
+				liquid.untake(pos, Pipe3, outdir, name, leftover)
+				if leftover == taken then
+					State:blocked(pos, nvm)
+					return 0
+				end
+				State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+				return taken - leftover
 			end
 			State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-			return taken - leftover
+			return taken
 		end
-		State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-		return taken
+	else
+		local taken, name = liquid.take(pos, Pipe2, Flip[outdir], nil, CAPA)
+		if taken > 0 then
+			local leftover = liquid.put(pos, Pipe3, outdir, name, taken)
+			if leftover and leftover > 0 then
+				liquid.untake(pos, Pipe2, Flip[outdir], name, leftover)
+				if leftover == taken then
+					State:blocked(pos, nvm)
+					return 0
+				end
+				State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+				return taken - leftover
+			end
+			State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+			return taken
+		end
 	end
 	State:idle(pos, nvm)
 	return 0
