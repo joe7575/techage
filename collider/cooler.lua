@@ -47,7 +47,6 @@ minetest.register_node("techage:ta4_collider_cooler", {
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_cooler.png",
 		"techage_filling_ta4.png^techage_frame_ta4.png^techage_cooler.png",
 	},
-	drawtype = "nodebox",
 	paramtype2 = "facedir",
 	groups = {cracky = 1},
 	on_rotate = screwdriver.disallow,
