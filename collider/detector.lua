@@ -207,7 +207,6 @@ minetest.register_node("techage:ta4_detector_core", {
 		"default_steel_block.png^techage_collider_detector_core.png",
 		"default_steel_block.png^techage_collider_detector_core.png",
 	},
-	drawtype = "nodebox",
 	paramtype2 = "facedir",
 	groups = {cracky = 1},
 	is_ground_content = false,
