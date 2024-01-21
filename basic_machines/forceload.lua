@@ -114,20 +114,24 @@ local function formspec(name)
 	if player then
 		local lPos = get_pos_list(player)
 		local tRes = {}
-		for idx,pos in ipairs(lPos) do
+	tRes[#tRes+1] = "#"
+	tRes[#tRes+1] = S("Block at pos")
+	tRes[#tRes+1] = S("Area from")
+	tRes[#tRes+1] = S("Area to")
+	for idx,pos in ipairs(lPos) do
 			local pos1, pos2 = calc_area(pos)
 			tRes[#tRes+1] = idx
+			tRes[#tRes+1] = minetest.formspec_escape(P2S(pos))
 			tRes[#tRes+1] = minetest.formspec_escape(P2S(pos1))
-			tRes[#tRes+1] = "to"
 			tRes[#tRes+1] = minetest.formspec_escape(P2S(pos2))
 		end
-		return "size[7,9]"..
+		return "size[9,9]"..
 			default.gui_bg..
 			default.gui_bg_img..
 			default.gui_slots..
 			"label[0,0;"..S("List of your Forceload Blocks:").."]"..
-			"tablecolumns[text,width=1.2;text,width=12;text,width=1.6;text,width=12]"..
-			"table[0,0.6;6.8,8.4;output;"..table.concat(tRes, ",")..";1]"
+			"tablecolumns[text,width=1.8;text,width=12;text,width=12;text,width=12]"..
+			"table[0,0.6;8.8,8.4;output;"..table.concat(tRes, ",")..";1]"
 	end
 end
 

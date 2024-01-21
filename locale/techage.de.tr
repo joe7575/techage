@@ -591,6 +591,9 @@ TA2 Flywheel=TA2 Schwungrad
 ### forceload.lua ###
 
 Area already loaded or max. number of Forceload Blocks reached!=Bereich bereits geladen oder maximale Anzahl von Forceload Blöcken erreicht!
+Area from=Bereich von
+Area to=Bereich bis
+Block at pos=Block an Pos
 List of your Forceload Blocks:=Liste der Forceload Blöcke
 Punch the block to make the area visible.=Schlage auf den Bock um den Bereich anzuzeigen.
 Show all forceload blocks in a 64x64x64 range=Zeige alle Forceload Blöcke im Umkreis von 64x64x64 Blöcken
@@ -1577,5 +1580,3 @@ TA4 Collider Detector Worker=TA4 Collider Detektor Worker
 
 
 ##### not used anymore #####
-
-TA3 Akku Box=TA3 Akku Block

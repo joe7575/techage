@@ -591,6 +591,9 @@ TA2 Flywheel=
 ### forceload.lua ###
 
 Area already loaded or max. number of Forceload Blocks reached!=
+Area from=
+Area to=
+Block at pos=
 List of your Forceload Blocks:=
 Punch the block to make the area visible.=
 Show all forceload blocks in a 64x64x64 range=
