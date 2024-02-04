@@ -26,12 +26,12 @@ return {
     "Find and extract oil\\, built railways for oil transportation. A power plant provides the necessary electricity for your machines. Electric light illuminates your industrial plants.\n"..
     "\n"..
     "TA4: Present\n"..
-    "Renewable energy sources such as wind\\, sun and biofuels help you to leave the oil age. With modern technologies and intelligent machines you set out into the future.\n"..
+    "Renewable energy sources such as wind\\, sun and bio-fuels help you to leave the oil age. With modern technologies and intelligent machines you set out into the future.\n"..
     "\n"..
     "TA5: Future\n"..
     "Machines to overcome space and time\\, new sources of energy and other achievements shape your life.\n"..
     "\n"..
-    "Note: With a click on the plus sign you get into the subchapters of this manual.\n"..
+    "Note: With a click on the plus sign you get into the sub-chapters of this manual.\n"..
     "\n"..
     "\n"..
     "\n",

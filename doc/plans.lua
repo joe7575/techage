@@ -603,4 +603,5 @@ for name, plan in pairs(plans) do
 	local plan2 = reformat(plan)
 	doclib.add_manual_plan("techage", "EN", name, plan2)
 	doclib.add_manual_plan("techage", "DE", name, plan2)
+	doclib.add_manual_plan("techage", "pt-BR", name, plan2)
 end

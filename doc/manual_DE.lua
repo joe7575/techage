@@ -15,7 +15,7 @@ return {
   texts = {
     "Tech Age ist eine Technik-Mod mit 5 Entwicklungsstufen:\n"..
     "\n"..
-    "TA1: Eisenzeitalter (Iron Age) \n"..
+    "TA1: Eisenzeitalter (Iron Age)\n"..
     "Benutze Werkzeuge und Hilfsmittel wie Köhler\\, Kohlebrenner\\, Kiessieb\\, Hammer\\, Hopper um notwendige Erze und Metalle zu schürfen und zu verarbeiten.\n"..
     "\n"..
     "TA2: Dampfzeitalter (Steam Age)\n"..
