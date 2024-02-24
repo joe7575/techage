@@ -74,7 +74,7 @@ local function grow_flowers(pos)
 		local soil_node = minetest.get_node(soil_pos)
 		if soil_node and soil_node.name == "compost:garden_soil" then
 			if plant_node and plant_node.name == "air" then
-				if mem.grow_pos[plant_idx] then
+				if mem.grow_pos[plant_idx] and #Flowers > 1 then
 					local idx = math.floor(math.random(1, #Flowers))
 					if Flowers[idx] then
 						minetest.set_node(plant_pos, {name = Flowers[idx]})
