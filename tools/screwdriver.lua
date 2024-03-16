@@ -113,6 +113,11 @@ end
 local function on_place(itemstack, user, pointed_thing)
 	local res, pos, player_name, facedir, node, ndef = base_checks(user, pointed_thing)
 	if res then
+		-- Support for anvil
+		if node.name == "anvil:anvil" then
+			return screwdriver.handler(itemstack, user, pointed_thing, screwdriver.ROTATE_AXIS, USES)
+		end
+
 		if ndef.paramtype2 == "facedir" then
 			if ndef.on_rotate ~= screwdriver.rotate_simple then
 				if user:get_player_control().sneak then
