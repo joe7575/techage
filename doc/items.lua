@@ -117,6 +117,7 @@ local items = {
 	ta3_terminal = "techage:terminal2",
 	ta3_colorlamp = "techage:color_lamp_off",
 	ta3_doorblock = "techage:doorblock20",
+	ta3_soundblock = "techage:ta3_soundblock",
 	ta3_programmer = "techage:programmer",
 	ta3_doorcontroller = "techage:ta3_doorcontroller",
 	ta3_drill_pipe_wrench = "techage:ta3_drill_pipe_wrench",

@@ -121,7 +121,7 @@ A capacidade de transporte de um tubo é ilimitada e é limitada apenas pelo pus
 
 Vários tubos podem ser combinados em um único tubo via concentrador. A direção na qual todos os itens são passados é marcada com uma seta. 
 
-[concentrador|image]
+[concentrator|image]
 
 ### TA2 Pusher
 
