@@ -163,8 +163,10 @@ end
 
 local function check_TES_integrity(pos, nvm)
 	nvm.ticks = (nvm.ticks or 0) + 1
-	if (nvm.ticks % 5) == 0 then -- every 10 saec
-		glowing(pos, nvm, (nvm.capa or 0) / (nvm.capa_max or 1) > 0.8)
+	if (nvm.ticks % 5) == 0 then -- every 10 sec
+		if techage.is_running(nvm) then
+			glowing(pos, nvm, (nvm.capa or 0) / (nvm.capa_max or 1) > 0.8)
+		end
 	end
 	if (nvm.ticks % 30) == 0 then -- every minute
 		return heatexchanger1_cmnd(pos, "volume")
