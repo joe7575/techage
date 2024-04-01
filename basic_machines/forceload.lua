@@ -124,13 +124,14 @@ local function formspec(name)
 			tRes[#tRes+1] = minetest.formspec_escape(P2S(pos))
 			tRes[#tRes+1] = minetest.formspec_escape(P2S(pos1))
 			tRes[#tRes+1] = minetest.formspec_escape(P2S(pos2))
+			tRes[#tRes+1] = minetest.forceload_block(pos, true) and 'Loaded' or 'Unloaded'
 		end
 		return "size[9,9]"..
 			default.gui_bg..
 			default.gui_bg_img..
 			default.gui_slots..
 			"label[0,0;"..S("List of your Forceload Blocks:").."]"..
-			"tablecolumns[text,width=1.8;text,width=12;text,width=12;text,width=12]"..
+			"tablecolumns[text,width=1.8;text,width=12;text,width=12;text,width=12;text,width=12]"..
 			"table[0,0.6;8.8,8.4;output;"..table.concat(tRes, ",")..";1]"
 	end
 end
@@ -307,6 +308,24 @@ minetest.register_chatcommand("forceload", {
 			local pos = player:get_pos()
 			pos = vector.round(pos)
 			show_flbs(pos, name, 64)
+		end
+	end,
+})
+
+minetest.register_chatcommand("forceload_verify", {
+	params = "",
+	description = "Checks each forceload block and returns a count of active/placed blocks",
+	func = function(name, param)
+		local player = minetest.get_player_by_name(name)
+		if player then
+			local loaded = {}
+			local wanted = get_pos_list(player)
+			for _,pos in ipairs(wanted) do
+				if minetest.forceload_block(pos, true) then
+					loaded[#loaded+1] = pos
+				end
+			end
+			minetest.chat_send_player(name, "Found "..#loaded.." out of ".. #wanted .. " force loads")
 		end
 	end,
 })
