@@ -299,7 +299,7 @@ minetest.register_node("techage:moveblock", {
 	description = "Techage Invisible Move Block",
 	drawtype = "glasslike_framed_optional",
 	inventory_image = 'techage_inv_invisible.png',
-	tiles = {"techage_invisible.png"},
+	tiles = {"blank.png"},
 	selection_box = {
 		type = "fixed",
 		fixed = {

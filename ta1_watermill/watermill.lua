@@ -293,7 +293,7 @@ minetest.register_entity("techage:ta1_watermill_entity", {
 minetest.register_node("techage:water_stop", {
 	description = "Water Stop",
 	drawtype = "glasslike_framed_optional",
-	tiles = {"techage_invisible.png"},
+	tiles = {"blank.png"},
 	inventory_image = 'techage_invisible_inv.png',
 
 	use_texture_alpha = "blend",
