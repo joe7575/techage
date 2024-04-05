@@ -61,3 +61,68 @@ techage.furnace.register_recipe({
 	time = 16,
 
 })
+
+if minetest.get_modpath('techpack_stairway') then
+	minetest.register_craft({
+		output = "techpack_stairway:grating 6",
+		recipe = {
+			{"", "", ""},
+			{"dye:dark_grey", "", "default:coal_lump"},
+			{"default:steel_ingot", "techage:aluminum", "default:steel_ingot"},
+		},
+	})
+
+	minetest.register_craft({
+		output = "techpack_stairway:handrail 6",
+		recipe = {
+			{"default:steel_ingot", "default:coal_lump", ""},
+			{"techage:aluminum", "", ""},
+			{"default:steel_ingot", "dye:dark_grey", ""},
+		},
+	})
+
+	minetest.register_craft({
+		output = "techpack_stairway:stairway1 6",
+		recipe = {
+			{"", "", "default:steel_ingot"},
+			{"dye:dark_grey", "techage:aluminum", "default:coal_lump"},
+			{"default:steel_ingot", "", ""},
+		},
+	})
+
+	minetest.register_craft({
+		output = "techpack_stairway:ladder1 3",
+		recipe = {
+			{"", "default:steel_ingot", ""},
+			{"dye:dark_grey", "techage:aluminum", "default:coal_lump"},
+			{"", "default:steel_ingot", ""},
+		},
+	})
+
+	minetest.register_craft({
+		output = "techpack_stairway:ladder3 6",
+		recipe = {
+			{"", "", "default:steel_ingot"},
+			{"dye:dark_grey", "techage:aluminum", "default:coal_lump"},
+			{"", "", "default:steel_ingot"},
+		},
+	})
+
+	minetest.register_craft({
+		output = "techpack_stairway:ladder4 12",
+		recipe = {
+			{"dye:dark_grey", "techage:aluminum", "default:coal_lump"},
+			{"", "default:steel_ingot", ""},
+			{"", "default:steel_ingot", ""},
+		},
+	})
+
+	minetest.register_craft({
+		output = "techpack_stairway:lattice 4",
+		recipe = {
+			{"default:steel_ingot", "", "default:steel_ingot"},
+			{"dye:dark_grey", "techage:aluminum", "default:coal_lump"},
+			{"default:steel_ingot", "", "default:steel_ingot"},
+		},
+	})
+end
