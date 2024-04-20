@@ -106,6 +106,7 @@ dofile(MP.."/basis/shared_inv.lua")
 dofile(MP.."/basis/shared_tank.lua")
 dofile(MP.."/basis/teleport.lua")
 dofile(MP.."/basis/fly_lib.lua")
+dofile(MP.."/basis/pack_lib.lua")
 
 -- Main doc
 dofile(MP.."/doc/guide.lua")

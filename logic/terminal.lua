@@ -3,7 +3,7 @@
 	Terminal
 	========
 
-	Copyright (C) 2018-2021 Joachim Stolberg
+	Copyright (C) 2018-2024 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -334,6 +334,9 @@ local function register_terminal(name, description, tiles, node_box, selection_b
 			techage.remove_node(pos, oldnode, oldmetadata)
 		end,
 
+		preserve_nodedata = techage.preserve_nodedata,
+		restore_nodedata = techage.restore_nodedata,
+		
 		paramtype = "light",
 		use_texture_alpha = techage.CLIP,
 		sunlight_propagates = true,

@@ -72,12 +72,27 @@ local function remove_node(pos, digger)
 	if InvalidBlocks[node.name] then
 		return
 	end
-	
+
 	if ndef.can_dig and not ndef.can_dig(pos, digger) then
 		return
 	end
 
-	if number ~= "" and ndef and ndef.after_dig_node then
+	if ndef and ndef.preserve_nodedata then
+		local s = ndef.preserve_nodedata(pos, node)
+		imeta:set_string("node_data", s)
+		minetest.remove_node(pos)
+		if ndef.after_dig_node then
+			ndef.after_dig_node(pos, node, oldmetadata, digger)
+		end
+		if number ~= "" then
+			techage.post_remove_node(pos)
+			imeta:set_string("node_number", number)
+			imeta:set_string("description", ndef.description .. " : " .. number)
+		else
+			imeta:set_string("description", ndef.description .. " (preserved)")
+		end
+		return item
+	elseif number ~= "" and ndef and ndef.after_dig_node then
 		minetest.remove_node(pos)
 		ndef.after_dig_node(pos, node, oldmetadata, digger)
 		techage.post_remove_node(pos)
@@ -93,8 +108,16 @@ local function place_node(pos, item, placer, pointed_thing)
 	local name = item:get_name()
 	local param2 = minetest.dir_to_facedir(placer:get_look_dir())
 	local ndef = minetest.registered_nodes[name]
-	
-	if number ~= "" and ndef and ndef.after_place_node then
+
+	if ndef and ndef.restore_nodedata then
+		if number ~= "" then
+			techage.pre_add_node(pos, number)
+		end
+		minetest.add_node(pos, {name = name, param2 = param2})
+		local s = imeta:get_string("node_data")
+		ndef.restore_nodedata(pos, s)
+		return true
+	elseif number ~= "" and ndef and ndef.after_place_node then
 		techage.pre_add_node(pos, number)
 		minetest.add_node(pos, {name = name, param2 = param2})
 		ndef.after_place_node(pos, placer, item, pointed_thing)

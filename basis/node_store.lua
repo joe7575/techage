@@ -153,6 +153,18 @@ function techage.get_nvm(pos)
 	return block[key2]
 end
 
+-- Returns true/false
+function techage.has_nvm(pos)
+	local key1, key2 = get_keys(pos)
+
+	if not NvmStore[key1] then
+		NvmStore[key1] = backend.get_mapblock_data(key1)
+		push(key1)
+	end
+
+	return NvmStore[key1][key2] ~= nil
+end
+
 function techage.peek_nvm(pos)
 	local key1, key2 = get_keys(pos)
 	local block = NvmStore[key1] or {}
