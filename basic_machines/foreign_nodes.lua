@@ -81,7 +81,11 @@ techage.register_node({"shop:shop"}, {
 	on_inv_request = function(pos, in_dir, access_type)
 		local meta = minetest.get_meta(pos)
 		if is_owner(pos, meta) then
-			return meta:get_inventory(), "main"
+			if access_type == "push" then
+				return meta:get_inventory(), "stock"
+			elseif access_type == "pull" then
+				return meta:get_inventory(), "register"
+			end
 		end
 	end,
 	on_pull_item = function(pos, in_dir, num)
