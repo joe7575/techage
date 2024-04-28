@@ -303,7 +303,7 @@ minetest.register_craft({
 techage.register_node({"techage:ta3_detector_off", "techage:ta3_detector_on"}, {
 	on_push_item = function(pos, in_dir, stack)
 		local leftover = techage.safe_push_items(pos, in_dir, stack)
-		if leftover then
+		if leftover and (leftover == true or leftover:get_count() ~= stack:get_count()) then
 			local inv =  minetest.get_inventory({type = "node", pos = pos})
 			if not inv or inv:is_empty("cfg") or inv:contains_item("cfg", ItemStack(stack:get_name())) then
 				switch_on(pos)
@@ -318,7 +318,7 @@ techage.register_node({"techage:ta3_detector_off", "techage:ta3_detector_on"}, {
 techage.register_node({"techage:ta4_detector_off", "techage:ta4_detector_on"}, {
 	on_push_item = function(pos, in_dir, stack)
 		local leftover = techage.safe_push_items(pos, in_dir, stack)
-		if leftover then
+		if leftover and (leftover == true or leftover:get_count() ~= stack:get_count()) then
 			local inv =  minetest.get_inventory({type = "node", pos = pos})
 			if not inv or inv:is_empty("cfg") or inv:contains_item("cfg", ItemStack(stack:get_name())) then
 				local nvm = techage.get_nvm(pos)
