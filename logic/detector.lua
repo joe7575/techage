@@ -303,10 +303,12 @@ minetest.register_craft({
 techage.register_node({"techage:ta3_detector_off", "techage:ta3_detector_on"}, {
 	on_push_item = function(pos, in_dir, stack)
 		local leftover = techage.safe_push_items(pos, in_dir, stack)
-		if leftover and (leftover == true or leftover:get_count() ~= stack:get_count()) then
+		if leftover then
 			local inv =  minetest.get_inventory({type = "node", pos = pos})
 			if not inv or inv:is_empty("cfg") or inv:contains_item("cfg", ItemStack(stack:get_name())) then
-				switch_on(pos)
+				if leftover == true or leftover:get_count() ~= stack:get_count() then
+					switch_on(pos)
+				end
 			end
 			return leftover
 		end
@@ -318,7 +320,7 @@ techage.register_node({"techage:ta3_detector_off", "techage:ta3_detector_on"}, {
 techage.register_node({"techage:ta4_detector_off", "techage:ta4_detector_on"}, {
 	on_push_item = function(pos, in_dir, stack)
 		local leftover = techage.safe_push_items(pos, in_dir, stack)
-		if leftover and (leftover == true or leftover:get_count() ~= stack:get_count()) then
+		if leftover then
 			local inv =  minetest.get_inventory({type = "node", pos = pos})
 			if not inv or inv:is_empty("cfg") or inv:contains_item("cfg", ItemStack(stack:get_name())) then
 				local nvm = techage.get_nvm(pos)
@@ -331,10 +333,14 @@ techage.register_node({"techage:ta4_detector_off", "techage:ta4_detector_on"}, {
 					nvm.countdown = nvm.countdown - num_moved
 					if nvm.countdown <= 0 then
 						M(pos):set_int("countdown", 0)
-						switch_on(pos)
+						if leftover == true or leftover:get_count() ~= stack:get_count() then
+							switch_on(pos)
+						end
 					end
 				elseif nvm.countdown == nil then
-					switch_on(pos)
+					if leftover == true or leftover:get_count() ~= stack:get_count() then
+						switch_on(pos)
+					end
 				end
 				nvm.counter = (nvm.counter or 0) + num_moved
 			end
