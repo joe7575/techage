@@ -118,6 +118,7 @@ local function formspec(name)
 	tRes[#tRes+1] = S("Block at pos")
 	tRes[#tRes+1] = S("Area from")
 	tRes[#tRes+1] = S("Area to")
+	tRes[#tRes+1] = S("Status")
 	for idx,pos in ipairs(lPos) do
 			local pos1, pos2 = calc_area(pos)
 			tRes[#tRes+1] = idx
