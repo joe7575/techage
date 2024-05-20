@@ -122,8 +122,23 @@ local function push_items(pos, out_dir, idx, items)
 				return true
 			end
 		end
+		return false
 	else
-		return techage.push_items(pos, out_dir, items, idx)
+		local taken = items:get_count()
+		local leftover = techage.push_items(pos, out_dir, items, idx)
+		if leftover == false then
+			return false -- No items placed
+		elseif leftover ~= true then
+			-- One or more items placed?
+			if leftover:get_count() < taken then
+				-- place the rest back
+				local pull_dir = M(pos):get_int("pull_dir")
+				techage.unpull_items(pos, pull_dir, leftover)
+				return true -- Some items placed
+			end
+			return false -- No items placed
+		end
+		return true -- All items placed
 	end
 end
 
