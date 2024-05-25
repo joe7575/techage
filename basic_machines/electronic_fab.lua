@@ -73,6 +73,19 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return stack:get_count()
 end
 
+local function get_original_waste(inv, waste)
+	-- Waste has meta data, so we need to find the original waste item
+	for i = 1, 8 do
+		local stack = inv:get_stack("src", i)
+		if stack:get_count() == 1 then
+			if stack:get_name() == waste:get_name() then
+				return stack
+			end
+		end
+	end
+	return waste
+end
+
 local function making(pos, crd, nvm, inv)
 	local owner = M(pos):get_string("owner")
 	local rtype = RecipeType[crd.stage]
@@ -86,6 +99,17 @@ local function making(pos, crd, nvm, inv)
 				crd.State:idle(pos, nvm)
 				return
 			end
+		end
+		-- For some recipes, an item customized via metadata is used as a copy template. 
+		-- This allows specially programmed items such as ROM chips to be produced.
+		-- The metadata of the copy template must be passed to the on_production function.
+		-- At the same time, the metadata of the copy template must not be lost when moving
+		-- as 'waste' to the output inventory.
+		local idef = minetest.registered_items[recipe.output.name]
+		if waste and idef and idef.on_production then
+			waste = get_original_waste(inv, waste)
+			local metadata = waste:get_meta():to_table().fields or {}
+			output = idef.on_production(output, metadata)
 		end
 		for _,item in ipairs(recipe.input) do
 			local input = ItemStack(item.name.." "..item.num)
