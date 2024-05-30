@@ -87,7 +87,7 @@ local WRENCH_MENU4 = {
 	},
 }
 
-local function switch_on(pos)
+local function switch_on(pos, no_sound)
 	local cycle_time = M(pos):get_int("cycle_time")
 	local name = techage.get_node_lvm(pos).name
 	if name == "techage:ta3_button_off" then
@@ -96,14 +96,16 @@ local function switch_on(pos)
 		logic.swap_node(pos, "techage:ta4_button_on")
 	end
 	logic.send_cmnd(pos, "command", "on", cycle_time)
-	minetest.sound_play("techage_button", {
-			pos = pos,
-			gain = 0.5,
-			max_hear_distance = 5,
-		})
+	if not no_sound then
+		minetest.sound_play("techage_button", {
+				pos = pos,
+				gain = 0.5,
+				max_hear_distance = 5,
+			})
+	end
 end
 
-local function switch_off(pos, is_button)
+local function switch_off(pos, no_sound)
 	local name = techage.get_node_lvm(pos).name
 	if name == "techage:ta3_button_on" then
 		logic.swap_node(pos, "techage:ta3_button_off")
@@ -115,7 +117,7 @@ local function switch_off(pos, is_button)
 			(not meta:contains("command") or meta:get_string("command") == "on") then
 		logic.send_off(pos, M(pos))
 	end
-	if not is_button then
+	if not no_sound then
 		minetest.sound_play("techage_button", {
 				pos = pos,
 				gain = 0.5,
@@ -425,13 +427,54 @@ minetest.register_craft({
 	},
 })
 
-techage.register_node({"techage:ta3_button_off", "techage:ta3_button_on"}, {})
+techage.register_node({"techage:ta3_button_off", "techage:ta3_button_on"}, {
+		on_recv_message = function(pos, src, topic, payload)
+			if topic == "on" then
+				switch_on(pos, true)
+				return true
+			elseif topic == "off" then
+				switch_off(pos, true)
+				return true
+			elseif topic == "state" then
+				local name = techage.get_node_lvm(pos).name
+				return name == "techage:ta3_button_on" and "on" or "off"
+			else
+				return "unsupported"
+			end
+		end,
+		on_beduino_receive_cmnd = function(pos, src, topic, payload)
+			if topic == 1 and payload[1] == 1 then
+				switch_on(pos, true)
+				return 0
+			elseif topic == 1 and payload[1] == 0 then
+				switch_off(pos, true)
+				return 0
+			else
+				return 2
+			end
+		end,
+		on_beduino_request_data = function(pos, src, topic, payload)
+			if topic == 131 then  -- State
+				local name = techage.get_node_lvm(pos).name
+				return 0, name == "techage:ta3_button_on" and {1} or {0}
+			else
+				return 2, ""
+			end
+		end,
+	}
+)
 
 techage.register_node({
 		"techage:ta4_button_off", "techage:ta4_button_on",
 	}, {
 		on_recv_message = function(pos, src, topic, payload)
-			if topic == "state" then
+			if topic == "on" then
+				switch_on(pos, true)
+				return true
+			elseif topic == "off" then
+				switch_off(pos, true)
+				return true
+			elseif topic == "state" then
 				local name = techage.get_node_lvm(pos).name
 				return name == "techage:ta4_button_on" and "on" or "off"
 			elseif topic == "name" then
@@ -442,6 +485,17 @@ techage.register_node({
 				return mem.time or 0
 			else
 				return "unsupported"
+			end
+		end,
+		on_beduino_receive_cmnd = function(pos, src, topic, payload)
+			if topic == 1 and payload[1] == 1 then
+				switch_on(pos, true)
+				return 0
+			elseif topic == 1 and payload[1] == 0 then
+				switch_off(pos, true)
+				return 0
+			else
+				return 2
 			end
 		end,
 		on_beduino_request_data = function(pos, src, topic, payload)
