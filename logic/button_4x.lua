@@ -300,7 +300,49 @@ minetest.register_node("techage:ta4_button_4x", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
-techage.register_node({"techage:ta4_button_4x"}, {})
+techage.register_node({"techage:ta4_button_4x"}, {
+		on_recv_message = function(pos, src, topic, payload)
+			local num = math.max(tonumber(payload) or 0, 3)
+			if topic == "on" then
+				switch_on(pos, num)
+				send_cmnd(pos, num)
+				return true
+			elseif topic == "off" then
+				switch_off(pos, num)
+				return true
+			elseif topic == "state" then
+				local nvm = techage.get_nvm(pos)
+				nvm.button = nvm.button or {}
+				return nvm.button[num] == true
+			else
+				return "unsupported"
+			end
+		end,
+		on_beduino_receive_cmnd = function(pos, src, topic, payload)
+			local num = math.max(payload[1], 3)
+			if topic == 23 and payload[2] == 1 then
+				switch_on(pos, num)
+				send_cmnd(pos, num)
+				return 0
+			elseif topic == 23 and payload[2] == 0 then
+				switch_off(pos, num)
+				return 0
+			else
+				return 2
+			end
+		end,
+		on_beduino_request_data = function(pos, src, topic, payload)
+			if topic == 152 then  -- State
+				local num = math.max(payload[1], 3)
+				local nvm = techage.get_nvm(pos)
+				nvm.button = nvm.button or {}
+				return 0, nvm.button[num] and {1} or {0}
+			else
+				return 2, ""
+			end
+		end,
+	}
+)
 
 minetest.register_craft({
 	output = "techage:ta4_button_4x",
