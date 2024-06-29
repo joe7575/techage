@@ -78,7 +78,11 @@ local function del_pos(pos, player)
 	local meta = player:get_meta()
 	local lPos = minetest.deserialize(meta:get_string("techage_forceload_blocks")) or {}
 	lPos = remove_list_elem(lPos, pos)
-	meta:set_string("techage_forceload_blocks", minetest.serialize(lPos))
+	if next(lPos) then
+		meta:set_string("techage_forceload_blocks", minetest.serialize(lPos))
+	else
+		meta:set_string("techage_forceload_blocks", "")
+	end
 end
 
 local function get_pos_list(player)
@@ -88,7 +92,11 @@ end
 
 local function set_pos_list(player, lPos)
 	local meta = player:get_meta()
-	meta:set_string("techage_forceload_blocks", minetest.serialize(lPos))
+	if next(lPos) then
+		meta:set_string("techage_forceload_blocks", minetest.serialize(lPos))
+	else
+		meta:set_string("techage_forceload_blocks", "")
+	end
 end
 
 local function show_flbs(pos, name, range)
