@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2022 Joachim Stolberg
+	Copyright (C) 2019-2024 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -128,7 +128,7 @@ local tLiquid = {
 	put = function(pos, indir, name, amount)
 		-- check if it is powder
 		local nvm = techage.get_nvm(pos)
-		local ndef = minetest.registered_craftitems[name] or {}
+		local ndef = minetest.registered_craftitems[name] or minetest.registered_nodes[name] or {}
 		if ndef.groups and ndef.groups.powder == 1 then
 			local inv = M(pos):get_inventory()
 			local stack = ItemStack(name.." "..amount)
