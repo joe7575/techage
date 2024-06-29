@@ -429,7 +429,7 @@ techage.register_node({"techage:terminal2"}, {
 		local number = meta:get_string("number") or ""
 		if number ~= "" then
 			meta:set_string("node_number", number)
-			meta:set_string("number", nil)
+			meta:set_string("number", "")
 		end
 	end,
 })

@@ -61,7 +61,7 @@ for idx,pgn in ipairs(tPgns) do
 				minetest.swap_node(pos, node)
 			end
 			if fields.exit then
-				meta:set_string("formspec", nil)
+				meta:set_string("formspec", "")
 				local number = techage.add_node(pos, node.name)
 				meta:set_string("infotext", S("TechAge Gate Block").." "..number)
 			end
