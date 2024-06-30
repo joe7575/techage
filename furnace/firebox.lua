@@ -36,11 +36,16 @@ local function stop_firebox(pos, nvm)
 	M(pos):set_string("formspec", fuel.formspec(nvm))
 end
 
+local function furnace_active(pos)
+	-- Check if furnace is not in standby mode
+	return techage.get_node_lvm({x=pos.x, y=pos.y+1, z=pos.z}).name == "techage:ta3_furnace_act"
+end
+
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	nvm.liquid = nvm.liquid or {}
 	nvm.liquid.amount = nvm.liquid.amount or 0
-	if nvm.running then
+	if nvm.running and furnace_active(pos) then
 		nvm.burn_cycles = (nvm.burn_cycles or 0) - 1
 		if nvm.burn_cycles <= 0 then
 			if nvm.liquid.amount > 0 then
@@ -53,6 +58,9 @@ local function node_timer(pos, elapsed)
 				return false
 			end
 		end
+	else
+		stop_firebox(pos, nvm)
+		return false
 	end
 	if techage.is_activeformspec(pos) then
 		M(pos):set_string("formspec", fuel.formspec(nvm))
@@ -61,7 +69,8 @@ local function node_timer(pos, elapsed)
 end
 
 local function start_firebox(pos, nvm)
-	if not nvm.running then
+
+	if not nvm.running and furnace_active(pos) then
 		nvm.running = true
 		node_timer(pos, 0)
 		firebox.swap_node(pos, "techage:furnace_firebox_on")
