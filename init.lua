@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2023 Joachim Stolberg
+	Copyright (C) 2019-2024 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -394,6 +394,7 @@ dofile(MP.."/items/cracking.lua")
 dofile(MP.."/items/ceramic.lua")
 dofile(MP.."/items/basalt.lua")
 dofile(MP.."/items/moreblocks.lua")
+dofile(MP.."/items/salt.lua")
 
 -- Carts
 dofile(MP.."/carts/tank_cart.lua")
