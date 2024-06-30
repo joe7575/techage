@@ -379,7 +379,6 @@ minetest.register_node("techage:ta4_icta_controller", {
 		meta:set_string("number", number)
 		meta:set_int("state", techage.STOPPED)
 		meta:set_string("formspec", techage.formspecRules(meta, fs_data, sOUTPUT))
-		--meta:set_string("formspec", techage.cond_formspec(1, 1, nil))
 		meta:set_string("infotext", "TA4 ICTA Controller "..number..": stopped")
 	end,
 

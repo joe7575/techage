@@ -202,7 +202,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	local meta = M(pos)
 	logic.infotext(meta, NDEF(pos).description)
 	if fields.exit then
-		meta:set_string("formspec", nil)
+		meta:set_string("formspec", "")
 		meta:set_string("fixed" , "true")
 	else
 		meta:set_string("formspec", formspec(meta))

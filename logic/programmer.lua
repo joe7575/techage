@@ -25,7 +25,7 @@ local function join_to_string(tbl)
 end
 
 local function reset_programmer(itemstack, user, pointed_thing)
-	user:get_meta():set_string("techage_prog_numbers", nil)
+	user:get_meta():set_string("techage_prog_numbers", "")
 	minetest.chat_send_player(user:get_player_name(), S("[TechAge Programmer] programmer reset"))
 	return itemstack
 end
@@ -53,7 +53,7 @@ local function program_numbers(itemstack, placer, pointed_thing)
 	if pos then
 		local meta = M(pos)
 		local numbers = minetest.deserialize(placer:get_meta():get_string("techage_prog_numbers")) or {}
-		placer:get_meta():set_string("techage_prog_numbers", nil)
+		placer:get_meta():set_string("techage_prog_numbers", "")
 		local player_name = placer:get_player_name()
 		if meta and meta:get_string("owner") ~= player_name then
 			minetest.chat_send_player(player_name, S("[TechAge Programmer] foreign or unknown node!"))
