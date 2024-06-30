@@ -12,8 +12,6 @@
 
 ]]--
 
-local S = techage.S
-
 
 --Detects if the salt node is registered.
 minetest.register_on_mods_loaded(function()
@@ -32,13 +30,21 @@ minetest.register_on_mods_loaded(function()
 				"techage:water 1",
 				}
 		})
-     	else
-     		-- Creates a water -> River Water recipe in absense of the farming:salt node.
-     		techage.recipes.add("ta4_doser", {
-			output = "techage:river_water 1",
-			input = {
-				"techage:water 1",
-				}
+
+		-- Add salt recipe as replacement for the minetest.register_craft("farming:salt") recipe
+		techage.furnace.register_recipe({
+			output = "farming:salt",
+			recipe = {"bucket:bucket_water"},
+			waste = "bucket:bucket_empty",
+			time = 8,
 		})
-    end
+	else
+		-- Creates a water -> River Water recipe in absense of the farming:salt node.
+		techage.recipes.add("ta4_doser", {
+		output = "techage:river_water 1",
+		input = {
+			"techage:water 1",
+			}
+		})
+	end
 end)
