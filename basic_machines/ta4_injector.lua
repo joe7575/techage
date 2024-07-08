@@ -126,7 +126,7 @@ local function push_items(pos, out_dir, idx, items)
 	else
 		local taken = items:get_count()
 		local leftover = techage.push_items(pos, out_dir, items, idx)
-		if leftover == false then
+		if not leftover or leftover == false then
 			return false -- No items placed
 		elseif leftover ~= true then
 			-- One or more items placed?
