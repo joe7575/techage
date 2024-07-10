@@ -251,4 +251,5 @@ minetest.register_craft({
 		{"techage:electric_cableS", "basic_materials:gold_wire", "techage:electric_cableS"},
 		{"default:steel_ingot", "techage:ta4_wlanchip", "default:steel_ingot"},
 	},
+	replacements = { {"basic_materials:gold_wire", "basic_materials:empty_spool"}, },
 })
