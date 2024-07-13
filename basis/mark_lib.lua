@@ -87,6 +87,14 @@ function marker.stop(name)
 	MaxNumber[name] = nil
 end
 
+minetest.register_on_leaveplayer(function(ObjectRef, timed_out)
+	if ObjectRef and ObjectRef:is_player() then
+		local name = ObjectRef:get_player_name()
+		marker.unmark_all(name)
+	end
+end)
+
+
 minetest.register_entity(":techage:block_marker", {
 	initial_properties = {
 		visual = "cube",
