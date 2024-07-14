@@ -30,7 +30,19 @@ local reset_cooking = techage.furnace.reset_cooking
 local get_ingredients = techage.furnace.get_ingredients
 local check_if_worth_to_wakeup = techage.furnace.check_if_worth_to_wakeup
 local range = techage.in_range
+local MP = minetest.get_modpath(minetest.get_current_modname())
+local mConf = assert(loadfile(MP .. "/basis/conf_inv.lua"))("cfg")
 
+local WRENCH_MENU3 = {
+	{
+		type = "items",
+		name = "config",
+		label = S("Pre-Assignment Input Inv."),
+		tooltip = S("Stack locations can be pre-assigned to specific items,\nto be filled only with those items."),
+		width = 2,
+		height = 2,
+	}
+}
 
 local function update_recipe_menu(pos, nvm)
 	local ingr = get_ingredients(pos)
@@ -47,7 +59,9 @@ local function formspec(self, pos, nvm)
 		default.gui_bg..
 		default.gui_bg_img..
 		default.gui_slots..
+		techage.wrench_image(7.6, -0.2) ..
 		"list[context;src;0,0;2,2;]"..
+		mConf.preassigned_stacks(pos, 2, 2)..
 		"image[2,0.5;1,1;techage_form_arrow_bg.png^[lowpart:"..
 		(nvm.item_percent or 0)..":techage_form_arrow_fg.png^[transformR270]"..
 		"image_button[2,2;1,1;".. self:get_state_button_image(nvm) ..";state_button;]"..
@@ -237,9 +251,20 @@ local tubing = {
 	end,
 	on_push_item = function(pos, in_dir, stack, idx)
 		local meta = minetest.get_meta(pos)
-		if meta:get_int("push_dir") == in_dir  or in_dir == 5 then
+		if meta:get_int("push_dir") == in_dir or in_dir == 5 then
 			local inv = M(pos):get_inventory()
-			return techage.put_items(inv, "src", stack, idx)
+			local mem = techage.get_mem(pos)
+
+			mem.filter = mem.filter or mConf.item_filter(pos, 4)
+			mem.chest_configured = mem.chest_configured or not inv:is_empty("cfg")
+
+			if mem.chest_configured then
+				local name = stack:get_name()
+				local stacks = mem.filter[name] or mem.filter["unconfigured"]
+				return mConf.put_items(pos, inv, "src", stack, stacks, idx)
+			else
+				return techage.put_items(inv, "src", stack, idx)
+			end
 		end
 	end,
 	on_unpull_item = function(pos, in_dir, stack)
@@ -283,6 +308,7 @@ local _, node_name_ta3, _ =
 			local inv = M(pos):get_inventory()
 			inv:set_size("src", 2*2)
 			inv:set_size("dst", 2*2)
+			inv:set_size("cfg", 2*2)
 		end,
 		can_dig = can_dig,
 		node_timer = keep_running,
@@ -293,6 +319,8 @@ local _, node_name_ta3, _ =
 		on_metadata_inventory_put = on_metadata_inventory,
 		on_metadata_inventory_take = on_metadata_inventory,
 		on_metadata_inventory_move = on_metadata_inventory,
+		ta3_formspec = WRENCH_MENU3,
+		on_rightclick = on_rightclick,
 		groups = {choppy=2, cracky=2, crumbly=2},
 		sounds = default.node_sound_wood_defaults(),
 		num_items = {0,1,1,1},

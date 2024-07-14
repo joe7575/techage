@@ -10,8 +10,11 @@
 
 	Configured inventory lib
 	Assuming the inventory has the name "conf"
+	Otherwise the name has to be provided as argument
 
 ]]--
+
+local StackName = ... or "conf"
 
 -- for lazy programmers
 local M = minetest.get_meta
@@ -22,7 +25,7 @@ function inv_lib.preassigned_stacks(pos, xsize, ysize)
 	local inv = M(pos):get_inventory()
 	local tbl = {}
 	for idx = 1, xsize * ysize do
-		local item_name = inv:get_stack("conf", idx):get_name()
+		local item_name = inv:get_stack(StackName, idx):get_name()
 		if item_name ~= "" then
 			local x = (idx - 1) % xsize
 			local y = math.floor((idx - 1) / xsize)
@@ -36,7 +39,7 @@ function inv_lib.item_filter(pos, size)
 	local inv = M(pos):get_inventory()
 	local filter = {}
 	for idx = 1, size do
-		local item_name = inv:get_stack("conf", idx):get_name()
+		local item_name = inv:get_stack(StackName, idx):get_name()
 		if item_name == "" then item_name = "unconfigured" end
 		if not filter[item_name] then
 			filter[item_name] = {}

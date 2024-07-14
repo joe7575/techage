@@ -129,7 +129,11 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 					tbl[#tbl+1] = "dropdown[4.72," .. (offs) .. ";5.5,1.4;" .. elem.name .. ";" .. elem.choices .. ";" .. idx .. "]"
 				end
 			elseif elem.type == "items" then  -- inventory
-				tbl[#tbl+1] = "list[detached:" .. minetest.formspec_escape(player_name) .. "_techage_wrench_menu;cfg;4.75," .. offs .. ";" .. elem.size .. ",1;]"
+				if elem.size then
+					tbl[#tbl+1] = "list[detached:" .. minetest.formspec_escape(player_name) .. "_techage_wrench_menu;cfg;4.75," .. offs .. ";" .. elem.size .. ",1;]"
+				else
+					tbl[#tbl+1] = "list[detached:" .. minetest.formspec_escape(player_name) .. "_techage_wrench_menu;cfg;4.75," .. offs .. ";" .. elem.width .. "," .. elem.height .. ";]"
+				end
 				player_inv_needed = true
 			end
 		end
