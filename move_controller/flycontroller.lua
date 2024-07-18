@@ -79,17 +79,6 @@ local function formspec(nvm, meta)
 		"label[0.3,6.3;" .. status .. "]"
 end
 
-local function reset_state(pos) 
-	local meta = M(pos)
-	local nvm = techage.get_nvm(pos)
-	nvm.lpos1 = {}
-	nvm.lpos2 = {}
-	nvm.running = nil
-	nvm.moveBA = false
-	meta:set_string("status", "")
-	meta:set_string("formspec", formspec(nvm, meta))
-end
-
 minetest.register_node("techage:ta5_flycontroller", {
 	description = S("TA5 Fly Controller"),
 	tiles = {
@@ -268,7 +257,7 @@ techage.register_node({"techage:ta5_flycontroller"}, {
 		return 2, ""
 	end,
 	on_node_load = function(pos, node)
-		reset_state(pos)
+		M(pos):set_string("status", "")
 	end,
 })
 

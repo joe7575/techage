@@ -85,17 +85,6 @@ local function formspec(nvm, meta)
 		"label[0.3,4.3;" .. status .. "]"
 end
 
-local function reset_state(pos) 
-	local meta = M(pos)
-	local nvm = techage.get_nvm(pos)
-	nvm.lpos1 = {}
-	nvm.lpos2 = {}
-	nvm.running = nil
-	nvm.lastpos = nil
-	meta:set_string("status", "")
-	meta:set_string("formspec", formspec(nvm, meta))
-end
-
 minetest.register_node("techage:ta4_movecontroller", {
 	description = S("TA4 Move Controller"),
 	tiles = {
@@ -273,7 +262,7 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 	end,
 	on_node_load = function(pos, node)
 		M(pos):set_string("teleport_mode", "") -- delete not working (legacy) op mode
-		reset_state(pos)
+		M(pos):set_string("status", "")
 	end,
 })
 
