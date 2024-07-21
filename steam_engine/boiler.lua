@@ -41,10 +41,9 @@ end
 
 local function after_place_node(pos)
 	local node = minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z})
-	if node.name == "techage:boiler1" then
-		local nvm = techage.get_nvm(pos)
-		M(pos):set_string("formspec", boiler.formspec(pos, nvm))
-		Pipe:after_place_node(pos)
+	if node.name ~= "techage:boiler1" then
+		minetest.remove_node(pos)
+		return true
 	end
 end
 
@@ -83,6 +82,9 @@ Pipe:add_secondary_node_names({"techage:boiler2"})
 techage.register_node({"techage:boiler2"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		if topic == "trigger" then
+			if minetest.get_node({x=pos.x, y=pos.y-1, z=pos.z}).name ~= "techage:boiler1" then
+				return 0
+			end
 			local nvm = techage.get_nvm(pos)
 			nvm.fire_trigger = true
 			if not minetest.get_node_timer(pos):is_started() then
