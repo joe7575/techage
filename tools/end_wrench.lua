@@ -193,7 +193,7 @@ minetest.register_on_player_receive_fields(function(player, formname, fields)
 		local number = techage.get_node_number(pos)
 		local node = minetest.get_node(pos)
 		local ndef = minetest.registered_nodes[node.name]
-		local form_def = ndef and (ndef.ta3_formspec or ndef.ta4_formspec or ndef.ta5_formspec.menu)
+		local form_def = ndef and (ndef.ta3_formspec or ndef.ta4_formspec or (ndef.ta5_formspec and ndef.ta5_formspec.menu))
 
 		if form_def then
 			if menu.eval_input(pos, form_def, fields, playername) then
