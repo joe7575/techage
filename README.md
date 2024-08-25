@@ -38,14 +38,14 @@ Many thanks to Thomas-S, niklp09, and others for their contributions
 
 
 ### Dependencies  
-Required: default, doors, bucket, stairs, screwdriver, basic_materials, tubelib2, networks, minecart, lcdlib, safer_lua, doclib  
+Required: default, doors, bucket, stairs, screwdriver, basic_materials, tubelib2, networks, minecart, lcdlib, safer_lua, doclib, fakelib  
 Recommended: signs_bot, hyperloop, compost, techpack_stairway, autobahn  
 Optional: unified_inventory, wielded_light, unifieddyes, lua-mashal, lsqlite3, moreores, ethereal, mesecon
 
 
 The mods `default`, `doors`, `bucket`, `stairs`, and `screwdriver` are part of Minetest Game.
 
-`basic_materials` will be found here: https://content.minetest.net/
+`basic_materials` and `fakelib` can be found on ContentDB: https://content.minetest.net/
 
 The following mods in the newest version have to be downloaded directly from GitHub:
 * [tubelib2](https://github.com/joe7575/tubelib2)
