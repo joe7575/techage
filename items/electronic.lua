@@ -72,6 +72,12 @@ techage.recipes.add("ta3_electronic_fab", {
 })
 
 techage.recipes.add("ta4_electronic_fab", {
+	output = "techage:vacuum_tube 2",
+	waste = "basic_materials:empty_spool 1",
+	input = {"default:glass 1", "basic_materials:copper_wire 1", "basic_materials:plastic_sheet 1", "techage:usmium_nuggets 1"}
+})
+
+techage.recipes.add("ta4_electronic_fab", {
 	output = "techage:ta4_wlanchip 8",
 	input = {"default:mese_crystal 1", "default:copper_ingot 1", "default:gold_ingot 1", "techage:ta4_silicon_wafer 1"}
 })
