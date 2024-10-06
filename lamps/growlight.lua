@@ -22,7 +22,6 @@ local Cable = techage.ElectricCable
 local power = networks.power
 local Flowers = {}
 local Plants = {}
-local Ignore = { ["flowers:waterlily_waving"] = true }
 -- 9 plant positions below the light
 local Positions = {
 	{x = 0, y =-1, z = 0},
@@ -192,10 +191,11 @@ function techage.register_plant(name)
 end
 
 minetest.after(1, function()
+	-- Flowers
 	local function add_flower(name)
 		local def = minetest.registered_nodes[name]
 		if def and (def.groups.mushroom == 1 or def.groups.flower == 1) then
-			if not Ignore[name] then
+			if not (name:find("waterlily") or name:find("seaweed")) then -- we don't want water plants on garden soil
 				techage.register_flower(name)
 			end
 		end
@@ -211,13 +211,13 @@ minetest.after(1, function()
 			end
 		end
 	end
+
+	-- Plants
 	for name,ndef in pairs(minetest.registered_nodes) do
 		if type(name) == "string" then
 			local mod = string.split(name, ":")[1]
 			if mod == "farming" and ndef.on_timer then -- probably a plant that still needs to grow
-				if not Ignore[name] then
-					techage.register_plant(name)
-				end
+				techage.register_plant(name)
 			end
 		end
 	end
