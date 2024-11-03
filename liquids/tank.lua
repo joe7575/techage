@@ -40,6 +40,9 @@ local function node_timer(pos, elapsed)
 end
 
 local function can_dig(pos, player)
+	if not player then
+		return false
+	end
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return false
 	end
