@@ -79,7 +79,6 @@ end
 local MP = minetest.get_modpath("techage")
 dofile(MP.."/basis/lib.lua")  -- helper functions
 dofile(MP.."/basis/counting.lua")  -- command counting
-dofile(MP.."/basis/fake_player.lua")  -- dummy player object
 dofile(MP.."/basis/node_store.lua")
 dofile(MP.."/basis/gravel_lib.lua")  -- ore probability
 dofile(MP.."/basis/node_states.lua") -- state model

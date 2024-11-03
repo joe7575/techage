@@ -167,13 +167,11 @@ local function quarry_task(pos, crd, nvm)
 	local y_last  = y_first - nvm.quarry_depth + 1
 	local facedir = minetest.get_node(pos).param2
 	local owner = M(pos):get_string("owner")
-	local fake_player = techage.Fake_player:new()
-	fake_player.get_pos = function (...)
-		return pos
-	end
-	fake_player.get_inventory = function(...)
-		return M(pos):get_inventory()
-	end
+	local fake_player = fakelib.create_player({
+		name = owner,
+		position = pos,
+		inventory = M(pos):get_inventory(),
+	})
 
 	local add_to_inv = function(itemstacks)
 		local at_least_one_added = false
