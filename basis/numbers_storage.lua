@@ -58,6 +58,7 @@ storage:set_int("Version", Version)
 -- API functions
 -------------------------------------------------------------------
 function backend.get_nodepos(number)
+	if not type(number) == "string" then return end
 	return minetest.string_to_pos(storage:get_string(number))
 end
 
