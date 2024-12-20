@@ -48,6 +48,26 @@ are possible.]]
 
 local SYNTAX_ERR = S("Syntax error, try help")
 
+local WRENCH_MENU = {
+	{
+		type = "dropdown",
+		choices = "all players,me",
+		name = "public",
+		label = S("Access allowed for"),
+		tooltip = S("Friends are players for whom this area is not protected"),
+		default = "1",
+		values = {1,0}
+	},
+	{
+		type = "dropdown",
+		choices = "terminal,basic",
+		name = "opmode",
+		label = S("Operational mode"),
+		tooltip = S("Switch between TA3 terminal and BASIC computer"),
+		default = "terminal",
+	},
+}
+
 local function get_string(meta, num, default)
 	local s = meta:get_string("bttn_text"..num)
 	if not s or s == "" then
@@ -72,9 +92,10 @@ local function formspec2(meta)
 	local bttn_text9 = get_string(meta, 9, "User9")
 	return "size[10,8.5]"..
 	--"style_type[table,field;font=mono]"..
-	"button[0,-0.2;3.3,1;bttn1;"..bttn_text1.."]button[3.3,-0.2;3.3,1;bttn2;"..bttn_text2.."]button[6.6,-0.2;3.3,1;bttn3;"..bttn_text3.."]"..
-	"button[0,0.6;3.3,1;bttn4;"..bttn_text4.."]button[3.3,0.6;3.3,1;bttn5;"..bttn_text5.."]button[6.6,0.6;3.3,1;bttn6;"..bttn_text6.."]"..
-	"button[0,1.4;3.3,1;bttn7;"..bttn_text7.."]button[3.3,1.4;3.3,1;bttn8;"..bttn_text8.."]button[6.6,1.4;3.3,1;bttn9;"..bttn_text9.."]"..
+	techage.wrench_image(9.6, -0.2) ..
+	"button[0,-0.2;3.3,1;bttn1;"..bttn_text1.."]button[3.3,-0.2;3.3,1;bttn2;"..bttn_text2.."]button[6.6,-0.2;3.2,1;bttn3;"..bttn_text3.."]"..
+	"button[0,0.6;3.3,1;bttn4;"..bttn_text4.."]button[3.3,0.6;3.3,1;bttn5;"..bttn_text5.."]button[6.6,0.6;3.4,1;bttn6;"..bttn_text6.."]"..
+	"button[0,1.4;3.3,1;bttn7;"..bttn_text7.."]button[3.3,1.4;3.3,1;bttn8;"..bttn_text8.."]button[6.6,1.4;3.4,1;bttn9;"..bttn_text9.."]"..
 	"table[0,2.3;9.8,5.6;output;"..output..";200]"..
 	"field[0.4,8.2;7.6,1;cmnd;;"..command.."]" ..
 	"field_close_on_enter[cmnd;false]"..
@@ -283,13 +304,15 @@ local function register_terminal(name, description, tiles, node_box, selection_b
 			meta:set_string("node_number", number)
 			meta:set_string("command", S("commands like: help"))
 			meta:set_string("formspec", formspec2(meta))
-			meta:set_string("owner", placer:get_player_name())
+			if placer then
+				meta:set_string("owner", placer:get_player_name())
+			end
 			meta:set_string("infotext", description .. " " .. number)
 		end,
 
 		on_receive_fields = function(pos, formname, fields, player)
 			local meta = minetest.get_meta(pos)
-			local public = meta:get_int("public") == 1
+			local public = meta:get_int("public") ~= 0
 			local protected = minetest.is_protected(pos, player:get_player_name())
 
 			if not protected then
@@ -330,6 +353,22 @@ local function register_terminal(name, description, tiles, node_box, selection_b
 			end
 		end,
 
+	ta_after_formspec = function(pos, fields, playername)
+		if fields.save then
+			if M(pos):get_string("opmode") == "basic" then
+				if minetest.global_exists("nanobasic") then
+					local node = techage.get_node_lvm(pos)
+					node.name = "techage:basic_terminal"
+					minetest.swap_node(pos, node)
+					local ndef = minetest.registered_nodes["techage:basic_terminal"]
+					ndef.after_place_node(pos)
+				else
+					output(pos, "\nBASIC is not supported. Talk to your server staff!")
+				end
+			end
+		end
+	end,
+
 		after_dig_node = function(pos, oldnode, oldmetadata)
 			techage.remove_node(pos, oldnode, oldmetadata)
 		end,
@@ -337,6 +376,7 @@ local function register_terminal(name, description, tiles, node_box, selection_b
 		preserve_nodedata = techage.preserve_nodedata,
 		restore_nodedata = techage.restore_nodedata,
 		
+		ta3_formspec = WRENCH_MENU,
 		paramtype = "light",
 		use_texture_alpha = techage.CLIP,
 		sunlight_propagates = true,

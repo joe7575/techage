@@ -276,6 +276,9 @@ end
 -- Logic
 dofile(MP.."/logic/lib.lua")
 dofile(MP.."/logic/terminal.lua")
+if minetest.global_exists("nanobasic") then
+	dofile(MP.."/logic/basic_terminal.lua")
+end
 dofile(MP.."/logic/button.lua")
 dofile(MP.."/logic/detector.lua")
 dofile(MP.."/logic/repeater.lua")
