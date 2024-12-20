@@ -1,0 +1,665 @@
+--[[
+
+	Basic Terminal
+	==============
+
+	Copyright (C) 2018-2024 Joachim Stolberg
+
+	AGPL v3
+	See LICENSE.txt for more information
+
+	terminal.lua:
+
+]]--
+
+local M = minetest.get_meta
+local S = techage.S
+local SCREENSAVER_TIME = 60 * 5
+
+local Functions = {}
+local Actions = {}
+local Buttons = {"Edit", "Save", "Renum", "Cancel", "Run", "Stop", "Continue", "List"}
+local States = {"init", "edit", "stopped", "running", "error", "input_str", "input_num", "break"}
+local InputField = "style_type[field;textcolor=#FFFFFF]" ..
+	"field[1.5,0.8;7.4,0.7;input;;]" ..
+	"field_close_on_enter[input;false]" ..
+	"button[9,0.8;1.5,0.7;Enter;Enter]"
+
+local WRENCH_MENU = {
+	{
+		type = "dropdown",
+		choices = "all players,friends,me",
+		name = "public",
+		label = S("Access allowed for"),
+		tooltip = S("Friends are players for whom this area is not protected"),
+		default = "1",
+		values = {1,2,0}
+	},
+	{
+		type = "dropdown",
+		choices = "terminal,basic",
+		name = "opmode",
+		label = S("Operational mode"),
+		tooltip = S("Switch between TA3 terminal and BASIC computer"),
+		default = "terminal",
+	},
+}
+
+local function register_ext_function(name, param_types, return_type, func)
+	Functions[nanobasic.add_function(name, param_types, return_type)] = func
+end
+
+local function register_action(states, key, func)
+	for _,state in ipairs(states) do
+		Actions[state] = Actions[state] or {}
+		Actions[state][key] = func
+	end
+end
+
+local function font_size(nvm)
+	nvm.trm_text_size = nvm.trm_text_size or 0
+	return nvm.trm_text_size >= 0 and "+" .. nvm.trm_text_size or tostring(nvm.trm_text_size)
+end
+
+local function fs_output_window(nvm, x, y, name, text)
+	local font_size = font_size(nvm)
+	local fs = {
+		"container[", x, ",", y, "]",
+		"box[0,0;12,7.5;#000000]",
+		"style_type[textarea;font=mono;",
+		"textcolor=#FFFFFF;border=false;",
+		"font_size=", font_size, "]",
+		"textarea[0,0;12,7.5;" .. name .. ";;", 
+		minetest.formspec_escape(text), "]",
+		"container_end[]"
+	}
+	return table.concat(fs, "")
+end
+
+local function fs_size_buttons(x, y)
+	local fs = {
+		"container[", x, ",", y, "]",
+		"button[0.0,0;0.6,0.6;larger;+]",
+		"button[0.6,0;0.6,0.6;smaller;-]",
+		"container_end[]"
+	}
+	return table.concat(fs, "")
+end
+
+local function key_rows(keys)
+	local t = {}
+	for i = 1, #keys do
+		local x = (i - 1) * 1.5
+		if keys[i] ~= "" then
+			t[#t+1] = "button[" .. x .. ",0;1.5,0.7;" .. keys[i] .. ";" .. keys[i] .. "]"
+		else
+			t[#t+1] = "button[" .. x .. ",0;1.5,0.7;;---]"
+		end
+	end
+	return table.concat(t, "")
+end
+
+local function input_panel(nvm, x, y)
+	local fs = {
+		"container[", x, ",", y, "]",
+		key_rows(nvm.bttns or Buttons),
+		nvm.input or "",
+		"container_end[]"
+	}
+	return table.concat(fs, "")
+end
+
+local function get_action(nvm, fields)
+	local keys = {"Edit", "Save", "Renum", "Cancel", "Run", "Stop", "Continue", "List", "Enter"}
+	nvm.status = nvm.status or "init"
+	if nvm.status == "" then
+		nvm.status = "init"
+	end
+	--print("get_action", nvm.status, dump(fields))
+	for _,key in ipairs(keys) do
+		if fields[key] and Actions[nvm.status] and Actions[nvm.status][key] then
+			print("get_action", nvm.status, key)
+			return Actions[nvm.status][key]
+		end
+	end
+	return function(pos, nvm, fields)
+			return ""
+		end
+end
+
+local function formspec(pos, text)
+	local nvm = techage.get_nvm(pos)
+	local name = nvm.status == "edit" and "code" or ""
+	return "formspec_version[4]" ..
+		"size[12.8,10.5]" ..
+		"label[0.5,0.6;Mode: " .. (nvm.status or "") .. "]" ..
+		fs_size_buttons(10.6, 0.1) ..
+		techage.wrench_image(11.9, 0.15) ..
+		fs_output_window(nvm, 0.4, 0.8, name, text or "") ..
+		input_panel(nvm, 0.4, 8.6)
+end
+
+local function poweron_message(pos)
+	local s = nanobasic.free_mem() or ""
+	local ver = nanobasic.version()
+	return "NanoBasic V" .. ver .. "\n" .. s .. "Ready.\n"
+end
+
+minetest.register_node("techage:basic_terminal", {
+	description = S("TA3 Terminal"),
+	tiles = {-- up, down, right, left, back, front
+		'techage_terminal2_top.png',
+		'techage_terminal2_side.png',
+		'techage_terminal2_side.png^[transformFX',
+		'techage_terminal2_side.png',
+		'techage_terminal2_back.png',
+		"techage_terminal2_front.png",
+	},
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-12/32, -16/32, -16/32,  12/32, -14/32, 16/32},
+			{-12/32, -14/32,  -3/32,  12/32,   6/32, 16/32},
+			{-10/32, -12/32,  14/32,  10/32,   4/32, 18/32},
+			{-12/32,   4/32,  -4/32,  12/32,   6/32, 16/32},
+			{-12/32, -16/32,  -4/32, -10/32,   6/32, 16/32},
+			{ 10/32, -16/32,  -4/32,  12/32,   6/32, 16/32},
+			{-12/32, -14/32,  -4/32,  12/32, -12/32, 16/32},
+		},
+	},
+	selection_box = {
+		type = "fixed",
+		fixed = {
+			{-12/32, -16/32, -4/32,  12/32, 6/32, 16/32},
+		},
+	},
+
+	after_place_node = function(pos, placer)
+		local number = techage.add_node(pos, minetest.get_node(pos).name)
+		local nvm = techage.get_nvm(pos)
+		local meta = M(pos)
+		local text = poweron_message(pos)
+		nvm.trm_ttl = 0
+		nvm.status = "init"
+		meta:set_int("public", 0)
+		meta:set_string("formspec", formspec(pos, text))
+		if placer then
+			meta:set_string("owner", placer:get_player_name())
+		end
+		meta:set_string("infotext", S("TA3 Terminal"))
+	end,
+
+	on_receive_fields = function(pos, formname, fields, player)
+		local nvm = techage.get_nvm(pos)
+		local meta = M(pos)
+		local public = meta:get_int("public")
+		if public == 1 or
+			public == 2 and not minetest.is_protected(pos, player:get_player_name()) or
+			public == 0 and player:get_player_name() == meta:get_string("owner") then
+			fields.Enter = fields.Enter or fields.key_enter_field
+			local action = get_action(nvm, fields)
+			local text = action(pos, nvm, fields)
+			if text and text ~= "" then
+				meta:set_string("formspec", formspec(pos, text))
+			end
+		end
+	end,
+
+	on_timer = function(pos, elapsed)
+		local nvm = techage.get_nvm(pos)
+		print("on_timer", nvm.status)
+		if (nvm.timeout or 0) > minetest.get_gametime() then
+			return true
+		end
+		
+		if nvm.status == "running" then
+			local res = nanobasic.run(pos, 100)
+			print("on_timer2", res)
+			if res == nanobasic.NB_BUSY then
+				local text = nanobasic.get_screen_buffer(pos)
+				M(pos):set_string("formspec", formspec(pos, text))
+				return true
+			elseif res == nanobasic.NB_ERROR then
+				nvm.status = "error"
+				nvm.bttns = {"Edit", "", "", "", "", "Stop", "", ""}
+				nvm.input = ""
+				local text = nanobasic.get_screen_buffer(pos)
+				M(pos):set_string("formspec", formspec(pos, text))
+			elseif res == nanobasic.NB_END then
+				nvm.status = "stopped"
+				nvm.bttns = {"Edit", "", "", "", "Run", "Stop", "", ""}
+				nvm.input = ""
+				local text = nanobasic.get_screen_buffer(pos)
+				M(pos):set_string("formspec", formspec(pos, text))
+			elseif res == nanobasic.NB_BREAK then
+				local lineno = nanobasic.pop_num(pos);
+				nanobasic.print(pos, string.format("Break in line %d\n", lineno));
+				nvm.status = "break"
+				nvm.bttns = {"", "", "", "", "", "Stop", "Continue", "List"}
+				nvm.input = InputField
+				local text = nanobasic.get_screen_buffer(pos)
+				M(pos):set_string("formspec", formspec(pos, text))
+			elseif res >= nanobasic.NB_XFUNC then
+				if Functions[res] then
+					return Functions[res](pos, nvm)
+				end
+				print("Oops, error")
+				print(res, dump(Functions))
+			else
+				print("res = ", res)
+				return false
+			end
+		end
+		return false
+	end,
+
+	on_rightclick = function(pos, node, clicker)
+		local nvm = techage.get_nvm(pos)
+		local text
+		nvm.trm_ttl = minetest.get_gametime() + SCREENSAVER_TIME
+		if nvm.status == "edit" then
+			text = M(pos):get_string("code")
+		else
+			text = nanobasic.get_screen_buffer(pos) or ""
+		end
+		M(pos):set_string("formspec", formspec(pos, text))
+	end,
+
+	ta_after_formspec = function(pos, fields, playername)
+		if fields.save then
+			if M(pos):get_string("opmode") == "terminal" then
+				local node = techage.get_node_lvm(pos)
+				node.name = "techage:terminal2"
+				minetest.swap_node(pos, node)
+				local ndef = minetest.registered_nodes["techage:terminal2"]
+				ndef.after_place_node(pos)
+			end
+		end
+	end,
+
+	after_dig_node = function(pos, oldnode, oldmetadata)
+		techage.remove_node(pos, oldnode, oldmetadata)
+		nanobasic.destroy(pos)
+	end,
+
+	ta3_formspec = WRENCH_MENU,
+	drop = "techage:terminal2",
+	not_in_creative_inventory = 1,
+	paramtype = "light",
+	use_texture_alpha = "clip",
+	sunlight_propagates = true,
+	paramtype2 = "facedir",
+	groups = {choppy=2, cracky=2, crumbly=2},
+	is_ground_content = false,
+	sounds = default.node_sound_metal_defaults(),
+})
+
+--
+-- Register VM external/callback functions
+--
+register_ext_function("input", {nanobasic.NB_STR}, nanobasic.NB_NUM, function(pos, nvm)
+	nvm.status = "input_num"
+	local s = nanobasic.pop_str(pos)
+	nanobasic.print(pos, s .. "?  ")
+	nvm.bttns = {"", "", "", "", "", "Stop", "", ""}
+	nvm.input = InputField
+	local text = nanobasic.get_screen_buffer(pos) or ""
+	M(pos):set_string("formspec", formspec(pos, text))
+	return false  -- stop execution
+end)
+
+register_ext_function("input$", {nanobasic.NB_STR}, nanobasic.NB_STR, function(pos, nvm)
+	nvm.status = "input_str"
+	local s = nanobasic.pop_str(pos)
+	nanobasic.print(pos, s .. "?  ")
+	nvm.bttns = {"", "", "", "", "", "Stop", "", ""}
+	nvm.input = InputField
+	local text = nanobasic.get_screen_buffer(pos) or ""
+	M(pos):set_string("formspec", formspec(pos, text))
+	return false  -- stop execution
+end)
+
+register_ext_function("sleep", {nanobasic.NB_NUM}, nanobasic.NB_NONE, function(pos, nvm)
+	local t = nanobasic.pop_num(pos) or 0
+	nvm.timeout = minetest.get_gametime() + t
+	local text = nanobasic.get_screen_buffer(pos)
+	M(pos):set_string("formspec", formspec(pos, text))
+	return true
+end)
+
+register_ext_function("time", {}, nanobasic.NB_NUM, function(pos, nvm)
+	nanobasic.push_num(pos, minetest.get_gametime() or 0)
+	local text = nanobasic.get_screen_buffer(pos)
+	M(pos):set_string("formspec", formspec(pos, text))
+	return true
+end)
+
+-- str: cmd$(num: node_num, str: cmnd, str: payload)
+register_ext_function("cmd$", {nanobasic.NB_NUM, nanobasic.NB_STR, nanobasic.NB_STR}, nanobasic.NB_STR, function(pos, nvm)
+	local payload = nanobasic.pop_str(pos) or ""
+	local cmnd = nanobasic.pop_str(pos) or ""
+	local num = tostring(nanobasic.pop_num(pos) or 0)
+	local own_num = M(pos):get_string("node_number")
+	local owner = M(pos):get_string("owner")
+	if techage.not_protected(num, owner) then
+		techage.counting_add(owner, 1)
+		local resp = techage.send_single(own_num, num, cmnd, payload)
+		if type(resp) == "string" then
+			nanobasic.push_str(pos, resp)
+		else
+			nanobasic.push_str(pos, dump(resp))
+		end
+	else
+		nanobasic.push_str(pos, "protected")
+	end
+	return true
+end)
+
+-- num: cmd(num: node_num, num: cmnd, arr: payload)
+register_ext_function("bcmd", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_ARR}, nanobasic.NB_NUM, function(pos, nvm)
+	local addr = nanobasic.pop_arr_addr(pos)
+	print("bcmd", addr)
+	local payload = nanobasic.read_arr(pos, addr) or {}
+	local cmnd = nanobasic.pop_num(pos) or 0
+	local num = nanobasic.pop_num(pos) or 0
+	local own_num = M(pos):get_string("node_number")
+	local owner = M(pos):get_string("owner")
+	if techage.not_protected(num, owner) then
+		techage.counting_add(owner, 1)
+		local resp = techage.beduino_send_cmnd(own_num, dest_num, topic, payload)
+		nanobasic.push_num(pos, resp)
+	else
+		nanobasic.push_num(pos, 4)
+	end
+	return true
+end)
+
+-- num: breq(num: node_num, num: cmnd, arr: payload)
+register_ext_function("breq", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_ARR}, nanobasic.NB_NUM, function(pos, nvm)
+	local addr = nanobasic.pop_arr_addr(pos)
+	print("bcmd", addr)
+	local payload = nanobasic.read_arr(pos, addr) or {}
+	local cmnd = nanobasic.pop_num(pos) or 0
+	local num = nanobasic.pop_num(pos) or 0
+	local own_num = M(pos):get_string("node_number")
+	local owner = M(pos):get_string("owner")
+	if techage.not_protected(num, owner) then
+		techage.counting_add(owner, 1)
+		local sts, resp = techage.beduino_request_data(own_num, num, cmnd, payload)
+		if type(resp) == "table" then
+			nanobasic.write_arr(pos, addr, resp)
+			nanobasic.push_num(pos, sts)
+		else
+			nanobasic.push_num(pos, 5)
+		end
+	else
+		nanobasic.push_num(pos, 4)
+	end
+	return true
+end)
+
+-- str: breq(num: node_num, num: cmnd, arr: payload)
+register_ext_function("breq$", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_ARR}, nanobasic.NB_STR, function(pos, nvm)
+	local addr = nanobasic.pop_arr_addr(pos)
+	print("bcmd", addr)
+	local payload = nanobasic.read_arr(pos, addr) or {}
+	local cmnd = nanobasic.pop_num(pos) or 0
+	local num = nanobasic.pop_num(pos) or 0
+	local own_num = M(pos):get_string("node_number")
+	local owner = M(pos):get_string("owner")
+	if techage.not_protected(num, owner) then
+		techage.counting_add(owner, 1)
+		local sts, resp = techage.beduino_request_data(own_num, num, cmnd, payload)
+		if type(resp) == "string" and sts == 0 then
+			nanobasic.push_str(pos, resp)
+		elseif type(resp) ~= "string" then
+			nanobasic.push_str(pos, "<5>")
+		end
+	else
+		nanobasic.push_str(pos, "<" .. tostring(sts) .. ">")
+	end
+	return true
+end)
+
+-- none: chat(str: msg)
+register_ext_function("chat", {nanobasic.NB_STR}, nanobasic.NB_NONE, function(pos, nvm)
+	local msg = nanobasic.pop_str(pos) or ""
+	local owner = M(pos):get_string("owner")
+	minetest.chat_send_player(owner, msg)
+	return true
+end)
+
+-- none: dputs(num: node_num, num: row, str: text)
+register_ext_function("dputs", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_STR}, nanobasic.NB_NONE, function(pos, nvm)
+	local text = nanobasic.pop_str(pos) or ""
+	local row = nanobasic.pop_num(pos) or 0
+	local num = nanobasic.pop_num(pos) or 0
+	local own_num = M(pos):get_string("node_number")
+	local owner = M(pos):get_string("owner")
+	if techage.not_protected(num, owner) then
+		techage.counting_add(owner, 1)
+		if row == 0 then -- add line
+			techage.send_single(own_num, num, "add", text)
+		else
+			print("dputs", row, text)
+			local payload = safer_lua.Store()
+			payload.set("row", row)
+			payload.set("str", text)
+			techage.send_single(own_num, num, "set", payload)
+		end
+	end
+	return true
+end)
+
+-- none: dclr(num: node_num)
+register_ext_function("dclr", {nanobasic.NB_NUM}, nanobasic.NB_NONE, function(pos, nvm)
+	local num = nanobasic.pop_num(pos) or 0
+	local own_num = M(pos):get_string("node_number")
+	local owner = M(pos):get_string("owner")
+	if techage.not_protected(num, owner) then
+		techage.counting_add(owner, 1)
+		techage.send_single(own_num, num, "clear", nil)
+	end
+	return true
+end)
+
+-- none: door(str: node_pos, str: state)
+register_ext_function("door", {nanobasic.NB_STR, nanobasic.NB_STR}, nanobasic.NB_NONE, function(pos, nvm)
+	local state = nanobasic.pop_str(pos) or ""
+	local spos = nanobasic.pop_str(pos) or 0
+	local doorpos = minetest.string_to_pos("(" .. spos .. ")")
+	local owner = M(pos):get_string("owner")
+	if pos then
+		local door = doors.get(doorpos)
+		if door then
+			techage.counting_add(owner, 1)
+			local player = {
+				get_player_name = function() return owner end,
+				is_player = function() return true end,
+			}
+			if state == "open" then
+				door:open(player)
+			elseif state == "close" then
+				door:close(player)
+			end
+		end
+	end
+	return true
+end)
+
+-- str: iname(str: item_name)
+register_ext_function("iname", {nanobasic.NB_STR}, nanobasic.NB_STR, function(pos, nvm)
+	local item_name = nanobasic.pop_str(pos) or ""
+	local item = minetest.registered_items[item_name]
+	if item and item.description then
+		local s = minetest.get_translated_string("en", item.description)
+		nanobasic.push_str(pos, s or "")
+	else
+		nanobasic.push_str(pos, "")
+	end
+	return true
+end)
+
+--
+-- Register user input actions: register_action(states, key, function)
+--
+register_action({"init", "stopped", "error", "break"}, "Edit", function(pos, nvm, fields)
+	nvm.status = "edit"
+	nvm.bttns = {"", "Save", "Renum", "Cancel", "Run", "", "", ""}
+	nvm.input = ""
+	return M(pos):get_string("code")
+end)
+
+register_action({"edit"}, "Save", function(pos, nvm, fields)
+	M(pos):set_string("code", fields.code)
+	return fields.code
+end)
+
+register_action({"edit"}, "Renum", function(pos, nvm, fields)
+	-- TODO: renumber code
+	return fields.code
+end)
+
+register_action({"edit"}, "Cancel", function(pos, nvm, fields)
+	nvm.status = "stopped"
+	nvm.bttns = {"Edit", "", "", "", "Run", "Stop", "", ""}
+	nvm.input = ""
+	return nanobasic.get_screen_buffer(pos) or ""
+end)
+
+register_action({"init", "edit", "stopped"}, "Run", function(pos, nvm, fields)
+	if nvm.status == "edit" then
+		M(pos):set_string("code", fields.code)
+	end
+	local code = M(pos):get_string("code")
+	if nanobasic.create(pos, code) then
+		nvm.status = "running"
+		nvm.bttns = {"", "", "", "", "", "Stop", "", ""}
+		nvm.input = ""
+		nvm.variables = nanobasic.get_variable_list(pos)
+		--print("nvm.variables", dump(nvm.variables))
+		minetest.get_node_timer(pos):start(0.2)
+		return nanobasic.get_screen_buffer(pos) or ""
+	else
+		nvm.status = "error"
+		nvm.bttns = {"Edit", "", "", "", "", "Stop", "", ""}
+		nvm.input = ""
+		return nanobasic.get_screen_buffer(pos) or ""
+	end
+end)
+
+register_action({"break"}, "Continue", function(pos, nvm, fields)
+	nvm.status = "running"
+	nvm.bttns = {"", "", "", "", "", "Stop", "", ""}
+	nvm.input = ""
+	minetest.get_node_timer(pos):start(0.2)
+	return nanobasic.get_screen_buffer(pos) or ""
+end)
+
+register_action({"break"}, "List", function(pos, nvm, fields)
+	nvm.status = "break"
+	nvm.bttns = {"", "", "", "", "", "Stop", "Continue", "List"}
+	nvm.input = InputField
+	return M(pos):get_string("code")
+end)
+
+register_action({"break"}, "Enter", function(pos, nvm, fields)
+	nvm.status = "break"
+	nvm.bttns = {"", "", "", "", "", "Stop", "Continue", "List"}
+	nvm.input = InputField
+	local s = fields.input:lower()
+	local var_name, arr_idx = s:match('^(%w+)%s*,%s*([0-9]*)$')
+	if var_name == nil then
+		 var_name, arr_idx = s, "0"
+	end
+	print("fields.input:lower()", s, var_name, arr_idx)
+	if nvm.variables[var_name] then
+		arr_idx = tonumber(arr_idx)
+		local var_type, var_idx = nvm.variables[var_name][1], nvm.variables[var_name][2]
+		print("break / Enter", var_type, var_idx, arr_idx, dump(nvm.variables[var_name]))
+		local val = nanobasic.read_variable(pos, var_type, var_idx, arr_idx)
+		if var_type == nanobasic.NB_NUM then
+			nanobasic.print(pos, string.format("%s = %u\n", var_name, val));
+		elseif var_type == nanobasic.NB_STR then
+			nanobasic.print(pos, string.format("%s = \"%s\"\n", var_name, val));
+		else
+			nanobasic.print(pos, string.format("%s(%u) = %u\n", var_name, arr_idx, val));
+		end
+	else
+		nanobasic.print(pos, string.format("Variable '%s' is unknown\n", var_name));
+	end
+	return nanobasic.get_screen_buffer(pos) or ""
+end)
+
+register_action({"stopped", "init"}, "Stop", function(pos, nvm, fields)
+	nvm.status = "init"
+	nanobasic.print(pos, "\nProgram stopped.\n")
+	nvm.bttns = Buttons
+	nvm.input = ""
+	return poweron_message(pos)
+end)
+
+register_action({"running", "input_num", "input_str"}, "Stop", function(pos, nvm, fields)
+	nvm.status = "stopped"
+	nanobasic.print(pos, "\nProgram stopped.\n")
+	nvm.bttns = {"Edit", "", "", "", "Run", "Stop", "", ""}
+	nvm.input = ""
+	return nanobasic.get_screen_buffer(pos) or ""
+end)
+
+register_action({"break", "error"}, "Stop", function(pos, nvm, fields)
+	nvm.status = "stopped"
+	nanobasic.print(pos, "\nProgram stopped.\n")
+	nvm.bttns = {"Edit", "", "", "", "Run", "Stop", "", ""}
+	nvm.input = ""
+	return nanobasic.get_screen_buffer(pos) or ""
+end)
+
+register_action(States, "larger", function(pos, nvm, fields)
+	nvm.trm_text_size = math.min((nvm.trm_text_size or 0) + 1, 8)
+	return fields.code or nanobasic.get_screen_buffer(pos) or ""
+end)
+
+register_action(States, "smaller", function(pos, nvm, fields)
+	nvm.trm_text_size = math.max((nvm.trm_text_size or 0) - 1, -8)
+	return fields.code or nanobasic.get_screen_buffer(pos) or ""
+end)
+
+register_action(States, "quit", function(pos, nvm, fields)
+	nvm.trm_ttl = 0
+	return ""
+end)
+
+register_action({"input_num"}, "Enter", function(pos, nvm, fields)
+	nanobasic.print(pos, fields.input .. "\n")
+	nanobasic.push_num(pos, tonumber(fields.input) or 0)
+	nvm.status = "running"
+	nvm.bttns = {"", "", "", "", "", "Stop", "", ""}
+	nvm.input = ""
+	minetest.get_node_timer(pos):start(0.2)
+	return nanobasic.get_screen_buffer(pos) or ""
+end)
+
+register_action({"input_str"}, "Enter", function(pos, nvm, fields)
+	nanobasic.print(pos, fields.input .. "\n")
+	nanobasic.push_str(pos, fields.input)
+	nvm.status = "running"
+	nvm.bttns = {"", "", "", "", "", "Stop", "", ""}
+	nvm.input = ""
+	minetest.get_node_timer(pos):start(0.2)
+	return nanobasic.get_screen_buffer(pos) or ""
+end)
+
+
+techage.register_node({"techage:basic_terminal"}, {
+	on_node_load = function(pos)
+		print("register_lbm")
+		nanobasic.vm_restore(pos)
+		local nvm = techage.get_nvm(pos)
+		if nvm.status == "running" then
+			minetest.get_node_timer(pos):start(0.2)
+		end
+	end,
+})
+
