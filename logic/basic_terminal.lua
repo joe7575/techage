@@ -145,6 +145,89 @@ local function poweron_message(pos)
 	return "NanoBasic V" .. ver .. "\n" .. s .. "Ready.\n"
 end
 
+-- Lines have line numbers at the beginning, like: "10 PRINT "Hello World"
+-- This function sorts the lines by the line numbers
+local function sort_lines(code)
+	local lines = {}
+	local keys = {}
+	for line in code:gmatch("[^\r\n]+") do
+		local num = tonumber(line:match("^%s*(%d+)"))
+		if num then
+			lines[num] = line
+			keys[#keys + 1] = num
+		end
+	end
+	
+	table.sort(keys)
+	
+	local sorted = {}
+	for i,num in ipairs(keys) do 
+		sorted[i] = lines[num]
+	end
+	return table.concat(sorted, "\n")
+end
+
+local function replace_all_goto_refs(lines, new_nums)
+	for num,line in pairs(lines) do
+		local goto_num = line:match("GOTO%s+(%d+)")
+		if goto_num then
+			local new_num = new_nums[goto_num]
+			if new_num then
+				lines[num] = line:gsub("GOTO%s+%d+", "GOTO " .. new_num)
+			end
+		end
+		goto_num = line:match("GOSUB%s+(%d+)")
+		if goto_num then
+			local new_num = new_nums[goto_num]
+			if new_num then
+				lines[num] = line:gsub("GOSUB%s+%d+", "GOSUB " .. new_num)
+			end
+		end
+		local goto_num = line:match("goto%s+(%d+)")
+		if goto_num then
+			local new_num = new_nums[goto_num]
+			if new_num then
+				lines[num] = line:gsub("goto%s+%d+", "goto " .. new_num)
+			end
+		end
+		goto_num = line:match("gosub%s+(%d+)")
+		if goto_num then
+			local new_num = new_nums[goto_num]
+			if new_num then
+				lines[num] = line:gsub("gosub%s+%d+", "gosub " .. new_num)
+			end
+		end
+	end
+end
+
+local function renumber_lines(code)
+	local lines = {}
+	local keys = {}
+	local new_nums = {}
+	local num = 10
+	for line in code:gmatch("[^\r\n]+") do
+		local s = line:match("^%s*(%d+)")
+		if s then
+			lines[num] = line:sub(s:len() + 1)
+			new_nums[s] = num
+			keys[#keys + 1] = num
+			num = num + 10
+		else
+			lines[num] = line
+			keys[#keys + 1] = num
+			num = num + 10
+		end
+	end
+	
+	replace_all_goto_refs(lines, new_nums)
+
+	local sorted = {}
+	for i,num in ipairs(keys) do 
+		sorted[i] = num .. lines[num]
+	end
+	return table.concat(sorted, "\n")
+end
+
 minetest.register_node("techage:basic_terminal", {
 	description = S("TA3 Terminal"),
 	tiles = {-- up, down, right, left, back, front
@@ -208,14 +291,13 @@ minetest.register_node("techage:basic_terminal", {
 
 	on_timer = function(pos, elapsed)
 		local nvm = techage.get_nvm(pos)
-		print("on_timer", nvm.status)
+		--print("on_timer", nvm.status)
 		if (nvm.timeout or 0) > minetest.get_gametime() then
 			return true
 		end
 		
 		if nvm.status == "running" then
 			local res = nanobasic.run(pos, 100)
-			print("on_timer2", res)
 			if res == nanobasic.NB_BUSY then
 				local text = nanobasic.get_screen_buffer(pos)
 				M(pos):set_string("formspec", formspec(pos, text))
@@ -359,7 +441,6 @@ end)
 -- num: cmd(num: node_num, num: cmnd, arr: payload)
 register_ext_function("bcmd", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_ARR}, nanobasic.NB_NUM, function(pos, nvm)
 	local addr = nanobasic.pop_arr_addr(pos)
-	print("bcmd", addr)
 	local payload = nanobasic.read_arr(pos, addr) or {}
 	local cmnd = nanobasic.pop_num(pos) or 0
 	local num = nanobasic.pop_num(pos) or 0
@@ -367,7 +448,7 @@ register_ext_function("bcmd", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_
 	local owner = M(pos):get_string("owner")
 	if techage.not_protected(num, owner) then
 		techage.counting_add(owner, 1)
-		local resp = techage.beduino_send_cmnd(own_num, dest_num, topic, payload)
+		local resp = techage.beduino_send_cmnd(own_num, num, cmnd, payload)
 		nanobasic.push_num(pos, resp)
 	else
 		nanobasic.push_num(pos, 4)
@@ -378,7 +459,6 @@ end)
 -- num: breq(num: node_num, num: cmnd, arr: payload)
 register_ext_function("breq", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_ARR}, nanobasic.NB_NUM, function(pos, nvm)
 	local addr = nanobasic.pop_arr_addr(pos)
-	print("bcmd", addr)
 	local payload = nanobasic.read_arr(pos, addr) or {}
 	local cmnd = nanobasic.pop_num(pos) or 0
 	local num = nanobasic.pop_num(pos) or 0
@@ -402,7 +482,6 @@ end)
 -- str: breq(num: node_num, num: cmnd, arr: payload)
 register_ext_function("breq$", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_ARR}, nanobasic.NB_STR, function(pos, nvm)
 	local addr = nanobasic.pop_arr_addr(pos)
-	print("bcmd", addr)
 	local payload = nanobasic.read_arr(pos, addr) or {}
 	local cmnd = nanobasic.pop_num(pos) or 0
 	local num = nanobasic.pop_num(pos) or 0
@@ -489,7 +568,7 @@ register_ext_function("door", {nanobasic.NB_STR, nanobasic.NB_STR}, nanobasic.NB
 end)
 
 -- str: iname(str: item_name)
-register_ext_function("iname", {nanobasic.NB_STR}, nanobasic.NB_STR, function(pos, nvm)
+register_ext_function("iname$", {nanobasic.NB_STR}, nanobasic.NB_STR, function(pos, nvm)
 	local item_name = nanobasic.pop_str(pos) or ""
 	local item = minetest.registered_items[item_name]
 	if item and item.description then
@@ -512,13 +591,15 @@ register_action({"init", "stopped", "error", "break"}, "Edit", function(pos, nvm
 end)
 
 register_action({"edit"}, "Save", function(pos, nvm, fields)
-	M(pos):set_string("code", fields.code)
-	return fields.code
+	code = sort_lines(fields.code)
+	M(pos):set_string("code", code)
+	return code
 end)
 
 register_action({"edit"}, "Renum", function(pos, nvm, fields)
-	-- TODO: renumber code
-	return fields.code
+	code = renumber_lines(fields.code)
+	M(pos):set_string("code", code)
+	return code
 end)
 
 register_action({"edit"}, "Cancel", function(pos, nvm, fields)
