@@ -95,21 +95,6 @@ local function get_number(pos, new)
 	end
 end
 
-local function not_protected(pos, placer_name, clicker_name)
-	local meta = minetest.get_meta(pos)
-	if meta then
-		if placer_name and not minetest.is_protected(pos, placer_name) then
-			if clicker_name == nil or placer_name == clicker_name then
-				return true
-			end
-			if not minetest.is_protected(pos, clicker_name) then
-				return true
-			end
-		end
-	end
-	return false
-end
-
 local function register_lbm(name, nodenames)
 	minetest.register_lbm({
 		label = "[TechAge] Node update",
@@ -351,10 +336,10 @@ end
 -- Send message functions
 -------------------------------------------------------------------
 
-function techage.not_protected(number, placer_name, clicker_name)
+function techage.not_protected(number, player_name)
 	local ninfo = NodeInfoCache[number] or update_nodeinfo(number)
 	if ninfo and ninfo.pos then
-		return not_protected(ninfo.pos, placer_name, clicker_name)
+		return not minetest.is_protected(ninfo.pos, player_name)
 	end
 	return false
 end
@@ -364,7 +349,7 @@ end
 -- and the node is not protected for the given player_name.
 function techage.check_number(number, placer_name)
 	if number then
-		if not techage.not_protected(number, placer_name, nil) then
+		if not techage.not_protected(number, placer_name) then
 			return false
 		end
 		return true
@@ -378,7 +363,7 @@ end
 function techage.check_numbers(numbers, placer_name)
 	if numbers then
 		for _,num in ipairs(string_split(numbers, " ")) do
-			if not techage.not_protected(num, placer_name, nil) then
+			if not techage.not_protected(num, placer_name) then
 				return false
 			end
 		end
@@ -471,7 +456,11 @@ function techage.beduino_request_data(src, number, topic, payload)
 		local ndef = NodeDef[ninfo.name]
 		if ndef and ndef.on_beduino_request_data then
 			techage_counting_hit()
-			return ndef.on_beduino_request_data(ninfo.pos, src, topic, payload or {})
+			if topic == 128 then
+				return 0, techage.get_node_lvm(ninfo.pos).name
+			else
+				return ndef.on_beduino_request_data(ninfo.pos, src, topic, payload or {})
+			end
 		end
 	end
 	return 1, ""

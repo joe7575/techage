@@ -110,12 +110,12 @@ local function input_panel(nvm, x, y)
 end
 
 local function get_action(nvm, fields)
-	local keys = {"Edit", "Save", "Renum", "Cancel", "Run", "Stop", "Continue", "List", "Enter"}
+	local keys = {"Edit", "Save", "Renum", "Cancel", "Run", "Stop", "Continue", "List", "Enter", "smaller", "larger"}
 	nvm.status = nvm.status or "init"
 	if nvm.status == "" then
 		nvm.status = "init"
 	end
-	--print("get_action", nvm.status, dump(fields))
+	print("get_action", nvm.status, dump(fields))
 	for _,key in ipairs(keys) do
 		if fields[key] and Actions[nvm.status] and Actions[nvm.status][key] then
 			print("get_action", nvm.status, key)
@@ -147,14 +147,21 @@ end
 
 -- Lines have line numbers at the beginning, like: "10 PRINT "Hello World"
 -- This function sorts the lines by the line numbers
-local function sort_lines(code)
+local function sort_lines(pos, nvm, code)
 	local lines = {}
 	local keys = {}
 	for line in code:gmatch("[^\r\n]+") do
 		local num = tonumber(line:match("^%s*(%d+)"))
 		if num then
+			if lines[num] then
+				nanobasic.print(pos, "Line number " .. num .. " is already used\n")
+				return
+			end
 			lines[num] = line
 			keys[#keys + 1] = num
+		else
+			nanobasic.print(pos, "Line number missing in line '" .. line .. "'\n")
+			return
 		end
 	end
 	
@@ -200,32 +207,21 @@ local function replace_all_goto_refs(lines, new_nums)
 	end
 end
 
-local function renumber_lines(code)
+local function renumber_lines(pos, nvm, code)
 	local lines = {}
-	local keys = {}
 	local new_nums = {}
 	local num = 10
 	for line in code:gmatch("[^\r\n]+") do
 		local s = line:match("^%s*(%d+)")
 		if s then
-			lines[num] = line:sub(s:len() + 1)
+			lines[#lines + 1] = num .. line:sub(s:len() + 1)
 			new_nums[s] = num
-			keys[#keys + 1] = num
-			num = num + 10
-		else
-			lines[num] = line
-			keys[#keys + 1] = num
 			num = num + 10
 		end
 	end
 	
 	replace_all_goto_refs(lines, new_nums)
-
-	local sorted = {}
-	for i,num in ipairs(keys) do 
-		sorted[i] = num .. lines[num]
-	end
-	return table.concat(sorted, "\n")
+	return table.concat(lines, "\n")
 end
 
 minetest.register_node("techage:basic_terminal", {
@@ -265,6 +261,8 @@ minetest.register_node("techage:basic_terminal", {
 		local text = poweron_message(pos)
 		nvm.trm_ttl = 0
 		nvm.status = "init"
+		nvm.bttns = Buttons
+		nvm.input = ""
 		meta:set_int("public", 0)
 		meta:set_string("formspec", formspec(pos, text))
 		if placer then
@@ -283,7 +281,8 @@ minetest.register_node("techage:basic_terminal", {
 			fields.Enter = fields.Enter or fields.key_enter_field
 			local action = get_action(nvm, fields)
 			local text = action(pos, nvm, fields)
-			if text and text ~= "" then
+			techage.set_activeformspec(pos, player)
+			if text then
 				meta:set_string("formspec", formspec(pos, text))
 			end
 		end
@@ -323,11 +322,12 @@ minetest.register_node("techage:basic_terminal", {
 				local text = nanobasic.get_screen_buffer(pos)
 				M(pos):set_string("formspec", formspec(pos, text))
 			elseif res >= nanobasic.NB_XFUNC then
-				if Functions[res] then
-					return Functions[res](pos, nvm)
+				local res = Functions[res] and Functions[res](pos, nvm) or false
+				if techage.is_activeformspec(pos) then
+					local text = nanobasic.get_screen_buffer(pos)
+					M(pos):set_string("formspec", formspec(pos, text))
 				end
-				print("Oops, error")
-				print(res, dump(Functions))
+				return res
 			else
 				print("res = ", res)
 				return false
@@ -345,6 +345,7 @@ minetest.register_node("techage:basic_terminal", {
 		else
 			text = nanobasic.get_screen_buffer(pos) or ""
 		end
+		techage.set_activeformspec(pos, clicker)
 		M(pos):set_string("formspec", formspec(pos, text))
 	end,
 
@@ -424,7 +425,7 @@ register_ext_function("cmd$", {nanobasic.NB_NUM, nanobasic.NB_STR, nanobasic.NB_
 	local num = tostring(nanobasic.pop_num(pos) or 0)
 	local own_num = M(pos):get_string("node_number")
 	local owner = M(pos):get_string("owner")
-	if techage.not_protected(num, owner) then
+	if techage.not_protected(tostring(num), owner) then
 		techage.counting_add(owner, 1)
 		local resp = techage.send_single(own_num, num, cmnd, payload)
 		if type(resp) == "string" then
@@ -446,7 +447,7 @@ register_ext_function("bcmd", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_
 	local num = nanobasic.pop_num(pos) or 0
 	local own_num = M(pos):get_string("node_number")
 	local owner = M(pos):get_string("owner")
-	if techage.not_protected(num, owner) then
+	if techage.not_protected(tostring(num), owner) then
 		techage.counting_add(owner, 1)
 		local resp = techage.beduino_send_cmnd(own_num, num, cmnd, payload)
 		nanobasic.push_num(pos, resp)
@@ -464,7 +465,8 @@ register_ext_function("breq", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_
 	local num = nanobasic.pop_num(pos) or 0
 	local own_num = M(pos):get_string("node_number")
 	local owner = M(pos):get_string("owner")
-	if techage.not_protected(num, owner) then
+	--print("breq", own_num, num, cmnd, owner)
+	if techage.not_protected(tostring(num), owner) then
 		techage.counting_add(owner, 1)
 		local sts, resp = techage.beduino_request_data(own_num, num, cmnd, payload)
 		if type(resp) == "table" then
@@ -487,16 +489,19 @@ register_ext_function("breq$", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB
 	local num = nanobasic.pop_num(pos) or 0
 	local own_num = M(pos):get_string("node_number")
 	local owner = M(pos):get_string("owner")
-	if techage.not_protected(num, owner) then
+	if techage.not_protected(tostring(num), owner) then
 		techage.counting_add(owner, 1)
 		local sts, resp = techage.beduino_request_data(own_num, num, cmnd, payload)
+		print("breq$", sts, dump(resp))
 		if type(resp) == "string" and sts == 0 then
 			nanobasic.push_str(pos, resp)
+		elseif sts > 0 then
+			nanobasic.push_str(pos, "<" .. tostring(sts) .. ">")
 		elseif type(resp) ~= "string" then
 			nanobasic.push_str(pos, "<5>")
 		end
 	else
-		nanobasic.push_str(pos, "<" .. tostring(sts) .. ">")
+		nanobasic.push_str(pos, "<4>")
 	end
 	return true
 end)
@@ -516,12 +521,11 @@ register_ext_function("dputs", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB
 	local num = nanobasic.pop_num(pos) or 0
 	local own_num = M(pos):get_string("node_number")
 	local owner = M(pos):get_string("owner")
-	if techage.not_protected(num, owner) then
+	if techage.not_protected(tostring(num), owner) then
 		techage.counting_add(owner, 1)
 		if row == 0 then -- add line
 			techage.send_single(own_num, num, "add", text)
 		else
-			print("dputs", row, text)
 			local payload = safer_lua.Store()
 			payload.set("row", row)
 			payload.set("str", text)
@@ -536,7 +540,7 @@ register_ext_function("dclr", {nanobasic.NB_NUM}, nanobasic.NB_NONE, function(po
 	local num = nanobasic.pop_num(pos) or 0
 	local own_num = M(pos):get_string("node_number")
 	local owner = M(pos):get_string("owner")
-	if techage.not_protected(num, owner) then
+	if techage.not_protected(tostring(num), owner) then
 		techage.counting_add(owner, 1)
 		techage.send_single(own_num, num, "clear", nil)
 	end
@@ -570,6 +574,7 @@ end)
 -- str: iname(str: item_name)
 register_ext_function("iname$", {nanobasic.NB_STR}, nanobasic.NB_STR, function(pos, nvm)
 	local item_name = nanobasic.pop_str(pos) or ""
+	print("iname", item_name)
 	local item = minetest.registered_items[item_name]
 	if item and item.description then
 		local s = minetest.get_translated_string("en", item.description)
@@ -591,13 +596,29 @@ register_action({"init", "stopped", "error", "break"}, "Edit", function(pos, nvm
 end)
 
 register_action({"edit"}, "Save", function(pos, nvm, fields)
-	code = sort_lines(fields.code)
+	local code = sort_lines(pos, nvm, fields.code)
+	if code == nil then
+		nvm.status = "error"
+		nvm.bttns = {"Edit", "", "", "", "", "Stop", "", ""}
+		nvm.input = ""
+		M(pos):set_string("code", fields.code)
+		return nanobasic.get_screen_buffer(pos) or ""
+	end
 	M(pos):set_string("code", code)
 	return code
 end)
 
 register_action({"edit"}, "Renum", function(pos, nvm, fields)
-	code = renumber_lines(fields.code)
+	code = sort_lines(pos, nvm, fields.code)
+	if code == nil then
+		nvm.status = "error"
+		nvm.bttns = {"Edit", "", "", "", "", "Stop", "", ""}
+		nvm.input = ""
+		M(pos):set_string("code", fields.code)
+		return nanobasic.get_screen_buffer(pos) or ""
+	end
+	code = renumber_lines(pos, nvm, code)
+	print("Renum", code)
 	M(pos):set_string("code", code)
 	return code
 end)
@@ -678,6 +699,7 @@ register_action({"stopped", "init"}, "Stop", function(pos, nvm, fields)
 	nanobasic.print(pos, "\nProgram stopped.\n")
 	nvm.bttns = Buttons
 	nvm.input = ""
+	nanobasic.clear_screen(pos)
 	return poweron_message(pos)
 end)
 
@@ -699,11 +721,13 @@ end)
 
 register_action(States, "larger", function(pos, nvm, fields)
 	nvm.trm_text_size = math.min((nvm.trm_text_size or 0) + 1, 8)
+	print("larger", nvm.trm_text_size)
 	return fields.code or nanobasic.get_screen_buffer(pos) or ""
 end)
 
 register_action(States, "smaller", function(pos, nvm, fields)
 	nvm.trm_text_size = math.max((nvm.trm_text_size or 0) - 1, -8)
+	print("smaller", nvm.trm_text_size)
 	return fields.code or nanobasic.get_screen_buffer(pos) or ""
 end)
 

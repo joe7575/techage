@@ -210,7 +210,7 @@ local function command(pos, command, player, is_ta4)
 		output(pos, "Techage version = " .. techage.version)
 	elseif cmnd == "connect" and data then
 		output(pos, "$ "..command)
-		if techage.not_protected(data, owner, owner) then
+		if techage.not_protected(data, owner) then
 			local own_num = meta:get_string("node_number")
 			local resp = techage.send_single(own_num, data, cmnd)
 			if resp then
@@ -231,7 +231,7 @@ local function command(pos, command, player, is_ta4)
 
 		num, cmnd, payload = command:match('^cmd%s+([0-9]+)%s+(%w+)%s*(.*)$')
 		if num and cmnd then
-			if techage.not_protected(num, owner, owner) then
+			if techage.not_protected(num, owner) then
 				local resp = techage.send_single(own_num, num, cmnd, payload)
 				if type(resp) == "string" then
 					output(pos, resp)
@@ -244,7 +244,7 @@ local function command(pos, command, player, is_ta4)
 
 		num, cmnd = command:match('^turn%s+([0-9]+)%s+([onf]+)$')
 		if num and (cmnd == "on" or cmnd == "off") then
-			if techage.not_protected(num, owner, owner) then
+			if techage.not_protected(num, owner) then
 				local resp = techage.send_single(own_num, num, cmnd)
 				output(pos, dump(resp))
 			end
