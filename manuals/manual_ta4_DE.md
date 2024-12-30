@@ -531,7 +531,7 @@ Beim TA4 Spieler Detektor hat sich nur das Aussehen geändert. Die Funktionalit�
 
 Der Zustandssammler fragt der Reihe nach alle konfigurierten Maschinen nach dem Status ab. Wenn eine der Maschinen einen vorkonfigurierte Status erreicht oder überschritten hat, wird ein "on" Kommando gesendet. Damit können bspw. vom einem Lua Controller aus sehr einfach viele Maschinen auf Störungen überwacht werden.
 
-### TA4 Detektor / Detector
+### TA4 Item Detektor / Item Detector
 
 Die Funktionalität ist gleich wie beim TA3 Detektor / Detector. Zusätzlich zählt der Detector aber die weitergegebenen Items. 
 Diesen Zähler kann man über das Kommando 'count' abfragen und über 'reset' zurücksetzen.

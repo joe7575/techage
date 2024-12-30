@@ -64,7 +64,7 @@ return {
     "3,TA3 Sound Block",
     "3,TA3 Mesecons Converter",
     "2,Detectors",
-    "3,TA3 Detector",
+    "3,TA3 Item Detector",
     "3,TA3 Cart Detector",
     "3,TA3 Node Detector",
     "3,TA3 Player Detector",

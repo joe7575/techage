@@ -341,7 +341,7 @@ function techage.not_protected(number, player_name)
 	if ninfo and ninfo.pos then
 		return not minetest.is_protected(ninfo.pos, player_name)
 	end
-	return false
+	return true -- node does not exist
 end
 
 -- Check the given number value.
@@ -460,6 +460,10 @@ function techage.beduino_request_data(src, number, topic, payload)
 				return 0, techage.get_node_lvm(ninfo.pos).name
 			else
 				return ndef.on_beduino_request_data(ninfo.pos, src, topic, payload or {})
+			end
+		else
+			if topic == 128 then
+				return 0, techage.get_node_lvm(ninfo.pos).name
 			end
 		end
 	end

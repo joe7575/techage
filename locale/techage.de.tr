@@ -64,6 +64,20 @@ Basalt Stone Block=Basaltsteinblock
 Basalt Stone Brick=Basaltsteinziegel
 Sieved Basalt Gravel=Basaltkies gesiebt
 
+### basic_terminal.lua ###
+### movecontroller.lua ###
+### terminal.lua ###
+
+Operational mode=Betriebsmodus
+
+### basic_terminal.lua ###
+### terminal.lua ###
+
+Access allowed for=Zugriff zulässig für
+Friends are players for whom this area is not protected=Freunde sind Spieler, für die dieser Bereich nicht geschützt ist
+Switch between TA3 terminal and BASIC computer=Umschalten zwischen TA3-Terminal und BASIC-Computer
+TA3 Terminal=TA3 Terminal
+
 ### battery.lua ###
 
 Battery=Batterie
@@ -323,9 +337,10 @@ TA2 Cylinder=TA2 Zylinder
 Counts down the number of items passed through@nand only triggers an 'on' command when it reaches zero.=Zählt die Anzahl der durchlaufenen Elemente herunter@nund löst nur dann einen 'ON'-Befehl aus, wenn er Null erreicht.
 Current countdown=Aktueller Zähler
 Current countdown value.=Aktueller Zählerwert.
+TA3 Item Detector=TA3 Item Detektor
 TA4 Collider Detector=TA4 Collider Detektor
 TA4 Collider Detector Core=TA4 Collider Detektorkern
-TA4 Detector=TA4 Detektor
+TA4 Item Detector=TA3 Item Detektor
 
 ### detector.lua ###
 ### electricmeter.lua ###
@@ -344,7 +359,6 @@ Blocking Time=Sperrzeit
 Configured Items=Konfigurierte Gegenstände
 Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Items, die einen 'on'-Kommando generieren.@nWenn leer, generieren alle übergebenen Items einen 'on'-Befehl.
 On Time=ON Zeit
-TA3 Detector=TA3 Detektor
 The time after the 'off' command@nuntil the next 'on' command is accepted.=Die Zeit nach dem 'off' Kommando,@nbis das nächste 'on' Kommando akzeptiert wird.
 The time between the 'on' and 'off' commands.=Die Zeit zwischen den 'on' und 'off' Kommandos.
 
@@ -601,6 +615,11 @@ Techage Forceload Block=Techage Forceload Block
 Techage Forceload Tile=Techage Forceload Kachel
 loaded=geladen
 
+### forceload.lua ###
+### teleport.lua ###
+
+Status=Status
+
 ### formspecs.lua ###
 
 Block has a wrench menu=Block hat ein Gabelschlüssel-Menü
@@ -642,6 +661,8 @@ TA4 Fuel Cell Stack=Brennstoffzellenstapel
 
 Furnace Top=Ofenoberteil
 Outp=Ergeb.
+Pre-Assignment Input Inv.=Vorbelegung Eingangs-Inv.
+Stack locations can be pre-assigned to specific items,@nto be filled only with those items.=Stapelplätze können für bestimmte Artikeln vorbelegt werden, um nur mit diesen Artikeln gefüllt zu werden.
 no fuel or no power=kein Strom oder Brennstoff
 
 ### gas_pipe.lua ###
@@ -979,7 +1000,6 @@ Test Mini Tank=Testminitank
 Error: Invalid distance !!=Fehler: Ungültige Entfernung !!
 Move distance=Entfernung
 Move distance (A to B)=Entfernung (A nach B)
-Operational mode=Betriebsmodus
 Switch to the remote controlled 'move xyz' mode=Wechseln in den ferngesteuerten 'move xyz'-Modus
 TA Rack and Pinion=TA Zahnstange
 TA4 Move Controller=TA4 Move Controller
@@ -1430,6 +1450,8 @@ TA5 Hyperloop Chest=TA5 Hyperloop Kiste
 
 ### ta5_pump.lua ###
 
+Operation=Betrieb
+Pump direction=Pumprichtung
 TA5 Pump=TA5 Pumpe
 
 ### ta5_tank.lua ###
@@ -1446,13 +1468,16 @@ TA4 Tank=TA4 Tank
 
 TA Tank Cart=TA Tankwagen
 
+### tele.lua ###
+
+TA3 Detector=TA3 Detektor
+
 ### teleport.lua ###
 
 Connected=Verbunden
 Connection status=Verbindungsstatus
 Distance > @1 blocks=Abstand > @1 Blöcke
 Ex-points missing (@1 < @2)=Erf.-Punkte fehlen  (@1 < @2)
-Status=Status
 server not connected=Server nicht verbunden
 
 ### teleport_pipe.lua ###
@@ -1471,7 +1496,6 @@ TA5 Teleport Block Items=TA5 Teleport Block Gegenstände
 ### terminal.lua ###
 
 Syntax error, try help=Syntax Fehler, nutze help
-TA3 Terminal=TA3 Terminal
 TA4 Terminal=TA4 Terminal
 commands like: help=Kommandos wie: help
 

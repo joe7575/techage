@@ -723,7 +723,7 @@ Detectors scan their surroundings and send an `on` command when the search is re
 [ta3_nodedetector|image]
 
 
-### TA3 Detector
+### TA3 Item Detector
 
 The detector is a special tube block that detects when items are passed on through the tube. To do this, it must be connected to tubes on both sides. If items are pushed into the detector with a pusher, they are automatically passed on.
 It sends an `on` when an item is recognized, followed by an `off` a second later.

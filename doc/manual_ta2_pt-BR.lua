@@ -253,7 +253,7 @@ return {
     "techage:ta2_clutch_off",
     "",
     "tube",
-    "concentrador",
+    "concentrator",
     "ta2_pusher",
     "ta2_distributor",
     "",

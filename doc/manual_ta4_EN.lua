@@ -51,7 +51,7 @@ return {
     "3,TA4 4x Signal Lamp",
     "3,TA4 Player Detector",
     "3,TA4 State Collector",
-    "3,TA4 Detector",
+    "3,TA4 Item Detector",
     "3,TA4 Node Detector",
     "3,TA4 Energy Storage Charge Detector",
     "3,TA4 Gaze Sensor",
@@ -476,7 +476,7 @@ return {
     "\n"..
     "The status collector queries all configured machines in turn for the status. If one of the machines has reached or exceeded a preconfigured status\\, an \"on\" command is sent. For example\\, many machines can be easily monitored for faults from a Lua controller.\n"..
     "\n",
-    "The functionality is the same as for the TA3 detector. In addition\\, the detector counts the items passed on.\n"..
+    "The functionality is the same as for the TA3 item detector. In addition\\, the detector counts the items passed on.\n"..
     "This counter can be queried with the 'count' command and reset with 'reset'.\n"..
     "\n"..
     "\n"..

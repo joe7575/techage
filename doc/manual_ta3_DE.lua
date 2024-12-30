@@ -64,7 +64,7 @@ return {
     "3,TA3 Sound Block",
     "3,TA3 Mesecons Umsetzer / TA3 Mesecons Converter",
     "2,Detektoren",
-    "3,TA3 Detektor / Detector",
+    "3,TA3 Item Detektor / Item Detector",
     "3,TA3 Wagen Detektor / Cart Detector",
     "3,TA3 Block Detektor / Node Detector",
     "3,TA3 Spieler Detektor / Player Detector",
@@ -632,7 +632,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Der Detektor ist eine spezieller Röhrenblock\\, der erkennt\\, wenn Items über die Röhre weitergegeben werden. Es muss dazu auf beiden Seiten mit der Röhre verbunden sein. Werden Items mit einem Schieber in den Detektor geschoben\\, gibt er diese automatisch weiter.\n"..
+    "Der Item Detektor ist eine spezieller Röhrenblock\\, der erkennt\\, wenn Items über die Röhre weitergegeben werden. Es muss dazu auf beiden Seiten mit der Röhre verbunden sein. Werden Items mit einem Schieber in den Detektor geschoben\\, gibt er diese automatisch weiter.\n"..
     "Er sendet ein 'on'\\, wenn ein Item erkannt wird\\, gefolgt von einem 'off' eine Sekunde später.\n"..
     "Danach werden weitere Kommando für 8 Sekunden blockiert.\n"..
     "Die Wartezeit\\, sowie die Items\\, die ein Kommando auslösen sollen\\, können über das Gabelschlüssel-Menü konfiguriert werden.\n"..

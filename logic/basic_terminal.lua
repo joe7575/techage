@@ -20,6 +20,15 @@ local Functions = {}
 local Actions = {}
 local Buttons = {"Edit", "Save", "Renum", "Cancel", "Run", "Stop", "Continue", "List"}
 local States = {"init", "edit", "stopped", "running", "error", "input_str", "input_num", "break"}
+local ErrorStr = {
+	[1] = "Node not found",
+	[2] = "Command not supported",
+	[3] = "Command failed",
+	[4] = "Access denied",
+	[5] = "Wrong response type",
+	[6] = "Wrong number of parameters",
+}
+
 local InputField = "style_type[field;textcolor=#FFFFFF]" ..
 	"field[1.5,0.8;7.4,0.7;input;;]" ..
 	"field_close_on_enter[input;false]" ..
@@ -190,7 +199,7 @@ local function replace_all_goto_refs(lines, new_nums)
 				lines[num] = line:gsub("GOSUB%s+%d+", "GOSUB " .. new_num)
 			end
 		end
-		local goto_num = line:match("goto%s+(%d+)")
+		goto_num = line:match("goto%s+(%d+)")
 		if goto_num then
 			local new_num = new_nums[goto_num]
 			if new_num then
@@ -213,10 +222,12 @@ local function renumber_lines(pos, nvm, code)
 	local num = 10
 	for line in code:gmatch("[^\r\n]+") do
 		local s = line:match("^%s*(%d+)")
-		if s then
+		if s and tonumber(s) < 65000 then
 			lines[#lines + 1] = num .. line:sub(s:len() + 1)
 			new_nums[s] = num
 			num = num + 10
+		else
+			lines[#lines + 1] = line
 		end
 	end
 	
@@ -381,6 +392,47 @@ minetest.register_node("techage:basic_terminal", {
 --
 -- Register VM external/callback functions
 --
+local function get_num_param(pos, num_param)
+	local payload2 = 0
+	local payload1 = 0
+	local cmnd, num, owner, own_num
+
+	if num_param == 4 then
+		payload2 = nanobasic.pop_num(pos) or 0
+	end
+	if num_param >= 3 then
+		payload1 = nanobasic.pop_num(pos) or 0
+	end
+	cmnd = nanobasic.pop_num(pos)
+	num = nanobasic.pop_num(pos) or 0
+	owner = M(pos):get_string("owner")
+	own_num = M(pos):get_string("node_number")
+	return owner, num, own_num, {payload1, payload2}
+end
+
+local function get_str_param(pos, num_param)
+	local payload1 = ""
+	local cmnd, num, owner, own_num
+
+	if num_param == 3 then
+		payload1 = nanobasic.pop_str(pos) or ""
+	end	
+	cmnd = nanobasic.pop_num(pos)
+	num = nanobasic.pop_num(pos) or 0
+	owner = M(pos):get_string("owner")
+	own_num = M(pos):get_string("node_number")
+	return owner, num, own_num, payload1
+end
+
+local function error_handling(pos, sts)
+	local nvm = techage.get_nvm(pos)
+	if sts > 0 and nvm.error_label_addr and nvm.error_label_addr > 0 then
+		local err = ErrorStr[sts] or "unknown error"
+		nanobasic.push_str(pos, err)
+		nanobasic.set_pc(pos, nvm.error_label_addr)
+	end
+end
+
 register_ext_function("input", {nanobasic.NB_STR}, nanobasic.NB_NUM, function(pos, nvm)
 	nvm.status = "input_num"
 	local s = nanobasic.pop_str(pos)
@@ -418,90 +470,83 @@ register_ext_function("time", {}, nanobasic.NB_NUM, function(pos, nvm)
 	return true
 end)
 
--- str: cmd$(num: node_num, str: cmnd, str: payload)
-register_ext_function("cmd$", {nanobasic.NB_NUM, nanobasic.NB_STR, nanobasic.NB_STR}, nanobasic.NB_STR, function(pos, nvm)
-	local payload = nanobasic.pop_str(pos) or ""
-	local cmnd = nanobasic.pop_str(pos) or ""
-	local num = tostring(nanobasic.pop_num(pos) or 0)
-	local own_num = M(pos):get_string("node_number")
-	local owner = M(pos):get_string("owner")
-	if techage.not_protected(tostring(num), owner) then
-		techage.counting_add(owner, 1)
-		local resp = techage.send_single(own_num, num, cmnd, payload)
-		if type(resp) == "string" then
-			nanobasic.push_str(pos, resp)
-		else
-			nanobasic.push_str(pos, dump(resp))
+-- num: cmd(num: node_num, num: cmnd, any: pyld1, any: pyld2)
+register_ext_function("cmd", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_ANY, nanobasic.NB_ANY}, nanobasic.NB_NUM, function(pos, nvm)
+	local num_param = nanobasic.stack_depth(pos)
+	if num_param >= 2 and num_param <= 4 then
+		local cmnd = nanobasic.peek_num(pos, num_param - 1) or 0
+		if cmnd < 64 then -- command with payload as number(s)
+			local owner, num, own_num, payload = get_num_param(pos, num_param)
+			if techage.not_protected(tostring(num), owner) then
+				techage.counting_add(owner, 1)
+				local sts, resp = techage.beduino_send_cmnd(own_num, num, cmnd, payload)
+				nanobasic.push_num(pos, sts)
+				error_handling(pos, sts)
+			else
+				nanobasic.push_num(pos, 4)
+				error_handling(pos, 4)
+			end
+		elseif cmnd < 128 then -- command with payload as string
+			local owner, num, own_num, payload = get_str_param(pos, num_param)
+			if techage.not_protected(tostring(num), owner) then
+				techage.counting_add(owner, 1)
+				local sts, resp = techage.beduino_send_cmnd(own_num, num, cmnd, payload)
+				nanobasic.push_num(pos, sts)
+				error_handling(pos, sts)
+			else
+				nanobasic.push_num(pos, 4)
+				error_handling(pos, 4)
+			end
+		else -- request with payload as number(s) and result as number
+			local owner, num, own_num, payload = get_num_param(pos, num_param)
+			if techage.not_protected(tostring(num), owner) then
+				techage.counting_add(owner, 1)
+				local sts, resp = techage.beduino_request_data(own_num, num, cmnd, payload)
+				print("cmd resp", sts, dump(resp))
+				if type(resp) == "table" then
+					nanobasic.push_num(pos, resp[1] or 0)
+				else
+					nanobasic.push_num(pos, 5)
+					sts = 5
+				end
+				error_handling(pos, sts)
+			else
+				nanobasic.push_num(pos, 4)
+				error_handling(pos, 4)
+			end
 		end
 	else
-		nanobasic.push_str(pos, "protected")
+		nanobasic.push_num(pos, 6)
+		error_handling(pos, 6)
 	end
 	return true
 end)
 
--- num: cmd(num: node_num, num: cmnd, arr: payload)
-register_ext_function("bcmd", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_ARR}, nanobasic.NB_NUM, function(pos, nvm)
-	local addr = nanobasic.pop_arr_addr(pos)
-	local payload = nanobasic.read_arr(pos, addr) or {}
-	local cmnd = nanobasic.pop_num(pos) or 0
-	local num = nanobasic.pop_num(pos) or 0
-	local own_num = M(pos):get_string("node_number")
-	local owner = M(pos):get_string("owner")
-	if techage.not_protected(tostring(num), owner) then
-		techage.counting_add(owner, 1)
-		local resp = techage.beduino_send_cmnd(own_num, num, cmnd, payload)
-		nanobasic.push_num(pos, resp)
-	else
-		nanobasic.push_num(pos, 4)
-	end
-	return true
-end)
-
--- num: breq(num: node_num, num: cmnd, arr: payload)
-register_ext_function("breq", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_ARR}, nanobasic.NB_NUM, function(pos, nvm)
-	local addr = nanobasic.pop_arr_addr(pos)
-	local payload = nanobasic.read_arr(pos, addr) or {}
-	local cmnd = nanobasic.pop_num(pos) or 0
-	local num = nanobasic.pop_num(pos) or 0
-	local own_num = M(pos):get_string("node_number")
-	local owner = M(pos):get_string("owner")
-	--print("breq", own_num, num, cmnd, owner)
-	if techage.not_protected(tostring(num), owner) then
-		techage.counting_add(owner, 1)
-		local sts, resp = techage.beduino_request_data(own_num, num, cmnd, payload)
-		if type(resp) == "table" then
-			nanobasic.write_arr(pos, addr, resp)
-			nanobasic.push_num(pos, sts)
-		else
-			nanobasic.push_num(pos, 5)
+-- str: cmd(num: node_num, num: cmnd, any: pyld1, any: pyld2)
+register_ext_function("cmd$", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_ANY, nanobasic.NB_ANY}, nanobasic.NB_STR, function(pos, nvm)
+	local num_param = nanobasic.stack_depth(pos)
+	if num_param >= 2 and num_param <= 4 then
+		local cmnd = nanobasic.peek_num(pos, num_param - 1) or 0
+		if cmnd >= 128 then -- request with payload as number(s) and result as string
+			local owner, num, own_num, payload = get_num_param(pos, num_param)
+			if techage.not_protected(tostring(num), owner) then
+				techage.counting_add(owner, 1)
+				local sts, resp = techage.beduino_request_data(own_num, num, cmnd, payload)
+				if type(resp) == "string" then
+					nanobasic.push_str(pos, resp)
+				else
+					nanobasic.push_str(pos, "")
+					sts = 5
+				end
+				error_handling(pos, sts)
+			else
+				nanobasic.push_str(pos, "")
+				error_handling(pos, 4)
+			end
 		end
 	else
-		nanobasic.push_num(pos, 4)
-	end
-	return true
-end)
-
--- str: breq(num: node_num, num: cmnd, arr: payload)
-register_ext_function("breq$", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_ARR}, nanobasic.NB_STR, function(pos, nvm)
-	local addr = nanobasic.pop_arr_addr(pos)
-	local payload = nanobasic.read_arr(pos, addr) or {}
-	local cmnd = nanobasic.pop_num(pos) or 0
-	local num = nanobasic.pop_num(pos) or 0
-	local own_num = M(pos):get_string("node_number")
-	local owner = M(pos):get_string("owner")
-	if techage.not_protected(tostring(num), owner) then
-		techage.counting_add(owner, 1)
-		local sts, resp = techage.beduino_request_data(own_num, num, cmnd, payload)
-		print("breq$", sts, dump(resp))
-		if type(resp) == "string" and sts == 0 then
-			nanobasic.push_str(pos, resp)
-		elseif sts > 0 then
-			nanobasic.push_str(pos, "<" .. tostring(sts) .. ">")
-		elseif type(resp) ~= "string" then
-			nanobasic.push_str(pos, "<5>")
-		end
-	else
-		nanobasic.push_str(pos, "<4>")
+		nanobasic.push_str(pos, "")
+		error_handling(pos, 6)
 	end
 	return true
 end)
@@ -609,7 +654,7 @@ register_action({"edit"}, "Save", function(pos, nvm, fields)
 end)
 
 register_action({"edit"}, "Renum", function(pos, nvm, fields)
-	code = sort_lines(pos, nvm, fields.code)
+	local code = sort_lines(pos, nvm, fields.code)
 	if code == nil then
 		nvm.status = "error"
 		nvm.bttns = {"Edit", "", "", "", "", "Stop", "", ""}
@@ -640,6 +685,7 @@ register_action({"init", "edit", "stopped"}, "Run", function(pos, nvm, fields)
 		nvm.bttns = {"", "", "", "", "", "Stop", "", ""}
 		nvm.input = ""
 		nvm.variables = nanobasic.get_variable_list(pos)
+		nvm.error_label_addr = nanobasic.get_label_address(pos, "65000") or 0
 		--print("nvm.variables", dump(nvm.variables))
 		minetest.get_node_timer(pos):start(0.2)
 		return nanobasic.get_screen_buffer(pos) or ""

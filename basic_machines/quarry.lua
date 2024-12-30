@@ -231,6 +231,7 @@ local function quarry_task(pos, crd, nvm)
 		end
 	end
 	crd.State:stop(pos, nvm, S("finished"))
+	stop_sound(pos)
 end
 
 local function keep_running(pos, elapsed)

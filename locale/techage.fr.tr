@@ -64,6 +64,20 @@ Basalt Stone Block=Bloc de pierre de basalte
 Basalt Stone Brick=Brique de pierre de basalte
 Sieved Basalt Gravel=Gravier de basalte tamisé
 
+### basic_terminal.lua ###
+### movecontroller.lua ###
+### terminal.lua ###
+
+Operational mode=
+
+### basic_terminal.lua ###
+### terminal.lua ###
+
+Access allowed for=
+Friends are players for whom this area is not protected=
+Switch between TA3 terminal and BASIC computer=
+TA3 Terminal=Terminal TA3
+
 ### battery.lua ###
 
 Battery=Batterie
@@ -323,9 +337,10 @@ TA2 Cylinder=Cylindre TA2
 Counts down the number of items passed through@nand only triggers an 'on' command when it reaches zero.=
 Current countdown=
 Current countdown value.=
+TA3 Item Detector=
 TA4 Collider Detector=
 TA4 Collider Detector Core=
-TA4 Detector=Détecteur TA4
+TA4 Item Detector=
 
 ### detector.lua ###
 ### electricmeter.lua ###
@@ -344,7 +359,6 @@ Blocking Time=
 Configured Items=
 Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=
 On Time=
-TA3 Detector=Détecteur TA3
 The time after the 'off' command@nuntil the next 'on' command is accepted.=
 The time between the 'on' and 'off' commands.=
 
@@ -601,6 +615,11 @@ Techage Forceload Block=Bloc de Forceload Techage
 Techage Forceload Tile=Tuile de Forceload Techage
 loaded=chargé
 
+### forceload.lua ###
+### teleport.lua ###
+
+Status=
+
 ### formspecs.lua ###
 
 Block has a wrench menu=
@@ -642,6 +661,8 @@ TA4 Fuel Cell Stack=Empilement de cellules à combustible TA4
 
 Furnace Top=Haut du fourneau
 Outp=
+Pre-Assignment Input Inv.=
+Stack locations can be pre-assigned to specific items,@nto be filled only with those items.=
 no fuel or no power=pas de carburant ou pas d'électricité
 
 ### gas_pipe.lua ###
@@ -979,7 +1000,6 @@ Test Mini Tank=
 Error: Invalid distance !!=
 Move distance=
 Move distance (A to B)=
-Operational mode=
 Switch to the remote controlled 'move xyz' mode=
 TA Rack and Pinion=
 TA4 Move Controller=
@@ -1430,6 +1450,8 @@ TA5 Hyperloop Chest=
 
 ### ta5_pump.lua ###
 
+Operation=
+Pump direction=
 TA5 Pump=
 
 ### ta5_tank.lua ###
@@ -1446,13 +1468,16 @@ TA4 Tank=Citerne TA4
 
 TA Tank Cart=Chariot-citerne TA
 
+### tele.lua ###
+
+TA3 Detector=Détecteur TA3
+
 ### teleport.lua ###
 
 Connected=
 Connection status=
 Distance > @1 blocks=
 Ex-points missing (@1 < @2)=
-Status=
 server not connected=
 
 ### teleport_pipe.lua ###
@@ -1471,7 +1496,6 @@ TA5 Teleport Block Items=
 ### terminal.lua ###
 
 Syntax error, try help=Erreur de syntaxe, essayez l'aide
-TA3 Terminal=Terminal TA3
 TA4 Terminal=
 commands like: help=commandes comme: aide
 
@@ -1581,6 +1605,7 @@ TA4 Collider Detector Worker=
 
 ##### not used anymore #####
 
+TA4 Detector=Détecteur TA4
 TA3 Akku Box=TA3 Boite Akku
 No plan available=Aucun plan disponible
 Side view=Vue de côté

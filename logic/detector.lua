@@ -127,8 +127,8 @@ local function after_place_node3(pos, placer)
 	local meta = M(pos)
 	local inv = meta:get_inventory()
 	inv:set_size('cfg', 4)
-	logic.after_place_node(pos, placer, "techage:ta3_detector_off", S("TA3 Detector"))
-	logic.infotext(meta, S("TA3 Detector"))
+	logic.after_place_node(pos, placer, "techage:ta3_detector_off", S("TA3 Item Detector"))
+	logic.infotext(meta, S("TA3 Item Detector"))
 	meta:set_string("formspec", formspec(meta))
 end
 
@@ -136,8 +136,8 @@ local function after_place_node4(pos, placer)
 	local meta = M(pos)
 	local inv = meta:get_inventory()
 	inv:set_size('cfg', 4)
-	logic.after_place_node(pos, placer, "techage:ta4_detector_off", S("TA4 Detector"))
-	logic.infotext(meta, S("TA4 Detector"))
+	logic.after_place_node(pos, placer, "techage:ta4_detector_off", S("TA4 Item Detector"))
+	logic.infotext(meta, S("TA4 Item Detector"))
 	meta:set_string("formspec", formspec(meta))
 end
 
@@ -175,7 +175,7 @@ local function ta_after_formspec(pos, fields, playername)
 end
 
 minetest.register_node("techage:ta3_detector_off", {
-	description = S("TA3 Detector"),
+	description = S("TA3 Item Detector"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta3.png^techage_frame_ta3_top.png^techage_appl_arrow.png",
@@ -203,7 +203,7 @@ minetest.register_node("techage:ta3_detector_off", {
 
 
 minetest.register_node("techage:ta3_detector_on", {
-	description = S("TA3 Detector"),
+	description = S("TA3 Item Detector"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta3.png^techage_frame_ta3_top.png^techage_appl_arrow.png",
@@ -228,7 +228,7 @@ minetest.register_node("techage:ta3_detector_on", {
 })
 
 minetest.register_node("techage:ta4_detector_off", {
-	description = S("TA4 Detector"),
+	description = S("TA4 Item Detector"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_arrow.png",
@@ -257,7 +257,7 @@ minetest.register_node("techage:ta4_detector_off", {
 
 
 minetest.register_node("techage:ta4_detector_on", {
-	description = S("TA4 Detector"),
+	description = S("TA4 Item Detector"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_arrow.png",

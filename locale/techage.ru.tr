@@ -64,6 +64,20 @@ Basalt Stone Block=Блок базальтового камня
 Basalt Stone Brick=Базальтовый кирпич
 Sieved Basalt Gravel=Просеянный базальтовый камень
 
+### basic_terminal.lua ###
+### movecontroller.lua ###
+### terminal.lua ###
+
+Operational mode=Рабочий режим
+
+### basic_terminal.lua ###
+### terminal.lua ###
+
+Access allowed for=
+Friends are players for whom this area is not protected=
+Switch between TA3 terminal and BASIC computer=
+TA3 Terminal=TA3 Терминал
+
 ### battery.lua ###
 
 Battery=Батарея
@@ -323,9 +337,10 @@ TA2 Cylinder=TA2 Цилиндр
 Counts down the number of items passed through@nand only triggers an 'on' command when it reaches zero.=Считает количество проходящих предметов@nи включается когда количество достигает нуля.
 Current countdown=Кол-во предметов которое должно пройти
 Current countdown value.=Кол-во прошедших предметов
+TA3 Item Detector=
 TA4 Collider Detector=TA4 Детектор коллайдера
 TA4 Collider Detector Core=TA4 Ядро детектора коллайдера
-TA4 Detector=TA4 Детектор
+TA4 Item Detector=
 
 ### detector.lua ###
 ### electricmeter.lua ###
@@ -344,7 +359,6 @@ Blocking Time=Время блокировки
 Configured Items=Настроенные предметы
 Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Предметы, которые генерируют команду 'on' (включить).@nЕсли пусто, все прошедшие предметы генерируют команду 'on'.
 On Time=Вовремя
-TA3 Detector=TA3 Детектор
 The time after the 'off' command@nuntil the next 'on' command is accepted.=Время после команды 'off' до приема следующей команды 'on'.
 The time between the 'on' and 'off' commands.=Промежуток времени между командами 'on' (включить) и 'off' (выключить).
 
@@ -591,12 +605,20 @@ TA2 Flywheel=TA2 Маховик
 ### forceload.lua ###
 
 Area already loaded or max. number of Forceload Blocks reached!=Зона уже загружена или достигнуто максимальное количество блоков загрузки!
+Area from=
+Area to=
+Block at pos=
 List of your Forceload Blocks:=Список ваших блоков загрузки:
 Punch the block to make the area visible.=Ударьте блок, что бы сделать зону видимой.
 Show all forceload blocks in a 64x64x64 range=Показать все блоки загрузки в диапазоне 64x64x64.
 Techage Forceload Block=Techage Блок загрузки
 Techage Forceload Tile=Techage Плитка загрузки
 loaded=загружено
+
+### forceload.lua ###
+### teleport.lua ###
+
+Status=Статус
 
 ### formspecs.lua ###
 
@@ -639,6 +661,8 @@ TA4 Fuel Cell Stack=TA4 Блок топливных элементов
 
 Furnace Top=Верхняя часть печи
 Outp=Результат
+Pre-Assignment Input Inv.=
+Stack locations can be pre-assigned to specific items,@nto be filled only with those items.=
 no fuel or no power=нет топлива или нет энергии
 
 ### gas_pipe.lua ###
@@ -976,7 +1000,6 @@ Test Mini Tank=Тестовый мини резервуар
 Error: Invalid distance !!=Ошибка: Неправильное расстояние!!
 Move distance=Расстояние перемещения
 Move distance (A to B)=Расстояние перемещения (из А в Б)
-Operational mode=Рабочий режим
 Switch to the remote controlled 'move xyz' mode=Переключиться в режим 'move xyz'
 TA Rack and Pinion=TA Реечная передача
 TA4 Move Controller=TA4 Контроллер движения
@@ -1427,6 +1450,8 @@ TA5 Hyperloop Chest=TA5 Hyperloop сундук
 
 ### ta5_pump.lua ###
 
+Operation=
+Pump direction=
 TA5 Pump=TA5 Насос
 
 ### ta5_tank.lua ###
@@ -1443,13 +1468,16 @@ TA4 Tank=TA4 Резервуар
 
 TA Tank Cart=TA Вагонетка с резервуаром
 
+### tele.lua ###
+
+TA3 Detector=TA3 Детектор
+
 ### teleport.lua ###
 
 Connected=Соединен
 Connection status=Статус соединения
 Distance > @1 blocks=Расстояние > @1 блоков
 Ex-points missing (@1 < @2)=Очки опыта отсутствуют (@1 < @2)
-Status=Статус
 server not connected=сервер не соединен
 
 ### teleport_pipe.lua ###
@@ -1468,7 +1496,6 @@ TA5 Teleport Block Items=TA5 Блок для телепортирования п
 ### terminal.lua ###
 
 Syntax error, try help=Синтаксическая ошибка, попробуйте написать help
-TA3 Terminal=TA3 Терминал
 TA4 Terminal=TA4 Терминал
 commands like: help=команды как: help
 
@@ -1574,3 +1601,8 @@ Remove detector=Убрать детектор
 TA4 Collider Detector Worker=TA4 Построитель детектора коллайдера
 [TA4] Detector is being built!=[TA4] Детектор был построен!
 [TA4] Detector is being removed!=[TA4] Детектор был удален!
+
+
+##### not used anymore #####
+
+TA4 Detector=TA4 Детектор

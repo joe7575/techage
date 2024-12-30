@@ -522,9 +522,9 @@ Only the appearance of the TA4 player detector has changed. The functionality is
 
 The status collector queries all configured machines in turn for the status. If one of the machines has reached or exceeded a preconfigured status, an "on" command is sent. For example, many machines can be easily monitored for faults from a Lua controller.
 
-### TA4 Detector
+### TA4 Item Detector
 
-The functionality is the same as for the TA3 detector. In addition, the detector counts the items passed on.
+The functionality is the same as for the TA3 item detector. In addition, the detector counts the items passed on.
 This counter can be queried with the 'count' command and reset with 'reset'.
 
 [ta4_detector|image]

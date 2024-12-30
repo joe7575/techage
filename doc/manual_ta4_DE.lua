@@ -51,7 +51,7 @@ return {
     "3,TA4 4x Signallampe / 4x Signal Lamp",
     "3,TA4 Spieler Detektor / Player Detector",
     "3,TA4 Zustandssammler / State Collector",
-    "3,TA4 Detektor / Detector",
+    "3,TA4 Item Detektor / Item Detector",
     "3,TA4 Block Detektor / Node Detector",
     "3,TA4 Energiespeicher-Ladungsdetektor / Energy Storage Charge Detector",
     "3,TA4 Blicksensor / Gaze Sensor",
