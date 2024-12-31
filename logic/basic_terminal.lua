@@ -315,12 +315,14 @@ minetest.register_node("techage:basic_terminal", {
 				nvm.status = "error"
 				nvm.bttns = {"Edit", "", "", "", "", "Stop", "", ""}
 				nvm.input = ""
+				nvm.timeout = 0
 				local text = nanobasic.get_screen_buffer(pos)
 				M(pos):set_string("formspec", formspec(pos, text))
 			elseif res == nanobasic.NB_END then
 				nvm.status = "stopped"
 				nvm.bttns = {"Edit", "", "", "", "Run", "Stop", "", ""}
 				nvm.input = ""
+				nvm.timeout = 0
 				local text = nanobasic.get_screen_buffer(pos)
 				M(pos):set_string("formspec", formspec(pos, text))
 			elseif res == nanobasic.NB_BREAK then
@@ -329,6 +331,7 @@ minetest.register_node("techage:basic_terminal", {
 				nvm.status = "break"
 				nvm.bttns = {"", "", "", "", "", "Stop", "Continue", "List"}
 				nvm.input = InputField
+				nvm.timeout = 0
 				local text = nanobasic.get_screen_buffer(pos)
 				M(pos):set_string("formspec", formspec(pos, text))
 			elseif res >= nanobasic.NB_XFUNC then
@@ -378,12 +381,11 @@ minetest.register_node("techage:basic_terminal", {
 
 	ta3_formspec = WRENCH_MENU,
 	drop = "techage:terminal2",
-	not_in_creative_inventory = 1,
 	paramtype = "light",
 	use_texture_alpha = "clip",
 	sunlight_propagates = true,
 	paramtype2 = "facedir",
-	groups = {choppy=2, cracky=2, crumbly=2},
+	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
 })
@@ -698,6 +700,7 @@ register_action({"init", "edit", "stopped"}, "Run", function(pos, nvm, fields)
 		nvm.input = ""
 		nvm.variables = nanobasic.get_variable_list(pos)
 		nvm.error_label_addr = nanobasic.get_label_address(pos, "65000") or 0
+		nvm.timeout = 0
 		minetest.get_node_timer(pos):start(0.2)
 		return nanobasic.get_screen_buffer(pos) or ""
 	else

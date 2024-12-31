@@ -26,6 +26,22 @@ local ProbabilityCorrections = {
 	["techage:baborium_lump"] = 99999,  -- mining required
 }
 
+local function wherein(item)
+	if type(item.wherein) == "table" then
+		for _,v in ipairs(item.wherein) do
+			if v == "default:stone" then
+				return true
+			end
+			if v == "everness:forsaken_desert_stone" then
+				return true
+			end
+		end
+		return false
+	else
+		return item.wherein == "default:stone"
+	end
+end
+
 -- collect all registered ores and calculate the probability
 local function add_ores()
 	for _,item in  pairs(minetest.registered_ores) do
@@ -35,7 +51,7 @@ local function add_ores()
 			and drop ~= item.ore
 			and drop ~= ""
 			and item.ore_type == "scatter"
-			and item.wherein == "default:stone"
+			and wherein(item)
 			and item.clust_scarcity ~= nil and item.clust_scarcity > 0
 			and item.clust_num_ores ~= nil and item.clust_num_ores > 0
 			and item.y_max ~= nil and item.y_min ~= nil then

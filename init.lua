@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2024 Joachim Stolberg
+	Copyright (C) 2019-2025 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 1.18
+techage.version = 1.19
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")

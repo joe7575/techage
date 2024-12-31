@@ -27,7 +27,7 @@ In the worst case, the server crashes.**
 
 
 ### License
-Copyright (C) 2019-2023 Joachim Stolberg
+Copyright (C) 2019-2025 Joachim Stolberg
 Code: Licensed under the GNU AGPL version 3 or later. See LICENSE.txt  
 Textures: CC BY-SA 3.0
 
@@ -39,8 +39,8 @@ Many thanks to Thomas-S, niklp09, and others for their contributions
 
 ### Dependencies  
 Required: default, doors, bucket, stairs, screwdriver, basic_materials, tubelib2, networks, minecart, lcdlib, safer_lua, doclib  
-Recommended: signs_bot, hyperloop, compost, techpack_stairway, autobahn  
-Optional: unified_inventory, wielded_light, unifieddyes, lua-mashal, lsqlite3, moreores, ethereal, mesecon
+Recommended: signs_bot, hyperloop, compost, techpack_stairway, autobahn, nanobasic  
+Optional: unified_inventory, wielded_light, unifieddyes, lua-mashal, lsqlite3, moreores, ethereal, mesecon, everness
 
 
 The mods `default`, `doors`, `bucket`, `stairs`, and `screwdriver` are part of Minetest Game.
@@ -63,6 +63,7 @@ It is highly recommended that you install the following mods, too:
 * [techpack_stairway](https://github.com/joe7575/techpack_stairway): Ladders, stairways, and bridges for your machines
 * [autobahn](https://github.com/joe7575/autobahn): Street blocks and slopes with stripes for faster traveling
 * [ta4_jetpack](https://github.com/joe7575/ta4_jetpack): A Jetpack with hydrogen as fuel and TA4 recipe
+* [nanobasic](https://github.com/joe7575/nanobasic-mod): To upgrade the TA3 terminal to a BASIC computer
 
 More recommended Techage related mods by other authors:
 
@@ -94,6 +95,19 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 **Never disable 'lsqlite3' for a world that has already been used!**
 
 ### History
+
+**2024-12-31 V1.19**
+
+- Add Everness support #187 (ore sieving)
+- Add BASIC mode to TA3 terminal
+- Improve russian translation (z-op)
+- Many bug fixes by Niklp09, joe7575, and others
+- Add pre-assignment menu to the furnace
+- Improve recording for move/fly/turn controllers
+- Allow to move the TA4 terminal with the assembly tool
+- Add aluminum recipes for techpack_stairway items (jfanjoy)
+- Change forceload block menu
+
 
 **2023-11-05 V1.18**
 
