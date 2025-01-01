@@ -553,7 +553,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "The terminal is primarily used to test the command interface of other blocks (see \"Logic / switching blocks\").\n"..
+    "The terminal is primarily used to test the command interface of other blocks (see \"Logic / switching blocks\")\\, as well as for the automation of systems using the BASIC programming language.\n"..
     "You can also assign commands to keys and use the terminal productively.\n"..
     "\n"..
     "    set <button-num> <button-text> <command>\n"..
@@ -570,6 +570,8 @@ return {
     "In private mode\\, the terminal can only be used by players who can build at this location\\, i.e. who have protection rights.\n"..
     "\n"..
     "In public mode\\, all players can use the preconfigured keys.\n"..
+    "\n"..
+    "You can switch to BASIC mode using the open-ended wrench menu. You can find more information about BASIC mode here\n"..
     "\n"..
     "\n"..
     "\n",

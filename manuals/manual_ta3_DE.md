@@ -629,7 +629,7 @@ Der Timer kann Kommandos Spielzeit-gesteuert senden. Für jede Kommandozeile kan
 
 ### TA3 Terminal
 
-Das Terminal dient in erster Linie zum Austesten der Kommandoschnittstelle anderer Blöcke (siehe "Logik-/Schalt-Blöcke").
+Das Terminal dient in erster Linie zum Austesten der Kommandoschnittstelle anderer Blöcke (siehe "Logik-/Schalt-Blöcke"), sowie zur Automatisierung von Anlagen mit Hilfe der Programmiersprache BASIC.
 Man kann aber auch Kommandos auf Tasten legen und so das Terminal produktiv nutzen.
 
     set <button-num> <button-text> <command>
@@ -643,6 +643,8 @@ Das Terminal besitzt folgende, lokalen Kommandos:
 - `priv` schalte in den privaten Modus um
 
 Im privaten Modus (private) kann das Terminal nur von Spielern verwendet werden, die an diesem Ort bauen können, also Protection Rechte besitzen. Im öffentlichen Modus (public) können alle Spieler die vorkonfigurierten Tasten verwenden.
+
+Über das Gabelschlüssel-Menü kann in den BASIC-Mode umgeschaltet werden. Weitere Infos zum BASIC-Mode findest du [hier](https://github.com/joe7575/techage/tree/master/manuals/ta3_terminal.md)
 
 [ta3_terminal|image]
 
@@ -733,7 +735,6 @@ Der Item Detektor ist eine spezieller Röhrenblock, der erkennt, wenn Items übe
 Er sendet ein `on`, wenn ein Item erkannt wird, gefolgt von einem `off` eine Sekunde später.
 Danach werden weitere Kommando für 8 Sekunden blockiert.
 Die Wartezeit, sowie die Items, die ein Kommando auslösen sollen, können über das Gabelschlüssel-Menü konfiguriert werden.
-
 
 [ta3_detector|image]
 

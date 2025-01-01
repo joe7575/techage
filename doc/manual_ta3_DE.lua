@@ -553,7 +553,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Das Terminal dient in erster Linie zum Austesten der Kommandoschnittstelle anderer Blöcke (siehe \"Logik-/Schalt-Blöcke\").\n"..
+    "Das Terminal dient in erster Linie zum Austesten der Kommandoschnittstelle anderer Blöcke (siehe \"Logik-/Schalt-Blöcke\")\\, sowie zur Automatisierung von Anlagen mit Hilfe der Programmiersprache BASIC.\n"..
     "Man kann aber auch Kommandos auf Tasten legen und so das Terminal produktiv nutzen.\n"..
     "\n"..
     "    set <button-num> <button-text> <command>\n"..
@@ -568,6 +568,8 @@ return {
     "  - 'priv' schalte in den privaten Modus um\n"..
     "\n"..
     "Im privaten Modus (private) kann das Terminal nur von Spielern verwendet werden\\, die an diesem Ort bauen können\\, also Protection Rechte besitzen. Im öffentlichen Modus (public) können alle Spieler die vorkonfigurierten Tasten verwenden.\n"..
+    "\n"..
+    "Über das Gabelschlüssel-Menü kann in den BASIC-Mode umgeschaltet werden. Weitere Infos zum BASIC-Mode findest du hier\n"..
     "\n"..
     "\n"..
     "\n",

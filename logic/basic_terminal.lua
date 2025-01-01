@@ -131,7 +131,7 @@ local function get_action(nvm, fields)
 		end
 	end
 	return function(pos, nvm, fields)
-			return ""
+			return
 		end
 end
 

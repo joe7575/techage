@@ -629,7 +629,7 @@ The timer can send commands time-controlled. The time, the target number(s) and 
 
 ### TA3 Terminal
 
-The terminal is primarily used to test the command interface of other blocks (see "Logic / switching blocks").
+The terminal is primarily used to test the command interface of other blocks (see "Logic / switching blocks"), as well as for the automation of systems using the BASIC programming language.
 You can also assign commands to keys and use the terminal productively.
 
     set <button-num> <button-text> <command>
@@ -645,6 +645,8 @@ The terminal has the following local commands:
 In private mode, the terminal can only be used by players who can build at this location, i.e. who have protection rights.
 
 In public mode, all players can use the preconfigured keys.
+
+You can switch to BASIC mode using the open-ended wrench menu. You can find more information about BASIC mode [here](https://github.com/joe7575/techage/tree/master/manuals/ta3_terminal.md)
 
 [ta3_terminal|image]
 
