@@ -245,8 +245,13 @@ local function determine_recipe_items(pos, input)
 		-- Test if "<node-number>.<recipe-number>" input
 		num, idx = unpack(string.split(input, ".", false, 1))
 	elseif input and type(input) == "table" then  -- Beduino
-		num = tostring(input[1] * 65536 + input[2])
-		idx = tostring(input[3])
+		if input[3] == 0 then -- TA3 Terminal Basic
+			num = tostring(input[1])
+			idx = tostring(input[2])
+		else -- 16 bit Beduino controller
+			num = tostring(input[1] * 65536 + input[2])
+			idx = tostring(input[3])
+		end
 	end
 
 	if num and idx then
