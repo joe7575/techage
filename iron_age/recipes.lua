@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2025 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -118,13 +118,16 @@ local function register_liquid(source, flowing, itemname, inventory_image, name,
 				end
 
 				-------------------------------- Start Modification
---				minetest.set_node(lpos, {name = source})
-				if source == "default:lava_source" and lpos.y > 0 and not minetest.is_singleplayer() then
-				   minetest.chat_send_player(user:get_player_name(), S("[Bucket] Lava can only be placed below sea level!"))
-				   return
+				if techage.disable_lava_above_sea_level then
+					if source == "default:lava_source" and lpos.y > 0 and not minetest.is_singleplayer() then
+					   minetest.chat_send_player(user:get_player_name(), S("[Bucket] Lava can only be placed below sea level!"))
+					   return
+					else
+						-- see "basis/lib.lua" techage.is_ocean(pos)
+						minetest.set_node(lpos, {name = source, param2 = 1})
+					end
 				else
-					-- see "basis/lib.lua" techage.is_ocean(pos)
-				    minetest.set_node(lpos, {name = source, param2 = 1})
+					minetest.set_node(lpos, {name = source, param2 = 1})
 				end
 				-------------------------------- End Modification
 				return ItemStack("bucket:bucket_empty")

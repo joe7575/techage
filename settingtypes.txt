@@ -41,3 +41,6 @@ techage_recipe_checker_enabled (test techage recipes) bool false
 
 # Enables stair aliases (to prevent unknown nodes)
 techage_stair_aliases_enabled (Enable stair aliases) bool false
+
+# Disable lava above sea level (to prevent griefing)
+techage_disable_lava_above_sea_level (Disable lava above sea level) bool true

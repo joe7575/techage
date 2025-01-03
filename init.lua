@@ -57,6 +57,7 @@ techage.modified_recipes_enabled = minetest.settings:get_bool("techage_modified_
 techage.collider_min_depth = tonumber(minetest.settings:get("techage_collider_min_depth")) or -28
 techage.recipe_checker_enabled = minetest.settings:get_bool("techage_recipe_checker_enabled") ~= false
 techage.stair_aliases_enabled = minetest.settings:get_bool("techage_stair_aliases_enabled") ~= false
+techage.disable_lava_above_sea_level = minetest.settings:get_bool("techage_disable_lava_above_sea_level") ~= false
 
 -- allow to load marshal and sqlite3
 techage.IE = minetest.request_insecure_environment()
