@@ -145,9 +145,10 @@ if techage.modified_recipes_enabled then
 		output = "default:bronze_ingot",
 		type = "crafting",
 	})
+	-- delete cooking iron lumps into steel ingots
 	minetest.clear_craft({
-		output = "default:steel_ingot",
 		type = "cooking",
+		recipe = "default:iron_lump",
 	})
 	minetest.clear_craft({output = "fire:flint_and_steel"})
 	minetest.clear_craft({output = "bucket:bucket_empty"})

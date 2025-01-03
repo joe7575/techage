@@ -151,10 +151,10 @@ techage.furnace.register_recipe({
 if minetest.global_exists("moreores") then
 
 	if techage.modified_recipes_enabled then
-		-- delete cooking iron lumps into steel ingots
+		-- delete cooking mithril lumps into mithril ingots
 		minetest.clear_craft({
 			type = "cooking",
-			recipe = "default:iron_lump",
+			recipe = "moreores:mithril_lump",
 		})
 		-- delete cooking silver lumps into silver ingots
 		minetest.clear_craft({
