@@ -33,6 +33,8 @@ examples are written in lower case letters.
 
 ### Hello World
 
+The following example prints "Hello World!" to the terminal.
+
 ```basic
 10 for i=1 to 10
 20 print "Hello World!"

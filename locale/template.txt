@@ -424,6 +424,7 @@ Recording...=
 ### movecontroller.lua ###
 
 Reset=
+Show positions=
 
 ### drillbox.lua ###
 

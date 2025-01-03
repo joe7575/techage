@@ -26,7 +26,7 @@ local function unmark_position(name, pos)
 			item.entity:remove()
 			table.remove(MarkedNodes[name], idx)
 			CurrentPos = pos
-			return
+			return true
 		end
 	end
 end
@@ -57,10 +57,15 @@ end
 function marker.get_poslist(name)
 	local idx = 0
 	local lst = {}
+	local hashlist = {}
 	for _,item in ipairs(MarkedNodes[name] or {}) do
-		table.insert(lst, item.pos)
-		idx = idx + 1
-		if idx >= MAX_NUM then break end
+		local hash = minetest.hash_node_position(item.pos)
+		if not hashlist[hash] then
+			table.insert(lst, item.pos)
+			hashlist[hash] = true
+			idx = idx + 1
+			if idx >= MAX_NUM then break end
+		end
 	end
 	return lst
 end
@@ -87,6 +92,16 @@ function marker.stop(name)
 	MaxNumber[name] = nil
 end
 
+function marker.mark_positions(name, lpos, ttl)
+	for _,pos in ipairs(lpos or {}) do
+		local entity = minetest.add_entity(pos, "techage:block_marker")
+		if entity ~= nil then
+			entity:get_luaentity().player_name = name
+			entity:get_luaentity().ttl = ttl
+		end
+	end
+end
+
 minetest.register_on_leaveplayer(function(ObjectRef, timed_out)
 	if ObjectRef and ObjectRef:is_player() then
 		local name = ObjectRef:get_player_name()
@@ -110,19 +125,20 @@ minetest.register_entity(":techage:block_marker", {
 		visual_size = {x=1.1, y=1.1},
 		collisionbox = {-0.55,-0.55,-0.55, 0.55,0.55,0.55},
 		glow = 8,
+		static_save = false,
 	},
 	on_step = function(self, dtime)
 		self.ttl = (self.ttl or 2400) - 1
 		if self.ttl <= 0 then
 			local pos = self.object:get_pos()
-			unmark_position(self.player_name, pos)
+			if not unmark_position(self.player_name, pos) then self.object:remove() end
 		end
 	end,
 	on_punch = function(self, hitter)
 		local pos = self.object:get_pos()
 		local name = hitter:get_player_name()
 		if name == self.player_name then
-			unmark_position(name, pos)
+			if not unmark_position(self.player_name, pos) then self.object:remove() end
 		end
 	end,
 })

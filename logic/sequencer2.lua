@@ -59,6 +59,8 @@ local WRENCH_MENU = {
 	},
 }
 
+local delayed_start = false
+
 local function cycle_time(pos)
 	local mem = techage.get_mem(pos)
 	if not mem.cycletime then
@@ -208,6 +210,16 @@ local function restart_timer(pos, ticks)
 	timer:start(ticks * cycle_time(pos))
 end
 
+local function start_delayed(pos, sec)
+	local timer = minetest.get_node_timer(pos)
+	if timer:is_started() then
+		timer:stop()
+	end
+	local nvm = techage.get_nvm(pos)
+	nvm.running = true
+	timer:start(sec)
+end
+
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	if nvm.running then
@@ -329,7 +341,7 @@ local INFO = [[Commands: 'goto <num>', 'stop', 'on', 'off']]
 techage.register_node({"techage:ta4_sequencer"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		if (topic == "goto" or topic == "on") and not nvm.running then
+		if (topic == "goto" or topic == "on") and not nvm.running and not delayed_start then
 			local mem = techage.get_mem(pos)
 			nvm.running = true
 			mem.idx = tonumber(payload or 1) or 1
@@ -348,7 +360,7 @@ techage.register_node({"techage:ta4_sequencer"}, {
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		if topic == 13 then
-			if payload[1] ~= 0 and not nvm.running then
+			if payload[1] ~= 0 and not nvm.running and not delayed_start then
 				local mem = techage.get_mem(pos)
 				nvm.running = true
 				mem.idx = tonumber(payload or 1) or 1
@@ -364,4 +376,23 @@ techage.register_node({"techage:ta4_sequencer"}, {
 		end
 		return 2
 	end,
+	on_node_load = function(pos, node)
+		local nvm = techage.get_nvm(pos)
+		if nvm.running and delayed_start then
+			nvm.running = false
+			minetest.get_node_timer(pos):stop()
+			minetest.after(30, function(pos)
+				local nvm = techage.get_nvm(pos)
+				nvm.running = true
+				minetest.get_node_timer(pos):start(1)
+			end, pos)
+		end
+	end,
 })
+
+core.register_on_mods_loaded(function()
+	delayed_start = true
+	minetest.after(30, function()
+		delayed_start = false
+	end)
+end)

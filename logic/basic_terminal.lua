@@ -15,6 +15,7 @@
 local M = minetest.get_meta
 local S = techage.S
 local SCREENSAVER_TIME = 60 * 5
+local CYCLE_TIME = 0.2
 
 local Functions = {}
 local Actions = {}
@@ -301,7 +302,8 @@ minetest.register_node("techage:basic_terminal", {
 	on_timer = function(pos, elapsed)
 		local nvm = techage.get_nvm(pos)
 		--print("on_timer", nvm.status)
-		if (nvm.timeout or 0) > minetest.get_gametime() then
+		if nvm.ttl and nvm.ttl > 1 then
+			nvm.ttl = nvm.ttl - 1
 			return true
 		end
 		
@@ -315,14 +317,14 @@ minetest.register_node("techage:basic_terminal", {
 				nvm.status = "error"
 				nvm.bttns = {"Edit", "", "", "", "", "Stop", "", ""}
 				nvm.input = ""
-				nvm.timeout = 0
+				nvm.ttl = nil
 				local text = nanobasic.get_screen_buffer(pos)
 				M(pos):set_string("formspec", formspec(pos, text))
 			elseif res == nanobasic.NB_END then
 				nvm.status = "stopped"
 				nvm.bttns = {"Edit", "", "", "", "Run", "Stop", "", ""}
 				nvm.input = ""
-				nvm.timeout = 0
+				nvm.ttl = nil
 				local text = nanobasic.get_screen_buffer(pos)
 				M(pos):set_string("formspec", formspec(pos, text))
 			elseif res == nanobasic.NB_BREAK then
@@ -331,7 +333,7 @@ minetest.register_node("techage:basic_terminal", {
 				nvm.status = "break"
 				nvm.bttns = {"", "", "", "", "", "Stop", "Continue", "List"}
 				nvm.input = InputField
-				nvm.timeout = 0
+				nvm.ttl = nil
 				local text = nanobasic.get_screen_buffer(pos)
 				M(pos):set_string("formspec", formspec(pos, text))
 			elseif res >= nanobasic.NB_XFUNC then
@@ -472,7 +474,7 @@ end)
 
 register_ext_function("sleep", {nanobasic.NB_NUM}, nanobasic.NB_NONE, function(pos, nvm)
 	local t = nanobasic.pop_num(pos) or 0
-	nvm.timeout = minetest.get_gametime() + t
+	nvm.ttl = t / CYCLE_TIME
 	local text = nanobasic.get_screen_buffer(pos)
 	M(pos):set_string("formspec", formspec(pos, text))
 	return true
@@ -700,8 +702,8 @@ register_action({"init", "edit", "stopped"}, "Run", function(pos, nvm, fields)
 		nvm.input = ""
 		nvm.variables = nanobasic.get_variable_list(pos)
 		nvm.error_label_addr = nanobasic.get_label_address(pos, "65000") or 0
-		nvm.timeout = 0
-		minetest.get_node_timer(pos):start(0.2)
+		nvm.ttl = nil
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
 		return nanobasic.get_screen_buffer(pos) or ""
 	else
 		nvm.status = "error"
@@ -715,7 +717,7 @@ register_action({"break"}, "Continue", function(pos, nvm, fields)
 	nvm.status = "running"
 	nvm.bttns = {"", "", "", "", "", "Stop", "", ""}
 	nvm.input = ""
-	minetest.get_node_timer(pos):start(0.2)
+	minetest.get_node_timer(pos):start(CYCLE_TIME)
 	return nanobasic.get_screen_buffer(pos) or ""
 end)
 
@@ -798,7 +800,7 @@ register_action({"input_num"}, "Enter", function(pos, nvm, fields)
 	nvm.status = "running"
 	nvm.bttns = {"", "", "", "", "", "Stop", "", ""}
 	nvm.input = ""
-	minetest.get_node_timer(pos):start(0.2)
+	minetest.get_node_timer(pos):start(CYCLE_TIME)
 	return nanobasic.get_screen_buffer(pos) or ""
 end)
 
@@ -808,7 +810,7 @@ register_action({"input_str"}, "Enter", function(pos, nvm, fields)
 	nvm.status = "running"
 	nvm.bttns = {"", "", "", "", "", "Stop", "", ""}
 	nvm.input = ""
-	minetest.get_node_timer(pos):start(0.2)
+	minetest.get_node_timer(pos):start(CYCLE_TIME)
 	return nanobasic.get_screen_buffer(pos) or ""
 end)
 
@@ -818,7 +820,7 @@ techage.register_node({"techage:basic_terminal"}, {
 		nanobasic.vm_restore(pos)
 		local nvm = techage.get_nvm(pos)
 		if nvm.status == "running" then
-			minetest.get_node_timer(pos):start(0.2)
+			minetest.get_node_timer(pos):start(CYCLE_TIME)
 		end
 	end,
 })

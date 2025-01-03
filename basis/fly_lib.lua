@@ -60,6 +60,7 @@ local function set_node(item, playername)
 				minetest.set_node(dest_pos, {name=name, param2=param2})
 				meta:from_table(item.metadata or {})
 				meta:set_string("ta_move_block", "")
+				--  Protect the doors from being opened by hand
 				meta:set_int("ta_door_locked", 1)
 			end
 			return
@@ -623,6 +624,7 @@ end
 -- for the attached object (player).
 local function multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2to1)
 	local owner = meta:get_string("owner")
+	local running = false
 	techage.counting_add(owner, #lmove, #nvm.lpos1 * #lmove)
 
 	for idx = 1, #nvm.lpos1 do
@@ -660,9 +662,12 @@ local function multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2t
 			end
 			return false
 		end
+		running = true
 	end
-	meta:set_string("status", S("Running"))
-	return true
+	if running then
+		meta:set_string("status", S("Running"))
+	end
+	return running
 end
 
 -- Move the nodes from lpos1 to lpos2.
@@ -681,11 +686,12 @@ local function move_nodes(pos, meta, lpos1, move, max_speed, height)
 
 		local pos1 = lpos1[idx]
 		local pos2 = vector.add(lpos1[idx], move)
-		lpos2[idx] = pos2
+		lpos2[idx] = pos1
 
 		if not minetest.is_protected(pos1, owner) and not minetest.is_protected(pos2, owner) then
 			if is_simple_node(pos1) and is_valid_dest(pos2) then
 				move_node(pos, meta, pos1, {move}, max_speed, height)
+				lpos2[idx] = pos2
 			else
 				if not is_simple_node(pos1) then
 					meta:set_string("status", S("No valid node at the start position"))
@@ -829,7 +835,7 @@ function flylib.move_to_other_pos(pos, move2to1)
 	return nvm.running
 end
 
--- `move` the movement as a vector
+-- `move` is the movement as a vector
 function flylib.move_to(pos, move)
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
@@ -857,11 +863,19 @@ function flylib.reset_move(pos)
 	if nvm.running then return false end
 	if meta:get_string("teleport_mode") == "enable" then return false end
 
-	if nvm.lpos1 and nvm.lpos1[1] then
-		local move = vector.subtract(nvm.lpos1[1], (nvm.lastpos or nvm.lpos1)[1])
-
-		nvm.running, nvm.lastpos = move_nodes(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed, height)
-		return nvm.running
+	if nvm.moveBA then -- A/B mode has no nvm.lastpos
+		if nvm.lpos2 and nvm.lpos2[1] then
+			local move = vector.subtract(nvm.lpos2[1], nvm.lpos1[1])
+			nvm.running, nvm.lastpos = move_nodes(pos, meta, nvm.lpos2, move, max_speed, height)
+			return nvm.running
+		end
+	else
+		if nvm.lpos1 and nvm.lpos1[1] then
+			local move = vector.subtract(nvm.lpos1[1], (nvm.lastpos or nvm.lpos2)[1])
+			local lpos = nvm.lastpos or nvm.lpos1
+			nvm.running, nvm.lastpos = move_nodes(pos, meta, lpos, move, max_speed, height)
+			return nvm.running
+		end
 	end
 	return false
 end

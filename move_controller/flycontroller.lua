@@ -258,6 +258,7 @@ techage.register_node({"techage:ta5_flycontroller"}, {
 	end,
 	on_node_load = function(pos, node)
 		M(pos):set_string("status", "")
+		techage.get_nvm(pos).running = false
 	end,
 })
 

@@ -424,6 +424,7 @@ Recording...=Aufzeichnung...
 ### movecontroller.lua ###
 
 Reset=Rücksetzen
+Show positions=Positionen anzeigen
 
 ### drillbox.lua ###
 
@@ -1601,6 +1602,3 @@ Remove detector=Entferne Detektor
 TA4 Collider Detector Worker=TA4 Collider Detektor Worker
 [TA4] Detector is being built!=[TA4] Detektor wird gebaut! 
 [TA4] Detector is being removed!=[TA4] Detektor wird  entfernt!
-
-
-##### not used anymore #####

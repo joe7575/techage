@@ -63,26 +63,29 @@ local function formspec(nvm, meta)
 	local path = minetest.formspec_escape(meta:contains("path") and meta:get_string("path") or "0,3,0")
 	local buttons
 	if meta:get_string("opmode") == "move xyz" then
-		buttons = "field[0.4,2.5;3.8,1;path;" .. S("Move distance") .. ";" .. path .. "]" ..
-			"button_exit[4.1,2.2;3.8,1;move2;" .. S("Move") .. "]" ..
-			"button_exit[0.1,3.3;3.8,1;reset;" .. S("Reset") .. "]"
+		buttons = "field[0.4,2.3;3.8,1;path;" .. S("Move distance") .. ";" .. path .. "]" ..
+			"button_exit[4.1,2.0;3.8,1;move2;" .. S("Move") .. "]" ..
+			"button_exit[0.1,3.0;3.8,1;reset;" .. S("Reset") .. "]" ..
+			"button[4.1,3.0;3.8,1;show;" .. S("Show positions") .. "]"
 	else
-		buttons = "field[0.4,2.5;3.8,1;path;" .. S("Move distance (A to B)") .. ";" .. path .. "]" ..
-			"button_exit[0.1,3.3;3.8,1;moveAB;" .. S("Move A-B") .. "]" ..
-			"button_exit[4.1,3.3;3.8,1;moveBA;" .. S("Move B-A") .. "]" ..
-			"button[4.1,2.2;3.8,1;store;" .. S("Store") .. "]"
+		buttons = "field[0.4,2.3;3.8,1;path;" .. S("Move distance (A to B)") .. ";" .. path .. "]" ..
+			"button_exit[0.1,3.0;3.8,1;moveAB;" .. S("Move A-B") .. "]" ..
+			"button_exit[4.1,3.0;3.8,1;moveBA;" .. S("Move B-A") .. "]" ..
+			"button[4.1,2.0;3.8,1;store;" .. S("Store") .. "]" ..
+			"button[0.1,4.0;3.8,1;show;" .. S("Show positions") .. "]" ..
+			"button_exit[4.1,4.0;3.8,1;reset;" .. S("Reset") .. "]"
 	end
-	return "size[8,5]" ..
+	return "size[8,5.5]" ..
 		default.gui_bg ..
 		default.gui_bg_img ..
 		default.gui_slots ..
 		"box[0,-0.1;7.2,0.5;#c6e8ff]" ..
 		"label[0.2,-0.1;" .. minetest.colorize( "#000000", S("TA4 Move Controller")) .. "]" ..
 		techage.wrench_image(7.4, -0.05) ..
-		"button[0.1,0.8;3.8,1;record;" .. S("Record") .. "]" ..
-		"button[4.1,0.8;3.8,1;done;" .. S("Done") .. "]" ..
+		"button[0.1,0.7;3.8,1;record;" .. S("Record") .. "]" ..
+		"button[4.1,0.7;3.8,1;done;" .. S("Done") .. "]" ..
 		buttons ..
-		"label[0.3,4.3;" .. status .. "]"
+		"label[0.3,5.0;" .. status .. "]"
 end
 
 minetest.register_node("techage:ta4_movecontroller", {
@@ -175,6 +178,9 @@ minetest.register_node("techage:ta4_movecontroller", {
 			end
 		elseif fields.reset then
 			fly.reset_move(pos)
+		elseif fields.show then
+			local name = player:get_player_name()
+			mark.mark_positions(name, nvm.lpos1, 300)
 		end
 	end,
 
@@ -263,6 +269,7 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 	on_node_load = function(pos, node)
 		M(pos):set_string("teleport_mode", "") -- delete not working (legacy) op mode
 		M(pos):set_string("status", "")
+		techage.get_nvm(pos).running = false
 	end,
 })
 

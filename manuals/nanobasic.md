@@ -1465,6 +1465,7 @@ As payload data, these commands may require numeric values or a string value.
 | DC2 Exchange Block       | 9  | 0, idx     | TA3 Door Controller II (techage:ta3_doorcontroller2). Exchange a block<br>`idx` is the inventory slot number (1..n) |
 | DC2 Set Block            | 9  | 1, idx     | TA3 Door Controller II (techage:ta3_doorcontroller2). Set/add a block<br>`idx` is the inventory slot number (1..n) with the block to be set |
 | DC2 Dig Block            | 9  | 2, idx     | TA3 Door Controller II (techage:ta3_doorcontroller2). Dig/remove a block<br>`idx` is the empty inventory slot number (1..n) for the block |
+| DC2 Reset                | 9  | 3          | TA3 Door Controller II (techage:ta3_doorcontroller2). Reset the door controller |
 | Autocrafter              | 10 | num, idx   | Set the TA4 Autocrafter recipe with a recipe from a TA4 Recipe Block.<br>`num` is the TA4 Recipe Block number<br>`idx` is the number of the recipe in the TA4 Recipe Block |
 | Autocrafter              | 11 | -          | Move all items from input inventory to output inventory. Returns 1 if the input inventory was emptied in the process. Otherwise return 0 |
 | Move Contr. 1            | 11 | 1          | TA4 Move Controller command to move the block(s) from position A to B |
