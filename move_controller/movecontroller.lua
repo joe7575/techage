@@ -66,13 +66,13 @@ local function formspec(nvm, meta)
 		buttons = "field[0.4,2.3;3.8,1;path;" .. S("Move distance") .. ";" .. path .. "]" ..
 			"button_exit[4.1,2.0;3.8,1;move2;" .. S("Move") .. "]" ..
 			"button_exit[0.1,3.0;3.8,1;reset;" .. S("Reset") .. "]" ..
-			"button[4.1,3.0;3.8,1;show;" .. S("Show positions") .. "]"
+			"button_exit[4.1,3.0;3.8,1;show;" .. S("Show positions") .. "]"
 	else
 		buttons = "field[0.4,2.3;3.8,1;path;" .. S("Move distance (A to B)") .. ";" .. path .. "]" ..
 			"button_exit[0.1,3.0;3.8,1;moveAB;" .. S("Move A-B") .. "]" ..
 			"button_exit[4.1,3.0;3.8,1;moveBA;" .. S("Move B-A") .. "]" ..
 			"button[4.1,2.0;3.8,1;store;" .. S("Store") .. "]" ..
-			"button[0.1,4.0;3.8,1;show;" .. S("Show positions") .. "]" ..
+			"button_exit[0.1,4.0;3.8,1;show;" .. S("Show positions") .. "]" ..
 			"button_exit[4.1,4.0;3.8,1;reset;" .. S("Reset") .. "]"
 	end
 	return "size[8,5.5]" ..
@@ -82,7 +82,7 @@ local function formspec(nvm, meta)
 		"box[0,-0.1;7.2,0.5;#c6e8ff]" ..
 		"label[0.2,-0.1;" .. minetest.colorize( "#000000", S("TA4 Move Controller")) .. "]" ..
 		techage.wrench_image(7.4, -0.05) ..
-		"button[0.1,0.7;3.8,1;record;" .. S("Record") .. "]" ..
+		"button_exit[0.1,0.7;3.8,1;record;" .. S("Record") .. "]" ..
 		"button[4.1,0.7;3.8,1;done;" .. S("Done") .. "]" ..
 		buttons ..
 		"label[0.3,5.0;" .. status .. "]"
@@ -117,6 +117,7 @@ minetest.register_node("techage:ta4_movecontroller", {
 			nvm.lpos1 = {}
 			nvm.lpos2 = {}
 			nvm.moveBA = false
+			nvm.recording = true
 			nvm.running = nil
 			nvm.lastpos = nil
 			meta:set_string("status", S("Recording..."))
@@ -125,7 +126,8 @@ minetest.register_node("techage:ta4_movecontroller", {
 			mark.unmark_all(name)
 			mark.start(name, MAX_BLOCKS)
 			meta:set_string("formspec", formspec(nvm, meta))
-		elseif fields.done then
+		elseif fields.done and nvm.recording then
+			nvm.recording = false
 			local name = player:get_player_name()
 			local pos_list = mark.get_poslist(name)
 			if fly.to_vector(fields.path or "", MAX_DIST) then

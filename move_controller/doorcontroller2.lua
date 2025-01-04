@@ -93,11 +93,11 @@ local function formspec1(nvm, meta)
 	local play_sound = dump(nvm.play_sound or false)
 	return "size[8,7]"..
 		"tabheader[0,0;tab;"..S("Ctrl,Inv")..";1;;true]"..
-		"button[0.7,0.0;3,1;record;"..S("Record").."]"..
+		"button_exit[0.7,0.0;3,1;record;"..S("Record").."]"..
 		"button[4.3,0.0;3,1;ready;"..S("Done").."]"..
-		"button[0.7,0.9;3,1;reset;"..S("Reset").."]"..
-		"button[4.3,0.9;3,1;exchange;"..S("Exchange").."]"..
-		"button[0.7,1.8;3,1;show;"..S("Show positions").."]"..
+		"button_exit[0.7,0.9;3,1;reset;"..S("Reset").."]"..
+		"button_exit[4.3,0.9;3,1;exchange;"..S("Exchange").."]"..
+		"button_exit[0.7,1.8;3,1;show;"..S("Show positions").."]"..
 		"checkbox[4.3,1.8;play_sound;"..S("with door sound")..";"..play_sound.."]"..
 		"label[0.5,2.8;"..status.."]"..
 		"list[current_player;main;0,3.3;8,4;]"
