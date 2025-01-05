@@ -1172,9 +1172,13 @@ Hole size=
 Quarry=
 Start level=
 Start level @= 0@nmeans the same level@nas the quarry is placed=
+inventory full=
+
+### quarry.lua ###
+### waterremover.lua ###
+
 area is protected=
 finished=
-inventory full=
 
 ### reboiler.lua ###
 
@@ -1581,6 +1585,17 @@ TA1 Watermill=
 
 TA4 Water Pump=TA4 Pompe à eau
 Water Pump=Pompe à eau
+
+### waterremover.lua ###
+
+Area depth=
+Area size=
+Area where the water is to be removed=
+Current depth=
+Current working depth of the water remover=
+Depth of the area where the water is to be removed (1-80)=
+Water Remover=
+tank full=
 
 ### windturbine_lib.lua ###
 

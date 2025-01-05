@@ -89,6 +89,7 @@ return {
     "3,TA4 Kiessieb / Gravel Sieve",
     "3,TA4 Mühle / Grinder",
     "3,TA4 Steinbrecher / Quarry",
+    "3,TA4 Wasserentferner / Water Remover",
     "3,TA4 Elektronikfabrik / Electronic Fab",
     "3,TA4 Injektor / Injector",
     "3,TA4 Recycler",
@@ -837,6 +838,20 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "Der Wasserentferner entfernt Wasser aus einer Fläche von bis zu 21 x 21 x 80 m.\n"..
+    "Der Hauptzweck ist die Entwässerung von Höhlen. Er kann aber auch verwendet werden\\, um ein Loch ins Meer zu „bohren“.\n"..
+    "\n"..
+    "Der Wasserentferner benötigt Strom und eine Rohrverbindung zu einem Flüssigkeitstank.\n"..
+    "\n"..
+    "Der Wasserentferner wird am höchsten Punkt der Höhle platziert und entfernt das Wasser\n"..
+    "aus der Höhle zum tiefsten Punkt. Der Wasserentferner gräbt alle zwei Sekunden einen Wasserblock. \n"..
+    "Das Gerät benötigt 10 Ku Strom.\n"..
+    "\n"..
+    "Technisch gesehen ersetzt der Wasserentferner die Wasserblöcke durch einen speziellen Luftblock\\,\n"..
+    "der nicht sichtbar und nicht begehbar ist\\, aber verhindert\\, dass das Wasser zurückfließt.\n"..
+    "\n"..
+    "\n"..
+    "\n",
     "Die Funktion entspricht der von TA2\\, nur werden hier verschiedene Chips produziert.\n"..
     "Die Verarbeitungsleistung beträgt ein Chip alle 6 s. Der Block benötigt hierfür 12 ku Strom.\n"..
     "\n"..
@@ -951,6 +966,7 @@ return {
     "ta4_gravelsieve",
     "ta4_grinder",
     "ta4_quarry",
+    "ta4_waterremover",
     "ta4_electronicfab",
     "ta4_injector",
     "ta4_recycler",
@@ -1027,6 +1043,7 @@ return {
     "ta4_cooler",
     "",
     "techage_collider_plan2",
+    "",
     "",
     "",
     "",

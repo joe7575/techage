@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2022 Joachim Stolberg
+	Copyright (C) 2019-2025 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -38,9 +38,15 @@ end
 
 
 -- generate the formspec string to be placed into a container frame
-local function generate_formspec_substring(pos, meta, form_def, player_name)
+local function generate_formspec_substring(pos, meta, form_def, player_name, width, no_note)
 	local tbl = {}
 	local player_inv_needed = false
+	width = width or "10"
+	local xpos1 = tostring(tonumber(width) / 2 - 0.25)
+	local xpos2 = tostring(tonumber(width) / 2)
+	local xpos3 = tostring(tonumber(width) / 2 + 0.3)
+	local xpos4 = tostring(tonumber(width) / 2 + 0.5)
+	local xsize = tostring(tonumber(width) / 2)
 	if meta and form_def then
 		local nvm = techage.get_nvm(pos)
 
@@ -56,9 +62,9 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 					val = meta:get_int(elem.name)
 				end
 				if nvm.running or techage.is_running(nvm) then
-					tbl[#tbl+1] = "label[4.75," .. offs .. ";" .. val .. "]"
+					tbl[#tbl+1] = "label[" .. xpos1 .. "," .. offs .. ";" .. val .. "]"
 				else
-					tbl[#tbl+1] = "field[5," .. (offs+0.2) .. ";5.3,1;" .. elem.name .. ";;" .. val .. "]"
+					tbl[#tbl+1] = "field[" .. xpos2 .. "," .. (offs+0.2) .. ";" .. xpos3 .. ",1;" .. elem.name .. ";;" .. val .. "]"
 				end
 			elseif elem.type == "numbers" then
 				local val = elem.default
@@ -66,9 +72,9 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 					val = meta:get_string(elem.name)
 				end
 				if nvm.running or techage.is_running(nvm) then
-					tbl[#tbl+1] = "label[4.75," .. offs .. ";" .. val .. "]"
+					tbl[#tbl+1] = "label[" .. xpos1 .. "," .. offs .. ";" .. val .. "]"
 				else
-					tbl[#tbl+1] = "field[5," .. (offs+0.2) .. ";5.3,1;" .. elem.name .. ";;" .. val .. "]"
+					tbl[#tbl+1] = "field[" .. xpos2 .. "," .. (offs+0.2) .. ";" .. xpos3 .. ",1;" .. elem.name .. ";;" .. val .. "]"
 				end
 			elseif elem.type == "float" then
 				local val = elem.default
@@ -76,9 +82,9 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 					val = tonumber(meta:get_string(elem.name)) or 0
 				end
 				if nvm.running or techage.is_running(nvm) then
-					tbl[#tbl+1] = "label[4.75," .. offs .. ";" .. val .. "]"
+					tbl[#tbl+1] = "label[" .. xpos1 .. "," .. offs .. ";" .. val .. "]"
 				else
-					tbl[#tbl+1] = "field[5," .. (offs+0.2) .. ";5.3,1;" .. elem.name .. ";;" .. val .. "]"
+					tbl[#tbl+1] = "field[" .. xpos2 .. "," .. (offs+0.2) .. ";" .. xpos3 .. ",1;" .. elem.name .. ";;" .. val .. "]"
 				end
 			elseif elem.type == "ascii" then
 				local val = elem.default
@@ -86,25 +92,30 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 					val = meta:get_string(elem.name)
 				end
 				if nvm.running or techage.is_running(nvm) then
-					tbl[#tbl+1] = "label[4.75," .. offs .. ";" .. minetest.formspec_escape(val) .. "]"
+					tbl[#tbl+1] = "label[" .. xpos1 .. "," .. offs .. ";" .. minetest.formspec_escape(val) .. "]"
 				else
-					tbl[#tbl+1] = "field[5," .. (offs+0.2) .. ";5.3,1;" .. elem.name .. ";;" .. minetest.formspec_escape(val) .. "]"
+					tbl[#tbl+1] = "field[" .. xpos2 .. "," .. (offs+0.2) .. ";" .. xpos3 .. ",1;" .. elem.name .. ";;" .. minetest.formspec_escape(val) .. "]"
 				end
 			elseif elem.type == "const" then
-				tbl[#tbl+1] = "label[4.75," .. offs .. ";" .. elem.value .. "]"
+				tbl[#tbl+1] = "label[" .. xpos1 .. "," .. offs .. ";" .. elem.value .. "]"
 			elseif elem.type == "output" then
 				local val = nvm[elem.name] or meta:get_string(elem.name) or ""
 				if tonumber(val) then
 					val = techage.round(val)
 				end
-				tbl[#tbl+1] = "label[4.75," .. offs .. ";" .. val .. "]"
+				tbl[#tbl+1] = "label[" .. xpos1 .. "," .. offs .. ";" .. val .. "]"
 			elseif elem.type == "dropdown" then
 				if nvm.running or techage.is_running(nvm) then
 					local val = elem.default or ""
 					if meta:contains(elem.name) then
 						val = meta:get_string(elem.name) or ""
+						if elem.values then
+							local idx = index(elem.values, val) or 1
+							local l = elem.choices:split(",")
+							val = l[idx] 
+						end
 					end
-					tbl[#tbl+1] = "label[4.75," .. offs .. ";" .. val .. "]"
+					tbl[#tbl+1] = "label[" .. xpos1 .. "," .. offs .. ";" .. val .. "]"
 				elseif elem.on_dropdown then -- block provides a specific list of choice elements
 					local val = elem.default
 					if meta:contains(elem.name) then
@@ -113,7 +124,7 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 					local choices = elem.on_dropdown(pos)
 					local l = choices:split(",")
 					local idx = index(l, val) or 1
-					tbl[#tbl+1] = "dropdown[4.72," .. (offs) .. ";5.5,1.4;" .. elem.name .. ";" .. choices .. ";" .. idx .. "]"
+					tbl[#tbl+1] = "dropdown[" .. xpos1 .. "," .. (offs) .. ";" .. xpos4 .. ",1.4;" .. elem.name .. ";" .. choices .. ";" .. idx .. "]"
 				else
 					local val = elem.default
 					if meta:contains(elem.name) then
@@ -126,19 +137,19 @@ local function generate_formspec_substring(pos, meta, form_def, player_name)
 						local l = elem.choices:split(",")
 						idx = index(l, val) or 1
 					end
-					tbl[#tbl+1] = "dropdown[4.72," .. (offs) .. ";5.5,1.4;" .. elem.name .. ";" .. elem.choices .. ";" .. idx .. "]"
+					tbl[#tbl+1] = "dropdown[" .. xpos1 .. "," .. (offs) .. ";" .. xpos4 .. ",1.4;" .. elem.name .. ";" .. elem.choices .. ";" .. idx .. "]"
 				end
 			elseif elem.type == "items" then  -- inventory
 				if elem.size then
-					tbl[#tbl+1] = "list[detached:" .. minetest.formspec_escape(player_name) .. "_techage_wrench_menu;cfg;4.75," .. offs .. ";" .. elem.size .. ",1;]"
+					tbl[#tbl+1] = "list[detached:" .. minetest.formspec_escape(player_name) .. "_techage_wrench_menu;cfg;" .. xpos1 .. "," .. offs .. ";" .. elem.size .. ",1;]"
 				else
-					tbl[#tbl+1] = "list[detached:" .. minetest.formspec_escape(player_name) .. "_techage_wrench_menu;cfg;4.75," .. offs .. ";" .. elem.width .. "," .. elem.height .. ";]"
+					tbl[#tbl+1] = "list[detached:" .. minetest.formspec_escape(player_name) .. "_techage_wrench_menu;cfg;" .. xpos1 .. "," .. offs .. ";" .. elem.width .. "," .. elem.height .. ";]"
 				end
 				player_inv_needed = true
 			end
 		end
-		if nvm.running or techage.is_running(nvm) then
-			local offs = #form_def * 0.9 - 0.2
+		if not no_note and (nvm.running or techage.is_running(nvm)) then
+			local offs = #form_def * 0.9 - 0.3
 			tbl[#tbl+1] = "label[0," .. offs .. ";" .. S("Note: You can't change any values while the block is running!") .. "]"
 		end
 	end
@@ -299,6 +310,45 @@ function techage.menu.generate_formspec(pos, ndef, form_def, player_name)
 				text ..
 				"container_end[]" ..
 				buttons
+		end
+	end
+	return ""
+end
+
+function techage.menu.generate_formspec_container(pos, ndef, form_def, ypos, width)
+	local meta = minetest.get_meta(pos)
+	local number = techage.get_node_number(pos) or "-"
+	local mem = techage.get_mem(pos)
+	mem.star = ((mem.star or 0) + 1) % 2
+	local star = mem.star == 1 and " *" or "   "
+	local bttn_width = (width - 0.3) / 3
+	if meta and number and ndef and form_def then
+		local _, text = generate_formspec_substring(pos, meta, form_def, "", width, true)
+		local yoffs = math.min(#form_def, 8) * 0.9 + 0.7
+		local buttons = "button[0.1," .. yoffs .. ";" .. bttn_width .. ",1;refresh;" .. S("Refresh") .. star .. "]" ..
+			"button_exit[" .. (bttn_width + 0.2) .. "," .. yoffs .. ";" .. bttn_width .. ",1;cancel;" .. S("Cancel") .. "]" ..
+			"button[" .. (2 * bttn_width + 0.3) .. "," .. yoffs .. ";" .. bttn_width .. ",1;save;" .. S("Save") .. "]"
+
+
+		if #form_def > 8 then
+			local size = (#form_def * 10) - 60
+			return "container[0," .. ypos .. "]" ..
+				"box[0,0;" .. width .. "," .. (yoffs + 0.8) .. ";#395c74]"..
+				"scrollbaroptions[max=" .. size .. "]" ..
+				"scrollbar[9.4,0.6;0.4,7.7;vertical;wrenchmenu;]" ..
+				"scroll_container[0,1;12,9;wrenchmenu;vertical;]" ..
+				text ..
+				"scroll_container_end[]" ..
+				buttons ..
+				"container_end[]"
+		else
+			return "container[0," .. ypos .. "]" ..
+				"container[0,1]" ..
+				"box[-0.1,-0.3;" .. (width + 0.2) .. "," .. (yoffs + 0.3) .. ";#395c74]"..
+				text ..
+				"container_end[]" ..
+				buttons ..
+				"container_end[]"
 		end
 	end
 	return ""

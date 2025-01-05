@@ -986,6 +986,21 @@ The maximum depth is 80 meters. The quarry requires 14 ku of electricity.
 
 [ta4_quarry|image]
 
+### TA4 Water Remover
+
+The Water Remover removes water from an area of up to 21 x 21 x 80 m. The main
+purpose is to drain caves. But it can also be used to "drill" a hole into the sea.
+
+The Water Remover needs electricity and a pipe connection to a liquid tank. The
+Water Remover is placed at the highest point of the cave and removes the water
+from the cave to the lowest point. The Water Remover digs one water block every
+two seconds. The device requires 10 ku of electricity.
+
+Technically, the Water Remover replaces the water blocks with a special air block
+that is not visible and not walkable but prevents the water from flowing back.
+
+[ta4_waterremover|image]
+
 ### TA4 Electronic Fab
 
 The function corresponds to that of TA2, only different chips are produced here.

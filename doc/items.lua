@@ -210,6 +210,7 @@ local items = {
 	ta4_chargedetector = "techage:ta4_chargedetector_off",
 	ta4_gaze_sensor = "techage:ta4_gaze_sensor_off",
 	ta4_nodedetector = "techage:ta4_nodedetector_off",
+        ta4_waterremover = "techage:ta4_waterremover_pas",
 	----------------------------
 	techage_ta5 = "techage:ta5_fr_nucleus",
 	ta5_flycontroller = "techage:ta5_flycontroller",

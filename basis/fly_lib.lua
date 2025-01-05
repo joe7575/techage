@@ -571,6 +571,20 @@ local function is_simple_node(pos)
 	end
 end
 
+local function is_air(pos)
+	local node = techage.get_node_lvm(pos)
+	return node.name == "air"
+end
+
+local function hidden_node(pos)
+	local meta = M(pos)
+	if meta:contains("ta_move_block") then
+		local node = minetest.deserialize(meta:get_string("ta_move_block"))
+		meta:set_string("ta_move_block", "")
+		return node
+	end
+end
+
 -- Move node from 'pos1' to the destination, calculated by means of 'lmove'
 -- * pos and meta are controller block related
 -- * lmove is the movement as a list of `moves`
@@ -640,7 +654,15 @@ local function multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2t
 			if is_simple_node(pos1) and is_valid_dest(pos2) then
 				if move_node(pos, meta, pos1, lmove, max_speed, height) == false then
 					meta:set_string("status", S("No valid node at the start position"))
-					return false
+				else
+					running = true
+				end
+			elseif is_air(pos1) then
+				-- Try to recover the node
+				local node = hidden_node(pos2)
+				if node then
+					minetest.set_node(pos1, node)
+					running = move_node(pos, meta, pos1, lmove, max_speed, height)
 				end
 			else
 				if not is_simple_node(pos1) then
@@ -650,7 +672,6 @@ local function multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2t
 					meta:set_string("status", S("No valid destination position"))
 					minetest.chat_send_player(owner, " [techage] " .. S("No valid destination position") .. " at " .. P2S(pos2))
 				end
-				return false
 			end
 		else
 			if minetest.is_protected(pos1, owner) then
@@ -660,7 +681,6 @@ local function multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2t
 				meta:set_string("status", S("Destination position is protected"))
 				minetest.chat_send_player(owner, " [techage] " .. S("Destination position is protected") .. " at " .. P2S(pos2))
 			end
-			return false
 		end
 		running = true
 	end

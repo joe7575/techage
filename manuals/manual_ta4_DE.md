@@ -994,6 +994,22 @@ Die maximale Tiefe beträgt 80 Meter. Der Steinbrecher benötigt 14 ku Strom.
 
 [ta4_quarry|image]
 
+### TA4 Wasserentferner / Water Remover
+
+Der Wasserentferner entfernt Wasser aus einer Fläche von bis zu 21 x 21 x 80 m.
+Der Hauptzweck ist die Entwässerung von Höhlen. Er kann aber auch verwendet werden, um ein Loch ins Meer zu „bohren“.
+
+Der Wasserentferner benötigt Strom und eine Rohrverbindung zu einem Flüssigkeitstank.
+
+Der Wasserentferner wird am höchsten Punkt der Höhle platziert und entfernt das Wasser
+aus der Höhle zum tiefsten Punkt. Der Wasserentferner gräbt alle zwei Sekunden einen Wasserblock. 
+Das Gerät benötigt 10 Ku Strom.
+
+Technisch gesehen ersetzt der Wasserentferner die Wasserblöcke durch einen speziellen Luftblock,
+der nicht sichtbar und nicht begehbar ist, aber verhindert, dass das Wasser zurückfließt.
+
+[ta4_waterremover|image]
+
 ### TA4 Elektronikfabrik / Electronic Fab
 
 Die Funktion entspricht der von TA2, nur werden hier verschiedene Chips produziert.  

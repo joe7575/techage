@@ -49,6 +49,7 @@ are possible.]]
 local SYNTAX_ERR = S("Syntax error, try help")
 
 local WRENCH_MENU = {
+	[0] = {"techage:terminal2"}, --valid_nodes
 	{
 		type = "dropdown",
 		choices = "all players,me",
@@ -76,7 +77,7 @@ local function get_string(meta, num, default)
 	return s
 end
 
-local function formspec2(meta)
+local function formspec2(pos, meta)
 	local output = meta:get_string("output")
 	local command = meta:get_string("command")
 	output = minetest.formspec_escape(output)
@@ -90,9 +91,13 @@ local function formspec2(meta)
 	local bttn_text7 = get_string(meta, 7, "User7")
 	local bttn_text8 = get_string(meta, 8, "User8")
 	local bttn_text9 = get_string(meta, 9, "User9")
+	local wrench_image = ""
+	if minetest.get_node(pos).name == "techage:terminal2" then
+		wrench_image = techage.wrench_image(9.6, -0.2)
+	end
 	return "size[10,8.5]"..
 	--"style_type[table,field;font=mono]"..
-	techage.wrench_image(9.6, -0.2) ..
+	wrench_image ..
 	"button[0,-0.2;3.3,1;bttn1;"..bttn_text1.."]button[3.3,-0.2;3.3,1;bttn2;"..bttn_text2.."]button[6.6,-0.2;3.2,1;bttn3;"..bttn_text3.."]"..
 	"button[0,0.6;3.3,1;bttn4;"..bttn_text4.."]button[3.3,0.6;3.3,1;bttn5;"..bttn_text5.."]button[6.6,0.6;3.4,1;bttn6;"..bttn_text6.."]"..
 	"button[0,1.4;3.3,1;bttn7;"..bttn_text7.."]button[3.3,1.4;3.3,1;bttn8;"..bttn_text8.."]button[6.6,1.4;3.4,1;bttn9;"..bttn_text9.."]"..
@@ -107,14 +112,14 @@ local function output(pos, text)
 	text = meta:get_string("output") .. "\n" .. (text or "")
 	text = text:sub(-1000,-1)
 	meta:set_string("output", text)
-	meta:set_string("formspec", formspec2(meta))
+	meta:set_string("formspec", formspec2(pos, meta))
 end
 
 local function append(pos, text)
 	local meta = minetest.get_meta(pos)
 	text = meta:get_string("output") .. (text or "")
 	meta:set_string("output", text)
-	meta:set_string("formspec", formspec2(meta))
+	meta:set_string("formspec", formspec2(pos, meta))
 end
 
 local function get_line_text(pos, num)
@@ -188,7 +193,7 @@ local function command(pos, command, player, is_ta4)
 
 	if cmnd == "clear" then
 		meta:set_string("output", "")
-		meta:set_string("formspec", formspec2(meta))
+		meta:set_string("formspec", formspec2(pos, meta))
 	elseif cmnd == "" then
 		output(pos, "$")
 	elseif cmnd == "help" then
@@ -255,7 +260,7 @@ local function command(pos, command, player, is_ta4)
 		if bttn_num and label and cmnd then
 			meta:set_string("bttn_text"..bttn_num, label)
 			meta:set_string("bttn_cmnd"..bttn_num, cmnd)
-			meta:set_string("formspec", formspec2(meta))
+			meta:set_string("formspec", formspec2(pos, meta))
 			return
 		end
 
@@ -303,7 +308,7 @@ local function register_terminal(name, description, tiles, node_box, selection_b
 			local meta = minetest.get_meta(pos)
 			meta:set_string("node_number", number)
 			meta:set_string("command", S("commands like: help"))
-			meta:set_string("formspec", formspec2(meta))
+			meta:set_string("formspec", formspec2(pos, meta))
 			if placer then
 				meta:set_string("owner", placer:get_player_name())
 			end
@@ -320,22 +325,22 @@ local function register_terminal(name, description, tiles, node_box, selection_b
 				if evt.type == "DCL" then
 					local s = get_line_text(pos, evt.row)
 					meta:set_string("command", s)
-					meta:set_string("formspec", formspec2(meta))
+					meta:set_string("formspec", formspec2(pos, meta))
 					return
 				elseif (fields.ok or fields.key_enter_field) and fields.cmnd then
 					local is_ta4 = string.find(description, "TA4")
 					command(pos, fields.cmnd, player:get_player_name(), is_ta4)
 					techage.historybuffer_add(pos, fields.cmnd)
 					meta:set_string("command", "")
-					meta:set_string("formspec", formspec2(meta))
+					meta:set_string("formspec", formspec2(pos, meta))
 					return
 				elseif fields.key_up then
 					meta:set_string("command", techage.historybuffer_priv(pos))
-					meta:set_string("formspec", formspec2(meta))
+					meta:set_string("formspec", formspec2(pos, meta))
 					return
 				elseif fields.key_down then
 					meta:set_string("command", techage.historybuffer_next(pos))
-					meta:set_string("formspec", formspec2(meta))
+					meta:set_string("formspec", formspec2(pos, meta))
 					return
 				end
 			end
@@ -354,7 +359,7 @@ local function register_terminal(name, description, tiles, node_box, selection_b
 		end,
 
 	ta_after_formspec = function(pos, fields, playername)
-		if fields.save then
+		if fields.save and minetest.get_node(pos).name == "techage:terminal2" then
 			if M(pos):get_string("opmode") == "basic" then
 				if minetest.global_exists("nanobasic") then
 					local node = techage.get_node_lvm(pos)

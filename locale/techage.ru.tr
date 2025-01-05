@@ -1172,9 +1172,13 @@ Hole size=Глубина ямы
 Quarry=Карьер
 Start level=Начальный высота
 Start level @= 0@nmeans the same level@nas the quarry is placed=Начальная высота @= 0@nозначает ту же высоту, что имеется у карьера
+inventory full=инвентарь заполнен
+
+### quarry.lua ###
+### waterremover.lua ###
+
 area is protected=зона защищена
 finished=готово
-inventory full=инвентарь заполнен
 
 ### reboiler.lua ###
 
@@ -1581,6 +1585,17 @@ TA1 Watermill=TA1 Водяное колесо
 
 TA4 Water Pump=TA4 Водяной насос
 Water Pump=Водяной насос
+
+### waterremover.lua ###
+
+Area depth=
+Area size=
+Area where the water is to be removed=
+Current depth=
+Current working depth of the water remover=
+Depth of the area where the water is to be removed (1-80)=
+Water Remover=
+tank full=
 
 ### windturbine_lib.lua ###
 

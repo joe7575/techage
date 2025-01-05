@@ -89,6 +89,7 @@ return {
     "3,TA4 Gravel Sieve",
     "3,TA4 Grinder",
     "3,TA4 Quarry",
+    "3,TA4 Water Remover",
     "3,TA4 Electronic Fab",
     "3,TA4 Injector",
     "3,TA4 Recycler",
@@ -838,6 +839,19 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "The Water Remover removes water from an area of up to 21 x 21 x 80 m. The main\n"..
+    "purpose is to drain caves. But it can also be used to \"drill\" a hole into the sea.\n"..
+    "\n"..
+    "The Water Remover needs electricity and a pipe connection to a liquid tank. The\n"..
+    "Water Remover is placed at the highest point of the cave and removes the water\n"..
+    "from the cave to the lowest point. The Water Remover digs one water block every\n"..
+    "two seconds. The device requires 10 ku of electricity.\n"..
+    "\n"..
+    "Technically\\, the Water Remover replaces the water blocks with a special air block\n"..
+    "that is not visible and not walkable but prevents the water from flowing back.\n"..
+    "\n"..
+    "\n"..
+    "\n",
     "The function corresponds to that of TA2\\, only different chips are produced here.\n"..
     "The processing power is one chip every 6 s. The block requires 12 ku of electricity for this.\n"..
     "\n"..
@@ -953,6 +967,7 @@ return {
     "ta4_gravelsieve",
     "ta4_grinder",
     "ta4_quarry",
+    "ta4_waterremover",
     "ta4_electronicfab",
     "ta4_injector",
     "ta4_recycler",
@@ -1029,6 +1044,7 @@ return {
     "ta4_cooler",
     "",
     "techage_collider_plan2",
+    "",
     "",
     "",
     "",

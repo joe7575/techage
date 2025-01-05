@@ -1055,6 +1055,7 @@ SLEEP(seconds)
 ```
 
 The SLEEP function is used to pause program execution for a specified number of seconds.
+If the number of seconds is 0, the program pauses one time slice (0.2 seconds).
 
 ### SPC
 
@@ -1528,6 +1529,7 @@ corresponds to the error from previous chapter.
 | TA4 Pusher Counter         | 150 | -    | number  | Read the number of pushed items for a TA4 Pusher in "flow limiter" mode |
 | TA4 Pump Counter           | 151 | -    | number  | Read the number of pumped liquid units for a TA4 Pump in "flow limiter" mode |
 | Multi Button State         | 152 | num  | state   | Read the button state (TA4 2x Button, TA4 4x Button)<br>`num` is the button number (1..4), `state`: 0 = "off", 1 = "on" |
+| Water Remover Depth        | 153 | -    | depth   | Current depth value of a remover (1..80)                |
 
 ### CMD$ Commands with Response as String Value
 

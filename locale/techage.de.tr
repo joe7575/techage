@@ -1172,9 +1172,13 @@ Hole size=Lochgröße
 Quarry=Steinbrecher
 Start level=Startebene
 Start level @= 0@nmeans the same level@nas the quarry is placed=Startebene @= 0@nbedeutet gleiche Ebene@nwie der Steinbrecher
+inventory full=Inventar ist voll
+
+### quarry.lua ###
+### waterremover.lua ###
+
 area is protected=Bereich ist geschützt
 finished=fertig
-inventory full=Inventar ist voll
 
 ### reboiler.lua ###
 
@@ -1581,6 +1585,17 @@ TA1 Watermill=TA1 Wasssermühle
 
 TA4 Water Pump=Wasserpumpe
 Water Pump=Wasserpumpe
+
+### waterremover.lua ###
+
+Area depth=Flächentiefe
+Area size=Flächengröße
+Area where the water is to be removed=Fläche, aus der das Wasser entfernt werden soll
+Current depth=Aktuelle Tiefe
+Current working depth of the water remover=Aktuelle Arbeitstiefe des Wasserentferners
+Depth of the area where the water is to be removed (1-80)=Tiefe der Fläche, aus der das Wasser entfernt werden soll (1-80)
+Water Remover=Wasserentferner
+tank full=Tank voll
 
 ### windturbine_lib.lua ###
 
