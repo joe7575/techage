@@ -307,6 +307,7 @@ Shell shape error@n(@1% found / 100% expected)=Ошибка формы обол�
 TA5 Fusion Reactor Controller=TA5 Контроллер ядерного реактора
 
 ### controller.lua ###
+
 ### heatexchanger2.lua ###
 
 No power=Нет энергии
@@ -332,30 +333,24 @@ per minute=в минуту
 
 TA2 Cylinder=TA2 Цилиндр
 
-### detector.lua ###
-
-Counts down the number of items passed through@nand only triggers an 'on' command when it reaches zero.=Считает количество проходящих предметов@nи включается когда количество достигает нуля.
-Current countdown=Кол-во предметов которое должно пройти
-Current countdown value.=Кол-во прошедших предметов
-TA3 Item Detector=
-TA4 Collider Detector=TA4 Детектор коллайдера
-TA4 Collider Detector Core=TA4 Ядро детектора коллайдера
-TA4 Item Detector=
-
-### detector.lua ###
 ### electricmeter.lua ###
 
 Countdown=Кол-во электроэнергии которое должно передаться
 
-### detector.lua ###
 ### logic_block.lua ###
+
 ### tele.lua ###
 
 Blocking Time=Время блокировки
 
 ### detector.lua ###
-### tele.lua ###
 
+Counts down the number of items passed through@nand only triggers an 'on' command when it reaches zero.=Считает количество проходящих предметов@nи включается когда количество достигает нуля.
+Current countdown=Кол-во предметов которое должно пройти
+Current countdown value.=Кол-во прошедших предметов
+TA3 Item Detector=TA3 Детектор предметов
+TA4 Item Detector=TA3 Детектор предметов
+TA3 Detector=TA3 Детектор
 Configured Items=Настроенные предметы
 Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Предметы, которые генерируют команду 'on' (включить).@nЕсли пусто, все прошедшие предметы генерируют команду 'on'.
 On Time=Вовремя
@@ -424,7 +419,7 @@ Recording...=Запись...
 ### movecontroller.lua ###
 
 Reset=Переустановить
-Show positions=
+Show positions=Показать позиции
 
 ### drillbox.lua ###
 
@@ -535,10 +530,10 @@ TA Liquid Filler=TA Заполнитель жидкостью
 
 ### firebox.lua ###
 
-TA2 Firebox=TA5 Топка
-TA3 Coal Power Station Firebox=TA3 Топка использующая уголь для генерации электроэнергии
+TA2 Firebox=TA2 Топка
+TA3 Coal Power Station Firebox=TA3 Угольная топка электрогенератора
 TA3 Furnace Oil Burner=TA3 Масляная горелка печи
-TA3 Power Station Firebox=TA3 Топка для генерации электроэнергии
+TA3 Power Station Firebox=TA3 Топка электрогенератора
 
 ### firebox_lib.lua ###
 
@@ -606,9 +601,9 @@ TA2 Flywheel=TA2 Маховик
 ### forceload.lua ###
 
 Area already loaded or max. number of Forceload Blocks reached!=Зона уже загружена или достигнуто максимальное количество блоков загрузки!
-Area from=
-Area to=
-Block at pos=
+Area from=Зона с
+Area to=Зона по
+Block at pos=Блок на позиции
 List of your Forceload Blocks:=Список ваших блоков загрузки:
 Punch the block to make the area visible.=Ударьте блок, что бы сделать зону видимой.
 Show all forceload blocks in a 64x64x64 range=Показать все блоки загрузки в диапазоне 64x64x64.
@@ -707,12 +702,12 @@ Rinsing=Промывание
 ### gravelsieve.lua ###
 
 Compressed Gravel=Сжатый гравий
-Gravel Sieve=Сито для гравия
+Gravel Sieve=Сеялка гравия
 Sieved Gravel=Просеянный гравий
-TA1 Gravel Sieve=TA1 Сито для гравия
-TA2 Gravel Sieve=TA2 Сито для гравия
-TA3 Gravel Sieve=TA3 Сито для гравия
-TA4 Gravel Sieve=TA4 Сито для гравия
+TA1 Gravel Sieve=TA1 Сеялка гравия
+TA2 Gravel Sieve=TA2 Сеялка гравия
+TA3 Gravel Sieve=TA3 Сеялка гравия
+TA4 Gravel Sieve=TA4 Сеялка гравия
 
 ### grinder.lua ###
 
@@ -730,7 +725,7 @@ TA4 LED Grow Light=TA4 Светодиодная лампа для выращив
 TA1 Bronze Hammer (smash stone to gravel)=TA1 Бронзовый молот (переделывает камень в гравий)
 TA1 Diamond Hammer (smash stone to gravel)=TA1 Алмазный молот (переделывает камень в гравий)
 TA1 Meridium Hammer (smash stone to gravel)=TA1 Меридиемувый молот (переделывает камень в гравий)
-TA1 Mese Hammer (smash stone to gravel)=TA1 Месеиевый молот (переделывает камень в гравий)
+TA1 Mese Hammer (smash stone to gravel)=TA1 Молот месе (переделывает камень в гравий)
 TA1 Steel Hammer (smash stone to gravel)=TA1 Стальной молот (переделывает камень в гравий)
 TA1 Stone Hammer (smash stone to gravel)=TA1 Каменный молот (переделывает камень в гравий)
 
@@ -889,7 +884,7 @@ Liquid Sampler=Сборщик воды
 ### liquidsampler.lua ###
 ### waterpump.lua ###
 
-no usable water=нет используемой воды
+no usable water=нет доступной воды
 
 ### logic_block.lua ###
 
@@ -940,7 +935,7 @@ TA5 Fusion Reactor Magnet Shield=TA5 Защита магнита термояд�
 
 ### mba_detector.lua ###
 
-TA4 Mapblock Active Detector=TA4 Активный детектор блоков карты
+TA4 Mapblock Active Detector=TA4 детектор активных блоков карты
 
 ### meltingpot.lua ###
 
@@ -1139,8 +1134,8 @@ Allow to dig/place Techage power lines nearby power poles=Разрешить к�
 
 ### pump.lua ###
 
-Number of liquid units that are allowed to be pumped=Требуемое количество единиц жидкости которое нужно перекачать
-Number of units=Требуемое количество единиц
+Number of liquid units that are allowed to be pumped=Требуемое количество жидкости которое нужно перекачать
+Number of units=Требуемое количество
 TA3 Pump=TA3 Насос
 TA4 Pump=TA4 Насос
 
@@ -1148,7 +1143,7 @@ TA4 Pump=TA4 Насос
 ### ta5_pump.lua ###
 
 Total flow rate=Суммарно перекачано
-Total flow rate in liquid units=Суммарно перекачано единиц измерения жидкости
+Total flow rate in liquid units=Суммарно перекачано жидкости
 
 ### pumpjack.lua ###
 
@@ -1455,13 +1450,13 @@ TA5 Hyperloop Chest=TA5 Hyperloop сундук
 
 ### ta5_pump.lua ###
 
-Operation=
-Pump direction=
+Operation=Операция
+Pump direction=Направление перекачки
 TA5 Pump=TA5 Насос
 
 ### ta5_tank.lua ###
 
-TA5 Hyperloop Tank=TA5 Hyperloop Резервуар
+TA5 Hyperloop Tank=TA5 Hyperloop резервуар
 
 ### tank.lua ###
 
@@ -1501,6 +1496,7 @@ TA5 Teleport Block Items=TA5 Блок для телепортирования п
 ### terminal.lua ###
 
 Syntax error, try help=Синтаксическая ошибка, попробуйте написать help
+TA3 Terminal=TA3 Терминал
 TA4 Terminal=TA4 Терминал
 commands like: help=команды как: help
 
@@ -1551,7 +1547,7 @@ TA5 Turbine=TA5 Турбина
 ### turncontroller.lua ###
 
 Click on all blocks that shall be turned=Нажмите на все блоки которые должны быть повернуты
-TA4 Turn Controller=TA4 Контроллер движения
+TA4 Turn Controller=TA4 Контроллер вращения
 Turn left=Повернуть налево
 Turn right=Повернуть направо
 
@@ -1562,7 +1558,7 @@ Usmium Powder=Усмиевый порошок
 
 ### vacuumtube.lua ###
 
-TA4 Vacuum Tube=TA4 Радиолампа
+TA4 Vacuum Tube=TA4 Вакуумная труба
 
 ### valve.lua ###
 
@@ -1618,7 +1614,7 @@ TA4 Collider Detector Worker=TA4 Построитель детектора ко�
 [TA4] Detector is being built!=[TA4] Детектор был построен!
 [TA4] Detector is being removed!=[TA4] Детектор был удален!
 
+### detector.lua ###
 
-##### not used anymore #####
-
-TA4 Detector=TA4 Детектор
+TA4 Collider Detector=TA4 Детектор коллайдера
+TA4 Collider Detector Core=TA4 Ядро детектора коллайдера
