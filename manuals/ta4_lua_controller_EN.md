@@ -408,7 +408,7 @@ Please note, that this is not a technical distinction, only a logical.
 | cmnd                             | data         | comment                                                      |
 | -------------------------------- | ------------ | ------------------------------------------------------------ |
 | "on", "off"                      | nil          | turn a node on/off (machine, lamp,...)                       |
-| "red, "amber", "green", "off"    | nil          | set Signal Tower color                                       |
+| "red, "amber", "green", "off"    | nil          | set Signal Tower or Traffic Light color                      |
 | "red, "amber", "green", "off" | lamp number (1..4) | Set the signal lamp color. Valid for "TA4 2x Signal Lamp" and "TA4 4x Signal Lamp" |
 | "port"                          | string<br />`<color>=on/off` | Enable/disable a Distributor filter slot..<br />Example: `"yellow=on"`<br />colors: red, green, blue, yellow |
 | "config" | "\<slot> \<item list>" | Configure a Distributor filter slot, like: "red default:dirt dye:blue" |

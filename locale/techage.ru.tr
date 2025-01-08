@@ -1518,6 +1518,13 @@ TA4 Derrick=TA4 Буровая вышка
 [TA] Derrick is being built!=[TA] Буровая вышка построена!
 [TA] Derrick is being removed!=[TA] Буровая вышка удалена!
 
+### trafficlight.lua ###
+
+TA4 Traffic Light=
+TA4 Traffic Light Arm=
+TA4 Traffic Light Connector=
+TA4 Traffic Light Pole=
+
 ### transformer.lua ###
 
 TA4 Isolation Transformer=TA4 Изолирующий трансформатор

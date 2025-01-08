@@ -681,7 +681,15 @@ The lamp requires 1 ku of electricity.
 
 [ta4_industriallamp|image]
 
+### TA4 traffic light
 
+The TA4 traffic light is available in two versions: black (European version) and yellow (American version). In addition, there is a mast, an arm and a connector block. The traffic light can be mounted on or to a mast. However, it cannot be mounted to an arm. This is for technical reasons. This is why there is the connector block, which is placed between the arm and the traffic light.
+
+The traffic light can be controlled using commands like the TA4 signal tower. If the TA4 player detector is also used, the traffic light can also react to pedestrians or vehicles.
+
+The traffic light does not require any electricity.
+
+[ta4_trafficlight|image]
 
 
 ## TA4 Liquid Filter

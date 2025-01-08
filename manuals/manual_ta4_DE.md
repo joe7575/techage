@@ -691,8 +691,18 @@ Die Lampe benötigt 1 ku Strom.
 
 [ta4_industriallamp|image]
 
+### TA4 Ampel / TA4 Traffic Light
 
+Die TA4 Ampel gibt es in zwei Ausführungen: in schwarz (europäische Version) und in gelb (amerikanische Version). Zusätzlich gibt es
+einen Mast, einen Arm und einen Verbinder-Block. Die Ampel kann auf oder an einen Mast montiert werden. Sie kann aber nicht
+an einen Arm montiert werden. Dies hat technische Gründe. Dafür gibt es den Verbinder-Block, der zwischen Arm und Ampel gesetzt wird.
 
+Die Ampel kann über Kommandos wie beim TA4 Signal Tower angesteuert werden.
+Wird zusätzlich der TA4 Spieler Detektor eingesetzt, so kann die Ampel auch auf Fußgänger oder Fahrzeuge reagieren.
+
+Die Ampel benötigt keinen Strom.
+
+[ta4_trafficlight|image]
 
 ## TA4 Flüssigkeitsfilter
 

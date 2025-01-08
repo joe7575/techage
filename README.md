@@ -96,6 +96,13 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2025-01-08 V1.20**
+
+- Add Traffic Lights and accesories
+- Add TA4 water remover device
+- Improve door and fly controller
+- Fix several issues
+
 **2024-12-31 V1.19**
 
 - Add Everness support #187 (ore sieving)

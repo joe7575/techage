@@ -63,6 +63,7 @@ return {
     "3,TA4 LED Grow Light",
     "3,TA4 Street Lamp",
     "3,TA4 LED Industrial Lamp",
+    "3,TA4 traffic light",
     "2,TA4 Liquid Filter",
     "3,Base Layer",
     "3,Gravel Layer",
@@ -603,6 +604,14 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "The TA4 traffic light is available in two versions: black (European version) and yellow (American version). In addition\\, there is a mast\\, an arm and a connector block. The traffic light can be mounted on or to a mast. However\\, it cannot be mounted to an arm. This is for technical reasons. This is why there is the connector block\\, which is placed between the arm and the traffic light.\n"..
+    "\n"..
+    "The traffic light can be controlled using commands like the TA4 signal tower. If the TA4 player detector is also used\\, the traffic light can also react to pedestrians or vehicles.\n"..
+    "\n"..
+    "The traffic light does not require any electricity.\n"..
+    "\n"..
+    "\n"..
+    "\n",
     "The liquid filter filters red mud.\n"..
     "A part of the red mud becomes lye\\, which can be collected at the bottom in a tank.\n"..
     "The other part becomes desert cobblestone and clutters the filter material.\n"..
@@ -941,6 +950,7 @@ return {
     "ta4_growlight",
     "ta4_streetlamp",
     "ta4_industriallamp",
+    "ta4_trafficlight",
     "ta4_liquid_filter",
     "",
     "",
@@ -1000,6 +1010,7 @@ return {
     "",
     "",
     "ta4_reactor",
+    "",
     "",
     "",
     "",

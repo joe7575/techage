@@ -1522,6 +1522,13 @@ TA4 Derrick=TA4 Derrick
 [TA] Derrick is being built!=[TA] Le derrick est en cours de construction!
 [TA] Derrick is being removed!=[TA] Le derrick est retiré!
 
+### trafficlight.lua ###
+
+TA4 Traffic Light=
+TA4 Traffic Light Arm=
+TA4 Traffic Light Connector=
+TA4 Traffic Light Pole=
+
 ### transformer.lua ###
 
 TA4 Isolation Transformer=

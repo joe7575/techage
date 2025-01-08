@@ -142,8 +142,11 @@ end
 --
 if techage.modified_recipes_enabled then
 	minetest.clear_craft({
-		output = "default:bronze_ingot",
-		type = "crafting",
+		recipe = {
+		{"default:copper_ingot", "default:copper_ingot", "default:copper_ingot"},
+		{"default:copper_ingot", "default:tin_ingot", "default:copper_ingot"},
+		{"default:copper_ingot", "default:copper_ingot", "default:copper_ingot"},
+	}
 	})
 	-- delete cooking iron lumps into steel ingots
 	minetest.clear_craft({
@@ -158,14 +161,6 @@ if techage.modified_recipes_enabled then
 			type = "cooking",
 		})
 	end
-
-	-- add again
-	minetest.register_craft({
-		output = 'default:bronze_ingot 9',
-		recipe = {
-			{'default:bronzeblock'},
-		}
-	})
 
 	techage.ironage_register_recipe({
 		output = "default:bronze_ingot 4",

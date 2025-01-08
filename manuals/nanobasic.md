@@ -1458,6 +1458,7 @@ As payload data, these commands may require numeric values or a string value.
 | Turn on/off              | 1  | state      | Turn device (lamp, machine, button...) on/off.<br>`state`: 0 = "off", 1 = "on" |
 | Turn on/off Signs Bot    | 1  | state      | Turn device (lamp, machine, button...) on/off.<br>`state`: 0 = "off", 1 = "on" |
 | Signal Tower             | 2  | color      | Set Signal Tower color<br>`color`: 0 = "off", 1 = "green", 2 = "amber", 3 = "red" |
+| Traffic Light | 2 | color | Set Traffic Light color<br>`color`: 0 = "off", 1 = "green", 2 = "amber", 3 = "red" |
 | Signal Lamp              | 3  | idx, color | Set the lamp color for "TA4 2x" and "TA4 4x" Signal Lamps<br>`idx` is the lamp number (1..4)<br>`color`: 0 = "off", 1 = "green", 2 = "amber", 3 = "red" |
 | Distri. Filter Slot      | 4  | idx, state | Enable/disable a Distributor filter slot.<br>`idx` is the slot number: 1 = "red", 2 = "green", 3 = "blue", 4 = "yellow"<br>`state`: 0 = "off", 1 = "on" |
 | Detector Block Countdown | 5  | counter    | Set countdown counter of the TA4 Item Detector block to the given value and start countdown mode. |
@@ -1504,6 +1505,7 @@ corresponds to the error from previous chapter.
 | Minecart State (Cart Terminal)   | 129 | cart-id | state    | Returns 0 = UNKNOWN, 1 = STOPPED, 2 = RUNNING           |
 | Minecart Distance (Cart Terminal)| 130 | cart-id | distance | Returns the distance from the cart to the Cart Terminal in meters |
 | Signal Tower Color         | 130 | -    | color | OFF = 0, GREEN = 1, AMBER = 2, RED = 3                       |
+| Traffic Light Color | 130 | - | color | OFF = 0, GREEN = 1, AMBER = 2, RED = 3 |
 | Chest State                | 131 | -    | state | State of a TA3/TA4 chest or Sensor Chest: EMPTY = 0, LOADED = 1, FULL = 2 |
 | TA3/TA4 Button State       | 131 | -    | state | OFF = 0, ON = 1                                              |
 | Fuel Level                 | 132 | -    | level | Fuel level of a fuel consuming block (0..65535)              |

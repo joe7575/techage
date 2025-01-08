@@ -63,6 +63,7 @@ return {
     "3,TA4 LED Pflanzenlampe / TA4 LED Grow Light",
     "3,TA4 LED Straßenlampe / TA4 LED Street Lamp",
     "3,TA4 LED Industrielampe / TA4 LED Industrial Lamp",
+    "3,TA4 Ampel / TA4 Traffic Light",
     "2,TA4 Flüssigkeitsfilter",
     "3,Fundament-Ebene",
     "3,Schotter-Ebene",
@@ -605,6 +606,17 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "Die TA4 Ampel gibt es in zwei Ausführungen: in schwarz (europäische Version) und in gelb (amerikanische Version). Zusätzlich gibt es\n"..
+    "einen Mast\\, einen Arm und einen Verbinder-Block. Die Ampel kann auf oder an einen Mast montiert werden. Sie kann aber nicht\n"..
+    "an einen Arm montiert werden. Dies hat technische Gründe. Dafür gibt es den Verbinder-Block\\, der zwischen Arm und Ampel gesetzt wird.\n"..
+    "\n"..
+    "Die Ampel kann über Kommandos wie beim TA4 Signal Tower angesteuert werden.\n"..
+    "Wird zusätzlich der TA4 Spieler Detektor eingesetzt\\, so kann die Ampel auch auf Fußgänger oder Fahrzeuge reagieren.\n"..
+    "\n"..
+    "Die Ampel benötigt keinen Strom.\n"..
+    "\n"..
+    "\n"..
+    "\n",
     "Im Flüssigkeitsfilter wird Rotschlamm gefiltert.\n"..
     "Dabei entsteht entweder Lauge\\, welche unten in einem Tank gesammelt werden kann oder Wüstenkopfsteinpflaster\\, welches sich im Filter absetzt.\n"..
     "Wenn der Filter zu sehr verstopft ist\\, muss er geleert und neu befüllt werden.\n"..
@@ -940,6 +952,7 @@ return {
     "ta4_growlight",
     "ta4_streetlamp",
     "ta4_industriallamp",
+    "ta4_trafficlight",
     "ta4_liquid_filter",
     "",
     "",
@@ -999,6 +1012,7 @@ return {
     "",
     "",
     "ta4_reactor",
+    "",
     "",
     "",
     "",

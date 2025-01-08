@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 1.19
+techage.version = 1.20
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -305,6 +305,7 @@ dofile(MP.."/logic/button_2x.lua")
 dofile(MP.."/logic/button_4x.lua")
 dofile(MP.."/logic/signallamp_2x.lua")
 dofile(MP.."/logic/signallamp_4x.lua")
+dofile(MP.."/logic/trafficlight.lua")
 if minetest.global_exists("mesecon") then
 	dofile(MP.."/logic/mesecons_converter.lua")
 end

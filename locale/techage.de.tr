@@ -1522,6 +1522,13 @@ TA4 Derrick=TA4 Bohrturm
 [TA] Derrick is being built!=[TA] Bohrturm wird errichtet
 [TA] Derrick is being removed!=[TA] Bohrturm wird abgebaut
 
+### trafficlight.lua ###
+
+TA4 Traffic Light=TA4 Ampel
+TA4 Traffic Light Arm=TA4 Ampel Arm
+TA4 Traffic Light Connector=TA4 Ampel Verbinder
+TA4 Traffic Light Pole=TA4 Ampel Mast
+
 ### transformer.lua ###
 
 TA4 Isolation Transformer=TA4 Trenntransformator
