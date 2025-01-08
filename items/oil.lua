@@ -134,3 +134,6 @@ minetest.register_craftitem("techage:ta3_canister_oil", {
 techage.register_liquid("techage:bucket_oil", "bucket:bucket_empty", 1, "techage:oil_source")
 techage.register_liquid("techage:ta3_barrel_oil", "techage:ta3_barrel_empty", 10, "techage:oil_source")
 techage.register_liquid("techage:ta3_canister_oil", "techage:ta3_canister_empty", 1, "techage:oil_source")
+
+core.register_alias_force('multidecor:oil_source', 'techage:oil_source')
+core.register_alias_force('craft_incredients:oil_bucket', 'techage:bucket_oil')
