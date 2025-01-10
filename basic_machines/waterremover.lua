@@ -261,7 +261,7 @@ local tiles = {}
 tiles.pas = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta#.png^techage_frame_ta#_top.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#_bottom.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_hole_pipe.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_quarry_left.png",
 	"techage_filling_ta#.png^techage_appl_liquidsampler.png^techage_frame_ta#.png",
@@ -270,7 +270,7 @@ tiles.pas = {
 tiles.act = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta#.png^techage_frame_ta#_top.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#_bottom.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_hole_pipe.png",
 	{
 		name = "techage_frame14_ta#.png^techage_quarry_left14.png",
@@ -334,7 +334,7 @@ local _, _, node_name_ta4 =
 		sounds = default.node_sound_wood_defaults(),
 		num_items = {0,0,0,1},
 		power_consumption = {0,0,0,10},
-	}
+	}, {false, false, false, true}
 )
 
 liquid.register_nodes({

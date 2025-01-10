@@ -385,7 +385,7 @@ local tiles = {}
 tiles.pas = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta#.png^techage_appl_autocrafter.png^techage_frame_ta#_top.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#_bottom.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
 	"techage_filling_ta#.png^techage_appl_autocrafter.png^techage_frame_ta#.png",
@@ -403,7 +403,7 @@ tiles.act = {
 			length = 0.5,
 		},
 	},
-	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#_bottom.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
 	{

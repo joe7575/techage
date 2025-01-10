@@ -184,7 +184,7 @@ tiles.pas = {
 	-- up, down, right, left, back, front
 	"techage_appl_grinder.png^[colorize:@@000000:100^techage_frame_ta#_top.png",
 	--"techage_appl_grinder.png^techage_frame_ta#_top.png^[multiply:#FF0000",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#_bottom.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
 	"techage_filling_ta#.png^techage_appl_recycler.png^techage_frame_ta#.png",
@@ -202,7 +202,7 @@ tiles.act = {
 			length = 1.0,
 		},
 	},
-	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#_bottom.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_inp.png",
 	"techage_filling_ta#.png^techage_appl_recycler.png^techage_frame_ta#.png",

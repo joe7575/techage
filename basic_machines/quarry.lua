@@ -326,7 +326,7 @@ local tiles = {}
 tiles.pas = {
 	-- up, down, right, left, back, front
 	"techage_filling_ta#.png^techage_frame_ta#_top.png",
-	"techage_filling_ta#.png^techage_frame_ta#.png",
+	"techage_filling_ta#.png^techage_frame_ta#_bottom#.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_appl_outp.png",
 	"techage_filling_ta#.png^techage_frame_ta#.png^techage_quarry_left.png",
 	"techage_filling_ta#.png^techage_appl_quarry.png^techage_frame_ta#.png",

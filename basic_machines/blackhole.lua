@@ -33,7 +33,7 @@ minetest.register_node("techage:blackhole", {
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta2.png^techage_frame_ta2.png",
-		"techage_filling_ta2.png^techage_frame_ta2.png",
+		"techage_filling_ta2.png^techage_frame_ta2_bottom.png",
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_blackhole.png^techage_appl_hole_pipe.png",
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_blackhole.png^techage_appl_inp.png",
 		"techage_filling_ta2.png^techage_frame_ta2.png^techage_appl_blackhole.png",
