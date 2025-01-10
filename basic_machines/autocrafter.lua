@@ -242,26 +242,27 @@ local function determine_recipe_items(pos, input)
 	local num, idx
 
 	if input and type(input) == "string" then  -- Lua controller
-		-- Test if "<node-number>.<recipe-number>" input
-		num, idx = unpack(string.split(input, ".", false, 1))
-	elseif input and type(input) == "table" then  -- Beduino
-		if input[3] == 0 then -- TA3 Terminal Basic
-			num = tostring(input[1])
-			idx = tostring(input[2])
-		else -- 16 bit Beduino controller
-			num = tostring(input[1] * 65536 + input[2])
-			idx = tostring(input[3])
+		-- Test if "<node-number>.<recipe-number>"
+		if string.find(input, "%d+%.%d+") then
+			num, idx = unpack(string.split(input, ".", false, 1))
+		elseif input and type(input) == "table" then  -- Beduino
+			if input[3] == 0 then -- TA3 Terminal Basic
+				num = tostring(input[1])
+				idx = tostring(input[2])
+			else -- 16 bit Beduino controller
+				num = tostring(input[1] * 65536 + input[2])
+				idx = tostring(input[3])
+			end
+		end
+		if num and idx then
+			input = get_input_from_recipeblock(pos, num, idx)
 		end
 	end
-
-	if num and idx then
-		input = get_input_from_recipeblock(pos, num, idx)
-		if input then
-			-- "<item>,<item>,..." input
-			local items = string.split(input, ",", true, 8)
-			if items and type(items) == "table" and next(items) then
-				return items
-			end
+	if input and type(input) == "string" then
+		-- "<item>,<item>,..." input
+		local items = string.split(input, ",", true, 8)
+		if items and type(items) == "table" and next(items) then
+			return items
 		end
 	end
 end
