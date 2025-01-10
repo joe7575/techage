@@ -307,7 +307,6 @@ Shell shape error@n(@1% found / 100% expected)=Ошибка формы обол�
 TA5 Fusion Reactor Controller=TA5 Контроллер ядерного реактора
 
 ### controller.lua ###
-
 ### heatexchanger2.lua ###
 
 No power=Нет энергии
@@ -333,24 +332,30 @@ per minute=в минуту
 
 TA2 Cylinder=TA2 Цилиндр
 
-### electricmeter.lua ###
-
-Countdown=Кол-во электроэнергии которое должно передаться
-
-### logic_block.lua ###
-
-### tele.lua ###
-
-Blocking Time=Время блокировки
-
 ### detector.lua ###
 
 Counts down the number of items passed through@nand only triggers an 'on' command when it reaches zero.=Считает количество проходящих предметов@nи включается когда количество достигает нуля.
 Current countdown=Кол-во предметов которое должно пройти
 Current countdown value.=Кол-во прошедших предметов
 TA3 Item Detector=TA3 Детектор предметов
+TA4 Collider Detector=TA4 Детектор коллайдера
+TA4 Collider Detector Core=TA4 Ядро детектора коллайдера
 TA4 Item Detector=TA3 Детектор предметов
-TA3 Detector=TA3 Детектор
+
+### detector.lua ###
+### electricmeter.lua ###
+
+Countdown=Кол-во электроэнергии которое должно передаться
+
+### detector.lua ###
+### logic_block.lua ###
+### tele.lua ###
+
+Blocking Time=Время блокировки
+
+### detector.lua ###
+### tele.lua ###
+
 Configured Items=Настроенные предметы
 Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Предметы, которые генерируют команду 'on' (включить).@nЕсли пусто, все прошедшие предметы генерируют команду 'on'.
 On Time=Вовремя
@@ -1406,9 +1411,13 @@ right to left=справа налево
 Doser=Дозатор
 TA4 Doser=TA4 Дозатор
 catalyst missing=отсутствует катализатор
+output: silo expected=
+output: tank expected=
 reactor defect=дефект реактора
 reactor defect or no power=дефект реактора или нет энергии
 reactor has no power=у реактора нет энергии
+waste: silo expected=
+waste: tank expected=
 wrong catalyst=неправильный катализатор
 
 ### ta4_doser.lua ###
@@ -1496,7 +1505,6 @@ TA5 Teleport Block Items=TA5 Блок для телепортирования п
 ### terminal.lua ###
 
 Syntax error, try help=Синтаксическая ошибка, попробуйте написать help
-TA3 Terminal=TA3 Терминал
 TA4 Terminal=TA4 Терминал
 commands like: help=команды как: help
 
@@ -1620,8 +1628,3 @@ Remove detector=Убрать детектор
 TA4 Collider Detector Worker=TA4 Построитель детектора коллайдера
 [TA4] Detector is being built!=[TA4] Детектор был построен!
 [TA4] Detector is being removed!=[TA4] Детектор был удален!
-
-### detector.lua ###
-
-TA4 Collider Detector=TA4 Детектор коллайдера
-TA4 Collider Detector Core=TA4 Ядро детектора коллайдера

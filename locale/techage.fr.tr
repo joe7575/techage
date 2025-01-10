@@ -1411,9 +1411,13 @@ right to left=de droite à gauche
 Doser=Doseur
 TA4 Doser=TA4 Doseur
 catalyst missing=catalyseur manquant
+output: silo expected=
+output: tank expected=
 reactor defect=défaut du réacteur
 reactor defect or no power=défaut du réacteur ou absence de courant
 reactor has no power=Le réacteur n'a pas de courant
+waste: silo expected=
+waste: tank expected=
 wrong catalyst=mauvais catalyseur
 
 ### ta4_doser.lua ###

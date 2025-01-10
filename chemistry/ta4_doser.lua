@@ -109,10 +109,13 @@ local function can_start(pos, nvm, state)
 	return true
 end
 
+local test_setup = nil
+
 local function start_node(pos, nvm, state)
 	reactor_cmnd(pos, "start")
 	del_liquids(pos)
 	nvm.running = true
+	test_setup(pos, nvm)
 end
 
 local function stop_node(pos, nvm, state)
@@ -138,7 +141,43 @@ local function untake(pos, taken)
 	end
 end
 
+test_setup = function(pos, nvm)
+	local recipe = recipes.get(nvm, "ta4_doser")
+	local ndef = minetest.registered_craftitems[recipe.output.name]
+	local container = ndef.groups and ndef.groups.powder == 1 and "silo" or "tank"
+	nvm.fault = nil
+	
+	if reactor_cmnd(pos, "get_output_container") ~= container then
+		if container == "silo" then
+			nvm.fault = S("output: silo expected")
+		else
+			nvm.fault = S("output: tank expected")
+		end
+		return
+	end
+	
+	if recipe.waste.name == "" then
+		return
+	end
+	
+	ndef = minetest.registered_craftitems[recipe.waste.name]
+	container = ndef.groups and ndef.groups.powder == 1 and "silo" or "tank"
+	if reactor_cmnd(pos, "get_waste_container") ~= container then
+		if container == "silo" then
+			nvm.fault = S("waste: silo expected")
+		else
+			nvm.fault = S("waste: tank expected")
+		end
+		return
+	end
+end
+
 local function dosing(pos, nvm, elapsed)
+	if nvm.fault then
+		reactor_cmnd(pos, "stop")
+		State:fault(pos, nvm, nvm.fault)
+		return
+	end
 	-- trigger reactor (power)
 	if not reactor_cmnd(pos, "power") then
 		if not nvm.techage_countdown or nvm.techage_countdown < 3 then

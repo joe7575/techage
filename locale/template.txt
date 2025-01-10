@@ -1411,9 +1411,13 @@ right to left=
 Doser=
 TA4 Doser=
 catalyst missing=
+output: silo expected=
+output: tank expected=
 reactor defect=
 reactor defect or no power=
 reactor has no power=
+waste: silo expected=
+waste: tank expected=
 wrong catalyst=
 
 ### ta4_doser.lua ###

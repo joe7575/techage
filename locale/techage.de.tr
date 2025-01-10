@@ -1411,9 +1411,13 @@ right to left=von rechts nach links
 Doser=Dosierer
 TA4 Doser=TA4 Dosierer
 catalyst missing=Katalysator fehlt
+output: silo expected=Ausgabe benötigt ein Silo
+output: tank expected=Ausgabe benötigt einen Tank
 reactor defect=Reaktor defekt
 reactor defect or no power=Reaktor defekt oder kein Strom
 reactor has no power=Reaktor hat keinen Strom
+waste: silo expected=Abfall benötigt ein Silo
+waste: tank expected=Abfall benötigt einen Tank
 wrong catalyst=falscher Katalysator
 
 ### ta4_doser.lua ###
