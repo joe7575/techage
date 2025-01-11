@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2017-2022 Joachim Stolberg
+	Copyright (C) 2017-2025 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -57,16 +57,30 @@ local WRENCH_MENU = {
 		default = "no",
 		values = {0, 1}
 	},
+	{
+		type = "dropdown",
+		choices = "no,yes",
+		name = "reset",
+		label = S("Reset on reload"),
+		tooltip = S("Restart the sequencer when the map block is reloaded"),
+		default = "yes",
+		values = {0, 1}
+	},
+	{
+		type = "number",
+		name = "delay",
+		label = S("Delay on reload"),
+		tooltip = S("Delay in seconds for start of execution when map block is reloaded"),
+		default = "0",
+	},
 }
 
-local delayed_start = false
-
 local function cycle_time(pos)
-	local mem = techage.get_mem(pos)
-	if not mem.cycletime then
-		mem.cycletime = tonumber(M(pos):get_string("cycletime")) or 0.1
+	local nvm = techage.get_nvm(pos)
+	if not nvm.cycletime then
+		nvm.cycletime = tonumber(M(pos):get_string("cycletime")) or 0.1
 	end
-	return mem.cycletime
+	return nvm.cycletime
 end
 
 
@@ -223,11 +237,10 @@ end
 local function node_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
 	if nvm.running then
-		local mem = techage.get_mem(pos)
-		mem.code = mem.code or compile(M(pos):get_string("text"))
-		if mem.code then
-			mem.idx = mem.idx or mem.code.start_idx
-			local code = mem.code.tCode[mem.idx]
+		nvm.code = nvm.code or compile(M(pos):get_string("text"))
+		if nvm.code then
+			nvm.idx = nvm.idx or nvm.code.start_idx
+			local code = nvm.code.tCode[nvm.idx]
 			if code and code.cmnd then
 				local src = M(pos):get_string("node_number")
 				techage.counting_start(M(pos):get_string("owner"))
@@ -235,9 +248,9 @@ local function node_timer(pos, elapsed)
 				techage.counting_stop()
 			end
 			if code and code.next_idx then
-				local offs = code.next_idx - mem.idx
+				local offs = code.next_idx - nvm.idx
 				minetest.after(0, restart_timer, pos, math.max(offs, 1))
-				mem.idx = code.next_idx
+				nvm.idx = code.next_idx
 			else
 				nvm.running = false
 				local meta = M(pos)
@@ -256,7 +269,6 @@ local function on_receive_fields(pos, formname, fields, player)
 
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
-	local mem = techage.get_mem(pos)
 	nvm.running = nvm.running or false
 
 	if fields.stop then
@@ -275,15 +287,15 @@ local function on_receive_fields(pos, formname, fields, player)
 		if fields.save then
 			nvm.running = false
 			meta:set_string("text", fields.text or "")
-			mem.code = nil
-			mem.idx = nil
+			nvm.code = nil
+			nvm.idx = nil
 		elseif fields.start then
 			if check_syntax(meta) then
 				nvm.running = true
 				meta:set_string("text", fields.text or "")
-				mem.code = nil
-				mem.idx = nil
-				mem.cycletime = nil
+				nvm.code = nil
+				nvm.idx = nil
+				nvm.cycletime = nil
 				restart_timer(pos, 1)
 				logic.infotext(meta, S("TA4 Sequencer"), S("running"))
 			end
@@ -361,9 +373,8 @@ techage.register_node({"techage:ta4_sequencer"}, {
 		local nvm = techage.get_nvm(pos)
 		if topic == 13 then
 			if payload[1] ~= 0 and not nvm.running and not delayed_start then
-				local mem = techage.get_mem(pos)
 				nvm.running = true
-				mem.idx = tonumber(payload or 1) or 1
+				nvm.idx = tonumber(payload or 1) or 1
 				restart_timer(pos, 1)
 				logic.infotext(M(pos), S("TA4 Sequencer"), S("running"))
 				return 0
@@ -378,21 +389,22 @@ techage.register_node({"techage:ta4_sequencer"}, {
 	end,
 	on_node_load = function(pos, node)
 		local nvm = techage.get_nvm(pos)
-		if nvm.running and delayed_start then
-			nvm.running = false
-			minetest.get_node_timer(pos):stop()
-			minetest.after(30, function(pos)
-				local nvm = techage.get_nvm(pos)
-				nvm.running = true
-				minetest.get_node_timer(pos):start(1)
-			end, pos)
+		local meta = M(pos)
+		if not meta:contains("reset") then
+			meta:set_int("reset", 1)
+		end
+		if not meta:contains("delay") then
+			meta:set_int("delay", 1)
+		end
+		if nvm.running and meta:get_int("reset") == 1 then
+			nvm.code = nil
+			nvm.idx = nil
+			nvm.cycletime = nil
+		end
+		if nvm.running and meta:get_int("delay") > 0 then
+			restart_timer(pos, meta:get_int("delay") * 10)
+		else
+			restart_timer(pos, 1)
 		end
 	end,
 })
-
-core.register_on_mods_loaded(function()
-	delayed_start = true
-	minetest.after(30, function()
-		delayed_start = false
-	end)
-end)
