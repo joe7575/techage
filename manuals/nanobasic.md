@@ -47,6 +47,7 @@
 	- [MID$](#mid)
 	- [PARAM](#param)
 	- [PARAM$](#param-1)
+	- [RESET](#reset)
 	- [RIGHT$](#right)
 	- [RND](#rnd)
 	- [SERCUR](#sercur)
@@ -58,6 +59,7 @@
 	- [VAL](#val)
 - [Techage Functions](#techage-functions)
 	- [Error Handling](#error-handling)
+	- [Mapblock Loading](#mapblock-loading)
 	- [CMD](#cmd)
 	- [CMD$](#cmd-1)
 	- [CHAT](#chat)
@@ -989,6 +991,18 @@ Example:
 10 val$ = PARAM$()
 ```
 
+### RESET
+
+Format:
+
+```text
+RESET()
+```
+
+The RESET function is used to reset the program to the first line.
+The function can be called at any time in the program. But the main use is to
+restart the program after the mapblock is loaded. See [Mapblock Loading](#mapblock-loading).
+
 ### RIGHT$
 
 Format:
@@ -1188,6 +1202,31 @@ In the easiest case, the error subroutine can be defined as follows:
 and only in the error subroutine.
 
 After this subroutine is called, the program returns to the `CMD` or `CMD$` function.
+
+### Mapblock Loading
+
+When the world around the Techage Terminal is loaded and NanoBasic is active,
+the program is continued from the line where the program was interrupted.
+By means of the NanoBasic subroutine starting at line 64000, it is possible to
+define what should happen when the mapblock is loaded.
+
+This subroutine can be used to initialize the program and/or initialize connected
+Techage devices.
+
+In the easiest case, the on-load subroutine can be defined as follows:
+
+```text
+64000 PRINT "Mapblock loaded"
+64010 RETURN
+```
+
+To restart the program from the beginning, call the `RESET` function.
+The `RESET` function is used to reset the program to the first line.
+
+```text
+64000 PRINT "Mapblock loaded"
+64010 RESET()
+```
 
 ### CMD
 

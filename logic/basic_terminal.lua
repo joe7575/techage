@@ -222,7 +222,7 @@ local function renumber_lines(pos, nvm, code)
 	local num = 10
 	for line in code:gmatch("[^\r\n]+") do
 		local s = line:match("^%s*(%d+)")
-		if s and tonumber(s) < 65000 then
+		if s and tonumber(s) < 64000 then
 			lines[#lines + 1] = num .. line:sub(s:len() + 1)
 			new_nums[s] = num
 			num = num + 10
@@ -645,6 +645,11 @@ register_ext_function("iname$", {nanobasic.NB_STR}, nanobasic.NB_STR, function(p
 	return true
 end)
 
+register_ext_function("reset", {}, nanobasic.NB_NONE, function(pos, nvm)
+	nanobasic.reset(pos)
+	return true
+end)
+
 --
 -- Register user input actions: register_action(states, key, function)
 --
@@ -701,6 +706,7 @@ register_action({"init", "edit", "stopped"}, "Run", function(pos, nvm, fields)
 		nvm.bttns = {"", "", "", "", "", "Stop", "", ""}
 		nvm.input = ""
 		nvm.variables = nanobasic.get_variable_list(pos)
+		nvm.onload_label_addr = nanobasic.get_label_address(pos, "64000") or 0
 		nvm.error_label_addr = nanobasic.get_label_address(pos, "65000") or 0
 		nvm.ttl = nil
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
@@ -820,6 +826,9 @@ techage.register_node({"techage:basic_terminal"}, {
 		nanobasic.vm_restore(pos)
 		local nvm = techage.get_nvm(pos)
 		if nvm.status == "running" then
+			if nvm.onload_label_addr and nvm.onload_label_addr > 0 then
+				nanobasic.set_pc(pos, nvm.onload_label_addr)
+			end
 			minetest.get_node_timer(pos):start(CYCLE_TIME)
 		end
 	end,
