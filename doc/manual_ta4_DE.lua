@@ -541,7 +541,7 @@ return {
     "Anleitung:\n"..
     "\n"..
     "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü (Taste \"Aufzeichnen\") an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
-    "  - die \"Flugstrecke\" muss über eine x\\,y\\,z Angabe (relativ) eingegeben werden (die maximale Distanz (x+y+z) beträgt 200 m)\n"..
+    "  - die \"Flugstrecke\" muss über eine x\\,y\\,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 1000 m)\n"..
     "  - mit den Menü-Tasten \"Bewege A-B\" sowie \"Bewege B-A\" kann die Bewegung getestet werden\n"..
     "  - man kann auch durch Wände oder andere Blöcke fliegen\n"..
     "  - auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle \"unsichtbar\" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht\n"..
@@ -555,11 +555,13 @@ return {
     "Über das Schraubenschlüssel-Menü kann auf die Betriebsart 'move xyz' umgeschaltet werden.  Nach der Umschaltung werden folgende techage Kommandos unterstützt:\n"..
     "\n"..
     "  - 'move2'  Beim Kommando muss zusätzlich die Flugstrecke als x\\,y\\,z Vektor angegeben werden.\nBeispiel Lua Controller: '$send_cmnd(MOVE_CTLR\\, \"move2\"\\, \"0\\,12\\,0\")'\n"..
+    "  - 'moveto' verschiebt Block an die angegebene Zielposition (die Zielposition bezieht sich auf den ersten markierten Block\\, die weiteren Blöcke werden relativ zu dieser Position verschoben)\n"..
     "  - 'reset' Block/Blöcke zurück in Startposition bewegen\n"..
     "\n"..
     "*Wichtige Hinweise:*\n"..
     "\n"..
     "  - Sofern mehrere Blöcke bewegt werden sollen\\, muss der Block\\, der die Spieler/Mobs mitnehmen soll\\, beim Antrainieren als erstes angeklickt werden.\n"..
+    "  - Wird das 'moveto' Kommando genutzt\\, so gilt die angegebene Zielposition für den Block\\, der beim Antrainieren als erstes angeklickt wird.\n"..
     "  - Hat der Block\\, der die Spieler/Mobs mitnehmen soll\\, eine reduzierte Höhe\\, so muss die Höhe im Controller über das Schraubenschlüsselmenü eingestellt werden (bspw. Höhe = 0.5). Ansonsten wird der Spieler/Mob nicht \"gefunden\" und damit nicht mitgenommen.\n"..
     "\n"..
     "\n"..
