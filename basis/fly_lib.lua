@@ -151,7 +151,7 @@ local function trim(s)
 end
 
 function flylib.distance(v)
-	return math.abs(v.x) + math.abs(v.y) + math.abs(v.z)
+	return math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z)
 end
 
 function flylib.to_vector(s, max_dist)
@@ -160,7 +160,7 @@ function flylib.to_vector(s, max_dist)
 	y = tonumber(y) or 0
 	z = tonumber(z) or 0
 	if x and y and z then
-		if not max_dist or (math.abs(x) + math.abs(y) + math.abs(z)) <= max_dist then
+		if not max_dist or flylib.distance({x = x, y = y, z = z}) <= max_dist then
 			return {x = x, y = y, z = z}
 		end
 	end
@@ -872,6 +872,26 @@ function flylib.move_to(pos, move)
 		nvm.running, nvm.lastpos = move_nodes(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed, height)
 	--end
 	return nvm.running
+end
+
+-- `pos` is the controller block position
+-- `dest` is the destination position
+-- `max_dist` is the maximum distance to the destination
+function flylib.move_to_abs(pos, dest, max_dist)
+	local meta = M(pos)
+	local nvm = techage.get_nvm(pos)
+	local height = techage.in_range(meta:contains("height") and meta:get_float("height") or 1, 0, 1)
+	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
+	local teleport_mode = meta:get_string("teleport_mode") == "enable"
+	local pos1 = (nvm.lastpos or nvm.lpos1 or {})[1]
+
+	if nvm.running or not pos1 then return false end
+	local move = vector.subtract(dest, pos1)
+	if not max_dist or flylib.distance(move) <= max_dist then
+		nvm.running, nvm.lastpos = move_nodes(pos, meta, nvm.lastpos or nvm.lpos1, move, max_speed, height)
+		return nvm.running
+	end
+	return false
 end
 
 function flylib.reset_move(pos)

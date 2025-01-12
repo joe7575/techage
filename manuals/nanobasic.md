@@ -1512,8 +1512,9 @@ As payload data, these commands may require numeric values or a string value.
 | Move Contr. 1            | 11 | 1          | TA4 Move Controller command to move the block(s) from position A to B |
 | Move Contr. 2            | 11 | 2          | TA4 Move Controller command to move the block(s) from position B to A |
 | Move Contr. 3            | 11 | 3          | TA4 Move Controller command to move the block(s) to the opposite position |
-| MC move xyz              | 18 | x, y, z    | TA4 Move Controller command to move the block(s) by the given<br>x/y/z-distance. Valid ranges for x, y, and z are -100 to 100 |
-| MC reset                 | 19 | -          | Reset TA4 Move Controller (move block(s) to start position)  |
+| Move Contr. `move xyz`   | 18 | x, y, z    | TA4 Move Controller command to move the block(s) by the given<br>x/y/z-distance. Valid ranges for x, y, and z are -100 to 100 |
+| Move Contr. `moveto`     | 24 | x, y, z    | TA4 Move Controller command to move the block(s) to the given absolute x/y/z-position. |
+| Move Contr. reset        | 19 | -          | Reset TA4 Move Controller (move block(s) to start position)  |
 | Turn Contr. 1            | 12 | 1          | TA4 Turn Controller command to turn the block(s) to the left |
 | Turn Contr. 2            | 12 | 2          | TA4 Turn Controller command to turn the block(s) to the right |
 | Turn Contr. 3            | 12 | 3          | TA4 Turn Controller command to turn the block(s) 180 degrees |
@@ -1525,6 +1526,7 @@ As payload data, these commands may require numeric values or a string value.
 | TA4 Pump Limit           | 21 | limit      | Configure a TA4 Pump with the number of liquid units that are allowed to be pumped ("flow limiter" mode)<br>`limit` = 0 turns off the "flow limiter" mode |
 | Color                    | 22 | color      | Set the color of the TechAge Color Lamp and TechAge Color Lamp 2 (`color` = 0..255) |
 | Multi Button             | 23 | num, state | Turn button (TA4 2x Button, TA4 4x Button) on/off<br>`num` is the button number (1..4)<br>`state` is the state: 0 = "off", 1 = "on" |
+|                          | 25 is next |    |                                                              |
 | Config TA4 Pusher        | 65 | "\<item name>"         | Configure the TA4 pusher.<br/>Example: `wool:blue`           |
 | Sensor Chest Text        | 66 | "text string"          | Text to be used for the Sensor Chest menu                    |
 | Distri. Filter Config    | 67 | "\<slot> \<item list>" | Configure a Distributor filter slot, like: "red default:dirt dye:blue" |

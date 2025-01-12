@@ -425,6 +425,7 @@ Please note, that this is not a technical distinction, only a logical.
 | "b2a" | nil | TA4 Move Controller command to move the block(s) from position B to A |
 | "move" | nil | TA4 Move Controller command to move the block(s) to the opposite position |
 | "move2" | x,y,z | TA4 Move Controller command to move the block(s) by the given<br /> x/y/z-distance. Valid ranges for x, y, and z are -100 to 100.<br />Example: `$send_cmnd("1674", "move2", "0,4,0")` |
+| "moveto" | x,y,z | TA4 Move Controller command to move the block(s) to the given<br /> absolute x/y/z-position. |
 | "reset" | nil | Reset TA4 Move Controller (move block(s) to start position) |
 | "left" | nil | TA4 Turn Controller command to turn the block(s) to the left |
 | "right" | nil | TA4 Turn Controller command to turn the block(s) to the right |

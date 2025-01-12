@@ -154,7 +154,7 @@ In order for the heat storage system to work, all blocks (also the concrete shel
 ### TA4 Heat Exchanger
 
 The heat exchanger consists of 3 parts that must be placed on top of each other, with the arrow of the first block pointing towards the turbine. The pipes must be built with the yellow TA4 pipes.
-The heat exchanger must be connected to the power grid. The energy storage device is recharged via the heat exchanger, provided that sufficient electricity is available. 
+The heat exchanger must be connected to the power grid. The energy storage device is recharged via the heat exchanger, provided that sufficient electricity is available.
 
 [ta4_heatexchanger|image]
 
@@ -171,7 +171,7 @@ The turbine is part of the energy storage. It must be placed next to the generat
 The generator is used to generate electricity. Therefore, the generator must also be connected to the power grid.
 The generator is part of the energy storage. It is used to generate electricity and thus releases the energy from the energy storage unit. Therefore, the generator must also be connected to the power grid.
 
-Important: Both, heat exchanger and generator must be connected to the same power grid! 
+Important: Both, heat exchanger and generator must be connected to the same power grid!
 
 [ta4_generator|image]
 
@@ -222,9 +222,9 @@ A power output countdown can also be entered via the wrench menu. When this coun
 
 ### TA4 Laser
 
-The TA4 laser is used for wireless power transmission. Two blocks are required for this: TA4 Laser Beam Emitter and TA4 Laser Beam Receiver. There must be an air gap between the two blocks so that the laser beam can be built up from the emitter to the receiver. First the emitter must be placed. This immediately switches on the laser beam and shows possible positions of the receiver. Possible positions for the receiver are also output via a chat message. 
+The TA4 laser is used for wireless power transmission. Two blocks are required for this: TA4 Laser Beam Emitter and TA4 Laser Beam Receiver. There must be an air gap between the two blocks so that the laser beam can be built up from the emitter to the receiver. First the emitter must be placed. This immediately switches on the laser beam and shows possible positions of the receiver. Possible positions for the receiver are also output via a chat message.
 
-With the laser, distances of up to 96 blocks can be bridged. Once the connection has been established (no current has to flow), this is indicated via the info text of the emitter and also of the receiver. 
+With the laser, distances of up to 96 blocks can be bridged. Once the connection has been established (no current has to flow), this is indicated via the info text of the emitter and also of the receiver.
 
 The laser blocks themselves do not require any electricity.
 
@@ -267,7 +267,7 @@ It must be supplied with hydrogen from the left by a pump. The power connection 
 
 The fuel cell can deliver up to 34 ku of electricity and needs a hydrogen item every 4 s.
 
-Usually the fuel cell works as a category 2 generator (like other storage systems). 
+Usually the fuel cell works as a category 2 generator (like other storage systems).
 In this case, no other category 2 blocks such as the battery block can be charged. However, the fuel cell can also be used as a category 1 generator via the check box.
 
 [ta4_fuelcell|image]
@@ -477,14 +477,14 @@ Only the appearance of the TA4 button/switch has changed. The functionality is t
 
 ### TA4 2x Button
 
-This block has two buttons that can be individually configured using the wrench menu. The labeling and the target block address can be configured for each button. In addition, the command that is to be sent can be configured for each button. 
+This block has two buttons that can be individually configured using the wrench menu. The labeling and the target block address can be configured for each button. In addition, the command that is to be sent can be configured for each button.
 
 [ta4_button_2x|image]
 
 
 ### TA4 4x Button
 
-This block has four buttons that can be individually configured using the wrench menu. The labeling and the target block address can be configured for each button. In addition, the command that is to be sent can be configured for each button. 
+This block has four buttons that can be individually configured using the wrench menu. The labeling and the target block address can be configured for each button. In addition, the command that is to be sent can be configured for each button.
 
 [ta4_button_4x|image]
 
@@ -602,7 +602,7 @@ Since the moving blocks can take players and mobs standing on the block with the
 Instructions:
 
 - Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)
-- the "flight route" must be entered via an x, y, z specification (relative) (the maximum distance (x+y+z) is 200 m)
+- the "flight route" must be entered via an x, y, z specification (relative) (the maximum distance is 1000 m)
 - The movement can be tested with the menu buttons "Move A-B" and "Move B-A"
 - you can also fly through walls or other blocks
 - The target position for the blocks can also be occupied. In this case, the blocks are saved "invisibly". This is intended for sliding doors and the like
@@ -613,15 +613,17 @@ The Move Controller supports the following techage commands:
 - `b2a` Move block from B to A.
 - `move` Move block to the other side
 
-You can switch to the `move xyz` operating mode via the wrench menu. After switching, the following techage commands are supported: 
+You can switch to the `move xyz` operating mode via the wrench menu. After switching, the following techage commands are supported:
 
-- `move2` With the command, the flight route must also be specified as an x,y,z vector.
-  Example Lua Controller: `$send_cmnd(MOVE_CTLR, "move2", "0,12,0")` 
+- `move2` With this command, the flight route must also be specified as an x,y,z vector.
+  Example Lua Controller: `$send_cmnd(MOVE_CTLR, "move2", "0,12,0")`
+- `moveto` Move block to the given destination position (the destination position is valid for the first marked block, the other blocks are moved relative to this position)
 - `reset` move block(s) back to start position
 
 **Important instructions:**
 
 - If several blocks are to be moved, the block that is to take the players/mobs must be clicked first when training.
+- If the `moveto` command is used, the specified target position applies to the block that is clicked first during training.
 - If the block that is supposed to take the players/mobs has a reduced height, the height must be set in the controller using the open-ended wrench menu (e.g. height = 0.5). Otherwise the player/mob will not be "found" and will not be taken away.
 
 [ta4_movecontroller|image]
@@ -639,7 +641,7 @@ The turn controller supports the following techage commands:
 
 - `left` Turn left
 - `right` Turn right
-- `uturn` Turn 180 degrees 
+- `uturn` Turn 180 degrees
 
 [ta4_turncontroller|image]
 
@@ -827,7 +829,7 @@ Up to 10 recipes can be saved in the recipe block. These recipes can then be cal
 
 Example: `$send_cmnd(1234, "input", 1)`
 
-[ta4_recipeblock|image] 
+[ta4_recipeblock|image]
 
 ### TA4 Autocrafter
 
@@ -845,7 +847,7 @@ All technical names of a recipe must be specified here, separated by commas. See
 
 The `flush` command moves all items from the input inventory to the output inventory. The command returns `true` if the input inventory was completely emptied. If `false` was returned (output inventory full), the command must be repeated at a later time.
 
-[ta4_autocrafter|image] 
+[ta4_autocrafter|image]
 
 ### TA4 Tank
 
@@ -859,7 +861,7 @@ A TA4 tank can hold 2000 units or 200 barrels of liquid.
 
 See TA3 pump.
 
-The TA4 pump pumps 8 units of liquid every two seconds. 
+The TA4 pump pumps 8 units of liquid every two seconds.
 
 In the "Flow limiter" mode, the number of units pumped by the pump can be limited. The flow limiter mode can be activated via the open-end wrench menu by configuring the number of units in the menu. Once the configured number of units have been pumped, the pump will turn off. When the pump is turned on again, it will pump the configured number of units again and then turn off.
 
@@ -879,13 +881,13 @@ The heater requires 14 ku of electricity.
 
 ### TA4 Water Pump (deprecated)
 
-This block can no longer be crafted and will be replaced by the TA4 water inlet block. 
+This block can no longer be crafted and will be replaced by the TA4 water inlet block.
 
 ### TA4 Water Inlet
 
-Some recipes require water. The water must be pumped from the sea with a pump (water at y = 1). A "pool" made up of a few water blocks is not sufficient for this! 
+Some recipes require water. The water must be pumped from the sea with a pump (water at y = 1). A "pool" made up of a few water blocks is not sufficient for this!
 
-To do this, the water inlet block must be placed in the water and connected to the pump via pipes. If the block is placed in the water, it must be ensured that there is water under the block (water must be at least 2 blocks deep). 
+To do this, the water inlet block must be placed in the water and connected to the pump via pipes. If the block is placed in the water, it must be ensured that there is water under the block (water must be at least 2 blocks deep).
 
 [ta4_waterinlet|image]
 
@@ -1026,15 +1028,15 @@ The processing power is up to 8 times four items every 4 seconds.
 
 ### TA4 Recycler
 
-The recycler is a machine that processes all Techage recipes backwards, i.e. it can dismantle machines and blocks back into their components. 
+The recycler is a machine that processes all Techage recipes backwards, i.e. it can dismantle machines and blocks back into their components.
 
 The machine can disassemble pretty much any Techage and Hyperloop blocks. But not all recipe items/materials can be recycled:
 
 - Wood turns into sticks
 - Stone turns into sand or gravel
-- Semiconductors / chips cannot be recycled 
+- Semiconductors / chips cannot be recycled
 - Tools cannot be recycled
 
 The processing power is one item every 8 s.  The block requires 16 ku of electricity for this.
 
-[ta4_recycler|image] 
+[ta4_recycler|image]

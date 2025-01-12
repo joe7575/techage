@@ -22,7 +22,7 @@ local MP = minetest.get_modpath("techage")
 local mark = dofile(MP .. "/basis/mark_lib.lua")
 local fly = techage.flylib
 
-local MAX_DIST = 200
+local MAX_DIST = 1000
 local MAX_BLOCKS = 16
 
 local WRENCH_MENU = {
@@ -231,6 +231,12 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 				return fly.move_to(pos, line)
 			end
 			return false
+		elseif move_xyz and topic == "moveto" then
+			local destpos = fly.to_vector(payload)
+			if destpos then
+				return fly.move_to_abs(pos, destpos, MAX_DIST)
+			end
+			return false
 		elseif topic == "reset" then
 			return fly.reset_move(pos)
 		end
@@ -250,11 +256,18 @@ techage.register_node({"techage:ta4_movecontroller"}, {
 			end
 		elseif move_xyz and topic == 18 then  -- move xyz
 			local line = {
-				x = techage.in_range(techage.beduino_signed_var(payload[1]), -100, 100),
-				y = techage.in_range(techage.beduino_signed_var(payload[2]), -100, 100),
-				z = techage.in_range(techage.beduino_signed_var(payload[3]), -100, 100),
+				x = techage.in_range(techage.beduino_signed_var(payload[1]), -1000, 1000),
+				y = techage.in_range(techage.beduino_signed_var(payload[2]), -1000, 1000),
+				z = techage.in_range(techage.beduino_signed_var(payload[3]), -1000, 1000),
 			}
 			return fly.move_to(pos, line) and 0 or 3
+		elseif move_xyz and topic == 24 then  -- moveto xyz
+			local dest = {
+				x = techage.in_range(techage.beduino_signed_var(payload[1]), -32768, 32767),
+				y = techage.in_range(techage.beduino_signed_var(payload[2]), -32768, 32767),
+				z = techage.in_range(techage.beduino_signed_var(payload[3]), -32768, 32767),
+			}
+			return fly.move_to_abs(pos, dest, MAX_DIST) and 0 or 3
 		elseif move_xyz and topic == 19 then  -- reset
 			return fly.reset_move(pos) and 0 or 3
 		else

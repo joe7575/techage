@@ -612,7 +612,7 @@ Da die bewegten Blöcke Spieler und Mobs mitnehmen können, die auf dem Block st
 Anleitung:
 
 - Controller setzen und die Blöcke, die bewegt werden sollen, über das Menü (Taste "Aufzeichnen") an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)
-- die "Flugstrecke" muss über eine x,y,z Angabe (relativ) eingegeben werden (die maximale Distanz (x+y+z) beträgt 200 m)
+- die "Flugstrecke" muss über eine x,y,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 1000 m)
 - mit den Menü-Tasten "Bewege A-B" sowie "Bewege B-A" kann die Bewegung getestet werden
 - man kann auch durch Wände oder andere Blöcke fliegen
 - auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle "unsichtbar" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht
@@ -627,11 +627,13 @@ Der Move Controller unterstützt folgende techage Kommandos:
 
 - `move2`  Beim Kommando muss zusätzlich die Flugstrecke als x,y,z Vektor angegeben werden.
   Beispiel Lua Controller: `$send_cmnd(MOVE_CTLR, "move2", "0,12,0")`
+- `moveto` verschiebt Block an die angegebene Zielposition (die Zielposition bezieht sich auf den ersten markierten Block, die weiteren Blöcke werden relativ zu dieser Position verschoben)
 - `reset` Block/Blöcke zurück in Startposition bewegen
 
 **Wichtige Hinweise:**
 
 - Sofern mehrere Blöcke bewegt werden sollen, muss der Block, der die Spieler/Mobs mitnehmen soll, beim Antrainieren als erstes angeklickt werden.
+- Wird das `moveto` Kommando genutzt, so gilt die angegebene Zielposition für den Block, der beim Antrainieren als erstes angeklickt wird.
 - Hat der Block, der die Spieler/Mobs mitnehmen soll, eine reduzierte Höhe, so muss die Höhe im Controller über das Schraubenschlüsselmenü eingestellt werden (bspw. Höhe = 0.5). Ansonsten wird der Spieler/Mob nicht "gefunden" und damit nicht mitgenommen.
 
 [ta4_movecontroller|image]
