@@ -1,37 +1,37 @@
 return {
   titles = {
-    "1,Tech Age Mod",
-    "2,Hints",
-    "2,Changes from version 1.0",
-    "3,Tips on switching",
-    "2,Ores and Minerals",
-    "3,Meridium",
-    "3,Usmium",
-    "3,Baborium",
-    "3,Petroleum",
-    "3,Bauxite",
-    "3,Basalt",
-    "2,History",
+    "1,Tech Age Мод",
+    "2,Подсказки",
+    "2,Изменения с версии 1.0",
+    "3,Советы по переходу",
+    "2,Руды и Минералы",
+    "3,Меридий",
+    "3,Усмий",
+    "3,Баборий",
+    "3,Нефтепродукты",
+    "3,Бокситы",
+    "3,Базальт",
+    "2,История",
   },
   texts = {
-    "Tech Age is a technology mod with 5 development stages:\n"..
+    "Tech Age - это технологический мод с 5 этапами развития:\n"..
     "\n"..
-    "TA1: Iron Age\n"..
-    "Use tools and aids such as coal burners\\, gravel sieves\\, hammers and hoppers to mine and process the necessary ores and metals.\n"..
+    "TA1: Железный Век\n"..
+    "Используйте инструменты и приспособления, такие как пиролизные печи\\, сеялки гравия\\, молотки и бункеры для добычи и переработки необходимых руд и металлов.\n"..
     "\n"..
-    "TA2: Steam Age\n"..
-    "Build a steam engine with drive axles and use it to operate your first ore processing machines.\n"..
+    "TA2: Паровой Век\n"..
+    "Постройте паровой двигатель с механическими передачами и используйте его для работы своих первых машин по переработке руды.\n"..
     "\n"..
-    "TA3: Oil Age\n"..
-    "Find and extract oil\\, built railways for oil transportation. A power plant provides the necessary electricity for your machines. Electric light illuminates your industrial plants.\n"..
+    "TA3: Нефтяной век\n"..
+    "Найдите и добудьте нефть\\, постройте железные дороги для транспортировки нефти и Электростанцию. Электростанция дает необходимое электричество для ваших машин. Электрический свет освещает ваши промышленные предприятия.\n"..
     "\n"..
-    "TA4: Present\n"..
-    "Renewable energy sources such as wind\\, sun and bio-fuels help you to leave the oil age. With modern technologies and intelligent machines you set out into the future.\n"..
+    "TA4: Настоящее\n"..
+    "Возобновляемые источники энергии, такие как ветер\\, солнце и биотопливо помогут вам покинуть нефтяной век. С помощью современных технологий и умных машин вы отправляетесь в будущее.\n"..
     "\n"..
-    "TA5: Future\n"..
-    "Machines to overcome space and time\\, new sources of energy and other achievements shape your life.\n"..
+    "TA5: Будущее\n"..
+    "Машины, преодолевающие пространство и время\\, новые источники энергии и другие достижения способствуют развитию вашей жизни.\n"..
     "\n"..
-    "Note: With a click on the plus sign you get into the sub-chapters of this manual.\n"..
+    "Примечание: При нажатии на знак «плюс» вы попадаете в подразделы данного руководства.\n"..
     "\n"..
     "\n"..
     "\n",
