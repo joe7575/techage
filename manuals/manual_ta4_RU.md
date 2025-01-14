@@ -1,356 +1,357 @@
-# TA4: Present
 
-Renewable energy sources such as wind, sun and biofuels help you to leave the oil age. With modern technologies and intelligent machines you set out into the future.
+# TA4: Настоящее
 
-[techage_ta4|image]
+Возобновляемые источники энергии, такие как ветер, солнце и биотопливо, помогут вам покинуть нефтяной век. С помощью современных технологий и умных машин вы отправляетесь в будущее.
+
+[techage_ta4|image].
 
 
-## Wind Turbine
+## Ветряная турбина
 
-A wind turbine always supplies electricity when there is wind. There is no wind in the game, but the mod simulates this by turning the wind turbines only in the morning (5:00 - 9:00) and in the evening (17:00 - 21:00). A wind turbine only supplies electricity if it is set up in a suitable location.
+Ветряк всегда дает электричество, когда есть ветер. В игре ветра нет, но мод симулирует это, включая ветряки только утром (5:00 - 9:00) и вечером (17:00 - 21:00). Ветряк дает электричество только в том случае, если он установлен в подходящем месте.
 
-The TA wind power plants are pure offshore plants, which means that they have to be built in the sea. This means that wind turbines can only be build in a sea (occean) biome and that there must be sufficient water and a clear view around the mast.
+Ветряные электростанции TA - это чисто оффшорные установки, то есть они должны быть построены в море. Это означает, что ветряные турбины могут быть построены только в морском (океаническом) биоме и что вокруг мачты должно быть достаточно воды и хороший обзор.
 
-To find a suitable spot, click on the water with the wrench (TechAge Info Tool). A chat message will show you whether this position is suitable for the mast of the wind turbine.
+Чтобы найти подходящее место, нажмите на воду с помощью гаечного ключа (TechAge Info Tool). В чате появится сообщение о том, подходит ли это место для мачты ветряка.
 
-The current must be led from the rotor block down through the mast. First pull the power line up and then "plaster" the power cable with TA4 pillar blocks. A work platform can be built below. The plan on the right shows the structure in the upper part.
+Ток должен быть проведен от блока ротора вниз через мачту. Сначала протяните силовой кабель вверх, а затем "заштукатурьте" его с помощью опорных блоков TA4. Внизу можно построить рабочую платформу. На плане справа показана конструкция в верхней части.
 
-The wind turbine delivers 70 ku, but only 8 hours a day (see above).
+Ветряная турбина выдает 70 кю, но только 8 часов в день (см. выше).
 
 [ta4_windturbine|plan]
 
 
-### TA4 Wind Turbine
+### TA4 Ветряная турбина
 
-The wind turbine block (rotor) is the heart of the wind turbine. This block must be placed on top of the mast. Ideally at Y = 15, then you just stay within a map / forceload block.
-When you start the turbine, all conditions for the operation of the wind turbine are checked. If all conditions are met, the rotor blades (wings) appear automatically. Otherwise you will get an error message.
+Блок ветрогенератора (ротор) - это сердце ветряной турбины. Этот блок должен быть размещен на вершине мачты. В идеале при Y = 15, тогда вы просто останетесь в пределах карты / блока форселоада.
+При запуске турбины проверяются все условия для работы ветряка. Если все условия соблюдены, лопасти ротора (крылья) появляются автоматически. В противном случае вы получите сообщение об ошибке.
 
 [ta4_windturbine|image]
 
 
-### TA4 Wind Turbine Nacelle
+### TA4 Гондола ветряной турбины
 
-This block must be placed on the black end of the wind turbine block.
+Этот блок должен быть расположен на черном конце блока ветрогенератора.
 
 [ta4_nacelle|image]
 
 
-### TA4 Wind Turbine Signal Lamp
+### TA4 Сигнальная лампа "Ветряная турбина
 
-This flashing light is only for decorative purposes and can be placed on top of the wind turbine block.
+Эта мигающая лампочка предназначена только для декоративных целей и может быть размещена на верхней части блока ветряной турбины.
 
 [ta4_blinklamp|image]
 
 
-### TA4 Pillar
+### TA4 Опора
 
-This builds the mast for the wind turbine. However, these blocks are not set by hand but must be set with the help of a trowel, so that the power line to the mast tip is replaced with these blocks (see under TA power cable).
+Таким образом строится мачта для ветряной турбины. Однако эти блоки не устанавливаются вручную, а должны быть установлены с помощью шпателя, так что линия электропередачи к верхушке мачты заменяется этими блоками (см. раздел "Силовой кабель TA").
 
 [ta4_pillar|image]
 
 
-## Solar System
+## Солнечная система
 
-The solar system only produces electricity when the sun is shining. In the game this is every game day from 6:00 am to 6:00 pm.
-The same power is always available during this time. After 6:00 p.m., the solar modules switch off completely.
+Солнечная система вырабатывает электричество только тогда, когда светит солнце. В игре это происходит каждый игровой день с 6:00 утра до 6:00 вечера.
+В это время всегда доступна одинаковая мощность. После 18:00 солнечные модули полностью отключаются.
 
-The biome temperature is decisive for the performance of the solar modules. The hotter the temperature, the higher the yield.
-The biome temperature can be determined with the Techage Info Tool (wrench). It typically fluctuates between 0 and 100:
+Температура в биоме имеет решающее значение для работы солнечных модулей. Чем жарче температура, тем выше урожайность.
+Температуру биома можно определить с помощью Techage Info Tool (гаечный ключ). Обычно она колеблется между 0 и 100:
 
-- full power is available at 100
-- at 50, half the power is available
-- at 0 there is no service available
+- полная мощность доступна на уровне 100
+- при 50 доступна половина мощности
+- при 0 услуга недоступна
 
-It is therefore advisable to look for hot steppes and deserts for the solar system.
-The overhead lines are available for the transport of electricity.
-However, hydrogen can also be produced, which can be transported and converted back into electricity at the destination.
+Поэтому для солнечной системы рекомендуется искать жаркие степи и пустыни.
+Для транспортировки электроэнергии имеются воздушные линии.
+Однако можно производить и водород, который можно транспортировать и превращать в электричество в месте назначения.
 
-The smallest unit in a solar system is two solar modules and one carrier module. The carrier module must be placed first, the two solar modules to the left and right next to it (not above!).
+Самая маленькая единица в солнечной системе - это два солнечных модуля и один модуль-носитель. Несущий модуль должен быть размещен первым, а два солнечных модуля слева и справа от него (не выше!).
 
-The plan on the right shows 3 units, each with two solar modules and one carrier module, connected to the inverter via red cables.
+На плане справа показаны 3 блока, каждый с двумя солнечными модулями и одним несущим модулем, подключенные к инвертору с помощью красных кабелей.
 
-Solar modules supply DC voltage, which cannot be fed directly into the power grid. Therefore, the solar units must first be connected to the inverter via the red cable. This consists of two blocks, one for the red cable to the solar modules (DC) and one for the gray power cable to the power grid (AC).
+Солнечные модули выдают постоянное напряжение, которое не может быть подано непосредственно в электросеть. Поэтому сначала солнечные модули необходимо подключить к инвертору через красный кабель. Он состоит из двух блоков, один из которых предназначен для подключения красного кабеля к солнечным модулям (постоянный ток), а другой - для подключения серого кабеля к электросети (переменный ток).
 
-The map area where the solar system is located must be fully loaded. This also applies to the direct position above the solar module, because the light intensity is regularly measured there. It is therefore advisable to first set a forceload block and then to place the modules within this area.
+Область карты, на которой расположена солнечная система, должна быть полностью загружена. Это относится и к непосредственной позиции над солнечным модулем, поскольку там регулярно измеряется сила света. Поэтому рекомендуется сначала установить блок forceload, а затем разместить модули в этой области.
 
 [ta4_solarplant|plan]
 
 
-### TA4 Solar Module
+### Солнечный модуль TA4
 
-The solar module must be placed on the carrier module. Two solar modules are always required.
-In a pair, the solar modules perform up to 3 ku, depending on the temperature.
-With the solar modules, care must be taken that they have full daylight and are not shaded by blocks or trees. This can be tested with the Info Tool (wrench).
+Солнечный модуль должен быть установлен на несущий модуль. Всегда требуется два солнечных модуля.
+В паре солнечные модули вырабатывают до 3 кю, в зависимости от температуры.
+При использовании солнечных модулей необходимо следить за тем, чтобы они были полностью освещены дневным светом и не были затенены блоками или деревьями. Это можно проверить с помощью Info Tool (гаечный ключ).
 
 [ta4_solarmodule|image]
 
 
-### TA4 Solar Carrier Module
+### TA4 Несущий модуль для солнечных батарей
 
-The carrier module is available in two heights (1m and 2m). Both are functionally identical.
-The carrier modules can be placed directly next to one another and thus connected to form a row of modules. The connection to the inverter or to other module series must be made with the red low-voltage cables or the low-voltage junction boxes.
+Несущий модуль доступен в двух вариантах высоты (1 м и 2 м). Оба варианта функционально идентичны.
+Несущие модули можно размещать непосредственно рядом друг с другом и таким образом соединять их в ряд. Подключение к инвертору или к другим сериям модулей должно осуществляться с помощью красных низковольтных кабелей или низковольтных распределительных коробок.
 
-[ta4_solarcarrier|image]
-
-
-### TA4 Solar Inverter
-
-The inverter converts the solar power (DC) into alternating current (AC) so that it can be fed into the power grid.
-An inverter can feed a maximum of 100 ku of electricity, which corresponds to 33 solar modules or more.
-
-[ta4_solar_inverter|image]
+[ta4_solarcarrier|image].
 
 
-### TA4 Low Power Cable
+### TA4 Солнечный инвертор
 
-The low voltage cable is used to connect rows of solar modules to the inverter. The cable must not be used for other purposes.
+Инвертор преобразует солнечную энергию (постоянный ток) в переменный ток (переменный ток), чтобы она могла быть подана в электросеть.
+Инвертор может подавать максимум 100 кю электроэнергии, что соответствует 33 солнечным модулям или более.
 
-The maximum cable length is 200 m.
-
-[ta4_powercable|image]
+[ta4_solar_inverter|image].
 
 
-### TA4 Low Voltage Junction Box
+### TA4 Кабель низкого энергопотребления
 
-The junction box must be placed on the floor. It has only 4 connections (in the 4 directions).
+Низковольтный кабель используется для подключения рядов солнечных модулей к инвертору. Кабель не должен использоваться для других целей.
+
+Максимальная длина кабеля составляет 200 м.
+
+[ta4_powercable|image].
+
+
+### TA4 Низковольтная распределительная коробка
+
+Распределительная коробка должна быть установлена на полу. Она имеет только 4 соединения (в 4 направлениях).
 
 [ta4_powerbox|image]
 
 
-### TA4 Street Lamp Solar Cell
+### TA4 Солнечный элемент для уличного фонаря
 
-As the name suggests, the street lamp solar cell is used to power a street lamp. A solar cell can supply two lamps (1 ku). The solar cell stores the sun's energy during the day and delivers the electricity to the lamp at night. That means the lamp only glows in the dark.
+Как следует из названия, солнечная батарея для уличного фонаря используется для питания уличного фонаря. Один солнечный элемент может питать две лампы (1 кю). Солнечная батарея накапливает солнечную энергию в течение дня и подает электричество на лампу ночью. Это означает, что лампа светится только в темноте.
 
-This solar cell cannot be combined with the other solar modules.
+Этот солнечный элемент нельзя комбинировать с другими солнечными модулями.
 
-[ta4_minicell|image]
+[ta4_minicell|image].
 
 
 
-## Thermal Energy Storage
+## Накопитель тепловой энергии
 
-The thermal energy storage replaces the battery block from TA3.
+Накопитель тепловой энергии заменяет батарейный блок из TA3.
 
-The thermal energy store consists of a concrete shell (concrete blocks) filled with gravel. Five sizes of the storage are possible:
+Накопитель тепловой энергии состоит из бетонной оболочки (бетонных блоков), заполненной гравием. Возможны пять размеров хранилища:
 
-- Cover with 5x5x5 concrete blocks, filled with 27 gravel, storage capacity: 22.5 kud
-- Cover with 7x7x7 concrete blocks, filled with 125 gravel, storage capacity: 104 kud
-- Cover with 9x9x9 concrete blocks, filled with 343 gravel, storage capacity: 286 kud
-- Cover with 11x11x11 concrete blocks, filled with 729 gravel, storage capacity: 610 kud
-- Cover with 13x13x13 concrete blocks, filled with 1331 gravel, storage capacity: 1112 kud
+- Крышка из бетонных блоков 5x5x5, заполненная гравием 27, вместимость: 22,5 куд
+- Крышка из бетонных блоков 7x7x7, заполненная гравием 125, вместимость: 104 куд
+- Крышка из бетонных блоков 9x9x9, заполнена гравием 343, вместимость: 286 куд
+- Крышка из бетонных блоков 11x11x11, заполненная гравием 729, вместимость: 610 куд
+- Крышка из бетонных блоков 13x13x13, заполненная гравием 1331, вместимость: 1112 куд
 
-A window made of an obsidian glass block may be in the concrete shell. This must be placed fairly in the middle of the wall. Through this window you can see whether the storage is loaded more than 80%. In the plan on the right you can see the structure of TA4 heat exchanger consisting of 3 blocks, the TA4 turbine and the TA4 generator. Pay attention to the alignment of the heat exchanger (the arrow at block 1 must point to the turbine).
+В бетонной оболочке может быть окно из обсидианового стеклоблока. Оно должно располагаться примерно посередине стены. Через это окно можно увидеть, загружено ли хранилище более чем на 80 %. На плане справа показана структура теплообменника TA4, состоящего из 3 блоков, турбины TA4 и генератора TA4. Обратите внимание на выравнивание теплообменника (стрелка на блоке 1 должна указывать на турбину).
 
-Contrary to the plan on the right, the connections on the storage block must be on the same level (arranged horizontally, i.e. not below and above). The pipe inlets (TA4 Pipe Inlet) must be exactly in the middle of the wall and face each other. The yellow TA4 pipes are used as steam pipes. The TA3 steam pipes cannot be used here.
-Both the generator and the heat exchanger have a power connection and must be connected to the power grid.
+В отличие от плана справа, соединения на блоке хранения должны находиться на одном уровне (располагаться горизонтально, т.е. не снизу и не сверху). Вводы труб (TA4 Pipe Inlet) должны находиться точно посередине стены и быть обращены друг к другу. Желтые трубы TA4 используются в качестве паровых труб. Паровые трубы TA3 здесь использовать нельзя.
+Как генератор, так и теплообменник имеют силовой разъем и должны быть подключены к электросети.
 
-In principle, the heat storage system works exactly the same as the batteries, only with much more storage capacity.
+В принципе, система аккумулирования тепла работает точно так же, как и аккумуляторы, только с гораздо большей емкостью.
 
-In order for the heat storage system to work, all blocks (also the concrete shell and gravel) must be loaded using a forceload block.
+Для того чтобы система хранения тепла работала, все блоки (также бетонная оболочка и гравий) должны быть загружены с помощью блока forceload.
 
 [ta4_storagesystem|plan]
 
 
-### TA4 Heat Exchanger
+### TA4 Теплообменник
 
-The heat exchanger consists of 3 parts that must be placed on top of each other, with the arrow of the first block pointing towards the turbine. The pipes must be built with the yellow TA4 pipes.
-The heat exchanger must be connected to the power grid. The energy storage device is recharged via the heat exchanger, provided that sufficient electricity is available.
+Теплообменник состоит из 3 частей, которые нужно поставить друг на друга, причем стрелка первого блока должна быть направлена в сторону турбины. Трубы должны быть построены из жёлтых труб TA4.
+Теплообменник должен быть подключен к электросети. Накопитель энергии заряжается через теплообменник при условии наличия достаточного количества электроэнергии.
 
 [ta4_heatexchanger|image]
 
 
-### TA4 Turbine
+### Турбина TA4
 
-The turbine is part of the energy storage. It must be placed next to the generator and connected to the heat exchanger via TA4 tubes as shown in the plan.
+Турбина является частью накопителя энергии. Она должна быть размещена рядом с генератором и соединена с теплообменником с помощью трубок TA4, как показано на плане.
 
 [ta4_turbine|image]
 
 
-### TA4 Generator
+### Генератор TA4
 
-The generator is used to generate electricity. Therefore, the generator must also be connected to the power grid.
-The generator is part of the energy storage. It is used to generate electricity and thus releases the energy from the energy storage unit. Therefore, the generator must also be connected to the power grid.
+Генератор используется для выработки электроэнергии. Поэтому генератор также должен быть подключен к электросети.
+Генератор является частью накопителя энергии. Он используется для выработки электроэнергии и таким образом высвобождает энергию из энергонакопителя. Поэтому генератор также должен быть подключен к электросети.
 
-Important: Both, heat exchanger and generator must be connected to the same power grid!
+Внимание: и теплообменник, и генератор должны быть подключены к одной электросети!
 
 [ta4_generator|image]
 
 
-### TA4 Pipe Inlet
+### TA4 Трубный ввод
 
-One pipe inlet block each must be installed on both sides of the storage block. The blocks must face each other exactly.
+По одному блоку ввода труб должно быть установлено с обеих сторон блока хранения. Блоки должны располагаться точно напротив друг друга.
 
-The pipe inlet blocks **cannot** be used as normal wall openings, use the TA3 pipe wall entry blocks instead.
+Блоки ввода труб **не могут** использоваться в качестве обычных отверстий в стене, вместо них используйте блоки ввода труб в стену TA3.
 
 [ta4_pipeinlet|image]
 
 
-### TA4 Pipe
+### Труба TA4
 
-With TA4, the yellow pipes are used for the transmission of gas and liquids.
-The maximum cable length is 100 m.
+Желтые трубы TA4 используются для передачи газа и жидкостей.
+Максимальная длина кабеля составляет 100 м.
 
 [ta4_pipe|image]
 
 
 
-## Power Distribution
+## Распределение питания
 
-With the help of power cables and junction boxes, power networks of up to 1000 blocks/nodes can be set up. However, it should be noted that distribution boxes must also be counted. This means that up to 500 generators/storage systems/machines/lamps can be connected to a power grid.
+С помощью силовых кабелей и распределительных коробок можно создавать электрические сети до 1000 блоков/узлов. Однако следует отметить, что необходимо учитывать и распределительные коробки. Это означает, что к электросети можно подключить до 500 генераторов/накопителей/машин/ламп.
 
-With the help of an isolating transformer and electricity meter, networks can be connected to form even larger structures.
-
-[ta4_transformer|image]
-
-### TA4 Isolation Transformer
-
-With the help of an isolating transformer, two power grids can be connected to form a larger network. The isolation transformer can transmit electricity in both directions.
-
-The isolation transformer can transmit up to 300 ku. The maximum value is adjustable via the wrench menu.
+С помощью разделительного трансформатора и счетчика электроэнергии можно соединять сети, образуя еще более крупные структуры.
 
 [ta4_transformer|image]
 
-### TA4 Electric Meter
+### TA4 Изолирующий трансформатор
 
-With the help of an electricity meter, two electricity networks can be connected to form a larger network. The electricity meter only transmits electricity in one direction (note arrow). The amount of electrical energy passed through (in kud) is measured and displayed. This value can also be queried by a Lua controller using the `consumption` command. The current current can be queried via the command `current`.
+С помощью разделительного трансформатора можно соединить две электросети в одну большую сеть. Разделительный трансформатор может передавать электроэнергию в обоих направлениях.
 
-The electricity meter can pass up to 200 ku. The maximum value is adjustable via the wrench menu.
+Разделительный трансформатор может передавать до 300 кю. Максимальное значение регулируется через меню гаечного ключа.
 
-A power output countdown can also be entered via the wrench menu. When this countdown reaches zero, the electricity meter switches off. The countdown can be queried using the `countdown` command.
+[ta4_transformer|image]
 
-[ta4_electricmeter|image]
+### TA4 Электрический счетчик
+
+С помощью электросчетчика можно соединить две электрические сети в одну большую сеть. Электросчетчик передает электроэнергию только в одном направлении (обратите внимание на стрелку). Количество пропущенной через него электроэнергии (в кудах) измеряется и отображается на дисплее. Это значение также может быть запрошено контроллером Lua с помощью команды `consumption`. Текущий ток можно узнать с помощью команды `current`.
+
+Счетчик электроэнергии может пропускать до 200 кю. Максимальное значение настраивается через меню гаечного ключа.
+
+Через меню гаечного ключа можно также ввести обратный отсчет мощности. Когда этот отсчет достигнет нуля, счетчик электроэнергии выключится. Обратный отсчет можно запросить с помощью команды `countdown`.
+
+[ta4_electricmeter|image].
 
 ### TA4 Laser
 
-The TA4 laser is used for wireless power transmission. Two blocks are required for this: TA4 Laser Beam Emitter and TA4 Laser Beam Receiver. There must be an air gap between the two blocks so that the laser beam can be built up from the emitter to the receiver. First the emitter must be placed. This immediately switches on the laser beam and shows possible positions of the receiver. Possible positions for the receiver are also output via a chat message.
+Лазер TA4 используется для беспроводной передачи энергии. Для этого необходимы два блока: Излучатель лазерного луча TA4 и Приемник лазерного луча TA4. Между двумя блоками должен быть воздушный зазор, чтобы лазерный луч мог распространяться от излучателя к приемнику. Сначала необходимо установить излучатель. Это сразу же включает лазерный луч и показывает возможные положения приемника. Возможные позиции приемника также отображаются в чате.
 
-With the laser, distances of up to 96 blocks can be bridged. Once the connection has been established (no current has to flow), this is indicated via the info text of the emitter and also of the receiver.
+С помощью лазера можно преодолевать расстояния до 96 блоков. Как только соединение установлено (ток не протекает), об этом сообщается в информационном тексте излучателя и приемника.
 
-The laser blocks themselves do not require any electricity.
+Сами лазерные блоки не требуют электричества.
 
 [ta4_laser|image]
 
 
 
-## Hydrogen
+## Водород
 
-Electrolysis can be used to split electricity into hydrogen and oxygen. On the other hand, hydrogen can be converted back into electricity with oxygen from the air using a fuel cell.
-This enables current peaks or an excess supply of electricity to be converted into hydrogen and thus stored.
+Электролиз можно использовать для разделения электричества на водород и кислород. С другой стороны, водород можно превратить обратно в электричество с помощью кислорода из воздуха, используя топливный элемент.
+Это позволяет преобразовывать пики тока или избыток электроэнергии в водород и хранить его.
 
-In the game, electricity can be converted back into electricity via the fuel cell using the electrolyzer in hydrogen and hydrogen.
-This means that electricity (in the form of hydrogen) can not only be stored in tanks, but also transported by means of the tank cart.
+В игре электричество можно преобразовать обратно в электроэнергию с помощью топливного элемента, используя электролизер для получения водорода и водорода.
+Это означает, что электроэнергию (в виде водорода) можно не только хранить в резервуарах, но и транспортировать с помощью тележки-цистерны.
 
-However, the conversion of electricity into hydrogen and back is lossy. Out of 100 units of electricity, only 95 units of electricity come out after the conversion to hydrogen and back.
+Однако преобразование электричества в водород и обратно происходит с потерями. Из 100 единиц электроэнергии после преобразования в водород и обратно выходит только 95 единиц.
 
-[ta4_hydrogen|image]
-
-
-### Electrolyzer
-
-The electrolyzer converts electricity into hydrogen.
-It must be powered from the left. On the right, hydrogen can be extracted via pipes and pumps.
-
-The electrolyzer can draw up to 35 ku of electricity and then generates a hydrogen item every 4 s.
-200 units of hydrogen fit into the electrolyzer.
-
-The electrolyzer has a wrench menu for setting the current consumption and the switch-off point.
-
-If the power stored in the power grid falls below the specified value of the switch-off point, the electrolyzer switches off automatically. This prevents the storage systems from running empty.
-
-[ta4_electrolyzer|image]
+[ta4_hydrogen|image].
 
 
-### Fuel Cell
+### Электролизер
 
-The fuel cell converts hydrogen into electricity.
-It must be supplied with hydrogen from the left by a pump. The power connection is on the right.
+Электролизер преобразует электричество в водород.
+Питание должно осуществляться слева. Справа водород можно добывать с помощью труб и насосов.
 
-The fuel cell can deliver up to 34 ku of electricity and needs a hydrogen item every 4 s.
+Электролизер может потреблять до 35 кю электроэнергии, а затем генерировать водород каждые 4 с.
+В электролизер помещается 200 единиц водорода.
 
-Usually the fuel cell works as a category 2 generator (like other storage systems).
-In this case, no other category 2 blocks such as the battery block can be charged. However, the fuel cell can also be used as a category 1 generator via the check box.
+Электролизер имеет гаечное меню для настройки потребляемого тока и точки отключения.
+
+Если накопленная в электросети энергия падает ниже заданного значения точки отключения, электролизер автоматически отключается. Это предотвращает опустошение систем хранения.
+
+[ta4_electrolyzer|image].
+
+
+### Топливный элемент
+
+Топливный элемент преобразует водород в электричество.
+Водород в него должен подаваться слева с помощью насоса. Подключение питания находится справа.
+
+Топливный элемент может производить до 34 кю электроэнергии и нуждается в порции водорода каждые 4 с.
+
+Обычно топливный элемент работает как генератор категории 2 (как и другие аккумуляторные системы).
+В этом случае нельзя заряжать другие блоки категории 2, например блок аккумуляторов. Однако топливный элемент можно также использовать в качестве генератора категории 1 с помощью флажка.
 
 [ta4_fuelcell|image]
 
 
-## Chemical Reactor
+## Химический реактор
 
-The reactor is used to process the ingredients obtained from the distillation tower or from other recipes into new products.
-The plan on the left shows only one possible variant, since the arrangement of the silos and tanks depends on the recipe.
+Реактор используется для переработки ингредиентов, полученных из дистилляционной колонны или по другим рецептам, в новые продукты.
+На плане слева показан только один из возможных вариантов, поскольку расположение бункеров и резервуаров зависит от рецепта.
 
-The primary output product is always output to the side of the reactor stand, regardless of whether it is a powder or a liquid. The (secondary) waste product is always discharged at the bottom of the reactor stand.
+Первичный продукт всегда выводится на боковую сторону реакторной стойки, независимо от того, является ли он порошком или жидкостью. Отходы (вторичный продукт) всегда выгружаются в нижней части реакторной стойки.
 
-A reactor consists of:
-- Various tanks and silos with the ingredients that are connected to the doser via pipes
-- optionally a reactor base, which discharges the waste from the reactor (only necessary for recipes with two output products)
-- the reactor stand, which must be placed on the base (if available). The stand has a power connection and draws 8 ku during operation.
-- The reactor vessel that has to be placed on the reactor stand
-- The filler pipe that must be placed on the reactor vessel
-- The dosing device, which has to be connected to the tanks or silos and the filler pipe via pipes
+Реактор состоит из:
+- Различные резервуары и силосы с ингредиентами, которые подключаются к дозатору с помощью труб
+- опционально - основание реактора, которое выгружает отходы из реактора (необходимо только для рецептов с двумя выходными продуктами)
+- подставка для реактора, которая должна быть установлена на основание (если имеется). Подставка имеет подключение к электросети и потребляет 8 кю во время работы.
+- Корпус реактора, который должен быть установлен на реакторный стенд
+- Заливная труба, которая должна быть установлена на корпусе реактора
+- Дозирующее устройство, которое должно быть подключено к резервуарам или силосам и наливной трубе с помощью трубопроводов
 
-Note 1: Liquids are only stored in tanks, solids and substances in powder form only in silos. This applies to ingredients and output products.
+Примечание 1: Жидкие вещества хранятся только в резервуарах, твердые вещества и вещества в виде порошка - только в силосах. Это относится к ингредиентам и выходным продуктам.
 
-Note 2: Tanks or silos with different contents must not be connected to a pipe system. In contrast, several tanks or silos with the same content may hang in parallel on one line.
+Примечание 2: Резервуары или силосы с разным содержимым не должны быть соединены в систему трубопроводов. Напротив, несколько резервуаров или силосов с одинаковым содержимым могут быть подвешены параллельно на одной линии.
 
-Cracking breaks long chains of hydrocarbons into short chains using a catalyst.
-Gibbsite powder serves as a catalyst (is not consumed). It can be used to convert bitumen into fueloil, fueloil into naphtha and naphtha into gasoline.
+При крекинге длинные цепочки углеводородов расщепляются на короткие с помощью катализатора.
+Порошок гиббсита служит катализатором (не расходуется). Его можно использовать для преобразования битума в мазут, мазута в нафту и нафты в бензин.
 
-In hydrogenation, pairs of hydrogen atoms are added to a molecule to convert short-chain hydrocarbons into long ones.
-Here iron powder is required as a catalyst (is not consumed). It can be used to convert gas (propane) into isobutane,
-isobutane into gasoline, gasoline into naphtha, naphtha into fueloil, and fueloil into bitumen.
+При гидрогенизации к молекуле добавляют пары атомов водорода, чтобы превратить короткоцепочечные углеводороды в длинноцепочечные.
+Здесь железный порошок необходим в качестве катализатора (не расходуется). Его можно использовать для превращения газа (пропана) в изобутан,
+изобутан в бензин, бензин в нафту, нафта в мазут, а мазут в битум.
 
 
 [ta4_reactor|plan]
 
 
-### TA4 Doser
+### TA4 Дозатор
 
-Part of the chemical reactor.
-Pipes for input materials can be connected on all 4 sides of the doser. The materials for the reactor are discharged upwards.
+Часть химического реактора.
+Трубы для подачи исходных материалов могут быть подключены со всех 4 сторон дозатора. Материалы для реактора выгружаются вверх.
 
-The recipe can be set and the reactor started via the doser.
+Рецепт можно задать и запустить реактор через дозатор.
 
-As with other machines:
-- if the doser is in standby mode, one or more ingredients are missing
-- if the doser is in the blocked state, the output tank or silo is full, defective or incorrectly connected
+Как и в случае с другими машинами:
+- если дозатор находится в режиме ожидания, один или несколько ингредиентов отсутствуют
+- если дозатор находится в заблокированном состоянии, выходной бак или бункер переполнен, неисправен или неправильно подключен
 
-The doser does not need any electricity. A recipe is processed every 10 s.
+Дозатор не нуждается в электричестве. Рецепт обрабатывается каждые 10 с.
 
 [ta4_doser|image]
 
 ### TA4 Reactor
 
-Part of the chemical reactor. The reactor has a inventory for the catalyst items (for cracking and hydrogenation recipes).
+Часть химического реактора. В реакторе имеется инвентарь для хранения катализаторов (для рецептов крекинга и гидрогенизации).
 
 [ta4_reactor|image]
 
 
-### TA4 Filler Pipe
+### Заливная труба TA4
 
-Part of the chemical reactor. Must be placed on the reactor. If this does not work, remove the pipe at the position above and place it again.
+Часть химического реактора. Должна быть помещена на реактор. Если это не сработает, удалите трубу в вышеуказанном месте и поместите ее снова.
 
 [ta4_fillerpipe|image]
 
 
-### TA4 Reactor Stand
+### TA4 Подставка для реактора
 
-Part of the chemical reactor. Here is also the power connection for the reactor. The reactor requires 8 ku of electricity.
+Часть химического реактора. Здесь же находится подключение питания для реактора. Реактору требуется 8 кю электроэнергии.
 
-The stand has two pipe connections, to the right for the starting product and down for the waste, such as red mud in aluminum production.
+Стойка имеет два патрубка: справа - для исходного продукта, внизу - для отходов, например, красного шлама при производстве алюминия.
 
-[ta4_reactorstand|image]
+[ta4_reactorstand|image].
 
 
-### TA4 Reactor Base
+### TA4 База реактора
 
-Part of the chemical reactor. Is required for the drainage of the waste product.
+Часть химического реактора. Необходим для слива отработанного продукта.
 
-[ta4_reactorbase|image]
+[ta4_reactorbase|image].
 
 
 ### TA4 Silo
 
-Part of the chemical reactor. Is required to store substances in powder or granule form.
+Часть химического реактора. Необходим для хранения веществ в виде порошка или гранул.
 
 [ta4_silo|image]
 
@@ -359,70 +360,70 @@ Part of the chemical reactor. Is required to store substances in powder or granu
 
 ## ICTA Controller
 
-The ICTA controller (ICTA stands for "If Condition Then Action") is used to monitor and control machines. The controller can be used to read in data from machines and other blocks and, depending on this, switch other machines and blocks on / off.
+Контроллер ICTA (ICTA расшифровывается как "If Condition Then Action") используется для контроля и управления машинами. С помощью контроллера можно считывать данные с машин и других блоков и в зависимости от этого включать/выключать другие машины и блоки.
 
-Machine data is read in and blocks and machines are controlled using commands. Chapter TA3 -> Logic / switching blocks is important for understanding how commands work.
+Данные машины считываются, блоки и машины управляются с помощью команд. Глава TA3 -> Логические/коммутационные блоки важна для понимания работы команд.
 
-The controller requires a battery to operate. The display is used to output data, the signal tower to display errors.
-
-[ta4_icta_controller|image]
-
-
-
-### TA4 ICTA controller
-
-The controller works on the basis of `IF <condition> THEN <action>` rules. Up to 8 rules can be created per controller.
-
-Examples of rules are:
-
-- If a distributor is `blocked`, the pusher in front of it should be switched off
-- If a machine shows an error, this should be shown on the display
-
-The controller checks these rules cyclically. To do this, a cycle time in seconds (`` Cycle / s '') must be specified for each rule (1..1000).
-
-For rules that evaluate an on / off input, e.g. from a switch or detector, cycle time 0 must be specified. The value 0 means that this rule should always be carried out when the input signal has changed, e.g. the button has sent a new value.
-
-All rules should only be executed as often as necessary. This has two advantages:
-
-- the battery of the controller lasts longer (each controller needs a battery)
-- the load for the server is lower (therefore fewer lags)
-
-You have to set a delay time (`after/s`) for each action. If the action is to be carried out immediately, 0 must be entered.
-
-The controller has its own help and information on all commands via the controller menu.
+Для работы контроллера требуется батарея. Дисплей используется для вывода данных, сигнальная башня - для отображения ошибок.
 
 [ta4_icta_controller|image]
 
-### Battery
 
-The battery must be placed in close proximity to the controller, i.e. in one of the 26 positions around the controller.
+
+### TA4 Контроллер ICTA
+
+Контроллер работает на основе правил `IF <условие> THEN <действие>`. Для одного контроллера можно создать до 8 правил.
+
+Примерами правил являются:
+
+- Если распределитель "заблокирован", толкатель перед ним должен быть выключен
+- Если аппарат выдает ошибку, это должно отображаться на дисплее
+
+Контроллер проверяет эти правила циклически. Для этого необходимо указать время цикла в секундах (``Цикл/сек'') для каждого правила (1..1000).
+
+Для правил, оценивающих входной сигнал включения/выключения, например, от выключателя или детектора, необходимо указать время цикла 0. Значение 0 означает, что это правило должно выполняться всегда, когда входной сигнал изменился, например, кнопка передала новое значение.
+
+Все правила должны выполняться только так часто, как это необходимо. Это имеет два преимущества:
+
+- батарея контроллера служит дольше (для каждого контроллера нужна своя батарея)
+- нагрузка на сервер ниже (следовательно, меньше задержек)
+
+Для каждого действия необходимо задать время задержки (`после/с`). Если действие должно быть выполнено немедленно, необходимо ввести 0.
+
+Контроллер имеет собственную справку и информацию по всем командам через меню контроллера.
+
+[ta4_icta_controller|image]
+
+### Батарея
+
+Батарея должна располагаться в непосредственной близости от контроллера, т.е. в одном из 26 положений вокруг контроллера.
 
 [ta4_battery|image]
 
-### TA4 Display
+### Дисплей TA4
 
-The display shows its number after placement. The display can be addressed via this number. Texts can be output on the display, whereby the display can display 5 lines and thus 5 different texts.
+После установки дисплей показывает свой номер. По этому номеру к дисплею можно обращаться. На дисплей можно выводить тексты, при этом дисплей может отображать 5 строк и, соответственно, 5 различных текстов.
 
-Lines of text are always left-aligned. If the text is to be centered horizontally, the text must be preceded by the character "\t" (tabulator).
+Строки текста всегда выравниваются по левому краю. Если текст должен быть выровнен по горизонтали, перед ним должен стоять символ "\t" (табулятор).
 
-The display is updated at most once per second.
+Дисплей обновляется не чаще одного раза в секунду.
 
 [ta4_display|image]
 
 ### TA4 Display XL
 
-The TA4 Display XL is twice the size of the TA4 display.
+Дисплей TA4 Display XL в два раза больше дисплея TA4.
 
-Lines of text are always left-aligned. If the text is to be centered horizontally, the text must be preceded by the character "\t" (tabulator).
+Строки текста всегда выравниваются по левому краю. Если текст должен быть выровнен по горизонтали, перед ним должен стоять символ "\t" (табулятор).
 
-The display is updated every two seconds at most.
+Дисплей обновляется не чаще, чем раз в две секунды.
 
 [ta4_displayXL|image]
 
 
-### TA4 Signal Tower
+### Сигнальная башня TA4
 
-The signal tower can display red, green and orange. A combination of the 3 colors is not possible.
+Сигнальная башня может отображать красный, зеленый и оранжевый цвета. Комбинация этих трех цветов невозможна.
 
 [ta4_signaltower|image]
 
@@ -430,529 +431,529 @@ The signal tower can display red, green and orange. A combination of the 3 color
 
 ## TA4 Lua Controller
 
-As the name suggests, the Lua controller must be programmed in the Lua programming language. The manual in English is here available:
+Как следует из названия, контроллер Lua должен быть запрограммирован на языке программирования Lua. Руководство на английском языке доступно здесь:
 
 https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md
 
-The Lua controller also requires a battery. The battery must be placed in close proximity to the controller, i.e. in one of the 26 positions around the controller.
+Контроллеру Lua также требуется батарея. Батарея должна располагаться в непосредственной близости от контроллера, то есть в одном из 26 положений вокруг контроллера.
 
 [ta4_lua_controller|image]
 
 ### TA4 Lua Server
 
-The server is used for the central storage of data from several Lua controllers. It also saves the data after a server restart.
+Сервер используется для централизованного хранения данных нескольких контроллеров Lua. Он также сохраняет данные после перезапуска сервера.
 
 [ta4_lua_server|image]
 
-### TA4 Sensor Box / Chest
+### TA4 Блок датчиков / сундук
 
-The TA4 sensor box is used to set up automatic warehouses or vending machines in conjunction with the Lua controller.
-If something is put into the box or removed, or one of the "F1" / "F2" keys is pressed, an event signal is sent to the Lua controller.
-The sensor box supports the following commands:
+Блок датчиков TA4 используется для организации автоматических складов или торговых автоматов в сочетании с контроллером Lua.
+Если что-то положить в ящик или убрать, или нажать одну из клавиш "F1" / "F2", на контроллер Lua будет отправлен сигнал о событии.
+Блок датчиков поддерживает следующие команды:
 
-- The status of the box can be queried via `state = $send_cmnd(<num>, "state")`. Possible answers are: "empty", "loaded", "full"
-- The last player action can be queried via `name, action = $send_cmnd(<num>, "action")`. `name` is the player name. One of the following is returned as `action`: "put", "take", "f1", "f2".
-- The contents of the box can be read out via `stacks = $send_cmnd(<num>, "stacks")`. See: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest
-- Via `$send_cmnd(<num>, "text", "press both buttons and\nput something into the chest")` the text can be set in the menu of the sensor box.
+- Статус ящика можно запросить через `state = $send_cmnd(<num>, "state")`. Возможные ответы: "пустой", "загруженный", "полный".
+- Последнее действие игрока можно запросить через `name, action = $send_cmnd(<num>, "action")`. `name` - это имя игрока. В качестве `action` возвращается одно из следующих действий: "put", "take", "f1", "f2".
+- Содержимое ящика можно считать с помощью команды `stacks = $send_cmnd(<num>, "stacks")`. См.: https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.md#sensor-chest
+- Через `$send_cmnd(<num>, "text", "нажмите обе кнопки и\n положите что-нибудь в сундук")` текст может быть установлен в меню сенсорного блока.
 
-The checkbox "Allow public chest access" can be used to set whether the box can be used by everyone or only by players who have access/protection rights here.
+Флажок "Разрешить публичный доступ к сундуку" позволяет установить, может ли ящик использоваться всеми или только игроками, имеющими здесь права доступа/защиты.
 
 [ta4_sensor_chest|image]
 
-### TA4 Lua Controller Terminal
+### Терминал контроллера TA4 Lua
 
-The terminal is used for input / output for the Lua controller.
+Терминал используется для ввода/вывода данных для контроллера Lua.
 
 [ta4_terminal|image]
 
 
 
-## TA4 Logic/Switching Modules
+## Логические/коммутационные модули TA4
 
-### TA4 Button/Switch
+### TA4 Кнопка/переключатель
 
-Only the appearance of the TA4 button/switch has changed. The functionality is the same as with the TA3 button/switch. With the wrench menu, however, the data can be changed later.
+Изменился только внешний вид кнопки/переключателя TA4. Функциональность такая же, как у кнопки/переключателя TA3. Однако с помощью меню гаечного ключа данные можно изменить позже.
 
 [ta4_button|image]
 
-### TA4 2x Button
+### TA4 2x Кнопка
 
-This block has two buttons that can be individually configured using the wrench menu. The labeling and the target block address can be configured for each button. In addition, the command that is to be sent can be configured for each button.
+Этот блок имеет две кнопки, которые могут быть индивидуально настроены с помощью меню гаечного ключа. Для каждой кнопки можно настроить маркировку и адрес целевого блока. Кроме того, для каждой кнопки можно настроить отправляемую команду.
 
 [ta4_button_2x|image]
 
 
-### TA4 4x Button
+### TA4 4x Кнопка
 
-This block has four buttons that can be individually configured using the wrench menu. The labeling and the target block address can be configured for each button. In addition, the command that is to be sent can be configured for each button.
+Этот блок имеет четыре кнопки, которые могут быть индивидуально настроены с помощью меню гаечного ключа. Для каждой кнопки можно настроить маркировку и адрес целевого блока. Кроме того, для каждой кнопки можно настроить отправляемую команду.
 
 [ta4_button_4x|image]
 
-### TA4 2x Signal Lamp
+### TA4 2x Сигнальная лампа
 
-This block has two lamps that can be controlled individually. Each lamp can display the colors "red", "green" and "amber". The labeling for both lamps can be configured via the wrench menu. The lamps can be controlled using the following commands:
+Этот блок имеет две лампы, которыми можно управлять по отдельности. Каждая лампа может отображать цвета "красный", "зеленый" и "янтарный". Маркировка обеих ламп может быть настроена через меню гаечного ключа. Управление лампами осуществляется с помощью следующих команд:
 
-- Switch lamp 1 to red: `$send_cmnd(1234, "red", 1)`
-- Switch lamp 2 to green: `$send_cmnd(1234, "green ", 2)`
-- Switch lamp 1 to orange: `$send_cmnd(1234, "amber", 1)`
-- Switch lamp 2 off: `$send_cmnd(1234, "off", 2)`
+- Переключите лампу 1 на красный цвет: `$send_cmnd(1234, "red", 1)`.
+- Переключите лампу 2 на зеленый цвет: `$send_cmnd(1234, "green ", 2)`.
+- Переключите лампу 1 на оранжевый цвет: `$send_cmnd(1234, "amber", 1)`.
+- Выключите лампу 2: `$send_cmnd(1234, "off", 2)`.
 
 [ta4_signallamp_2x|image]
 
-### TA4 4x Signal Lamp
+### TA4 4x Сигнальная лампа
 
-This block has four lamps that can be controlled individually. Each lamp can display the colors "red", "green" and "amber". The labeling for all lamps can be configured via the wrench menu. The lamps can be controlled using the following commands:
+Этот блок имеет четыре лампы, которыми можно управлять по отдельности. Каждая лампа может отображать цвета "красный", "зеленый" и "янтарный". Маркировка всех ламп может быть настроена через меню гаечного ключа. Управление лампами осуществляется с помощью следующих команд:
 
-- Switch lamp 1 to red: `$send_cmnd(1234, "red", 1)`
-- Switch lamp 2 to green: `$send_cmnd(1234, "green ", 2)`
-- Switch lamp 3 to orange: `$send_cmnd(1234, "amber", 3)`
-- Switch lamp 4 off: `$send_cmnd(1234, "off", 4)`
+- Переключите лампу 1 на красный цвет: `$send_cmnd(1234, "red", 1)`.
+- Переключите лампу 2 на зеленый цвет: `$send_cmnd(1234, "green ", 2)`.
+- Переключите лампу 3 на оранжевый цвет: `$send_cmnd(1234, "amber", 3)`.
+- Выключите лампу 4: `$send_cmnd(1234, "off", 4)`
 
 [ta4_signallamp_4x|image]
 
-### TA4 Player Detector
+### TA4 Детектор игроков
 
-Only the appearance of the TA4 player detector has changed. The functionality is the same as with the TA3 player detector.
+Изменился только внешний вид детектора плееров TA4. Функциональность осталась такой же, как и у детектора плеера TA3.
 
 [ta4_playerdetector|image]
 
-### TA4 State Collector
+### TA4 Государственный коллектор
 
 [ta4_collector|image]
 
-The status collector queries all configured machines in turn for the status. If one of the machines has reached or exceeded a preconfigured status, an "on" command is sent. For example, many machines can be easily monitored for faults from a Lua controller.
+Коллектор состояния поочередно запрашивает состояние всех сконфигурированных машин. Если одна из машин достигла или превысила предварительно настроенный статус, отправляется команда "включить". Например, многие машины можно легко отслеживать на предмет неисправностей с помощью контроллера Lua.
 
-### TA4 Item Detector
+### TA4 Детектор предметов
 
-The functionality is the same as for the TA3 item detector. In addition, the detector counts the items passed on.
-This counter can be queried with the 'count' command and reset with 'reset'.
+Функциональность такая же, как и у детектора предметов TA3. Кроме того, детектор подсчитывает переданные предметы.
+Этот счетчик можно запросить командой 'count' и сбросить командой 'reset'.
 
 [ta4_detector|image]
 
-### TA4 Node Detector
+### TA4 Детектор узлов
 
-The functionality is the same as with the TA3 Node Detector.
+Функциональность такая же, как и у детектора узлов TA3.
 
-In contrast to the TA3 node detector, the positions to be monitored can be configured individually here. To do this, the "Record" button must be pressed. Then all blocks must be clicked, the position of which is to be checked. Then the "Done" button must be pressed.
+В отличие от детектора узлов TA3, здесь контролируемые позиции можно настраивать индивидуально. Для этого необходимо нажать кнопку "Запись". Затем необходимо щелкнуть по всем блокам, положение которых необходимо проверить. Затем необходимо нажать кнопку "Готово".
 
-Up to 4 blocks can be selected.
+Можно выбрать до 4 блоков.
 
 [ta4_nodedetector|image]
 
-### TA4 Energy Storage Charge Detector
+### TA4 Детектор заряда накопителей энергии
 
-The charge detector measures the state of charge of the power grid's energy storage every 8 s.
+Детектор заряда измеряет состояние заряда накопителей энергии электросети каждые 8 с.
 
-If the value falls below a configurable threshold (switching point), a command (default: "off") is sent. If the value rises above this switching point again, a second command (default: "on") is sent. This allows consumers to be disconnected from the grid when the charge level of the energy storage device falls below the specified switching point.
+Если значение падает ниже настраиваемого порога (точки переключения), отправляется команда (по умолчанию: "выкл."). Если значение снова поднимается выше этой точки переключения, отправляется вторая команда (по умолчанию: "включить"). Это позволяет отключать потребителей от сети, когда уровень заряда накопителя энергии падает ниже заданной точки переключения.
 
-To do this, the charge detector must be connected to the grid via a junction box. The charge detector is configured via the open-end wrench menu.
+Для этого детектор заряда должен быть подключен к сети через распределительную коробку. Детектор заряда настраивается через меню открытого ключа.
 
-[ta4_chargedetector|image]
+[ta4_chargedetector|image].
 
-### TA4 Gaze Sensor
+### TA4 Датчик взгляда
 
-The TA4 gaze sensor generates a command when the block is viewed/focused by the owner or other configured players and sends a second command when the block is no longer focused. It thus serves as a replacement for buttons/switches, for example to open/close doors.
+Датчик взгляда TA4 генерирует команду, когда на блок смотрит/фокусируется владелец или другие настроенные игроки, и посылает вторую команду, когда блок больше не фокусируется. Таким образом, он служит заменой кнопок/выключателей, например, для открытия/закрытия дверей.
 
-The TA4 Gaze Sensor can only be programmed using the open-end wrench menu. If you have an open-end wrench in your hand, the sensor does not trigger, even if it is focused.
+Датчик взгляда TA4 можно запрограммировать только с помощью меню гаечного ключа с открытым концом. Если у вас в руках гаечный ключ с открытым концом, датчик не сработает, даже если он сфокусирован.
 
 [ta4_gaze_sensor|image]
 
 ### TA4 Sequencer
 
-Entire processes can be programmed using the TA4 sequencer. Here's an example:
+С помощью секвенсора TA4 можно программировать целые процессы. Вот пример:
 
 ```
--- this is a comment
-[1] send 1234 a2b
-[30] send 1234 b2a
+-- Это комментарий
+[1] отправить 1234 a2b
+[30] отправить 1234 b2a
 [60] goto 1
 ```
 
-- Each line begins with a number which corresponds to a point in time `[<num>]`
-- Values from 1 to 50000 are permitted for times
-- 1 corresponds to 100 ms, 50000 corresponds to about 4 game days
-- Empty lines or comments are allowed (`-- comment`)
-- With `send <num> <command> <data>` you can send a command to a block
-- With `goto <num>` you can jump to another line / point in time
-- With `stop` you can stop the sequencer with a delay so that it does not receive a new command
-  accepts from a button or other block (to complete a movement)
-  Without `stop`, the sequencer goes into stopped mode immediately after the last command.
+- Каждая строка начинается с числа, которое соответствует моменту времени `[<num>]`.
+- Для времени допускаются значения от 1 до 50000
+- 1 соответствует 100 мс, 50000 - около 4 игровых дней
+- Допускаются пустые строки или комментарии (`-- comment`).
+- С помощью команды `send <num> <command> <data>` вы можете отправить команду блоку
+- С помощью `goto <num>` вы можете перейти на другую строку / точку во времени
+- С помощью `stop` вы можете остановить секвенсор с задержкой, чтобы он не получил новую команду.
+  принимает от кнопки или другого блока (для завершения движения)
+  Без `stop` секвенсор переходит в режим остановки сразу после выполнения последней команды.
 
-The TA4 sequencer supports the following techage commands:
+Секвенсор TA4 поддерживает следующие команды techage:
 
-- `goto <num>` Jump to a command line and start the sequencer
-- `stop` Stop the sequencer
-- `on` and `off` as aliases for `goto 1` resp. `stop`
+- `goto <num>` Переход к командной строке и запуск секвенсора
+- `stop` Остановить секвенсор
+- `on` и `off` как псевдонимы для `goto 1` и `stop`.
 
-The `goto` command is only accepted when the sequencer is stopped.
+Команда `goto` принимается только тогда, когда секвенсор остановлен.
 
-The cycle time (default: 100 ms) can be changed for the sequencer via the open-end wrench menu.
+Время цикла (по умолчанию: 100 мс) может быть изменено для секвенсора через меню торцевого ключа.
 
 [ta4_sequencer|image]
 
 
 
-## Move/Turn Controller
+## Контроллер перемещения/поворота
 
 ### TA4 Move Controller
 
-The TA4 Move Controller is similar to "Door Controller 2", but the selected blocks are not removed, but can be moved.
-Since the moving blocks can take players and mobs standing on the block with them, elevators and similar transport systems can be built with them.
+Контроллер перемещения TA4 аналогичен "Контроллеру дверей 2", но выбранные блоки не удаляются, а перемещаются.
+Поскольку движущиеся блоки могут забирать с собой игроков и мобов, стоящих на блоке, с их помощью можно строить лифты и подобные транспортные системы.
 
-Instructions:
+Инструкции:
 
-- Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)
-- the "flight route" must be entered via an x, y, z specification (relative) (the maximum distance is 1000 m)
-- The movement can be tested with the menu buttons "Move A-B" and "Move B-A"
-- you can also fly through walls or other blocks
-- The target position for the blocks can also be occupied. In this case, the blocks are saved "invisibly". This is intended for sliding doors and the like
+- Настройте контроллер и обучите перемещаемые блоки с помощью меню (можно обучить до 16 блоков)
+- маршрут полета" должен быть введен с помощью спецификации x, y, z (относительно) (максимальное расстояние - 1000 м)
+- Движение можно проверить с помощью кнопок меню "Move A-B" и "Move B-A".
+- Вы также можете пролетать сквозь стены или другие блоки
+- Целевая позиция блоков также может быть занята. В этом случае блоки сохраняются "невидимо". Это предназначено для раздвижных дверей и т. п.
 
-The Move Controller supports the following techage commands:
+Контроллер Move поддерживает следующие команды techage:
 
-- `a2b` Move block from A to B.
-- `b2a` Move block from B to A.
-- `move` Move block to the other side
+- `a2b` Переместите блок из A в B.
+- `b2a` Переместите блок из B в A.
+- `move` Переместить блок на другую сторону
 
-You can switch to the `move xyz` operating mode via the wrench menu. After switching, the following techage commands are supported:
+Переключиться в режим работы `move xyz` можно через меню гаечного ключа. После переключения поддерживаются следующие команды techage:
 
-- `move2` With this command, the flight route must also be specified as an x,y,z vector.
-  Example Lua Controller: `$send_cmnd(MOVE_CTLR, "move2", "0,12,0")`
-- `moveto` Move block to the given destination position (the destination position is valid for the first marked block, the other blocks are moved relative to this position)
-- `reset` move block(s) back to start position
+- `move2` С помощью этой команды маршрут полета также должен быть задан в виде вектора x,y,z.
+  Пример Lua-контроллера: `$send_cmnd(MOVE_CTLR, "move2", "0,12,0")`.
+- `moveto` Перемещает блок в заданную позицию назначения (позиция назначения действительна для первого отмеченного блока, остальные блоки перемещаются относительно этой позиции)
+- `сброс` перемещает блок(ы) обратно в исходное положение
 
-**Important instructions:**
+**Важные указания:**
 
-- If several blocks are to be moved, the block that is to take the players/mobs must be clicked first when training.
-- If the `moveto` command is used, the specified target position applies to the block that is clicked first during training.
-- If the block that is supposed to take the players/mobs has a reduced height, the height must be set in the controller using the open-ended wrench menu (e.g. height = 0.5). Otherwise the player/mob will not be "found" and will not be taken away.
+- Если необходимо переместить несколько блоков, то при обучении нужно сначала нажать на блок, в котором будут находиться игроки/мобы.
+- Если используется команда `moveto`, указанная целевая позиция применяется к блоку, который первым нажимается во время обучения.
+- Если блок, который должен забрать игрока/моба, имеет уменьшенную высоту, ее необходимо установить в контроллере с помощью открытого гаечного меню (например, height = 0.5). В противном случае игрок/моб не будет "найден" и не будет забран.
 
 [ta4_movecontroller|image]
 
-### TA4 Turn Controller
+### TA4 Контроллер поворота
 
-The TA4 turn controller is similar to the "Move Controller", but the selected blocks are not moved, but rotated around their center to the right or left.
+Контроллер поворота TA4 похож на "Контроллер перемещения", но выбранные блоки не перемещаются, а поворачиваются вокруг своего центра вправо или влево.
 
-Instructions:
+Инструкции:
 
-- Set the controller and train the blocks to be moved via the menu (up to 16 blocks can be trained)
-- The movement can be tested with the menu buttons "Turn left" and "Turn right"
+- Настройте контроллер и обучите перемещаемые блоки с помощью меню (можно обучить до 16 блоков)
+- Движение можно проверить с помощью кнопок меню "Поворот налево" и "Поворот направо".
 
-The turn controller supports the following techage commands:
+Контроллер поворота поддерживает следующие команды techage:
 
-- `left` Turn left
-- `right` Turn right
-- `uturn` Turn 180 degrees
+- Повернуть налево
+- `right` Повернуть направо
+- Повернуть на 180 градусов
 
 [ta4_turncontroller|image]
 
 
 
 
-## TA4 Lamps
+## Лампы TA4
 
-TA4 contains a series of powerful lamps that enable better illumination or take on special tasks.
+TA4 содержит серию мощных ламп, которые позволяют улучшить освещение или справиться с особыми задачами.
 
-### TA4 LED Grow Light
+Светодиодный светильник для выращивания ### TA4
 
-The TA4 LED grow light enables fast and vigorous growth of all plants from the `farming` mod. The lamp illuminates a 3x3 field, so that plants can also be grown underground.
-The lamp must be placed one block above the ground in the middle of the 3x3 field.
+Светодиодная лампа TA4 обеспечивает быстрый и энергичный рост всех растений, начиная с `фермерской` моды. Лампа освещает поле 3x3, поэтому растения можно выращивать и под землей.
+Лампа должна быть установлена на один блок над землей в центре поля 3x3.
 
-The lamp can also be used to grow flowers. If the lamp is placed over a 3x3 flower bed made of "Garden Soil" (Mod `compost`), the flowers grow there automatically (above and below ground).
+Лампу также можно использовать для выращивания цветов. Если поместить лампу над клумбой 3x3 из "Садовой почвы" (Mod `compost`), цветы будут расти автоматически (над и под землей).
 
-You can harvest the flowers with the Signs Bot, which also has a corresponding sign that must be placed in front of the flower field.
+Вы можете собирать цветы с помощью бота Signs Bot, который также имеет соответствующий знак, который нужно разместить перед цветочным полем.
 
-The lamp requires 1 ku of electricity.
+Лампа потребляет 1 кю электроэнергии.
 
 [ta4_growlight|image]
 
-### TA4 Street Lamp
+### TA4 Уличный фонарь
 
-The TA4 LED street lamp is a lamp with particularly strong illumination. The lamp consists of the lamp housing, lamp arm and lamp pole blocks.
+Уличный светодиодный светильник TA4 - это светильник с особенно сильным освещением. Светильник состоит из корпуса, кронштейна и блоков для столбов.
 
-The current must be led from below through the mast up to the lamp housing. First pull the power line up and then "plaster" the power cable with lamp pole blocks.
+Ток должен быть подведен снизу через мачту к корпусу лампы. Сначала протяните силовой кабель вверх, а затем "заштукатурьте" его с помощью блоков ламповых мачт.
 
-The lamp requires 1 ku of electricity.
+Лампа потребляет 1 кю электроэнергии.
 
 [ta4_streetlamp|image]
 
-### TA4 LED Industrial Lamp
+### TA4 Светодиодная промышленная лампа
 
-The TA4 LED industrial lamp is a lamp with particularly strong illumination. The lamp must be powered from above.
+Светодиодная промышленная лампа TA4 - это лампа с особенно сильным освещением. Питание лампы должно осуществляться сверху.
 
-The lamp requires 1 ku of electricity.
+Лампа потребляет 1 кю электроэнергии.
 
 [ta4_industriallamp|image]
 
-### TA4 traffic light
+### TA4 светофор
 
-The TA4 traffic light is available in two versions: black (European version) and yellow (American version). In addition, there is a mast, an arm and a connector block. The traffic light can be mounted on or to a mast. However, it cannot be mounted to an arm. This is for technical reasons. This is why there is the connector block, which is placed between the arm and the traffic light.
+Светофор TA4 выпускается в двух вариантах: черном (европейская версия) и желтом (американская версия). Кроме того, в комплект входят мачта, кронштейн и соединительный блок. Светофор может быть установлен на мачте или на кронштейне. Однако он не может быть установлен на кронштейне. Это обусловлено техническими причинами. Поэтому существует соединительный блок, который помещается между кронштейном и светофором.
 
-The traffic light can be controlled using commands like the TA4 signal tower. If the TA4 player detector is also used, the traffic light can also react to pedestrians or vehicles.
+Светофором можно управлять с помощью команд, аналогичных командам сигнальной башни TA4. Если также используется детектор игроков TA4, светофор может реагировать на пешеходов или транспортные средства.
 
-The traffic light does not require any electricity.
+Светофор не требует электричества.
 
 [ta4_trafficlight|image]
 
 
-## TA4 Liquid Filter
+## Жидкий фильтр TA4
 
-The liquid filter filters red mud.
-A part of the red mud becomes lye, which can be collected at the bottom in a tank.
-The other part becomes desert cobblestone and clutters the filter material.
-If the filter is too clogged, it has to be cleaned and re-filled.
-The filter consists of a base layer, 7 identical filter layers and a filling layer at the top.
+Жидкостный фильтр отфильтровывает красную грязь.
+Часть красной грязи превращается в щелочь, которую можно собрать на дне в резервуар.
+Другая часть становится пустынным булыжником и засоряет фильтрующий материал.
+Если фильтр сильно засорился, его необходимо очистить и заново наполнить.
+Фильтр состоит из базового слоя, 7 одинаковых фильтрующих слоев и верхнего слоя наполнителя.
 
 [ta4_liquid_filter|image]
 
-### Base Layer
+### Базовый слой
 
-You can see the structure of this layer in the plan.
+Вы можете увидеть структуру этого слоя на плане.
 
-The lye is collected in the tank.
+Щелочь собирается в резервуаре.
 
 [ta4_liquid_filter_base|plan]
 
-### Gravel Layer
+### Гравийный слой
 
-This layer has to be filled with gravel as shown in the plan.
-In total, there must be seven layers of gravel.
-The filter will become cluttered over time, so that it has to be cleaned and re-filled.
+Этот слой должен быть заполнен гравием, как показано на плане.
+Всего должно быть семь слоев гравия.
+Со временем фильтр засоряется, и его приходится чистить и наполнять заново.
 
 [ta4_liquid_filter_gravel|plan]
 
-### Filling Layer
+### Слой начинки
 
-This layer is used to fill the filter with red mud.
-The red mud must be pumped into the filler pipe.
+Этот слой используется для заполнения фильтра красной грязью.
+Красный буровой раствор должен быть закачан в наливную трубу.
 
 [ta4_liquid_filter_top|plan]
 
 
 
 
-## TA4 Collider (Particle Accelerator)
+## Коллайдер TA4 (ускоритель частиц)
 
-The Collider is a research facility that conducts basic research. Experience points can be collected here, which are required for TA5 (Future Age).
+Коллайдер - это исследовательский центр, в котором проводятся фундаментальные исследования. Здесь можно получить очки опыта, которые требуются для прохождения TA5 (Future Age).
 
-Like its original at CERN in Geneva, the collider must be built underground. The standard setting here is Y <= -28. The value can, however, be changed by the server personnel via configuration. Please ask or try the "TA4 Collider Detector Worker" block.
+Как и его оригинал в ЦЕРНе в Женеве, коллайдер должен быть построен под землей. Стандартная настройка здесь - Y <= -28. Однако это значение может быть изменено персоналом сервера через конфигурацию. Пожалуйста, спросите или попробуйте воспользоваться блоком "TA4 Collider Detector Worker".
 
-Only one collider can be operated per player. So it makes no sense to set up two or more colliders. Experience points are credited to the player who owns the collider. The experience points cannot be transferred.
+На одного игрока может приходиться только один коллайдер. Поэтому нет смысла устанавливать два или более коллайдеров. Очки опыта начисляются игроку, владеющему коллайдером. Очки опыта не могут быть переданы.
 
-A collider consists of a "ring" made of tubes and magnets as well as a detector with a cooling system.
+Коллайдер состоит из "кольца", состоящего из трубок и магнитов, а также детектора с системой охлаждения.
 
-- The detector is the heart of the system. This is where the scientific experiments take place. The detector is 3x3x7 blocks in size.
-- 22 TA4 Collider Magnets (not the TA4 Collider Detector Magnets!) must be connected to each other via 5 blocks of the TA4 vacuum tube. Each magnet also requires electricity and a gas connection for cooling. The whole thing forms (as shown in the plan on the right) a square with an edge length of 37 meters.
+- Детектор - это сердце системы. Именно здесь проводятся научные эксперименты. Детектор имеет размер 3x3x7 блоков.
+- 22 магнита коллайдера TA4 (не магниты детектора коллайдера TA4!) должны быть соединены друг с другом через 5 блоков вакуумной трубки TA4. Каждый магнит также нуждается в электричестве и газовом соединении для охлаждения. Все это образует (как показано на плане справа) квадрат с длиной ребра 37 метров.
 
-The plan shows the facility from above:
+На плане объект показан сверху:
 
-- the gray block is the detector with the worker block in the middle
-- the red blocks are the magnets, the blue the vacuum tubes
+- серый блок - это детектор с рабочим блоком в центре
+- красные блоки - магниты, синие - вакуумные трубки
 
 [techage_collider_plan|plan]
 
-### Detector
+### Детектор
 
-The detector is set up automatically with the help of the "TA4 Collider Detector Worker" block (similar to the derrick). All of the materials required for this must first be placed in the worker block. The detector is shown symbolically on the worker block. The detector is set up across the worker block.
+Установка детектора происходит автоматически с помощью блока "Рабочий детектора коллайдера TA4" (аналогично вышке). Все необходимые для этого материалы должны быть сначала помещены в рабочий блок. На рабочем блоке символически изображен детектор. Детектор устанавливается на рабочем блоке.
 
-The detector can also be dismantled again with the help of the worker block.
+Детектор также можно снова разобрать с помощью рабочего блока.
 
-The connections for electricity, gas and vacuum tubes are located on the two front sides of the detector. A TA4 pump must be connected at the top in order to suck the tube empty / to create the vacuum.
+Разъемы для подключения электричества, газа и вакуумных трубок расположены на двух передних сторонах детектора. Сверху должен быть подключен насос TA4, чтобы всасывать пустую трубку / создавать вакуум.
 
-The cooling system must be connected to the rear of the detector. The cooling system is shown in the plan on the right. In addition to the TA4 heat exchanger of the energy storage unit (which is used here for cooling), a TA4 cooler block is also required.
+Система охлаждения должна быть подключена к задней части детектора. Система охлаждения показана на плане справа. В дополнение к теплообменнику TA4 блока хранения энергии (который используется здесь для охлаждения) необходим блок охладителя TA4.
 
-Note: The arrow on the heat exchanger must point away from the detector. The heat exchanger must also be supplied with electricity.
+Примечание: Стрелка на теплообменнике должна быть направлена в сторону от детектора. К теплообменнику также должно быть подведено электричество.
 
 [ta4_cooler|plan]
 
 
-- In addition, cooling is required, which must also be installed at the detector. Isobutane is required for cooling.
-- The system requires quite a bit of electricity. Therefore, it makes sense to have your own power supply.
+- Кроме того, требуется охлаждение, которое также должно быть установлено на детекторе. Для охлаждения требуется изобутан.
+- Система требует довольно много электроэнергии. Поэтому имеет смысл иметь собственный источник питания.
 
-### Control / TA4 Terminal
+### Клемма управления / TA4
 
-The collider is controlled via a TA4 terminal (not via the TA4 Lua controller terminal).
+Коллайдер управляется через терминал TA4 (не через терминал TA4 Lua-контроллера).
 
-This terminal must be connected to the detector. The number of the detector is displayed as info text on the worker block.
+Эта клемма должна быть подключена к извещателю. Номер извещателя отображается в виде информационного текста на рабочем блоке.
 
-The terminal supports the following commands:
+Терминал поддерживает следующие команды:
 
-- `connect <number>` (connect to the detector)
-- `start` (starting the detector)
-- `stop` (stop the detector)
-- `test <number>` (checking a magnet)
-- `points` (query of the experience points already achieved)
+- `connect <номер>` (подключение к детектору)
+- `start` (запуск детектора)
+- `stop` (остановить детектор)
+- `test <номер>` (проверка магнита)
+- `очки` (запрос уже полученных очков опыта)
 
-If an error occurs on a magnet during the `start`, the number of the magnet is output. The `test` command can be used to request further information on the magnet error.
+Если во время `старта` на магните произошла ошибка, выводится номер магнита. Команда `test` может быть использована для запроса дополнительной информации об ошибке магнита.
 
 [ta4_terminal|image]
 
-### Cooling and power
+### Охлаждение и питание
 
-Each TA4 Collider magnet must also be supplied with electricity (as shown on the right in the plan) and with Isobutane for cooling:
+Каждый магнит коллайдера TA4 также должен быть снабжен электричеством (как показано справа на плане) и изобутаном для охлаждения:
 
-- The connection for the power is on the top of the magnet.
-- The connection for the cooling is on the front of the magnet.
-- A TA4 pump and a TA4 tank with at least 250 units of isobutane are also required to cool the entire system.
-- The system also requires a lot of electricity. It therefore makes sense to have your own power supply with at least 145 ku.
+- Разъем для подключения питания находится на верхней части магнита.
+- Соединение для охлаждения находится на передней панели магнита.
+- Для охлаждения всей системы также требуется насос TA4 и резервуар TA4 с не менее чем 250 единицами изобутана.
+- Система также требует много электроэнергии. Поэтому имеет смысл иметь собственный источник питания мощностью не менее 145 кю.
 
 [techage_collider_plan2|plan]
 
-### Construction
+### Строительство
 
-The following sequence is recommended when setting up the collider:
+При настройке коллайдера рекомендуется соблюдать следующую последовательность действий:
 
-- Put a forceload block. Only the detector with the cooling system has to be in the area of ​​the forceload block.
-- Set the worker block, fill it with items and set up the detector via the menu
-- Build the ring with tubes and magnets
-- Connect all magnets and the detector with power cables
-- Connect all magnets and the detector with the yellow tubes and pump the isobutane into the tube system with a pump
-- Install a TA4 pump as a vacuum pump on the detector and switch it on (no additional tank is required). If the pump goes into "standby", the vacuum is established. This will take a few seconds
-- assemble the cooler (heat exchanger) and connect it to the power cable
-- Place the TA4 terminal in front of the detector and connect it to the detector via `connect <number>`
-- Switch on / connect the power supply
-- switch on the cooler (heat exchanger)
-- Switch on the detector via `start` on the TA4 terminal. After a few test steps, the detector goes into normal operation or outputs an error.
-- The collider has to run continuously and then gradually delivers experience points. For 10 points, the collider has to run for a few hours
+- Установите блок принудительной загрузки. Только детектор с системой охлаждения должен находиться в зоне блока перегрузки.
+- Установите рабочий блок, заполните его предметами и настройте детектор через меню
+- Соберите кольцо из трубок и магнитов
+- Подключите все магниты и детектор с помощью кабелей питания
+- Соедините все магниты и детектор с желтыми трубками и закачайте изобутан в систему трубок с помощью насоса
+- Установите насос TA4 в качестве вакуумного насоса на извещатель и включите его (дополнительный резервуар не требуется). Если насос переходит в режим "ожидания", значит, вакуум создан. Это займет несколько секунд.
+- Соберите охладитель (теплообменник) и подключите его к кабелю питания
+- Расположите клемму TA4 перед извещателем и подключите ее к извещателю через `connect <number>`.
+- Включите/подключите источник питания
+- включите охладитель (теплообменник)
+- Включите извещатель с помощью `start` на клемме TA4. После нескольких тестовых шагов извещатель перейдет в нормальный режим работы или выдаст ошибку.
+- Коллайдер должен работать непрерывно, а затем постепенно приносить очки опыта. Чтобы получить 10 очков, коллайдер должен работать несколько часов.
 
-[techage_ta4c|image]
-
-
+[techage_ta4c|image].
 
 
-## More TA4 Blocks
 
-### TA4 Recipe Block
 
-Up to 10 recipes can be saved in the recipe block. These recipes can then be called up via a TA4 Autocrafter command. This enables the autocrafter's recipe to be configured using a command. The recipes in the recipe block can also be queried directly using a command.
+## Больше блоков TA4
 
-`input <index>` reads a recipe from the TA4 recipe block. `<index>` is the number of the recipe. The block returns a list of recipe ingredients.
+### TA4 Рецептурный блок
 
-Example: `$send_cmnd(1234, "input", 1)`
+В блоке рецептов можно сохранить до 10 рецептов. Затем эти рецепты можно вызвать с помощью команды TA4 Autocrafter. Это позволяет настроить рецепт автокрафтера с помощью команды. Рецепты в блоке рецептов также могут быть запрошены напрямую с помощью команды.
+
+`input <index>` считывает рецепт из блока рецептов TA4. `<index>` - это номер рецепта. Блок возвращает список ингредиентов рецепта.
+
+Пример: `$send_cmnd(1234, "input", 1)`.
 
 [ta4_recipeblock|image]
 
 ### TA4 Autocrafter
 
-The function corresponds to that of TA3.
+Функция соответствует функции TA3.
 
-The processing power is 4 items every 4 s. The autocrafter requires 9 ku of electricity for this.
+Мощность обработки составляет 4 предмета каждые 4 с. Для этого автокрафтеру требуется 9 кю электроэнергии.
 
-In addition, the TA4 Autocrafter supports the selection of different recipes using the following commands:
+Кроме того, автокрафтер TA4 поддерживает выбор различных рецептов с помощью следующих команд:
 
-`recipe "<number>.<index>"` switches the autocrafter to a recipe from the TA4 Recipe Block. `<number>` is the number of the recipe block, `<index>` the recipe number. Example: `$send_cmnd(1234, "recipe", "5467.1")`
+`recipe "<number>.<index>"` переключает автокрафтер на рецепт из блока рецептов TA4. `<number>` - номер блока рецептов, `<index>` - номер рецепта. Пример: `$send_cmnd(1234, "recipe", "5467.1")`.
 
-Alternatively, a recipe can also be selected via the list of ingredients, such as:
+Кроме того, рецепт можно выбрать через список ингредиентов, например:
 `$send_cmnd(1234, "recipe", "default:coal_lump,,,default:stick")`
-All technical names of a recipe must be specified here, separated by commas. See also the command `input` in the TA4 recipe block.
+Здесь должны быть указаны все технические имена рецепта, разделенные запятыми. См. также команду `input` в блоке рецептов TA4.
 
-The `flush` command moves all items from the input inventory to the output inventory. The command returns `true` if the input inventory was completely emptied. If `false` was returned (output inventory full), the command must be repeated at a later time.
+Команда `flush` перемещает все предметы из входного инвентаря в выходной инвентарь. Команда возвращает `true`, если входной инвентарь был полностью опустошен. Если возвращается `false` (выходной инвентарь заполнен), команду нужно повторить позже.
 
 [ta4_autocrafter|image]
 
 ### TA4 Tank
 
-See TA3 tank.
+См. бак TA3.
 
-A TA4 tank can hold 2000 units or 200 barrels of liquid.
+Цистерна TA4 вмещает 2000 единиц или 200 бочек жидкости.
 
 [ta4_tank|image]
 
-### TA4 Pump
+### Насос TA4
 
-See TA3 pump.
+См. насос TA3.
 
-The TA4 pump pumps 8 units of liquid every two seconds.
+Насос TA4 перекачивает 8 единиц жидкости каждые две секунды.
 
-In the "Flow limiter" mode, the number of units pumped by the pump can be limited. The flow limiter mode can be activated via the open-end wrench menu by configuring the number of units in the menu. Once the configured number of units have been pumped, the pump will turn off. When the pump is turned on again, it will pump the configured number of units again and then turn off.
+В режиме "Ограничитель расхода" можно ограничить количество единиц, перекачиваемых насосом. Режим ограничения расхода можно активировать через меню открытого ключа, задав в нем количество единиц. После перекачивания заданного количества единиц насос выключится. При повторном включении насос снова перекачает заданное количество единиц, а затем выключится.
 
-The flow limiter can also be configured and started using a Lua or Beduino controller.
+Ограничитель расхода также может быть настроен и запущен с помощью контроллера Lua или Beduino.
 
-The pump also supports the `flowrate` command. This allows the total flow rate through the pump to be queried.
+Насос также поддерживает команду `flowrate`. Это позволяет запрашивать общий расход через насос.
 
 [ta4_pump|image]
 
-### TA4 Furnace Heater
+### TA4 Нагреватель печи
 
-With TA4, the industrial furnace also has its electrical heating. The oil burner and the blower can be replaced with the heater.
+При использовании TA4 промышленная печь также имеет электрический нагрев. Масляная горелка и воздуходувка могут быть заменены на нагреватель.
 
-The heater requires 14 ku of electricity.
+Для работы обогревателя требуется 14 кю электроэнергии.
 
-[ta4_furnaceheater|image]
+[ta4_furnaceheater|image].
 
-### TA4 Water Pump (deprecated)
+### TA4 Водяной насос (устаревший)
 
-This block can no longer be crafted and will be replaced by the TA4 water inlet block.
+Этот блок больше не может быть изготовлен и будет заменен блоком TA4 для впуска воды.
 
-### TA4 Water Inlet
+### TA4 Вход для воды
 
-Some recipes require water. The water must be pumped from the sea with a pump (water at y = 1). A "pool" made up of a few water blocks is not sufficient for this!
+Для некоторых рецептов требуется вода. Воду нужно качать из моря с помощью насоса (вода при y = 1). Бассейна из нескольких блоков воды для этого недостаточно!
 
-To do this, the water inlet block must be placed in the water and connected to the pump via pipes. If the block is placed in the water, it must be ensured that there is water under the block (water must be at least 2 blocks deep).
+Для этого водозаборный блок необходимо поместить в воду и подключить к насосу с помощью труб. Если блок помещен в воду, необходимо убедиться, что под ним есть вода (глубина должна составлять не менее 2 блоков).
 
 [ta4_waterinlet|image]
 
 ### TA4 Tube
 
-TA4 also has its own tubes in the TA4 design. These can be used like standard tubes.
-But: TA4 pushers and TA4 distributors only achieve their full performance when used with TA4 tubes.
+В конструкции TA4 также имеются собственные трубки. Их можно использовать как стандартные трубки.
+Но: Толкатели TA4 и распределители TA4 достигают своей полной эффективности только при использовании трубок TA4.
 
 [ta4_tube|image]
 
 ### TA4 Pusher
 
-The function basically corresponds to that of TA2 / TA3. In addition, a menu can be used to configure which objects should be taken from a TA4 chest and transported further.
-The processing power is 12 items every 2 s, if TA4 tubes are used on both sides. Otherwise there are only 6 items every 2 s.
+Функции в основном соответствуют TA2 / TA3. Кроме того, с помощью меню можно настроить, какие объекты должны быть взяты из сундука TA4 и транспортированы дальше.
+Мощность обработки составляет 12 элементов каждые 2 с, если с обеих сторон используются трубки TA4. В противном случае каждые 2 с обрабатывается только 6 элементов.
 
-In the "flow limiter" mode, the number of items that are moved by the pusher can be limited. The flow limiter mode can be activated via the open-end wrench menu by configuring the number of items in the menu. As soon as the configured number of items have been moved, the pusher switches off. If the pusher is switched on again, it moves the configured number of items again and then switches off.
+В режиме "Ограничитель потока" можно ограничить количество предметов, перемещаемых толкателем. Режим ограничения расхода можно активировать через меню торцевого ключа, задав в нем количество предметов. Как только заданное количество предметов будет перемещено, толкатель выключится. При повторном включении толкатель снова перемещает заданное количество предметов, а затем выключается.
 
-The TA4 pusher can also be configured and started using a Lua or Beduino controller.
+Толкатель TA4 также можно настроить и запустить с помощью контроллера Lua или Beduino.
 
-Here are the additional commands for the Lua controller:
+Вот дополнительные команды для контроллера Lua:
 
-- `config` is used to configure the pusher, analogous to manual configuration via the menu.
-   Example: `$send_cmnd(1234, "config", "default:dirt")`
-   With `$send_cmnd(1234, "config", "")` the configuration is deleted
-- `limit` is used to set the number of items for the flow limiter mode:
-   Example: `$send_cmnd(1234, "init", 7)`
+- `config` используется для настройки толкателя, аналогично ручной настройке через меню.
+   Пример: `$send_cmnd(1234, "config", "default:dirt")`.
+   С помощью `$send_cmnd(1234, "config", "")` конфигурация удаляется
+- `limit` используется для установки количества элементов для режима ограничителя расхода:
+   Пример: `$send_cmnd(1234, "init", 7)`.
 
 [ta4_pusher|image]
 
 ### TA4 Chest
 
-The function corresponds to that of TA3. The chest can hold more content.
+Функции соответствуют TA3. Сундук может вмещать больше содержимого.
 
-In addition, the TA4 chest has a shadow inventory for configuration. Here certain stack locations can be pre-assigned with an item. Pre-assigned inventory stacks are only filled with these items when filling. A TA4 pusher or TA4 injector with the appropriate configuration is required to empty a pre-assigned inventory stacks.
+Кроме того, в сундуке TA4 есть теневой инвентарь для настройки. Здесь определенные места стека могут быть предварительно назначены предметами. При заполнении стеки с заранее назначенным инвентарем заполняются только этими предметами. Для опустошения заранее назначенных стеков требуется толкатель TA4 или инъектор TA4 с соответствующей конфигурацией.
 
 [ta4_chest|image]
 
-### TA4 8x2000 Chest
+### TA4 8x2000 Сундук
 
-The TA4 8x2000 chest does not have a normal inventory like other chest, but has 8 stores, whereby each store can hold up to 2000 items of one sort. The orange buttons can be used to move items to or from the store. The box can also be filled or emptied with a pusher (TA2, TA3 or TA4) as usual.
+Сундук TA4 8x2000 не имеет обычного инвентаря, как другие сундуки, а состоит из 8 магазинов, в каждом из которых может храниться до 2000 предметов одного вида. Оранжевые кнопки используются для перемещения предметов в магазин или из него. Ящик также можно заполнить или опустошить с помощью толкателя (TA2, TA3 или TA4), как обычно.
 
-If the chest is filled with a pusher, all stores fill from left to right. If all 8 stores are full and no further items can be added, further items are rejected.
+Если сундук заполнен толкателем, все магазины заполняются слева направо. Если все 8 магазинов заполнены и больше нельзя добавить ни одного предмета, дальнейшие предметы отбрасываются.
 
-**Row function**
+**Функция строки**
 
-Several TA4 8x2000 chests can be connected to a large chest with more content. To do this, the chests must be placed in a row one after the other.
+Несколько сундуков TA4 8x2000 можно соединить в один большой сундук с большим количеством содержимого. Для этого сундуки нужно поставить в ряд один за другим.
 
-First the front chest must be placed, then the stacking chests are placed behind with the same direction of view (all boxes have the front towards the player). With 2 chests in a row, the size increases to 8x4000, etc.
+Сначала нужно поставить передний сундук, затем за ним ставятся сундуки с тем же направлением взгляда (все ящики располагаются фронтальной частью к игроку). При размещении 2 сундуков в ряд размер увеличивается до 8x4000 и т.д.
 
-The rows of chests can no longer be removed. There are two ways to dismantle the chests:
+Ряды сундуков больше нельзя убрать. Есть два способа разобрать сундуки:
 
-- Empty and remove the front chest. This unlocks the next chest and can be removed.
-- Empty the front chest so far that all stores contain a maximum of 2000 items. This unlocks the next chest and can be removed.
+- Опустошите и снимите передний сундук. Это разблокирует следующий сундук, который можно убрать.
+- Опустошите передний сундук настолько, чтобы во всех магазинах было не более 2000 предметов. Это разблокирует следующий сундук, и его можно будет убрать.
 
-The chests have an "order" checkbox. If this checkbox is activated, the stores are no longer completely emptied by a pusher. The last item remains in the store as a default. This results in a fixed assignment of items to storage locations.
+В сундуках есть флажок "заказать". Если этот флажок активирован, магазины больше не будут полностью опустошаться толкателем. По умолчанию в хранилище остается последний предмет. Это приводит к фиксированному распределению предметов по местам хранения.
 
-The chest can only be used by players who can build at this location, i.e. who have protection rights. It does not matter who sets the chest.
+Сундук может быть использован только игроками, которые могут строить в этом месте, т.е. имеют право на защиту. Не имеет значения, кто устанавливает сундук.
 
-The chest has an additional command for the Lua controller:
+В сундуке есть дополнительная команда для контроллера Lua:
 
-- `count` is used to request how many items are in the chest.
-  Example 1: `$send_cmnd(CHEST, "count")` -> Sum of items across all 8 stores
-  Example 2: `$send_cmnd(CHEST, "count", 2)` -> number of items in store 2 (second from left)
-- `storesize` is used to read the size of one of the eight stores:
-  Example: `$send_cmnd(CHEST, "storesize")` -> function returns e.g. 6000
+- `count` используется для запроса количества предметов в сундуке.
+  Пример 1: `$send_cmnd(CHEST, "count")` -> Сумма товаров по всем 8 магазинам
+  Пример 2: `$send_cmnd(CHEST, "count", 2)` -> количество товаров в магазине 2 (второй слева)
+- `storesize` используется для чтения размера одного из восьми хранилищ:
+  Пример: `$send_cmnd(CHEST, "storesize")` -> функция возвращает, например, 6000
 
 [ta4_8x2000_chest|image]
 
@@ -960,83 +961,83 @@ The chest has an additional command for the Lua controller:
 
 ### TA4 Distributor
 
-The function corresponds to that of TA2.
-The processing power is 24 items every 4 s, provided TA4 tubes are used on all sides. Otherwise there are only 12 items every 4 s.
+Функция соответствует функции TA2.
+При условии, что со всех сторон используются трубки TA4, производительность обработки составляет 24 предмета каждые 4 с. В противном случае каждые 4 с обрабатывается только 12 элементов.
 
 [ta4_distributor|image]
 
-### TA4 High Performance Distributor
+### TA4 Высокопроизводительный распределитель
 
-The function corresponds to that of the normal TA4 distributor, with two differences:
-The processing power is 36 items every 4 s, provided TA4 tubes are used on all sides. Otherwise there are only 18 items every 4 s.
-Furthermore, up to 8 items can be configured per direction.
+Функция соответствует функции обычного распределителя TA4 с двумя отличиями:
+При условии, что со всех сторон используются трубки TA4, производительность обработки составляет 36 предметов каждые 4 с. В противном случае каждые 4 с обрабатывается только 18 элементов.
+Кроме того, для каждого направления можно настроить до 8 элементов.
 
 [ta4_high_performance_distributor|image]
 
-### TA4 Gravel Sieve
+### TA4 Сито для гравия
 
-The function corresponds to that of TA2.
-The processing power is 4 items every 4 s. The block requires 5 ku of electricity.
+Функция соответствует функции TA2.
+Мощность обработки составляет 4 элемента каждые 4 с. Блок требует 5 кю электроэнергии.
 
 [ta4_gravelsieve|image]
 
-### TA4 Grinder
+### TA4 Шлифовальный станок
 
-The function corresponds to that of TA2.
-The processing power is 4 items every 4 s. The block requires 9 ku of electricity.
+Функция соответствует функции TA2.
+Мощность обработки составляет 4 элемента каждые 4 с. Блок требует 9 кю электроэнергии.
 
-[ta4_grinder|image]
+[ta4_grinder|image].
 
-### TA4 Quarry
+### TA4 Каменоломня
 
-The function largely corresponds to that of TA2.
+Функция во многом соответствует функции TA2.
 
-In addition, the hole size can be set between 3x3 and 11x11 blocks.
-The maximum depth is 80 meters. The quarry requires 14 ku of electricity.
+Кроме того, размер отверстия может быть установлен в диапазоне от 3x3 до 11x11 блоков.
+Максимальная глубина - 80 метров. Для работы карьера требуется 14 кю электроэнергии.
 
 [ta4_quarry|image]
 
-### TA4 Water Remover
+### TA4 Средство для удаления воды
 
-The Water Remover removes water from an area of up to 21 x 21 x 80 m. The main
-purpose is to drain caves. But it can also be used to "drill" a hole into the sea.
+Водоочиститель удаляет воду с площади до 21 x 21 x 80 м. Основные
+Предназначение - осушение пещер. Но с его помощью можно также "пробурить" отверстие в море.
 
-The Water Remover needs electricity and a pipe connection to a liquid tank. The
-Water Remover is placed at the highest point of the cave and removes the water
-from the cave to the lowest point. The Water Remover digs one water block every
-two seconds. The device requires 10 ku of electricity.
+Для работы водоудалителя необходимо электричество и подключение к резервуару с жидкостью. Сайт
+Удалитель воды находится в самой высокой точке пещеры и удаляет воду
+из пещеры в самую нижнюю точку. Водосборщик выкапывает один блок воды каждый
+две секунды. Прибор требует 10 кю электроэнергии.
 
-Technically, the Water Remover replaces the water blocks with a special air block
-that is not visible and not walkable but prevents the water from flowing back.
+Технически Water Remover заменяет водяные блоки специальным воздушным блоком.
+не видна и не проходима, но препятствует обратному стоку воды.
 
 [ta4_waterremover|image]
 
 ### TA4 Electronic Fab
 
-The function corresponds to that of TA2, only different chips are produced here.
-The processing power is one chip every 6 s. The block requires 12 ku of electricity for this.
+Функционал соответствует TA2, только здесь производятся другие чипы.
+Вычислительная мощность составляет один чип каждые 6 с. Для этого блоку требуется 12 кю электроэнергии.
 
 [ta4_electronicfab|image]
 
-### TA4 Injector
+### TA4 Инжектор
 
-The function corresponds to that of TA3.
+Функция соответствует функции TA3.
 
-The processing power is up to 8 times four items every 4 seconds.
+Мощность обработки составляет до 8 раз по четыре элемента каждые 4 секунды.
 
 [ta4_injector|image]
 
 ### TA4 Recycler
 
-The recycler is a machine that processes all Techage recipes backwards, i.e. it can dismantle machines and blocks back into their components.
+Переработчик - это машина, которая обрабатывает все рецепты Techage в обратном порядке, то есть может разбирать машины и блоки на составляющие.
 
-The machine can disassemble pretty much any Techage and Hyperloop blocks. But not all recipe items/materials can be recycled:
+Машина может разобрать практически все блоки Techage и Hyperloop. Но не все рецептурные предметы/материалы могут быть переработаны:
 
-- Wood turns into sticks
-- Stone turns into sand or gravel
-- Semiconductors / chips cannot be recycled
-- Tools cannot be recycled
+- Дерево превращается в палки
+- Камень превращается в песок или гравий
+- Полупроводники / микросхемы не могут быть переработаны
+- Инструменты не могут быть переработаны
 
-The processing power is one item every 8 s.  The block requires 16 ku of electricity for this.
+Мощность обработки составляет один элемент каждые 8 с. Для этого блоку требуется 16 кю электроэнергии.
 
 [ta4_recycler|image]

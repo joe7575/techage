@@ -1,108 +1,105 @@
-# TA4 ICTA Controller
+# Контроллер TA4 ICTA
 
-The ICTA controller (ICTA stands for "If Condition Then Action") is used to monitor and control machines. The controller can be used to read in data from machines and other blocks and, depending on this, switch other machines and blocks on / off.
+Контроллер ICTA (ICTA означает «If Condition Then Action») используется для мониторинга и управления машинами. Контроллер может использоваться для считывания данных с машин и других блоков и, в зависимости от этого, включения/выключения других машин и блоков.
 
-### 8 Controller Rules
+### 8 правил контроллера
 
-The controller works on the basis of rules, whereby up to 8 rules can be created per controller.
+Контроллер работает на основе правил, при этом для одного контроллера можно создать до 8 правил.
 
-Examples of rules are:
+Примеры правил:
 
-- If a distributor is blocked, the pusher in front of it should be switched off
-- If a machine displays the fault state, a lamp should be switched on to indicate the fault
-- If a player is close to a player detector, his name should be shown on a display
-- If a Minecart is recognized by the cart sensor, the cart should be loaded (pusher switched on)
+- Если распределитель заблокирован, то толкатель перед ним следует отключить.
+- Если машина отображает состояние неисправности, должна быть включена лампа, указывающая на неисправность.
+- Если игрок находится близко к детектору игроков, его имя должно отображаться на дисплее.
+- Если датчик тележки распознает тележку, тележку следует загрузить (толкатель включить)
 
-All rules should only be executed as often as necessary. This has two advantages:
+Все правила должны выполняться только так часто, как это необходимо. Это имеет два преимущества:
 
-- the battery of the controller lasts longer (each controller needs a battery)
-- the load for the server is lower (therefore fewer lags)
+- батарея контроллера служит дольше (для каждого контроллера нужна своя батарея)
+- нагрузка на сервер ниже (следовательно меньше лагов)
 
-### Cyclic execution of rules
+### Циклическое выполнение правил
 
-These rules are checked cyclically by the controller. If a condition is met, the action is carried out. As long as the condition is not met, nothing happens. Even if the condition was already met when the rule was last edited and the action was carried out, nothing happens. The condition must first become invalid and then apply again so that the action is executed again.
+Эти правила циклически проверяются контроллером. Если условие выполнено, действие выполняется. Пока условие не выполнено, ничего не происходит. Даже если условие уже было выполнено, когда правило было отредактировано в последний раз и действие было выполнено, ничего не происходит. Условие должно сначала стать недействительным, а затем снова применяться, чтобы действие было выполнено снова.
 
-How often a rule is checked by the controller can be configured individually for each rule. A cycle time in seconds (`Cycle/s`) must be specified for each rule (1..1000).
+Частота проверки правила контроллером может быть настроена индивидуально для каждого правила. Для каждого правила (1..1000) необходимо указать время цикла в секундах (`Цикл/с`).
 
-### Event-driven execution of rules
+### Событийно-управляемое выполнение правил
 
-As an alternative to the cyclically checked rules, there is also the event-controlled execution of rules.
+В качестве альтернативы циклически проверяемым правилам существует также событийно-управляемое выполнение правил.
 
-Events are commands that are sent from other blocks to the controller. Examples are sensors and switches. These send `on` / `off` commands. For example, if the switch is switched on, it sends an `on` command, if it is switched off, it sends an `off` command to the block with the number that was configured for the switch.
+События — это команды, которые отправляются из других блоков в контроллер. Примерами являются датчики и переключатели. Они отправляют команды `on` / `off`. Например, если переключатель включен, он отправляет команду `on`, если он выключен, он отправляет команду `off` в блок с номером, который был настроен для переключателя.
 
-For rules that are to be executed in an event-controlled manner, cycle time 0 must be specified.
+Для правил, которые должны выполняться в режиме управления событиями, необходимо указать время цикла 0.
 
-### Delay Time
+### Время задержки
 
-You have to set a delay time (`after/s`) for each action. If the action is to be carried out immediately, 0 must be entered.
+Вам необходимо установить время задержки (`after/s`) для каждого действия. Если действие должно быть выполнено немедленно, необходимо ввести 0.
 
-#### Terms / Conditions
+#### Условия/Положения
 
-One of the following conditions can be configured for each rule. However, only one condition can be configured per rule.
+Для каждого правила можно настроить одно из следующих условий. Однако для каждого правила можно настроить только одно условие.
 
-- `initial` - This condition is always met after the controller is switched on and is used, for example, to switch off a lamp so that it can then be switched on again if an error occurs.
+- `initial` - Это условие всегда выполняется после включения контроллера и используется, например, для выключения лампы, чтобы ее можно было снова включить в случае возникновения ошибки.
 
-- `true` - This condition is always fulfilled and is used, for example, to make a lamp flash. Two rules are required for this. For example, if both rules have a cycle time of 2 s, but the first rule has a delay time of 0 s and the second rule has a delay time of 1 s, then a lamp can be cyclically switched on and off again.
+- `true` - Это условие всегда выполняется и используется, например, для того, чтобы заставить лампу мигать. Для этого требуются два правила. Например, если оба правила имеют время цикла 2 с, но первое правило имеет время задержки 0 с, а второе правило имеет время задержки 1 с, то лампа может циклически включаться и выключаться снова.
 
-- `condition` - Depending on another rule, an action can be started here. To do this, the number of the other rule (1..8) must be specified. This means that 2 actions can be carried out with one `condition`. With the additional configurable condition, `was not true` was used to switch off a lamp, for example, when the condition is no longer met.
+- `condition` - В зависимости от другого правила, здесь может быть запущено действие. Для этого необходимо указать номер другого правила (1..8). Это означает, что с одним `condition` можно выполнить 2 действия. С дополнительным настраиваемым условием `was not true` использовалось для выключения лампы, например, когда условие больше не выполняется.
 
-- `inputs` - This enables the received value `on` / `off` of a command (event) to be evaluated. Please note here: For rules that are to be executed event-controlled, cycle time 0 must be specified.
+- `inputs` - Это позволяет оценить полученное значение `on` / `off` команды (события). Обратите внимание: для правил, которые должны выполняться под управлением событий, необходимо указать время цикла 0.
 
-- `read block state` - This allows the status of a machine to be queried. The machine number (block number) must be entered. Possible machine states are:
-  
-    - `running` -> machine is working
-    - `stopped` -> machine is switched off
-    - `standby` -> machine has nothing to do, for example because the inventory is empty
-    - `blocked` -> machine cannot do anything, e.g. the initial inventory is full
-    - `fault` -> machine has a fault. The machine menu may provide further information
-    - `unloaded` -> Machines at a greater distance may have been unloaded from the server without a forceload block. Then these are not active.
-    
-    If a configured condition is fulfilled, e.g. `block number 456 is stopped`, the action is carried out.
-    
-    **Info:** A **block number** is a unique number that is generated by Techage when many Techage blocks are placed and is displayed as information text behind the block name. The block number is used for addressing during communication between Techage controllers and machines.
+- `read block state` - Это позволяет запросить состояние машины. Необходимо ввести номер машины (номер блока). Возможные состояния машины:
 
-  The easiest way to determine which machines provide which status information is with the wrench / Techage Info tool directly on the machine.
-  
-- `read amount of fuel` - This can be used to read out how much fuel a machine still has (typically 0-99 units) and to compare it with a value of 'larger' or 'smaller'. If the configured condition is met, the action is carried out.
-    `read power / liquid load` - This means that the charge of a battery or the heat storage device can be queried in percent (values ​​from 0..100) and checked for 'larger' / 'smaller' with the configured condition. If the condition is met, the action is carried out.
+- `running` -> машина работает
+- `остановлен` -> машина выключена
+- `standby` -> машина не занята, например, потому что инвентарь пуст
+- `заблокировано` -> машина не может ничего сделать, например, начальный инвентарь заполнен
+- `fault` -> машина имеет неисправность. Меню машины может предоставить дополнительную информацию
+- `unloaded` -> Машины на большем расстоянии могли быть выгружены с сервера без блока forceload. Тогда они не активны.
 
-- `read delivered power` - This can be used to query the amount of electricity that a generator (in ku) is delivering. The value can be checked with the configured condition for 'larger' / 'smaller'. If the condition is met, the action is carried out. Since batteries not only emit electricity but also absorb, this value is negative when the battery is charged.
+Если выполнено настроенное условие, например, «блок номер 456 остановлен», действие выполняется.
 
-- `read chest state` - This enables the status of a TA3/TA4 chest to be queried and evaluated. Chests provide the states:
+**Информация:** **Номер блока** — это уникальный номер, который генерируется Techage при размещении большого количества блоков Techage и отображается в виде информационного текста позади имени блока. Номер блока используется для адресации во время связи между контроллерами Techage и машинами.
 
-    - `empty` - the chest is empty
-    - `loaded` - the chest partially filled
-    - `full` - All stacks in the chest are at least partially occupied
+Самый простой способ определить, какие машины предоставляют какую информацию о состоянии, — это использовать гаечный ключ / инструмент Techage Info непосредственно на машине.
 
-    If the condition is met, the action is carried out.
+- `считывание количества топлива` - это может быть использовано для считывания количества топлива, оставшегося в машине (обычно от 0 до 99 единиц), и для сравнения его со значением «больше» или «меньше». Если настроенное условие выполнено, действие выполняется.
+`считывание мощности / нагрузки жидкости` - Это означает, что заряд батареи или устройства хранения тепла может быть запрошен в процентах (значения от 0..100) и проверен на 'больше' / 'меньше' с настроенным условием. Если условие выполняется, действие выполняется.
 
-- `read Signal Tower state` - This allows the color of a Signal Tower to be queried and checked. Signal towers deliver the values ​​`off`, `green`, `amber`, `red`. If the condition is met, the action is carried out.
+- `read provided power` - Это можно использовать для запроса количества электроэнергии, которую поставляет генератор (в ku). Значение можно проверить с помощью настроенного условия для 'больше' / 'меньше'. Если условие выполняется, действие выполняется. Поскольку батареи не только излучают электричество, но и поглощают его, это значение отрицательно, когда батарея заряжена.
 
-- `read Player Detector` - This can be used to query a player detector. The detector provides the player's name near the detector. If not only a specific but every player's name is to be shown on a display, enter '*' in 'player name (s).
-    You can also enter multiple names separated by spaces. If the action is to be carried out when there is no player nearby, enter `-`.
+- `считывать состояние сундука` - Это позволяет запрашивать и оценивать состояние сундука TA3/TA4. Сундуки предоставляют состояния:
 
-### Actions
+- `пустой` - сундук пуст
+- `загружен` - сундук частично заполнен
+- `full` - Все стопки в сундуке хотя бы частично заняты
 
-For all actions that control a block (such as a lamp), the number of the block must be specified in the action. Only one action can be configured per rule.
+Если условие выполнено, действие выполняется.
 
-- `print to output window` - e.g. a text can be output in the controller menu (under 'outp') for test purposes. This is especially helpful when troubleshooting.
-- `send Signal Tower command` - This allows the color of the Signal Tower to be set. Possible values ​​are: `off`,` green`, `amber`,` red`.
-- `turn block off / on` - This enables a block or machine to be switched on or off again.
-- `Display: overwrite one line` - This allows text to be output on the display. The line number on the display (1..5) must be specified.
-  If the player name of the player detector is to be output from the condition, then 'text' is on
-   Enter the `*` character.
-- `Display: Clear screen` - clear the screen
-- `send chat message` - This allows you to send yourself a chat message.
-- `open / close door` - This allows the standard doors to be opened and closed. Since the doors have no numbers, the coordinates of the door must be entered. The coordination of a door can be easily determined with the wrench / Techage Info tool.
-- `Turn distributor filter on / off` - This enables the filter / outputs of a distributor to be switched on and off. The corresponding output must be specified via the color.
+- `прочитать состояние сигнальной вышки` - позволяет запрашивать и проверять цвет сигнальной вышки. Сигнальные вышки передают значения `выкл`, `зеленый`, `янтарный`, `красный`. Если условие выполняется, действие выполняется.
 
-### Miscellaneous
+- `read Player Detector` - Это можно использовать для запроса детектора игроков. Детектор предоставляет имя игрока рядом с детектором. Если на дисплее должно отображаться не только определенное, но и каждое имя игрока, введите '*' в 'имя(я) игрока(ов).
+Вы также можете ввести несколько имен, разделенных пробелами. Если действие должно быть выполнено, когда рядом нет игрока, введите `-`.
 
-The controller has its own help and information on all commands via the controller menu.
+### Действия
 
-Machine data is read in and blocks and machines are controlled using commands. To understand how commands work, the chapter TA3 -> Logic / switching blocks in the in-game help (construction plan) is helpful.
+Для всех действий, которые управляют блоком (например, лампой), номер блока должен быть указан в действии. Только одно действие может быть настроено на одно правило.
 
+- `печать в окно вывода` - например, текст может быть выведен в меню контроллера (в разделе 'outp') для целей тестирования. Это особенно полезно при устранении неполадок.
+- `send Signal Tower command` - Позволяет задать цвет Signal Tower. Возможные значения: `off`,` green`, `amber`,` red`.
+- «выключить/включить блок» - позволяет снова включить или выключить блок или машину.
+- `Дисплей: перезаписать одну строку` - Позволяет выводить текст на дисплей. Необходимо указать номер строки на дисплее (1..5).
+Если имя игрока детектора игроков должно быть выведено из условия, то «текст» включен
+Введите символ `*`.
+- `Дисплей: Очистить экран` - очистить экран
+- «отправить сообщение в чате» - позволяет вам отправить себе сообщение в чате.
+- `открыть / закрыть дверь` - Это позволяет открывать и закрывать стандартные двери. Поскольку двери не имеют номеров, необходимо ввести координаты двери. Координацию двери можно легко определить с помощью гаечного ключа / инструмента Techage Info.
+- `Включить/выключить фильтр распределителя` - Позволяет включать и выключать фильтр/выходы распределителя. Соответствующий выход должен быть указан через цвет.
 
+### Разнообразный
 
+Контроллер имеет собственную справку и информацию по всем командам через меню контроллера.
+
+Данные машины считываются, а блоки и машины управляются с помощью команд. Чтобы понять, как работают команды, полезна глава TA3 -> Логика / переключение блоков в справке по игре (план строительства).
 
 

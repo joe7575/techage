@@ -1,177 +1,177 @@
-# TA5: Future
+# TA5: Будущее
 
-Machines to overcome space and time, new sources of energy and other achievements shape your life.
+Машины для преодоления пространства и времени, новые источники энергии и другие достижения формируют вашу жизнь.
 
-Experience points are required for the manufacture and use of TA5 machines and blocks. These can only be worked out using the collider from TA4.
+Для производства и использования машин и блоков TA5 требуются очки опыта. Их можно разработать только с помощью коллайдера из TA4.
 
 [techage_ta5|image]
 
-## Energy Sources
+## Источники энергии
 
-### TA5 Fusion Reactor
+### Термоядерный реактор TA5
 
-Nuclear fusion means the fusing of two atomic nuclei. Depending on the reaction, large amounts of energy can be released. Nuclear fusions, in which energy is released, take place in the form of chain reactions. They are the source of the energy of the stars, including our sun, for example. A fusion reactor converts the energy released during controlled nuclear fusion into electricity.
+Ядерный синтез означает слияние двух атомных ядер. В зависимости от реакции может выделяться большое количество энергии. Ядерные синтезы, при которых выделяется энергия, происходят в форме цепных реакций. Они являются источником энергии звезд, включая, например, наше Солнце. Термоядерный реактор преобразует энергию, выделяющуюся в ходе управляемого ядерного синтеза, в электричество.
 
-**How ​​do fusion reactors work?**
+**Как работают термоядерные реакторы?**
 
-A fusion reactor works according to the classic principle of a thermal power plant: water is heated and drives a steam turbine, whose kinetic energy is converted into electricity by a generator.
+Термоядерный реактор работает по классическому принципу тепловой электростанции: вода нагревается и приводит в действие паровую турбину, кинетическая энергия которой преобразуется генератором в электрическую.
 
-A fusion power plant initially requires a large amount of energy, since a plasma has to be generated. "Plasma" is the name given to the fourth state of matter, after solid, liquid and gaseous. This requires a lot of electricity. Only through this extreme concentration of energy does the fusion reaction ignite and the heat given off is used to generate electricity via the heat exchanger. The generator then delivers 800 ku of electricity.
+Термоядерная электростанция изначально требует большого количества энергии, поскольку должна быть создана плазма. «Плазма» — это название четвертого состояния вещества после твердого, жидкого и газообразного. Это требует большого количества электроэнергии. Только благодаря этой экстремальной концентрации энергии зажигается реакция синтеза, а выделяемое тепло используется для выработки электроэнергии через теплообменник. Затем генератор выдает 800 ку электроэнергии.
 
-The plan on the right shows a section through the fusion reactor.
+На плане справа показан разрез термоядерного реактора.
 
-60 experience points are required to operate the fusion reactor. The fusion reactor must be built entirely in a forceload block area.
+Для работы термоядерного реактора требуется 60 очков опыта. Термоядерный реактор должен быть полностью построен в области силового блока.
 
 [ta5_fusion_reactor|plan]
 
-#### TA5 Fusion Reactor Magnet
+#### Магнит термоядерного реактора TA5
 
-A total of 60 TA5 Fusion Reactor Magnets are required to set up the fusion reactor. These form the ring in which the plasma forms. The TA5 Fusion Reactor Magnets requires power and has two ports for cooling.
+Для установки термоядерного реактора требуется в общей сложности 60 магнитов термоядерного реактора TA5. Они образуют кольцо, в котором формируется плазма. Магниты термоядерного реактора TA5 требуют питания и имеют два порта для охлаждения.
 
-There are two types of magnets, so all sides of the magnet that face the plasma ring can also be protected with a heat shield.
+Существует два типа магнитов, поэтому все стороны магнита, обращенные к плазменному кольцу, также могут быть защищены теплозащитным экраном.
 
-With the corner magnets on the inside of the ring, one connection side is covered (power or cooling) and can therefore not be connected. This is technically not feasible and therefore has no influence on the function of the fusion reactor. 
+При наличии угловых магнитов на внутренней стороне кольца одна сторона соединения закрыта (питание или охлаждение) и поэтому не может быть подключена. Это технически невыполнимо и, следовательно, не влияет на работу термоядерного реактора.
 
 [ta5_magnet|image]
 
-#### TA5 Pump
+#### Насос TA5
 
-The pump is required to fill the cooling circuit with isobutane. About 350 units of isobutane are required.
+Насос необходим для заполнения контура охлаждения изобутаном. Требуется около 350 единиц изобутана.
 
-Note: The TA5 pump can only be used to fill the cooling circuit, pumping out the coolant is not possible. Therefore, the pump should not be switched on until the magnets are correctly placed and all power and cooling lines are connected.
+Примечание: Насос TA5 можно использовать только для заполнения контура охлаждения, откачка охлаждающей жидкости невозможна. Поэтому насос не следует включать, пока магниты не будут правильно установлены и все линии питания и охлаждения не будут подключены.
 
 [ta5_pump|image]
 
-#### TA5 Heat Exchanger
+#### Теплообменник TA5
 
-The TA5 Heat Exchanger is required to convert the heat generated in the fusion reactor first to steam and then to electricity. The Heat Exchanger itself requires 5 ku electricity. The structure is similar to the Heat Exchanger of the energy store from TA4.
+Теплообменник TA5 необходим для преобразования тепла, вырабатываемого в термоядерном реакторе, сначала в пар, а затем в электричество. Сам теплообменник требует 5 ку электроэнергии. Структура аналогична теплообменнику энергохранилища из TA4.
 
-Note: The TA5 Heat Exchanger has two connections (blue and green) for the cooling circuit. The heat exchanger and all magnets must be connected to form a cooling circuit via the green and blue pipes.
+Примечание: Теплообменник TA5 имеет два соединения (синее и зеленое) для контура охлаждения. Теплообменник и все магниты должны быть подключены для формирования контура охлаждения через зеленые и синие трубы.
 
-The cooling circuit can be checked for completeness using the start button on the heat exchanger, even if no coolant has yet been filled in.
+Проверить целостность контура охлаждения можно с помощью кнопки запуска на теплообменнике, даже если охлаждающая жидкость еще не залита.
 
 [ta5_heatexchanger|plan]
 
-#### TA5 Fusion Reactor Controller
+#### Контроллер термоядерного реактора TA5
 
-The fusion reactor is switched on via the TA5 Fusion Reactor Controller. The cooling/Heat Exchanger must be switched on first and then the controller. It takes about 2 minutes for the reactor to start up and supply electricity. The fusion reactor and thus the controller requires 400 ku of electricity to maintain the plasma.
+Включение термоядерного реактора осуществляется через контроллер термоядерного реактора TA5. Сначала необходимо включить охлаждение/теплообменник, а затем контроллер. Для запуска реактора и подачи электроэнергии требуется около 2 минут. Термоядерному реактору и, следовательно, контроллеру требуется 400 ку электроэнергии для поддержания плазмы.
 
 [ta5_fr_controller|image]
 
-#### TA5 Fusion Reactor Shell
+#### Корпус термоядерного реактора TA5
 
-The entire reactor must be surrounded by a shell that absorbs the enormous pressure that the magnets exert on the plasma and protects the environment from radiation. Without this shell, the reactor cannot be started. With the TechAge Trowel, power cables and cooling pipes of the fusion reactor can also be integrated into the shell.
+Весь реактор должен быть окружен оболочкой, которая поглощает огромное давление, которое магниты оказывают на плазму, и защищает окружающую среду от радиации. Без этой оболочки реактор не может быть запущен. С помощью TechAge Trowel силовые кабели и охлаждающие трубы термоядерного реактора также могут быть интегрированы в оболочку.
 
 [ta5_fr_shell|image]
 
-#### TA5 Fusion Reactor Core
+#### Ядро термоядерного реактора TA5
 
-The core must sit in the center of the reactor. See illustration under "TA5 Fusion Reactor". The TechAge Trowel is also required for this.
+Ядро должно располагаться в центре реактора. См. иллюстрацию под "TA5 Fusion Reactor". Для этого также требуется TechAge Trowel.
 
 [ta5_fr_nucleus|image]
 
-## Energy Storage
+## Хранение энергии
 
-### TA5 Hybrid Storage (planned)
+### Гибридное хранилище TA5 (планируется)
 
-## Logic blocks
+## Логические блоки
 
-## Transport and Traffic
+## Транспорт и дорожное движение
 
-### TA5 Flight Controller
+### Контроллер полета TA5
 
-The TA5 Flight Controller is similar to the TA4 Move Controller. In contrast to the TA4 Move Controller, several movements can be combined into one flight route. This flight route can be defined in the input field using several x,y,z entries (one movement per line). The flight route is checked and saved via "Save". In the event of an error, an error message is issued.
+Контроллер полета TA5 похож на контроллер перемещения TA4. В отличие от контроллера перемещения TA4, несколько движений можно объединить в один маршрут полета. Этот маршрут полета можно определить в поле ввода с помощью нескольких записей x, y, z (одно движение на строку). Маршрут полета проверяется и сохраняется с помощью «Сохранить». В случае ошибки выдается сообщение об ошибке.
 
-With the "Test" button, the flight route with the absolute coordinates is output for checking in the chat.
+Кнопкой «Тест» маршрут полета с абсолютными координатами выводится для проверки в чате.
 
-The maximum distance for the entire flight distance is 1500 m. Up to 32 blocks can be trained.
+Максимальная дальность полета на всем протяжении составляет 1500 м. Можно обучить до 32 блоков.
 
-The use of the TA5 Flight Controller requires 40 experience points.
+Для использования контроллера полета TA5 требуется 40 очков опыта.
 
-**Teleport mode**
+**Режим телепортации**
 
-If the 'Teleport Mode' is enabled, a player can also be moved without blocks. To do this, the start position must be configured using the "Record" button. Only one position can be configured here. The player to be moved must be in that position.
+Если включен режим «Телепортации», игрока можно перемещать и без блоков. Для этого необходимо настроить начальную позицию с помощью кнопки «Запись». Здесь можно настроить только одну позицию. Перемещаемый игрок должен находиться в этой позиции.
 
 [ta5_flycontroller|image]
 
-### TA5 Hyperloop Chest
+### Сундук TA5 Hyperloop
 
-The TA5 Hyperloop Chest allows objects to be transported over a Hyperloop network.
+Контейнер TA5 Hyperloop позволяет транспортировать предметы по сети Hyperloop.
 
-The TA5 Hyperloop Chest has to be placed on a Hyperloop Junction. The chest has a special menu, with which you can pair two chests. Things that are in the chest are teleported to the remote station. The chest can also be filled/emptied with a pusher.
+Сундук TA5 Hyperloop Chest должен быть размещен на Hyperloop Junction. Сундук имеет специальное меню, с помощью которого можно объединить два сундука. Вещи, находящиеся в сундуке, телепортируются на удаленную станцию. Сундук также можно наполнять/опустошать с помощью толкателя.
 
-For pairing you first have to enter a name for the chest on one side, then you can select this name for the other chest and thus connect the two blocks.
+Для сопряжения вам сначала нужно ввести название сундука с одной стороны, затем вы можете выбрать это название для другого сундука и таким образом соединить два блока.
 
-The use of the TA5 Hyperloop Chest requires 15 experience points.
+Для использования сундука TA5 Hyperloop требуется 15 очков опыта.
 
 [ta5_chest|image]
 
-### TA5 Hyperloop Tank
+### TA5 Hyperloop Танк
 
-The TA5 Hyperloop Tank allows liquids to be transported over a Hyperloop network.
+Резервуар TA5 Hyperloop позволяет транспортировать жидкости по сети Hyperloop.
 
-The TA5 Hyperloop Tank has to be placed on a Hyperloop Junction.The tank has a special menu, with which you can pair two tanks. Liquids in the tank will be teleported to the remote station. The tank can also be filled/emptied with a pump.
+Резервуар TA5 Hyperloop должен быть размещен на Hyperloop Junction. Резервуар имеет специальное меню, с помощью которого вы можете соединить два резервуара. Жидкости в резервуаре будут телепортированы на удаленную станцию. Резервуар также можно наполнять/опорожнять с помощью насоса.
 
-For pairing you first have to enter a name for the tank on one side, then you can select this name for the other tank and thus connect the two blocks.
+Для сопряжения сначала необходимо ввести название резервуара с одной стороны, затем можно выбрать это название для другого резервуара и таким образом соединить два блока.
 
-The use of the TA5 Hyperloop Tank requires 15 experience points.
+Для использования танка TA5 Hyperloop требуется 15 очков опыта.
 
 [ta5_tank|image]
 
 
 
-## Teleport Blocks
+## Блоки телепортации
 
-Teleport blocks allow things to be transferred between two teleport blocks without the need for a pipe or tube in between. To pair the blocks, you first have to enter a name for the block on one side, then you can select this name for the other block and thus connect the two blocks. Pairing can only be carried out by one player (player name is checked) and must be completed before the server is restarted. Otherwise the pairing data will be lost.
+Блоки телепортации позволяют переносить вещи между двумя блоками телепортации без необходимости использования трубы или трубки между ними. Чтобы спарить блоки, сначала нужно ввести имя для блока с одной стороны, затем можно выбрать это имя для другого блока и таким образом соединить два блока. Спаривание может быть выполнено только одним игроком (имя игрока проверяется) и должно быть завершено до перезапуска сервера. В противном случае данные спаривания будут утеряны.
 
-The map on the right shows how the blocks can be used. 
+На карте справа показано, как можно использовать блоки.
 
 [ta5_teleport|plan]
 
-### TA5 Teleport Block Items
+### TA5 Блок телепортации предметов
 
-These teleport blocks allow the transfer of items and thus replace a tube. Distances of up to 500 blocks can be bridged.
+Эти телепортационные блоки позволяют переносить предметы и таким образом заменяют трубу. Можно преодолеть расстояние до 500 блоков.
 
-Each Teleport blocks requires 12 ku of electricity.
+Каждый блок телепорта требует 12 ку электроэнергии.
 
-30 experience points are required to use the teleport blocks. 
+Для использования телепортационных блоков требуется 30 очков опыта.
 
 [ta5_tele_tube|image]
 
-### TA5 Teleport Block Liquids
+### TA5 Телепорт Блок Жидкости
 
-These teleport blocks allow the transfer of liquids and thus replace a pipe. Distances of up to 500 blocks can be bridged.
+Эти телепортационные блоки позволяют переносить жидкости и таким образом заменяют трубу. Можно преодолеть расстояние до 500 блоков.
 
-Each Teleport blocks requires 12 ku of electricity.
+Каждый блок телепорта требует 12 ку электроэнергии.
 
-30 experience points are required to use the teleport blocks. 
+Для использования телепортационных блоков требуется 30 очков опыта.
 
 [ta5_tele_pipe|image]
 
-### Hyperloop Teleport Blocks (planned)
+### Блоки телепорта Hyperloop (планируется)
 
-The Hyperloop Teleport Blocks allow the construction of a Hyperloop network without Hyperloop tubes.
+Блоки телепорта Hyperloop позволяют построить сеть Hyperloop без труб Hyperloop.
 
-The use of the Hyperloop Teleport Blocks requires 60 experience points.
+Для использования телепортационных блоков Hyperloop требуется 60 очков опыта.
 
 
 
-## More TA5 Blocks/Items
+## Больше блоков/предметов TA5
 
-### TA5 Container (planned)
+### Контейнер TA5 (планируется)
 
-The TA5 container allows Techage systems to be packed and unpacked at another location.
+Контейнер TA5 позволяет упаковывать и распаковывать системы Techage в другом месте.
 
-80 experience points are required to use the TA5 container.
+Для использования контейнера TA5 требуется 80 очков опыта.
 
-### TA5 AI Chip
+### TA5 Чип искусственного интеллекта
 
-The TA5 AI Chip is partly required for the production of TA5 blocks. The TA5 AI Chip can only be manufactured at the TA4 Electronics Fab. This requires 10 experience points.
+TA5 AI Chip частично требуется для производства блоков TA5. TA5 AI Chip может быть изготовлен только на фабрике электроники TA4. Для этого требуется 10 очков опыта.
 
 [ta5_aichip|image]
 
-### TA5 AI Chip II
+### TA5 AI Чип II
 
-The TA5 AI Chip II is required to build the TA5 Fusion Reactor. The TA5 AI Chip II can only be manufactured at the TA4 Electronics Fab. This requires 25 experience points.
+Для создания реактора TA5 Fusion Reactor требуется чип TA5 AI Chip II. Чип TA5 AI Chip II можно изготовить только на заводе электроники TA4. Для этого требуется 25 очков опыта.
 
 [ta5_aichip2|image]

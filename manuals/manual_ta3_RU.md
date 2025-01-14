@@ -1,908 +1,907 @@
-# TA3: Oil Age
+# TA3: Нефтяной век
 
-At TA3 it is important to replace the steam-powered machines with more powerful and electric-powered machines.
+В TA3 важно заменить машины с паровым двигателем на более мощные машины с электрическим двигателем.
 
-To do this, you have to build coal-fired power plants and generators. You will soon see that your electricity needs can only be met with oil-powered power plants. So you go looking for oil. Drilling derricks and oil pumps help them get the oil. Railways are used to transport oil to the power plants.
+Для этого вам придется построить электростанции и генераторы, работающие на угле. Вскоре вы увидите, что ваши потребности в электричестве можно удовлетворить только с помощью электростанций, работающих на нефти. Поэтому вы отправляетесь на поиски нефти. Буровые вышки и нефтяные насосы помогают добывать нефть. Для транспортировки нефти на электростанции используются железные дороги.
 
-The industrial age is at its peak.
+Индустриальная эпоха достигла своего пика.
 
-[techage_ta3|image]
-
-
-## Coal-fired Power Station / Oil-fired Power Station
-
-The coal-fired power plant consists of several blocks and must be assembled as shown in the plan on the right. The blocks TA3 power station fire box, TA3 boiler top, TA3 boiler base, TA3 turbine, TA3 generator and TA3 cooler are required.
-
-The boiler must be filled with water. Fill up to 10 buckets of water in the boiler.
-The fire box must be filled with coal or charcoal.
-When the water is hot, the generator can then be started.
-
-Alternatively, the power plant can be equipped with an oil burner and then operated with oil.
-The oil can be refilled using a pump and oil pipe.
-
-The power plant delivers an output of 80 ku.
-
-[coalpowerstation|plan]
+[techage_ta3|image].
 
 
-### TA3 power station firebox
+## Угольная электростанция / Нефтяная электростанция
 
-Part of the power plant.
-The fire box must be filled with coal or charcoal. The burning time depends on the power that is requested by the power plant. Coal burns for 20 s and charcoal for 60 s under full load. Correspondingly longer under partial load (50% load = double time).
+Угольная электростанция состоит из нескольких блоков и должна быть собрана, как показано на плане справа. Для этого необходимы блоки TA3 "Топка электростанции", TA3 "Верх котла", TA3 "Основание котла", TA3 "Турбина", TA3 "Генератор" и TA3 "Охладитель".
+
+Котел должен быть заполнен водой. Залейте в котел до 10 ведер воды.
+Топочный ящик должен быть заполнен углем или древесным углем.
+Когда вода нагреется, можно запускать генератор.
+
+В качестве альтернативы электростанция может быть оснащена масляной горелкой и работать на масле.
+Масло можно доливать с помощью насоса и маслопровода.
+
+Мощность электростанции составляет 80 кю.
+
+[coalpowerstation|plan].
+
+
+### Топка электростанции TA3
+
+Часть электростанции.
+В топку необходимо засыпать уголь или древесный уголь. Время горения зависит от мощности, которую запрашивает электростанция. Уголь горит 20 с, а древесный уголь - 60 с при полной нагрузке. Соответственно дольше при частичной нагрузке (50% нагрузки = двойное время).
 
 [ta3_firebox|image]
 
 
-### TA3 Power Station Oil Burner
+### TA3 Масляная горелка для электростанции
 
-Part of the power plant.
+Часть электростанции.
 
-The oil burner can be filled with crude oil, fuel oil, naphtha or gasoline. The burning time depends on the power that is requested by the power plant. Under full load, crude oil burns 15 s, fuel oil 20 s, naphtha 22 s and gasoline 25 s.
+В мазутную горелку можно заливать сырую нефть, мазут, нафту или бензин. Время горения зависит от мощности, которую запрашивает электростанция. При полной нагрузке сырая нефть горит 15 с, мазут - 20 с, лигроин - 22 с, а бензин - 25 с.
 
-Correspondingly longer under partial load (50% load = double time).
+Соответственно дольше при частичной нагрузке (50% нагрузки = двойное время).
 
-The oil burner can only hold 50 units of fuel. An additional oil tank and an oil pump are therefore advisable.
+Масляная горелка вмещает только 50 единиц топлива. Поэтому целесообразно установить дополнительный бак для масла и масляный насос.
 
 
 [ta3_oilbox|image]
 
 
-### TA3 boiler base / top
+### TA3 база котла / верхняя часть
 
-Part of the power plant. Must be filled with water. If there is no more water or the temperature drops too low, the power plant switches off.
+Часть электростанции. Должен быть заполнен водой. Если воды больше нет или температура падает слишком низко, электростанция отключается.
 
-The water consumption of the TA3 boiler is much lower than that of the steam engine due to the closed steam circuit.
-With the steam engine, some water is lost as steam with each piston stroke.
+Расход воды в котле TA3 значительно ниже, чем в паровом двигателе, благодаря замкнутому паровому контуру.
+В паровом двигателе часть воды теряется в виде пара при каждом ходе поршня.
 
 [ta3_boiler|image]
 
 
-### TA3 turbine
+### Турбина TA3
 
-The turbine is part of the power plant. It must be placed next to the generator and connected to the boiler and cooler via steam pipes as shown in the plan.
+Турбина является частью электростанции. Она должна быть расположена рядом с генератором и соединена с котлом и охладителем через паровые трубы, как показано на плане.
 
 [ta3_turbine|image]
 
 
-### TA3 generator
+### Генератор TA3
 
-The generator is used to generate electricity. It must be connected to the machines via power cables and junction boxes.
+Генератор используется для выработки электроэнергии. Он должен быть подключен к машинам с помощью силовых кабелей и распределительных коробок.
 
 [ta3_generator|image]
 
 
-### TA3 cooler
+### Охладитель TA3
 
-Used to cool the hot steam from the turbine. Must be connected to the boiler and turbine via steam pipes as shown in the plan.
+Используется для охлаждения горячего пара из турбины. Должен быть подключен к котлу и турбине через паровые трубы, как показано на плане.
 
-[ta3_cooler|image]
-
-
-## Electrical current
-
-In TA3 (and TA4) the machines are powered by electricity. To do this, machines, storage systems, and generators must be connected with power cables.
-TA3 has 2 types of power cables:
-
-- Insulated cables (TA power cables) for local wiring in the floor or in buildings. These cables can be hidden in the wall or in the floor (can be "plastered" with the trowel).
-- Overland lines (TA power line) for outdoor cabling over long distances. These cables are protected and cannot be removed by other players.
-
-Several consumers, storage systems, and generators can be operated together in a power network. Networks can be set up with the help of the junction boxes.
-If too little electricity is provided, consumers run out.
-In this context, it is also important that the functionality of Forceload blocks is understood, because generators, for example, only supply electricity when the corresponding map block is loaded. This can be enforced with a forceload block.
-
-In TA4 there is also a cable for the solar system.
+[ta3_cooler|image].
 
 
-[ta3_powerswitch|image]
+## Электрический ток
+
+В TA3 (и TA4) машины питаются от электричества. Для этого машины, системы хранения и генераторы должны быть соединены силовыми кабелями.
+TA3 имеет 2 типа силовых кабелей:
+
+- Изолированные кабели (силовые кабели TA) для локальной проводки в полу или в зданиях. Эти кабели могут быть скрыты в стене или в полу (могут быть "заштукатурены" с помощью шпателя).
+- Сухопутные линии (линия электропередач TA) для прокладки кабелей вне помещений на большие расстояния. Эти кабели защищены и не могут быть удалены другими игроками.
+
+Несколько потребителей, систем хранения и генераторов могут работать вместе в электрической сети. Сети можно создавать с помощью распределительных коробок.
+Если электричества будет слишком мало, потребители закончатся.
+В этом контексте также важно понимать функциональность блоков Forceload, поскольку, например, генераторы подают электричество только тогда, когда загружен соответствующий блок карты. Это можно обеспечить с помощью блока forceload.
+
+В TA4 также есть кабель для солнечной системы.
 
 
-### Importance of storage systems 
-
-Storage systems in the power grid fulfill two tasks:
-
-- To cope with peaks in demand: All generators always deliver just as much power as is needed. However, if consumers are switched on/off or there are fluctuations in demand for other reasons, consumers can fail for a short time. To prevent this, there should always be at least one battery block in every network. This serves as a buffer and compensates for these fluctuations in the seconds range.
-- To store regenerative energy: Solar and wind are not available 24 hours a day. So that the power supply does not fail when no electricity is produced, one or more storage systems must be installed in the network. Alternatively, the gaps can also be bridged with oil/coal electricity. 
-
-A storage system indicates its capacity in kud, i.e. ku per day. For example, a storage system with 100 kud delivers 100 ku for one game day, or 10 ku for 10 game days.
-
-All TA3/TA4 energy sources have adjustable charging characteristics. By default this is set to "80% - 100%". This means that when the storage system is 80% full, the output is reduced further and further until it switches off completely at 100%. If electricity is required in the network, 100% will never be reached, since the power of the generator has at some point dropped to the electricity demand in the network and the storage system is no longer charged, but only the consumers are served.
-
-This has several advantages:
-
-- The charging characteristics are adjustable. This means, for example, that oil/coal energy sources can be reduced at 60% and regenerative energy sources only at 80%. This means that oil/coal is only burned if there are not enough renewable energy sources available.
-- Several energy sources can be operated in parallel and are loaded almost evenly, because all energy sources work, for example, up to 80% of the storage system's charging capacity at their full capacity and then reduce their capacity at the same time.
-- All storage systems in a network form a large buffer. The charging capacity and the filling level of the entire storage system can always be read in percent on every storage system, but also on the electricity terminal.
-
-[power_reduction|image] 
+[ta3_powerswitch|image].
 
 
+### Важность систем хранения данных
 
-### TA Electric Cable
+Системы хранения данных в энергосистеме выполняют две задачи:
 
-For local wiring in the floor or in buildings.
-Branches can be realized using junction boxes. The maximum cable length between machines or junction boxes is 1000 m. A maximum of 1000 nodes can be connected in a power network. All blocks with power connection, including junction boxes, count as nodes.
+- Чтобы справляться с пиками спроса: Все генераторы всегда выдают ровно столько энергии, сколько необходимо. Однако при включении/выключении потребителей или при колебаниях спроса по другим причинам потребители могут на короткое время выйти из строя. Чтобы предотвратить это, в каждой сети всегда должен быть хотя бы один батарейный блок. Он служит буфером и компенсирует эти колебания в диапазоне секунд.
+- Для хранения регенеративной энергии: Солнечная и ветровая энергия не доступна 24 часа в сутки. Чтобы не допустить перебоев в подаче электроэнергии, когда она не производится, в сети необходимо установить одну или несколько систем хранения. В качестве альтернативы пробелы можно восполнить за счет электроэнергии, получаемой от нефти или угля.
 
-Since the power cables are not automatically protected, the land lines (TA power line) are recommended for longer distances.
+Система хранения указывает свою емкость в кудах, то есть в кю в день. Например, система хранения с емкостью 100 куд обеспечивает 100 ку в течение одного игрового дня или 10 ку в течение 10 игровых дней.
 
-Power cables can be plastered with the trowel so they can be hidden in the wall or in the floor. All stone, clay and other blocks without "intelligence" can be used as plastering material. Dirt does not work because dirt can be converted to grass or the like, which would destroy the line.
+Все источники энергии TA3/TA4 имеют регулируемые характеристики зарядки. По умолчанию она установлена на "80 % - 100 %". Это означает, что когда система хранения заполнена на 80 %, мощность снижается все больше и больше, пока не выключится полностью на 100 %. Если в сети требуется электроэнергия, 100% никогда не будет достигнуто, так как мощность генератора в какой-то момент снизится до уровня потребности в электроэнергии в сети, и система хранения больше не будет заряжаться, а будут обслуживаться только потребители.
 
-For plastering, the cable must be clicked on with the trowel. The material with which the cable is to be plastered must be on the far left in the player inventory.
-The cables can be made visible again by clicking on the block with the trowel.
+Это имеет ряд преимуществ:
 
-In addition to cables, the TA junction box and the TA power switch box can also be plastered.
+- Характеристики зарядки можно регулировать. Это означает, что, например, расход нефти/угля может быть снижен на 60 %, а регенеративных источников энергии - только на 80 %. Это означает, что нефть/уголь сжигается только в том случае, если не хватает возобновляемых источников энергии.
+- Несколько источников энергии могут работать параллельно и загружены практически равномерно, поскольку все источники энергии работают, например, до 80% зарядной емкости системы хранения на полную мощность, а затем одновременно снижают свою мощность.
+- Все системы хранения в сети образуют большой буфер. Зарядная емкость и уровень заполнения всей системы хранения всегда можно считать в процентах на каждой системе хранения, а также на терминале электроэнергии.
 
-[ta3_powercable|image]
+[power_reduction|image]
 
 
-### TA Electric Junction Box
 
-With the junction box, electricity can be distributed in up to 6 directions. Junction boxes can also be plastered (hidden) with a trowel and made visible again.
+### TA Электрический кабель
 
-[ta3_powerjunction|image]
+Для локальной проводки в полу или в зданиях.
+Разветвления могут быть реализованы с помощью распределительных коробок. Максимальная длина кабеля между машинами или распределительными коробками составляет 1000 м. В силовую сеть можно подключить не более 1000 узлов. Все блоки с силовым подключением, включая распределительные коробки, считаются узлами.
+
+Поскольку силовые кабели не имеют автоматической защиты, для больших расстояний рекомендуется использовать наземные линии (линия электропередачи TA).
+
+Силовые кабели можно заштукатурить с помощью шпателя, чтобы спрятать их в стене или в полу. В качестве штукатурного материала можно использовать любые каменные, глиняные и другие блоки, не обладающие "интеллектом". Грязь не подходит, потому что грязь может превратиться в траву и тому подобное, что разрушит линию.
+
+Для нанесения штукатурки необходимо нажать на кабель шпателем. Материал, которым будет заштукатурен кабель, должен находиться слева в инвентаре игрока.
+Кабели можно снова сделать видимыми, нажав на блок с лопаткой.
+
+Помимо кабелей, можно также оштукатурить распределительную коробку TA и коробку силового выключателя TA.
+
+[ta3_powercable|image].
+
+
+### TA Электрическая распределительная коробка
+
+С помощью распределительной коробки можно распределить электричество в 6 направлениях. Распределительные коробки также можно заштукатурить (спрятать) с помощью шпателя и снова сделать видимыми.
+
+[ta3_powerjunction|image].
 
 
 ### TA Power Line
 
-With the TA power line and the electricity poles, reasonably realistic overhead lines can be realized. The power pole heads also serve to protect the power line (protection). A pole must be set every 16 m or less. The protection only applies to the power line and the poles, however, all other blocks in this area are not protected.
+С помощью линии электропередачи TA и электрических столбов можно реализовать достаточно реалистичные воздушные линии. Опоры столбов также служат для защиты линии электропередачи (защита). Столбы должны быть установлены через каждые 16 м или менее. Защита распространяется только на линию электропередачи и столбы, однако все остальные блоки в этой области не защищены.
 
 [ta3_powerline|image]
 
 
 ### TA Power Pole
-Used to build electricity poles. Is protected from destruction by the electricity pole head and can only be removed by the owner.
+Используется для строительства столбов электропередач. Защищен от разрушения оголовком столба и может быть удален только владельцем.
 
-[ta3_powerpole|image]
+[ta3_powerpole|image].
 
 
 ### TA Power Pole Top
-Has up to four arms and thus allows electricity to be distributed in up to 6 directions.
-The electricity pole head protects power lines and poles within a radius of 8 m.
+Имеет до четырех рычагов, что позволяет распределять электричество в 6 направлениях.
+Насадка для столбов защищает линии электропередач и столбы в радиусе 8 м.
 
-[ta3_powerpole4|image]
+[ta3_powerpole4|image].
 
 
 ### TA Power Pole Top 2
 
-This electricity pole head has two fixed arms and is used for the overhead lines. However, it can also transmit current downwards and upwards.
-The electricity pole head protects power lines and poles within a radius of 8 m.
+Эта головка электрического столба имеет два фиксированных рычага и используется для воздушных линий. Однако она также может передавать ток вниз и вверх.
+Насадка для столбов защищает линии электропередач и столбы в радиусе 8 м.
 
-[ta3_powerpole2|image]
-
-
-### TA Power Switch
-
-The switch can be used to switch the power on and off. To do this, the switch must be placed on a power switch box. The power switch box must be connected to the power cable on both sides.
-
-[ta3_powerswitch|image]
+[ta3_powerpole2|image].
 
 
-### TA Power Switch Small
+### Выключатель питания TA
 
-The switch can be used to switch the power on and off. To do this, the switch must be placed on a power switch box. The power switch box must be connected to the power cable on both sides.
+Выключатель можно использовать для включения и выключения питания. Для этого выключатель должен быть установлен на коробке выключателя питания. Коробка силового выключателя должна быть подключена к силовому кабелю с обеих сторон.
+
+[ta3_powerswitch|image].
+
+
+### TA Выключатель питания малый
+
+Выключатель можно использовать для включения и выключения питания. Для этого выключатель должен быть установлен на коробке выключателя питания. Коробка силового выключателя должна быть подключена к силовому кабелю с обеих сторон.
 
 [ta3_powerswitchsmall|image]
 
 
-### TA Power Switch Box
+### TA Блок переключателей питания
 
-see TA power switch.
+см. переключатель питания TA.
 
-[ta3_powerswitchbox|image]
+[ta3_powerswitchbox|image].
 
 
-### TA3 Small Power Generator
+### TA3 Генератор малой мощности
 
-The small power generator runs on gasoline and can be used for small consumers with up to 12 ku. Gasoline burns for 150 s under full load. Correspondingly longer under partial load (50% load = double time).
+Генератор малой мощности работает на бензине и может использоваться для небольших потребителей мощностью до 12 кю. При полной нагрузке бензин сгорает в течение 150 с. Соответственно дольше при частичной нагрузке (50% нагрузки = двойное время).
 
-The power generator can only hold 50 units of gasoline. An additional tank and a pump are therefore advisable.
+Электрогенератор вмещает только 50 единиц бензина. Поэтому целесообразно установить дополнительный бак и насос.
 
 
 [ta3_tinygenerator|image]
 
 
-### TA3 Accu Block
+### Аккумуляторный блок TA3
 
-The accu block (rechargeable battery)  is used to store excess energy and automatically delivers power in the event of a power failure (if available).
-Several accu blocks together form a TA3 energy storage system. Each accu block has a display for the charging state and for the stored load.
-The values for the entire network are always displayed here. The stored load is displayed in "kud" or "ku-days" (analogous to kWh) 5 kud thus corresponds, for example, to 5 ku for a game day (20 min) or 1 ku for 5 game days.
+Аккумуляторный блок (аккумуляторная батарея) используется для накопления избыточной энергии и автоматически подает энергию в случае отключения питания (при наличии).
+Несколько блоков accu вместе образуют систему хранения энергии TA3. На каждом блоке есть индикатор состояния зарядки и накопленной нагрузки.
+Здесь всегда отображаются значения для всей сети. Накопленная нагрузка отображается в "кудах" или "ку-днях" (аналогично кВт-ч). 5 куд соответствует, например, 5 ку за игровой день (20 минут) или 1 ку за 5 игровых дней.
 
-A accu block has 3.33 kud
+Блок accu имеет 3,33 куд
 
-[ta3_akkublock|image]
-
-
-### TA3 Power Terminal
-
-The power terminal must be connected to the power grid. It shows data from the power grid.
-
-The most important figures are displayed in the upper half:
-
-- current/maximum generator power
-- current power consumption of all consumers
-- current charging current in/from the storage system
-- Current state of charge of the storage system in percent
-
-The number of network blocks is output in the lower half.
-
-Additional data on the generators and storage systems can be queried via the "console" tab.
-
-[ta3_powerterminal|image]
+[ta3_akkublock|image].
 
 
-### TA3 Electric Motor
+### Клемма питания TA3
 
-The TA3 Electric Motor is required in order to be able to operate TA2 machines via the power grid. The TA3 Electric Motor converts electricity into axle power.
-If the electric motor is not supplied with sufficient power, it goes into an fault state and must be reactivated with a right-click.
+Силовой терминал должен быть подключен к электросети. На нем отображаются данные из электросети.
 
-The electric motor takes max. 40 ku of electricity and provides on the other side max. 39 ku as axle power. So he consumes one ku for the conversion.
+Наиболее важные показатели отображаются в верхней половине:
+
+- ток/максимальная мощность генератора
+- текущее энергопотребление всех потребителей
+- текущий зарядный ток в/из системы хранения
+- Текущее состояние заряда системы хранения в процентах
+
+В нижней половине выводится количество сетевых блоков.
+
+Дополнительные данные о генераторах и системах хранения можно запросить на вкладке "Консоль".
+
+[ta3_powerterminal|image].
+
+
+### TA3 Электродвигатель
+
+Электродвигатель TA3 необходим для того, чтобы машины TA2 могли работать от электросети. Электродвигатель TA3 преобразует электричество в мощность оси.
+Если на электродвигатель не подается достаточная мощность, он переходит в состояние неисправности и должен быть снова активирован щелчком правой кнопки мыши.
+
+Электродвигатель потребляет макс. 40 кю электроэнергии и обеспечивает макс. 39 кю в качестве мощности оси. Таким образом, он расходует один кю на преобразование.
 
 [ta3_motor|image]
 
 
 
 
-## TA3 Industrial Furnace
+## Промышленная печь TA3
 
-The TA3 industrial furnace serves as a supplement to normal furnaces. This means that all goods can be produced with "cooking" recipes, even in an industrial furnace. But there are also special recipes that can only be made in an industrial furnace.
-The industrial furnace has its own menu for recipe selection. Depending on the goods in the industrial furnace inventory on the left, the output product can be selected on the right.
+Промышленная печь TA3 служит дополнением к обычным печам. Это означает, что все товары можно производить по рецептам "варки" даже в промышленной печи. Но есть и особые рецепты, которые можно получить только в промышленной печи.
+Промышленная печь имеет собственное меню для выбора рецепта. В зависимости от того, какие товары находятся в инвентаре промышленной печи слева, справа можно выбрать выходной продукт.
 
-The industrial furnace requires electricity (for the booster) and fuel oil / gasoline for the burner. The industrial furnace must be assembled as shown in the plan on the right.
+Промышленная печь требует электричества (для бустера) и мазута/бензина для горелки. Промышленная печь должна быть собрана, как показано на плане справа.
 
-See also TA4 heater.
+См. также нагреватель TA4.
 
 [ta3_furnace|plan]
 
 
-### TA3 Furnace Oil Burner
+### TA3 Топочная масляная горелка
 
-Is part of the TA3 industrial furnace.
+Является частью промышленной печи TA3.
 
-The oil burner can be operated with crude oil, fuel oil, naphtha or gasoline. The burning time is 64 s for crude oil, 80 s for fuel oil, 90 s for naphtha and 100 s for gasoline.
+Мазутная горелка может работать на сырой нефти, мазуте, нафте или бензине. Время горения составляет 64 с для сырой нефти, 80 с для мазута, 90 с для нафты и 100 с для бензина.
 
-The oil burner can only hold 50 units of fuel. An additional tank and a pump are therefore advisable.
+Масляная горелка вмещает только 50 единиц топлива. Поэтому целесообразно установить дополнительный бак и насос.
 
 [ta3_furnacefirebox|image]
 
 
-### TA3 Furnace Top
+### TA3 Верхняя часть топки
 
-Is part of the TA3 industrial furnace. See TA3 industrial furnace.
+Является частью промышленной печи TA3. См. промышленную печь TA3.
 
 [ta3_furnace|image]
 
 
 ### TA3 Booster
 
-Is part of the TA3 industrial furnace. See TA3 industrial furnace.
+Является частью промышленной печи TA3. См. промышленную печь TA3.
 
 [ta3_booster|image]
 
 
-## Liquids
+## Жидкости
 
-Liquids such as water or oil can only be pumped through the special pipes and stored in tanks. As with water, there are containers (canisters, barrels) in which the liquid can be stored and transported.
+Жидкости, такие как вода или нефть, можно перекачивать только по специальным трубам и хранить в резервуарах. Как и в случае с водой, существуют емкости (канистры, бочки), в которых жидкость можно хранить и перевозить.
 
-It is also possible to connect several tanks using the yellow pipes and connectors. However, the tanks must have the same content and there must always be at least one yellow pipe between the tank, pump and distributor pipe.
+С помощью желтых труб и соединителей можно также соединить несколько резервуаров. Однако резервуары должны иметь одинаковое содержимое, а между резервуаром, насосом и распределительной трубой всегда должна быть хотя бы одна желтая труба.
 
-E.g. It is not possible to connect two tanks directly to a distributor pipe.
+Например, невозможно подключить два резервуара непосредственно к распределительной трубе.
 
-The liquid filler is used to transfer liquids from containers to tanks. The plan shows how canisters or barrels with liquids are pushed into a liquid filler via pushers. The container is emptied in the liquid filler and the liquid is led down into the tank.
+Наливное устройство используется для переливания жидкостей из контейнеров в резервуары. На плане показано, как канистры или бочки с жидкостями с помощью толкателей заталкиваются в наливное устройство. Контейнер опорожняется в наливном устройстве, и жидкость спускается в резервуар.
 
-The liquid filler can also be placed under a tank to empty the tank.
+Наливное устройство также можно поместить под резервуар, чтобы опорожнить его.
 
 [ta3_tank|plan]
 
 
 ### TA3 Tank
 
-Liquids can be stored in a tank. A tank can be filled or emptied using a pump. To do this, the pump must be connected to the tank via a pipe (yellow pipes).
+Жидкости можно хранить в резервуаре. Резервуар можно наполнить или опорожнить с помощью насоса. Для этого насос должен быть подключен к резервуару через трубу (желтые трубы).
 
-A tank can also be filled or emptied manually by clicking on the tank with a full or empty liquid container (barrel, canister). It should be noted that barrels can only be completely filled or emptied. If, for example, there are less than 10 units in the tank, this remainder must be removed with canisters or pumped empty.
+Резервуар также можно заполнить или опустошить вручную, щелкнув по нему с полным или пустым контейнером для жидкости (бочкой, канистрой). Следует отметить, что бочки могут быть заполнены или опустошены только полностью. Если, например, в резервуаре осталось менее 10 единиц, этот остаток необходимо удалить с помощью канистр или выкачать пустой.
 
-A TA3 tank can hold 1000 units or 100 barrels of liquid.
+Цистерна TA3 вмещает 1000 единиц или 100 баррелей жидкости.
 
 [ta3_tank|image]
 
 
-### TA3 Pump
+### Насос TA3
 
-The pump can be used to pump liquids from tanks or containers to other tanks or containers. The pump direction (arrow) must be observed for the pump. The yellow lines and connectors also make it possible to arrange several tanks on each side of the pump. However, the tanks must have the same content.
+Насос можно использовать для перекачивания жидкостей из резервуаров или контейнеров в другие резервуары или контейнеры. При работе насоса необходимо соблюдать направление (стрелка). Желтые линии и соединители также позволяют устанавливать несколько резервуаров с каждой стороны насоса. Однако резервуары должны иметь одинаковое содержимое.
 
-The TA3 pump pumps 4 units of liquid every two seconds.
+Насос TA3 перекачивает 4 единицы жидкости каждые две секунды.
 
-Note 1: The pump must not be placed directly next to the tank. There must always be at least a piece of yellow pipe between them.
+Примечание 1: Насос не должен располагаться непосредственно рядом с резервуаром. Между ними всегда должен быть как минимум кусок желтой трубы.
 
 [ta3_pump|image]
 
 
-### TA Liquid Filler
+### TA Жидкий наполнитель
 
-The liquid filler is used to transfer liquids between containers and tanks.
+Наливное устройство используется для перекачки жидкостей между емкостями и резервуарами.
 
-- If the liquid filler is placed under a tank and empty barrels are put into the liquid filler with a pusher or by hand, the contents of the tank are transferred to the barrels and the barrels can be removed from the outlet
-- If the liquid filler is placed on a tank and if full containers are put into the liquid filler with a pusher or by hand, the content is transferred to the tank and the empty containers can be removed on the exit side
+- Если наливное устройство находится под резервуаром, а пустые бочки помещаются в наливное устройство с помощью толкателя или вручную, содержимое резервуара переливается в бочки, и бочки можно извлечь из выпускного отверстия.
+- Если наливное устройство установлено на резервуаре, а полные контейнеры помещаются в наливное устройство с помощью толкателя или вручную, содержимое переливается в резервуар, а пустые контейнеры могут быть удалены со стороны выхода
 
-It should be noted that barrels can only be completely filled or emptied. If, for example, there are less than 10 units in the tank, this remainder must be removed with canisters or pumped empty.
+Следует отметить, что бочки могут быть заполнены или опустошены только полностью. Если, например, в резервуаре осталось менее 10 единиц, этот остаток необходимо удалить с помощью канистр или откачать пустым насосом.
 
 [ta3_filler|image]
 
-### TA4 Pipe
+### Труба TA4
 
-The yellow pipes are used for the transmission of gas and liquids.
-The maximum pipe length is 100 m.
+Желтые трубы используются для передачи газа и жидкостей.
+Максимальная длина трубы - 100 м.
 
 [ta3_pipe|image]
 
-### TA3 Pipe Wall Entry Blocks
+### TA3 Блоки входа в стену трубы
 
-The blocks serve as wall openings for tubes, so that no holes remain open.
+Блоки служат отверстиями в стенках для трубок, так что ни одно отверстие не остается открытым.
 
 [ta3_pipe_wall_entry|image]
 
-### TA Valve
+### Клапан TA
 
-There is a valve for the yellow pipes, which can be opened and closed with a click of the mouse.
-The valve can also be controlled via on/off commands.
+Для желтых труб предусмотрен клапан, который можно открывать и закрывать одним щелчком мыши.
+Управление клапаном также может осуществляться с помощью команд включения/выключения.
 
 [ta3_valve|image]
 
 
-## Oil Production
+## Добыча нефти
 
-In order to run your generators and stoves with oil, you must first look for oil and build a derrick and then extract the oil.
-TA3 oil explorer, TA3 oil drilling box and TA3 pump jack are used for this.
+Для того чтобы генераторы и печи работали на нефти, вам нужно сначала найти нефть, построить вышку, а затем добыть ее.
+Для этого используются нефтеразведка TA3, буровая установка TA3 и насосный домкрат TA3.
 
-[techage_ta3|image]
+[techage_ta3|image].
 
 
 ### TA3 Oil Explorer
 
-You can search for oil with the oil explorer. To do this, place the block on the floor and right-click to start the search. The oil explorer can be used above ground and underground at all depths.
-The chat output shows you the depth to which oil was searched and how much oil (petroleum) was found.
-You can click the block multiple times to search for oil in deeper areas. Oil fields range in size from 4,000 to 20,000 items.
+Вы можете искать нефть с помощью исследователя нефти. Для этого поставьте блок на пол и щелкните правой кнопкой мыши, чтобы начать поиск. Нефтеискатель можно использовать как над землей, так и под землей на любой глубине.
+В чате отображается информация о глубине поиска нефти и количестве найденной нефти (петролеума).
+Вы можете нажимать на блок несколько раз, чтобы искать нефть в более глубоких областях. Размер нефтяных месторождений варьируется от 4 000 до 20 000 элементов.
 
-If the search was unsuccessful, you have to move the block approx. 16 m further.
-The oil explorer always searches for oil in the whole map block and below, in which it was set. A new search in the same map block (16x16 field) therefore makes no sense.
+Если поиски не увенчались успехом, необходимо передвинуть блок примерно на 16 м дальше.
+Нефтеразведчик всегда ищет нефть во всем блоке карты и ниже, в котором он был установлен. Поэтому новый поиск в том же блоке карты (поле 16x16) не имеет смысла.
 
-If oil is found, the location for the derrick is displayed. You have to erect the derrick within the area shown, it is best to mark the spot with a sign and protect the entire area against foreign players.
+Если нефть найдена, на экране появится место для установки вышки. Вы должны возвести вышку в пределах указанной области, лучше всего отметить место знаком и защитить всю территорию от посторонних игроков.
 
-Don't give up looking for oil too quickly. If you're unlucky, it can take a long time to find an oil well.
-It also makes no sense to search an area that another player has already searched. The chance of finding oil anywhere is the same for all players.
+Не отказывайтесь от поисков нефти слишком быстро. Если вам не повезет, поиск нефтяной скважины может занять много времени.
+Также не имеет смысла искать нефть в зоне, которую уже обыскал другой игрок. Шанс найти нефть в любом месте одинаков для всех игроков.
 
-The oil explorer can always be used to search for oil.
+Нефтеразведчик всегда может быть использован для поиска нефти.
 
 [ta3_oilexplorer|image]
 
 
-### TA3 Oil Drill Box
+### TA3 Коробка для бурения нефтяных скважин
 
-The oil drill box must be placed in the position indicated by the oil explorer. Drilling for oil elsewhere is pointless.
-If the button on the oil drilling box is clicked, the derrick is erected above the box. This takes a few seconds.
-The oil drilling box has 4 sides, at IN the drill pipe has to be delivered via pusher and at OUT the drilling material has to be removed. The oil drilling box must be supplied with power via one of the other two sides.
+Буровая коробка должна быть установлена в месте, указанном нефтеразведчиком. Бурить нефть в другом месте бессмысленно.
+Если нажать кнопку на коробке с нефтяным буром, над ней будет возведена вышка. Это занимает несколько секунд.
+Буровая коробка имеет 4 стороны, на IN подается бурильная труба через толкатель, а на OUT удаляется буровой материал. Через одну из двух других сторон на буровую коробку должно подаваться питание.
 
-The oil drilling box drills to the oil field (1 meter in 16 s) and requires 16 ku of electricity.
-Once the oil field has been reached, the derrick can be dismantled and the box removed.
+Коробка для бурения нефтяных скважин бурит до нефтяного месторождения (1 метр за 16 с) и требует 16 кю электроэнергии.
+После достижения нефтяного месторождения вышка может быть разобрана, а ящик извлечен.
 
 [ta3_drillbox|image]
 
 
-### TA3 Oil Pumpjack
+### TA3 Масляный насос
 
-The oil pump (pump-jack) must now be placed in the place of the oil drilling box. The oil pump also requires electricity (16 ku) and supplies one unit of oil every 8 s. The oil must be collected in a tank. To do this, the oil pump must be connected to the tank via yellow pipes.
-Once all the oil has been pumped out, the oil pump can also be removed.
+Теперь на место бурового ящика необходимо установить масляный насос (pump-jack). Нефтяной насос также требует электричества (16 кю) и подает одну единицу нефти каждые 8 с. Нефть должна собираться в резервуар. Для этого нужно соединить масляный насос с резервуаром с помощью желтых труб.
+После того как все масло будет выкачано, можно снять и масляный насос.
 
 [ta3_pumpjack|image]
 
 
-### TA3 Drill Pipe
+### TA3 Бурильная труба
 
-The drill pipe is required for drilling. As many drill pipe items are required as the depth specified for the oil field. The drill pipe is useless after drilling, but it also cannot be dismantled and remains in the ground. However, there is a tool to remove the drill pipe blocks (-> Tools -> TA3 drill pipe pliers).
+Бурильные трубы необходимы для бурения. Для бурения требуется столько бурильных труб, на какую глубину рассчитано нефтяное месторождение. После бурения бурильная труба становится бесполезной, но ее также нельзя демонтировать, и она остается в земле. Однако существует инструмент для извлечения блоков бурильных труб (-> Инструменты -> Плоскогубцы для бурильных труб TA3).
 
 [ta3_drillbit|image]
 
 
-### Oil tank
+### Масляный бак
 
-The oil tank is the large version of the TA3 tank (see liquids -> TA3 tank).
+Масляный бак - это большая версия бака TA3 (см. Жидкости -> Бак TA3).
 
-The large tank can hold 4000 units of oil, but also any other type of liquid.
+Большой резервуар вмещает 4000 единиц нефти, а также любые другие виды жидкостей.
 
-[oiltank|image]
+[oiltank|image].
 
 
 
-## Oil Transportation
+## Транспортировка нефти
 
-### Oil transportation by Tank Carts
+### Транспортировка нефти автоцистернами
 
-Tank carts can be used to transport oil from the oil well to the oil processing plant. A tank cart  can be filled or emptied directly using pumps. In both cases, the yellow pipes must be connected to the tank cart from above.
+Тележки-цистерны могут использоваться для транспортировки нефти от нефтяной скважины до нефтеперерабатывающего завода. Тележку-цистерну можно наполнять или опорожнять непосредственно с помощью насосов. В обоих случаях желтые трубы должны быть подсоединены к тележке-цистерне сверху.
 
-The following steps are necessary:
+Необходимо выполнить следующие действия:
 
-- Place the tank cart in front of the rail bumper block. The bumper block must not yet be programmed with a time so that the tank cart does not start automatically
-- Connect the tank cart to the pump using yellow pipes
-- Switch on the pump
-- Program the bumper with a time (10 - 20 s)
+- Установите тележку-цистерну перед рельсовым бамперным блоком. Блок бампера еще не должен быть запрограммирован на время, чтобы тележка-цистерна не запустилась автоматически
+- Подключите тележку с цистерной к насосу с помощью желтых труб
+- Включите насос
+- Запрограммируйте бампер на время (10 - 20 с)
 
-This sequence must be observed on both sides (fill / empty).
+Эта последовательность должна соблюдаться с обеих сторон (наполнение / опорожнение).
 
 [tank_cart | image]
 
-### Oil transportation with barrels over Minecarts
+### Транспортировка нефти с помощью бочек по сравнению с Minecarts
 
-Canisters and barrels can be loaded into the Minecarts. To do this, the oil must first be transferred to barrels. The oil barrels can be pushed directly into the Minecart with a pusher and tubes (see map). The empty barrels, which come back from the unloading station by Minecart, can be unloaded using a hopper, which is placed under the rail at the stop.
+В миникарты можно загружать канистры и бочки. Для этого нефть нужно сначала перелить в бочки. Бочки с нефтью можно заталкивать прямо в Minecart с помощью толкателя и труб (см. карту). Пустые бочки, которые возвращаются со станции разгрузки на Minecart, можно выгрузить с помощью бункера, который устанавливается под рельсами на остановке.
 
-It is not possible with the hopper to both **unload the empty barrels and load the full barrels at a stop**. The hopper immediately unloads the full barrels. It is therefore advisable to set up 2 stations on the loading and unloading side and then program the Minecart accordingly using a recording run.
+С помощью бункера невозможно одновременно **разгрузить пустые бочки и загрузить полные бочки во время остановки**. Бункер сразу же выгружает полные бочки. Поэтому рекомендуется установить 2 станции на стороне загрузки и разгрузки, а затем запрограммировать Minecart соответствующим образом с помощью прогона записи.
 
-The plan shows how the oil can be pumped into a tank and filled into barrels via a liquid filler and loaded into Minecarts.
+На плане показано, как нефть можно закачать в резервуар, наполнить бочки через заливное устройство и погрузить в Minecarts.
 
-For the Minecarts to start again automatically, the bumper blocks must be configured with the station name and waiting time. 5 s are sufficient for unloading. However, since the pushers always go into standby for several seconds when there is no Minecart, a time of 15 or more seconds must be entered for loading.
+Чтобы Minecarts запускались снова автоматически, на бамперных блоках необходимо указать название станции и время ожидания. Для разгрузки достаточно 5 с. Однако, поскольку толкатели всегда переходят в режим ожидания на несколько секунд при отсутствии Minecart, для загрузки необходимо ввести время 15 или более секунд.
 
 [ta3_loading|plan]
 
-###  Tank Cart
+### Тележка для цистерны
 
-The tank truck is used to transport liquids. Like tanks, it can be filled with pumps or emptied. In both cases, the yellow tube must be connected to the tank truck from above.
+Автоцистерна используется для перевозки жидкостей. Как и цистерны, ее можно наполнять с помощью насосов или опорожнять. В обоих случаях желтая труба должна быть подсоединена к автоцистерне сверху.
 
-200 units fit in the tank truck.
+В автоцистерну помещается 200 единиц.
 
 [tank_cart | image]
 
-### Chest Cart
+### Тележка с сундуком
 
-The chest cart is used to transport items. Like chests, it can be filled or emptied using a pusher.
+Тележка-сундук используется для перевозки предметов. Как и сундуки, ее можно наполнить или опустошить с помощью толкателя.
 
-4 stacks fit in the chest cart.
+4 стопки помещаются в тележку-сундук.
 
 [chest_cart | image]
 
 
-## Oil Processing
+## Переработка нефти
 
-Oil is a mixture of substances and consists of many components. The oil can be broken down into its main components such as bitumen, fuel oil, naphtha, gasoline and propane gas via a distillation tower.
-Further processing to end products takes place in the chemical reactor.
+Нефть - это смесь веществ, состоящая из множества компонентов. С помощью перегонной колонны нефть можно разделить на основные компоненты, такие как битум, мазут, нафта, бензин и газ пропан.
+Дальнейшая переработка до конечных продуктов происходит в химическом реакторе.
 
-[techage_ta31|image]
+[techage_ta31|image].
 
 
-### Distillation Tower
+### Дистилляционная колонна
 
-The distillation tower must be set up as in the plan at the top right.
-The bitumen is drained off via the base block. The exit is on the back of the base block (note the direction of the arrow).
-The "distillation tower" blocks with the numbers: 1, 2, 3, 2, 3, 2, 3, 4 are placed on this basic block
-Fuel oil, naphtha and gasoline are drained from the openings from bottom to top. The propane gas is caught at the top.
-All openings on the tower must be connected to tanks.
-The reboiler must be connected to the "distillation tower 1" block.
+Дистилляционная колонна должна быть установлена так, как показано на плане в правом верхнем углу.
+Битум сливается через базовый блок. Выход находится на задней стороне базового блока (обратите внимание на направление стрелки).
+Блоки "перегонной башни" с номерами: 1, 2, 3, 2, 3, 2, 3, 4 расположены на этом основном блоке
+Мазут, нафта и бензин вытекают из отверстий снизу вверх. Газ пропан попадает в верхнее отверстие.
+Все отверстия на башне должны быть соединены с резервуарами.
+Ребойлер должен быть подключен к блоку "Дистилляционная колонна 1".
 
-The reboiler needs electricity (not shown in the plan)!
+Ребойлеру требуется электричество (не показано на плане)!
 
 
 [ta3_distiller|plan]
 
-#### Reboiler
+#### Перезагрузка
 
-The reboiler heats the oil to approx. 400 ° C. It largely evaporates and is fed into the distillation tower for cooling.
+В ребойлере масло нагревается примерно до 400 °С. Оно в значительной степени испаряется и поступает в дистилляционную колонну для охлаждения.
 
-The reboiler requires 14 units of electricity and produces one unit of bitumen, fuel oil, naphtha, gasoline and propane every 16 s.
-To do this, the reboiler must be supplied with oil via a pump.
+Ребойлер требует 14 единиц электроэнергии и производит одну единицу битума, мазута, нафты, бензина и пропана каждые 16 с.
+Для этого в ребойлер необходимо подавать масло через насос.
 
 [reboiler|image]
 
 
-## Logic / Switching Blocks
+## Логические/коммутационные блоки
 
-In addition to the tubes for goods transport, as well as the gas and power pipes, there is also a wireless communication level through which blocks can exchange data with each other. No lines have to be drawn for this, the connection between transmitter and receiver is only made via the block number. 
+Помимо труб для транспортировки грузов, а также газо- и электропроводов, существует также беспроводной уровень связи, с помощью которого блоки могут обмениваться данными друг с другом. Для этого не нужно прокладывать линии, связь между передатчиком и приемником осуществляется только через номер блока.
 
-**Info:** A block number is a unique number that is generated by Techage when many Techage blocks are placed. The block number is used for addressing during communication between Techage controllers and machines. All blocks that can participate in this communication show the block number as info text if you fix the block with the mouse cursor.
+**Информация:** Номер блока - это уникальный номер, который генерируется компанией Techage при размещении большого количества блоков Techage. Номер блока используется для адресации при обмене данными между контроллерами Techage и машинами. Все блоки, которые могут участвовать в этом общении, показывают номер блока в виде информационного текста, если вы фиксируете блок курсором мыши.
 
-Which commands a block supports can be read out and displayed with the TechAge Info Tool (wrench).
-The simplest commands supported by almost all blocks are:
+Какие команды поддерживает тот или иной блок, можно узнать и отобразить с помощью TechAge Info Tool (гаечный ключ).
+Простейшие команды, поддерживаемые почти всеми блоками:
 
-- `on` - to turn on block / machine / lamp
-- `off` - to turn off the block / machine / lamp
+- `on` - включать блок / машину / лампу
+- `off` - выключить блок / машину / лампу
 
-With the help of the TA3 Terminal, these commands can be tried out very easily. Suppose a signal lamp is number 123.
-Then with:
+С помощью терминала TA3 эти команды можно легко опробовать. Предположим, сигнальная лампа имеет номер 123.
+Затем с:
 
-    cmd 123 on
+    Команда 123 включена
 
-the lamp can be turned on and with:
+лампу можно включать и выключать:
 
-    cmd 123 off
+    cmd 123 выкл
 
-the lamp can be turned off again. These commands must be entered in the input field of the TA3 terminal.
+лампа может быть снова выключена. Эти команды должны быть введены в поле ввода терминала TA3.
 
-Commands such as `on` and` off` are sent to the recipient without a response coming back. These commands can therefore be sent to several receivers at the same time, for example with a push button / switch, if several numbers are entered in the input field.
+Такие команды, как "вкл" и "выкл", отправляются получателю без ответной реакции. Таким образом, эти команды могут быть отправлены нескольким получателям одновременно, например, с помощью кнопки/выключателя, если в поле ввода введено несколько цифр.
 
-A command like `state` requests the status of a block. The block then sends its status back. This type of confirmed command can only be sent to one recipient at a time.
-This command can also be tested with the TA3 terminal on a pusher, for example:
+Команда типа `state` запрашивает статус блока. Затем блок отправляет свой статус обратно. Этот тип подтвержденной команды может быть отправлен только одному получателю одновременно.
+Эту команду можно также проверить, например, с помощью клеммы TA3 на толкателе:
 
-    cmd 123 state
+    команда 123 состояние
 
-Possible responses from the pusher are:
-- `running` -> I'm working
-- `stopped` -> switched off
-- `standby` -> nothing to do because source inventory is empty
-- `blocked` -> can't do anything because target inventory is full
+Возможные ответы толкателя::
+- `running` -> Я работаю
+- `stopped` -> выключен
+- `standby` -> ничего не делать, потому что исходный инвентарь пуст
+- `заблокирован` -> не может ничего сделать, потому что инвентарь цели переполнен
 
-This status and other information is also output when the wrench is clicked on the block.
+Этот статус и другая информация также выводятся при нажатии гаечного ключа на блок.
 
 [ta3_logic|image]
 
 
-### TA3 Button / Switch
-The button/switch sends `on` / `off` commands to the blocks that have been configured via the numbers.
-The button/switch can be configured as a button or a switch. If it is configured as a button, the time between the `on` and `off` commands can be set. With the operating mode "on button" only an `on` and no `off` command is sent.
+### TA3 Кнопка / переключатель
+Кнопка/переключатель посылает команды `вкл` / `выкл` на блоки, которые были сконфигурированы с помощью цифр.
+Кнопка/переключатель может быть настроена как кнопка или переключатель. Если она сконфигурирована как кнопка, можно установить время между командами `вкл` и `выкл`. В режиме работы "кнопка" передается только команда `вкл` и не передается команда `выкл`.
 
-The checkbox "public" can be used to set whether the button can be used by everyone (set) or only by the owner himself (not set).
+С помощью флажка "public" можно установить, может ли кнопка использоваться всеми (установлено) или только самим владельцем (не установлено).
 
-Note: With the programmer, block numbers can be easily collected and configured.
+Примечание: С помощью программатора можно легко собирать и настраивать номера блоков.
 
 [ta3_button|image]
 
-### TA3 Command Converter
+### Преобразователь команд TA3
 
-With the TA3 command converter, `on` / `off` commands can be converted into other commands, and forwarding can be prevented or delayed.
-The number of the target block or the numbers of the target blocks, the commands to be sent and the delay times in seconds must be entered. If no command is entered, nothing is sent.
+С помощью конвертера команд TA3 команды `вкл` / `выкл` могут быть преобразованы в другие команды, а переадресация может быть предотвращена или отложена.
+Необходимо ввести номер целевого блока или номера целевых блоков, команды для отправки и время задержки в секундах. Если команда не введена, ничего не будет отправлено.
 
-The numbers can also be programmed using the Techage programmer.
+Номера также можно запрограммировать с помощью программатора Techage.
 
-[ta3_command_converter|image]
+[ta3_command_converter|image].
 
 ### TA3 Flip-Flop
 
-The TA3 flip-flop changes its state with each received `on` command. Received `off` commands are ignored. Depending on the status change, `on` / `off` commands are sent alternately. The number of the target block or the numbers of the target blocks must be entered. The numbers can also be programmed using the Techage programmer.
+Флип-флоп TA3 меняет свое состояние при каждой полученной команде `on`. Полученные команды `off` игнорируются. В зависимости от изменения состояния, команды `on` / `off` посылаются поочередно. Необходимо ввести номер целевого блока или номера целевых блоков. Номера также могут быть запрограммированы с помощью программатора Techage.
 
-For example, lamps can be switched on and off with the help of buttons.
+Например, лампы можно включать и выключать с помощью кнопок.
 
 [ta3_flipflop|image]
 
-### TA3 Logic Block
+### Логический блок TA3
 
-The TA3 logic block can be programmed in such a way that one or more input commands are linked to one output command and sent. This block can therefore replace various logic elements such as AND, OR, NOT, XOR etc. 
-Input commands for the logic block are `on` /` off` commands.
-Input commands are referenced via the number, e.g. `1234` for the command from the sender with the number 1234. 
-The same applies to output commands.
+Логический блок TA3 может быть запрограммирован таким образом, что одна или несколько входных команд будут связаны с одной выходной командой и отправлены. Таким образом, этот блок может заменить различные логические элементы, такие как AND, OR, NOT, XOR и т. д.
+Входными командами для логического блока являются команды `вкл` / `выкл`.
+Входные команды обозначаются номером, например, `1234` для команды от отправителя с номером 1234.
+То же самое относится и к командам вывода.
 
-A rule is structured as follows: 
+Правило имеет следующую структуру:
 
 ```
-<output> = on/off if <input-expression> is true
+<вывод> = вкл/выкл, если <выражение-ввод> истинно
 ```
 
-`<output>` is the block number to which the command should be sent.
-`<input-expression>` is a boolean expression where input numbers are evaluated.
+`<output>` - это номер блока, в который должна быть отправлена команда.
+`<input-expression>` - это булево выражение, в котором оцениваются входные числа.
 
 
 
-**Examples for the input expression**
+**Примеры для входного выражения**
 
-Negate signal (NOT):
+Отрицательный сигнал (NOT):
 
-    1234 == off
+    1234 == выкл.
 
-Logical AND:
+Логическое И:
 
-    1234 == on and 2345 == on
+    1234 == вкл. и 2345 == вкл.
 
-Logical OR:
+Логическое ИЛИ:
 
-    1234 == on or 2345 == on
+    1234 == вкл. или 2345 == вкл.
 
-The following operators are allowed:  `and`   `or`   `on`   `off`   `me`   `==`   `~=`   `(`   `)`
+Допустимы следующие операторы:  `and` `or` `on` `off` `me` `==` `~=` `(``)``
 
-If the expression is true, a command is sent to the block with the `<output>` number. 
-Up to four rules can be defined, whereby all rules are always checked when a command is received. 
-The internal processing time for all commands is 100 ms. 
+Если выражение истинно, то в блок с номером `<output>` отправляется команда.
+Можно задать до четырех правил, при этом все правила всегда проверяются при получении команды.
+Внутреннее время обработки всех команд составляет 100 мс.
 
-Your own node number can be referenced using the keyword `me`. This makes it possible for the block to send itself a command (flip-flop function). 
+Ваш собственный номер узла может быть указан с помощью ключевого слова `me`. Это позволяет блоку посылать самому себе команду (функция флип-флопа).
 
-The blocking time defines a pause after a command, during which the logic block does not accept any further external commands. Commands received during the blocking period are thus discarded. The blocking time can be defined in seconds. 
+Время блокировки определяет паузу после команды, в течение которой логический блок не принимает никаких дальнейших внешних команд. Команды, полученные в период блокировки, отбрасываются. Время блокировки может быть задано в секундах.
 
 [ta3_logic|image]
 
 
-### TA3 Repeater
+### TA3 Ретранслятор
 
-The repeater sends the received signal to all configured numbers.
-This can make sense, for example, if you want to control many blocks at the same time. The repeater can be configured with the programmer, which is not possible with all blocks.
+Ретранслятор отправляет полученный сигнал на все настроенные номера.
+Это может иметь смысл, например, если вы хотите управлять несколькими блоками одновременно. Ретранслятор можно настроить с помощью программатора, что возможно не для всех блоков.
 
 [ta3_repeater|image]
 
 
 ### TA3 Sequencer
 
-The sequencer can send a series of `on` / `off` commands, whereby the interval between the commands must be specified in seconds. You can use it to make a lamp blink, for example.
-Up to 8 commands can be configured, each with target block number and pending the next command.
-The sequencer repeats the commands endlessly when "Run endless" is set.
-If nothing is selected, only the specified time in seconds is waited for.
+Секвенсор может посылать серию команд `вкл` / `выкл`, при этом интервал между командами должен быть указан в секундах. С его помощью можно, например, заставить мигать лампу.
+Можно настроить до 8 команд, каждая из которых будет содержать номер целевого блока и ожидание следующей команды.
+Секвенсор повторяет команды бесконечно, если установлен параметр "Run endless".
+Если ничего не выбрано, то будет ожидаться только указанное время в секундах.
 
-[ta3_sequencer|image]
+[ta3_sequencer|image].
 
 
-### TA3 Timer
+### Таймер TA3
 
-The timer can send commands time-controlled. The time, the target number(s) and the command itself can be specified for each command line. This means that lamps can be switched on in the evening and switched off again in the morning.
+Таймер может отправлять команды с контролем времени. Для каждой командной строки можно указать время, номер (номера) цели и саму команду. Это означает, что лампы можно включать вечером и выключать утром.
 
 [ta3_timer|image]
 
 
-### TA3 Terminal
+### Терминал TA3
 
-The terminal is primarily used to test the command interface of other blocks (see "Logic / switching blocks"), as well as for the automation of systems using the BASIC programming language.
-You can also assign commands to keys and use the terminal productively.
+Терминал используется в основном для тестирования командного интерфейса других блоков (см. "Логические/коммутационные блоки"), а также для автоматизации систем с использованием языка программирования BASIC.
+Вы также можете назначить команды клавишам и использовать терминал продуктивно.
 
     set <button-num> <button-text> <command>
 
-With `set 1 ON cmd 123 on`, for example, user key 1 can be programmed with the command `cmd 123 on`. If the key is pressed, the command is sent and the response is output on the screen.
+С помощью команды `set 1 ON cmd 123 on`, например, пользовательская клавиша 1 может быть запрограммирована на команду `cmd 123 on`. При нажатии клавиши команда будет отправлена, а ответ выведен на экран.
 
-The terminal has the following local commands:
-- `clear` clear screen
-- `help` output a help page
-- `pub` switch to public mode
-- `priv` switch to private mode
+Терминал имеет следующие локальные команды:
+- `clear` очистить экран
+- `help` выводит страницу помощи
+- `pub` переключиться в публичный режим
+- `priv` переключитесь в приватный режим
 
-In private mode, the terminal can only be used by players who can build at this location, i.e. who have protection rights.
+В частном режиме терминал могут использовать только те игроки, которые могут строить в этом месте, то есть имеют права на защиту.
 
-In public mode, all players can use the preconfigured keys.
+В публичном режиме все игроки могут использовать предварительно настроенные ключи.
 
-You can switch to BASIC mode using the open-ended wrench menu. You can find more information about BASIC mode [here](https://github.com/joe7575/techage/tree/master/manuals/ta3_terminal.md)
+Переключиться в режим BASIC можно с помощью открытого гаечного меню. Более подробную информацию о режиме BASIC вы можете найти [здесь](https://github.com/joe7575/techage/tree/master/manuals/ta3_terminal.md)
 
 [ta3_terminal|image]
 
 
-### TechAge Color Lamp
+### Цветная лампа TechAge
 
-The signal lamp can be switched on or off with the `on` / `off` command. This lamp does not need electricity and can be colored with the airbrush tool from the mod Unified Dyes" and via Lua/Beduino commands.
+Сигнальная лампа может быть включена или выключена с помощью команды `on` / `off`. Эта лампа не нуждается в электричестве и может быть окрашена с помощью инструмента аэрографа из мода Unified Dyes и с помощью команд Lua/Beduino.
 
-With the chat command `/ta_color` the color palette with the values for the Lua/Beduino commands is displayed and with `/ta_send color <num>` the color can be changed.
+С помощью команды чата `/ta_color` отображается цветовая палитра со значениями для команд Lua/Beduino, а с помощью `/ta_send color <num>` цвет можно изменить.
 
 [ta3_colorlamp|image]
 
 
-### Door/Gate Blocks
+### Блоки дверей и ворот
 
-With these blocks you can realize doors and gates that can be opened via commands (blocks disappear) and closed again. One door controller is required for each gate or door.
+С помощью этих блоков можно реализовать двери и ворота, которые можно открывать с помощью команд (блоки исчезают) и снова закрывать. Для каждых ворот или двери требуется один контроллер.
 
-The appearance of the blocks can be adjusted via the block menu.
-This makes it possible to realize secret doors that only open for certain players (with the help of the player detector).
+Внешний вид блоков можно настроить с помощью меню блоков.
+Это позволяет реализовать секретные двери, которые открываются только для определенных игроков (с помощью детектора игроков).
 
 [ta3_doorblock|image]
 
-### TA3 Door Controller
+### TA3 Контроллер дверей
 
-The door controller is used to control the TA3 door/gate blocks. With the door controller, the numbers of the door/gate blocks must be entered. If an `on` / `off` command is sent to the door controller, this opens/closes the door or gate.
+Дверной контроллер используется для управления блоками дверей/ворот TA3. С помощью дверного контроллера необходимо ввести номера блоков дверей/ворот. Если на контроллер двери подается команда `вкл` / `выкл`, это открывает/закрывает дверь или ворота.
 
-[ta3_doorcontroller|image]
+[ta3_doorcontroller|image].
 
-### TA3 Door Controller II
+### TA3 Контроллер дверей II
 
-The Door Controller II can remove and set all types of blocks. To teach in the Door Controller II, the "Record" button must be pressed. Then all blocks that should be part of the door / gate must be clicked. Then the "Done" button must be pressed. Up to 16 blocks can be selected. The removed blocks are saved in the controller's inventory. The function of the controller can be tested manually using the "Exchange" button. If an `on` /`off` command is sent to the Door Controller II, it removes or sets the blocks as well.
+Контроллер Door Controller II может снимать и устанавливать все типы блоков. Для обучения в Door Controller II необходимо нажать кнопку "Запись". Затем необходимо нажать на все блоки, которые должны быть частью двери/ворота. Затем необходимо нажать кнопку "Готово". Можно выбрать до 16 блоков. Удаленные блоки сохраняются в инвентаре контроллера. Функционирование контроллера можно проверить вручную с помощью кнопки "Обмен". Если на контроллер Door Controller II подается команда `вкл` / `выкл`, он также удаляет или устанавливает блоки.
 
-With `$send_cmnd(node_number, "exchange", 2)` individual blocks can be set, removed or replaced by other blocks from the inventory. 
+С помощью `$send_cmnd(node_number, "exchange", 2)` отдельные блоки могут быть установлены, удалены или заменены другими блоками из инвентаря.
 
-With `$send_cmnd(node_number, "set", 2)` a block from the inventory can be set explicitly, as long as the inventory slot is not empty.
+С помощью `$send_cmnd(node_number, "set", 2)` блок из инвентаря может быть установлен явно, если слот инвентаря не пуст.
 
-A block can be removed again with `$send_cmnd(node_number, "dig", 2)` if the inventory slot is empty. 
+Блок может быть снова удален с помощью `$send_cmnd(node_number, "dig", 2)`, если слот инвентаря пуст.
 
-The name of the set block is returned with `$send_cmnd(node_number, "get", 2)`.
+Имя блока набора возвращается с помощью `$send_cmnd(node_number, "get", 2)`.
 
-The slot number of the inventory (1 .. 16) must be passed as payload in all three cases.
+Номер слота инвентаря (1 ... 16) должен быть передан в качестве полезной нагрузки во всех трех случаях.
 
-With `$send_cmnd(node_number, "reset")` the door controller is reset.
+С помощью `$send_cmnd(node_number, "reset")` происходит сброс контроллера двери.
 
-This can also be used to simulate extendable stairs and the like. 
+Это также можно использовать для имитации выдвижных лестниц и т.п.
 
-[ta3_doorcontroller|image]
+[ta3_doorcontroller|image].
 
-### TA3 Sound Block
+### TA3 Звуковой блок
 
-Different sounds can be played with the sound block. All sounds of the Mods Techage, Signs Bot, Hyperloop, Unified Inventory, TA4 Jetpack and Minetest Game are available.
+С помощью звукового блока можно воспроизводить различные звуки. Доступны все звуки модов Techage, Signs Bot, Hyperloop, Unified Inventory, TA4 Jetpack и Minetest Game.
 
-The sounds can be selected and played via the menu and via command.
+Звуки можно выбирать и воспроизводить через меню и с помощью команд.
 
-- Command `on` to play a sound
-- Command `sound <idx>` to select a sound via the index
-- Command `gain <volume>` to adjust the volume via the `<volume>` value (1 to 5). 
+- Команда `on` для воспроизведения звука
+- Команда `sound <idx>` для выбора звука по индексу
+- Команда `gain <volume>` позволяет регулировать громкость с помощью значения `<volume>` (от 1 до 5).
 
 [ta3_soundblock|image]
 
 ### TA3 Mesecons Converter
 
-The Mesecons converter is used to convert Techage on/off commands into Mesecons signals and vice versa.
-To do this, one or more node numbers must be entered and the converter with Mesecons blocks
-has to be connected via Mesecons cables. The Mesecons converter can also be configured with the programmer.
-The Mesecons converter accepts up to 5 commands per second; it switches itself off at higher loads.
+Конвертер Mesecons используется для преобразования команд включения/выключения Techage в сигналы Mesecons и наоборот.
+Для этого необходимо ввести один или несколько номеров узлов и использовать конвертер с блоками Mesecons.
+должны быть подключены через кабели Mesecons. Конвертер Mesecons также может быть сконфигурирован с помощью программатора.
+Конвертер Mesecons принимает до 5 команд в секунду; при более высокой нагрузке он отключается.
 
-**This node only exists if the mod mesecons is active!**
+**Этот узел существует только в том случае, если активен мод mesecons!**.
 
 [ta3_mesecons_converter|image]
 
 
 
-## Detectors
+## Детекторы
 
-Detectors scan their surroundings and send an `on` command when the search is recognized.
+Детекторы сканируют окружающее пространство и подают команду `включить`, когда поиск распознан.
 
 [ta3_nodedetector|image]
 
 
-### TA3 Item Detector
+### TA3 Детектор предметов
 
-The detector is a special tube block that detects when items are passed on through the tube. To do this, it must be connected to tubes on both sides. If items are pushed into the detector with a pusher, they are automatically passed on.
-It sends an `on` when an item is recognized, followed by an `off` a second later.
-Then further commands are blocked for 8 seconds.
-The waiting time and the items that should trigger a command can be configured using the open-ended wrench menu. 
+Детектор - это специальный блок трубок, который обнаруживает, когда через трубку проходят предметы. Для этого он должен быть подключен к трубкам с обеих сторон. Если предметы проталкиваются в детектор с помощью толкателя, они автоматически передаются дальше.
+Он посылает сигнал "включено", когда предмет распознан, и сигнал "выключено" секундой позже.
+Затем дальнейшие команды блокируются на 8 секунд.
+Время ожидания и элементы, которые должны вызывать команду, можно настроить с помощью открытого гаечного меню.
 
 
 [ta3_detector|image]
 
 
-### TA3 Cart Detector
+### TA3 Детектор тележки
 
-The cart detector sends an `on` command if it has recognized a cart (Minecart) directly in front of it. In addition, the detector can also restart the cart when an `on` command is received.
+Детектор тележек посылает команду `on`, если он распознал тележку (Minecart) прямо перед собой. Кроме того, детектор может перезапустить тележку при получении команды `on`.
 
-The detector can also be programmed with its own number. In this case, he pushes all the wagons that stop near him (one block in all directions).
+Детектор также можно запрограммировать на свой собственный номер. В этом случае он толкает все вагоны, которые останавливаются рядом с ним (один квартал во всех направлениях).
 
 [ta3_cartdetector|image]
 
 
-### TA3 Node Detector
+### TA3 Детектор узлов
 
-The node detector sends an `on` command if it detects that nodes (blocks) appear or disappear in front of it, but must be configured accordingly. After switching the detector back to the standard state (gray block), an `off` command is sent. Valid blocks are all types of blocks and plants, but not animals or players. The sensor range is 3 blocks / meter in the direction of the arrow.
+Детектор узлов посылает команду `on`, если обнаруживает, что перед ним появляются или исчезают узлы (блоки), но должен быть настроен соответствующим образом. После возвращения детектора в стандартное состояние (серый блок) посылается команда `off`. Допустимыми блоками являются все типы блоков и растений, но не животные или игроки. Радиус действия датчика составляет 3 блока/метра в направлении стрелки.
 
 [ta3_nodedetector|image]
 
 
-### TA3 Player Detector
+### TA3 Детектор игроков
 
-The player detector sends an `on` command if it detects a player within 4 m of the block. If the player leaves the area again, an `off` command is sent.
-If the search should be limited to specific players, these player names can also be entered.
+Детектор игроков посылает команду `вкл`, если обнаруживает игрока в пределах 4 м от блока. Если игрок снова покидает зону, отправляется команда `off`.
+Если поиск должен быть ограничен конкретными игроками, можно также ввести имена этих игроков.
 
 [ta3_playerdetector|image]
 
-### TA3 Light Detector
+### TA3 Детектор света
 
-The light detector sends an `on` command if the light level of the block above exceeds a certain level, which can be set through the right-click menu.
-If you have a TA4 Lua Controller, you can get the exact light level with $get_cmd(num, 'light_level')
+Детектор света посылает команду `включить`, если уровень освещенности блока выше превышает определенный уровень, который можно задать через меню правой кнопки мыши.
+Если у вас есть Lua-контроллер TA4, вы можете получить точное значение уровня освещенности с помощью $get_cmd(num, 'light_level').
 
-[ta3_lightdetector|image]
+[ta3_lightdetector|image].
 
-## TA3 Machines
+## Машины TA3
 
-TA3 has the same machines as TA2, only these are more powerful and require electricity instead of axis drive.
-Therefore, only the different technical data are given below.
+В TA3 есть те же машины, что и в TA2, только они мощнее и требуют электричества вместо привода на ось.
+Поэтому ниже приведены только различные технические характеристики.
 
-[ta3_grinder|image]
+[ta3_grinder|image].
 
 
 ### TA3 Pusher
 
-The function corresponds to that of TA2.
-The processing power is 6 items every 2 s.
+Функция соответствует функции TA2.
+Мощность обработки составляет 6 элементов каждые 2 с.
 
 [ta3_pusher|image]
 
 
 ### TA3 Distributor
 
-The function of the TA3 distributor corresponds to that of TA2.
-The processing power is 12 items every 4 s.
+Функция распределителя TA3 соответствует функции TA2.
+Мощность обработки составляет 12 элементов каждые 4 с.
 
 [ta3_distributor|image]
 
 
 ### TA3 Autocrafter
 
-The function corresponds to that of TA2.
-The processing power is 2 items every 4 s. The autocrafter requires 6 ku of electricity.
+Функция соответствует функции TA2.
+Мощность обработки составляет 2 предмета каждые 4 с. Автокрафтер требует 6 кю электроэнергии.
 
 [ta3_autocrafter|image]
 
 
 ### TA3 Electronic Fab
 
-The function corresponds to that of TA2, only TA4 WLAN chips are produced here.
-The processing power is one chip every 6 s. The block requires 12 ku of electricity for this.
+Функционал соответствует TA2, только здесь производятся микросхемы TA4 WLAN.
+Вычислительная мощность составляет один чип каждые 6 с. Для этого блоку требуется 12 кю электроэнергии.
 
 [ta3_electronicfab|image]
 
 
-### TA3 Quarry
+### TA3 Каменоломня
 
-The function corresponds to that of TA2.
-The maximum depth is 40 meters. The quarry requires 12 ku of electricity.
+Функция соответствует функции TA2.
+Максимальная глубина - 40 метров. Для работы карьера требуется 12 кю электроэнергии.
 
 [ta3_quarry|image]
 
 
-### TA3 Gravel Sieve
+### TA3 Сито для гравия
 
-The function corresponds to that of TA2.
-The processing power is 2 items every 4 s. The block requires 4 ku of electricity.
+Функция соответствует функции TA2.
+Мощность обработки составляет 2 элемента каждые 4 с. Блок требует 4 кю электроэнергии.
 
 [ta3_gravelsieve|image]
 
 
-### TA3 Gravel Rinser
+### TA3 Ополаскиватель для гравия
 
-The function corresponds to that of TA2.
-The probability is also the same as for TA2. The block also requires 3 ku of electricity.
-But in contrast to TA2, the status of the TA3 block can be read (controller)
+Функция соответствует функции TA2.
+Вероятность также такая же, как и для TA2. Блок также требует 3 кю электроэнергии.
+Но в отличие от TA2, статус блока TA3 можно считать (контроллер)
 
 [ta3_gravelrinser|image]
 
 
-### TA3 Grinder
+### TA3 Шлифовальный станок
 
-The function corresponds to that of TA2.
-The processing power is 2 items every 4 s. The block requires 6 ku of electricity.
+Функция соответствует функции TA2.
+Мощность обработки составляет 2 элемента каждые 4 с. Блок требует 6 кю электроэнергии.
 
-[ta3_grinder|image]
+[ta3_grinder|image].
 
-### TA3 Injector
+### TA3 Инжектор
 
-The injector is a TA3 pusher with special properties. It has a menu for configuration. Up to 8 items can be configured here. He only takes these items from a chest to pass them on to machines with recipes (autocrafter, industrial furnace and electronic fab).
+Инжектор представляет собой толкатель TA3 с особыми свойствами. Он имеет меню для настройки. Здесь можно настроить до 8 предметов. Он берет эти предметы только из сундука, чтобы передать их машинам с рецептами (автокрафтер, промышленная печь и электронная фабрика).
 
-When passing on, only one position in the inventory is used in the target machine. If, for example, only the first three entries are configured in the injector, only the first three storage locations in the machine's inventory are used. So that an overflow in the machine inventory is prevented.
+При передаче в целевой машине используется только одна позиция в инвентаре. Если, например, в инжекторе настроены только первые три позиции, то в инвентаре машины используются только первые три места хранения. Таким образом, предотвращается переполнение инвентаря машины.
 
-The injector can also be switched to "pull mode". Then he only pulls items out of the chest from the positions that are defined in the configuration of the injector. In this case, item type and position must match. This allows to empty specific inventory entries of a chest. 
+Инъектор также можно переключить в "режим вытягивания". Тогда он достает предметы из сундука только из тех позиций, которые заданы в конфигурации инжектора. При этом тип и позиция предмета должны совпадать. Это позволяет опустошать определенные позиции инвентаря в сундуке.
 
-The processing power is up to 8 times one item every 4 seconds.
+Мощность обработки составляет до 8 раз по одному элементу каждые 4 секунды.
 
-[ta3_injector|image]
+[ta3_injector|image].
 
 
 
-## Tools
+## Инструменты
 
 ### Techage Info Tool
 
-The Techage Info Tool (open-ended wrench) has several functions. It shows the time, position, temperature and biome when an unknown block is clicked on.
-If you click on a TechAge block with command interface, all available data will be shown (see also "Logic / switching blocks").
+Techage Info Tool (открытый ключ) имеет несколько функций. Он показывает время, положение, температуру и биом при нажатии на неизвестный блок.
+Если нажать на блок TechAge с командным интерфейсом, будут показаны все доступные данные (см. также "Логические / коммутационные блоки").
 
-With Shift + right click an extended menu can be opened for some blocks. Depending on the block, further data can be called up or special settings can be made here. In the case of a generator, for example, the charging curve/switch-off can be programmed. 
+С помощью Shift + правый клик можно открыть расширенное меню для некоторых блоков. В зависимости от блока здесь можно вызвать дополнительные данные или выполнить специальные настройки. Например, в случае генератора можно запрограммировать кривую зарядки/выключения.
 
 [ta3_end_wrench|image]
 
-### TechAge Programmer
+### Программист TechAge
 
-With the programmer, block numbers can be collected from several blocks with a right click and written into a block like a button / switch with a left click.
-If you click in the air, the internal memory is deleted.
+С помощью программатора номера блоков можно собирать из нескольких блоков правым щелчком мыши и записывать в блок, как кнопку/переключатель, левым щелчком.
+Если нажать в воздухе, внутренняя память будет удалена.
 
-[ta3_programmer|image]
+[ta3_programmer|image].
 
-### TechAge Trowel / Trowel
+### TechAge Trowel / Совок
 
-The trowel is used for plastering power cables. See also "TA power cable".
+Шпатель используется для оштукатуривания силовых кабелей. См. также "Силовой кабель TA".
 
 [ta3_trowel|image]
 
-### TA3 drill pipe wrench
+### TA3 ключ для бурильных труб
 
-This tool can be used to remove the drill pipe blocks if, for example, a tunnel is to pass through there.
+Этот инструмент можно использовать для удаления блоков бурильных труб, если, например, в них будет проходить туннель.
 
 [ta3_drill_pipe_wrench|image]
 
-### Techage Screwdriver
+### Отвертка Techage
 
-The Techage Screwdriver serves as a replacement for the normal screwdriver. It has the following functions:
+Отвертка Techage служит заменой обычной отвертке. Она обладает следующими функциями:
 
-- Left click: turn the block to the left
-- Right click: turn the visible side of the block upwards
-- Shift + left click: save the alignment of the clicked block
-- Shift + right click: apply the saved alignment to the clicked block
+- Левый клик: повернуть блок влево
+- Щелчок правой кнопкой мыши: повернуть видимую сторону блока вверх
+- Shift + левый клик: сохранить выравнивание щелкнутого блока.
+- Shift + правый клик: применить сохраненное выравнивание к щелкнутому блоку.
 
-[ta3_screwdriver|image] 
+[ta3_screwdriver|image].
 
-### TechAge Assembly Tool
+### Инструмент для сборки TechAge
 
-The TechAge Assembly Tool is used to remove and reposition Techage blocks without these blocks losing their block number or being assigned a new number when setting. This is helpful, for example, for quarries, as they often have to be moved.
+Инструмент TechAge Assembly Tool используется для удаления и перестановки блоков Techage без потери номера блока или присвоения ему нового номера при установке. Это полезно, например, для карьеров, так как их часто приходится перемещать.
 
-- Left button: Remove a block
-- Right button: Set a block
+- Левая кнопка: Удалить блок
+- Правая кнопка: Установить блок
 
-The block that was previously removed with the assembly tool and is to be placed again must be on the far left of the player inventory.
+Блок, который ранее был удален с помощью инструмента для сборки и должен быть помещен снова, должен находиться в крайней левой части инвентаря игрока.
 
 [techage:assembly_tool|image]
-
