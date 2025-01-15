@@ -44,3 +44,9 @@ techage_stair_aliases_enabled (Enable stair aliases) bool false
 
 # Disable lava above sea level (to prevent griefing)
 techage_disable_lava_above_sea_level (Disable lava above sea level) bool true
+
+# Maximum distance for the TA4 move controller
+techage_maximum_move_controller_distance (Maximum distance for the TA4 move controller) int 400
+
+# Maximum number of blocks for the TA4 move controller
+techage_maximum_move_controller_blocks (Maximum number of blocks for the TA4 move controller) int 16
