@@ -73,9 +73,9 @@ Operational mode=Рабочий режим
 ### basic_terminal.lua ###
 ### terminal.lua ###
 
-Access allowed for=
-Friends are players for whom this area is not protected=
-Switch between TA3 terminal and BASIC computer=
+Access allowed for=Доступ разрешен для
+Friends are players for whom this area is not protected=Друзья - это игроки, для которых эта зона не защищена
+Switch between TA3 terminal and BASIC computer=Переключить между TA3 терминалом и BASIC компьютером
 TA3 Terminal=TA3 Терминал
 
 ### battery.lua ###
@@ -83,10 +83,6 @@ TA3 Terminal=TA3 Терминал
 Battery=Батарея
 Coal Equivalents=В угольном эквиваленте
 Digtron Battery=Батарея дигтрона
-
-### battery.lua ###
-### storage.lua ###
-
 Load=Загрузка
 
 ### bauxit.lua ###
@@ -334,13 +330,18 @@ TA2 Cylinder=TA2 Цилиндр
 
 ### detector.lua ###
 
+Configured Items=Настроенные предметы
 Counts down the number of items passed through@nand only triggers an 'on' command when it reaches zero.=Считает количество проходящих предметов@nи включается когда количество достигает нуля.
 Current countdown=Кол-во предметов которое должно пройти
 Current countdown value.=Кол-во прошедших предметов
+Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Предметы, которые генерируют команду 'on' (включить).@nЕсли пусто, все прошедшие предметы генерируют команду 'on'.
+On Time=Вовремя
 TA3 Item Detector=TA3 Детектор предметов
 TA4 Collider Detector=TA4 Детектор коллайдера
 TA4 Collider Detector Core=TA4 Ядро детектора коллайдера
 TA4 Item Detector=TA3 Детектор предметов
+The time after the 'off' command@nuntil the next 'on' command is accepted.=Время после команды 'off' до приема следующей команды 'on'.
+The time between the 'on' and 'off' commands.=Промежуток времени между командами 'on' (включить) и 'off' (выключить).
 
 ### detector.lua ###
 ### electricmeter.lua ###
@@ -349,18 +350,8 @@ Countdown=Кол-во электроэнергии которое должно �
 
 ### detector.lua ###
 ### logic_block.lua ###
-### tele.lua ###
 
 Blocking Time=Время блокировки
-
-### detector.lua ###
-### tele.lua ###
-
-Configured Items=Настроенные предметы
-Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Предметы, которые генерируют команду 'on' (включить).@nЕсли пусто, все прошедшие предметы генерируют команду 'on'.
-On Time=Вовремя
-The time after the 'off' command@nuntil the next 'on' command is accepted.=Время после команды 'off' до приема следующей команды 'on'.
-The time between the 'on' and 'off' commands.=Промежуток времени между командами 'on' (включить) и 'off' (выключить).
 
 ### display.lua ###
 
@@ -638,7 +629,6 @@ Charging=Зарядка
 
 ### formspecs.lua ###
 ### power_terminal2.lua ###
-### storage.lua ###
 ### transformer.lua ###
 
 Storage=Хранилище
@@ -988,14 +978,6 @@ TA1 Pine Wood Board=TA1 Сосновая доска
 
 TA4 Streetlamp Solar Cell=TA4 Солнечная панель для уличного светильника
 
-### minichest.lua ###
-
-Test Chest=Тестовый сундук
-
-### minitank.lua ###
-
-Test Mini Tank=Тестовый мини резервуар
-
 ### movecontroller.lua ###
 
 Error: Invalid distance !!=Ошибка: Неправильное расстояние!!
@@ -1259,10 +1241,14 @@ stopped=остановлено
 @n=@n
 Commands=Команды
 Cycle time=Время цикла
+Delay in seconds for start of execution when map block is reloaded=
+Delay on reload=Задержка при перезагрузке
 Example:@n=Пример:@n
 If 'yes' a received OFF command won't stop the sequencer=Если 'yes', то полученная OFF команда не остановит секвенсор
 Ignore OFF command=Игнорировать команду OFF
 Invalid command!=Неправильная команда
+Reset on reload=Сброс при перезагрузке
+Restart the sequencer when the map block is reloaded=Перезапустить секвенсор при перезагрузке блока карты
 Start=Начать
 Stop=Остановить
 Syntax:@n=Синтаксис:@n
@@ -1325,10 +1311,6 @@ TA4 Solar Carrier Module B=TA4 Держатель солнечной панел�
 TA4 Solar Carrier Module T=TA4 Держатель солнечной панели T
 TA4 Solar Module=TA4 Солнечная панель
 light=свет
-
-### solarcell.lua ###
-### source.lua ###
-
 power=энергия
 
 ### soundblock.lua ###
@@ -1341,7 +1323,6 @@ TA3 Sound Block=TA3 Нотный блок
 Axle Power Source=Источник механической энергии
 Ele Power Source=Источник электроэнергии
 Power Source=Источник энергии
-Test Generator=Тестовый генератор
 
 ### steam_pipe.lua ###
 
@@ -1350,10 +1331,6 @@ TA2 Steam Pipe=TA2 Труба для пара
 ### steelmat.lua ###
 
 TechAge Steel Mat=Techage Сталь
-
-### storage.lua ###
-
-Test Storage=Тестовое хранилище
 
 ### streetlamp.lua ###
 
@@ -1411,13 +1388,13 @@ right to left=справа налево
 Doser=Дозатор
 TA4 Doser=TA4 Дозатор
 catalyst missing=отсутствует катализатор
-output: silo expected=
-output: tank expected=
+output: silo expected=Выход: требуется бункер
+output: tank expected=Выход: требуется резервуар
 reactor defect=дефект реактора
 reactor defect or no power=дефект реактора или нет энергии
 reactor has no power=у реактора нет энергии
-waste: silo expected=
-waste: tank expected=
+waste: silo expected=отходы: требуется бункер
+waste: tank expected=отходы: требуется резервуар
 wrong catalyst=неправильный катализатор
 
 ### ta4_doser.lua ###
@@ -1477,10 +1454,6 @@ TA4 Tank=TA4 Резервуар
 
 TA Tank Cart=TA Вагонетка с резервуаром
 
-### tele.lua ###
-
-TA3 Detector=TA3 Детектор
-
 ### teleport.lua ###
 
 Connected=Соединен
@@ -1528,10 +1501,10 @@ TA4 Derrick=TA4 Буровая вышка
 
 ### trafficlight.lua ###
 
-TA4 Traffic Light=
-TA4 Traffic Light Arm=
-TA4 Traffic Light Connector=
-TA4 Traffic Light Pole=
+TA4 Traffic Light=TA4 Светофор
+TA4 Traffic Light Arm=TA4 Кронштейн для светофора
+TA4 Traffic Light Connector=TA4 Соединитель светофора
+TA4 Traffic Light Pole=TA4 Столб светофора
 
 ### transformer.lua ###
 
@@ -1599,14 +1572,14 @@ Water Pump=Водяной насос
 
 ### waterremover.lua ###
 
-Area depth=
-Area size=
-Area where the water is to be removed=
-Current depth=
-Current working depth of the water remover=
-Depth of the area where the water is to be removed (1-80)=
-Water Remover=
-tank full=
+Area depth=Глубина зоны
+Area size=Размер зоны
+Area where the water is to be removed=Зона, где необходимо удалить воду
+Current depth=Текущая глубина
+Current working depth of the water remover=Текущая рабочая глубина водоудалителя
+Depth of the area where the water is to be removed (1-80)=Глубина зоны, с которой необходимо удалить воду
+Water Remover=Водоудалитель
+tank full=резервуар полный
 
 ### windturbine_lib.lua ###
 
@@ -1617,8 +1590,8 @@ This is a=Это
 This is no ocean water!=Это не океанская вода!
 This is not the surface of the ocean!=Это не поверхность океана!
 [TA4 Wind Turbine]=[TA4 Ветряная турбина]
-biome and no ocean!=биом и не океан!
-is a suitable place for a wind turbine!=подходящее место для ветряной турбины!
+biome and no ocean!=биом без океана!
+is a suitable place for a wind turbine!=это подходящее место для ветряной турбины!
 
 ### worker.lua ###
 
@@ -1628,3 +1601,4 @@ Remove detector=Убрать детектор
 TA4 Collider Detector Worker=TA4 Построитель детектора коллайдера
 [TA4] Detector is being built!=[TA4] Детектор был построен!
 [TA4] Detector is being removed!=[TA4] Детектор был удален!
+
