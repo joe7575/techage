@@ -265,3 +265,28 @@ m2l.gen_lua_file("../doc/manual_ta4_pt-BR.lua")
 m2l = MarkdownToLua()
 m2l.parse_md_file("./manual_ta5_pt-BR.md")
 m2l.gen_lua_file("../doc/manual_ta5_pt-BR.lua")
+
+
+m2l = MarkdownToLua()
+m2l.parse_md_file("./manual_RU.md")
+m2l.gen_lua_file("../doc/manual_RU.lua")
+
+m2l = MarkdownToLua()
+m2l.parse_md_file("./manual_ta1_RU.md")
+m2l.gen_lua_file("../doc/manual_ta1_RU.lua")
+
+m2l = MarkdownToLua()
+m2l.parse_md_file("./manual_ta2_RU.md")
+m2l.gen_lua_file("../doc/manual_ta2_RU.lua")
+
+m2l = MarkdownToLua()
+m2l.parse_md_file("./manual_ta3_RU.md")
+m2l.gen_lua_file("../doc/manual_ta3_RU.lua")
+
+m2l = MarkdownToLua()
+m2l.parse_md_file("./manual_ta4_RU.md")
+m2l.gen_lua_file("../doc/manual_ta4_RU.lua")
+
+m2l = MarkdownToLua()
+m2l.parse_md_file("./manual_ta5_RU.md")
+m2l.gen_lua_file("../doc/manual_ta5_RU.lua")
