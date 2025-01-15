@@ -353,10 +353,9 @@ local INFO = [[Commands: 'goto <num>', 'stop', 'on', 'off']]
 techage.register_node({"techage:ta4_sequencer"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		if (topic == "goto" or topic == "on") and not nvm.running and not delayed_start then
-			local mem = techage.get_mem(pos)
+		if (topic == "goto" or topic == "on") and not nvm.running then
 			nvm.running = true
-			mem.idx = tonumber(payload or 1) or 1
+			nvm.idx = tonumber(payload or 1) or 1
 			restart_timer(pos, 1)
 			logic.infotext(M(pos), S("TA4 Sequencer"), S("running"))
 		elseif topic == "stop" or (topic == "off" and M(pos):get_int("ignore_off") == 0) then
@@ -372,7 +371,7 @@ techage.register_node({"techage:ta4_sequencer"}, {
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
 		if topic == 13 then
-			if payload[1] ~= 0 and not nvm.running and not delayed_start then
+			if payload[1] ~= 0 and not nvm.running then
 				nvm.running = true
 				nvm.idx = tonumber(payload or 1) or 1
 				restart_timer(pos, 1)
