@@ -7,7 +7,7 @@ local M = minetest.get_meta
 local MP = minetest.get_modpath("techage")
 
 local settings = {
-	symbol_item = "techage:construction_board",
+	symbol_item = "techage:construction_board_EN",
 }
 
 doclib.create_manual("techage", "DE", settings)
@@ -114,8 +114,8 @@ minetest.register_craft({
 
 minetest.register_node("techage:construction_board_EN", {
 	description = "TA Construction Board (EN)",
-	inventory_image = 'techage_constr_plan_inv_en.png',
-	tiles = {"techage_constr_plan_en.png"},
+	inventory_image = 'techage_constr_plan_inv.png',
+	tiles = {"techage_constr_plan.png"},
 	drawtype = "nodebox",
 	node_box = board_box,
 	selection_box = board_box,
@@ -199,7 +199,7 @@ minetest.register_node("techage:construction_board_RU", {
 	selection_box = board_box,
 
 	after_place_node = function(pos, placer, itemstack)
-		M(pos):set_string("infotext", "TA Construction Board (RU)")
+		M(pos):set_string("infotext", "План строительства ТА (RU)")
 		M(pos):set_string("formspec", doclib.formspec(pos, "techage", "RU"))
 	end,
 
@@ -266,6 +266,7 @@ function techage.add_manual_items(table_with_items)
 		doclib.add_manual_image("techage", "EN", name, image)
 		doclib.add_manual_image("techage", "DE", name, image)
 		doclib.add_manual_image("techage", "pt-BR", name, image)
+		doclib.add_manual_image("techage", "RU", name, image)
 	end
 end
 
@@ -274,5 +275,6 @@ function techage.add_manual_plans(table_with_plans)
 		doclib.add_manual_plan("techage", "EN", name, plan)
 		doclib.add_manual_plan("techage", "DE", name, plan)
 		doclib.add_manual_plan("techage", "pt-BR", name, plan)
+		doclib.add_manual_plan("techage", "RU", name, plan)
 	end
 end
