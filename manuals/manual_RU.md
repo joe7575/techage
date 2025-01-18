@@ -1,127 +1,127 @@
 # Tech Age Mod
 
-Tech Age - это технологический мод с 5 этапами развития:
+Tech Age - это технологический мод с 5 стадиями развития:
 
-TA1: Железная эпоха
-Используйте инструменты и приспособления, такие как пиролизные печи, сеялки гравия, молотки и бункеры для добычи и переработки необходимых руд и металлов.
+TA1: Железный век
+Используйте инструменты и приспособления, такие как угольные печи, гравийные сита, молоты и бункеры, чтобы добывать и обрабатывать необходимые руды и металлы.
 
-TA2: Паровая эпоха
-Постройте паровой двигатель с механическими передачами и используйте его для работы своих первых машин по переработке руды.
+TA2: Паровой век
+Постройте паровой двигатель с механическим приводом и используйте его для работы своих первых машин по переработке руды.
 
-TA3: Нефтяная эпоха
-Найдите и добывайте нефть, постройте железные дороги для транспортировки нефти и электростанцию. Электростанция дает необходимое электричество для ваших машин. Электрический свет освещает ваши промышленные предприятия.
+TA3: Нефтяной век
+Найдите и добывайте нефть, постройте железные дороги для транспортировки нефти. Электростанция дает необходимое электричество для ваших машин. Электрический свет освещает ваши промышленные предприятия.
 
-TA4: Настоящее
-Возобновляемые источники энергии, такие как ветер, солнце и биотопливо, помогут вам покинуть нефтяной век. С помощью современных технологий и умных машин вы отправляетесь в будущее.
+TA4: Настоящее время
+Возобновляемые источники энергии, такие как ветер, солнце и биотопливо, помогают вам покинуть нефтяной век. С помощью современных технологий и умных машин вы отправляетесь в будущее.
 
 TA5: Будущее
-Машины для преодоления пространства и времени, новые источники энергии и другие достижения способствуют развитию вашей жизни.
+Машины, преодолевающие пространство и время, новые источники энергии и другие достижения определяют вашу жизнь.
 
 
-Примечание: При нажатии на знак «плюс» вы попадаете в подразделы данного руководства.
+Примечание: Нажав на знак "плюс", вы попадаете в подразделы этого руководства.
 
 [techage_ta4|image]
 
 
 
-## Hints
+## Подсказки
 
-Эта документация доступна как «в игре» (Блок - план строительства), так и на GitHub в виде MD-файлов.
+Эта документация доступна как "в игре" (план строительства блоков), так и на GitHub в виде MD-файлов.
 
 - Ссылка: https://github.com/joe7575/techage/wiki
 
-Планы (схемы) строительства машин и картинки доступны только в игре.
+Строительные планы (схемы) для постройки машин и картинки доступны только в игре.
 
-With Tech Age you have to start over. You can only create TA2 blocks with the items from TA1, for TA3 you need the results from TA2, etc.
+В Tech Age вам придется начинать все сначала. Вы можете создавать блоки TA2 только с помощью предметов из TA1, для TA3 вам нужны результаты из TA2 и т.д.
 
-In TA2, the machines only run with drive axes.
+В TA2 машины работают только с приводными осями.
 
-From TA3, the machines run on electricity and have a communication interface for remote control.
+В TA3 машины работают от электричества и имеют коммуникационный интерфейс для дистанционного управления.
 
-TA4 adds more power sources, but also higher logistical challenges (power lines, item transport).
-
-
-
-## Changes from version 1.0
-
-From V1.0 (07/17/2021) the following has changed:
-
-- The algorithm for calculating the power distribution has changed. This makes energy storage systems more important. These compensate for fluctuations, which is important in larger networks with several generators.
-- For this reason TA2 got its own energy storage.
-- The battery blocks from TA3 also serve as energy storage. Their functionality has been adapted accordingly.
-- The TA4 storage system has been revised. The heat heat exchanger have been given a new number because the functionality has been moved from the lower to the middle block. If these were remotely controlled, the node number must be adapted. The generators no longer have their own menu, but are only switched on / off via the heat exchanger. The heat exchanger and generator must now be connected to the same network!
-- Several power grids can now be coupled via a TA4 transformer blocks.
-- A TA4 electricity meter block for sub-networks is also new.
-- At least one battery block or a storage system in each network
-
-
-### Tips on switching
-
-Many more blocks have received minor changes. It is therefore possible that machines or systems do not start up again immediately after the changeover. In the event of malfunctions, the following tips will help:
-
-- Switch machines off and on again
-- remove a power cable block and put it back in place
-- remove the block completely and put it back in place
+TA4 добавляет больше источников энергии, но также и более сложные логистические задачи (линии электропередач, транспортировка изделий).
 
 
 
-## Ores and Minerals
+## Изменения по сравнению с версией 1.0
 
-Techage adds some new items to the game:
+С версии 1.0 (07/17/2021) изменилось следующее:
 
-- Meridium - an alloy for the production of luminous tools in TA1
-- Usmium - an ore that is mined in TA2 and needed for TA3
-- Baborium - a metal that is needed for recipes in TA3
-- Petroleum - is needed in TA3
-- Bauxite - an aluminum ore that is needed in TA4 to produce aluminum
-- Basalt - arises when water and lave touch
+- Изменился алгоритм расчета распределения энергии. Это делает системы хранения энергии более важными. Они компенсируют колебания, что важно для больших сетей с несколькими генераторами.
+- По этой причине TA2 обзавелась собственным накопителем энергии.
+- Аккумуляторные блоки из TA3 также служат в качестве накопителей энергии. Их функциональность была соответствующим образом адаптирована.
+- Система хранения TA4 была пересмотрена. Теплообменник получил новый номер, поскольку его функциональность была перенесена с нижнего на средний блок. Если они управлялись дистанционно, номер узла должен быть адаптирован. Генераторы больше не имеют собственного меню, а включаются/выключаются только через теплообменник. Теплообменник и генератор теперь должны быть подключены к одной сети!
+- Несколько электросетей теперь могут быть соединены через трансформаторные блоки TA4.
+- Также появился блок счетчиков электроэнергии TA4 для подсетей.
+- Как минимум один блок аккумуляторов или система хранения в каждой сети
 
 
-### Meridium
+### Советы по обновлению версии
 
-Meridium is an alloy of steel and mesecons crystals. Meridium ingots can be made with the coal burner from steel and mesecons crystals. Meridium glows in the dark. Tools made of Meridium also light up and are therefore very helpful in underground mining.
+Многие другие блоки получили незначительные изменения. Поэтому возможно, что машины или системы не будут запускаться сразу после обновлению версии. В случае неполадок помогут следующие советы:
+
+- выключите и снова включите машины
+- снимите блок силовых кабелей и установите его на место
+- полностью снимите блок и установите его на место
+
+
+
+## Руды и минералы
+
+Techage добавляет в игру несколько новых предметов:
+
+- Меридий - сплав для производства светящихся инструментов в TA1
+- Усмий - руда, которая добывается в TA2 и необходима для TA3
+- Бабориум - металл, необходимый для рецептов в TA3
+- Нефть - необходима в TA3
+- Боксит - алюминиевая руда, которая необходима в TA4 для производства алюминия
+- Базальт - возникает при соприкосновении воды и лав
+
+
+### Меридий
+
+Меридий - это сплав стали и кристаллов мезекона. Слитки меридиума можно изготовить с помощью угольной горелки из стали и кристаллов мезекона. Меридий светится в темноте. Инструменты из меридиума также светятся и поэтому очень полезны при подземной добыче.
 
 [meridium|image]
 
 
-### Usmium
+### Усмий
 
-Usmium only occurs as nuggets and can only be obtained by washing gravel with the TA2/TA3 gravel washing system.
+Усмий встречается только в виде самородков и может быть получен только при промывке гравия с помощью системы промывки гравия TA2/TA3.
 
 [usmium|image]
 
 
-### Baborium
+### Баборий
 
-Barborium can only be obtained from underground mining. This substance can only be found at a depth of -250 to -340 meters.
+Барборий можно получить только при подземной добыче. Это вещество можно найти только на глубине от -250 до -340 метров.
 
-Baborium can only be melted in the TA3 Industrial Furnace.
+Бабориум можно переплавить только в промышленной печи TA3.
 
 
 [baborium|image]
 
 
-### Petroleum
+### Нефть
 
-Petroleum can only be found with the help of the Explorer and extracted with the help of appropriate TA3 machines. See TA3.
+Нефть можно найти только с помощью Исследователя и добыть с помощью соответствующих машин TA3. См. TA3.
 
 [oil|image]
 
 
-### Bauxite
+### Боксит
 
-Bauxite is only extracted in underground mining. Bauxite is only found in stone at a height between -50 and -500 meters.
-It is required for the production of aluminum, which is mainly used in TA4.
+Боксит можно добыть только в подземной шахте. Боксит можно найти только в камне на высоте от -50 до -500 метров.
+Он необходим для производства алюминия, который в основном используется в TA4.
 
 [bauxite|image]
 
 
-### Basalt
+### Базальт
 
-Basalt is only created when lava and water come together.
-The best thing to do is to set up a system where a lava and a water source flow together.
-Basalt is formed where both liquids meet.
-You can build an automated basalt generator with the Sign Bot.
+Базальт образуется только при соединении лавы и воды.
+Лучше всего создать систему, в которой лава и вода будут течь вместе.
+Базальт образуется там, где встречаются обе жидкости.
+Вы можете создать автоматический генератор базальта с помощью Sign Bot.
 
 [basalt|image]
 
@@ -135,4 +135,3 @@ You can build an automated basalt generator with the Sign Bot.
 - 29.02.2020: ICTA controller added and further corrections
 - 14.03.2020 Lua controller added and further corrections
 - 22.03.2020 More TA4 blocks added
-
