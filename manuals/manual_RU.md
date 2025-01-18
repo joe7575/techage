@@ -1,4 +1,4 @@
-# Tech Age Mod
+# Tech Age мод
 
 Tech Age - это технологический мод с 5 стадиями развития:
 
@@ -126,7 +126,7 @@ Techage добавляет в игру несколько новых предм�
 [basalt|image]
 
 
-## History
+## История обновлений
 
 - 28.09.2019: Solar system added
 - 05.10.2019: Data on the solar system and description of the inverter and the power terminal changed
