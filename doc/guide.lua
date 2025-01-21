@@ -238,7 +238,7 @@ minetest.register_craft({
 minetest.register_craft({
   type = "shapeless",
 	output = "techage:construction_board",
-	recipe = {"techage:construction_board_pt_RU"},
+	recipe = {"techage:construction_board_RU"},
 })
 
 minetest.register_craft({
@@ -249,7 +249,7 @@ minetest.register_craft({
 
 minetest.register_craft({
   type = "shapeless",
-	output = "techage:construction_board_pt_RU",
+	output = "techage:construction_board_RU",
 	recipe = {"techage:construction_board_pt_BR"},
 })
 
