@@ -17,7 +17,7 @@ return {
     "Tech Age is a technology mod with 5 development stages:\n"..
     "\n"..
     "TA1: Iron Age\n"..
-    "Use tools and aids such as coal burners\\, coal burners\\, gravel sieves\\, hammers and hoppers to mine and process the necessary ores and metals.\n"..
+    "Use tools and aids such as coal burners\\, gravel sieves\\, hammers and hoppers to mine and process the necessary ores and metals.\n"..
     "\n"..
     "TA2: Steam Age\n"..
     "Build a steam engine with drive axles and use it to operate your first ore processing machines.\n"..
