@@ -395,48 +395,34 @@ minetest.register_node("techage:basic_terminal", {
 --
 -- Register VM external/callback functions
 --
-local function get_num_param(pos, num_param)
-	local payload3 = 0
-	local payload2 = 0
-	local payload1 = 0
-	local cmnd, num, owner, own_num
-
-	if num_param == 5 then
-		payload3 = nanobasic.pop_num(pos) or 0
-		if payload3 >= 0x8000000 then
-			payload3 = payload3 - 0x100000000
-		end
+local function get_params(pos)
+	local payload3 = nanobasic.pop_num(pos) or 0
+	if payload3 >= 0x8000000 then
+		payload3 = payload3 - 0x100000000
 	end
-	if num_param >= 4 then
-		payload2 = nanobasic.pop_num(pos) or 0
-		if payload2 >= 0x8000000 then
-			payload2 = payload2 - 0x100000000
-		end
+	local payload2 = nanobasic.pop_num(pos) or 0
+	if payload2 >= 0x8000000 then
+		payload2 = payload2 - 0x100000000
 	end
-	if num_param >= 3 then
-		payload1 = nanobasic.pop_num(pos) or 0
-		if payload1 >= 0x8000000 then
-			payload1 = payload1 - 0x100000000
-		end
+	local payload1 = nanobasic.pop_num(pos) or 0
+	if payload1 >= 0x8000000 then
+		payload1 = payload1 - 0x100000000
 	end
-	cmnd = nanobasic.pop_num(pos)
-	num = nanobasic.pop_num(pos) or 0
-	owner = M(pos):get_string("owner")
-	own_num = M(pos):get_string("node_number")
+	local cmnd = nanobasic.pop_num(pos)
+	local num = nanobasic.pop_num(pos) or 0
+	local owner = M(pos):get_string("owner")
+	local own_num = M(pos):get_string("node_number")
 	return owner, num, own_num, {payload1, payload2, payload3}
 end
 
-local function get_str_param(pos, num_param)
-	local payload1 = ""
-	local cmnd, num, owner, own_num
-
-	if num_param == 3 then
-		payload1 = nanobasic.pop_str(pos) or ""
-	end	
-	cmnd = nanobasic.pop_num(pos)
-	num = nanobasic.pop_num(pos) or 0
-	owner = M(pos):get_string("owner")
-	own_num = M(pos):get_string("node_number")
+local function get_str_param(pos)
+	local payload3 = nanobasic.pop_num(pos) -- dummy value
+	local payload2 = nanobasic.pop_num(pos) -- dummy value
+	local payload1 = nanobasic.pop_str(pos) or ""
+	local cmnd = nanobasic.pop_num(pos)
+	local num = nanobasic.pop_num(pos) or 0
+	local owner = M(pos):get_string("owner")
+	local own_num = M(pos):get_string("node_number")
 	return owner, num, own_num, payload1
 end
 
@@ -489,80 +475,68 @@ end)
 
 -- num: cmd(num: node_num, num: cmnd, any: pyld1, num: pyld2, num: pyld3)
 register_ext_function("cmd", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_ANY, nanobasic.NB_ANY, nanobasic.NB_ANY}, nanobasic.NB_NUM, function(pos, nvm)
-	local num_param = nanobasic.stack_depth(pos)
-	if num_param >= 2 and num_param <= 5 then
-		local cmnd = nanobasic.peek_num(pos, num_param - 1) or 0
-		if cmnd < 64 then -- command with payload as number(s)
-			local owner, num, own_num, payload = get_num_param(pos, num_param)
-			if techage.not_protected(tostring(num), owner) then
-				techage.counting_add(owner, 1)
-				local sts, resp = techage.beduino_send_cmnd(own_num, num, cmnd, payload)
-				nanobasic.push_num(pos, sts)
-				error_handling(pos, num, sts)
-			else
-				nanobasic.push_num(pos, 4)
-				error_handling(pos, num, 4)
-			end
-		elseif cmnd < 128 then -- command with payload as string
-			local owner, num, own_num, payload = get_str_param(pos, num_param)
-			if techage.not_protected(tostring(num), owner) then
-				techage.counting_add(owner, 1)
-				local sts, resp = techage.beduino_send_cmnd(own_num, num, cmnd, payload)
-				nanobasic.push_num(pos, sts)
-				error_handling(pos, num, sts)
-			else
-				nanobasic.push_num(pos, 4)
-				error_handling(pos, num, 4)
-			end
-		else -- request with payload as number(s) and result as number
-			local owner, num, own_num, payload = get_num_param(pos, num_param)
-			if techage.not_protected(tostring(num), owner) then
-				techage.counting_add(owner, 1)
-				local sts, resp = techage.beduino_request_data(own_num, num, cmnd, payload)
-				if type(resp) == "table" then
-					nanobasic.push_num(pos, resp[1] or 0)
-				else
-					nanobasic.push_num(pos, 5)
-					sts = 5
-				end
-				error_handling(pos, num, sts)
-			else
-				nanobasic.push_num(pos, 4)
-				error_handling(pos, num, 4)
-			end
+	local cmnd = nanobasic.peek_num(pos, 4) or 0
+	if cmnd < 64 then -- command with payload as number(s)
+		local owner, num, own_num, payload = get_params(pos)
+		if techage.not_protected(tostring(num), owner) then
+			techage.counting_add(owner, 1)
+			local sts, resp = techage.beduino_send_cmnd(own_num, num, cmnd, payload)
+			nanobasic.push_num(pos, sts)
+			error_handling(pos, num, sts)
+		else
+			nanobasic.push_num(pos, 4)
+			error_handling(pos, num, 4)
 		end
-	else
-		nanobasic.push_num(pos, 6)
-		error_handling(pos, num, 6)
+	elseif cmnd < 128 then -- command with payload as string
+		local owner, num, own_num, payload = get_str_param(pos)
+		if techage.not_protected(tostring(num), owner) then
+			techage.counting_add(owner, 1)
+			local sts, resp = techage.beduino_send_cmnd(own_num, num, cmnd, payload)
+			nanobasic.push_num(pos, sts)
+			error_handling(pos, num, sts)
+		else
+			nanobasic.push_num(pos, 4)
+			error_handling(pos, num, 4)
+		end
+	else -- request with payload as number(s) and result as number
+		local owner, num, own_num, payload = get_params(pos)
+		if techage.not_protected(tostring(num), owner) then
+			techage.counting_add(owner, 1)
+			local sts, resp = techage.beduino_request_data(own_num, num, cmnd, payload)
+			if type(resp) == "table" then
+				nanobasic.push_num(pos, resp[1] or 0)
+			else
+				nanobasic.push_num(pos, 5)
+				sts = 5
+			end
+			error_handling(pos, num, sts)
+		else
+			nanobasic.push_num(pos, 4)
+			error_handling(pos, num, 4)
+		end
 	end
 	return true
 end)
 
 -- str: cmd(num: node_num, num: cmnd, any: pyld1, any: pyld2, num: pyld3)
 register_ext_function("cmd$", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_ANY, nanobasic.NB_ANY, nanobasic.NB_ANY}, nanobasic.NB_STR, function(pos, nvm)
-	local num_param = nanobasic.stack_depth(pos)
-	if num_param >= 2 and num_param <= 5 then
-		local cmnd = nanobasic.peek_num(pos, num_param - 1) or 0
-		if cmnd >= 128 then -- request with payload as number(s) and result as string
-			local owner, num, own_num, payload = get_num_param(pos, num_param)
-			if techage.not_protected(tostring(num), owner) then
-				techage.counting_add(owner, 1)
-				local sts, resp = techage.beduino_request_data(own_num, num, cmnd, payload)
-				if type(resp) == "string" then
-					nanobasic.push_str(pos, resp)
-				else
-					nanobasic.push_str(pos, "")
-					sts = 5
-				end
-				error_handling(pos, num, sts)
+	local cmnd = nanobasic.peek_num(pos, 4) or 0
+	if cmnd >= 128 then -- request with payload as number(s) and result as string
+		local owner, num, own_num, payload = get_params(pos)
+		if techage.not_protected(tostring(num), owner) then
+			techage.counting_add(owner, 1)
+			local sts, resp = techage.beduino_request_data(own_num, num, cmnd, payload)
+			if type(resp) == "string" then
+				nanobasic.push_str(pos, resp)
 			else
 				nanobasic.push_str(pos, "")
-				error_handling(pos, num, 4)
+				sts = 5
 			end
+			error_handling(pos, num, sts)
+		else
+			nanobasic.push_str(pos, "")
+			error_handling(pos, num, 4)
 		end
-	else
-		nanobasic.push_str(pos, "")
-		error_handling(pos, num, 6)
 	end
 	return true
 end)
