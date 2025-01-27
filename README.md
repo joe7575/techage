@@ -106,7 +106,7 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 **2024-12-31 V1.19**
 
 - Add Everness support #187 (ore sieving)
-- Add BASIC mode to TA3 terminal
+- Add BASIC mode to TA3 terminal (requires proper installation of nanobasic)
 - Improve russian translation (z-op)
 - Many bug fixes by Niklp09, joe7575, and others
 - Add pre-assignment menu to the furnace

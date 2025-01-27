@@ -370,6 +370,7 @@ dofile(MP.."/icta_controller/commands.lua")
 dofile(MP.."/icta_controller/edit.lua")
 dofile(MP.."/icta_controller/battery.lua")
 dofile(MP.."/icta_controller/display.lua")
+dofile(MP.."/icta_controller/monitor.lua")
 dofile(MP.."/icta_controller/signaltower.lua")
 
 -- Lua Controller
