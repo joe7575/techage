@@ -922,7 +922,7 @@ Hier die zusätzlichen Kommandos für den Lua Controller:
   Beispiel:  `$send_cmnd(1234, "config", "default:dirt")`
   Mit `$send_cmnd(1234, "config", "")` wird die Konfiguration gelöscht
 - `limit` dient zum Setzen der Anzahl der Items für die Durchlaufbegrenzer Betriebsart:
-  Beispiel: `$send_cmnd(1234, "init", 7)`
+  Beispiel: `$send_cmnd(1234, "limit", 7)`
   
 
 [ta4_pusher|image]
@@ -937,7 +937,7 @@ Zusätzlich besitzt die TA4 Kiste ein Schatteninventar zur Konfiguration. Hier k
 
 ### TA4 8x2000 Kiste / TA4 8x2000 Chest
 
-Die TA4 8x2000 Kiste hat kein normales Inventar wir andere Kisten, sondern verfügt über 8 Speicher, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2, TA3 oder TA4) gefüllt bzw. geleert werden.
+Die TA4 8x2000 Kiste hat kein normales Inventar wie andere Kisten, sondern verfügt über 8 Speicher, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2, TA3 oder TA4) gefüllt bzw. geleert werden.
 
 Wird die Kiste mit einem Schieber gefüllt, so füllen sich alle Speicherplätze von links nach rechts. Sind alle 8 Speicher voll und können keine weiteren Items hinzugefügt werden, so werden weitere Items werden abgewiesen.
 
