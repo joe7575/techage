@@ -72,6 +72,7 @@ minetest.register_node("techage:furnace_heater", {
 
 
 minetest.register_node("techage:furnace_heater_on", {
+	description = S("TA4 Furnace Heater"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_concrete.png^techage_appl_open.png^techage_frame_ta3.png",
