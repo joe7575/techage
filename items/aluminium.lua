@@ -73,7 +73,7 @@ if minetest.get_modpath('techpack_stairway') then
 	})
 
 	minetest.register_craft({
-		output = "techpack_stairway:handrail 6",
+		output = "techpack_stairway:handrail1 6",
 		recipe = {
 			{"default:steel_ingot", "default:coal_lump", ""},
 			{"techage:aluminum", "", ""},
