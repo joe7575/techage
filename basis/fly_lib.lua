@@ -720,6 +720,7 @@ local function move_nodes(pos, meta, lpos1, move, max_speed, height)
 					meta:set_string("status", S("No valid destination position"))
 					minetest.chat_send_player(owner, " [techage] " .. S("No valid destination position") .. " at " .. P2S(pos2))
 				end
+				lpos1[idx] = pos2
 				return false, lpos1
 			end
 		else

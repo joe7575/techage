@@ -158,43 +158,6 @@ local function register_signallamp(name, description, tiles_off, tiles_on, node_
 	})
 end
 
-minetest.register_chatcommand("ta_color", {
-	description = minetest.formspec_escape(
-			"Output the color palette and the numbers for Lua/Beduino color commands"),
-
-	func = function(name, param)
-		local tbl = {}
-		if COLORED then
-			tbl[1] = "size[14,7]"
-			tbl[2] = "background[0,0;14,7;unifieddyes_palette_extended.png]"
-			for i = 0, 10 do
-				local y = i * 0.64
-				tbl[#tbl + 1] = "label[0," .. y .. ";" .. (i * 24 +  0) .. "]"
-				tbl[#tbl + 1] = "label[7," .. y .. ";" .. (i * 24 + 12) .. "]"
-			end
-		else
-			tbl[1] = "size[10,7.5]"
-			tbl[2] = "background[0,0;10,7.5;techage_palette256.png]"
-			for i = 0, 13 do
-				local y = i * 0.5
-				tbl[#tbl + 1] = "label[0," .. y .. ";" .. (i * 18 + 0) .. "]"
-				tbl[#tbl + 1] = "label[5," .. y .. ";" .. (i * 18 + 9) .. "]"
-			end
-		end
-		minetest.show_formspec(name, ";techage:color_form", table.concat(tbl, ""))
-		return true
-    end
-})
-
--- Register callback
-minetest.register_on_player_receive_fields(function(player, formname, fields)
-    if formname ~= "techage:color_form" then
-        return false
-    end
-    return true
-end)
-
-
 register_signallamp("techage:color_lamp",
 	S("TechAge Color Lamp"),
 	{"techage_signal_lamp.png^[colorize:#000000:80"},

@@ -70,7 +70,7 @@ minetest.register_node("techage:ta3_monitor", {
 	node_box = {
 		type = "fixed",
 		fixed = {
-			{-16/32, -16/32, -16.05/32,  16/32, 16/32, 16/32},
+			{-16/32, -16/32, -16/32,  16/32, 16/32, 16/32},
 		},
 	},
 	paramtype = "light",
@@ -105,7 +105,6 @@ minetest.register_node("techage:ta3_monitor", {
 		meta:set_string("color", "#33FF00")
 		meta:set_string("infotext", S("TA3 CRT Monitor no: ")..number)
 		local nvm = techage.get_nvm(pos)
-		nvm.num_rows = 14
 		nvm.text = {"My", "Techage","TA3", "CRT Monitor", "No: "..number}
 		lcdlib.update_entities(pos)
 		minetest.get_node_timer(pos):start(1)
@@ -119,99 +118,6 @@ minetest.register_node("techage:ta3_monitor", {
 	on_timer = on_timer,
 	on_destruct = lcdlib.on_destruct,
 	on_rotate = lcdlib.on_rotate,
-	groups = {cracky=2, crumbly=2},
-	is_ground_content = false,
-	sounds = default.node_sound_glass_defaults(),
-})
-
-minetest.register_node("techage:ta3_monitorXL", {
-	description = S("TA3 CRT Monitor XL"),
-	tiles = {-- up, down, right, left, back, front
-		'techage_monitor_side.png',
-		'techage_monitor_side.png',
-		'techage_monitor_side.png',
-		'techage_monitor_side.png',
-		'techage_monitor_side.png',
-		'techage_monitor_front2.png',
-	},
-	drawtype = "nodebox",
-	paramtype2 = "facedir",
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-16/32, -16/32, -16.05/32,  16/32, 16/32, 16/32},
-		},
-	},
-	paramtype = "light",
-	use_texture_alpha = techage.CLIP,
-	sunlight_propagates = true,
-	light_source = 8,
-	ta3_formspec = MENU,
-	ta_after_formspec = function(pos, fields, playername)
-		if fields.save then
-			lcdlib.update_entities(pos)
-			local resolution = M(pos):get_int("resolution")
-			local cycle_time = resolution * resolution / 64
-			print("cycle_time =", cycle_time)
-			minetest.get_node_timer(pos):start(cycle_time)
-		end
-	end,
-	display_entities = {
-		["techage:monitor_entity"] = { 
-			depth = -0.51,
-			size = {x=2.8, y=2.8},
-			on_display_update = update
-		},
-	},
-
-	after_place_node = function(pos, placer)
-		local number = techage.add_node(pos, "techage:ta3_monitorXL")
-		local meta = M(pos)
-		meta:set_string("number", number)
-		meta:set_int("resolution", 8)
-		meta:set_string("color", "#33FF00")
-		meta:set_string("infotext", S("TA3 CRT Monitor no: ")..number)
-		local nvm = techage.get_nvm(pos)
-		nvm.text = {"My", "Techage","TA3", "CRT Monitor", "No: "..number}
-		lcdlib.update_entities(pos)
-		minetest.get_node_timer(pos):start(1)
-	end,
-
-	after_dig_node = function(pos, oldnode, oldmetadata)
-		techage.remove_node(pos, oldnode, oldmetadata)
-		techage.del_mem(pos)
-	end,
-
-	on_timer = on_timer,
-	on_destruct = lcdlib.on_destruct,
-	on_rotate = lcdlib.on_rotate,
-	groups = {cracky=2, crumbly=2},
-	is_ground_content = false,
-	sounds = default.node_sound_glass_defaults(),
-})
-
-minetest.register_node("techage:ta3_monitorXL2", {
-	description = S("TA3 CRT Monitor Block"),
-	tiles = {-- up, down, right, left, back, front
-		'techage_monitor_side.png',
-		'techage_monitor_side.png',
-		'techage_monitor_side.png',
-		'techage_monitor_side.png',
-		'techage_monitor_side.png',
-		'techage_monitor_front2.png',
-	},
-	drawtype = "nodebox",
-	paramtype2 = "facedir",
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-16/32, -16/32, -16.05/32,  16/32, 16/32, 16/32},
-		},
-	},
-	paramtype = "light",
-	use_texture_alpha = techage.CLIP,
-	sunlight_propagates = true,
-	light_source = 8,
 	groups = {cracky=2, crumbly=2},
 	is_ground_content = false,
 	sounds = default.node_sound_glass_defaults(),
@@ -286,7 +192,7 @@ local function clear_screen(pos, cycle_time)
 	nvm.text = {}
 end
 
-techage.register_node({"techage:ta3_monitor", "techage:ta3_monitorXL"}, {
+techage.register_node({"techage:ta3_monitor"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "add" then  -- add one line and scroll if necessary
 			add_line(pos, payload, 1)

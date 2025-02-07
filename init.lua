@@ -110,6 +110,7 @@ dofile(MP.."/basis/shared_tank.lua")
 dofile(MP.."/basis/teleport.lua")
 dofile(MP.."/basis/fly_lib.lua")
 dofile(MP.."/basis/pack_lib.lua")
+dofile(MP.."/basis/color.lua")
 
 -- Main doc
 dofile(MP.."/doc/guide.lua")
@@ -360,6 +361,11 @@ dofile(MP.."/hydrogen/fuelcellstack.lua")
 dofile(MP.."/hydrogen/electrolyzer.lua")
 dofile(MP.."/hydrogen/fuelcell.lua")
 
+-- Displays
+dofile(MP.."/displays/display.lua")
+dofile(MP.."/displays/monitor.lua")
+dofile(MP.."/displays/display2.lua")
+
 -- ICTA Controller
 dofile(MP.."/icta_controller/submenu.lua")
 dofile(MP.."/icta_controller/condition.lua")
@@ -369,9 +375,6 @@ dofile(MP.."/icta_controller/controller.lua")
 dofile(MP.."/icta_controller/commands.lua")
 dofile(MP.."/icta_controller/edit.lua")
 dofile(MP.."/icta_controller/battery.lua")
-dofile(MP.."/icta_controller/display.lua")
-dofile(MP.."/icta_controller/monitor.lua")
-dofile(MP.."/icta_controller/signaltower.lua")
 
 -- Lua Controller
 dofile(MP.."/lua_controller/controller.lua")
