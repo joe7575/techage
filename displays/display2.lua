@@ -125,7 +125,7 @@ local function register_display(name, description, inventory_image, tiles, node_
 				meta:set_string("number", number)
 				meta:set_string("infotext", DESCR .. " " .. number)
 				local nvm = techage.get_nvm(pos)
-				nvm.text = {"My Techage", DESCR, "No: "..number}
+				nvm.text = {"My Techage", "TA4 Display II", "No: "..number}
 				meta:set_int("resolution", 13)
 				meta:set_string("color", "#F5F5F5")
 				meta:set_int("colorno", 63)

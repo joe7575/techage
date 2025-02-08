@@ -58,11 +58,11 @@ end
 minetest.register_node("techage:ta3_monitor", {
 	description = S("TA3 CRT Monitor"),
 	tiles = {-- up, down, right, left, back, front
+		'techage_monitor_top.png',
+		'techage_monitor_top.png',
+		'techage_monitor_side.png^[transformFX',
 		'techage_monitor_side.png',
-		'techage_monitor_side.png',
-		'techage_monitor_side.png',
-		'techage_monitor_side.png',
-		'techage_monitor_side.png',
+		'techage_monitor_back.png',
 		'techage_monitor_front.png',
 	},
 	drawtype = "nodebox",
@@ -70,7 +70,8 @@ minetest.register_node("techage:ta3_monitor", {
 	node_box = {
 		type = "fixed",
 		fixed = {
-			{-16/32, -16/32, -16/32,  16/32, 16/32, 16/32},
+			{-16/32, -16/32, -15/32,  16/32, 16/32,  8/32},
+			{-10/32, -10/32,   8/32,  10/32, 10/32, 12/32},
 		},
 	},
 	paramtype = "light",
@@ -90,7 +91,7 @@ minetest.register_node("techage:ta3_monitor", {
 
 	display_entities = {
 		["techage:monitor_entity"] = { 
-			depth = -0.51,
+			depth = -0.48,
 			yoffs = 0.025,
 			size = {x=0.90, y=0.90},
 			on_display_update = update
