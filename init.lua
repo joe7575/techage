@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 1.20
+techage.version = 1.21
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -375,6 +375,7 @@ dofile(MP.."/icta_controller/controller.lua")
 dofile(MP.."/icta_controller/commands.lua")
 dofile(MP.."/icta_controller/edit.lua")
 dofile(MP.."/icta_controller/battery.lua")
+dofile(MP.."/icta_controller/signaltower.lua")
 
 -- Lua Controller
 dofile(MP.."/lua_controller/controller.lua")

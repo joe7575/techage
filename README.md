@@ -96,6 +96,10 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2025-02-09 V1.21**
+
+- Add TA3 monitor and new TA4 dislays with fixed font
+
 **2025-01-08 V1.20**
 
 - Add Traffic Lights and accesories
