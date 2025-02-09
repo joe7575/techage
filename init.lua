@@ -30,8 +30,8 @@ elseif minetest.global_exists("tubelib2") and tubelib2.version < 2.2 then
 elseif minetest.global_exists("minecart") and minecart.version < 2.04 then
 	minetest.log("error", "[techage] Techage requires minecart version 2.04 or newer!")
 	return
-elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.03 then
-	minetest.log("error", "[techage] Techage requires lcdlib version 1.03 or newer!")
+elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.04 then
+	minetest.log("error", "[techage] Techage requires lcdlib version 1.04 or newer!")
 	return
 elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.01 then
 	minetest.log("error", "[techage] Techage requires safer_lua version 1.01 or newer!")
@@ -48,7 +48,7 @@ end
 techage.CLIP  = minetest.features.use_texture_alpha_string_modes and "clip" or false
 techage.BLEND = minetest.features.use_texture_alpha_string_modes and "blend" or true
 
-techage.NodeDef = {}		-- node registration info
+techage.NodeDef = {}  -- node registration info
 
 techage.max_num_forceload_blocks = tonumber(minetest.settings:get("techage_max_num_forceload_blocks")) or 24
 

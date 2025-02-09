@@ -368,6 +368,22 @@ Display no: =Display Nr.
 TA4 Display=TA4 Display
 TA4 Display XL=TA4 Display XL
 
+### display2.lua ###
+
+Background color=Hintergrundfarbe
+Select color of the display background (0..63)@nSee chat command '/ta_color64'=Wähle die Farbe des Anzeigehintergrunds (0..63)@nSiehe Chat-Befehl '/ta_color64'
+Select color of the screen text (0..63)@nSee chat command '/ta_color64'=Wähle die Farbe des Bildschirmtextes (0..63)@nSiehe Chat-Befehl '/ta_color64'
+Select resolution of the display in characters x lines=Wähle die Auflösung des Displays in Zeichen x Zeilen
+TA4 Display II=TA4 Display II
+TA4 Display II XXL inside=TA4 Display II XXL innen
+TA4 Display II XXL outside=TA4 Display II XXL außen
+Text color=Textfarbe
+
+### display2.lua ###
+### monitor.lua ###
+
+Resolution=Auflösung
+
 ### distiller.lua ###
 
 TA3 Distillation Tower 1=TA3 Destillationsturm 1
@@ -996,6 +1012,14 @@ Test Chest=Testkiste
 
 Test Mini Tank=Testminitank
 
+### monitor.lua ###
+
+Color=Farbe
+Select color of the screen text=Wähle die Farbe des Bildschirmtextes
+Select resolution of the monitor in characters x lines=Wähle die Auflösung des Monitors in Zeichen x Zeilen
+TA3 CRT Monitor=TA3 Röhrenmonitor
+TA3 CRT Monitor no:=TA3 Röhrenmonitor Nr.:
+
 ### movecontroller.lua ###
 
 Error: Invalid distance !!=Fehler: Ungültige Entfernung !!
@@ -1259,10 +1283,14 @@ stopped=gestoppt
 @n=@n
 Commands=Kommandos
 Cycle time=Zykluszeit
+Delay in seconds for start of execution when map block is reloaded=Verzögerung in Sekunden für den Beginn der Ausführung, wenn der Kartenblock neu geladen wird
+Delay on reload=Verzögerung beim Neuladen
 Example:@n=Beispiel:
 If 'yes' a received OFF command won't stop the sequencer=Bei 'yes' stoppt ein empfangener OFF-Befehl den Sequenzer nicht
 Ignore OFF command=OFF-Befehl ignorieren
 Invalid command!=Ungültiges Kommando!
+Reset on reload=Beim Neuladen zurücksetzen
+Restart the sequencer when the map block is reloaded=Sequenzer neu starten, wenn der Kartenblock neu geladen wird
 Start=Start
 Stop=Stopp
 Syntax:@n=Syntax:@n

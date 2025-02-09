@@ -399,27 +399,6 @@ The battery must be placed in close proximity to the controller, i.e. in one of 
 
 [ta4_battery|image]
 
-### TA4 Display
-
-The display shows its number after placement. The display can be addressed via this number. Texts can be output on the display, whereby the display can display 5 lines and thus 5 different texts.
-
-Lines of text are always left-aligned. If the text is to be centered horizontally, the text must be preceded by the character "\t" (tabulator).
-
-The display is updated at most once per second.
-
-[ta4_display|image]
-
-### TA4 Display XL
-
-The TA4 Display XL is twice the size of the TA4 display.
-
-Lines of text are always left-aligned. If the text is to be centered horizontally, the text must be preceded by the character "\t" (tabulator).
-
-The display is updated every two seconds at most.
-
-[ta4_displayXL|image]
-
-
 ### TA4 Signal Tower
 
 The signal tower can display red, green and orange. A combination of the 3 colors is not possible.
@@ -465,7 +444,78 @@ The terminal is used for input / output for the Lua controller.
 
 [ta4_terminal|image]
 
+## TA4 Displays
 
+Techage offers various displays that can be used to display text. The displays can be accessed via the Lua controller,
+but also via the ICTA controller, or via the TA3 terminal.
+
+- TA4 Display / TA4 Display XL: Display of 5 lines of text in proportional font. The flexible character width means that different numbers of characters can be displayed per line.
+- TA4 Display II / TA4 Display II XXL: Display of up to 20 lines of text in fixed-width fonts. The maximum number of characters that can be displayed per line is defined here.
+
+All displays show a number after they have been placed. The displays can be accessed via this number. All displays have the same commands for this.
+
+The commands for controlling in BASIC mode:
+
+```BASIC
+10 DCLR(num)              ' Clear the screen with the number 'num'.
+20 DPUTS(num, row, text)  ' Text output to the screen in line 'row' (1..n).
+                          ' The value 0 for 'row' means that the text is
+                          ' appended after the last line.
+```
+
+The commands for controlling by means of the Lua controller:
+
+```lua
+$clear_screen(num)        -- Clear the screen with the number 'num'.
+$display(num, row, text)  -- Text output to the screen in line 'row' (1..n).
+                          -- The value 0 for 'row' means that the text is
+                          -- appended after the last line.
+```
+
+[ta4_display2|image]
+
+### TA4 Display
+
+Text can be displayed on the display, and the display can show 5 lines.
+
+Text lines are always displayed left-aligned. If the text is to be centered horizontally, the text must be preceded by the character "\t" (tab).
+
+The display is updated at most once per second.
+
+[ta4_display|image]
+
+### TA4 Display XL
+
+TThe TA4 Display XL is twice the size of the TA4 Display.
+
+Text lines are always left-aligned. If the text is to be centered horizontally, the text must be preceded by the character “\t” (tab).
+
+The display is updated every two seconds at most.
+
+[ta4_displayXL|image]
+
+### TA4 Display II
+
+The display can be flexibly configured. The number of lines and characters per line,
+as well as the text and background color can be set using the wrench menu:
+
+- The screen resolution can be set in the range from 16x8 to 40x20 characters x lines.
+- The text color can be set as a color code in the range from 0 to 63.
+- The background color can also be set as a color code in the range from 0 to 63.
+
+The chat command `/ta_color64' shows the color palette with the color codes.
+
+The update rate of the display is directly dependent on the resolution and is one second at 16x8 and around 6 seconds at 40x20.
+
+[ta4_display2|image]
+
+### TA4 Display II XXL
+
+The same settings apply to the XXL display as to the Display II. However, the XXL display is 9 times the size of the Display II
+and therefore consists of a central "TA4 Display II XXL inside" block and a further 8 "TA4 Display II XXL outside" blocks, which
+must be placed around the central block accordingly.
+
+[ta4_displayXXL|image]
 
 ## TA4 Logic/Switching Modules
 

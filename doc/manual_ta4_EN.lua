@@ -36,13 +36,16 @@ return {
     "2,ICTA Controller",
     "3,TA4 ICTA controller",
     "3,Battery",
-    "3,TA4 Display",
-    "3,TA4 Display XL",
     "3,TA4 Signal Tower",
     "2,TA4 Lua Controller",
     "3,TA4 Lua Server",
     "3,TA4 Sensor Box / Chest",
     "3,TA4 Lua Controller Terminal",
+    "2,TA4 Displays",
+    "3,TA4 Display",
+    "3,TA4 Display XL",
+    "3,TA4 Display II",
+    "3,TA4 Display II XXL",
     "2,TA4 Logic/Switching Modules",
     "3,TA4 Button/Switch",
     "3,TA4 2x Button",
@@ -390,22 +393,6 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "The display shows its number after placement. The display can be addressed via this number. Texts can be output on the display\\, whereby the display can display 5 lines and thus 5 different texts.\n"..
-    "\n"..
-    "Lines of text are always left-aligned. If the text is to be centered horizontally\\, the text must be preceded by the character \"t\" (tabulator).\n"..
-    "\n"..
-    "The display is updated at most once per second.\n"..
-    "\n"..
-    "\n"..
-    "\n",
-    "The TA4 Display XL is twice the size of the TA4 display.\n"..
-    "\n"..
-    "Lines of text are always left-aligned. If the text is to be centered horizontally\\, the text must be preceded by the character \"t\" (tabulator).\n"..
-    "\n"..
-    "The display is updated every two seconds at most.\n"..
-    "\n"..
-    "\n"..
-    "\n",
     "The signal tower can display red\\, green and orange. A combination of the 3 colors is not possible.\n"..
     "\n"..
     "\n"..
@@ -436,6 +423,65 @@ return {
     "\n"..
     "\n",
     "The terminal is used for input / output for the Lua controller.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "Techage offers various displays that can be used to display text. The displays can be accessed via the Lua controller\\,\n"..
+    "but also via the ICTA controller\\, or via the TA3 terminal.\n"..
+    "\n"..
+    "  - TA4 Display / TA4 Display XL: Display of 5 lines of text in proportional font. The flexible character width means that different numbers of characters can be displayed per line.\n"..
+    "  - TA4 Display II / TA4 Display II XXL: Display of up to 20 lines of text in fixed-width fonts. The maximum number of characters that can be displayed per line is defined here.\n"..
+    "\n"..
+    "All displays show a number after they have been placed. The displays can be accessed via this number. All displays have the same commands for this.\n"..
+    "\n"..
+    "The commands for controlling in BASIC mode:\n"..
+    "\n"..
+    "    10 DCLR(num)              ' Clear the screen with the number 'num'.\n"..
+    "    20 DPUTS(num\\, row\\, text)  ' Text output to the screen in line 'row' (1..n).\n"..
+    "                              ' The value 0 for 'row' means that the text is\n"..
+    "                              ' appended after the last line.\n"..
+    "\n"..
+    "The commands for controlling by means of the Lua controller:\n"..
+    "\n"..
+    "    $clear_screen(num)        -- Clear the screen with the number 'num'.\n"..
+    "    $display(num\\, row\\, text)  -- Text output to the screen in line 'row' (1..n).\n"..
+    "                              -- The value 0 for 'row' means that the text is\n"..
+    "                              -- appended after the last line.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "Text can be displayed on the display\\, and the display can show 5 lines.\n"..
+    "\n"..
+    "Text lines are always displayed left-aligned. If the text is to be centered horizontally\\, the text must be preceded by the character \"t\" (tab).\n"..
+    "\n"..
+    "The display is updated at most once per second.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "TThe TA4 Display XL is twice the size of the TA4 Display.\n"..
+    "\n"..
+    "Text lines are always left-aligned. If the text is to be centered horizontally\\, the text must be preceded by the character “t” (tab).\n"..
+    "\n"..
+    "The display is updated every two seconds at most.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "The display can be flexibly configured. The number of lines and characters per line\\,\n"..
+    "as well as the text and background color can be set using the wrench menu:\n"..
+    "\n"..
+    "  - The screen resolution can be set in the range from 16x8 to 40x20 characters x lines.\n"..
+    "  - The text color can be set as a color code in the range from 0 to 63.\n"..
+    "  - The background color can also be set as a color code in the range from 0 to 63.\n"..
+    "\n"..
+    "The chat command `/ta_color64' shows the color palette with the color codes.\n"..
+    "\n"..
+    "The update rate of the display is directly dependent on the resolution and is one second at 16x8 and around 6 seconds at 40x20.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "The same settings apply to the XXL display as to the Display II. However\\, the XXL display is 9 times the size of the Display II\n"..
+    "and therefore consists of a central \"TA4 Display II XXL inside\" block and a further 8 \"TA4 Display II XXL outside\" blocks\\, which\n"..
+    "must be placed around the central block accordingly.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -925,13 +971,16 @@ return {
     "ta4_icta_controller",
     "ta4_icta_controller",
     "ta4_battery",
-    "ta4_display",
-    "ta4_displayXL",
     "ta4_signaltower",
     "ta4_lua_controller",
     "ta4_lua_server",
     "ta4_sensor_chest",
     "ta4_terminal",
+    "ta4_display2",
+    "ta4_display",
+    "ta4_displayXL",
+    "ta4_display2",
+    "ta4_displayXXL",
     "",
     "ta4_button",
     "ta4_button_2x",
@@ -1012,6 +1061,9 @@ return {
     "",
     "",
     "ta4_reactor",
+    "",
+    "",
+    "",
     "",
     "",
     "",

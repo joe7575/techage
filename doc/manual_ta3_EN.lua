@@ -57,6 +57,7 @@ return {
     "3,TA3 Sequencer",
     "3,TA3 Timer",
     "3,TA3 Terminal",
+    "3,TA3 CRT Monitor",
     "3,TechAge Color Lamp",
     "3,Door/Gate Blocks",
     "3,TA3 Door Controller",
@@ -575,6 +576,28 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "The CRT monitor is available to match the TA3 terminal in BASIC mode. This can display the output of the BASIC program.\n"..
+    "The monitor can also be used as a display for other blocks that output text (e.g. the Lua controller).\n"..
+    "The monitor has a wrench menu that can be used to set the resolution of the monitor and the text color.\n"..
+    "The resolution can be set in the range of 16x8 to 40x20 characters x lines.\n"..
+    "The update rate of the monitor is directly dependent on the resolution and is one second at 16x8 and around 6 seconds at 40x20.\n"..
+    "\n"..
+    "The commands for controlling in BASIC mode:\n"..
+    "\n"..
+    "    10 DCLR(num)              ' Clear the screen with the number 'num'.\n"..
+    "    20 DPUTS(num\\, row\\, text)  ' Text output to the screen in line 'row' (1..n).\n"..
+    "                              ' The value 0 for 'row' means that the text is\n"..
+    "                              ' appended after the last line.\n"..
+    "\n"..
+    "The commands for controlling by means of the Lua controller:\n"..
+    "\n"..
+    "    $clear_screen(num)        -- Clear the screen with the number 'num'.\n"..
+    "    $display(num\\, row\\, text)  -- Text output to the screen in line 'row' (1..n).\n"..
+    "                              -- The value 0 for 'row' means that the text is\n"..
+    "                              -- appended after the last line.\n"..
+    "\n"..
+    "\n"..
+    "\n",
     "The signal lamp can be switched on or off with the 'on' / 'off' command. This lamp does not need electricity and can be colored with the airbrush tool from the mod Unified Dyes\" and via Lua/Beduino commands.\n"..
     "\n"..
     "With the chat command '/ta_color' the color palette with the values for the Lua/Beduino commands is displayed and with '/ta_send color <num>' the color can be changed.\n"..
@@ -814,6 +837,7 @@ return {
     "ta3_sequencer",
     "ta3_timer",
     "ta3_terminal",
+    "ta3_monitor",
     "ta3_colorlamp",
     "ta3_doorblock",
     "ta3_doorcontroller",
@@ -892,6 +916,7 @@ return {
     "",
     "",
     "ta3_distiller",
+    "",
     "",
     "",
     "",

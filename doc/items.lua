@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019 Joachim Stolberg
+	Copyright (C) 2019-2025 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -129,6 +129,7 @@ local items = {
 	ta3_injector = "techage:ta3_injector_pas",
 	ta3_command_converter = "techage:ta3_command_converter_off",
 	ta3_flipflop = "techage:ta3_flipflop_off",
+	ta3_monitor = "techage:ta3_monitor",
 	----------------------------
 	techage_ta4 = "techage_ta4.png",
 	techage_ta4c = "techage_ta4c.png",
@@ -167,6 +168,8 @@ local items = {
 	ta4_battery = "techage:ta4_battery",
 	ta4_display = "techage:ta4_display",
 	ta4_displayXL = "techage:ta4_displayXL",
+	ta4_display2 = "techage:ta4_display2",
+	ta4_displayXXL = "techage:ta4_displayXXL",
 	ta4_signaltower = "techage:ta4_signaltower",
 	ta4_lua_controller = "techage:ta4_lua_controller",
 	ta4_lua_server = "techage:ta4_server",

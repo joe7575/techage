@@ -104,9 +104,9 @@ minetest.register_node("techage:ta3_monitor", {
 		meta:set_string("number", number)
 		meta:set_int("resolution", 8)
 		meta:set_string("color", "#33FF00")
-		meta:set_string("infotext", S("TA3 CRT Monitor no: ")..number)
+		meta:set_string("infotext", S("TA3 CRT Monitor no:") .. " " .. number)
 		local nvm = techage.get_nvm(pos)
-		nvm.text = {"My", "Techage","TA3", "CRT Monitor", "No: "..number}
+		nvm.text = {"My", "Techage","TA3", "CRT Monitor", "No: " .. number}
 		lcdlib.update_entities(pos)
 		minetest.get_node_timer(pos):start(1)
 	end,

@@ -182,7 +182,7 @@ register_display(
 
 register_display(
 	"techage:ta4_displayXXL",
-	S("TA4 Display II XXL Center"),
+	S("TA4 Display II XXL inside"),
 	'techage_display2_inventory.png^techage_displayXXL_inventory.png',
 	{-- up, down, right, left, back, front
 		'techage_display2_side.png',
@@ -209,7 +209,7 @@ register_display(
 
 register_display(
 	"techage:ta4_displayXXL2",
-	S("TA4 Display II XXL Frame"),
+	S("TA4 Display II XXL outside"),
 	'techage_display2_inventory.png^techage_displayXXL_inventory.png',
 	{-- up, down, right, left, back, front
 		'techage_display2_side.png',

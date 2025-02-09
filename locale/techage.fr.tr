@@ -368,6 +368,22 @@ Display no: =Afficher n° :
 TA4 Display=Affichage TA4
 TA4 Display XL=Affichage TA4 XL
 
+### display2.lua ###
+
+Background color=
+Select color of the display background (0..63)@nSee chat command '/ta_color64'=
+Select color of the screen text (0..63)@nSee chat command '/ta_color64'=
+Select resolution of the display in characters x lines=
+TA4 Display II=
+TA4 Display II XXL inside=
+TA4 Display II XXL outside=
+Text color=
+
+### display2.lua ###
+### monitor.lua ###
+
+Resolution=
+
 ### distiller.lua ###
 
 TA3 Distillation Tower 1=TA3 Tour de distillation 1
@@ -996,6 +1012,14 @@ Test Chest=
 
 Test Mini Tank=
 
+### monitor.lua ###
+
+Color=
+Select color of the screen text=
+Select resolution of the monitor in characters x lines=
+TA3 CRT Monitor=
+TA3 CRT Monitor no:=
+
 ### movecontroller.lua ###
 
 Error: Invalid distance !!=
@@ -1259,10 +1283,14 @@ stopped=
 @n=
 Commands=
 Cycle time=
+Delay in seconds for start of execution when map block is reloaded=
+Delay on reload=
 Example:@n=
 If 'yes' a received OFF command won't stop the sequencer=
 Ignore OFF command=
 Invalid command!=
+Reset on reload=
+Restart the sequencer when the map block is reloaded=
 Start=
 Stop=
 Syntax:@n=

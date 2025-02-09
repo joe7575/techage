@@ -408,26 +408,6 @@ Die Batterie muss in unmittelbarer Nähe zum Controller platziert werden, also a
 
 [ta4_battery|image]
 
-### TA4 Display
-
-Das Display zeigt nach dem Platzieren seine Nummer an. Über diese Nummer kann das Display angesprochen werden. Auf dem Display können Texte ausgegeben werden, wobei das Display 5 Zeilen und damit 5 unterschiedliche Texte darstellen kann.
-
-Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden, muss dem Text das Zeichen „\t“ (Tabulator) vorangestellt werden.
-
-Das Display wird maximal ein mal pro Sekunde aktualisiert.
-
-[ta4_display|image]
-
-### TA4 Display XL
-
-Das TA4 Display XL hat die doppelte Größ wie das TA4 Display.
-
-Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden, muss dem Text das Zeichen „\t“ (Tabulator) vorangestellt werden.
-
-Das Display wird maximal alle zwei Sekunden aktualisiert.
-
-[ta4_displayXL|image]
-
 
 ### TA4 Signal Tower
 
@@ -475,7 +455,78 @@ Das Terminal dient zur Ein-/Ausgabe für den Lua Controller.
 
 [ta4_terminal|image]
 
+## TA4 Displays
 
+Techage bietet verschiedene Displays, die zur Anzeige von Texten genutzt werden können. Die Displays können bspw. über den Lua Controller,
+aber auch über den ICTA Controller, oder über das TA3 Terminal angesprochen werden.
+
+- TA4 Display / TA4 Display XL: Anzeige von 5 Textzeilen in Proportionalschrift. Durch die flexible Zeichenbreite können unterschiedlich viele Zeichen pro Zeile dargestellt werden.
+- TA4 Display II / TA4 Display II XXL: Anzeige von bis zu 20 Textzeilen in Festbreitenschriften. Die maximal darstellbare Zeichenanzahl pro Zeile ist hier fest definiert.
+
+Alle Displays zeigen nach dem Platzieren eine Nummer an. Über diese Nummer können die Displays angesprochen werden. Alle Displays besitzen dazu die gleichen Kommandos.
+
+Die Kommandos zur Ansteuerung im BASIC-Mode:
+
+```BASIC
+10 DCLR(num)              ' Lösche den Bildschirm mit der Nummer 'num'.
+20 DPUTS(num, row, text)  ' Textausgabe auf den Bildschirm in Zeile 'row' (1..n).
+                          ' Der Wert 0 für 'row' bedeutet, dass der Text nach der 
+                          ' letzten Zeile angehängt wird.
+```
+
+Die Kommandos zur Ansteuerung durch den Lua Controller:
+
+```lua
+$clear_screen(num)        -- Lösche den Bildschirm mit der Nummer 'num'.
+$display(num, row, text)  -- Textausgabe auf den Bildschirm in Zeile 'row' (1..n).
+                          -- Der Wert 0 für 'row' bedeutet, dass der Text nach der 
+                          -- letzten Zeile angehängt wird.
+```
+
+[ta4_display2|image]
+
+### TA4 Display
+
+Auf dem Display können Texte ausgegeben werden, wobei das Display 5 Zeilen darstellen kann.
+
+Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden, muss dem Text das Zeichen „\t“ (Tabulator) vorangestellt werden.
+
+Das Display wird maximal ein mal pro Sekunde aktualisiert.
+
+[ta4_display|image]
+
+### TA4 Display XL
+
+Das TA4 Display XL hat die doppelte Größ wie das TA4 Display.
+
+Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden, muss dem Text das Zeichen „\t“ (Tabulator) vorangestellt werden.
+
+Das Display wird maximal alle zwei Sekunden aktualisiert.
+
+[ta4_displayXL|image]
+
+### TA4 Display II
+
+Das Display ist flexibel konfigurierbar. Über das Schraubenschlüssel-Menü können die Anzahl der Zeilen und Zeichen pro Zeile,
+sowie die Text- und Hintergrundfarbe eingestellt werden:
+
+- Die Bildschirmauflösung kann im Bereich von 16x8 bis 40x20 Zeichen x Zeilen eingestellt werden.
+- Die Textfarbe kann als Farbcode im Bereich von 0 bis 63 eingestellt werden.
+- Die Hintergrundfarbe kann ebenfalls als Farbcode im Bereich von 0 bis 63 eingestellt werden.
+
+Das Chat-Kommando `/ta_color64' zeigt die Farbpallette mit den Farbcodes an.
+
+Die Updaterate des Displays ist direkt abhängig von der Auflösung und beträgt eine Sekunde bei 16x8 und ca. 6 Sekunden bei 40x20.
+
+[ta4_display2|image]
+
+### TA4 Display II XXL
+
+Für das XXL Display gelten die gleichen Einstellungen wie für das Display II. Das XXL Display hat aber die 9-fache Größe des Display II
+und besteht daher aus einem zentralem "TA4 Display II XXL innen" Block und weiteren 8 "TA4 Display II XXL außen" Blöcken, die
+entsprechend um den zentralen Block platziert werden müssen.
+
+[ta4_displayXXL|image]
 
 ## TA4 Logik-/Schalt-Module
 

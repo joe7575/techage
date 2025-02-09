@@ -36,13 +36,16 @@ return {
     "2,ICTA Controller",
     "3,TA4 ICTA Controller",
     "3,Batterie",
-    "3,TA4 Display",
-    "3,TA4 Display XL",
     "3,TA4 Signal Tower",
     "2,TA4 Lua Controller",
     "3,TA4 Lua Server",
     "3,TA4 Sensor Kiste/Chest",
     "3,TA4 Lua Controller Terminal",
+    "2,TA4 Displays",
+    "3,TA4 Display",
+    "3,TA4 Display XL",
+    "3,TA4 Display II",
+    "3,TA4 Display II XXL",
     "2,TA4 Logik-/Schalt-Module",
     "3,TA4 Taster/Schalter / Button/Switch",
     "3,TA4 2x Taster / 2x Button",
@@ -392,22 +395,6 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Das Display zeigt nach dem Platzieren seine Nummer an. Über diese Nummer kann das Display angesprochen werden. Auf dem Display können Texte ausgegeben werden\\, wobei das Display 5 Zeilen und damit 5 unterschiedliche Texte darstellen kann.\n"..
-    "\n"..
-    "Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden\\, muss dem Text das Zeichen „t“ (Tabulator) vorangestellt werden.\n"..
-    "\n"..
-    "Das Display wird maximal ein mal pro Sekunde aktualisiert.\n"..
-    "\n"..
-    "\n"..
-    "\n",
-    "Das TA4 Display XL hat die doppelte Größ wie das TA4 Display.\n"..
-    "\n"..
-    "Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden\\, muss dem Text das Zeichen „t“ (Tabulator) vorangestellt werden.\n"..
-    "\n"..
-    "Das Display wird maximal alle zwei Sekunden aktualisiert.\n"..
-    "\n"..
-    "\n"..
-    "\n",
     "Der Signal Tower kann rot\\, grün und orange anzeigen. Eine Kombination der 3 Farben ist nicht möglich.\n"..
     "\n"..
     "\n"..
@@ -438,6 +425,65 @@ return {
     "\n"..
     "\n",
     "Das Terminal dient zur Ein-/Ausgabe für den Lua Controller.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "Techage bietet verschiedene Displays\\, die zur Anzeige von Texten genutzt werden können. Die Displays können bspw. über den Lua Controller\\,\n"..
+    "aber auch über den ICTA Controller\\, oder über das TA3 Terminal angesprochen werden.\n"..
+    "\n"..
+    "  - TA4 Display / TA4 Display XL: Anzeige von 5 Textzeilen in Proportionalschrift. Durch die flexible Zeichenbreite können unterschiedlich viele Zeichen pro Zeile dargestellt werden.\n"..
+    "  - TA4 Display II / TA4 Display II XXL: Anzeige von bis zu 20 Textzeilen in Festbreitenschriften. Die maximal darstellbare Zeichenanzahl pro Zeile ist hier fest definiert.\n"..
+    "\n"..
+    "Alle Displays zeigen nach dem Platzieren eine Nummer an. Über diese Nummer können die Displays angesprochen werden. Alle Displays besitzen dazu die gleichen Kommandos.\n"..
+    "\n"..
+    "Die Kommandos zur Ansteuerung im BASIC-Mode:\n"..
+    "\n"..
+    "    10 DCLR(num)              ' Lösche den Bildschirm mit der Nummer 'num'.\n"..
+    "    20 DPUTS(num\\, row\\, text)  ' Textausgabe auf den Bildschirm in Zeile 'row' (1..n).\n"..
+    "                              ' Der Wert 0 für 'row' bedeutet\\, dass der Text nach der \n"..
+    "                              ' letzten Zeile angehängt wird.\n"..
+    "\n"..
+    "Die Kommandos zur Ansteuerung durch den Lua Controller:\n"..
+    "\n"..
+    "    $clear_screen(num)        -- Lösche den Bildschirm mit der Nummer 'num'.\n"..
+    "    $display(num\\, row\\, text)  -- Textausgabe auf den Bildschirm in Zeile 'row' (1..n).\n"..
+    "                              -- Der Wert 0 für 'row' bedeutet\\, dass der Text nach der \n"..
+    "                              -- letzten Zeile angehängt wird.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "Auf dem Display können Texte ausgegeben werden\\, wobei das Display 5 Zeilen darstellen kann.\n"..
+    "\n"..
+    "Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden\\, muss dem Text das Zeichen „t“ (Tabulator) vorangestellt werden.\n"..
+    "\n"..
+    "Das Display wird maximal ein mal pro Sekunde aktualisiert.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "Das TA4 Display XL hat die doppelte Größ wie das TA4 Display.\n"..
+    "\n"..
+    "Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden\\, muss dem Text das Zeichen „t“ (Tabulator) vorangestellt werden.\n"..
+    "\n"..
+    "Das Display wird maximal alle zwei Sekunden aktualisiert.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "Das Display ist flexibel konfigurierbar. Über das Schraubenschlüssel-Menü können die Anzahl der Zeilen und Zeichen pro Zeile\\,\n"..
+    "sowie die Text- und Hintergrundfarbe eingestellt werden:\n"..
+    "\n"..
+    "  - Die Bildschirmauflösung kann im Bereich von 16x8 bis 40x20 Zeichen x Zeilen eingestellt werden.\n"..
+    "  - Die Textfarbe kann als Farbcode im Bereich von 0 bis 63 eingestellt werden.\n"..
+    "  - Die Hintergrundfarbe kann ebenfalls als Farbcode im Bereich von 0 bis 63 eingestellt werden.\n"..
+    "\n"..
+    "Das Chat-Kommando `/ta_color64' zeigt die Farbpallette mit den Farbcodes an.\n"..
+    "\n"..
+    "Die Updaterate des Displays ist direkt abhängig von der Auflösung und beträgt eine Sekunde bei 16x8 und ca. 6 Sekunden bei 40x20.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "Für das XXL Display gelten die gleichen Einstellungen wie für das Display II. Das XXL Display hat aber die 9-fache Größe des Display II\n"..
+    "und besteht daher aus einem zentralem \"TA4 Display II XXL innen\" Block und weiteren 8 \"TA4 Display II XXL außen\" Blöcken\\, die\n"..
+    "entsprechend um den zentralen Block platziert werden müssen.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -927,13 +973,16 @@ return {
     "ta4_icta_controller",
     "ta4_icta_controller",
     "ta4_battery",
-    "ta4_display",
-    "ta4_displayXL",
     "ta4_signaltower",
     "ta4_lua_controller",
     "ta4_lua_server",
     "ta4_sensor_chest",
     "ta4_terminal",
+    "ta4_display2",
+    "ta4_display",
+    "ta4_displayXL",
+    "ta4_display2",
+    "ta4_displayXXL",
     "",
     "ta4_button",
     "ta4_button_2x",
@@ -1014,6 +1063,9 @@ return {
     "",
     "",
     "ta4_reactor",
+    "",
+    "",
+    "",
     "",
     "",
     "",

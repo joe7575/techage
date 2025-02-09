@@ -83,6 +83,10 @@ TA3 Terminal=TA3 Терминал
 Battery=Батарея
 Coal Equivalents=В угольном эквиваленте
 Digtron Battery=Батарея дигтрона
+
+### battery.lua ###
+### storage.lua ###
+
 Load=Загрузка
 
 ### bauxit.lua ###
@@ -330,18 +334,13 @@ TA2 Cylinder=TA2 Цилиндр
 
 ### detector.lua ###
 
-Configured Items=Настроенные предметы
 Counts down the number of items passed through@nand only triggers an 'on' command when it reaches zero.=Считает количество проходящих предметов@nи включается когда количество достигает нуля.
 Current countdown=Кол-во предметов которое должно пройти
 Current countdown value.=Кол-во прошедших предметов
-Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Предметы, которые генерируют команду 'on' (включить).@nЕсли пусто, все прошедшие предметы генерируют команду 'on'.
-On Time=Вовремя
 TA3 Item Detector=TA3 Детектор предметов
 TA4 Collider Detector=TA4 Детектор коллайдера
 TA4 Collider Detector Core=TA4 Ядро детектора коллайдера
 TA4 Item Detector=TA3 Детектор предметов
-The time after the 'off' command@nuntil the next 'on' command is accepted.=Время после команды 'off' до приема следующей команды 'on'.
-The time between the 'on' and 'off' commands.=Промежуток времени между командами 'on' (включить) и 'off' (выключить).
 
 ### detector.lua ###
 ### electricmeter.lua ###
@@ -350,14 +349,40 @@ Countdown=Кол-во электроэнергии которое должно �
 
 ### detector.lua ###
 ### logic_block.lua ###
+### tele.lua ###
 
 Blocking Time=Время блокировки
+
+### detector.lua ###
+### tele.lua ###
+
+Configured Items=Настроенные предметы
+Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Предметы, которые генерируют команду 'on' (включить).@nЕсли пусто, все прошедшие предметы генерируют команду 'on'.
+On Time=Вовремя
+The time after the 'off' command@nuntil the next 'on' command is accepted.=Время после команды 'off' до приема следующей команды 'on'.
+The time between the 'on' and 'off' commands.=Промежуток времени между командами 'on' (включить) и 'off' (выключить).
 
 ### display.lua ###
 
 Display no: =Номер дисплея:
 TA4 Display=TA4 Дисплей
 TA4 Display XL=TA4 Дисплей XL
+
+### display2.lua ###
+
+Background color=
+Select color of the display background (0..63)@nSee chat command '/ta_color64'=
+Select color of the screen text (0..63)@nSee chat command '/ta_color64'=
+Select resolution of the display in characters x lines=
+TA4 Display II=
+TA4 Display II XXL inside=
+TA4 Display II XXL outside=
+Text color=
+
+### display2.lua ###
+### monitor.lua ###
+
+Resolution=
 
 ### distiller.lua ###
 
@@ -629,6 +654,7 @@ Charging=Зарядка
 
 ### formspecs.lua ###
 ### power_terminal2.lua ###
+### storage.lua ###
 ### transformer.lua ###
 
 Storage=Хранилище
@@ -978,6 +1004,22 @@ TA1 Pine Wood Board=TA1 Сосновая доска
 
 TA4 Streetlamp Solar Cell=TA4 Солнечная панель для уличного светильника
 
+### minichest.lua ###
+
+Test Chest=
+
+### minitank.lua ###
+
+Test Mini Tank=
+
+### monitor.lua ###
+
+Color=
+Select color of the screen text=
+Select resolution of the monitor in characters x lines=
+TA3 CRT Monitor=
+TA3 CRT Monitor no:=
+
 ### movecontroller.lua ###
 
 Error: Invalid distance !!=Ошибка: Неправильное расстояние!!
@@ -1311,6 +1353,10 @@ TA4 Solar Carrier Module B=TA4 Кронштейн солнечной панел�
 TA4 Solar Carrier Module T=TA4 Кронштейн солнечной панели T
 TA4 Solar Module=TA4 Солнечная панель
 light=свет
+
+### solarcell.lua ###
+### source.lua ###
+
 power=энергия
 
 ### soundblock.lua ###
@@ -1323,6 +1369,7 @@ TA3 Sound Block=TA3 Нотный блок
 Axle Power Source=Источник механической энергии
 Ele Power Source=Источник электроэнергии
 Power Source=Источник энергии
+Test Generator=
 
 ### steam_pipe.lua ###
 
@@ -1331,6 +1378,10 @@ TA2 Steam Pipe=TA2 Труба для пара
 ### steelmat.lua ###
 
 TechAge Steel Mat=Techage Сталь
+
+### storage.lua ###
+
+Test Storage=
 
 ### streetlamp.lua ###
 
@@ -1453,6 +1504,10 @@ TA4 Tank=TA4 Резервуар
 ### tank_cart.lua ###
 
 TA Tank Cart=TA Вагонетка с резервуаром
+
+### tele.lua ###
+
+TA3 Detector=
 
 ### teleport.lua ###
 
@@ -1601,4 +1656,3 @@ Remove detector=Убрать детектор
 TA4 Collider Detector Worker=TA4 Построитель детектора коллайдера
 [TA4] Detector is being built!=[TA4] Детектор был построен!
 [TA4] Detector is being removed!=[TA4] Детектор был удален!
-

@@ -29,7 +29,7 @@ local NUMSLOTS = 16
 --------------------------------------------------------------------------
 local function get_positions(nvm)
 	local lpos = {}
-	for idx,cfg in ipairs(nvm.config) do
+	for idx,cfg in ipairs(nvm.config or {}) do
 		lpos[idx] = cfg.pos
 	end
 	return lpos

@@ -57,6 +57,7 @@ return {
     "3,TA3 Sequenzer / Sequencer",
     "3,TA3 Timer",
     "3,TA3 Terminal",
+    "3,TA3 Röhrenmonitor / TA3 CRT Monitor",
     "3,TechAge Farblampe / Color Lamp",
     "3,Tür/Tor Blöcke / Door/Gate Blocks",
     "3,TA3 Tür Controller / Door Controller",
@@ -573,6 +574,29 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "Passend zum TA3 Terminal im BASIC-Mode gibt es den Röhrenmonitor. Dieser kann die Ausgaben des BASIC-Programms anzeigen.\n"..
+    "Der Monitor kann aber auch als Anzeige für andere Blöcke genutzt werden\\, die Texte ausgeben (bspw. der Lua Controller).\n"..
+    "Der Monitor besitzt ein Gabelschlüssel-Menü\\, über das die Auflösung des Monitors sowie die Textfarbe eingestellt werden kann.\n"..
+    "Die Auflösung kann im Bereich von 16x8 bis 40x20 Zeichen x Zeilen eingestellt werden.\n"..
+    "\n"..
+    "Die Updaterate des Monitors ist direkt abhängig von der Auflösung und beträgt eine Sekunde bei 16x8 und ca. 6 Sekunden bei 40x20.\n"..
+    "\n"..
+    "Die Kommandos zur Ansteuerung im BASIC-Mode:\n"..
+    "\n"..
+    "    10 DCLR(num)              ' Lösche den Bildschirm mit der Nummer 'num'.\n"..
+    "    20 DPUTS(num\\, row\\, text)  ' Textausgabe auf den Bildschirm in Zeile 'row' (1..n).\n"..
+    "                              ' Der Wert 0 für 'row' bedeutet\\, dass der Text nach der \n"..
+    "                              ' letzten Zeile angehängt wird.\n"..
+    "\n"..
+    "Die Kommandos zur Ansteuerung durch den Lua Controller:\n"..
+    "\n"..
+    "    $clear_screen(num)        -- Lösche den Bildschirm mit der Nummer 'num'.\n"..
+    "    $display(num\\, row\\, text)  -- Textausgabe auf den Bildschirm in Zeile 'row' (1..n).\n"..
+    "                              -- Der Wert 0 für 'row' bedeutet\\, dass der Text nach der \n"..
+    "                              -- letzten Zeile angehängt wird.\n"..
+    "\n"..
+    "\n"..
+    "\n",
     "Die Farblampe kann mit 'on'/'off' Kommando ein- bzw. ausgeschaltet werden. Diese Lampe braucht keinen Strom und\n"..
     "kann mit der Spritzpistole aus der Mod \"Unified Dyes\" und über Lua/Beduino Kommandos eingefärbt werden.\n"..
     "\n"..
@@ -817,6 +841,7 @@ return {
     "ta3_sequencer",
     "ta3_timer",
     "ta3_terminal",
+    "ta3_monitor",
     "ta3_colorlamp",
     "ta3_doorblock",
     "ta3_doorcontroller",
@@ -895,6 +920,7 @@ return {
     "",
     "",
     "ta3_distiller",
+    "",
     "",
     "",
     "",

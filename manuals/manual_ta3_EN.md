@@ -651,6 +651,34 @@ You can switch to BASIC mode using the open-ended wrench menu. You can find more
 [ta3_terminal|image]
 
 
+### TA3 CRT Monitor
+
+The CRT monitor is available to match the TA3 terminal in BASIC mode. This can display the output of the BASIC program.
+The monitor can also be used as a display for other blocks that output text (e.g. the Lua controller).
+The monitor has a wrench menu that can be used to set the resolution of the monitor and the text color.
+The resolution can be set in the range of 16x8 to 40x20 characters x lines.
+The update rate of the monitor is directly dependent on the resolution and is one second at 16x8 and around 6 seconds at 40x20.
+
+The commands for controlling in BASIC mode:
+
+```BASIC
+10 DCLR(num)              ' Clear the screen with the number 'num'.
+20 DPUTS(num, row, text)  ' Text output to the screen in line 'row' (1..n).
+                          ' The value 0 for 'row' means that the text is
+                          ' appended after the last line.
+```
+
+The commands for controlling by means of the Lua controller:
+
+```lua
+$clear_screen(num)        -- Clear the screen with the number 'num'.
+$display(num, row, text)  -- Text output to the screen in line 'row' (1..n).
+                          -- The value 0 for 'row' means that the text is
+                          -- appended after the last line.
+```
+
+[ta3_monitor|image]
+
 ### TechAge Color Lamp
 
 The signal lamp can be switched on or off with the `on` / `off` command. This lamp does not need electricity and can be colored with the airbrush tool from the mod Unified Dyes" and via Lua/Beduino commands.
