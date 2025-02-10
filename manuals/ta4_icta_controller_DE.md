@@ -4,7 +4,7 @@ Der ICTA Controller (ICTA steht für "If Condition Then Action") dient zur Über
 
 ### 8 Steuerregeln
 
-Der Controller arbeitet auf das Basis von Regeln, wobei bis zu 8 Regeln pro Controller angelegt werden können.
+Der Controller arbeitet auf der Basis von Regeln, wobei bis zu 8 Regeln pro Controller angelegt werden können.
 
 Beispiele für Regeln sind:
 
@@ -42,7 +42,7 @@ Für jede Regel kann eine der folgenden Bedingungen konfiguriert werden. Pro Reg
 
 - `initial` - Diese Bedingung ist immer nach dem Einschalten des Controllers erfüllt und dient bspw. dazu, eine Lampe auszuschalten, um sie dann beim Auftreten eines Fehlers wieder einschalten zu können.
 
-- `true` - Diese Bedingung ist immer erfüllt und dient bspw. dazu, eine Lampe blinken zu lassen . Dazu werden zwei Regeln benötigt. Haben bspw. beide Regeln eine Zykluszeit von 2 s, aber die erste Regel eine Verzögerungszeit von 0 s und die zweite Regel eine Verzögerungszeit von 1 s, so kann damit eine Lampe zyklisch ein- und wieder ausgeschaltet werden.
+- `true` - Diese Bedingung ist immer erfüllt und dient bspw. dazu, eine Lampe blinken zu lassen. Dazu werden zwei Regeln benötigt. Haben bspw. beide Regeln eine Zykluszeit von 2 s, aber die erste Regel eine Verzögerungszeit von 0 s und die zweite Regel eine Verzögerungszeit von 1 s, so kann damit eine Lampe zyklisch ein- und wieder ausgeschaltet werden.
 
 - `condition` - Hier kann abhängig von einer anderen Regel eine Aktion gestartet werden. Dazu muss die Nummer der anderen Regel (1..8) angegeben werden. Damit können 2 Aktionen mit einer `condition` ausgeführt werden. Über die zusätzlich konfigurierbare Bedingung kam mit  `was not true` erreicht werden, dass bspw. eine Lampe wieder ausgeschaltet wird, wenn die Bedingung nicht mehr erfüllt ist.
 
@@ -50,7 +50,7 @@ Für jede Regel kann eine der folgenden Bedingungen konfiguriert werden. Pro Reg
 
 - `read block state` - Damit kann der Status einer Maschine abgefragt werden. Die Nummer der Maschine (Blocknummer) muss eingegeben werden. Mögliche Maschinenzustände sind:
   
-    - `running` --> Maschine ist am arbeiten
+    - `running` --> Maschine ist am Arbeiten
     - `stopped` --> Maschine ist ausgeschaltet
     - `standby` --> Maschine hat nichts zu tun, da bspw. das Inventar leer ist
     - `blocked` -->Maschine kann nichts tun, da bspw. das Ausgangs-Inventar voll ist
@@ -93,7 +93,7 @@ Für alle Aktionen, die einen Block (wie bspw. eine Lampe) steuern, muss die Num
    `*`-Zeichen einzugeben.
 - `Display: Clear screen` - Löschen des Bildschirms
 - `send chat message` - Damit kann man sich selber eine Chat Nachricht senden.
-- `open/close door` - Damit können die Standard-Türen geöffnet und geschlossen werden. Da die Türen keine Nummern haben, müssen die Koordinaten der Türe eingegeben werden. Die Koordination einer Türe können sehr einfach mit dem Schraubenschlüssel /Techage Info Werkzeug bestimmt werden.
+- `open/close door` - Damit können die Standard-Türen geöffnet und geschlossen werden. Da die Türen keine Nummern haben, müssen die Koordinaten der Türe eingegeben werden. Die Koordination einer Tür können sehr einfach mit dem Schraubenschlüssel /Techage Info Werkzeug bestimmt werden.
 - `turn Distributor filter on/off` - Damit können die Filter/Ausgänge eines Verteilers ein- und ausgeschaltet werden. Der entsprechende  Ausgang muss über die Farbe angegeben werden.
 
 ### Sonstiges
