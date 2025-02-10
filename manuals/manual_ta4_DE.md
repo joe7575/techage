@@ -9,11 +9,11 @@ Regenerative Energiequellen wie Wind, Sonne und Biokraft helfen dir, das Ölzeit
 
 Eine Windkraftanlage liefern immer dann Strom, wenn Wind vorhanden ist. Im Spiel gibt es keinen Wind, aber die Mod simuliert dies dadurch, dass sich nur morgens (5:00 - 9:00) und abends (17:00 - 21:00) die Windräder drehen. Eine Windkraftanlage liefert nur dann Strom, wenn sie an einer geeigneten Stelle aufgestellt ist.
 
-Die TA Windkraftanlagen sind reine Offshore Anlagen, das heißt, die müssen im Meer errichtet werden. Dies bedeutet, dass Windkraftanlagen nur in einem Meer (occean) Biom errichtet werden können und dass um den Mast herum ausreichend Wasser und freie Sicht vorhanden sein müssen.
+Die TA Windkraftanlagen sind reine Offshore Anlagen, das heißt, die müssen im Meer errichtet werden. Dies bedeutet, dass Windkraftanlagen nur in einem Meer (ocean) Biom errichtet werden können und dass um den Mast herum ausreichend Wasser und freie Sicht vorhanden sein müssen.
 
 Um eine geeignete Stelle zu finden, musst du mit dem Schraubenschlüssel (TechAge Info Werkzeug)  auf das Wasser klicken. Ob diese Stelle für den Mast der Windkraftanlage geeignet ist, wird dir als Chat Nachricht angezeigt.
 
-Der Strom muss vom Rotor-Block durch den Mast nach unten geführt werden. Dazu zuerst die Stromleitung nach oben ziehen und das Stromkabel dann mit TA4 Säulenblöcke "verputzen". Unten kann eine Arbeitsplattform errichtet werden. Der Plan rechts zeigt den Aufbau im oberen Teil.
+Der Strom muss vom Rotor-Block durch den Mast nach unten geführt werden. Dazu zuerst die Stromleitung nach oben ziehen und das Stromkabel dann mit TA4 Säulenblöcken "verputzen". Unten kann eine Arbeitsplattform errichtet werden. Der Plan rechts zeigt den Aufbau im oberen Teil.
 
 Die Windkraftanlage liefert eine Leistung von 70 ku, aber dies nur 8 Stunden am Tag (siehe oben).
 
@@ -44,7 +44,7 @@ Dieses Blinklicht ist nur für dekorative Zwecke und kann oben auf den Wind Turb
 
 ### TA4 Säule / Pillar
 
-Damit wird der Mast für die Windkraftanlage gebaut. Allerdings werden diese Blöcke nicht von Hand gesetzt sondern müssen mit Hilfe der Kelle gesetzt werden, so dass die Stromleitung zur Mastspitze mit diesen Blöcken ersetzt wird (siehe unter TA Stromkabel).
+Damit wird der Mast für die Windkraftanlage gebaut. Allerdings werden diese Blöcke nicht von Hand gesetzt, sondern müssen mithilfe der Kelle gesetzt werden, sodass die Stromleitung zur Mastspitze mit diesen Blöcken ersetzt wird (siehe unter TA Stromkabel).
 
 [ta4_pillar|image]
 
@@ -54,7 +54,7 @@ Damit wird der Mast für die Windkraftanlage gebaut. Allerdings werden diese Bl�
 Die Solaranlage produziert nur Strom, wenn die Sonne scheint. Im Spiel ist das jeder Spieltag von morgens 6:00 bis abends 18:00.
 In dieser Zeit steht immer die gleiche Leistung zur Verfügung. Nach 18:00 schalten die Solarmodule komplett ab.
 
-Für die Leistung der Solarmodule ist die Biome Temperatur entscheidend. Je heißer die Temperatur, um so höher der Ertrag.
+Für die Leistung der Solarmodule ist die Biomtemperatur entscheidend. Je größer die Temperatur, umso höher der Ertrag.
 Die Biome Temperatur kann mit dem Techage Info Tool (Schraubenschlüssel) bestimmt werden. Sie schwankt typischerweise zwischen 0 und 100:
 
 - bei 100 steht die volle Leistung zur Verfügung
@@ -80,7 +80,7 @@ Der Kartenbereich, wo die Solaranlage steht, muss komplett geladen sein. Die gil
 
 Das Solarmodul muss an das Trägermodul gesetzt werden. Es sind immer zwei Solarmodule notwendig.
 Im Paar leisten die Solarmodule bis 3 ku, je nach Temperatur.
-Bei den Solarmodul muss darauf geachtet werden, dass diese das volle Tageslicht haben und nicht durch Blöcke oder Bäume beschattet sind. Getestet kann dies mit dem Info Tool (Schraubenschlüssel).
+Bei den Solarmodulen muss darauf geachtet werden, dass diese das volle Tageslicht haben und nicht durch Blöcke oder Bäume beschattet sind. Getestet kann dies mit dem Info Tool (Schraubenschlüssel).
 
 [ta4_solarmodule|image]
 
@@ -168,7 +168,7 @@ Die Turbine ist Teil des Energiespeichers. Sie muss neben den Generator gesetzt 
 
 ### TA4 Generator
 
-Der Generator  ist Teil des Energiespeichers. Er dient zur Stromerzeugung und gibt damt die Energie des Energiespeichers wieder ab. Daher muss auch der Generator am Stromnetz angeschlossen werden. 
+Der Generator  ist Teil des Energiespeichers. Er dient zur Stromerzeugung und gibt damit die Energie des Energiespeichers wieder ab. Daher muss auch der Generator am Stromnetz angeschlossen werden. 
 
 Wichtig: Wärmetauscher und Generator müssen mit ein und demselben Stromnetz verbunden sein!
 
@@ -345,7 +345,7 @@ Teil des Chemischen Reaktors. Muss auf den Reaktor gesetzt werden. Wenn dies nic
 
 Teil des Chemischen Reaktors. Hier ist auch der Stromanschluss für den Reaktor. Der Reaktor benötigt 8 ku Strom.
 
-Der Ständer hat zwei Leitungsanschlüsse, nach rechst für das primäre Ausgabeprodukt und nach unten für den Abfall, wie bspw. Rotschlamm bei der Aluminiumherstellung.
+Der Ständer hat zwei Leitungsanschlüsse, nach rechts für das primäre Ausgabeprodukt und nach unten für den Abfall, wie bspw. Rotschlamm bei der Aluminiumherstellung.
 
 [ta4_reactorstand|image]
 
@@ -389,7 +389,7 @@ Beispiele für Regeln sind:
 
 Der Controller prüft diese Regeln zyklisch. Dazu muss pro Regel eine Zykluszeit in Sekunden (```Cycle/s```) angegeben werden (1..1000). 
 
-Für Regeln die einen on/off Eingang auswerten, bspw. von einen Schalter oder Detektor, muss als Zykluszeit 0 angegeben werden. Der Wert 0 bedeutet, dass diese Regel immer dann ausgeführt werden soll, wenn sich das Eingangssignal geändert hat, also bspw. der Button einen neuen Wert gesendet hat.
+Für Regeln die einen on/off Eingang auswerten, bspw. von einem Schalter oder Detektor, muss als Zykluszeit 0 angegeben werden. Der Wert 0 bedeutet, dass diese Regel immer dann ausgeführt werden soll, wenn sich das Eingangssignal geändert hat, also bspw. der Button einen neuen Wert gesendet hat.
 
 Alle Regeln sollten nur so oft wie notwendig ausgeführt werden. Dies hat zwei Vorteile:
 
@@ -497,7 +497,7 @@ Das Display wird maximal ein mal pro Sekunde aktualisiert.
 
 ### TA4 Display XL
 
-Das TA4 Display XL hat die doppelte Größ wie das TA4 Display.
+Das TA4 Display XL hat die doppelte Größe wie das TA4 Display.
 
 Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden, muss dem Text das Zeichen „\t“ (Tabulator) vorangestellt werden.
 
