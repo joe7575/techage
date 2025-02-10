@@ -1,8 +1,8 @@
 # TA3: Ölzeitalter
 
-Bei TA3 gilt es, die Dampf-betriebenen Maschinen durch leistungsfähigere und mit elektrischem Strom betriebene Maschinen abzulösen.
+Bei TA3 gilt es, die Dampfbetriebenen Maschinen durch leistungsfähigere und mit elektrischem Strom betriebene Maschinen abzulösen.
 
-Dazu musst du Kohlekraftwerke und Generatoren bauen. Bald wirst du sehen, dass dein Strombedarf nur mit Öl-betriebenen Kraftwerken zu decken ist. Also machst du dich auf die Suche nach Erdöl. Bohrtürme und Ölpumpen helfen die, an das Öl zu kommen. Schienenwege dienen dir zum Öltransport bis in die Kraftwerke.
+Dazu musst du Kohlekraftwerke und Generatoren bauen. Bald wirst du sehen, dass dein Strombedarf nur mit ölbetriebenen Kraftwerken zu decken ist. Also machst du dich auf die Suche nach Erdöl. Bohrtürme und Ölpumpen helfen die, an das Öl zu kommen. Schienenwege dienen dir zum Öltransport bis in die Kraftwerke.
 
 Das Industrielle Zeitalter ist auf seinem Höhepunkt.
 
@@ -11,7 +11,7 @@ Das Industrielle Zeitalter ist auf seinem Höhepunkt.
 
 ## Kohlekraftwerk / Ölkraftwerk
 
-Das Kohlekraftwerk besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet, zusammen gebaut werden. Dazu werden die Blöcke TA3 Kraftwerks-Feuerbox, TA3 Boiler oben, TA3 Boiler unten, TA3 Turbine, TA3 Generator und TA3 Kühler benötigt.
+Das Kohlekraftwerk besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet zusammengebaut werden. Dazu werden die Blöcke TA3 Kraftwerks-Feuerbox, TA3 Boiler oben, TA3 Boiler unten, TA3 Turbine, TA3 Generator und TA3 Kühler benötigt.
 
 Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.
 Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.
@@ -49,7 +49,7 @@ Der Ölbrenner kann nur 50 Einheiten Kraftstoff aufnehmen. Ein zusätzlicher Öl
 
 ### TA3 Boiler unten/oben
 
-Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt, schaltet sich das Kraftwerk ab. Der Wasserverbrauch des TA3-Kessels ist durch den geschlossenen Dampfkreislauf viel geringer als bei der Dampfmachine.
+Teil des Kraftwerks.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt, schaltet sich das Kraftwerk ab. Der Wasserverbrauch des TA3-Kessels ist durch den geschlossenen Dampfkreislauf viel geringer als bei der Dampfmachine.
 Bei der Dampfmaschine geht bei jedem Kolbenhub etwas Wasser als Dampf verloren.
 
 [ta3_boiler|image]
@@ -78,7 +78,7 @@ Dient zur Abkühlung des heißen Dampfs aus der Turbine.  Muss über Dampfleitun
 
 ## Elektrischer Strom
 
-In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen, Speichersysteme und Generatoren mit Stromkabel verbunden werden.  
+In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen, Speichersysteme und Generatoren mit Stromkabeln verbunden werden.  
 TA3 besitzt 2 Arten von Stromkabel:
 
 - Isolierte Kabel (TA Stromkabel) für die lokale Verkabelung im Boden oder in Gebäuden. Diese Kabel lassen sich in der Wand oder im Boden verstecken (können mit der Kelle "verputzt" werden).
