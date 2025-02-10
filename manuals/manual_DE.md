@@ -3,13 +3,13 @@
 Tech Age ist eine Technik-Mod mit 5 Entwicklungsstufen:
 
 TA1: Eisenzeitalter (Iron Age)  
-Benutze Werkzeuge und Hilfsmittel wie Köhler, Kohlebrenner, Kiessieb, Hammer, Hopper um notwendige Erze und Metalle zu schürfen und zu verarbeiten.
+Benutze Werkzeuge und Hilfsmittel wie Köhler, Kohlebrenner, Kiessieb, Hammer und Hopper, um notwendige Erze und Metalle zu schürfen und zu verarbeiten.
 
 TA2: Dampfzeitalter (Steam Age)  
 Baue eine Dampfmaschine mit Antriebsachsen und betreibe damit deine ersten Maschinen zur Verarbeitung von Erzen.
 
 TA3: Ölzeitalter (Oil Age)  
-Suche und fördere Öl, baute Schienenwege zur Ölbeförderung. Ein Kraftwerk liefert den notwendigen Strom für deine Maschinen. Elektrisches Licht erhellt deine Industrieanlagen.
+Suche und fördere Öl, baue Schienenwege zur Ölbeförderung. Ein Kraftwerk liefert den notwendigen Strom für deine Maschinen. Elektrisches Licht erhellt deine Industrieanlagen.
 
 TA4: Gegenwart (Present)  
 Regenerative Energiequellen wie Wind, Sonne und Biokraft helfen dir, das Ölzeitalter zu verlassen. Mit modernen Technologien und intelligenten Maschinen machst du dich auf in die Zukunft.
@@ -46,7 +46,7 @@ Mit TA4 kommen weitere Stromquellen dazu, aber auch höhere logistische Herausfo
 
 Ab V1.0 (17.07.2021) hat sich folgendes geändert:
 
-- Der Algorithmus zur Berechnung der Stromverteilung hat sich geändert. Energiespeichersystem werden dadurch wichtiger. Diese gleichen Schankungen aus, was bei größeren Netzen mit mehreren Generatoren wichtig wird. 
+- Der Algorithmus zur Berechnung der Stromverteilung hat sich geändert. Energiespeichersysteme werden dadurch wichtiger. Diese gleichen Schankungen aus, was bei größeren Netzen mit mehreren Generatoren wichtig wird. 
 - Aus diesem Grund hat TA2 seinen eigenen Energiespeicher erhalten.
 - Die Akkublöcke aus TA3 dienen auch als Energiespeicher. Ihre Funktionsweise wurde entsprechend angepasst.
 - Das TA4 Speichersystem wurde überarbeitet. Die Wärmetauscher (heatexchanger) haben eine neue Nummer bekommen,  da die Funktionalität vom unteren in den mittleren Block verschoben  wurde. Sofern diese ferngesteuert wurden, muss die Knotennummer angepasst  werden. Die Generatoren haben kein eigenes Menü mehr, sondern werden nur noch über den Wärmetauscher ein-/ausgeschaltet.  Wärmetauscher und Generator müssen jetzt am gleichen Netz hängen!
@@ -100,14 +100,14 @@ Baborium kann nur im TA3 Industrieofen geschmolzen werden.
 
 ### Erdöl
 
-Erdöl kann nur mit Hilfe des Explorers gefunden und mit Hilfe entsprechender TA3 Maschinen gefördert werden. Siehe TA3.
+Erdöl kann nur mithilfe des Explorers gefunden und mithilfe entsprechender TA3 Maschinen gefördert werden. Siehe TA3.
 
 [oil|image]
 
 
 ### Bauxit
 
-Bauxit wird nur im Untertagebau gewonnen. Bauxit findet man nur in Stein in einer Höhe zwischen -50 und -500 Meter.
+Bauxit wird nur im Untertagebau gewonnen. Bauxit findet man nur in Stein in einer Höhe zwischen -50 und -500 Metern.
 Es wird zur Herstellung von Aluminium benötigt, was vor allem in TA4 Verwendung findet.
 
 [bauxite|image]

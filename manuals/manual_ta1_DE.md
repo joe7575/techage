@@ -20,7 +20,7 @@ Den Köhler brauchst du, um Holzkohle herzustellen. Holzkohle wird für den Bren
 Für den Köhler brauchst du:
 
 - einen Anzünderblock (`techage:lighter`)
-- 26 Hölzblöcke (wood), die zu einem Würfen aufgeschichtet werden. Die Holzsorte spielt keine Rolle.
+- 26 Hölzblöcke (wood), die zu einem Würfel aufgeschichtet werden. Die Holzsorte spielt keine Rolle.
 - Erde (dirt) um den Holzhaufen abzudecken.
 - Feuerstein und Eisen (technischer Name: `fire:flint_and_steel`) um den Anzünderblock anzuzünden.
 
