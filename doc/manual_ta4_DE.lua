@@ -105,11 +105,11 @@ return {
     "\n",
     "Eine Windkraftanlage liefern immer dann Strom\\, wenn Wind vorhanden ist. Im Spiel gibt es keinen Wind\\, aber die Mod simuliert dies dadurch\\, dass sich nur morgens (5:00 - 9:00) und abends (17:00 - 21:00) die Windräder drehen. Eine Windkraftanlage liefert nur dann Strom\\, wenn sie an einer geeigneten Stelle aufgestellt ist.\n"..
     "\n"..
-    "Die TA Windkraftanlagen sind reine Offshore Anlagen\\, das heißt\\, die müssen im Meer errichtet werden. Dies bedeutet\\, dass Windkraftanlagen nur in einem Meer (occean) Biom errichtet werden können und dass um den Mast herum ausreichend Wasser und freie Sicht vorhanden sein müssen.\n"..
+    "Die TA Windkraftanlagen sind reine Offshore Anlagen\\, das heißt\\, die müssen im Meer errichtet werden. Dies bedeutet\\, dass Windkraftanlagen nur in einem Meer (ocean) Biom errichtet werden können und dass um den Mast herum ausreichend Wasser und freie Sicht vorhanden sein müssen.\n"..
     "\n"..
     "Um eine geeignete Stelle zu finden\\, musst du mit dem Schraubenschlüssel (TechAge Info Werkzeug)  auf das Wasser klicken. Ob diese Stelle für den Mast der Windkraftanlage geeignet ist\\, wird dir als Chat Nachricht angezeigt.\n"..
     "\n"..
-    "Der Strom muss vom Rotor-Block durch den Mast nach unten geführt werden. Dazu zuerst die Stromleitung nach oben ziehen und das Stromkabel dann mit TA4 Säulenblöcke \"verputzen\". Unten kann eine Arbeitsplattform errichtet werden. Der Plan rechts zeigt den Aufbau im oberen Teil.\n"..
+    "Der Strom muss vom Rotor-Block durch den Mast nach unten geführt werden. Dazu zuerst die Stromleitung nach oben ziehen und das Stromkabel dann mit TA4 Säulenblöcken \"verputzen\". Unten kann eine Arbeitsplattform errichtet werden. Der Plan rechts zeigt den Aufbau im oberen Teil.\n"..
     "\n"..
     "Die Windkraftanlage liefert eine Leistung von 70 ku\\, aber dies nur 8 Stunden am Tag (siehe oben).\n"..
     "\n"..
@@ -128,14 +128,14 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Damit wird der Mast für die Windkraftanlage gebaut. Allerdings werden diese Blöcke nicht von Hand gesetzt sondern müssen mit Hilfe der Kelle gesetzt werden\\, so dass die Stromleitung zur Mastspitze mit diesen Blöcken ersetzt wird (siehe unter TA Stromkabel).\n"..
+    "Damit wird der Mast für die Windkraftanlage gebaut. Allerdings werden diese Blöcke nicht von Hand gesetzt\\, sondern müssen mithilfe der Kelle gesetzt werden\\, sodass die Stromleitung zur Mastspitze mit diesen Blöcken ersetzt wird (siehe unter TA Stromkabel).\n"..
     "\n"..
     "\n"..
     "\n",
     "Die Solaranlage produziert nur Strom\\, wenn die Sonne scheint. Im Spiel ist das jeder Spieltag von morgens 6:00 bis abends 18:00.\n"..
     "In dieser Zeit steht immer die gleiche Leistung zur Verfügung. Nach 18:00 schalten die Solarmodule komplett ab.\n"..
     "\n"..
-    "Für die Leistung der Solarmodule ist die Biome Temperatur entscheidend. Je heißer die Temperatur\\, um so höher der Ertrag.\n"..
+    "Für die Leistung der Solarmodule ist die Biomtemperatur entscheidend. Je größer die Temperatur\\, umso höher der Ertrag.\n"..
     "Die Biome Temperatur kann mit dem Techage Info Tool (Schraubenschlüssel) bestimmt werden. Sie schwankt typischerweise zwischen 0 und 100:\n"..
     "\n"..
     "  - bei 100 steht die volle Leistung zur Verfügung\n"..
@@ -158,7 +158,7 @@ return {
     "\n",
     "Das Solarmodul muss an das Trägermodul gesetzt werden. Es sind immer zwei Solarmodule notwendig.\n"..
     "Im Paar leisten die Solarmodule bis 3 ku\\, je nach Temperatur.\n"..
-    "Bei den Solarmodul muss darauf geachtet werden\\, dass diese das volle Tageslicht haben und nicht durch Blöcke oder Bäume beschattet sind. Getestet kann dies mit dem Info Tool (Schraubenschlüssel).\n"..
+    "Bei den Solarmodulen muss darauf geachtet werden\\, dass diese das volle Tageslicht haben und nicht durch Blöcke oder Bäume beschattet sind. Getestet kann dies mit dem Info Tool (Schraubenschlüssel).\n"..
     "\n"..
     "\n"..
     "\n",
@@ -218,7 +218,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Der Generator  ist Teil des Energiespeichers. Er dient zur Stromerzeugung und gibt damt die Energie des Energiespeichers wieder ab. Daher muss auch der Generator am Stromnetz angeschlossen werden. \n"..
+    "Der Generator  ist Teil des Energiespeichers. Er dient zur Stromerzeugung und gibt damit die Energie des Energiespeichers wieder ab. Daher muss auch der Generator am Stromnetz angeschlossen werden. \n"..
     "\n"..
     "Wichtig: Wärmetauscher und Generator müssen mit ein und demselben Stromnetz verbunden sein!\n"..
     "\n"..
@@ -349,7 +349,7 @@ return {
     "\n",
     "Teil des Chemischen Reaktors. Hier ist auch der Stromanschluss für den Reaktor. Der Reaktor benötigt 8 ku Strom.\n"..
     "\n"..
-    "Der Ständer hat zwei Leitungsanschlüsse\\, nach rechst für das primäre Ausgabeprodukt und nach unten für den Abfall\\, wie bspw. Rotschlamm bei der Aluminiumherstellung.\n"..
+    "Der Ständer hat zwei Leitungsanschlüsse\\, nach rechts für das primäre Ausgabeprodukt und nach unten für den Abfall\\, wie bspw. Rotschlamm bei der Aluminiumherstellung.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -378,7 +378,7 @@ return {
     "\n"..
     "Der Controller prüft diese Regeln zyklisch. Dazu muss pro Regel eine Zykluszeit in Sekunden ('Cycle/s') angegeben werden (1..1000). \n"..
     "\n"..
-    "Für Regeln die einen on/off Eingang auswerten\\, bspw. von einen Schalter oder Detektor\\, muss als Zykluszeit 0 angegeben werden. Der Wert 0 bedeutet\\, dass diese Regel immer dann ausgeführt werden soll\\, wenn sich das Eingangssignal geändert hat\\, also bspw. der Button einen neuen Wert gesendet hat.\n"..
+    "Für Regeln die einen on/off Eingang auswerten\\, bspw. von einem Schalter oder Detektor\\, muss als Zykluszeit 0 angegeben werden. Der Wert 0 bedeutet\\, dass diese Regel immer dann ausgeführt werden soll\\, wenn sich das Eingangssignal geändert hat\\, also bspw. der Button einen neuen Wert gesendet hat.\n"..
     "\n"..
     "Alle Regeln sollten nur so oft wie notwendig ausgeführt werden. Dies hat zwei Vorteile:\n"..
     "\n"..
@@ -460,7 +460,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Das TA4 Display XL hat die doppelte Größ wie das TA4 Display.\n"..
+    "Das TA4 Display XL hat die doppelte Größe wie das TA4 Display.\n"..
     "\n"..
     "Textzeilen werden immer linksbündig ausgegeben. Soll der Text horizontal zentriert ausgerichtet werden\\, muss dem Text das Zeichen „t“ (Tabulator) vorangestellt werden.\n"..
     "\n"..

@@ -36,7 +36,7 @@ return {
     "",
     "Kernfusion bedeutet das Verschmelzen zweier Atomkerne. Dabei können\\, je nach Reaktion\\, große Mengen von Energie freigesetzt werden. Kernfusionen\\, bei denen Energie frei wird\\, laufen in Form von Kettenreaktionen ab. Sie sind die Quelle der Energie der Sterne\\, zum Beispiel auch unserer Sonne. Ein Fusionsreaktor wandelt die Energie\\, die bei einer kontrollierten Kernfusion frei wird\\, in elektrischen Strom um.\n"..
     "\n"..
-    "*Wie funktionieren ein Fusionsreaktor?*\n"..
+    "*Wie funktioniert ein Fusionsreaktor?*\n"..
     "\n"..
     "Ein Fusionsreaktor funktioniert nach dem klassischen Prinzip eines Wärmekraftwerks: Wasser wird erhitzt und treibt eine Dampfturbine an\\, deren Bewegungsenergie von einem Generator in Strom gewandelt wird.\n"..
     "\n"..
@@ -44,13 +44,13 @@ return {
     "\n"..
     "Der Plan rechts zeigt einen Schnitt durch den Fusionsreaktor.\n"..
     "\n"..
-    "Für den Betrieb des Fusionsreaktors werden 60 Erfahrungspunkte benötigt. Der Fusionsreaktur muss komplett in einem Forceload Block Bereich aufgebaut werden.\n"..
+    "Für den Betrieb des Fusionsreaktors werden 60 Erfahrungspunkte benötigt. Der Fusionsreaktor muss komplett in einem Forceload Block Bereich aufgebaut werden.\n"..
     "\n"..
     "\n"..
     "\n",
-    "Für den Aufbau des Fusionsreaktor werden insgesamt 60 TA5 Fusionreaktor Magnete benötigt. Diese bilden den Ring\\, in dem sich das Plasma bildet. Der TA5 Fusionsreaktor Magnete benötigt Strom und hat zwei Anschlüsse für die Kühlung.\n"..
+    "Für den Aufbau des Fusionsreaktors werden insgesamt 60 TA5 Fusionreaktor Magnete benötigt. Diese bilden den Ring\\, in dem sich das Plasma bildet. Der TA5 Fusionsreaktor Magnete benötigt Strom und hat zwei Anschlüsse für die Kühlung.\n"..
     "\n"..
-    "Es gibt zwei Typen von Magneten\\, so dass auch alle Seiten des Magnets\\, die zum Plasmaring zeigen\\, mit einem Hitzeschild geschützt werden können.\n"..
+    "Es gibt zwei Typen von Magneten\\, so dass auch alle Seiten der Magnete\\, die zum Plasmaring zeigen\\, mit einem Hitzeschild geschützt werden können.\n"..
     "\n"..
     "Bei den Eckmagneten auf der Innenseite des Rings ist jeweils eine Anschlussseite verdeckt (Strom oder Kühlung) und kann daher nicht angeschlossen werden. Dies ist technisch nicht machbar und hat daher keinen Einfluß auf die Funktion des Fusionsreaktor. \n"..
     "\n"..
@@ -70,7 +70,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Über den TA5 Fusionreaktor Controller wird der Fusionreaktors eingeschaltet. Dabei muss zuerst die Kühlung/Wärmetauscher und dann der Controller eingeschaltet werden. Es dauert ca. 2 min\\, bis der Reaktor in Gang kommt und Strom liefert. Der Fusionreaktor und damit der Controller benötigt 400 ku an Strom\\, um das Plasma aufrecht zu erhalten.\n"..
+    "Über den TA5 Fusionreaktor Controller wird der Fusionreaktor eingeschaltet. Dabei muss zuerst die Kühlung/Wärmetauscher und dann der Controller eingeschaltet werden. Es dauert ca. 2 min\\, bis der Reaktor in Gang kommt und Strom liefert. Der Fusionreaktor und damit der Controller benötigt 400 ku an Strom\\, um das Plasma aufrecht zu erhalten.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -112,7 +112,7 @@ return {
     "\n",
     "Der TA5 Hyperloop Tank erlaubt den Transport von Flüssigkeiten über ein Hyperloop Netzwerk.\n"..
     "\n"..
-    "Den TA5 Hyperloop Tank muss man dazu auf eine Hyperloop Junction stellen. Der Tank  besitzt ein spezielles Menü\\, mit dem man das Pairing von zwei Tanks durchführen kann. Flüssigkeiten\\, die in dem Tank sind\\, werden zur Gegenstelle teleportiert. Der Tank kann auch mit einer Pumpe  gefüllt/geleert werden.\n"..
+    "Den TA5 Hyperloop Tank muss man dazu auf eine Hyperloop Junction stellen. Der Tank besitzt ein spezielles Menü\\, mit dem man das Pairing von zwei Tanks durchführen kann. Flüssigkeiten\\, die in dem Tank sind\\, werden zur Gegenstelle teleportiert. Der Tank kann auch mit einer Pumpe  gefüllt/geleert werden.\n"..
     "\n"..
     "Für das Pairing musst du zuerst auf der einen Seite einen Namen für den Tank eingeben\\, dann kannst du bei dem anderen Tank diesen Namen auswählen und so die beiden Blöcke verbinden.\n"..
     "\n"..

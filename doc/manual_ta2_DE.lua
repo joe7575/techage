@@ -39,7 +39,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Die Dampfmaschine besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden. Dazu werden die Blöcke TA2 Feuerbox\\, TA2 Boiler oben\\, TA2 Boiler unten\\, TA2 Zylinder\\, TA2 Schwungrad und Dampfleitungen benötigt.\n"..
+    "Die Dampfmaschine besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet zusammengebaut werden. Dazu werden die Blöcke TA2 Feuerbox\\, TA2 Boiler oben\\, TA2 Boiler unten\\, TA2 Zylinder\\, TA2 Schwungrad und Dampfleitungen benötigt.\n"..
     "\n"..
     "Zusätzlich werden Antriebsachsen sowie Getriebeblöcke für Richtungswechsel benötigt. Das Schwungrad muss über die Antriebsachsen mit allen Maschinen verbunden werden\\, die angetrieben werden müssen.\n"..
     "\n"..
@@ -64,7 +64,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Teil der Dampfmaschine. Muss mit Wasser gefüllt werden. Dies erfolgt durch Klicken mit einem Wassereimer auf den Boiler. Wenn kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich die Dampfmaschine ab. Bei der Dampfmaschine geht bei jedem Kolbenhub etwas Wasser als Dampf verloren\\, daher muss regelmäßig Wasser nachgefüllt werden.\n"..
+    "Teil der Dampfmaschine. Muss mit Wasser gefüllt werden. Dies erfolgt durch das Klicken mit einem Wassereimer auf den Boiler. Wenn kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich die Dampfmaschine ab. Bei der Dampfmaschine geht bei jedem Kolbenhub etwas Wasser als Dampf verloren\\, daher muss regelmäßig Wasser nachgefüllt werden.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -92,11 +92,11 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Bei größeren Anlagen mit mehreren Dampfmaschinen oder vielen angetriebenen Maschinen empfiehlt sich ein Energiespeicher. Der Energiespeicher bei TA2 arbeitet mit Lageenergie. Dazu wird Balast (Steine\\, Kies) in einer Kiste mit Hilfe einer Seilwinde in die Höhe gezogen. Ist überschüssige Energie im Achsen-Netzwerk vorhanden\\, so wird die Kiste nach oben gezogen. Wird kurzfristig mehr Energie benötigt\\, als die Dampfmaschine liefern kann\\, so gibt der Energiespeicher die gespeicherte Energie wieder ab\\, und die Balast-Kiste bewegt sich wieder nach unten.\n"..
+    "Bei größeren Anlagen mit mehreren Dampfmaschinen oder vielen angetriebenen Maschinen empfiehlt sich ein Energiespeicher. Der Energiespeicher bei TA2 arbeitet mit Lageenergie. Dazu wird Ballast (Steine\\, Kies) in einer Kiste mit Hilfe einer Seilwinde in die Höhe gezogen. Ist überschüssige Energie im Achsen-Netzwerk vorhanden\\, so wird die Kiste nach oben gezogen. Wird kurzfristig mehr Energie benötigt\\, als die Dampfmaschine liefern kann\\, so gibt der Energiespeicher die gespeicherte Energie wieder ab\\, und die Balast-Kiste bewegt sich wieder nach unten.\n"..
     "\n"..
-    "Der Energiespeicher besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden.\n"..
+    "Der Energiespeicher besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet zusammengebaut werden.\n"..
     "\n"..
-    "Um die maximale Speicherkapazität zu erreichen\\, muss die Kiste mit Gewichten komplett gefüllt\\, und der Mast inklusive der zwei Getriebeblöcke 12 Blöcke hoch sein. Kleinere Aufbauten sind aber auch möglich.\n"..
+    "Um die maximale Speicherkapazität zu erreichen\\, muss die Kiste mit Gewichten komplett gefüllt werden und der Mast inklusive der zwei Getriebeblöcke 12 Blöcke hoch sein. Kleinere Aufbauten sind aber auch möglich.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -104,7 +104,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Diese Kiste muss mit bis zu 10 Blöcken Abstand unter die Seilwinde gesetzt und mit Pflastersteinen Kies oder Sand gefüllt werden. Ist das Mindestgewicht von einem Stack (99+ Items) erreicht und überschüssige Energie vorhanden\\, wird die Kiste automatisch über eine Seil mit der Seilwinde verbunden und in die Höhe gezogen.\n"..
+    "Diese Kiste muss mit bis zu 10 Blöcken Abstand unter die Seilwinde gesetzt und mit Pflastersteinen\\, Kies oder Sand gefüllt werden. Ist das Mindestgewicht von einem Stack (99+ Items) erreicht und überschüssige Energie vorhanden\\, wird die Kiste automatisch über eine Seil mit der Seilwinde verbunden und in die Höhe gezogen.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -131,7 +131,7 @@ return {
     "Ein Schieber ist in der Lage\\, Items aus Kisten oder Maschinen zu ziehen und in andere Kisten oder Maschinen zu schieben. Oder anders gesagt: Zwischen zwei Blöcken mit Inventar muss ein und genau ein Schieber sein. Mehrere Schieber in Reihe sind nicht möglich.\n"..
     "In die Gegenrichtung ist ein Schieber für Items aber durchlässig\\, so dass eine Kiste über eine Röhre gefüllt und ebenso geleert werden kann. \n"..
     "\n"..
-    "Ein Schieber geht in den Zustand \"standby\"\\, wenn der keine Items zum Schieben hat. Ist der Ausgang blockiert oder das Inventory des Empfängers voll\\, so geht der Schieber in den Zustand \"blocked\". Aus beiden Zuständen kommt der Schieber nach einigen Sekunden selbsttätig wieder raus\\, sofern sich die Situation geändert hat.\n"..
+    "Ein Schieber geht in den Zustand \"standby\"\\, wenn er keine Items zum Schieben hat. Ist der Ausgang blockiert oder das Inventory des Empfängers voll\\, so geht der Schieber in den Zustand \"blocked\". Aus beiden Zuständen kommt der Schieber nach einigen Sekunden selbsttätig wieder raus\\, sofern sich die Situation geändert hat.\n"..
     "\n"..
     "Der Verarbeitungsleistung eines TA2 Schiebers beträgt 2 Items alle 2 s.\n"..
     "\n"..
@@ -183,7 +183,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Das Brechen\\, Mahlen und Siebe von Gestein dient zur Gewinnung von Erzen. Gesiebtes Kies kann aber auch anderweitig genutzt werden. Steinbrecher\\, Mühle und Sieb müssen angetrieben und damit in der Nähe einer Dampfmaschine aufgebaut werden.\n"..
+    "Das Brechen\\, Mahlen und Sieben von Gestein dient zur Gewinnung von Erzen. Gesiebtes Kies kann aber auch anderweitig genutzt werden. Steinbrecher\\, Mühle und Sieb müssen angetrieben und damit in der Nähe einer Dampfmaschine aufgebaut werden.\n"..
     "\n"..
     "\n"..
     "\n",

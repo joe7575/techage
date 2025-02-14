@@ -34,7 +34,7 @@ return {
     "Für den Köhler brauchst du:\n"..
     "\n"..
     "  - einen Anzünderblock ('techage:lighter')\n"..
-    "  - 26 Hölzblöcke (wood)\\, die zu einem Würfen aufgeschichtet werden. Die Holzsorte spielt keine Rolle.\n"..
+    "  - 26 Hölzblöcke (wood)\\, die zu einem Würfel aufgeschichtet werden. Die Holzsorte spielt keine Rolle.\n"..
     "  - Erde (dirt) um den Holzhaufen abzudecken.\n"..
     "  - Feuerstein und Eisen (technischer Name: 'fire:flint_and_steel') um den Anzünderblock anzuzünden.\n"..
     "\n"..

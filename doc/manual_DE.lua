@@ -16,13 +16,13 @@ return {
     "Tech Age ist eine Technik-Mod mit 5 Entwicklungsstufen:\n"..
     "\n"..
     "TA1: Eisenzeitalter (Iron Age)\n"..
-    "Benutze Werkzeuge und Hilfsmittel wie Köhler\\, Kohlebrenner\\, Kiessieb\\, Hammer\\, Hopper um notwendige Erze und Metalle zu schürfen und zu verarbeiten.\n"..
+    "Benutze Werkzeuge und Hilfsmittel wie Köhler\\, Kohlebrenner\\, Kiessieb\\, Hammer und Hopper\\, um notwendige Erze und Metalle zu schürfen und zu verarbeiten.\n"..
     "\n"..
     "TA2: Dampfzeitalter (Steam Age)\n"..
     "Baue eine Dampfmaschine mit Antriebsachsen und betreibe damit deine ersten Maschinen zur Verarbeitung von Erzen.\n"..
     "\n"..
     "TA3: Ölzeitalter (Oil Age)\n"..
-    "Suche und fördere Öl\\, baute Schienenwege zur Ölbeförderung. Ein Kraftwerk liefert den notwendigen Strom für deine Maschinen. Elektrisches Licht erhellt deine Industrieanlagen.\n"..
+    "Suche und fördere Öl\\, baue Schienenwege zur Ölbeförderung. Ein Kraftwerk liefert den notwendigen Strom für deine Maschinen. Elektrisches Licht erhellt deine Industrieanlagen.\n"..
     "\n"..
     "TA4: Gegenwart (Present)\n"..
     "Regenerative Energiequellen wie Wind\\, Sonne und Biokraft helfen dir\\, das Ölzeitalter zu verlassen. Mit modernen Technologien und intelligenten Maschinen machst du dich auf in die Zukunft.\n"..
@@ -50,7 +50,7 @@ return {
     "\n",
     "Ab V1.0 (17.07.2021) hat sich folgendes geändert:\n"..
     "\n"..
-    "  - Der Algorithmus zur Berechnung der Stromverteilung hat sich geändert. Energiespeichersystem werden dadurch wichtiger. Diese gleichen Schankungen aus\\, was bei größeren Netzen mit mehreren Generatoren wichtig wird.\n"..
+    "  - Der Algorithmus zur Berechnung der Stromverteilung hat sich geändert. Energiespeichersysteme werden dadurch wichtiger. Diese gleichen Schankungen aus\\, was bei größeren Netzen mit mehreren Generatoren wichtig wird.\n"..
     "  - Aus diesem Grund hat TA2 seinen eigenen Energiespeicher erhalten.\n"..
     "  - Die Akkublöcke aus TA3 dienen auch als Energiespeicher. Ihre Funktionsweise wurde entsprechend angepasst.\n"..
     "  - Das TA4 Speichersystem wurde überarbeitet. Die Wärmetauscher (heatexchanger) haben eine neue Nummer bekommen\\,  da die Funktionalität vom unteren in den mittleren Block verschoben  wurde. Sofern diese ferngesteuert wurden\\, muss die Knotennummer angepasst  werden. Die Generatoren haben kein eigenes Menü mehr\\, sondern werden nur noch über den Wärmetauscher ein-/ausgeschaltet.  Wärmetauscher und Generator müssen jetzt am gleichen Netz hängen!\n"..
@@ -86,11 +86,11 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Erdöl kann nur mit Hilfe des Explorers gefunden und mit Hilfe entsprechender TA3 Maschinen gefördert werden. Siehe TA3.\n"..
+    "Erdöl kann nur mithilfe des Explorers gefunden und mithilfe entsprechender TA3 Maschinen gefördert werden. Siehe TA3.\n"..
     "\n"..
     "\n"..
     "\n",
-    "Bauxit wird nur im Untertagebau gewonnen. Bauxit findet man nur in Stein in einer Höhe zwischen -50 und -500 Meter.\n"..
+    "Bauxit wird nur im Untertagebau gewonnen. Bauxit findet man nur in Stein in einer Höhe zwischen -50 und -500 Metern.\n"..
     "Es wird zur Herstellung von Aluminium benötigt\\, was vor allem in TA4 Verwendung findet.\n"..
     "\n"..
     "\n"..

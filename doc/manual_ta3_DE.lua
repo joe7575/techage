@@ -89,15 +89,15 @@ return {
     "3,TechAge Montagewerkzeug / Assembly Tool",
   },
   texts = {
-    "Bei TA3 gilt es\\, die Dampf-betriebenen Maschinen durch leistungsfähigere und mit elektrischem Strom betriebene Maschinen abzulösen.\n"..
+    "Bei TA3 gilt es\\, die Dampfbetriebenen Maschinen durch leistungsfähigere und mit elektrischem Strom betriebene Maschinen abzulösen.\n"..
     "\n"..
-    "Dazu musst du Kohlekraftwerke und Generatoren bauen. Bald wirst du sehen\\, dass dein Strombedarf nur mit Öl-betriebenen Kraftwerken zu decken ist. Also machst du dich auf die Suche nach Erdöl. Bohrtürme und Ölpumpen helfen die\\, an das Öl zu kommen. Schienenwege dienen dir zum Öltransport bis in die Kraftwerke.\n"..
+    "Dazu musst du Kohlekraftwerke und Generatoren bauen. Bald wirst du sehen\\, dass dein Strombedarf nur mit ölbetriebenen Kraftwerken zu decken ist. Also machst du dich auf die Suche nach Erdöl. Bohrtürme und Ölpumpen helfen die\\, an das Öl zu kommen. Schienenwege dienen dir zum Öltransport bis in die Kraftwerke.\n"..
     "\n"..
     "Das Industrielle Zeitalter ist auf seinem Höhepunkt.\n"..
     "\n"..
     "\n"..
     "\n",
-    "Das Kohlekraftwerk besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet\\, zusammen gebaut werden. Dazu werden die Blöcke TA3 Kraftwerks-Feuerbox\\, TA3 Boiler oben\\, TA3 Boiler unten\\, TA3 Turbine\\, TA3 Generator und TA3 Kühler benötigt.\n"..
+    "Das Kohlekraftwerk besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet zusammengebaut werden. Dazu werden die Blöcke TA3 Kraftwerks-Feuerbox\\, TA3 Boiler oben\\, TA3 Boiler unten\\, TA3 Turbine\\, TA3 Generator und TA3 Kühler benötigt.\n"..
     "\n"..
     "Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.\n"..
     "Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.\n"..
@@ -125,7 +125,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Teil des Kraftwerk.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich das Kraftwerk ab. Der Wasserverbrauch des TA3-Kessels ist durch den geschlossenen Dampfkreislauf viel geringer als bei der Dampfmachine.\n"..
+    "Teil des Kraftwerks.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich das Kraftwerk ab. Der Wasserverbrauch des TA3-Kessels ist durch den geschlossenen Dampfkreislauf viel geringer als bei der Dampfmachine.\n"..
     "Bei der Dampfmaschine geht bei jedem Kolbenhub etwas Wasser als Dampf verloren.\n"..
     "\n"..
     "\n"..
@@ -142,7 +142,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen\\, Speichersysteme und Generatoren mit Stromkabel verbunden werden.\n"..
+    "In TA3 (und TA4) werden die Maschinen mit Strom angetrieben. Dazu müssen die Maschinen\\, Speichersysteme und Generatoren mit Stromkabeln verbunden werden.\n"..
     "TA3 besitzt 2 Arten von Stromkabel:\n"..
     "\n"..
     "  - Isolierte Kabel (TA Stromkabel) für die lokale Verkabelung im Boden oder in Gebäuden. Diese Kabel lassen sich in der Wand oder im Boden verstecken (können mit der Kelle \"verputzt\" werden).\n"..
