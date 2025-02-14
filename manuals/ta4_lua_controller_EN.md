@@ -21,7 +21,6 @@ https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.pdf
   - [Table of Contents](#table-of-contents)
   - [TA4 Lua Controller Blocks](#ta4-lua-controller-blocks)
     - [TA4 Lua Controller](#ta4-lua-controller-1)
-    - [Battery](#battery)
     - [TA4 Lua Server](#ta4-lua-server)
     - [TA4 Lua Controller Terminal](#ta4-lua-controller-terminal)
     - [TA4 Sensor Chest](#ta4-sensor-chest)
@@ -35,6 +34,7 @@ https://github.com/joe7575/techage/blob/master/manuals/ta4_lua_controller_EN.pdf
       - [Initialization](#initialization)
       - [Cyclic Task](#cyclic-task)
       - [Events](#events)
+      - [Credit-based Runtime Environment](#credit-based-runtime-environment)
   - [Lua Controller Functions](#lua-controller-functions)
     - [Controller local Functions](#controller-local-functions)
       - [Input Example](#input-example)
@@ -67,14 +67,6 @@ The controller block has a menu form with the following tabs:
 - the `outp` tab for debugging outputs via `$print()`
 - the `notes` tab for your code snippets or other notes (like a clipboard)
 - the `help` tab with information to the available functions
-
-The controller needs power to work. A battery pack has to be placed nearby.
-
-### Battery
-
-The battery pack has to be placed near the controller (1 block distance).
-The needed battery power is directly dependent on the CPU time the controller consumes.
-Because of that, it is important to optimize the execution time of the code (which helps the admin to keep server lags down :))
 
 The controller will be restarted (init() is called) every time the Minetest server starts again.
 To store data non-volatile (to pass a server restart), the "TA4 Lua Server" block has to be used.
@@ -331,6 +323,11 @@ end
 
 The first occurred event will directly be processed, further events may be delayed. The TA4 Lua Controller allows a maximum of one event every 100 ms.
 
+#### Credit-based Runtime Environment
+
+The TA4 Lua Controller uses a credit-based runtime environment. Each Lua instruction consumes a certain amount of credits. The credits are refilled every loop cyle (normally every second) with an amount of 10 credits. The maximum amount of credits is limited to 100. If the credits are used up, the Lua program is paused until the credits are refilled. The credits are used for all Lua instructions, including the execution of the `events` and `loops` functions.
+
+The former used time-based runtime environment is still available, but only used to prevent endless loops.
 
 ## Lua Controller Functions
 

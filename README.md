@@ -96,9 +96,14 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2025-02-14 V1.22**
+
+- Remove Lua controller batteries
+- Change the Lua controller from time-based to credit-based runtime control
+
 **2025-02-09 V1.21**
 
-- Add TA3 monitor and new TA4 dislays with fixed font
+- Add TA3 monitor and new TA4 dislays with fixed font (requires Minetest 5.7.0 or newer)
 
 **2025-01-08 V1.20**
 

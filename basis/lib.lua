@@ -209,6 +209,33 @@ function techage.rotate_wallmounted(param2)
 	return offs + rot
 end
 
+-- Returns true if ver1 is newer or equal to ver2
+function techage.newer_or_equal(ver1, ver2)
+    local t1 = {}
+    local t2 = {}
+    for i in string.gmatch(ver1, "%d+") do
+        table.insert(t1, tonumber(i))
+    end
+    for i in string.gmatch(ver2, "%d+") do
+        table.insert(t2, tonumber(i))
+    end
+    for i = 1, math.max(#t1, #t2) do
+        if t1[i] == nil then
+            t1[i] = 0
+        end
+        if t2[i] == nil then
+            t2[i] = 0
+        end
+        if t1[i] > t2[i] then
+            return true
+        elseif t1[i] < t2[i] then
+            return false
+        end
+    end
+    return true
+end
+
+
 function techage.in_range(val, min, max)
 	val = tonumber(val)
 	if val < min then return min end

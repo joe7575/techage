@@ -39,10 +39,10 @@ local MENU = {
 local function update(pos, objref)
 	pos = vector.round(pos)
 	local nvm = techage.get_nvm(pos)
-	local t = core.get_us_time()
+--	local t = core.get_us_time()
 	lcdlib.on_mono_display_update(pos, objref, nvm.text or {})
-	t = core.get_us_time() - t
-	print("time =", t)
+--	t = core.get_us_time() - t
+--	print("time =", t)
 end
 
 local function on_timer(pos)

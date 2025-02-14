@@ -834,7 +834,7 @@ return {
     "Hier die zusätzlichen Kommandos für den Lua Controller:\n"..
     "\n"..
     "  - 'config' dient zur Konfiguration des Schiebers\\, analog zum manuellen Konfiguration über das Menü.\nBeispiel:  '$send_cmnd(1234\\, \"config\"\\, \"default:dirt\")'\nMit '$send_cmnd(1234\\, \"config\"\\, \"\")' wird die Konfiguration gelöscht\n"..
-    "  - 'limit' dient zum Setzen der Anzahl der Items für die Durchlaufbegrenzer Betriebsart:\nBeispiel: '$send_cmnd(1234\\, \"init\"\\, 7)'\n"..
+    "  - 'limit' dient zum Setzen der Anzahl der Items für die Durchlaufbegrenzer Betriebsart:\nBeispiel: '$send_cmnd(1234\\, \"limit\"\\, 7)'\n"..
     "\n"..
     "\n"..
     "\n",
@@ -844,7 +844,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Die TA4 8x2000 Kiste hat kein normales Inventar wir andere Kisten\\, sondern verfügt über 8 Speicher\\, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2\\, TA3 oder TA4) gefüllt bzw. geleert werden.\n"..
+    "Die TA4 8x2000 Kiste hat kein normales Inventar wie andere Kisten\\, sondern verfügt über 8 Speicher\\, wobei jeder Speicher bis zu 2000 Items einer Sorte aufnehmen kann. Über die orangefarbenen Taster können Items in den Speicher verschoben bzw. wieder heraus geholt werden. Die Kiste kann auch wie sonst üblich mit einem Schieber (TA2\\, TA3 oder TA4) gefüllt bzw. geleert werden.\n"..
     "\n"..
     "Wird die Kiste mit einem Schieber gefüllt\\, so füllen sich alle Speicherplätze von links nach rechts. Sind alle 8 Speicher voll und können keine weiteren Items hinzugefügt werden\\, so werden weitere Items werden abgewiesen.\n"..
     "\n"..

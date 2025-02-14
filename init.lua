@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 1.21
+techage.version = 1.22
 
 if minetest.global_exists("tubelib") then
 	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
@@ -33,8 +33,8 @@ elseif minetest.global_exists("minecart") and minecart.version < 2.04 then
 elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.04 then
 	minetest.log("error", "[techage] Techage requires lcdlib version 1.04 or newer!")
 	return
-elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.01 then
-	minetest.log("error", "[techage] Techage requires safer_lua version 1.01 or newer!")
+elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.04 then
+	minetest.log("error", "[techage] Techage requires safer_lua version 1.04 or newer!")
 	return
 elseif minetest.global_exists("networks") and networks.version < 0.13 then
 	minetest.log("error", "[techage] Techage requires networks version 0.13 or newer!")
@@ -364,7 +364,9 @@ dofile(MP.."/hydrogen/fuelcell.lua")
 -- Displays
 dofile(MP.."/displays/display.lua")
 dofile(MP.."/displays/monitor.lua")
-dofile(MP.."/displays/display2.lua")
+if techage.newer_or_equal(core.get_version().string, "5.7.0") then
+	dofile(MP.."/displays/display2.lua")
+end
 
 -- ICTA Controller
 dofile(MP.."/icta_controller/submenu.lua")

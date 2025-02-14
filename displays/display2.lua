@@ -23,7 +23,7 @@ local MENUL = {
 		name = "resolution",
 		label = S("Resolution"),
 		tooltip = S("Select resolution of the display in characters x lines"),
-		default = "8",
+		default = "14",
 		values = {8,10,12,14,16,18,20},
 	},
 	{
@@ -61,10 +61,10 @@ end
 local function update(pos, objref)
 	pos = vector.round(pos)
 	local nvm = techage.get_nvm(pos)
-	local t = core.get_us_time()
+--	local t = core.get_us_time()
 	lcdlib.on_mono_display_update(pos, objref, nvm.text or {})
-	t = core.get_us_time() - t
-	print("time =", t)
+--	t = core.get_us_time() - t
+--	print("time =", t)
 end
 
 local function on_timer(pos)
@@ -126,7 +126,7 @@ local function register_display(name, description, inventory_image, tiles, node_
 				meta:set_string("infotext", DESCR .. " " .. number)
 				local nvm = techage.get_nvm(pos)
 				nvm.text = {"My Techage", "TA4 Display II", "No: "..number}
-				meta:set_int("resolution", 13)
+				meta:set_int("resolution", 14)
 				meta:set_string("color", "#F5F5F5")
 				meta:set_int("colorno", 63)
 				lcdlib.update_entities(pos)
