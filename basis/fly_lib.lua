@@ -905,10 +905,10 @@ function flylib.reset_move(pos)
 	if meta:get_string("teleport_mode") == "enable" then return false end
 
 	if meta:get_string("opmode") == "move xyz" then
-		if nvm.lpos1 and nvm.lpos1[1] then
-			local move = vector.subtract(nvm.lpos1[1], (nvm.lastpos or nvm.lpos2)[1])
-			local lpos = nvm.lastpos or nvm.lpos1
-			nvm.running, nvm.lastpos = move_nodes(pos, meta, lpos, move, max_speed, height)
+		local lastpos = nvm.lastpos or nvm.lpos2
+		if nvm.lpos1 and nvm.lpos1[1] and lastpos and lastpos[1] then
+			local move = vector.subtract(nvm.lpos1[1], lastpos[1])
+			nvm.running, nvm.lastpos = move_nodes(pos, meta, lastpos, move, max_speed, height)
 			return nvm.running
 		end
 	else
