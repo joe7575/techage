@@ -69,10 +69,9 @@ end
 
 local function on_timer(pos)
 	local mem = techage.get_mem(pos)
-	mem.ticks = mem.ticks or 0
-	if mem.ticks > 0 then
+	if mem.update then
 		lcdlib.update_entities(pos)
-		mem.ticks = mem.ticks - 1
+		mem.update = false
 	end
 	return true
 end
@@ -108,7 +107,6 @@ local function register_display(name, description, inventory_image, tiles, node_
 				-- Set the update time of the display
 				local resolution = M(pos):get_int("resolution")
 				local cycle_time = resolution * resolution / 64
-				print("cycle_time", cycle_time)
 				minetest.get_node_timer(pos):stop()
 				minetest.get_node_timer(pos):start(cycle_time)
 			end
@@ -255,32 +253,25 @@ minetest.register_craft({
 	},
 })
 
-local function add_line(pos, payload, cycle_time)
+local function add_line(pos, payload)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
 	local num_rows = M(pos):get_int("resolution") or 8
 	nvm.text = nvm.text or {}
-	mem.ticks = mem.ticks or 0
 	local str = tostring(payload) or "oops"
-
-	if mem.ticks == 0 then
-		mem.ticks = cycle_time
-	end
-
+	mem.update = true
 	while #nvm.text >= num_rows do
 		table.remove(nvm.text, 1)
 	end
 	table.insert(nvm.text, str)
 end
 
-local function write_row(pos, payload, cycle_time, beduino)
+local function write_row(pos, payload, beduino)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
 	local num_rows = M(pos):get_int("resolution") or 8
 	local str, row
-
 	nvm.text = nvm.text or {}
-	mem.ticks = mem.ticks or 0
 
 	if beduino or type(payload) == "string" then
 		row = tonumber(payload:sub(1,1) or "1") or 1
@@ -289,11 +280,7 @@ local function write_row(pos, payload, cycle_time, beduino)
 		str = tostring(payload.get("str")) or "oops"
 		row = tonumber(payload.get("row")) or 1
 	end
-
-	if mem.ticks == 0 then
-		mem.ticks = cycle_time
-	end
-
+	mem.update = true
 	if row < 1 then row = 1 end
 	if row > num_rows then row = num_rows end
 
@@ -303,35 +290,30 @@ local function write_row(pos, payload, cycle_time, beduino)
 	nvm.text[row] = str
 end
 
-local function clear_screen(pos, cycle_time)
+local function clear_screen(pos)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
-	mem.ticks = mem.ticks or 0
-
-	if mem.ticks == 0 then
-		mem.ticks = cycle_time
-	end
-
+	mem.update = true
 	nvm.text = {}
 end
 
 techage.register_node({"techage:ta4_display2", "techage:ta4_displayXXL"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "add" then  -- add one line and scroll if necessary
-			add_line(pos, payload, 1)
+			add_line(pos, payload)
 		elseif topic == "set" then  -- overwrite the given row
-			write_row(pos, payload, 1)
+			write_row(pos, payload)
 		elseif topic == "clear" then  -- clear the screen
-			clear_screen(pos, 1)
+			clear_screen(pos)
 		end
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
 		if topic == 67 then  -- add one line and scroll if necessary
-			add_line(pos, payload, 1)
+			add_line(pos, payload)
 		elseif topic == 68 then  -- overwrite the given row
-			write_row(pos, payload, 1, true)
+			write_row(pos, payload, true)
 		elseif topic == 17 then  -- clear the screen
-			clear_screen(pos, 1)
+			clear_screen(pos)
 		else
 			return 2
 		end

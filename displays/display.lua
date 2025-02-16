@@ -59,9 +59,8 @@ end
 
 function techage.display.on_timer(pos)
 	local mem = techage.get_mem(pos)
-	mem.ticks = mem.ticks or 0
 
-	if mem.ticks > 0 then
+	if mem.update then
 		local node = minetest.get_node(pos)
 		-- check if display is loaded and a player in front of the display
 		if node.name ~= "ignore" then
@@ -71,7 +70,7 @@ function techage.display.on_timer(pos)
 			for _, obj in pairs(minetest.get_objects_inside_radius(pos2, RADIUS)) do
 				if obj:is_player() then
 					lcdlib.update_entities(pos)
-					mem.ticks = mem.ticks - 1
+					mem.update = false
 					break
 				end
 			end
@@ -194,16 +193,13 @@ minetest.register_craft({
 	},
 })
 
-function techage.display.add_line(pos, payload, cycle_time)
+function techage.display.add_line(pos, payload)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
 	nvm.text = nvm.text or {}
-	mem.ticks = mem.ticks or 0
 	local str = tostring(payload) or "oops"
 
-	if mem.ticks == 0 then
-		mem.ticks = cycle_time
-	end
+	mem.update = true
 
 	while #nvm.text >= NUM_ROWS do
 		table.remove(nvm.text, 1)
@@ -211,13 +207,12 @@ function techage.display.add_line(pos, payload, cycle_time)
 	table.insert(nvm.text, str)
 end
 
-function techage.display.write_row(pos, payload, cycle_time, beduino)
+function techage.display.write_row(pos, payload, beduino)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
 	local str, row
 
 	nvm.text = nvm.text or {}
-	mem.ticks = mem.ticks or 0
 
 	if beduino or type(payload) == "string" then
 		row = tonumber(payload:sub(1,1) or "1") or 1
@@ -227,9 +222,7 @@ function techage.display.write_row(pos, payload, cycle_time, beduino)
 		row = tonumber(payload.get("row")) or 1
 	end
 
-	if mem.ticks == 0 then
-		mem.ticks = cycle_time
-	end
+	mem.update = true
 
 	if row < 1 then row = 1 end
 	if row > NUM_ROWS then row = NUM_ROWS end
@@ -240,35 +233,30 @@ function techage.display.write_row(pos, payload, cycle_time, beduino)
 	nvm.text[row] = str
 end
 
-function techage.display.clear_screen(pos, cycle_time)
+function techage.display.clear_screen(pos)
 	local nvm = techage.get_nvm(pos)
 	local mem = techage.get_mem(pos)
-	mem.ticks = mem.ticks or 0
-
-	if mem.ticks == 0 then
-		mem.ticks = cycle_time
-	end
-
+	mem.update = true
 	nvm.text = {}
 end
 
 techage.register_node({"techage:ta4_display"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "add" then  -- add one line and scroll if necessary
-			techage.display.add_line(pos, payload, 1)
+			techage.display.add_line(pos, payload)
 		elseif topic == "set" then  -- overwrite the given row
-			techage.display.write_row(pos, payload, 1)
+			techage.display.write_row(pos, payload)
 		elseif topic == "clear" then  -- clear the screen
-			techage.display.clear_screen(pos, 1)
+			techage.display.clear_screen(pos)
 		end
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
 		if topic == 67 then  -- add one line and scroll if necessary
-			techage.display.add_line(pos, payload, 1)
+			techage.display.add_line(pos, payload)
 		elseif topic == 68 then  -- overwrite the given row
-			techage.display.write_row(pos, payload, 1, true)
+			techage.display.write_row(pos, payload, true)
 		elseif topic == 17 then  -- clear the screen
-			techage.display.clear_screen(pos, 1)
+			techage.display.clear_screen(pos)
 		else
 			return 2
 		end
@@ -279,20 +267,20 @@ techage.register_node({"techage:ta4_display"}, {
 techage.register_node({"techage:ta4_displayXL"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		if topic == "add" then  -- add one line and scroll if necessary
-			techage.display.add_line(pos, payload, 2)
+			techage.display.add_line(pos, payload)
 		elseif topic == "set" then  -- overwrite the given row
-			techage.display.write_row(pos, payload, 2)
+			techage.display.write_row(pos, payload)
 		elseif topic == "clear" then  -- clear the screen
-			techage.display.clear_screen(pos, 2)
+			techage.display.clear_screen(pos)
 		end
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
 		if topic == 67 then  -- add one line and scroll if necessary
-			techage.display.add_line(pos, payload, 2)
+			techage.display.add_line(pos, payload)
 		elseif topic == 68 then  -- overwrite the given row
-			techage.display.write_row(pos, payload, 2, true)
+			techage.display.write_row(pos, payload, true)
 		elseif topic == 17 then  -- clear the screen
-			techage.display.clear_screen(pos, 2)
+			techage.display.clear_screen(pos)
 		else
 			return 2
 		end
