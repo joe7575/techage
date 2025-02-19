@@ -37,6 +37,11 @@ if techage.modified_recipes_enabled then
 		recipe = {"default:coal_lump", "default:iron_lump", "default:iron_lump", "default:iron_lump"},
 		time = 4,
 	})
+	techage.furnace.register_recipe({
+		output = "default:steel_ingot 4",
+		recipe = {"default:coal_lump", "techage:iron_ingot", "techage:iron_ingot", "techage:iron_ingot"},
+		time = 4,
+	})
 end
 
 if minetest.global_exists("wielded_light") then
