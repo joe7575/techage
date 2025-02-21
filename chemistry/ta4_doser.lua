@@ -147,12 +147,9 @@ test_setup = function(pos, nvm)
 	local container = ndef.groups and ndef.groups.powder == 1 and "silo" or "tank"
 	nvm.fault = nil
 	
-	if reactor_cmnd(pos, "get_output_container") ~= container then
-		if container == "silo" then
-			nvm.fault = S("output: silo expected")
-		else
-			nvm.fault = S("output: tank expected")
-		end
+	local desc = ndef.description
+	if not reactor_cmnd(pos, "test_output_container", recipe.output.name) then
+		nvm.fault = S("output: Empty @1 or @2 with @3 expected", container, container, desc)
 		return
 	end
 	
@@ -162,12 +159,9 @@ test_setup = function(pos, nvm)
 	
 	ndef = minetest.registered_craftitems[recipe.waste.name]
 	container = ndef.groups and ndef.groups.powder == 1 and "silo" or "tank"
-	if reactor_cmnd(pos, "get_waste_container") ~= container then
-		if container == "silo" then
-			nvm.fault = S("waste: silo expected")
-		else
-			nvm.fault = S("waste: tank expected")
-		end
+	desc = ndef.description
+	if not reactor_cmnd(pos, "test_waste_container", recipe.waste.name) then
+		nvm.fault = S("output: Empty @1 or @2 with @3 expected", container, container, desc)
 		return
 	end
 end
