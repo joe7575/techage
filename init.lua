@@ -109,6 +109,7 @@ dofile(MP.."/basis/shared_inv.lua")
 dofile(MP.."/basis/shared_tank.lua")
 dofile(MP.."/basis/teleport.lua")
 dofile(MP.."/basis/fly_lib.lua")
+dofile(MP.."/basis/fly_lib2.lua")
 dofile(MP.."/basis/pack_lib.lua")
 dofile(MP.."/basis/color.lua")
 
@@ -318,7 +319,8 @@ dofile(MP.."/move_controller/gateblock.lua")
 dofile(MP.."/move_controller/doorblock.lua")
 dofile(MP.."/move_controller/doorcontroller.lua")  -- old
 dofile(MP.."/move_controller/doorcontroller2.lua")  -- new
-dofile(MP.."/move_controller/movecontroller.lua")
+dofile(MP.."/move_controller/movecontroller.lua")  -- old
+dofile(MP.."/move_controller/movecontroller2.lua")  -- new
 dofile(MP.."/move_controller/turncontroller.lua")
 dofile(MP.."/move_controller/flycontroller.lua")
 dofile(MP.."/move_controller/soundblock.lua")

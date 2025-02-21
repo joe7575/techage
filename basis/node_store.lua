@@ -121,6 +121,8 @@ end)
 NvmStore = backend.restore_at_startup()
 
 minetest.register_on_shutdown(function()
+	local nvm = techage.get_nvm0()
+	nvm.ServerCrashed = false
 	backend.freeze_at_shutdown(NvmStore)
 end)
 
@@ -151,6 +153,20 @@ function techage.get_nvm(pos)
 		block[key2] = backend.get_node_data(pos)
 	end
 	return block[key2]
+end
+
+function techage.get_nvm0()
+	if not NvmStore[0] then
+		NvmStore[0] = backend.get_mapblock_data(0)
+		push(0)
+	end
+
+	local block = NvmStore[0]
+	block.in_use = true
+	if not block[0] then
+		block[0] = {}
+	end
+	return block[0]
 end
 
 -- Returns true/false

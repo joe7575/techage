@@ -65,6 +65,16 @@ local function set_node(item, playername)
 			end
 			return
 		end
+		local inv = M(item.base_pos):get_inventory()
+		if item.idx and inv:get_size("main") == 16 then -- movecontroller2
+			local stack = inv:get_stack("main", item.idx)
+			if stack:is_empty() then
+				stack = ItemStack(name)
+				stack:get_meta():set_int("param2", param2)
+				inv:set_stack("main", item.idx, stack)
+				return
+			end
+		end
 		local meta = M(dest_pos)
 		if not meta:contains("ta_move_block") then
 			meta:set_string("ta_move_block", minetest.serialize({name=name, param2=param2}))
@@ -400,10 +410,11 @@ local function entity_to_node(pos, obj)
 	end
 end
 
--- Create a node entitiy.
+-- Create a node entity.
 -- * base_pos is controller block related
 -- * start_pos and dest_pos are entity positions
-local function node_to_entity(base_pos, start_pos, dest_pos)
+-- * idx is the node related movecontroller2 inventory slot (optional)
+local function node_to_entity(base_pos, start_pos, dest_pos, idx)
 	local meta = M(start_pos)
 	local node, metadata, cartdef
 
@@ -421,6 +432,15 @@ local function node_to_entity(base_pos, start_pos, dest_pos)
 		node = techage.get_node_lvm(start_pos)
 		metadata = meta:to_table()
 		minetest.after(0.1, minetest.remove_node, start_pos)
+	elseif idx then
+		local inv = M(base_pos):get_inventory()
+		local stack = inv:get_stack("main", idx)
+		if stack:get_count() == 1 then
+			local param2 = stack:get_meta():to_table().param2 or 0
+			node = {name = stack:get_name(), param2 = param2}
+			metadata = {}
+			inv:set_stack("main", idx, nil)
+		end
 	else
 		return
 	end
@@ -441,6 +461,7 @@ local function node_to_entity(base_pos, start_pos, dest_pos)
 			dest_pos = dest_pos,
 			base_pos = base_pos,
 			cartdef = cartdef,
+			idx = idx,
 		}
 		monitoring_add_entity(self.item)
 
@@ -1009,4 +1030,9 @@ minetest.register_on_dieplayer(function(player)
 	end
 end)
 
+flylib.is_simple_node = is_simple_node
+flylib.attach_objects = attach_objects
+flylib.determine_dir = determine_dir
+flylib.node_to_entity = node_to_entity
+flylib.move_entity = move_entity
 techage.flylib = flylib

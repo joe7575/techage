@@ -153,6 +153,12 @@ minetest.register_globalstep(function(dtime)
 	techage.SystemTime = techage.SystemTime + dtime
 end)
 
+minetest.register_on_mods_loaded(function()
+	local nvm = techage.get_nvm0()
+	nvm.NormalShutdown = nvm.ServerCrashed == false
+	nvm.ServerCrashed = true
+end)
+
 -- used by TA1 hammer: dug_node[player_name] = pos
 techage.dug_node = {}
 minetest.register_on_dignode(function(pos, oldnode, digger)
@@ -203,6 +209,11 @@ end
 function techage.ident_value(s)
     local ident, value = unpack(string.split(s, "=", true, 1))
 	return (ident or ""):trim(), (value or ""):trim()
+end
+
+function techage.was_normal_shutdown()
+	local nvm = techage.get_nvm0()
+	return nvm.NormalShutdown
 end
 
 -------------------------------------------------------------------
