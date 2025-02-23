@@ -183,16 +183,6 @@ if techage.modified_recipes_enabled then
 		time = 2,
 	})
 
-	if minetest.global_exists("moreores") then
-		techage.ironage_register_recipe({
-			output = "moreores:silver_ingot 1",
-			recipe = {"moreores:silver_lump"},
-			heat = 5,
-			time = 2,
-		})
-
-	end
-
 	minetest.register_craft({
 	   output = "fire:flint_and_steel",
 	   recipe = {
