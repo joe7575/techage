@@ -7,7 +7,7 @@ techage_max_num_forceload_blocks (Max. number of Forceload Blocks) int 20
 # 0.5 means twice as many ores as result
 techage_ore_rarity (Rarity factor to find ores) float 1.0
 
-techage.basalt_sieve_chance (Chance to get iron or coal when sieveng basalt gravel) int 40
+techage_basalt_sieve_chance (Chance to get iron or coal when sieveng basalt gravel) int 40
 
 # Enable alternative recipes for steel and bronze.
 # Instead of the furnace the player has to use the Coal Burner.
