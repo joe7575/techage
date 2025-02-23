@@ -55,13 +55,13 @@ local function formspec1(nvm, meta)
 	local status = meta:get_string("status")
 
 	return "size[8,7.5]" ..
-		"tabheader[0,0;tab;"..S("Ctrl,Inv")..";1;;true]"..
+		"tabheader[0,0;tab;" .. S("Control,Inventory") .. ";1;;true]" ..
 		"box[0,-0.1;7.2,0.5;#c6e8ff]" ..
 		"label[0.2,-0.1;" .. minetest.colorize( "#000000", S("TA4 Move Controller")) .. "]" ..
 		techage.wrench_image(7.4, -0.05) ..
 		"button[0.1,0.7;3.8,1;record;" .. S("Record") .. "]" ..
 		"button[4.1,0.7;3.8,1;done;"  .. S("Done") .. "]" ..
-		"button_exit[0.1,2.0;3.8,1;show;"  .. S("Show positions") .. "]" ..
+		"button_exit[0.1,2.0;3.8,1;show;"  .. S("Show start positions") .. "]" ..
 		"button_exit[0.1,3.3;3.8,1;move;"  .. S("Test move") .. "]" ..
 		"button_exit[4.1,3.3;3.8,1;reset;" .. S("Reset") .. "]" ..
 		"label[0.3,5.0;" .. status .. "]"
@@ -72,7 +72,8 @@ local function presets(nvm, inv, idx, x, y)
 	local slot = inv:get_stack("main", idx)
 	if node then
 		if slot:is_empty() then
-			return "item_image[" .. x .. "," .. y .. ";1,1;" .. node.name .. "]"
+			return "item_image[" .. x .. "," .. y .. ";1,1;" .. node.name .. "]" .. 
+					"image[" .. x .. "," .. y .. ";1,1;techage_white_frame.png]"
 		end
 	end
 	return ""
@@ -84,7 +85,7 @@ local function tooltips(nvm, inv, idx, x, y)
 	if node then
 		if slot:is_empty() then
 			if node.curr_pos then
-				return "tooltip[" .. x .. "," .. y .. ";1,1;" .. P2S(node.curr_pos) .. ";#0C3D32;#FFFFFF]"
+				return "tooltip[" .. x .. "," .. y .. ";1,1;" .. S("Node at pos") .. ": " .. P2S(node.curr_pos) .. ";#0C3D32;#FFFFFF]"
 			else
 				return "tooltip[" .. x .. "," .. y .. ";1,1;" .. S("missing") .. ";#0C3D32;#FFFFFF]"
 			end
@@ -107,12 +108,12 @@ local function formspec2(nvm, meta)
 		tbl[#tbl+1] = presets(nvm, inv, idx, x, y)
 		tbl[#tbl+1] = tooltips(nvm, inv, idx, x, y)
 	end
-	return "size[8,7]"..
-		"tabheader[0,0;tab;"..S("Ctrl,Inv")..";2;;true]"..
-		table.concat(tbl, "")..
-		"list[context;main;0,0.5;8,2;]"..
-		"list[current_player;main;0,3.3;8,4;]"..
-		"listring[context;main]"..
+	return "size[8,7]" ..
+		"tabheader[0,0;tab;" .. S("Control,Inventory") .. ";2;;true]" ..
+		table.concat(tbl, "") ..
+		"list[context;main;0,0.5;8,2;]" ..
+		"list[current_player;main;0,3.3;8,4;]" ..
+		"listring[context;main]" ..
 		"listring[current_player;main]"
 end
 
@@ -175,13 +176,14 @@ minetest.register_node("techage:ta4_movecontroller2", {
 			local node = nvm.lNodes[1]
 			if node then
 				local dest_pos = {x = node.base_pos.x, y = node.base_pos.y + 5, z = node.base_pos.z}
-				fly.move_nodes(pos, dest_pos, 0)
+				fly.move_nodes(pos, nvm, dest_pos, 0)
 			end
 		elseif fields.reset then
 			fly.reset_nodes(pos, 0)
 		elseif fields.show then
 			local name = player:get_player_name()
-			mark.mark_positions(name, nvm.lpos1, 300)
+			local lpos = fly.get_node_base_positions(nvm.lNodes or {})
+			mark.mark_positions(name, lpos, 300)
 		end
 	end,
 
@@ -193,6 +195,10 @@ minetest.register_node("techage:ta4_movecontroller2", {
 		local nvm = techage.get_nvm(pos)
 		meta:set_string("formspec", formspec1(nvm, meta))
 	end,
+
+	allow_metadata_inventory_move = function() return 0 end,
+	allow_metadata_inventory_take = function() return 0 end,
+	allow_metadata_inventory_put = function() return 0 end,
 
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		local name = digger:get_player_name()
@@ -213,33 +219,45 @@ local INFO = [[Commands: 'state', 'moveto']]
 techage.register_node({"techage:ta4_movecontroller2"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
+		nvm.lNodes = nvm.lNodes or {}
 		if topic == "info" then
 			return INFO
 		elseif topic == "state" then
 			return nvm.running and "running" or "stopped"
 		elseif topic == "moveto" then
---			local destpos = fly.to_vector(payload)
---			if destpos then
---				--return fly.move_to_abs(pos, destpos, MAX_DIST)
---			end
+			local destpos = fly.get_pos(payload)
+			if destpos then
+				if fly.valid_distance(nvm, destpos, 0, MAX_DIST) then
+					return fly.move_nodes(pos, nvm, destpos, 0)
+				else
+					M(pos):set_string("status", S("Distance too large!"))
+				end
+			else
+				M(pos):set_string("status", S("Command syntax error!"))
+			end
 			return false
 		elseif topic == "reset" then
-			--return fly.reset_move(pos)
+			return fly.reset_nodes(pos, nvm, 0)
 		end
 		return false
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		--print("on_beduino_receive_cmnd", P2S(pos), move_xyz, topic, payload[1])
+		nvm.lNodes = nvm.lNodes or {}
 		if topic == 24 then  -- moveto xyz
-			local dest = {
+			local destpos = {
 				x = techage.in_range(techage.beduino_signed_var(payload[1]), -32768, 32767),
 				y = techage.in_range(techage.beduino_signed_var(payload[2]), -32768, 32767),
 				z = techage.in_range(techage.beduino_signed_var(payload[3]), -32768, 32767),
 			}
-			--return fly.move_to_abs(pos, dest, MAX_DIST) and 0 or 3
+			if fly.valid_distance(nvm, destpos, 0, MAX_DIST) then
+				return fly.move_nodes(pos, nvm, destpos, 0) and 0 or 3
+			else
+				M(pos):set_string("status", S("Distance too large!"))
+				return 3
+			end
 		elseif topic == 19 then  -- reset
-			--return fly.reset_move(pos) and 0 or 3
+			return fly.reset_nodes(pos, nvm, 0) and 0 or 3
 		else
 			return 2
 		end
@@ -254,7 +272,7 @@ techage.register_node({"techage:ta4_movecontroller2"}, {
 	on_node_load = function(pos, node)
 		M(pos):set_string("status", "")
 		techage.get_nvm(pos).running = false
-		print("techage.was_normal_shutdown()", techage.was_normal_shutdown())
+		--print("techage.was_normal_shutdown()", techage.was_normal_shutdown())
 	end,
 })
 

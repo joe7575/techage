@@ -338,14 +338,16 @@ local function attach_single_object(parent, obj, distance)
 			rot.y = rot.y - yaw
 		end
 		distance = vector.multiply(distance, 29)
+		local visual_size = obj:get_properties().visual_size
 		obj:set_attach(parent, "", distance, vector.multiply(rot, 180 / math.pi))
-		obj:set_properties({visual_size = {x=2.9, y=2.9}})
 		if obj:is_player() then
+			obj:set_properties({visual_size = {x=2.9, y=2.9}})
 			if lock_player(obj) then
-				table.insert(self.players, {name = obj:get_player_name(), offs = offs})
+				table.insert(self.players, {name = obj:get_player_name(), offs = offs, visual_size = visual_size})
 			end
 		else
-			table.insert(self.entities, {objID = get_object_id(obj), offs = offs})
+			obj:set_properties({visual_size = {x=1, y=1}})
+			table.insert(self.entities, {objID = get_object_id(obj), offs = offs, visual_size = visual_size})
 		end
 	end
 end
@@ -378,7 +380,7 @@ local function detach_objects(pos, self)
 		if entity then
 			local obj = entity.object
 			obj:set_detach()
-			obj:set_properties({visual_size = {x=1, y=1}})
+			obj:set_properties({visual_size = item.visual_size})
 			local pos1 = vector.add(pos, item.offs)
 			pos1.y = pos1.y - (self.yoffs or 0)
 			obj:set_pos(pos1)
@@ -388,7 +390,7 @@ local function detach_objects(pos, self)
 		local obj = minetest.get_player_by_name(item.name)
 		if obj then
 			obj:set_detach()
-			obj:set_properties({visual_size = {x=1, y=1}})
+			obj:set_properties({visual_size = item.visual_size})
 			local pos1 = vector.add(pos, item.offs)
 			pos1.y = pos1.y + 0.1
 			obj:set_pos(pos1)
@@ -1030,7 +1032,6 @@ minetest.register_on_dieplayer(function(player)
 	end
 end)
 
-flylib.is_simple_node = is_simple_node
 flylib.attach_objects = attach_objects
 flylib.determine_dir = determine_dir
 flylib.node_to_entity = node_to_entity

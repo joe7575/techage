@@ -36,7 +36,7 @@ local function slots(slot)
 				return slot,slot
 			end
 		end
-	end, slot, 0  -- param, start value
+	end, tonumber(slot), 0  -- param, start value
 end
 
 local function destinations(nvm, dest_pos, slot)
@@ -53,6 +53,11 @@ local function destinations(nvm, dest_pos, slot)
 	end
 	return {[slot] = dest_pos}
 end
+
+local function distance(v)
+	return math.sqrt(v.x * v.x + v.y * v.y + v.z * v.z)
+end
+
 
 local function remove_node(pos, node)
 	if minecart.is_cart(node.name) then
@@ -81,10 +86,8 @@ end
 
 local function get_node_from_inventory(inv, idx)
 	local stack = inv:get_stack("main", idx)
-	print("idx", idx, dump(stack:get_definition()))
 	local param2 = stack:get_meta():get_int("param2")
 	inv:set_stack("main", idx, nil)
-	print("get_node_from_inventory", stack:get_name(), param2)
 	return {name = stack:get_name(), param2 = param2}
 end
 
@@ -127,14 +130,6 @@ end
 -- Place node to start position, if necessary
 local function correct_node(pos, idx, node, dest_pos)
 	local cnode = techage.get_node_lvm(node.curr_pos)
-	if cnode.name == node.name then 
-		return true
-	end
-	local dest_name = techage.get_node_lvm(dest_pos).name
-	if dest_name == node.name then 
-		local metadata = remove_node(dest_pos, node)
-		return place_node(node.curr_pos, node, metadata)
-	end
 	local inv = M(pos):get_inventory()
 	if inv:get_stack("main", idx):get_count() == 1 then
 		local ndef = minetest.registered_nodes[cnode.name]
@@ -148,26 +143,70 @@ local function correct_node(pos, idx, node, dest_pos)
 			return true
 		end
 	end
+	if cnode.name == node.name then 
+		return true
+	end
+	local dest_name = techage.get_node_lvm(dest_pos).name
+	if dest_name == node.name then 
+		local metadata = remove_node(dest_pos, node)
+		return place_node(node.curr_pos, node, metadata)
+	end
 	return false
+end
+
+local function is_simple_node(node)
+	if not minecart.is_rail(pos, node.name) then
+		local ndef = minetest.registered_nodes[node.name]
+		return node.name ~= "air" and techage.can_dig_node(node.name, ndef) or minecart.is_cart(node.name)
+	end
+end
+
+function flylib2.get_pos(payload)
+	local x,y,z = unpack(string.split(payload, ",", false, 2))
+	if z then
+		x = tonumber(x) or 0
+		y = tonumber(y) or 0
+		z = tonumber(z) or 0
+		return {x = x, y = y, z = z}
+	end
+end
+
+function flylib2.get_node_base_positions(lNodes)
+	local tbl = {}
+	for idx, item in ipairs(lNodes) do
+		tbl[idx] = item.base_pos
+	end
+	return tbl
 end
 
 function flylib2.get_nodes(pos_list)
 	local tbl = {}
 	for idx,pos in ipairs(pos_list) do
 		local node = techage.get_node_lvm(pos)
-		tbl[idx] = {base_pos = pos, curr_pos = pos, name = node.name, param2 = node.param2}
+		if is_simple_node(node) then
+			tbl[idx] = {base_pos = pos, curr_pos = pos, name = node.name, param2 = node.param2}
+		else
+			tbl[idx] = {base_pos = pos, curr_pos = pos, name = "techage:invalid_node", param2 = 0}
+		end
 	end
 	return tbl
 end
 
+function flylib2.valid_distance(nvm, destpos, slot, max_dist)
+	slot = slot > 0 and slot or 1
+	local basepos = nvm.lNodes[slot] and nvm.lNodes[slot].base_pos
+	if basepos and destpos then
+		local v = vector.subtract(destpos, basepos)
+		return distance(v) <= max_dist
+	end
+	return false
+end
+
 -- pos  = movecontroller position
 -- slot = inventory slot index (1..16) or 0 for all slots
-function flylib2.reset_nodes(pos, slot)
+function flylib2.reset_nodes(pos, nvm, slot)
 	local meta = M(pos)
-	local nvm = techage.get_nvm(pos)
-	nvm.lNodes = nvm.lNodes or {}
 	if nvm.running then return false end
-	
 	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
 	local height = techage.in_range(meta:contains("height") and meta:get_float("height") or 1, 0, 1) -- platform height
 	local yoffs = meta:get_float("offset") -- for non-player objects
@@ -181,16 +220,14 @@ function flylib2.reset_nodes(pos, slot)
 			end
 		end
 	end
+	return true
 end
 
 -- pos  = movecontroller position
 -- slot = inventory slot index (1..16) or 0 for all slots
-function flylib2.move_nodes(pos, dest_pos, slot)
+function flylib2.move_nodes(pos, nvm, dest_pos, slot)
 	local meta = M(pos)
-	local nvm = techage.get_nvm(pos)
-	nvm.lNodes = nvm.lNodes or {}
 	if nvm.running then return false end
-	
 	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
 	local height = techage.in_range(meta:contains("height") and meta:get_float("height") or 1, 0, 1) -- platform height
 	local yoffs = meta:get_float("offset") -- for non-player objects
@@ -206,6 +243,13 @@ function flylib2.move_nodes(pos, dest_pos, slot)
 			end
 		end
 	end
+	return true
 end
+
+minetest.register_craftitem("techage:invalid_node", {
+	description = S("Invalid node"),
+	inventory_image = "techage_invalid_node.png",
+	groups = {not_in_creative_inventory = 1},
+})
 
 techage.flylib2 = flylib2

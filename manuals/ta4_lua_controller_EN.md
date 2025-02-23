@@ -361,10 +361,18 @@ Please note, that this is not a technical distinction, only a logical.
 
 **Reading data**
 
+- _num_ is the number of the remote block, like "1234"
 - _ident_ specifies the data to be read. 
 -  _add_data_ is for additional data and normally not needed. 
 -  The result is block dependent (see table below)
 
+Example:
+
+```Lua
+$print($send_cmnd("1234", "state"))  -- read the state of the block with the number "1234"
+
+> stopped
+```
 
 | ident         | returned data                                                | comment                                                      |
 | ------------- | ------------------------------------------------------------ | ------------------------------------------------------------ |
@@ -401,6 +409,12 @@ Please note, that this is not a technical distinction, only a logical.
 - _num_ is the number of the remote block, like "1234"
 - _cmnd_ is the command
 - _data_ is additional data (see table below)
+
+Example:
+
+```lua
+$send_cmnd("1234", "on")  -- turn on the block with the number "1234"
+```
 
 | cmnd                             | data         | comment                                                      |
 | -------------------------------- | ------------ | ------------------------------------------------------------ |
