@@ -53,6 +53,7 @@ techage.NodeDef = {}  -- node registration info
 techage.max_num_forceload_blocks = tonumber(minetest.settings:get("techage_max_num_forceload_blocks")) or 24
 
 techage.ore_rarity = tonumber(minetest.settings:get("techage_ore_rarity")) or 1
+techage.basalt_sieve_chance = tonumber(minetest.settings:get("basalt_sieve_chance")) or 40
 techage.modified_recipes_enabled = minetest.settings:get_bool("techage_modified_recipes_enabled") ~= false
 techage.collider_min_depth = tonumber(minetest.settings:get("techage_collider_min_depth")) or -28
 techage.recipe_checker_enabled = minetest.settings:get_bool("techage_recipe_checker_enabled") ~= false
