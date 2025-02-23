@@ -78,15 +78,13 @@ local function base_waste(pos, payload)
 	return liquid.put(pos2, Pipe, outdir, payload.name, payload.amount, payload.player_name)
 end
 
-local function connection_test(pos)
+local function connection_test(pos, item)
 	local outdir = M(pos):get_int("outdir")
-	local pos2, _ = Pipe:get_connected_node_pos(pos, outdir)
-	local name = techage.get_node_lvm(pos2).name
-	if name:find("silo") then
-		return "silo"
-	elseif name:find("tank") then
-		return "tank"
+	if liquid.put(pos, Pipe, outdir, item, 1, nil) == 0 then
+		liquid.take(pos, Pipe, outdir, item, 1, false)
+		return true
 	end
+	return false
 end
 
 -- controlled by the doser
@@ -102,10 +100,10 @@ techage.register_node({"techage:ta4_reactor_fillerpipe"}, {
 				return false
 			end
 			return true
-		elseif topic == "get_output_container" then
-			return connection_test({x = pos.x, y = pos.y-2, z = pos.z})
-		elseif topic == "get_waste_container" then
-			return connection_test({x = pos.x, y = pos.y-3, z = pos.z})
+		elseif topic == "test_output_container" then
+			return connection_test({x = pos.x, y = pos.y-2, z = pos.z}, payload)
+		elseif topic == "test_waste_container" then
+			return connection_test({x = pos.x, y = pos.y-3, z = pos.z}, payload)
 		elseif topic == "waste" then
 			return base_waste(pos, payload or {})
 		elseif topic == "catalyst" then
