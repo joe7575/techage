@@ -325,7 +325,7 @@ function techage.register_node(names, node_definition)
 	end
 
 	-- register mvps stopper
-	if has_mesecons then
+	if has_mesecons and mesecon.register_mvps_stopper then
 		for _, name in ipairs(names) do
 			mesecon.register_mvps_stopper(name)
 		end
