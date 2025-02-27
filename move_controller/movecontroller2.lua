@@ -209,7 +209,7 @@ minetest.register_node("techage:ta4_movecontroller2", {
 
 	ta4_formspec = WRENCH_MENU,
 	paramtype2 = "facedir",
-	groups = {choppy=2, cracky=2, crumbly=2},
+	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -236,6 +236,12 @@ techage.register_node({"techage:ta4_movecontroller2"}, {
 				M(pos):set_string("status", S("Command syntax error!"))
 			end
 			return false
+		elseif topic == "getpos" then
+			if nvm.lNodes[1] then
+				local cpos = nvm.lNodes[1].curr_pos
+				local spos = string.sub(P2S(cpos), 2, -2)
+				return spos
+			end
 		elseif topic == "reset" then
 			return fly.reset_nodes(pos, nvm, 0)
 		end
@@ -276,17 +282,17 @@ techage.register_node({"techage:ta4_movecontroller2"}, {
 	end,
 })
 
-minetest.register_craft({
-	output = "techage:ta4_movecontroller2",
-	recipe = {
-		{"default:steel_ingot", "dye:blue", "default:steel_ingot"},
-		{"default:mese_crystal_fragment", "techage:ta4_wlanchip", "default:mese_crystal_fragment"},
-		{"group:wood", "basic_materials:gear_steel", "group:wood"},
-	},
-})
+--minetest.register_craft({
+--	output = "techage:ta4_movecontroller2",
+--	recipe = {
+--		{"default:steel_ingot", "dye:blue", "default:steel_ingot"},
+--		{"default:mese_crystal_fragment", "techage:ta4_wlanchip", "default:mese_crystal_fragment"},
+--		{"group:wood", "basic_materials:gear_steel", "group:wood"},
+--	},
+--})
 
-minetest.register_craft({
-	output = "techage:ta4_movecontroller2",
-	recipe = {"techage:ta4_movecontroller"},
-	type = "shapeless",
-})
+--minetest.register_craft({
+--	output = "techage:ta4_movecontroller2",
+--	recipe = {"techage:ta4_movecontroller"},
+--	type = "shapeless",
+--})
