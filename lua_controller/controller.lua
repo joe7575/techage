@@ -367,6 +367,8 @@ local function on_receive_fields(pos, formname, fields, player)
 	local meta = M(pos)
 
 	--print(dump(fields))
+	techage.reset_activeformspec(pos, player)
+	
 	if fields.cancel == nil then
 		if fields.init then
 			meta:set_string("init", fields.init)
@@ -396,6 +398,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	elseif fields.tab == "3" then
 		meta:set_string("formspec", formspec3(meta))
 	elseif fields.tab == "4" then
+		techage.set_activeformspec(pos, player)
 		meta:set_string("formspec", formspec4(meta))
 	elseif fields.tab == "5" then
 		meta:set_string("formspec", formspec5(meta))

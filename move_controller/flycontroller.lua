@@ -57,6 +57,14 @@ local WRENCH_MENU = {
 		tooltip = S("Move a player without moving blocks"),
 		default = "disable",
 	},
+	{
+		type = "dropdown",
+		choices = "A-B / B-A,move xyz",
+		name = "opmode",
+		label = S("Operational mode"),
+		tooltip = S("Switch to the remote controlled 'move xyz' mode"),
+		default = "A-B / B-A",
+	},
 }
 
 local function formspec(nvm, meta)
@@ -217,27 +225,35 @@ minetest.register_node("techage:ta5_flycontroller", {
 	sounds = default.node_sound_wood_defaults(),
 })
 
-local INFO = [[Commands: 'state', 'a2b', 'b2a', 'move']]
+local INFO = [[Commands: 'state', 'a2b', 'b2a', 'move', 'move2']]
 
 techage.register_node({"techage:ta5_flycontroller"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
+		local move_xyz = M(pos):get_string("opmode") == "move xyz"
 		if topic == "info" then
 			return INFO
 		elseif topic == "state" then
 			return nvm.running and "running" or "stopped"
-		elseif topic == "a2b" then
+		elseif not move_xyz and topic == "a2b" then
 			return fly.move_to_other_pos(pos, false)
-		elseif topic == "b2a" then
+		elseif not move_xyz and topic == "b2a" then
 			return fly.move_to_other_pos(pos, true)
-		elseif topic == "move" then
+		elseif not move_xyz and topic == "move" then
 			return fly.move_to_other_pos(pos, nvm.moveBA)
+		elseif move_xyz and topic == "move2" then
+			local line = fly.to_vector(payload, MAX_DIST)
+			if line then
+				return fly.move_to(pos, line)
+			end
+			return false
 		end
 		return false
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		if topic == 11 then
+		local move_xyz = M(pos):get_string("opmode") == "move xyz"
+		if not move_xyz and topic == 11 then
 			if payload[1] == 1 then
 				return fly.move_to_other_pos(pos, false) and 0 or 3
 			elseif payload[1] == 2 then
@@ -245,6 +261,22 @@ techage.register_node({"techage:ta5_flycontroller"}, {
 			elseif payload[1] == 3 then
 				return fly.move_to_other_pos(pos, nvm.moveBA) and 0 or 3
 			end
+		elseif move_xyz and topic == 18 then  -- move xyz
+			local line = {
+				x = techage.in_range(techage.beduino_signed_var(payload[1]), -1000, 1000),
+				y = techage.in_range(techage.beduino_signed_var(payload[2]), -1000, 1000),
+				z = techage.in_range(techage.beduino_signed_var(payload[3]), -1000, 1000),
+			}
+			return fly.move_to(pos, line) and 0 or 3
+		elseif move_xyz and topic == 24 then  -- moveto xyz
+			local dest = {
+				x = techage.in_range(techage.beduino_signed_var(payload[1]), -32768, 32767),
+				y = techage.in_range(techage.beduino_signed_var(payload[2]), -32768, 32767),
+				z = techage.in_range(techage.beduino_signed_var(payload[3]), -32768, 32767),
+			}
+			return fly.move_to_abs(pos, dest, MAX_DIST) and 0 or 3
+		elseif move_xyz and topic == 19 then  -- reset
+			return fly.reset_move(pos) and 0 or 3
 		else
 			return 2
 		end

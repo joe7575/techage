@@ -3,7 +3,7 @@
 	Basic Terminal
 	==============
 
-	Copyright (C) 2018-2024 Joachim Stolberg
+	Copyright (C) 2018-2025 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -291,8 +291,7 @@ minetest.register_node("techage:basic_terminal", {
 			public == 0 and player:get_player_name() == meta:get_string("owner") then
 			fields.Enter = fields.Enter or fields.key_enter_field
 			local action = get_action(nvm, fields)
-			local text = action(pos, nvm, fields)
-			techage.set_activeformspec(pos, player)
+			local text = action(pos, nvm, fields, player)
 			if text then
 				meta:set_string("formspec", formspec(pos, text))
 			end
@@ -301,7 +300,6 @@ minetest.register_node("techage:basic_terminal", {
 
 	on_timer = function(pos, elapsed)
 		local nvm = techage.get_nvm(pos)
-		--print("on_timer", nvm.status)
 		if nvm.ttl and nvm.ttl > 1 then
 			nvm.ttl = nvm.ttl - 1
 			return true
@@ -310,8 +308,10 @@ minetest.register_node("techage:basic_terminal", {
 		if nvm.status == "running" then
 			local res = nanobasic.run(pos, 100)
 			if res == nanobasic.NB_BUSY then
-				local text = nanobasic.get_screen_buffer(pos)
-				M(pos):set_string("formspec", formspec(pos, text))
+				if techage.is_activeformspec(pos) then
+					local text = nanobasic.get_screen_buffer(pos)
+					M(pos):set_string("formspec", formspec(pos, text))
+				end
 				return true
 			elseif res == nanobasic.NB_ERROR then
 				nvm.status = "error"
@@ -337,12 +337,7 @@ minetest.register_node("techage:basic_terminal", {
 				local text = nanobasic.get_screen_buffer(pos)
 				M(pos):set_string("formspec", formspec(pos, text))
 			elseif res >= nanobasic.NB_XFUNC then
-				local res = Functions[res] and Functions[res](pos, nvm) or false
-				if techage.is_activeformspec(pos) then
-					local text = nanobasic.get_screen_buffer(pos)
-					M(pos):set_string("formspec", formspec(pos, text))
-				end
-				return res
+				return Functions[res] and Functions[res](pos, nvm) or false
 			else
 				print("res = ", res)
 				return false
@@ -461,15 +456,15 @@ end)
 register_ext_function("sleep", {nanobasic.NB_NUM}, nanobasic.NB_NONE, function(pos, nvm)
 	local t = nanobasic.pop_num(pos) or 0
 	nvm.ttl = t / CYCLE_TIME
-	local text = nanobasic.get_screen_buffer(pos)
-	M(pos):set_string("formspec", formspec(pos, text))
+	if techage.is_activeformspec(pos) then
+		local text = nanobasic.get_screen_buffer(pos)
+		M(pos):set_string("formspec", formspec(pos, text))
+	end
 	return true
 end)
 
 register_ext_function("time", {}, nanobasic.NB_NUM, function(pos, nvm)
 	nanobasic.push_num(pos, minetest.get_gametime() or 0)
-	local text = nanobasic.get_screen_buffer(pos)
-	M(pos):set_string("formspec", formspec(pos, text))
 	return true
 end)
 
@@ -677,7 +672,7 @@ register_action({"init", "edit", "stopped"}, "Run", function(pos, nvm, fields)
 	local code = M(pos):get_string("code")
 	if nanobasic.create(pos, code) then
 		nvm.status = "running"
-		nvm.bttns = {"", "", "", "", "", "Stop", "", ""}
+		nvm.bttns = {"", "", "", "", "", "Stop", "", "List"}
 		nvm.input = ""
 		nvm.variables = nanobasic.get_variable_list(pos)
 		nvm.onload_label_addr = nanobasic.get_label_address(pos, "64000") or 0
@@ -695,7 +690,7 @@ end)
 
 register_action({"break"}, "Continue", function(pos, nvm, fields)
 	nvm.status = "running"
-	nvm.bttns = {"", "", "", "", "", "Stop", "", ""}
+	nvm.bttns = {"", "", "", "", "", "Stop", "", "List"}
 	nvm.input = ""
 	minetest.get_node_timer(pos):start(CYCLE_TIME)
 	return nanobasic.get_screen_buffer(pos) or ""
@@ -706,6 +701,20 @@ register_action({"break"}, "List", function(pos, nvm, fields)
 	nvm.bttns = {"", "", "", "", "", "Stop", "Continue", "List"}
 	nvm.input = InputField
 	return M(pos):get_string("code")
+end)
+
+register_action({"running"}, "List", function(pos, nvm, fields, player)
+	nvm.bttns = {"", "", "", "", "", "Stop", "Continue", ""}
+	nvm.input = ""
+	techage.reset_activeformspec(pos, player)
+	return M(pos):get_string("code")
+end)
+
+register_action({"running"}, "Continue", function(pos, nvm, fields, player)
+	nvm.bttns = {"", "", "", "", "", "Stop", "", "List"}
+	nvm.input = ""
+	techage.set_activeformspec(pos, player)
+	return nanobasic.get_screen_buffer(pos) or ""
 end)
 
 register_action({"break"}, "Enter", function(pos, nvm, fields)

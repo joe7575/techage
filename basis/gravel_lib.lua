@@ -32,7 +32,7 @@ local function wherein(item)
 			if v == "default:stone" then
 				return true
 			end
-			if v == "everness:forsaken_desert_stone" then
+			if v == "everness:mineral_cave_stone" then
 				return true
 			end
 		end
