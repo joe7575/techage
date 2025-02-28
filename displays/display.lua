@@ -36,25 +36,29 @@ local function lcdlib_bugfix(text_tbl)
 end
 
 function techage.display.display_update(pos, objref)
-	pos = vector.round(pos)
-	local nvm = techage.get_nvm(pos)
-	local text = lcdlib_bugfix(nvm.text)
-	local texture = lcdlib.make_multiline_texture(
-		"default", text,
-		70, 70, NUM_ROWS, "top", "#000", nil, true)
-	objref:set_properties({ textures = {texture},
-		visual_size = {x=0.94, y=0.94} })
+	if pos and type(pos) == "table" then
+		pos = vector.round(pos)
+		local nvm = techage.get_nvm(pos)
+		local text = lcdlib_bugfix(nvm.text)
+		local texture = lcdlib.make_multiline_texture(
+			"default", text,
+			70, 70, NUM_ROWS, "top", "#000", nil, true)
+		objref:set_properties({ textures = {texture},
+			visual_size = {x=0.94, y=0.94} })
+	end
 end
 
 function techage.display.display_updateXL(pos, objref)
-	pos = vector.round(pos)
-	local nvm = techage.get_nvm(pos)
-	local text = lcdlib_bugfix(nvm.text)
-	local texture = lcdlib.make_multiline_texture(
-		"default", text,
-		126, 70, NUM_ROWS, "top", "#000", nil, true)
-	objref:set_properties({ textures = {texture},
-		visual_size = {x=0.94*1.9, y=0.94} })
+	if pos and type(pos) == "table" then
+		pos = vector.round(pos)
+		local nvm = techage.get_nvm(pos)
+		local text = lcdlib_bugfix(nvm.text)
+		local texture = lcdlib.make_multiline_texture(
+			"default", text,
+			126, 70, NUM_ROWS, "top", "#000", nil, true)
+		objref:set_properties({ textures = {texture},
+			visual_size = {x=0.94*1.9, y=0.94} })
+	end
 end
 
 function techage.display.on_timer(pos)
