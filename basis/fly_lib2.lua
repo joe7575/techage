@@ -20,7 +20,6 @@ local S = techage.S
 local fly1 = techage.flylib
 
 local flylib2 = {}
-local MIN_SPEED = 0.4
 local MAX_SPEED = 8
 
 local function slots(slot)
@@ -207,7 +206,7 @@ end
 function flylib2.reset_nodes(pos, nvm, slot)
 	local meta = M(pos)
 	if nvm.running then return false end
-	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
+	local max_speed = meta:contains("max_speed") and meta:get_float("max_speed") or MAX_SPEED
 	local height = techage.in_range(meta:contains("height") and meta:get_float("height") or 1, 0, 1) -- platform height
 	local yoffs = meta:get_float("offset") -- for non-player objects
 
@@ -228,7 +227,7 @@ end
 function flylib2.move_nodes(pos, nvm, dest_pos, slot)
 	local meta = M(pos)
 	if nvm.running then return false end
-	local max_speed = meta:contains("max_speed") and meta:get_int("max_speed") or MAX_SPEED
+	local max_speed = meta:contains("max_speed") and meta:get_float("max_speed") or MAX_SPEED
 	local height = techage.in_range(meta:contains("height") and meta:get_float("height") or 1, 0, 1) -- platform height
 	local yoffs = meta:get_float("offset") -- for non-player objects
 	local dests = destinations(nvm, dest_pos, slot)

@@ -179,7 +179,7 @@ minetest.register_node("techage:ta4_movecontroller2", {
 				fly.move_nodes(pos, nvm, dest_pos, 0)
 			end
 		elseif fields.reset then
-			fly.reset_nodes(pos, 0)
+			fly.reset_nodes(pos, nvm, 0)
 		elseif fields.show then
 			local name = player:get_player_name()
 			local lpos = fly.get_node_base_positions(nvm.lNodes or {})
