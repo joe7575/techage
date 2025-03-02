@@ -65,6 +65,7 @@ Basalt Stone Brick=
 Sieved Basalt Gravel=
 
 ### basic_terminal.lua ###
+### flycontroller.lua ###
 ### movecontroller.lua ###
 ### terminal.lua ###
 
@@ -422,6 +423,7 @@ with door sound=
 ### doorcontroller2.lua ###
 ### flycontroller.lua ###
 ### movecontroller.lua ###
+### movecontroller2.lua ###
 ### node_detector.lua ###
 ### turncontroller.lua ###
 
@@ -432,6 +434,7 @@ block positions are stored.=
 ### doorcontroller2.lua ###
 ### flycontroller.lua ###
 ### movecontroller.lua ###
+### movecontroller2.lua ###
 ### turncontroller.lua ###
 
 Recording...=
@@ -439,8 +442,13 @@ Recording...=
 ### doorcontroller2.lua ###
 ### movecontroller.lua ###
 
-Reset=
 Show positions=
+
+### doorcontroller2.lua ###
+### movecontroller.lua ###
+### movecontroller2.lua ###
+
+Reset=
 
 ### drillbox.lua ###
 
@@ -580,6 +588,10 @@ Stopped=
 
 Error: Invalid path !!=
 
+### fly_lib2.lua ###
+
+Invalid node=
+
 ### flycontroller.lua ###
 
 Error: Recording is missing !!=
@@ -602,15 +614,21 @@ Store=
 ### flycontroller.lua ###
 ### movecontroller.lua ###
 
-Click on all blocks that shall be moved=
-Maximum Speed=
-Maximum speed for moving blocks=
 Move=
 Move A-B=
 Move B-A=
+Stored=
+Switch to the remote controlled 'move xyz' mode=
+
+### flycontroller.lua ###
+### movecontroller.lua ###
+### movecontroller2.lua ###
+
+Click on all blocks that shall be moved=
+Maximum Speed=
+Maximum speed for moving blocks=
 Move block height=
 Object offset=
-Stored=
 Value in the range of 0.0 to 1.0=
 Y-offset for non-player objects like vehicles (-0.5 to 0.5)=
 
@@ -1025,9 +1043,23 @@ TA3 CRT Monitor no:=
 Error: Invalid distance !!=
 Move distance=
 Move distance (A to B)=
-Switch to the remote controlled 'move xyz' mode=
 TA Rack and Pinion=
+
+### movecontroller.lua ###
+### movecontroller2.lua ###
+
 TA4 Move Controller=
+
+### movecontroller2.lua ###
+
+Command syntax error!=
+Control,Inventory=
+Distance too large!=
+Node at pos=
+Show start positions=
+TA4 Move Controller II=
+Test move=
+missing=
 
 ### node_detector.lua ###
 
@@ -1225,6 +1257,7 @@ TA4 Recipe Block=
 ### recipes.lua ###
 
 Flint and Iron=
+TA1 Iron Block=
 TA1 Iron Ingot=
 [Bucket] Lava can only be placed below sea level!=
 
@@ -1439,13 +1472,12 @@ right to left=
 Doser=
 TA4 Doser=
 catalyst missing=
-output: silo expected=
-output: tank expected=
+output: A @1 is required for @2=
 reactor defect=
 reactor defect or no power=
 reactor has no power=
-waste: silo expected=
-waste: tank expected=
+silo=
+tank=
 wrong catalyst=
 
 ### ta4_doser.lua ###

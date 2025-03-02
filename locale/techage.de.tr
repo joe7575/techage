@@ -65,6 +65,7 @@ Basalt Stone Brick=Basaltsteinziegel
 Sieved Basalt Gravel=Basaltkies gesiebt
 
 ### basic_terminal.lua ###
+### flycontroller.lua ###
 ### movecontroller.lua ###
 ### terminal.lua ###
 
@@ -422,6 +423,7 @@ with door sound=mit Türgeräusch
 ### doorcontroller2.lua ###
 ### flycontroller.lua ###
 ### movecontroller.lua ###
+### movecontroller2.lua ###
 ### node_detector.lua ###
 ### turncontroller.lua ###
 
@@ -432,6 +434,7 @@ block positions are stored.=Block Positionen gespeichert.
 ### doorcontroller2.lua ###
 ### flycontroller.lua ###
 ### movecontroller.lua ###
+### movecontroller2.lua ###
 ### turncontroller.lua ###
 
 Recording...=Aufzeichnung...
@@ -439,8 +442,13 @@ Recording...=Aufzeichnung...
 ### doorcontroller2.lua ###
 ### movecontroller.lua ###
 
-Reset=Rücksetzen
 Show positions=Positionen anzeigen
+
+### doorcontroller2.lua ###
+### movecontroller.lua ###
+### movecontroller2.lua ###
+
+Reset=Rücksetzen
 
 ### drillbox.lua ###
 
@@ -580,6 +588,10 @@ Stopped=Gestoppt
 
 Error: Invalid path !!=Fehler: Ungültiger Pfad !!
 
+### fly_lib2.lua ###
+
+Invalid node=Ungültiger Block
+
 ### flycontroller.lua ###
 
 Error: Recording is missing !!=Fehler: Aufzeichnung fehlt !!
@@ -602,15 +614,21 @@ Store=Speichern
 ### flycontroller.lua ###
 ### movecontroller.lua ###
 
-Click on all blocks that shall be moved=Klicke auf alle Blöcke, die verschoben werden sollen
-Maximum Speed=Maximalgeschwindigkeit
-Maximum speed for moving blocks=Maximale Geschwindigkeit für bewegliche Blöcke
 Move=Bewege
 Move A-B=Bewege A-B
 Move B-A=Bewege B-A
+Stored=Gespeichert
+Switch to the remote controlled 'move xyz' mode=Wechseln in den ferngesteuerten 'move xyz'-Modus
+
+### flycontroller.lua ###
+### movecontroller.lua ###
+### movecontroller2.lua ###
+
+Click on all blocks that shall be moved=Klicke auf alle Blöcke, die verschoben werden sollen
+Maximum Speed=Maximalgeschwindigkeit
+Maximum speed for moving blocks=Maximale Geschwindigkeit für bewegliche Blöcke
 Move block height=Move Block Höhe
 Object offset=Objekt Offset
-Stored=Gespeichert
 Value in the range of 0.0 to 1.0=Wert im Bereich von 0.0 bis 1.0
 Y-offset for non-player objects like vehicles (-0.5 to 0.5)=Y-Offset für Nicht-Spieler Objekte wie Fahrzeuge (-0.5 bis 0.5)
 
@@ -1025,9 +1043,23 @@ TA3 CRT Monitor no:=TA3 Röhrenmonitor Nr.:
 Error: Invalid distance !!=Fehler: Ungültige Entfernung !!
 Move distance=Entfernung
 Move distance (A to B)=Entfernung (A nach B)
-Switch to the remote controlled 'move xyz' mode=Wechseln in den ferngesteuerten 'move xyz'-Modus
 TA Rack and Pinion=TA Zahnstange
+
+### movecontroller.lua ###
+### movecontroller2.lua ###
+
 TA4 Move Controller=TA4 Move Controller
+
+### movecontroller2.lua ###
+
+Command syntax error!=Befehlssyntaxfehler!
+Control,Inventory=Steuerung,Inventar
+Distance too large!=Entfernung zu groß!
+Node at pos=Block an Position
+Show start positions=Startpositionen anzeigen
+TA4 Move Controller II=TA4 Move Controller II
+Test move=Teste Bewegung
+missing=fehlt
 
 ### node_detector.lua ###
 
@@ -1225,6 +1257,7 @@ TA4 Recipe Block=TA4 Rezept Block
 ### recipes.lua ###
 
 Flint and Iron=Flint and Iron
+TA1 Iron Block=TA1 Eisenblock
 TA1 Iron Ingot=TA1 Eisenbarren
 [Bucket] Lava can only be placed below sea level!=Lava kann nur unterhalb der Meerehöhe platziert werden!
 
@@ -1439,13 +1472,12 @@ right to left=von rechts nach links
 Doser=Dosierer
 TA4 Doser=TA4 Dosierer
 catalyst missing=Katalysator fehlt
-output: silo expected=Ausgabe benötigt ein Silo
-output: tank expected=Ausgabe benötigt einen Tank
+output: A @1 is required for @2=Für @2 wird ein @1 benötigt
 reactor defect=Reaktor defekt
 reactor defect or no power=Reaktor defekt oder kein Strom
 reactor has no power=Reaktor hat keinen Strom
-waste: silo expected=Abfall benötigt ein Silo
-waste: tank expected=Abfall benötigt einen Tank
+silo=Silo
+tank=Tank
 wrong catalyst=falscher Katalysator
 
 ### ta4_doser.lua ###
@@ -1656,3 +1688,8 @@ Remove detector=Entferne Detektor
 TA4 Collider Detector Worker=TA4 Collider Detektor Worker
 [TA4] Detector is being built!=[TA4] Detektor wird gebaut! 
 [TA4] Detector is being removed!=[TA4] Detektor wird  entfernt!
+
+
+##### not used anymore #####
+
+output: Empty @1 or @2 with @3 expected=Leeres/Leerer @1 oder @2 mit @3 erwartet

@@ -144,12 +144,12 @@ end
 test_setup = function(pos, nvm)
 	local recipe = recipes.get(nvm, "ta4_doser")
 	local ndef = minetest.registered_craftitems[recipe.output.name]
-	local container = ndef.groups and ndef.groups.powder == 1 and "silo" or "tank"
 	nvm.fault = nil
 	
 	local desc = ndef.description
 	if not reactor_cmnd(pos, "test_output_container", recipe.output.name) then
-		nvm.fault = S("output: Empty @1 or @2 with @3 expected", container, container, desc)
+		local container = ndef.groups and ndef.groups.powder == 1 and S("silo") or S("tank")
+		nvm.fault = S("output: A @1 is required for @2",  container, desc)
 		return
 	end
 	
@@ -158,10 +158,10 @@ test_setup = function(pos, nvm)
 	end
 	
 	ndef = minetest.registered_craftitems[recipe.waste.name]
-	container = ndef.groups and ndef.groups.powder == 1 and "silo" or "tank"
 	desc = ndef.description
 	if not reactor_cmnd(pos, "test_waste_container", recipe.waste.name) then
-		nvm.fault = S("output: Empty @1 or @2 with @3 expected", container, container, desc)
+		local container = ndef.groups and ndef.groups.powder == 1 and "silo" or "tank"
+		nvm.fault = S("output: A @1 is required for @2",  container, desc)
 		return
 	end
 end
