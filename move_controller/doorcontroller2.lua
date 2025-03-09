@@ -47,7 +47,8 @@ end
 local function is_simple_node(pos, name)
 	if not minecart.is_rail(pos, name) then
 		local ndef = minetest.registered_nodes[name]
-		return techage.can_dig_node(name, ndef) or minecart.is_cart(name)
+		return techage.can_dig_node(name, ndef) or minecart.is_cart(name) or 
+		       doors.registered_doors[name] or doors.registered_trapdoors[name]
 	end
 	return false
 end
@@ -126,11 +127,19 @@ end
 --------------------------------------------------------------------------
 -- Exchange nodes
 --------------------------------------------------------------------------
+local function remove_hidden_door_node(pos)
+	local above = vector.offset(pos, 0, 1, 0)
+	if minetest.get_node(above).name == "doors:hidden" then
+		minetest.remove_node(above)
+	end
+end
+
 local function exchange_node(cfg, item)
 	local node = techage.get_node_lvm(cfg.pos)
 	if is_simple_node(cfg.pos, node.name) then
 		local name = item:get_count() > 0 and item:get_name() or "air"
 		fly.exchange_node(cfg.pos, name, cfg.param2)
+		remove_hidden_door_node(cfg.pos)
 		cfg.param2 = node.param2
 		cfg.state = not cfg.state
 		if node.name ~= "air" then
@@ -245,9 +254,11 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 
 		if fields.tab == "2" then
 			meta:set_string("formspec", formspec2(nvm))
+			nvm.fs2_active = false
 			return
 		elseif fields.tab == "1" then
 			meta:set_string("formspec", formspec1(nvm, meta))
+			nvm.fs2_active = true
 			return
 		elseif fields.record then
 			nvm.recording = true
@@ -317,7 +328,11 @@ minetest.register_node("techage:ta3_doorcontroller2", {
 		end
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
-		meta:set_string("formspec", formspec1(nvm, meta))
+		if nvm.fs2_active then
+			meta:set_string("formspec", formspec2(nvm))
+		else
+			meta:set_string("formspec", formspec1(nvm, meta))
+		end
 	end,
 
 	can_dig = function(pos, player)
@@ -412,6 +427,7 @@ local Doors = {
 	"doors:rusty_prison_door",
 	"doors:trapdoor_steel",
 	"doors:door_glass",
+	"doors:door_wood",
 	"doors:door_obsidian_glass",
 	"doors:japanese_door",
 	"doors:screen_door",
