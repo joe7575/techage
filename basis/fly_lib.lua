@@ -431,9 +431,8 @@ local function node_to_entity(base_pos, start_pos, dest_pos, idx)
 		meta:set_string("ta_block_locked", "true")
 	elseif not meta:contains("ta_block_locked") then
 		-- Block with other metadata
-		node = techage.get_node_lvm(start_pos)
 		metadata = meta:to_table()
-		minetest.after(0.1, minetest.remove_node, start_pos)
+		minetest.remove_node(start_pos)
 	elseif idx then
 		local inv = M(base_pos):get_inventory()
 		local stack = inv:get_stack("main", idx)
