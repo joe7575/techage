@@ -86,7 +86,14 @@ function api.get_mapblock_data(key)
 	local s = get_block(key)
 	if s then
 		if s:byte(1) == MAR_MAGIC then
-			return marshal.decode(s)
+			--return marshal.decode(s)
+			local sts, tbl = pcall(marshal.decode, s)
+			if not sts then
+				minetest.log("warning", "[techage] marshal.decode error: " .. dump(tbl))
+				api.store_mapblock_data(key, {})
+				return {}
+			end
+			return tbl
 		else
 			return minetest.deserialize(s)
 		end

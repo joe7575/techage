@@ -20,6 +20,7 @@ local has_mesecons = minetest.global_exists("mesecon")
 
 local NodeInfoCache = {}
 local NumbersToBeRecycled = {}
+local CmndOnHold = {}
 local MP = minetest.get_modpath("techage")
 local techage_use_sqlite = minetest.settings:get_bool('techage_use_sqlite', false)
 
@@ -383,6 +384,22 @@ function techage.check_numbers(numbers, placer_name)
 	return false
 end
 
+function techage.cmnd_hold(src)
+	CmndOnHold[src] = {}
+	print("cmnd_hold", src)
+end
+
+function techage.cmnd_release(src)
+	local list = CmndOnHold[src]
+	if list then
+		print("cmnd_release", src)
+		for _,cmnd in ipairs(list) do
+			cmnd[1](cmnd[2], cmnd[3], cmnd[4], cmnd[5])
+		end
+		CmndOnHold[src] = nil
+	end
+end
+
 function techage.send_multi(src, numbers, topic, payload)
 	--print("send_multi", src, numbers, topic)
 	for _,num in ipairs(string_split(numbers, " ")) do
@@ -391,7 +408,11 @@ function techage.send_multi(src, numbers, topic, payload)
 			local ndef = NodeDef[ninfo.name]
 			if ndef and ndef.on_recv_message then
 				techage_counting_hit()
-				ndef.on_recv_message(ninfo.pos, src, topic, payload)
+				if CmndOnHold[src] then
+					table.insert(CmndOnHold[src], {ndef.on_recv_message, ninfo.pos, src, topic, payload})
+				else
+					ndef.on_recv_message(ninfo.pos, src, topic, payload)
+				end
 			end
 		end
 	end
@@ -404,7 +425,12 @@ function techage.send_single(src, number, topic, payload)
 		local ndef = NodeDef[ninfo.name]
 		if ndef and ndef.on_recv_message then
 			techage_counting_hit()
-			return ndef.on_recv_message(ninfo.pos, src, topic, payload)
+			if CmndOnHold[src] then
+				table.insert(CmndOnHold[src], {ndef.on_recv_message, ninfo.pos, src, topic, payload})
+				return true
+			else
+				return ndef.on_recv_message(ninfo.pos, src, topic, payload)
+			end
 		end
 	end
 	return false
@@ -454,7 +480,12 @@ function techage.beduino_send_cmnd(src, number, topic, payload)
 		local ndef = NodeDef[ninfo.name]
 		if ndef and ndef.on_beduino_receive_cmnd then
 			techage_counting_hit()
-			return ndef.on_beduino_receive_cmnd(ninfo.pos, src, topic, payload or {})
+			if CmndOnHold[src] then
+				table.insert(CmndOnHold[src], {ndef.on_beduino_receive_cmnd, ninfo.pos, src, topic, payload or {}})
+				return 0
+			else
+				return ndef.on_beduino_receive_cmnd(ninfo.pos, src, topic, payload or {})
+			end
 		end
 	end
 	return 1, ""
