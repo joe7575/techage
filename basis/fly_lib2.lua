@@ -22,6 +22,20 @@ local fly1 = techage.flylib
 local flylib2 = {}
 local MAX_SPEED = 8
 
+local DelayedJobs = {}
+
+local function call_after(func, ...)
+	DelayedJobs[#DelayedJobs + 1] = {func = func, args = {...}}
+end
+	
+local function run_delayed_jobs()
+	for idx = 1, #DelayedJobs do
+		local job = DelayedJobs[idx]
+		job.func(unpack(job.args))
+	end
+	DelayedJobs = {}
+end
+
 local function slots(slot)
 	return function(slot, i)
 		if slot == 0 then  
@@ -138,7 +152,7 @@ local function correct_node(pos, idx, node, dest_pos)
 		else
 			local inode = get_node_from_inventory(inv, idx)
 			minetest.swap_node(node.curr_pos, inode)
-			minetest.after(0.2, minetest.set_node, node.curr_pos, {name = cnode.name, param2 = cnode.param2})
+			call_after(minetest.set_node, node.curr_pos, {name = cnode.name, param2 = cnode.param2})
 			return true
 		end
 	end
@@ -219,6 +233,7 @@ function flylib2.reset_nodes(pos, nvm, slot)
 			end
 		end
 	end
+	run_delayed_jobs()
 	return true
 end
 
@@ -242,6 +257,7 @@ function flylib2.move_nodes(pos, nvm, dest_pos, slot)
 			end
 		end
 	end
+	run_delayed_jobs()
 	return true
 end
 
