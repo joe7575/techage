@@ -973,6 +973,10 @@ function flylib.exchange_node(pos, name, param2)
 	if move_block then
 		meta:set_string("ta_move_block", move_block)
 	end
+	
+	--  Protect the doors from being opened by hand
+	meta:set_int("ta_door_locked", 1)
+
 end
 
 function flylib.remove_node(pos)
