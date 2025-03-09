@@ -15,7 +15,7 @@
 local M = minetest.get_meta
 local S = techage.S
 local SCREENSAVER_TIME = 60 * 5
-local CYCLE_TIME = 0.2
+local CYCLE_TIME = 0.1
 
 local Functions = {}
 local Actions = {}
@@ -465,6 +465,18 @@ end)
 
 register_ext_function("time", {}, nanobasic.NB_NUM, function(pos, nvm)
 	nanobasic.push_num(pos, minetest.get_gametime() or 0)
+	return true
+end)
+
+register_ext_function("hold", {}, nanobasic.NB_NONE, function(pos, nvm)
+	local own_num = M(pos):get_string("node_number")
+	techage.cmnd_hold(own_num)
+	return true
+end)
+
+register_ext_function("release", {}, nanobasic.NB_NONE, function(pos, nvm)
+	local own_num = M(pos):get_string("node_number")
+	techage.cmnd_release(own_num)
 	return true
 end)
 
