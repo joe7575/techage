@@ -62,6 +62,9 @@
 - [Techage Functions](#techage-functions)
 	- [Error Handling](#error-handling)
 	- [Mapblock Loading](#mapblock-loading)
+	- [Hold / Release of techage commands](#hold--release-of-techage-commands)
+	- [HOLD](#hold)
+	- [RELEASE](#release)
 	- [CMD](#cmd)
 	- [CMD$](#cmd-1)
 	- [CHAT](#chat)
@@ -1272,6 +1275,44 @@ The `RESET` function is used to reset the program to the first line.
 64000 PRINT "Mapblock loaded"
 64010 RESET()
 ```
+
+### Hold / Release of techage commands
+
+Techage commands can be held and released. This is useful when a sequence of commands should
+be executed at once. Normally, the commands are executed once per cycle, which is 0.1 seconds.
+By means of the `HOLD` and `RELEASE` functions, the commands are executed at once.
+The `HOLD` function is used to hold the commands and the `RELEASE` function is used to release
+and execute the commands.
+
+Example:
+
+```text
+10 HOLD()
+20 CMD(1234, 1, 1)
+30 CMD(1234, 2, 1)
+40 CMD(1234, 3, 1)
+50 RELEASE()   ' <= Execute the commands
+```
+
+### HOLD
+
+Format:
+
+```text
+HOLD()
+```
+
+The `HOLD` function is used to hold Techage commands.
+
+### RELEASE
+
+Format:
+
+```text
+RELEASE()
+```
+
+The `RELEASE` function is used to release and execute Techage commands.
 
 ### CMD
 

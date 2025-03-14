@@ -386,13 +386,11 @@ end
 
 function techage.cmnd_hold(src)
 	CmndOnHold[src] = {}
-	print("cmnd_hold", src)
 end
 
 function techage.cmnd_release(src)
 	local list = CmndOnHold[src]
 	if list then
-		print("cmnd_release", src)
 		for _,cmnd in ipairs(list) do
 			cmnd[1](cmnd[2], cmnd[3], cmnd[4], cmnd[5])
 		end
