@@ -61,6 +61,7 @@ return {
     "3,TA4 Sequenzer",
     "2,Move/Dreh-Controller",
     "3,TA4 Move Controller",
+    "3,TA4 Move Controller II",
     "3,TA4 Drehcontroller / Turn Controller",
     "2,TA4 Lampen",
     "3,TA4 LED Pflanzenlampe / TA4 LED Grow Light",
@@ -587,10 +588,10 @@ return {
     "Anleitung:\n"..
     "\n"..
     "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü (Taste \"Aufzeichnen\") an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
-    "  - die \"Flugstrecke\" muss über eine x\\,y\\,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 1000 m)\n"..
-    "  - mit den Menü-Tasten \"Bewege A-B\" sowie \"Bewege B-A\" kann die Bewegung getestet werden\n"..
-    "  - man kann auch durch Wände oder andere Blöcke fliegen\n"..
-    "  - auch die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle \"unsichtbar\" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht\n"..
+    "  - Die \"Flugstrecke\" muss über eine x\\,y\\,z Angabe (relativ) eingegeben werden (die maximale Distanz beträgt 1000 m)\n"..
+    "  - Mit den Menü-Tasten \"Bewege A-B\" sowie \"Bewege B-A\" kann die Bewegung getestet werden\n"..
+    "  - Man kann auch durch Wände oder andere Blöcke fliegen\n"..
+    "  - Die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle \"unsichtbar\" gespeichert. Dies ist für Schiebetüren und ähnliches gedacht\n"..
     "\n"..
     "Der Move Controller unterstützt folgende techage Kommandos:\n"..
     "\n"..
@@ -608,7 +609,32 @@ return {
     "\n"..
     "  - Sofern mehrere Blöcke bewegt werden sollen\\, muss der Block\\, der die Spieler/Mobs mitnehmen soll\\, beim Antrainieren als erstes angeklickt werden.\n"..
     "  - Wird das 'moveto' Kommando genutzt\\, so gilt die angegebene Zielposition für den Block\\, der beim Antrainieren als erstes angeklickt wird.\n"..
-    "  - Hat der Block\\, der die Spieler/Mobs mitnehmen soll\\, eine reduzierte Höhe\\, so muss die Höhe im Controller über das Schraubenschlüsselmenü eingestellt werden (bspw. Höhe = 0.5). Ansonsten wird der Spieler/Mob nicht \"gefunden\" und damit nicht mitgenommen.\n"..
+    "  - Hat der Block\\, der die Spieler/Mobs mitnehmen soll\\, eine reduzierte Höhe\\, so muss die Höhe im Controller über das Schraubenschlüsselmenü eingestellt werden (bspw. Höhe = 0.5).\nAnsonsten wird der Spieler/Mob nicht \"gefunden\" und damit nicht mitgenommen.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "Der TA4 Move Controller II ist eine Weiterentwicklung des TA4 Move Controllers. Er kann bis zu 16 Blöcke bewegen und unterstützt nur noch die 'moveto' und 'reset' Kommandos.\n"..
+    "Außerdem besitzt er ein Inventar\\, in dem die Blöcke gespeichert werden\\, sofern sie nicht platziert werden können\\, da die Position bereits belegt ist.\n"..
+    "Im Falle eines Server-Crashs oder eines Neustarts können die Blöcke ggf. aus dem Inventar wiederhergestellt werden.\n"..
+    "\n"..
+    "Anleitung:\n"..
+    "\n"..
+    "  - Controller setzen und die Blöcke\\, die bewegt werden sollen\\, über das Menü (Taste \"Aufzeichnen\") an-trainieren (Es können bis zu 16 Blöcke an-trainiert werden)\n"..
+    "  - Mit den Menü-Tasten \"Teste Bewegung\" sowie \"Rücksetzen\" kann die Bewegung getestet werden\n"..
+    "  - Man kann auch durch Wände oder andere Blöcke fliegen\n"..
+    "  - Die Zielposition für die Blöcke kann belegt sein. Die Blöcke werden in diesem Falle im Block-Inventar gespeichert. Dies ist für Schiebetüren und ähnliches gedacht\n"..
+    "\n"..
+    "Der Move Controller II unterstützt folgende techage Kommandos:\n"..
+    "\n"..
+    "  - 'moveto' verschiebt Block an die angegebene Zielposition (die Zielposition bezieht sich auf den ersten markierten Block\\, die weiteren Blöcke werden relativ zu dieser Position verschoben)\n"..
+    "  - 'reset' Block/Blöcke zurück in Startposition bewegen\n"..
+    "\n"..
+    "Beispiel Lua Controller: '$send_cmnd(MOVE_CTLR\\, \"moveto\"\\, \"1234\\,12\\,-567\")'\n"..
+    "\n"..
+    "*Wichtige Hinweise:*\n"..
+    "\n"..
+    "  - Sofern mehrere Blöcke bewegt werden sollen\\, bezieht sich die angegebene Zielposition auf den Block\\, der beim Antrainieren als erstes angeklickt wurde.\nDie anderen Blöcke werden relativ zu dieser Position verschoben.\n"..
+    "  - Hat der Block\\, der die Spieler/Mobs mitnehmen soll\\, eine reduzierte Höhe\\, so muss die Höhe im Controller über das Schraubenschlüsselmenü eingestellt werden (bspw. Höhe = 0.5).\nAnsonsten wird der Spieler/Mob nicht \"gefunden\" und damit nicht mitgenommen.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -998,6 +1024,7 @@ return {
     "ta4_sequencer",
     "",
     "ta4_movecontroller",
+    "ta4_movecontroller2",
     "ta4_turncontroller",
     "",
     "ta4_growlight",
@@ -1063,6 +1090,7 @@ return {
     "",
     "",
     "ta4_reactor",
+    "",
     "",
     "",
     "",

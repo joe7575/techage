@@ -678,6 +678,36 @@ You can switch to the `move xyz` operating mode via the wrench menu. After switc
 
 [ta4_movecontroller|image]
 
+### TA4 Move Controller II
+
+The TA4 Move Controller II is a further development of the TA4 Move Controller. It can move up to 16 blocks and only supports the `moveto` and `reset` commands.
+It also has an inventory where blocks are stored if they cannot be placed because the position is already occupied.
+
+In the event of a server crash or restart, the blocks can be restored from the inventory if necessary.
+
+Instructions:
+
+- Place the controller and train the blocks to be moved via the menu (press the "Record" button). (Up to 16 blocks can be trained.)
+- Test the movement using the "Test move" and "Reset" menu buttons.
+- You can also fly through walls or other blocks.
+- The target position for the blocks can be occupied. In this case, the blocks are saved in the blocks inventory. This is intended for sliding doors and similar devices.
+
+The Move Controller II supports the following techage commands:
+
+- `moveto` moves a block to the specified target position (the target position refers to the first selected block; the remaining blocks are moved relative to this position).
+- `reset` moves the block(s) back to the starting position.
+
+Example Lua Controller: `$send_cmnd(MOVE_CTLR, "moveto", "1234,12,-567")`
+
+**Important Notes:**
+
+- If multiple blocks are to be moved, the specified target position refers to the block that was clicked first during training.
+  The other blocks are moved relative to this position.
+- If the block that is to carry the players/mobs has a reduced height, the height must be set in the controller via the wrench menu (e.g., height = 0.5).
+  Otherwise, the player/mob will not be "found" and therefore not carried.
+
+[ta4_movecontroller2|image]
+
 ### TA4 Turn Controller
 
 The TA4 turn controller is similar to the "Move Controller", but the selected blocks are not moved, but rotated around their center to the right or left.

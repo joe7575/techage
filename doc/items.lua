@@ -204,6 +204,7 @@ local items = {
 	ta4_button_4x = "techage:ta4_button_4x",
 	ta4_sequencer = "techage:ta4_sequencer",
 	ta4_movecontroller = "techage:ta4_movecontroller",
+	ta4_movecontroller2 = "techage:ta4_movecontroller2",
 	ta4_turncontroller = "techage:ta4_turncontroller",
 	ta4_signallamp_2x = "techage:ta4_signallamp_2x",
 	ta4_signallamp_4x = "techage:ta4_signallamp_4x",

@@ -61,6 +61,7 @@ return {
     "3,TA4 Sequencer",
     "2,Move/Turn Controller",
     "3,TA4 Move Controller",
+    "3,TA4 Move Controller II",
     "3,TA4 Turn Controller",
     "2,TA4 Lamps",
     "3,TA4 LED Grow Light",
@@ -610,6 +611,32 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "The TA4 Move Controller II is a further development of the TA4 Move Controller. It can move up to 16 blocks and only supports the 'moveto' and 'reset' commands.\n"..
+    "It also has an inventory where blocks are stored if they cannot be placed because the position is already occupied.\n"..
+    "\n"..
+    "In the event of a server crash or restart\\, the blocks can be restored from the inventory if necessary.\n"..
+    "\n"..
+    "Instructions:\n"..
+    "\n"..
+    "  - Place the controller and train the blocks to be moved via the menu (press the \"Record\" button). (Up to 16 blocks can be trained.)\n"..
+    "  - Test the movement using the \"Test move\" and \"Reset\" menu buttons.\n"..
+    "  - You can also fly through walls or other blocks.\n"..
+    "  - The target position for the blocks can be occupied. In this case\\, the blocks are saved in the blocks inventory. This is intended for sliding doors and similar devices.\n"..
+    "\n"..
+    "The Move Controller II supports the following techage commands:\n"..
+    "\n"..
+    "  - 'moveto' moves a block to the specified target position (the target position refers to the first selected block\\; the remaining blocks are moved relative to this position).\n"..
+    "  - 'reset' moves the block(s) back to the starting position.\n"..
+    "\n"..
+    "Example Lua Controller: '$send_cmnd(MOVE_CTLR\\, \"moveto\"\\, \"1234\\,12\\,-567\")'\n"..
+    "\n"..
+    "*Important Notes:*\n"..
+    "\n"..
+    "  - If multiple blocks are to be moved\\, the specified target position refers to the block that was clicked first during training.\nThe other blocks are moved relative to this position.\n"..
+    "  - If the block that is to carry the players/mobs has a reduced height\\, the height must be set in the controller via the wrench menu (e.g.\\, height = 0.5).\nOtherwise\\, the player/mob will not be \"found\" and therefore not carried.\n"..
+    "\n"..
+    "\n"..
+    "\n",
     "The TA4 turn controller is similar to the \"Move Controller\"\\, but the selected blocks are not moved\\, but rotated around their center to the right or left.\n"..
     "\n"..
     "Instructions:\n"..
@@ -996,6 +1023,7 @@ return {
     "ta4_sequencer",
     "",
     "ta4_movecontroller",
+    "ta4_movecontroller2",
     "ta4_turncontroller",
     "",
     "ta4_growlight",
@@ -1061,6 +1089,7 @@ return {
     "",
     "",
     "ta4_reactor",
+    "",
     "",
     "",
     "",
