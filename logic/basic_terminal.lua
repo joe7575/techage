@@ -222,12 +222,13 @@ local function renumber_lines(pos, nvm, code)
 	local num = 10
 	for line in code:gmatch("[^\r\n]+") do
 		local s = line:match("^%s*(%d+)")
-		if s and tonumber(s) < 64000 then
+		if s and tonumber(s) < num then
 			lines[#lines + 1] = num .. line:sub(s:len() + 1)
 			new_nums[s] = num
 			num = num + 10
 		else
 			lines[#lines + 1] = line
+			num = tonumber(s) + 10
 		end
 	end
 	
@@ -465,6 +466,29 @@ end)
 
 register_ext_function("time", {}, nanobasic.NB_NUM, function(pos, nvm)
 	nanobasic.push_num(pos, minetest.get_gametime() or 0)
+	return true
+end)
+
+register_ext_function("daytime", {}, nanobasic.NB_NUM, function(pos, nvm)
+	nanobasic.push_num(pos, math.floor(minetest.get_timeofday() * 1440) or 0)
+	return true
+end)
+
+register_ext_function("daytime$", {nanobasic.NB_NUM}, nanobasic.NB_STR, function(pos, nvm)
+	local british = nanobasic.pop_num(pos) or 0
+	local t = minetest.get_timeofday()
+	local h = math.floor(t * 24) % 24
+	local m = math.floor(t * 1440) % 60
+	
+	if british == 1 then
+		if h < 12 then
+			nanobasic.push_str(pos, string.format("%02d:%02d am", h, m))
+		else
+			nanobasic.push_str(pos, string.format("%02d:%02d pm", h - 12, m))
+		end
+	else
+		nanobasic.push_str(pos, string.format("%02d:%02d", h, m))
+	end
 	return true
 end)
 
