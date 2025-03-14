@@ -209,7 +209,7 @@ minetest.register_node("techage:ta4_movecontroller2", {
 
 	ta4_formspec = WRENCH_MENU,
 	paramtype2 = "facedir",
-	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
+	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
 })
@@ -282,17 +282,8 @@ techage.register_node({"techage:ta4_movecontroller2"}, {
 	end,
 })
 
---minetest.register_craft({
---	output = "techage:ta4_movecontroller2",
---	recipe = {
---		{"default:steel_ingot", "dye:blue", "default:steel_ingot"},
---		{"default:mese_crystal_fragment", "techage:ta4_wlanchip", "default:mese_crystal_fragment"},
---		{"group:wood", "basic_materials:gear_steel", "group:wood"},
---	},
---})
-
---minetest.register_craft({
---	output = "techage:ta4_movecontroller2",
---	recipe = {"techage:ta4_movecontroller"},
---	type = "shapeless",
---})
+minetest.register_craft({
+	output = "techage:ta4_movecontroller2",
+	recipe = {"techage:ta4_movecontroller"},
+	type = "shapeless",
+})
