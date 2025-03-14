@@ -1,6 +1,6 @@
 # NanoBasic<!-- omit from toc -->
 
-## Reference Manual<!-- omit from toc -->
+## Reference Manual v1.0.3<!-- omit from toc -->
 
 ## Table of Contents<!-- omit from toc -->
 
@@ -56,6 +56,8 @@
 	- [STR$](#str)
 	- [STRING$](#string)
 	- [TIME](#time)
+	- [DAYTIME](#daytime)
+	- [DAYTIME$](#daytime-1)
 	- [VAL](#val)
 - [Techage Functions](#techage-functions)
 	- [Error Handling](#error-handling)
@@ -485,20 +487,39 @@ IF expression THEN
 ENDIF
 ```
 
-The IF statement is used to make a decision based on the value of an expression.
+Or:
+
+```text
+IF expression THEN
+    statement
+    .
+    .
+[ELSEIF expression THEN
+    statement
+    .
+    .]
+[ELSE
+    statement
+    .
+    .]
+ENDIF
+```
+
+The IF and the ELSEIF statements are used to make a decision based on the value of an expression.
 If the expression is true (nonzero), the THEN or GOTO clause is executed.
 If the expression is false (zero), the statement following the ELSE keyword is executed.
 
-The ELSE clause is optional.
+The ELSEIF and ELSE clauses are optional.
 
 Example:
 
 ```text
-10 IF A=0 THEN 100
-20 PRINT "A<>0"
-30 END
-100 PRINT "A=0"
-110 END
+10 IF A=0 THEN
+20   PRINT "A=0"
+30 ELSE
+40   PRINT "A<>0"
+50 ENDIF
+60 END
 ```
 
 ### LET
@@ -1138,6 +1159,30 @@ TIME()
 ```
 
 The TIME function is used to return the current time in seconds since start of the Minetest server.
+
+### DAYTIME
+
+Format:
+
+```text
+t = DAYTIME()
+```
+
+The DAYTIME function is used to return the daytime in minutes (0-1440).
+
+### DAYTIME$
+
+Format:
+
+```text
+t$ = DAYTIME$(format)
+```
+
+The DAYTIME$ function is used to return the daytime as string.
+`format` is used to specify the time format:
+
+- 0 = 24 hours format (0-23)
+- 1 = 12 hour format with AM/PM
 
 ### VAL
 
