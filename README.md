@@ -96,6 +96,14 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2025-03-14 V1.23**
+
+- Add Move Controller II
+- Improve Basic Terminal
+- Improve Lua Controller
+- Improve Fly Controller
+- Fix several issues
+
 **2025-02-14 V1.22**
 
 - Remove Lua controller batteries

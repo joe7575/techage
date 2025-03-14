@@ -1559,7 +1559,9 @@ As payload data, these commands may require numeric values or a string value.
 | Move Contr. 3            | 11 | 3          | TA4 Move Controller command to move the block(s) to the opposite position |
 | Move Contr. `move xyz`   | 18 | x, y, z    | TA4 Move Controller command to move the block(s) by the given<br>x/y/z-distance. Valid ranges for x, y, and z are -100 to 100 |
 | Move Contr. `moveto`     | 24 | x, y, z    | TA4 Move Controller command to move the block(s) to the given absolute x/y/z-position. |
-| Move Contr. reset        | 19 | -          | Reset TA4 Move Controller (move block(s) to start position)  |
+| Move Contr. `reset`      | 19 | -          | Reset TA4 Move Controller (move block(s) to start position)  |
+| Move Contr. II `moveto`  | 24 | x, y, z    | TA4 Move Controller command to move the block(s) to the given absolute x/y/z-position. |
+| Move Contr. II `reset`   | 19 | -          | Reset TA4 Move Controller (move block(s) to start position)  |
 | Turn Contr. 1            | 12 | 1          | TA4 Turn Controller command to turn the block(s) to the left |
 | Turn Contr. 2            | 12 | 2          | TA4 Turn Controller command to turn the block(s) to the right |
 | Turn Contr. 3            | 12 | 3          | TA4 Turn Controller command to turn the block(s) 180 degrees |
