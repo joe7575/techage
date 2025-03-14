@@ -177,12 +177,6 @@ if techage.modified_recipes_enabled then
 	})
 	minetest.clear_craft({output = "fire:flint_and_steel"})
 	minetest.clear_craft({output = "bucket:bucket_empty"})
-	if minetest.global_exists("moreores") then
-		minetest.clear_craft({
-			recipe = "moreores:silver_lump",
-			type = "cooking",
-		})
-	end
 
 	techage.ironage_register_recipe({
 		output = "default:bronze_ingot 4",

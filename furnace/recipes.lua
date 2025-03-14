@@ -161,11 +161,6 @@ if minetest.global_exists("moreores") then
 			type = "cooking",
 			recipe = "moreores:mithril_lump",
 		})
-		-- delete cooking silver lumps into silver ingots
-		minetest.clear_craft({
-			type = "cooking",
-			recipe = "moreores:silver_lump",
-		})
 	end
 
 	techage.furnace.register_recipe({
