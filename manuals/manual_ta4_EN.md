@@ -613,9 +613,9 @@ Entire processes can be programmed using the TA4 sequencer. Here's an example:
 
 ```
 -- this is a comment
-[1] send 1234 a2b
-[30] send 1234 b2a
-[60] goto 1
+[1] send 188 reset
+[50] send 188 moveto 771,19,-280
+[100] goto 1
 ```
 
 - Each line begins with a number which corresponds to a point in time `[<num>]`
@@ -644,7 +644,7 @@ The cycle time (default: 100 ms) can be changed for the sequencer via the open-e
 
 ## Move/Turn Controller
 
-### TA4 Move Controller
+### TA4 Move Controller (deprecated)
 
 The TA4 Move Controller is similar to "Door Controller 2", but the selected blocks are not removed, but can be moved.
 Since the moving blocks can take players and mobs standing on the block with them, elevators and similar transport systems can be built with them.
