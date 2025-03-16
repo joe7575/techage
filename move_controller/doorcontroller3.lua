@@ -190,7 +190,7 @@ local function exchange_nodes(pos, nvm, slot, force)
 		if (force == nil)
 		or (force == "exch")
 		or (force == "dig" and item:get_count() == 0)
-		or (force == "set" and item:get_count() > 0) then
+		or (force == "set" and item:get_count() > 0)
 		or (force == "to2" and state)
 		or (force == "to1" and not state) then
 			item_list[idx] = exchange_node(cfg, item)
@@ -348,7 +348,7 @@ minetest.register_node("techage:ta3_doorcontroller3", {
 	end,
 
 	paramtype2 = "facedir",
-	groups = {choppy=2, cracky=2, crumbly=2},
+	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
 })
