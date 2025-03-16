@@ -78,6 +78,12 @@ ConvertTo = {
 	},
 }
 
+local SelectionBox = {
+	type = "fixed",
+	fixed = {-5/32, -15/32, 6/32, 5/32, 15/32, 24/32},
+}
+
+
 local function is_pole(pos)
 	local node = minetest.get_node(pos)
 	local dir = tubelib2.side_to_dir("B", node.param2)
@@ -124,6 +130,7 @@ minetest.register_node("techage:ta4_trafficlight1", {
 	tiles = {"techage_trafficlight1.png"},
 	drawtype = "mesh",
 	mesh = "techage_traffic_light.obj",
+	selection_box = SelectionBox,
 
 	after_place_node = function(pos, placer)
 		local number
@@ -154,12 +161,13 @@ minetest.register_node("techage:ta4_trafficlight1", {
 })
 
 for _,color in ipairs({"green", "amber", "red"}) do
-	tiles = {"techage_trafficlight1_" .. color .. '.png'}
+	local tiles = {"techage_trafficlight1_" .. color .. '.png'}
 	minetest.register_node("techage:ta4_trafficlight1_" .. color, {
 		description = TITLE,
 		tiles = tiles,
 		drawtype = "mesh",
 		mesh = "techage_traffic_light.obj",
+		selection_box = SelectionBox,
 
 		on_rightclick = on_rightclick,
 		after_dig_node = after_dig_node,
@@ -181,6 +189,7 @@ minetest.register_node("techage:ta4_trafficlight1B", {
 	tiles = {"techage_trafficlight1.png"},
 	drawtype = "mesh",
 	mesh = "techage_traffic_lightB.obj",
+	selection_box = SelectionBox,
 
 	on_rightclick = on_rightclick,
 	after_dig_node = after_dig_node,
@@ -197,12 +206,13 @@ minetest.register_node("techage:ta4_trafficlight1B", {
 })
 
 for _,color in ipairs({"green", "amber", "red"}) do
-	tiles = {"techage_trafficlight1_" .. color .. '.png'}
+	local tiles = {"techage_trafficlight1_" .. color .. '.png'}
 	minetest.register_node("techage:ta4_trafficlight1B_" .. color, {
 		description = TITLE,
 		tiles = tiles,
 		drawtype = "mesh",
 		mesh = "techage_traffic_lightB.obj",
+		selection_box = SelectionBox,
 	
 		on_rightclick = on_rightclick,
 		after_dig_node = after_dig_node,
@@ -224,6 +234,7 @@ minetest.register_node("techage:ta4_trafficlight2", {
 	tiles = {"techage_trafficlight2.png"},
 	drawtype = "mesh",
 	mesh = "techage_traffic_light.obj",
+	selection_box = SelectionBox,
 
 	after_place_node = function(pos, placer)
 		local number
@@ -254,13 +265,14 @@ minetest.register_node("techage:ta4_trafficlight2", {
 })
 
 for _,color in ipairs({"green", "amber", "red"}) do
-	tiles = {"techage_trafficlight2_" .. color .. '.png'}
+	local tiles = {"techage_trafficlight2_" .. color .. '.png'}
 	minetest.register_node("techage:ta4_trafficlight2_" .. color, {
 		description = TITLE,
 		tiles = tiles,
 		drawtype = "mesh",
 		mesh = "techage_traffic_light.obj",
-	
+		selection_box = SelectionBox,
+
 		on_rightclick = on_rightclick,
 		after_dig_node = after_dig_node,
 
@@ -281,6 +293,7 @@ minetest.register_node("techage:ta4_trafficlight2B", {
 	tiles = {"techage_trafficlight2.png"},
 	drawtype = "mesh",
 	mesh = "techage_traffic_lightB.obj",
+	selection_box = SelectionBox,
 
 	on_rightclick = on_rightclick,
 	after_dig_node = after_dig_node,
@@ -297,13 +310,14 @@ minetest.register_node("techage:ta4_trafficlight2B", {
 })
 
 for _,color in ipairs({"green", "amber", "red"}) do
-	tiles = {"techage_trafficlight2_" .. color .. '.png'}
+	local tiles = {"techage_trafficlight2_" .. color .. '.png'}
 	minetest.register_node("techage:ta4_trafficlight2B_" .. color, {
 		description = TITLE,
 		tiles = tiles,
 		drawtype = "mesh",
 		mesh = "techage_traffic_lightB.obj",
-	
+	selection_box = SelectionBox,
+
 		on_rightclick = on_rightclick,
 		after_dig_node = after_dig_node,
 
