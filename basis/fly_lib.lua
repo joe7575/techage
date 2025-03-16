@@ -981,16 +981,20 @@ function flylib.rotate_nodes(pos, lpos, rot)
 	return lpos2
 end
 
-function flylib.exchange_node(pos, name, param2)
+function flylib.exchange_node(pos, name, param2, expected_node_name)
 	local meta = M(pos)
 	local move_block
+	local res = false
 
 	-- consider stored "objects"
 	if meta:contains("ta_move_block") then
 		move_block = meta:get_string("ta_move_block")
 	end
 
-	minetest.swap_node(pos, {name = name, param2 = param2})
+	if not expected_node_name or techage.get_node_lvm(pos).name == expected_node_name then
+		minetest.swap_node(pos, {name = name, param2 = param2})
+		res = true
+	end
 
 	if move_block then
 		meta:set_string("ta_move_block", move_block)
@@ -998,7 +1002,7 @@ function flylib.exchange_node(pos, name, param2)
 	
 	--  Protect the doors from being opened by hand
 	meta:set_int("ta_door_locked", 1)
-
+	return res
 end
 
 function flylib.remove_node(pos)

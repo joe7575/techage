@@ -706,25 +706,28 @@ Der Tür Controller dient zur Ansteuerung der TA3 Tür/Tor Blöcke. Beim Tür Co
 
 ### TA3 Tür Controller II / Door Controller II
 
-Der Tür Controller II kann alle Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen, muss der "Aufzeichnen" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden, die Teil der Tür / des Tores sein sollen. Danach muss der "Fertig" Button gedrückt werden.  Es können bis zu 16 Blöcke ausgewählt werden. Die entfernten Blöcke werden im Inventar des Controllers gespeichert.
+Der Tür Controller II kann viele Arten von Blöcken entfernen und wieder setzen. Um den Tür Controller II anzulernen, muss der "Aufzeichnen" Button gedrückt werden. Dann müssen alle Blöcke angeklickt werden, die Teil der Tür / des Tores sein sollen. Danach muss der "Fertig" Button gedrückt werden. Es können bis zu 16 Blöcke ausgewählt werden.
 
- Über die Taste "Austauschen" kann die Funktion des Controllers von Hand getestet werden.
+Wird die Taste "Austauschen" gedrückt, werden die Blöcke an den angelernten Positionen entfernt und im Inventar des Controllers gespeichert.
+Die freigewordenen Positionen können auch wieder mit Blöcken belegt werden. Durch erneutes Drücken der "Austauschen" Taste werden die Blöcke mit den Blöcken im Inventar getauscht.
 
-Wird ein  `on` / `off` Kommando an den Tür Controller II gesendet, entfernt bzw. setzt er die Blöcke ebenfalls.
+Über die Taste "Rücksetzen" werden alle Blöcke wieder in den Ausgangszustand nach dem Anlernen zurückgesetzt. Damit ist die Anlernphase beendet und der Tür Controller II kann
+über Kommandos angesteuert werden.
 
-Mit `$send_cmnd(node_number, "exchange", 2)` können einzelne Böcke gesetzt, entfernt, bzw. durch andere Blöcke aus dem Inventar ersetzt werden. 
+Jede Position bzw. jeder Slot besitzt zwei Zustände:
 
-Mit `$send_cmnd(node_number, "set", 2)` kann ein Block aus dem Inventory explizit gesetzt werden, sofern der Inventory Slot nicht leer ist.
+1) Der Block befindet sich in der Welt (ein ggf. vorhandener Austauschblock ist im Inventar) = Ausgangszustand
+2) Der Block befindet sich im Inventar (ein ggf. vorhandener Austauschblock ist in der Welt) = Austauschzustand
 
-Mit `$send_cmnd(node_number, "dig", 2)` kann ein Block wieder entfernt werden, sofern der Inventory Slot leer ist. 
+- Über `on` / `off` Kommandos werden alle Blöcke an den angelernten Positionen mit denen im Inventar getauscht.
+- Über das `reset` Kommando werden alle Blöcke wieder in den Ausgangszustand nach dem Anlernen zurückgesetzt.
 
-Mit `$send_cmnd(node_number, "get", 2)` wird der Name des gesetzten Blocks zurückgeliefert. 
+Für alle folgenden Kommados muss zusätzlich die Slot-Nummer des Inventars als Parameter übergeben werden (1..16).
 
-Die Slot-Nummer des Inventars (1 .. 16) muss in allen drei Fällen als payload übergeben werden.
-
-Mit `$send_cmnd(node_number, "reset")` wird der Tür Controller zurückgesetzt. 
-
-Damit lassen sich auch ausfahrbare Treppen und ähnliches simulieren.
+- Über das `exc` Kommando wird ein Block in der Welt mit dem Block im Inventar getauscht.
+- Über das `to1` Kommando wird ein Block in der Welt mit dem Block im Inventar getauscht, sofern die Position im Zustand 2 war (Austauschzustand).
+- Über das `to2` Kommando wird ein Block in der Welt mit dem Block im Inventar getauscht, sofern die Position im Zustand 1 war (Ausgangszustand).
+- Über das `get` Kommando wird der Name des Blocks in der Welt zurückgeliefert.
 
 [ta3_doorcontroller|image]
 
