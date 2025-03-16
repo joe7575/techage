@@ -705,21 +705,28 @@ The door controller is used to control the TA3 door/gate blocks. With the door c
 
 ### TA3 Door Controller II
 
-The Door Controller II can remove and set all types of blocks. To teach in the Door Controller II, the "Record" button must be pressed. Then all blocks that should be part of the door / gate must be clicked. Then the "Done" button must be pressed. Up to 16 blocks can be selected. The removed blocks are saved in the controller's inventory. The function of the controller can be tested manually using the "Exchange" button. If an `on` /`off` command is sent to the Door Controller II, it removes or sets the blocks as well.
+The Door Controller II can remove and place many types of blocks. To teach the Door Controller II, press the "Record" button. Then, click on all the blocks that should be part of the door/gate. Then, press the "Done" button. Up to 16 blocks can be selected.
 
-With `$send_cmnd(node_number, "exchange", 2)` individual blocks can be set, removed or replaced by other blocks from the inventory. 
+Pressing the "Exchange" button removes the blocks from the trained positions and saves them in the controller's inventory.
 
-With `$send_cmnd(node_number, "set", 2)` a block from the inventory can be set explicitly, as long as the inventory slot is not empty.
+Blocks can be reassigned to the vacated positions. Pressing the "Exchange" button again swaps the blocks with the blocks in the inventory.
 
-A block can be removed again with `$send_cmnd(node_number, "dig", 2)` if the inventory slot is empty. 
+Pressing the "Reset" button resets all blocks to their initial state after teaching. This completes the teaching phase, and the Door Controller II can be controlled via commands.
 
-The name of the set block is returned with `$send_cmnd(node_number, "get", 2)`.
+Each position or slot has two states:
 
-The slot number of the inventory (1 .. 16) must be passed as payload in all three cases.
+1) The block is in the world (any existing exchange block is in the inventory) = Initial state
+2) The block is in the inventory (any existing exchange block is in the world) = Exchange state
 
-With `$send_cmnd(node_number, "reset")` the door controller is reset.
+- Using the `on` / `off` command, all blocks in the learned positions are swapped with those in the inventory.
+- Using the `reset` command, all blocks are reset to their initial state after learning.
 
-This can also be used to simulate extendable stairs and the like. 
+For all subsequent commands, the inventory slot number must also be passed as a parameter (1..16).
+
+- Using the `exc` command, a block in the world is swapped with the block in the inventory.
+- The `to1` command swaps a block in the inventory with the block in the world, provided the position was in state 2 (Exchange state).
+- The `to2` command swaps a block in the world with the block in the inventory, provided the position was in state 1 (Initial state).
+- The `get` command returns the name of the block in the world.
 
 [ta3_doorcontroller|image]
 
