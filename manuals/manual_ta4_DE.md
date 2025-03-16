@@ -623,9 +623,9 @@ Der TA4 Blicksensor kann nur mit dem Gabelschlüsselmenü programmiert werden. H
 
 ```
 -- this is a comment
-[1] send 1234 a2b
-[30] send 1234 b2a
-[60] goto 1
+[1] send 188 reset
+[50] send 188 moveto 771,19,-280
+[100] goto 1
 ```
 
 - Jede Zeile beginnt mit einem Nummer, welche einem Zeitpunkt entspricht `[<num>]`
@@ -655,7 +655,7 @@ Das `goto` Kommando wird nur angenommen, wenn der Sequenzer gestoppt ist.
 
 ## Move/Dreh-Controller
 
-### TA4 Move Controller
+### TA4 Move Controller (Veraltet)
 
 Der TA4 Move Controller ist ähnlich zum "Door Controller 2", aber die ausgewählten Blöcke werden nicht entfernt, sondern können bewegt werden.
 Da die bewegten Blöcke Spieler und Mobs mitnehmen können, die auf dem Block stehen, können damit Fahrstühle und ähnliche Transportsysteme gebaut werden.
