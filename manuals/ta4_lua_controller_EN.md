@@ -149,6 +149,12 @@ function foo(a, b)
 end
 ```
 
+Don't forget to add the '$' sign before the function name in the main code block:
+
+```lua
+$foo(1, 2)
+```
+
 Each SaferLua program has access to the following system variables:
 
 - ticks - a counter which increments by one each call of `loop()`
