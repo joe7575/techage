@@ -60,7 +60,7 @@ return {
     "3,TA4 Blicksensor / Gaze Sensor",
     "3,TA4 Sequenzer",
     "2,Move/Dreh-Controller",
-    "3,TA4 Move Controller",
+    "3,TA4 Move Controller (Veraltet)",
     "3,TA4 Move Controller II",
     "3,TA4 Drehcontroller / Turn Controller",
     "2,TA4 Lampen",
@@ -557,9 +557,9 @@ return {
     "über den TA4 Sequenzer können ganze Abläufe programmiert werden. Hier ein Beispiel:\n"..
     "\n"..
     "    -- this is a comment\n"..
-    "    \\[1\\] send 1234 a2b\n"..
-    "    \\[30\\] send 1234 b2a\n"..
-    "    \\[60\\] goto 1\n"..
+    "    \\[1\\] send 188 reset\n"..
+    "    \\[50\\] send 188 moveto 771\\,19\\,-280\n"..
+    "    \\[100\\] goto 1\n"..
     "\n"..
     "  - Jede Zeile beginnt mit einem Nummer\\, welche einem Zeitpunkt entspricht '\\[<num>\\]'\n"..
     "  - Für Zeitpunkte sind Werte von 1 bis 50000 zulässig\n"..

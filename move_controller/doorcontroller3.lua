@@ -44,6 +44,14 @@ local function get_node_name(nvm, slot)
 	return "unknown"
 end
 
+-- Slot state: 1 = Initial state (reset), 2 = Exchange state
+local function get_state(nvm, number)
+	if nvm.config[number] then
+		return nvm.config[number].state and 1 or 2
+	end
+	return 0
+end
+
 local function is_simple_node(pos, name)
 	if not minecart.is_rail(pos, name) then
 		local ndef = minetest.registered_nodes[name]
@@ -194,6 +202,7 @@ local function exchange_nodes(pos, nvm, slot, force)
 		or (force == "to2" and state)
 		or (force == "to1" and not state) then
 			item_list[idx] = exchange_node(cfg, item)
+			nvm.config[idx].state = not state
 			res = true
 		end
 	end
@@ -376,7 +385,7 @@ techage.register_node({"techage:ta3_doorcontroller3"}, {
 			return exchange_nodes(pos, nvm, tonumber(payload), "dig")
 		elseif topic == "get" then
 			local nvm = techage.get_nvm(pos)
-			return get_node_name(nvm, tonumber(payload))
+			return get_state(nvm, tonumber(payload))
 		elseif topic == "reset" then
 			local nvm = techage.get_nvm(pos)
 			return reset_config(pos, nvm)
@@ -410,11 +419,11 @@ techage.register_node({"techage:ta3_doorcontroller3"}, {
 		return 2
 	end,
 	on_beduino_request_data = function(pos, src, topic, payload)
-		if topic == 147 then  -- Get Name
+		if topic == 147 then  -- Get State
 			local nvm = techage.get_nvm(pos)
-			return 0, get_node_name(nvm, payload[1] or 1)
+			return 0, {get_state(nvm, tonumber(payload[1]))}
 		end
-		return 2, ""
+		return 2, {0}
 	end,
 	on_node_load = function(pos)
 		local nvm = techage.get_nvm(pos)

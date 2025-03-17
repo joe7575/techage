@@ -1656,6 +1656,7 @@ corresponds to the error from previous chapter.
 | Consumption                | 146 | 0    | value   | TA4 Electric Meter: Amount of electrical energy passed through |
 | Countdown                  | 146 | 1    | value   | TA4 Electric Meter: Countdown value for the amount of electrical energy passed through |
 | Current                    | 146 | 2    | value   | TA4 Electric Meter: Current flow of electricity (current)    |
+| Door Controller II State   | 147 | idx  | state   | State of the specified inventory slot (1..n). Returns: 1 = Initial state (reset), 2 = Exchange state |
 | Time Stamp                 | 149 | -    | time    | Time in system ticks (norm. 100 ms) when the TA4 Button is clicked |
 | TA4 Pusher Counter         | 150 | -    | number  | Read the number of pushed items for a TA4 Pusher in "flow limiter" mode |
 | TA4 Pump Counter           | 151 | -    | number  | Read the number of pumped liquid units for a TA4 Pump in "flow limiter" mode |
@@ -1677,5 +1678,4 @@ In case of an error, the error subroutine is called and the response string is "
 | Inventory Item Name   | 140  | 2, idx | "\<node name>"   | Name of TA4 8x2000 Chest items<br>`idx` is the inventory slot number (1..8 from left to right) |
 | Furnace Output        | 141  | -      | "\<node name>"   | Node name of the Industrial Furnace output. <br>Returns "none", if no recipe is active |
 | Player Name           | 144  | -      | "\<player name>" | Player name of the TA3/TA4 Player Detector or TA4 Button     |
-| DC2 Block Name        | 147  | idx    | "\<node name>"   | Name of the placed block<br>`idx` is the inventory slot number (1..n) of the related the block position |
 | Distri. Filter Get    | 148  | idx    | "\<item list>"   | `idx` is the slot number: 1 = "red", 2 = "green", 3 = "blue", 4 = "yellow"<br>Returns a string like: "default:dirt dye:blue" |
