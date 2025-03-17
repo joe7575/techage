@@ -60,7 +60,7 @@ return {
     "3,TA4 Gaze Sensor",
     "3,TA4 Sequencer",
     "2,Move/Turn Controller",
-    "3,TA4 Move Controller",
+    "3,TA4 Move Controller (deprecated)",
     "3,TA4 Move Controller II",
     "3,TA4 Turn Controller",
     "2,TA4 Lamps",
@@ -555,9 +555,9 @@ return {
     "Entire processes can be programmed using the TA4 sequencer. Here's an example:\n"..
     "\n"..
     "    -- this is a comment\n"..
-    "    \\[1\\] send 1234 a2b\n"..
-    "    \\[30\\] send 1234 b2a\n"..
-    "    \\[60\\] goto 1\n"..
+    "    \\[1\\] send 188 reset\n"..
+    "    \\[50\\] send 188 moveto 771\\,19\\,-280\n"..
+    "    \\[100\\] goto 1\n"..
     "\n"..
     "  - Each line begins with a number which corresponds to a point in time '\\[<num>\\]'\n"..
     "  - Values from 1 to 50000 are permitted for times\n"..

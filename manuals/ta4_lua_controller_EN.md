@@ -407,6 +407,7 @@ $print($send_cmnd("1234", "state"))  -- read the state of the block with the num
 | "consumption" | number                                                       | TA4 Electric Meter: Amount of electrical energy passed through |
 | "countdown"   | number                                                       | TA4 Electric Meter: Countdown value for the amount of electrical energy passed through |
 | "current"     | number                                                       | TA4 Electric Meter: Current flow of electricity (current)    |
+| "get"         | state (1 = Initial state, 2 = Exchange state)                | TA3 Door Controller II: State of the specified inventory slot. The number is provided as `add_data` |
 
 
 

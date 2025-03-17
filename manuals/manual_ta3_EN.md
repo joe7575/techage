@@ -726,7 +726,7 @@ For all subsequent commands, the inventory slot number must also be passed as a 
 - Using the `exc` command, a block in the world is swapped with the block in the inventory.
 - The `to1` command swaps a block in the inventory with the block in the world, provided the position was in state 2 (Exchange state).
 - The `to2` command swaps a block in the world with the block in the inventory, provided the position was in state 1 (Initial state).
-- The `get` command returns the name of the block in the world.
+- The `get` command returns the state of the position, i.e. the values 1 or 2.
 
 [ta3_doorcontroller|image]
 

@@ -727,7 +727,7 @@ Für alle folgenden Kommados muss zusätzlich die Slot-Nummer des Inventars als 
 - Über das `exc` Kommando wird ein Block in der Welt mit dem Block im Inventar getauscht.
 - Über das `to1` Kommando wird ein Block in der Welt mit dem Block im Inventar getauscht, sofern die Position im Zustand 2 war (Austauschzustand).
 - Über das `to2` Kommando wird ein Block in der Welt mit dem Block im Inventar getauscht, sofern die Position im Zustand 1 war (Ausgangszustand).
-- Über das `get` Kommando wird der Name des Blocks in der Welt zurückgeliefert.
+- Über das `get` Kommando wird der der Zustand der Position zurückgeliefert, also die Werte 1 oder 2.
 
 [ta3_doorcontroller|image]
 
