@@ -1629,7 +1629,7 @@ corresponds to the error from previous chapter.
 
 | Command                    | Topic (num) | Payload (number(s)) | Response (number) | Remarks to the response                                      |
 | -------------------------- | ----------- | ------------------- | ----------------------- | ------------------------------------------------------------ |
-| Signs Bot State            | 128 | -    | state | Returns: 1 = RUNNING, 2 = BLOCKED, 3 = STOPPED, 4 = NO_POPWER, 5 = ERROR, 6 = FULL, 7 = CHARGING |
+| Signs Bot State            | 129 | -    | state | Returns: 1 = RUNNING, 2 = BLOCKED, 3 = STOPPED, 4 = NO_POPWER, 5 = ERROR, 6 = FULL, 7 = CHARGING |
 | State for Techage Machines | 129 | -    | state | RUNNING = 1, BLOCKED = 2, STANDBY = 3, NOPOWER = 4, FAULT = 5, STOPPED = 6, UNLOADED = 7, INACTIVE = 8 |
 | Minecart State (Cart Terminal)   | 129 | cart-id | state    | Returns 0 = UNKNOWN, 1 = STOPPED, 2 = RUNNING           |
 | Minecart Distance (Cart Terminal)| 130 | cart-id | distance | Returns the distance from the cart to the Cart Terminal in meters |
