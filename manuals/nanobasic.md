@@ -1589,10 +1589,10 @@ As payload data, these commands may require numeric values or a string value.
 | Detector Block Countdown | 5  | counter    | Set countdown counter of the TA4 Item Detector block to the given value and start countdown mode. |
 | Detector Block Reset     | 6  | -          | Reset the item counter of the TA4 Item Detector block        |
 | TA3 Sequenzer            | 7  | state      | Turn the TA3 Sequencer on/off<br>`state`: 0 = "off", 1 = "on", 2 = "pause" |
-| DC2 Exchange Block       | 9  | 0, idx     | TA3 Door Controller II (techage:ta3_doorcontroller2). Exchange a block<br>`idx` is the inventory slot number (1..n) |
-| DC2 Set Block            | 9  | 1, idx     | TA3 Door Controller II (techage:ta3_doorcontroller2). Set/add a block<br>`idx` is the inventory slot number (1..n) with the block to be set |
-| DC2 Dig Block            | 9  | 2, idx     | TA3 Door Controller II (techage:ta3_doorcontroller2). Dig/remove a block<br>`idx` is the empty inventory slot number (1..n) for the block |
-| DC2 Reset                | 9  | 3          | TA3 Door Controller II (techage:ta3_doorcontroller2). Reset the door controller |
+| DC2 Exchange Block       | 9  | 0, idx     | TA3 Door Controller II (techage:ta3_doorcontroller2). Exchange a block in the world<br /> with the block in the inventory.<br>`idx` is the inventory slot number (1..n) |
+| DC2 Set to1   | 9  | 4, idx     | TA3 Door Controller II (techage:ta3_doorcontroller2). Swaps a block in the inventory <br />with the block in the world, provided the position was in state 2 (Exchange state).<br>`idx` is the inventory slot number (1..n) |
+| DC2 Set to2     | 9  | 5, idx     | TA3 Door Controller II (techage:ta3_doorcontroller2). Swaps a block in the inventory <br />with the block in the world, provided the position was in state 1 (Initial state).<b<br />`idx` is the inventory slot number (1..n) |
+| DC2 Reset                | 9  | 3          | TA3 Door Controller II (techage:ta3_doorcontroller2). Using the reset command,<br />all blocks are reset to their initial state after learning. |
 | Autocrafter              | 10 | num, idx   | Set the TA4 Autocrafter recipe with a recipe from a TA4 Recipe Block.<br>`num` is the TA4 Recipe Block number<br>`idx` is the number of the recipe in the TA4 Recipe Block |
 | Autocrafter              | 11 | -          | Move all items from input inventory to output inventory. Returns 1 if the input inventory was emptied in the process. Otherwise return 0 |
 | Move Contr. 1            | 11 | 1          | TA4 Move Controller command to move the block(s) from position A to B |

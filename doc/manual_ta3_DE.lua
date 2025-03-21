@@ -620,8 +620,7 @@ return {
     "Wird die Taste \"Austauschen\" gedrückt\\, werden die Blöcke an den angelernten Positionen entfernt und im Inventar des Controllers gespeichert.\n"..
     "Die freigewordenen Positionen können auch wieder mit Blöcken belegt werden. Durch erneutes Drücken der \"Austauschen\" Taste werden die Blöcke mit den Blöcken im Inventar getauscht.\n"..
     "\n"..
-    "Über die Taste \"Rücksetzen\" werden alle Blöcke wieder in den Ausgangszustand nach dem Anlernen zurückgesetzt. Damit ist die Anlernphase beendet und der Tür Controller II kann\n"..
-    "über Kommandos angesteuert werden.\n"..
+    "Über die Taste \"Rücksetzen\" werden alle Blöcke wieder in den Ausgangszustand nach dem Anlernen zurückgesetzt. Damit ist die Anlernphase beendet und der Tür Controller II kann über Kommandos angesteuert werden.\n"..
     "\n"..
     "Jede Position bzw. jeder Slot besitzt zwei Zustände:\n"..
     "\n"..

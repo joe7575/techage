@@ -436,9 +436,10 @@ $send_cmnd("1234", "on")  -- turn on the block with the number "1234"
 | "limit"                       | number | Configure a TA4 Pusher with the number of items that are allowed to be pushed ("flow limiter" mode)<br />limit = 0 turns off the "flow limiter" mode |
 | "limit" | number | Configure a TA4 Pump with the number of liquid units that are allowed to be pumped ("flow limiter" mode)<br />limit = 0 turns off the "flow limiter" mode |
 | "config"                         | item  string | Configure the TA4 pusher.<br />Example: `wool:blue`          |
-| "exchange" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Exchange a block<br />*idx* is the inventory slot number (1..n) of/for the block to be exchanged |
-| "set" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Set/add a block<br />*idx* is the inventory slot number (1..n) with the block to be set |
-| "dig" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Dig/remove a block<br />*idx* is the empty inventory slot number (1..n) for the block |
+| "exc" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Exchange a block in the world with the block in the inventory. |
+| "to1" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Swap a block in the inventory with the block in the world, provided the position was in state 2 (Exchange state). |
+| "to2" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Swap a block in the inventory with the block in the world, provided the position was in state 1 (Initial state). |
+| "get" | inventory slot number | TA3 Door Controller II (techage:ta3_doorcontroller2)<br />Returns the state of the position, i.e. the values 1 or 2. |
 | "a2b" | nil | TA4 Move Controller command to move the block(s) from position A to B |
 | "b2a" | nil | TA4 Move Controller command to move the block(s) from position B to A |
 | "move" | nil | TA4 Move Controller command to move the block(s) to the opposite position |
