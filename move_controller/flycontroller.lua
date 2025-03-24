@@ -247,6 +247,8 @@ techage.register_node({"techage:ta5_flycontroller"}, {
 				return fly.move_to(pos, line)
 			end
 			return false
+		elseif topic == "reset" then
+			return fly.reset_move(pos)
 		end
 		return false
 	end,
