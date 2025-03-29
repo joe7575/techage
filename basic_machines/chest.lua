@@ -176,6 +176,10 @@ techage.register_node({"techage:chest_ta2", "techage:chest_ta3"}, {
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
 			return techage.get_inv_state(inv, "main")
+		elseif topic == "count" then
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			return techage.check_inv_item(inv, "main", payload)
 		else
 			return "unsupported"
 		end
@@ -185,6 +189,10 @@ techage.register_node({"techage:chest_ta2", "techage:chest_ta3"}, {
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
 			return 0, {techage.get_inv_state_num(inv, "main")}
+		elseif topic == 192 and payload and type(payload) == "string" then
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			return 0, {techage.check_inv_item(inv, "main", payload)}
 		else
 			return 2, ""
 		end
@@ -417,6 +425,10 @@ techage.register_node({"techage:chest_ta4"}, {
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
 			return techage.get_inv_state(inv, "main")
+		elseif topic == "count" then
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			return techage.check_inv_item(inv, "main", payload)
 		else
 			return "unsupported"
 		end
@@ -426,6 +438,10 @@ techage.register_node({"techage:chest_ta4"}, {
 			local meta = minetest.get_meta(pos)
 			local inv = meta:get_inventory()
 			return 0, {techage.get_inv_state_num(inv, "main")}
+		elseif topic == 192 and payload and type(payload) == "string" then
+			local meta = minetest.get_meta(pos)
+			local inv = meta:get_inventory()
+			return 0, {techage.check_inv_item(inv, "main", payload)}
 		else
 			return 2, ""
 		end

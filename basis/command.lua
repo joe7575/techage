@@ -664,6 +664,23 @@ function techage.get_inv_state_num(inv, listname)
     return state
 end
 
+-- Return the number of items in the given inventory list
+-- that match the given item name.
+-- The item name can be a full name or a substring of the name.
+function techage.check_inv_item(inv, listname, item_name)
+    if inv:is_empty(listname) then
+        return 0
+    else
+        local list = inv:get_list(listname)
+        for _, item in ipairs(list) do
+			if item:get_name():find(item_name, 1, true) then
+				return item:get_count()
+			end
+        end
+    end
+    return 0
+end
+
 minetest.register_chatcommand("ta_send", {
 	description = minetest.formspec_escape(
 			"Send a techage command to the block with the number given: /ta_send <number> <command> [<data>]"),

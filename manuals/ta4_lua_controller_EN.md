@@ -396,7 +396,8 @@ $print($send_cmnd("1234", "state"))  -- read the state of the block with the num
 | "action"      | player-name, action-string                                   | Only for Sensor Chests                                       |
 | "stacks"      | Array with up to 4 Stores with the inventory content (see example) | Only for Sensor Chests                                       |
 | "count"       | number                                                       | Read the item counter of the TA4 Item Detector block         |
-| "count"       | number of items                                              | Read the total amount of TA4 chest items. An optional  number as `add_data` is used to address only one inventory slot (1..8, from left to right). |
+| "count"       | number of items                                              | Read the total amount of TA4 (8x2000) chest items. An optional  number as `add_data` is used to address only one inventory slot (1..8, from left to right). |
+| "count"       | number of items                                              | Read the number of items in the TA3/TA4/TA5 Chest or shop.<br /> `add_data` is the name or a substring of the item name.<br />Example: s = $send_cmnd("223", "count", "dirt") |
 | "count"       | number of items                                              | Read the number of pushed items for a TA4 Pusher in "flow limiter" mode |
 | "count"       | number of units                                              | Read the number of pumped liquid units for a TA4 Pump in "flow limiter" mode |
 | "itemstring"  | item string of the given slot                                | Specific command for the TA4 8x2000 Chest to read the item type (technical name) of one chest slot, specified via `add_data` (1..8).<br />Example: s = $send_cmnd("223", "itemstring", 1) |

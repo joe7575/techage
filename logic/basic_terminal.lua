@@ -529,8 +529,24 @@ register_ext_function("cmd", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_A
 			nanobasic.push_num(pos, 4)
 			error_handling(pos, num, 4)
 		end
-	else -- request with payload as number(s) and result as number
+	elseif cmnd < 192 then -- request with payload as number(s) and result as number
 		local owner, num, own_num, payload = get_params(pos)
+		if techage.not_protected(tostring(num), owner) then
+			techage.counting_add(owner, 1)
+			local sts, resp = techage.beduino_request_data(own_num, num, cmnd, payload)
+			if type(resp) == "table" then
+				nanobasic.push_num(pos, resp[1] or 0)
+			else
+				nanobasic.push_num(pos, 5)
+				sts = 5
+			end
+			error_handling(pos, num, sts)
+		else
+			nanobasic.push_num(pos, 4)
+			error_handling(pos, num, 4)
+		end
+	else
+		local owner, num, own_num, payload = get_str_param(pos)
 		if techage.not_protected(tostring(num), owner) then
 			techage.counting_add(owner, 1)
 			local sts, resp = techage.beduino_request_data(own_num, num, cmnd, payload)

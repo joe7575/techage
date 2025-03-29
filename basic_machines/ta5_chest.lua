@@ -215,6 +215,14 @@ techage.register_node({"techage:ta5_hl_chest"}, {
 				end
 			end
 			return "error"
+		elseif topic == "count" then
+			local meta = minetest.get_meta(pos)
+			if meta then
+				local inv = meta:get_inventory()
+				if inv then
+					return techage.check_inv_item(inv, "main", payload)
+				end
+			end
 		else
 			return "unsupported"
 		end
@@ -226,6 +234,14 @@ techage.register_node({"techage:ta5_hl_chest"}, {
 				local inv = meta:get_inventory()
 				if inv then
 					return 0, {techage.get_inv_state_num(inv, "main")}
+				end
+			end
+		elseif topic == 192 and payload and type(payload) == "string" then
+			local meta = minetest.get_meta(pos)
+			if meta then
+				local inv = meta:get_inventory()
+				if inv then
+					return 0, {techage.check_inv_item(inv, "main", payload)}
 				end
 			end
 		else

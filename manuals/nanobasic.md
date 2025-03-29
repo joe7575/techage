@@ -1662,6 +1662,8 @@ corresponds to the error from previous chapter.
 | TA4 Pump Counter           | 151 | -    | number  | Read the number of pumped liquid units for a TA4 Pump in "flow limiter" mode |
 | Multi Button State         | 152 | num  | state   | Read the button state (TA4 2x Button, TA4 4x Button)<br>`num` is the button number (1..4), `state`: 0 = "off", 1 = "on" |
 | Water Remover Depth        | 153 | -    | depth   | Current depth value of a remover (1..80)                |
+| **--------------------------** | **---** | **----** | **-------** | **Payload as string** |
+| Chest Item Count           | 192 | "item" | count   | Amount of items in a TA3/TA4/TA5 chest or shop. `item` is the item name or<br>a substring of the item name, e.g. "dirt". |
 
 ### CMD$ Commands with Response as String Value
 
