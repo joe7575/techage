@@ -77,36 +77,6 @@ techage.register_node({"default:chest_locked", "default:chest_locked_open"}, {
 	end,
 })
 
-techage.register_node({"shop:shop"}, {
-	on_inv_request = function(pos, in_dir, access_type)
-		local meta = minetest.get_meta(pos)
-		if is_owner(pos, meta) then
-			if access_type == "push" then
-				return meta:get_inventory(), "stock"
-			elseif access_type == "pull" then
-				return meta:get_inventory(), "register"
-			end
-		end
-	end,
-	on_pull_item = function(pos, in_dir, num)
-		local meta = minetest.get_meta(pos)
-		if is_owner(pos, meta) then
-			local inv = meta:get_inventory()
-			return techage.get_items(pos, inv, "register", num)
-		end
-	end,
-	on_push_item = function(pos, in_dir, stack)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		return techage.put_items(inv, "stock", stack)
-	end,
-	on_unpull_item = function(pos, in_dir, stack)
-		local meta = minetest.get_meta(pos)
-		local inv = meta:get_inventory()
-		return techage.put_items(inv, "register", stack)
-	end,
-})
-
 techage.register_node({"default:furnace", "default:furnace_active"}, {
 	on_pull_item = function(pos, in_dir, num)
 		local meta = minetest.get_meta(pos)
