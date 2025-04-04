@@ -53,6 +53,8 @@ local WRENCH_MENU = {
 
 local function formspec1(nvm, meta)
 	local status = meta:get_string("status")
+	local base_pos = nvm.lNodes and nvm.lNodes[1] and nvm.lNodes[1].base_pos
+	base_pos = " " .. P2S(base_pos) or ""
 
 	return "size[8,7.5]" ..
 		"tabheader[0,0;tab;" .. S("Control,Inventory") .. ";1;;true]" ..
@@ -62,6 +64,7 @@ local function formspec1(nvm, meta)
 		"button[0.1,0.7;3.8,1;record;" .. S("Record") .. "]" ..
 		"button[4.1,0.7;3.8,1;done;"  .. S("Done") .. "]" ..
 		"button_exit[0.1,2.0;3.8,1;show;"  .. S("Show start positions") .. "]" ..
+		"label[4.1,2.2;" .. S("Pos 1:") .. base_pos .. "]" ..
 		"button_exit[0.1,3.3;3.8,1;move;"  .. S("Test move") .. "]" ..
 		"button_exit[4.1,3.3;3.8,1;reset;" .. S("Reset") .. "]" ..
 		"label[0.3,5.0;" .. status .. "]"

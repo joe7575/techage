@@ -225,6 +225,7 @@ function flylib2.reset_nodes(pos, nvm, slot)
 	local yoffs = meta:get_float("offset") -- for non-player objects
 
 	for idx in slots(slot) do
+		nvm.lNodes =  nvm.lNodes or {}
 		local node = nvm.lNodes[idx]
 		if node and node.curr_pos and node.curr_pos ~= node.base_pos then
 			if correct_node(pos, idx, node, node.base_pos) then
