@@ -53,7 +53,7 @@ local WRENCH_MENU = {
 
 local function formspec1(nvm, meta)
 	local status = meta:get_string("status")
-	local base_pos = nvm.lNodes and nvm.lNodes[1] and nvm.lNodes[1].base_pos
+	local base_pos = nvm.lNodes and nvm.lNodes[1] and nvm.lNodes[1].base_pos or vector.zero()
 	base_pos = " " .. P2S(base_pos) or ""
 
 	return "size[8,7.5]" ..
