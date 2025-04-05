@@ -145,7 +145,12 @@ test_setup = function(pos, nvm)
 	local recipe = recipes.get(nvm, "ta4_doser")
 	local ndef = minetest.registered_craftitems[recipe.output.name]
 	nvm.fault = nil
-	
+
+	if not ndef then
+		nvm.fault = S("output: Invalid recipe")
+		return
+	end
+
 	local desc = ndef.description
 	if not reactor_cmnd(pos, "test_output_container", recipe.output.name) then
 		local container = ndef.groups and ndef.groups.powder == 1 and S("silo") or S("tank")
