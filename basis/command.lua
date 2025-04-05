@@ -37,9 +37,9 @@ local tubelib2_side_to_dir = tubelib2.side_to_dir
 -------------------------------------------------------------------
 local backend
 if techage_use_sqlite then
-    backend = dofile(MP .. "/basis/numbers_sqlite.lua")
+	backend = dofile(MP .. "/basis/numbers_sqlite.lua")
 else
-    backend = dofile(MP .. "/basis/numbers_storage.lua")
+	backend = dofile(MP .. "/basis/numbers_storage.lua")
 end
 
 local function update_nodeinfo(number)
@@ -178,7 +178,7 @@ function techage.string_compare(s1, s2)
 		local minLength = math.min(#s1, #s2)
 		return string.sub(s1, 1, minLength) == string.sub(s2, 1, minLength)
 	end
-end    
+end
 
 -- Function returns { pos, name } for the node referenced by number
 function techage.get_node_info(dest_num)
@@ -208,7 +208,7 @@ end
 
 -- extract ident and value from strings like "ident=value"
 function techage.ident_value(s)
-    local ident, value = unpack(string.split(s, "=", true, 1))
+	local ident, value = unpack(string.split(s, "=", true, 1))
 	return (ident or ""):trim(), (value or ""):trim()
 end
 
@@ -633,58 +633,58 @@ end
 -- Full is returned, when no empty stack is available.
 function techage.get_inv_state(inv, listname)
 	local state
-    if inv:is_empty(listname) then
-        state = "empty"
-    else
-        local list = inv:get_list(listname)
-        state = "full"
-        for _, item in ipairs(list) do
-            if item:is_empty() then
-                return "loaded"
-            end
-        end
-    end
-    return state
+	if inv:is_empty(listname) then
+		state = "empty"
+	else
+		local list = inv:get_list(listname)
+		state = "full"
+		for _, item in ipairs(list) do
+			if item:is_empty() then
+				return "loaded"
+			end
+		end
+	end
+	return state
 end
 
 -- Beduino variant
 function techage.get_inv_state_num(inv, listname)
 	local state
-    if inv:is_empty(listname) then
-        state = 0
-    else
-        local list = inv:get_list(listname)
-        state = 2
-        for _, item in ipairs(list) do
-            if item:is_empty() then
-                return 1
-            end
-        end
-    end
-    return state
+	if inv:is_empty(listname) then
+		state = 0
+	else
+		local list = inv:get_list(listname)
+		state = 2
+		for _, item in ipairs(list) do
+			if item:is_empty() then
+				return 1
+			end
+		end
+	end
+	return state
 end
 
 -- Return the number of items in the given inventory list
 -- that match the given item name.
 -- The item name can be a full name or a substring of the name.
 function techage.check_inv_item(inv, listname, item_name)
-    if inv:is_empty(listname) then
-        return 0
-    else
-        local list = inv:get_list(listname)
-        for _, item in ipairs(list) do
+	if inv:is_empty(listname) or item_name == nil then
+		return 0
+	else
+		local list = inv:get_list(listname)
+		for _, item in ipairs(list) do
 			if item:get_name():find(item_name, 1, true) then
 				return item:get_count()
 			end
-        end
-    end
-    return 0
+		end
+	end
+	return 0
 end
 
 minetest.register_chatcommand("ta_send", {
 	description = minetest.formspec_escape(
 			"Send a techage command to the block with the number given: /ta_send <number> <command> [<data>]"),
-    func = function(name, param)
+	func = function(name, param)
 		local num, cmnd, payload = param:match('^([0-9]+)%s+(%w+)%s*(.*)$')
 
 		if num and cmnd then
@@ -700,14 +700,14 @@ minetest.register_chatcommand("ta_send", {
 			end
 		end
 		return false, "Syntax: /ta_send <number> <command> [<data>]"
-    end
+	end
 })
 
 minetest.register_chatcommand("expoints", {
-    privs = {
-       server = true
-    },
-    func = function(name, param)
+	privs = {
+	   server = true
+	},
+	func = function(name, param)
 		local player_name, points = param:match("^(%S+)%s*(%d*)$")
 		if player_name then
 			local player = minetest.get_player_by_name(player_name)
@@ -725,11 +725,11 @@ minetest.register_chatcommand("expoints", {
 			end
 		end
 		return false, "Syntax error!  Syntax:  /expoints <name> [<points>]"
-    end
+	end
 })
 
 minetest.register_chatcommand("my_expoints", {
-    func = function(name, param)
+	func = function(name, param)
 		local player = minetest.get_player_by_name(name)
 		if player then
 			local points = techage.get_expoints(player)
@@ -737,5 +737,5 @@ minetest.register_chatcommand("my_expoints", {
 				return true, "You have "..points.." experience points."
 			end
 		end
-    end
+	end
 })
