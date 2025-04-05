@@ -346,7 +346,7 @@ local function attach_single_object(parent, obj, distance)
 				table.insert(self.players, {name = obj:get_player_name(), offs = offs, visual_size = visual_size})
 			end
 		else
-			obj:set_properties({visual_size = {x=1, y=1}})
+			obj:set_properties({visual_size = {x=2.9, y=2.9}})
 			table.insert(self.entities, {objID = get_object_id(obj), offs = offs, visual_size = visual_size})
 		end
 	end
@@ -704,7 +704,6 @@ local function multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2t
 				minetest.chat_send_player(owner, " [techage] " .. S("Destination position is protected") .. " at " .. P2S(pos2))
 			end
 		end
-		running = true
 	end
 	if running then
 		meta:set_string("status", S("Running"))

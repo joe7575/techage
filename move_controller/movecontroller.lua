@@ -180,6 +180,7 @@ minetest.register_node("techage:ta4_movecontroller", {
 			end
 		elseif fields.reset then
 			fly.reset_move(pos)
+			nvm.running = false
 		elseif fields.show then
 			local name = player:get_player_name()
 			mark.mark_positions(name, nvm.lpos1, 300)
