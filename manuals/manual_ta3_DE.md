@@ -887,8 +887,11 @@ Die Verarbeitungsleistung beträgt bis zu 8 mal ein Item alle 4 Sekunden.
 
 [ta3_injector|image]
 
+### TA3 Beobachtungsfenster / TA3 Observation Window
 
-
+Das Beobachtungsfenster ist ein Block, der die Funktion eines Fensters in eine Röhre hat. Damit können Items in Röhren sichtbar gemacht werden.
+Der Fensterblock muss zwischen zwei Röhren gesetzt werden. Zwei oder mehr Fensterblöcke hintereinander sind nicht zulässig. Die Animation der Items
+findet nur statt, wenn ein Spieler in der Nähe ist (<=8 Blöcke). Items werden aber unabhängig von der Sichtbarkeit weitergegeben.
 
 ## Werkzeuge
 

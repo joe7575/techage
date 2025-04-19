@@ -443,5 +443,8 @@ dofile(MP.."/fusion_reactor/ta5_pump.lua")
 -- Beduino extensions
 dofile(MP.."/beduino/kv_store.lua")
 
+-- Obverser
+dofile(MP.."/observer/observer.lua")
+
 -- Prevent other mods from using IE
 techage.IE = nil

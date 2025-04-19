@@ -1056,6 +1056,7 @@ Command syntax error!=
 Control,Inventory=
 Distance too large!=
 Node at pos=
+Pos 1:=
 Show start positions=
 TA4 Move Controller II=
 Test move=
@@ -1074,6 +1075,10 @@ removed=удалено
 ### nodes.lua ###
 
 TechAge Gravel=TechAge Гравий
+
+### observer.lua ###
+
+TA3 Observation Window=
 
 ### oil.lua ###
 
@@ -1473,6 +1478,7 @@ Doser=Дозатор
 TA4 Doser=TA4 Дозатор
 catalyst missing=отсутствует катализатор
 output: A @1 is required for @2=
+output: Invalid recipe=
 reactor defect=дефект реактора
 reactor defect or no power=дефект реактора или нет энергии
 reactor has no power=у реактора нет энергии

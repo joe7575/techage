@@ -1056,6 +1056,7 @@ Command syntax error!=Befehlssyntaxfehler!
 Control,Inventory=Steuerung,Inventar
 Distance too large!=Entfernung zu groß!
 Node at pos=Block an Position
+Pos 1:=Pos 1:
 Show start positions=Startpositionen anzeigen
 TA4 Move Controller II=TA4 Move Controller II
 Test move=Teste Bewegung
@@ -1074,6 +1075,10 @@ removed=entfernt
 ### nodes.lua ###
 
 TechAge Gravel=TechAge Kies
+
+### observer.lua ###
+
+TA3 Observation Window=TA3 Beobachtungsfenster
 
 ### oil.lua ###
 
@@ -1473,6 +1478,7 @@ Doser=Dosierer
 TA4 Doser=TA4 Dosierer
 catalyst missing=Katalysator fehlt
 output: A @1 is required for @2=Für @2 wird ein @1 benötigt
+output: Invalid recipe=Ungültiges Rezept
 reactor defect=Reaktor defekt
 reactor defect or no power=Reaktor defekt oder kein Strom
 reactor has no power=Reaktor hat keinen Strom

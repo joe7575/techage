@@ -80,6 +80,7 @@ return {
     "3,TA3 Kieswaschanlage / Gravel Rinser",
     "3,TA3 Mühle / Grinder",
     "3,TA3 Injektor / Injector",
+    "3,TA3 Beobachtungsfenster / TA3 Observation Window",
     "2,Werkzeuge",
     "3,Techage Info Tool",
     "3,TechAge Programmer",
@@ -745,6 +746,10 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "Das Beobachtungsfenster ist ein Block\\, der die Funktion eines Fensters in eine Röhre hat. Damit können Items in Röhren sichtbar gemacht werden.\n"..
+    "Der Fensterblock muss zwischen zwei Röhren gesetzt werden. Zwei oder mehr Fensterblöcke hintereinander sind nicht zulässig. Die Animation der Items\n"..
+    "findet nur statt\\, wenn ein Spieler in der Nähe ist (<=8 Blöcke). Items werden aber unabhängig von der Sichtbarkeit weitergegeben.\n"..
+    "\n",
     "",
     "Das Techage Info Tool (Schraubenschlüssel) hat verschiedene Funktionen. Er zeigt die Uhrzeit\\, die Position\\, die Temperatur und das Biome an\\, wenn auf einen unbekannten Block geklickt wird.\n"..
     "Wird auf einen TechAge Block mit Kommandoschnittstelle geklickt\\, werden alle verfügbaren Daten abgerufen (siehe auch \"Logik-/Schalt-Blöcke\").\n"..
@@ -867,6 +872,7 @@ return {
     "ta3_grinder",
     "ta3_injector",
     "",
+    "",
     "ta3_end_wrench",
     "ta3_programmer",
     "ta3_trowel",
@@ -922,6 +928,7 @@ return {
     "",
     "",
     "ta3_distiller",
+    "",
     "",
     "",
     "",

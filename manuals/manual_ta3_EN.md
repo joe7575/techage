@@ -887,7 +887,11 @@ The processing power is up to 8 times one item every 4 seconds.
 
 [ta3_injector|image]
 
+### TA3 Observation Window
 
+The observation window is a block that functions as a window into a tube. It can be used to make items in tubes visible.
+The window block must be placed between two tubes. Two or more window blocks in a row are not permitted. The item animation
+only occurs when a player is nearby (<=8 blocks). However, items are passed regardless of visibility.
 
 ## Tools
 
