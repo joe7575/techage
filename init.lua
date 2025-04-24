@@ -455,5 +455,8 @@ dofile(MP.."/observer/observer.lua")
 --Compatibility with other mods functions
 dofile(MP.."/basis/compatibility.lua")
 
+-- TA5 Machinery
+dofile(MP.."/ta5_nodes/synthvault.lua")
+
 -- Prevent other mods from using IE
 techage.IE = nil
