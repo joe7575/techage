@@ -446,5 +446,8 @@ dofile(MP.."/beduino/kv_store.lua")
 -- Obverser
 dofile(MP.."/observer/observer.lua")
 
+-- TA5 Machinery
+dofile(MP.."/ta5_nodes/synthvault.lua")
+
 -- Prevent other mods from using IE
 techage.IE = nil
