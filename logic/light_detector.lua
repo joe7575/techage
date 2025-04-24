@@ -89,7 +89,8 @@ end
 local function techage_set_numbers(pos, numbers, player_name)
 	local meta = M(pos)
 	local res = logic.set_numbers(pos, numbers, player_name, S("TA3 Light Detector"))
-	meta:set_string("formspec", formspec(meta))
+	local nvm = techage.get_nvm(pos)
+	meta:set_string("formspec", formspec(meta, nvm))
 	return res
 end
 
