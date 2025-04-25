@@ -17,6 +17,10 @@ techage_modified_recipes_enabled (Enable alternative recipes for steel and bronz
 # Change this for your server in order not to be able to predict the oil reserves!
 techage_oil_exploration_seed (techage oil exploration seed) int 1234
 
+# Enable alternative recipes for tnt and adds ammonia chemistry.
+# Instead of the standart bored tnt recipes.
+# enable_tnt server setting also must me true for making gunpowder
+techage_ammonia_recipes_enabled (Enable alternative recipes for tnt and ammonia chemistry) bool false
 
 # Use the external Lua library 'lua-marshal' for faster serialization/deserialization 
 # of node meta data. See also 'README.md'.
