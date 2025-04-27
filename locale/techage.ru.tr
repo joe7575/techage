@@ -371,19 +371,19 @@ TA4 Display XL=TA4 Дисплей XL
 
 ### display2.lua ###
 
-Background color=
+Background color=Цвет фона
 Select color of the display background (0..63)@nSee chat command '/ta_color64'=
 Select color of the screen text (0..63)@nSee chat command '/ta_color64'=
 Select resolution of the display in characters x lines=
-TA4 Display II=
-TA4 Display II XXL inside=
-TA4 Display II XXL outside=
-Text color=
+TA4 Display II=TA4 Дисплей II
+TA4 Display II XXL inside=TA4 Дисплей II XXL внутренний
+TA4 Display II XXL outside=TA4 Дисплей II XXL внешний
+Text color=Цвет текста
 
 ### display2.lua ###
 ### monitor.lua ###
 
-Resolution=
+Resolution=Разрешение
 
 ### distiller.lua ###
 
@@ -590,7 +590,7 @@ Error: Invalid path !!=Ошибка: неверный путь !!
 
 ### fly_lib2.lua ###
 
-Invalid node=
+Invalid node=Неверная нода
 
 ### flycontroller.lua ###
 
@@ -1032,11 +1032,11 @@ Test Mini Tank=
 
 ### monitor.lua ###
 
-Color=
-Select color of the screen text=
-Select resolution of the monitor in characters x lines=
-TA3 CRT Monitor=
-TA3 CRT Monitor no:=
+Color=Цвет
+Select color of the screen text=Выбрать цвет текста на экране
+Select resolution of the monitor in characters x lines=Выбрать разрешение монитора в символах на линию
+TA3 CRT Monitor=ТА3 ЭЛТ монитор
+TA3 CRT Monitor no:=ТА3 ЭЛТ монитор номер:
 
 ### movecontroller.lua ###
 
@@ -1052,15 +1052,15 @@ TA4 Move Controller=TA4 Контроллер движения
 
 ### movecontroller2.lua ###
 
-Command syntax error!=
-Control,Inventory=
-Distance too large!=
-Node at pos=
-Pos 1:=
-Show start positions=
-TA4 Move Controller II=
-Test move=
-missing=
+Command syntax error!=Ошибка синтаксиса команд!
+Control,Inventory=Управление, Инвентарь
+Distance too large!=Дистанция слишком велика!
+Node at pos=Нода на позиции
+Pos 1:=Позиция 1
+Show start positions=Показать начальную позицию
+TA4 Move Controller II=TA4 Контроллер движения II
+Test move=Тестовое движение
+missing=утрачено
 
 ### node_detector.lua ###
 
@@ -1078,7 +1078,7 @@ TechAge Gravel=TechAge Гравий
 
 ### observer.lua ###
 
-TA3 Observation Window=
+TA3 Observation Window=TA3 Окно Обозрения
 
 ### oil.lua ###
 
@@ -1482,8 +1482,8 @@ output: Invalid recipe=
 reactor defect=дефект реактора
 reactor defect or no power=дефект реактора или нет энергии
 reactor has no power=у реактора нет энергии
-silo=
-tank=
+silo=бункер
+tank=резервуар
 wrong catalyst=неправильный катализатор
 
 ### ta4_doser.lua ###
@@ -1545,7 +1545,7 @@ TA Tank Cart=TA Вагонетка с резервуаром
 
 ### tele.lua ###
 
-TA3 Detector=
+TA3 Detector=ТА3 Детектор
 
 ### teleport.lua ###
 
@@ -1609,7 +1609,7 @@ TechAge Trowel=TechAge Мастерок
 
 ### tube_wall_entry.lua ###
 
-Tube Wall Entry=Вод трубы в стену
+Tube Wall Entry=Ввод трубы в стену
 
 ### tubes.lua ###
 
