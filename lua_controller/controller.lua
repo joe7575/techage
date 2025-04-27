@@ -338,7 +338,7 @@ local function call_loop(pos, elapsed, credits)
 		if Cache[number] or compile(pos, meta, number) then
 			local code = Cache[number].code
 			Cache[number].event_pending = false
-			credits = math.min(safer_lua.add_credits(code, credits), MAX_CREDITS)
+			credits = math.min(safer_lua.add_credits(code, credits * elapsed), MAX_CREDITS)
 			if credits > 0 then
 				local res = safer_lua.run_loop(pos, elapsed, code, error)
 				local state = res and "running" or "stopped"
