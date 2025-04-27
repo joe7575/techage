@@ -63,6 +63,14 @@ local function node_group(group)
 	return tbl
 end
 
+local function get_waste(input)
+	local output, decremented_input = minetest.get_craft_result(input)
+	if decremented_input and decremented_input.items[1] and decremented_input.items[1]:get_name() ~= "" then
+		return decremented_input.items[1]:get_name()
+	end
+	return nil
+end
+
 minetest.after(1, function()
 	for key,_ in pairs(minetest.registered_items) do
 		if key ~= "" then
@@ -75,6 +83,7 @@ minetest.after(1, function()
 								techage.furnace.register_recipe({
 									output = recipe.output,
 									recipe = {item},
+									waste = get_waste(recipe),
 									time = math.floor((recipe.width + 1) / 2),
 								})
 							end
@@ -82,6 +91,7 @@ minetest.after(1, function()
 							techage.furnace.register_recipe({
 								output = recipe.output,
 								recipe = recipe.items,
+								waste = get_waste(recipe),
 								time = math.floor((recipe.width + 1) / 2),
 							})
 						end
