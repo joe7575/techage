@@ -204,7 +204,7 @@ function NodeStates:node_init(pos, nvm, number)
 		M(pos):set_string("infotext", self.infotext_name.." "..number..": stopped")
 	end
 	if self.formspec_func then
-		M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
+		M(pos):set_string("formspec", self.formspec_func(self, pos, nvm) or "")
 	end
 end
 
@@ -234,7 +234,7 @@ function NodeStates:stop(pos, nvm)
 	end
 	if self.formspec_func then
 		nvm.ta_state_tooltip = "stopped"
-		M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
+		M(pos):set_string("formspec", self.formspec_func(self, pos, nvm) or "")
 	end
 	if self.on_state_change then
 		self.on_state_change(pos, state, STOPPED)
@@ -271,7 +271,7 @@ function NodeStates:start(pos, nvm)
 		end
 		if self.formspec_func then
 			nvm.ta_state_tooltip = "running"
-			M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
+			M(pos):set_string("formspec", self.formspec_func(self, pos, nvm) or "")
 		end
 		if minetest.get_node_timer(pos):is_started() then
 			minetest.get_node_timer(pos):stop()
@@ -303,7 +303,7 @@ function NodeStates:standby(pos, nvm, err_string)
 		end
 		if self.formspec_func then
 			nvm.ta_state_tooltip = err_string or "standby"
-			M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
+			M(pos):set_string("formspec", self.formspec_func(self, pos, nvm) or "")
 		end
 		if self.on_state_change then
 			self.on_state_change(pos, state, STANDBY)
@@ -328,7 +328,7 @@ function NodeStates:blocked(pos, nvm, err_string)
 		end
 		if self.formspec_func then
 			nvm.ta_state_tooltip = err_string or "blocked"
-			M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
+			M(pos):set_string("formspec", self.formspec_func(self, pos, nvm) or "")
 		end
 		if self.on_state_change then
 			self.on_state_change(pos, state, BLOCKED)
@@ -352,7 +352,7 @@ function NodeStates:nopower(pos, nvm, err_string)
 		end
 		if self.formspec_func then
 			nvm.ta_state_tooltip = err_string or "no power"
-			M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
+			M(pos):set_string("formspec", self.formspec_func(self, pos, nvm) or "")
 		end
 		if self.on_state_change then
 			self.on_state_change(pos, state, NOPOWER)
@@ -377,7 +377,7 @@ function NodeStates:fault(pos, nvm, err_string)
 		end
 		if self.formspec_func then
 			nvm.ta_state_tooltip = err_string or "fault"
-			M(pos):set_string("formspec", self.formspec_func(self, pos, nvm))
+			M(pos):set_string("formspec", self.formspec_func(self, pos, nvm) or "")
 		end
 		if self.on_state_change then
 			self.on_state_change(pos, state, FAULT)

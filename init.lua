@@ -61,6 +61,7 @@ techage.stair_aliases_enabled = minetest.settings:get_bool("techage_stair_aliase
 techage.disable_lava_above_sea_level = minetest.settings:get_bool("techage_disable_lava_above_sea_level") ~= false
 techage.maximum_move_controller_distance = tonumber(minetest.settings:get("techage_maximum_move_controller_distance")) or 400
 techage.maximum_move_controller_blocks = tonumber(minetest.settings:get("techage_maximum_move_controller_blocks")) or 16
+techage.ammonia_recipes_enabled = minetest.settings:get_bool("techage_ammonia_recipes_enabled") ~= false
 
 -- allow to load marshal and sqlite3
 techage.IE = minetest.request_insecure_environment()
@@ -363,6 +364,16 @@ dofile(MP.."/chemistry/ta4_liquid_filter.lua")
 dofile(MP.."/hydrogen/fuelcellstack.lua")
 dofile(MP.."/hydrogen/electrolyzer.lua")
 dofile(MP.."/hydrogen/fuelcell.lua")
+
+-- TNT recypes, ammonia
+if techage.ammonia_recipes_enabled then
+    dofile(MP.."/hydrogen/nitrogen.lua")
+    dofile(MP.."/liquids/nitrogen.lua")
+    dofile(MP.."/liquids/ammonia.lua")
+    if minetest.settings:get_bool("enable_tnt") then
+        dofile(MP.."/items/gunpowder.lua")
+    end
+end
 
 -- Displays
 dofile(MP.."/displays/display.lua")
