@@ -338,7 +338,9 @@ local function call_loop(pos, elapsed, credits)
 		if Cache[number] or compile(pos, meta, number) then
 			local code = Cache[number].code
 			Cache[number].event_pending = false
-			credits = math.min(safer_lua.add_credits(code, credits * elapsed), MAX_CREDITS)
+			local dt = minetest.get_gametime() - (Cache[number].last_time or 0)
+			credits = math.min(safer_lua.add_credits(code, credits * dt), MAX_CREDITS)
+			Cache[number].last_time = minetest.get_gametime()
 			if credits > 0 then
 				local res = safer_lua.run_loop(pos, elapsed, code, error)
 				local state = res and "running" or "stopped"
@@ -508,7 +510,7 @@ local function set_input(pos, number, input, val)
 			end
 			if Cache[number].events and not Cache[number].event_pending then  -- events enabled
 				Cache[number].event_pending = true
-				minetest.after(0, call_loop, pos, -1, 0)
+				minetest.after(0, call_loop, pos, -1, CREDITS)
 			end
 		end
 	end
