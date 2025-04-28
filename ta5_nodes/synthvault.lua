@@ -14,9 +14,9 @@
 -- for lazy programmers
 local M = minetest.get_meta
 local S = techage.S
+local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 
 -- Consumer Related Data
-local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 local Tube = techage.Tube
 local Cable = techage.ElectricCable
 local power = networks.power
@@ -26,59 +26,72 @@ local CYCLE_TIME = 2
 local STANDBY_TICKS = 2
 local COUNTDOWN_TICKS = 64
 local NUM_ITEMS = 2
-local VAULT_SIZE = 24
+local VAULT_SLOTS = 8
+local VAULT_SIZE  = 100000
 local PWR_NEEDED = 24
 local EX_POINTS = 50
 local DESC = S("TA5 SynthVault")
 
+local function store_items(pos, mem, force)
+	mem.cycle_cnt = (mem.cycle_cnt or 0) + 1
+	if force or mem.cycle_cnt > 10 then
+		print("store_items", P2S(pos))
+		M(pos):set_string("items", minetest.serialize(mem.items))
+		mem.cycle_cnt = 0
+	end
+end
+
+local function restore_items(pos, mem)
+	if mem.items == nil then
+		local meta = M(pos)
+		if meta:contains("items") then
+			mem.items = minetest.deserialize(meta:get_string("items"))
+		else
+			mem.items = {}
+		end
+	end
+end
+
 local function item_image(x, y, itemname, item_count)
 	local text = minetest.formspec_escape(ItemStack(itemname):get_description())
 	local tooltip = "tooltip["..x..","..y..";1,1;"..text..";#0C3D32;#FFFFFF]"
-	local label = "label[" .. (x + 1.2) .. "," .. (y + 0.6) .. ";" .. item_count .. "]"
+	local box = "box[" .. (x + 1.2) .. "," .. (y + 0.2) .. ";2,0.6;#808080]"
+	local label = "label[" .. (x + 1.2) .. "," .. (y + 0.5) .. ";" .. string.format("%8d", item_count) .. "]"
 
 	return "box[" .. x .. "," .. y .. ";1,1;#808080]" ..
+		"style_type[label;font=mono]" ..
 		"item_image[" .. x .. "," .. y .. ";1,1;" .. itemname .. "]" ..
-		tooltip .. label
-end
-
-local function fs_container(rows, text)
-	local size = rows * 2 + 20
-	--"box[0.2,1;9.8,8;#395c74]" ..
-	return "scrollbaroptions[max=" .. size .. "]" ..
-		"scrollbar[9.6,1.2;0.4,8.2;vertical;wrenchmenu;]" ..
-		"scroll_container[0.2,1;9.4,8;wrenchmenu;vertical;]" ..
-		text ..
-		"scroll_container_end[]"
+		tooltip .. box .. label
 end
 
 local function formspec1(self, pos, nvm)
+	local opmode = nvm.opmode or 1
 	return "formspec_version[8]" ..
 		"size[10.2,9.6]" ..
 		"tabheader[0,0;tab;" .. S("Control,Vault") .. ";1;;true]" ..
 		"box[0.2,0.2;9.8,0.5;#c6e8ff]" ..
 		"label[0.5,0.45;" .. minetest.colorize( "#000000", DESC) .. "]" ..
-		--techage.wrench_image(9.3, 0.2) ..
 		"label[5.7,1.5;" .. S("Configured\nItem") .. "]" ..
 		"list[context;main;4.5,1.2;1,1;]" ..
-		"button[0.3,2.8;3,0.8;digitize;" .. S("Digitize") .. "]" ..
-		"button[3.6,2.8;3,0.8;reassemble;" .. S("Reassemble") .. "]" ..
-		"button[6.9,2.8;3,0.8;stop;" .. S("Stop") .. "]" ..
+		"image[2.5,1;1,1;"..techage.get_power_image(pos, nvm) .. "]" ..
+		"image_button[2.5,2.5;1,1;" .. self:get_state_button_image(nvm) .. ";state_button;]" ..
+		"tooltip[2.5,2.5;1,1;" .. self:get_state_tooltip(nvm) .. "]" ..
+		"dropdown[4.5,3;4,0.6;opmode;" .. S("Digitize") .. "," .. S("Reassemble") .. ";" .. opmode .. ";true]" .. 
 		"list[current_player;main;0.2,4.4;8,4;]" ..
 		"listring[context;main]" ..
 		"listring[current_player;main]"
 end
 
 local function formspec2(self, pos, nvm)
-	nvm.items = nvm.items or {}
+	local mem = techage.get_mem(pos)
+	restore_items(pos, mem)
 	local tbl = {}
-	idx = 1
-	for key, val in pairs(nvm.items) do
-		--tbl[#tbl + 1] = "label[0.5," .. (idx * 0.5) .. ";" .. key .. "]"
-		--tbl[#tbl + 1] = "label[7.5," .. (idx * 0.5) .. ";" .. val .. "]"
+	local idx = 1
+	for key, val in pairs(mem.items) do
 		if idx % 2 == 1 then
-			tbl[#tbl + 1] = item_image(0.5, idx * 0.55, key, val)
+			tbl[#tbl + 1] = item_image(1, (idx + 2) * 0.6, key, val)
 		else
-			tbl[#tbl + 1] = item_image(5.5, (idx - 1) * 0.55, key, val)
+			tbl[#tbl + 1] = item_image(6, (idx + 1) * 0.6, key, val)
 		end
 		idx = idx + 1
 	end
@@ -87,7 +100,7 @@ local function formspec2(self, pos, nvm)
 		"tabheader[0,0;tab;" .. S("Control,Vault") .. ";2;;true]" ..
 		"box[0.2,0.2;9.8,0.5;#c6e8ff]" ..
 		"label[0.5,0.45;" .. minetest.colorize( "#000000", DESC) .. "]" ..
-		fs_container(#tbl, table.concat(tbl, ""))
+		table.concat(tbl, "")
 end
 
 local function formspec(self, pos, nvm)
@@ -98,20 +111,25 @@ local function formspec(self, pos, nvm)
 	end
 end
 
-local function add_item(nvm, item_name, item_count)
+local function add_item(mem, item_name, item_count)
 	local size = 0
 	local keys = {}
-	for key, val in pairs(nvm.items) do
+	for key, val in pairs(mem.items) do
 		size = size + 1
 		keys[#keys + 1] = key
 	end
 
-	if size >= VAULT_SIZE then
+	if size >= VAULT_SLOTS then
 		return false
 	end
-	nvm.items[item_name] = item_count
-	nvm.keys = table.sort(keys)
+	mem.items[item_name] = item_count
+	mem.keys = table.sort(keys)
 	return true
+end
+
+local function stop_node(pos, nvm, state)
+	local mem = techage.get_mem(pos)
+	store_items(pos, mem, true)
 end
 
 local State = techage.NodeStates:new({
@@ -121,6 +139,7 @@ local State = techage.NodeStates:new({
 	infotext_name = DESC,
 	standby_ticks = STANDBY_TICKS,
 	formspec_func = formspec,
+	stop_node = stop_node,
 })
 
 local function consume_power(pos, nvm)
@@ -145,6 +164,7 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
+	print("on_receive_fields", dump(fields))
 	if fields.tab == "1" then
 		nvm.fs_tab2 = false
 		meta:set_string("formspec", formspec(State, pos, nvm))
@@ -153,21 +173,12 @@ local function on_receive_fields(pos, formname, fields, player)
 		nvm.fs_tab2 = true
 		meta:set_string("formspec", formspec(State, pos, nvm))
 		return
-	elseif fields.digitize then
-		nvm.items = nvm.items or {}
-		nvm.opmode = "digitize"
-		State:start(pos, nvm)
-	elseif fields.reassemble then
-		nvm.items = nvm.items or {}
-		nvm.opmode = "reassemble"
-		State:start(pos, nvm)
-	elseif fields.stop then
-		State:stop(pos, nvm)
-		nvm.opmode = nil
 	else
-		return
+		if fields.opmode then
+			nvm.opmode = tonumber(fields.opmode)
+		end
+		State:state_button_event(pos, nvm, fields)
 	end
-	meta:set_string("formspec", formspec(State, pos, nvm))
 end
 
 local function digitize(pos, nvm, stack)
@@ -176,7 +187,7 @@ local function digitize(pos, nvm, stack)
 	local items = techage.pull_items(pos, tube_dir, NUM_ITEMS, item_name)
 	if items ~= nil then
 		item_name = items:get_name()
-		item_count = items:get_count()
+		local item_count = items:get_count()
 		local ndef = minetest.registered_items[item_name] or minetest.registered_nodes[item_name]
 		if ndef then
 			print("Item name", item_name)
@@ -188,10 +199,19 @@ local function digitize(pos, nvm, stack)
 					return true
 				end
 			end
-			if nvm.items[item_name] then
-				nvm.items[item_name] = nvm.items[item_name] + item_count
-				State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-			elseif add_item(nvm, item_name, item_count) then
+			local mem = techage.get_mem(pos)
+			restore_items(pos, mem)
+			if mem.items[item_name] then
+				if mem.items[item_name] + item_count <= VAULT_SIZE then
+					mem.items[item_name] = mem.items[item_name] + item_count
+					store_items(pos, mem)
+					State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+				else
+					techage.unpull_items(pos, tube_dir, items)
+					State:idle(pos, nvm)
+				end
+			elseif add_item(mem, item_name, item_count) then
+				store_items(pos, mem)
 				State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 			else
 				techage.unpull_items(pos, tube_dir, items)
@@ -314,15 +334,20 @@ minetest.register_node("techage:ta5_synthvault_act", {
 		consume_power(pos, nvm)
 		if State:is_active(nvm) then
 			print("on_timer: active")
-			if nvm.opmode == "digitize" then
+			if nvm.opmode == 1 then
 				print("on_timer: digitize")
+				local inv = M(pos):get_inventory()
+				local stack = inv:get_stack("main", 1)
 				return digitize(pos, nvm, stack)
-			elseif nvm.opmode == "reassemble" then
+			elseif nvm.opmode == 2 then
 				print("on_timer: reassemble")
+				local inv = M(pos):get_inventory()
+				local stack = inv:get_stack("main", 1)
 				return reassemble(pos, nvm, stack)
 			end
 			return true
 		end
+		store_items(pos, mem, true)
 		return false
 	end,
 
