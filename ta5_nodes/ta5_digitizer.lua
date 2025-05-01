@@ -8,7 +8,7 @@
 	AGPL v3
 	See LICENSE.txt for more information
 
-	TA5 SynthVault
+	TA5 Digitizer
 ]]--
 
 -- for lazy programmers
@@ -24,13 +24,21 @@ local MP = minetest.get_modpath(minetest.get_current_modname())
 local mConf = dofile(MP .. "/basis/conf_inv.lua")
 local CYCLE_TIME = 2
 local STANDBY_TICKS = 2
-local COUNTDOWN_TICKS = 64
-local NUM_ITEMS = 2
-local VAULT_SLOTS = 8
-local VAULT_SIZE  = 100000
+local COUNTDOWN_TICKS = 4
+local NUM_ITEMS = 2 -- 50
+local STORAGE_SLOTS = 32
+local STORAGE_SIZE  = 100000
 local PWR_NEEDED = 24
 local EX_POINTS = 50
-local DESC = S("TA5 SynthVault")
+local DESC = S("TA5 Digitizer")
+
+-- items: 
+-- {
+-- 	[1] = {name = "default:stone", count = 10},
+-- 	[2] = {name = "default:gold_ingot", count = 5},
+--  ....
+-- 	[STORAGE_SLOTS] = {name = "default:diamond", count = 1},
+-- }
 
 local function store_items(pos, mem, force)
 	mem.cycle_cnt = (mem.cycle_cnt or 0) + 1
@@ -49,31 +57,60 @@ local function restore_items(pos, mem)
 		else
 			mem.items = {}
 		end
+		for idx = 1, STORAGE_SLOTS do
+			mem.items[idx] = mem.items[idx] or {name = "", count = 0}
+		end
 	end
 end
 
-local function item_image(x, y, itemname, item_count)
-	local text = minetest.formspec_escape(ItemStack(itemname):get_description())
-	local tooltip = "tooltip["..x..","..y..";1,1;"..text..";#0C3D32;#FFFFFF]"
+local function find_storage_slot(pos, mem, item_name)
+	restore_items(pos, mem)
+	for i = 1, STORAGE_SLOTS do
+		if mem.items[i].name == item_name or mem.items[i].name == "" then
+			mem.items[i].name = item_name
+			return i
+		end
+	end
+	return nil -- full
+end
+
+local function item_image(x, y, item_name, item_count)
 	local box = "box[" .. (x + 1.2) .. "," .. (y + 0.2) .. ";2,0.6;#808080]"
-	local label = "label[" .. (x + 1.2) .. "," .. (y + 0.5) .. ";" .. string.format("%8d", item_count) .. "]"
+	local label = "label[" .. (x + 1.2) .. "," .. (y + 0.5) .. ";" .. string.format("%8d", item_count or 0) .. "]"
+	local text = ""
+	local tooltip = ""
+
+	if item_name ~= "" and item_count > 0 then
+		text = minetest.formspec_escape(ItemStack(item_name):get_description())
+		tooltip = "tooltip["..x..","..y..";1,1;"..text..";#0C3D32;#FFFFFF]"
+	end
 
 	return "box[" .. x .. "," .. y .. ";1,1;#808080]" ..
 		"style_type[label;font=mono]" ..
-		"item_image[" .. x .. "," .. y .. ";1,1;" .. itemname .. "]" ..
+		"item_image[" .. x .. "," .. y .. ";1,1;" .. item_name .. "]" ..
 		tooltip .. box .. label
+end
+
+local function fs_container(rows, text)
+	local size = 130
+	return "scrollbaroptions[max=" .. size .. "]" ..
+		"scrollbar[9.6,1.2;0.4,8.2;vertical;wrenchmenu;]" ..
+		"scroll_container[0.2,1;9.4,8;wrenchmenu;vertical;]" ..
+		text ..
+		"scroll_container_end[]"
 end
 
 local function formspec1(self, pos, nvm)
 	local opmode = nvm.opmode or 1
 	return "formspec_version[8]" ..
 		"size[10.2,9.6]" ..
-		"tabheader[0,0;tab;" .. S("Control,Vault") .. ";1;;true]" ..
+		"tabheader[0,0;tab;" .. S("Control,Storage") .. ";1;;true]" ..
 		"box[0.2,0.2;9.8,0.5;#c6e8ff]" ..
 		"label[0.5,0.45;" .. minetest.colorize( "#000000", DESC) .. "]" ..
 		"label[5.7,1.5;" .. S("Configured\nItem") .. "]" ..
 		"list[context;main;4.5,1.2;1,1;]" ..
 		"image[2.5,1;1,1;"..techage.get_power_image(pos, nvm) .. "]" ..
+		"tooltip[2.5,1;1,1;" .. S("Needs @1 ku power", PWR_NEEDED) .. "]" ..
 		"image_button[2.5,2.5;1,1;" .. self:get_state_button_image(nvm) .. ";state_button;]" ..
 		"tooltip[2.5,2.5;1,1;" .. self:get_state_tooltip(nvm) .. "]" ..
 		"dropdown[4.5,3;4,0.6;opmode;" .. S("Digitize") .. "," .. S("Reassemble") .. ";" .. opmode .. ";true]" .. 
@@ -87,20 +124,20 @@ local function formspec2(self, pos, nvm)
 	restore_items(pos, mem)
 	local tbl = {}
 	local idx = 1
-	for key, val in pairs(mem.items) do
+	for idx = 1, STORAGE_SLOTS do
+		name, count = mem.items[idx].name, mem.items[idx].count
 		if idx % 2 == 1 then
-			tbl[#tbl + 1] = item_image(1, (idx + 2) * 0.6, key, val)
+			tbl[#tbl + 1] = item_image(0.5, (idx + 0) * 0.6, name, count)
 		else
-			tbl[#tbl + 1] = item_image(6, (idx + 1) * 0.6, key, val)
+			tbl[#tbl + 1] = item_image(5.5, (idx - 1) * 0.6, name, count)
 		end
-		idx = idx + 1
 	end
 	return "formspec_version[8]" ..
 		"size[10.2,9.6]" ..
-		"tabheader[0,0;tab;" .. S("Control,Vault") .. ";2;;true]" ..
+		"tabheader[0,0;tab;" .. S("Control,Storage") .. ";2;;true]" ..
 		"box[0.2,0.2;9.8,0.5;#c6e8ff]" ..
 		"label[0.5,0.45;" .. minetest.colorize( "#000000", DESC) .. "]" ..
-		table.concat(tbl, "")
+		fs_container(#tbl, table.concat(tbl, ""))
 end
 
 local function formspec(self, pos, nvm)
@@ -111,6 +148,15 @@ local function formspec(self, pos, nvm)
 	end
 end
 
+local function config_item(pos)
+	local inv = M(pos):get_inventory()
+	local stack = inv:get_stack('main', 1)
+	if stack and stack:get_count() > 0 then
+		return stack:get_name()
+	end
+	return nil
+end
+
 local function add_item(mem, item_name, item_count)
 	local size = 0
 	local keys = {}
@@ -119,7 +165,7 @@ local function add_item(mem, item_name, item_count)
 		keys[#keys + 1] = key
 	end
 
-	if size >= VAULT_SLOTS then
+	if size >= STORAGE_SLOTS then
 		return false
 	end
 	mem.items[item_name] = item_count
@@ -132,14 +178,22 @@ local function stop_node(pos, nvm, state)
 	store_items(pos, mem, true)
 end
 
+local function can_start(pos, nvm, state)
+	if config_item(pos) then
+		return true
+	end
+	return S("no configured item")
+end
+
 local State = techage.NodeStates:new({
-	node_name_passive = "techage:ta5_synthvault_pas",
-	node_name_active = "techage:ta5_synthvault_act",
+	node_name_passive = "techage:ta5_digitizer_pas",
+	node_name_active = "techage:ta5_digitizer_act",
 	cycle_time = CYCLE_TIME,
 	infotext_name = DESC,
 	standby_ticks = STANDBY_TICKS,
 	formspec_func = formspec,
 	stop_node = stop_node,
+	can_start = can_start,
 })
 
 local function consume_power(pos, nvm)
@@ -171,6 +225,7 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	elseif fields.tab == "2" then
 		nvm.fs_tab2 = true
+		techage.set_activeformspec(pos, player)
 		meta:set_string("formspec", formspec(State, pos, nvm))
 		return
 	else
@@ -181,17 +236,22 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 end
 
-local function digitize(pos, nvm, stack)
-	local item_name = stack and stack:get_name() or nil
+local function digitize(pos, nvm)
+	local item_name = config_item(pos)
+	if item_name == nil then
+		return false
+	end
 	local tube_dir = M(pos):get_int("tube_dir")
 	local items = techage.pull_items(pos, tube_dir, NUM_ITEMS, item_name)
+	print(1)
 	if items ~= nil then
-		item_name = items:get_name()
+		print(2)
 		local item_count = items:get_count()
 		local ndef = minetest.registered_items[item_name] or minetest.registered_nodes[item_name]
 		if ndef then
 			print("Item name", item_name)
-			if item_count == 1 then
+			-- tool with wear
+			if item_count == 1 then  
 				local meta = items:get_meta()
 				local data = meta:to_table()
 				if next(data.fields) or items:get_wear() > 0 then
@@ -200,10 +260,10 @@ local function digitize(pos, nvm, stack)
 				end
 			end
 			local mem = techage.get_mem(pos)
-			restore_items(pos, mem)
-			if mem.items[item_name] then
-				if mem.items[item_name] + item_count <= VAULT_SIZE then
-					mem.items[item_name] = mem.items[item_name] + item_count
+			local idx = find_storage_slot(pos, mem, item_name)
+			if idx then
+				if mem.items[idx].count + item_count <= STORAGE_SIZE then
+					mem.items[idx].count = mem.items[idx].count + item_count
 					store_items(pos, mem)
 					State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 				else
@@ -222,6 +282,9 @@ local function digitize(pos, nvm, stack)
 				M(pos):set_string("formspec", formspec(State, pos, nvm))
 			end
 		end
+	else
+		print("digitize: no item")
+		State:idle(pos, nvm)
 	end
 	return true
 end
@@ -229,7 +292,7 @@ end
 local function reassemble(pos, nvm, stack)
 end
 
-minetest.register_node("techage:ta5_synthvault_pas", {
+minetest.register_node("techage:ta5_digitizer_pas", {
 	description = DESC,
 	tiles = {
 		-- up, down, right, left, back, front
@@ -246,7 +309,7 @@ minetest.register_node("techage:ta5_synthvault_pas", {
 		local nvm = techage.get_nvm(pos)
 		local node = minetest.get_node(pos)
 		local tube_dir = techage.side_to_outdir("R", node.param2)
-		local number = techage.add_node(pos, "techage:ta5_synthvault_pas")
+		local number = techage.add_node(pos, "techage:ta5_digitizer_pas")
 		State:node_init(pos, nvm, number)
 		meta:set_int("tube_dir", tube_dir)
 		meta:set_string("owner", placer:get_player_name())
@@ -254,7 +317,6 @@ minetest.register_node("techage:ta5_synthvault_pas", {
 		Cable:after_place_node(pos)
 		local inv = meta:get_inventory()
 		inv:set_size('main', 1)
-		nvm.items = {}
 	end,
 
 	ta_rotate_node = function(pos, node, new_param2)
@@ -298,7 +360,7 @@ minetest.register_node("techage:ta5_synthvault_pas", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
-minetest.register_node("techage:ta5_synthvault_act", {
+minetest.register_node("techage:ta5_digitizer_act", {
 	description = DESC,
 	tiles = {
 		-- up, down, right, left, back, front
@@ -336,14 +398,10 @@ minetest.register_node("techage:ta5_synthvault_act", {
 			print("on_timer: active")
 			if nvm.opmode == 1 then
 				print("on_timer: digitize")
-				local inv = M(pos):get_inventory()
-				local stack = inv:get_stack("main", 1)
-				return digitize(pos, nvm, stack)
+				return digitize(pos, nvm)
 			elseif nvm.opmode == 2 then
 				print("on_timer: reassemble")
-				local inv = M(pos):get_inventory()
-				local stack = inv:get_stack("main", 1)
-				return reassemble(pos, nvm, stack)
+				return reassemble(pos, nvm)
 			end
 			return true
 		end
@@ -377,7 +435,7 @@ minetest.register_node("techage:ta5_synthvault_act", {
 	sounds = default.node_sound_glass_defaults(),
 })
 
-techage.register_node({"techage:ta5_synthvault_pas", "techage:ta5_synthvault_act"}, {
+techage.register_node({"techage:ta5_digitizer_pas", "techage:ta5_digitizer_act"}, {
 	on_recv_message = function(pos, src, topic, payload)
 		return CRD(pos).State:on_receive_message(pos, topic, payload)
 	end,
@@ -389,5 +447,5 @@ techage.register_node({"techage:ta5_synthvault_pas", "techage:ta5_synthvault_act
 	end,
 })
 
-power.register_nodes({"techage:ta5_synthvault_pas", "techage:ta5_synthvault_act"}, Cable, "con", {"B", "L", "F", "D", "U"})
-Tube:set_valid_sides({"techage:ta5_synthvault_pas", "techage:ta5_synthvault_act"}, {"R"})
+power.register_nodes({"techage:ta5_digitizer_pas", "techage:ta5_digitizer_act"}, Cable, "con", {"B", "L", "F", "D", "U"})
+Tube:set_valid_sides({"techage:ta5_digitizer_pas", "techage:ta5_digitizer_act"}, {"R"})

@@ -456,7 +456,7 @@ dofile(MP.."/observer/observer.lua")
 dofile(MP.."/basis/compatibility.lua")
 
 -- TA5 Machinery
-dofile(MP.."/ta5_nodes/synthvault.lua")
+dofile(MP.."/ta5_nodes/ta5_digitizer.lua")
 
 -- Prevent other mods from using IE
 techage.IE = nil
