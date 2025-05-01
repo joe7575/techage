@@ -53,7 +53,7 @@ local function restore_items(pos, mem)
 	if mem.items == nil then
 		local meta = M(pos)
 		if meta:contains("items") then
-			mem.items = minetest.deserialize(meta:get_string("items"))
+			mem.items = minetest.deserialize(meta:get_string("items")) or {}
 		else
 			mem.items = {}
 		end
@@ -300,8 +300,8 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 		"techage_filling_ta4.png^techage_frame_ta5.png",
 		"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_in_out.png",
 		"techage_filling_ta4.png^techage_frame_ta5.png",
-		"techage_filling_ta4.png^techage_appl_turbine.png^techage_frame_ta5.png",
-		"techage_filling_ta4.png^techage_appl_turbine.png^techage_frame_ta5.png",
+		"techage_filling_ta4.png^techage_appl_digitizer_off.png^techage_frame_ta5.png",
+		"techage_filling_ta4.png^techage_appl_digitizer_off.png^techage_frame_ta5.png",
 	},
 
 	after_place_node = function(pos, placer)
@@ -369,23 +369,23 @@ minetest.register_node("techage:ta5_digitizer_act", {
 		"techage_filling_ta4.png^techage_frame_ta5.png^techage_appl_in_out.png",
 		"techage_filling_ta4.png^techage_frame_ta5.png",
 		{
-			name = "techage_appl_turbine4.png^[transformR180]^techage_frame4_ta5.png",
+			name = "techage_appl_digitizer_on4.png^[transformR180]^techage_frame4_ta5.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
 				aspect_w = 32,
 				aspect_h = 32,
-				length = 2.0,
+				length = 1.2,
 			},
 		},
 		{
-			name = "techage_appl_turbine4.png^techage_frame4_ta5.png",
+			name = "techage_appl_digitizer_on4.png^techage_frame4_ta5.png",
 			backface_culling = false,
 			animation = {
 				type = "vertical_frames",
 				aspect_w = 32,
 				aspect_h = 32,
-				length = 2.0,
+				length = 1.2,
 			},
 		},
 		},
