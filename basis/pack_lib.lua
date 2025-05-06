@@ -72,7 +72,7 @@ local function unpack_meta(pos, s)
 end
 
 -------------------------------------------------------------------------------
--- preserve/restore API functions
+-- preserve/restore API functions for the assembly tool
 -------------------------------------------------------------------------------
 
 function techage.preserve_nodedata(pos)
@@ -85,4 +85,40 @@ function techage.restore_nodedata(pos, s)
 	local tbl = minetest.deserialize(s) or {}
 	unpack_nvm(pos, tbl.snvm)
 	unpack_meta(pos, tbl.smeta)
+end
+
+-------------------------------------------------------------------------------
+-- Node own preserve/restore API functions
+-------------------------------------------------------------------------------
+
+function techage.preserve_node(pos, oldnode, oldmetadata, drops)
+	local node = minetest.get_node(pos)
+	local number = M(pos):get_string("node_number")
+	local meta = drops[1]:get_meta()
+	local ndef = minetest.registered_nodes[node.name]
+
+	local s = techage.preserve_nodedata(pos, node)
+	meta:set_string("node_data", s)
+	if number ~= "" then
+		techage.post_remove_node(pos)
+		meta:set_string("node_number", number)
+		meta:set_string("description", ndef.description .. " : " .. number)
+	else
+		meta:set_string("description", ndef.description .. " (preserved)")
+	end
+end
+
+function techage.restore_node(pos, placer, itemstack, pointed_thing)
+	local meta = itemstack:get_meta()
+	local tbl = meta:to_table()
+
+	if tbl.fields.node_data then
+		techage.restore_nodedata(pos, tbl.fields.node_data)
+		local number = meta:get_string("node_number")
+		if number ~= "" then
+			techage.pre_add_node(pos, number)
+		end
+		return true
+	end
+	return false
 end

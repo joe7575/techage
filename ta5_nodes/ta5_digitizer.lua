@@ -212,13 +212,11 @@ local function consume_power(pos, nvm)
 end
 
 local function on_receive_fields(pos, formname, fields, player)
-	print("on_receive_fields", dump(fields))
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return
 	end
 	local meta = M(pos)
 	local nvm = techage.get_nvm(pos)
-	print("on_receive_fields", dump(fields))
 	if fields.tab == "1" then
 		nvm.fs_tab2 = false
 		meta:set_string("formspec", formspec(State, pos, nvm))
@@ -243,13 +241,10 @@ local function digitize(pos, nvm)
 	end
 	local tube_dir = M(pos):get_int("tube_dir")
 	local items = techage.pull_items(pos, tube_dir, NUM_ITEMS, item_name)
-	print(1)
 	if items ~= nil then
-		print(2)
 		local item_count = items:get_count()
 		local ndef = minetest.registered_items[item_name] or minetest.registered_nodes[item_name]
 		if ndef then
-			print("Item name", item_name)
 			-- tool with wear
 			if item_count == 1 then  
 				local meta = items:get_meta()
@@ -278,12 +273,10 @@ local function digitize(pos, nvm)
 				State:idle(pos, nvm)
 			end
 			if techage.is_activeformspec(pos) then
-				print("formspec")
 				M(pos):set_string("formspec", formspec(State, pos, nvm))
 			end
 		end
 	else
-		print("digitize: no item")
 		State:idle(pos, nvm)
 	end
 	return true
@@ -304,13 +297,15 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 		"techage_filling_ta4.png^techage_appl_digitizer_off.png^techage_frame_ta5.png",
 	},
 
-	after_place_node = function(pos, placer)
+	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
 		local node = minetest.get_node(pos)
 		local tube_dir = techage.side_to_outdir("R", node.param2)
-		local number = techage.add_node(pos, "techage:ta5_digitizer_pas")
-		State:node_init(pos, nvm, number)
+		if not techage.restore_node(pos, placer, itemstack, pointed_thing) then
+			local number = techage.add_node(pos, "techage:ta5_digitizer_pas")
+			State:node_init(pos, nvm, number)
+		end
 		meta:set_int("tube_dir", tube_dir)
 		meta:set_string("owner", placer:get_player_name())
 		Tube:after_place_node(pos, {tube_dir})
@@ -331,6 +326,9 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 	end,
 
 	on_receive_fields = on_receive_fields,
+	preserve_nodedata = techage.preserve_nodedata,
+	restore_nodedata = techage.restore_nodedata,
+	preserve_metadata = techage.preserve_node,
 
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		if minetest.is_protected(pos, player:get_player_name()) then
@@ -392,15 +390,13 @@ minetest.register_node("techage:ta5_digitizer_act", {
 
 	on_timer = function(pos, elapsed)
 		local nvm = techage.get_nvm(pos)
-		print("on_timer", nvm.techage_countdown)
 		consume_power(pos, nvm)
 		if State:is_active(nvm) then
-			print("on_timer: active")
 			if nvm.opmode == 1 then
-				print("on_timer: digitize")
+				--print("on_timer: digitize")
 				return digitize(pos, nvm)
 			elseif nvm.opmode == 2 then
-				print("on_timer: reassemble")
+				--print("on_timer: reassemble")
 				return reassemble(pos, nvm)
 			end
 			return true
