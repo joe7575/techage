@@ -31,8 +31,6 @@ elseif minetest.get_modpath("safer_lua") and safer_lua.version < 1.04 then
 	error("Techage requires safer_lua version 1.04 or newer!")
 elseif minetest.get_modpath("networks") and networks.version < 0.13 then
 	error("Techage requires networks version 0.13 or newer!")
-elseif minetest.get_modpath("hyperloop") and hyperloop.version < 2.07 then
-	error("Techage requires hyperloop version 2.07 or newer!")
 end
 
 -- Test MT 5.4 new string mode
