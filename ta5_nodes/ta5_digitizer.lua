@@ -41,11 +41,8 @@ local DESC = S("TA5 Digitizer")
 -- }
 
 local function store_items(pos, mem, force)
-	mem.cycle_cnt = (mem.cycle_cnt or 0) + 1
-	if force or mem.cycle_cnt > 10 then
-		print("store_items", mem.items[1].count, mem.items[2].count, mem.items[3].count, mem.items[4].count)
+	if force then
 		M(pos):set_string("items", minetest.serialize(mem.items))
-		mem.cycle_cnt = 0
 	end
 end
 
@@ -64,20 +61,45 @@ local function restore_items(pos, mem)
 end
 
 local function find_storage_slot_with_space(pos, mem, item_name)
-	restore_items(pos, mem)
-	for i = 1, STORAGE_SLOTS do
+	local match = function(i, force)
 		if (mem.items[i].name == item_name and (mem.items[i].count + NUM_ITEMS) < STORAGE_SIZE)
-		or mem.items[i].name == "" then
+		or (force and mem.items[i].name == "") then
 			mem.items[i].name = item_name
 			return i
 		end
+		return nil -- full
 	end
+
+	restore_items(pos, mem)
+
+	-- Try last used slot
+	if mem.last_idx and match(mem.last_idx) then
+		return mem.last_idx
+	end
+
+    -- Try all slots with items
+	for i = 1, STORAGE_SLOTS do
+		if match(i) then
+			mem.last_idx = i
+			return i
+		end
+	end
+
+	-- Try all empty slots also
+	for i = 1, STORAGE_SLOTS do
+		if match(i, true) then
+			mem.last_idx = i
+			return i
+		end
+	end
+
+	mem.last_idx = nil
 	return nil -- full
 end
 
 local function find_storage_slot_with_items(pos, mem, item_name)
 	restore_items(pos, mem)
-	for i = 1, STORAGE_SLOTS do
+	for i = STORAGE_SLOTS, 1, -1 do
 		if mem.items[i].name == item_name then
 			if mem.items[i].count > 0 then
 				return i
@@ -184,29 +206,13 @@ local function config_item(pos, payload)
 	inv:set_stack("main", 1, stack)
 end
 
-local function add_item(mem, item_name, item_count)
-	local size = 0
-	local keys = {}
-	for key, val in pairs(mem.items) do
-		size = size + 1
-		keys[#keys + 1] = key
-	end
-
-	if size >= STORAGE_SLOTS then
-		return false
-	end
-	mem.items[item_name] = item_count
-	mem.keys = table.sort(keys)
-	return true
-end
-
 local function stop_node(pos, nvm, state)
-	local mem = techage.get_mem(pos)
-	store_items(pos, mem, true)
 end
 
 local function can_start(pos, nvm, state)
 	if configured_item(pos) then
+		local mem = techage.get_mem(pos)
+		mem.last_idx = nil
 		return true
 	end
 	return S("no configured item")
@@ -229,15 +235,18 @@ local function consume_power(pos, nvm)
 		if techage.is_running(nvm) then
 			if taken < PWR_NEEDED then
 				State:nopower(pos, nvm)
-				return false  -- stop running
+				return false
 			else
-				return true  -- keep running
+				return true
 			end
 		elseif taken == PWR_NEEDED then
 			State:start(pos, nvm)
+			return false
+		else
+			return false
 		end
 	end
-	return true  -- keep running
+	return true
 end
 
 local function on_receive_fields(pos, formname, fields, player)

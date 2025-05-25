@@ -2,6 +2,7 @@
 # -*- coding: utf-8 -*-
 
 # install mistune v0.8.4 with: pip install mistune==0.8.4
+# or with: pip install mistune==0.8.4 --break-system-packages
 
 import re
 import mistune
