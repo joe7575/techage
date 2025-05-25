@@ -23,11 +23,11 @@ local power = networks.power
 local MP = minetest.get_modpath(minetest.get_current_modname())
 local mConf = dofile(MP .. "/basis/conf_inv.lua")
 local CYCLE_TIME = 2
-local STANDBY_TICKS = 2
-local COUNTDOWN_TICKS = 4
-local NUM_ITEMS = 2 -- 50
-local STORAGE_SLOTS = 32
-local STORAGE_SIZE  = 100000
+local STANDBY_TICKS = 8
+local COUNTDOWN_TICKS = 2
+local NUM_ITEMS = 50
+local STORAGE_SLOTS = 4 --16
+local STORAGE_SIZE  = 1000 -- 100000
 local PWR_NEEDED = 24
 local EX_POINTS = 50
 local DESC = S("TA5 Digitizer")
@@ -43,7 +43,7 @@ local DESC = S("TA5 Digitizer")
 local function store_items(pos, mem, force)
 	mem.cycle_cnt = (mem.cycle_cnt or 0) + 1
 	if force or mem.cycle_cnt > 10 then
-		print("store_items", P2S(pos))
+		print("store_items", mem.items[1].count, mem.items[2].count, mem.items[3].count, mem.items[4].count)
 		M(pos):set_string("items", minetest.serialize(mem.items))
 		mem.cycle_cnt = 0
 	end
@@ -63,15 +63,36 @@ local function restore_items(pos, mem)
 	end
 end
 
-local function find_storage_slot(pos, mem, item_name)
+local function find_storage_slot_with_space(pos, mem, item_name)
 	restore_items(pos, mem)
 	for i = 1, STORAGE_SLOTS do
-		if mem.items[i].name == item_name or mem.items[i].name == "" then
+		if (mem.items[i].name == item_name and (mem.items[i].count + NUM_ITEMS) < STORAGE_SIZE)
+		or mem.items[i].name == "" then
 			mem.items[i].name = item_name
 			return i
 		end
 	end
 	return nil -- full
+end
+
+local function find_storage_slot_with_items(pos, mem, item_name)
+	restore_items(pos, mem)
+	for i = 1, STORAGE_SLOTS do
+		if mem.items[i].name == item_name then
+			if mem.items[i].count > 0 then
+				return i
+			else
+				mem.items[i].name = ""
+			end
+		end
+	end
+	return nil -- empty
+end
+
+local function delete_empty_slot(pos, mem, idx)
+	if mem.items[idx].name ~= "" and mem.items[idx].count == 0 then
+		mem.items[idx].name = ""
+	end
 end
 
 local function item_image(x, y, item_name, item_count)
@@ -113,7 +134,7 @@ local function formspec1(self, pos, nvm)
 		"tooltip[2.5,1;1,1;" .. S("Needs @1 ku power", PWR_NEEDED) .. "]" ..
 		"image_button[2.5,2.5;1,1;" .. self:get_state_button_image(nvm) .. ";state_button;]" ..
 		"tooltip[2.5,2.5;1,1;" .. self:get_state_tooltip(nvm) .. "]" ..
-		"dropdown[4.5,3;4,0.6;opmode;" .. S("Digitize") .. "," .. S("Reassemble") .. ";" .. opmode .. ";true]" .. 
+		"dropdown[4.5,3;4,0.6;opmode;" .. S("pull") .. "," .. S("push") .. ";" .. opmode .. ";true]" .. 
 		"list[current_player;main;0.2,4.4;8,4;]" ..
 		"listring[context;main]" ..
 		"listring[current_player;main]"
@@ -125,7 +146,7 @@ local function formspec2(self, pos, nvm)
 	local tbl = {}
 	local idx = 1
 	for idx = 1, STORAGE_SLOTS do
-		name, count = mem.items[idx].name, mem.items[idx].count
+		local name, count = mem.items[idx].name, mem.items[idx].count
 		if idx % 2 == 1 then
 			tbl[#tbl + 1] = item_image(0.5, (idx + 0) * 0.6, name, count)
 		else
@@ -148,13 +169,19 @@ local function formspec(self, pos, nvm)
 	end
 end
 
-local function config_item(pos)
+local function configured_item(pos)
 	local inv = M(pos):get_inventory()
 	local stack = inv:get_stack('main', 1)
 	if stack and stack:get_count() > 0 then
 		return stack:get_name()
 	end
 	return nil
+end
+
+local function config_item(pos, payload)
+	local inv = M(pos):get_inventory()
+	local stack = ItemStack(payload)
+	inv:set_stack("main", 1, stack)
 end
 
 local function add_item(mem, item_name, item_count)
@@ -179,7 +206,7 @@ local function stop_node(pos, nvm, state)
 end
 
 local function can_start(pos, nvm, state)
-	if config_item(pos) then
+	if configured_item(pos) then
 		return true
 	end
 	return S("no configured item")
@@ -202,6 +229,7 @@ local function consume_power(pos, nvm)
 		if techage.is_running(nvm) then
 			if taken < PWR_NEEDED then
 				State:nopower(pos, nvm)
+				return false  -- stop running
 			else
 				return true  -- keep running
 			end
@@ -209,6 +237,7 @@ local function consume_power(pos, nvm)
 			State:start(pos, nvm)
 		end
 	end
+	return true  -- keep running
 end
 
 local function on_receive_fields(pos, formname, fields, player)
@@ -234,55 +263,83 @@ local function on_receive_fields(pos, formname, fields, player)
 	end
 end
 
-local function digitize(pos, nvm)
-	local item_name = config_item(pos)
+local function digitize(pos, nvm, mem)
+	local item_name = configured_item(pos)
 	if item_name == nil then
+		State:fault(pos, nvm, S("No configured item"))
 		return false
 	end
+
 	local tube_dir = M(pos):get_int("tube_dir")
-	local items = techage.pull_items(pos, tube_dir, NUM_ITEMS, item_name)
-	if items ~= nil then
-		local item_count = items:get_count()
-		local ndef = minetest.registered_items[item_name] or minetest.registered_nodes[item_name]
-		if ndef then
-			-- tool with wear
-			if item_count == 1 then  
-				local meta = items:get_meta()
-				local data = meta:to_table()
-				if next(data.fields) or items:get_wear() > 0 then
-					techage.unpull_items(pos, tube_dir, items)
-					return true
-				end
-			end
-			local mem = techage.get_mem(pos)
-			local idx = find_storage_slot(pos, mem, item_name)
-			if idx then
-				if mem.items[idx].count + item_count <= STORAGE_SIZE then
-					mem.items[idx].count = mem.items[idx].count + item_count
-					store_items(pos, mem)
-					State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-				else
-					techage.unpull_items(pos, tube_dir, items)
-					State:idle(pos, nvm)
-				end
-			elseif add_item(mem, item_name, item_count) then
-				store_items(pos, mem)
-				State:keep_running(pos, nvm, COUNTDOWN_TICKS)
-			else
-				techage.unpull_items(pos, tube_dir, items)
-				State:idle(pos, nvm)
-			end
-			if techage.is_activeformspec(pos) then
-				M(pos):set_string("formspec", formspec(State, pos, nvm))
-			end
+	local idx = find_storage_slot_with_space(pos, mem, item_name)
+	if idx then
+		-- Take always NUM_ITEMS, but keep at least one item in the chest
+		local leftover = techage.pull_items(pos, tube_dir, NUM_ITEMS + 1, item_name)
+		if leftover and leftover:get_count() == NUM_ITEMS + 1 then
+			techage.unpull_items(pos, tube_dir, ItemStack(item_name))
+			mem.items[idx].count = mem.items[idx].count + NUM_ITEMS
+			State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+			return true
+		elseif leftover and leftover:get_count() > 0 then
+			techage.unpull_items(pos, tube_dir, leftover)
 		end
-	else
+		delete_empty_slot(pos, mem, idx)
+		-- Pulled nothing, try again later
 		State:idle(pos, nvm)
+		return false
 	end
-	return true
+	-- No space in storage, stop execution
+	State:stop(pos, nvm)
+	return false
 end
 
-local function reassemble(pos, nvm, stack)
+local function reassemble(pos, nvm, mem)
+	local item_name = configured_item(pos)
+	if item_name == nil then
+		State:fault(pos, nvm, S("No configured item"))
+		return false
+	end
+
+	local tube_dir = M(pos):get_int("tube_dir")
+	local idx = find_storage_slot_with_items(pos, mem, item_name)
+	if idx then
+		local count = math.min(mem.items[idx].count, NUM_ITEMS)
+		local stack = ItemStack({name = item_name, count = count})
+		local leftover = techage.push_items(pos, tube_dir, stack)
+		local pushed = not leftover and 0 or leftover ~= true and count - leftover:get_count() or count
+		print("reassemble", "count", count, "pushed", pushed, "leftover", leftover)
+		mem.items[idx].count = mem.items[idx].count - pushed
+		if pushed > 0 then
+			State:keep_running(pos, nvm, COUNTDOWN_TICKS)
+			return true
+		else
+			-- Can't push items, try again later
+			State:blocked(pos, nvm)
+		end
+		return false
+	end
+	-- No items in storage, stop execution
+	State:stop(pos, nvm)
+	return false
+end
+
+local function on_timer(pos, elapsed)
+	local nvm = techage.get_nvm(pos)
+	print("on_timer", nvm.opmode)
+	if consume_power(pos, nvm) then
+		local mem = techage.get_mem(pos)
+		local changed = false
+		if nvm.opmode == 1 then
+			changed = digitize(pos, nvm, mem)
+		else
+			changed = reassemble(pos, nvm, mem)
+		end
+		store_items(pos, mem, changed)
+		if techage.is_activeformspec(pos) then
+			M(pos):set_string("formspec", formspec(State, pos, nvm))
+		end
+	end
+	return true -- keep running
 end
 
 minetest.register_node("techage:ta5_digitizer_pas", {
@@ -325,6 +382,7 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 		Cable:after_place_node(pos)
 	end,
 
+	on_timer = on_timer,
 	on_receive_fields = on_receive_fields,
 	preserve_nodedata = techage.preserve_nodedata,
 	restore_nodedata = techage.restore_nodedata,
@@ -388,23 +446,7 @@ minetest.register_node("techage:ta5_digitizer_act", {
 		},
 		},
 
-	on_timer = function(pos, elapsed)
-		local nvm = techage.get_nvm(pos)
-		consume_power(pos, nvm)
-		if State:is_active(nvm) then
-			if nvm.opmode == 1 then
-				--print("on_timer: digitize")
-				return digitize(pos, nvm)
-			elseif nvm.opmode == 2 then
-				--print("on_timer: reassemble")
-				return reassemble(pos, nvm)
-			end
-			return true
-		end
-		store_items(pos, mem, true)
-		return false
-	end,
-
+	on_timer = on_timer,
 	on_receive_fields = on_receive_fields,
 
 	on_rightclick = function(pos, node, clicker)
@@ -433,15 +475,108 @@ minetest.register_node("techage:ta5_digitizer_act", {
 
 techage.register_node({"techage:ta5_digitizer_pas", "techage:ta5_digitizer_act"}, {
 	on_recv_message = function(pos, src, topic, payload)
-		return CRD(pos).State:on_receive_message(pos, topic, payload)
+		if topic == "pull" then
+			local nvm = techage.get_nvm(pos)
+			if not techage.is_running(nvm) and configured_item(pos) then
+				nvm.opmode = 1
+				State:start(pos, nvm)
+				return true
+			end
+			return false
+		elseif topic == "push" then
+			local nvm = techage.get_nvm(pos)
+			if not techage.is_running(nvm) and configured_item(pos) then
+				nvm.opmode = 2
+				State:start(pos, nvm)
+				return true
+			end
+			return false
+		elseif topic == "stop" then
+			local nvm = techage.get_nvm(pos)
+			if techage.is_running(nvm) then
+				State:stop(pos, nvm)
+			end
+			return true
+		elseif topic == "config" then
+			local nvm = techage.get_nvm(pos)
+			if techage.is_running(nvm) then
+				State:stop(pos, nvm)
+			end
+			if payload and type(payload) == "string" then
+				config_item(pos, payload)
+				return true
+			end
+			return false
+		else
+			return State:on_receive_message(pos, topic, payload)
+		end
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
-		return CRD(pos).State:on_beduino_receive_cmnd(pos, topic, payload)
+		return State:on_beduino_receive_cmnd(pos, topic, payload)
 	end,
 	on_beduino_request_data = function(pos, src, topic, payload)
-		return CRD(pos).State:on_beduino_request_data(pos, topic, payload)
+		return State:on_beduino_request_data(pos, topic, payload)
 	end,
 })
 
 power.register_nodes({"techage:ta5_digitizer_pas", "techage:ta5_digitizer_act"}, Cable, "con", {"B", "L", "F", "D", "U"})
 Tube:set_valid_sides({"techage:ta5_digitizer_pas", "techage:ta5_digitizer_act"}, {"R"})
+
+-- techage.register_node({"techage:tiny_generator", "techage:tiny_generator_on"}, {
+-- 	on_push_item = function(pos, in_dir, stack)
+-- 		return in_dir == M(pos):get_int("pull_dir") and techage.safe_push_items(pos, in_dir, stack)
+-- 	end,
+-- 	is_pusher = true, -- is a pulling/pushing node
+
+-- 	on_recv_message = function(pos, src, topic, payload)
+-- 		if topic == "pull" then -- Deprecated command, use config/limit/start instead
+-- 			local nvm = techage.get_nvm(pos)
+-- 			CRD(pos).State:stop(pos, nvm)
+-- 			nvm.item_count = math.min(configured_item(pos, payload), 12)
+-- 			nvm.rmt_num = src
+-- 			CRD(pos).State:start(pos, nvm)
+-- 			return true
+-- 		elseif topic == "config" then  -- Set item type
+-- 			local nvm = techage.get_nvm(pos)
+-- 			CRD(pos).State:stop(pos, nvm)
+-- 			configured_item(pos, payload)
+-- 			return true
+-- 		elseif topic == "limit" then  -- Set push limit
+-- 			local nvm = techage.get_nvm(pos)
+-- 			CRD(pos).State:stop(pos, nvm)
+-- 			set_limit(pos, nvm, payload)
+-- 			return true
+-- 		elseif topic == "count" then  -- Get number of push items
+-- 			local nvm = techage.get_nvm(pos)
+-- 			return nvm.num_items or 0
+-- 		else
+-- 			return CRD(pos).State:on_receive_message(pos, topic, payload)
+-- 		end
+-- 	end,
+-- 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+-- 		if topic == 65 then  -- Set item type
+-- 			local nvm = techage.get_nvm(pos)
+-- 			CRD(pos).State:stop(pos, nvm)
+-- 			configured_item(pos, payload)
+-- 			return 0
+-- 		elseif topic == 68 or topic == 20 then  -- Set push limit
+-- 			local nvm = techage.get_nvm(pos)
+-- 			CRD(pos).State:stop(pos, nvm)
+-- 			set_limit(pos, nvm, payload[1])
+-- 			return 0
+-- 		else
+-- 			local nvm = techage.get_nvm(pos)
+-- 			if nvm.limit then
+-- 				nvm.num_items = 0
+-- 			end
+-- 			return CRD(pos).State:on_beduino_receive_cmnd(pos, topic, payload)
+-- 		end
+-- 	end,
+-- 	on_beduino_request_data = function(pos, src, topic, payload)
+-- 		if topic == 150 then  -- Get number of pushed items
+-- 			local nvm = techage.get_nvm(pos)
+-- 			return 0, {nvm.num_items or 0}
+-- 		else
+-- 			return CRD(pos).State:on_beduino_request_data(pos, topic, payload)
+-- 		end
+-- 	end,
