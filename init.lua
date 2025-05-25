@@ -183,7 +183,6 @@ dofile(MP.."/fusion_reactor/gas_pipe.lua")
 
 -- Basic Machines
 dofile(MP.."/basic_machines/consumer.lua")  -- consumer base model
-dofile(MP.."/basic_machines/source.lua")
 dofile(MP.."/basic_machines/pusher.lua")
 dofile(MP.."/basic_machines/foreign_nodes.lua")
 dofile(MP.."/basic_machines/mods_support.lua")
@@ -330,6 +329,7 @@ dofile(MP.."/move_controller/soundblock.lua")
 if techage.recipe_checker_enabled then
 	dofile(MP.."/recipe_checker.lua")
 end
+dofile(MP.."/.test/source.lua")
 dofile(MP.."/.test/sink.lua")
 dofile(MP.."/.test/testblock.lua")
 

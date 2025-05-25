@@ -993,7 +993,7 @@ Here are the additional commands for the Lua controller:
    Example: `$send_cmnd(1234, "config", "default:dirt")`
    With `$send_cmnd(1234, "config", "")` the configuration is deleted
 - `limit` is used to set the number of items for the flow limiter mode:
-   Example: `$send_cmnd(1234, "init", 7)`
+   Example: `$send_cmnd(1234, "limit", 7)`
 
 [ta4_pusher|image]
 

@@ -71,6 +71,13 @@ More recommended Techage related mods by other authors:
 * [ts_vehicles](https://github.com/Thomas--S/ts_vehicles) from Thomas--S: A mod to provide cars and other vehicles for Minetest.
 * [ta_apiary](https://gitlab.com/lesya_minetest_mods/ta_apiary) from Olesya Sibidanova: TechAge Machines for beekeeping
 
+To be able to use many Forceload blocks (especially on public servers), you need to adjust the server settings
+in the `minetest.conf` file. The default value (16) is usually too low for most setups:
+
+    max_forceloaded_blocks = 200  
+
+The appropriate value depends on the number of players and your setting for `techage_max_num_forceload_blocks`.
+
 For large servers with many players, the following packages are recommended:
 
 * lua-mashal for faster serialization/deserialization of data
