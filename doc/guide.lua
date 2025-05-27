@@ -198,9 +198,9 @@ minetest.register_node("techage:construction_board_FR", {
 minetest.register_craft({
 	output = "techage:construction_board_FR",
 	recipe = {
-		{"default:stick", "default:paper", "default:stick"},
-		{"default:paper", "default:paper", "default:paper"},
-		{"default:paper", "default:paper", "default:paper"},
+		{"default:paper", "default:stick", "default:paper"},
+		{"default:paper", "default:stick", "default:paper"},
+		{"default:paper", "default:stick", "default:paper"},
 	},
 })
 
