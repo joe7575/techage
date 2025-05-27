@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2025 Joachim Stolberg
+	Copyright (C) 2019 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -234,6 +234,7 @@ local items = {
 for name, image in pairs(items) do
 	doclib.add_manual_image("techage", "DE", name, image)
 	doclib.add_manual_image("techage", "EN", name, image)
+	doclib.add_manual_image("techage", "FR", name, image)
 	doclib.add_manual_image("techage", "pt-BR", name, image)
 	doclib.add_manual_image("techage", "RU", name, image)
 end
