@@ -27,7 +27,7 @@ local STANDBY_TICKS = 8
 local COUNTDOWN_TICKS = 2
 local NUM_ITEMS = 50
 local STORAGE_SLOTS = 4 --16
-local STORAGE_SIZE  = 1000 -- 100000
+local STORAGE_SIZE  = 500 -- 100000
 local PWR_NEEDED = 24
 local EX_POINTS = 50
 local DESC = S("TA5 Digitizer")
@@ -62,7 +62,7 @@ end
 
 local function find_storage_slot_with_space(pos, mem, item_name)
 	local match = function(i, force)
-		if (mem.items[i].name == item_name and (mem.items[i].count + NUM_ITEMS) < STORAGE_SIZE)
+		if (mem.items[i].name == item_name and (mem.items[i].count + NUM_ITEMS) <= STORAGE_SIZE)
 		or (force and mem.items[i].name == "") then
 			mem.items[i].name = item_name
 			return i
@@ -298,7 +298,7 @@ local function digitize(pos, nvm, mem)
 		return false
 	end
 	-- No space in storage, stop execution
-	State:stop(pos, nvm)
+	State:blocked(pos, nvm, S("Storage full"))
 	return false
 end
 
@@ -316,19 +316,18 @@ local function reassemble(pos, nvm, mem)
 		local stack = ItemStack({name = item_name, count = count})
 		local leftover = techage.push_items(pos, tube_dir, stack)
 		local pushed = not leftover and 0 or leftover ~= true and count - leftover:get_count() or count
-		print("reassemble", "count", count, "pushed", pushed, "leftover", leftover)
 		mem.items[idx].count = mem.items[idx].count - pushed
 		if pushed > 0 then
 			State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 			return true
 		else
 			-- Can't push items, try again later
-			State:blocked(pos, nvm)
+			State:blocked(pos, nvm, "Can't push, no space")
 		end
 		return false
 	end
 	-- No items in storage, stop execution
-	State:stop(pos, nvm)
+	State:blocked(pos, nvm, "No items in storage")
 	return false
 end
 
@@ -413,6 +412,7 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
+		techage.post_remove_node(pos)
 		Tube:after_dig_node(pos)
 		Cable:after_dig_node(pos)
 		techage.del_mem(pos)
@@ -463,7 +463,6 @@ minetest.register_node("techage:ta5_digitizer_act", {
 		techage.set_activeformspec(pos, clicker)
 		M(pos):set_string("formspec", formspec(State, pos, nvm))
 	end,
-	
 
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		return 0
@@ -500,12 +499,6 @@ techage.register_node({"techage:ta5_digitizer_pas", "techage:ta5_digitizer_act"}
 				return true
 			end
 			return false
-		elseif topic == "stop" then
-			local nvm = techage.get_nvm(pos)
-			if techage.is_running(nvm) then
-				State:stop(pos, nvm)
-			end
-			return true
 		elseif topic == "config" then
 			local nvm = techage.get_nvm(pos)
 			if techage.is_running(nvm) then
