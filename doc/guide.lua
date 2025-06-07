@@ -317,6 +317,7 @@ end
 function techage.add_manual_items(table_with_items)
 	for name, image in pairs(table_with_items) do
 		doclib.add_manual_image("techage", "EN", name, image)
+		doclib.add_manual_image("techage", "FR", name, image)
 		doclib.add_manual_image("techage", "DE", name, image)
 		doclib.add_manual_image("techage", "pt-BR", name, image)
 		doclib.add_manual_image("techage", "RU", name, image)
@@ -326,6 +327,7 @@ end
 function techage.add_manual_plans(table_with_plans)
 	for name, plan in pairs(table_with_plans) do
 		doclib.add_manual_plan("techage", "EN", name, plan)
+		doclib.add_manual_plan("techage", "FR", name, plan)
 		doclib.add_manual_plan("techage", "DE", name, plan)
 		doclib.add_manual_plan("techage", "pt-BR", name, plan)
 		doclib.add_manual_plan("techage", "RU", name, plan)
