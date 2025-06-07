@@ -410,6 +410,19 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 		return mConf.allow_conf_inv_take(pos, listname, index, stack, player)
 	end,
 
+	can_dig = function(pos, player)
+		if minetest.is_protected(pos, player:get_player_name()) then
+			return false
+		end
+		local inv = M(pos):get_inventory()
+		if inv:is_empty("main") then
+			return true
+		else
+			minetest.record_protection_violation(pos, player:get_player_name())
+			return false
+		end
+	end,
+	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 		techage.post_remove_node(pos)
