@@ -429,13 +429,14 @@ minetest.register_craft({
 
 techage.register_node({"techage:ta3_button_off", "techage:ta3_button_on"}, {
 		on_recv_message = function(pos, src, topic, payload)
-			if topic == "on" then
-				switch_on(pos, true)
-				return true
-			elseif topic == "off" then
-				switch_off(pos, true)
-				return true
-			elseif topic == "state" then
+			-- if topic == "on" then
+			-- 	switch_on(pos, true)
+			-- 	return true
+			-- elseif topic == "off" then
+			-- 	switch_off(pos, true)
+			-- 	return true
+			-- elseif topic == "state" then
+			if topic == "state" then
 				local name = techage.get_node_lvm(pos).name
 				return name == "techage:ta3_button_on" and "on" or "off"
 			else
@@ -443,15 +444,15 @@ techage.register_node({"techage:ta3_button_off", "techage:ta3_button_on"}, {
 			end
 		end,
 		on_beduino_receive_cmnd = function(pos, src, topic, payload)
-			if topic == 1 and payload[1] == 1 then
-				switch_on(pos, true)
-				return 0
-			elseif topic == 1 and payload[1] == 0 then
-				switch_off(pos, true)
-				return 0
-			else
+			-- if topic == 1 and payload[1] == 1 then
+			-- 	switch_on(pos, true)
+			-- 	return 0
+			-- elseif topic == 1 and payload[1] == 0 then
+			-- 	switch_off(pos, true)
+			-- 	return 0
+			-- else
 				return 2
-			end
+			-- end
 		end,
 		on_beduino_request_data = function(pos, src, topic, payload)
 			if topic == 131 then  -- State
@@ -468,13 +469,14 @@ techage.register_node({
 		"techage:ta4_button_off", "techage:ta4_button_on",
 	}, {
 		on_recv_message = function(pos, src, topic, payload)
-			if topic == "on" then
-				switch_on(pos, true)
-				return true
-			elseif topic == "off" then
-				switch_off(pos, true)
-				return true
-			elseif topic == "state" then
+			-- if topic == "on" then
+			-- 	switch_on(pos, true)
+			-- 	return true
+			-- elseif topic == "off" then
+			-- 	switch_off(pos, true)
+			-- 	return true
+			-- elseif topic == "state" then
+			if topic == "state" then
 				local name = techage.get_node_lvm(pos).name
 				return name == "techage:ta4_button_on" and "on" or "off"
 			elseif topic == "name" then
@@ -488,15 +490,15 @@ techage.register_node({
 			end
 		end,
 		on_beduino_receive_cmnd = function(pos, src, topic, payload)
-			if topic == 1 and payload[1] == 1 then
-				switch_on(pos, true)
-				return 0
-			elseif topic == 1 and payload[1] == 0 then
-				switch_off(pos, true)
-				return 0
-			else
+			-- if topic == 1 and payload[1] == 1 then
+			-- 	switch_on(pos, true)
+			-- 	return 0
+			-- elseif topic == 1 and payload[1] == 0 then
+			-- 	switch_off(pos, true)
+			-- 	return 0
+			-- else
 				return 2
-			end
+			-- end
 		end,
 		on_beduino_request_data = function(pos, src, topic, payload)
 			if topic == 131 then  -- State
