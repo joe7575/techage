@@ -92,12 +92,11 @@ end
 -------------------------------------------------------------------------------
 
 function techage.preserve_node(pos, oldnode, oldmetadata, drops)
-	local node = minetest.get_node(pos)
 	local number = M(pos):get_string("node_number")
 	local meta = drops[1]:get_meta()
-	local ndef = minetest.registered_nodes[node.name]
+	local ndef = minetest.registered_nodes[oldnode.name]
 
-	local s = techage.preserve_nodedata(pos, node)
+	local s = techage.preserve_nodedata(pos)
 	meta:set_string("node_data", s)
 	if number ~= "" then
 		techage.post_remove_node(pos)
