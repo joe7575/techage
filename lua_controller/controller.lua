@@ -46,7 +46,10 @@ local tHelpTexts = {[" Overview"] = sHELP, [" Data structures"] = safer_lua.Data
 local sFunctionList = ""
 local tFunctionIndex = {}
 
-safer_lua.config(safer_lua.MaxCodeSize * 4, safer_lua.MaxTableSize, safer_lua.MaxExeTime * 10)
+local MaxCodeSize = tonumber(minetest.settings:get("techage_luacontroller_max_code_size")) or safer_lua.MaxCodeSize * 4
+local MaxTableSize = tonumber(minetest.settings:get("techage_luacontroller_max_table_size")) or safer_lua.MaxTableSize
+local SlotExeTime = tonumber(minetest.settings:get("techage_luacontroller_slot_exe_time")) or 200
+safer_lua.config(MaxCodeSize, MaxTableSize, safer_lua.MaxExeTime * 10)
 
 minetest.after(2, function()
 	sFunctionList = table.concat(tFunctions, ",")
@@ -274,6 +277,23 @@ local function patch_error_string(err, line_offs)
 	return table.concat(tbl, "\n")
 end
 
+-- Credit-based runtime environment
+local function add_credits(number, credits)
+	local tbl = Cache[number]
+	tbl.credits = (tbl.credits or 0) + math.floor(credits + 0.5)
+	if tbl.credits > MAX_CREDITS then
+		tbl.credits = MAX_CREDITS
+	end
+	if tbl.credits < -MAX_CREDITS then
+		tbl.credits = MAX_CREDITS
+	end
+	return tbl.credits
+end
+
+local function get_credits(number)
+	return Cache[number].credits or 0
+end
+
 local function error(pos, err)
 	local meta = M(pos)
 	local func = meta:get_string("func")
@@ -302,6 +322,7 @@ local function compile(pos, meta, number)
 		Cache[number] = {code=code, inputs={}, events=env.meta.events}
 		Cache[number].inputs.term = nil  -- terminal inputs
 		Cache[number].inputs.msg = {}  -- message queue
+		Cache[number].credits = MAX_CREDITS
 		return true
 	end
 	return false
@@ -331,18 +352,22 @@ local function stop_controller(pos)
 	meta:set_string("formspec", formspec3(meta))
 end
 
-local function call_loop(pos, elapsed, credits)
+local function call_loop(pos, elapsed)
 	local meta = M(pos)
 	local number = meta:get_string("number")
 	if meta:get_int("state") == techage.RUNNING then
 		if Cache[number] or compile(pos, meta, number) then
-			local code = Cache[number].code
 			Cache[number].event_pending = false
 			local dt = minetest.get_gametime() - (Cache[number].last_time or 0)
-			credits = math.min(safer_lua.add_credits(code, credits * dt), MAX_CREDITS)
+			local credits = add_credits(number, CREDITS * dt)
 			Cache[number].last_time = minetest.get_gametime()
 			if credits > 0 then
+				local code = Cache[number].code
+				local t = minetest.get_us_time()
 				local res = safer_lua.run_loop(pos, elapsed, code, error)
+				-- Consider the time used for running the code and calculate the credits spent
+				local spent = math.floor((minetest.get_us_time() - t) / SlotExeTime) -- in credits
+				add_credits(number, -spent)
 				local state = res and "running" or "stopped"
 				meta:set_string("infotext", "Controller "..number..": "..state.." ("..credits.." credits)")
 				return res
