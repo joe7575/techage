@@ -22,7 +22,7 @@ minetest.register_craftitem("techage:water", {
 })
 
 minetest.register_craftitem("techage:river_water", {
-	description = S("Water"),
+	description = S("River Water"),
 	inventory_image = "techage_liquid2_inv.png^[colorize:#189dc3:120^techage_liquid1_inv.png",
 	groups = {not_in_creative_inventory=1},
 

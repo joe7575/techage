@@ -15,6 +15,7 @@
 -- for lazy programmers
 local M = minetest.get_meta
 local S = techage.S
+local logic = techage.logic
 
 local function get_button_num(pos, clicker, pointed_thing)
 	-- use the node behind the button to get better results
@@ -207,14 +208,14 @@ minetest.register_node("techage:ta4_button_2x", {
 					nvm.button = nvm.button or {}
 					if nvm.button[num] then
 						switch_off(pos, num)
-						send_cmnd(pos, num, "off")
+						logic.guarded_action(pos, send_cmnd, pos, num, "off")
 					else
 						switch_on(pos, num)
-						send_cmnd(pos, num, "on")
+						logic.guarded_action(pos, send_cmnd, pos, num, "on")
 					end
 				else
 					switch_on(pos, num)
-					send_cmnd(pos, num)
+					logic.guarded_action(pos, send_cmnd, pos, num)
 					minetest.after(0.5, switch_off, pos, num)
 				end
 				minetest.sound_play("techage_button", {
@@ -249,7 +250,7 @@ techage.register_node({"techage:ta4_button_2x"}, {
 			local num = math.max(tonumber(payload) or 0, 1)
 			if topic == "on" then
 				switch_on(pos, num)
-				send_cmnd(pos, num)
+				logic.guarded_action(pos, send_cmnd, pos, num)
 				return true
 			elseif topic == "off" then
 				switch_off(pos, num)
@@ -266,7 +267,7 @@ techage.register_node({"techage:ta4_button_2x"}, {
 			local num = math.max(payload[1], 1)
 			if topic == 23 and payload[2] == 1 then
 				switch_on(pos, num)
-				send_cmnd(pos, num)
+				logic.guarded_action(pos, send_cmnd, pos, num)
 				return 0
 			elseif topic == 23 and payload[2] == 0 then
 				switch_off(pos, num)

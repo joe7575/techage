@@ -15,6 +15,8 @@
 -- for lazy programmers
 local M = minetest.get_meta
 local S = techage.S
+local S2P = minetest.string_to_pos
+local P2S = minetest.pos_to_string
 
 techage.logic = {}
 
@@ -55,6 +57,24 @@ function techage.logic.after_place_node(pos, placer, name, descr)
 	meta:set_string("node_number", own_num)
 	meta:set_string("owner", placer:get_player_name())
 	meta:set_string("infotext", descr.." -")
+end
+
+techage.recursion_guard = techage.recursion_guard or {}
+
+function techage.logic.guarded_action(pos, cmnd, ...)
+	if not cmnd then
+		return
+	end
+	local arg = {...}
+	local own_num = M(pos):get_string("node_number")
+	if techage.recursion_guard[own_num] then
+		minetest.log("warning", "[techage] Button recursion detected at node_number=".. own_num .. " pos=" .. P2S(pos))
+		return -- recursion detected, do not execute
+	end
+	techage.recursion_guard[own_num] = true
+	local result = cmnd(unpack(arg))
+	techage.recursion_guard[own_num] = nil
+	return result
 end
 
 function techage.logic.send_on(pos, meta, time)
