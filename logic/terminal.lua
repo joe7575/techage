@@ -378,8 +378,8 @@ local function register_terminal(name, description, tiles, node_box, selection_b
 			techage.remove_node(pos, oldnode, oldmetadata)
 		end,
 
-		preserve_nodedata = techage.preserve_nodedata,
-		restore_nodedata = techage.restore_nodedata,
+		ta_preserve_nodedata = techage.preserve_nodedata,
+		ta_restore_nodedata = techage.restore_nodedata,
 		
 		ta3_formspec = WRENCH_MENU,
 		paramtype = "light",

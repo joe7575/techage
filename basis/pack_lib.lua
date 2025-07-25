@@ -13,6 +13,7 @@
 ]]--
 
 -- for lazy programmers
+local S = techage.S
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local M = minetest.get_meta
 
@@ -87,6 +88,18 @@ function techage.restore_nodedata(pos, s)
 	unpack_meta(pos, tbl.smeta)
 end
 
+function techage.cordlesss_crewdriver_only(pos, placer, itemstack)
+	local meta = itemstack:get_meta()
+	if placer and meta and meta:to_table() then
+		local tbl = meta:to_table()
+		if tbl.fields and next(tbl.fields) then
+			minetest.chat_send_player(placer:get_player_name(), S("Use the cordless screwdriver to place it!"))
+			minetest.remove_node(pos)
+			return true
+		end
+	end
+	return false
+end
 -------------------------------------------------------------------------------
 -- Node own preserve/restore API functions
 -------------------------------------------------------------------------------

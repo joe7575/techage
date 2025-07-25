@@ -111,6 +111,16 @@ local function find_storage_slot_with_items(pos, mem, item_name)
 	return nil -- empty
 end
 
+local function is_empty(pos, mem)
+	restore_items(pos, mem)
+	for i = 1, STORAGE_SLOTS do
+		if mem.items[i].count > 0 then
+			return false
+		end
+	end
+	return true -- empty
+end
+
 local function delete_empty_slot(pos, mem, idx)
 	if mem.items[idx].name ~= "" and mem.items[idx].count == 0 then
 		mem.items[idx].name = ""
@@ -282,10 +292,9 @@ local function digitize(pos, nvm, mem)
 	local tube_dir = M(pos):get_int("tube_dir")
 	local idx = find_storage_slot_with_space(pos, mem, item_name)
 	if idx then
-		-- Take always NUM_ITEMS, but keep at least one item in the chest
-		local leftover = techage.pull_items(pos, tube_dir, NUM_ITEMS + 1, item_name)
-		if leftover and leftover:get_count() == NUM_ITEMS + 1 then
-			techage.unpull_items(pos, tube_dir, ItemStack(item_name))
+		-- Take always NUM_ITEMS or nothing
+		local leftover = techage.pull_items(pos, tube_dir, NUM_ITEMS, item_name)
+		if leftover and leftover:get_count() == NUM_ITEMS then
 			mem.items[idx].count = mem.items[idx].count + NUM_ITEMS
 			State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 			return true
@@ -363,14 +372,17 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 	},
 
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
+		-- Don't allow placing if itemstack has metadata
+		if techage.cordlesss_crewdriver_only(pos, placer, itemstack) then
+			return true
+		end
+
 		local meta = M(pos)
 		local nvm = techage.get_nvm(pos)
 		local node = minetest.get_node(pos)
 		local tube_dir = techage.side_to_outdir("R", node.param2)
-		if not techage.restore_node(pos, placer, itemstack, pointed_thing) then
-			local number = techage.add_node(pos, "techage:ta5_digitizer_pas")
-			State:node_init(pos, nvm, number)
-		end
+		local number = techage.add_node(pos, "techage:ta5_digitizer_pas")
+		State:node_init(pos, nvm, number)
 		meta:set_int("tube_dir", tube_dir)
 		meta:set_string("owner", placer:get_player_name())
 		Tube:after_place_node(pos, {tube_dir})
@@ -392,9 +404,9 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 
 	on_timer = on_timer,
 	on_receive_fields = on_receive_fields,
-	preserve_nodedata = techage.preserve_nodedata,
-	restore_nodedata = techage.restore_nodedata,
-	preserve_metadata = techage.preserve_node,
+	ta_preserve_nodedata = techage.preserve_nodedata,
+	ta_restore_nodedata = techage.restore_nodedata,
+	--preserve_metadata = techage.preserve_node,
 
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		if minetest.is_protected(pos, player:get_player_name()) then
@@ -410,12 +422,25 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 		return mConf.allow_conf_inv_take(pos, listname, index, stack, player)
 	end,
 
-	can_dig = function(pos, player)
-		if minetest.is_protected(pos, player:get_player_name()) then
+	ta_can_remove = function(pos, digger)
+		if minetest.is_protected(pos, digger:get_player_name()) then
 			return false
 		end
 		local inv = M(pos):get_inventory()
 		if inv:is_empty("main") then
+			return true
+		else
+			minetest.record_protection_violation(pos, digger:get_player_name())
+			return false
+		end
+	end,
+
+	can_dig = function(pos, player)
+		if minetest.is_protected(pos, player:get_player_name()) then
+			return false
+		end
+		local mem = techage.get_mem(pos)
+		if is_empty(pos, mem) then
 			return true
 		else
 			minetest.record_protection_violation(pos, player:get_player_name())
@@ -424,8 +449,8 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		techage.remove_node(pos, oldnode, oldmetadata)
-		techage.post_remove_node(pos)
+		--techage.remove_node(pos, oldnode, oldmetadata)
+		--techage.post_remove_node(pos)
 		Tube:after_dig_node(pos)
 		Cable:after_dig_node(pos)
 		techage.del_mem(pos)
