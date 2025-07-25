@@ -934,14 +934,14 @@ The Techage Screwdriver serves as a replacement for the normal screwdriver. It h
 
 [ta3_screwdriver|image] 
 
-### TechAge Assembly Tool
+### TechAge Cordless Screwdriver
 
-The TechAge Assembly Tool is used to remove and reposition Techage blocks without these blocks losing their block number or being assigned a new number when setting. This is helpful, for example, for quarries, as they often have to be moved.
+The TechAge Cordless Screwdriver is used to remove and reposition Techage blocks without these blocks losing their block number or being assigned a new number when setting. This is helpful, for example, for quarries, as they often have to be moved.
 
 - Left button: Remove a block
 - Right button: Set a block
 
-The block that was previously removed with the assembly tool and is to be placed again must be on the far left of the player inventory.
+The block that was previously removed with the Cordless Screwdriver and is to be placed again must be on the far left of the player inventory.
 
-[techage:assembly_tool|image]
+[techage:cordless_screwdriver|image]
 

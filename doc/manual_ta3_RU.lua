@@ -841,7 +841,7 @@ return {
     "ta3_trowel",
     "ta3_drill_pipe_wrench",
     "ta3_screwdriver",
-    "techage:assembly_tool",
+    "techage:cordless_screwdriver",
   },
   plans = {
     "",

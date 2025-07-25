@@ -87,7 +87,7 @@ return {
     "3,TechAge Kelle / Trowel",
     "3,TA3 Bohrgestängezange / TA3 Drill Pipe Wrench",
     "3,Techage Schraubendreher / Screwdriver",
-    "3,TechAge Montagewerkzeug / Assembly Tool",
+    "3,TechAge Akkuschrauber / Cordless Screwdriver",
   },
   texts = {
     "Bei TA3 gilt es\\, die Dampfbetriebenen Maschinen durch leistungsfähigere und mit elektrischem Strom betriebene Maschinen abzulösen.\n"..
@@ -780,12 +780,12 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Das TechAge Montagewerkzeug dient zum Entfernen und wieder Setzen von Techage Blöcken\\, ohne dass diese Blöcke ihre Blocknummer verlieren\\, bzw. beim Setzen eine neue Nummer zugeteilt bekommen. Dies ist bspw. bei Steinbrechern hilfreich\\, da diese oft umgesetzt werden müssen.\n"..
+    "Das TechAge Akkuschrauber dient zum Entfernen und wieder Setzen von Techage Blöcken\\, ohne dass diese Blöcke ihre Blocknummer verlieren\\, bzw. beim Setzen eine neue Nummer zugeteilt bekommen. Dies ist bspw. bei Steinbrechern hilfreich\\, da diese oft umgesetzt werden müssen.\n"..
     "\n"..
     "  - Linke Taste: Entfernen eines Blocks\n"..
     "  - Rechte Taste: Setzen eines Blocks\n"..
     "\n"..
-    "Der Block\\, der zuvor mit dem Montagewerkzeug entfernt wurde und wieder gesetzt werden soll\\, muss sich im Spieler-Inventar ganz links befinden.\n"..
+    "Der Block\\, der zuvor mit dem Akkuschrauber entfernt wurde und wieder gesetzt werden soll\\, muss sich im Spieler-Inventar ganz links befinden.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -878,7 +878,7 @@ return {
     "ta3_trowel",
     "ta3_drill_pipe_wrench",
     "ta3_screwdriver",
-    "techage:assembly_tool",
+    "techage:cordless_screwdriver",
   },
   plans = {
     "",

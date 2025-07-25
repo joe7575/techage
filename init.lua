@@ -223,7 +223,7 @@ dofile(MP.."/furnace/recipes.lua")
 -- Tools
 dofile(MP.."/tools/trowel.lua")
 dofile(MP.."/tools/end_wrench.lua")
-dofile(MP.."/tools/assembly_tool.lua")
+dofile(MP.."/tools/cordless_screwdriver.lua")
 dofile(MP.."/tools/pipe_wrench.lua")
 dofile(MP.."/basic_machines/blackhole.lua")
 dofile(MP.."/basic_machines/forceload.lua")

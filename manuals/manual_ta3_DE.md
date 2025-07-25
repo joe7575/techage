@@ -936,13 +936,13 @@ Der Techage Schraubendreher dient als Ersatz für den normalen Schraubendreher. 
 
 [ta3_screwdriver|image]
 
-### TechAge Montagewerkzeug / Assembly Tool
+### TechAge Akkuschrauber / Cordless Screwdriver
 
-Das TechAge Montagewerkzeug dient zum Entfernen und wieder Setzen von Techage Blöcken, ohne dass diese Blöcke ihre Blocknummer verlieren, bzw. beim Setzen eine neue Nummer zugeteilt bekommen. Dies ist bspw. bei Steinbrechern hilfreich, da diese oft umgesetzt werden müssen.
+Das TechAge Akkuschrauber dient zum Entfernen und wieder Setzen von Techage Blöcken, ohne dass diese Blöcke ihre Blocknummer verlieren, bzw. beim Setzen eine neue Nummer zugeteilt bekommen. Dies ist bspw. bei Steinbrechern hilfreich, da diese oft umgesetzt werden müssen.
 
 - Linke Taste: Entfernen eines Blocks
 - Rechte Taste: Setzen eines Blocks
 
-Der Block, der zuvor mit dem Montagewerkzeug entfernt wurde und wieder gesetzt werden soll, muss sich im Spieler-Inventar ganz links befinden.
+Der Block, der zuvor mit dem Akkuschrauber entfernt wurde und wieder gesetzt werden soll, muss sich im Spieler-Inventar ganz links befinden.
 
-[techage:assembly_tool|image]
+[techage:cordless_screwdriver|image]

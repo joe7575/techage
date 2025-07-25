@@ -831,4 +831,4 @@ L'outil d'assemblage TechAge est utilisé pour retirer et repositionner les bloc
 
 Le bloc qui a été précédemment retiré avec l'outil d'assemblage et qui doit être replacé doit être tout à gauche de l'inventaire du joueur.
 
-[techage:assembly_tool|image]
+[techage:cordless_screwdriver|image]

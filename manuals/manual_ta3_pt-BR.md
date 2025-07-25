@@ -848,16 +848,16 @@ A chave de fenda Techage serve como substituto da chave de fenda normal. Ela pos
 
 [ta3_screwdriver|image] 
 
-### TechAge Assembly Tool
+### TechAge Cordless Screwdriver
 
-A TechAge Assembly Tool é usada para remover e reposicionar blocos Techage sem que esses blocos percam seu número de bloco ou recebam um novo número ao serem configurados. Isso é útil, por exemplo, para pedreiras, já que muitas vezes precisam ser movidas.
+A TechAge Cordless Screwdriver é usada para remover e reposicionar blocos Techage sem que esses blocos percam seu número de bloco ou recebam um novo número ao serem configurados. Isso é útil, por exemplo, para pedreiras, já que muitas vezes precisam ser movidas.
 
 - Botão esquerdo: remover um bloco
 - Botão direito: configurar um bloco
 
 O bloco que foi removido anteriormente com a ferramenta de montagem e que será colocado novamente deve estar no extremo esquerdo do inventário do jogador.
 
-[techage:assembly_tool|image]
+[techage:cordless_screwdriver|image]
 
 
 

@@ -87,7 +87,7 @@ return {
     "3,TechAge Trowel / Trowel",
     "3,TA3 drill pipe wrench",
     "3,Techage Screwdriver",
-    "3,TechAge Assembly Tool",
+    "3,TechAge Cordless Screwdriver",
   },
   texts = {
     "At TA3 it is important to replace the steam-powered machines with more powerful and electric-powered machines.\n"..
@@ -781,12 +781,12 @@ return {
     "\n"..
     " \n"..
     "\n",
-    "The TechAge Assembly Tool is used to remove and reposition Techage blocks without these blocks losing their block number or being assigned a new number when setting. This is helpful\\, for example\\, for quarries\\, as they often have to be moved.\n"..
+    "The TechAge Cordless Screwdriver is used to remove and reposition Techage blocks without these blocks losing their block number or being assigned a new number when setting. This is helpful\\, for example\\, for quarries\\, as they often have to be moved.\n"..
     "\n"..
     "  - Left button: Remove a block\n"..
     "  - Right button: Set a block\n"..
     "\n"..
-    "The block that was previously removed with the assembly tool and is to be placed again must be on the far left of the player inventory.\n"..
+    "The block that was previously removed with the Cordless Screwdriver and is to be placed again must be on the far left of the player inventory.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -879,7 +879,7 @@ return {
     "ta3_trowel",
     "ta3_drill_pipe_wrench",
     "ta3_screwdriver",
-    "techage:assembly_tool",
+    "techage:cordless_screwdriver",
   },
   plans = {
     "",
