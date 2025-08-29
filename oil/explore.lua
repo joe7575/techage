@@ -260,7 +260,7 @@ minetest.register_node("techage:oilexplorer", {
 		local zpos = (math.floor(pos.z / 16) * 16)
 		local pos1 = {x=xpos, y=ypos, z=zpos}
 		local pos2 = {x=xpos+15, y=ypos+15, z=zpos+15}
-		techage.mark_region(digger:get_player_name(), pos1, pos2)
+		techage.mark_region(digger:get_player_name(), pos1, pos2, nil, 16)
 	end,
 	is_ground_content = false,
 	groups = {snappy=2,cracky=2,oddly_breakable_by_hand=2},

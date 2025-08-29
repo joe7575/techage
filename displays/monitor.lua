@@ -161,8 +161,10 @@ local function write_row(pos, payload, cycle_time, beduino)
 	mem.ticks = mem.ticks or 0
 
 	if beduino or type(payload) == "string" then
-		row = tonumber(payload:sub(1,1) or "1") or 1
-		str = payload:sub(2) or "oops"
+		-- split string into row and text on the first blank
+		words = string.split(payload, " ", false, 1, false)
+		row = tonumber(words[1] or "1") or 1
+		str = words[2] or "oops"
 	else
 		str = tostring(payload.get("str")) or "oops"
 		row = tonumber(payload.get("row")) or 1
