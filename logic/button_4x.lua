@@ -303,7 +303,7 @@ minetest.register_node("techage:ta4_button_4x", {
 
 techage.register_node({"techage:ta4_button_4x"}, {
 		on_recv_message = function(pos, src, topic, payload)
-			local num = math.min(tonumber(payload) or 0, 3)
+			local num = math.min(tonumber(payload) or 0, 4)
 			if topic == "on" then
 				switch_on(pos, num)
 				logic.guarded_action(pos, send_cmnd, pos, num)
@@ -320,7 +320,7 @@ techage.register_node({"techage:ta4_button_4x"}, {
 			end
 		end,
 		on_beduino_receive_cmnd = function(pos, src, topic, payload)
-			local num = math.min(payload[1], 3)
+			local num = math.min(payload[1], 4)
 			if topic == 23 and payload[2] == 1 then
 				switch_on(pos, num)
 				logic.guarded_action(pos, send_cmnd, pos, num)
@@ -334,7 +334,7 @@ techage.register_node({"techage:ta4_button_4x"}, {
 		end,
 		on_beduino_request_data = function(pos, src, topic, payload)
 			if topic == 152 then  -- State
-				local num = math.min(payload[1], 3)
+				local num = math.min(payload[1], 4)
 				local nvm = techage.get_nvm(pos)
 				nvm.button = nvm.button or {}
 				return 0, nvm.button[num] and {1} or {0}
