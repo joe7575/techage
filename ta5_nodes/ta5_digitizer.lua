@@ -8,7 +8,7 @@
 	AGPL v3
 	See LICENSE.txt for more information
 
-	TA5 Digitizer
+	TA5 Item Digitizer
 ]]--
 
 -- for lazy programmers
@@ -326,6 +326,7 @@ local function reassemble(pos, nvm, mem)
 		local leftover = techage.push_items(pos, tube_dir, stack)
 		local pushed = not leftover and 0 or leftover ~= true and count - leftover:get_count() or count
 		mem.items[idx].count = mem.items[idx].count - pushed
+		delete_empty_slot(pos, mem, idx)
 		if pushed > 0 then
 			State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 			return true
@@ -405,8 +406,15 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 	on_timer = on_timer,
 	on_receive_fields = on_receive_fields,
 	ta_preserve_nodedata = techage.preserve_nodedata,
-	ta_restore_nodedata = techage.restore_nodedata,
-	--preserve_metadata = techage.preserve_node,
+	ta_restore_nodedata = function(pos, s)
+		techage.restore_nodedata(pos, s)
+		local node = minetest.get_node(pos)
+		local tube_dir = techage.side_to_outdir("R", node.param2)
+		local meta = M(pos)
+		meta:set_int("tube_dir", tube_dir)
+		Tube:after_place_node(pos, {tube_dir})
+		Cable:after_place_node(pos)
+	end,
 
 	allow_metadata_inventory_put = function(pos, listname, index, stack, player)
 		if minetest.is_protected(pos, player:get_player_name()) then
@@ -426,13 +434,11 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 		if minetest.is_protected(pos, digger:get_player_name()) then
 			return false
 		end
-		local inv = M(pos):get_inventory()
-		if inv:is_empty("main") then
+		local nvm = techage.get_nvm(pos)
+		if nvm.techage_state == techage.STOPPED then
 			return true
-		else
-			minetest.record_protection_violation(pos, digger:get_player_name())
-			return false
 		end
+		return false
 	end,
 
 	can_dig = function(pos, player)
@@ -449,8 +455,7 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 	end,
 	
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		--techage.remove_node(pos, oldnode, oldmetadata)
-		--techage.post_remove_node(pos)
+		techage.remove_node(pos, oldnode, oldmetadata)
 		Tube:after_dig_node(pos)
 		Cable:after_dig_node(pos)
 		techage.del_mem(pos)
@@ -547,6 +552,10 @@ techage.register_node({"techage:ta5_digitizer_pas", "techage:ta5_digitizer_act"}
 				return true
 			end
 			return false
+		elseif topic == "stop" then
+			local nvm = techage.get_nvm(pos)
+			State:stop(pos, nvm)
+			return true
 		else
 			return State:on_receive_message(pos, topic, payload)
 		end
@@ -561,6 +570,29 @@ techage.register_node({"techage:ta5_digitizer_pas", "techage:ta5_digitizer_act"}
 
 power.register_nodes({"techage:ta5_digitizer_pas", "techage:ta5_digitizer_act"}, Cable, "con", {"B", "L", "F", "D", "U"})
 Tube:set_valid_sides({"techage:ta5_digitizer_pas", "techage:ta5_digitizer_act"}, {"R"})
+
+techage.recipes.add("ta4_electronic_fab", {
+	output = "techage:ta5_controlunit 1",
+	waste = "basic_materials:empty_spool 1",
+	input = {
+		"techage:aluminum 1", "basic_materials:gold_wire 1", "techage:ta5_aichip2 1", "techage:ta4_wlanchip 2",
+	},
+	ex_points = EX_POINTS,
+})
+
+minetest.register_craftitem("techage:ta5_controlunit", {
+	description = S("TA5 Control Unit"),
+	inventory_image = "techage_controlunit.png",
+})
+
+minetest.register_craft({
+	output = "techage:ta5_digitizer_pas",
+	recipe = {
+		{"techage:aluminum", "dye:red", "techage:ta4_carbon_fiber"},
+		{"techage:electric_cableS", "techage:ta4_pusher_pas", "techage:ta4_tubeS"},
+		{"techage:ta4_ramchip 16", "basic_materials:gear_steel", "techage:ta5_controlunit"},
+	},
+})
 
 -- techage.register_node({"techage:tiny_generator", "techage:tiny_generator_on"}, {
 -- 	on_push_item = function(pos, in_dir, stack)
