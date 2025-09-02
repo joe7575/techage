@@ -52,7 +52,7 @@ local function unpack_nvm(pos, s)
 		local tbl = minetest.deserialize(s)
 		local nvm = techage.get_nvm(pos)
 		for k,v in pairs(tbl) do
-			nvm.k = v
+			nvm[k] = v
 		end
 	end
 end
@@ -88,6 +88,7 @@ function techage.restore_nodedata(pos, s)
 	unpack_meta(pos, tbl.smeta)
 end
 
+-- Don't allow placing if node in player inventory has metadata
 function techage.cordlesss_crewdriver_only(pos, placer, itemstack)
 	local meta = itemstack:get_meta()
 	if placer and meta and meta:to_table() then
@@ -97,40 +98,6 @@ function techage.cordlesss_crewdriver_only(pos, placer, itemstack)
 			minetest.remove_node(pos)
 			return true
 		end
-	end
-	return false
-end
--------------------------------------------------------------------------------
--- Node own preserve/restore API functions
--------------------------------------------------------------------------------
-
-function techage.preserve_node(pos, oldnode, oldmetadata, drops)
-	local number = M(pos):get_string("node_number")
-	local meta = drops[1]:get_meta()
-	local ndef = minetest.registered_nodes[oldnode.name]
-
-	local s = techage.preserve_nodedata(pos)
-	meta:set_string("node_data", s)
-	if number ~= "" then
-		techage.post_remove_node(pos)
-		meta:set_string("node_number", number)
-		meta:set_string("description", ndef.description .. " : " .. number)
-	else
-		meta:set_string("description", ndef.description .. " (preserved)")
-	end
-end
-
-function techage.restore_node(pos, placer, itemstack, pointed_thing)
-	local meta = itemstack:get_meta()
-	local tbl = meta:to_table()
-
-	if tbl.fields.node_data then
-		techage.restore_nodedata(pos, tbl.fields.node_data)
-		local number = meta:get_string("node_number")
-		if number ~= "" then
-			techage.pre_add_node(pos, number)
-		end
-		return true
 	end
 	return false
 end
