@@ -25,8 +25,8 @@ local mConf = dofile(MP .. "/basis/conf_inv.lua")
 local CYCLE_TIME = 2
 local STANDBY_TICKS = 8
 local COUNTDOWN_TICKS = 2
-local NUM_ITEMS = 50
-local STORAGE_SLOTS = 4 --16
+local NUM_ITEMS = 24
+local STORAGE_SLOTS = 16
 local STORAGE_SIZE  = 500 -- 100000
 local PWR_NEEDED = 24
 local EX_POINTS = 50
@@ -293,13 +293,11 @@ local function digitize(pos, nvm, mem)
 	local idx = find_storage_slot_with_space(pos, mem, item_name)
 	if idx then
 		-- Take always NUM_ITEMS or nothing
-		local leftover = techage.pull_items(pos, tube_dir, NUM_ITEMS, item_name)
-		if leftover and leftover:get_count() == NUM_ITEMS then
-			mem.items[idx].count = mem.items[idx].count + NUM_ITEMS
+		local taken = techage.pull_items(pos, tube_dir, NUM_ITEMS, item_name)
+		if taken and taken:get_count() > 0 then
+			mem.items[idx].count = mem.items[idx].count + taken:get_count()
 			State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 			return true
-		elseif leftover and leftover:get_count() > 0 then
-			techage.unpull_items(pos, tube_dir, leftover)
 		end
 		delete_empty_slot(pos, mem, idx)
 		-- Pulled nothing, try again later
@@ -343,7 +341,6 @@ end
 
 local function on_timer(pos, elapsed)
 	local nvm = techage.get_nvm(pos)
-	print("on_timer", nvm.opmode)
 	if consume_power(pos, nvm) then
 		local mem = techage.get_mem(pos)
 		local changed = false
