@@ -53,7 +53,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Le brûleur à charbon est nécessaire\\, par exemple\\, pour fondre du fer et d'autres minerais dans le creuset. Il existe différentes recettes qui nécessitent différentes températures. Plus la tour est haute\\, plus la flamme est chaude. Une hauteur de 11 blocs au-dessus de la plaque de base est suffisante pour toutes les recettes\\, mais un brûleur de cette hauteur consomme également plus de charbon de bois.\n"..
+    "Le brûleur à charbon est nécessaire\\, par exemple\\, pour fondre du fer et d'autres minerais dans le creuset (Melting Pot). Il existe différentes recettes qui nécessitent différentes températures. Plus la tour est haute\\, plus la flamme est chaude. Une hauteur de 11 blocs au-dessus de la plaque de base est suffisante pour toutes les recettes\\, mais un brûleur de cette hauteur consomme également plus de charbon de bois.\n"..
     "\n"..
     "Instructions de construction (voir aussi le plan) :\n"..
     "\n"..
@@ -62,10 +62,10 @@ return {
     "  - Placez un allumeur (lighter) à l'intérieur\n"..
     "  - Remplissez la tour de charbon de bois jusqu'au bord en laissant tomber le charbon de bois par le trou supérieur\n"..
     "  - Allumez l'allumeur à travers le trou\n"..
-    "  - Placez le creuset en haut de la tour directement dans la flamme\\, un bloc au-dessus du bord de la tour\n"..
+    "  - Placez le creuset (Melting Pot) en haut de la tour directement dans la flamme\\, un bloc au-dessus du bord de la tour\n"..
     "  - Pour arrêter le brûleur\\, fermez temporairement le trou\\, par exemple avec un bloc de terre.\n"..
     "\n"..
-    "Le creuset a son propre menu avec des recettes et un inventaire où vous placez les minerais.\n"..
+    "Le creuset (Melting Pot) a son propre menu avec des recettes et un inventaire où vous placez les minerais.\n"..
     "\n"..
     "\n"..
     "\n",
