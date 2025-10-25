@@ -40,7 +40,7 @@ Vous pouvez alors retirer les 9 blocs de charbon de bois et remplir à nouveau l
 
 ## Brûleur à Charbon / Coal Burner
 
-Le brûleur à charbon est nécessaire, par exemple, pour fondre du fer et d'autres minerais dans le creuset. Il existe différentes recettes qui nécessitent différentes températures. Plus la tour est haute, plus la flamme est chaude. Une hauteur de 11 blocs au-dessus de la plaque de base est suffisante pour toutes les recettes, mais un brûleur de cette hauteur consomme également plus de charbon de bois.
+Le brûleur à charbon est nécessaire, par exemple, pour fondre du fer et d'autres minerais dans le creuset (Melting Pot). Il existe différentes recettes qui nécessitent différentes températures. Plus la tour est haute, plus la flamme est chaude. Une hauteur de 11 blocs au-dessus de la plaque de base est suffisante pour toutes les recettes, mais un brûleur de cette hauteur consomme également plus de charbon de bois.
 
 Instructions de construction (voir aussi le plan) :
 
@@ -49,10 +49,10 @@ Instructions de construction (voir aussi le plan) :
 * Placez un allumeur (lighter) à l'intérieur
 * Remplissez la tour de charbon de bois jusqu'au bord en laissant tomber le charbon de bois par le trou supérieur
 * Allumez l'allumeur à travers le trou
-* Placez le creuset en haut de la tour directement dans la flamme, un bloc au-dessus du bord de la tour
+* Placez le creuset (Melting Pot) en haut de la tour directement dans la flamme, un bloc au-dessus du bord de la tour
 * Pour arrêter le brûleur, fermez temporairement le trou, par exemple avec un bloc de terre.
 
-Le creuset a son propre menu avec des recettes et un inventaire où vous placez les minerais.
+Le creuset (Melting Pot) a son propre menu avec des recettes et un inventaire où vous placez les minerais.
 
 [coalburner|plan]
 
