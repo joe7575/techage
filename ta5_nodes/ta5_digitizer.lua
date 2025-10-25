@@ -60,28 +60,31 @@ local function restore_items(pos, mem)
 	end
 end
 
-local function find_storage_slot_with_space(pos, mem, item_name)
-	local match = function(i, force)
-		if (mem.items[i].name == item_name and (mem.items[i].count + NUM_ITEMS) <= STORAGE_SIZE)
+local function find_storage_slot_with_space(pos, mem, max_num_items, item_name)
+	local function match(i, force)
+		if (mem.items[i].name == item_name and mem.items[i].count < STORAGE_SIZE)
 		or (force and mem.items[i].name == "") then
 			mem.items[i].name = item_name
 			return i
 		end
 		return nil -- full
 	end
+	local function num_items(idx, max_num_items)
+		return math.min(STORAGE_SIZE - mem.items[idx].count, max_num_items)
+	end
 
 	restore_items(pos, mem)
 
 	-- Try last used slot
 	if mem.last_idx and match(mem.last_idx) then
-		return mem.last_idx
+		return mem.last_idx, num_items(mem.last_idx, max_num_items)
 	end
 
     -- Try all slots with items
 	for i = 1, STORAGE_SLOTS do
 		if match(i) then
 			mem.last_idx = i
-			return i
+			return i, num_items(i, max_num_items)
 		end
 	end
 
@@ -89,12 +92,12 @@ local function find_storage_slot_with_space(pos, mem, item_name)
 	for i = 1, STORAGE_SLOTS do
 		if match(i, true) then
 			mem.last_idx = i
-			return i
+			return i, num_items(i, max_num_items)
 		end
 	end
 
 	mem.last_idx = nil
-	return nil -- full
+	return nil, 0 -- full
 end
 
 local function find_storage_slot_with_items(pos, mem, item_name)
@@ -290,10 +293,9 @@ local function digitize(pos, nvm, mem)
 	end
 
 	local tube_dir = M(pos):get_int("tube_dir")
-	local idx = find_storage_slot_with_space(pos, mem, item_name)
+	local idx, num_items = find_storage_slot_with_space(pos, mem, NUM_ITEMS, item_name)
 	if idx then
-		-- Take always NUM_ITEMS or nothing
-		local taken = techage.pull_items(pos, tube_dir, NUM_ITEMS, item_name)
+		local taken = techage.pull_items(pos, tube_dir, num_items, item_name)
 		if taken and taken:get_count() > 0 then
 			mem.items[idx].count = mem.items[idx].count + taken:get_count()
 			State:keep_running(pos, nvm, COUNTDOWN_TICKS)
@@ -562,6 +564,12 @@ techage.register_node({"techage:ta5_digitizer_pas", "techage:ta5_digitizer_act"}
 	end,
 	on_beduino_request_data = function(pos, src, topic, payload)
 		return State:on_beduino_request_data(pos, topic, payload)
+	end,
+	on_node_load = function(pos, node)
+		local nvm = techage.get_nvm(pos)
+		if techage.is_operational(nvm) then
+			State:on_node_load(pos)
+		end
 	end,
 })
 
