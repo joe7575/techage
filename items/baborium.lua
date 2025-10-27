@@ -49,3 +49,5 @@ minetest.register_craft({
 	recipe = 'techage:baborium_lump',
 	cooktime = 5,
 })
+
+techage.register_simple_nodes({"techage:stone_with_baborium"}, true)
