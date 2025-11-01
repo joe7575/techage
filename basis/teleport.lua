@@ -92,6 +92,30 @@ local function store_connection(pos, peer_pos)
 	meta:set_string("formspec", "")
 end
 
+local function get_conn_name(pos)
+	local name = M(pos):get_string("conn_name")
+	if name == "" then
+		return "'<no-name>'"
+	end
+	return "'" .. name .. "'"
+end
+
+function techage.teleport.update_status(pos)
+	local meta = M(pos)
+	local peer_pos = S2P(meta:get_string("tele_peer_pos"))
+	if peer_pos then
+		local tbl = {}
+		tbl[#tbl+1] = S("Block")
+		tbl[#tbl+1] = get_conn_name(pos)
+		tbl[#tbl+1] = S("connected to")
+		tbl[#tbl+1] = get_conn_name(peer_pos)
+		tbl[#tbl+1] = S("at pos.")
+		tbl[#tbl+1] = P2S(peer_pos)
+		local status = table.concat(tbl, " ")
+		meta:set_string("tele_status", status)
+	end
+end
+
 function techage.teleport.prepare_pairing(pos, node_type, status)
 	local meta = M(pos)
 	if node_type then

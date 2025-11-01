@@ -95,7 +95,7 @@ local function switch_on(pos, no_sound)
 	elseif name == "techage:ta4_button_off" then
 		logic.swap_node(pos, "techage:ta4_button_on")
 	end
-	logic.send_cmnd(pos, "command", "on", cycle_time)
+	logic.guarded_action(pos, logic.send_cmnd, pos, "command", "on", cycle_time)
 	if not no_sound then
 		minetest.sound_play("techage_button", {
 				pos = pos,
@@ -115,7 +115,7 @@ local function switch_off(pos, no_sound)
 	local meta = M(pos)
 	if meta:get_string("off_command") ~= "true" and
 			(not meta:contains("command") or meta:get_string("command") == "on") then
-		logic.send_off(pos, M(pos))
+		logic.guarded_action(pos, logic.send_off, pos, M(pos))
 	end
 	if not no_sound then
 		minetest.sound_play("techage_button", {

@@ -143,7 +143,7 @@ end
 
 test_setup = function(pos, nvm)
 	local recipe = recipes.get(nvm, "ta4_doser")
-	local ndef = minetest.registered_craftitems[recipe.output.name]
+	local ndef = minetest.registered_craftitems[recipe.output.name] or minetest.registered_items[recipe.output.name]
 	nvm.fault = nil
 
 	if not ndef then
@@ -162,7 +162,7 @@ test_setup = function(pos, nvm)
 		return
 	end
 	
-	ndef = minetest.registered_craftitems[recipe.waste.name]
+	ndef = minetest.registered_craftitems[recipe.waste.name] or minetest.registered_items[recipe.output.name]
 	desc = ndef.description
 	if not reactor_cmnd(pos, "test_waste_container", recipe.waste.name) then
 		local container = ndef.groups and ndef.groups.powder == 1 and "silo" or "tank"

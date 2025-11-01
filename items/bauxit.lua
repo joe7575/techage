@@ -66,3 +66,4 @@ minetest.register_ore({
 
 techage.add_grinder_recipe({input="techage:bauxite_cobble", output="techage:bauxite_gravel"})
 techage.add_grinder_recipe({input="techage:bauxite_gravel", output="techage:bauxite_powder"})
+techage.register_simple_nodes({"techage:bauxite_stone"}, true)

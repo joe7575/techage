@@ -166,6 +166,8 @@ local function drilling(pos, crd, nvm, inv)
 	elseif node.name == "ignore" then
 		-- load world and pause the drilling for one step
 		minetest.emerge_area(nvm.drill_pos, nvm.drill_pos)
+	else
+		crd.State:blocked(pos, nvm, S("Cannot drill @1", node.name))
 	end
 end
 

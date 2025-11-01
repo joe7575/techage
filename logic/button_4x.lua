@@ -15,6 +15,7 @@
 -- for lazy programmers
 local M = minetest.get_meta
 local S = techage.S
+local logic = techage.logic
 
 local function get_button_num(pos, clicker, pointed_thing)
 	-- use the node behind the button to get better results
@@ -263,14 +264,14 @@ minetest.register_node("techage:ta4_button_4x", {
 					nvm.button = nvm.button or {}
 					if nvm.button[num] then
 						switch_off(pos, num)
-						send_cmnd(pos, num, "off")
+						logic.guarded_action(pos, send_cmnd, pos, num, "off")
 					else
 						switch_on(pos, num)
-						send_cmnd(pos, num, "on")
+						logic.guarded_action(pos, send_cmnd, pos, num, "on")
 					end
 				else
 					switch_on(pos, num)
-					send_cmnd(pos, num)
+					logic.guarded_action(pos, send_cmnd, pos, num)
 					minetest.after(0.5, switch_off, pos, num)
 				end
 				minetest.sound_play("techage_button", {
@@ -302,10 +303,10 @@ minetest.register_node("techage:ta4_button_4x", {
 
 techage.register_node({"techage:ta4_button_4x"}, {
 		on_recv_message = function(pos, src, topic, payload)
-			local num = math.max(tonumber(payload) or 0, 3)
+			local num = math.min(tonumber(payload) or 0, 4)
 			if topic == "on" then
 				switch_on(pos, num)
-				send_cmnd(pos, num)
+				logic.guarded_action(pos, send_cmnd, pos, num)
 				return true
 			elseif topic == "off" then
 				switch_off(pos, num)
@@ -319,10 +320,10 @@ techage.register_node({"techage:ta4_button_4x"}, {
 			end
 		end,
 		on_beduino_receive_cmnd = function(pos, src, topic, payload)
-			local num = math.max(payload[1], 3)
+			local num = math.min(payload[1], 4)
 			if topic == 23 and payload[2] == 1 then
 				switch_on(pos, num)
-				send_cmnd(pos, num)
+				logic.guarded_action(pos, send_cmnd, pos, num)
 				return 0
 			elseif topic == 23 and payload[2] == 0 then
 				switch_off(pos, num)
@@ -333,7 +334,7 @@ techage.register_node({"techage:ta4_button_4x"}, {
 		end,
 		on_beduino_request_data = function(pos, src, topic, payload)
 			if topic == 152 then  -- State
-				local num = math.max(payload[1], 3)
+				local num = math.min(payload[1], 4)
 				local nvm = techage.get_nvm(pos)
 				nvm.button = nvm.button or {}
 				return 0, nvm.button[num] and {1} or {0}

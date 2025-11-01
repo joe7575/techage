@@ -306,7 +306,7 @@ minetest.register_node("techage:ta4_trafficlight2B", {
 	groups = {cracky=2, crumbly=2, not_in_creative_inventory=1},
 	is_ground_content = false,
 	sounds = default.node_sound_glass_defaults(),
-	drop = "techage:ta4_trafficlight1",
+	drop = "techage:ta4_trafficlight2",
 })
 
 for _,color in ipairs({"green", "amber", "red"}) do
