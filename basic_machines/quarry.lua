@@ -83,7 +83,7 @@ local function play_sound(pos)
 	if not mem.handle or mem.handle == -1 then
 		mem.handle = minetest.sound_play("techage_quarry", {
 			pos = pos,
-			gain = 1.5,
+			gain = 0.7,
 			max_hear_distance = 15,
 			loop = true})
 		if mem.handle == -1 then
