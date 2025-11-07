@@ -332,22 +332,13 @@ function techage.can_dig_node(name, ndef)
 		SimpleNodes[name] = true
 		return true
 	end
-	--everness oill drilling fix
-	if ndef.groups['cracky'] then
-		SimpleNodes[name] = true
-		return true
-	end
-	if ndef.groups['crumbly'] then
-		SimpleNodes[name] = true
-		return true
-	end
-	if ndef.groups['snappy'] then
-		SimpleNodes[name] = true
-		return true
-	end
-	if ndef.groups['choppy'] then
-		SimpleNodes[name] = true
-		return true
+	----everness oill drilling fix
+	if minetest.get_modpath("everness") then
+		local mod = name:match("^(.-):")
+		if mod == "everness" or mod == "default" or mod == "too_many_stones" then
+			SimpleNodes[name] = true
+			return true
+		end
 	end
 	-- underch oil drilling fix
 	if ndef.groups['jit_shadow'] == 1 then

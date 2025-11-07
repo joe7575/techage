@@ -175,12 +175,14 @@ local function is_simple_node(node)
 end
 
 function flylib2.get_pos(payload)
-	local x,y,z = unpack(string.split(payload, ",", false, 2))
-	if z then
-		x = tonumber(x) or 0
-		y = tonumber(y) or 0
-		z = tonumber(z) or 0
-		return {x = x, y = y, z = z}
+	if payload then
+		local x,y,z = unpack(string.split(payload, ",", false, 2))
+		if z then
+			x = tonumber(x) or 0
+			y = tonumber(y) or 0
+			z = tonumber(z) or 0
+			return {x = x, y = y, z = z}
+		end
 	end
 end
 

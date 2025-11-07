@@ -82,11 +82,11 @@ local function grow_flowers(pos)
 				else
 					mem.grow_pos[plant_idx] = true
 				end
-			elseif plant_node and Plants[plant_node.name] then
-				local ndef = minetest.registered_nodes[plant_node.name]
+			end
+		elseif plant_node and Plants[plant_node.name] then
+			local ndef = minetest.registered_nodes[plant_node.name]
+			if ndef.on_timer then
 				ndef.on_timer(plant_pos, 200)
-			else
-				mem.grow_pos[plant_idx] = false
 			end
 		end
 	end
@@ -168,6 +168,21 @@ minetest.register_craft({
 		{"techage:ta4_leds", "techage:ta4_leds", "techage:ta4_leds"},
 		{"techage:ta4_leds", "techage:aluminum", "techage:ta4_leds"},
 	},
+})
+
+minetest.register_lbm({
+	label = "Restart Grow Light",
+	name = "techage:restart_growlight",
+
+	nodenames = {
+		"techage:growlight",
+	},
+
+	run_at_every_load = true,
+
+	action = function(pos, node)
+		minetest.get_node_timer(pos):start(CYCLE_TIME)
+	end,
 })
 
 local function contains(table, element)
