@@ -309,6 +309,19 @@ function techage.is_air_like(name)
 	return false
 end
 
+-- everness oill drilling fix
+local GroundNodes = {}
+if minetest.get_modpath("everness") then
+	minetest.register_on_mods_loaded(function()
+		for _, item in pairs(core.registered_ores) do
+			GroundNodes[item.ore] = true
+			if item.wherein then
+				GroundNodes[item.wherein] = true
+			end
+		end
+	end)
+end
+
 -- returns true, if node can be dug, otherwise false
 function techage.can_dig_node(name, ndef)
 	if not ndef then return false end
@@ -332,10 +345,9 @@ function techage.can_dig_node(name, ndef)
 		SimpleNodes[name] = true
 		return true
 	end
-	----everness oill drilling fix
+	-- everness oill drilling fix
 	if minetest.get_modpath("everness") then
-		local mod = name:match("^(.-):")
-		if mod == "everness" or mod == "default" or mod == "too_many_stones" then
+		if GroundNodes[name] then
 			SimpleNodes[name] = true
 			return true
 		end
@@ -369,6 +381,11 @@ function techage.register_simple_nodes(node_names, is_valid)
 	for _,name in ipairs(node_names or {}) do
 		SimpleNodes[name] = is_valid
 	end
+end
+
+
+function techage.node_is_ore(name)
+	return Ores[name]
 end
 
 techage.dig_states = {
