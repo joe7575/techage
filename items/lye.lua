@@ -40,5 +40,5 @@ techage.recipes.add("ta4_doser", {
 	}
 })
 
-techage.register_liquid("techage:barrel_lye", "techage:ta3_barrel_empty", 10, "techage:lye")
-techage.register_liquid("techage:canister_lye", "techage:ta3_canister_empty", 1, "techage:lye")
+techage.register_liquid("techage:barrel_lye", "techage:ta3_barrel_empty", techage.volume_barrel, "techage:lye")
+techage.register_liquid("techage:canister_lye", "techage:ta3_canister_empty", techage.volume_canister, "techage:lye")

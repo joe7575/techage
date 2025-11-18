@@ -50,6 +50,10 @@ techage.disable_lava_above_sea_level = minetest.settings:get_bool("techage_disab
 techage.maximum_move_controller_distance = tonumber(minetest.settings:get("techage_maximum_move_controller_distance")) or 400
 techage.maximum_move_controller_blocks = tonumber(minetest.settings:get("techage_maximum_move_controller_blocks")) or 16
 techage.ammonia_recipes_enabled = minetest.settings:get_bool("techage_ammonia_recipes_enabled") ~= false
+techage.volume_barrel = tonumber(minetest.settings:get("techage_barrel_volume")) or 10
+techage.volume_canister = tonumber(minetest.settings:get("techage_canister_volume")) or 1
+techage.volume_big_gascylinder = tonumber(minetest.settings:get("techage_big_gascylinder_volume")) or 6
+techage.volume_small_gascylinder = tonumber(minetest.settings:get("techage_small_gascylinder_volume")) or 1
 
 -- allow to load marshal and sqlite3
 techage.IE = minetest.request_insecure_environment()
