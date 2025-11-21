@@ -63,3 +63,16 @@ techage_luacontroller_max_table_size (Lua controller table size) int 1000
 
 # Average maximum execution time per call of the Lua controller
 techage_luacontroller_slot_exe_time (Lua controller execution time) int 200
+
+# Barrelvolumes in liter
+techage_barrel_volume (Volume of a Barrel) int 10
+
+# Canistervolumes in liter
+techage_canister_volume (Volume of a Canister) int 1
+
+# Big Gascylinder in liter
+techage_big_gascylinder_volume (Volume in liter) int 6
+
+# Small Gascylinder in liter
+techage_small_gascylinder_volume (Volume in liter) int 1
+

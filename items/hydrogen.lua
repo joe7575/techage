@@ -32,8 +32,8 @@ minetest.register_craftitem("techage:cylinder_large_hydrogen", {
 	stack_max = 1,
 })
 
-techage.register_liquid("techage:cylinder_small_hydrogen", "techage:ta3_cylinder_small", 1, "techage:hydrogen")
-techage.register_liquid("techage:cylinder_large_hydrogen", "techage:ta3_cylinder_large", 6, "techage:hydrogen")
+techage.register_liquid("techage:cylinder_small_hydrogen", "techage:ta3_cylinder_small", techage.volume_small_gascylinder, "techage:hydrogen")
+techage.register_liquid("techage:cylinder_large_hydrogen", "techage:ta3_cylinder_large", techage.volume_big_gascylinder, "techage:hydrogen")
 
 techage.recipes.add("ta4_doser", {
 	output = "techage:hydrogen 1",
