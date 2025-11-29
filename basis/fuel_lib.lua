@@ -23,7 +23,7 @@ local Burntime = techage.firebox.Burntime
 
 techage.fuel = {}
 
-local CAPACITY = 50
+local CAPACITY = techage.volume_barrel * 5
 local BLOCKING_TIME = 0.3 -- 300ms
 
 techage.fuel.CAPACITY = CAPACITY
