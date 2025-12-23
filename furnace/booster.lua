@@ -103,6 +103,7 @@ minetest.register_node("techage:ta3_booster", {
 })
 
 minetest.register_node("techage:ta3_booster_on", {
+	description = S("TA3 Booster"),
 	tiles = {
 		-- up, down, right, left, back, front
 		"techage_filling_ta3.png^techage_appl_arrow.png^techage_frame_ta3.png",
