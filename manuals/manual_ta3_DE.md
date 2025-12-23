@@ -13,7 +13,7 @@ Das Industrielle Zeitalter ist auf seinem Höhepunkt.
 
 Das Kohlekraftwerk besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet zusammengebaut werden. Dazu werden die Blöcke TA3 Kraftwerks-Feuerbox, TA3 Boiler oben, TA3 Boiler unten, TA3 Turbine, TA3 Generator und TA3 Kühler benötigt.
 
-Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.
+Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen oder eine Flüssigkeitsleitung mit dem Boiler-Oberteil verbinden, um automatisch Wasser über eine Pumpe nachzufüllen.
 Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.
 Wenn das Wasser heiß ist, kann der Generator gestartet werden.
 
@@ -49,7 +49,13 @@ Der Ölbrenner kann nur 50 Einheiten Kraftstoff aufnehmen. Ein zusätzlicher Öl
 
 ### TA3 Boiler unten/oben
 
-Teil des Kraftwerks.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt, schaltet sich das Kraftwerk ab. Der Wasserverbrauch des TA3-Kessels ist durch den geschlossenen Dampfkreislauf viel geringer als bei der Dampfmachine.
+Teil des Kraftwerks.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt, schaltet sich das Kraftwerk ab. 
+
+Der Boiler kann auf zwei Arten mit Wasser gefüllt werden:
+- Manuell durch Anklicken des Boiler-Oberteils mit einem Wassereimer (bis zu 10 Eimer)
+- Automatisch über eine Flüssigkeitsleitung, die mit dem Boiler-Oberteil verbunden ist, mittels einer TA3/TA4-Pumpe
+
+Der Wasserverbrauch des TA3-Kessels ist durch den geschlossenen Dampfkreislauf viel geringer als bei der Dampfmachine.
 Bei der Dampfmaschine geht bei jedem Kolbenhub etwas Wasser als Dampf verloren.
 
 [ta3_boiler|image]

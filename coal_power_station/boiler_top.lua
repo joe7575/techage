@@ -3,7 +3,7 @@
 	TechAge
 	=======
 
-	Copyright (C) 2019-2020 Joachim Stolberg
+	Copyright (C) 2019-2025 Joachim Stolberg
 
 	AGPL v3
 	See LICENSE.txt for more information
@@ -20,6 +20,8 @@ local CYCLE_TIME = 4
 local WATER_CONSUMPTION = 0.1
 
 local Pipe = techage.SteamPipe
+local LiquidPipe = techage.LiquidPipe
+local liquid = networks.liquid
 local boiler = techage.boiler
 
 local function steaming(pos, nvm, temp)
@@ -27,6 +29,36 @@ local function steaming(pos, nvm, temp)
 		local wc = WATER_CONSUMPTION * (nvm.power_ratio or 1)
 		nvm.water_level = math.max((nvm.water_level or 0) - wc, 0)
 	end
+end
+
+-- Liquid handling functions for pipe connection
+local function put_liquid(pos, indir, name, amount)
+	-- Only accept water
+	if name == "techage:water" or name == "default:river_water_source" then
+		local nvm = techage.get_nvm(pos)
+		nvm.num_water = nvm.num_water or 0
+		-- Calculate how many water units can be added (max 10)
+		local space = math.max(10 - nvm.num_water, 0)
+		local accepted = math.min(amount, space)
+		if accepted > 0 then
+			nvm.num_water = nvm.num_water + accepted
+			if techage.is_activeformspec(pos) then
+				M(pos):set_string("formspec", boiler.formspec(pos, nvm))
+			end
+		end
+		return amount - accepted -- return leftover
+	end
+	return amount -- reject other liquids
+end
+
+local function peek_liquid(pos, indir)
+	-- Boiler doesn't provide liquid output
+	return nil
+end
+
+local function take_liquid(pos, indir, name, amount)
+	-- Boiler doesn't provide liquid output
+	return 0
 end
 
 local function node_timer(pos, elapsed)
@@ -45,11 +77,13 @@ local function after_place_node(pos)
 		local nvm = techage.get_nvm(pos)
 		M(pos):set_string("formspec", boiler.formspec(pos, nvm))
 		Pipe:after_place_node(pos)
+		LiquidPipe:after_place_node(pos)
 	end
 end
 
 local function after_dig_node(pos, oldnode)
 	Pipe:after_dig_node(pos)
+	LiquidPipe:after_dig_node(pos)
 	techage.del_mem(pos)
 end
 
@@ -79,6 +113,17 @@ minetest.register_node("techage:coalboiler_top", {
 })
 
 Pipe:add_secondary_node_names({"techage:coalboiler_top"})
+LiquidPipe:add_secondary_node_names({"techage:coalboiler_top"})
+
+-- Register liquid handling
+liquid.register_nodes({"techage:coalboiler_top"},
+	LiquidPipe, "tank", nil, {
+		capa = 10,
+		peek = peek_liquid,
+		put = put_liquid,
+		take = take_liquid,
+	}
+)
 
 
 techage.register_node({"techage:coalboiler_top"}, {
