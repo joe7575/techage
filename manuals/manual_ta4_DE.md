@@ -243,10 +243,10 @@ Die Laserblöcke selbst benötigen keinen Strom.
 
 ## Wasserstoff
 
-Strom kann mittels Elektrolyse in Wasserstoff und Sauerstoff aufgespalten werden. Auf der anderen Seite kann über eine Brennstoffzelle Wasserstoff mit Sauerstoff aus der Luft wieder in Strom umgewandelt werden.
+Wasser kann mittels Elektrolyse unter Verwendung von Strom in Wasserstoff und Sauerstoff aufgespalten werden. Auf der anderen Seite kann über eine Brennstoffzelle Wasserstoff mit Sauerstoff aus der Luft wieder in Strom umgewandelt werden.
 Damit können Stromspitzen oder ein Überangebot an Strom in Wasserstoff umgewandelt und so gespeichert werden.
 
-Im Spiel kann Strom mit Hilfe des Elektrolyseurs in Wasserstoff und Wasserstoff über die Brennstoffzelle wieder in Strom umgewandelt werden.
+Im Spiel kann Strom mit Hilfe des Elektrolyseurs und Wasser in Wasserstoff umgewandelt werden. Dieser Wasserstoff kann dann über die Brennstoffzelle wieder in Strom umgewandelt werden.
 Damit kann Strom (in Form von Wasserstoff) nicht nur in Tanks gelagert, sonder mit dem Tankwagen auch transportiert werden.
 
 Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Von 100 Einheiten Strom kommen nach der Umwandlung in Wasserstoff und zurück nur 95 Einheiten Strom wieder raus.
@@ -256,8 +256,8 @@ Die Umwandlung von Strom in Wasserstoff und zurück ist aber verlustbehaftet. Vo
 
 ### Elektrolyseur
 
-Der Elektrolyseur wandelt Strom in Wasserstoff um.  
-Es muss von links mit Strom versorgt werden. Rechts kann Wasserstoff über Röhren und Pumpen entnommen werden.
+Der Elektrolyseur wandelt Strom und Wasser in Wasserstoff um.  
+Es muss von links mit Strom versorgt werden. Wasser muss über Röhren zugeführt werden. Rechts kann Wasserstoff über Röhren und Pumpen entnommen werden.
 
 Der Elektrolyseur kann bis zu 35 ku an Strom aufnehmen und generiert dann alle 4 s ein Wasserstoff Item.
 In den Elektrolyseur passen 200 Einheiten Wasserstoff.
