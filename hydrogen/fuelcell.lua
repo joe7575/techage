@@ -145,19 +145,31 @@ local function on_rightclick(pos, node, clicker)
 	M(pos):set_string("formspec", formspec(State, pos, nvm))
 end
 
-local function after_place_node(pos)
+local function after_place_node(pos, placer, itemstack)
 	local nvm = techage.get_nvm(pos)
 	nvm.num_pwr_units = 0
+	
+	-- Restore liquid data from item metadata if available
+	if itemstack then
+		local stack_meta = itemstack:get_meta()
+		if stack_meta then
+			local liquid_amount = stack_meta:get_int("liquid_amount")
+			local liquid_name = stack_meta:get_string("liquid_name")
+			if liquid_amount > 0 and liquid_name ~= "" then
+				nvm.liquid = {
+					name = liquid_name,
+					amount = liquid_amount
+				}
+			end
+		end
+	end
+	
 	local number = techage.add_node(pos, "techage:ta4_fuelcell")
 	State:node_init(pos, nvm, number)
 	M(pos):set_int("outdir", networks.side_to_outdir(pos, "R"))
 	M(pos):set_string("formspec", formspec(State, pos, nvm))
 	Pipe:after_place_node(pos)
 	Cable:after_place_node(pos)
-	local inv = M(pos):get_inventory()
-	inv:set_size('src', 4)
-	inv:set_stack('src', 2, {name = "techage:gasoline", count = 60})
-	inv:set_stack('src', 4, {name = "techage:gasoline", count = 60})
 end
 
 local function after_dig_node(pos, oldnode, oldmetadata, digger)
@@ -193,6 +205,24 @@ minetest.register_node("techage:ta4_fuelcell", {
 
 	after_place_node = after_place_node,
 	after_dig_node = after_dig_node,
+	
+	preserve_metadata = function(pos, oldnode, oldmetadata, drops)
+		local nvm = techage.get_nvm(pos)
+		if nvm.liquid and nvm.liquid.amount and nvm.liquid.amount > 0 then
+			local meta = drops[1]:get_meta()
+			meta:set_int("liquid_amount", nvm.liquid.amount)
+			meta:set_string("liquid_name", nvm.liquid.name or "")
+			
+			-- Update description to show fill level
+			local percent = math.floor((nvm.liquid.amount * 100.0 / CAPACITY) + 0.5)
+			local liquid_desc = "unknown"
+			if nvm.liquid.name == "techage:hydrogen" then
+				liquid_desc = "Hydrogen"
+			end
+			local text = S("TA4 Fuel Cell").." ("..liquid_desc.." "..percent.." %)"
+			meta:set_string("description", text)
+		end
+	end,
 	get_generator_data = get_generator_data,
 	on_punch = liquid.on_punch,
 	on_receive_fields = on_receive_fields,
@@ -242,6 +272,24 @@ minetest.register_node("techage:ta4_fuelcell_on", {
 	on_timer = node_timer,
 	on_rightclick = on_rightclick,
 	ta4_formspec = techage.generator_settings("ta4", PWR_PERF),
+	
+	preserve_metadata = function(pos, oldnode, oldmetadata, drops)
+		local nvm = techage.get_nvm(pos)
+		if nvm.liquid and nvm.liquid.amount and nvm.liquid.amount > 0 then
+			local meta = drops[1]:get_meta()
+			meta:set_int("liquid_amount", nvm.liquid.amount)
+			meta:set_string("liquid_name", nvm.liquid.name or "")
+			
+			-- Update description to show fill level
+			local percent = math.floor((nvm.liquid.amount * 100.0 / CAPACITY) + 0.5)
+			local liquid_desc = "unknown"
+			if nvm.liquid.name == "techage:hydrogen" then
+				liquid_desc = "Hydrogen"
+			end
+			local text = S("TA4 Fuel Cell").." ("..liquid_desc.." "..percent.." %)"
+			meta:set_string("description", text)
+		end
+	end,
 
 	paramtype2 = "facedir",
 	groups = {not_in_creative_inventory=1},
