@@ -100,7 +100,7 @@ return {
     "\n",
     "Das Kohlekraftwerk besteht aus mehreren Blöcken und muss wie im Plan rechts abgebildet zusammengebaut werden. Dazu werden die Blöcke TA3 Kraftwerks-Feuerbox\\, TA3 Boiler oben\\, TA3 Boiler unten\\, TA3 Turbine\\, TA3 Generator und TA3 Kühler benötigt.\n"..
     "\n"..
-    "Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen.\n"..
+    "Der Boiler muss mit Wasser gefüllt werden. Dazu bis zu 10 Eimer Wasser in den Boiler füllen oder eine Flüssigkeitsleitung mit dem Boiler-Oberteil verbinden\\, um automatisch Wasser über eine Pumpe nachzufüllen.\n"..
     "Die Feuerbox muss mit Kohle oder Holzkohle gefüllt werden.\n"..
     "Wenn das Wasser heiß ist\\, kann der Generator gestartet werden.\n"..
     "\n"..
@@ -126,7 +126,14 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Teil des Kraftwerks.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich das Kraftwerk ab. Der Wasserverbrauch des TA3-Kessels ist durch den geschlossenen Dampfkreislauf viel geringer als bei der Dampfmachine.\n"..
+    "Teil des Kraftwerks.  Muss mit Wasser gefüllt werden. Wem kein Wasser mehr vorhanden ist oder die Temperatur zu weit absinkt\\, schaltet sich das Kraftwerk ab. \n"..
+    "\n"..
+    "Der Boiler kann auf zwei Arten mit Wasser gefüllt werden:\n"..
+    "\n"..
+    "  - Manuell durch Anklicken des Boiler-Oberteils mit einem Wassereimer (bis zu 10 Eimer)\n"..
+    "  - Automatisch über eine Flüssigkeitsleitung\\, die mit dem Boiler-Oberteil verbunden ist\\, mittels einer TA3/TA4-Pumpe\n"..
+    "\n"..
+    "Der Wasserverbrauch des TA3-Kessels ist durch den geschlossenen Dampfkreislauf viel geringer als bei der Dampfmachine.\n"..
     "Bei der Dampfmaschine geht bei jedem Kolbenhub etwas Wasser als Dampf verloren.\n"..
     "\n"..
     "\n"..

@@ -42,8 +42,8 @@ minetest.register_craftitem("techage:canister_redmud", {
 	stack_max = 1,
 })
 
-techage.register_liquid("techage:barrel_redmud", "techage:ta3_barrel_empty", 10, "techage:redmud")
-techage.register_liquid("techage:canister_redmud", "techage:ta3_canister_empty", 1, "techage:redmud")
+techage.register_liquid("techage:barrel_redmud", "techage:ta3_barrel_empty", techage.volume_barrel, "techage:redmud")
+techage.register_liquid("techage:canister_redmud", "techage:ta3_canister_empty", techage.volume_canister, "techage:redmud")
 
 techage.recipes.add("ta4_doser", {
 	output = "techage:gibbsite_powder 2",

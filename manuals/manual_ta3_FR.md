@@ -12,7 +12,7 @@ L'âge industriel est à son apogée.
 
 La centrale électrique au charbon se compose de plusieurs blocs et doit être assemblée comme indiqué dans le plan à droite. Les blocs TA3 boîte à feu de la centrale électrique, TA3 chaudière haut, TA3 chaudière bas, TA3 turbine, TA3 générateur et TA3 réfrigérant sont nécessaires.
 
-La chaudière doit être remplie d'eau. Remplissez jusqu'à 10 seaux d'eau dans la chaudière.
+La chaudière doit être remplie d'eau. Remplissez jusqu'à 10 seaux d'eau dans la chaudière ou connectez un tuyau liquide au sommet de la chaudière pour alimenter automatiquement en eau via une pompe.
 La boîte à feu doit être remplie de charbon ou de charbon de bois.
 Lorsque l'eau est chaude, le générateur peut alors être démarré.
 
@@ -45,6 +45,10 @@ Le brûleur à pétrole ne peut contenir que 50 unités de carburant. Un réserv
 ### TA3 Chaudiere bas/haut
 
 Partie de la centrale électrique. Doit être remplie d'eau. Si plus d'eau n'est disponible ou si la température descend trop bas, la centrale électrique s'éteint.
+
+La chaudière peut être remplie d'eau de deux manières :
+- Manuellement en cliquant sur le haut de la chaudière avec un seau d'eau (jusqu'à 10 seaux)
+- Automatiquement via un tuyau liquide connecté au sommet de la chaudière en utilisant une pompe TA3/TA4
 
 La consommation d'eau de la chaudière TA3 est beaucoup plus faible que celle de la machine à vapeur grâce au circuit de vapeur fermé.
 Avec la machine à vapeur, une certaine quantité d'eau est perdue sous forme de vapeur à chaque coup de piston.

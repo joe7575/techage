@@ -13,7 +13,7 @@ The industrial age is at its peak.
 
 The coal-fired power plant consists of several blocks and must be assembled as shown in the plan on the right. The blocks TA3 power station fire box, TA3 boiler top, TA3 boiler base, TA3 turbine, TA3 generator and TA3 cooler are required.
 
-The boiler must be filled with water. Fill up to 10 buckets of water in the boiler.
+The boiler must be filled with water. Fill up to 10 buckets of water in the boiler or connect a liquid pipe to the boiler top to automatically supply water via pump.
 The fire box must be filled with coal or charcoal.
 When the water is hot, the generator can then be started.
 
@@ -50,6 +50,10 @@ The oil burner can only hold 50 units of fuel. An additional oil tank and an oil
 ### TA3 boiler base / top
 
 Part of the power plant. Must be filled with water. If there is no more water or the temperature drops too low, the power plant switches off.
+
+The boiler can be filled with water in two ways:
+- Manually by clicking on the boiler top with a water bucket (up to 10 buckets)
+- Automatically via a liquid pipe connected to the boiler top using a TA3/TA4 pump
 
 The water consumption of the TA3 boiler is much lower than that of the steam engine due to the closed steam circuit.
 With the steam engine, some water is lost as steam with each piston stroke.

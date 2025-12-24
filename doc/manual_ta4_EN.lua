@@ -265,18 +265,18 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Electrolysis can be used to split electricity into hydrogen and oxygen. On the other hand\\, hydrogen can be converted back into electricity with oxygen from the air using a fuel cell.\n"..
+    "Electrolysis can be used to split water into hydrogen and oxygen using electricity. On the other hand\\, hydrogen can be converted back into electricity with oxygen from the air using a fuel cell.\n"..
     "This enables current peaks or an excess supply of electricity to be converted into hydrogen and thus stored.\n"..
     "\n"..
-    "In the game\\, electricity can be converted back into electricity via the fuel cell using the electrolyzer in hydrogen and hydrogen.\n"..
+    "In the game\\, electricity can be converted into hydrogen using the electrolyzer and water. The hydrogen can then be converted back into electricity via the fuel cell.\n"..
     "This means that electricity (in the form of hydrogen) can not only be stored in tanks\\, but also transported by means of the tank cart.\n"..
     "\n"..
     "However\\, the conversion of electricity into hydrogen and back is lossy. Out of 100 units of electricity\\, only 95 units of electricity come out after the conversion to hydrogen and back.\n"..
     "\n"..
     "\n"..
     "\n",
-    "The electrolyzer converts electricity into hydrogen.\n"..
-    "It must be powered from the left. On the right\\, hydrogen can be extracted via pipes and pumps.\n"..
+    "The electrolyzer converts electricity and water into hydrogen.\n"..
+    "It must be powered from the left. Water must be supplied via pipes. On the right\\, hydrogen can be extracted via pipes and pumps.\n"..
     "\n"..
     "The electrolyzer can draw up to 35 ku of electricity and then generates a hydrogen item every 4 s.\n"..
     "200 units of hydrogen fit into the electrolyzer.\n"..

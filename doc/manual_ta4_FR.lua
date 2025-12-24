@@ -262,18 +262,18 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "L'électricité peut être divisée en hydrogène et en oxygène par électrolyse. D'un autre côté\\, l'hydrogène peut être à nouveau converti en électricité avec de l'oxygène de l'air via une pile à combustible.\n"..
+    "L'eau peut être divisée en hydrogène et en oxygène par électrolyse en utilisant l'électricité. D'un autre côté\\, l'hydrogène peut être à nouveau converti en électricité avec de l'oxygène de l'air via une pile à combustible.\n"..
     "Ainsi\\, les pics de courant ou un excès d'électricité peuvent être convertis en hydrogène et ainsi stockés.\n"..
     "\n"..
-    "Dans le jeu\\, l'électricité peut être convertie en hydrogène avec l'aide de l'électrolyseur et l'hydrogène peut être à nouveau converti en électricité via la pile à combustible.\n"..
+    "Dans le jeu\\, l'électricité peut être convertie en hydrogène avec l'aide de l'électrolyseur et de l'eau. L'hydrogène peut ensuite être à nouveau converti en électricité via la pile à combustible.\n"..
     "Ainsi\\, l'électricité (sous forme d'hydrogène) peut non seulement être stockée dans des réservoirs\\, mais aussi transportée avec le wagon-citerne.\n"..
     "\n"..
     "Cependant\\, la conversion de l'électricité en hydrogène et vice versa est associée à des pertes. Sur 100 unités d'électricité\\, seulement 95 unités d'électricité sont à nouveau obtenues après la conversion en hydrogène et vice versa.\n"..
     "\n"..
     "\n"..
     "\n",
-    "L'électrolyseur convertit l'électricité en hydrogène.\n"..
-    "Il doit être alimenté en électricité par la gauche. À droite\\, l'hydrogène peut être prélevé via des tuyaux et des pompes.\n"..
+    "L'électrolyseur convertit l'électricité et l'eau en hydrogène.\n"..
+    "Il doit être alimenté en électricité par la gauche. L'eau doit être fournie via des tuyaux. À droite\\, l'hydrogène peut être prélevé via des tuyaux et des pompes.\n"..
     "\n"..
     "L'électrolyseur peut absorber jusqu'à 35 ku d'électricité et génère alors une unité d'hydrogène toutes les 4 s.\n"..
     "Dans l'électrolyseur\\, 200 unités d'hydrogène peuvent tenir.\n"..
