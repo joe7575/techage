@@ -106,9 +106,9 @@ function techage.gravelsieve_get_random_gravel_ore()
 end
 
 function techage.gravelsieve_get_random_basalt_ore()
-	if math.random(40) == 1 then
+	if math.random(techage.basalt_sieve_chance) == 1 then
 		return ItemStack("default:coal_lump")
-	elseif math.random(40) == 1 then
+	elseif math.random(techage.basalt_sieve_chance) == 1 then
 		return ItemStack("default:iron_lump")
 	elseif math.random(2) == 1 then
 		return ItemStack("techage:basalt_gravel")
