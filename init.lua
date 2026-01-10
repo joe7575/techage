@@ -447,5 +447,8 @@ dofile(MP.."/beduino/kv_store.lua")
 -- Obverser
 dofile(MP.."/observer/observer.lua")
 
+--Compatibility with other mods functions
+dofile(MP.."/basis/compatibility.lua")
+
 -- Prevent other mods from using IE
 techage.IE = nil
