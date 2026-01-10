@@ -99,7 +99,7 @@ return {
     "\n",
     "A usina termelétrica a carvão é composta por vários blocos e deve ser montada conforme mostrado no plano à direita. São necessários os blocos Fornalha(Firebox) TA3\\, Topo da Caldeira TA3\\, Base da Caldeira TA3\\, Turbina TA3\\, Gerador TA3 e Resfriador TA3.\n"..
     "\n"..
-    "A caldeira deve ser preenchida com água. Encha até 10 baldes de água na caldeira.\n"..
+    "A caldeira deve ser preenchida com água. Encha até 10 baldes de água na caldeira ou conecte um tubo de líquido ao topo da caldeira para fornecer água automaticamente via bomba.\n"..
     "A caixa de fogo deve ser preenchida com carvão ou carvão vegetal.\n"..
     "Quando a água estiver quente\\, o gerador pode ser iniciado.\n"..
     "\n"..
@@ -125,6 +125,11 @@ return {
     "\n"..
     "\n",
     "Parte da usina de energia. Deve ser preenchida com água. Se não houver mais água ou a temperatura diminuir muito\\, a usina desliga.\n"..
+    "\n"..
+    "A caldeira pode ser preenchida com água de duas maneiras:\n"..
+    "\n"..
+    "  - Manualmente clicando no topo da caldeira com um balde de água (até 10 baldes)\n"..
+    "  - Automaticamente através de um tubo de líquido conectado ao topo da caldeira usando uma bomba TA3/TA4\n"..
     "\n"..
     "O consumo de água da caldeira TA3 é muito menor do que o da máquina a vapor devido ao circuito de vapor fechado.\n"..
     "Com a máquina a vapor\\, parte da água é perdida como vapor a cada curso do pistão.\n"..

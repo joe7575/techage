@@ -39,7 +39,7 @@ techage.recipes.add("ta4_doser", {
 	}
 })
 
-techage.register_liquid("techage:barrel_epoxy", "techage:ta3_barrel_empty", 10, "techage:epoxy")
-techage.register_liquid("techage:canister_epoxy", "techage:ta3_canister_empty", 1, "techage:epoxy")
+techage.register_liquid("techage:barrel_epoxy", "techage:ta3_barrel_empty", techage.volume_barrel, "techage:epoxy")
+techage.register_liquid("techage:canister_epoxy", "techage:ta3_canister_empty", techage.volume_canister, "techage:epoxy")
 
 minetest.register_alias("techage:ta4_epoxy", "techage:canister_epoxy")

@@ -100,7 +100,7 @@ return {
     "\n",
     "The coal-fired power plant consists of several blocks and must be assembled as shown in the plan on the right. The blocks TA3 power station fire box\\, TA3 boiler top\\, TA3 boiler base\\, TA3 turbine\\, TA3 generator and TA3 cooler are required.\n"..
     "\n"..
-    "The boiler must be filled with water. Fill up to 10 buckets of water in the boiler.\n"..
+    "The boiler must be filled with water. Fill up to 10 buckets of water in the boiler or connect a liquid pipe to the boiler top to automatically supply water via pump.\n"..
     "The fire box must be filled with coal or charcoal.\n"..
     "When the water is hot\\, the generator can then be started.\n"..
     "\n"..
@@ -127,6 +127,11 @@ return {
     "\n"..
     "\n",
     "Part of the power plant. Must be filled with water. If there is no more water or the temperature drops too low\\, the power plant switches off.\n"..
+    "\n"..
+    "The boiler can be filled with water in two ways:\n"..
+    "\n"..
+    "  - Manually by clicking on the boiler top with a water bucket (up to 10 buckets)\n"..
+    "  - Automatically via a liquid pipe connected to the boiler top using a TA3/TA4 pump\n"..
     "\n"..
     "The water consumption of the TA3 boiler is much lower than that of the steam engine due to the closed steam circuit.\n"..
     "With the steam engine\\, some water is lost as steam with each piston stroke.\n"..

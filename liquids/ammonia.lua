@@ -20,8 +20,8 @@ minetest.register_craftitem("techage:ammonia", {
 	groups = {ta_liquid = 1},
 })
 
-techage.register_liquid("techage:cylinder_small_ammonia", "techage:ta3_cylinder_small", 1, "techage:ammonia")
-techage.register_liquid("techage:cylinder_large_ammonia", "techage:ta3_cylinder_large", 6, "techage:ammonia")
+techage.register_liquid("techage:cylinder_small_ammonia", "techage:ta3_cylinder_small", techage.volume_small_gascylinder, "techage:ammonia")
+techage.register_liquid("techage:cylinder_large_ammonia", "techage:ta3_cylinder_large", techage.volume_big_gascylinder, "techage:ammonia")
 
 techage.recipes.add("ta4_doser", {
 	output = "techage:ammonia 2",

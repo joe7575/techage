@@ -21,19 +21,19 @@ minetest.register_craftitem("techage:nitrogen", {
 })
 
 minetest.register_craftitem("techage:cylinder_small_nitrogen", {
-	description = S("Hydrogen Cylinder Small"),
-	inventory_image = "techage_gas_cylinder_small.png^[colorize:#00528A:120",
+	description = S("Nitrogen Cylinder Small"),
+	inventory_image = "techage_gas_cylinder_small.png^[colorize:#DCC710:120",
 	stack_max = 1,
 })
 
 minetest.register_craftitem("techage:cylinder_large_nitrogen", {
-	description = S("Hydrogen Cylinder Large"),
-	inventory_image = "techage_gas_cylinder_large.png^[colorize:#00528A:120",
+	description = S("Nitrogen Cylinder Large"),
+	inventory_image = "techage_gas_cylinder_large.png^[colorize:#DCC710:120",
 	stack_max = 1,
 })
 
-techage.register_liquid("techage:cylinder_small_nitrogen", "techage:ta3_cylinder_small", 1, "techage:nitrogen")
-techage.register_liquid("techage:cylinder_large_nitrogen", "techage:ta3_cylinder_large", 6, "techage:nitrogen")
+techage.register_liquid("techage:cylinder_small_nitrogen", "techage:ta3_cylinder_small", techage.volume_small_gascylinder, "techage:nitrogen")
+techage.register_liquid("techage:cylinder_large_nitrogen", "techage:ta3_cylinder_large", techage.volume_big_gascylinder, "techage:nitrogen")
 
 
 

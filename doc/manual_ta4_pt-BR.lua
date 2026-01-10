@@ -259,18 +259,18 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "A eletrólise pode ser usada para dividir a eletricidade em hidrogênio e oxigênio. Por outro lado\\, o hidrogênio pode ser convertido novamente em eletricidade com o oxigênio do ar usando uma célula de combustível.\n"..
+    "A eletrólise pode ser usada para dividir a água em hidrogênio e oxigênio usando eletricidade. Por outro lado\\, o hidrogênio pode ser convertido novamente em eletricidade com o oxigênio do ar usando uma célula de combustível.\n"..
     "Isso permite que os picos de corrente ou um excesso de fornecimento de eletricidade sejam convertidos em hidrogênio e\\, portanto\\, armazenados.\n"..
     "\n"..
-    "No jogo\\, a eletricidade pode ser convertida novamente em eletricidade por meio da célula de combustível usando o eletrolisador em hidrogênio e hidrogênio.\n"..
+    "No jogo\\, a eletricidade pode ser convertida em hidrogênio usando o eletrolisador e água. O hidrogênio pode então ser convertido novamente em eletricidade por meio da célula de combustível.\n"..
     "Isso significa que a eletricidade (na forma de hidrogênio) pode não apenas ser armazenada em tanques\\, mas também transportada por meio do carrinho-tanque.\n"..
     "\n"..
     "No entanto\\, a conversão de eletricidade em hidrogênio e vice-versa é deficitária. De 100 unidades de eletricidade\\, apenas 95 unidades de eletricidade saem após a conversão em hidrogênio e vice-versa.\n"..
     "\n"..
     "\n"..
     "\n",
-    "O eletrolisador converte eletricidade em hidrogênio.\n"..
-    "Ele deve ser alimentado pela esquerda. À direita\\, o hidrogênio pode ser extraído por meio de tubos e bombas.\n"..
+    "O eletrolisador converte eletricidade e água em hidrogênio.\n"..
+    "Ele deve ser alimentado pela esquerda. A água deve ser fornecida por tubos. À direita\\, o hidrogênio pode ser extraído por meio de tubos e bombas.\n"..
     "\n"..
     "O eletrolisador pode consumir até 35 ku de eletricidade e\\, em seguida\\, gera um item de hidrogênio a cada 4 s.\n"..
     "200 unidades de hidrogênio cabem no eletrolisador.\n"..
