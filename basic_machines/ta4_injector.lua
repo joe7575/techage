@@ -104,6 +104,9 @@ local function push_items(pos, out_dir, idx, items)
 	local inv, listname, callafter, dpos = techage.get_inv_access(pos, out_dir, "push")
 	if inv and listname then
 		if idx and idx ~= 0 then
+			if idx > inv:get_size(listname) then
+				return false
+			end
 			local stack = inv:get_stack(listname, idx)
 			if stack:item_fits(items) then
 				stack:add_item(items)
@@ -164,8 +167,6 @@ local function pushing(pos, crd, meta, nvm)
 	local filter = inv:get_list("filter")
 	local pushed = false
 	local pulled = false
-	local any_pushed = false
-	local blocked = false
 
 	for idx, item in ipairs(filter) do
 		local name = item:get_name()
@@ -176,13 +177,9 @@ local function pushing(pos, crd, meta, nvm)
 				pulled = true
 				if push_items(pos, push_dir, not nvm.pull_mode and idx, items) then
 					pushed = true
-					any_pushed = true
 				else
 					-- place item back - destination is full or unreachable
 					unpull_items(pos, pull_dir, nvm.pull_mode and idx, items)
-					blocked = true
-					-- Stop trying to push more items if destination is blocked
-					break
 				end
 			end
 		end
@@ -190,7 +187,7 @@ local function pushing(pos, crd, meta, nvm)
 
 	if not pulled then
 		crd.State:idle(pos, nvm)
-	elseif blocked and not any_pushed then
+	elseif not pushed then
 		crd.State:blocked(pos, nvm)
 	else
 		crd.State:keep_running(pos, nvm, COUNTDOWN_TICKS)
