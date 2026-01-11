@@ -259,6 +259,7 @@ minetest.register_node("techage:ta5_fr_controller_act", {
 	paramtype2 = "facedir",
 	groups = {choppy=2, cracky=2, crumbly=2, not_in_creative_inventory=1},
 	drop = "",
+	diggable = false,
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
 })
