@@ -234,10 +234,10 @@ The laser blocks themselves do not require any electricity.
 
 ## Hydrogen
 
-Electrolysis can be used to split electricity into hydrogen and oxygen. On the other hand, hydrogen can be converted back into electricity with oxygen from the air using a fuel cell.
+Electrolysis can be used to split water into hydrogen and oxygen using electricity. On the other hand, hydrogen can be converted back into electricity with oxygen from the air using a fuel cell.
 This enables current peaks or an excess supply of electricity to be converted into hydrogen and thus stored.
 
-In the game, electricity can be converted back into electricity via the fuel cell using the electrolyzer in hydrogen and hydrogen.
+In the game, electricity can be converted into hydrogen using the electrolyzer and water. The hydrogen can then be converted back into electricity via the fuel cell.
 This means that electricity (in the form of hydrogen) can not only be stored in tanks, but also transported by means of the tank cart.
 
 However, the conversion of electricity into hydrogen and back is lossy. Out of 100 units of electricity, only 95 units of electricity come out after the conversion to hydrogen and back.
@@ -247,8 +247,8 @@ However, the conversion of electricity into hydrogen and back is lossy. Out of 1
 
 ### Electrolyzer
 
-The electrolyzer converts electricity into hydrogen.
-It must be powered from the left. On the right, hydrogen can be extracted via pipes and pumps.
+The electrolyzer converts electricity and water into hydrogen.
+It must be powered from the left. Water must be supplied via pipes. On the right, hydrogen can be extracted via pipes and pumps.
 
 The electrolyzer can draw up to 35 ku of electricity and then generates a hydrogen item every 4 s.
 200 units of hydrogen fit into the electrolyzer.

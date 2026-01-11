@@ -17,6 +17,10 @@ techage_modified_recipes_enabled (Enable alternative recipes for steel and bronz
 # Change this for your server in order not to be able to predict the oil reserves!
 techage_oil_exploration_seed (techage oil exploration seed) int 1234
 
+# Enable alternative recipes for tnt and adds ammonia chemistry.
+# Instead of the standart bored tnt recipes.
+# enable_tnt server setting also must me true for making gunpowder
+techage_ammonia_recipes_enabled (Enable alternative recipes for tnt and ammonia chemistry) bool false
 
 # Use the external Lua library 'lua-marshal' for faster serialization/deserialization 
 # of node meta data. See also 'README.md'.
@@ -48,7 +52,29 @@ techage_stair_aliases_enabled (Enable stair aliases) bool false
 techage_disable_lava_above_sea_level (Disable lava above sea level) bool true
 
 # Maximum distance for the TA4 move controller
-techage_maximum_move_controller_distance (Maximum distance for the TA4 move controller) int 400
+techage_maximum_move_controller_distance (TA4 move controller max. distance) int 400
 
 # Maximum number of blocks for the TA4 move controller
-techage_maximum_move_controller_blocks (Maximum number of blocks for the TA4 move controller) int 16
+techage_maximum_move_controller_blocks (TA4 move controller number of blocks) int 16
+
+# Maximum size of source code in bytes for the Lua controller
+techage_luacontroller_max_code_size (Lua controller source code size) int 20000
+
+# Maximum size of all tables together
+techage_luacontroller_max_table_size (Lua controller table size) int 1000
+
+# Average maximum execution time per call of the Lua controller
+techage_luacontroller_slot_exe_time (Lua controller execution time) int 200
+
+# Barrel volumes in volume units
+techage_barrel_volume (Volume of a Barrel) int 10
+
+# Canister volumes in volume units
+techage_canister_volume (Volume of a Canister) int 1
+
+# Big Gas cylinder in volume units
+techage_big_gascylinder_volume (Volume in liter) int 6
+
+# Small Gas cylinder in volume units
+techage_small_gascylinder_volume (Volume in liter) int 1
+

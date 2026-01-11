@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
 # install mistune v0.8.4 with: pip install mistune==0.8.4
@@ -241,6 +241,30 @@ m2l = MarkdownToLua()
 m2l.parse_md_file("./manual_ta5_EN.md")
 m2l.gen_lua_file("../doc/manual_ta5_EN.lua")
 
+
+m2l = MarkdownToLua()
+m2l.parse_md_file("./manual_FR.md")
+m2l.gen_lua_file("../doc/manual_FR.lua")
+
+m2l = MarkdownToLua()
+m2l.parse_md_file("./manual_ta1_FR.md")
+m2l.gen_lua_file("../doc/manual_ta1_FR.lua")
+
+m2l = MarkdownToLua()
+m2l.parse_md_file("./manual_ta2_FR.md")
+m2l.gen_lua_file("../doc/manual_ta2_FR.lua")
+
+m2l = MarkdownToLua()
+m2l.parse_md_file("./manual_ta3_FR.md")
+m2l.gen_lua_file("../doc/manual_ta3_FR.lua")
+
+m2l = MarkdownToLua()
+m2l.parse_md_file("./manual_ta4_FR.md")
+m2l.gen_lua_file("../doc/manual_ta4_FR.lua")
+
+m2l = MarkdownToLua()
+m2l.parse_md_file("./manual_ta5_FR.md")
+m2l.gen_lua_file("../doc/manual_ta5_FR.lua")
 
 m2l = MarkdownToLua()
 m2l.parse_md_file("./manual_pt-BR.md")

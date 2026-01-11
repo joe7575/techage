@@ -32,12 +32,12 @@ local MAX_DIST = 500
 local DESCRIPTION = S("TA5 Teleport Block Items")
 
 local function formspec(self, pos, nvm)
-	local title = DESCRIPTION .. " " .. M(pos):get_string("tele_status")
-	return "size[8,2]"..
+	return "size[8,3]"..
 		"box[0,-0.1;7.8,0.5;#c6e8ff]" ..
-		"label[0.5,-0.1;" .. minetest.colorize( "#000000", title) .. "]" ..
-		"image_button[3.5,1;1,1;" .. self:get_state_button_image(nvm) .. ";state_button;]" ..
-		"tooltip[3.5,1;1,1;" .. self:get_state_tooltip(nvm) .. "]"
+		"label[0.5,-0.1;" .. minetest.colorize( "#000000", DESCRIPTION) .. "]" ..
+		"label[0.2,0.8;" .. M(pos):get_string("tele_status") .. "]" ..
+		"image_button[3.5,2;1,1;" .. self:get_state_button_image(nvm) .. ";state_button;]" ..
+		"tooltip[3.5,2;1,1;" .. self:get_state_tooltip(nvm) .. "]"
 end
 
 local function can_start(pos, nvm, state)
@@ -111,6 +111,7 @@ minetest.register_node("techage:ta5_tele_tube", {
 	on_rightclick = function(pos, clicker, listname)
 		if teleport.is_connected(pos) then
 			local nvm = techage.get_nvm(pos)
+			teleport.update_status(pos)
 			M(pos):set_string("formspec", formspec(State, pos, nvm))
 		else
 			M(pos):set_string("formspec", teleport.formspec(pos))

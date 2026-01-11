@@ -22,7 +22,7 @@ minetest.register_craftitem("techage:water", {
 })
 
 minetest.register_craftitem("techage:river_water", {
-	description = S("Water"),
+	description = S("River Water"),
 	inventory_image = "techage_liquid2_inv.png^[colorize:#189dc3:120^techage_liquid1_inv.png",
 	groups = {not_in_creative_inventory=1},
 
@@ -108,7 +108,7 @@ minetest.register_craft({
 techage.register_liquid("bucket:bucket_water", "bucket:bucket_empty", 1, "techage:water")
 techage.register_liquid("bucket:bucket_river_water", "bucket:bucket_empty", 1, "techage:river_water")
 
-techage.register_liquid("techage:barrel_water", "techage:ta3_barrel_empty", 10, "techage:water")
-techage.register_liquid("techage:barrel_river_water", "techage:ta3_barrel_empty", 10, "techage:river_water")
+techage.register_liquid("techage:barrel_water", "techage:ta3_barrel_empty", techage.volume_barrel, "techage:water")
+techage.register_liquid("techage:barrel_river_water", "techage:ta3_barrel_empty", techage.volume_barrel, "techage:river_water")
 
 techage.register_liquid("bucket:bucket_lava", "bucket:bucket_empty", 1, "default:lava_source")

@@ -15,33 +15,22 @@ techage = {}
 -- Version for compatibility checks, see readme.md/history
 techage.version = 1.23
 
-if minetest.global_exists("tubelib") then
-	minetest.log("error", "[techage] Techage can't be used together with the mod tubelib!")
-	return
-elseif minetest.global_exists("ironage") then
-	minetest.log("error", "[techage] Techage can't be used together with the mod ironage!")
-	return
-elseif minetest.global_exists("techpack") then
-	minetest.log("error", "[techage] Techage can't be used together with the modpack techpack!")
-	return
-elseif minetest.global_exists("tubelib2") and tubelib2.version < 2.2 then
-	minetest.log("error", "[techage] Techage requires tubelib2 version 2.2 or newer!")
-	return
-elseif minetest.global_exists("minecart") and minecart.version < 2.04 then
-	minetest.log("error", "[techage] Techage requires minecart version 2.04 or newer!")
-	return
-elseif minetest.global_exists("lcdlib") and lcdlib.version < 1.04 then
-	minetest.log("error", "[techage] Techage requires lcdlib version 1.04 or newer!")
-	return
-elseif minetest.global_exists("safer_lua") and safer_lua.version < 1.04 then
-	minetest.log("error", "[techage] Techage requires safer_lua version 1.04 or newer!")
-	return
-elseif minetest.global_exists("networks") and networks.version < 0.13 then
-	minetest.log("error", "[techage] Techage requires networks version 0.13 or newer!")
-	return
-elseif minetest.global_exists("hyperloop") and hyperloop.version < 2.07 then
-	minetest.log("error", "[techage] Techage requires hyperloop version 2.07 or newer!")
-	return
+if minetest.get_modpath("tubelib") then
+	error("Techage can't be used together with the mod tubelib!")
+elseif minetest.get_modpath("ironage") then
+	error("Techage can't be used together with the mod ironage!")
+elseif minetest.get_modpath("techpack") then
+	error("Techage can't be used together with the modpack techpack!")
+elseif minetest.get_modpath("tubelib2") and tubelib2.version < 2.2 then
+	error("Techage requires tubelib2 version 2.2 or newer!")
+elseif minetest.get_modpath("minecart") and minecart.version < 2.04 then
+	error("Techage requires minecart version 2.04 or newer!")
+elseif minetest.get_modpath("lcdlib") and lcdlib.version < 1.04 then
+	error("Techage requires lcdlib version 1.04 or newer!")
+elseif minetest.get_modpath("safer_lua") and safer_lua.version < 1.04 then
+	error("Techage requires safer_lua version 1.04 or newer!")
+elseif minetest.get_modpath("networks") and networks.version < 0.13 then
+	error("Techage requires networks version 0.13 or newer!")
 end
 
 -- Test MT 5.4 new string mode
@@ -61,6 +50,11 @@ techage.stair_aliases_enabled = minetest.settings:get_bool("techage_stair_aliase
 techage.disable_lava_above_sea_level = minetest.settings:get_bool("techage_disable_lava_above_sea_level") ~= false
 techage.maximum_move_controller_distance = tonumber(minetest.settings:get("techage_maximum_move_controller_distance")) or 400
 techage.maximum_move_controller_blocks = tonumber(minetest.settings:get("techage_maximum_move_controller_blocks")) or 16
+techage.ammonia_recipes_enabled = minetest.settings:get_bool("techage_ammonia_recipes_enabled") ~= false
+techage.volume_barrel = tonumber(minetest.settings:get("techage_barrel_volume")) or 10
+techage.volume_canister = tonumber(minetest.settings:get("techage_canister_volume")) or 1
+techage.volume_big_gascylinder = tonumber(minetest.settings:get("techage_big_gascylinder_volume")) or 6
+techage.volume_small_gascylinder = tonumber(minetest.settings:get("techage_small_gascylinder_volume")) or 1
 
 -- allow to load marshal and sqlite3
 techage.IE = minetest.request_insecure_environment()
@@ -363,6 +357,16 @@ dofile(MP.."/chemistry/ta4_liquid_filter.lua")
 dofile(MP.."/hydrogen/fuelcellstack.lua")
 dofile(MP.."/hydrogen/electrolyzer.lua")
 dofile(MP.."/hydrogen/fuelcell.lua")
+
+-- TNT recypes, ammonia
+if techage.ammonia_recipes_enabled then
+    dofile(MP.."/hydrogen/nitrogen.lua")
+    dofile(MP.."/liquids/nitrogen.lua")
+    dofile(MP.."/liquids/ammonia.lua")
+    if minetest.settings:get_bool("enable_tnt") then
+        dofile(MP.."/items/gunpowder.lua")
+    end
+end
 
 -- Displays
 dofile(MP.."/displays/display.lua")

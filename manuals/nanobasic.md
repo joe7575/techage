@@ -1,6 +1,6 @@
 # NanoBasic<!-- omit from toc -->
 
-## Reference Manual v1.0.3<!-- omit from toc -->
+## Reference Manual v1.0.4<!-- omit from toc -->
 
 ## Table of Contents<!-- omit from toc -->
 
@@ -204,7 +204,9 @@ The following table lists the operators in each category:
 |             | *        | Multiplication |
 |             | /        | Division    |
 |             | MOD      | Modulus     |
-|             | ^        | Exponentiation |
+|             | &        | Binary AND  |
+|             | \|       | Binary OR   |
+|             | ^        | Binary XOR  |
 | Relational  | =        | Equal       |
 |             | <>       | Not equal   |
 |             | <        | Less than   |
@@ -230,10 +232,13 @@ The precedence of operators is as follows:
 
 1. Multiplication (*), Division (/), Modulus (MOD)
 2. Addition (+), Subtraction (-)
-3. Relational operators (=, <>, <, <=, >, >=)
-4. Logical NOT operator
-5. Logical AND operator
-6. Logical OR operator
+3. Bitwise AND (&)
+4. Bitwise OR (|)
+5. Bitwise XOR (^)
+6. Relational operators (=, <>, <, <=, >, >=)
+7. Logical NOT operator
+8. Logical AND operator
+9. Logical OR operator
 
 If, during the evaluation of an expression, division by zero is encountered,
 the "Division by zero" error message is displayed and the program is terminated.
