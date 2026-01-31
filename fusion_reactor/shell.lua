@@ -23,10 +23,8 @@ minetest.register_node("techage:ta5_fr_shell", {
 	tiles = {
 		"techage_reactor_shell.png",
 	},
-	drawtype = "nodebox",
 	paramtype2 = "facedir",
 	paramtype = "light",
-	use_texture_alpha = "blend",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
@@ -37,10 +35,8 @@ minetest.register_node("techage:ta5_fr_nucleus", {
 	tiles = {
 		"techage_reactor_shell.png^techage_collider_detector_core.png",
 	},
-	drawtype = "nodebox",
 	paramtype2 = "facedir",
 	paramtype = "light",
-	use_texture_alpha = "blend",
 	groups = {choppy=2, cracky=2, crumbly=2},
 	is_ground_content = false,
 	sounds = default.node_sound_metal_defaults(),
