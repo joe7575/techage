@@ -73,14 +73,25 @@ local function allow_metadata_inventory_take(pos, listname, index, stack, player
 	return stack:get_count()
 end
 
+local sieving_recipes = {}
+
+function techage.register_sieving_recipe(material, get_ore_func)
+	sieving_recipes[ItemStack(material)] = get_ore_func
+end
+
+techage.register_sieving_recipe("techage:basalt_gravel", get_random_basalt_ore)
+techage.register_sieving_recipe("default:gravel", get_random_gravel_ore)
+
 local function sieving(pos, crd, nvm, inv)
-	local src, dst
 	for i = 1, crd.num_items do
-		if inv:contains_item("src", ItemStack("techage:basalt_gravel")) then
-			dst, src = get_random_basalt_ore(), ItemStack("techage:basalt_gravel")
-		elseif inv:contains_item("src", ItemStack("default:gravel")) then
-			dst, src = get_random_gravel_ore(), ItemStack("default:gravel")
-		else
+		local src, dst
+		for input_material, get_ore_func in pairs(sieving_recipes) do
+			if inv:contains_item("src", ItemStack(input_material)) then
+				dst, src = get_ore_func(), ItemStack(input_material)
+				break
+			end
+		end
+		if dst == nil then
 			crd.State:idle(pos, nvm)
 			return
 		end
