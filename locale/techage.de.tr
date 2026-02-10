@@ -14,6 +14,10 @@ Red Mud=Rotschlamm
 Red Mud Barrel=Rotschlamm Fass
 Red Mud Canister=Rotschlamm Kanister
 
+### ammonia.lua ###
+
+TA4 Ammonia=Ammoniak
+
 ### assemble.lua ###
 ### firebox_lib.lua ###
 
@@ -42,6 +46,7 @@ Baborium Ore=Baboriumerz
 
 Gas Cylinder Large=Gasflasche groß
 Gas Cylinder Small=Gasflasche klein
+River Water=Flusswasser
 River Water Barrel=Flusswasserfass
 TA Empty Barrel=TA leeres Fass
 TA3 Canister=TA3 Kanister
@@ -84,10 +89,6 @@ TA3 Terminal=TA3 Terminal
 Battery=Batterie
 Coal Equivalents=Kohleeinheiten
 Digtron Battery=Digtron Akku
-
-### battery.lua ###
-### storage.lua ###
-
 Load=Ladung
 
 ### bauxit.lua ###
@@ -335,13 +336,18 @@ TA2 Cylinder=TA2 Zylinder
 
 ### detector.lua ###
 
+Configured Items=Konfigurierte Gegenstände
 Counts down the number of items passed through@nand only triggers an 'on' command when it reaches zero.=Zählt die Anzahl der durchlaufenen Elemente herunter@nund löst nur dann einen 'ON'-Befehl aus, wenn er Null erreicht.
 Current countdown=Aktueller Zähler
 Current countdown value.=Aktueller Zählerwert.
+Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Items, die ein 'on'-Kommando generieren.@nWenn leer, generieren alle übergebenen Items einen 'on'-Befehl.
+On Time=ON Zeit
 TA3 Item Detector=TA3 Item Detektor
 TA4 Collider Detector=TA4 Collider Detektor
 TA4 Collider Detector Core=TA4 Collider Detektorkern
 TA4 Item Detector=TA3 Item Detektor
+The time after the 'off' command@nuntil the next 'on' command is accepted.=Die Zeit nach dem 'off' Kommando,@nbis das nächste 'on' Kommando akzeptiert wird.
+The time between the 'on' and 'off' commands.=Die Zeit zwischen den 'on' und 'off' Kommandos.
 
 ### detector.lua ###
 ### electricmeter.lua ###
@@ -350,18 +356,8 @@ Countdown=Countdown
 
 ### detector.lua ###
 ### logic_block.lua ###
-### tele.lua ###
 
 Blocking Time=Sperrzeit
-
-### detector.lua ###
-### tele.lua ###
-
-Configured Items=Konfigurierte Gegenstände
-Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Items, die einen 'on'-Kommando generieren.@nWenn leer, generieren alle übergebenen Items einen 'on'-Befehl.
-On Time=ON Zeit
-The time after the 'off' command@nuntil the next 'on' command is accepted.=Die Zeit nach dem 'off' Kommando,@nbis das nächste 'on' Kommando akzeptiert wird.
-The time between the 'on' and 'off' commands.=Die Zeit zwischen den 'on' und 'off' Kommandos.
 
 ### display.lua ###
 
@@ -453,6 +449,7 @@ Reset=Rücksetzen
 ### drillbox.lua ###
 
 Build derrick=Errichte Ölturm
+Cannot drill @1=Bohren durch @1 nicht möglich
 Depth=Tiefe
 Drill Bit=Bohrstange
 Drill area is protected=Bohrbereich ist geschützt
@@ -490,22 +487,27 @@ Maximum power passed through=Max. Leistung, die durchgeleitet werden soll
 
 ### electrolyzer.lua ###
 
+Electrolyzer=Eletrolyseur
+TA4 Electrolyzer=TA4 Elektrolyseur
+
+### electrolyzer.lua ###
+### fuelcell.lua ###
+### nitrogen.lua ###
+### tiny_generator.lua ###
+
+Electricity=Strom
+
+### electrolyzer.lua ###
+### nitrogen.lua ###
+
 Configurable value@nfor the current limit=Konfigurierbarer Wert@nfür die Strombegrenzung
 Current limitation=Strombegrenzung
-Electrolyzer=Eletrolyseur
 If the charge of the storage@nsystem falls below the configured value,@nthe block switches off=unterschreitet die Ladung des@nSpeichersystems den konfigurierten@nWert, schaltet sich der Block ab
 Maximum possible@ncurrent consumption=Maximal mögliche Stromaufnahme
 Maximum power consumption [ku]=maximale Stromaufnahme
 Storage full=Speicher voll
-TA4 Electrolyzer=TA4 Elektrolyseur
 Turnoff point=Abschaltpunkt
 Turnoff point reached=Abschaltpunkt erreicht
-
-### electrolyzer.lua ###
-### fuelcell.lua ###
-### tiny_generator.lua ###
-
-Electricity=Strom
 
 ### electronic.lua ###
 
@@ -672,7 +674,6 @@ Charging=Laden
 
 ### formspecs.lua ###
 ### power_terminal2.lua ###
-### storage.lua ###
 ### transformer.lua ###
 
 Storage=Speicher
@@ -758,6 +759,10 @@ TA1 Mill Base=Mühlenunterteil
 ### growlight.lua ###
 
 TA4 LED Grow Light=TA4 LED Pflanzenlampe
+
+### gunpowder.lua ###
+
+Gun Powder=Schwarzpulver
 
 ### hammer.lua ###
 
@@ -1022,14 +1027,6 @@ TA1 Pine Wood Board=TA1 Kiefernholzbrett
 
 TA4 Streetlamp Solar Cell=TA4 Straßenlampen-Solarzelle
 
-### minichest.lua ###
-
-Test Chest=Testkiste
-
-### minitank.lua ###
-
-Test Mini Tank=Testminitank
-
 ### monitor.lua ###
 
 Color=Farbe
@@ -1061,6 +1058,14 @@ Show start positions=Startpositionen anzeigen
 TA4 Move Controller II=TA4 Move Controller II
 Test move=Teste Bewegung
 missing=fehlt
+
+### nitrogen.lua ###
+
+Nitrogen Cylinder Large=Stickstoffflasche groß
+Nitrogen Cylinder Small=Stickstoffflasche klein
+Nitrogen collector=Stickstoffsammler
+TA4 Nitrogen=TA4 Stickstoff
+TA4 Nitrogen collector=TA4 Stickstoffsammler
 
 ### node_detector.lua ###
 
@@ -1391,10 +1396,6 @@ TA4 Solar Carrier Module B=TA4 Solar Trägermodul U
 TA4 Solar Carrier Module T=TA4 Solar Trägermodul O
 TA4 Solar Module=TA4 Solarmodul
 light=Licht
-
-### solarcell.lua ###
-### source.lua ###
-
 power=Strom
 
 ### soundblock.lua ###
@@ -1407,7 +1408,6 @@ TA3 Sound Block=TA3 Sound Block
 Axle Power Source=Achsenkraftquelle
 Ele Power Source=Ele Kraftquelle
 Power Source=Stromquelle
-Test Generator=Test Generator
 
 ### steam_pipe.lua ###
 
@@ -1416,10 +1416,6 @@ TA2 Steam Pipe=TA2 Dampfleitung
 ### steelmat.lua ###
 
 TechAge Steel Mat=TechAge Stahlmatte
-
-### storage.lua ###
-
-Test Storage=Test Speicher
 
 ### streetlamp.lua ###
 
@@ -1543,12 +1539,9 @@ TA4 Tank=TA4 Tank
 
 TA Tank Cart=TA Tankwagen
 
-### tele.lua ###
-
-TA3 Detector=TA3 Detektor
-
 ### teleport.lua ###
 
+Block @1 connected to @2 at pos. @3=Block @1 verbunden mit @2 bei Position @3.
 Connected=Verbunden
 Connection status=Verbindungsstatus
 Distance > @1 blocks=Abstand > @1 Blöcke
@@ -1698,4 +1691,9 @@ TA4 Collider Detector Worker=TA4 Collider Detektor Worker
 
 ##### not used anymore #####
 
+Test Chest=Testkiste
+Test Mini Tank=Testminitank
+Test Generator=Test Generator
+Test Storage=Test Speicher
+TA3 Detector=TA3 Detektor
 output: Empty @1 or @2 with @3 expected=Leeres/Leerer @1 oder @2 mit @3 erwartet
