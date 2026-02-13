@@ -133,6 +133,8 @@ minetest.register_node("techage:cylinder_on", {
 })
 
 Pipe:add_secondary_node_names({"techage:cylinder", "techage:cylinder_on"})
+Pipe:set_valid_sides("techage:cylinder", {"L"})
+Pipe:set_valid_sides("techage:cylinder_on", {"L"})
 
 techage.register_node({"techage:cylinder", "techage:cylinder_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)

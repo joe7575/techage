@@ -78,6 +78,7 @@ minetest.register_node("techage:boiler2", {
 })
 
 Pipe:add_secondary_node_names({"techage:boiler2"})
+Pipe:set_valid_sides("techage:boiler2", {"U"})
 
 techage.register_node({"techage:boiler2"}, {
 	on_transfer = function(pos, in_dir, topic, payload)

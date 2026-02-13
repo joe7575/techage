@@ -55,6 +55,7 @@ minetest.register_node("techage:ta4_pipe_inlet", {
 })
 
 Pipe:add_secondary_node_names({"techage:ta4_pipe_inlet"})
+Pipe:set_valid_sides("techage:ta4_pipe_inlet", {"F", "B"})
 
 local Numbers = {
 	shell = {
