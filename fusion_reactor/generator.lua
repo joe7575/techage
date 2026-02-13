@@ -207,7 +207,8 @@ power.register_nodes({"techage:ta5_generator", "techage:ta5_generator_on"}, Cabl
 techage.register_node({"techage:ta5_generator", "techage:ta5_generator_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		if topic == "trigger" then
+		local node = minetest.get_node(pos)
+		if topic == "trigger" and in_dir == techage.side_to_indir("L", node.param2) then
 			nvm.alive_cnt = 5
 		elseif topic == "start" then
 			--start_node(pos, nvm)
