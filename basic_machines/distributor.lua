@@ -613,6 +613,7 @@ local def = {
 	groups = {choppy=2, cracky=2, crumbly=2},
 	sounds = default.node_sound_wood_defaults(),
 	num_items = {0,4,12,24},
+	tube_sides = {B=1, R=1, F=1, L=1, D=1, U=1}
 }
 
 local node_name_ta2, node_name_ta3, node_name_ta4 = techage.register_consumer(
