@@ -103,6 +103,10 @@ power.register_nodes({"techage:ta4_generator", "techage:ta4_generator_on"}, Cabl
 techage.register_node({"techage:ta4_generator", "techage:ta4_generator_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		if topic == "netID" then
+			local node = minetest.get_node(pos)
+			if in_dir ~= techage.side_to_indir("L", node.param2) then
+				return false
+			end
 			local outdir = M(pos):get_int("outdir")
 			return networks.determine_netID(pos, Cable, outdir)
 		elseif topic == "start" then

@@ -214,7 +214,8 @@ power.register_nodes({"techage:generator", "techage:generator_on"}, Cable, "gen"
 techage.register_node({"techage:generator", "techage:generator_on"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		local nvm = techage.get_nvm(pos)
-		if topic == "trigger" then
+		local node = minetest.get_node(pos)
+		if topic == "trigger" and in_dir == techage.side_to_indir("L", node.param2) then
 			nvm.firebox_trigger = 3
 			if techage.is_running(nvm) then
 				return math.max((nvm.provided or PWR_PERF) / PWR_PERF, 0.02)
