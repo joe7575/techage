@@ -14,6 +14,10 @@ Red Mud=Красный шлам
 Red Mud Barrel=Бочка красного шлама
 Red Mud Canister=Канистра красного шлама
 
+### ammonia.lua ###
+
+TA4 Ammonia=
+
 ### assemble.lua ###
 ### firebox_lib.lua ###
 
@@ -42,6 +46,7 @@ Baborium Ore=Кусок бабориевой руды
 
 Gas Cylinder Large=Большой газовый баллон
 Gas Cylinder Small=Маленький газовый баллон
+River Water=
 River Water Barrel=Бочка речной воды
 TA Empty Barrel=TA Пустая бочка
 TA3 Canister=TA3 Канистра
@@ -84,10 +89,6 @@ TA3 Terminal=TA3 Терминал
 Battery=Батарея
 Coal Equivalents=В угольном эквиваленте
 Digtron Battery=Батарея дигтрона
-
-### battery.lua ###
-### storage.lua ###
-
 Load=Загрузка
 
 ### bauxit.lua ###
@@ -335,13 +336,18 @@ TA2 Cylinder=TA2 Цилиндр
 
 ### detector.lua ###
 
+Configured Items=Настроенные предметы
 Counts down the number of items passed through@nand only triggers an 'on' command when it reaches zero.=Считает количество проходящих предметов@nи включается когда количество достигает нуля.
 Current countdown=Кол-во предметов которое должно пройти
 Current countdown value.=Кол-во прошедших предметов
+Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Предметы, которые генерируют команду 'on' (включить).@nЕсли пусто, все прошедшие предметы генерируют команду 'on'.
+On Time=Вовремя
 TA3 Item Detector=TA3 Детектор предметов
 TA4 Collider Detector=TA4 Детектор коллайдера
 TA4 Collider Detector Core=TA4 Ядро детектора коллайдера
 TA4 Item Detector=TA3 Детектор предметов
+The time after the 'off' command@nuntil the next 'on' command is accepted.=Время после команды 'off' до приема следующей команды 'on'.
+The time between the 'on' and 'off' commands.=Промежуток времени между командами 'on' (включить) и 'off' (выключить).
 
 ### detector.lua ###
 ### electricmeter.lua ###
@@ -350,18 +356,8 @@ Countdown=Кол-во электроэнергии которое должно �
 
 ### detector.lua ###
 ### logic_block.lua ###
-### tele.lua ###
 
 Blocking Time=Время блокировки
-
-### detector.lua ###
-### tele.lua ###
-
-Configured Items=Настроенные предметы
-Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Предметы, которые генерируют команду 'on' (включить).@nЕсли пусто, все прошедшие предметы генерируют команду 'on'.
-On Time=Вовремя
-The time after the 'off' command@nuntil the next 'on' command is accepted.=Время после команды 'off' до приема следующей команды 'on'.
-The time between the 'on' and 'off' commands.=Промежуток времени между командами 'on' (включить) и 'off' (выключить).
 
 ### display.lua ###
 
@@ -453,6 +449,7 @@ Reset=Переустановить
 ### drillbox.lua ###
 
 Build derrick=Построить буровую установку
+Cannot drill @1=
 Depth=Глубина
 Drill Bit=Бурильная труба
 Drill area is protected=Зона бурения защищена
@@ -490,22 +487,27 @@ Maximum power passed through=Максимальная мощность прош�
 
 ### electrolyzer.lua ###
 
+Electrolyzer=Электролизер
+TA4 Electrolyzer=TA4 Электролизер
+
+### electrolyzer.lua ###
+### fuelcell.lua ###
+### nitrogen.lua ###
+### tiny_generator.lua ###
+
+Electricity=Электричество
+
+### electrolyzer.lua ###
+### nitrogen.lua ###
+
 Configurable value@nfor the current limit=Настраиваемое значение@nдля текущего лимита
 Current limitation=Текущие ограничения
-Electrolyzer=Электролизер
 If the charge of the storage@nsystem falls below the configured value,@nthe block switches off=Если заряд в хранилище@nпадает ниже указанной точки то@nблок выключается
 Maximum possible@ncurrent consumption=Максимально возможное@nпотребление тока
 Maximum power consumption [ku]=Максимальное потребление энергии [кВт]
 Storage full=Хранилище заполнено
-TA4 Electrolyzer=TA4 Электролизер
 Turnoff point=Точка выключения
 Turnoff point reached=Достигнута точка выключения
-
-### electrolyzer.lua ###
-### fuelcell.lua ###
-### tiny_generator.lua ###
-
-Electricity=Электричество
 
 ### electronic.lua ###
 
@@ -672,7 +674,6 @@ Charging=Зарядка
 
 ### formspecs.lua ###
 ### power_terminal2.lua ###
-### storage.lua ###
 ### transformer.lua ###
 
 Storage=Хранилище
@@ -758,6 +759,10 @@ TA1 Mill Base=TA1 Основание мельницы
 ### growlight.lua ###
 
 TA4 LED Grow Light=TA4 Светодиодная лампа для выращивания
+
+### gunpowder.lua ###
+
+Gun Powder=
 
 ### hammer.lua ###
 
@@ -1022,14 +1027,6 @@ TA1 Pine Wood Board=TA1 Сосновая доска
 
 TA4 Streetlamp Solar Cell=TA4 Солнечная панель для уличного светильника
 
-### minichest.lua ###
-
-Test Chest=
-
-### minitank.lua ###
-
-Test Mini Tank=
-
 ### monitor.lua ###
 
 Color=
@@ -1061,6 +1058,14 @@ Show start positions=
 TA4 Move Controller II=
 Test move=
 missing=
+
+### nitrogen.lua ###
+
+Nitrogen Cylinder Large=
+Nitrogen Cylinder Small=
+Nitrogen collector=
+TA4 Nitrogen=
+TA4 Nitrogen collector=
 
 ### node_detector.lua ###
 
@@ -1391,10 +1396,6 @@ TA4 Solar Carrier Module B=TA4 Кронштейн солнечной панел�
 TA4 Solar Carrier Module T=TA4 Кронштейн солнечной панели T
 TA4 Solar Module=TA4 Солнечная панель
 light=свет
-
-### solarcell.lua ###
-### source.lua ###
-
 power=энергия
 
 ### soundblock.lua ###
@@ -1407,7 +1408,6 @@ TA3 Sound Block=TA3 Нотный блок
 Axle Power Source=Источник механической энергии
 Ele Power Source=Источник электроэнергии
 Power Source=Источник энергии
-Test Generator=
 
 ### steam_pipe.lua ###
 
@@ -1416,10 +1416,6 @@ TA2 Steam Pipe=TA2 Труба для пара
 ### steelmat.lua ###
 
 TechAge Steel Mat=Techage Сталь
-
-### storage.lua ###
-
-Test Storage=
 
 ### streetlamp.lua ###
 
@@ -1543,12 +1539,9 @@ TA4 Tank=TA4 Резервуар
 
 TA Tank Cart=TA Вагонетка с резервуаром
 
-### tele.lua ###
-
-TA3 Detector=
-
 ### teleport.lua ###
 
+Block @1 connected to @2 at pos. @3=
 Connected=Соединен
 Connection status=Статус соединения
 Distance > @1 blocks=Расстояние > @1 блоков

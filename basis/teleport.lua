@@ -104,14 +104,7 @@ function techage.teleport.update_status(pos)
 	local meta = M(pos)
 	local peer_pos = S2P(meta:get_string("tele_peer_pos"))
 	if peer_pos then
-		local tbl = {}
-		tbl[#tbl+1] = S("Block")
-		tbl[#tbl+1] = get_conn_name(pos)
-		tbl[#tbl+1] = S("connected to")
-		tbl[#tbl+1] = get_conn_name(peer_pos)
-		tbl[#tbl+1] = S("at pos.")
-		tbl[#tbl+1] = P2S(peer_pos)
-		local status = table.concat(tbl, " ")
+		local status = S("Block @1 connected to @2 at pos. @3", get_conn_name(pos), get_conn_name(peer_pos), P2S(peer_pos))
 		meta:set_string("tele_status", status)
 	end
 end
