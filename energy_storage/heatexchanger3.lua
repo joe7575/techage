@@ -78,6 +78,7 @@ minetest.register_node("techage:heatexchanger3", {
 })
 
 Pipe:add_secondary_node_names({"techage:heatexchanger3"})
+Pipe:set_valid_sides("techage:heatexchanger3", {"R", "L"})
 
 -- command interface, used by heatexchanger2
 techage.register_node({"techage:heatexchanger3"}, {

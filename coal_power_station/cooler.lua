@@ -115,6 +115,8 @@ minetest.register_node("techage:cooler_on", {
 })
 
 Pipe:add_secondary_node_names({"techage:cooler", "techage:cooler_on"})
+Pipe:set_valid_sides("techage:cooler", {"L", "R"})
+Pipe:set_valid_sides("techage:cooler_on", {"L", "R"})
 
 -- for logical communication
 techage.register_node({"techage:cooler", "techage:cooler_on"}, {

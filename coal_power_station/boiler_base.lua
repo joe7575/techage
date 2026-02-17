@@ -49,6 +49,7 @@ minetest.register_node("techage:coalboiler_base", {
 })
 
 Pipe:add_secondary_node_names({"techage:coalboiler_base"})
+Pipe:set_valid_sides("techage:coalboiler_base", {"F"})
 
 -- for logical communication
 techage.register_node({"techage:coalboiler_base"}, {

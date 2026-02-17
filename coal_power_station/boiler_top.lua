@@ -113,6 +113,7 @@ minetest.register_node("techage:coalboiler_top", {
 })
 
 Pipe:add_secondary_node_names({"techage:coalboiler_top"})
+Pipe:set_valid_sides("techage:coalboiler_top", {"F"})
 LiquidPipe:add_secondary_node_names({"techage:coalboiler_top"})
 
 -- Register liquid handling
