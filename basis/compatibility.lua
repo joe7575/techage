@@ -1,6 +1,7 @@
 -- Smartshop pulling and pushing support
 minetest.register_on_mods_loaded(function()
-    if minetest.get_modpath("smartshop") then
+    -- Only supports https://github.com/AiTechEye/smartshop
+    if minetest.get_modpath("smartshop") and smartshop.strpos then
         techage.register_node({
             "smartshop:shop",
             "smartshop:shop_full",
