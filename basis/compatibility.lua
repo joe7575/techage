@@ -1,3 +1,16 @@
+local OwnerCache = {}
+
+local function is_owner(pos, meta)
+    local owner = meta:get_string("owner")
+    local key = minetest.hash_node_position(pos)
+    if OwnerCache[key] ~= owner then
+        if not minetest.is_protected(pos, owner) then
+            OwnerCache[key] = owner
+        end
+    end
+    return OwnerCache[key] == owner
+end
+
 -- Smartshop pulling and pushing support
 minetest.register_on_mods_loaded(function()
     if minetest.get_modpath("smartshop") then
