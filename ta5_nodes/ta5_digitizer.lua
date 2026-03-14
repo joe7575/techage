@@ -355,7 +355,7 @@ local function reassemble(pos, nvm, mem)
 		return false
 	end
 	-- No items in storage, stop execution
-	State:blocked(pos, nvm, "No items in storage")
+	State:stop(pos, nvm)
 	return false
 end
 
