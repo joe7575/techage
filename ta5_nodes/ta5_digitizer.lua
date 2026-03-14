@@ -457,7 +457,12 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 			return false
 		end
 		local mem = techage.get_mem(pos)
-		return is_empty(pos, mem)
+		if is_empty(pos, mem) then
+			return true
+		end
+		minetest.chat_send_player(digger:get_player_name(),
+			S("[Digitizer] Storage not empty! Empty the storage first."))
+		return false
 	end,
 
 	can_dig = function(pos, player)
@@ -468,7 +473,8 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 		if is_empty(pos, mem) then
 			return true
 		else
-			minetest.record_protection_violation(pos, player:get_player_name())
+			minetest.chat_send_player(player:get_player_name(),
+				S("[Digitizer] Storage not empty! Empty the storage first."))
 			return false
 		end
 	end,
