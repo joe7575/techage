@@ -422,7 +422,13 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 
 	on_timer = on_timer,
 	on_receive_fields = on_receive_fields,
-	ta_preserve_nodedata = techage.preserve_nodedata,
+	ta_preserve_nodedata = function(pos)
+		-- Flush in-memory items to node meta before packing,
+		-- so pack_meta captures them reliably.
+		local mem = techage.get_mem(pos)
+		store_items(pos, mem, true)
+		return techage.preserve_nodedata(pos)
+	end,
 	ta_restore_nodedata = function(pos, s)
 		techage.restore_nodedata(pos, s)
 		local node = minetest.get_node(pos)
@@ -456,13 +462,7 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 		if minetest.is_protected(pos, digger:get_player_name()) then
 			return false
 		end
-		local mem = techage.get_mem(pos)
-		if is_empty(pos, mem) then
-			return true
-		end
-		minetest.chat_send_player(digger:get_player_name(),
-			S("[Digitizer] Storage not empty! Empty the storage first."))
-		return false
+		return true  -- cordless screwdriver may always remove; data is preserved via ta_preserve_nodedata
 	end,
 
 	can_dig = function(pos, player)

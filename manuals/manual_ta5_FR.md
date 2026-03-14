@@ -166,7 +166,7 @@ Le Digitizer dispose d'une connexion tube sur le côté droit et peut également
 
 Seuls les objets empilables sans métadonnées et sans usure peuvent être stockés. Les objets tels que les livres signés ou les outils usés sont rejetés.
 
-Le Digitizer ne peut être retiré à la pioche que si le stockage interne est complètement vide. Utilisez le tournevis sans fil pour le retirer lorsqu'il contient des objets.
+Le Digitizer ne peut être retiré à la pioche que si le stockage interne est complètement vide. Utilisez le tournevis sans fil pour le retirer à tout moment - les objets stockés sont conservés en tant que métadonnées et restaurés automatiquement lors de la repose avec le tournevis sans fil.
 
 Le TA5 Digitizer nécessite 24 ku d'électricité.
 

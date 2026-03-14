@@ -166,7 +166,7 @@ Der Digitizer hat einen Tube-Anschluss auf der rechten Seite und kann auch über
 
 Es können nur stapelbare Items ohne Metadaten und ohne Verschleiß gespeichert werden. Items wie beschriftete Bücher oder abgenutzte Werkzeuge werden abgelehnt.
 
-Der Digitizer kann nur mit der Spitzhacke abgebaut werden, wenn der interne Speicher vollständig leer ist. Verwende den Akkuschrauber, um ihn bei gefülltem Speicher zu entfernen.
+Der Digitizer kann nur mit der Spitzhacke abgebaut werden, wenn der interne Speicher vollständig leer ist. Mit dem Akkuschrauber kann er jederzeit entfernt werden – die gespeicherten Items werden als Item-Metadaten erhalten und automatisch wiederhergestellt, wenn der Block mit dem Akkuschrauber wieder gesetzt wird.
 
 Der TA5 Digitizer benötigt 24 ku Strom.
 
