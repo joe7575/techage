@@ -520,6 +520,7 @@ return {
     "\n"..
     "\n",
     "Beim TA4 Spieler Detektor hat sich nur das Aussehen geändert. Die Funktionalität ist gleich wie beim TA3 Spieler Detektor.\n"..
+    "Zusätzlich kann der Suchradius über das Schraubenschlüsselmenü konfiguriert werden. Der Radius kann auf 1 bis 8 Blöcke eingestellt werden (Standard: 4).\n"..
     "\n"..
     "\n"..
     "\n",

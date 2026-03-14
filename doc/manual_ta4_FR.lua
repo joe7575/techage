@@ -470,6 +470,7 @@ return {
     "\n"..
     "\n",
     "Pour le TA4 Détecteur de joueur\\, seul l'apparence a changé. La fonctionnalité est la même que pour le TA3 Détecteur de joueur.\n"..
+    "De plus\\, le rayon de recherche peut être configuré via le menu clé. Le rayon peut être réglé de 1 à 8 blocs (par défaut : 4).\n"..
     "\n"..
     "\n"..
     "\n",

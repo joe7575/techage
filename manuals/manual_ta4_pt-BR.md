@@ -513,6 +513,7 @@ Esse bloco tem quatro lâmpadas que podem ser controladas individualmente. Cada 
 ### Detector de jogadores TA4
 
 Apenas a aparência do detector de player TA4 foi alterada. A funcionalidade é a mesma do detector de player TA3.
+Além disso, o raio de busca pode ser configurado pelo menu da chave inglesa. O raio pode ser definido de 1 a 8 blocos (padrão: 4).
 
 [ta4_playerdetector|image]
 

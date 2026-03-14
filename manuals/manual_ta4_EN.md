@@ -563,6 +563,7 @@ This block has four lamps that can be controlled individually. Each lamp can dis
 ### TA4 Player Detector
 
 Only the appearance of the TA4 player detector has changed. The functionality is the same as with the TA3 player detector.
+In addition, the search radius can be configured via the wrench menu. The radius can be set to 1 to 8 blocks (default: 4).
 
 [ta4_playerdetector|image]
 
