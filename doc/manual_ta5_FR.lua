@@ -158,7 +158,7 @@ return {
     "\n"..
     "Seuls les objets empilables sans métadonnées et sans usure peuvent être stockés. Les objets tels que les livres signés ou les outils usés sont rejetés.\n"..
     "\n"..
-    "Le Digitizer ne peut être retiré à la pioche que si le stockage interne est complètement vide. Utilisez le tournevis sans fil pour le retirer à tout moment - les objets stockés sont conservés en tant que métadonnées et restaurés automatiquement lors de la repose avec le tournevis sans fil.\n"..
+    "Le Digitizer ne peut être retiré à la pioche que si le stockage interne est complètement vide. Utilisez le tournevis sans fil pour le retirer lorsqu'il est à l'arrêt - les objets stockés sont conservés en tant que métadonnées et restaurés automatiquement lors de la repose avec le tournevis sans fil.\n"..
     "\n"..
     "Le TA5 Digitizer nécessite 24 ku d'électricité.\n"..
     "\n"..

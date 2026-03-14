@@ -507,7 +507,13 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 		if minetest.is_protected(pos, digger:get_player_name()) then
 			return false
 		end
-		return true  -- cordless screwdriver may always remove; data is preserved via ta_preserve_nodedata
+		local nvm = techage.get_nvm(pos)
+		if (nvm.techage_state or techage.STOPPED) ~= techage.STOPPED then
+			minetest.chat_send_player(digger:get_player_name(),
+				S("[Digitizer] Stop the Digitizer first!"))
+			return false
+		end
+		return true  -- only removable when stopped; data preserved via ta_preserve_nodedata
 	end,
 
 	can_dig = function(pos, player)

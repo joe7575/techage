@@ -155,7 +155,7 @@ return {
     "\n"..
     "Only stackable items without metadata and without wear can be stored. Items such as signed books or worn tools are rejected.\n"..
     "\n"..
-    "The Digitizer can only be removed with a pickaxe if the internal storage is completely empty. Use the cordless screwdriver to remove it at any time - the stored items are preserved as item metadata and restored automatically when the block is placed back using the cordless screwdriver.\n"..
+    "The Digitizer can only be removed with a pickaxe if the internal storage is completely empty. Use the cordless screwdriver to remove it when stopped - the stored items are preserved as item metadata and restored automatically when the block is placed back using the cordless screwdriver.\n"..
     "\n"..
     "The TA5 Digitizer requires 24 ku of power.\n"..
     "\n"..

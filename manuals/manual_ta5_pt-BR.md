@@ -166,7 +166,7 @@ O Digitizer tem uma conexão de tubo no lado direito e também pode ser controla
 
 Apenas itens empilháveis sem metadados e sem desgaste podem ser armazenados. Itens como livros assinados ou ferramentas desgastadas são rejeitados.
 
-O Digitizer só pode ser removido com uma picareta se o armazenamento interno estiver completamente vazio. Use a chave de fenda sem fio para removê-lo a qualquer momento - os itens armazenados são preservados como metadados do item e restaurados automaticamente quando o bloco é recolocado com a chave de fenda sem fio.
+O Digitizer só pode ser removido com uma picareta se o armazenamento interno estiver completamente vazio. Use a chave de fenda sem fio para removê-lo quando parado - os itens armazenados são preservados como metadados do item e restaurados automaticamente quando o bloco é recolocado com a chave de fenda sem fio.
 
 O TA5 Digitizer requer 24 ku de energia.
 
