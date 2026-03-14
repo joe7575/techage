@@ -57,7 +57,23 @@ local function store_items(pos, mem, force)
 	end
 end
 
-local function items_summary(items_tbl)
+-- Short summary for item tooltip (e.g. "3/16 slots, 150234 items")
+local function items_summary_short(items_tbl)
+	if not items_tbl then return "empty" end
+	local slots_used, total = 0, 0
+	for i = 1, STORAGE_SLOTS do
+		local slot = items_tbl[i]
+		if slot and slot.name ~= "" and slot.count > 0 then
+			slots_used = slots_used + 1
+			total = total + slot.count
+		end
+	end
+	if slots_used == 0 then return "empty" end
+	return slots_used .. "/" .. STORAGE_SLOTS .. " slots, " .. total .. " items"
+end
+
+-- Full summary for server log (one entry per used slot)
+local function items_summary_full(items_tbl)
 	if not items_tbl then return "empty" end
 	local parts = {}
 	for i = 1, STORAGE_SLOTS do
@@ -443,11 +459,12 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 		store_items(pos, mem, true)
 		local number = M(pos):get_string("node_number")
 		local player_name = digger and digger:get_player_name() or "unknown"
-		local summary = items_summary(mem.items)
+		local short = items_summary_short(mem.items)
+		local full  = items_summary_full(mem.items)
 		minetest.log("action", "[techage] TA5 Digitizer #" .. number ..
 			" packed by " .. player_name ..
-			" at " .. P2S(pos) .. " | " .. summary)
-		return techage.preserve_nodedata(pos), summary
+			" at " .. P2S(pos) .. " | " .. full)
+		return techage.preserve_nodedata(pos), short
 	end,
 	ta_restore_nodedata = function(pos, s, placer)
 		techage.restore_nodedata(pos, s)
@@ -455,10 +472,10 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 		local items_tbl = minetest.deserialize(M(pos):get_string("items"))
 		local number = M(pos):get_string("node_number")
 		local player_name = placer and placer:get_player_name() or "unknown"
-		local summary = items_summary(items_tbl)
+		local full  = items_summary_full(items_tbl)
 		minetest.log("action", "[techage] TA5 Digitizer #" .. number ..
 			" unpacked by " .. player_name ..
-			" at " .. P2S(pos) .. " | " .. summary)
+			" at " .. P2S(pos) .. " | " .. full)
 		local node = minetest.get_node(pos)
 		local tube_dir = techage.side_to_outdir("R", node.param2)
 		local meta = M(pos)
