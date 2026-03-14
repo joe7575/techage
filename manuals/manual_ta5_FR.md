@@ -156,6 +156,30 @@ Les blocs de téléportation Hyperloop permettent la construction d'un réseau H
 
 L'utilisation des blocs de téléportation Hyperloop nécessite 60 points d'expérience.
 
+## TA5 Numériseur / TA5 Digitizer
+
+### TA5 Numériseur / TA5 Digitizer
+
+Le TA5 Digitizer est un bloc de stockage d'objets haute capacité qui stocke numériquement les objets prélevés dans des inventaires adjacents. Il peut fonctionner dans deux modes (pull/push) et gère jusqu'à 16 types d'objets différents avec jusqu'à 100 000 objets par slot.
+
+Le Digitizer dispose d'une connexion tube sur le côté droit et peut également être contrôlé via le réseau Techage. En mode pull, il prélève jusqu'à 50 objets par cycle d'un coffre connecté. En mode push, il restitue les objets stockés dans les inventaires adjacents.
+
+Seuls les objets empilables sans métadonnées et sans usure peuvent être stockés. Les objets tels que les livres signés ou les outils usés sont rejetés.
+
+Le Digitizer ne peut être retiré à la pioche que si le stockage interne est complètement vide. Utilisez le tournevis sans fil pour le retirer lorsqu'il contient des objets.
+
+Le TA5 Digitizer nécessite 24 ku d'électricité.
+
+50 points d'expérience sont requis pour utiliser le TA5 Digitizer (configurable via `techage_ta5_digitizer_expoints`).
+
+[ta5_digitizer|image]
+
+### TA5 Unité de contrôle / TA5 Control Unit
+
+L'unité de contrôle TA5 est nécessaire pour fabriquer le TA5 Digitizer. Elle ne peut être fabriquée qu'à la Fab Électronique TA4 et nécessite 50 points d'expérience.
+
+[ta5_controlunit|image]
+
 ## Autres blocs/objets TA5
 
 ### TA5 Conteneur (prévu)

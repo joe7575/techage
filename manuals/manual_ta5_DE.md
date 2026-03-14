@@ -156,6 +156,30 @@ Die Hyperloop Teleport Blöcke erlauben den Aufbau von Hyperloop Netzwerk ohne H
 
 Die Nutzung der Hyperloop Teleport Blöcke benötigt 60 Erfahrungspunkte.
 
+## TA5 Digitizer
+
+### TA5 Digitizer
+
+Der TA5 Digitizer ist ein Hochkapazitäts-Itemspeicher, der Items aus benachbarten Inventaren digital speichert. Er kann in zwei Modi betrieben werden (pull/push) und verwaltet bis zu 16 verschiedene Item-Typen mit je bis zu 100.000 Items pro Slot.
+
+Der Digitizer hat einen Tube-Anschluss auf der rechten Seite und kann auch über das Techage-Netzwerk gesteuert werden. Im Pull-Modus zieht er bis zu 50 Items pro Takt aus einer verbundenen Kiste. Im Push-Modus schiebt er gespeicherte Items zurück in benachbarte Inventare.
+
+Es können nur stapelbare Items ohne Metadaten und ohne Verschleiß gespeichert werden. Items wie beschriftete Bücher oder abgenutzte Werkzeuge werden abgelehnt.
+
+Der Digitizer kann nur mit der Spitzhacke abgebaut werden, wenn der interne Speicher vollständig leer ist. Verwende den Akkuschrauber, um ihn bei gefülltem Speicher zu entfernen.
+
+Der TA5 Digitizer benötigt 24 ku Strom.
+
+Für die Nutzung des TA5 Digitizers sind 50 Erfahrungspunkte erforderlich (konfigurierbar über `techage_ta5_digitizer_expoints`).
+
+[ta5_digitizer|image]
+
+### TA5 Steuereinheit
+
+Die TA5 Steuereinheit wird für die Herstellung des TA5 Digitizers benötigt. Sie kann nur an der TA4-Elektronikfabrik hergestellt werden und erfordert 50 Erfahrungspunkte.
+
+[ta5_controlunit|image]
+
 ## Weitere TA5 Blöcke/Items
 
 ### TA5 Container (geplant)

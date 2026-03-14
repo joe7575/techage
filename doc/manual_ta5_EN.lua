@@ -20,6 +20,9 @@ return {
     "3,TA5 Teleport Block Items",
     "3,TA5 Teleport Block Liquids",
     "3,Hyperloop Teleport Blocks (planned)",
+    "2,TA5 Digitizer",
+    "3,TA5 Digitizer",
+    "3,TA5 Control Unit",
     "2,More TA5 Blocks/Items",
     "3,TA5 Container (planned)",
     "3,TA5 AI Chip",
@@ -146,6 +149,25 @@ return {
     "The use of the Hyperloop Teleport Blocks requires 60 experience points.\n"..
     "\n",
     "",
+    "The TA5 Digitizer is a high-capacity item storage block that digitally stores items drawn from adjacent inventories. It can operate in two modes (pull/push) and handles up to 16 different item types with up to 100\\,000 items per slot.\n"..
+    "\n"..
+    "The Digitizer has a tube connection on the right side and can also be controlled via the Techage network. In pull mode\\, it draws up to 50 items per cycle from a connected chest. In push mode\\, it pushes stored items back into adjacent inventories.\n"..
+    "\n"..
+    "Only stackable items without metadata and without wear can be stored. Items such as signed books or worn tools are rejected.\n"..
+    "\n"..
+    "The Digitizer can only be removed with a pickaxe if the internal storage is completely empty. Use the cordless screwdriver to remove it when the storage contains items.\n"..
+    "\n"..
+    "The TA5 Digitizer requires 24 ku of power.\n"..
+    "\n"..
+    "50 experience points are required to use the TA5 Digitizer (configurable via 'techage_ta5_digitizer_expoints').\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "The TA5 Control Unit is required to craft the TA5 Digitizer. It can only be manufactured at the TA4 Electronics Fab and requires 50 experience points.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "",
     "The TA5 container allows Techage systems to be packed and unpacked at another location.\n"..
     "\n"..
     "80 experience points are required to use the TA5 container.\n"..
@@ -181,6 +203,9 @@ return {
     "ta5_tele_pipe",
     "",
     "",
+    "ta5_digitizer",
+    "ta5_controlunit",
+    "",
     "",
     "ta5_aichip",
     "ta5_aichip2",
@@ -203,6 +228,9 @@ return {
     "",
     "",
     "ta5_teleport",
+    "",
+    "",
+    "",
     "",
     "",
     "",
