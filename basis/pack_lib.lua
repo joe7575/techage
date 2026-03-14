@@ -94,7 +94,7 @@ function techage.cordless_screwdriver_only(pos, placer, itemstack)
 	if placer and meta and meta:to_table() then
 		local tbl = meta:to_table()
 		if tbl.fields and next(tbl.fields) then
-			minetest.chat_send_player(placer:get_player_name(), S("Use the cordless screwdriver to place it!"))
+			minetest.chat_send_player(placer:get_player_name(), S("Use the cordless screwdriver to place it! (item must be in hotbar slot 1)"))
 			minetest.remove_node(pos)
 			return true
 		end

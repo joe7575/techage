@@ -1441,6 +1441,7 @@ TechAge Info Tool (use @= read status info)=
 TA3 Drill Pipe Wrench=
 
 ##[ tools/screwdriver.lua ]##
+Use the cordless screwdriver to place it! (item must be in hotbar slot 1)=
 Block alignment stored!=
 Techage Screwdriver@n(See: TA3 > Tools)=
 

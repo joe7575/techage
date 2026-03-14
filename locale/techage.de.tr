@@ -1441,6 +1441,7 @@ TechAge Info Tool (use @= read status info)=TechAge Info Werkzeug
 TA3 Drill Pipe Wrench=TA3 Bohrgestängezange
 
 ##[ tools/screwdriver.lua ]##
+Use the cordless screwdriver to place it! (item must be in hotbar slot 1)=Benutze den Akkuschrauber zum Setzen! (Item muss in Hotbar-Slot 1 liegen)
 Block alignment stored!=Blockausrichtung gespeichert!
 Techage Screwdriver@n(See: TA3 > Tools)=Techage Schraubendreher@n(Siehe: TA3 > Werkzeuge)
 
