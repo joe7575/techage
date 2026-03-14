@@ -156,6 +156,30 @@ O uso dos blocos de teletransporte Hyperloop requer 60 pontos de experiência.
 
 
 
+## TA5 Digitalizador / TA5 Digitizer
+
+### TA5 Digitalizador / TA5 Digitizer
+
+O TA5 Digitizer é um bloco de armazenamento de itens de alta capacidade que armazena digitalmente itens retirados de inventários adjacentes. Ele pode operar em dois modos (pull/push) e gerencia até 8 tipos de itens diferentes com até 100.000 itens por slot.
+
+O Digitizer tem uma conexão de tubo no lado direito e também pode ser controlado pela rede Techage. No modo pull, ele retira até 50 itens por ciclo de um baú conectado. No modo push, ele empurra os itens armazenados de volta para inventários adjacentes.
+
+Apenas itens empilháveis sem metadados e sem desgaste podem ser armazenados. Itens como livros assinados ou ferramentas desgastadas são rejeitados.
+
+O Digitizer só pode ser removido com uma picareta se o armazenamento interno estiver completamente vazio. Use a chave de fenda sem fio para removê-lo quando parado - os itens armazenados são preservados como metadados do item e restaurados automaticamente quando o bloco é recolocado com a chave de fenda sem fio.
+
+O TA5 Digitizer requer 24 ku de energia.
+
+São necessários 50 pontos de experiência para usar o TA5 Digitizer (configurável via `techage_ta5_digitizer_expoints`).
+
+[ta5_digitizer|image]
+
+### TA5 Unidade de Controle / TA5 Control Unit
+
+A Unidade de Controle TA5 é necessária para fabricar o TA5 Digitizer. Ela só pode ser fabricada na Fábrica de Eletrônicos TA4 e requer 50 pontos de experiência.
+
+[ta5_controlunit|image]
+
 ## Mais blocos/itens TA5
 
 ### Contêiner TA5 (planejado)

@@ -21,6 +21,9 @@ return {
     "3,TA5 Bloc de téléportation d'objets / TA5 Teleport Block Items",
     "3,TA5 Bloc de téléportation de liquides / TA5 Teleport Block Liquids",
     "3,Blocs de téléportation Hyperloop (prévu)",
+    "2,TA5 Numériseur / TA5 Digitizer",
+    "3,TA5 Numériseur / TA5 Digitizer",
+    "3,TA5 Unité de contrôle / TA5 Control Unit",
     "2,Autres blocs/objets TA5",
     "3,TA5 Conteneur (prévu)",
     "3,TA5 Puce IA / TA5 AI Chip",
@@ -149,6 +152,25 @@ return {
     "L'utilisation des blocs de téléportation Hyperloop nécessite 60 points d'expérience.\n"..
     "\n",
     "",
+    "Le TA5 Digitizer est un bloc de stockage d'objets haute capacité qui stocke numériquement les objets prélevés dans des inventaires adjacents. Il peut fonctionner dans deux modes (pull/push) et gère jusqu'à 8 types d'objets différents avec jusqu'à 100 000 objets par slot.\n"..
+    "\n"..
+    "Le Digitizer dispose d'une connexion tube sur le côté droit et peut également être contrôlé via le réseau Techage. En mode pull\\, il prélève jusqu'à 50 objets par cycle d'un coffre connecté. En mode push\\, il restitue les objets stockés dans les inventaires adjacents.\n"..
+    "\n"..
+    "Seuls les objets empilables sans métadonnées et sans usure peuvent être stockés. Les objets tels que les livres signés ou les outils usés sont rejetés.\n"..
+    "\n"..
+    "Le Digitizer ne peut être retiré à la pioche que si le stockage interne est complètement vide. Utilisez le tournevis sans fil pour le retirer lorsqu'il est à l'arrêt - les objets stockés sont conservés en tant que métadonnées et restaurés automatiquement lors de la repose avec le tournevis sans fil.\n"..
+    "\n"..
+    "Le TA5 Digitizer nécessite 24 ku d'électricité.\n"..
+    "\n"..
+    "50 points d'expérience sont requis pour utiliser le TA5 Digitizer (configurable via 'techage_ta5_digitizer_expoints').\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "L'unité de contrôle TA5 est nécessaire pour fabriquer le TA5 Digitizer. Elle ne peut être fabriquée qu'à la Fab Électronique TA4 et nécessite 50 points d'expérience.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "",
     "Le conteneur TA5 permet d'emballer et de déballer des installations Techage à un autre endroit.\n"..
     "\n"..
     "Pour l'utilisation du conteneur TA5\\, 80 points d'expérience sont nécessaires.\n"..
@@ -185,6 +207,9 @@ return {
     "ta5_tele_pipe",
     "",
     "",
+    "ta5_digitizer",
+    "ta5_controlunit",
+    "",
     "",
     "ta5_aichip",
     "ta5_aichip2",
@@ -208,6 +233,9 @@ return {
     "",
     "",
     "ta5_teleport",
+    "",
+    "",
+    "",
     "",
     "",
     "",

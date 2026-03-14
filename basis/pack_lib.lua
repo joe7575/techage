@@ -13,6 +13,7 @@
 ]]--
 
 -- for lazy programmers
+local S = techage.S
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local M = minetest.get_meta
 
@@ -51,7 +52,7 @@ local function unpack_nvm(pos, s)
 		local tbl = minetest.deserialize(s)
 		local nvm = techage.get_nvm(pos)
 		for k,v in pairs(tbl) do
-			nvm.k = v
+			nvm[k] = v
 		end
 	end
 end
@@ -72,7 +73,7 @@ local function unpack_meta(pos, s)
 end
 
 -------------------------------------------------------------------------------
--- preserve/restore API functions
+-- preserve/restore API functions for the assembly tool
 -------------------------------------------------------------------------------
 
 function techage.preserve_nodedata(pos)
@@ -85,4 +86,18 @@ function techage.restore_nodedata(pos, s)
 	local tbl = minetest.deserialize(s) or {}
 	unpack_nvm(pos, tbl.snvm)
 	unpack_meta(pos, tbl.smeta)
+end
+
+-- Don't allow placing if node in player inventory has metadata
+function techage.cordless_screwdriver_only(pos, placer, itemstack)
+	local meta = itemstack:get_meta()
+	if placer and meta and meta:to_table() then
+		local tbl = meta:to_table()
+		if tbl.fields and next(tbl.fields) then
+			minetest.chat_send_player(placer:get_player_name(), S("Use the cordless screwdriver to place it! (item must be in hotbar slot 1)"))
+			minetest.remove_node(pos)
+			return true
+		end
+	end
+	return false
 end

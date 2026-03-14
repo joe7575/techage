@@ -73,12 +73,16 @@ local function remove_node(pos, digger)
 		return
 	end
 
-	if ndef.can_dig and not ndef.can_dig(pos, digger) then
+	if ndef.ta_can_remove then
+		if not ndef.ta_can_remove(pos, digger) then
+			return
+		end
+	elseif ndef.can_dig and not ndef.can_dig(pos, digger) then
 		return
 	end
 
-	if ndef and ndef.preserve_nodedata then
-		local s = ndef.preserve_nodedata(pos, node)
+	if ndef and ndef.ta_preserve_nodedata then
+		local s, label = ndef.ta_preserve_nodedata(pos, node, digger)
 		imeta:set_string("node_data", s)
 		minetest.remove_node(pos)
 		if ndef.after_dig_node then
@@ -87,9 +91,17 @@ local function remove_node(pos, digger)
 		if number ~= "" then
 			techage.post_remove_node(pos)
 			imeta:set_string("node_number", number)
-			imeta:set_string("description", ndef.description .. " : " .. number)
+			local desc = ndef.description .. " : " .. number
+			if label and label ~= "" and label ~= "empty" then
+				desc = desc .. "\n[" .. label .. "]"
+			end
+			imeta:set_string("description", desc)
 		else
-			imeta:set_string("description", ndef.description .. " (preserved)")
+			local desc = ndef.description .. " (preserved)"
+			if label and label ~= "" and label ~= "empty" then
+				desc = desc .. "\n[" .. label .. "]"
+			end
+			imeta:set_string("description", desc)
 		end
 		return item
 	elseif number ~= "" and ndef and ndef.after_dig_node then
@@ -109,13 +121,13 @@ local function place_node(pos, item, placer, pointed_thing)
 	local param2 = minetest.dir_to_facedir(placer:get_look_dir())
 	local ndef = minetest.registered_nodes[name]
 
-	if ndef and ndef.restore_nodedata then
+	if ndef and ndef.ta_restore_nodedata then
 		if number ~= "" then
 			techage.pre_add_node(pos, number)
 		end
 		minetest.add_node(pos, {name = name, param2 = param2})
 		local s = imeta:get_string("node_data")
-		ndef.restore_nodedata(pos, s)
+		ndef.ta_restore_nodedata(pos, s, placer)
 		return true
 	elseif number ~= "" and ndef and ndef.after_place_node then
 		techage.pre_add_node(pos, number)
@@ -131,7 +143,7 @@ local function on_place_node(itemstack, pos, user, player_name, pointed_thing)
 	if item then
 		if place_node(pos, item, user, pointed_thing) then
 			itemstack:add_wear(65636/200)
-			minetest.sound_play("techage_tool2", {
+			minetest.sound_play("techage_cordless_screwdriver", {
 				pos = pos,
 				gain = 1,
 				max_hear_distance = 10})
@@ -147,7 +159,7 @@ local function on_remove_node(itemstack, pos, user, player_name)
 	if item then
 		add_to_inventory(pos, item, user)
 		itemstack:add_wear(65636/200)
-		minetest.sound_play("techage_tool1", {
+		minetest.sound_play("techage_cordless_screwdriver", {
 			pos = pos,
 			gain = 1,
 			max_hear_distance = 10})
@@ -171,10 +183,10 @@ local function on_use(itemstack, user, pointed_thing)
 end
 
 ----------------------------------------------------------------------------
-minetest.register_tool("techage:assembly_tool", {
-	description = S("TechAge Assembly Tool"),
-	inventory_image = "techage_repairkit.png",
-	wield_image = "techage_repairkit.png^[transformR270",
+minetest.register_tool("techage:cordless_screwdriver", {
+	description = S("TechAge Cordless Screwdriver"),
+	inventory_image = "techage_cordless_screwdriver.png",
+	wield_image = "techage_cordless_screwdriver.png",
 	groups = {cracky=1, book=1},
 	on_use = on_use,
 	on_place = on_place,
@@ -183,15 +195,16 @@ minetest.register_tool("techage:assembly_tool", {
 })
 
 minetest.register_craft({
-	output = "techage:assembly_tool",
+	output = "techage:cordless_screwdriver",
 	recipe = {
-		{"", "techage:screwdriver", ""},
-		{"basic_materials:plastic_sheet", "basic_materials:plastic_strip", "basic_materials:plastic_sheet"},
-		{"", "techage:end_wrench", ""},
+		{"", "basic_materials:steel_bar", ""},
+		{"basic_materials:plastic_sheet", "basic_materials:motor", "basic_materials:plastic_sheet"},
+		{"", "techage:ta4_battery", ""},
 	},
 })
 
-minetest.register_alias("techage:repairkit", "techage:assembly_tool")
+minetest.register_alias("techage:repairkit", "techage:cordless_screwdriver")
+minetest.register_alias("techage:assembly_tool", "techage:cordless_screwdriver")
 
 function techage.disable_block_for_assembly_tool(block_name)
 	InvalidBlocks[block_name] = true

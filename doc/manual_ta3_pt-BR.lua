@@ -86,7 +86,7 @@ return {
     "3,TechAge Trowel / Trowel",
     "3,TA3 chave de cano",
     "3,Techage Screwdriver",
-    "3,TechAge Assembly Tool",
+    "3,TechAge Cordless Screwdriver",
   },
   texts = {
     "Na TA3\\, é importante substituir as máquinas a vapor por máquinas mais potentes movidas a eletricidade.\n"..
@@ -756,12 +756,12 @@ return {
     "\n"..
     " \n"..
     "\n",
-    "A TechAge Assembly Tool é usada para remover e reposicionar blocos Techage sem que esses blocos percam seu número de bloco ou recebam um novo número ao serem configurados. Isso é útil\\, por exemplo\\, para pedreiras\\, já que muitas vezes precisam ser movidas.\n"..
+    "A TechAge Cordless Screwdriver é usada para remover e reposicionar blocos Techage sem que esses blocos percam seu número de bloco ou recebam um novo número ao serem configurados. Isso é útil\\, por exemplo\\, para pedreiras\\, já que muitas vezes precisam ser movidas.\n"..
     "\n"..
     "  - Botão esquerdo: remover um bloco\n"..
     "  - Botão direito: configurar um bloco\n"..
     "\n"..
-    "O bloco que foi removido anteriormente com a ferramenta de montagem e que será colocado novamente deve estar no extremo esquerdo do inventário do jogador.\n"..
+    "O bloco que foi removido anteriormente com a Chave de Fenda sem fio e que será colocado novamente deve estar no slot 1 da barra de atalhos (o slot mais à esquerda da hotbar).\n"..
     "\n"..
     "\n"..
     "\n",
@@ -853,7 +853,7 @@ return {
     "ta3_trowel",
     "ta3_drill_pipe_wrench",
     "ta3_screwdriver",
-    "techage:assembly_tool",
+    "techage:cordless_screwdriver",
   },
   plans = {
     "",

@@ -81,3 +81,6 @@ techage_big_gascylinder_volume (Volume in liter) int 6
 # Small Gas cylinder in volume units
 techage_small_gascylinder_volume (Volume in liter) int 1
 
+# Required experience points to use the TA5 Digitizer (0 = no restriction)
+techage_ta5_digitizer_expoints (Required experience points for TA5 Digitizer, 0 = no restriction) int 50
+

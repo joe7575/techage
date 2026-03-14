@@ -1428,6 +1428,9 @@ TA5 Teleport Block Items=TA5 Teleport Block Gegenstände
 ##[ tools/assembly_tool.lua ]##
 TechAge Assembly Tool=TechAge Montagewerkzeug
 
+##[ tools/cordless_screwdriver.lua ]##
+TechAge Cordless Screwdriver=TechAge Akkuschrauber
+
 ##[ tools/end_wrench.lua ]##
 Biome=Biom
 Position temperature=Positionstemperatur
@@ -1441,6 +1444,7 @@ TechAge Info Tool (use @= read status info)=TechAge Info Werkzeug
 TA3 Drill Pipe Wrench=TA3 Bohrgestängezange
 
 ##[ tools/screwdriver.lua ]##
+Use the cordless screwdriver to place it! (item must be in hotbar slot 1)=Benutze den Akkuschrauber zum Setzen! (Item muss in Hotbar-Slot 1 liegen)
 Block alignment stored!=Blockausrichtung gespeichert!
 Techage Screwdriver@n(See: TA3 > Tools)=Techage Schraubendreher@n(Siehe: TA3 > Werkzeuge)
 
@@ -1469,3 +1473,15 @@ Test Generator=Test Generator
 Test Storage=Test Speicher
 TA3 Detector=TA3 Detektor
 output: Empty @1 or @2 with @3 expected=Leeres/Leerer @1 oder @2 mit @3 erwartet
+
+##[ ta5_nodes/ta5_digitizer.lua ]##
+TA5 Digitizer=TA5 Digitizer
+TA5 Control Unit=TA5 Steuereinheit
+Control,Storage=Steuerung,Speicher
+Configured@nItem=Konfiguriertes@nItem
+no configured item=kein Item konfiguriert
+No configured item=Kein Item konfiguriert
+Invalid item type=Ungültiger Item-Typ
+Item not storable (not stackable, has metadata, or is worn)=Item nicht speicherbar (nicht stapelbar, hat Metadaten oder ist beschädigt)
+[Digitizer] Storage not empty! Empty the storage first.=[Digitizer] Speicher nicht leer! Speicher zuerst leeren.
+[Digitizer] Stop the Digitizer first!=[Digitizer] Digitizer zuerst stoppen.[Digitizer] Speicher nicht leer! Bitte zuerst den Speicher leeren.

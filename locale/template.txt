@@ -1428,6 +1428,9 @@ TA5 Teleport Block Items=
 ##[ tools/assembly_tool.lua ]##
 TechAge Assembly Tool=
 
+##[ tools/cordless_screwdriver.lua ]##
+TechAge Cordless Screwdriver=
+
 ##[ tools/end_wrench.lua ]##
 Biome=
 Position temperature=
@@ -1441,6 +1444,7 @@ TechAge Info Tool (use @= read status info)=
 TA3 Drill Pipe Wrench=
 
 ##[ tools/screwdriver.lua ]##
+Use the cordless screwdriver to place it! (item must be in hotbar slot 1)=
 Block alignment stored!=
 Techage Screwdriver@n(See: TA3 > Tools)=
 
@@ -1459,3 +1463,15 @@ TA4 Rotor Blade=
 
 ##[ wind_turbine/signallamp.lua ]##
 TA4 Wind Turbine Signal Lamp=
+
+##[ ta5_nodes/ta5_digitizer.lua ]##
+TA5 Digitizer=
+TA5 Control Unit=
+Control,Storage=
+Configured@nItem=
+no configured item=
+No configured item=
+Invalid item type=
+Item not storable (not stackable, has metadata, or is worn)=
+[Digitizer] Storage not empty! Empty the storage first.=
+[Digitizer] Stop the Digitizer first!=

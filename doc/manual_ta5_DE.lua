@@ -21,6 +21,9 @@ return {
     "3,TA5 Teleport Block Gegenstände / TA5 Teleport Block Items",
     "3,TA5 Teleport Block Flüssigkeiten / TA5 Teleport Block Liquids",
     "3,Hyperloop Teleport Blöcke (geplant)",
+    "2,TA5 Digitizer",
+    "3,TA5 Digitizer",
+    "3,TA5 Steuereinheit",
     "2,Weitere TA5 Blöcke/Items",
     "3,TA5 Container (geplant)",
     "3,TA5 KI Chip / TA5 AI Chip",
@@ -149,6 +152,25 @@ return {
     "Die Nutzung der Hyperloop Teleport Blöcke benötigt 60 Erfahrungspunkte.\n"..
     "\n",
     "",
+    "Der TA5 Digitizer ist ein Hochkapazitäts-Itemspeicher\\, der Items aus benachbarten Inventaren digital speichert. Er kann in zwei Modi betrieben werden (pull/push) und verwaltet bis zu 8 verschiedene Item-Typen mit je bis zu 100.000 Items pro Slot.\n"..
+    "\n"..
+    "Der Digitizer hat einen Tube-Anschluss auf der rechten Seite und kann auch über das Techage-Netzwerk gesteuert werden. Im Pull-Modus zieht er bis zu 50 Items pro Takt aus einer verbundenen Kiste. Im Push-Modus schiebt er gespeicherte Items zurück in benachbarte Inventare.\n"..
+    "\n"..
+    "Es können nur stapelbare Items ohne Metadaten und ohne Verschleiß gespeichert werden. Items wie beschriftete Bücher oder abgenutzte Werkzeuge werden abgelehnt.\n"..
+    "\n"..
+    "Der Digitizer kann nur mit der Spitzhacke abgebaut werden\\, wenn der interne Speicher vollständig leer ist. Mit dem Akkuschrauber kann er im gestoppten Zustand entfernt werden – die gespeicherten Items werden als Item-Metadaten erhalten und automatisch wiederhergestellt\\, wenn der Block mit dem Akkuschrauber wieder gesetzt wird.\n"..
+    "\n"..
+    "Der TA5 Digitizer benötigt 24 ku Strom.\n"..
+    "\n"..
+    "Für die Nutzung des TA5 Digitizers sind 50 Erfahrungspunkte erforderlich (konfigurierbar über 'techage_ta5_digitizer_expoints').\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "Die TA5 Steuereinheit wird für die Herstellung des TA5 Digitizers benötigt. Sie kann nur an der TA4-Elektronikfabrik hergestellt werden und erfordert 50 Erfahrungspunkte.\n"..
+    "\n"..
+    "\n"..
+    "\n",
+    "",
     "Der TA5 Container erlaubt Techage Anlagen ein- und an einer anderen Stelle wieder auszupacken.\n"..
     "\n"..
     "Für die Nutzung des TA5 Containers werden 80 Erfahrungspunkte benötigt.\n"..
@@ -185,6 +207,9 @@ return {
     "ta5_tele_pipe",
     "",
     "",
+    "ta5_digitizer",
+    "ta5_controlunit",
+    "",
     "",
     "ta5_aichip",
     "ta5_aichip2",
@@ -208,6 +233,9 @@ return {
     "",
     "",
     "ta5_teleport",
+    "",
+    "",
+    "",
     "",
     "",
     "",
