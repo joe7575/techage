@@ -1428,6 +1428,9 @@ TA5 Teleport Block Items=
 ##[ tools/assembly_tool.lua ]##
 TechAge Assembly Tool=
 
+##[ tools/cordless_screwdriver.lua ]##
+TechAge Cordless Screwdriver=
+
 ##[ tools/end_wrench.lua ]##
 Biome=
 Position temperature=

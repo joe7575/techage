@@ -1428,6 +1428,9 @@ TA5 Teleport Block Items=TA5 Teleport Block Gegenstände
 ##[ tools/assembly_tool.lua ]##
 TechAge Assembly Tool=TechAge Montagewerkzeug
 
+##[ tools/cordless_screwdriver.lua ]##
+TechAge Cordless Screwdriver=TechAge Akkuschrauber
+
 ##[ tools/end_wrench.lua ]##
 Biome=Biom
 Position temperature=Positionstemperatur
