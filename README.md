@@ -103,6 +103,15 @@ Available worlds will be converted to 'lsqlite3', but there is no way back, so:
 
 ### History
 
+**2026-03-14 V1.24**
+
+- Add TA5 Digitizer (high-capacity item storage, up to 8 slots × 100,000 items)
+- Add TA5 Control Unit (crafting ingredient for Digitizer)
+- Replace Assembly Tool with TechAge Cordless Screwdriver
+- Cordless Screwdriver preserves node data and item contents on removal
+- Add server-side logging of Digitizer pack/unpack events
+- Fix various Digitizer edge cases (nil-guard, state checks, locale)
+
 **2025-03-14 V1.23**
 
 - Add Move Controller II

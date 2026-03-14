@@ -13,7 +13,7 @@
 techage = {}
 
 -- Version for compatibility checks, see readme.md/history
-techage.version = 1.23
+techage.version = 1.24
 
 if minetest.get_modpath("tubelib") then
 	error("Techage can't be used together with the mod tubelib!")
