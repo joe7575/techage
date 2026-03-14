@@ -160,7 +160,7 @@ The use of the Hyperloop Teleport Blocks requires 60 experience points.
 
 ### TA5 Digitizer
 
-The TA5 Digitizer is a high-capacity item storage block that digitally stores items drawn from adjacent inventories. It can operate in two modes (pull/push) and handles up to 16 different item types with up to 100,000 items per slot.
+The TA5 Digitizer is a high-capacity item storage block that digitally stores items drawn from adjacent inventories. It can operate in two modes (pull/push) and handles up to 8 different item types with up to 100,000 items per slot.
 
 The Digitizer has a tube connection on the right side and can also be controlled via the Techage network. In pull mode, it draws up to 50 items per cycle from a connected chest. In push mode, it pushes stored items back into adjacent inventories.
 

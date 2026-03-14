@@ -160,7 +160,7 @@ Die Nutzung der Hyperloop Teleport Blöcke benötigt 60 Erfahrungspunkte.
 
 ### TA5 Digitizer
 
-Der TA5 Digitizer ist ein Hochkapazitäts-Itemspeicher, der Items aus benachbarten Inventaren digital speichert. Er kann in zwei Modi betrieben werden (pull/push) und verwaltet bis zu 16 verschiedene Item-Typen mit je bis zu 100.000 Items pro Slot.
+Der TA5 Digitizer ist ein Hochkapazitäts-Itemspeicher, der Items aus benachbarten Inventaren digital speichert. Er kann in zwei Modi betrieben werden (pull/push) und verwaltet bis zu 8 verschiedene Item-Typen mit je bis zu 100.000 Items pro Slot.
 
 Der Digitizer hat einen Tube-Anschluss auf der rechten Seite und kann auch über das Techage-Netzwerk gesteuert werden. Im Pull-Modus zieht er bis zu 50 Items pro Takt aus einer verbundenen Kiste. Im Push-Modus schiebt er gespeicherte Items zurück in benachbarte Inventare.
 

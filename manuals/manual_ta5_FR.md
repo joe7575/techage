@@ -160,7 +160,7 @@ L'utilisation des blocs de téléportation Hyperloop nécessite 60 points d'exp�
 
 ### TA5 Numériseur / TA5 Digitizer
 
-Le TA5 Digitizer est un bloc de stockage d'objets haute capacité qui stocke numériquement les objets prélevés dans des inventaires adjacents. Il peut fonctionner dans deux modes (pull/push) et gère jusqu'à 16 types d'objets différents avec jusqu'à 100 000 objets par slot.
+Le TA5 Digitizer est un bloc de stockage d'objets haute capacité qui stocke numériquement les objets prélevés dans des inventaires adjacents. Il peut fonctionner dans deux modes (pull/push) et gère jusqu'à 8 types d'objets différents avec jusqu'à 100 000 objets par slot.
 
 Le Digitizer dispose d'une connexion tube sur le côté droit et peut également être contrôlé via le réseau Techage. En mode pull, il prélève jusqu'à 50 objets par cycle d'un coffre connecté. En mode push, il restitue les objets stockés dans les inventaires adjacents.
 

@@ -149,7 +149,7 @@ return {
     "O uso dos blocos de teletransporte Hyperloop requer 60 pontos de experiência.\n"..
     "\n",
     "",
-    "O TA5 Digitizer é um bloco de armazenamento de itens de alta capacidade que armazena digitalmente itens retirados de inventários adjacentes. Ele pode operar em dois modos (pull/push) e gerencia até 16 tipos de itens diferentes com até 100.000 itens por slot.\n"..
+    "O TA5 Digitizer é um bloco de armazenamento de itens de alta capacidade que armazena digitalmente itens retirados de inventários adjacentes. Ele pode operar em dois modos (pull/push) e gerencia até 8 tipos de itens diferentes com até 100.000 itens por slot.\n"..
     "\n"..
     "O Digitizer tem uma conexão de tubo no lado direito e também pode ser controlado pela rede Techage. No modo pull\\, ele retira até 50 itens por ciclo de um baú conectado. No modo push\\, ele empurra os itens armazenados de volta para inventários adjacentes.\n"..
     "\n"..
