@@ -873,7 +873,12 @@ function flylib.move_to_other_pos(pos, move2to1)
 	elseif not teleport_mode then
 		nvm.running = multi_move_nodes(pos, meta, nvm, lmove, max_speed, height, move2to1)
 	end
-	nvm.moveBA = nvm.running and not move2to1
+	-- Only update moveBA when a move actually started; otherwise the tracked
+	-- position (A or B) would be corrupted when a redundant command arrives
+	-- (e.g. 'a2b' while blocks are already at B: running==false, would flip moveBA).
+	if nvm.running then
+		nvm.moveBA = not move2to1
+	end
 	return nvm.running
 end
 
