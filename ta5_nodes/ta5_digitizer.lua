@@ -292,7 +292,9 @@ local function on_receive_fields(pos, formname, fields, player)
 		if fields.opmode then
 			nvm.opmode = tonumber(fields.opmode)
 		end
-		State:state_button_event(pos, nvm, fields)
+		if techage.get_expoints(player) >= EX_POINTS then
+			State:state_button_event(pos, nvm, fields)
+		end
 	end
 end
 
