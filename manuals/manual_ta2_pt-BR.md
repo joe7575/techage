@@ -266,6 +266,14 @@ Você pode mover um bloco forceload dentro de um map block como quiser, a posiç
 
 [ta2_forceload|image]
 
+### Visão Geral do Forceload para Admins
+
+Os administradores do servidor podem usar o comando de chat `/forceload_admin` para abrir uma visão geral de todos os blocos forceload no servidor.
+A tabela mostra o proprietário, a posição do bloco e se o proprietário está atualmente online.
+Um duplo clique em uma linha teleporta o admin diretamente para o bloco forceload.
+
+[ta2_forceload|image]
+
 
 
 

@@ -263,3 +263,11 @@ Les Map-Blocks avec leurs coordonnées sont prédéfinis, par exemple (0,0,0) à
 On peut déplacer un bloc Forceload à l'intérieur d'un Map-Block comme on veut, la position du Map-Block reste inchangée.
 
 [ta2_forceload|image]
+
+### Vue d'ensemble Forceload pour les admins
+
+Les administrateurs de serveur peuvent utiliser la commande de chat `/forceload_admin` pour ouvrir une vue d'ensemble de tous les blocs Forceload sur le serveur.
+Le tableau affiche le propriétaire, la position du bloc et si le propriétaire est actuellement en ligne.
+Un double-clic sur une ligne téléporte l'administrateur directement vers le bloc Forceload.
+
+[ta2_forceload|image]

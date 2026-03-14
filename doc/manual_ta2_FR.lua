@@ -31,6 +31,7 @@ return {
     "3,TA2 Collecteur de liquides / Liquid Sampler",
     "3,TA2 Coffre sécurisé / Protected Chest",
     "3,Techage Forceload Block",
+    "3,Vue d'ensemble Forceload pour les admins",
   },
   texts = {
     "Dans TA2\\, il s'agit de construire et de faire fonctionner les premières machines pour le traitement des minerais. Certaines machines doivent être entraînées par des axes d'entraînement. Pour cela\\, vous devez construire une machine à vapeur et la chauffer avec du charbon ou du charbon de bois.\n"..
@@ -238,6 +239,12 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "Les administrateurs de serveur peuvent utiliser la commande de chat '/forceload_admin' pour ouvrir une vue d'ensemble de tous les blocs Forceload sur le serveur.\n"..
+    "Le tableau affiche le propriétaire\\, la position du bloc et si le propriétaire est actuellement en ligne.\n"..
+    "Un double-clic sur une ligne téléporte l'administrateur directement vers le bloc Forceload.\n"..
+    "\n"..
+    "\n"..
+    "\n",
   },
   images = {
     "techage_ta2",
@@ -271,6 +278,7 @@ return {
     "ta2_liquidsampler",
     "ta2_chest",
     "ta2_forceload",
+    "ta2_forceload",
   },
   plans = {
     "",
@@ -292,6 +300,7 @@ return {
     "",
     "",
     "gravelrinser",
+    "",
     "",
     "",
     "",

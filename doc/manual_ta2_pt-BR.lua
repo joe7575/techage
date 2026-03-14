@@ -31,6 +31,7 @@ return {
     "3,TA2 Liquid Sampler",
     "3,TA2 Protected Chest",
     "3,Techage Forceload Block",
+    "3,Visão Geral do Forceload para Admins",
   },
   texts = {
     "TA2 trata-se de construir e operar as primeiras máquinas para processamento de minérios. Algumas máquinas precisam ser acionadas por eixos de transmissão. Para fazer isso\\, você precisa construir uma máquina a vapor e aquecê-la com carvão ou carvão vegetal.\n"..
@@ -236,6 +237,12 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "Os administradores do servidor podem usar o comando de chat '/forceload_admin' para abrir uma visão geral de todos os blocos forceload no servidor.\n"..
+    "A tabela mostra o proprietário\\, a posição do bloco e se o proprietário está atualmente online.\n"..
+    "Um duplo clique em uma linha teleporta o admin diretamente para o bloco forceload.\n"..
+    "\n"..
+    "\n"..
+    "\n",
   },
   images = {
     "techage_ta2",
@@ -269,6 +276,7 @@ return {
     "ta2_liquidsampler",
     "ta2_chest",
     "ta2_forceload",
+    "ta2_forceload",
   },
   plans = {
     "",
@@ -290,6 +298,7 @@ return {
     "",
     "",
     "gravelrinser",
+    "",
     "",
     "",
     "",

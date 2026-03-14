@@ -17,6 +17,34 @@ local M = minetest.get_meta
 local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local S = techage.S
 
+-- Global registry so admins can see all forceload blocks, even for offline players
+local storage = minetest.get_mod_storage()
+
+local function registry_add(pos, owner)
+	storage:set_string(P2S(pos), owner)
+end
+
+local function registry_remove(pos)
+	storage:set_string(P2S(pos), "")
+end
+
+local function registry_get_all()
+	local entries = {}
+	for key, val in pairs(storage:to_table().fields) do
+		if val ~= "" then
+			local pos = minetest.string_to_pos(key)
+			if pos then
+				entries[#entries+1] = {pos = pos, owner = val}
+			end
+		end
+	end
+	table.sort(entries, function(a, b)
+		if a.owner ~= b.owner then return a.owner < b.owner end
+		return P2S(a.pos) < P2S(b.pos)
+	end)
+	return entries
+end
+
 local function calc_area(pos)
 	local xpos = (math.floor(pos.x / 16) * 16)
 	local ypos = (math.floor(pos.y / 16) * 16)
@@ -161,6 +189,7 @@ local function after_place_node(pos, placer, itemstack)
 		chat(placer, "Area ("..num.."/"..max..") "..P2S(pos1).." to "..P2S(pos2).." "..S("loaded").."!")
 		techage.mark_region(placer:get_player_name(), pos1, pos2)
 		M(pos):set_string("owner", placer:get_player_name())
+		registry_add(pos, placer:get_player_name())
 	else
 		chat(placer, S("Area already loaded or max. number of Forceload Blocks reached!"))
 		minetest.remove_node(pos)
@@ -175,6 +204,7 @@ local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	end
 	minetest.forceload_free_block(pos, true)
 	techage.unmark_region(oldmetadata.fields.owner)
+	registry_remove(pos)
 end
 
 local function on_rightclick(pos, node, clicker, itemstack, pointed_thing)
@@ -289,6 +319,7 @@ end
 
 minetest.register_on_joinplayer(function(player)
 	local lPos = {}
+	local name = player:get_player_name()
 	for _,pos in ipairs(get_pos_list(player)) do
 		local node = techage.get_node_lvm(pos)
 		if node.name == "techage:forceload" or node.name == "techage:forceloadtile" then
@@ -296,6 +327,10 @@ minetest.register_on_joinplayer(function(player)
 				minetest.after(60, postload_area, pos)
 			end
 			lPos[#lPos+1] = pos
+			-- Populate registry for blocks placed before the registry existed
+			if storage:get_string(P2S(pos)) == "" then
+				registry_add(pos, name)
+			end
 		end
 	end
 	set_pos_list(player, lPos)
@@ -307,6 +342,76 @@ minetest.register_on_leaveplayer(function(player)
 	end
 end)
 
+
+local function admin_formspec()
+	local entries = registry_get_all()
+	local engine_limit = tonumber(minetest.settings:get("max_forceloaded_blocks")) or 16
+	local per_player  = techage.max_num_forceload_blocks
+	local total       = #entries
+
+	local warn
+	if total >= engine_limit then
+		warn = "label[0,0.5;\27(c@#FF4444)WARNING: Engine limit reached (" ..
+			total .. "/" .. engine_limit .. ")! No new forceload blocks can be placed!]"
+	elseif total >= math.floor(engine_limit * 0.8) then
+		warn = "label[0,0.5;\27(c@#FFA500)Notice: " ..
+			total .. " of " .. engine_limit .. " engine-level slots in use (80 %+ full).]"
+	else
+		warn = "label[0,0.5;Engine limit: " .. engine_limit ..
+			"   Per-player limit: " .. per_player .. "]"
+	end
+
+	local tRes = {}
+	tRes[#tRes+1] = "#"
+	tRes[#tRes+1] = "Owner"
+	tRes[#tRes+1] = "Position"
+	tRes[#tRes+1] = "Online"
+	for idx, e in ipairs(entries) do
+		local online = minetest.get_player_by_name(e.owner) ~= nil
+		tRes[#tRes+1] = idx
+		tRes[#tRes+1] = minetest.formspec_escape(e.owner)
+		tRes[#tRes+1] = minetest.formspec_escape(P2S(e.pos))
+		tRes[#tRes+1] = online and "yes" or "no"
+	end
+	return "size[9,9.5]" ..
+		default.gui_bg ..
+		default.gui_bg_img ..
+		default.gui_slots ..
+		"label[0,0;Forceload Blocks: " .. total .. " total | Engine limit: " .. engine_limit ..
+			" | Per-player limit: " .. per_player .. "]" ..
+		warn ..
+		"tablecolumns[text,width=1.8;text,width=10;text,width=10;text,width=5]" ..
+		"table[0,1.1;8.8,8.4;flb_admin;" .. table.concat(tRes, ",") .. ";1]"
+end
+
+minetest.register_on_player_receive_fields(function(player, formname, fields)
+	if formname ~= "techage:forceload_admin" then return end
+	if fields.flb_admin then
+		local event = minetest.explode_table_event(fields.flb_admin)
+		if event.type == "DCL" then
+			local idx = event.row - 1  -- row 1 is the header
+			if idx >= 1 and minetest.check_player_privs(player:get_player_name(), "server") then
+				local entries = registry_get_all()
+				local entry = entries[idx]
+				if entry then
+					player:set_pos(entry.pos)
+				end
+			end
+		end
+	end
+end)
+
+minetest.register_chatcommand("forceload_admin", {
+	params = "",
+	description = "[Admin] Show all forceload blocks on the server; double-click to teleport",
+	privs = {server = true},
+	func = function(name, param)
+		local player = minetest.get_player_by_name(name)
+		if player then
+			minetest.show_formspec(name, "techage:forceload_admin", admin_formspec())
+		end
+	end,
+})
 
 minetest.register_chatcommand("forceload", {
 	params = "",

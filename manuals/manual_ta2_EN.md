@@ -293,3 +293,11 @@ You can move a forceload block within a map block as you like, the position of t
 
 [ta2_forceload|image]
 
+### Forceload Admin Overview
+
+Server administrators can use the chat command `/forceload_admin` to open an overview of all forceload blocks on the server.
+The table shows the owner, the block position, and whether the owner is currently online.
+A double-click on a row teleports the admin directly to that forceload block.
+
+[ta2_forceload|image]
+

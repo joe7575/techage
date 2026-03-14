@@ -31,6 +31,7 @@ return {
     "3,TA2 Flüssigkeitensammler / Liquid Sampler",
     "3,TA2 Gesicherte Kiste / Protected Chest",
     "3,Techage Forceload Block",
+    "3,Forceload Admin-Übersicht",
   },
   texts = {
     "In TA2 geht es darum\\, erste Maschinen  zur Verarbeitung von Erzen zu bauen und zu betreiben. Einige Maschinen müssen dazu über Antriebsachsen angetrieben werden. Dazu musst du eine Dampfmaschine bauen und diese mit Kohle oder Holzkohle anheizen.\n"..
@@ -238,6 +239,12 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "Server-Administratoren können mit dem Chat-Befehl '/forceload_admin' eine Übersicht aller Forceload-Blöcke auf dem Server öffnen.\n"..
+    "Die Tabelle zeigt den Besitzer\\, die Block-Position und ob der Besitzer aktuell online ist.\n"..
+    "Ein Doppelklick auf eine Zeile teleportiert den Admin direkt zum Forceload-Block.\n"..
+    "\n"..
+    "\n"..
+    "\n",
   },
   images = {
     "techage_ta2",
@@ -271,6 +278,7 @@ return {
     "ta2_liquidsampler",
     "ta2_chest",
     "ta2_forceload",
+    "ta2_forceload",
   },
   plans = {
     "",
@@ -292,6 +300,7 @@ return {
     "",
     "",
     "gravelrinser",
+    "",
     "",
     "",
     "",

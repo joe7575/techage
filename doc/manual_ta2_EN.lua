@@ -31,6 +31,7 @@ return {
     "3,TA2 Liquid Sampler",
     "3,TA2 Protected Chest",
     "3,Techage Forceload Block",
+    "3,Forceload Admin Overview",
   },
   texts = {
     "TA2 is about building and operating the first machines for processing ores. Some machines have to be driven via drive axles. To do this\\, you need to build a steam engine and heat it with coal or charcoal.\n"..
@@ -238,6 +239,12 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "Server administrators can use the chat command '/forceload_admin' to open an overview of all forceload blocks on the server.\n"..
+    "The table shows the owner\\, the block position\\, and whether the owner is currently online.\n"..
+    "A double-click on a row teleports the admin directly to that forceload block.\n"..
+    "\n"..
+    "\n"..
+    "\n",
   },
   images = {
     "techage_ta2",
@@ -271,6 +278,7 @@ return {
     "ta2_liquidsampler",
     "ta2_chest",
     "ta2_forceload",
+    "ta2_forceload",
   },
   plans = {
     "",
@@ -292,6 +300,7 @@ return {
     "",
     "",
     "gravelrinser",
+    "",
     "",
     "",
     "",

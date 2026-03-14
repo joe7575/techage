@@ -293,3 +293,11 @@ Man kann einen Forceload-Block innerhalb eines Map-Blockes verschieben wie man w
 
 [ta2_forceload|image]
 
+### Forceload Admin-Übersicht
+
+Server-Administratoren können mit dem Chat-Befehl `/forceload_admin` eine Übersicht aller Forceload-Blöcke auf dem Server öffnen.
+Die Tabelle zeigt den Besitzer, die Block-Position und ob der Besitzer aktuell online ist.
+Ein Doppelklick auf eine Zeile teleportiert den Admin direkt zum Forceload-Block.
+
+[ta2_forceload|image]
+
