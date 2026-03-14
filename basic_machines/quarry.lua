@@ -26,6 +26,35 @@ local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm
 
 local S = techage.S
 
+-- Per-player active quarry registry (mod_storage key: "q_<pos>" → owner)
+-- Uses the shared techage.storage with "q_" prefix to avoid collisions
+local function quarry_reg_add(pos, owner)
+	techage.storage:set_string("q_" .. P2S(pos), owner)
+end
+
+local function quarry_reg_remove(pos)
+	techage.storage:set_string("q_" .. P2S(pos), "")
+end
+
+local function quarry_count_running(owner)
+	local count = 0
+	for key, val in pairs(techage.storage:to_table().fields) do
+		if val == owner and key:sub(1, 2) == "q_" then
+			local pos = minetest.string_to_pos(key:sub(3))
+			if pos then
+				local nvm = techage.get_nvm(pos)
+				if nvm.techage_state == techage.RUNNING then
+					count = count + 1
+				else
+					-- Stale entry (e.g. after server restart), clean up
+					techage.storage:set_string(key, "")
+				end
+			end
+		end
+	end
+	return count
+end
+
 local CYCLE_TIME = 4
 local STANDBY_TICKS = 4
 local COUNTDOWN_TICKS = 4
@@ -111,8 +140,10 @@ local function on_node_state_change(pos, old_state, new_state)
 	techage.unmark_position(owner)
 	if new_state == techage.RUNNING then
 		play_sound(pos)
+		quarry_reg_add(pos, owner)
 	else
 		stop_sound(pos)
+		quarry_reg_remove(pos)
 	end
 end
 
@@ -322,6 +353,19 @@ local function on_receive_fields(pos, formname, fields, player)
 		end
 	end
 
+	-- Per-player active quarry limit check (only on start attempts)
+	if fields.state_button ~= nil and techage.max_active_quarries > 0 then
+		local state = nvm.techage_state or techage.STOPPED
+		if state == techage.STOPPED or state == techage.STANDBY or state == techage.BLOCKED then
+			local owner = M(pos):get_string("owner")
+			if quarry_count_running(owner) >= techage.max_active_quarries then
+				minetest.chat_send_player(player:get_player_name(),
+					"[Techage] " .. S("Max. number of active quarries reached!") ..
+					" (" .. techage.max_active_quarries .. ")")
+				return
+			end
+		end
+	end
 	CRD(pos).State:state_button_event(pos, nvm, fields)
 end
 
@@ -382,6 +426,16 @@ local tubing = {
 		if topic == "depth" then
 			local nvm = techage.get_nvm(pos)
 			return nvm.level or 0
+		elseif topic == "on" and techage.max_active_quarries > 0 then
+			local nvm = techage.get_nvm(pos)
+			local state = nvm.techage_state or techage.STOPPED
+			if state ~= techage.RUNNING then
+				local owner = M(pos):get_string("owner")
+				if quarry_count_running(owner) >= techage.max_active_quarries then
+					return "limit"
+				end
+			end
+			return CRD(pos).State:on_receive_message(pos, topic, payload)
 		else
 			return CRD(pos).State:on_receive_message(pos, topic, payload)
 		end

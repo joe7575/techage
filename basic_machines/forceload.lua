@@ -18,21 +18,21 @@ local P2S = function(pos) if pos then return minetest.pos_to_string(pos) end end
 local S = techage.S
 
 -- Global registry so admins can see all forceload blocks, even for offline players
-local storage = minetest.get_mod_storage()
-
+-- Keys use "flb_<pos>" prefix on techage.storage to avoid collisions with
+-- other users of the shared mod_storage (numbers, nodedata, etc.)
 local function registry_add(pos, owner)
-	storage:set_string(P2S(pos), owner)
+	techage.storage:set_string("flb_" .. P2S(pos), owner)
 end
 
 local function registry_remove(pos)
-	storage:set_string(P2S(pos), "")
+	techage.storage:set_string("flb_" .. P2S(pos), "")
 end
 
 local function registry_get_all()
 	local entries = {}
-	for key, val in pairs(storage:to_table().fields) do
-		if val ~= "" then
-			local pos = minetest.string_to_pos(key)
+	for key, val in pairs(techage.storage:to_table().fields) do
+		if val ~= "" and key:sub(1, 4) == "flb_" then
+			local pos = minetest.string_to_pos(key:sub(5))
 			if pos then
 				entries[#entries+1] = {pos = pos, owner = val}
 			end
@@ -328,7 +328,7 @@ minetest.register_on_joinplayer(function(player)
 			end
 			lPos[#lPos+1] = pos
 			-- Populate registry for blocks placed before the registry existed
-			if storage:get_string(P2S(pos)) == "" then
+			if techage.storage:get_string("flb_" .. P2S(pos)) == "" then
 				registry_add(pos, name)
 			end
 		end

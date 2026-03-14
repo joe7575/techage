@@ -96,6 +96,7 @@ Start level=Startebene
 Digging depth=Grabungstiefe
 Hole size=Lochgröße
 inventory full=Inventar ist voll
+Max. number of active quarries reached!=Max. Anzahl aktiver Steinbrecher erreicht!
 
 ##[ basic_machines/quarry.lua ]##
 ##[ basic_machines/waterremover.lua ]##

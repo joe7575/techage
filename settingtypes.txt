@@ -1,6 +1,9 @@
 # Maximim number of Forceload Blocks per player (default 20)
 techage_max_num_forceload_blocks (Max. number of Forceload Blocks) int 20
 
+# Maximum number of simultaneously active Quarries per player (0 = no limit, default 0)
+techage_max_active_quarries (Max. number of active Quarries per player, 0 = no limit) int 0
+
 # Rarity factor to find ores when sieving with the Gravel Sieve
 # 1.0 is according to the mapgen generator 
 # 2.0 means half as many ores as result

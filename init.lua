@@ -40,6 +40,7 @@ techage.BLEND = minetest.features.use_texture_alpha_string_modes and "blend" or 
 techage.NodeDef = {}  -- node registration info
 
 techage.max_num_forceload_blocks = tonumber(minetest.settings:get("techage_max_num_forceload_blocks")) or 24
+techage.max_active_quarries = tonumber(minetest.settings:get("techage_max_active_quarries")) or 0
 
 techage.ore_rarity = tonumber(minetest.settings:get("techage_ore_rarity")) or 1
 techage.basalt_sieve_chance = tonumber(minetest.settings:get("techage_basalt_sieve_chance")) or 40
