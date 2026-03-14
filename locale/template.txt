@@ -1474,3 +1474,4 @@ No configured item=
 Invalid item type=
 Item not storable (not stackable, has metadata, or is worn)=
 [Digitizer] Storage not empty! Empty the storage first.=
+[Digitizer] Stop the Digitizer first!=

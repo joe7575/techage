@@ -1483,4 +1483,5 @@ no configured item=kein Item konfiguriert
 No configured item=Kein Item konfiguriert
 Invalid item type=Ungültiger Item-Typ
 Item not storable (not stackable, has metadata, or is worn)=Item nicht speicherbar (nicht stapelbar, hat Metadaten oder ist beschädigt)
-[Digitizer] Storage not empty! Empty the storage first.=[Digitizer] Speicher nicht leer! Bitte zuerst den Speicher leeren.
+[Digitizer] Storage not empty! Empty the storage first.=[Digitizer] Speicher nicht leer! Speicher zuerst leeren.
+[Digitizer] Stop the Digitizer first!=[Digitizer] Digitizer zuerst stoppen.[Digitizer] Speicher nicht leer! Bitte zuerst den Speicher leeren.

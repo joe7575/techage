@@ -540,6 +540,15 @@ minetest.register_node("techage:ta5_digitizer_act", {
 		return 0
 	end,
 
+	ta_can_remove = function(pos, digger)
+		if minetest.is_protected(pos, digger:get_player_name()) then
+			return false
+		end
+		minetest.chat_send_player(digger:get_player_name(),
+			S("[Digitizer] Stop the Digitizer first!"))
+		return false
+	end,
+
 	paramtype2 = "facedir", -- important!
 	on_rotate = screwdriver.disallow, -- important!
 	is_ground_content = false,
