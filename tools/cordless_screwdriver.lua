@@ -82,7 +82,7 @@ local function remove_node(pos, digger)
 	end
 
 	if ndef and ndef.ta_preserve_nodedata then
-		local s = ndef.ta_preserve_nodedata(pos, node)
+		local s, label = ndef.ta_preserve_nodedata(pos, node, digger)
 		imeta:set_string("node_data", s)
 		minetest.remove_node(pos)
 		if ndef.after_dig_node then
@@ -91,9 +91,17 @@ local function remove_node(pos, digger)
 		if number ~= "" then
 			techage.post_remove_node(pos)
 			imeta:set_string("node_number", number)
-			imeta:set_string("description", ndef.description .. " : " .. number)
+			local desc = ndef.description .. " : " .. number
+			if label and label ~= "" and label ~= "empty" then
+				desc = desc .. "\n[" .. label .. "]"
+			end
+			imeta:set_string("description", desc)
 		else
-			imeta:set_string("description", ndef.description .. " (preserved)")
+			local desc = ndef.description .. " (preserved)"
+			if label and label ~= "" and label ~= "empty" then
+				desc = desc .. "\n[" .. label .. "]"
+			end
+			imeta:set_string("description", desc)
 		end
 		return item
 	elseif number ~= "" and ndef and ndef.after_dig_node then
@@ -119,7 +127,7 @@ local function place_node(pos, item, placer, pointed_thing)
 		end
 		minetest.add_node(pos, {name = name, param2 = param2})
 		local s = imeta:get_string("node_data")
-		ndef.ta_restore_nodedata(pos, s)
+		ndef.ta_restore_nodedata(pos, s, placer)
 		return true
 	elseif number ~= "" and ndef and ndef.after_place_node then
 		techage.pre_add_node(pos, number)

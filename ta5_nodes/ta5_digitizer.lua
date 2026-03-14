@@ -52,9 +52,22 @@ local function is_valid_item(stack)
 end
 
 local function store_items(pos, mem, force)
-	if force then
+	if force and mem.items ~= nil then  -- nil guard: never overwrite valid meta with nil
 		M(pos):set_string("items", minetest.serialize(mem.items))
 	end
+end
+
+local function items_summary(items_tbl)
+	if not items_tbl then return "empty" end
+	local parts = {}
+	for i = 1, STORAGE_SLOTS do
+		local slot = items_tbl[i]
+		if slot and slot.name ~= "" and slot.count > 0 then
+			parts[#parts + 1] = slot.name .. " x" .. slot.count
+		end
+	end
+	if #parts == 0 then return "empty" end
+	return table.concat(parts, ", ")
 end
 
 local function restore_items(pos, mem)
@@ -422,15 +435,30 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 
 	on_timer = on_timer,
 	on_receive_fields = on_receive_fields,
-	ta_preserve_nodedata = function(pos)
-		-- Flush in-memory items to node meta before packing,
-		-- so pack_meta captures them reliably.
+	ta_preserve_nodedata = function(pos, node, digger)
+		-- Load items from meta into mem first (handles cold mem after server restart),
+		-- then flush to meta so pack_meta captures the current state reliably.
 		local mem = techage.get_mem(pos)
+		restore_items(pos, mem)
 		store_items(pos, mem, true)
-		return techage.preserve_nodedata(pos)
+		local number = M(pos):get_string("node_number")
+		local player_name = digger and digger:get_player_name() or "unknown"
+		local summary = items_summary(mem.items)
+		minetest.log("action", "[techage] TA5 Digitizer #" .. number ..
+			" packed by " .. player_name ..
+			" at " .. P2S(pos) .. " | " .. summary)
+		return techage.preserve_nodedata(pos), summary
 	end,
-	ta_restore_nodedata = function(pos, s)
+	ta_restore_nodedata = function(pos, s, placer)
 		techage.restore_nodedata(pos, s)
+		-- Log restored contents directly from freshly-restored meta
+		local items_tbl = minetest.deserialize(M(pos):get_string("items"))
+		local number = M(pos):get_string("node_number")
+		local player_name = placer and placer:get_player_name() or "unknown"
+		local summary = items_summary(items_tbl)
+		minetest.log("action", "[techage] TA5 Digitizer #" .. number ..
+			" unpacked by " .. player_name ..
+			" at " .. P2S(pos) .. " | " .. summary)
 		local node = minetest.get_node(pos)
 		local tube_dir = techage.side_to_outdir("R", node.param2)
 		local meta = M(pos)
