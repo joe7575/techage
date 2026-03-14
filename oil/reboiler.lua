@@ -28,15 +28,19 @@ local PWR_NEEDED = 14
 
 local function play_sound(pos)
 	local mem = techage.get_mem(pos)
-	if not mem.handle or mem.handle == -1 then
-		mem.handle = minetest.sound_play("techage_reboiler", {
-			pos = pos,
-			gain = 1,
-			max_hear_distance = 15,
-			loop = true})
-		if mem.handle == -1 then
-			minetest.after(1, play_sound, pos)
-		end
+	-- Stop any lingering handle first, so newly arrived clients get the fresh sound
+	if mem.handle then
+		minetest.sound_stop(mem.handle)
+		mem.handle = nil
+	end
+	mem.handle = minetest.sound_play("techage_reboiler", {
+		pos = pos,
+		gain = 1,
+		max_hear_distance = 15,
+		loop = true})
+	if mem.handle == -1 then
+		mem.handle = nil
+		minetest.after(1, play_sound, pos)
 	end
 end
 
@@ -44,7 +48,7 @@ local function stop_sound(pos)
 	local mem = techage.get_mem(pos)
 	if mem.handle then
 		minetest.sound_stop(mem.handle)
-		mem.handle = nil
+		-- Keep handle: on_node_load can re-send stop to clients that came back in range
 	end
 end
 
@@ -256,7 +260,9 @@ power.register_nodes({"techage:ta3_reboiler", "techage:ta3_reboiler_on"}, Cable,
 techage.register_node({"techage:ta3_reboiler", "techage:ta3_reboiler_on"}, {
 	on_node_load = function(pos, node)
 		if node.name == "techage:ta3_reboiler_on" then
-			play_sound(pos)
+			play_sound(pos)  -- stops lingering handle and restarts fresh
+		else
+			stop_sound(pos)  -- re-send stop to clients that came back in range
 		end
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end,
