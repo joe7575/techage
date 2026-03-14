@@ -29,7 +29,7 @@ local NUM_ITEMS = 50
 local STORAGE_SLOTS = 16
 local STORAGE_SIZE  = 100000
 local PWR_NEEDED = 24
-local EX_POINTS = 50
+local EX_POINTS = techage.ta5_digitizer_expoints
 local DESC = S("TA5 Digitizer")
 
 -- items: 
@@ -292,7 +292,7 @@ local function on_receive_fields(pos, formname, fields, player)
 		if fields.opmode then
 			nvm.opmode = tonumber(fields.opmode)
 		end
-		if techage.get_expoints(player) >= EX_POINTS then
+		if EX_POINTS == 0 or techage.get_expoints(player) >= EX_POINTS then
 			State:state_button_event(pos, nvm, fields)
 		end
 	end
