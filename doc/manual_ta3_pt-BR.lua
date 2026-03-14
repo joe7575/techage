@@ -761,7 +761,7 @@ return {
     "  - Botão esquerdo: remover um bloco\n"..
     "  - Botão direito: configurar um bloco\n"..
     "\n"..
-    "O bloco que foi removido anteriormente com a ferramenta de montagem e que será colocado novamente deve estar no extremo esquerdo do inventário do jogador.\n"..
+    "O bloco que foi removido anteriormente com a Chave de Fenda sem fio e que será colocado novamente deve estar no slot 1 da barra de atalhos (o slot mais à esquerda da hotbar).\n"..
     "\n"..
     "\n"..
     "\n",

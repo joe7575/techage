@@ -754,7 +754,7 @@ return {
     "  - Bouton gauche : Retirer un bloc\n"..
     "  - Bouton droit : Placer un bloc\n"..
     "\n"..
-    "Le bloc qui a été précédemment retiré avec l'outil d'assemblage et qui doit être replacé doit être tout à gauche de l'inventaire du joueur.\n"..
+    "Le bloc qui a été précédemment retiré avec le tournevis sans fil et qui doit être replacé doit se trouver dans l'emplacement 1 de la barre de raccourcis (l'emplacement le plus à gauche).\n"..
     "\n"..
     "\n"..
     "\n",

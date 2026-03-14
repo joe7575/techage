@@ -791,7 +791,7 @@ return {
     "  - Left button: Remove a block\n"..
     "  - Right button: Set a block\n"..
     "\n"..
-    "The block that was previously removed with the Cordless Screwdriver and is to be placed again must be on the far left of the player inventory.\n"..
+    "The block that was previously removed with the Cordless Screwdriver and is to be placed again must be in hotbar slot 1 (the leftmost slot of the hotbar).\n"..
     "\n"..
     "\n"..
     "\n",

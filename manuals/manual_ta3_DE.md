@@ -949,6 +949,6 @@ Das TechAge Akkuschrauber dient zum Entfernen und wieder Setzen von Techage Blö
 - Linke Taste: Entfernen eines Blocks
 - Rechte Taste: Setzen eines Blocks
 
-Der Block, der zuvor mit dem Akkuschrauber entfernt wurde und wieder gesetzt werden soll, muss sich im Spieler-Inventar ganz links befinden.
+Der Block, der zuvor mit dem Akkuschrauber entfernt wurde und wieder gesetzt werden soll, muss sich in Hotbar-Slot 1 (dem ganz linken Slot der Hotbar) befinden.
 
 [techage:cordless_screwdriver|image]

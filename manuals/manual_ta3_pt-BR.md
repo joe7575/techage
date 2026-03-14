@@ -859,7 +859,7 @@ A TechAge Cordless Screwdriver é usada para remover e reposicionar blocos Techa
 - Botão esquerdo: remover um bloco
 - Botão direito: configurar um bloco
 
-O bloco que foi removido anteriormente com a ferramenta de montagem e que será colocado novamente deve estar no extremo esquerdo do inventário do jogador.
+O bloco que foi removido anteriormente com a Chave de Fenda sem fio e que será colocado novamente deve estar no slot 1 da barra de atalhos (o slot mais à esquerda da hotbar).
 
 [techage:cordless_screwdriver|image]
 

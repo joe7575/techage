@@ -945,7 +945,7 @@ The TechAge Cordless Screwdriver is used to remove and reposition Techage blocks
 - Left button: Remove a block
 - Right button: Set a block
 
-The block that was previously removed with the Cordless Screwdriver and is to be placed again must be on the far left of the player inventory.
+The block that was previously removed with the Cordless Screwdriver and is to be placed again must be in hotbar slot 1 (the leftmost slot of the hotbar).
 
 [techage:cordless_screwdriver|image]
 

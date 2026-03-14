@@ -792,7 +792,7 @@ return {
     "  - Linke Taste: Entfernen eines Blocks\n"..
     "  - Rechte Taste: Setzen eines Blocks\n"..
     "\n"..
-    "Der Block\\, der zuvor mit dem Akkuschrauber entfernt wurde und wieder gesetzt werden soll\\, muss sich im Spieler-Inventar ganz links befinden.\n"..
+    "Der Block\\, der zuvor mit dem Akkuschrauber entfernt wurde und wieder gesetzt werden soll\\, muss sich in Hotbar-Slot 1 (dem ganz linken Slot der Hotbar) befinden.\n"..
     "\n"..
     "\n"..
     "\n",
