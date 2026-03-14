@@ -1459,3 +1459,13 @@ TA4 Rotor Blade=
 
 ##[ wind_turbine/signallamp.lua ]##
 TA4 Wind Turbine Signal Lamp=
+
+##[ ta5_nodes/ta5_digitizer.lua ]##
+TA5 Digitizer=
+TA5 Control Unit=
+Control,Storage=
+Configured@nItem=
+no configured item=
+No configured item=
+Invalid item type=
+Item not storable (not stackable, has metadata, or is worn)=

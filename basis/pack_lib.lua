@@ -89,7 +89,7 @@ function techage.restore_nodedata(pos, s)
 end
 
 -- Don't allow placing if node in player inventory has metadata
-function techage.cordlesss_crewdriver_only(pos, placer, itemstack)
+function techage.cordless_screwdriver_only(pos, placer, itemstack)
 	local meta = itemstack:get_meta()
 	if placer and meta and meta:to_table() then
 		local tbl = meta:to_table()

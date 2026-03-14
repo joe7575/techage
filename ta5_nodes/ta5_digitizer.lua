@@ -25,9 +25,9 @@ local mConf = dofile(MP .. "/basis/conf_inv.lua")
 local CYCLE_TIME = 2
 local STANDBY_TICKS = 8
 local COUNTDOWN_TICKS = 2
-local NUM_ITEMS = 24
+local NUM_ITEMS = 50
 local STORAGE_SLOTS = 16
-local STORAGE_SIZE  = 500 -- 100000
+local STORAGE_SIZE  = 100000
 local PWR_NEEDED = 24
 local EX_POINTS = 50
 local DESC = S("TA5 Digitizer")
@@ -39,6 +39,17 @@ local DESC = S("TA5 Digitizer")
 --  ....
 -- 	[STORAGE_SLOTS] = {name = "default:diamond", count = 1},
 -- }
+
+-- Returns true if the item can be stored (stackable, no metadata, no wear)
+local function is_valid_item(stack)
+	if not stack or stack:is_empty() then return false end
+	local ndef = minetest.registered_items[stack:get_name()]
+	if not ndef then return false end
+	if (ndef.stack_max or 1) <= 1 then return false end
+	if stack:get_wear() > 0 then return false end
+	if next(stack:get_meta():to_table().fields) ~= nil then return false end
+	return true
+end
 
 local function store_items(pos, mem, force)
 	if force then
@@ -297,6 +308,11 @@ local function digitize(pos, nvm, mem)
 	if idx then
 		local taken = techage.pull_items(pos, tube_dir, num_items, item_name)
 		if taken and taken:get_count() > 0 then
+			if not is_valid_item(taken) then
+				techage.push_items(pos, tube_dir, taken)
+				State:fault(pos, nvm, S("Invalid item type"))
+				return false
+			end
 			mem.items[idx].count = mem.items[idx].count + taken:get_count()
 			State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 			return true
@@ -373,7 +389,7 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 
 	after_place_node = function(pos, placer, itemstack, pointed_thing)
 		-- Don't allow placing if itemstack has metadata
-		if techage.cordlesss_crewdriver_only(pos, placer, itemstack) then
+			if techage.cordless_screwdriver_only(pos, placer, itemstack) then
 			return true
 		end
 
@@ -419,6 +435,11 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 		if minetest.is_protected(pos, player:get_player_name()) then
 			return 0
 		end
+		if not is_valid_item(stack) then
+			minetest.chat_send_player(player:get_player_name(),
+				S("Item not storable (not stackable, has metadata, or is worn)"))
+			return 0
+		end
 		return mConf.allow_conf_inv_put(pos, listname, index, stack, player)
 	end,
 
@@ -433,11 +454,8 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 		if minetest.is_protected(pos, digger:get_player_name()) then
 			return false
 		end
-		local nvm = techage.get_nvm(pos)
-		if nvm.techage_state == techage.STOPPED then
-			return true
-		end
-		return false
+		local mem = techage.get_mem(pos)
+		return is_empty(pos, mem)
 	end,
 
 	can_dig = function(pos, player)

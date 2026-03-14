@@ -1469,3 +1469,13 @@ Test Generator=Test Generator
 Test Storage=Test Speicher
 TA3 Detector=TA3 Detektor
 output: Empty @1 or @2 with @3 expected=Leeres/Leerer @1 oder @2 mit @3 erwartet
+
+##[ ta5_nodes/ta5_digitizer.lua ]##
+TA5 Digitizer=TA5 Digitizer
+TA5 Control Unit=TA5 Steuereinheit
+Control,Storage=Steuerung,Speicher
+Configured@nItem=Konfiguriertes@nItem
+no configured item=kein Item konfiguriert
+No configured item=Kein Item konfiguriert
+Invalid item type=Ungültiger Item-Typ
+Item not storable (not stackable, has metadata, or is worn)=Item nicht speicherbar (nicht stapelbar, hat Metadaten oder ist beschädigt)
