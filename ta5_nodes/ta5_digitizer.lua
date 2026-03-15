@@ -722,11 +722,25 @@ minetest.register_craftitem("techage:ta5_controlunit", {
 	inventory_image = "techage_controlunit.png",
 })
 
+minetest.register_craftitem("techage:ta5_ssd", {
+	description = S("TA5 SSD"),
+	inventory_image = "techage_ramchip.png^[colorize:#00dd88:80",
+})
+
+minetest.register_craft({
+	output = "techage:ta5_ssd",
+	recipe = {
+		{"techage:ta4_ramchip", "techage:ta4_ramchip", "techage:ta4_ramchip"},
+		{"techage:ta4_ramchip", "techage:ta4_silicon_wafer", "techage:ta4_ramchip"},
+		{"techage:ta4_ramchip", "techage:ta4_ramchip", "techage:ta4_ramchip"},
+	},
+})
+
 minetest.register_craft({
 	output = "techage:ta5_digitizer_pas",
 	recipe = {
 		{"techage:aluminum", "dye:red", "techage:ta4_carbon_fiber"},
 		{"techage:electric_cableS", "techage:ta4_pusher_pas", "techage:ta4_tubeS"},
-		{"techage:ta4_ramchip", "basic_materials:gear_steel", "techage:ta5_controlunit"},
+		{"techage:ta5_ssd", "basic_materials:gear_steel", "techage:ta5_controlunit"},
 	},
 })

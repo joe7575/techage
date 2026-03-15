@@ -1477,6 +1477,7 @@ output: Empty @1 or @2 with @3 expected=Leeres/Leerer @1 oder @2 mit @3 erwartet
 ##[ ta5_nodes/ta5_digitizer.lua ]##
 TA5 Digitizer=TA5 Digitizer
 TA5 Control Unit=TA5 Steuereinheit
+TA5 SSD=TA5 SSD
 Control,Storage=Steuerung,Speicher
 Configured@nItem=Konfiguriertes@nItem
 no configured item=kein Item konfiguriert

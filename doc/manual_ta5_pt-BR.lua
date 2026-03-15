@@ -23,6 +23,7 @@ return {
     "2,TA5 Digitalizador / TA5 Digitizer",
     "3,TA5 Digitalizador / TA5 Digitizer",
     "3,TA5 Unidade de Controle / TA5 Control Unit",
+    "3,TA5 SSD",
     "2,Mais blocos/itens TA5",
     "3,Contêiner TA5 (planejado)",
     "3,Chip TA5 AI",
@@ -189,6 +190,10 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "O TA5 SSD é um componente intermediário necessário para fabricar o TA5 Digitizer. É fabricado a partir de 8 chips de RAM TA4 ao redor de um Wafer de Silício TA4 na grade de fabricação.\n"..
+    "\n"..
+    "\n"..
+    "\n",
     "",
     "O contêiner TA5 permite que os sistemas Techage sejam embalados e desembalados em outro local.\n"..
     "\n"..
@@ -227,6 +232,7 @@ return {
     "",
     "ta5_digitizer",
     "ta5_controlunit",
+    "ta5_ssd",
     "",
     "",
     "ta5_aichip",

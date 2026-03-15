@@ -23,6 +23,7 @@ return {
     "2,TA5 Digitizer",
     "3,TA5 Digitizer",
     "3,TA5 Control Unit",
+    "3,TA5 SSD",
     "2,More TA5 Blocks/Items",
     "3,TA5 Container (planned)",
     "3,TA5 AI Chip",
@@ -189,6 +190,10 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "The TA5 SSD is an intermediate component required to craft the TA5 Digitizer. It is crafted from 8 TA4 RAM Chips surrounding a TA4 Silicon Wafer in the crafting grid.\n"..
+    "\n"..
+    "\n"..
+    "\n",
     "",
     "The TA5 container allows Techage systems to be packed and unpacked at another location.\n"..
     "\n"..
@@ -227,6 +232,7 @@ return {
     "",
     "ta5_digitizer",
     "ta5_controlunit",
+    "ta5_ssd",
     "",
     "",
     "ta5_aichip",

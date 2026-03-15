@@ -1467,6 +1467,7 @@ TA4 Wind Turbine Signal Lamp=
 ##[ ta5_nodes/ta5_digitizer.lua ]##
 TA5 Digitizer=
 TA5 Control Unit=
+TA5 SSD=
 Control,Storage=
 Configured@nItem=
 no configured item=

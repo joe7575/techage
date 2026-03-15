@@ -202,6 +202,12 @@ The TA5 Control Unit is required to craft the TA5 Digitizer. It can only be manu
 
 [ta5_controlunit|image]
 
+### TA5 SSD
+
+The TA5 SSD is an intermediate component required to craft the TA5 Digitizer. It is crafted from 8 TA4 RAM Chips surrounding a TA4 Silicon Wafer in the crafting grid.
+
+[ta5_ssd|image]
+
 ## More TA5 Blocks/Items
 
 ### TA5 Container (planned)

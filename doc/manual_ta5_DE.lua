@@ -24,6 +24,7 @@ return {
     "2,TA5 Digitizer",
     "3,TA5 Digitizer",
     "3,TA5 Steuereinheit",
+    "3,TA5 SSD",
     "2,Weitere TA5 Blöcke/Items",
     "3,TA5 Container (geplant)",
     "3,TA5 KI Chip / TA5 AI Chip",
@@ -192,6 +193,10 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "Die TA5 SSD ist ein Zwischenprodukt, das für die Herstellung des TA5 Digitizers benötigt wird. Sie wird aus 8 TA4 RAM-Chips, die einen TA4 Silizium-Wafer in der Werkbank umgeben, hergestellt.\n"..
+    "\n"..
+    "\n"..
+    "\n",
     "",
     "Der TA5 Container erlaubt Techage Anlagen ein- und an einer anderen Stelle wieder auszupacken.\n"..
     "\n"..
@@ -231,6 +236,7 @@ return {
     "",
     "ta5_digitizer",
     "ta5_controlunit",
+    "ta5_ssd",
     "",
     "",
     "ta5_aichip",
