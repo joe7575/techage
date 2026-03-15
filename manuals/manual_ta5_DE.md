@@ -172,6 +172,28 @@ Der TA5 Digitizer benötigt 24 ku Strom.
 
 Für die Nutzung des TA5 Digitizers sind 50 Erfahrungspunkte erforderlich (konfigurierbar über `techage_ta5_digitizer_expoints`).
 
+Der Digitizer kann auch über einen Lua- oder Beduino-Controller konfiguriert und gestartet werden.
+
+Hier sind die zusätzlichen Kommandos für den Lua-Controller:
+
+- `on` / `off` - Digitizer starten oder stoppen
+- `state` - Aktuellen Zustand abfragen (z.B. "running", "stopped")
+- `pull` - Im Pull-Modus starten; zieht Items aus der benachbarten Kiste
+- `push` - Im Push-Modus starten; schiebt gespeicherte Items in die benachbarte Kiste
+- `stop` - Digitizer stoppen
+- `config` setzt den Ziel-Item-Typ (stoppt den Digitizer zuerst).
+  Beispiel: `$send_cmnd(NUM, "config", "default:stone")`
+- `count` fragt die Gesamtanzahl der gespeicherten Items ab.
+  Beispiel: `$send_cmnd(NUM, "count")` gibt eine Zahl zurück
+- `itemstring` fragt den konfigurierten Item-Typ ab.
+  Beispiel: `$send_cmnd(NUM, "itemstring")` gibt den Item-Namen zurück
+- `mode` liest oder setzt den Betriebsmodus (1 = pull, 2 = push).
+  Beispiel: `$send_cmnd(NUM, "mode")` gibt 1 oder 2 zurück
+  Beispiel: `$send_cmnd(NUM, "mode", 2)` setzt Push-Modus
+
+Beduino-Themen (cmnd): 65 = Item-Typ setzen, 67 = Modus setzen (1=pull, 2=push)
+Beduino-Themen (request): 154 = Gesamt-Item-Anzahl, 155 = konfigurierter Item-Typ
+
 [ta5_digitizer|image]
 
 ### TA5 Steuereinheit

@@ -327,6 +327,7 @@ if techage.recipe_checker_enabled then
 	dofile(MP.."/recipe_checker.lua")
 end
 dofile(MP.."/.test/sink.lua")
+dofile(MP.."/.test/source.lua")
 dofile(MP.."/.test/testblock.lua")
 
 -- Solar

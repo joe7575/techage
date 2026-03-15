@@ -86,6 +86,18 @@ local function items_summary_full(items_tbl)
 	return table.concat(parts, ", ")
 end
 
+local function get_total_count(items_tbl)
+	if not items_tbl then return 0 end
+	local total = 0
+	for i = 1, STORAGE_SLOTS do
+		local slot = items_tbl[i]
+		if slot and slot.name ~= "" and slot.count > 0 then
+			total = total + slot.count
+		end
+	end
+	return total
+end
+
 local function restore_items(pos, mem)
 	if mem.items == nil then
 		local meta = M(pos)
@@ -641,15 +653,49 @@ techage.register_node({"techage:ta5_digitizer_pas", "techage:ta5_digitizer_act"}
 			local nvm = techage.get_nvm(pos)
 			State:stop(pos, nvm)
 			return true
+		elseif topic == "count" then
+			local nvm = techage.get_nvm(pos)
+			restore_items(pos, nvm)
+			return get_total_count(nvm.items)
+		elseif topic == "itemstring" then
+			return configured_item(pos) or ""
+		elseif topic == "mode" then
+			local nvm = techage.get_nvm(pos)
+			if payload then
+				nvm.opmode = tonumber(payload) == 2 and 2 or 1
+				return true
+			end
+			return nvm.opmode or 1
 		else
 			return State:on_receive_message(pos, topic, payload)
 		end
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
-		return State:on_beduino_receive_cmnd(pos, topic, payload)
+		if topic == 65 then  -- Set config item (itemstring)
+			local nvm = techage.get_nvm(pos)
+			if techage.is_running(nvm) then
+				State:stop(pos, nvm)
+			end
+			config_item(pos, payload)
+			return 0
+		elseif topic == 67 then  -- Set mode (1=pull, 2=push), string payload
+			local nvm = techage.get_nvm(pos)
+			nvm.opmode = (tonumber(payload) == 2) and 2 or 1
+			return 0
+		else
+			return State:on_beduino_receive_cmnd(pos, topic, payload)
+		end
 	end,
 	on_beduino_request_data = function(pos, src, topic, payload)
-		return State:on_beduino_request_data(pos, topic, payload)
+		if topic == 154 then  -- Get total stored item count
+			local nvm = techage.get_nvm(pos)
+			restore_items(pos, nvm)
+			return 0, {get_total_count(nvm.items)}
+		elseif topic == 155 then  -- Get configured item name
+			return 0, configured_item(pos) or ""
+		else
+			return State:on_beduino_request_data(pos, topic, payload)
+		end
 	end,
 	on_node_load = function(pos, node)
 		local nvm = techage.get_nvm(pos)

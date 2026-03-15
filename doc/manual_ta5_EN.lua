@@ -161,6 +161,28 @@ return {
     "\n"..
     "50 experience points are required to use the TA5 Digitizer (configurable via 'techage_ta5_digitizer_expoints').\n"..
     "\n"..
+    "The Digitizer can also be configured and started using a Lua or Beduino controller.\n"..
+    "\n"..
+    "Here are the additional commands for the Lua controller:\n"..
+    "\n"..
+    "  - 'on' / 'off' - Start or stop the Digitizer\n"..
+    "  - 'state' - Query the current state (e.g. \"running\", \"stopped\")\n"..
+    "  - 'pull' - Start in pull mode; draws items from the adjacent chest\n"..
+    "  - 'push' - Start in push mode; pushes stored items into the adjacent chest\n"..
+    "  - 'stop' - Stop the Digitizer\n"..
+    "  - 'config' sets the target item type (stops the Digitizer first).\n"..
+    "     Example: '$send_cmnd(NUM\\, \"config\"\\, \"default:stone\")'\n"..
+    "  - 'count' queries the total number of stored items.\n"..
+    "     Example: '$send_cmnd(NUM\\, \"count\")' returns a number\n"..
+    "  - 'itemstring' queries the configured item type.\n"..
+    "     Example: '$send_cmnd(NUM\\, \"itemstring\")' returns the item name\n"..
+    "  - 'mode' gets or sets the operating mode (1 = pull\\, 2 = push).\n"..
+    "     Example: '$send_cmnd(NUM\\, \"mode\")' returns 1 or 2\n"..
+    "     Example: '$send_cmnd(NUM\\, \"mode\"\\, 2)' sets push mode\n"..
+    "\n"..
+    "Beduino topics (cmnd): 65 = set item type\\, 67 = set mode (1=pull\\, 2=push)\n"..
+    "Beduino topics (request): 154 = total item count\\, 155 = configured item type\n"..
+    "\n"..
     "\n"..
     "\n",
     "The TA5 Control Unit is required to craft the TA5 Digitizer. It can only be manufactured at the TA4 Electronics Fab and requires 50 experience points.\n"..

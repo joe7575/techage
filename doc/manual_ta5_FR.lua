@@ -164,6 +164,28 @@ return {
     "\n"..
     "50 points d'expérience sont requis pour utiliser le TA5 Digitizer (configurable via 'techage_ta5_digitizer_expoints').\n"..
     "\n"..
+    "Le Digitizer peut également être configuré et démarré à l'aide d'un contrôleur Lua ou Beduino.\n"..
+    "\n"..
+    "Voici les commandes supplémentaires pour le contrôleur Lua :\n"..
+    "\n"..
+    "  - 'on' / 'off' - Démarrer ou arrêter le Digitizer\n"..
+    "  - 'state' - Interroger l'état actuel (ex. \"running\"\\, \"stopped\")\n"..
+    "  - 'pull' - Démarrer en mode pull ; prélève les objets du coffre adjacent\n"..
+    "  - 'push' - Démarrer en mode push ; restitue les objets stockés dans le coffre adjacent\n"..
+    "  - 'stop' - Arrêter le Digitizer\n"..
+    "  - 'config' définit le type d'objet cible (arrête d'abord le Digitizer).\n"..
+    "     Exemple : '$send_cmnd(NUM\\, \"config\"\\, \"default:stone\")'\n"..
+    "  - 'count' interroge le nombre total d'objets stockés.\n"..
+    "     Exemple : '$send_cmnd(NUM\\, \"count\")' retourne un nombre\n"..
+    "  - 'itemstring' interroge le type d'objet configuré.\n"..
+    "     Exemple : '$send_cmnd(NUM\\, \"itemstring\")' retourne le nom de l'objet\n"..
+    "  - 'mode' lit ou définit le mode de fonctionnement (1 = pull\\, 2 = push).\n"..
+    "     Exemple : '$send_cmnd(NUM\\, \"mode\")' retourne 1 ou 2\n"..
+    "     Exemple : '$send_cmnd(NUM\\, \"mode\"\\, 2)' définit le mode push\n"..
+    "\n"..
+    "Topics Beduino (cmnd) : 65 = définir le type d'objet\\, 67 = définir le mode (1=pull\\, 2=push)\n"..
+    "Topics Beduino (request) : 154 = nombre total d'objets stockés\\, 155 = type d'objet configuré\n"..
+    "\n"..
     "\n"..
     "\n",
     "L'unité de contrôle TA5 est nécessaire pour fabriquer le TA5 Digitizer. Elle ne peut être fabriquée qu'à la Fab Électronique TA4 et nécessite 50 points d'expérience.\n"..

@@ -161,6 +161,28 @@ return {
     "\n"..
     "São necessários 50 pontos de experiência para usar o TA5 Digitizer (configurável via 'techage_ta5_digitizer_expoints').\n"..
     "\n"..
+    "O Digitizer também pode ser configurado e iniciado usando um controlador Lua ou Beduino.\n"..
+    "\n"..
+    "Aqui estão os comandos adicionais para o controlador Lua:\n"..
+    "\n"..
+    "  - 'on' / 'off' - Iniciar ou parar o Digitizer\n"..
+    "  - 'state' - Consultar o estado atual (ex. \"running\"\\, \"stopped\")\n"..
+    "  - 'pull' - Iniciar no modo pull; retira itens do baú adjacente\n"..
+    "  - 'push' - Iniciar no modo push; empurra itens armazenados para o baú adjacente\n"..
+    "  - 'stop' - Parar o Digitizer\n"..
+    "  - 'config' define o tipo de item alvo (para o Digitizer primeiro).\n"..
+    "     Exemplo: '$send_cmnd(NUM\\, \"config\"\\, \"default:stone\")'\n"..
+    "  - 'count' consulta o número total de itens armazenados.\n"..
+    "     Exemplo: '$send_cmnd(NUM\\, \"count\")' retorna um número\n"..
+    "  - 'itemstring' consulta o tipo de item configurado.\n"..
+    "     Exemplo: '$send_cmnd(NUM\\, \"itemstring\")' retorna o nome do item\n"..
+    "  - 'mode' lê ou define o modo de operação (1 = pull\\, 2 = push).\n"..
+    "     Exemplo: '$send_cmnd(NUM\\, \"mode\")' retorna 1 ou 2\n"..
+    "     Exemplo: '$send_cmnd(NUM\\, \"mode\"\\, 2)' define o modo push\n"..
+    "\n"..
+    "Tópicos Beduino (cmnd): 65 = definir tipo de item\\, 67 = definir modo (1=pull\\, 2=push)\n"..
+    "Tópicos Beduino (request): 154 = contagem total de itens\\, 155 = tipo de item configurado\n"..
+    "\n"..
     "\n"..
     "\n",
     "A Unidade de Controle TA5 é necessária para fabricar o TA5 Digitizer. Ela só pode ser fabricada na Fábrica de Eletrônicos TA4 e requer 50 pontos de experiência.\n"..

@@ -164,6 +164,28 @@ return {
     "\n"..
     "Für die Nutzung des TA5 Digitizers sind 50 Erfahrungspunkte erforderlich (konfigurierbar über 'techage_ta5_digitizer_expoints').\n"..
     "\n"..
+    "Der Digitizer kann auch über einen Lua- oder Beduino-Controller konfiguriert und gestartet werden.\n"..
+    "\n"..
+    "Hier sind die zusätzlichen Kommandos für den Lua-Controller:\n"..
+    "\n"..
+    "  - 'on' / 'off' - Digitizer starten oder stoppen\n"..
+    "  - 'state' - Aktuellen Zustand abfragen (z.B. \"running\"\\, \"stopped\")\n"..
+    "  - 'pull' - Im Pull-Modus starten; zieht Items aus der benachbarten Kiste\n"..
+    "  - 'push' - Im Push-Modus starten; schiebt gespeicherte Items in die benachbarte Kiste\n"..
+    "  - 'stop' - Digitizer stoppen\n"..
+    "  - 'config' setzt den Ziel-Item-Typ (stoppt den Digitizer zuerst).\n"..
+    "     Beispiel: '$send_cmnd(NUM\\, \"config\"\\, \"default:stone\")'\n"..
+    "  - 'count' fragt die Gesamtanzahl der gespeicherten Items ab.\n"..
+    "     Beispiel: '$send_cmnd(NUM\\, \"count\")' gibt eine Zahl zurück\n"..
+    "  - 'itemstring' fragt den konfigurierten Item-Typ ab.\n"..
+    "     Beispiel: '$send_cmnd(NUM\\, \"itemstring\")' gibt den Item-Namen zurück\n"..
+    "  - 'mode' liest oder setzt den Betriebsmodus (1 = pull\\, 2 = push).\n"..
+    "     Beispiel: '$send_cmnd(NUM\\, \"mode\")' gibt 1 oder 2 zurück\n"..
+    "     Beispiel: '$send_cmnd(NUM\\, \"mode\"\\, 2)' setzt Push-Modus\n"..
+    "\n"..
+    "Beduino-Themen (cmnd): 65 = Item-Typ setzen\\, 67 = Modus setzen (1=pull\\, 2=push)\n"..
+    "Beduino-Themen (request): 154 = Gesamt-Item-Anzahl\\, 155 = konfigurierter Item-Typ\n"..
+    "\n"..
     "\n"..
     "\n",
     "Die TA5 Steuereinheit wird für die Herstellung des TA5 Digitizers benötigt. Sie kann nur an der TA4-Elektronikfabrik hergestellt werden und erfordert 50 Erfahrungspunkte.\n"..
