@@ -724,7 +724,7 @@ minetest.register_craftitem("techage:ta5_controlunit", {
 
 minetest.register_craftitem("techage:ta5_ssd", {
 	description = S("TA5 SSD"),
-	inventory_image = "techage_ramchip.png^[colorize:#00dd88:80",
+	inventory_image = "techage_ta5_ssd.png",
 })
 
 minetest.register_craft({
