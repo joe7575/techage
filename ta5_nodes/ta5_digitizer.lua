@@ -501,6 +501,9 @@ minetest.register_node("techage:ta5_digitizer_pas", {
 	end,
 	ta_restore_nodedata = function(pos, s, placer)
 		techage.restore_nodedata(pos, s)
+		-- Re-register the existing node number in the backend (required after
+		-- placement via cordless screwdriver, where add_node is never called)
+		techage.repair_number(pos)
 		-- Log restored contents directly from freshly-restored meta
 		local items_tbl = minetest.deserialize(M(pos):get_string("items"))
 		local number = M(pos):get_string("node_number")
