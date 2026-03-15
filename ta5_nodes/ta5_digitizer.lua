@@ -31,6 +31,7 @@ local STORAGE_SIZE  = 100000
 local PWR_NEEDED = 24
 local EX_POINTS = techage.ta5_digitizer_expoints
 local DESC = S("TA5 Digitizer")
+local LOG_INTERVAL = 150  -- ticks (~5 min at CYCLE_TIME=2)
 
 -- items: 
 -- {
@@ -356,7 +357,12 @@ local function digitize(pos, nvm, mem)
 				State:fault(pos, nvm, S("Invalid item type"))
 				return false
 			end
+			local is_new_slot = mem.items[idx].count == 0
 			mem.items[idx].count = mem.items[idx].count + taken:get_count()
+			if is_new_slot then
+				minetest.log("action", "[techage] TA5 Digitizer #" .. M(pos):get_string("node_number") ..
+					" | new slot: " .. item_name .. " at " .. P2S(pos))
+			end
 			State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 			return true
 		end
@@ -384,8 +390,13 @@ local function reassemble(pos, nvm, mem)
 		local stack = ItemStack({name = item_name, count = count})
 		local leftover = techage.push_items(pos, tube_dir, stack)
 		local pushed = not leftover and 0 or leftover ~= true and count - leftover:get_count() or count
+		local prev_name = mem.items[idx].name
 		mem.items[idx].count = mem.items[idx].count - pushed
 		delete_empty_slot(pos, mem, idx)
+		if mem.items[idx].name == "" then
+			minetest.log("action", "[techage] TA5 Digitizer #" .. M(pos):get_string("node_number") ..
+				" | slot cleared: " .. prev_name .. " at " .. P2S(pos))
+		end
 		if pushed > 0 then
 			State:keep_running(pos, nvm, COUNTDOWN_TICKS)
 			return true
@@ -411,6 +422,16 @@ local function on_timer(pos, elapsed)
 			changed = reassemble(pos, nvm, mem)
 		end
 		store_items(pos, mem, changed)
+		-- Periodic status log (~every 5 min)
+		nvm.log_tick = (nvm.log_tick or 0) + 1
+		if nvm.log_tick >= LOG_INTERVAL then
+			nvm.log_tick = 0
+			local full = items_summary_full(mem.items)
+			if full ~= "empty" then
+				minetest.log("action", "[techage] TA5 Digitizer #" .. M(pos):get_string("node_number") ..
+					" | status: " .. full .. " at " .. P2S(pos))
+			end
+		end
 		if techage.is_activeformspec(pos) then
 			M(pos):set_string("formspec", formspec(State, pos, nvm))
 		end
