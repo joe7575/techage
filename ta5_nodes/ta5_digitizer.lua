@@ -727,65 +727,6 @@ minetest.register_craft({
 	recipe = {
 		{"techage:aluminum", "dye:red", "techage:ta4_carbon_fiber"},
 		{"techage:electric_cableS", "techage:ta4_pusher_pas", "techage:ta4_tubeS"},
-		{"techage:ta4_ramchip 16", "basic_materials:gear_steel", "techage:ta5_controlunit"},
+		{"techage:ta4_ramchip", "basic_materials:gear_steel", "techage:ta5_controlunit"},
 	},
 })
-
--- techage.register_node({"techage:tiny_generator", "techage:tiny_generator_on"}, {
--- 	on_push_item = function(pos, in_dir, stack)
--- 		return in_dir == M(pos):get_int("pull_dir") and techage.safe_push_items(pos, in_dir, stack)
--- 	end,
--- 	is_pusher = true, -- is a pulling/pushing node
-
--- 	on_recv_message = function(pos, src, topic, payload)
--- 		if topic == "pull" then -- Deprecated command, use config/limit/start instead
--- 			local nvm = techage.get_nvm(pos)
--- 			CRD(pos).State:stop(pos, nvm)
--- 			nvm.item_count = math.min(configured_item(pos, payload), 12)
--- 			nvm.rmt_num = src
--- 			CRD(pos).State:start(pos, nvm)
--- 			return true
--- 		elseif topic == "config" then  -- Set item type
--- 			local nvm = techage.get_nvm(pos)
--- 			CRD(pos).State:stop(pos, nvm)
--- 			configured_item(pos, payload)
--- 			return true
--- 		elseif topic == "limit" then  -- Set push limit
--- 			local nvm = techage.get_nvm(pos)
--- 			CRD(pos).State:stop(pos, nvm)
--- 			set_limit(pos, nvm, payload)
--- 			return true
--- 		elseif topic == "count" then  -- Get number of push items
--- 			local nvm = techage.get_nvm(pos)
--- 			return nvm.num_items or 0
--- 		else
--- 			return CRD(pos).State:on_receive_message(pos, topic, payload)
--- 		end
--- 	end,
--- 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
--- 		if topic == 65 then  -- Set item type
--- 			local nvm = techage.get_nvm(pos)
--- 			CRD(pos).State:stop(pos, nvm)
--- 			configured_item(pos, payload)
--- 			return 0
--- 		elseif topic == 68 or topic == 20 then  -- Set push limit
--- 			local nvm = techage.get_nvm(pos)
--- 			CRD(pos).State:stop(pos, nvm)
--- 			set_limit(pos, nvm, payload[1])
--- 			return 0
--- 		else
--- 			local nvm = techage.get_nvm(pos)
--- 			if nvm.limit then
--- 				nvm.num_items = 0
--- 			end
--- 			return CRD(pos).State:on_beduino_receive_cmnd(pos, topic, payload)
--- 		end
--- 	end,
--- 	on_beduino_request_data = function(pos, src, topic, payload)
--- 		if topic == 150 then  -- Get number of pushed items
--- 			local nvm = techage.get_nvm(pos)
--- 			return 0, {nvm.num_items or 0}
--- 		else
--- 			return CRD(pos).State:on_beduino_request_data(pos, topic, payload)
--- 		end
--- 	end,
