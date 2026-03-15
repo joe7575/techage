@@ -204,7 +204,7 @@ Die TA5 Steuereinheit wird für die Herstellung des TA5 Digitizers benötigt. Si
 
 ### TA5 SSD
 
-Die TA5 SSD ist ein Zwischenprodukt, das für die Herstellung des TA5 Digitizers benötigt wird. Sie kann nur an der TA4-Elektronikfabrik aus 8 TA4 RAM-Chips und 1 TA4 Silizium-Wafer hergestellt werden.
+Die TA5 SSD ist ein Zwischenprodukt, das für die Herstellung des TA5 Digitizers benötigt wird. Sie kann nur an der TA4-Elektronikfabrik aus 16 TA4 RAM-Chips, 1 TA4 Silizium-Wafer, 1 Kunststoffplatte und 1 Stahlstreifen hergestellt werden.
 
 [ta5_ssd|image]
 

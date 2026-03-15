@@ -193,7 +193,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Le TA5 SSD est un composant intermédiaire nécessaire à la fabrication du TA5 Digitizer. Il ne peut être fabriqué qu'à la Fab Électronique TA4 à partir de 8 puces RAM TA4 et d'un wafer silicium TA4.\n"..
+    "Le TA5 SSD est un composant intermédiaire nécessaire à la fabrication du TA5 Digitizer. Il ne peut être fabriqué qu'à la Fab Électronique TA4 à partir de 16 puces RAM TA4, d'un wafer silicium TA4, d'une feuille plastique et d'un profilé acier.\n"..
     "\n"..
     "\n"..
     "\n",

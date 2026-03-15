@@ -204,7 +204,7 @@ A Unidade de Controle TA5 é necessária para fabricar o TA5 Digitizer. Ela só 
 
 ### TA5 SSD
 
-O TA5 SSD é um componente intermediário necessário para fabricar o TA5 Digitizer. Ele só pode ser fabricado na Fábrica de Eletrônicos TA4 a partir de 8 chips de RAM TA4 e 1 Wafer de Silício TA4.
+O TA5 SSD é um componente intermediário necessário para fabricar o TA5 Digitizer. Ele só pode ser fabricado na Fábrica de Eletrônicos TA4 a partir de 16 chips de RAM TA4, 1 Wafer de Silício TA4, 1 Folha de Plástico e 1 Tira de Aço.
 
 [ta5_ssd|image]
 

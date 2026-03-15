@@ -204,7 +204,7 @@ The TA5 Control Unit is required to craft the TA5 Digitizer. It can only be manu
 
 ### TA5 SSD
 
-The TA5 SSD is an intermediate component required to craft the TA5 Digitizer. It can only be manufactured at the TA4 Electronics Fab from 8 TA4 RAM Chips and 1 TA4 Silicon Wafer.
+The TA5 SSD is an intermediate component required to craft the TA5 Digitizer. It can only be manufactured at the TA4 Electronics Fab from 16 TA4 RAM Chips, 1 TA4 Silicon Wafer, 1 Plastic Sheet and 1 Steel Strip.
 
 [ta5_ssd|image]
 
