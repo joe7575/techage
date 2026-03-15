@@ -171,8 +171,8 @@ return {
     "\n"..
     "  - 'on' / 'off' - Digitizer starten oder stoppen\n"..
     "  - 'state' - Aktuellen Zustand abfragen (z.B. \"running\"\\, \"stopped\")\n"..
-    "  - 'pull' - Im Pull-Modus starten; zieht Items aus der benachbarten Kiste\n"..
-    "  - 'push' - Im Push-Modus starten; schiebt gespeicherte Items in die benachbarte Kiste\n"..
+    "  - 'pull' - Im Pull-Modus starten – zieht Items aus der benachbarten Kiste\n"..
+    "  - 'push' - Im Push-Modus starten – schiebt gespeicherte Items in die benachbarte Kiste\n"..
     "  - 'stop' - Digitizer stoppen\n"..
     "  - 'config' setzt den Ziel-Item-Typ (stoppt den Digitizer zuerst).\n"..
     "     Beispiel: '$send_cmnd(NUM\\, \"config\"\\, \"default:stone\")'\n"..

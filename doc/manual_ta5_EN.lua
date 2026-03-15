@@ -168,8 +168,8 @@ return {
     "\n"..
     "  - 'on' / 'off' - Start or stop the Digitizer\n"..
     "  - 'state' - Query the current state (e.g. \"running\", \"stopped\")\n"..
-    "  - 'pull' - Start in pull mode; draws items from the adjacent chest\n"..
-    "  - 'push' - Start in push mode; pushes stored items into the adjacent chest\n"..
+    "  - 'pull' - Start in pull mode – draws items from the adjacent chest\n"..
+    "  - 'push' - Start in push mode – pushes stored items into the adjacent chest\n"..
     "  - 'stop' - Stop the Digitizer\n"..
     "  - 'config' sets the target item type (stops the Digitizer first).\n"..
     "     Example: '$send_cmnd(NUM\\, \"config\"\\, \"default:stone\")'\n"..
