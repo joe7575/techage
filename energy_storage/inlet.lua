@@ -181,7 +181,8 @@ local function check_volume(pos, in_dir, owner)
 					end
 				end
 			end
-			errors[#errors+1] = S("wrong number of shell nodes") .. hint
+			errors[#errors+1] = S("wrong number of shell nodes") .. hint ..
+				(owner and owner ~= "" and " (see chat)" or "")
 		end
 		if fill_found ~= Numbers.filling[radius] then
 			local diff = Numbers.filling[radius] - fill_found
@@ -200,7 +201,8 @@ local function check_volume(pos, in_dir, owner)
 						diameter-2, diameter-2, diameter-2,
 						P2S(pos)))
 			end
-			errors[#errors+1] = S("wrong number of gravel nodes") .. hint
+			errors[#errors+1] = S("wrong number of gravel nodes") .. hint ..
+				(owner and owner ~= "" and " (see chat)" or "")
 		end
 		if #errors > 0 then
 			return table.concat(errors, ", ")
