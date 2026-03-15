@@ -193,7 +193,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Die TA5 SSD ist ein Zwischenprodukt, das für die Herstellung des TA5 Digitizers benötigt wird. Sie wird aus 8 TA4 RAM-Chips, die einen TA4 Silizium-Wafer in der Werkbank umgeben, hergestellt.\n"..
+    "Die TA5 SSD ist ein Zwischenprodukt, das für die Herstellung des TA5 Digitizers benötigt wird. Sie kann nur an der TA4-Elektronikfabrik aus 8 TA4 RAM-Chips und 1 TA4 Silizium-Wafer hergestellt werden.\n"..
     "\n"..
     "\n"..
     "\n",

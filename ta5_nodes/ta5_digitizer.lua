@@ -727,12 +727,11 @@ minetest.register_craftitem("techage:ta5_ssd", {
 	inventory_image = "techage_ta5_ssd.png",
 })
 
-minetest.register_craft({
-	output = "techage:ta5_ssd",
-	recipe = {
-		{"techage:ta4_ramchip", "techage:ta4_ramchip", "techage:ta4_ramchip"},
-		{"techage:ta4_ramchip", "techage:ta4_silicon_wafer", "techage:ta4_ramchip"},
-		{"techage:ta4_ramchip", "techage:ta4_ramchip", "techage:ta4_ramchip"},
+techage.recipes.add("ta4_electronic_fab", {
+	output = "techage:ta5_ssd 1",
+	waste = "basic_materials:empty_spool 1",
+	input = {
+		"techage:ta4_ramchip 8", "techage:ta4_silicon_wafer 1",
 	},
 })
 

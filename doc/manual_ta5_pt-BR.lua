@@ -190,7 +190,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "O TA5 SSD é um componente intermediário necessário para fabricar o TA5 Digitizer. É fabricado a partir de 8 chips de RAM TA4 ao redor de um Wafer de Silício TA4 na grade de fabricação.\n"..
+    "O TA5 SSD é um componente intermediário necessário para fabricar o TA5 Digitizer. Ele só pode ser fabricado na Fábrica de Eletrônicos TA4 a partir de 8 chips de RAM TA4 e 1 Wafer de Silício TA4.\n"..
     "\n"..
     "\n"..
     "\n",
