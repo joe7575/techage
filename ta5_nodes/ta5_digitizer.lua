@@ -731,7 +731,7 @@ techage.recipes.add("ta4_electronic_fab", {
 	output = "techage:ta5_ssd 1",
 	waste = "basic_materials:empty_spool 1",
 	input = {
-		"techage:ta4_ramchip 8", "techage:ta4_silicon_wafer 1",
+		"techage:ta4_ramchip 16", "techage:ta4_silicon_wafer 1",
 	},
 })
 
