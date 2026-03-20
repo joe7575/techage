@@ -285,7 +285,7 @@ local function formspec_container(x, y, nvm, inv)
 			local stack_meta_table = (minetest.deserialize(stack.meta) or {}).fields or {}
 			for _, key in ipairs({"description", "short_description", "color", "palette_index"}) do
 				if stack_meta_table[key] then
-					itemstack:get_meta():set_string(key, stack_meta_table[key])
+					itemstack:get_meta():set_string(key, stack_meta_table[key]:gsub("%[", "("):gsub("%]", ")"))
 				end
 			end
 			local itemname = itemstack:to_string()
