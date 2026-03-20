@@ -93,13 +93,13 @@ local function remove_node(pos, digger)
 			imeta:set_string("node_number", number)
 			local desc = ndef.description .. " : " .. number
 			if label and label ~= "" and label ~= "empty" then
-				desc = desc .. "\n[" .. label .. "]"
+				desc = desc .. "\n(" .. label .. ")"
 			end
 			imeta:set_string("description", desc)
 		else
 			local desc = ndef.description .. " (preserved)"
 			if label and label ~= "" and label ~= "empty" then
-				desc = desc .. "\n[" .. label .. "]"
+				desc = desc .. "\n(" .. label .. ")"
 			end
 			imeta:set_string("description", desc)
 		end
