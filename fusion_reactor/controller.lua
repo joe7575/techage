@@ -70,7 +70,7 @@ sched.register(tSched, CALL_RATE1, 1, function(pos, outdir)
 		local resp = control.request(pos, Cable, outdir, "con", "test_plasma")
 		local cnt = count_trues(resp)
 		if cnt ~= EXPECTED_PLASMA_NUM then
-			return S("Plasma ring shape error")
+			return S("Plasma ring shape error\n(@1% found / 100% expected)", math.floor(cnt * 100 / EXPECTED_PLASMA_NUM))
 		end
 		return true
 	end)
@@ -94,7 +94,7 @@ sched.register(tSched, CALL_RATE2, 4, function(pos, outdir)
 		local cnt = count_trues(resp)
 		--print("inc_power", cnt)
 		if cnt < 52 then
-			return S("Cooling failed")
+			return S("Cooling failed\n(@1 found / @2 expected)", cnt, 52)
 		end
 		return true
 	end)

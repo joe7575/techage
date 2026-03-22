@@ -38,7 +38,16 @@ Pour les aimants d'angle à l'intérieur de l'anneau, un côté de connexion est
 
 La pompe est nécessaire pour remplir le circuit de refroidissement avec de l'isobutane. Environ 350 unités d'isobutane sont nécessaires.
 
+La pompe a deux côtés de connexion :
+
+- Côté gauche : connecteur jaune (GasPipe) – connecter le réservoir d'isobutane ici
+- Côté droit : connecteur bleu (LiquidPipe) – connecter le circuit de refroidissement ici
+
+Par défaut, la pompe déplace le liquide de gauche (jaune) vers la droite (bleu), c'est-à-dire du réservoir vers le circuit de refroidissement. La direction de la pompe peut être changée en « reverse » via le menu clé.
+
 Remarque : La pompe TA5 ne peut être utilisée que pour remplir le circuit de refroidissement, il n'est pas possible de pomper le liquide de refroidissement. Par conséquent, la pompe ne doit être allumée que lorsque les aimants sont correctement placés et que tous les câbles électriques et les conduites de refroidissement sont connectés.
+
+Si la pompe affiche « blocked », la destination est pleine ou non connectée.
 
 [ta5_pump|image]
 
@@ -46,15 +55,33 @@ Remarque : La pompe TA5 ne peut être utilisée que pour remplir le circuit de r
 
 L'échangeur de chaleur TA5 est nécessaire pour convertir d'abord la chaleur générée dans le réacteur à fusion en vapeur, puis en électricité. L'échangeur de chaleur lui-même nécessite 5 ku d'électricité. La construction est similaire à l'échangeur de chaleur du stockage d'énergie de TA4.
 
-Remarque : L'échangeur de chaleur TA5 a deux connexions (bleu et vert) pour le circuit de refroidissement. Via les tuyaux verts et bleus, l'échangeur de chaleur et tous les aimants doivent être connectés à un circuit de refroidissement.
+L'échangeur de chaleur se compose de 3 parties (de bas en haut : 1, 2, 3). Les parties 1 et 3 ont chacune deux côtés de connexion :
 
-Via le bouton de démarrage de l'échangeur de chaleur, le circuit de refroidissement peut être vérifié pour son intégralité, même si aucun liquide de refroidissement n'a encore été rempli.
+- Côté droit : connecteur jaune – connexion à la turbine (partie 1) ou au refroidisseur (partie 3)
+- Côté gauche de la partie 1 : connecteur bleu – circuit de refroidissement vers l'anneau inférieur d'aimants (56 aimants)
+- Côté gauche de la partie 3 : connecteur vert – circuit de refroidissement vers l'anneau supérieur (52 aimants)
+
+Via le bouton de démarrage de l'échangeur de chaleur (partie 2), le circuit de refroidissement peut être vérifié pour son intégralité, même si aucun liquide de refroidissement n'a encore été rempli. Messages d'erreur possibles :
+
+- "Turbine error" / "Cooler error" : Turbine ou refroidisseur non connecté via tuyau jaune
+- "Blue/Green pipe connection error" : Aimants non correctement connectés via tuyaux bleus/verts
+- "Blue/Green pipe coolant missing" : Aimants pas encore remplis d'isobutane (6 unités par aimant)
 
 [ta5_heatexchanger|plan]
 
 #### TA5 Contrôleur du réacteur à fusion
 
-Via le contrôleur TA5 Fusionreaktor, le réacteur à fusion est allumé. Pour cela, le refroidissement/échangeur de chaleur doit d'abord être allumé, puis le contrôleur. Il faut environ 2 min pour que le réacteur se mette en marche et fournisse de l'électricité. Le réacteur à fusion et donc le contrôleur nécessite 400 ku d'électricité pour maintenir le plasma.
+Via le contrôleur TA5 Fusionreaktor, le réacteur à fusion est allumé. Le réacteur à fusion et donc le contrôleur nécessite 400 ku d'électricité pour maintenir le plasma.
+
+**Séquence de démarrage :**
+
+1. Tous les aimants doivent être correctement placés et remplis d'isobutane
+2. Circuit de refroidissement (tuyaux verts/jaunes) et conduites de vapeur (tuyaux bleus) doivent être complètement connectés
+3. D'abord, allumer l'échangeur de chaleur (partie 2)
+4. Puis allumer le contrôleur
+5. Il faut environ 2 minutes pour que le réacteur atteigne 80° et produise de la vapeur/électricité
+
+**Important :** L'échangeur de chaleur et le contrôleur doivent fonctionner en même temps.
 
 [ta5_fr_controller|image]
 

@@ -38,7 +38,16 @@ With the corner magnets on the inside of the ring, one connection side is covere
 
 The pump is required to fill the cooling circuit with isobutane. About 350 units of isobutane are required.
 
+The pump has two connection sides:
+
+- Left side: yellow connector (GasPipe) – connect the isobutane tank here
+- Right side: blue connector (LiquidPipe) – connect the cooling circuit here
+
+By default, the pump moves liquid from left (yellow) to right (blue), i.e. from the tank into the cooling circuit. The pump direction can be changed to "reverse" via the wrench menu.
+
 Note: The TA5 pump can only be used to fill the cooling circuit, pumping out the coolant is not possible. Therefore, the pump should not be switched on until the magnets are correctly placed and all power and cooling lines are connected.
+
+If the pump shows "blocked", the destination is full or not connected.
 
 [ta5_pump|image]
 
@@ -46,15 +55,41 @@ Note: The TA5 pump can only be used to fill the cooling circuit, pumping out the
 
 The TA5 Heat Exchanger is required to convert the heat generated in the fusion reactor first to steam and then to electricity. The Heat Exchanger itself requires 5 ku electricity. The structure is similar to the Heat Exchanger of the energy store from TA4.
 
-Note: The TA5 Heat Exchanger has two connections (blue and green) for the cooling circuit. The heat exchanger and all magnets must be connected to form a cooling circuit via the green and blue pipes.
+The Heat Exchanger consists of 3 parts (bottom to top: 1, 2, 3). Parts 1 and 3 each have two connection sides:
 
-The cooling circuit can be checked for completeness using the start button on the heat exchanger, even if no coolant has yet been filled in.
+- Right side: yellow connector – connects to turbine (part 1) or cooler (part 3)
+- Left side of part 1: blue connector – cooling circuit to the lower magnet ring (56 magnets)
+- Left side of part 3: green connector – cooling circuit to the upper magnet ring (52 magnets)
+
+The cooling circuit can be checked for completeness using the start button on the heat exchanger (part 2), even if no coolant has yet been filled in. Possible error messages:
+
+- "Turbine error" / "Cooler error": Turbine or cooler not connected via yellow pipe
+- "Blue/Green pipe connection error": Magnets not correctly connected via blue/green pipes
+- "Blue/Green pipe coolant missing": Magnets not yet filled with isobutane (6 units per magnet)
 
 [ta5_heatexchanger|plan]
 
 #### TA5 Fusion Reactor Controller
 
-The fusion reactor is switched on via the TA5 Fusion Reactor Controller. The cooling/Heat Exchanger must be switched on first and then the controller. It takes about 2 minutes for the reactor to start up and supply electricity. The fusion reactor and thus the controller requires 400 ku of electricity to maintain the plasma.
+The fusion reactor is switched on via the TA5 Fusion Reactor Controller. The fusion reactor and thus the controller requires 400 ku of electricity to maintain the plasma.
+
+**Startup sequence:**
+
+1. All magnets must be correctly placed and filled with isobutane
+2. Cooling circuit (blue and green pipes) and steam pipes (yellow pipes) must be fully connected
+3. First, switch on the Heat Exchanger (part 2)
+4. Then switch on the Controller
+5. It takes about 2 minutes for the reactor to reach 80° and produce steam/electricity
+
+**Important:** Both the Heat Exchanger and the Controller must be running at the same time. The Controller heats the magnets (inc_power), the Heat Exchanger cools them (dec_power). Without both parts working together, the operating temperature will not be reached.
+
+Possible error messages from the Controller:
+
+- "Magnet detection error": Not all 56 magnets reachable via power cable
+- "Plasma ring shape error": Interior of the plasma ring not clear (air)
+- "Shell shape error": Shell around the magnets incomplete
+- "Nucleus detection error": Core missing or not correctly placed
+- "Cooling failed": Heat Exchanger not running or magnets not being cooled
 
 [ta5_fr_controller|image]
 

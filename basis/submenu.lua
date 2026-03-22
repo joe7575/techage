@@ -99,7 +99,12 @@ local function generate_formspec_substring(pos, meta, form_def, player_name, wid
 			elseif elem.type == "const" then
 				tbl[#tbl+1] = "label[" .. xpos1 .. "," .. offs .. ";" .. elem.value .. "]"
 			elseif elem.type == "output" then
-				local val = nvm[elem.name] or meta:get_string(elem.name) or ""
+				local val
+				if elem.on_value then
+					val = elem.on_value(pos) or ""
+				else
+					val = nvm[elem.name] or meta:get_string(elem.name) or ""
+				end
 				if tonumber(val) then
 					val = techage.round(val)
 				end

@@ -26,6 +26,26 @@ local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 2
 local CAPA = 4
 
+local function get_liquid_amount(pos)
+	local outdir = M(pos):get_int("outdir")
+	local netw = networks.get_network_table(pos, Pipe3, outdir)
+	if netw and netw["tank"] then
+		local amount = 0
+		local capa = 0
+		for _, item in ipairs(netw["tank"]) do
+			local node = minetest.get_node(item.pos)
+			local ndef = minetest.registered_nodes[node.name]
+			if ndef and ndef.liquid then
+				local nvm = techage.get_nvm(item.pos)
+				amount = amount + (nvm.liquid and nvm.liquid.amount or 0)
+				capa = capa + (ndef.liquid.capa or 0)
+			end
+		end
+		return amount .. " / " .. capa
+	end
+	return ""
+end
+
 local WRENCH_MENU =	{{
 	type = "output",
 	name = "flowrate",
@@ -39,6 +59,12 @@ local WRENCH_MENU =	{{
 	tooltip = S("Pump direction"),
 	values = {0, 1},
 	default = "1",
+},{
+	type = "output",
+	name = "liquid_amount",
+	label = S("Coolant"),
+	tooltip = S("Amount of isobutane in the cooling system"),
+	on_value = get_liquid_amount,
 }}
 
 local State = techage.NodeStates:new({
@@ -59,7 +85,7 @@ local function pumping(pos, nvm)
 			if leftover and leftover > 0 then
 				liquid.untake(pos, Pipe3, outdir, name, leftover)
 				if leftover == taken then
-					State:blocked(pos, nvm)
+					State:blocked(pos, nvm, S("blocked: destination full or not connected"))
 					return 0
 				end
 				State:keep_running(pos, nvm, COUNTDOWN_TICKS)
@@ -75,7 +101,7 @@ local function pumping(pos, nvm)
 			if leftover and leftover > 0 then
 				liquid.untake(pos, Pipe2, Flip[outdir], name, leftover)
 				if leftover == taken then
-					State:blocked(pos, nvm)
+					State:blocked(pos, nvm, S("blocked: destination full or not connected"))
 					return 0
 				end
 				State:keep_running(pos, nvm, COUNTDOWN_TICKS)

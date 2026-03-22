@@ -441,9 +441,9 @@ TA4 Furnace Heater=TA4 Ofenheizung
 TA5 Fusion Reactor Controller=TA5 Fusionsreaktor Controller
 Nucleus detection error=Kern nicht erkannt
 Magnet detection error@n(@1% found / 100% expected)=Magneterkennungsfehler@n(@1% erkannt / 100% erwartet)
-Plasma ring shape error=Formfehler des Plasmarings
+Plasma ring shape error@n(@1% found / 100% expected)=Formfehler des Plasmarings@n(@1% erkannt / 100% erwartet)
 Shell shape error@n(@1% found / 100% expected)=Hüllenformfehler@n(@1% erkannt / 100% erwartet)
-Cooling failed=Kühlung ausgefallen
+Cooling failed@n(@1 found / @2 expected)=Kühlung ausgefallen@n(@1 erkannt / @2 erwartet)
 
 ##[ fusion_reactor/gas_pipe.lua ]##
 TA5 Pipe=TA5 Leitung
@@ -465,6 +465,7 @@ Blue pipe connection error@n(@1 found / @2 expected)=Verbindungsfehler blaue Lei
 Green pipe connection error@n(@1 found / @2 expected)=Verbindungsfehler grüne Leitung@n(@1 erkannt / @2 erwartet)
 Blue pipe coolant missing@n(@1 found / @2 expected)=Kühlmittel fehlt bei der blauen Leitung@n(@1 erkannt / @2 erwartet)
 Green pipe coolant missing@n(@1 found / @2 expected)=Kühlmittel fehlt bei der grünen Leitung@n(@1 erkannt / @2 erwartet)
+Cooling test failed=Kühlungstest fehlgeschlagen
 
 ##[ fusion_reactor/heatexchanger3.lua ]##
 TA5 Heat Exchanger 3=TA5 Wärmetauscher 3
@@ -483,6 +484,9 @@ TA5 Fusion Reactor Nucleus=TA5 Fusionsreaktor Kern
 Operation=Betrieb
 Pump direction=Pumprichtung
 TA5 Pump=TA5 Pumpe
+blocked: destination full or not connected=blockiert: Ziel voll oder nicht verbunden
+Coolant=Kühlmittel
+Amount of isobutane in the cooling system=Menge des Isobutans im Kühlkreislauf
 
 ##[ fusion_reactor/ta5_pump.lua ]##
 ##[ liquids/pump.lua ]##

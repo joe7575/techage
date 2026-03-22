@@ -38,7 +38,16 @@ Bei den Eckmagneten auf der Innenseite des Rings ist jeweils eine Anschlussseite
 
 Die Pumpe wird benötigt, um den Kühlkreislauf mit Isobutan zu füllen. Es werden ca. 350 Einheiten Isobutan benötigt.
 
+Die Pumpe hat zwei Anschlussseiten:
+
+- Linke Seite: gelber Anschluss (GasPipe) – hier wird der Isobutan-Tank angeschlossen
+- Rechte Seite: blauer Anschluss (LiquidPipe) – hier wird der Kühlkreislauf angeschlossen
+
+In der Grundeinstellung pumpt die Pumpe von links (gelb) nach rechts (blau), also vom Tank in den Kühlkreislauf. Über das Schraubenschlüssel-Menü kann die Pumprichtung auf "reverse" umgestellt werden.
+
 Hinweis: Die TA5 Pumpe kann nur zum Füllen des Kühlkreislaufs genutzt werden, ein Abpumpen des Kühlmittels ist nicht möglich. Daher sollte die Pumpe erst eingeschaltet werden, wenn die Magnete korrekt platziert und alle Strom- und Kühlleitungen angeschlossen sind.
+
+Wenn die Pumpe "blocked" anzeigt, ist das Ziel voll oder nicht verbunden.
 
 [ta5_pump|image]
 
@@ -46,15 +55,41 @@ Hinweis: Die TA5 Pumpe kann nur zum Füllen des Kühlkreislaufs genutzt werden, 
 
 Der TA5 Wärmetauscher wird benötigt, um die im Fusionsreaktor erzeugte Hitze zuerst in Dampf und dann in Strom umzuwandeln. Der Wärmetauscher selbst benötigt dazu 5 ku Strom. Der Aufbau gleicht dem Wärmetauscher des Energiespeichers aus TA4.
 
-Hinweis: Der TA5 Wärmetauscher hat zwei Anschlüsse (blau und grün) für den Kühlkreislauf. Über die grünen und blauen Röhren müssen der Wärmetauscher und alle Magnete zu einem Kühlkreislauf verbunden werden.
+Der Wärmetauscher besteht aus 3 Teilen (von unten nach oben: 1, 2, 3). Die Teile 1 und 3 haben jeweils zwei Anschlussseiten:
 
-Über den Start-Button des Wärmetauschers kann der Kühlkreislauf auf Vollständigkeit geprüft werden, auch wenn noch kein Kühlmittel eingefüllt wurde.
+- Rechte Seite: gelber Anschluss – Anschluss an Turbine (Teil 1) bzw. Kühler (Teil 3)
+- Linke Seite von Teil 1: blauer Anschluss – Kühlkreislauf zum unteren Magnetring (56 Magnete)
+- Linke Seite von Teil 3: grüner Anschluss – Kühlkreislauf zum oberen Magnetring (52 Magnete)
+
+Über den Start-Button des Wärmetauschers (Teil 2) kann der Kühlkreislauf auf Vollständigkeit geprüft werden, auch wenn noch kein Kühlmittel eingefüllt wurde. Mögliche Fehlermeldungen:
+
+- "Turbine error" / "Cooler error": Turbine oder Kühler nicht über gelbe Leitung verbunden
+- "Blue/Green pipe connection error": Magnete nicht korrekt über blaue/grüne Rohre verbunden
+- "Blue/Green pipe coolant missing": Magnete noch nicht mit Isobutan gefüllt (je Magnet 6 Einheiten)
 
 [ta5_heatexchanger|plan]
 
 #### TA5 Fusionreaktor Controller
 
-Über den TA5 Fusionreaktor Controller wird der Fusionreaktor eingeschaltet. Dabei muss zuerst die Kühlung/Wärmetauscher und dann der Controller eingeschaltet werden. Es dauert ca. 2 min, bis der Reaktor in Gang kommt und Strom liefert. Der Fusionreaktor und damit der Controller benötigt 400 ku an Strom, um das Plasma aufrecht zu erhalten.
+Über den TA5 Fusionreaktor Controller wird der Fusionreaktor eingeschaltet. Der Fusionreaktor und damit der Controller benötigt 400 ku an Strom, um das Plasma aufrecht zu erhalten.
+
+**Startreihenfolge:**
+
+1. Alle Magnete müssen korrekt platziert und mit Isobutan gefüllt sein
+2. Kühlkreislauf (blaue und grüne Rohre) und Dampfleitungen (gelbe Rohre) müssen vollständig angeschlossen sein
+3. Zuerst den Wärmetauscher (Teil 2) einschalten
+4. Dann den Controller einschalten
+5. Es dauert ca. 2 Minuten, bis der Reaktor 80° erreicht und Dampf/Strom liefert
+
+**Wichtig:** Beide – Wärmetauscher und Controller – müssen gleichzeitig laufen. Der Controller heizt die Magnete auf (inc_power), der Wärmetauscher kühlt sie ab (dec_power). Ohne das Zusammenspiel beider Teile wird die Betriebstemperatur nicht erreicht.
+
+Mögliche Fehlermeldungen des Controllers:
+
+- "Magnet detection error": Nicht alle 56 Magnete per Stromkabel erreichbar
+- "Plasma ring shape error": Innenraum des Plasmarings nicht frei (Luft)
+- "Shell shape error": Hülle um die Magnete unvollständig
+- "Nucleus detection error": Kern fehlt oder nicht korrekt platziert
+- "Cooling failed": Wärmetauscher läuft nicht oder Magnete werden nicht gekühlt
 
 [ta5_fr_controller|image]
 

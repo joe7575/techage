@@ -441,9 +441,9 @@ TA4 Furnace Heater=
 TA5 Fusion Reactor Controller=
 Nucleus detection error=
 Magnet detection error@n(@1% found / 100% expected)=
-Plasma ring shape error=
+Plasma ring shape error@n(@1% found / 100% expected)=
 Shell shape error@n(@1% found / 100% expected)=
-Cooling failed=
+Cooling failed@n(@1 found / @2 expected)=
 
 ##[ fusion_reactor/gas_pipe.lua ]##
 TA5 Pipe=
@@ -465,6 +465,7 @@ Blue pipe connection error@n(@1 found / @2 expected)=
 Green pipe connection error@n(@1 found / @2 expected)=
 Blue pipe coolant missing@n(@1 found / @2 expected)=
 Green pipe coolant missing@n(@1 found / @2 expected)=
+Cooling test failed=
 
 ##[ fusion_reactor/heatexchanger3.lua ]##
 TA5 Heat Exchanger 3=
@@ -483,6 +484,9 @@ TA5 Fusion Reactor Nucleus=
 Operation=
 Pump direction=
 TA5 Pump=
+blocked: destination full or not connected=
+Coolant=
+Amount of isobutane in the cooling system=
 
 ##[ fusion_reactor/ta5_pump.lua ]##
 ##[ liquids/pump.lua ]##

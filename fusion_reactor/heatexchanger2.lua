@@ -144,7 +144,12 @@ local function can_start(pos, nvm)
 	heatexchanger3_cmnd(pos, "rst_power")
 	for i = 0,6 do
 		local res = tSched[i](pos)
-		if res ~= true and res ~= 1 then return res end
+		if res ~= true and res ~= 1 then
+			if res == 0 then
+				return S("Cooling test failed")
+			end
+			return res
+		end
 	end
 	return true
 end
