@@ -682,6 +682,8 @@ minetest.register_chatcommand("ta_send", {
 })
 
 minetest.register_chatcommand("expoints", {
+	params = "<name> [<points>]",
+	description = "Get or set experience points of a player (server priv required)",
 	privs = {
 	   server = true
 	},
@@ -707,6 +709,7 @@ minetest.register_chatcommand("expoints", {
 })
 
 minetest.register_chatcommand("my_expoints", {
+	description = "Show your own experience points",
 	func = function(name, param)
 		local player = minetest.get_player_by_name(name)
 		if player then

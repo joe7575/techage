@@ -195,10 +195,12 @@ local function on_receive_fields(pos, formname, fields, player)
 		return
 	end
 
+	local nvm = techage.get_nvm(pos)
 	if techage.get_expoints(player) >= EX_POINTS then
-		local nvm = techage.get_nvm(pos)
 		State:state_button_event(pos, nvm, fields)
-		--M(pos):set_string("formspec", formspec(State, pos, nvm))
+	else
+		State:fault(pos, nvm, S("Ex-points missing (@1 < @2)", techage.get_expoints(player), EX_POINTS))
+		M(pos):set_string("formspec", formspec(State, pos, nvm))
 	end
 end
 
