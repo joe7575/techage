@@ -62,19 +62,46 @@ return {
     "\n",
     "La pompe est nécessaire pour remplir le circuit de refroidissement avec de l'isobutane. Environ 350 unités d'isobutane sont nécessaires.\n"..
     "\n"..
+    "La pompe a deux côtés de connexion :\n"..
+    "\n"..
+    "  - Côté gauche : connecteur jaune (GasPipe) – connecter le réservoir d'isobutane ici\n"..
+    "  - Côté droit : connecteur bleu (LiquidPipe) – connecter le circuit de refroidissement ici\n"..
+    "\n"..
+    "Par défaut\\, la pompe déplace le liquide de gauche (jaune) vers la droite (bleu)\\, c'est-à-dire du réservoir vers le circuit de refroidissement. La direction de la pompe peut être changée en « reverse » via le menu clé.\n"..
+    "\n"..
     "Remarque : La pompe TA5 ne peut être utilisée que pour remplir le circuit de refroidissement\\, il n'est pas possible de pomper le liquide de refroidissement. Par conséquent\\, la pompe ne doit être allumée que lorsque les aimants sont correctement placés et que tous les câbles électriques et les conduites de refroidissement sont connectés.\n"..
+    "\n"..
+    "Si la pompe affiche « blocked »\\, la destination est pleine ou non connectée.\n"..
     "\n"..
     "\n"..
     "\n",
     "L'échangeur de chaleur TA5 est nécessaire pour convertir d'abord la chaleur générée dans le réacteur à fusion en vapeur\\, puis en électricité. L'échangeur de chaleur lui-même nécessite 5 ku d'électricité. La construction est similaire à l'échangeur de chaleur du stockage d'énergie de TA4.\n"..
     "\n"..
-    "Remarque : L'échangeur de chaleur TA5 a deux connexions (bleu et vert) pour le circuit de refroidissement. Via les tuyaux verts et bleus\\, l'échangeur de chaleur et tous les aimants doivent être connectés à un circuit de refroidissement.\n"..
+    "L'échangeur de chaleur se compose de 3 parties (de bas en haut : 1\\, 2\\, 3). Les parties 1 et 3 ont chacune deux côtés de connexion :\n"..
     "\n"..
-    "Via le bouton de démarrage de l'échangeur de chaleur\\, le circuit de refroidissement peut être vérifié pour son intégralité\\, même si aucun liquide de refroidissement n'a encore été rempli.\n"..
+    "  - Côté droit : connecteur jaune – connexion à la turbine (partie 1) ou au refroidisseur (partie 3)\n"..
+    "  - Côté gauche de la partie 1 : connecteur bleu – circuit de refroidissement vers l'anneau inférieur d'aimants (56 aimants)\n"..
+    "  - Côté gauche de la partie 3 : connecteur vert – circuit de refroidissement vers l'anneau supérieur (52 aimants)\n"..
+    "\n"..
+    "Via le bouton de démarrage de l'échangeur de chaleur (partie 2)\\, le circuit de refroidissement peut être vérifié pour son intégralité\\, même si aucun liquide de refroidissement n'a encore été rempli. Messages d'erreur possibles :\n"..
+    "\n"..
+    "  - \"Turbine error\" / \"Cooler error\" : Turbine ou refroidisseur non connecté via tuyau jaune\n"..
+    "  - \"Blue/Green pipe connection error\" : Aimants non correctement connectés via tuyaux bleus/verts\n"..
+    "  - \"Blue/Green pipe coolant missing\" : Aimants pas encore remplis d'isobutane (6 unités par aimant)\n"..
     "\n"..
     "\n"..
     "\n",
-    "Via le contrôleur TA5 Fusionreaktor\\, le réacteur à fusion est allumé. Pour cela\\, le refroidissement/échangeur de chaleur doit d'abord être allumé\\, puis le contrôleur. Il faut environ 2 min pour que le réacteur se mette en marche et fournisse de l'électricité. Le réacteur à fusion et donc le contrôleur nécessite 400 ku d'électricité pour maintenir le plasma.\n"..
+    "Via le contrôleur TA5 Fusionreaktor\\, le réacteur à fusion est allumé. Le réacteur à fusion et donc le contrôleur nécessite 400 ku d'électricité pour maintenir le plasma.\n"..
+    "\n"..
+    "*Séquence de démarrage :*\n"..
+    "\n"..
+    "  - Tous les aimants doivent être correctement placés et remplis d'isobutane\n"..
+    "  - Circuit de refroidissement (tuyaux verts/jaunes) et conduites de vapeur (tuyaux bleus) doivent être complètement connectés\n"..
+    "  - D'abord\\, allumer l'échangeur de chaleur (partie 2)\n"..
+    "  - Puis allumer le contrôleur\n"..
+    "  - Il faut environ 2 minutes pour que le réacteur atteigne 80° et produise de la vapeur/électricité\n"..
+    "\n"..
+    "*Important :* L'échangeur de chaleur et le contrôleur doivent fonctionner en même temps.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -171,18 +198,13 @@ return {
     "\n"..
     "  - 'on' / 'off' - Démarrer ou arrêter le Digitizer\n"..
     "  - 'state' - Interroger l'état actuel (ex. \"running\"\\, \"stopped\")\n"..
-    "  - 'pull' - Démarrer en mode pull ; prélève les objets du coffre adjacent\n"..
-    "  - 'push' - Démarrer en mode push ; restitue les objets stockés dans le coffre adjacent\n"..
+    "  - 'pull' - Démarrer en mode pull \\; prélève les objets du coffre adjacent\n"..
+    "  - 'push' - Démarrer en mode push \\; restitue les objets stockés dans le coffre adjacent\n"..
     "  - 'stop' - Arrêter le Digitizer\n"..
-    "  - 'config' définit le type d'objet cible (arrête d'abord le Digitizer).\n"..
-    "     Exemple : '$send_cmnd(NUM\\, \"config\"\\, \"default:stone\")'\n"..
-    "  - 'count' interroge le nombre total d'objets stockés.\n"..
-    "     Exemple : '$send_cmnd(NUM\\, \"count\")' retourne un nombre\n"..
-    "  - 'itemstring' interroge le type d'objet configuré.\n"..
-    "     Exemple : '$send_cmnd(NUM\\, \"itemstring\")' retourne le nom de l'objet\n"..
-    "  - 'mode' lit ou définit le mode de fonctionnement (1 = pull\\, 2 = push).\n"..
-    "     Exemple : '$send_cmnd(NUM\\, \"mode\")' retourne 1 ou 2\n"..
-    "     Exemple : '$send_cmnd(NUM\\, \"mode\"\\, 2)' définit le mode push\n"..
+    "  - 'config' définit le type d'objet cible (arrête d'abord le Digitizer).\nExemple : '$send_cmnd(NUM\\, \"config\"\\, \"default:stone\")'\n"..
+    "  - 'count' interroge le nombre total d'objets stockés.\nExemple : '$send_cmnd(NUM\\, \"count\")' retourne un nombre\n"..
+    "  - 'itemstring' interroge le type d'objet configuré.\nExemple : '$send_cmnd(NUM\\, \"itemstring\")' retourne le nom de l'objet\n"..
+    "  - 'mode' lit ou définit le mode de fonctionnement (1 = pull\\, 2 = push).\nExemple : '$send_cmnd(NUM\\, \"mode\")' retourne 1 ou 2\nExemple : '$send_cmnd(NUM\\, \"mode\"\\, 2)' définit le mode push\n"..
     "\n"..
     "Topics Beduino (cmnd) : 65 = définir le type d'objet\\, 67 = définir le mode (1=pull\\, 2=push)\n"..
     "Topics Beduino (request) : 154 = nombre total d'objets stockés\\, 155 = type d'objet configuré\n"..
@@ -193,7 +215,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Le TA5 SSD est un composant intermédiaire nécessaire à la fabrication du TA5 Digitizer. Il ne peut être fabriqué qu'à la Fab Électronique TA4 à partir de 16 puces RAM TA4, d'un wafer silicium TA4, d'une feuille plastique et d'un profilé acier.\n"..
+    "Le TA5 SSD est un composant intermédiaire nécessaire à la fabrication du TA5 Digitizer. Il ne peut être fabriqué qu'à la Fab Électronique TA4 à partir de 16 puces RAM TA4\\, d'un wafer silicium TA4\\, d'une feuille plastique et d'un profilé acier.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -261,6 +283,7 @@ return {
     "",
     "",
     "ta5_teleport",
+    "",
     "",
     "",
     "",

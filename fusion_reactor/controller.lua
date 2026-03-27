@@ -79,7 +79,7 @@ sched.register(tSched, CALL_RATE1, 2, function(pos, outdir)
 		local resp = control.request(pos, Cable, outdir, "con", "test_shell")
 		local cnt = count_trues(resp)
 		if cnt ~= EXPECTED_SHELL_NUM then
-			return S("Shell shape error\n(@1% found / 100% expected)", math.floor(cnt* 100 / EXPECTED_SHELL_NUM))
+			return S("Shell shape error\n(@1 of @2 magnets OK)", cnt, EXPECTED_SHELL_NUM)
 		end
 		return true
 	end)

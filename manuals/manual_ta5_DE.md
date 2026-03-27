@@ -87,7 +87,7 @@ Mögliche Fehlermeldungen des Controllers:
 
 - "Magnet detection error": Nicht alle 56 Magnete per Stromkabel erreichbar
 - "Plasma ring shape error": Innenraum des Plasmarings nicht frei (Luft)
-- "Shell shape error": Hülle um die Magnete unvollständig
+- "Shell shape error": Hülle um die Magnete unvollständig (zeigt, bei wie vielen Magneten die Hülle komplett ist)
 - "Nucleus detection error": Kern fehlt oder nicht korrekt platziert
 - "Cooling failed": Wärmetauscher läuft nicht oder Magnete werden nicht gekühlt
 

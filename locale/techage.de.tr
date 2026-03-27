@@ -442,7 +442,7 @@ TA5 Fusion Reactor Controller=TA5 Fusionsreaktor Controller
 Nucleus detection error=Kern nicht erkannt
 Magnet detection error@n(@1% found / 100% expected)=Magneterkennungsfehler@n(@1% erkannt / 100% erwartet)
 Plasma ring shape error@n(@1% found / 100% expected)=Formfehler des Plasmarings@n(@1% erkannt / 100% erwartet)
-Shell shape error@n(@1% found / 100% expected)=Hüllenformfehler@n(@1% erkannt / 100% erwartet)
+Shell shape error@n(@1 of @2 magnets OK)=Hüllenformfehler@n(@1 von @2 Magneten OK)
 Cooling failed@n(@1 found / @2 expected)=Kühlung ausgefallen@n(@1 erkannt / @2 erwartet)
 
 ##[ fusion_reactor/gas_pipe.lua ]##

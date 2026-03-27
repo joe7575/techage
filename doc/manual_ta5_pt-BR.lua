@@ -61,19 +61,42 @@ return {
     "\n",
     "A bomba é necessária para encher o circuito de resfriamento com isobutano. São necessárias cerca de 350 unidades de isobutano.\n"..
     "\n"..
+    "A bomba tem dois lados de conexão:\n"..
+    "\n"..
+    "  - Lado esquerdo: conector amarelo (GasPipe) – conecte o tanque de isobutano aqui\n"..
+    "  - Lado direito: conector azul (LiquidPipe) – conecte o circuito de resfriamento aqui\n"..
+    "\n"..
+    "Por padrão\\, a bomba move líquido da esquerda (amarelo) para a direita (azul)\\, ou seja\\, do tanque para o circuito de resfriamento. A direção pode ser alterada para \"reverse\" no menu da chave inglesa.\n"..
+    "\n"..
     "Observação: A bomba TA5 só pode ser usada para encher o circuito de resfriamento\\; não é possível bombear o líquido de arrefecimento para fora. Portanto\\, a bomba não deve ser ligada até que os ímãs estejam corretamente posicionados e todas as linhas de alimentação e resfriamento estejam conectadas.\n"..
+    "\n"..
+    "Se a bomba mostrar \"blocked\"\\, o destino está cheio ou não conectado.\n"..
     "\n"..
     "\n"..
     "\n",
     "O trocador de calor TA5 é necessário para converter o calor gerado no reator de fusão primeiro em vapor e depois em eletricidade. O próprio trocador de calor requer 5 ku de eletricidade. A estrutura é semelhante à do trocador de calor do depósito de energia do TA4.\n"..
     "\n"..
-    "Observação: O trocador de calor TA5 tem duas conexões (azul e verde) para o circuito de resfriamento. O trocador de calor e todos os ímãs devem ser conectados para formar um circuito de resfriamento por meio dos tubos verde e azul.\n"..
+    "O trocador de calor consiste em 3 partes (de baixo para cima: 1\\, 2\\, 3). As partes 1 e 3 têm dois lados de conexão cada:\n"..
     "\n"..
-    "É possível verificar se o circuito de resfriamento está completo usando o botão de partida no trocador de calor\\, mesmo que o líquido de arrefecimento ainda não tenha sido abastecido.\n"..
+    "  - Lado direito: conector amarelo – conexão com a turbina (parte 1) ou o resfriador (parte 3)\n"..
+    "  - Lado esquerdo da parte 1: conector azul – circuito de resfriamento para o anel inferior de ímãs (56 ímãs)\n"..
+    "  - Lado esquerdo da parte 3: conector verde – circuito de resfriamento para o anel superior (52 ímãs)\n"..
+    "\n"..
+    "É possível verificar se o circuito de resfriamento está completo usando o botão de partida no trocador de calor (parte 2)\\, mesmo que o líquido de arrefecimento ainda não tenha sido abastecido.\n"..
     "\n"..
     "\n"..
     "\n",
-    "O reator de fusão é ligado por meio do controlador do reator de fusão TA5. O resfriamento/trocador de calor deve ser ligado primeiro e depois o controlador. Leva cerca de 2 minutos para o reator iniciar e fornecer eletricidade. O reator de fusão e\\, portanto\\, o controlador requerem 400 ku de eletricidade para manter o plasma.\n"..
+    "O reator de fusão é ligado por meio do controlador do reator de fusão TA5. O reator de fusão e\\, portanto\\, o controlador requerem 400 ku de eletricidade para manter o plasma.\n"..
+    "\n"..
+    "*Sequência de inicialização:*\n"..
+    "\n"..
+    "  - Todos os ímãs devem estar corretamente posicionados e preenchidos com isobutano\n"..
+    "  - Circuito de resfriamento (tubos azuis e verdes) e tubulações de vapor (tubos amarelos) devem estar totalmente conectados\n"..
+    "  - Primeiro\\, ligue o trocador de calor (parte 2)\n"..
+    "  - Depois ligue o controlador\n"..
+    "  - Leva cerca de 2 minutos para atingir 80° e produzir vapor/eletricidade\n"..
+    "\n"..
+    "*Importante:* O trocador de calor e o controlador devem funcionar ao mesmo tempo.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -168,18 +191,13 @@ return {
     "\n"..
     "  - 'on' / 'off' - Iniciar ou parar o Digitizer\n"..
     "  - 'state' - Consultar o estado atual (ex. \"running\"\\, \"stopped\")\n"..
-    "  - 'pull' - Iniciar no modo pull – retira itens do baú adjacente\n"..
-    "  - 'push' - Iniciar no modo push – empurra itens armazenados para o baú adjacente\n"..
+    "  - 'pull' - Iniciar no modo pull\\; retira itens do baú adjacente\n"..
+    "  - 'push' - Iniciar no modo push\\; empurra itens armazenados para o baú adjacente\n"..
     "  - 'stop' - Parar o Digitizer\n"..
-    "  - 'config' define o tipo de item alvo (para o Digitizer primeiro).\n"..
-    "     Exemplo: '$send_cmnd(NUM\\, \"config\"\\, \"default:stone\")'\n"..
-    "  - 'count' consulta o número total de itens armazenados.\n"..
-    "     Exemplo: '$send_cmnd(NUM\\, \"count\")' retorna um número\n"..
-    "  - 'itemstring' consulta o tipo de item configurado.\n"..
-    "     Exemplo: '$send_cmnd(NUM\\, \"itemstring\")' retorna o nome do item\n"..
-    "  - 'mode' lê ou define o modo de operação (1 = pull\\, 2 = push).\n"..
-    "     Exemplo: '$send_cmnd(NUM\\, \"mode\")' retorna 1 ou 2\n"..
-    "     Exemplo: '$send_cmnd(NUM\\, \"mode\"\\, 2)' define o modo push\n"..
+    "  - 'config' define o tipo de item alvo (para o Digitizer primeiro).\nExemplo: '$send_cmnd(NUM\\, \"config\"\\, \"default:stone\")'\n"..
+    "  - 'count' consulta o número total de itens armazenados.\nExemplo: '$send_cmnd(NUM\\, \"count\")' retorna um número\n"..
+    "  - 'itemstring' consulta o tipo de item configurado.\nExemplo: '$send_cmnd(NUM\\, \"itemstring\")' retorna o nome do item\n"..
+    "  - 'mode' lê ou define o modo de operação (1 = pull\\, 2 = push).\nExemplo: '$send_cmnd(NUM\\, \"mode\")' retorna 1 ou 2\nExemplo: '$send_cmnd(NUM\\, \"mode\"\\, 2)' define o modo push\n"..
     "\n"..
     "Tópicos Beduino (cmnd): 65 = definir tipo de item\\, 67 = definir modo (1=pull\\, 2=push)\n"..
     "Tópicos Beduino (request): 154 = contagem total de itens\\, 155 = tipo de item configurado\n"..
@@ -190,7 +208,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "O TA5 SSD é um componente intermediário necessário para fabricar o TA5 Digitizer. Ele só pode ser fabricado na Fábrica de Eletrônicos TA4 a partir de 16 chips de RAM TA4, 1 Wafer de Silício TA4, 1 Folha de Plástico e 1 Tira de Aço.\n"..
+    "O TA5 SSD é um componente intermediário necessário para fabricar o TA5 Digitizer. Ele só pode ser fabricado na Fábrica de Eletrônicos TA4 a partir de 16 chips de RAM TA4\\, 1 Wafer de Silício TA4\\, 1 Folha de Plástico e 1 Tira de Aço.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -256,6 +274,7 @@ return {
     "",
     "",
     "ta5_teleport",
+    "",
     "",
     "",
     "",

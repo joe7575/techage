@@ -62,19 +62,54 @@ return {
     "\n",
     "Die Pumpe wird benötigt\\, um den Kühlkreislauf mit Isobutan zu füllen. Es werden ca. 350 Einheiten Isobutan benötigt.\n"..
     "\n"..
+    "Die Pumpe hat zwei Anschlussseiten:\n"..
+    "\n"..
+    "  - Linke Seite: gelber Anschluss (GasPipe) – hier wird der Isobutan-Tank angeschlossen\n"..
+    "  - Rechte Seite: blauer Anschluss (LiquidPipe) – hier wird der Kühlkreislauf angeschlossen\n"..
+    "\n"..
+    "In der Grundeinstellung pumpt die Pumpe von links (gelb) nach rechts (blau)\\, also vom Tank in den Kühlkreislauf. Über das Schraubenschlüssel-Menü kann die Pumprichtung auf \"reverse\" umgestellt werden.\n"..
+    "\n"..
     "Hinweis: Die TA5 Pumpe kann nur zum Füllen des Kühlkreislaufs genutzt werden\\, ein Abpumpen des Kühlmittels ist nicht möglich. Daher sollte die Pumpe erst eingeschaltet werden\\, wenn die Magnete korrekt platziert und alle Strom- und Kühlleitungen angeschlossen sind.\n"..
+    "\n"..
+    "Wenn die Pumpe \"blocked\" anzeigt\\, ist das Ziel voll oder nicht verbunden.\n"..
     "\n"..
     "\n"..
     "\n",
     "Der TA5 Wärmetauscher wird benötigt\\, um die im Fusionsreaktor erzeugte Hitze zuerst in Dampf und dann in Strom umzuwandeln. Der Wärmetauscher selbst benötigt dazu 5 ku Strom. Der Aufbau gleicht dem Wärmetauscher des Energiespeichers aus TA4.\n"..
     "\n"..
-    "Hinweis: Der TA5 Wärmetauscher hat zwei Anschlüsse (blau und grün) für den Kühlkreislauf. Über die grünen und blauen Röhren müssen der Wärmetauscher und alle Magnete zu einem Kühlkreislauf verbunden werden.\n"..
+    "Der Wärmetauscher besteht aus 3 Teilen (von unten nach oben: 1\\, 2\\, 3). Die Teile 1 und 3 haben jeweils zwei Anschlussseiten:\n"..
     "\n"..
-    "Über den Start-Button des Wärmetauschers kann der Kühlkreislauf auf Vollständigkeit geprüft werden\\, auch wenn noch kein Kühlmittel eingefüllt wurde.\n"..
+    "  - Rechte Seite: gelber Anschluss – Anschluss an Turbine (Teil 1) bzw. Kühler (Teil 3)\n"..
+    "  - Linke Seite von Teil 1: blauer Anschluss – Kühlkreislauf zum unteren Magnetring (56 Magnete)\n"..
+    "  - Linke Seite von Teil 3: grüner Anschluss – Kühlkreislauf zum oberen Magnetring (52 Magnete)\n"..
+    "\n"..
+    "Über den Start-Button des Wärmetauschers (Teil 2) kann der Kühlkreislauf auf Vollständigkeit geprüft werden\\, auch wenn noch kein Kühlmittel eingefüllt wurde. Mögliche Fehlermeldungen:\n"..
+    "\n"..
+    "  - \"Turbine error\" / \"Cooler error\": Turbine oder Kühler nicht über gelbe Leitung verbunden\n"..
+    "  - \"Blue/Green pipe connection error\": Magnete nicht korrekt über blaue/grüne Rohre verbunden\n"..
+    "  - \"Blue/Green pipe coolant missing\": Magnete noch nicht mit Isobutan gefüllt (je Magnet 6 Einheiten)\n"..
     "\n"..
     "\n"..
     "\n",
-    "Über den TA5 Fusionreaktor Controller wird der Fusionreaktor eingeschaltet. Dabei muss zuerst die Kühlung/Wärmetauscher und dann der Controller eingeschaltet werden. Es dauert ca. 2 min\\, bis der Reaktor in Gang kommt und Strom liefert. Der Fusionreaktor und damit der Controller benötigt 400 ku an Strom\\, um das Plasma aufrecht zu erhalten.\n"..
+    "Über den TA5 Fusionreaktor Controller wird der Fusionreaktor eingeschaltet. Der Fusionreaktor und damit der Controller benötigt 400 ku an Strom\\, um das Plasma aufrecht zu erhalten.\n"..
+    "\n"..
+    "*Startreihenfolge:*\n"..
+    "\n"..
+    "  - Alle Magnete müssen korrekt platziert und mit Isobutan gefüllt sein\n"..
+    "  - Kühlkreislauf (blaue und grüne Rohre) und Dampfleitungen (gelbe Rohre) müssen vollständig angeschlossen sein\n"..
+    "  - Zuerst den Wärmetauscher (Teil 2) einschalten\n"..
+    "  - Dann den Controller einschalten\n"..
+    "  - Es dauert ca. 2 Minuten\\, bis der Reaktor 80° erreicht und Dampf/Strom liefert\n"..
+    "\n"..
+    "*Wichtig:* Beide – Wärmetauscher und Controller – müssen gleichzeitig laufen. Der Controller heizt die Magnete auf (inc_power)\\, der Wärmetauscher kühlt sie ab (dec_power). Ohne das Zusammenspiel beider Teile wird die Betriebstemperatur nicht erreicht.\n"..
+    "\n"..
+    "Mögliche Fehlermeldungen des Controllers:\n"..
+    "\n"..
+    "  - \"Magnet detection error\": Nicht alle 56 Magnete per Stromkabel erreichbar\n"..
+    "  - \"Plasma ring shape error\": Innenraum des Plasmarings nicht frei (Luft)\n"..
+    "  - \"Shell shape error\": Hülle um die Magnete unvollständig (zeigt\\, bei wie vielen Magneten die Hülle komplett ist)\n"..
+    "  - \"Nucleus detection error\": Kern fehlt oder nicht korrekt platziert\n"..
+    "  - \"Cooling failed\": Wärmetauscher läuft nicht oder Magnete werden nicht gekühlt\n"..
     "\n"..
     "\n"..
     "\n",
@@ -171,18 +206,13 @@ return {
     "\n"..
     "  - 'on' / 'off' - Digitizer starten oder stoppen\n"..
     "  - 'state' - Aktuellen Zustand abfragen (z.B. \"running\"\\, \"stopped\")\n"..
-    "  - 'pull' - Im Pull-Modus starten – zieht Items aus der benachbarten Kiste\n"..
-    "  - 'push' - Im Push-Modus starten – schiebt gespeicherte Items in die benachbarte Kiste\n"..
+    "  - 'pull' - Im Pull-Modus starten\\; zieht Items aus der benachbarten Kiste\n"..
+    "  - 'push' - Im Push-Modus starten\\; schiebt gespeicherte Items in die benachbarte Kiste\n"..
     "  - 'stop' - Digitizer stoppen\n"..
-    "  - 'config' setzt den Ziel-Item-Typ (stoppt den Digitizer zuerst).\n"..
-    "     Beispiel: '$send_cmnd(NUM\\, \"config\"\\, \"default:stone\")'\n"..
-    "  - 'count' fragt die Gesamtanzahl der gespeicherten Items ab.\n"..
-    "     Beispiel: '$send_cmnd(NUM\\, \"count\")' gibt eine Zahl zurück\n"..
-    "  - 'itemstring' fragt den konfigurierten Item-Typ ab.\n"..
-    "     Beispiel: '$send_cmnd(NUM\\, \"itemstring\")' gibt den Item-Namen zurück\n"..
-    "  - 'mode' liest oder setzt den Betriebsmodus (1 = pull\\, 2 = push).\n"..
-    "     Beispiel: '$send_cmnd(NUM\\, \"mode\")' gibt 1 oder 2 zurück\n"..
-    "     Beispiel: '$send_cmnd(NUM\\, \"mode\"\\, 2)' setzt Push-Modus\n"..
+    "  - 'config' setzt den Ziel-Item-Typ (stoppt den Digitizer zuerst).\nBeispiel: '$send_cmnd(NUM\\, \"config\"\\, \"default:stone\")'\n"..
+    "  - 'count' fragt die Gesamtanzahl der gespeicherten Items ab.\nBeispiel: '$send_cmnd(NUM\\, \"count\")' gibt eine Zahl zurück\n"..
+    "  - 'itemstring' fragt den konfigurierten Item-Typ ab.\nBeispiel: '$send_cmnd(NUM\\, \"itemstring\")' gibt den Item-Namen zurück\n"..
+    "  - 'mode' liest oder setzt den Betriebsmodus (1 = pull\\, 2 = push).\nBeispiel: '$send_cmnd(NUM\\, \"mode\")' gibt 1 oder 2 zurück\nBeispiel: '$send_cmnd(NUM\\, \"mode\"\\, 2)' setzt Push-Modus\n"..
     "\n"..
     "Beduino-Themen (cmnd): 65 = Item-Typ setzen\\, 67 = Modus setzen (1=pull\\, 2=push)\n"..
     "Beduino-Themen (request): 154 = Gesamt-Item-Anzahl\\, 155 = konfigurierter Item-Typ\n"..
@@ -193,7 +223,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Die TA5 SSD ist ein Zwischenprodukt, das für die Herstellung des TA5 Digitizers benötigt wird. Sie kann nur an der TA4-Elektronikfabrik aus 16 TA4 RAM-Chips, 1 TA4 Silizium-Wafer, 1 Kunststoffplatte und 1 Stahlstreifen hergestellt werden.\n"..
+    "Die TA5 SSD ist ein Zwischenprodukt\\, das für die Herstellung des TA5 Digitizers benötigt wird. Sie kann nur an der TA4-Elektronikfabrik aus 16 TA4 RAM-Chips\\, 1 TA4 Silizium-Wafer\\, 1 Kunststoffplatte und 1 Stahlstreifen hergestellt werden.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -261,6 +291,7 @@ return {
     "",
     "",
     "ta5_teleport",
+    "",
     "",
     "",
     "",

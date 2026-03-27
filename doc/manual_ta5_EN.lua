@@ -61,19 +61,54 @@ return {
     "\n",
     "The pump is required to fill the cooling circuit with isobutane. About 350 units of isobutane are required.\n"..
     "\n"..
+    "The pump has two connection sides:\n"..
+    "\n"..
+    "  - Left side: yellow connector (GasPipe) – connect the isobutane tank here\n"..
+    "  - Right side: blue connector (LiquidPipe) – connect the cooling circuit here\n"..
+    "\n"..
+    "By default\\, the pump moves liquid from left (yellow) to right (blue)\\, i.e. from the tank into the cooling circuit. The pump direction can be changed to \"reverse\" via the wrench menu.\n"..
+    "\n"..
     "Note: The TA5 pump can only be used to fill the cooling circuit\\, pumping out the coolant is not possible. Therefore\\, the pump should not be switched on until the magnets are correctly placed and all power and cooling lines are connected.\n"..
+    "\n"..
+    "If the pump shows \"blocked\"\\, the destination is full or not connected.\n"..
     "\n"..
     "\n"..
     "\n",
     "The TA5 Heat Exchanger is required to convert the heat generated in the fusion reactor first to steam and then to electricity. The Heat Exchanger itself requires 5 ku electricity. The structure is similar to the Heat Exchanger of the energy store from TA4.\n"..
     "\n"..
-    "Note: The TA5 Heat Exchanger has two connections (blue and green) for the cooling circuit. The heat exchanger and all magnets must be connected to form a cooling circuit via the green and blue pipes.\n"..
+    "The Heat Exchanger consists of 3 parts (bottom to top: 1\\, 2\\, 3). Parts 1 and 3 each have two connection sides:\n"..
     "\n"..
-    "The cooling circuit can be checked for completeness using the start button on the heat exchanger\\, even if no coolant has yet been filled in.\n"..
+    "  - Right side: yellow connector – connects to turbine (part 1) or cooler (part 3)\n"..
+    "  - Left side of part 1: blue connector – cooling circuit to the lower magnet ring (56 magnets)\n"..
+    "  - Left side of part 3: green connector – cooling circuit to the upper magnet ring (52 magnets)\n"..
+    "\n"..
+    "The cooling circuit can be checked for completeness using the start button on the heat exchanger (part 2)\\, even if no coolant has yet been filled in. Possible error messages:\n"..
+    "\n"..
+    "  - \"Turbine error\" / \"Cooler error\": Turbine or cooler not connected via yellow pipe\n"..
+    "  - \"Blue/Green pipe connection error\": Magnets not correctly connected via blue/green pipes\n"..
+    "  - \"Blue/Green pipe coolant missing\": Magnets not yet filled with isobutane (6 units per magnet)\n"..
     "\n"..
     "\n"..
     "\n",
-    "The fusion reactor is switched on via the TA5 Fusion Reactor Controller. The cooling/Heat Exchanger must be switched on first and then the controller. It takes about 2 minutes for the reactor to start up and supply electricity. The fusion reactor and thus the controller requires 400 ku of electricity to maintain the plasma.\n"..
+    "The fusion reactor is switched on via the TA5 Fusion Reactor Controller. The fusion reactor and thus the controller requires 400 ku of electricity to maintain the plasma.\n"..
+    "\n"..
+    "*Startup sequence:*\n"..
+    "\n"..
+    "  - All magnets must be correctly placed and filled with isobutane\n"..
+    "  - Cooling circuit (blue and green pipes) and steam pipes (yellow pipes) must be fully connected\n"..
+    "  - First\\, switch on the Heat Exchanger (part 2)\n"..
+    "  - Then switch on the Controller\n"..
+    "  - It takes about 2 minutes for the reactor to reach 80° and produce steam/electricity\n"..
+    "\n"..
+    "*Important:* Both the Heat Exchanger and the Controller must be running at the same time. The Controller heats the magnets (inc_power)\\, the Heat Exchanger cools them (dec_power). Without both parts working together\\, the operating temperature will not be reached.\n"..
+    "\n"..
+    "Possible error messages from the Controller:\n"..
+    "\n"..
+    "  - \"Magnet detection error\": Not all 56 magnets reachable via power cable\n"..
+    "  - \"Plasma ring shape error\": Interior of the plasma ring not clear (air)\n"..
+    "  - \"Shell shape error\": Shell around the magnets incomplete (shows how many magnets have complete shell)\n"..
+    "  - \"Nucleus detection error\": Core missing or not correctly placed\n"..
+    "  - \"Cooling failed\": Heat Exchanger not running or magnets not being cooled\n"..
     "\n"..
     "\n"..
     "\n",
@@ -167,19 +202,14 @@ return {
     "Here are the additional commands for the Lua controller:\n"..
     "\n"..
     "  - 'on' / 'off' - Start or stop the Digitizer\n"..
-    "  - 'state' - Query the current state (e.g. \"running\", \"stopped\")\n"..
-    "  - 'pull' - Start in pull mode – draws items from the adjacent chest\n"..
-    "  - 'push' - Start in push mode – pushes stored items into the adjacent chest\n"..
+    "  - 'state' - Query the current state (e.g. \"running\"\\, \"stopped\")\n"..
+    "  - 'pull' - Start in pull mode\\; draws items from the adjacent chest\n"..
+    "  - 'push' - Start in push mode\\; pushes stored items into the adjacent chest\n"..
     "  - 'stop' - Stop the Digitizer\n"..
-    "  - 'config' sets the target item type (stops the Digitizer first).\n"..
-    "     Example: '$send_cmnd(NUM\\, \"config\"\\, \"default:stone\")'\n"..
-    "  - 'count' queries the total number of stored items.\n"..
-    "     Example: '$send_cmnd(NUM\\, \"count\")' returns a number\n"..
-    "  - 'itemstring' queries the configured item type.\n"..
-    "     Example: '$send_cmnd(NUM\\, \"itemstring\")' returns the item name\n"..
-    "  - 'mode' gets or sets the operating mode (1 = pull\\, 2 = push).\n"..
-    "     Example: '$send_cmnd(NUM\\, \"mode\")' returns 1 or 2\n"..
-    "     Example: '$send_cmnd(NUM\\, \"mode\"\\, 2)' sets push mode\n"..
+    "  - 'config' sets the target item type (stops the Digitizer first).\nExample: '$send_cmnd(NUM\\, \"config\"\\, \"default:stone\")'\n"..
+    "  - 'count' queries the total number of stored items.\nExample: '$send_cmnd(NUM\\, \"count\")' returns a number\n"..
+    "  - 'itemstring' queries the configured item type.\nExample: '$send_cmnd(NUM\\, \"itemstring\")' returns the item name\n"..
+    "  - 'mode' gets or sets the operating mode (1 = pull\\, 2 = push).\nExample: '$send_cmnd(NUM\\, \"mode\")' returns 1 or 2\nExample: '$send_cmnd(NUM\\, \"mode\"\\, 2)' sets push mode\n"..
     "\n"..
     "Beduino topics (cmnd): 65 = set item type\\, 67 = set mode (1=pull\\, 2=push)\n"..
     "Beduino topics (request): 154 = total item count\\, 155 = configured item type\n"..
@@ -190,7 +220,7 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "The TA5 SSD is an intermediate component required to craft the TA5 Digitizer. It can only be manufactured at the TA4 Electronics Fab from 16 TA4 RAM Chips, 1 TA4 Silicon Wafer, 1 Plastic Sheet and 1 Steel Strip.\n"..
+    "The TA5 SSD is an intermediate component required to craft the TA5 Digitizer. It can only be manufactured at the TA4 Electronics Fab from 16 TA4 RAM Chips\\, 1 TA4 Silicon Wafer\\, 1 Plastic Sheet and 1 Steel Strip.\n"..
     "\n"..
     "\n"..
     "\n",
@@ -256,6 +286,7 @@ return {
     "",
     "",
     "ta5_teleport",
+    "",
     "",
     "",
     "",

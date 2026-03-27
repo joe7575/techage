@@ -87,7 +87,7 @@ Possible error messages from the Controller:
 
 - "Magnet detection error": Not all 56 magnets reachable via power cable
 - "Plasma ring shape error": Interior of the plasma ring not clear (air)
-- "Shell shape error": Shell around the magnets incomplete
+- "Shell shape error": Shell around the magnets incomplete (shows how many magnets have complete shell)
 - "Nucleus detection error": Core missing or not correctly placed
 - "Cooling failed": Heat Exchanger not running or magnets not being cooled
 
