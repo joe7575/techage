@@ -102,6 +102,7 @@ minetest.register_node("techage:ta3_monitor", {
 		local number = techage.add_node(pos, "techage:ta3_monitor")
 		local meta = M(pos)
 		meta:set_string("number", number)
+		meta:set_string("node_number", number)
 		meta:set_int("resolution", 8)
 		meta:set_string("color", "#33FF00")
 		meta:set_string("infotext", S("TA3 CRT Monitor no:") .. " " .. number)

@@ -121,6 +121,7 @@ local function register_display(name, description, inventory_image, tiles, node_
 			if ndef.display_entities then
 				local number = techage.add_node(pos, node.name)
 				meta:set_string("number", number)
+				meta:set_string("node_number", number)
 				meta:set_string("infotext", DESCR .. " " .. number)
 				local nvm = techage.get_nvm(pos)
 				nvm.text = {"My Techage", "TA4 Display II", "No: "..number}
@@ -143,6 +144,14 @@ local function register_display(name, description, inventory_image, tiles, node_
 		on_timer = on_timer,
 		on_destruct = lcdlib.on_destruct,
 		on_rotate = lcdlib.on_rotate,
+		ta_rotate_node = function(pos, node, new_param2)
+			-- Let lcdlib handle rotation and entity repositioning (place_entities)
+			lcdlib.on_rotate(pos, node, nil, 1, new_param2)
+			-- Fix color bits that lcdlib lost (it only sets direction bits 0-1)
+			local current = minetest.get_node(pos)
+			local color_bits = node.param2 - (node.param2 % 4)
+			minetest.swap_node(pos, {name = node.name, param2 = color_bits + (current.param2 % 4)})
+		end,
 		on_dig = color.on_dig,
 		groups = {cracky=2, crumbly=2},
 		is_ground_content = false,

@@ -98,6 +98,14 @@ local function on_use(itemstack, user, pointed_thing)
 			else
 				turn_left(pos, node, ndef)
 			end
+		elseif ndef.ta_rotate_node then
+			if ndef.paramtype2 == "color4dir" then
+				local color_bits = node.param2 - (node.param2 % 4)
+				local new_dir = (node.param2 % 4 + 1) % 4
+				ndef.ta_rotate_node(pos, node, color_bits + new_dir)
+			else
+				ndef.ta_rotate_node(pos, node, techage.param2_turn_left(node.param2))
+			end
 		else
 			return screwdriver.handler(itemstack, user, pointed_thing, screwdriver.ROTATE_FACE, USES)
 		end
@@ -129,7 +137,17 @@ local function on_place(itemstack, user, pointed_thing)
 				return itemstack
 			end
 		else
-			return screwdriver.handler(itemstack, user, pointed_thing, screwdriver.ROTATE_AXIS, USES)
+			if ndef.ta_rotate_node then
+				if ndef.paramtype2 == "color4dir" then
+					local color_bits = node.param2 - (node.param2 % 4)
+					local new_dir = (node.param2 % 4 + 3) % 4  -- turn right
+					ndef.ta_rotate_node(pos, node, color_bits + new_dir)
+				else
+					ndef.ta_rotate_node(pos, node, techage.param2_turn_left(node.param2))
+				end
+			else
+				return screwdriver.handler(itemstack, user, pointed_thing, screwdriver.ROTATE_FACE, USES)
+			end
 		end
 
 		if not minetest.is_creative_enabled(player_name) then

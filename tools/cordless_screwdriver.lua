@@ -64,6 +64,7 @@ end
 local function remove_node(pos, digger)
 	local node = minetest.get_node(pos)
 	local number = M(pos):get_string("node_number")
+	if number == "" then number = M(pos):get_string("number") end  -- fallback for displays
 	local item = ItemStack(node.name)
 	local imeta = item:get_meta()
 	local ndef = minetest.registered_nodes[node.name]
@@ -118,8 +119,14 @@ local function place_node(pos, item, placer, pointed_thing)
 	local imeta = item:get_meta()
 	local number = imeta:get_string("node_number")
 	local name = item:get_name()
-	local param2 = minetest.dir_to_facedir(placer:get_look_dir())
 	local ndef = minetest.registered_nodes[name]
+	local param2
+	if ndef and ndef.paramtype2 == "wallmounted" then
+		local dir = vector.subtract(pointed_thing.under, pointed_thing.above)
+		param2 = minetest.dir_to_wallmounted(dir)
+	else
+		param2 = minetest.dir_to_facedir(placer:get_look_dir())
+	end
 
 	if ndef and ndef.ta_restore_nodedata then
 		if number ~= "" then

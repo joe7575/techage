@@ -110,6 +110,7 @@ minetest.register_node("techage:ta4_display", {
 		local number = techage.add_node(pos, "techage:ta4_display")
 		local meta = minetest.get_meta(pos)
 		meta:set_string("number", number)
+		meta:set_string("node_number", number)
 		meta:set_string("infotext", S("Display no: ")..number)
 		local nvm = techage.get_nvm(pos)
 		nvm.text = {"My", "Techage","TA4", "Display", "No: "..number}
@@ -158,6 +159,7 @@ minetest.register_node("techage:ta4_displayXL", {
 		local number = techage.add_node(pos, "techage:ta4_displayXL")
 		local meta = minetest.get_meta(pos)
 		meta:set_string("number", number)
+		meta:set_string("node_number", number)
 		meta:set_string("infotext", S("Display no: ")..number)
 		local nvm = techage.get_nvm(pos)
 		nvm.text = {"My", "Techage","TA4", "Display", "No: "..number}
