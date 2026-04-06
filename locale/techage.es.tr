@@ -1,0 +1,1482 @@
+# textdomain: techage
+
+##[ basic_machines/autocrafter.lua ]##
+Autocrafter=Fabricante automático
+
+##[ basic_machines/blackhole.lua ]##
+TechAge Black Hole=Agujero negro TechAge
+TechAge Black Hole (let items and liquids disappear)=Agujero negro TechAge (hace desaparecer objetos y líquidos)
+
+##[ basic_machines/chest.lua ]##
+TA2 Protected Chest=Cofre protegido TA2
+TA3 Protected Chest=Cofre protegido TA3
+Inventory,Pre-Assignment,Config=Inventario,Preasignación,Configuración
+Node label:=Etiqueta del bloque:
+Allow public access to the chest=Permitir acceso público al cofre
+TA4 Protected Chest=Cofre protegido TA4
+
+##[ basic_machines/chest.lua ]##
+##[ basis/submenu.lua ]##
+##[ logic/button.lua ]##
+##[ logic/command_converter.lua ]##
+##[ logic/detector.lua ]##
+##[ logic/flipflop.lua ]##
+##[ logic/mesecons_converter.lua ]##
+##[ logic/repeater.lua ]##
+##[ logic/sequencer2.lua ]##
+##[ move_controller/doorcontroller.lua ]##
+Save=Guardar
+
+##[ basic_machines/concentrator.lua ]##
+Tube Concentrator=Concentrador de tubos
+TA4 Tube Concentrator=Concentrador de tubos TA4
+
+##[ basic_machines/distributor.lua ]##
+blocking mode=modo de bloqueo
+Block configured items for open ports=Bloquear objetos configurados para puertos abiertos
+Input=Entrada
+Distributor=Distribuidor
+High Performance Distributor=Distribuidor de alto rendimiento
+
+##[ basic_machines/electronic_fab.lua ]##
+Electronic Fab=Fábrica electrónica
+TA2 Ele Fab=Fábrica electrónica TA2
+TA3 Ele Fab=Fábrica electrónica TA3
+TA4 Ele Fab=Fábrica electrónica TA4
+
+##[ basic_machines/forceload.lua ]##
+Block at pos=Bloque en posición
+Area from=Área desde
+Area to=Área hasta
+List of your Forceload Blocks:=Lista de tus bloques de carga forzada:
+loaded=cargado
+Punch the block to make the area visible.=Golpea el bloque para hacer visible el área.
+Area already loaded or max. number of Forceload Blocks reached!=¡Área ya cargada o número máximo de bloques de carga forzada alcanzado!
+Techage Forceload Block=Bloque de carga forzada Techage
+Techage Forceload Tile=Baldosa de carga forzada Techage
+Show all forceload blocks in a 64x64x64 range=Mostrar todos los bloques de carga forzada en un rango de 64x64x64
+
+##[ basic_machines/forceload.lua ]##
+##[ basis/teleport.lua ]##
+Status=Estado
+
+##[ basic_machines/gravelrinser.lua ]##
+Gravel Rinser=Enjuagadora de grava
+Rinsing=Enjuagando
+
+##[ basic_machines/gravelsieve.lua ]##
+Gravel Sieve=Criba de grava
+TA2 Gravel Sieve=Criba de grava TA2
+TA3 Gravel Sieve=Criba de grava TA3
+TA4 Gravel Sieve=Criba de grava TA4
+
+##[ basic_machines/grinder.lua ]##
+Grinder=Trituradora
+TA1 Mill Base=Base del molino TA1
+Grinding=Triturando
+Milling=Moliendo
+
+##[ basic_machines/liquidsampler.lua ]##
+Liquid Sampler=Muestreador de líquidos
+
+##[ basic_machines/liquidsampler.lua ]##
+##[ liquids/waterpump.lua ]##
+no usable water=sin agua utilizable
+
+##[ basic_machines/pusher.lua ]##
+Number of items=Número de objetos
+Number of items that are allowed to be pushed=Número de objetos que se pueden empujar
+Pusher=Empujador
+Optionally configure@nthe pusher with one item=Opcionalmente configura@nel empujador con un objeto
+
+##[ basic_machines/quarry.lua ]##
+Start level @= 0@nmeans the same level@nas the quarry is placed=Nivel inicial @= 0@nsignifica el mismo nivel@nen que se coloca la cantera
+Quarry=Cantera
+Start level=Nivel inicial
+Digging depth=Profundidad de excavación
+Hole size=Tamaño del agujero
+inventory full=inventario lleno
+Max. number of active quarries reached!=¡Número máximo de canteras activas alcanzado!
+
+##[ basic_machines/quarry.lua ]##
+##[ basic_machines/waterremover.lua ]##
+area is protected=el área está protegida
+finished=terminado
+
+##[ basic_machines/recipeblock.lua ]##
+TA4 Recipe Block=Bloque de recetas TA4
+
+##[ basic_machines/recipeblock.lua ]##
+##[ basis/recipe_lib.lua ]##
+Recipe=Receta
+
+##[ basic_machines/recycler.lua ]##
+Recycler=Reciclador
+
+##[ basic_machines/source.lua ]##
+Power Source=Fuente de energía
+Axle Power Source=Fuente de energía de eje
+Ele Power Source=Fuente de energía eléctrica
+
+##[ basic_machines/ta4_chest.lua ]##
+TA4 8x2000 Chest=Cofre TA4 8x2000
+Unlock=Desbloquear
+Unlock connected chest@nif all slots are below 2000=Desbloquear cofre conectado@nsi todos los espacios están por debajo de 2000
+Size=Tamaño
+Never completely empty the slots@nwith the pusher to keep the item assignment=Nunca vaciar completamente los espacios@ncon el empujador para mantener la asignación de objetos
+right to left=de derecha a izquierda
+Empty the slots always @nfrom right to left=Vaciar los espacios siempre@nde derecha a izquierda
+
+##[ basic_machines/ta4_chest.lua ]##
+##[ basis/liquid_lib.lua ]##
+keep assignment=mantener asignación
+
+##[ basic_machines/ta4_injector.lua ]##
+Switch to pull mode @nto pull items out of inventory slots @naccording the injector configuration=Cambiar a modo de extracción @npara sacar objetos de los espacios del inventario @nsegún la configuración del inyector
+Injector=Inyector
+Configure up to 8 items @nto be pushed by the injector=Configurar hasta 8 objetos @npara ser empujados por el inyector
+pull mode=modo de extracción
+
+##[ basic_machines/ta5_chest.lua ]##
+TA5 Hyperloop Chest=Cofre Hyperloop TA5
+
+##[ basic_machines/waterremover.lua ]##
+Water Remover=Eliminador de agua
+Area size=Tamaño del área
+Area where the water is to be removed=Área donde se eliminará el agua
+Area depth=Profundidad del área
+Depth of the area where the water is to be removed (1-80)=Profundidad del área donde se eliminará el agua (1-80)
+Current depth=Profundidad actual
+Current working depth of the water remover=Profundidad de trabajo actual del eliminador de agua
+tank full=depósito lleno
+
+##[ basis/assemble.lua ]##
+##[ basis/firebox_lib.lua ]##
+[TA] Area is protected!=[TA] ¡El área está protegida!
+[TA] Not enough space!=[TA] ¡No hay suficiente espacio!
+
+##[ basis/boiler_lib.lua ]##
+Water Boiler=Caldera de agua
+To add water punch@nthe boiler@nwith a water bucket=Para añadir agua golpea@nla caldera@ncon un cubo de agua
+
+##[ basis/boiler_lib.lua ]##
+##[ fusion_reactor/heatexchanger2.lua ]##
+water temperature=temperatura del agua
+
+##[ basis/counting.lua ]##
+[techage] The limit for 'number of commands per minute' has been exceeded.=[techage] Se ha superado el límite de 'número de comandos por minuto'.
+is allowed. Current value is=está permitido. El valor actual es
+Your current value is=Tu valor actual es
+per minute=por minuto
+is allowed=está permitido
+
+##[ basis/firebox_lib.lua ]##
+Firebox=Caja de fuego
+
+##[ basis/fly_lib.lua ]##
+Stopped=Detenido
+Error: Max. length of the flight route exceeded by @1 blocks !!=Error: ¡Longitud máxima de la ruta de vuelo superada en @1 bloques!!
+No valid node at the start position=No hay bloque válido en la posición de inicio
+No valid destination position=No hay posición de destino válida
+Start position is protected=La posición de inicio está protegida
+Destination position is protected=La posición de destino está protegida
+Running=En funcionamiento
+No valid start position=No hay posición de inicio válida
+
+##[ basis/fly_lib.lua ]##
+##[ move_controller/flycontroller.lua ]##
+Error: Invalid path !!=Error: ¡Ruta no válida!!
+
+##[ basis/fly_lib2.lua ]##
+Invalid node=Bloque no válido
+
+##[ basis/fuel_lib.lua ]##
+To add fuel punch@nthis block@nwith a fuel container=Para añadir combustible golpea@neste bloque@ncon un recipiente de combustible
+Fuel Menu=Menú de combustible
+
+##[ basis/hyperloop.lua ]##
+##[ basis/teleport.lua ]##
+connected to=conectado a
+Enter a block name or select an existing one=Introduce un nombre de bloque o selecciona uno existente
+Block name=Nombre del bloque
+Connection name for this block=Nombre de conexión para este bloque
+Remote name=Nombre remoto
+Connection name of the remote block=Nombre de conexión del bloque remoto
+
+##[ basis/hyperloop.lua ]##
+##[ basis/teleport.lua ]##
+##[ lua_controller/sensorchest.lua ]##
+not connected=no conectado
+
+##[ basis/lib.lua ]##
+Block has an@nadditional wrench menu=El bloque tiene un@nmenú adicional de llave inglesa
+
+##[ basis/liquid_lib.lua ]##
+To add liquids punch@nthe tank@nwith a liquid container=Para añadir líquidos golpea@nel depósito@ncon un recipiente de líquido
+Liquid Tank=Depósito de líquido
+Allow public access to the tank=Permitir acceso público al depósito
+
+##[ basis/recipe_lib.lua ]##
+##[ chemistry/ta4_reactor.lua ]##
+Catalyst=Catalizador
+
+##[ basis/submenu.lua ]##
+Note: You can't change any values while the block is running!=¡Nota: No puedes cambiar ningún valor mientras el bloque está en funcionamiento!
+Refresh=Actualizar
+
+##[ basis/submenu.lua ]##
+##[ logic/sequencer2.lua ]##
+Cancel=Cancelar
+
+##[ basis/teleport.lua ]##
+Connection status=Estado de conexión
+Block @1 connected to @2 at pos. @3=Bloque @1 conectado a @2 en pos. @3
+server not connected=servidor no conectado
+Connected=Conectado
+Distance > @1 blocks=Distancia > @1 bloques
+Ex-points missing (@1 < @2)=Puntos de experiencia insuficientes (@1 < @2)
+
+##[ basis/tube_wall_entry.lua ]##
+Tube Wall Entry=Entrada de tubo en pared
+
+##[ basis/tubes.lua ]##
+TechAge Tube=Tubo TechAge
+
+##[ basis/tubes_ta4.lua ]##
+TA4 Tube=Tubo TA4
+
+##[ basis/windturbine_lib.lua ]##
+[TA4 Wind Turbine]=[TA4 Turbina eólica]
+This is not the surface of the ocean!=¡Esta no es la superficie del océano!
+This is no ocean water!=¡Esta no es agua oceánica!
+This is a=Este es un
+biome and no ocean!=bioma y no un océano!
+Here is not enough wind@n(A free air space of 41x41x21 m is necessary)!=¡Aquí no hay suficiente viento@n(Es necesario un espacio libre de 41x41x21 m)!
+Here is not enough water (41x41 m)!=¡Aquí no hay suficiente agua (41x41 m)!
+The next wind turbines is too close!=¡La siguiente turbina eólica está demasiado cerca!
+is a suitable place for a wind turbine!=¡es un lugar adecuado para una turbina eólica!
+
+##[ carts/chest_cart.lua ]##
+TA Chest Cart=Carrito de cofre TA
+
+##[ carts/tank_cart.lua ]##
+TA Tank Cart=Carrito de depósito TA
+
+##[ chemistry/ta4_doser.lua ]##
+Doser=Dosificador
+reactor defect=reactor defectuoso
+reactor defect or no power=reactor defectuoso o sin energía
+catalyst missing=catalizador faltante
+wrong catalyst=catalizador incorrecto
+output: Invalid recipe=salida: Receta no válida
+silo=silo
+tank=depósito
+output: A @1 is required for @2=salida: Se requiere un @1 para @2
+reactor has no power=el reactor no tiene energía
+TA4 Doser=Dosificador TA4
+
+##[ chemistry/ta4_doser.lua ]##
+##[ chemistry/ta4_reactor.lua ]##
+TA4 Reactor=Reactor TA4
+
+##[ chemistry/ta4_liquid_filter.lua ]##
+TA4 Liquid Filter Filler=Rellenador de filtro de líquido TA4
+TA4 Liquid Filter Sink=Sumidero de filtro de líquido TA4
+
+##[ chemistry/ta4_reactor.lua ]##
+TA4 Reactor Filler Pipe=Tubo de relleno del reactor TA4
+
+##[ chemistry/ta4_stand.lua ]##
+on=encendido
+TA4 Reactor Stand=Soporte del reactor TA4
+off=apagado
+TA4 Reactor Base=Base del reactor TA4
+
+##[ chemistry/ta4_stand.lua ]##
+##[ liquids/waterpump.lua ]##
+no power=sin energía
+
+##[ coal_power_station/boiler_base.lua ]##
+TA3 Boiler Base=Base de caldera TA3
+
+##[ coal_power_station/boiler_top.lua ]##
+TA3 Boiler Top=Parte superior de caldera TA3
+
+##[ coal_power_station/cooler.lua ]##
+TA3 Cooler=Enfriador TA3
+
+##[ coal_power_station/firebox.lua ]##
+TA3 Power Station Firebox=Caja de fuego de central eléctrica TA3
+TA3 Coal Power Station Firebox=Caja de fuego de central de carbón TA3
+
+##[ coal_power_station/generator.lua ]##
+TA3 Generator=Generador TA3
+
+##[ coal_power_station/generator.lua ]##
+##[ power/power_terminal2.lua ]##
+Generator=Generador
+
+##[ coal_power_station/oilfirebox.lua ]##
+TA3 Power Station Oil Burner=Quemador de petróleo de central eléctrica TA3
+
+##[ coal_power_station/turbine.lua ]##
+TA3 Turbine=Turbina TA3
+
+##[ collider/cooler.lua ]##
+TA4 Collider Cooler=Enfriador del colisionador TA4
+
+##[ collider/detector.lua ]##
+TA4 Collider Detector Core=Núcleo del detector del colisionador TA4
+TA4 Collider Detector=Detector del colisionador TA4
+
+##[ collider/inlets.lua ]##
+TA4 Collider Tube Input=Entrada de tubo del colisionador TA4
+TA4 Collider Pipe Input=Entrada de tubería del colisionador TA4
+TA4 Collider Pipe Output=Salida de tubería del colisionador TA4
+TA4 Collider Cable Input=Entrada de cable del colisionador TA4
+
+##[ collider/magnet.lua ]##
+TA4 Collider Steel Block=Bloque de acero del colisionador TA4
+TA4 Collider Detector Magnet=Imán del detector del colisionador TA4
+TA4 Collider Magnet=Imán del colisionador TA4
+TA4 Collider Magnet Base=Base del imán del colisionador TA4
+
+##[ collider/vacuumtube.lua ]##
+TA4 Vacuum Tube=Tubo de vacío TA4
+
+##[ collider/worker.lua ]##
+[TA4] Detector is being built!=[TA4] ¡Se está construyendo el detector!
+[TA4] Detector is being removed!=[TA4] ¡Se está eliminando el detector!
+Item list=Lista de objetos
+Build detector=Construir detector
+Remove detector=Eliminar detector
+TA4 Collider Detector Worker=Trabajador del detector del colisionador TA4
+
+##[ digtron/battery.lua ]##
+Digtron Battery=Batería Digtron
+Load=Carga
+Coal Equivalents=Equivalentes de carbón
+
+##[ displays/display.lua ]##
+TA4 Display=Pantalla TA4
+Display no: =Pantalla nº: 
+TA4 Display XL=Pantalla XL TA4
+
+##[ displays/display2.lua ]##
+TA4 Display II=Pantalla II TA4
+Select resolution of the display in characters x lines=Seleccionar resolución de la pantalla en caracteres x líneas
+Text color=Color del texto
+Select color of the screen text (0..63)@nSee chat command '/ta_color64'=Seleccionar el color del texto de la pantalla (0..63)@nVer el comando de chat '/ta_color64'
+Background color=Color de fondo
+Select color of the display background (0..63)@nSee chat command '/ta_color64'=Seleccionar el color de fondo de la pantalla (0..63)@nVer el comando de chat '/ta_color64'
+TA4 Display II XXL inside=Pantalla II XXL TA4 interior
+TA4 Display II XXL outside=Pantalla II XXL TA4 exterior
+
+##[ displays/display2.lua ]##
+##[ displays/monitor.lua ]##
+Resolution=Resolución
+
+##[ displays/monitor.lua ]##
+Select resolution of the monitor in characters x lines=Seleccionar resolución del monitor en caracteres x líneas
+Color=Color
+Select color of the screen text=Seleccionar el color del texto de la pantalla
+TA3 CRT Monitor=Monitor CRT TA3
+TA3 CRT Monitor no:=Monitor CRT TA3 nº:
+
+##[ energy_storage/generator.lua ]##
+TA4 Generator=Generador TA4
+
+##[ energy_storage/heatexchanger1.lua ]##
+TA4 Heat Exchanger 1=Intercambiador de calor 1 TA4
+
+##[ energy_storage/heatexchanger2.lua ]##
+TA4 Heat Exchanger=Intercambiador de calor TA4
+Power network connection error=Error de conexión de red eléctrica
+wrong storage diameter=diámetro de almacenamiento incorrecto
+inlet/pipe error=error de entrada/tubería
+did you check the plan?=¿comprobaste el plano?
+TA4 Heat Exchanger 2=Intercambiador de calor 2 TA4
+
+##[ energy_storage/heatexchanger2.lua ]##
+##[ fusion_reactor/controller.lua ]##
+##[ fusion_reactor/heatexchanger2.lua ]##
+No power=Sin energía
+
+##[ energy_storage/heatexchanger3.lua ]##
+TA4 Heat Exchanger 3=Intercambiador de calor 3 TA4
+
+##[ energy_storage/inlet.lua ]##
+TA4 Pipe Inlet=Entrada de tubería TA4
+one window maximum=máximo una ventana
+wrong number of shell nodes=número incorrecto de nodos de carcasa
+wrong number of gravel nodes=número incorrecto de nodos de grava
+wrong diameter (should be 5, 7, or 9)=diámetro incorrecto (debe ser 5, 7 o 9)
+
+##[ energy_storage/nodes.lua ]##
+TechAge Gravel=Grava TechAge
+
+##[ energy_storage/turbine.lua ]##
+TA4 Turbine=Turbina TA4
+
+##[ furnace/booster.lua ]##
+TA3 Booster=Potenciador TA3
+
+##[ furnace/cooking.lua ]##
+TA3 Melting=Fundición TA3
+
+##[ furnace/firebox.lua ]##
+TA3 Furnace Oil Burner=Quemador de petróleo del horno TA3
+
+##[ furnace/furnace_top.lua ]##
+Pre-Assignment Input Inv.=Inventario de entrada preasignado
+Stack locations can be pre-assigned to specific items,@nto be filled only with those items.=Las ubicaciones de pila pueden preasignarse a objetos específicos,@npara ser llenadas solo con esos objetos.
+Outp=Salida
+no fuel or no power=sin combustible o sin energía
+Furnace Top=Parte superior del horno
+
+##[ furnace/heater.lua ]##
+TA4 Furnace Heater=Calentador del horno TA4
+
+##[ fusion_reactor/controller.lua ]##
+TA5 Fusion Reactor Controller=Controlador del reactor de fusión TA5
+Nucleus detection error=Error de detección del núcleo
+Magnet detection error@n(@1% found / 100% expected)=Error de detección de imán@n(@1% encontrado / 100% esperado)
+Plasma ring shape error@n(@1% found / 100% expected)=Error de forma del anillo de plasma@n(@1% encontrado / 100% esperado)
+Shell shape error@n(@1 of @2 magnets OK)=Error de forma de la carcasa@n(@1 de @2 imanes correctos)
+Cooling failed@n(@1 found / @2 expected)=Error de enfriamiento@n(@1 encontrado / @2 esperado)
+
+##[ fusion_reactor/gas_pipe.lua ]##
+TA5 Pipe=Tubería TA5
+TA5 Junction Pipe=Tubería de unión TA5
+
+##[ fusion_reactor/generator.lua ]##
+TA5 Generator=Generador TA5
+no steam=sin vapor
+
+##[ fusion_reactor/heatexchanger1.lua ]##
+TA5 Heat Exchanger 1=Intercambiador de calor 1 TA5
+
+##[ fusion_reactor/heatexchanger2.lua ]##
+TA5 Heat Exchanger 2=Intercambiador de calor 2 TA5
+Turbine error=Error de turbina
+Cooler error=Error de enfriador
+ Error!= ¡Error!
+Blue pipe connection error@n(@1 found / @2 expected)=Error de conexión de tubería azul@n(@1 encontrado / @2 esperado)
+Green pipe connection error@n(@1 found / @2 expected)=Error de conexión de tubería verde@n(@1 encontrado / @2 esperado)
+Blue pipe coolant missing@n(@1 found / @2 expected)=Refrigerante de tubería azul faltante@n(@1 encontrado / @2 esperado)
+Green pipe coolant missing@n(@1 found / @2 expected)=Refrigerante de tubería verde faltante@n(@1 encontrado / @2 esperado)
+Cooling test failed=Prueba de enfriamiento fallida
+
+##[ fusion_reactor/heatexchanger3.lua ]##
+TA5 Heat Exchanger 3=Intercambiador de calor 3 TA5
+
+##[ fusion_reactor/magnet.lua ]##
+TA5 Fusion Reactor Magnet 1=Imán 1 del reactor de fusión TA5
+TA5 Fusion Reactor Magnet 2=Imán 2 del reactor de fusión TA5
+TA5 Fusion Reactor Magnet Blank=Imán en blanco del reactor de fusión TA5
+TA5 Fusion Reactor Magnet Shield=Escudo del imán del reactor de fusión TA5
+
+##[ fusion_reactor/shell.lua ]##
+TA5 Fusion Reactor Shell=Carcasa del reactor de fusión TA5
+TA5 Fusion Reactor Nucleus=Núcleo del reactor de fusión TA5
+
+##[ fusion_reactor/ta5_pump.lua ]##
+Operation=Operación
+Pump direction=Dirección de la bomba
+TA5 Pump=Bomba TA5
+blocked: destination full or not connected=bloqueado: destino lleno o no conectado
+Coolant=Refrigerante
+Amount of isobutane in the cooling system=Cantidad de isobutano en el sistema de enfriamiento
+
+##[ fusion_reactor/ta5_pump.lua ]##
+##[ liquids/pump.lua ]##
+Total flow rate=Caudal total
+Total flow rate in liquid units=Caudal total en unidades de líquido
+
+##[ fusion_reactor/turbine.lua ]##
+TA5 Turbine=Turbina TA5
+
+##[ hydrogen/electrolyzer.lua ]##
+Electrolyzer=Electrolizador
+TA4 Electrolyzer=Electrolizador TA4
+
+##[ hydrogen/electrolyzer.lua ]##
+##[ hydrogen/fuelcell.lua ]##
+##[ hydrogen/nitrogen.lua ]##
+##[ ta3_power/tiny_generator.lua ]##
+Electricity=Electricidad
+
+##[ hydrogen/electrolyzer.lua ]##
+##[ hydrogen/nitrogen.lua ]##
+Storage full=Almacenamiento lleno
+Turnoff point reached=Punto de apagado alcanzado
+Maximum power consumption [ku]=Consumo máximo de energía [ku]
+Maximum possible@ncurrent consumption=Consumo de corriente@nmáximo posible
+Current limitation=Limitación de corriente
+Configurable value@nfor the current limit=Valor configurable@npara el límite de corriente
+Turnoff point=Punto de apagado
+If the charge of the storage@nsystem falls below the configured value,@nthe block switches off=Si la carga del sistema de@nalmacenamiento cae por debajo del valor configurado,@nel bloque se apaga
+
+##[ hydrogen/fuelcell.lua ]##
+Fuel Cell=Celda de combustible
+no hydrogen=sin hidrógeno
+TA4 Fuel Cell=Celda de combustible TA4
+
+##[ hydrogen/fuelcellstack.lua ]##
+TA4 Fuel Cell Stack=Pila de celdas de combustible TA4
+
+##[ hydrogen/nitrogen.lua ]##
+Nitrogen collector=Colector de nitrógeno
+TA4 Nitrogen collector=Colector de nitrógeno TA4
+
+##[ icta_controller/battery.lua ]##
+Battery=Batería
+
+##[ iron_age/charcoalpile.lua ]##
+Dirt with Ash=Tierra con ceniza
+TA1 Charcoal=Carbón vegetal TA1
+
+##[ iron_age/coalburner.lua ]##
+Ash=Ceniza
+
+##[ iron_age/gravelsieve.lua ]##
+TA1 Gravel Sieve=Criba de grava TA1
+Sieved Gravel=Grava cribada
+Compressed Gravel=Grava comprimida
+
+##[ iron_age/hammer.lua ]##
+TA1 Stone Hammer (smash stone to gravel)=Martillo de piedra TA1 (triturar piedra en grava)
+TA1 Bronze Hammer (smash stone to gravel)=Martillo de bronce TA1 (triturar piedra en grava)
+TA1 Steel Hammer (smash stone to gravel)=Martillo de acero TA1 (triturar piedra en grava)
+TA1 Mese Hammer (smash stone to gravel)=Martillo de mese TA1 (triturar piedra en grava)
+TA1 Diamond Hammer (smash stone to gravel)=Martillo de diamante TA1 (triturar piedra en grava)
+TA1 Meridium Hammer (smash stone to gravel)=Martillo de meridium TA1 (triturar piedra en grava)
+
+##[ iron_age/lighter.lua ]##
+TA1 Lighter=Encendedor TA1
+
+##[ iron_age/meltingpot.lua ]##
+Menu,Recipes=Menú,Recetas
+Menu=Menú
+Melting Guide=Guía de fundición
+Heat=Calor
+Melting Pot active (heat@==Crisol activo (calor@=
+Melting Pot inactive (heat@==Crisol inactivo (calor@=
+TA1 Melting Pot=Crisol TA1
+Melting Pot inactive (heat@=0)=Crisol inactivo (calor@=0)
+TA1 Melting=Fundición TA1
+TA1 Burning=Combustión TA1
+
+##[ iron_age/meltingpot.lua ]##
+##[ tools/end_wrench.lua ]##
+Time=Tiempo
+
+##[ iron_age/meridium.lua ]##
+Meridium Pickaxe=Pico de meridium
+Meridium Shovel=Pala de meridium
+Meridium Axe=Hacha de meridium
+Meridium Sword=Espada de meridium
+
+##[ iron_age/recipes.lua ]##
+TA1 Iron Ingot=Lingote de hierro TA1
+TA1 Iron Block=Bloque de hierro TA1
+[Bucket] Lava can only be placed below sea level!=[Cubo] ¡La lava solo se puede colocar por debajo del nivel del mar!
+Flint and Iron=Pedernal y hierro
+
+##[ items/aluminium.lua ]##
+Gibbsite Powder=Polvo de gibsita
+Aluminum=Aluminio
+Red Mud=Lodo rojo
+Red Mud Barrel=Barril de lodo rojo
+Red Mud Canister=Bidón de lodo rojo
+
+##[ items/baborium.lua ]##
+Baborium Ore=Mineral de baborium
+Baborium Lump=Trozo de baborium
+Baborium Ingot=Lingote de baborium
+
+##[ items/barrel.lua ]##
+Water=Agua
+River Water=Agua de río
+Water Barrel=Barril de agua
+River Water Barrel=Barril de agua de río
+empty=vacío
+TA Empty Barrel=Barril vacío TA
+TA3 Canister=Bidón TA3
+Gas Cylinder Small=Cilindro de gas pequeño
+Gas Cylinder Large=Cilindro de gas grande
+
+##[ items/basalt.lua ]##
+Basalt Stone=Piedra de basalto
+Basalt Cobble=Adoquín de basalto
+Basalt Stone Brick=Ladrillo de piedra basáltica
+Basalt Stone Block=Bloque de piedra basáltica
+Basalt Gravel=Grava de basalto
+Sieved Basalt Gravel=Grava de basalto cribada
+Basalt Glass=Vidrio de basalto
+Basalt Glass 2=Vidrio de basalto 2
+Basalt Glass Thin=Vidrio fino de basalto
+Basalt Glass Thin 2=Vidrio fino de basalto 2
+Basalt Glass Thin XL=Vidrio fino XL de basalto
+Basalt Glass Thin XL 2=Vidrio fino XL de basalto 2
+
+##[ items/bauxit.lua ]##
+Bauxite Stone=Piedra de bauxita
+Bauxite Cobblestone=Adoquín de bauxita
+Bauxite Gravel=Grava de bauxita
+Bauxite Powder=Polvo de bauxita
+
+##[ items/cement.lua ]##
+Cement Block=Bloque de cemento
+Cement Powder=Polvo de cemento
+
+##[ items/ceramic.lua ]##
+TA4 Ceramic Material=Material cerámico TA4
+TA4 Furnace Ceramic=Cerámica de horno TA4
+TA4 Round Ceramic=Cerámica redonda TA4
+TA5 Ceramic Turbine=Turbina cerámica TA5
+
+##[ items/electronic.lua ]##
+TA3 Vacuum Tube=Tubo de vacío TA3
+TA4 WLAN Chip=Chip WLAN TA4
+WLAN Chip=Chip WLAN
+TA4 RAM Chip=Chip RAM TA4
+TA4 LEDs=LEDs TA4
+TA5 AI Chip=Chip de IA TA5
+TA5 AI Chip II=Chip de IA II TA5
+
+##[ items/epoxy.lua ]##
+Epoxide Resin=Resina epóxica
+Epoxide Resin Barrel=Barril de resina epóxica
+Epoxide Resin Canister=Bidón de resina epóxica
+
+##[ items/gunpowder.lua ]##
+Gun Powder=Pólvora
+
+##[ items/hydrogen.lua ]##
+TA4 Hydrogen=Hidrógeno TA4
+Hydrogen Cylinder Small=Cilindro de hidrógeno pequeño
+Hydrogen Cylinder Large=Cilindro de hidrógeno grande
+
+##[ items/lye.lua ]##
+Lye=Lejía
+Lye Barrel=Barril de lejía
+Lye Canister=Bidón de lejía
+
+##[ items/oil.lua ]##
+Oil Source=Fuente de petróleo
+Flowing Oil=Petróleo fluyendo
+TA3 Oil Barrel=Barril de petróleo TA3
+TA3 Oil Canister=Bidón de petróleo TA3
+
+##[ items/petroleum.lua ]##
+TA3 Bitumen=Betún TA3
+TA3 Fuel Oil=Fuel-oil TA3
+TA3 Naphtha=Nafta TA3
+TA3 Gasoline=Gasolina TA3
+TA4 Isobutane=Isobutano TA4
+TA3 Propane=Propano TA3
+Propane Cylinder Small=Cilindro de propano pequeño
+Propane Cylinder Large=Cilindro de propano grande
+Isobutane Cylinder Small=Cilindro de isobutano pequeño
+Isobutane Cylinder Large=Cilindro de isobutano grande
+TA3 Bitumen Barrel=Barril de betún TA3
+TA3 Fuel Oil Barrel=Barril de fuel-oil TA3
+TA3 Naphtha Barrel=Barril de nafta TA3
+TA3 Gasoline Barrel=Barril de gasolina TA3
+TA3 Bitumen Canister=Bidón de betún TA3
+TA3 Fuel Oil Canister=Bidón de fuel-oil TA3
+TA3 Naphtha Canister=Bidón de nafta TA3
+TA3 Gasoline Canister=Bidón de gasolina TA3
+
+##[ items/plastic.lua ]##
+Plastic Granules=Gránulos de plástico
+
+##[ items/powder.lua ]##
+Leave Powder=Polvo de hojas
+Needle Powder=Polvo de agujas
+Iron Powder=Polvo de hierro
+Clay Powder=Polvo de arcilla
+Aluminum Powder=Polvo de aluminio
+Silver Sandstone Powder=Polvo de arenisca plateada
+Graphite Powder=Polvo de grafito
+
+##[ items/redstone.lua ]##
+Red Stone=Piedra roja
+Red Stone Brick=Ladrillo de piedra roja
+Red Stone Block=Bloque de piedra roja
+
+##[ items/silicon.lua ]##
+TA4 Silicon Wafer=Oblea de silicio TA4
+
+##[ items/steelmat.lua ]##
+TechAge Steel Mat=Malla de acero TechAge
+
+##[ items/usmium.lua ]##
+Usmium Nuggets=Pepitas de usmium
+Usmium Powder=Polvo de usmium
+
+##[ lamps/ceilinglamp.lua ]##
+TA Ceiling Lamp=Lámpara de techo TA
+
+##[ lamps/growlight.lua ]##
+TA4 LED Grow Light=Luz de cultivo LED TA4
+
+##[ lamps/industriallamp1.lua ]##
+TA Industrial Lamp 1=Lámpara industrial TA 1
+
+##[ lamps/industriallamp2.lua ]##
+TA Industrial Lamp 2=Lámpara industrial TA 2
+
+##[ lamps/industriallamp3.lua ]##
+TA Industrial Lamp 3=Lámpara industrial TA 3
+
+##[ lamps/industriallamp4.lua ]##
+TA4 LED Industrial Lamp=Lámpara industrial LED TA4
+
+##[ lamps/lampholder.lua ]##
+TA Lamp Holder White=Soporte de lámpara TA blanco
+TA Lamp Holder Aspen=Soporte de lámpara TA álamo temblón
+TA Lamp Holder Acacia=Soporte de lámpara TA acacia
+TA Lamp Holder Apple=Soporte de lámpara TA manzano
+TA Lamp Holder Copper=Soporte de lámpara TA cobre
+TA Lamp Holder Gold=Soporte de lámpara TA oro
+
+##[ lamps/simplelamp.lua ]##
+TA Lamp=Lámpara TA
+
+##[ lamps/streetlamp.lua ]##
+TA Street Lamp=Farola TA
+
+##[ lamps/streetlamp2.lua ]##
+TA4 LED Street Lamp=Farola LED TA4
+TA4 LED Street Lamp Pole=Poste de farola LED TA4
+TA4 LED Street Lamp Arm=Brazo de farola LED TA4
+
+##[ liquids/ammonia.lua ]##
+TA4 Ammonia=Amoniaco TA4
+
+##[ liquids/filler.lua ]##
+Liquid Filler=Rellenador de líquidos
+TA Liquid Filler=Rellenador de líquidos TA
+
+##[ liquids/liquid_pipe.lua ]##
+TA Pipe=Tubería TA
+TA Junction Pipe=Tubería de unión TA
+
+##[ liquids/nitrogen.lua ]##
+TA4 Nitrogen=Nitrógeno TA4
+Nitrogen Cylinder Small=Cilindro de nitrógeno pequeño
+Nitrogen Cylinder Large=Cilindro de nitrógeno grande
+
+##[ liquids/pipe_wall_entry.lua ]##
+TA3 Pipe Wall Entry=Entrada de tubería en pared TA3
+
+##[ liquids/pump.lua ]##
+Number of units=Número de unidades
+Number of liquid units that are allowed to be pumped=Número de unidades de líquido que se pueden bombear
+TA3 Pump=Bomba TA3
+TA4 Pump=Bomba TA4
+
+##[ liquids/silo.lua ]##
+TA3 Silo=Silo TA3
+TA4 Silo=Silo TA4
+
+##[ liquids/ta5_tank.lua ]##
+TA5 Hyperloop Tank=Depósito Hyperloop TA5
+
+##[ liquids/tank.lua ]##
+TA3 Tank=Depósito TA3
+Oil Tank=Depósito de petróleo
+TA4 Tank=Depósito TA4
+
+##[ liquids/valve.lua ]##
+TA Valve=Válvula TA
+TA3 Valve=Válvula TA3
+
+##[ liquids/waterinlet.lua ]##
+Error: Not on sea level!=Error: ¡No está al nivel del mar!
+Error: No water available!=Error: ¡No hay agua disponible!
+Error: No natural water!=Error: ¡No hay agua natural!
+Operational=Operativo
+TA4 Water Inlet=Entrada de agua TA4
+
+##[ liquids/waterpump.lua ]##
+Water Pump=Bomba de agua
+TA4 Water Pump=Bomba de agua TA4
+
+##[ logic/basic_terminal.lua ]##
+##[ logic/terminal.lua ]##
+Access allowed for=Acceso permitido para
+Friends are players for whom this area is not protected=Los amigos son jugadores para quienes esta área no está protegida
+Switch between TA3 terminal and BASIC computer=Cambiar entre terminal TA3 y computadora BASIC
+TA3 Terminal=Terminal TA3
+
+##[ logic/basic_terminal.lua ]##
+##[ logic/terminal.lua ]##
+##[ move_controller/flycontroller.lua ]##
+##[ move_controller/movecontroller.lua ]##
+Operational mode=Modo operativo
+
+##[ logic/button.lua ]##
+Button or switch=Botón o interruptor
+Command to be sent=Comando a enviar
+Infotext=Texto informativo
+Change the block name (infotext)=Cambiar el nombre del bloque (texto informativo)
+Access:=Acceso:
+TA3 Button/Switch=Botón/Interruptor TA3
+TA4 Button/Switch=Botón/Interruptor TA4
+
+##[ logic/button.lua ]##
+##[ logic/button_2x.lua ]##
+##[ logic/button_4x.lua ]##
+Type=Tipo
+Access=Acceso
+Button protection=Protección del botón
+
+##[ logic/button.lua ]##
+##[ logic/button_2x.lua ]##
+##[ logic/button_4x.lua ]##
+##[ logic/charge_detector.lua ]##
+##[ logic/gaze_sensor.lua ]##
+##[ logic/player_detector.lua ]##
+Number=Número
+Command=Comando
+
+##[ logic/button.lua ]##
+##[ logic/cart_detector.lua ]##
+##[ logic/command_converter.lua ]##
+##[ logic/detector.lua ]##
+##[ logic/flipflop.lua ]##
+##[ logic/light_detector.lua ]##
+##[ logic/lua_logic.lua ]##
+##[ logic/mesecons_converter.lua ]##
+##[ logic/node_detector.lua ]##
+##[ logic/player_detector.lua ]##
+##[ logic/repeater.lua ]##
+Insert destination node number(s)=Insertar número(s) de nodo destino
+
+##[ logic/button.lua ]##
+##[ logic/gaze_sensor.lua ]##
+Destination block number(s)=Número(s) de bloque destino
+
+##[ logic/button_2x.lua ]##
+TA4 2x Button=Botón 2x TA4
+
+##[ logic/button_2x.lua ]##
+##[ logic/button_4x.lua ]##
+Momentary button or on/off switch=Botón momentáneo o interruptor de encendido/apagado
+Label for the button=Etiqueta para el botón
+Command to be sent (ignored for switches)=Comando a enviar (ignorado para interruptores)
+
+##[ logic/button_2x.lua ]##
+##[ logic/button_4x.lua ]##
+##[ logic/charge_detector.lua ]##
+##[ logic/player_detector.lua ]##
+Destination block number=Número de bloque destino
+
+##[ logic/button_2x.lua ]##
+##[ logic/button_4x.lua ]##
+##[ logic/signallamp_2x.lua ]##
+##[ logic/signallamp_4x.lua ]##
+Label=Etiqueta
+
+##[ logic/button_4x.lua ]##
+TA4 4x Button=Botón 4x TA4
+
+##[ logic/cart_detector.lua ]##
+TA3 Cart Detector=Detector de carrito TA3
+
+##[ logic/cart_detector.lua ]##
+##[ logic/light_detector.lua ]##
+##[ logic/node_detector.lua ]##
+accept=aceptar
+
+##[ logic/cart_detector.lua ]##
+##[ logic/player_detector.lua ]##
+TA3 Player Detector=Detector de jugador TA3
+
+##[ logic/charge_detector.lua ]##
+TA4 Energy Storage Charge Detector=Detector de carga de almacenamiento de energía TA4
+Switch point=Punto de conmutación
+Storage charge level switch point=Punto de conmutación del nivel de carga de almacenamiento
+Command to send when the energy storage charge@nlevel falls below the specified switch point=Comando a enviar cuando el nivel de carga del@nalmacenamiento de energía cae por debajo del punto de conmutación especificado
+Command to send when the energy storage charge@nlevel rises above the specified switch point=Comando a enviar cuando el nivel de carga del@nalmacenamiento de energía sube por encima del punto de conmutación especificado
+
+##[ logic/collector.lua ]##
+Node numbers to read the states from=Números de nodo de los que leer los estados
+Node number to send the events to=Número de nodo al que enviar los eventos
+Send an event if state is equal or larger than=Enviar un evento si el estado es igual o mayor que
+TA4 State Collector=Recopilador de estados TA4
+
+##[ logic/command_converter.lua ]##
+TA3 Command Converter=Convertidor de comandos TA3
+Receive=Recibir
+Sent command=Comando enviado
+Send delay (s)=Retraso de envío (s)
+
+##[ logic/detector.lua ]##
+On Time=Tiempo de activación
+The time between the 'on' and 'off' commands.=El tiempo entre los comandos 'on' y 'off'.
+The time after the 'off' command@nuntil the next 'on' command is accepted.=El tiempo tras el comando 'off'@nhasta que se acepta el siguiente comando 'on'.
+Configured Items=Objetos configurados
+Items which generate an 'on' command.@nIf empty, all passed items generate an 'on' command.=Objetos que generan un comando 'on'.@nSi está vacío, todos los objetos que pasan generan un comando 'on'.
+Counts down the number of items passed through@nand only triggers an 'on' command when it reaches zero.=Cuenta regresiva del número de objetos que pasan@ny solo activa un comando 'on' cuando llega a cero.
+Current countdown=Cuenta regresiva actual
+Current countdown value.=Valor actual de la cuenta regresiva.
+TA3 Item Detector=Detector de objetos TA3
+TA4 Item Detector=Detector de objetos TA4
+
+##[ logic/detector.lua ]##
+##[ logic/logic_block.lua ]##
+Blocking Time=Tiempo de bloqueo
+
+##[ logic/detector.lua ]##
+##[ ta4_power/electricmeter.lua ]##
+Countdown=Cuenta regresiva
+
+##[ logic/flipflop.lua ]##
+TA3 Flip-Flop=Flip-Flop TA3
+
+##[ logic/gaze_sensor.lua ]##
+TA4 Gaze Sensor=Sensor de mirada TA4
+Player Names=Nombres de jugadores
+Input the player name(s) separated by blanks.@nIf empty, only the owner is accepted.=Introduce el/los nombre(s) de jugador separados por espacios.@nSi está vacío, solo se acepta el propietario.
+Command to send when sensor is viewed=Comando a enviar cuando el sensor es visto
+Command to send when sensor is no longer viewed=Comando a enviar cuando el sensor ya no es visto
+
+##[ logic/lib.lua ]##
+##[ lua_controller/sensorchest.lua ]##
+connected with=conectado con
+
+##[ logic/light_detector.lua ]##
+Send signal if light level is above:=Enviar señal si el nivel de luz está por encima de:
+TA3 Light Detector=Detector de luz TA3
+
+##[ logic/logic_block.lua ]##
+Send an 'on'/'off' command if the@nexpression becomes true.@n=Enviar un comando 'on'/'off' si la@nexpresión se vuelve verdadera.@n=
+@nRule:@n<output> @= on/off if <input-expression> is true@n=@nRegla:@n<salida> @= on/off si <expresión-entrada> es verdadera@n=
+@n<output> is the block number to which the@ncommand should be sent.@n=@n<salida> es el número de bloque al que se@ndebe enviar el comando.@n=
+@n<input-expression> is a boolean expression@nwhere input numbers are evaluated.@n=@n<expresión-entrada> es una expresión booleana@ndonde se evalúan los números de entrada.@n=
+@nExamples:@n1234 @=@= on@n1234 @=@= off@n1234 @=@= on and 2345 @=@= off@n2345 ~@= 3456@n=@nEjemplos:@n1234 @=@= on@n1234 @=@= off@n1234 @=@= on and 2345 @=@= off@n2345 ~@= 3456@n=
+@nValid operators:@nand   or   on   off   me   @=@=   ~@=   (   )@n=@nOperadores válidos:@nand   or   on   off   me   @=@=   ~@=   (   )@n=
+'~@=' means: not equal@n='~@=' significa: no igual@n=
+'me' has to be used for the own block number.@n='me' debe usarse para el número del propio bloque.@n=
+@nAll rules are checked with each received@ncommand.=@nTodas las reglas se comprueban con cada@ncomando recibido.=
+@nThe internal processing time for all@ncommands is 100 ms.=@nEl tiempo de procesamiento interno para todos@nlos comandos es 100 ms.=
+Rules=Reglas
+Debug=Depuración
+Inputs=Entradas
+Outputs=Salidas
+Syntax=Sintaxis
+Clear=Limpiar
+
+##[ logic/logic_block.lua ]##
+##[ logic/lua_logic.lua ]##
+Update=Actualizar
+TA3 Logic Block=Bloque lógico TA3
+
+##[ logic/logic_block.lua ]##
+##[ logic/lua_logic.lua ]##
+##[ move_controller/flycontroller.lua ]##
+##[ move_controller/movecontroller.lua ]##
+Store=Almacenar
+
+##[ logic/logic_block.lua ]##
+##[ logic/sequencer2.lua ]##
+Help=Ayuda
+
+##[ logic/mba_detector.lua ]##
+TA4 Mapblock Active Detector=Detector de bloque de mapa activo TA4
+
+##[ logic/mesecons_converter.lua ]##
+TA3 Mesecons Converter=Convertidor Mesecons TA3
+
+##[ logic/node_detector.lua ]##
+TA3 Node Detector=Detector de nodo TA3
+TA4 Node Detector=Detector de nodo TA4
+added=añadido
+removed=eliminado
+added or removed=añadido o eliminado
+Send signal if nodes have been:=Enviar señal si los nodos han sido:
+Click on all blocks whose positions should be checked=Haz clic en todos los bloques cuyas posiciones deben comprobarse
+
+##[ logic/node_detector.lua ]##
+##[ move_controller/doorcontroller2.lua ]##
+##[ move_controller/flycontroller.lua ]##
+##[ move_controller/movecontroller.lua ]##
+##[ move_controller/movecontroller2.lua ]##
+##[ move_controller/turncontroller.lua ]##
+Record=Grabar
+Done=Hecho
+block positions are stored.=las posiciones de los bloques están almacenadas.
+
+##[ logic/player_detector.lua ]##
+Radius=Radio
+Search radius=Radio de búsqueda
+Command to send when player is detected=Comando a enviar cuando se detecta un jugador
+Command to send when player moves away=Comando a enviar cuando el jugador se aleja
+TA4 Player Detector=Detector de jugador TA4
+
+##[ logic/programmer.lua ]##
+[TechAge Programmer] programmer reset=[TechAge Programmer] reinicio del programador
+[TechAge Programmer] number=[TechAge Programmer] número
+[TechAge Programmer] Unknown node on=[TechAge Programmer] nodo desconocido en
+[TechAge Programmer] foreign or unknown node!=[TechAge Programmer] ¡nodo ajeno o desconocido!
+[TechAge Programmer] node programmed!=[TechAge Programmer] ¡nodo programado!
+[TechAge Programmer] Error: invalid numbers!=[TechAge Programmer] Error: ¡números no válidos!
+[TechAge Programmer] Error: programmer not supported!=[TechAge Programmer] Error: ¡programador no compatible!
+TechAge Programmer (right @= read number, left @= write numbers)=Programador TechAge (derecha @= leer número, izquierda @= escribir números)
+
+##[ logic/repeater.lua ]##
+TA3 Repeater=Repetidor TA3
+
+##[ logic/sequencer.lua ]##
+TA3 Sequencer=Secuenciador TA3
+
+##[ logic/sequencer.lua ]##
+##[ logic/sequencer2.lua ]##
+stopped=detenido
+
+##[ logic/sequencer2.lua ]##
+Syntax:@n=Sintaxis:@n=
+'[<num>] <command>'@n='[<num>] <comando>'@n=
+@n=@n=
+<num> is a number from 1 to 50000 and is@n=<num> es un número del 1 al 50000 y es@n=
+the timeslot when the command is executed.@n=el intervalo de tiempo en que se ejecuta el comando.@n=
+ - 1 corresponds to 100 ms@n= - 1 corresponde a 100 ms@n=
+ - 50000 corresponds to 4 game days@n= - 50000 corresponde a 4 días de juego@n=
+<command> is one of the following:@n=<comando> es uno de los siguientes:@n=
+ - 'send <node num> <cmnd>' (techage command)@n= - 'send <num nodo> <cmnd>' (comando techage)@n=
+ - 'goto <num>'  (jump to another line)@n= - 'goto <num>'  (saltar a otra línea)@n=
+ - 'stop' (stop the execution)@n= - 'stop' (detener la ejecución)@n=
+ - 'nop' (do nothing)@n= - 'nop' (no hacer nada)@n=
+Example:@n=Ejemplo:@n=
+Cycle time=Tiempo de ciclo
+Timer cycle time (default: 100 ms)=Tiempo de ciclo del temporizador (predeterminado: 100 ms)
+Ignore OFF command=Ignorar comando OFF
+If 'yes' a received OFF command won't stop the sequencer=Si 'sí', un comando OFF recibido no detendrá el secuenciador
+Reset on reload=Restablecer al recargar
+Restart the sequencer when the map block is reloaded=Reiniciar el secuenciador cuando se recargue el bloque de mapa
+Delay on reload=Retraso al recargar
+Delay in seconds for start of execution when map block is reloaded=Retraso en segundos para el inicio de la ejecución cuando se recarga el bloque de mapa
+Invalid command!=¡Comando no válido!
+Stop=Detener
+Start=Iniciar
+Commands=Comandos
+TA4 Sequencer=Secuenciador TA4
+running=en ejecución
+
+##[ logic/signallamp.lua ]##
+TechAge Color Lamp=Lámpara de color TechAge
+TechAge Color Lamp 2=Lámpara de color TechAge 2
+
+##[ logic/signallamp_2x.lua ]##
+TA4 2x Signal Lamp=Lámpara de señal 2x TA4
+
+##[ logic/signallamp_2x.lua ]##
+##[ logic/signallamp_4x.lua ]##
+Label for the lamp=Etiqueta para la lámpara
+
+##[ logic/signallamp_4x.lua ]##
+TA4 4x Signal Lamp=Lámpara de señal 4x TA4
+
+##[ logic/terminal.lua ]##
+Syntax error, try help=Error de sintaxis, prueba con ayuda
+commands like: help=comandos como: ayuda
+TA4 Terminal=Terminal TA4
+
+##[ logic/terminal.lua ]##
+##[ power/power_terminal2.lua ]##
+Enter=Intro
+
+##[ logic/timer.lua ]##
+TA3 Timer=Temporizador TA3
+
+##[ logic/trafficlight.lua ]##
+TA4 Traffic Light=Semáforo TA4
+TA4 Traffic Light Pole=Poste de semáforo TA4
+TA4 Traffic Light Connector=Conector de semáforo TA4
+TA4 Traffic Light Arm=Brazo de semáforo TA4
+
+##[ lua_controller/sensorchest.lua ]##
+Allow public chest access=Permitir acceso público al cofre
+TA4 Sensor Chest=Cofre sensor TA4
+
+##[ move_controller/doorblock.lua ]##
+TechAge Door Block=Bloque de puerta TechAge
+
+##[ move_controller/doorcontroller.lua ]##
+Insert door/gate block number(s)=Insertar número(s) de bloque de puerta/verja
+TA3 Door Controller=Controlador de puerta TA3
+
+##[ move_controller/doorcontroller2.lua ]##
+Ctrl,Inv=Ctrl,Inv
+Exchange=Intercambiar
+with door sound=con sonido de puerta
+TA3 Door Controller II=Controlador de puerta II TA3
+Click on all the blocks that are part of the door/gate=Haz clic en todos los bloques que forman parte de la puerta/verja
+Blocks exchanged=Bloques intercambiados
+Blocks reset=Bloques restablecidos
+
+##[ move_controller/doorcontroller2.lua ]##
+##[ move_controller/flycontroller.lua ]##
+##[ move_controller/movecontroller.lua ]##
+##[ move_controller/movecontroller2.lua ]##
+##[ move_controller/turncontroller.lua ]##
+Recording...=Grabando...
+
+##[ move_controller/doorcontroller2.lua ]##
+##[ move_controller/movecontroller.lua ]##
+Show positions=Mostrar posiciones
+
+##[ move_controller/doorcontroller2.lua ]##
+##[ move_controller/movecontroller.lua ]##
+##[ move_controller/movecontroller2.lua ]##
+Reset=Restablecer
+
+##[ move_controller/flycontroller.lua ]##
+Teleport mode=Modo de teletransporte
+Move a player without moving blocks=Mover un jugador sin mover bloques
+TA5 Fly Controller=Controlador de vuelo TA5
+Flight route (A to B)=Ruta de vuelo (A a B)
+Test=Prueba
+See chat output=Ver salida del chat
+[TA4 Fly Controller] Recording is missing!=[TA4 Fly Controller] ¡Falta la grabación!
+Error: Recording is missing !!=Error: ¡¡Falta la grabación!!
+[TA4 Fly Controller] Invalid path!=[TA4 Fly Controller] ¡Ruta no válida!
+
+##[ move_controller/flycontroller.lua ]##
+##[ move_controller/movecontroller.lua ]##
+Switch to the remote controlled 'move xyz' mode=Cambiar al modo de control remoto 'mover xyz'
+Move A-B=Mover A-B
+Move B-A=Mover B-A
+Move=Mover
+Stored=Almacenado
+
+##[ move_controller/flycontroller.lua ]##
+##[ move_controller/movecontroller.lua ]##
+##[ move_controller/movecontroller2.lua ]##
+Maximum Speed=Velocidad máxima
+Maximum speed for moving blocks=Velocidad máxima para mover bloques
+Move block height=Altura del bloque en movimiento
+Value in the range of 0.0 to 1.0=Valor en el rango de 0.0 a 1.0
+Object offset=Desplazamiento de objeto
+Y-offset for non-player objects like vehicles (-0.5 to 0.5)=Desplazamiento Y para objetos que no son jugadores como vehículos (-0.5 a 0.5)
+Click on all blocks that shall be moved=Haz clic en todos los bloques que se deben mover
+
+##[ move_controller/gateblock.lua ]##
+TechAge Gate Block=Bloque de verja TechAge
+
+##[ move_controller/movecontroller.lua ]##
+Move distance=Distancia de movimiento
+Move distance (A to B)=Distancia de movimiento (A a B)
+Error: Invalid distance !!=Error: ¡¡Distancia no válida!!
+TA Rack and Pinion=Cremallera y piñón TA
+
+##[ move_controller/movecontroller.lua ]##
+##[ move_controller/movecontroller2.lua ]##
+TA4 Move Controller=Controlador de movimiento TA4
+
+##[ move_controller/movecontroller2.lua ]##
+Control,Inventory=Control,Inventario
+Show start positions=Mostrar posiciones de inicio
+Pos 1:=Pos 1:
+Test move=Prueba de movimiento
+Node at pos=Nodo en posición
+missing=faltante
+TA4 Move Controller II=Controlador de movimiento II TA4
+Distance too large!=¡Distancia demasiado grande!
+Command syntax error!=¡Error de sintaxis del comando!
+
+##[ move_controller/soundblock.lua ]##
+Play=Reproducir
+TA3 Sound Block=Bloque de sonido TA3
+
+##[ move_controller/turncontroller.lua ]##
+TA4 Turn Controller=Controlador de giro TA4
+Turn left=Girar a la izquierda
+Turn right=Girar a la derecha
+Click on all blocks that shall be turned=Haz clic en todos los bloques que se deben girar
+
+##[ observer/observer.lua ]##
+TA3 Observation Window=Ventana de observación TA3
+
+##[ oil/distiller.lua ]##
+TA3 Distillation Tower Base=Base de la torre de destilación TA3
+TA3 Distillation Tower 1=Torre de destilación 1 TA3
+TA3 Distillation Tower 2=Torre de destilación 2 TA3
+TA3 Distillation Tower 3=Torre de destilación 3 TA3
+TA3 Distillation Tower 4=Torre de destilación 4 TA3
+
+##[ oil/drillbox.lua ]##
+Build derrick=Construir torre de perforación
+Drill Bit=Broca de perforación
+Depth=Profundidad
+Remove derrick=Eliminar torre de perforación
+Drill bits missing=Brocas faltantes
+Drill area is protected=El área de perforación está protegida
+item output blocked=salida de objetos bloqueada
+Cannot drill @1=No se puede perforar @1
+Oil Drill Box=Caja de perforación de petróleo
+
+##[ oil/explore.lua ]##
+depth=profundidad
+Oil=Petróleo
+TA3 Oil Storage=Almacén de petróleo TA3
+TA3 Oil Explorer=Explorador de petróleo TA3
+
+##[ oil/pumpjack.lua ]##
+Pumpjack=Cabezal de bombeo
+needs power=necesita energía
+Oil amount=Cantidad de petróleo
+no oil=sin petróleo
+Oil Pumpjack=Cabezal de bombeo de petróleo
+
+##[ oil/reboiler.lua ]##
+TA3 Oil Reboiler=Rehervidor de petróleo TA3
+
+##[ oil/tower.lua ]##
+TA3 Derrick=Torre de perforación TA3
+TA4 Derrick=Torre de perforación TA4
+TA3 Drill Pipe=Tubería de perforación TA3
+[TA] Derrick is being built!=[TA] ¡Se está construyendo la torre de perforación!
+[TA] Derrick is being removed!=[TA] ¡Se está eliminando la torre de perforación!
+
+##[ power/drive_axle.lua ]##
+TA2 Drive Axle=Eje de transmisión TA2
+
+##[ power/electric_cable.lua ]##
+TA Electric Cable=Cable eléctrico TA
+
+##[ power/formspecs.lua ]##
+Block has a wrench menu=El bloque tiene un menú de llave inglesa
+Maximum output [ku]=Salida máxima [ku]
+The maximum power the generator can provide=La potencia máxima que puede proporcionar el generador
+Current output [ku]=Salida actual [ku]
+The current power the generator provides=La potencia actual que proporciona el generador
+Charge termination=Fin de carga
+Range in which the generator reduces its power=Rango en el que el generador reduce su potencia
+
+##[ power/formspecs.lua ]##
+##[ power/power_terminal2.lua ]##
+Charging=Cargando
+
+##[ power/formspecs.lua ]##
+##[ power/power_terminal2.lua ]##
+##[ ta4_power/transformer.lua ]##
+Storage=Almacenamiento
+
+##[ power/formspecs.lua ]##
+##[ ta4_power/electricmeter.lua ]##
+##[ ta4_power/transformer.lua ]##
+Power=Potencia
+
+##[ power/gearbox.lua ]##
+TA2 Gearbox=Caja de cambios TA2
+
+##[ power/junctionbox.lua ]##
+TA Electric Junction Box=Caja de conexiones eléctrica TA
+
+##[ power/power_line.lua ]##
+TA Power Line=Línea eléctrica TA
+TA Power Pole Top 2 (for landlines)=Parte superior del poste eléctrico TA 2 (para líneas terrestres)
+TA Power Pole Top (for up to 6 connections)=Parte superior del poste eléctrico TA (para hasta 6 conexiones)
+TA Power Pole=Poste eléctrico TA
+
+##[ power/power_terminal2.lua ]##
+Network Data=Datos de red
+Consumer=Consumidor
+Number of network nodes:=Número de nodos de red:
+Number of generators:=Número de generadores:
+Number of consumers:=Número de consumidores:
+Number of storage systems:=Número de sistemas de almacenamiento:
+TA3 Power Terminal=Terminal de energía TA3
+Commands@nhelp . . . print this text@ncls  . . . . clear screen@ngen    . . print generators@nsto     . . print storage systems@ncon1  . . print consumers with power consumption between 1 and 10 ku@ncon2  . . print consumers with power consumption with 10 ku or above@n=Comandos@nhelp . . . imprimir este texto@ncls  . . . . limpiar pantalla@ngen    . . imprimir generadores@nsto     . . imprimir sistemas de almacenamiento@ncon1  . . imprimir consumidores con consumo entre 1 y 10 ku@ncon2  . . imprimir consumidores con consumo de 10 ku o más@n=
+
+##[ power/powerswitch.lua ]##
+TA Power Switch=Interruptor eléctrico TA
+TA Power Switch Small=Interruptor eléctrico pequeño TA
+
+##[ power/powerswitchbox.lua ]##
+##[ power/powerswitchbox_legacy.lua ]##
+TA Power Switch Box=Caja de interruptor eléctrico TA
+
+##[ power/protection.lua ]##
+Allow to dig/place Techage power lines nearby power poles=Permitir excavar/colocar líneas eléctricas Techage cerca de postes eléctricos
+
+##[ power/steam_pipe.lua ]##
+TA2 Steam Pipe=Tubería de vapor TA2
+
+##[ power/ta4_cable.lua ]##
+TA4 Low Power Cable=Cable de baja potencia TA4
+TA4 Low Power Box=Caja de baja potencia TA4
+
+##[ power/ta4_cable_wall_entry.lua ]##
+TA4 Cable Wall Entry=Entrada de cable en pared TA4
+
+##[ solar/inverter.lua ]##
+Inverter=Inversor
+Power DC=Potencia CC
+Power AC=Potencia CA
+solar network error=error de red solar
+no solar power=sin energía solar
+TA4 Solar Inverter=Inversor solar TA4
+
+##[ solar/minicell.lua ]##
+TA4 Streetlamp Solar Cell=Celda solar de farola TA4
+
+##[ solar/solarcell.lua ]##
+TA4 Solar Module=Módulo solar TA4
+power=potencia
+light=luz
+TA4 Solar Carrier Module=Módulo portador solar TA4
+TA4 Solar Carrier Module B=Módulo portador solar B TA4
+TA4 Solar Carrier Module T=Módulo portador solar T TA4
+
+##[ steam_engine/boiler.lua ]##
+TA2 Boiler Top=Parte superior de caldera TA2
+TA2 Boiler Base=Base de caldera TA2
+
+##[ steam_engine/cylinder.lua ]##
+TA2 Cylinder=Cilindro TA2
+
+##[ steam_engine/firebox.lua ]##
+TA2 Firebox=Caja de fuego TA2
+
+##[ steam_engine/flywheel.lua ]##
+Flywheel=Volante de inercia
+TA2 Flywheel=Volante de inercia TA2
+
+##[ ta1_watermill/mill.lua ]##
+TA1 Mill Gear=Engranaje del molino TA1
+TA1 Mill=Molino TA1
+
+##[ ta1_watermill/millboard.lua ]##
+TA1 Apple Wood Board=Tabla de madera de manzano TA1
+TA1 Jungle Wood Board=Tabla de madera de jungla TA1
+TA1 Pine Wood Board=Tabla de madera de pino TA1
+TA1 Acacia Wood Board=Tabla de madera de acacia TA1
+TA1 Aspen Wood Board=Tabla de madera de álamo temblón TA1
+TA1 Apple Millrace Board=Tabla de canal del molino de manzano TA1
+TA1 Jungle Millrace Board=Tabla de canal del molino de jungla TA1
+TA1 Pine Millrace Board=Tabla de canal del molino de pino TA1
+TA1 Acacia Millrace Board=Tabla de canal del molino de acacia TA1
+TA1 Aspen Millrace Board=Tabla de canal del molino de álamo temblón TA1
+
+##[ ta1_watermill/sluice.lua ]##
+TA1 Sluice Gate=Compuerta de esclusa TA1
+TA1 Sluice Handle=Manija de esclusa TA1
+
+##[ ta1_watermill/ta1_axle.lua ]##
+TA1 Axle=Eje TA1
+TA1 Axle Bearing=Cojinete del eje TA1
+
+##[ ta1_watermill/watermill.lua ]##
+TA1 Watermill=Molino de agua TA1
+
+##[ ta2_energy_storage/ta2_clutch.lua ]##
+TA2 Clutch=Embrague TA2
+
+##[ ta2_energy_storage/ta2_weight_chest.lua ]##
+TA2 Weight Chest=Cofre de pesas TA2
+
+##[ ta2_energy_storage/ta2_winch.lua ]##
+TA2 Winch=Cabrestante TA2
+
+##[ ta3_power/akkubox.lua ]##
+TA3 Accu Box=Caja de acumuladores TA3
+
+##[ ta3_power/axle2power.lua ]##
+TA2 Power Generator=Generador de energía TA2
+
+##[ ta3_power/power2axle.lua ]##
+TA3 Electric Motor=Motor eléctrico TA3
+
+##[ ta3_power/tiny_generator.lua ]##
+Tiny Generator=Generador pequeño
+no fuel=sin combustible
+TA3 Tiny Power Generator=Generador pequeño de energía TA3
+
+##[ ta4_power/electricmeter.lua ]##
+Power countdown=Cuenta regresiva de energía
+Amount of power to be provided before the device turns off=Cantidad de energía a suministrar antes de que el dispositivo se apague
+TA4 Electric Meter=Medidor eléctrico TA4
+Consumption=Consumo
+
+##[ ta4_power/electricmeter.lua ]##
+##[ ta4_power/transformer.lua ]##
+Max. power=Potencia máx.
+Maximum power passed through=Potencia máxima transferida
+
+##[ ta4_power/laser.lua ]##
+TA4 Laser Beam Emitter=Emisor de rayo láser TA4
+Valid destination positions:=Posiciones de destino válidas:
+to=a
+Laser beam error!=¡Error de rayo láser!
+TA4 Laser Beam Receiver=Receptor de rayo láser TA4
+
+##[ ta4_power/transformer.lua ]##
+TA4 Isolation Transformer=Transformador de aislamiento TA4
+
+##[ teleport/teleport_pipe.lua ]##
+TA5 Teleport Block Liquids=Bloque de teletransporte de líquidos TA5
+
+##[ teleport/teleport_pipe.lua ]##
+##[ teleport/teleport_tube.lua ]##
+Remote block error=Error de bloque remoto
+
+##[ teleport/teleport_tube.lua ]##
+TA5 Teleport Block Items=Bloque de teletransporte de objetos TA5
+
+##[ tools/assembly_tool.lua ]##
+TechAge Assembly Tool=Herramienta de ensamblaje TechAge
+
+##[ tools/cordless_screwdriver.lua ]##
+TechAge Cordless Screwdriver=Destornillador inalámbrico TechAge
+
+##[ tools/end_wrench.lua ]##
+Biome=Bioma
+Position temperature=Temperatura de la posición
+Node owner=Propietario del nodo
+Pump connected to tank(s) with: @1=Bomba conectada al/los depósito(s) con: @1
+Pump connected to no/empty tank(s).=Bomba conectada a ningún depósito o depósito vacío.
+Position=Posición
+TechAge Info Tool (use @= read status info)=Herramienta de información TechAge (usar @= leer información de estado)
+
+##[ tools/pipe_wrench.lua ]##
+TA3 Drill Pipe Wrench=Llave de tubería de perforación TA3
+
+##[ tools/screwdriver.lua ]##
+Use the cordless screwdriver to place it! (item must be in hotbar slot 1)=¡Usa el destornillador inalámbrico para colocarlo! (el objeto debe estar en la ranura 1 de la barra de acceso rápido)
+Block alignment stored!=¡Alineación del bloque almacenada!
+Techage Screwdriver@n(See: TA3 > Tools)=Destornillador Techage@n(Ver: TA3 > Herramientas)
+
+##[ tools/trowel.lua ]##
+TechAge Trowel=Paleta TechAge
+
+##[ wind_turbine/pillar.lua ]##
+TA4 Pillar=Pilar TA4
+
+##[ wind_turbine/rotor.lua ]##
+Nacelle is missing=Falta la góndola
+TA4 Wind Turbine=Turbina eólica TA4
+TA4 Wind Turbine Nacelle=Góndola de turbina eólica TA4
+TA4 Carbon Fiber=Fibra de carbono TA4
+TA4 Rotor Blade=Pala del rotor TA4
+
+##[ wind_turbine/signallamp.lua ]##
+TA4 Wind Turbine Signal Lamp=Lámpara de señal de turbina eólica TA4
+
+##[ ta5_nodes/ta5_digitizer.lua ]##
+TA5 Digitizer=Digitalizador TA5
+TA5 Control Unit=Unidad de control TA5
+TA5 SSD=SSD TA5
+Control,Storage=Control,Almacenamiento
+Configured@nItem=Objeto@nconfigurado
+no configured item=ningún objeto configurado
+No configured item=Ningún objeto configurado
+Invalid item type=Tipo de objeto no válido
+Item not storable (not stackable, has metadata, or is worn)=Objeto no almacenable (no apilable, tiene metadatos o está desgastado)
+[Digitizer] Storage not empty! Empty the storage first.=[Digitizer] ¡El almacenamiento no está vacío! Vacía el almacenamiento primero.
+[Digitizer] Stop the Digitizer first!=[Digitizer] ¡Detén el Digitalizador primero!
