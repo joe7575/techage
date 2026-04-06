@@ -650,11 +650,14 @@ function techage.check_inv_item(inv, listname, item_name)
 		return 0
 	else
 		local list = inv:get_list(listname)
+		local count = 0
 		for _, item in ipairs(list) do
 			if item:get_name():find(item_name, 1, true) then
-				return item:get_count()
+				count = count + item:get_count()
 			end
 		end
+		print("count: "..count)
+		return count
 	end
 	return 0
 end
