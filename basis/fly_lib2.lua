@@ -22,6 +22,15 @@ local fly1 = techage.flylib
 local flylib2 = {}
 local MAX_SPEED = 8
 
+-- Optional: nodes that are allowed to move despite drop="" (e.g. signs_bot:robot)
+flylib2.moveable_nodes = {}
+-- Optional: callbacks before a node starts moving; [node_name] = function(old_pos, dest_pos)
+flylib2.on_move_start = {}
+-- Optional: list of callbacks fired once before the whole move batch;
+-- each function(lNodes, dests) where lNodes[idx].curr_pos = current physical pos,
+-- dests[idx] = destination pos.  Used e.g. to pick up riders from the platform.
+flylib2.on_move_begin = {}
+
 local DelayedJobs = {}
 
 local function call_after(func, ...)
@@ -168,7 +177,8 @@ local function correct_node(pos, idx, node, dest_pos)
 end
 
 local function is_simple_node(node)
-	if not minecart.is_rail(pos, node.name) then
+	if flylib2.moveable_nodes[node.name] then return true end
+	if not minecart.is_rail(nil, node.name) then
 		local ndef = minetest.registered_nodes[node.name]
 		return node.name ~= "air" and techage.can_dig_node(node.name, ndef) or minecart.is_cart(node.name)
 	end
@@ -225,12 +235,26 @@ function flylib2.reset_nodes(pos, nvm, slot)
 	local max_speed = meta:contains("max_speed") and meta:get_float("max_speed") or MAX_SPEED
 	local height = techage.in_range(meta:contains("height") and meta:get_float("height") or 1, 0, 1) -- platform height
 	local yoffs = meta:get_float("offset") -- for non-player objects
+	nvm.running = true
+
+	if #flylib2.on_move_begin > 0 and nvm.lNodes then
+		local reset_dests = {}
+		for i, node in ipairs(nvm.lNodes) do
+			reset_dests[i] = node and node.base_pos
+		end
+		for _, handler in ipairs(flylib2.on_move_begin) do
+			handler(nvm.lNodes, reset_dests)
+		end
+	end
 
 	for idx in slots(slot) do
 		nvm.lNodes =  nvm.lNodes or {}
 		local node = nvm.lNodes[idx]
 		if node and node.curr_pos and node.curr_pos ~= node.base_pos then
 			if correct_node(pos, idx, node, node.base_pos) then
+				if flylib2.on_move_start[node.name] then
+					flylib2.on_move_start[node.name](node.curr_pos, node.base_pos)
+				end
 				move_node(pos, node.curr_pos, node.base_pos, max_speed, height, yoffs, idx)
 				node.curr_pos = node.base_pos
 			end
@@ -249,12 +273,22 @@ function flylib2.move_nodes(pos, nvm, dest_pos, slot)
 	local height = techage.in_range(meta:contains("height") and meta:get_float("height") or 1, 0, 1) -- platform height
 	local yoffs = meta:get_float("offset") -- for non-player objects
 	local dests = destinations(nvm, dest_pos, slot)
+	nvm.running = true
+
+	if #flylib2.on_move_begin > 0 and nvm.lNodes then
+		for _, handler in ipairs(flylib2.on_move_begin) do
+			handler(nvm.lNodes, dests)
+		end
+	end
 
 	for idx in slots(slot) do
 		local node = nvm.lNodes[idx]
 		local dest_pos = dests[idx]
 		if node and node.curr_pos and node.curr_pos ~= dest_pos then
 			if correct_node(pos, idx, node, dest_pos) then
+				if flylib2.on_move_start[node.name] then
+					flylib2.on_move_start[node.name](node.curr_pos, dest_pos)
+				end
 				move_node(pos, node.curr_pos, dest_pos, max_speed, height, yoffs, idx)
 				node.curr_pos = dest_pos
 			end
