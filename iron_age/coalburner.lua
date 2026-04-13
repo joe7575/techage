@@ -160,7 +160,7 @@ minetest.register_node("techage:ash", {
 	},
 	is_ground_content = false,
 	groups = {crumbly = 3, not_in_creative_inventory=1},
-	drop = "",
+	drop = "techage:ash",
 	sounds = default.node_sound_defaults(),
 })
 
