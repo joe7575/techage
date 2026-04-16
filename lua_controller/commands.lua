@@ -88,6 +88,26 @@ techage.lua_ctlr.register_function("time_as_num", {
 		' example: time = $time_as_num()'
 })
 
+techage.lua_ctlr.register_function("real_time_as_str", {
+	cmnd = function(self)
+		local t = os.date("*t")
+		return string.format("%02d:%02d", t.hour, t.min)
+	end,
+	help = " $real_time_as_str()  --> e.g. '18:45'\n"..
+		" Read real server time as string (24h).\n"..
+		' example: time = $real_time_as_str()'
+})
+
+techage.lua_ctlr.register_function("real_time_as_num", {
+	cmnd = function(self)
+		local t = os.date("*t")
+		return t.hour * 100 + t.min
+	end,
+	help = " $real_time_as_num()  --> e.g.: 1845\n"..
+		" Read real server time as number (24h).\n"..
+		' example: time = $real_time_as_num()'
+})
+
 techage.lua_ctlr.register_action("send_cmnd", {
 	cmnd = function(self, num, cmnd, data)
 		num = tostring(num or "")
