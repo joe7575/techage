@@ -298,7 +298,7 @@ techage.register_node({"techage:ta4_wind_turbine"}, {
 				return "stopped"
 			end
 		elseif topic == "delivered" then
-			return nvm.delivered or 0
+			return math.floor((nvm.provided or 0) + 0.5)
 		elseif topic == "on" then
 			State:start(pos, nvm)
 		elseif topic == "off" then
@@ -333,7 +333,7 @@ techage.register_node({"techage:ta4_wind_turbine"}, {
 				return 0, {techage.STOPPED}
 			end
 		elseif topic == 135 then  -- Delivered Power
-			return 0, {nvm.delivered or 0}
+			return 0, {math.floor((nvm.provided or 0) + 0.5)}
 		else
 			return 2, ""
 		end
