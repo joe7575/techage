@@ -105,12 +105,14 @@ local function start_flarestack(pos, playername)
 			gain = 1,
 			loop = true})
 	--print("handle", handle)
-	meta:set_int("handle", handle)
+	meta:set_int("handle", handle or 0)
 end
 
 local function stop_flarestack(pos, handle)
 	remove_flame({x=pos.x, y=pos.y+1, z=pos.z})
-	minetest.sound_stop(handle)
+	if handle and handle ~= 0 then
+		minetest.sound_stop(handle)
+	end
 end
 
 minetest.register_node("techage:gasflare", {
@@ -135,7 +137,9 @@ minetest.register_node("techage:gasflare", {
 	on_punch = function(pos, node, puncher)
 		local meta = minetest.get_meta(pos)
 		local handle = meta:get_int("handle")
-		minetest.sound_stop(handle)
+		if handle ~= 0 then
+			minetest.sound_stop(handle)
+		end
 		start_flarestack(pos, puncher:get_player_name())
 	end,
 

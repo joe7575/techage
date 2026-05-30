@@ -182,7 +182,7 @@ function techage.start_burner(pos, playername)
 				max_hear_distance = 20,
 				gain = height/12.0,
 				loop = true})
-		meta:set_int("handle", handle)
+		meta:set_int("handle", handle or 0)
 		minetest.get_node_timer(pos):start(CYCLE_TIME)
 	end
 end
@@ -192,7 +192,7 @@ function techage.keep_running_burner(pos)
 	local height = meta:get_int("height")
 	remove_flame(pos, height)
 	local handle = meta:get_int("handle")
-	if handle then
+	if handle ~= 0 then
 		minetest.sound_stop(handle)
 		meta:set_int("handle", 0)
 	end
@@ -215,19 +215,23 @@ function techage.keep_running_burner(pos)
 						max_hear_distance = 32,
 						gain = num_coal/12.0,
 						loop = true})
-				meta:set_int("handle", handle)
+				meta:set_int("handle", handle or 0)
 			else
 				minetest.swap_node(pos, {name="techage:ash"})
 				remove_coal(pos, height)
 				local handle = meta:get_int("handle")
-				minetest.sound_stop(handle)
+				if handle ~= 0 then
+					minetest.sound_stop(handle)
+				end
 				return false
 			end
 		else
 			minetest.swap_node(pos, {name="techage:ash"})
 			remove_coal(pos, height)
 			local handle = meta:get_int("handle")
-			minetest.sound_stop(handle)
+			if handle ~= 0 then
+				minetest.sound_stop(handle)
+			end
 			return false
 		end
 	else
@@ -242,6 +246,8 @@ function techage.stop_burner(pos)
 	remove_flame(pos, height)
 	remove_coal(pos, height)
 	local handle = meta:get_int("handle")
-	minetest.sound_stop(handle)
+	if handle ~= 0 then
+		minetest.sound_stop(handle)
+	end
 	meta:set_int("burn_time", 0)
 end
