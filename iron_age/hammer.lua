@@ -37,36 +37,32 @@ local function handler(player_name, node, itemstack, digparams)
 	local pos = techage.dug_node[player_name]
 	if not pos then return end
 	techage.dug_node[player_name] = nil
+	local gravel_name = Stone2Gravel[node.name]
+	if not gravel_name then return end
 
 	if minetest.is_protected(pos, player_name) then
 		minetest.record_protection_violation(pos, player_name)
 		return
 	end
 
-	if minetest.get_item_group(node.name, "stone") > 0 then
-		-- Remove item from players inventory or from the world
-		local ndef = minetest.registered_nodes[node.name]
-		if ndef then
-			local item = ItemStack(ndef.drop or node.name)
-			local inv = minetest.get_inventory({type="player", name=player_name})
-			if inv and inv:room_for_item("main", item) then
-				-- item should have been added and can therefore be removed again
-				local taken = inv:remove_item("main", item)
-			else
-				for _,obj in ipairs(minetest.get_objects_inside_radius(pos, 1)) do
-					obj:remove()
-					break
-				end
+	-- Remove item from players inventory or from the world
+	local ndef = minetest.registered_nodes[node.name]
+	if ndef then
+		local item = ItemStack(ndef.drop or node.name)
+		local inv = minetest.get_inventory({type="player", name=player_name})
+		if inv and inv:room_for_item("main", item) then
+			-- item should have been added and can therefore be removed again
+			local taken = inv:remove_item("main", item)
+		else
+			for _,obj in ipairs(minetest.get_objects_inside_radius(pos, 1)) do
+				obj:remove()
+				break
 			end
 		end
-		if Stone2Gravel[node.name] then
-			node.name = Stone2Gravel[node.name]
-		else
-			node.name = "default:gravel"
-		end
-		minetest.swap_node(pos, node)
-		minetest.check_single_for_falling(pos)
 	end
+	node.name = gravel_name
+	minetest.swap_node(pos, node)
+	minetest.check_single_for_falling(pos)
 end
 
 minetest.register_tool("techage:hammer_stone", {
