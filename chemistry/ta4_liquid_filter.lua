@@ -29,6 +29,20 @@ local Recipes = {
 		output_chance = 0.5,
 		degradation_chance = 0.5,
 	},
+	["techage:water"] = {
+		filter = "techage:isotope_membrane_filter",
+		spent_filter = "techage:spent_membrane_filter",
+		output = "techage:heavy_water",
+		output_chance = 0.058,
+		degradation_chance = 0.003,
+	},
+	["techage:river_water"] = {
+		filter = "techage:isotope_membrane_filter",
+		spent_filter = "techage:spent_membrane_filter",
+		output = "techage:heavy_water",
+		output_chance = 0.058,
+		degradation_chance = 0.001,
+	},
 }
 
 

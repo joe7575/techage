@@ -790,8 +790,12 @@ Die Ampel benötigt keinen Strom.
 
 ## TA4 Flüssigkeitsfilter
 
-Im Flüssigkeitsfilter wird Rotschlamm gefiltert.
-Dabei entsteht entweder Lauge, welche unten in einem Tank gesammelt werden kann oder Wüstenkopfsteinpflaster, welches sich im Filter absetzt.
+Der Flüssigkeitsfilter kann zum Filtern von Rotschlamm oder zum Anreichern von Wasser zu Schwerem Wasser verwendet werden.
+Beim Filtern von Rotschlamm wird ein Teil zu Lauge, die unten in einem Tank gesammelt werden kann.
+Der andere Teil wird zu Wüstenkopfsteinpflaster und verstopft das Filtermaterial.
+Beim Filtern von Wasser oder Flusswasser durch Isotopen-Membranfilter entstehen kleine Mengen Schweres Wasser, die im unteren Tank gesammelt werden.
+Flusswasser nutzt die Membranen langsamer ab.
+Verbrauchte Membranen werden zu verbrauchten Membranfiltern.
 Wenn der Filter zu sehr verstopft ist, muss er geleert und neu befüllt werden.
 Der Filter besteht aus einer Fundament-Ebene, auf der 7 identische Filterschichten platziert werden. 
 Ganz oben befindet sich die Einfüllebene.
@@ -806,18 +810,20 @@ Im Tank wird die Lauge gesammelt.
 
 [ta4_liquid_filter_base|plan]
 
-### Schotter-Ebene
+### Filtermaterial-Ebene
 
-Diese Ebene muss so wie im Plan gezeigt mit Schotter befüllt werden.
-Insgesamt müssen sieben Lagen Schotter übereinander liegen.
+Für die Verarbeitung von Rotschlamm muss diese Ebene wie im Plan gezeigt mit Schotter befüllt werden.
+Für die Herstellung von Schwerem Wasser werden statt Schotter Isotopen-Membranfilter verwendet.
+Insgesamt müssen sieben Filterschichten vorhanden sein.
 Dabei wird mit der Zeit der Filter verunreinigt, sodass das Füllmaterial erneuert werden muss.
 
 [ta4_liquid_filter_gravel|plan]
 
 ### Einfüll-Ebene
 
-Diese Ebene dient zum Befüllen des Filters mit Rotschlamm.
-In den Einfüllstutzen muss Rotschlamm mittels einer Pumpe geleitet werden.
+Diese Ebene dient zum Befüllen des Filters mit Rotschlamm, Wasser oder Flusswasser.
+Die Eingangsflüssigkeit muss mit einer Pumpe in den Einfüllstutzen geleitet werden.
+Lauge oder Schweres Wasser wird im unteren Tank gesammelt.
 
 [ta4_liquid_filter_top|plan]
 

@@ -92,11 +92,13 @@ return {
     "\n"..
     "\n",
     "Über den TA5 Fusionreaktor Controller wird der Fusionreaktor eingeschaltet. Der Fusionreaktor und damit der Controller benötigt 400 ku an Strom\\, um das Plasma aufrecht zu erhalten.\n"..
+    "Zusätzlich benötigt der Controller Schweres Wasser als Deuteriumquelle. Schweres Wasser muss von unten über Flüssigkeitsleitungen zugeführt werden. Der interne Tank fasst 10 Einheiten und der laufende Reaktor verbraucht etwa alle 44 Sekunden 1 Einheit. Wenn kein Schweres Wasser vorhanden ist\\, stoppt der Reaktor mit der Meldung \"No heavy water\".\n"..
     "\n"..
     "*Startreihenfolge:*\n"..
     "\n"..
     "  - Alle Magnete müssen korrekt platziert und mit Isobutan gefüllt sein\n"..
     "  - Kühlkreislauf (blaue und grüne Rohre) und Dampfleitungen (gelbe Rohre) müssen vollständig angeschlossen sein\n"..
+    "  - Schweres Wasser an der Unterseite des Controllers zuführen\n"..
     "  - Zuerst den Wärmetauscher (Teil 2) einschalten\n"..
     "  - Dann den Controller einschalten\n"..
     "  - Es dauert ca. 2 Minuten\\, bis der Reaktor 80° erreicht und Dampf/Strom liefert\n"..

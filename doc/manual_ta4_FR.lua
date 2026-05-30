@@ -66,7 +66,7 @@ return {
     "3,TA4 Feu de circulation / TA4 Traffic Light",
     "2,Filtre à liquide TA4",
     "3,Niveau de fondation",
-    "3,Niveau de gravier",
+    "3,Niveau de matériau filtrant",
     "3,Niveau de remplissage",
     "2,Accélérateur de particules TA4 / Collider",
     "3,Détecteur",
@@ -615,8 +615,12 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Dans le filtre à liquide\\, la boue rouge est filtrée.\n"..
-    "Cela produit soit de la lessive\\, qui peut être collectée dans un réservoir en bas\\, soit des pavés de tête de désert\\, qui se déposent dans le filtre.\n"..
+    "Le filtre à liquide peut être utilisé pour filtrer la boue rouge ou pour enrichir l'eau en eau lourde.\n"..
+    "Lors du filtrage de la boue rouge\\, une partie devient de la lessive\\, qui peut être collectée en bas dans un réservoir.\n"..
+    "L'autre partie devient des pavés du désert et encrasse le matériau filtrant.\n"..
+    "Lors du filtrage de l'eau ou de l'eau de rivière à travers des filtres à membrane isotopique\\, une petite quantité d'eau lourde est produite et collectée dans le réservoir inférieur.\n"..
+    "L'eau de rivière use les membranes plus lentement.\n"..
+    "Les membranes utilisées deviennent des filtres à membrane usés.\n"..
     "Si le filtre est trop obstrué\\, il doit être vidé et rempli à nouveau.\n"..
     "Le filtre se compose d'un niveau de fondation\\, sur lequel sont placées 7 couches de filtre identiques.\n"..
     "Tout en haut se trouve le niveau de remplissage.\n"..
@@ -629,14 +633,16 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Ce niveau doit être rempli de gravier comme montré dans le plan.\n"..
-    "Au total\\, sept couches de gravier doivent être superposées.\n"..
+    "Pour traiter la boue rouge\\, ce niveau doit être rempli de gravier comme montré dans le plan.\n"..
+    "Pour produire de l'eau lourde\\, utilisez des filtres à membrane isotopique au lieu du gravier.\n"..
+    "Au total\\, sept couches filtrantes doivent être présentes.\n"..
     "Au fil du temps\\, le filtre se salit\\, de sorte que le matériau de remplissage doit être renouvelé.\n"..
     "\n"..
     "\n"..
     "\n",
-    "Ce niveau sert à remplir le filtre avec de la boue rouge.\n"..
-    "De la boue rouge doit être conduite dans la tubulure de remplissage à l'aide d'une pompe.\n"..
+    "Ce niveau sert à remplir le filtre avec de la boue rouge\\, de l'eau ou de l'eau de rivière.\n"..
+    "Le liquide d'entrée doit être conduit dans la tubulure de remplissage à l'aide d'une pompe.\n"..
+    "La lessive ou l'eau lourde est collectée dans le réservoir inférieur.\n"..
     "\n"..
     "\n"..
     "\n",

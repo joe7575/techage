@@ -208,7 +208,7 @@
         - [Lampe Industrielle LED TA4](./manual_ta4_FR.md#ta4-led-industrial-lamp)
     - [Filtre à Liquide TA4](./manual_ta4_FR.md#ta4-liquid-filter)
         - [Couche de Base](./manual_ta4_FR.md#base-layer)
-        - [Couche de Gravier](./manual_ta4_FR.md#gravel-layer)
+        - [Niveau de matériau filtrant](./manual_ta4_FR.md#niveau-de-matériau-filtrant)
         - [Couche de Remplissage](./manual_ta4_FR.md#filling-layer)
     - [Collisionneur TA4 (Accélérateur de Particules)](./manual_ta4_FR.md#ta4-collider-(particle-accelerator))
         - [Détecteur](./manual_ta4_FR.md#detector)
