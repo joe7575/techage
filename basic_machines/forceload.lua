@@ -317,12 +317,31 @@ if techage.max_num_forceload_blocks > 0 then
 	})
 end
 
+local function is_flb_node(pos)
+	local name = techage.get_node_lvm(pos).name
+	return name == "techage:forceload" or name == "techage:forceloadtile"
+end
+
+-- Free forceloaded areas whose block no longer exists (e.g. removed with
+-- WorldEdit, which bypasses after_dig_node) and drop them from the registry.
+local function verify_all_flbs()
+	for _, entry in ipairs(registry_get_all()) do
+		if not is_flb_node(entry.pos) then
+			minetest.forceload_free_block(entry.pos, true)
+			registry_remove(entry.pos)
+			local owner = minetest.get_player_by_name(entry.owner)
+			if owner then
+				del_pos(entry.pos, owner)
+			end
+		end
+	end
+end
+
 minetest.register_on_joinplayer(function(player)
 	local lPos = {}
 	local name = player:get_player_name()
 	for _,pos in ipairs(get_pos_list(player)) do
-		local node = techage.get_node_lvm(pos)
-		if node.name == "techage:forceload" or node.name == "techage:forceloadtile" then
+		if is_flb_node(pos) then
 			if not minetest.forceload_block(pos, true) then
 				minetest.after(60, postload_area, pos)
 			end
@@ -331,9 +350,15 @@ minetest.register_on_joinplayer(function(player)
 			if techage.storage:get_string("flb_" .. P2S(pos)) == "" then
 				registry_add(pos, name)
 			end
+		else
+			-- Block was removed outside of after_dig_node (e.g. WorldEdit):
+			-- free the area so a new block can be placed
+			minetest.forceload_free_block(pos, true)
+			registry_remove(pos)
 		end
 	end
 	set_pos_list(player, lPos)
+	verify_all_flbs()
 end)
 
 minetest.register_on_leaveplayer(function(player)
