@@ -767,9 +767,12 @@ El semáforo no requiere electricidad.
 
 ## Filtro de Líquido TA4
 
-El filtro de líquidos filtra el lodo rojo.
-Una parte del lodo rojo se convierte en lejía, que puede recogerse en la parte inferior en un depósito.
+El filtro de líquidos puede usarse para filtrar lodo rojo o para enriquecer agua en agua pesada.
+Al filtrar lodo rojo, una parte se convierte en lejía, que puede recogerse abajo en un tanque.
 La otra parte se convierte en adoquín de desierto y obstruye el material filtrante.
+Al filtrar agua o agua de río mediante filtros de membrana isotópica, se produce una pequeña cantidad de agua pesada que se recoge en el tanque inferior.
+El agua de río desgasta las membranas más lentamente.
+Las membranas usadas se convierten en filtros de membrana gastados.
 Si el filtro está demasiado obstruido, debe limpiarse y volver a llenarse.
 El filtro consta de una capa base, 7 capas de filtro idénticas y una capa de llenado en la parte superior.
 
@@ -783,18 +786,20 @@ La lejía se recoge en el depósito.
 
 [ta4_liquid_filter_base|plan]
 
-### Capa de Grava
+### Capa de material filtrante
 
-Esta capa debe llenarse con grava como se muestra en el plano.
-En total, debe haber siete capas de grava.
+Para procesar lodo rojo, esta capa debe llenarse con grava como se muestra en el plano.
+Para producir agua pesada use filtros de membrana isotópica en lugar de grava.
+En total, debe haber siete capas de filtro.
 El filtro se obstruirá con el tiempo, por lo que debe limpiarse y volver a llenarse.
 
 [ta4_liquid_filter_gravel|plan]
 
 ### Capa de Llenado
 
-Esta capa se usa para llenar el filtro con lodo rojo.
-El lodo rojo debe bombearse hacia la tubería de llenado.
+Esta capa se usa para llenar el filtro con lodo rojo, agua o agua de río.
+El líquido de entrada debe bombearse hacia la tubería de llenado.
+La lejía o el agua pesada se recoge en el tanque inferior.
 
 [ta4_liquid_filter_top|plan]
 

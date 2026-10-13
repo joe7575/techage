@@ -647,8 +647,12 @@ Le feu de circulation n'a pas besoin d'électricité.
 
 ## Filtre à liquide TA4
 
-Dans le filtre à liquide, la boue rouge est filtrée.
-Cela produit soit de la lessive, qui peut être collectée dans un réservoir en bas, soit des pavés de tête de désert, qui se déposent dans le filtre.
+Le filtre à liquide peut être utilisé pour filtrer la boue rouge ou pour enrichir l'eau en eau lourde.
+Lors du filtrage de la boue rouge, une partie devient de la lessive, qui peut être collectée en bas dans un réservoir.
+L'autre partie devient des pavés du désert et encrasse le matériau filtrant.
+Lors du filtrage de l'eau ou de l'eau de rivière à travers des filtres à membrane isotopique, une petite quantité d'eau lourde est produite et collectée dans le réservoir inférieur.
+L'eau de rivière use les membranes plus lentement.
+Les membranes utilisées deviennent des filtres à membrane usés.
 Si le filtre est trop obstrué, il doit être vidé et rempli à nouveau.
 Le filtre se compose d'un niveau de fondation, sur lequel sont placées 7 couches de filtre identiques.
 Tout en haut se trouve le niveau de remplissage.
@@ -663,18 +667,20 @@ Dans le réservoir, la lessive est collectée.
 
 [ta4_liquid_filter_base|plan]
 
-### Niveau de gravier
+### Niveau de matériau filtrant
 
-Ce niveau doit être rempli de gravier comme montré dans le plan.
-Au total, sept couches de gravier doivent être superposées.
+Pour traiter la boue rouge, ce niveau doit être rempli de gravier comme montré dans le plan.
+Pour produire de l'eau lourde, utilisez des filtres à membrane isotopique au lieu du gravier.
+Au total, sept couches filtrantes doivent être présentes.
 Au fil du temps, le filtre se salit, de sorte que le matériau de remplissage doit être renouvelé.
 
 [ta4_liquid_filter_gravel|plan]
 
 ### Niveau de remplissage
 
-Ce niveau sert à remplir le filtre avec de la boue rouge.
-De la boue rouge doit être conduite dans la tubulure de remplissage à l'aide d'une pompe.
+Ce niveau sert à remplir le filtre avec de la boue rouge, de l'eau ou de l'eau de rivière.
+Le liquide d'entrée doit être conduit dans la tubulure de remplissage à l'aide d'une pompe.
+La lessive ou l'eau lourde est collectée dans le réservoir inférieur.
 
 [ta4_liquid_filter_top|plan]
 

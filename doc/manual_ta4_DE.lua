@@ -70,7 +70,7 @@ return {
     "3,TA4 Ampel / TA4 Traffic Light",
     "2,TA4 Flüssigkeitsfilter",
     "3,Fundament-Ebene",
-    "3,Schotter-Ebene",
+    "3,Filtermaterial-Ebene",
     "3,Einfüll-Ebene",
     "2,TA4 Teilchenbeschleuniger / Collider",
     "3,Detektor",
@@ -692,8 +692,12 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Im Flüssigkeitsfilter wird Rotschlamm gefiltert.\n"..
-    "Dabei entsteht entweder Lauge\\, welche unten in einem Tank gesammelt werden kann oder Wüstenkopfsteinpflaster\\, welches sich im Filter absetzt.\n"..
+    "Der Flüssigkeitsfilter kann zum Filtern von Rotschlamm oder zum Anreichern von Wasser zu Schwerem Wasser verwendet werden.\n"..
+    "Beim Filtern von Rotschlamm wird ein Teil zu Lauge\\, die unten in einem Tank gesammelt werden kann.\n"..
+    "Der andere Teil wird zu Wüstenkopfsteinpflaster und verstopft das Filtermaterial.\n"..
+    "Beim Filtern von Wasser oder Flusswasser durch Isotopen-Membranfilter entstehen kleine Mengen Schweres Wasser\\, die im unteren Tank gesammelt werden.\n"..
+    "Flusswasser nutzt die Membranen langsamer ab.\n"..
+    "Verbrauchte Membranen werden zu verbrauchten Membranfiltern.\n"..
     "Wenn der Filter zu sehr verstopft ist\\, muss er geleert und neu befüllt werden.\n"..
     "Der Filter besteht aus einer Fundament-Ebene\\, auf der 7 identische Filterschichten platziert werden. \n"..
     "Ganz oben befindet sich die Einfüllebene.\n"..
@@ -706,14 +710,16 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Diese Ebene muss so wie im Plan gezeigt mit Schotter befüllt werden.\n"..
-    "Insgesamt müssen sieben Lagen Schotter übereinander liegen.\n"..
+    "Für die Verarbeitung von Rotschlamm muss diese Ebene wie im Plan gezeigt mit Schotter befüllt werden.\n"..
+    "Für die Herstellung von Schwerem Wasser werden statt Schotter Isotopen-Membranfilter verwendet.\n"..
+    "Insgesamt müssen sieben Filterschichten vorhanden sein.\n"..
     "Dabei wird mit der Zeit der Filter verunreinigt\\, sodass das Füllmaterial erneuert werden muss.\n"..
     "\n"..
     "\n"..
     "\n",
-    "Diese Ebene dient zum Befüllen des Filters mit Rotschlamm.\n"..
-    "In den Einfüllstutzen muss Rotschlamm mittels einer Pumpe geleitet werden.\n"..
+    "Diese Ebene dient zum Befüllen des Filters mit Rotschlamm\\, Wasser oder Flusswasser.\n"..
+    "Die Eingangsflüssigkeit muss mit einer Pumpe in den Einfüllstutzen geleitet werden.\n"..
+    "Lauge oder Schweres Wasser wird im unteren Tank gesammelt.\n"..
     "\n"..
     "\n"..
     "\n",

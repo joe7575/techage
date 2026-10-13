@@ -687,9 +687,12 @@ A lâmpada requer 1 ku de eletricidade.
 
 ## Filtro líquido TA4
 
-O filtro de líquidos filtra a lama vermelha.
-Uma parte da lama vermelha se transforma em soda cáustica, que pode ser coletada no fundo de um tanque.
-A outra parte se transforma em um paralelepípedo do deserto e obstrui o material do filtro.
+O filtro de líquidos pode ser usado para filtrar lama vermelha ou para enriquecer água em água pesada.
+Ao filtrar lama vermelha, uma parte vira soda cáustica, que pode ser coletada no fundo em um tanque.
+A outra parte vira paralelepípedo do deserto e obstrui o material filtrante.
+Ao filtrar água ou água de rio por filtros de membrana isotópica, uma pequena quantidade de água pesada é produzida e coletada no tanque inferior.
+A água de rio desgasta as membranas mais lentamente.
+As membranas usadas viram filtros de membrana gastos.
 Se o filtro estiver muito entupido, ele deverá ser limpo e enchido novamente.
 O filtro consiste em uma camada de base, 7 camadas de filtro idênticas e uma camada de enchimento na parte superior.
 
@@ -703,18 +706,20 @@ A soda cáustica é coletada no tanque.
 
 [ta4_liquid_filter_base|plan]
 
-### Camada de cascalho
+### Camada de material filtrante
 
-Essa camada deve ser preenchida com cascalho, conforme mostrado no plano.
-No total, deve haver sete camadas de cascalho.
+Para processar lama vermelha, essa camada deve ser preenchida com cascalho, conforme mostrado no plano.
+Para produzir água pesada, use filtros de membrana isotópica em vez de cascalho.
+No total, deve haver sete camadas de filtro.
 O filtro ficará obstruído com o tempo, de modo que precisará ser limpo e preenchido novamente.
 
 [ta4_liquid_filter_gravel|plan]
 
 ### Camada de enchimento
 
-Essa camada é usada para preencher o filtro com lama vermelha.
-A lama vermelha deve ser bombeada para o tubo de enchimento.
+Essa camada é usada para preencher o filtro com lama vermelha, água ou água de rio.
+O líquido de entrada deve ser bombeado para o tubo de enchimento.
+Soda cáustica ou água pesada é coletada no tanque inferior.
 
 [ta4_liquid_filter_top|plan]
 

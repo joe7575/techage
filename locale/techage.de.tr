@@ -444,6 +444,13 @@ Magnet detection error@n(@1% found / 100% expected)=Magneterkennungsfehler@n(@1%
 Plasma ring shape error@n(@1% found / 100% expected)=Formfehler des Plasmarings@n(@1% erkannt / 100% erwartet)
 Shell shape error@n(@1 of @2 magnets OK)=Hüllenformfehler@n(@1 von @2 Magneten OK)
 Cooling failed@n(@1 found / @2 expected)=Kühlung ausgefallen@n(@1 erkannt / @2 erwartet)
+No heavy water=Kein schweres Wasser
+
+##[ items/heavy_water.lua ]##
+Heavy Water=Schweres Wasser
+Heavy Water Barrel=Schweres Wasserfass
+Isotope Membrane Filter=Isotopenmembranfilter
+Spent Isotope Membrane=Verbrauchte Isotopenmembran
 
 ##[ fusion_reactor/gas_pipe.lua ]##
 TA5 Pipe=TA5 Leitung
