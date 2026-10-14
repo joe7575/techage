@@ -30,13 +30,19 @@ minetest.register_lbm({
 
 	action = function(pos, node)
 		local nvm = techage.get_nvm(pos)
-		if M(pos):get_int("test_val") == nvm.test_val then
+		local meta_val = M(pos):get_int("test_val")
+		if nvm.test_val == nil or nvm.test_val ~= meta_val then
+			local nvm0 = techage.get_nvm0()
+			minetest.log("error", "[techage] Memory error at " .. minetest.pos_to_string(pos) ..
+				" (meta=" .. meta_val .. ", nvm=" .. tostring(nvm.test_val) ..
+				", normal_shutdown=" .. tostring(nvm0.NormalShutdown) .. ")")
+			M(pos):set_string("infotext", "Error (resynced)")
+			-- resync, so that only real, recurring storage problems show up again
+			nvm.test_val = meta_val
+		else
 			nvm.test_val = nvm.test_val + 1
 			M(pos):set_int("test_val", nvm.test_val)
 			M(pos):set_string("infotext", "Value = " .. nvm.test_val)
-		else
-			minetest.log("error", "[techage] Memory error at " .. minetest.pos_to_string(pos))
-			M(pos):set_string("infotext", "Error")
 		end
 	end,
 })
