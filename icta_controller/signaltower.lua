@@ -13,7 +13,20 @@
 ]]--
 
 
+local function is_signal_tower(name)
+	return name == "techage:ta4_signaltower" or
+		name == "techage:ta4_signaltower_green" or
+		name == "techage:ta4_signaltower_amber" or
+		name == "techage:ta4_signaltower_red"
+end
+
 local function switch_on(pos, node, color)
+	-- Only switch a real signal tower. Otherwise a command with a stale node
+	-- number could (re)create a tower where there is none (e.g. air or a
+	-- different block after the tower was dug).
+	if not is_signal_tower(node.name) then
+		return
+	end
 	local meta = minetest.get_meta(pos)
 	meta:set_string("state", color)
 	node.name = "techage:ta4_signaltower_"..color
@@ -21,6 +34,9 @@ local function switch_on(pos, node, color)
 end
 
 local function switch_off(pos, node)
+	if not is_signal_tower(node.name) then
+		return
+	end
 	local meta = minetest.get_meta(pos)
 	meta:set_string("state", "off")
 	node.name = "techage:ta4_signaltower"
