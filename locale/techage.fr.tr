@@ -1490,3 +1490,11 @@ Here is not enough wind (A free air space of 41x41x21 m is necessary)!=Ici, il n
 Item not storable (not stackable, has metadata, or is worn)=Objet non stockable (non empilable, a des métadonnées ou est usé)
 Wrong item returned: expected @1, got @2=Mauvais objet renvoyé : @1 attendu, @2 reçu
 [Digitizer] Storage not empty! Empty the storage first.=[Digitizer] Stockage non vide ! Veuillez d'abord le vider.
+
+##[ logic/book.lua ]##
+TA4 Book=Livre TA4
+Title:=Titre :
+Numbers=Numéros
+Notes=Notes
+Save=Sauvegarder
+Close=Fermer

@@ -102,13 +102,18 @@ sched.register(tSched, CALL_RATE2, 4, function(pos, outdir)
 local function can_start(pos, nvm)
 	local outdir = networks.side_to_outdir(pos, "L")
 	if not power.power_available(pos, Cable, outdir) then
-		return S("No power")
+		local err = S("No power")
+		minetest.log("warning", "[techage] FR controller @" .. P2S(pos) .. " cannot start: " .. err)
+		return err
 	end
 	outdir = networks.side_to_outdir(pos, "R")
 	control.request(pos, Cable, outdir, "con", "rst_power")
 	for i = 0,4 do
 		local res = tSched[i](pos, outdir)
-		if res ~= true then return res end
+		if res ~= true then
+			minetest.log("warning", "[techage] FR controller @" .. P2S(pos) .. " cannot start: " .. (tostring(res):gsub("\n", " ")))
+			return res
+		end
 	end
 	return true
 end
@@ -118,6 +123,7 @@ local function start_node(pos, nvm)
 	local outdir = networks.side_to_outdir(pos, "R")
 	control.send(pos, Cable, outdir, "con", "on")
 	sched.init(pos)
+	minetest.log("action", "[techage] FR controller @" .. P2S(pos) .. " started")
 end
 
 local function stop_node(pos, nvm)
@@ -159,6 +165,8 @@ local function consume_power(pos, nvm, outdir)
 		local taken = power.consume_power(pos, Cable, outdir, PWR_NEEDED)
 		if techage.is_running(nvm) then
 			if taken < PWR_NEEDED then
+				minetest.log("warning", "[techage] FR controller @" .. P2S(pos) .. " no power (" ..
+					math.floor(taken) .. "/" .. PWR_NEEDED .. ")")
 				State:nopower(pos, nvm, "No power")
 				stop_node(pos, nvm)
 			else
@@ -175,6 +183,7 @@ local function node_timer(pos)
 		local resp = sched.get(pos, tSched, function()
 				return true end)(pos, networks.Flip[outdir])
 		if resp ~= true then
+			minetest.log("warning", "[techage] FR controller @" .. P2S(pos) .. " stopped: " .. (tostring(resp):gsub("\n", " ")))
 			State:fault(pos, nvm, resp)
 			stop_node(pos, nvm)
 		else

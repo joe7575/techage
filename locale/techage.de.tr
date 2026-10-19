@@ -1491,3 +1491,11 @@ Item not storable (not stackable, has metadata, or is worn)=Item nicht speicherb
 Wrong item returned: expected @1, got @2=Falsches Item zurückgegeben: erwartet @1, erhalten @2
 [Digitizer] Storage not empty! Empty the storage first.=[Digitizer] Speicher nicht leer! Speicher zuerst leeren.
 [Digitizer] Stop the Digitizer first!=[Digitizer] Digitizer zuerst stoppen.[Digitizer] Speicher nicht leer! Bitte zuerst den Speicher leeren.
+
+##[ logic/book.lua ]##
+TA4 Book=TA4 Buch
+Title:=Titel:
+Numbers=Nummern
+Notes=Notizen
+Save=Speichern
+Close=Schließen

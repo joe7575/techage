@@ -488,6 +488,27 @@ minetest.register_node("techage:ta4_lua_controller", {
 
 	on_receive_fields = on_receive_fields,
 
+	-- Support for the TechAge Programmer (techage:programmer):
+	-- A left-click with the programmer "pastes" the collected block numbers
+	-- as a new line at the end of the "notes" tab.
+	techage_set_numbers = function(pos, numbers, player_name)
+		-- nothing was collected with the programmer
+		if numbers == nil or numbers == "" then
+			return false
+		end
+		local meta = M(pos)
+		local notes = meta:get_string("notes")
+		if notes == "" then
+			notes = numbers
+		else
+			notes = notes.."\n"..numbers
+		end
+		meta:set_string("notes", notes)
+		-- open the notes tab on the next right-click
+		meta:set_string("formspec", formspec5(meta))
+		return true
+	end,
+
 	on_rightclick = function(pos, node, clicker)
 		local meta = M(pos)
 		if meta:get_int("state") == techage.RUNNING then

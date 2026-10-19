@@ -766,6 +766,8 @@ return {
     "Con el programador\\, los números de bloque pueden recopilarse de varios bloques con un clic derecho y escribirse en un bloque como un botón / interruptor con un clic izquierdo.\n"..
     "Si haces clic en el aire\\, la memoria interna se borra.\n"..
     "\n"..
+    "Los números recopilados también pueden escribirse en un Libro TA4. Cada acción añade los números como una nueva línea en la pestaña \"Numbers\". El libro también tiene una pestaña \"Notes\" para tus propias notas.\n"..
+    "\n"..
     "\n"..
     "\n",
     "La paleta se usa para enlucir cables eléctricos. Ver también \"cable eléctrico TA\".\n"..

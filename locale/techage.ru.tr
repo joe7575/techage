@@ -1473,3 +1473,11 @@ waste: tank expected=отходы: требуется резервуар
 Item not storable (not stackable, has metadata, or is worn)=Предмет нельзя сохранить (не стакается, имеет метаданные или изношен)
 Wrong item returned: expected @1, got @2=Возвращён неверный предмет: ожидался @1, получен @2
 [Digitizer] Storage not empty! Empty the storage first.=[Диджиттайзер] Хранилище не пусто! Сначала очистите хранилище.
+
+##[ logic/book.lua ]##
+TA4 Book=Книга TA4
+Title:=Название:
+Numbers=Номера
+Notes=Заметки
+Save=Сохранить
+Close=Закрыть

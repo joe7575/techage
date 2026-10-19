@@ -913,6 +913,8 @@ With Shift + right click an extended menu can be opened for some blocks. Dependi
 With the programmer, block numbers can be collected from several blocks with a right click and written into a block like a button / switch with a left click.
 If you click in the air, the internal memory is deleted.
 
+The collected numbers can also be written into a TA4 Book. Each action appends the numbers as a new line to the "Numbers" tab. The book also has a "Notes" tab for your own notes.
+
 [ta3_programmer|image]
 
 ### TechAge Trowel / Trowel

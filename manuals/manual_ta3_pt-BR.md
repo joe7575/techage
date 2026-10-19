@@ -827,6 +827,8 @@ Com Shift + clique direito, um menu estendido pode ser aberto para alguns blocos
 Com o programador, números de bloco podem ser coletados de vários blocos com um clique direito e gravados em um bloco como um botão / interruptor com um clique esquerdo.
 Se você clicar no ar, a memória interna é apagada.
 
+Os números coletados também podem ser gravados em um Livro TA4. Cada ação adiciona os números como uma nova linha na aba "Numbers". O livro também tem uma aba "Notes" para suas próprias notas.
+
 [ta3_programmer|image]
 
 ### TechAge Trowel / Trowel

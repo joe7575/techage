@@ -801,6 +801,8 @@ Avec Maj + clic droit, un menu étendu peut être ouvert pour certains blocs. Se
 Avec le programmeur, les numéros de bloc peuvent être collectés avec un clic droit de plusieurs blocs et écrits dans un bloc comme un bouton/interrupteur avec un clic gauche.
 Si vous cliquez dans l'air, la mémoire interne est effacée.
 
+Les numéros collectés peuvent aussi être écrits dans un Livre TA4. Chaque action ajoute les numéros comme une nouvelle ligne dans l'onglet "Numbers". Le livre dispose aussi d'un onglet "Notes" pour vos propres notes.
+
 [ta3_programmer|image]
 
 ### Truelle TechAge / Truelle

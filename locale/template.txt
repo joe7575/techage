@@ -1481,3 +1481,11 @@ Item not storable (not stackable, has metadata, or is worn)=
 Wrong item returned: expected @1, got @2=
 [Digitizer] Storage not empty! Empty the storage first.=
 [Digitizer] Stop the Digitizer first!=
+
+##[ logic/book.lua ]##
+TA4 Book=
+Title:=
+Numbers=
+Notes=
+Save=
+Close=

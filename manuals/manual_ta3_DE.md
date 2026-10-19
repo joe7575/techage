@@ -916,6 +916,8 @@ Mit Shift+Rechtsklick kann bei einigen Blöcken ein erweitertes Menü geöffnet 
 Mit dem Programmer können Blocknummern mit einem Rechtsklick von mehreren Blöcken eingesammelt und mit einem Linksklick in einen Block wie Taster/Schalter geschrieben werden.
 Wird in die Luft geklickt, wird der interne Speicher gelöscht.
 
+Die eingesammelten Nummern können auch in ein TA4-Buch geschrieben werden. Jeder Vorgang hängt die Nummern als neue Zeile im Tab "Numbers" an. Das Buch besitzt zusätzlich einen Tab "Notes" für eigene Notizen.
+
 [ta3_programmer|image]
 
 ### TechAge Kelle / Trowel

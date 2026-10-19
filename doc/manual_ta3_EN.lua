@@ -767,6 +767,8 @@ return {
     "With the programmer\\, block numbers can be collected from several blocks with a right click and written into a block like a button / switch with a left click.\n"..
     "If you click in the air\\, the internal memory is deleted.\n"..
     "\n"..
+    "The collected numbers can also be written into a TA4 Book. Each action appends the numbers as a new line to the \"Numbers\" tab. The book also has a \"Notes\" tab for your own notes.\n"..
+    "\n"..
     "\n"..
     "\n",
     "The trowel is used for plastering power cables. See also \"TA power cable\".\n"..

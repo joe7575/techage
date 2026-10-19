@@ -27,6 +27,7 @@ local CYCLE_TIME = 2
 local PWR_NEEDED = 5
 local COUNTDOWN_TICKS = 1
 local DOWN = 5  -- dir
+local MAX_COOLDOWN = 2 * 70  -- max cool-down time in seconds (temperature range is 0..100)
 local DESCRIPTION = S("TA5 Heat Exchanger 2")
 local EXPECT_BLUE = 56
 local EXPECT_GREEN = 52
@@ -158,17 +159,22 @@ local function start_node(pos, nvm)
 	play_sound(pos)
 	sched.init(pos)
 	nvm.temperature = nvm.temperature or 0
-	local mem = techage.get_mem(pos)
-	local t = minetest.get_gametime() - (mem.stopped_at or 0)
+	local now = minetest.get_gametime()
+	-- cool down according to the stopped time (persisted in nvm, survives restarts)
+	local t = now - (nvm.stopped_at or now)
+	t = math.max(0, math.min(t, MAX_COOLDOWN))
 	nvm.temperature = math.max(nvm.temperature - math.floor(t/2), 0)
 	nvm.temperature = math.min(nvm.temperature, 70)
+	minetest.log("action", "[techage] TA5 heat exchanger @" .. P2S(pos) ..
+		" started, temperature=" .. nvm.temperature)
 end
 
 local function stop_node(pos, nvm)
 	stop_sound(pos)
 	heatexchanger1_cmnd(pos, "stop")
-	local mem = techage.get_mem(pos)
-	mem.stopped_at = minetest.get_gametime()
+	nvm.stopped_at = minetest.get_gametime()
+	minetest.log("action", "[techage] TA5 heat exchanger @" .. P2S(pos) ..
+		" stopped, temperature=" .. (nvm.temperature or 0))
 end
 
 local function temp_indicator (nvm, x, y)
@@ -206,6 +212,8 @@ local function steam_management(pos, nvm)
 	elseif resp == 1 then  -- has power
 		nvm.temperature = math.min(nvm.temperature + 10, 100)
 	elseif resp ~= true then
+		minetest.log("warning", "[techage] TA5 heat exchanger @" .. P2S(pos) ..
+			" stopped: " .. (tostring(resp):gsub("\n", " ")))
 		State:fault(pos, nvm, resp)
 		State:stop(pos, nvm)
 		return false
@@ -232,6 +240,8 @@ local function consume_power(pos, nvm)
 		local taken = power.consume_power(pos, Cable, DOWN, PWR_NEEDED)
 		if techage.is_running(nvm) then
 			if taken < PWR_NEEDED then
+				minetest.log("warning", "[techage] TA5 heat exchanger @" .. P2S(pos) .. " no power (" ..
+					math.floor(taken) .. "/" .. PWR_NEEDED .. ")")
 				State:nopower(pos, nvm, S("No power"))
 				stop_sound(pos)
 				heatexchanger1_cmnd(pos, "stop")

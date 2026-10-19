@@ -768,6 +768,8 @@ return {
     "Mit dem Programmer können Blocknummern mit einem Rechtsklick von mehreren Blöcken eingesammelt und mit einem Linksklick in einen Block wie Taster/Schalter geschrieben werden.\n"..
     "Wird in die Luft geklickt\\, wird der interne Speicher gelöscht.\n"..
     "\n"..
+    "Die eingesammelten Nummern können auch in ein TA4-Buch geschrieben werden. Jeder Vorgang hängt die Nummern als neue Zeile im Tab \"Numbers\" an. Das Buch besitzt zusätzlich einen Tab \"Notes\" für eigene Notizen.\n"..
+    "\n"..
     "\n"..
     "\n",
     "Die Kelle dient zum Verputzen von Stromkabel. Siehe dazu \"TA Stromkabel\".\n"..
