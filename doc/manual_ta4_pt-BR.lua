@@ -65,7 +65,7 @@ return {
     "3,Lâmpada industrial de LED TA4",
     "2,Filtro líquido TA4",
     "3,Camada de base",
-    "3,Camada de cascalho",
+    "3,Camada de material filtrante",
     "3,Camada de enchimento",
     "2,Colisor TA4 (acelerador de partículas)",
     "3,Detector",
@@ -603,9 +603,12 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "O filtro de líquidos filtra a lama vermelha.\n"..
-    "Uma parte da lama vermelha se transforma em soda cáustica\\, que pode ser coletada no fundo de um tanque.\n"..
-    "A outra parte se transforma em um paralelepípedo do deserto e obstrui o material do filtro.\n"..
+    "O filtro de líquidos pode ser usado para filtrar lama vermelha ou para enriquecer água em água pesada.\n"..
+    "Ao filtrar lama vermelha\\, uma parte vira soda cáustica\\, que pode ser coletada no fundo em um tanque.\n"..
+    "A outra parte vira paralelepípedo do deserto e obstrui o material filtrante.\n"..
+    "Ao filtrar água ou água de rio por filtros de membrana isotópica\\, uma pequena quantidade de água pesada é produzida e coletada no tanque inferior.\n"..
+    "A água de rio desgasta as membranas mais lentamente.\n"..
+    "As membranas usadas viram filtros de membrana gastos.\n"..
     "Se o filtro estiver muito entupido\\, ele deverá ser limpo e enchido novamente.\n"..
     "O filtro consiste em uma camada de base\\, 7 camadas de filtro idênticas e uma camada de enchimento na parte superior.\n"..
     "\n"..
@@ -617,14 +620,16 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Essa camada deve ser preenchida com cascalho\\, conforme mostrado no plano.\n"..
-    "No total\\, deve haver sete camadas de cascalho.\n"..
+    "Para processar lama vermelha\\, essa camada deve ser preenchida com cascalho\\, conforme mostrado no plano.\n"..
+    "Para produzir água pesada\\, use filtros de membrana isotópica em vez de cascalho.\n"..
+    "No total\\, deve haver sete camadas de filtro.\n"..
     "O filtro ficará obstruído com o tempo\\, de modo que precisará ser limpo e preenchido novamente.\n"..
     "\n"..
     "\n"..
     "\n",
-    "Essa camada é usada para preencher o filtro com lama vermelha.\n"..
-    "A lama vermelha deve ser bombeada para o tubo de enchimento.\n"..
+    "Essa camada é usada para preencher o filtro com lama vermelha\\, água ou água de rio.\n"..
+    "O líquido de entrada deve ser bombeado para o tubo de enchimento.\n"..
+    "Soda cáustica ou água pesada é coletada no tanque inferior.\n"..
     "\n"..
     "\n"..
     "\n",

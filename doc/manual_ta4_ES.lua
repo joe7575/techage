@@ -70,7 +70,7 @@ return {
     "3,Semáforo TA4",
     "2,Filtro de Líquido TA4",
     "3,Capa Base",
-    "3,Capa de Grava",
+    "3,Capa de material filtrante",
     "3,Capa de Llenado",
     "2,Colisionador TA4 (Acelerador de Partículas)",
     "3,Detector",
@@ -683,9 +683,12 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "El filtro de líquidos filtra el lodo rojo.\n"..
-    "Una parte del lodo rojo se convierte en lejía\\, que puede recogerse en la parte inferior en un depósito.\n"..
+    "El filtro de líquidos puede usarse para filtrar lodo rojo o para enriquecer agua en agua pesada.\n"..
+    "Al filtrar lodo rojo\\, una parte se convierte en lejía\\, que puede recogerse abajo en un tanque.\n"..
     "La otra parte se convierte en adoquín de desierto y obstruye el material filtrante.\n"..
+    "Al filtrar agua o agua de río mediante filtros de membrana isotópica\\, se produce una pequeña cantidad de agua pesada que se recoge en el tanque inferior.\n"..
+    "El agua de río desgasta las membranas más lentamente.\n"..
+    "Las membranas usadas se convierten en filtros de membrana gastados.\n"..
     "Si el filtro está demasiado obstruido\\, debe limpiarse y volver a llenarse.\n"..
     "El filtro consta de una capa base\\, 7 capas de filtro idénticas y una capa de llenado en la parte superior.\n"..
     "\n"..
@@ -697,14 +700,16 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "Esta capa debe llenarse con grava como se muestra en el plano.\n"..
-    "En total\\, debe haber siete capas de grava.\n"..
+    "Para procesar lodo rojo\\, esta capa debe llenarse con grava como se muestra en el plano.\n"..
+    "Para producir agua pesada use filtros de membrana isotópica en lugar de grava.\n"..
+    "En total\\, debe haber siete capas de filtro.\n"..
     "El filtro se obstruirá con el tiempo\\, por lo que debe limpiarse y volver a llenarse.\n"..
     "\n"..
     "\n"..
     "\n",
-    "Esta capa se usa para llenar el filtro con lodo rojo.\n"..
-    "El lodo rojo debe bombearse hacia la tubería de llenado.\n"..
+    "Esta capa se usa para llenar el filtro con lodo rojo\\, agua o agua de río.\n"..
+    "El líquido de entrada debe bombearse hacia la tubería de llenado.\n"..
+    "La lejía o el agua pesada se recoge en el tanque inferior.\n"..
     "\n"..
     "\n"..
     "\n",

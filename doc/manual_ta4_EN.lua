@@ -70,7 +70,7 @@ return {
     "3,TA4 traffic light",
     "2,TA4 Liquid Filter",
     "3,Base Layer",
-    "3,Gravel Layer",
+    "3,Filter Material Layer",
     "3,Filling Layer",
     "2,TA4 Collider (Particle Accelerator)",
     "3,Detector",
@@ -688,9 +688,12 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "The liquid filter filters red mud.\n"..
-    "A part of the red mud becomes lye\\, which can be collected at the bottom in a tank.\n"..
+    "The liquid filter can be used to filter red mud or to enrich water into heavy water.\n"..
+    "When filtering red mud\\, part of it becomes lye\\, which can be collected at the bottom in a tank.\n"..
     "The other part becomes desert cobblestone and clutters the filter material.\n"..
+    "When filtering water or river water through isotope membrane filters\\, a small amount of heavy water is produced and collected in the bottom tank.\n"..
+    "River water wears the membranes more slowly.\n"..
+    "Used membranes turn into spent membrane filters.\n"..
     "If the filter is too clogged\\, it has to be cleaned and re-filled.\n"..
     "The filter consists of a base layer\\, 7 identical filter layers and a filling layer at the top.\n"..
     "\n"..
@@ -702,14 +705,16 @@ return {
     "\n"..
     "\n"..
     "\n",
-    "This layer has to be filled with gravel as shown in the plan.\n"..
-    "In total\\, there must be seven layers of gravel.\n"..
+    "For red mud processing this layer has to be filled with gravel as shown in the plan.\n"..
+    "For heavy water production use isotope membrane filters instead of gravel.\n"..
+    "In total\\, there must be seven filter layers.\n"..
     "The filter will become cluttered over time\\, so that it has to be cleaned and re-filled.\n"..
     "\n"..
     "\n"..
     "\n",
-    "This layer is used to fill the filter with red mud.\n"..
-    "The red mud must be pumped into the filler pipe.\n"..
+    "This layer is used to fill the filter with red mud\\, water or river water.\n"..
+    "The input liquid must be pumped into the filler pipe.\n"..
+    "Lye or heavy water is collected in the tank below.\n"..
     "\n"..
     "\n"..
     "\n",
