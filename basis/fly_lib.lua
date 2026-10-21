@@ -165,6 +165,7 @@ function flylib.distance(v)
 end
 
 function flylib.to_vector(s, max_dist)
+	if type(s) ~= "string" then return end
 	local x,y,z = unpack(string.split(s, ","))
 	x = tonumber(x) or 0
 	y = tonumber(y) or 0
@@ -177,6 +178,7 @@ function flylib.to_vector(s, max_dist)
 end
 
 function flylib.to_path(s, max_dist)
+	if type(s) ~= "string" then return end
 	local tPath
 	local dist = 0
 
