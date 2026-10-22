@@ -654,6 +654,16 @@ techage.register_node({"techage:ta4_chest"}, {
 			return 0, get_itemstring(nvm, tonumber(payload[2] or 0) or 0)
 		elseif topic == 140 and payload[1] == 3 then  -- storesize
 			return 0, {get_stacksize(pos)}
+		elseif topic == 192 and payload and type(payload) == "string" then
+			-- Item count by name or substring (BEP 005)
+			local nvm = techage.get_nvm(pos)
+			local count = 0
+			for _,item in ipairs(nvm.inventory or {}) do
+				if item.name and item.name:find(payload, 1, true) then
+					count = count + (item.count or 0)
+				end
+			end
+			return 0, {count}
 		elseif topic == 131 then  -- Chest State
 			local nvm = techage.get_nvm(pos)
 			return 0, {inv_state_num(nvm)}
