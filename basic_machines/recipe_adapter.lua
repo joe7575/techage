@@ -10,8 +10,10 @@
 
 	TA4 Recipe Adapter
 
-	A flat plate like the forceload tile. Place it on top of a furnace or an
-	electronic fab; it detects the machine below it automatically (no formspec).
+	A flat plate like the forceload tile. It can be mounted on top of, below,
+	or on any side of a furnace or an electronic fab; the machine it is
+	attached to is detected via the same "back side" logic as the Beduino IOT
+	sensor (no formspec).
 	It provides the machine's recipes via Beduino:
 
 	  156          number of recipes
@@ -31,6 +33,14 @@ local S = techage.S
 local M = minetest.get_meta
 local P2S = minetest.pos_to_string
 
+-- Same orientation mapping as the Beduino IOT sensor (rotate_and_place
+-- produces a param2 that has to be translated to a facedir first).
+local Wall2Facedir = {
+	[0] = 4, [1] = 13, [2] = 10, [3] = 19,
+	[7] = 2, [9] = 0, [12] = 3, [18] = 1,
+	[20] = 8, [21] = 15, [22] = 6, [23] = 17,
+}
+
 local function machine_type(name)
 	if name:find("furnace", 1, true) and
 			not name:find("heater", 1, true) and
@@ -41,10 +51,12 @@ local function machine_type(name)
 	end
 end
 
--- The plate rests on the machine: only the node below is the attached one
--- (like the IO sensor's port 0, but vertical).
+-- The attached machine is on the back side of the adapter (like IOT sensor
+-- port 0); the direction follows the placement (top, bottom or side).
 local function detect(pos)
-	local npos = {x = pos.x, y = pos.y - 1, z = pos.z}
+	local node = minetest.get_node(pos)
+	local param2 = Wall2Facedir[node.param2] or node.param2
+	local npos = networks.get_relpos(pos, "B", param2)
 	local rtype = machine_type(minetest.get_node(npos).name)
 	if rtype then
 		local number = tonumber(M(npos):get_string("node_number"))
