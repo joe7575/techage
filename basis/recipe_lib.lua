@@ -171,6 +171,31 @@ function techage.recipes.get_recipe(name)
 	return NormalizedRecipes[name]
 end
 
+-- Recipe list for external controllers/adapters (read-only).
+function techage.recipes.get_all(rtype, owner)
+	local recipes = Recipes[rtype] or {}
+	if owner then
+		recipes = filter_recipes_based_on_points(recipes, owner)
+	end
+	return recipes
+end
+
+-- Index of the recipe that produces `output` (exact, then substring).
+function techage.recipes.find(rtype, output, owner)
+	local recipes = techage.recipes.get_all(rtype, owner)
+	for idx, recipe in ipairs(recipes) do
+		if recipe.output.name == output then
+			return idx
+		end
+	end
+	for idx, recipe in ipairs(recipes) do
+		if recipe.output.name:find(output, 1, true) then
+			return idx
+		end
+	end
+	return 0
+end
+
 function techage.recipes.set_recipe(pos, rtype, idx)
 	local nvm = techage.get_nvm(pos)
 	if not nvm.running then

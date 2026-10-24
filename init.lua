@@ -198,6 +198,7 @@ dofile(MP.."/basic_machines/itemsource.lua")
 dofile(MP.."/basic_machines/recycler.lua")
 dofile(MP.."/basic_machines/concentrator.lua")
 dofile(MP.."/basic_machines/recipeblock.lua")
+dofile(MP.."/basic_machines/recipe_adapter.lua")
 dofile(MP.."/basic_machines/ta5_chest.lua")
 dofile(MP.."/basic_machines/waterremover.lua")
 

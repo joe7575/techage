@@ -182,6 +182,42 @@ function techage.furnace.get_output(nvm, ingr, idx)
 	return nvm.output
 end
 
+-- Unique outputs with their first recipe, for external recipe adapters.
+function techage.furnace.get_all()
+	local seen = {}
+	local list = {}
+	for _, output in ipairs(KeyList) do
+		if not seen[output] then
+			seen[output] = true
+			local recipe = Recipes[output] and Recipes[output][1]
+			if recipe then
+				list[#list+1] = {
+					output = output,
+					number = recipe.number,
+					input = recipe.input,
+					time = recipe.time,
+					waste = recipe.waste,
+				}
+			end
+		end
+	end
+	return list
+end
+
+function techage.furnace.find(output)
+	for idx, recipe in ipairs(techage.furnace.get_all()) do
+		if recipe.output == output then
+			return idx
+		end
+	end
+	for idx, recipe in ipairs(techage.furnace.get_all()) do
+		if recipe.output:find(output, 1, true) then
+			return idx
+		end
+	end
+	return 0
+end
+
 function techage.furnace.get_num_recipes(ingr)
 	return #get_recipes(ingr)
 end
