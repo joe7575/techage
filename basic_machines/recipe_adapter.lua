@@ -320,7 +320,7 @@ minetest.register_craft({
 	output = "techage:ta4_recipe_adapter",
 	recipe = {
 		{"techage:ta4_carbon_fiber", "dye:blue", "techage:aluminum"},
-		{"", "basic_materials:ic", ""},
+		{"basic_materials:plastic_sheet", "basic_materials:ic", "basic_materials:plastic_sheet"},
 		{"default:steel_ingot", "techage:ta4_wlanchip", "default:steel_ingot"},
 	},
 })
