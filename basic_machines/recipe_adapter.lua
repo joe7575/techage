@@ -233,3 +233,12 @@ techage.register_node({"techage:ta4_recipe_adapter"}, {
 		return 2, ""
 	end,
 })
+
+minetest.register_craft({
+	output = "techage:ta4_recipe_adapter",
+	recipe = {
+		{"techage:ta4_carbon_fiber", "dye:blue", "techage:aluminum"},
+		{"", "basic_materials:ic", ""},
+		{"default:steel_ingot", "techage:ta4_wlanchip", "default:steel_ingot"},
+	},
+})
