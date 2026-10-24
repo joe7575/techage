@@ -96,6 +96,24 @@ local function get_recipe(inv)
 	}
 end
 
+-- Split a stored recipe output ("<item name> <count>") into name and count.
+local function recipe_output(recipe)
+	if recipe and type(recipe.output) == "string" then
+		local name, count = recipe.output:match("^(%S+)%s+(%d+)$")
+		return name or "", tonumber(count) or 0
+	end
+	return "", 0
+end
+
+-- Item name of one input slot; "" for a free slot.
+local function recipe_input(recipe, slot)
+	if recipe and type(recipe.input) == "string" then
+		local items = string.split(recipe.input, ",", true, 8)
+		return items and items[slot] or ""
+	end
+	return ""
+end
+
 local function after_recipe_change(pos, inv, listname)
 	if listname == "input" then
 		determine_new_output(pos, inv)
@@ -179,7 +197,7 @@ minetest.register_node("techage:ta4_recipeblock", {
 
 	after_place_node = function(pos, placer, itemstack)
 		local nvm = techage.get_nvm(pos)
-		local number = techage.add_node(pos, "techage:ta4_chest")
+		local number = techage.add_node(pos, "techage:ta4_recipeblock")
 		M(pos):set_string("owner", placer:get_player_name())
 		M(pos):set_string("node_number", number)
 		M(pos):set_string("formspec", formspec(pos, nvm))
@@ -230,6 +248,31 @@ techage.register_node({"techage:ta4_recipeblock"}, {
 		else
 			return "unsupported"
 		end
+	end,
+	-- Read-only access from Beduino/NanoC (BEP 005 topics 156-158, 193-194).
+	on_beduino_request_data = function(pos, src, topic, payload)
+		local nvm = techage.get_nvm(pos)
+		local recipes = nvm.recipes or {}
+		if topic == 156 then                    -- max recipes
+			return 0, {MAX_RECIPE}
+		elseif topic == 157 then                -- selected recipe index
+			return 0, {nvm.recipe_idx or 1}
+		elseif topic == 158 then                -- output count of recipe [idx]
+			local idx = tonumber(payload and payload[1]) or 0
+			local _, count = recipe_output(recipes[idx])
+			return 0, {count}
+		elseif topic == 193 and type(payload) == "string" then
+			local idx = tonumber(payload) or 0   -- output item name of recipe "idx"
+			local name = recipe_output(recipes[idx])
+			return 0, name
+		elseif topic == 194 and type(payload) == "string" then
+			-- input item name of recipe "idx,slot"
+			local idx, slot = payload:match("^(%d+),(%d+)$")
+			local name = recipe_input(recipes[tonumber(idx) or 0],
+				tonumber(slot) or 0)
+			return 0, name
+		end
+		return 1, ""
 	end,
 })
 
