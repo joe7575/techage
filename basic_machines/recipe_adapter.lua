@@ -10,9 +10,9 @@
 
 	TA4 Recipe Adapter
 
-	Read-only recipe source for machines whose recipes are not in a recipe
-	block (furnace, electronic fab). Place it next to the machine, set the
-	recipe type and the machine's node number in the formspec. Beduino topics:
+	A flat plate like the forceload tile. Place it on top of a furnace or an
+	electronic fab; it detects the machine below it automatically (no formspec).
+	It provides the machine's recipes via Beduino:
 
 	  156          number of recipes
 	  158 [idx]    output count
@@ -31,37 +31,67 @@ local S = techage.S
 local M = minetest.get_meta
 local P2S = minetest.pos_to_string
 
-local function formspec(pos)
-	local meta = M(pos)
-	local rtype = meta:get_string("rtype")
-	if rtype == "" then
-		rtype = "furnace"
+local function machine_type(name)
+	if name:find("furnace", 1, true) and
+			not name:find("heater", 1, true) and
+			not name:find("firebox", 1, true) then
+		return "furnace"
+	elseif name:find("electronic_fab", 1, true) then
+		return "ta4_electronic_fab"
 	end
-	local select = (rtype == "ta4_electronic_fab") and 2 or 1
-	return "size[6,3.4]" ..
-		"label[0.2,0.1;" .. S("TA4 Recipe Adapter") .. "]" ..
-		"dropdown[0.2,0.6;3.2,0.8;rtype;Furnace,Electronic Fab;" .. select .. "]" ..
-		"field[0.2,1.6;4,0.8;target;" .. S("Target node number") .. ";" ..
-			minetest.formspec_escape(meta:get_string("target")) .. "]" ..
-		"button[0.2,2.5;2,0.8;save;" .. S("Save") .. "]"
+end
+
+-- Look for the machine the plate is docked to (prefer the node below).
+local function detect(pos)
+	local dirs = {
+		{0, -1, 0}, {0, 1, 0},
+		{1, 0, 0}, {-1, 0, 0},
+		{0, 0, 1}, {0, 0, -1},
+	}
+	for _, d in ipairs(dirs) do
+		local npos = {x = pos.x + d[1], y = pos.y + d[2], z = pos.z + d[3]}
+		local rtype = machine_type(minetest.get_node(npos).name)
+		if rtype then
+			local number = tonumber(M(npos):get_string("node_number"))
+			if number then
+				return rtype, number
+			end
+		end
+	end
 end
 
 local function update_infotext(pos)
 	local meta = M(pos)
 	local rtype = meta:get_string("rtype")
-	local typ = (rtype == "ta4_electronic_fab") and "Electronic Fab" or "Furnace"
+	local target = meta:get_string("target")
+	local typ = "not docked"
+	if rtype == "furnace" then
+		typ = "Furnace"
+	elseif rtype == "ta4_electronic_fab" then
+		typ = "Electronic Fab"
+	end
 	meta:set_string("infotext", "TA4 Recipe Adapter " ..
-		meta:get_string("node_number") .. " (" .. typ .. " -> " ..
-		meta:get_string("target") .. ")")
+		meta:get_string("node_number") .. " (" .. typ ..
+		(target ~= "" and " -> " .. target or "") .. ")")
+end
+
+local function redetect(pos)
+	local meta = M(pos)
+	local rtype, target = detect(pos)
+	if rtype then
+		meta:set_string("rtype", rtype)
+		meta:set_string("target", tostring(target))
+	else
+		meta:set_string("rtype", "")
+		meta:set_string("target", "")
+	end
+	update_infotext(pos)
 end
 
 -- Return the normalized recipe list, the configured type and target number.
 local function recipe_list(pos)
 	local meta = M(pos)
 	local rtype = meta:get_string("rtype")
-	if rtype == "" then
-		rtype = "furnace"
-	end
 	local target = tonumber(meta:get_string("target"))
 	local owner
 	if target then
@@ -87,7 +117,7 @@ local function recipe_list(pos)
 				}
 			end
 		end
-	elseif techage.recipes then
+	elseif rtype == "ta4_electronic_fab" and techage.recipes then
 		for _, r in ipairs(techage.recipes.get_all(rtype, owner)) do
 			list[#list + 1] = {
 				output = r.output.name,
@@ -115,60 +145,52 @@ local function find_index(pos, name)
 	return 0
 end
 
+local function on_place(itemstack, placer, pointed_thing)
+	if pointed_thing.type ~= "node" then
+		return itemstack
+	end
+	return minetest.rotate_and_place(itemstack, placer, pointed_thing)
+end
+
 minetest.register_node("techage:ta4_recipe_adapter", {
 	description = S("TA4 Recipe Adapter"),
 	tiles = {
-		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_recipeblock.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_recipeblock.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_recipeblock.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_recipeblock.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_recipeblock.png",
-		"techage_filling_ta4.png^techage_frame_ta4.png^techage_appl_recipeblock.png",
+		-- Placeholder texture; replace with dedicated adapter art later.
+		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_recipeblock.png",
 	},
+	drawtype = "nodebox",
+	node_box = {
+		type = "fixed",
+		fixed = {
+			{-4/16, -8/16, -4/16, 4/16, -15/32, 4/16},
+		},
+	},
+	on_place = on_place,
+	paramtype = "light",
+	paramtype2 = "facedir",
+	sunlight_propagates = true,
 	groups = {choppy = 2, cracky = 2, crumbly = 2},
 	is_ground_content = false,
 	sounds = default.node_sound_wood_defaults(),
-	paramtype2 = "facedir",
-	on_rotate = screwdriver.disallow,
 
 	after_place_node = function(pos, placer)
 		local meta = M(pos)
 		local number = techage.add_node(pos, "techage:ta4_recipe_adapter")
 		meta:set_string("node_number", tostring(number or ""))
 		meta:set_string("owner", placer and placer:get_player_name() or "")
-		if meta:get_string("rtype") == "" then
-			meta:set_string("rtype", "furnace")
-		end
-		meta:set_string("formspec", formspec(pos))
-		update_infotext(pos)
+		redetect(pos)
 	end,
 
 	after_dig_node = function(pos, oldnode, oldmetadata, digger)
 		techage.remove_node(pos, oldnode, oldmetadata)
 	end,
 
+	-- Re-detect the machine on rightclick (no formspec).
 	on_rightclick = function(pos, node, clicker)
-		if techage.set_activeformspec then
-			techage.set_activeformspec(pos, clicker)
-		end
-		M(pos):set_string("formspec", formspec(pos))
-	end,
-
-	on_receive_fields = function(pos, formname, fields, player)
-		if minetest.is_protected(pos, player:get_player_name()) then
-			return
-		end
-		local meta = M(pos)
-		if fields.rtype then
-			meta:set_string("rtype",
-				fields.rtype == "Electronic Fab" and "ta4_electronic_fab" or "furnace")
-		end
-		if fields.target then
-			meta:set_string("target", tostring(tonumber(fields.target) or ""))
-		end
-		if fields.save or fields.rtype or fields.target then
-			meta:set_string("formspec", formspec(pos))
-			update_infotext(pos)
+		redetect(pos)
+		if M(pos):get_string("rtype") == "" then
+			minetest.chat_send_player(clicker:get_player_name(),
+				"[Techage] Recipe adapter: no furnace/electronic fab found below.")
 		end
 	end,
 })
