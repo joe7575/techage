@@ -19,6 +19,33 @@ local S = techage.S
 -- Consumer Related Data
 local CRD = function(pos) return (minetest.registered_nodes[techage.get_node_lvm(pos).name] or {}).consumer end
 
+-- Move leftover input items to the output inventory (like the autocrafter
+-- flush). Refused while a recipe is running; checks room for all stacks first.
+local function flush_input_inventory(pos)
+	local inv = M(pos):get_inventory()
+	if inv:is_empty("src") then
+		return true
+	end
+	local nvm = techage.get_nvm(pos)
+	if CRD(pos).State:get_state(nvm) == techage.RUNNING then
+		return false
+	end
+	for idx = 1, 4 do
+		local stack = inv:get_stack("src", idx)
+		if stack:get_count() > 0 and not inv:room_for_item("dst", stack) then
+			return false
+		end
+	end
+	for idx = 1, 4 do
+		local stack = inv:get_stack("src", idx)
+		if stack:get_count() > 0 then
+			inv:add_item("dst", stack)
+			inv:set_stack("src", idx, nil)
+		end
+	end
+	return true
+end
+
 local STANDBY_TICKS = 6
 local COUNTDOWN_TICKS = 6
 local CYCLE_TIME = 2
@@ -278,11 +305,20 @@ local tubing = {
 		if topic == "output" then
 			local nvm = techage.get_nvm(pos)
 			return string.split(nvm.output or "unknown", " ")[1]
+		elseif topic == "flush" then
+			return flush_input_inventory(pos)
 		else
 			return CRD(pos).State:on_receive_message(pos, topic, payload)
 		end
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		if topic == 11 then  -- flush input inventory
+			if flush_input_inventory(pos) then
+				return 1, ""
+			else
+				return 0, ""
+			end
+		end
 		return CRD(pos).State:on_beduino_receive_cmnd(pos, topic, payload)
 	end,
 	on_beduino_request_data = function(pos, src, topic, payload)
