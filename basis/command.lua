@@ -557,7 +557,7 @@ end
 -- Get the given number of items from the inv. The position within the list
 -- is incremented each time so that different item stacks will be considered.
 -- Returns nil if ItemList is empty.
-function techage.get_items(pos, inv, listname, num)
+function techage.get_items(pos, inv, listname, num, item_name)
 	if inv:is_empty(listname) then
 		return nil
 	end
@@ -567,7 +567,8 @@ function techage.get_items(pos, inv, listname, num)
 	for idx = mem.ta_startpos, mem.ta_startpos+size do
 		idx = (idx % size) + 1
 		local items = inv:get_stack(listname, idx)
-		if items:get_count() > 0 then
+		if items:get_count() > 0 and
+				(not item_name or items:get_name() == item_name) then
 			local taken = items:take_item(num)
 			inv:set_stack(listname, idx, items)
 			mem.ta_startpos = idx

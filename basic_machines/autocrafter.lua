@@ -440,11 +440,11 @@ local tubing = {
 			end
 		end
 	end,
-	on_pull_item = function(pos, in_dir, num)
+	on_pull_item = function(pos, in_dir, num, item_name)
 		local meta = minetest.get_meta(pos)
 		if meta:get_int("pull_dir") == in_dir then
 			local inv = M(pos):get_inventory()
-			return techage.get_items(pos, inv, "dst", num)
+			return techage.get_items(pos, inv, "dst", num, item_name)
 		end
 	end,
 	on_push_item = function(pos, in_dir, stack, idx)
