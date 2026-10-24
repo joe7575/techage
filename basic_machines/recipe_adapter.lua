@@ -261,11 +261,17 @@ techage.register_node({
 			-- Select the recipe on the target machine (electronic fab).
 			local list, rtype, target = recipe_list(pos)
 			local idx = tonumber(payload) or 0
-			if rtype == "ta4_electronic_fab" and target and list[idx] then
+			if target and list[idx] then
 				local ninfo = techage.get_node_info(target)
 				if ninfo and ninfo.pos then
-					techage.recipes.set_recipe(ninfo.pos, rtype, idx)
-					return 0
+					if rtype == "ta4_electronic_fab" then
+						techage.recipes.set_recipe(ninfo.pos, rtype, idx)
+						return 0
+					elseif rtype == "furnace" and techage.furnace and
+							techage.furnace.set_output then
+						techage.furnace.set_output(ninfo.pos, list[idx].output)
+						return 0
+					end
 				end
 				return 1
 			end

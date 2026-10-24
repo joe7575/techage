@@ -218,6 +218,21 @@ function techage.furnace.find(output)
 	return 0
 end
 
+-- Select a furnace recipe by output for external controllers (the formspec
+-- normally does this with << / >>). The inputs must already be in "src".
+function techage.furnace.set_output(pos, output)
+	local nvm = techage.get_nvm(pos)
+	local ingr = techage.furnace.get_ingredients(pos)
+	local num = all_ingredients_available(output, ingr)
+	if num then
+		nvm.output = output
+		nvm.num_recipe = num
+		nvm.rp_outp = output
+		return true
+	end
+	return false
+end
+
 function techage.furnace.get_num_recipes(ingr)
 	return #get_recipes(ingr)
 end
