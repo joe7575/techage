@@ -10,11 +10,12 @@
 
 	TA4 Recipe Adapter
 
-	A flat plate like the forceload tile. It can be mounted on top of, below,
-	or on any side of a furnace or an electronic fab; the machine it is
-	attached to is detected via the same "back side" logic as the Beduino IOT
-	sensor (no formspec).
-	It provides the machine's recipes via Beduino:
+	A small sensor-sized block (textures/shape of the Beduino IOT sensor). It
+	can be mounted on top of, below, or on any side of a furnace or an
+	electronic fab; the attached machine is found via the IOT sensor's
+	"back side" logic (no formspec).
+
+	Beduino topics:
 
 	  156          number of recipes
 	  158 [idx]    output count
@@ -158,50 +159,103 @@ local function on_place(itemstack, placer, pointed_thing)
 	return minetest.rotate_and_place(itemstack, placer, pointed_thing)
 end
 
-minetest.register_node("techage:ta4_recipe_adapter", {
-	description = S("TA4 Recipe Adapter"),
-	tiles = {
-		-- Placeholder texture; replace with dedicated adapter art later.
-		"techage_filling_ta4.png^techage_frame_ta4_top.png^techage_appl_recipeblock.png",
-	},
-	drawtype = "nodebox",
-	node_box = {
-		type = "fixed",
-		fixed = {
-			{-4/16, -8/16, -4/16, 4/16, -15/32, 4/16},
-		},
-	},
-	on_place = on_place,
-	paramtype = "light",
-	paramtype2 = "facedir",
-	sunlight_propagates = true,
-	groups = {choppy = 2, cracky = 2, crumbly = 2},
-	is_ground_content = false,
-	sounds = default.node_sound_wood_defaults(),
+-- Wall/floor/ceiling variants (same approach as the IOT sensor).
+local function swap_node_depending_on_aligment(pos)
+	local node = minetest.get_node(pos)
+	if node.param2 < 4 then
+		minetest.swap_node(pos, {name = "techage:ta4_recipe_adapter_floor",
+			param2 = node.param2})
+	elseif node.param2 > 19 then
+		minetest.swap_node(pos, {name = "techage:ta4_recipe_adapter_ceiling",
+			param2 = node.param2})
+	end
+end
 
-	after_place_node = function(pos, placer)
+local function on_rightclick(pos, node, clicker)
+	redetect(pos)
+	if M(pos):get_string("rtype") == "" then
+		minetest.chat_send_player(clicker:get_player_name(),
+			"[Techage] Recipe adapter: no furnace/electronic fab attached.")
+	end
+end
+
+local function after_dig_node(pos, oldnode, oldmetadata, digger)
+	techage.remove_node(pos, oldnode, oldmetadata)
+end
+
+local side = "techage_recipe_adapter_side.png"
+local tiles_wall = {
+	side .. "^[transformR90",
+	side .. "^[transformFYR270",
+	side, side, side, side,
+}
+local tiles_floor = {
+	side,
+	side .. "^[transformFY",
+	side, side, side, side,
+}
+local tiles_ceiling = {
+	side .. "^[transformR180",
+	side .. "^[transformFYR180",
+	side, side, side, side,
+}
+
+local function register_adapter(name, tiles, groups, drop, after_place)
+	local def = {
+		description = S("TA4 Recipe Adapter"),
+		inventory_image = "techage_recipe_adapter_inventory.png",
+		wield_image = "techage_recipe_adapter_inventory.png",
+		stack_max = 1,
+		tiles = tiles,
+		drawtype = "nodebox",
+		node_box = {
+			type = "fixed",
+			fixed = {
+				{-5/32, -16/32, -5/32, 5/32, -11/32, 5/32},
+			},
+		},
+		on_place = on_place,
+		after_place_node = after_place,
+		after_dig_node = after_dig_node,
+		on_rightclick = on_rightclick,
+		paramtype = "light",
+		use_texture_alpha = "clip",
+		sunlight_propagates = true,
+		paramtype2 = "facedir",
+		groups = groups,
+		is_ground_content = false,
+		sounds = default.node_sound_wood_defaults(),
+	}
+	if drop then
+		def.drop = drop
+	end
+	minetest.register_node(name, def)
+end
+
+register_adapter("techage:ta4_recipe_adapter", tiles_wall,
+	{choppy = 2, cracky = 2, crumbly = 2}, nil,
+	function(pos, placer)
 		local meta = M(pos)
 		local number = techage.add_node(pos, "techage:ta4_recipe_adapter")
 		meta:set_string("node_number", tostring(number or ""))
 		meta:set_string("owner", placer and placer:get_player_name() or "")
+		swap_node_depending_on_aligment(pos)
 		redetect(pos)
-	end,
+	end)
 
-	after_dig_node = function(pos, oldnode, oldmetadata, digger)
-		techage.remove_node(pos, oldnode, oldmetadata)
-	end,
+register_adapter("techage:ta4_recipe_adapter_floor", tiles_floor,
+	{choppy = 2, cracky = 2, crumbly = 2, not_in_creative_inventory = 1},
+	"techage:ta4_recipe_adapter")
 
-	-- Re-detect the machine on rightclick (no formspec).
-	on_rightclick = function(pos, node, clicker)
-		redetect(pos)
-		if M(pos):get_string("rtype") == "" then
-			minetest.chat_send_player(clicker:get_player_name(),
-				"[Techage] Recipe adapter: no furnace/electronic fab found below.")
-		end
-	end,
-})
+register_adapter("techage:ta4_recipe_adapter_ceiling", tiles_ceiling,
+	{choppy = 2, cracky = 2, crumbly = 2, not_in_creative_inventory = 1},
+	"techage:ta4_recipe_adapter")
 
-techage.register_node({"techage:ta4_recipe_adapter"}, {
+techage.register_node({
+	"techage:ta4_recipe_adapter",
+	"techage:ta4_recipe_adapter_floor",
+	"techage:ta4_recipe_adapter_ceiling",
+}, {
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
 		if topic == 64 and type(payload) == "string" then
 			-- Select the recipe on the target machine (electronic fab).
