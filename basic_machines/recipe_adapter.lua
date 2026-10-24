@@ -41,21 +41,15 @@ local function machine_type(name)
 	end
 end
 
--- Look for the machine the plate is docked to (prefer the node below).
+-- The plate rests on the machine: only the node below is the attached one
+-- (like the IO sensor's port 0, but vertical).
 local function detect(pos)
-	local dirs = {
-		{0, -1, 0}, {0, 1, 0},
-		{1, 0, 0}, {-1, 0, 0},
-		{0, 0, 1}, {0, 0, -1},
-	}
-	for _, d in ipairs(dirs) do
-		local npos = {x = pos.x + d[1], y = pos.y + d[2], z = pos.z + d[3]}
-		local rtype = machine_type(minetest.get_node(npos).name)
-		if rtype then
-			local number = tonumber(M(npos):get_string("node_number"))
-			if number then
-				return rtype, number
-			end
+	local npos = {x = pos.x, y = pos.y - 1, z = pos.z}
+	local rtype = machine_type(minetest.get_node(npos).name)
+	if rtype then
+		local number = tonumber(M(npos):get_string("node_number"))
+		if number then
+			return rtype, number
 		end
 	end
 end
