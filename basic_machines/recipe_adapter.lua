@@ -23,9 +23,9 @@
 	  193 "idx"    output item name
 	  194 "idx,slot" input item name
 	  195 "name"   find recipe index by output name
-	  196 [idx]    recipe time (furnace, otherwise 0)
-	  197 [idx,slot] input count
-	  198 [idx]    number of inputs
+	  161 [idx]    recipe time (furnace, otherwise 0)
+	  162 [idx,slot] input count
+	  163 [idx]    number of inputs
 	  64  "idx"    select recipe on the target machine (electronic fab)
 
 ]]--
@@ -297,17 +297,17 @@ techage.register_node({
 			return 0, input and input.name or ""
 		elseif topic == 195 and type(payload) == "string" then
 			return 0, {find_index(pos, payload)}
-		elseif topic == 196 then
+		elseif topic == 161 then
 			local idx = tonumber(payload and payload[1]) or 0
 			local recipe = list[idx]
 			return 0, {recipe and math.floor(recipe.time) or 0}
-		elseif topic == 197 then
+		elseif topic == 162 then
 			local idx = tonumber(payload and payload[1]) or 0
 			local slot = tonumber(payload and payload[2]) or 0
 			local recipe = list[idx]
 			local input = recipe and recipe.inputs[slot]
 			return 0, {input and input.num or 0}
-		elseif topic == 198 then
+		elseif topic == 163 then
 			local idx = tonumber(payload and payload[1]) or 0
 			local recipe = list[idx]
 			return 0, {recipe and #recipe.inputs or 0}
