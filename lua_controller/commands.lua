@@ -108,19 +108,71 @@ techage.lua_ctlr.register_function("real_time_as_num", {
 		' example: time = $real_time_as_num()'
 })
 
+-- Numeric Beduino payload: no payload -> {}, one string -> string,
+-- one value -> {value}, multiple values -> {values}
+local function build_payload(...)
+	local n = select("#", ...)
+	if n == 0 then
+		return {}
+	elseif n == 1 then
+		local v = ...
+		if type(v) == "string" or type(v) == "table" then
+			return v
+		end
+		return {v}
+	else
+		return {...}
+	end
+end
+
 techage.lua_ctlr.register_action("send_cmnd", {
-	cmnd = function(self, num, cmnd, data)
-		num = tostring(num or "")
-		cmnd = tostring(cmnd or "")
-		if not_protected(self.meta.owner, num) then
-			return techage.send_single(self.meta.number, num, cmnd, data)
+	cmnd = function(self, num, cmnd, ...)
+		local num_str = tostring(num or "")
+		if type(cmnd) == "number" then
+			-- numeric Beduino command
+			if not_protected(self.meta.owner, num_str) then
+				return techage.beduino_send_cmnd(self.meta.number, num, cmnd, build_payload(...))
+			end
+		else
+			-- text command
+			cmnd = tostring(cmnd or "")
+			local data = select(1, ...)
+			if not_protected(self.meta.owner, num_str) then
+				return techage.send_single(self.meta.number, num_str, cmnd, data)
+			end
 		end
 	end,
 	help = " $send_cmnd(num, cmnd, add_data)\n"..
 		' Send a command to the device with number "num".\n'..
-		' "cmnd" is the command as text string\n'..
-		' "add_data" is additional data (optional)\n'..
-		' example: $send_cmnd("1234", "on")'
+		' "cmnd" is a text command or a numeric Beduino topic.\n'..
+		' "add_data" is additional data (optional).\n'..
+		' example: $send_cmnd("1234", "on")\n'..
+		' example: $send_cmnd(44, 64, "2")  -- select fab recipe\n'..
+		' example: $send_cmnd(34, 11)       -- flush the furnace'
+})
+
+techage.lua_ctlr.register_function("req_data", {
+	cmnd = function(self, num, cmnd, ...)
+		if type(cmnd) ~= "number" then
+			return nil
+		end
+		local num_str = tostring(num or "")
+		if not_protected(self.meta.owner, num_str) then
+			local sts, resp = techage.beduino_request_data(self.meta.number, num, cmnd, build_payload(...))
+			if type(resp) == "table" then
+				resp = resp[1] or 0
+			end
+			return sts, resp
+		end
+	end,
+	help = " $req_data(num, cmnd, ...)  --> status, value\n"..
+		" Read data via the numeric Beduino interface.\n"..
+		' "cmnd" is the numeric topic, e.g. 156 or 193.\n'..
+		' For topics >= 192 pass the payload as string.\n'..
+		' examples:\n'..
+		'   sts, n = $req_data(44, 156)\n'..
+		'   sts, name = $req_data(44, 193, "2")\n'..
+		'   sts, idx = $req_data(44, 195, "ramchip")'
 })
 
 techage.lua_ctlr.register_action("set_filter", {

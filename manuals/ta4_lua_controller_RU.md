@@ -355,7 +355,7 @@ In addition to Lua standard function the Lua Controller provides the following f
 
 ### Techage Command Functions
 
-With the `$send_cmnd(num, ident, add_data)` function, you can send commands to and retrieve data from another block with the given number _num_.
+With the `$send_cmnd(num, ident, add_data)` function, you can send commands to and retrieve data from another block with the given number _num_. `ident` is normally a text command; a numeric `ident` uses the Beduino interface (see below).
 The possible commands can be classified in two groups: Commands for reading data and commands for triggering an action.
 Please note, that this is not a technical distinction, only a logical.
 
@@ -394,6 +394,27 @@ Please note, that this is not a technical distinction, only a logical.
 | "countdown"   | number                                                       | TA4 Electric Meter: Countdown value for the amount of electrical energy passed through |
 | "current"     | number                                                       | TA4 Electric Meter: Current flow of electricity (current)    |
 
+
+**Numeric Beduino commands**
+
+The numeric Techage command interface (BEP 005) is also available. If the
+second argument of `$send_cmnd` is a number, the command is sent via the
+Beduino interface. For requests use `$req_data(num, cmnd, ...)`, which returns
+`status, value`:
+
+```Lua
+sts = $send_cmnd(44, 64, "2")   -- select recipe 2 on the electronic fab
+sts = $send_cmnd(34, 11)        -- flush the industrial furnace
+
+sts, n    = $req_data(44, 156)          -- number of fab recipes
+sts, name = $req_data(44, 193, "2")     -- output name of recipe 2
+sts, item = $req_data(44, 194, "2,1")   -- first input of recipe 2
+sts, idx  = $req_data(44, 195, "ramchip")
+sts, cnt  = $req_data(44, 162, 2, 1)    -- count of input slot 1
+```
+
+Topics >= 192 take a string payload; for table responses the first value is
+returned. The complete topic list is in BEP 005 and the NanoBasic manual.
 
 
 **Trigger an action**
