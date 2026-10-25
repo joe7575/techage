@@ -25,6 +25,7 @@ local Tube = nil
 local HYPERLOOP = nil
 
 techage.hyperloop = {}
+techage.hyperloop.formspec_funcs = {}
 
 --[[
 
@@ -217,7 +218,15 @@ function techage.hyperloop.after_dig_node(pos, oldnode, oldmetadata, digger)
 	end
 end
 
-function techage.hyperloop.after_formspec(pos, fields)
+-- Replace the pairing menu with the normal chest/tank formspec.
+function techage.hyperloop.update_formspec(pos)
+	local func = techage.hyperloop.formspec_funcs[M(pos):get_string("node_type")]
+	if func then
+		M(pos):set_string("formspec", func(pos))
+	end
+end
+
+function techage.hyperloop.after_formspec(pos, fields, player)
 	if HYPERLOOP and fields.save or fields.key_enter_field then
 		local meta = M(pos)
 		local conn_name = meta:get_string("conn_name")
@@ -231,6 +240,11 @@ function techage.hyperloop.after_formspec(pos, fields)
 				if rmt_pos then
 					update_node_data(loc_pos, "client_connected", "", fields.remote_name, rmt_pos)
 					update_node_data(rmt_pos, "server_connected", fields.remote_name, "", loc_pos)
+					techage.hyperloop.update_formspec(loc_pos)
+					techage.hyperloop.update_formspec(rmt_pos)
+					if player then
+						techage.set_activeformspec(loc_pos, player)
+					end
 				end
 			elseif fields.conn_name ~= "" then -- Server
 				update_node_data(loc_pos, "server_not_connected", fields.conn_name, "")

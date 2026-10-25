@@ -28,6 +28,8 @@ local menu = techage.menu
 local CAPACITY = 1000
 local EX_POINTS = 15
 
+hyperloop.formspec_funcs["tank"] = shared_tank.formspec
+
 minetest.register_node("techage:ta5_hl_tank", {
 	description = S("TA5 Hyperloop Tank"),
 	tiles = {
@@ -58,7 +60,7 @@ minetest.register_node("techage:ta5_hl_tank", {
 		end
 		if techage.get_expoints(player) >= EX_POINTS then
 			if techage.menu.eval_input(pos, hyperloop.SUBMENU, fields) then
-				hyperloop.after_formspec(pos, fields)
+				hyperloop.after_formspec(pos, fields, player)
 				shared_tank.on_rightclick(pos, nil, player)
 				M(pos):set_string("formspec", shared_tank.formspec(pos))
 			end

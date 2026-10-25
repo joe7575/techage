@@ -50,6 +50,8 @@ local function formspec(pos)
 	end
 end
 
+hyperloop.formspec_funcs["chest"] = formspec
+
 local function allow_metadata_inventory_put(pos, listname, index, stack, player)
 	if minetest.is_protected(pos, player:get_player_name()) then
 		return 0
@@ -118,7 +120,7 @@ minetest.register_node("techage:ta5_hl_chest", {
 		end
 		if techage.get_expoints(player) >= EX_POINTS then
 			if techage.menu.eval_input(pos, hyperloop.SUBMENU, fields) then
-				hyperloop.after_formspec(pos, fields)
+				hyperloop.after_formspec(pos, fields, player)
 				shared_inv.on_rightclick(pos, player, "main")
 				M(pos):set_string("formspec", formspec(pos))
 			end
