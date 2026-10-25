@@ -10,10 +10,10 @@
 
 	TA4 Recipe Adapter
 
-	A small sensor-sized block (textures/shape of the Beduino IOT sensor). It
-	can be mounted on top of, below, or on any side of a furnace or an
-	electronic fab; the attached machine is found via the IOT sensor's
-	"back side" logic (no formspec).
+	A compact adapter block with its own animated texture. It can be mounted on
+	top of, below, or on any side of a furnace or an electronic fab; the
+	attached machine is found via the IOT sensor's "back side" logic (no
+	formspec).
 
 	Beduino topics:
 
@@ -184,35 +184,30 @@ local function after_dig_node(pos, oldnode, oldmetadata, digger)
 	techage.remove_node(pos, oldnode, oldmetadata)
 end
 
-local side = "techage_recipe_adapter_side.png"
-local tiles_wall = {
-	side .. "^[transformR90",
-	side .. "^[transformFYR270",
-	side, side, side, side,
-}
-local tiles_floor = {
-	side,
-	side .. "^[transformFY",
-	side, side, side, side,
-}
-local tiles_ceiling = {
-	side .. "^[transformR180",
-	side .. "^[transformFYR180",
-	side, side, side, side,
-}
-
-local function register_adapter(name, tiles, groups, drop, after_place)
+local function register_adapter(name, groups, drop, after_place)
 	local def = {
 		description = S("TA4 Recipe Adapter"),
 		inventory_image = "techage_recipe_adapter_inventory.png",
 		wield_image = "techage_recipe_adapter_inventory.png",
 		stack_max = 1,
-		tiles = tiles,
+		tiles = {
+			-- same animated tile on all faces
+			{
+				name = "techage_recipe_adapter_side.png",
+				backface_culling = false,
+				animation = {
+					type = "vertical_frames",
+					aspect_w = 32,
+					aspect_h = 32,
+					length = 2.0,
+				},
+			},
+		},
 		drawtype = "nodebox",
 		node_box = {
 			type = "fixed",
 			fixed = {
-				{-5/32, -16/32, -5/32, 5/32, -11/32, 5/32},
+				{-3/32, -16/32, -3/32, 3/32, -12/32, 3/32},
 			},
 		},
 		on_place = on_place,
@@ -233,7 +228,7 @@ local function register_adapter(name, tiles, groups, drop, after_place)
 	minetest.register_node(name, def)
 end
 
-register_adapter("techage:ta4_recipe_adapter", tiles_wall,
+register_adapter("techage:ta4_recipe_adapter",
 	{choppy = 2, cracky = 2, crumbly = 2}, nil,
 	function(pos, placer)
 		local meta = M(pos)
@@ -244,11 +239,11 @@ register_adapter("techage:ta4_recipe_adapter", tiles_wall,
 		redetect(pos)
 	end)
 
-register_adapter("techage:ta4_recipe_adapter_floor", tiles_floor,
+register_adapter("techage:ta4_recipe_adapter_floor",
 	{choppy = 2, cracky = 2, crumbly = 2, not_in_creative_inventory = 1},
 	"techage:ta4_recipe_adapter")
 
-register_adapter("techage:ta4_recipe_adapter_ceiling", tiles_ceiling,
+register_adapter("techage:ta4_recipe_adapter_ceiling",
 	{choppy = 2, cracky = 2, crumbly = 2, not_in_creative_inventory = 1},
 	"techage:ta4_recipe_adapter")
 
