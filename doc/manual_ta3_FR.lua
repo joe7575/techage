@@ -266,6 +266,8 @@ return {
     "Le four industriel TA3 sert de complément aux fours normaux. Cela signifie que toutes les marchandises peuvent être produites avec des recettes de \"cuisson\"\\, même dans un four industriel. Mais il existe également des recettes spéciales qui ne peuvent être réalisées que dans un four industriel.\n"..
     "Le four industriel a son propre menu pour la sélection des recettes. Selon les marchandises dans l'inventaire du four industriel à gauche\\, le produit de sortie peut être sélectionné à droite.\n"..
     "\n"..
+    "Pour les contrôleurs externes\\, le four prend en charge la commande 'flush' (topic Beduino 11) pour déplacer les objets d'entrée restants vers l'inventaire de sortie.\n"..
+    "\n"..
     "Le four industriel nécessite de l'électricité (pour le ventilateur) et du fioul / de l'essence pour le brûleur. Le four industriel doit être assemblé comme indiqué dans le plan à droite.\n"..
     "\n"..
     "Voir aussi TA4 chauffage.\n"..

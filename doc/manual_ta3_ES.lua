@@ -268,6 +268,8 @@ return {
     "El horno industrial TA3 sirve como complemento a los hornos normales. Esto significa que todos los bienes pueden producirse con recetas de \"cocción\"\\, incluso en un horno industrial. Pero también hay recetas especiales que solo pueden hacerse en un horno industrial.\n"..
     "El horno industrial tiene su propio menú para la selección de recetas. Dependiendo de los bienes en el inventario del horno industrial a la izquierda\\, el producto de salida puede seleccionarse a la derecha.\n"..
     "\n"..
+    "Para controladores externos\\, el horno admite el comando 'flush' (topic Beduino 11) para mover los objetos de entrada sobrantes al inventario de salida.\n"..
+    "\n"..
     "El horno industrial requiere electricidad (para el potenciador) y fuel-oil / gasolina para el quemador. El horno industrial debe ensamblarse como se muestra en el plano de la derecha.\n"..
     "\n"..
     "Ver también calentador TA4.\n"..

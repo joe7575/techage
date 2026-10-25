@@ -79,6 +79,7 @@ return {
     "3,Construction",
     "2,More TA4 Blocks",
     "3,TA4 Recipe Block",
+    "3,TA4 Recipe Adapter",
     "3,TA4 Autocrafter",
     "3,TA4 Tank",
     "3,TA4 Pump",
@@ -797,6 +798,19 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "The recipe adapter is a compact block with its own animated layout. It is\n"..
+    "mounted on any side of a TA3 industrial furnace when its recipes are to be\n"..
+    "used externally. It detects the furnace on its back side (like the IOT sensor)\n"..
+    "and provides the furnace's recipes to external controllers\n"..
+    "(Beduino/NanoBasic/NanoC). It can also select the output product.\n"..
+    "\n"..
+    "Right-click the adapter to re-detect the machine.\n"..
+    "\n"..
+    "The recipe list is read via Beduino topics 156/158/193/194/195\\; topic 64\n"..
+    "selects a recipe.\n"..
+    "\n"..
+    "\n"..
+    "\n",
     "The function corresponds to that of TA3.\n"..
     "\n"..
     "The processing power is 4 items every 4 s. The autocrafter requires 9 ku of electricity for this.\n"..
@@ -940,6 +954,10 @@ return {
     "The function corresponds to that of TA2\\, only different chips are produced here.\n"..
     "The processing power is one chip every 6 s. The block requires 12 ku of electricity for this.\n"..
     "\n"..
+    "The fab provides its recipes directly to external controllers (Beduino topics\n"..
+    "156/158/193/194/195 for reading\\, 64 for selecting). A recipe adapter is not\n"..
+    "required for this.\n"..
+    "\n"..
     "\n"..
     "\n",
     "The function corresponds to that of TA3.\n"..
@@ -1042,6 +1060,7 @@ return {
     "techage_ta4c",
     "",
     "ta4_recipeblock",
+    "ta4_recipe_adapter",
     "ta4_autocrafter",
     "ta4_tank",
     "ta4_pump",
@@ -1139,6 +1158,7 @@ return {
     "ta4_cooler",
     "",
     "techage_collider_plan2",
+    "",
     "",
     "",
     "",

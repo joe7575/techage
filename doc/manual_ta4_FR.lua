@@ -75,6 +75,7 @@ return {
     "3,Construction",
     "2,Autres blocs TA4",
     "3,TA4 Bloc de recette",
+    "3,TA4 Adaptateur de recettes / Recipe Adapter",
     "3,TA4 Autocrafter",
     "3,TA4 Réservoir / TA4 Tank",
     "3,TA4 Pompe / TA4 Pump",
@@ -721,6 +722,20 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "L'adaptateur de recettes est un bloc compact avec sa propre texture animée. Il\n"..
+    "se monte sur n'importe quelle face d'un four industriel TA3 lorsque ses\n"..
+    "recettes doivent être utilisées de l'extérieur. Il détecte le four sur sa face\n"..
+    "arrière (comme le capteur IOT) et met les recettes du four à disposition des\n"..
+    "commandes externes (Beduino/NanoBasic/NanoC). Il permet aussi de sélectionner\n"..
+    "le produit de sortie.\n"..
+    "\n"..
+    "Un clic droit sur l'adaptateur relance la détection.\n"..
+    "\n"..
+    "La liste des recettes se lit via les topics Beduino 156/158/193/194/195 \\; le\n"..
+    "topic 64 sélectionne une recette.\n"..
+    "\n"..
+    "\n"..
+    "\n",
     "La fonction correspond à celle de TA3.\n"..
     "\n"..
     "La capacité de traitement est de 4 objets toutes les 4 s. L'Autocrafter nécessite 9 ku d'électricité.\n"..
@@ -863,6 +878,10 @@ return {
     "La fonction correspond à celle de TA2\\, mais ici différents puces sont produites.\n"..
     "La capacité de traitement est d'une puce toutes les 6 s. Le bloc nécessite 12 ku d'électricité.\n"..
     "\n"..
+    "L'usine fournit ses recettes directement aux commandes externes (topics\n"..
+    "Beduino 156/158/193/194/195 pour la lecture\\, 64 pour la sélection). Un\n"..
+    "adaptateur de recettes n'est pas nécessaire pour cela.\n"..
+    "\n"..
     "\n"..
     "\n",
     "La fonction correspond à celle de TA3.\n"..
@@ -960,6 +979,7 @@ return {
     "techage_ta4c",
     "",
     "ta4_recipeblock",
+    "ta4_recipe_adapter",
     "ta4_autocrafter",
     "ta4_tank",
     "ta4_pump",
@@ -1053,6 +1073,7 @@ return {
     "ta4_cooler",
     "",
     "techage_collider_plan2",
+    "",
     "",
     "",
     "",

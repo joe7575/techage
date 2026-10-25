@@ -79,6 +79,7 @@ return {
     "3,Aufbau",
     "2,Weitere TA4 Blöcke",
     "3,TA4 Rezept Block",
+    "3,TA4 Rezept-Adapter / Recipe Adapter",
     "3,TA4 Autocrafter",
     "3,TA4 Tank / TA4 Tank",
     "3,TA4 Pumpe / TA4 Pump",
@@ -798,6 +799,20 @@ return {
     "\n"..
     "\n"..
     "\n",
+    "Der Rezept-Adapter ist ein kompakter Block mit eigenem animierten Layout. Er\n"..
+    "wird an einer beliebigen Seite eines TA3 Industrieofens montiert\\, wenn dessen\n"..
+    "Rezepte extern genutzt werden sollen. Er erkennt den Ofen auf seiner\n"..
+    "Rückseite (wie der IOT-Sensor) und stellt externen Steuerungen\n"..
+    "(Beduino/NanoBasic/NanoC) die Rezepte des Ofens zur Verfügung. Er kann\n"..
+    "außerdem das Ausgangsprodukt auswählen.\n"..
+    "\n"..
+    "Ein Rechtsklick auf den Adapter erkennt die Maschine neu.\n"..
+    "\n"..
+    "Die Rezeptabfrage erfolgt über die Beduino-Topics 156/158/193/194/195\\, die\n"..
+    "Auswahl über Topic 64.\n"..
+    "\n"..
+    "\n"..
+    "\n",
     "Die Funktion entspricht der von TA3.  \n"..
     "\n"..
     "Die Verarbeitungsleistung beträgt 4 Items alle 4 s. Der Autocrafter benötigt hierfür 9 ku Strom.\n"..
@@ -942,6 +957,10 @@ return {
     "Die Funktion entspricht der von TA2\\, nur werden hier verschiedene Chips produziert.\n"..
     "Die Verarbeitungsleistung beträgt ein Chip alle 6 s. Der Block benötigt hierfür 12 ku Strom.\n"..
     "\n"..
+    "Die Fab stellt ihre Rezepte direkt für externe Steuerungen bereit\n"..
+    "(Beduino-Topics 156/158/193/194/195 zur Abfrage\\, 64 zur Auswahl). Ein\n"..
+    "Rezept-Adapter wird dafür nicht benötigt.\n"..
+    "\n"..
     "\n"..
     "\n",
     "Die Funktion entspricht der von TA3.  \n"..
@@ -1043,6 +1062,7 @@ return {
     "techage_ta4c",
     "",
     "ta4_recipeblock",
+    "ta4_recipe_adapter",
     "ta4_autocrafter",
     "ta4_tank",
     "ta4_pump",
@@ -1140,6 +1160,7 @@ return {
     "ta4_cooler",
     "",
     "techage_collider_plan2",
+    "",
     "",
     "",
     "",

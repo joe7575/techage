@@ -74,6 +74,7 @@ return {
     "3,Construção",
     "2,Mais blocos TA4",
     "3,Bloco de receitas TA4",
+    "3,TA4 Adaptador de Receitas / Recipe Adapter",
     "3,TA4 Autocrafter",
     "3,Tanque TA4",
     "3,Bomba TA4",
@@ -710,6 +711,19 @@ return {
     "\n"..
     "Exemplo: '$send_cmnd(1234\\, \"input\"\\, 1)'\n"..
     "\n"..
+    "\n"..
+    "\n",
+    "O adaptador de receitas é um bloco compacto com sua própria textura animada.\n"..
+    "Ele é montado em qualquer lado de um forno industrial TA3 quando suas receitas\n"..
+    "devem ser usadas externamente. Ele detecta o forno no lado traseiro (como o\n"..
+    "sensor IOT) e fornece as receitas do forno para controladores externos\n"..
+    "(Beduino/NanoBasic/NanoC). Ele também pode selecionar o produto de saída.\n"..
+    "\n"..
+    "Clique com o botão direito no adaptador para detectar a máquina novamente.\n"..
+    "\n"..
+    "A lista de receitas é lida pelos topics Beduino 156/158/193/194/195\\; o topic\n"..
+    "64 seleciona uma receita.\n"..
+    "\n"..
     " \n"..
     "\n",
     "A função corresponde à do TA3.\n"..
@@ -842,6 +856,10 @@ return {
     "A função corresponde à do TA2\\, apenas chips diferentes são produzidos aqui.\n"..
     "A capacidade de processamento é de um chip a cada 6 s. O bloco requer 12 ku de eletricidade para isso.\n"..
     "\n"..
+    "A fábrica fornece suas receitas diretamente aos controladores externos\n"..
+    "(topics Beduino 156/158/193/194/195 para leitura\\, 64 para seleção). Um\n"..
+    "adaptador de receitas não é necessário para isso.\n"..
+    "\n"..
     "\n"..
     "\n",
     "A função corresponde à do TA3.\n"..
@@ -939,6 +957,7 @@ return {
     "techage_ta4c",
     "",
     "ta4_recipeblock",
+    "ta4_recipe_adapter",
     "ta4_autocrafter",
     "ta4_tank",
     "ta4_pump",
@@ -1030,6 +1049,7 @@ return {
     "ta4_cooler",
     "",
     "techage_collider_plan2",
+    "",
     "",
     "",
     "",
