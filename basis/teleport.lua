@@ -21,6 +21,7 @@ local S = techage.S
 local menu = techage.menu
 
 techage.teleport = {}
+techage.teleport.formspec_funcs = {}
 
 local PairingList = {}  -- {owner = {node_type = {channel = pos}}}
 
@@ -109,6 +110,16 @@ function techage.teleport.update_status(pos)
 	end
 end
 
+-- Replace the pairing menu with the node's state menu after a successful pair.
+function techage.teleport.update_formspec(pos)
+	local meta = M(pos)
+	local typ = meta:get_string("tele_node_type")
+	local func = techage.teleport.formspec_funcs[typ]
+	if func then
+		meta:set_string("formspec", func(pos))
+	end
+end
+
 function techage.teleport.prepare_pairing(pos, node_type, status)
 	local meta = M(pos)
 	if node_type then
@@ -165,6 +176,11 @@ function techage.teleport.after_formspec(pos, player, fields, max_dist, ex_point
 							store_connection(pos, peer_pos)
 							store_connection(peer_pos, pos)
 							M(pos):set_string("status", S("Connected"))
+							techage.teleport.update_formspec(pos)
+							techage.teleport.update_formspec(peer_pos)
+							if player then
+								techage.set_activeformspec(pos, player)
+							end
 						else
 							M(pos):set_string("status", S("Distance > @1 blocks", max_dist))
 							meta:set_string("formspec", techage.teleport.formspec(pos))

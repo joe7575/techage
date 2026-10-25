@@ -54,6 +54,10 @@ local State = techage.NodeStates:new({
 	can_start = can_start,
 })
 
+teleport.formspec_funcs["ta5_tele_tube"] = function(pos)
+	return formspec(State, pos, techage.get_nvm(pos))
+end
+
 local function consume_power(pos, nvm)
 	if techage.needs_power(nvm) then
 		local taken = power.consume_power(pos, Cable, nil, PWR_NEEDED)
