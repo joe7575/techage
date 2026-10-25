@@ -224,6 +224,8 @@ O motor elétrico consome no máximo 40 ku de eletricidade e fornece do outro la
 O forno industrial TA3 serve como complemento aos fornos normais. Isso significa que todos os produtos podem ser fabricados com receitas de "cozimento", mesmo em um forno industrial. No entanto, também existem receitas especiais que só podem ser feitas em um forno industrial.
 O forno industrial possui seu próprio menu para seleção de receitas. Dependendo dos produtos no inventário do forno industrial à esquerda, o produto de saída pode ser selecionado à direita.
 
+Para controladores externos, o forno suporta o comando `flush` (topic Beduino 11) para mover os itens de entrada restantes para o inventário de saída.
+
 O forno industrial requer eletricidade (para o impulsionador) e óleo combustível/gasolina para o queimador. O forno industrial deve ser montado conforme mostrado no plano à direita.
 
 Veja também o aquecedor TA4.

@@ -216,6 +216,7 @@
         - [Construction](./manual_ta4_EN.md#construction)
     - [More TA4 Blocks](./manual_ta4_EN.md#more-ta4-blocks)
         - [TA4 Recipe Block](./manual_ta4_EN.md#ta4-recipe-block)
+        - [TA4 Recipe Adapter](./manual_ta4_EN.md#ta4-recipe-adapter)
         - [TA4 Autocrafter](./manual_ta4_EN.md#ta4-autocrafter)
         - [TA4 Tank](./manual_ta4_EN.md#ta4-tank)
         - [TA4 Pump](./manual_ta4_EN.md#ta4-pump)

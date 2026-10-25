@@ -429,6 +429,7 @@ Please note, that this is not a technical distinction, only a logical.
 | "uturn" | nil | TA4 Turn Controller command to turn the block(s) 180 degrees |
 | "recipe" | `<item_name>,<item_name>,...` | Set the TA4 Autocrafter recipe. <br />Example for the torch recipe: `default:coal_lump,,,default:stick` <br />Hint: Empty fields may only be left out at the end of the item list! |
 | "recipe" | `<number>.<index>` | Set the TA4 Autocrafter recipe with a recipe from a TA4 Recipe Block.<br />`<number>` is the TA4 Recipe Block number<br />`<index>` is the number of the recipe in the TA4 Recipe Block |
+| "flush" | nil | Move all items from the input inventory to the output inventory (TA4 Autocrafter and TA3 Industrial Furnace). Returns `true` if the input inventory was emptied. |
 | "goto" | `<slot>` | Start command for the TA4 Sequencer. `<slot>` is the time slot like `[1]` where the execution starts. |
 | "stop" | nil | Stop command for the TA4 Sequencer. |
 | "gain" | volume | Set volume of the sound block (`volume` is a value between 0 and 1.0) |

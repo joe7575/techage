@@ -920,6 +920,26 @@ Beispiel: `$send_cmnd(1234, "input", 1)`
 
 [ta4_recipeblock|image]
 
+### TA4 Rezept-Adapter / Recipe Adapter
+
+Der Rezept-Adapter ist ein kompakter Block mit eigenem animierten Layout. Er
+wird an einer beliebigen Seite eines Industrieofens oder einer
+Elektronikfabrik montiert und erkennt die Maschine auf seiner Rückseite (wie
+der IOT-Sensor). Er stellt deren Rezepte externen Steuerungen (Beduino/NanoC)
+zur Verfügung und kann das Ausgangsprodukt auswählen.
+
+- Am **TA3 Industrieofen** ist er erforderlich, weil der Ofen seine Rezepte
+  nicht selbst nach außen liefert.
+- An der **TA4 Elektronikfabrik** ist er nicht mehr nötig: Die Fab hat die
+  Rezept-Schnittstelle direkt eingebaut. Der Adapter funktioniert dort
+  weiterhin als Fallback für ältere Fabs.
+- Rechtsklick auf den Adapter erkennt die Maschine neu.
+
+Die Rezeptabfrage erfolgt über die Beduino-Topics 156/158/193/194/195, die
+Auswahl über Topic 64.
+
+[ta4_recipe_adapter|image]
+
 ### TA4 Autocrafter
 
 Die Funktion entspricht der von TA3.  
@@ -1108,6 +1128,10 @@ der nicht sichtbar und nicht begehbar ist, aber verhindert, dass das Wasser zur�
 
 Die Funktion entspricht der von TA2, nur werden hier verschiedene Chips produziert.  
 Die Verarbeitungsleistung beträgt ein Chip alle 6 s. Der Block benötigt hierfür 12 ku Strom.
+
+Die Fab stellt ihre Rezepte jetzt auch direkt für externe Steuerungen bereit
+(Beduino-Topics 156/158/193/194/195 zur Abfrage, 64 zur Auswahl). Ein
+Rezept-Adapter ist dafür nicht mehr erforderlich.
 
 [ta4_electronicfab|image]
 

@@ -1600,6 +1600,7 @@ As payload data, these commands may require numeric values or a string value.
 | DC2 Reset                | 9  | 3          | TA3 Door Controller II (techage:ta3_doorcontroller2). Using the reset command,<br />all blocks are reset to their initial state after learning. |
 | Autocrafter              | 10 | num, idx   | Set the TA4 Autocrafter recipe with a recipe from a TA4 Recipe Block.<br>`num` is the TA4 Recipe Block number<br>`idx` is the number of the recipe in the TA4 Recipe Block |
 | Autocrafter              | 11 | -          | Move all items from input inventory to output inventory. Returns 1 if the input inventory was emptied in the process. Otherwise return 0 |
+| Furnace                  | 11 | -          | Move all leftover items from the input inventory to the output inventory (only while not running). Returns 1 if the input inventory was emptied, otherwise 0 |
 | Move Contr. 1            | 11 | 1          | TA4 Move Controller command to move the block(s) from position A to B |
 | Move Contr. 2            | 11 | 2          | TA4 Move Controller command to move the block(s) from position B to A |
 | Move Contr. 3            | 11 | 3          | TA4 Move Controller command to move the block(s) to the opposite position |

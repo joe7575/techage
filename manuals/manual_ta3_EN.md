@@ -250,6 +250,9 @@ The electric motor takes max. 40 ku of electricity and provides on the other sid
 The TA3 industrial furnace serves as a supplement to normal furnaces. This means that all goods can be produced with "cooking" recipes, even in an industrial furnace. But there are also special recipes that can only be made in an industrial furnace.
 The industrial furnace has its own menu for recipe selection. Depending on the goods in the industrial furnace inventory on the left, the output product can be selected on the right.
 
+For external controllers, the furnace supports the `flush` command (Beduino
+topic 11) to move leftover input items to the output inventory.
+
 The industrial furnace requires electricity (for the booster) and fuel oil / gasoline for the burner. The industrial furnace must be assembled as shown in the plan on the right.
 
 See also TA4 heater.

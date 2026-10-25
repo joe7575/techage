@@ -211,6 +211,7 @@ local items = {
 	ta4_terminal = "techage:terminal3",
 	ta4_autocrafter = "techage:ta4_autocrafter_pas",
 	ta4_recipeblock = "techage:ta4_recipeblock",
+	ta4_recipe_adapter = "techage:ta4_recipe_adapter",
 	ta4_chargedetector = "techage:ta4_chargedetector_off",
 	ta4_gaze_sensor = "techage:ta4_gaze_sensor_off",
 	ta4_nodedetector = "techage:ta4_nodedetector_off",

@@ -214,6 +214,7 @@
         - [Aufbau](./manual_ta4_DE.md#aufbau)
     - [Weitere TA4 Blöcke](./manual_ta4_DE.md#weitere-ta4-blöcke)
         - [TA4 Rezept Block](./manual_ta4_DE.md#ta4-rezept-block)
+        - [TA4 Rezept-Adapter / Recipe Adapter](./manual_ta4_DE.md#ta4-rezept-adapter--recipe-adapter)
         - [TA4 Autocrafter](./manual_ta4_DE.md#ta4-autocrafter)
         - [TA4 Tank / TA4 Tank](./manual_ta4_DE.md#ta4-tank--ta4-tank)
         - [TA4 Pumpe / TA4 Pump](./manual_ta4_DE.md#ta4-pumpe--ta4-pump)

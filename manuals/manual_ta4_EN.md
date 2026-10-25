@@ -912,6 +912,25 @@ Example: `$send_cmnd(1234, "input", 1)`
 
 [ta4_recipeblock|image]
 
+### TA4 Recipe Adapter
+
+The recipe adapter is a compact block with its own animated layout. It can be
+mounted on any side of an industrial furnace or an electronic fab and detects
+the machine on its back side (like the IOT sensor). It provides that machine's
+recipes to external controllers (Beduino/NanoC) and can select the output.
+
+- On the **TA3 industrial furnace** it is required because the furnace does not
+  expose its recipes itself.
+- On the **TA4 electronic fab** it is no longer needed: the fab has the recipe
+  interface built in. The adapter still works there as a fallback for older
+  fabs.
+- Right-click the adapter to re-detect the machine.
+
+The recipe list is read via Beduino topics 156/158/193/194/195; topic 64
+selects a recipe.
+
+[ta4_recipe_adapter|image]
+
 ### TA4 Autocrafter
 
 The function corresponds to that of TA3.
@@ -1096,6 +1115,10 @@ that is not visible and not walkable but prevents the water from flowing back.
 
 The function corresponds to that of TA2, only different chips are produced here.
 The processing power is one chip every 6 s. The block requires 12 ku of electricity for this.
+
+The fab now also provides its recipes directly to external controllers
+(Beduino topics 156/158/193/194/195 for reading, 64 for selecting). A recipe
+adapter is no longer required for this.
 
 [ta4_electronicfab|image]
 
