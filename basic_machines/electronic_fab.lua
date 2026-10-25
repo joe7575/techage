@@ -30,6 +30,27 @@ local RecipeType = {
 	[4] = "ta4_electronic_fab",
 }
 
+-- Recipe list for the Beduino interface (same topics as the recipe adapter).
+local function recipe_list(pos)
+	local rtype = RecipeType[CRD(pos).stage]
+	local owner = M(pos):get_string("owner")
+	return techage.recipes.get_all(rtype, owner), rtype
+end
+
+local function find_recipe(list, name)
+	for idx, recipe in ipairs(list) do
+		if recipe.output.name == name then
+			return idx
+		end
+	end
+	for idx, recipe in ipairs(list) do
+		if recipe.output.name:find(name, 1, true) then
+			return idx
+		end
+	end
+	return 0
+end
+
 local function formspec(self, pos, nvm)
 	local rtype = RecipeType[CRD(pos).stage]
 	local owner = M(pos):get_string("owner")
@@ -232,9 +253,56 @@ local tubing = {
 		return CRD(pos).State:on_receive_message(pos, topic, payload)
 	end,
 	on_beduino_receive_cmnd = function(pos, src, topic, payload)
+		if topic == 64 then
+			if type(payload) ~= "string" then
+				return 2
+			end
+			local list, rtype = recipe_list(pos)
+			local idx = tonumber(payload) or 0
+			if list[idx] then
+				techage.recipes.set_recipe(pos, rtype, idx)
+				return 0
+			end
+			return 1
+		end
 		return CRD(pos).State:on_beduino_receive_cmnd(pos, topic, payload)
 	end,
 	on_beduino_request_data = function(pos, src, topic, payload)
+		local list, rtype = recipe_list(pos)
+		if topic == 156 then
+			return 0, {#list}
+		elseif topic == 160 then
+			local number = tonumber(M(pos):get_string("node_number")) or 0
+			return 0, {number}
+		elseif topic == 158 then
+			local idx = tonumber(payload and payload[1]) or 0
+			local recipe = list[idx]
+			return 0, {recipe and recipe.output.num or 0}
+		elseif topic == 161 then
+			return 0, {0}
+		elseif topic == 162 then
+			local idx = tonumber(payload and payload[1]) or 0
+			local slot = tonumber(payload and payload[2]) or 0
+			local recipe = list[idx]
+			local input = recipe and recipe.input[slot]
+			return 0, {input and input.num or 0}
+		elseif topic == 163 then
+			local idx = tonumber(payload and payload[1]) or 0
+			local recipe = list[idx]
+			return 0, {recipe and #recipe.input or 0}
+		elseif topic == 193 and type(payload) == "string" then
+			local idx = tonumber(payload) or 0
+			return 0, list[idx] and list[idx].output.name or ""
+		elseif topic == 194 and type(payload) == "string" then
+			local idx, slot = payload:match("^(%d+),(%d+)$")
+			idx = tonumber(idx) or 0
+			slot = tonumber(slot) or 0
+			local recipe = list[idx]
+			local input = recipe and recipe.input[slot]
+			return 0, input and input.name or ""
+		elseif topic == 195 and type(payload) == "string" then
+			return 0, {find_recipe(list, payload)}
+		end
 		return CRD(pos).State:on_beduino_request_data(pos, topic, payload)
 	end,
 	on_node_load = function(pos)

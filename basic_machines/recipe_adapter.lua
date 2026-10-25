@@ -48,7 +48,8 @@ local function machine_type(name)
 			not name:find("firebox", 1, true) then
 		return "furnace"
 	elseif name:find("electronic_fab", 1, true) then
-		return "ta4_electronic_fab"
+		local stage = name:match("^techage:ta(%d)_electronic_fab")
+		return stage and ("ta" .. stage .. "_electronic_fab") or "ta4_electronic_fab"
 	end
 end
 
@@ -74,7 +75,7 @@ local function update_infotext(pos)
 	local typ = "not docked"
 	if rtype == "furnace" then
 		typ = "Furnace"
-	elseif rtype == "ta4_electronic_fab" then
+	elseif rtype:find("electronic_fab", 1, true) then
 		typ = "Electronic Fab"
 	end
 	meta:set_string("infotext", "TA4 Recipe Adapter " ..
@@ -264,7 +265,7 @@ techage.register_node({
 			if target and list[idx] then
 				local ninfo = techage.get_node_info(target)
 				if ninfo and ninfo.pos then
-					if rtype == "ta4_electronic_fab" then
+					if rtype:find("electronic_fab", 1, true) then
 						techage.recipes.set_recipe(ninfo.pos, rtype, idx)
 						return 0
 					elseif rtype == "furnace" and techage.furnace and
