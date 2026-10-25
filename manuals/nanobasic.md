@@ -1621,6 +1621,7 @@ As payload data, these commands may require numeric values or a string value.
 | Color                    | 22 | color      | Set the color of the TechAge Color Lamp and TechAge Color Lamp 2 (`color` = 0..255) |
 | Multi Button             | 23 | num, state | Turn button (TA4 2x Button, TA4 4x Button) on/off<br>`num` is the button number (1..4)<br>`state` is the state: 0 = "off", 1 = "on" |
 |                          | 25 is next |    |                                                              |
+| Electronic Fab Recipe Select | 64 | "idx" | Select recipe *idx* on a TA4 Electronic Fab (or a TA4 Recipe Adapter) |
 | Config TA4 Pusher        | 65 | "\<item name>"         | Configure the TA4 pusher.<br/>Example: `wool:blue`           |
 | Sensor Chest Text        | 66 | "text string"          | Text to be used for the Sensor Chest menu                    |
 | Distri. Filter Config    | 67 | "\<slot> \<item list>" | Configure a Distributor filter slot, like: "red default:dirt dye:blue" |
@@ -1668,8 +1669,15 @@ corresponds to the error from previous chapter.
 | TA4 Pump Counter           | 151 | -    | number  | Read the number of pumped liquid units for a TA4 Pump in "flow limiter" mode |
 | Multi Button State         | 152 | num  | state   | Read the button state (TA4 2x Button, TA4 4x Button)<br>`num` is the button number (1..4), `state`: 0 = "off", 1 = "on" |
 | Water Remover Depth        | 153 | -    | depth   | Current depth value of a remover (1..80)                |
+| Fab Recipe Count         | 156 | -      | count  | Number of recipes of a TA4 Electronic Fab (or Recipe Adapter) |
+| Fab Recipe Output Count  | 158 | idx    | count  | Output item count of recipe *idx* (0 = empty) |
+| Fab Recipe Target        | 160 | -      | num    | Node number of the TA4 Electronic Fab (or the adapter's target) |
+| Fab Recipe Time          | 161 | idx    | time   | Furnace recipe time; 0 for the electronic fab |
+| Fab Recipe Input Count   | 162 | idx, slot | count | Number of items for input *slot* of recipe *idx* |
+| Fab Recipe Input Slots   | 163 | idx    | count  | Number of input slots of recipe *idx* |
 | **--------------------------** | **---** | **----** | **-------** | **Payload as string** |
 | Chest Item Count           | 192 | "item" | count   | Amount of items in a TA3/TA4/TA5 chest or shop. `item` is the item name or<br>a substring of the item name, e.g. "dirt". |
+| Fab Recipe Find          | 195 | "name" | idx     | Recipe index for the given output item name (0 = not found); for a TA4 Electronic Fab or Recipe Adapter |
 
 ### CMD$ Commands with Response as String Value
 
@@ -1687,3 +1695,6 @@ In case of an error, the error subroutine is called and the response string is "
 | Furnace Output        | 141  | -      | "\<node name>"   | Node name of the Industrial Furnace output. <br>Returns "none", if no recipe is active |
 | Player Name           | 144  | -      | "\<player name>" | Player name of the TA3/TA4 Player Detector or TA4 Button     |
 | Distri. Filter Get    | 148  | idx    | "\<item list>"   | `idx` is the slot number: 1 = "red", 2 = "green", 3 = "blue", 4 = "yellow"<br>Returns a string like: "default:dirt dye:blue" |
+| **--------------------------** | **---** | **----** | **-------** | **Payload as string** |
+| Fab Output Name       | 193  | "idx"   | "\<item name>" | Output item name of recipe *idx* (1..n) |
+| Fab Input Name        | 194  | "idx,slot" | "\<item name>" | Input item name of recipe *idx*, slot 1..4 |

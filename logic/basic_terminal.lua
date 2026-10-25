@@ -568,8 +568,15 @@ end)
 -- str: cmd(num: node_num, num: cmnd, any: pyld1, any: pyld2, num: pyld3)
 register_ext_function("cmd$", {nanobasic.NB_NUM, nanobasic.NB_NUM, nanobasic.NB_ANY, nanobasic.NB_ANY, nanobasic.NB_ANY}, nanobasic.NB_STR, function(pos, nvm)
 	local cmnd = nanobasic.peek_num(pos, 4) or 0
-	if cmnd >= 128 then -- request with payload as number(s) and result as string
-		local owner, num, own_num, payload = get_params(pos)
+	if cmnd >= 128 then -- request with result as string
+		local owner, num, own_num, payload
+		if cmnd >= 192 then
+			-- string payload (e.g. recipe slot "idx" or "idx,slot")
+			owner, num, own_num, payload = get_str_param(pos)
+		else
+			-- numeric payload
+			owner, num, own_num, payload = get_params(pos)
+		end
 		if techage.not_protected(tostring(num), owner) then
 			techage.counting_add(owner, 1)
 			local sts, resp = techage.beduino_request_data(own_num, num, cmnd, payload)
