@@ -775,17 +775,13 @@ Exemple : `$send_cmnd(1234, "input", 1)`
 ### TA4 Adaptateur de recettes / Recipe Adapter
 
 L'adaptateur de recettes est un bloc compact avec sa propre texture animée. Il
-se monte sur n'importe quelle face d'un four industriel ou d'une usine
-électronique et détecte la machine sur sa face arrière (comme le capteur IOT).
-Il met les recettes de la machine à disposition des commandes externes
-(Beduino/NanoC) et permet de sélectionner le produit de sortie.
+se monte sur n'importe quelle face d'un four industriel TA3 lorsque ses
+recettes doivent être utilisées de l'extérieur. Il détecte le four sur sa face
+arrière (comme le capteur IOT) et met les recettes du four à disposition des
+commandes externes (Beduino/NanoBasic/NanoC). Il permet aussi de sélectionner
+le produit de sortie.
 
-- Sur le **four industriel TA3**, il est nécessaire car le four ne transmet pas
-  ses recettes vers l'extérieur.
-- Sur l'**usine électronique TA4**, il n'est plus nécessaire : l'usine dispose
-  de l'interface de recettes intégrée. L'adaptateur reste utilisable comme
-  solution de repli pour les anciennes usines.
-- Un clic droit sur l'adaptateur relance la détection.
+Un clic droit sur l'adaptateur relance la détection.
 
 La liste des recettes se lit via les topics Beduino 156/158/193/194/195 ; le
 topic 64 sélectionne une recette.
@@ -974,9 +970,9 @@ Techniquement, l'élimine-eau remplace les blocs d'eau par un bloc d'air spécia
 La fonction correspond à celle de TA2, mais ici différents puces sont produites.
 La capacité de traitement est d'une puce toutes les 6 s. Le bloc nécessite 12 ku d'électricité.
 
-L'usine fournit désormais aussi ses recettes directement aux commandes
-externes (topics Beduino 156/158/193/194/195 pour la lecture, 64 pour la
-sélection). Un adaptateur de recettes n'est plus nécessaire pour cela.
+L'usine fournit ses recettes directement aux commandes externes (topics
+Beduino 156/158/193/194/195 pour la lecture, 64 pour la sélection). Un
+adaptateur de recettes n'est pas nécessaire pour cela.
 
 [ta4_electronicfab|image]
 

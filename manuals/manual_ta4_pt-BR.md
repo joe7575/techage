@@ -825,17 +825,12 @@ Exemplo: `$send_cmnd(1234, "input", 1)`
 ### TA4 Adaptador de Receitas / Recipe Adapter
 
 O adaptador de receitas é um bloco compacto com sua própria textura animada.
-Ele pode ser montado em qualquer lado de um forno industrial ou de uma fábrica
-eletrônica e detecta a máquina no lado traseiro (como o sensor IOT). Ele
-fornece as receitas da máquina para controladores externos (Beduino/NanoC) e
-permite selecionar o produto de saída.
+Ele é montado em qualquer lado de um forno industrial TA3 quando suas receitas
+devem ser usadas externamente. Ele detecta o forno no lado traseiro (como o
+sensor IOT) e fornece as receitas do forno para controladores externos
+(Beduino/NanoBasic/NanoC). Ele também pode selecionar o produto de saída.
 
-- No **forno industrial TA3** ele é necessário porque o forno não expõe suas
-  receitas para fora.
-- Na **fábrica eletrônica TA4** ele não é mais necessário: a fábrica tem a
-  interface de receitas integrada. O adaptador continua funcionando como
-  alternativa para fábricas antigas.
-- Clique com o botão direito no adaptador para detectar a máquina novamente.
+Clique com o botão direito no adaptador para detectar a máquina novamente.
 
 A lista de receitas é lida pelos topics Beduino 156/158/193/194/195; o topic
 64 seleciona uma receita.
@@ -1012,9 +1007,9 @@ A profundidade máxima é de 80 metros. A pedreira requer 14 ku de eletricidade.
 A função corresponde à do TA2, apenas chips diferentes são produzidos aqui.
 A capacidade de processamento é de um chip a cada 6 s. O bloco requer 12 ku de eletricidade para isso.
 
-A fábrica agora também fornece suas receitas diretamente aos controladores
-externos (topics Beduino 156/158/193/194/195 para leitura, 64 para seleção).
-Um adaptador de receitas não é mais necessário para isso.
+A fábrica fornece suas receitas diretamente aos controladores externos
+(topics Beduino 156/158/193/194/195 para leitura, 64 para seleção). Um
+adaptador de receitas não é necessário para isso.
 
 [ta4_electronicfab|image]
 

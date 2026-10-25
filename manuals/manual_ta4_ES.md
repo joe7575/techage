@@ -903,17 +903,13 @@ Ejemplo: `$send_cmnd(1234, "input", 1)`
 ### TA4 Adaptador de recetas / Recipe Adapter
 
 El adaptador de recetas es un bloque compacto con su propia textura animada.
-Se monta en cualquier cara de un horno industrial o de una fábrica
-electrónica y detecta la máquina en su cara posterior (como el sensor IOT).
-Proporciona las recetas de la máquina a controladores externos
-(Beduino/NanoC) y permite seleccionar el producto de salida.
+Se monta en cualquier cara de un horno industrial TA3 cuando sus recetas
+deban utilizarse desde el exterior. Detecta el horno en su cara posterior
+(como el sensor IOT) y proporciona las recetas del horno a controladores
+externos (Beduino/NanoBasic/NanoC). También permite seleccionar el producto
+de salida.
 
-- En el **horno industrial TA3** es necesario porque el horno no expone sus
-  recetas al exterior.
-- En la **fábrica electrónica TA4** ya no es necesario: la fábrica tiene la
-  interfaz de recetas integrada. El adaptador sigue funcionando como respaldo
-  para fábricas antiguas.
-- Haz clic derecho en el adaptador para volver a detectar la máquina.
+Haz clic derecho en el adaptador para volver a detectar la máquina.
 
 La lista de recetas se lee con los topics Beduino 156/158/193/194/195; el
 topic 64 selecciona una receta.
@@ -1100,9 +1096,9 @@ Técnicamente, el Eliminador de Agua reemplaza los bloques de agua con un bloque
 La función corresponde a la de TA2, solo que aquí se producen chips diferentes.
 La capacidad de procesamiento es de un chip cada 6 s. El bloque requiere 12 ku de electricidad para esto.
 
-La fábrica ahora también proporciona sus recetas directamente a los
-controladores externos (topics Beduino 156/158/193/194/195 para leer, 64 para
-seleccionar). Ya no se necesita un adaptador de recetas para ello.
+La fábrica proporciona sus recetas directamente a los controladores externos
+(topics Beduino 156/158/193/194/195 para leer, 64 para seleccionar). No se
+necesita un adaptador de recetas para ello.
 
 [ta4_electronicfab|image]
 
