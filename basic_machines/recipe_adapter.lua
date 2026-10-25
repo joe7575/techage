@@ -321,8 +321,8 @@ techage.register_node({
 minetest.register_craft({
 	output = "techage:ta4_recipe_adapter",
 	recipe = {
-		{"techage:ta4_carbon_fiber", "dye:blue", "techage:aluminum"},
+		{"techage:ta4_carbon_fiber", "dye:black", "techage:aluminum"},
 		{"basic_materials:plastic_sheet", "basic_materials:ic", "basic_materials:plastic_sheet"},
-		{"default:steel_ingot", "techage:ta4_wlanchip", "default:steel_ingot"},
+		{"default:copper_ingot", "techage:ta4_wlanchip", "default:steel_ingot"},
 	},
 })
