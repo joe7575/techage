@@ -83,7 +83,8 @@ local function grow_flowers(pos)
 					mem.grow_pos[plant_idx] = true
 				end
 			end
-		elseif plant_node and Plants[plant_node.name] then
+		end
+		if plant_node and Plants[plant_node.name] then
 			local ndef = minetest.registered_nodes[plant_node.name]
 			if ndef.on_timer then
 				ndef.on_timer(plant_pos, 200)
