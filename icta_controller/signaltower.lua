@@ -165,7 +165,8 @@ techage.register_node({"techage:ta4_signaltower",
 	on_beduino_request_data = function(pos, src, topic, payload)
 		if topic == 130 then
 			local meta = minetest.get_meta(pos)
-			local color = ({off = 0, green = 1, amber = 2, red = 3})[meta:get_string("state")] or 1
+			-- Unknown/empty state is reported as OFF (0), not GREEN (1).
+			local color = ({off = 0, green = 1, amber = 2, red = 3})[meta:get_string("state")] or 0
 			return 0, {color}
 		else
 			return 2, ""  -- unknown or invalid topic
