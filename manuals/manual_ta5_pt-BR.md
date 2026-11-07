@@ -68,14 +68,16 @@ O trocador de calor consiste em 3 partes (de baixo para cima: 1, 2, 3). As parte
 #### Controlador do reator de fusão TA5
 
 O reator de fusão é ligado por meio do controlador do reator de fusão TA5. O reator de fusão e, portanto, o controlador requerem 400 ku de eletricidade para manter o plasma.
+Além disso, o controlador precisa de água pesada como fonte de deutério. A água pesada deve ser fornecida por baixo usando tubos de líquido. O tanque interno comporta 10 unidades e o reator consome 1 unidade aproximadamente a cada 44 segundos enquanto está funcionando. Se não houver água pesada disponível, o reator para com a mensagem "No heavy water".
 
 **Sequência de inicialização:**
 
 1. Todos os ímãs devem estar corretamente posicionados e preenchidos com isobutano
 2. Circuito de resfriamento (tubos azuis e verdes) e tubulações de vapor (tubos amarelos) devem estar totalmente conectados
-3. Primeiro, ligue o trocador de calor (parte 2)
-4. Depois ligue o controlador
-5. Leva cerca de 2 minutos para atingir 80° e produzir vapor/eletricidade
+3. Forneça água pesada na parte inferior do controlador
+4. Primeiro, ligue o trocador de calor (parte 2)
+5. Depois ligue o controlador
+6. Leva cerca de 2 minutos para atingir 80° e produzir vapor/eletricidade
 
 **Importante:** O trocador de calor e o controlador devem funcionar ao mesmo tempo.
 

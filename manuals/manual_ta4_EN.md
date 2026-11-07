@@ -777,9 +777,12 @@ The traffic light does not require any electricity.
 
 ## TA4 Liquid Filter
 
-The liquid filter filters red mud.
-A part of the red mud becomes lye, which can be collected at the bottom in a tank.
+The liquid filter can be used to filter red mud or to enrich water into heavy water.
+When filtering red mud, part of it becomes lye, which can be collected at the bottom in a tank.
 The other part becomes desert cobblestone and clutters the filter material.
+When filtering water or river water through isotope membrane filters, a small amount of heavy water is produced and collected in the bottom tank.
+River water wears the membranes more slowly.
+Used membranes turn into spent membrane filters.
 If the filter is too clogged, it has to be cleaned and re-filled.
 The filter consists of a base layer, 7 identical filter layers and a filling layer at the top.
 
@@ -793,18 +796,20 @@ The lye is collected in the tank.
 
 [ta4_liquid_filter_base|plan]
 
-### Gravel Layer
+### Filter Material Layer
 
-This layer has to be filled with gravel as shown in the plan.
-In total, there must be seven layers of gravel.
+For red mud processing this layer has to be filled with gravel as shown in the plan.
+For heavy water production use isotope membrane filters instead of gravel.
+In total, there must be seven filter layers.
 The filter will become cluttered over time, so that it has to be cleaned and re-filled.
 
 [ta4_liquid_filter_gravel|plan]
 
 ### Filling Layer
 
-This layer is used to fill the filter with red mud.
-The red mud must be pumped into the filler pipe.
+This layer is used to fill the filter with red mud, water or river water.
+The input liquid must be pumped into the filler pipe.
+Lye or heavy water is collected in the tank below.
 
 [ta4_liquid_filter_top|plan]
 

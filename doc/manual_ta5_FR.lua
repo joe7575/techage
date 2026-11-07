@@ -92,11 +92,13 @@ return {
     "\n"..
     "\n",
     "Via le contrôleur TA5 Fusionreaktor\\, le réacteur à fusion est allumé. Le réacteur à fusion et donc le contrôleur nécessite 400 ku d'électricité pour maintenir le plasma.\n"..
+    "En plus\\, le contrôleur a besoin d'eau lourde comme source de deutérium. L'eau lourde doit être fournie par le dessous via des conduites de liquide. Le réservoir interne contient 10 unités et le réacteur consomme 1 unité environ toutes les 44 secondes lorsqu'il fonctionne. S'il n'y a pas d'eau lourde disponible\\, le réacteur s'arrête avec le message \"No heavy water\".\n"..
     "\n"..
     "*Séquence de démarrage :*\n"..
     "\n"..
     "  - Tous les aimants doivent être correctement placés et remplis d'isobutane\n"..
     "  - Circuit de refroidissement (tuyaux verts/jaunes) et conduites de vapeur (tuyaux bleus) doivent être complètement connectés\n"..
+    "  - Fournir de l'eau lourde sous le contrôleur\n"..
     "  - D'abord\\, allumer l'échangeur de chaleur (partie 2)\n"..
     "  - Puis allumer le contrôleur\n"..
     "  - Il faut environ 2 minutes pour que le réacteur atteigne 80° et produise de la vapeur/électricité\n"..

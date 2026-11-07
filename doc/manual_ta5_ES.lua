@@ -91,11 +91,13 @@ return {
     "\n"..
     "\n",
     "El reactor de fusión se enciende a través del Controlador del Reactor de Fusión TA5. El reactor de fusión y por lo tanto el controlador requiere 400 ku de electricidad para mantener el plasma.\n"..
+    "Además\\, el controlador necesita agua pesada como fuente de deuterio. El agua pesada debe suministrarse desde abajo mediante tuberías de líquidos. El tanque interno contiene 10 unidades y el reactor consume 1 unidad aproximadamente cada 44 segundos mientras está funcionando. Si no hay agua pesada disponible\\, el reactor se detiene con el mensaje \"No heavy water\".\n"..
     "\n"..
     "*Secuencia de arranque:*\n"..
     "\n"..
     "  - Todos los magnetos deben estar correctamente colocados y llenados con isobutano\n"..
     "  - El circuito de enfriamiento (tuberías azules y verdes) y las tuberías de vapor (tuberías amarillas) deben estar completamente conectados\n"..
+    "  - Suministra agua pesada a la parte inferior del Controlador\n"..
     "  - Primero\\, enciende el Intercambiador de Calor (parte 2)\n"..
     "  - Luego enciende el Controlador\n"..
     "  - Tarda unos 2 minutos para que el reactor alcance los 80° y produzca vapor/electricidad\n"..

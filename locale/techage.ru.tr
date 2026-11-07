@@ -443,6 +443,13 @@ Magnet detection error@n(@1% found / 100% expected)=Ошибка обнаруж�
 Plasma ring shape error@n(@1% found / 100% expected)=Ошибка формы плазмового кольца@n(@1% найдено / 100% ожидается)
 Shell shape error@n(@1 of @2 magnets OK)=Ошибка формы оболочки@n(@1 из @2 магнитов OK)
 Cooling failed@n(@1 found / @2 expected)=Охлаждение не удалось@n(@1 найдено / @2 ожидается)
+No heavy water=Отсутствует тяжёлая вода
+
+##[ items/heavy_water.lua ]##
+Heavy Water=Тяжёлая вода
+Heavy Water Barrel=Бочка тяжёлой воды
+Isotope Membrane Filter=Изотопный мембранный фильтр
+Spent Isotope Membrane=Отработанная изотопная мембрана
 
 ##[ fusion_reactor/gas_pipe.lua ]##
 TA5 Pipe=TA5 Труба

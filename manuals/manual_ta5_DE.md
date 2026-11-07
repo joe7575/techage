@@ -72,14 +72,16 @@ Der Wärmetauscher besteht aus 3 Teilen (von unten nach oben: 1, 2, 3). Die Teil
 #### TA5 Fusionreaktor Controller
 
 Über den TA5 Fusionreaktor Controller wird der Fusionreaktor eingeschaltet. Der Fusionreaktor und damit der Controller benötigt 400 ku an Strom, um das Plasma aufrecht zu erhalten.
+Zusätzlich benötigt der Controller Schweres Wasser als Deuteriumquelle. Schweres Wasser muss von unten über Flüssigkeitsleitungen zugeführt werden. Der interne Tank fasst 10 Einheiten und der laufende Reaktor verbraucht etwa alle 44 Sekunden 1 Einheit. Wenn kein Schweres Wasser vorhanden ist, stoppt der Reaktor mit der Meldung "No heavy water".
 
 **Startreihenfolge:**
 
 1. Alle Magnete müssen korrekt platziert und mit Isobutan gefüllt sein
 2. Kühlkreislauf (blaue und grüne Rohre) und Dampfleitungen (gelbe Rohre) müssen vollständig angeschlossen sein
-3. Zuerst den Wärmetauscher (Teil 2) einschalten
-4. Dann den Controller einschalten
-5. Es dauert ca. 2 Minuten, bis der Reaktor 80° erreicht und Dampf/Strom liefert
+3. Schweres Wasser an der Unterseite des Controllers zuführen
+4. Zuerst den Wärmetauscher (Teil 2) einschalten
+5. Dann den Controller einschalten
+6. Es dauert ca. 2 Minuten, bis der Reaktor 80° erreicht und Dampf/Strom liefert
 
 **Wichtig:** Beide – Wärmetauscher und Controller – müssen gleichzeitig laufen. Der Controller heizt die Magnete auf (inc_power), der Wärmetauscher kühlt sie ab (dec_power). Ohne das Zusammenspiel beider Teile wird die Betriebstemperatur nicht erreicht.
 

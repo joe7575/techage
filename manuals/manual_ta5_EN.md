@@ -72,14 +72,16 @@ The cooling circuit can be checked for completeness using the start button on th
 #### TA5 Fusion Reactor Controller
 
 The fusion reactor is switched on via the TA5 Fusion Reactor Controller. The fusion reactor and thus the controller requires 400 ku of electricity to maintain the plasma.
+In addition, the controller needs heavy water as a deuterium source. Heavy water must be supplied from below through liquid pipes. The internal tank holds 10 units and the reactor consumes 1 unit about every 44 seconds while running. If no heavy water is available, the reactor stops with the message "No heavy water".
 
 **Startup sequence:**
 
 1. All magnets must be correctly placed and filled with isobutane
 2. Cooling circuit (blue and green pipes) and steam pipes (yellow pipes) must be fully connected
-3. First, switch on the Heat Exchanger (part 2)
-4. Then switch on the Controller
-5. It takes about 2 minutes for the reactor to reach 80° and produce steam/electricity
+3. Supply heavy water to the underside of the Controller
+4. First, switch on the Heat Exchanger (part 2)
+5. Then switch on the Controller
+6. It takes about 2 minutes for the reactor to reach 80° and produce steam/electricity
 
 **Important:** Both the Heat Exchanger and the Controller must be running at the same time. The Controller heats the magnets (inc_power), the Heat Exchanger cools them (dec_power). Without both parts working together, the operating temperature will not be reached.
 

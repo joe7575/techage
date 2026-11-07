@@ -29,6 +29,20 @@ local Recipes = {
 		output_chance = 0.8,
 		degradation_chance = 0.2,
 	},
+	["techage:water"] = {
+		filter = "techage:isotope_membrane_filter",
+		spent_filter = "techage:spent_membrane_filter",
+		output = "techage:heavy_water",
+		output_chance = 0.058,
+		degradation_chance = 0.003,
+	},
+	["techage:river_water"] = {
+		filter = "techage:isotope_membrane_filter",
+		spent_filter = "techage:spent_membrane_filter",
+		output = "techage:heavy_water",
+		output_chance = 0.058,
+		degradation_chance = 0.001,
+	},
 }
 
 -- API function to register further Liquid Filter recipes

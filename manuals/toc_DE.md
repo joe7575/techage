@@ -206,7 +206,7 @@
         - [TA4 LED Industrielampe / TA4 LED Industrial Lamp](./manual_ta4_DE.md#ta4-led-industrielampe--ta4-led-industrial-lamp)
     - [TA4 Flüssigkeitsfilter](./manual_ta4_DE.md#ta4-flüssigkeitsfilter)
         - [Fundament-Ebene](./manual_ta4_DE.md#fundament-ebene)
-        - [Schotter-Ebene](./manual_ta4_DE.md#schotter-ebene)
+        - [Filtermaterial-Ebene](./manual_ta4_DE.md#filtermaterial-ebene)
         - [Einfüll-Ebene](./manual_ta4_DE.md#einfüll-ebene)
     - [TA4 Teilchenbeschleuniger / Collider](./manual_ta4_DE.md#ta4-teilchenbeschleuniger--collider)
         - [Detektor](./manual_ta4_DE.md#detektor)

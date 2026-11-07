@@ -208,7 +208,7 @@
         - [TA4 LED Industrial Lamp](./manual_ta4_EN.md#ta4-led-industrial-lamp)
     - [TA4 Liquid Filter](./manual_ta4_EN.md#ta4-liquid-filter)
         - [Base Layer](./manual_ta4_EN.md#base-layer)
-        - [Gravel Layer](./manual_ta4_EN.md#gravel-layer)
+        - [Filter Material Layer](./manual_ta4_EN.md#filter-material-layer)
         - [Filling Layer](./manual_ta4_EN.md#filling-layer)
     - [TA4 Collider (Particle Accelerator)](./manual_ta4_EN.md#ta4-collider-(particle-accelerator))
         - [Detector](./manual_ta4_EN.md#detector)
