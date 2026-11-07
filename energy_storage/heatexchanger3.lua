@@ -42,9 +42,10 @@ local function after_dig_node(pos, oldnode)
 	Pipe:after_dig_node(pos)
 end
 
-local function cooler_cmnd(pos, topic, payload)
-	return techage.transfer(pos, "R", topic, payload, Pipe,
-		{"techage:ta4_collider_cooler"})
+local function heatexchanger2_cmnd(pos, topic, payload)
+	return techage.transfer({x = pos.x, y = pos.y - 1, z = pos.z},
+	nil, topic, payload, nil,
+	{"techage:heatexchanger2"})
 end
 
 local function inlet_cmnd(pos, topic, payload)
@@ -84,7 +85,12 @@ Pipe:set_valid_sides("techage:heatexchanger3", {"R", "L"})
 techage.register_node({"techage:heatexchanger3"}, {
 	on_transfer = function(pos, indir, topic, payload)
 		if topic == "cooler" then
-			return cooler_cmnd(pos, topic, payload)
+			local node = minetest.get_node(pos)
+			if indir == techage.side_to_indir("R", node.param2) then
+				return heatexchanger2_cmnd(pos, topic, payload)
+			else
+				return false
+			end
 		else
 			return inlet_cmnd(pos, topic, payload)
 		end

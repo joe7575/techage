@@ -18,6 +18,10 @@ local S = techage.S
 
 local Pipe = techage.LiquidPipe
 
+local function transfer(pos, in_dir, topic, payload)
+	return techage.transfer(pos, in_dir, topic, payload, Pipe,	{"techage:heatexchanger3"})
+end
+
 minetest.register_node("techage:ta4_collider_cooler", {
 	description = S("TA4 Collider Cooler"),
 	tiles = {
@@ -72,7 +76,7 @@ Pipe:set_valid_sides("techage:ta4_collider_cooler", {"R", "L"})
 techage.register_node({"techage:ta4_collider_cooler"}, {
 	on_transfer = function(pos, in_dir, topic, payload)
 		if topic == "cooler" then
-			return true
+			return transfer(pos, in_dir, topic, payload)
 		else
 			return false
 		end
