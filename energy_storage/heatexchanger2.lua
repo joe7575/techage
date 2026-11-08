@@ -214,9 +214,9 @@ local function cooler_timer(pos, nvm)
 	elseif (nvm.ticks % 5) == 1 then -- every 10 s
 		err = heatexchanger3_cmnd(pos, "detector") ~= true
 	elseif (nvm.ticks % 5) == 2 then -- every 10 s
-		err = heatexchanger1_cmnd(pos, "cooler") ~= true
-	elseif (nvm.ticks % 5) == 3 then -- every 10 s
-		err = heatexchanger3_cmnd(pos, "cooler") ~= true
+		local mem = techage.get_mem(pos)
+		mem.cooler_check_challenge = math.random()
+		err = heatexchanger1_cmnd(pos, "cooler", mem.cooler_check_challenge) ~= true
 	end
 	if err then
 		State:fault(pos, nvm, "Pipe connection error")
@@ -403,6 +403,14 @@ techage.register_node({"techage:heatexchanger2"}, {
 		-- when parts of the storage block are unloaded.
 		if nvm.techage_state == techage.FAULT then
 			start_node(pos, nvm)
+		end
+	end,
+	on_transfer = function(pos, indir, topic, payload)
+		if topic == "cooler" then
+			local mem = techage.get_mem(pos)
+			return payload == mem.cooler_check_challenge
+		else
+			return false
 		end
 	end,
 })
