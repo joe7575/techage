@@ -28,7 +28,7 @@ local COUNTDOWN_TICKS = 4
 local CYCLE_TIME = 2
 local PWR_NEEDED = 12
 local EX_POINTS = 30
-local MAX_DIST = 500
+local MAX_DIST = techage.teleport_tube_max_dist or 500
 local DESCRIPTION = S("TA5 Teleport Block Items")
 
 local function formspec(self, pos, nvm)

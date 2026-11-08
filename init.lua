@@ -52,6 +52,8 @@ techage.stair_aliases_enabled = minetest.settings:get_bool("techage_stair_aliase
 techage.disable_lava_above_sea_level = minetest.settings:get_bool("techage_disable_lava_above_sea_level") ~= false
 techage.maximum_move_controller_distance = tonumber(minetest.settings:get("techage_maximum_move_controller_distance")) or 400
 techage.maximum_move_controller_blocks = tonumber(minetest.settings:get("techage_maximum_move_controller_blocks")) or 16
+techage.teleport_tube_max_dist = tonumber(minetest.settings:get("techage_teleport_tube_max_dist")) or 500
+techage.teleport_pipe_max_dist = tonumber(minetest.settings:get("techage_teleport_pipe_max_dist")) or 500
 techage.ammonia_recipes_enabled = minetest.settings:get_bool("techage_ammonia_recipes_enabled") ~= false
 techage.volume_barrel = tonumber(minetest.settings:get("techage_barrel_volume")) or 10
 techage.volume_canister = tonumber(minetest.settings:get("techage_canister_volume")) or 1
